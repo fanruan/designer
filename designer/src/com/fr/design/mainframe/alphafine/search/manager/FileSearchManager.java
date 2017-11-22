@@ -19,7 +19,12 @@ import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,6 +88,7 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
         Env env = FRContext.getCurrentEnv();
         fileNodes = new ArrayList<>();
         fileNodes = listTpl(env, ProjectConstants.REPORTLETS_NAME, true);
+        AlphaFineHelper.checkCancel();
         isContainCpt = true;
         isContainFrm = true;
         for (FileNode node : fileNodes) {
@@ -100,13 +106,11 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
             }
 
         }
-        if (result.size() < AlphaFineConstants.SHOW_SIZE + 1) {
+        if (result.isEmpty()) {
+            return lessModelList;
+        } else if (result.size() < AlphaFineConstants.SHOW_SIZE + 1) {
             lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Templates")));
-            if (result.size() == 0) {
-                lessModelList.add(AlphaFineHelper.NO_RESULT_MODEL);
-            } else {
-                lessModelList.addAll(result);
-            }
+            lessModelList.addAll(result);
         } else {
             lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Templates"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"), true, CellType.FILE));
             lessModelList.addAll(result.subList(0, AlphaFineConstants.SHOW_SIZE));

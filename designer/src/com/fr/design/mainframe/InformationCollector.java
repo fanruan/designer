@@ -3,6 +3,7 @@
  */
 package com.fr.design.mainframe;
 
+import com.fr.base.ConfigManagerFactory;
 import com.fr.base.FRContext;
 import com.fr.data.core.db.DBUtils;
 import com.fr.data.core.db.dialect.DialectFactory;
@@ -12,23 +13,51 @@ import com.fr.data.core.db.dml.Table;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.errorinfo.ErrorInfoUploader;
 import com.fr.design.mainframe.templateinfo.TemplateInfoCollector;
-import com.fr.general.*;
+import com.fr.general.ComparatorUtils;
+import com.fr.general.DateUtils;
+import com.fr.general.DesUtils;
+import com.fr.general.GeneralUtils;
+import com.fr.general.IOUtils;
+import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
-import com.fr.record.DBRecordManager;
-import com.fr.stable.*;
-import com.fr.stable.xml.*;
+import com.fr.json.JSONObject;
+import com.fr.record.DBRecordXManager;
+import com.fr.stable.ArrayUtils;
+import com.fr.stable.EncodeConstants;
+import com.fr.stable.ProductConstants;
+import com.fr.stable.StableUtils;
+import com.fr.stable.StringUtils;
+import com.fr.stable.xml.XMLPrintWriter;
+import com.fr.stable.xml.XMLReadable;
+import com.fr.stable.xml.XMLTools;
+import com.fr.stable.xml.XMLWriter;
+import com.fr.stable.xml.XMLableReader;
 import com.fr.third.javax.xml.stream.XMLStreamException;
-import org.json.JSONObject;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author neil
@@ -125,19 +154,23 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 		JSONArray startStopArray = new JSONArray();
 		for (int i = 0; i < startStop.size(); i++) {
 			JSONObject jo = new JSONObject();
-			jo.put(ATTR_START, startStop.get(i).getStartDate());
-			jo.put(ATTR_STOP, startStop.get(i).getStopDate());
-			startStopArray.put(jo);
+			try {
+				jo.put(ATTR_START, startStop.get(i).getStartDate());
+				jo.put(ATTR_STOP, startStop.get(i).getStopDate());
+				startStopArray.put(jo);
+				DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
+				content.put(XML_START_STOP, startStopArray);
+				content.put(XML_UUID, envManager.getUUID());
+				content.put(XML_JAR, GeneralUtils.readBuildNO());
+				content.put(XML_VERSION, ProductConstants.RELEASE_VERSION);
+				content.put(XML_USERNAME, ConfigManagerFactory.getProviderInstance().getBbsUsername());
+				content.put(XML_KEY, envManager.getActivationKey());
+				content.put(XML_OS, System.getProperty("os.name"));
+			} catch (JSONException e) {
+				FRContext.getLogger().error(e.getMessage(), e);
+			}
 		}
-		DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
-		content.put(XML_START_STOP, startStopArray);
-		content.put(XML_UUID, envManager.getUUID());
-		content.put(XML_JAR, GeneralUtils.readBuildNO());
-		content.put(XML_VERSION, ProductConstants.RELEASE_VERSION);
-		content.put(XML_USERNAME, envManager.getBBSName());
-		content.put(XML_KEY, envManager.getActivationKey());
-		content.put(XML_OS, System.getProperty("os.name"));
-		
+
 		try {
 			return content.toString().getBytes(EncodeConstants.ENCODING_UTF_8);
 		} catch (UnsupportedEncodingException e) {
@@ -161,7 +194,12 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 		}
 		String res = hc.getResponseText();
 		//服务器返回true，说明已经取得成功，清空当前记录的信息
-		boolean success = ComparatorUtils.equals(new JSONObject(res).get("status"), "success");
+		boolean success = false;
+		try {
+			success = ComparatorUtils.equals(new JSONObject(res).get("status"), "success");
+		} catch (JSONException e) {
+			FRContext.getLogger().error(e.getMessage(), e);
+		}
 		if (success){
 			this.reset();
 		}
@@ -179,7 +217,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
         Table table = new Table(TABLE_NAME);
 
         try {
-            conn = DBRecordManager.getDB().createConnection();
+            conn = DBRecordXManager.getDB().createConnection();
             ResultSet rs = selectAllFromLogDB(conn, table);
 
             if(rs == null){
@@ -201,8 +239,13 @@ public class InformationCollector implements XMLReadable, XMLWriter {
         }
 
         String res =  httpClient.getResponseText();
-        boolean success = ComparatorUtils.equals(new JSONObject(res).get("status"), "success");
-        //服务器返回true, 说明已经获取成功, 清空当前记录的信息
+		boolean success = false;
+		try {
+			success = ComparatorUtils.equals(new JSONObject(res).get("status"), "success");
+		} catch (JSONException e) {
+			FRContext.getLogger().error(e.getMessage(), e);
+		}
+		//服务器返回true, 说明已经获取成功, 清空当前记录的信息
         if (success) {
             deleteLogDB(conn, table);
         }
@@ -211,7 +254,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 
     private void deleteLogDB(Connection conn, Table table) {
         try {
-            conn = DBRecordManager.getDB().createConnection();
+            conn = DBRecordXManager.getDB().createConnection();
             Delete delete = new Delete(table);
             delete.execute(conn);
         } catch (Exception e) {
@@ -254,7 +297,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
         }
 
         DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
-        content.put("username", envManager.getBBSName());
+        content.put("username", ConfigManagerFactory.getProviderInstance().getBbsUsername());
         content.put("uuid", envManager.getUUID());
         content.put("functions", functionArray);
 

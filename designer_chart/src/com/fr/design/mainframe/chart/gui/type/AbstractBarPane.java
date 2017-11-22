@@ -27,32 +27,25 @@ public abstract class AbstractBarPane extends AbstractChartTypePane {
 			if(barPlot.getyAxis().isPercentage()) {
 				if(barPlot instanceof Bar3DPlot){
 					typeDemo.get(THREE_D_PERCENT_STACK_COLOMN_CHART).isPressing = true;
-                    lastTypeIndex = THREE_D_PERCENT_STACK_COLOMN_CHART;
 				} else {
 					typeDemo.get(PERCENT_STACK_COLOMN_CHART).isPressing = true;
-                    lastTypeIndex = PERCENT_STACK_COLOMN_CHART;
 				}
 			} else {
 				if(barPlot instanceof Bar3DPlot){
 					typeDemo.get(THREE_D_STACK_COLOMN_CHART).isPressing = true;
-                    lastTypeIndex = THREE_D_STACK_COLOMN_CHART;
 				} else {
 					typeDemo.get(STACK_COLOMN_CHART).isPressing = true;
-                    lastTypeIndex = STACK_COLOMN_CHART;
 				}
 			}
 		} else {
 			if(barPlot instanceof Bar3DPlot) {
 				if(((Bar3DPlot) barPlot).isHorizontalDrawBar()) {
 					typeDemo.get(THREE_D_COLOMN_HORIZON_DRAW_CHART).isPressing = true;
-                    lastTypeIndex = THREE_D_COLOMN_HORIZON_DRAW_CHART;
 				} else {
 					typeDemo.get(THREE_D_COLOMN_CHART).isPressing = true;
-                    lastTypeIndex = THREE_D_COLOMN_CHART;
 				}
 			} else {
 				typeDemo.get(COLOMN_CHART).isPressing = true;
-                lastTypeIndex = COLOMN_CHART;
 			}
 		}
 		

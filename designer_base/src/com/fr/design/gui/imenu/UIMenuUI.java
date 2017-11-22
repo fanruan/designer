@@ -19,7 +19,7 @@ public class UIMenuUI extends BasicMenuUI {
         int menuHeight = menuItem.getHeight();
         if (menuItem.isOpaque()) {
             if (menuItem.getParent() instanceof JPopupMenu && model.isSelected()) {
-                g.setColor(UIConstants.NORMAL_BACKGROUND);
+                g.setColor(UIConstants.UI_MENU_BACKGOURND);
                 g.fillRect(0, 0, menuWidth, menuHeight);
                 GUIPaintUtils.fillPaint((Graphics2D) g, 30, 0, menuWidth - 30, menuHeight, true, Constants.NULL, UIConstants.FLESH_BLUE, 7);
             } else if (model.isSelected()) {
@@ -37,7 +37,7 @@ public class UIMenuUI extends BasicMenuUI {
 
     protected void paintPressed(Graphics g, int w, int h) {
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setColor(UIConstants.NORMAL_BACKGROUND);
+        g2d.setColor(UIConstants.UI_MENU_BACKGOURND);
         g2d.fillRect(0, 0, w, h);
         g2d.setColor(UIConstants.LINE_COLOR);
         g2d.drawLine(0, 0, 0, h - 1);
@@ -46,7 +46,7 @@ public class UIMenuUI extends BasicMenuUI {
 
     protected void paintRollOver(Graphics g, int w, int h) {
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setColor(UIConstants.NORMAL_BACKGROUND);
+        g2d.setColor(UIConstants.UI_MENU_BACKGOURND);
         g2d.fillRect(0, 0, w, h);
     }
 

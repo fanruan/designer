@@ -36,13 +36,11 @@ public class UIScrollPaneUI extends MetalScrollPaneUI implements PropertyChangeL
         // Note: It never happened before Java 1.5 that scrollbar is null
         JScrollBar sb = scrollpane.getHorizontalScrollBar();
         if (sb != null) {
-            sb.setBackground(Color.red);
             sb.putClientProperty(MetalScrollBarUI.FREE_STANDING_PROP, Boolean.FALSE);
         }
 
         sb = scrollpane.getVerticalScrollBar();
         if (sb != null) {
-            sb.setBackground(Color.red);
             sb.putClientProperty(MetalScrollBarUI.FREE_STANDING_PROP, Boolean.FALSE);
         }
     }

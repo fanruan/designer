@@ -1,6 +1,7 @@
 package com.fr.design.widget.ui;
 
 import com.fr.design.constants.LayoutConstants;
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
@@ -17,28 +18,24 @@ public class CheckBoxDefinePane extends AbstractDataModify<CheckBox> {
     private UITextField text;
 
     public CheckBoxDefinePane() {
-        this.iniComoponents();
+        this.iniComponents();
     }
 
-    private void iniComoponents() {
+    private void iniComponents() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        text = new UITextField(8);
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.add(text, BorderLayout.CENTER);
-        panel.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
-
+        text = new UITextField();
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Text")), panel},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Text")), text},
         };
         double[] rowSize = {p};
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 1}};
-        JPanel pane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_LARGE, LayoutConstants.VGAP_LARGE);
+        JPanel pane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount,  IntervalConstants.INTERVAL_W3, IntervalConstants.INTERVAL_L1);
 
         UIExpandablePane uiExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer_Advanced"), 280, 24, pane);
-        pane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 15));
+        pane.setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 0));
 
         this.add(uiExpandablePane);
     }

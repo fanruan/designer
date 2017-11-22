@@ -104,10 +104,15 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 						.setI18NName(Inter.getLocText("Form-EC_toolbar"))
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
 		};
-		propertyTableEditor = resolveCompatible(propertyTableEditor);
+		CRPropertyDescriptor[] extraTableEditor = getExtraTableEditor();
+		return  (CRPropertyDescriptor[]) ArrayUtils.addAll(propertyTableEditor, extraTableEditor);
+	}
+
+	public CRPropertyDescriptor[] getExtraTableEditor(){
+		CRPropertyDescriptor[] extraTableEditor = resolveCompatible();
 		FormElementCaseEditorProcessor processor = ExtraDesignClassManager.getInstance().getSingle(FormElementCaseEditorProcessor.MARK_STRING);
 		if (processor == null) {
-			return propertyTableEditor;
+			return extraTableEditor;
 		}
 		this.designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
 		FitProvider wbTpl = (FitProvider) designer.getTarget();
@@ -122,11 +127,12 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 		if (editor.getReportFitAttr() == null) {
 			editor.setReportFitInPc(processor.getFitStateInPC(fitAttr));
 		}
-		return  (CRPropertyDescriptor[]) ArrayUtils.addAll(propertyTableEditor, extraEditor);
+		return (CRPropertyDescriptor[]) ArrayUtils.addAll(extraTableEditor, extraEditor);
 	}
 
 
-	private CRPropertyDescriptor[] resolveCompatible (CRPropertyDescriptor[] propertyTableEditor) {
+	private CRPropertyDescriptor[] resolveCompatible() {
+		CRPropertyDescriptor[] extraProperty = new CRPropertyDescriptor[0];
 		//这边有个插件兼容问题,之后还是要改回process才行
 		Set<FormElementCaseEditorProvider> set = ExtraDesignClassManager.getInstance().getArray(AbstractFormElementCaseEditorProvider.MARK_STRING);
 		for (FormElementCaseEditorProvider provider : set) {
@@ -137,9 +143,9 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 			FormProvider formProvider = designer.getTarget();
 			ElementCaseEditorProvider elementCaseEditorProvider = this.toData();
 			PropertyDescriptor[] extraEditor = provider.createPropertyDescriptor(this.data.getClass(), formProvider, elementCaseEditorProvider);
-			propertyTableEditor = (CRPropertyDescriptor[]) ArrayUtils.addAll(propertyTableEditor, extraEditor);
+			extraProperty = (CRPropertyDescriptor[]) ArrayUtils.addAll(extraProperty, extraEditor);
 		}
-		return propertyTableEditor;
+		return extraProperty;
 	}
 
 	@Override
@@ -311,5 +317,21 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 	@Override
 	public void setXDescrption(String msg) {
 		coverPanel.setHelpMsg(msg);
+	}
+
+	/**
+	 * data属性改变触发其他操作
+	 *
+	 */
+	public void firePropertyChange(){
+		initStyle();
+	}
+
+	/**
+	 * 是否支持设置可用
+	 * return boolean
+	 */
+	public boolean supportSetEnable(){
+		return false;
 	}
 }

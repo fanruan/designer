@@ -38,7 +38,7 @@ public class DSColumnConditionsPane extends BasicPane {
 
         if (setting > DSColumnPane.SETTING_DSRELATED) {
             liteConditionPane = new DSColumnLiteConditionPane() {
-                protected boolean needDoWithCondition(Condition liteCondition) {
+                protected boolean isNeedDoWithCondition(Condition liteCondition) {
                     return liteCondition != null;
                 }
             };

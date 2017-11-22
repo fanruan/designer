@@ -186,6 +186,7 @@ public class GlobalStyleMenuDef extends MenuDef {
             }
 
             stylePane.updateGlobalStyle(getEditingComponent());
+            CellElementPropertyPane.getInstance().GoToPane(Inter.getLocText("FR-Designer-Widget_Style"));
             return true;
         }
 

@@ -9,10 +9,12 @@ import com.fr.data.core.FormatField.FormatContents;
 import com.fr.design.border.UIRoundedBorder;
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.constants.UIConstants;
+import com.fr.design.event.GlobalNameListener;
+import com.fr.design.event.GlobalNameObserver;
+import com.fr.design.gui.icombobox.TextFontComboBox;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.icombobox.UIComboBoxRenderer;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.ComparatorUtils;
@@ -34,7 +36,7 @@ import java.text.SimpleDateFormat;
  * @author zhou
  * @since 2012-5-24上午10:57:00
  */
-public class FormatPane extends AbstractBasicStylePane {
+public class FormatPane extends AbstractBasicStylePane  implements GlobalNameObserver {
     private static final long serialVersionUID = 724330854437726751L;
 
     private static final int LABLE_X = 4;
@@ -52,7 +54,7 @@ public class FormatPane extends AbstractBasicStylePane {
     private Format format;
 
     private UIComboBox typeComboBox;
-    private UIComboBox textField;
+    private TextFontComboBox textField;
     private UILabel sampleLabel;
     private JPanel contentPane;
     private JPanel txtCenterPane;
@@ -61,14 +63,17 @@ public class FormatPane extends AbstractBasicStylePane {
     private FRFontPane frFontPane;
     private boolean isRightFormate;
     private boolean isDate = false;
-    private boolean isFormat = false;
+    private GlobalNameListener globalNameListener = null;
 
     /**
      * Constructor.
      */
     public FormatPane() {
         this.initComponents(TYPES);
-        this.setBorder(UIConstants.CELL_ATTR_NORMALBORDER);
+    }
+
+    protected UIComboBox getTypeComboBox() {
+        return typeComboBox;
     }
 
     protected void initComponents(Integer[] types) {
@@ -84,12 +89,14 @@ public class FormatPane extends AbstractBasicStylePane {
         UIComboBoxRenderer render = createComBoxRender();
         typeComboBox.setRenderer(render);
         typeComboBox.addItemListener(itemListener);
+        typeComboBox.setGlobalName("typeComboBox");
         contentPane.add(sampleLabel, BorderLayout.NORTH);
 
         txtCenterPane = new JPanel(new BorderLayout());
-        textField = new UIComboBox(FormatField.getInstance().getFormatArray(getFormatContents()));
+        textField = new TextFontComboBox();
         textField.addItemListener(textFieldItemListener);
         textField.setEditable(true);
+        textField.setGlobalName("textField");
         txtCenterPane.add(textField, BorderLayout.NORTH);
 
         contentPane.add(txtCenterPane, BorderLayout.CENTER);
@@ -104,26 +111,35 @@ public class FormatPane extends AbstractBasicStylePane {
         UILabel font = new UILabel(Inter.getLocText("FR-Designer_FRFont"), SwingConstants.LEFT);
         JPanel fontPane = new JPanel(new BorderLayout());
         fontPane.add(font, BorderLayout.NORTH);
-        double f = TableLayout.FILL;
-        double p = TableLayout.PREFERRED;
+
         typeComboBox.setPreferredSize(new Dimension(155,20));
         JPanel typePane = new JPanel(new BorderLayout());
         typePane.add(typeComboBox, BorderLayout.CENTER);
         typePane.setBorder(LEFT_BORDER);
-        centerPane.setBorder(LEFT_BORDER);
+//        centerPane.setBorder(LEFT_BORDER);
         frFontPane.setBorder(LEFT_BORDER);
 
-        Component[][] components = new Component[][]{
-                new Component[]{null, null},
-                new Component[]{new UILabel(Inter.getLocText("FR-Base_Format"), SwingConstants.LEFT), typePane},
-                new Component[]{null, centerPane},
-                new Component[]{fontPane, frFontPane},
-        };
+        Component[][] components = getComponent(fontPane, centerPane, typePane);
+        this.add(createContentPane(components), BorderLayout.CENTER);
+    }
+
+    protected JPanel createContentPane (Component[][] components) {
+        double f = TableLayout.FILL;
+        double p = TableLayout.PREFERRED;
         double[] rowSize = {p, p, p, p, p};
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_LARGE, LayoutConstants.VGAP_MEDIUM);
-        this.add(panel, BorderLayout.CENTER);
+        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_LARGE, LayoutConstants.VGAP_MEDIUM);
+    }
+
+
+    protected Component[][] getComponent (JPanel fontPane, JPanel centerPane, JPanel typePane) {
+        return new Component[][]{
+                new Component[]{null, null},
+                new Component[]{new UILabel(Inter.getLocText("FR-Base_Format"), SwingConstants.LEFT), typePane},
+                new Component[]{centerPane, null},
+                new Component[]{fontPane, frFontPane},
+        };
     }
 
     protected UIComboBoxRenderer createComBoxRender() {
@@ -242,12 +258,7 @@ public class FormatPane extends AbstractBasicStylePane {
 
     private void setPatternComboBoxAndList(int formatStyle, String pattern) {
         this.typeComboBox.setSelectedItem(formatStyle);
-        int i = isArrayContainPattern(FormatField.getInstance().getFormatArray(formatStyle), pattern);
-        if (i == -1) {
-            this.textField.setSelectedIndex(0);
-        } else {
-            this.textField.setSelectedIndex(i);
-        }
+        this.textField.setSelectedItem(pattern);
     }
 
     private boolean isTimeType(String pattern) {
@@ -307,7 +318,7 @@ public class FormatPane extends AbstractBasicStylePane {
         public void itemStateChanged(ItemEvent e) {
             if (e.getStateChange() == ItemEvent.SELECTED) {
                 int contents = getFormatContents();
-                String[] items = FormatField.getInstance().getFormatArray(contents);
+                String[] items = FormatField.getInstance().getFormatArray(contents, false);
                 CardLayout cardLayout = (CardLayout) centerPane.getLayout();
 
                 if (isTextOrNull()) {
@@ -315,13 +326,11 @@ public class FormatPane extends AbstractBasicStylePane {
                     cardLayout.show(centerPane, "hide");
                 } else {
                     textField.removeAllItems();
-                    for (int i = 0; i < items.length; i++) {
-                        textField.addItem(items[i]);
-                    }
+                    textField.setItemArray(items);
+                    textField.setSelectedIndex(0);
                     centerPane.setPreferredSize(new Dimension(270, 65));
                     cardLayout.show(centerPane, "show");
                 }
-                isFormat = true;
             }
 
         }
@@ -331,7 +340,6 @@ public class FormatPane extends AbstractBasicStylePane {
         @Override
         public void itemStateChanged(ItemEvent e) {
             if (e.getStateChange() == ItemEvent.SELECTED) {
-                isFormat = true;
                 refreshPreviewLabel();
             }
         }
@@ -343,7 +351,6 @@ public class FormatPane extends AbstractBasicStylePane {
      */
     public void populateBean(Style style) {
         this.populateBean(style.getFormat());
-        isFormat = false;
         this.frFontPane.populateBean(style.getFRFont());
     }
 
@@ -352,8 +359,7 @@ public class FormatPane extends AbstractBasicStylePane {
      * update
      */
     public Style update(Style style) {
-        if (isFormat) {
-            isFormat = false;
+        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), "textField") || ComparatorUtils.equals(globalNameListener.getGlobalName(), "typeComboBox")) {
             return style.deriveFormat(this.update());
         } else {
             return style.deriveFRFont(this.frFontPane.update(style.getFRFont()));
@@ -383,6 +389,10 @@ public class FormatPane extends AbstractBasicStylePane {
         };
         typeComboBox.setRenderer(render);
         typeComboBox.addItemListener(itemListener);
+        setTypeComboBoxPane(typeComboBox);
+    }
+
+    protected void setTypeComboBoxPane (UIComboBox typeComboBox) {
         this.add(typeComboBox, BorderLayout.NORTH);
     }
 
@@ -408,4 +418,18 @@ public class FormatPane extends AbstractBasicStylePane {
         }
     }
 
+    @Override
+    public void registerNameListener(GlobalNameListener listener) {
+        globalNameListener = listener;
+    }
+
+    @Override
+    public boolean shouldResponseNameListener() {
+        return false;
+    }
+
+    @Override
+    public void setGlobalName(String name) {
+
+    }
 }

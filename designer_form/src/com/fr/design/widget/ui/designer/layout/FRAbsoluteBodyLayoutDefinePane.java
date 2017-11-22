@@ -1,16 +1,22 @@
 package com.fr.design.widget.ui.designer.layout;
 
 import com.fr.design.data.DataCreatorUI;
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.*;
 import com.fr.design.designer.creator.cardlayout.XWCardMainBorderLayout;
 import com.fr.design.designer.properties.items.FRLayoutTypeItems;
 import com.fr.design.designer.properties.items.Item;
+import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.WidgetPropertyPane;
+import com.fr.design.mainframe.widget.accessibles.AccessibleWLayoutBorderStyleEditor;
+import com.fr.design.widget.ui.designer.component.WidgetBoundPane;
+import com.fr.form.ui.LayoutBorderStyle;
 import com.fr.form.ui.container.WAbsoluteBodyLayout;
 import com.fr.form.ui.container.WAbsoluteLayout;
 import com.fr.form.ui.container.WBodyLayoutType;
@@ -26,33 +32,41 @@ import java.util.Comparator;
  * Created by ibm on 2017/8/2.
  */
 public class FRAbsoluteBodyLayoutDefinePane extends FRAbsoluteLayoutDefinePane {
-    private XWAbsoluteBodyLayout xwAbsoluteBodyLayout;
-    private WAbsoluteBodyLayout wAbsoluteBodyLayout;
+    private AccessibleWLayoutBorderStyleEditor borderStyleEditor;
+
     private UIComboBox layoutCombox;
     private WBodyLayoutType layoutType = WBodyLayoutType.ABSOLUTE;
     private static final int EACH_ROW_COUNT = 4;
 
     public FRAbsoluteBodyLayoutDefinePane(XCreator xCreator) {
         super(xCreator);
-        this.xwAbsoluteBodyLayout = (XWAbsoluteBodyLayout) xCreator;
-        wAbsoluteBodyLayout = xwAbsoluteBodyLayout.toData();
     }
 
 
+    public void initComponent() {
+        super.initComponent();
+        borderStyleEditor = new AccessibleWLayoutBorderStyleEditor();
+        JPanel jPanel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer-Widget_Style")), borderStyleEditor}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W3, IntervalConstants.INTERVAL_L1);
+        JPanel borderPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        jPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        borderPane.add(jPanel, BorderLayout.CENTER);
+        UIExpandablePane advancedPane = new UIExpandablePane(Inter.getLocText("FR-Designer_Advanced"), 280, 20, borderPane );
+        this.add(advancedPane, BorderLayout.NORTH);
+    }
+
     public JPanel createThirdPane() {
         initLayoutComboBox();
-        double f = TableLayout.FILL;
-        double p = TableLayout.PREFERRED;
-        double[] rowSize = {p, p};
-        double[] columnSize = {p, f};
-        int[][] rowCount = {{1, 1}, {1, 1}};
-        Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Attr_Layout_Type")), layoutCombox},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer-Widget_Scaling_Mode")), comboBox},
-        };
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 20, 10);
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
-        return panel;
+        JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        JPanel northPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Attr_Layout_Type")), layoutCombox}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
+        JPanel centerPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer-Widget_Scaling_Mode")), comboBox}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
+        jPanel.add(northPane, BorderLayout.NORTH);
+        jPanel.add(centerPane, BorderLayout.CENTER);
+//        northPane.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L1, 0, 0, 0));
+        centerPane.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L1, IntervalConstants.INTERVAL_L5, 0, 0));
+        return jPanel;
 
     }
 
@@ -72,8 +86,8 @@ public class FRAbsoluteBodyLayoutDefinePane extends FRAbsoluteLayoutDefinePane {
     }
 
     public void populateSubPane(WAbsoluteLayout ob) {
-//        WAbsoluteBodyLayout layout = (WAbsoluteBodyLayout) ob;
         layoutCombox.setSelectedIndex(1);
+        borderStyleEditor.setValue(ob.getBorderStyle());
     }
 
     public WAbsoluteBodyLayout updateSubPane() {
@@ -90,6 +104,7 @@ public class FRAbsoluteBodyLayoutDefinePane extends FRAbsoluteLayoutDefinePane {
                 switch2FitBodyLayout();
             }
         }
+        layout.setBorderStyle((LayoutBorderStyle) borderStyleEditor.getValue());
         return layout;
     }
 

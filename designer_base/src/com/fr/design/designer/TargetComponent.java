@@ -1,16 +1,16 @@
 package com.fr.design.designer;
 
-import javax.swing.*;
-
+import com.fr.design.DesignState;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
+import com.fr.design.mainframe.AuthorityEditPane;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
-import com.fr.design.DesignState;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.stable.StringUtils;
-import com.fr.design.mainframe.*;
+
+import javax.swing.*;
 
 /**
  * 模板设计界面
@@ -33,7 +33,7 @@ public abstract class TargetComponent<T> extends JComponent {
 
 	public abstract void stopEditing();
 
-	public final T getTarget() {
+	public T getTarget() {
 		return target;
 	}
 

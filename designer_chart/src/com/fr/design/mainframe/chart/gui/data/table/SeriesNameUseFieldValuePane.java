@@ -7,7 +7,6 @@ import com.fr.data.util.function.AbstractDataFunction;
 import com.fr.data.util.function.NoneFunction;
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.gui.icombobox.UIComboBox;
-import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
@@ -77,11 +76,11 @@ public class SeriesNameUseFieldValuePane extends FurtherBasicBeanPane<ChartColle
         double f = TableLayout.FILL;
         double[] columnSize = {f};
         double[] rowSize = {p, p, p, p, p};
-        UILabel Label1 = new UILabel(Inter.getLocText("FR-Chart-Series_Name") + ":", SwingConstants.RIGHT);
+        UILabel Label1 = new UILabel(Inter.getLocText("FR-Chart-Series_Name"));
         Label1.setPreferredSize(new Dimension(ChartDataPane.LABEL_WIDTH, ChartDataPane.LABEL_HEIGHT));
-        UILabel Label2 = new UILabel(Inter.getLocText("Chart-Series_Value") + ":", SwingConstants.RIGHT);
+        UILabel Label2 = new UILabel(Inter.getLocText("Chart-Series_Value"));
         Label2.setPreferredSize(new Dimension(ChartDataPane.LABEL_WIDTH, ChartDataPane.LABEL_HEIGHT));
-        UILabel Label3 = new UILabel(Inter.getLocText("Chart-Summary_Method") + ":", SwingConstants.RIGHT);
+        UILabel Label3 = new UILabel(Inter.getLocText("Chart-Summary_Method"));
         Label3.setPreferredSize(new Dimension(ChartDataPane.LABEL_WIDTH, ChartDataPane.LABEL_HEIGHT));
         Component[][] components = getUseComponent(Label1, Label2, Label3);
 
@@ -96,11 +95,11 @@ public class SeriesNameUseFieldValuePane extends FurtherBasicBeanPane<ChartColle
         double f = TableLayout.FILL;
         double[] columnSize = {f};
         double[] rowSize = {p, p, p, p};
-        UILabel Label1 = new UILabel(Inter.getLocText("Chart-Series_Name") + ":", SwingConstants.RIGHT);
+        UILabel Label1 = new UILabel(Inter.getLocText("Chart-Series_Name"));
         Label1.setPreferredSize(new Dimension(75, 20));
-        UILabel Label2 = new UILabel(Inter.getLocText("Chart-Series_Value") + ":", SwingConstants.RIGHT);
+        UILabel Label2 = new UILabel(Inter.getLocText("Chart-Series_Value"));
         Label2.setPreferredSize(new Dimension(75, 20));
-        UILabel Label3 = new UILabel(Inter.getLocText("Chart-Summary_Method") + ":", SwingConstants.RIGHT);
+        UILabel Label3 = new UILabel(Inter.getLocText("Chart-Summary_Method"));
         Label3.setPreferredSize(new Dimension(75, 20));
         Component[][] components = getUseComponentWithOutSummary(Label1, Label2, Label3);
 
@@ -115,8 +114,6 @@ public class SeriesNameUseFieldValuePane extends FurtherBasicBeanPane<ChartColle
                 new Component[]{GUICoreUtils.createBorderLayoutPane(new Component[]{seriesName, null, null, Label1, null})},
                 new Component[]{GUICoreUtils.createBorderLayoutPane(new Component[]{seriesValue, null, null, Label2, null})},
                 new Component[]{GUICoreUtils.createBorderLayoutPane(new Component[]{calculateCombox, null, null, Label3, null})},
-                new Component[]{new JSeparator()},
-                new Component[]{new BoldFontTextLabel(Inter.getLocText("Chart-Data_Filter"))},
         };
     }
 
@@ -132,8 +129,7 @@ public class SeriesNameUseFieldValuePane extends FurtherBasicBeanPane<ChartColle
         return new Component[][]{
                 new Component[]{GUICoreUtils.createBorderLayoutPane(new Component[]{seriesName, null, null, Label1, null})},
                 new Component[]{GUICoreUtils.createBorderLayoutPane(new Component[]{seriesValue, null, null, Label2, null})},
-                new Component[]{new JSeparator()},
-                new Component[]{new BoldFontTextLabel(Inter.getLocText("Chart-Data_Filter"))},
+
         };
     }
 

@@ -3,9 +3,9 @@ package com.fr.env;
 
 import com.fr.base.Env;
 import com.fr.base.FRContext;
-import com.fr.general.ComparatorUtils;
 import com.fr.design.utils.DesignUtils;
-import com.fr.general.GeneralContext;
+import com.fr.general.ComparatorUtils;
+import com.fr.general.env.EnvContext;
 
 
 public class SignIn {
@@ -33,8 +33,9 @@ public class SignIn {
             return;
         }
         try {
-        	GeneralContext.fireEnvSignOutListener();
+            EnvContext.fireBeforeSignOut();
             lastSelectedEnv.signOut();
+            EnvContext.fireAfterSignOut();
         } catch (Exception e) {
             FRContext.getLogger().error(e.getMessage(), e);
         }

@@ -3,10 +3,16 @@
  */
 package com.fr.design.actions.insert.flot;
 
+import com.fr.base.BaseFormula;
 import com.fr.base.BaseUtils;
 import com.fr.base.DynamicUnitList;
-import com.fr.base.Formula;
+import com.fr.design.actions.ElementCaseAction;
+import com.fr.design.dialog.BasicDialog;
+import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.file.HistoryTemplateListPane;
+import com.fr.design.formula.FormulaFactory;
+import com.fr.design.formula.UIFormula;
+import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.general.Inter;
@@ -18,16 +24,18 @@ import com.fr.report.elementcase.TemplateElementCase;
 import com.fr.stable.unit.FU;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
 
 /**
  * Insert formula.
  */
-public class FormulaFloatAction extends AbstractShapeAction {
+public class FormulaFloatAction extends ElementCaseAction {
+
+    private boolean returnValue = false;
+
     public FormulaFloatAction(ElementCasePane t) {
         super(t);
         this.setMenuKeySet(FLOAT_INSERT_FORMULA);
-        this.setName(getMenuKeySet().getMenuKeySetName() + "...");
+        this.setName(getMenuKeySet().getMenuKeySetName());
         this.setMnemonic(getMenuKeySet().getMnemonic());
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_insert/formula.png"));
     }
@@ -48,23 +56,6 @@ public class FormulaFloatAction extends AbstractShapeAction {
             return null;
         }
     };
-
-    /**
-     * 动作
-     *
-     * @param e 事件
-     */
-    public void actionPerformed(ActionEvent e) {
-        ElementCasePane jws = getEditingComponent();
-        if (jws == null) {
-            return;
-        }
-        //
-        FloatElement floatElement = new FloatElement(new Formula(""));
-        this.startDraw(floatElement);
-        doWithDrawingFloatElement();
-        jws.getGrid().startEditing();
-    }
 
     private void doWithDrawingFloatElement() {
         ElementCasePane jws = (ElementCasePane) HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getCurrentElementCasePane();
@@ -93,6 +84,45 @@ public class FormulaFloatAction extends AbstractShapeAction {
 
         report.addFloatElement(grid.getDrawingFloatElement());
         reportPane.setSelection(new FloatSelection(grid.getDrawingFloatElement().getName()));
+    }
+
+    /**
+     * 执行动作
+     *
+     * @return 成功返回true
+     */
+    @Override
+    public boolean executeActionReturnUndoRecordNeeded() {
+        final ElementCasePane reportPane = (ElementCasePane) HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getCurrentElementCasePane();
+        if (reportPane == null) {
+            return false;
+        }
+
+        reportPane.stopEditing();
+        final FloatElement floatElement = new FloatElement();
+        final UIFormula formulaPane = FormulaFactory.createFormulaPane();
+        formulaPane.populate(BaseFormula.createFormulaBuilder().build());
+
+        BasicDialog dialog = formulaPane.showLargeWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
+
+            @Override
+            public void doOk() {
+                floatElement.setValue(formulaPane.update());
+                if (reportPane == null) {
+                    return;
+                }
+                reportPane.getGrid().setDrawingFloatElement(floatElement);
+                doWithDrawingFloatElement();
+                returnValue = true;
+            }
+
+            @Override
+            public void doCancel() {
+                returnValue = false;
+            }
+        });
+        dialog.setVisible(true);
+        return returnValue;
     }
 
 }

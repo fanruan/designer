@@ -3,15 +3,6 @@
  */
 package com.fr.design.mainframe.bbs;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Desktop;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.net.URI;
-
-import javax.swing.JPanel;
-
 import com.fr.design.gui.ilable.ActionLabel;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -20,6 +11,12 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 import com.fr.start.BBSGuestPaneProvider;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.net.URI;
 
 /**
  * @author neil
@@ -54,9 +51,12 @@ public class BBSGuestPane extends JPanel implements BBSGuestPaneProvider{
 		double[] colSize = {p};
 		
 		Component[][] components = new Component[rowSize.length][colSize.length];
-		for (int i = 0; i < components.length; i++) {
-			String userName = BBSConstants.ALL_GUEST[i];
-			String url = BBSConstants.ALL_LINK[i];
+		String[] allGuest = BBSConstants.getAllGuest();
+		String[] allLink = BBSConstants.getAllLink();
+		int min = Math.min(allGuest.length, components.length);
+		for (int i = 0; i < min; i++) {
+			String userName = allGuest[i];
+			String url = allLink[i];
 			components[i][0] = getURLActionLabel(userName, url);
 		}
 		

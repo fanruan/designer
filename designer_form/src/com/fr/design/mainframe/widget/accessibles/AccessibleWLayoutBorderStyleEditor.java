@@ -27,10 +27,6 @@ public class AccessibleWLayoutBorderStyleEditor extends UneditableAccessibleEdit
         return new RendererField(new LayoutBorderStyleRenderer());
     }
 
-    protected void setBorderVisible(){
-        this.setBorder(BorderFactory.createLineBorder(Color.lightGray));
-    }
-
     @Override
     protected void showEditorPane() {
         if (borderPane == null) {

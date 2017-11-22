@@ -36,32 +36,34 @@ public class FormElementCasePaneDelegate extends ElementCasePane<FormElementCase
         this.addSelectionChangeListener(new SelectionListener() {
             @Override
             public void selectionChanged(SelectionEvent e) {
-                CellElementPropertyPane.getInstance().populate(FormElementCasePaneDelegate.this);
-                QuickEditorRegion.getInstance().populate(getCurrentEditor());
-                // 超级链接
-                HyperlinkGroupPane hyperlinkGroupPane = DesignerContext.getDesignerFrame().getSelectedJTemplate().
-                        getHyperLinkPane(HyperlinkGroupPaneActionImpl.getInstance());
-                hyperlinkGroupPane.populate(FormElementCasePaneDelegate.this);
-                // 条件属性
-                ConditionAttributesGroupPane conditionAttributesGroupPane = ConditionAttributesGroupPane.getInstance();
-                conditionAttributesGroupPane.populate(FormElementCasePaneDelegate.this);
-
-//                populateHyperLinkGroupPane();
+                refreshPropertyPanes();
             }
         });
         this.addTargetModifiedListener(new TargetModifiedListener() {
             @Override
             public void targetModified(TargetModifiedEvent e) {
-                CellElementPropertyPane.getInstance().populate(FormElementCasePaneDelegate.this);
+                if (DesignerContext.isRefreshOnTargetModifiedEnabled()) {
+                    refreshPropertyPanes();
+                } else {
+                    CellElementPropertyPane.getInstance().populate(FormElementCasePaneDelegate.this);
+                }
             }
         });
     }
 
-//    private void populateHyperLinkGroupPane() {
-//        final TemplateElementCase report = this.getEditingElementCase();
-//        NameJavaScriptGroup nameHyperlinks = ReportHyperlinkGroupPane.getNameJSGroup(this, report);
-//        HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getHyperLinkPane().populate(nameHyperlinks);
-//    }
+    private void refreshPropertyPanes() {
+        CellElementPropertyPane.getInstance().populate(FormElementCasePaneDelegate.this);
+        QuickEditorRegion.getInstance().populate(getCurrentEditor());
+        // 超级链接
+        HyperlinkGroupPane hyperlinkGroupPane = DesignerContext.getDesignerFrame().getSelectedJTemplate().
+                getHyperLinkPane(HyperlinkGroupPaneActionImpl.getInstance());
+        hyperlinkGroupPane.populate(FormElementCasePaneDelegate.this);
+        // 条件属性
+        ConditionAttributesGroupPane conditionAttributesGroupPane = ConditionAttributesGroupPane.getInstance();
+        conditionAttributesGroupPane.populate(FormElementCasePaneDelegate.this);
+
+        EastRegionContainerPane.getInstance().updateCellElementState(isSelectedOneCell());
+    }
 
     @Override
     protected boolean supportRepeatedHeaderFooter() {

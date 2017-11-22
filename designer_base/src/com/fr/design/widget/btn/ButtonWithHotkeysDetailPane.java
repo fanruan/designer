@@ -4,6 +4,7 @@ import java.awt.*;
 
 import javax.swing.*;
 
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
@@ -42,13 +43,13 @@ public abstract class ButtonWithHotkeysDetailPane<T extends Button> extends Butt
         iconPane = new AccessibleIconEditor();
         labelPane.add(iconPane);
         Component[][] n_components = {
-                {new UILabel(Inter.getLocText("FR-Designer_Button-Type") + ":"), createButtonTypeComboBox()},
-                {new UILabel(Inter.getLocText("FR-Designer_Button-Name") + ":"), buttonNameTextField = new UITextField()},
-                {new UILabel(Inter.getLocText("FR-Designer_Button-Icon") + ":"), iconPane},
-                {new UILabel(Inter.getLocText("FR-Designer_Button-Hotkeys") + ":"), hotkeysTextField = new UITextField()},
+                {new UILabel(Inter.getLocText("FR-Designer_Button-Type")), createButtonTypeComboBox()},
+                {new UILabel(Inter.getLocText("FR-Designer_Button-Name")), buttonNameTextField = new UITextField()},
+                {new UILabel(Inter.getLocText("FR-Designer_Button-Icon")), iconPane},
+                {new UILabel(Inter.getLocText("FR-Designer_Button-Hotkeys")), hotkeysTextField = new UITextField()},
         };
         hotkeysTextField.setToolTipText(StableUtils.join(ButtonConstants.HOTKEYS, ","));
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(n_components, rowSize, columnSize, 16, 8);
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(n_components, rowSize, columnSize, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         advancePane.add(panel, BorderLayout.NORTH);
         Component comp = createCenterPane();

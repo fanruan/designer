@@ -27,11 +27,6 @@ public class AccessibleIconEditor extends UneditableAccessibleEditor {
         return new RendererField(new IconCellRenderer());
     }
 
-    protected void setBorderVisible(){
-		this.setBorder(BorderFactory.createLineBorder(Color.lightGray));
-    }
-
-
     @Override
     protected void showEditorPane() {
         if (customIconPane == null) {

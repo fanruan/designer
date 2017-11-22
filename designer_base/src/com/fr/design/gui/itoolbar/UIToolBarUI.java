@@ -1,29 +1,17 @@
 package com.fr.design.gui.itoolbar;
 
 
-import java.awt.Component;
-import java.awt.Dialog;
-import java.awt.Frame;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Window;
-import java.awt.event.WindowListener;
+import com.fr.design.constants.UIConstants;
+import com.fr.design.gui.ibutton.UIToolButtonBorder;
+import com.fr.design.gui.icheckbox.UICheckBox;
 
-import javax.swing.AbstractButton;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JRadioButton;
-import javax.swing.JToolBar;
-import javax.swing.RootPaneContainer;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.UIResource;
 import javax.swing.plaf.metal.MetalToolBarUI;
-
-import com.fr.design.constants.UIConstants;
-import com.fr.design.gui.ibutton.UIToolButtonBorder;
-import com.fr.design.gui.icheckbox.UICheckBox;
+import java.awt.*;
+import java.awt.event.WindowListener;
 
 public class UIToolBarUI extends MetalToolBarUI {
     public static final String IS_TOOL_BAR_BUTTON_KEY = "JToolBar.isToolbarButton";
@@ -89,7 +77,7 @@ public class UIToolBarUI extends MetalToolBarUI {
      */
     public void paint(Graphics g, JComponent c) {
         Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(UIConstants.TOOLBARUI_BACKGROUND);
+        g2.setColor(UIConstants.UI_TOOLBAR_COLOR);
         g2.fillRect(0, 0, c.getWidth(), c.getHeight());
     }
 

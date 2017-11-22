@@ -63,7 +63,7 @@ public class JSCallback {
     private String trimText(String old) {
         if (StringUtils.isNotBlank(old)) {
             String b = filterHtmlTag(old);
-            return b.replaceAll("\\\\n", "").replaceAll("\\\\t", "").replaceAll("\"", "\\\\\"").replaceAll("\'", "\\\\\'").replaceAll("\\\\\\\\", "\\\\\\\\\\\\");
+            return b.replaceAll("\\\\n", StringUtils.EMPTY).replaceAll("\\\\t", StringUtils.EMPTY).replaceAll("\"", "\\\\\"").replaceAll("\'", "\\\\\'").replaceAll("\\\\\\\\", "\\\\\\\\\\\\");
         }
         return StringUtils.EMPTY;
     }
@@ -74,14 +74,12 @@ public class JSCallback {
      * @return 处理之后的字符串
      */
     private String filterHtmlTag(String origin) {
-        String regEx_html = "<[^>]+>";
-        Pattern p_html = Pattern.compile(regEx_html, Pattern.CASE_INSENSITIVE);
-        Matcher m_html = p_html.matcher(origin);
-        origin = m_html.replaceAll("");
+        String regHtml = "<[^>]+>";
+        Pattern patternHtml = Pattern.compile(regHtml, Pattern.CASE_INSENSITIVE);
+        Matcher matchHtml = patternHtml.matcher(origin);
+        origin = matchHtml.replaceAll(StringUtils.EMPTY);
         return origin;
     }
-
-
 
 }
 

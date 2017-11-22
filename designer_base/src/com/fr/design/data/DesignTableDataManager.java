@@ -6,19 +6,24 @@ import com.fr.base.StoreProcedureParameter;
 import com.fr.base.TableData;
 import com.fr.data.TableDataSource;
 import com.fr.data.core.DataCoreXmlUtils;
-import com.fr.design.data.datapane.preview.PreviewTablePane;
 import com.fr.data.impl.EmbeddedTableData;
 import com.fr.data.impl.storeproc.ProcedureDataModel;
 import com.fr.data.impl.storeproc.StoreProcedure;
 import com.fr.data.impl.storeproc.StoreProcedureConstants;
-import com.fr.design.data.tabledata.wrapper.*;
 import com.fr.design.DesignModelAdapter;
+import com.fr.design.data.datapane.preview.PreviewTablePane;
+import com.fr.design.data.tabledata.wrapper.ServerTableDataWrapper;
+import com.fr.design.data.tabledata.wrapper.StoreProcedureDataWrapper;
+import com.fr.design.data.tabledata.wrapper.StoreProcedureNameWrapper;
+import com.fr.design.data.tabledata.wrapper.TableDataFactory;
+import com.fr.design.data.tabledata.wrapper.TableDataWrapper;
+import com.fr.design.data.tabledata.wrapper.TemplateTableDataWrapper;
+import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.iprogressbar.AutoProgressBar;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.parameter.ParameterInputPane;
-import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.file.DatasourceManager;
 import com.fr.file.DatasourceManagerProvider;
 import com.fr.general.ComparatorUtils;
@@ -34,8 +39,16 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.io.ByteArrayOutputStream;
 import java.text.Collator;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * 设计器管理操作数据集的类:
@@ -351,7 +364,20 @@ public abstract class DesignTableDataManager {
      * @throws Exception 异常
      */
     public static EmbeddedTableData previewTableDataNeedInputParameters(TableData tabledata, int rowCount, boolean needLoadingBar) throws Exception {
-        return previewTableData(tabledata, rowCount, true, needLoadingBar);
+        return previewTableData(null, tabledata, rowCount, true, needLoadingBar);
+    }
+
+    /**
+     * 预览需要参数的数据集
+     *
+     * @param tabledata      数据集
+     * @param rowCount       需要预览的行数
+     * @param needLoadingBar 是否需要加载进度条
+     * @return 数据集
+     * @throws Exception 异常
+     */
+    public static EmbeddedTableData previewTableDataNeedInputParameters(TableDataSource tableDataSource, TableData tabledata, int rowCount, boolean needLoadingBar) throws Exception {
+        return previewTableData(tableDataSource, tabledata, rowCount, true, needLoadingBar);
     }
 
     /**
@@ -364,7 +390,20 @@ public abstract class DesignTableDataManager {
      * @throws Exception 异常
      */
     public static EmbeddedTableData previewTableDataNotNeedInputParameters(TableData tabledata, int rowCount, boolean needLoadingBar) throws Exception {
-        return previewTableData(tabledata, rowCount, false, needLoadingBar);
+        return previewTableData(null, tabledata, rowCount, false, needLoadingBar);
+    }
+
+    /**
+     * 预览不需要参数的数据集
+     *
+     * @param tabledata      数据集
+     * @param rowCount       需要预览的行数
+     * @param needLoadingBar 是否需要加载进度条
+     * @return 数据集
+     * @throws Exception 异常
+     */
+    public static EmbeddedTableData previewTableDataNotNeedInputParameters(TableDataSource tableDataSource, TableData tabledata, int rowCount, boolean needLoadingBar) throws Exception {
+        return previewTableData(tableDataSource, tabledata, rowCount, false, needLoadingBar);
     }
 
     /**
@@ -376,7 +415,7 @@ public abstract class DesignTableDataManager {
      *                              而获取数据集的字段名字时，则没必要
      * @return
      */
-    private static EmbeddedTableData previewTableData(TableData tabledata, int rowCount, boolean isMustInputParameters, boolean needLoadingBar) throws Exception {
+    private static EmbeddedTableData previewTableData(TableDataSource tableDataSource, TableData tabledata, int rowCount, boolean isMustInputParameters, boolean needLoadingBar) throws Exception {
         final AutoProgressBar loadingBar = PreviewTablePane.getInstance().getProgressBar();
         Env currentEnv = FRContext.getCurrentEnv();
         ParameterProvider[] parameters = currentEnv.getTableDataParameters(tabledata);
@@ -406,7 +445,7 @@ public abstract class DesignTableDataManager {
                     parameter.setValue(parameterMap.get(parameter.getName()));
                 }
             }
-            return currentEnv.previewTableData(tabledata, parameterMap, rowCount);
+            return currentEnv.previewTableData(tableDataSource, tabledata, parameterMap, rowCount);
         } catch (TableDataException e) {
             throw new TableDataException(e.getMessage(), e);
         } finally {

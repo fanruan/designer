@@ -1,23 +1,13 @@
 package com.fr.design.mainframe.chart.gui.style;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-
-import javax.swing.JPanel;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.base.Style;
 import com.fr.base.Utils;
 import com.fr.chart.base.ChartBaseUtils;
 import com.fr.chart.base.TextAttr;
 import com.fr.chart.chartattr.Axis;
 import com.fr.design.constants.LayoutConstants;
+import com.fr.design.dialog.BasicPane;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.gui.icheckbox.UICheckBox;
@@ -28,8 +18,16 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.gui.style.NumberDragBar;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.dialog.BasicPane;
 import com.fr.general.Inter;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 public class ChartAxisLabelPane extends BasicPane implements UIObserver{
     private static final int LABEL_INTERVAL = 0;
@@ -330,7 +328,7 @@ public class ChartAxisLabelPane extends BasicPane implements UIObserver{
         }
     }
 
-    private int getLabelSampleNumber(Formula formula) {
+    private int getLabelSampleNumber(BaseFormula formula) {
         Number number = ChartBaseUtils.formula2Number(formula);
         if (number != null) {
             int num = number.intValue();
@@ -339,7 +337,7 @@ public class ChartAxisLabelPane extends BasicPane implements UIObserver{
         return 0;
     }
 
-    private boolean isWrapShow(Formula formula){
+    private boolean isWrapShow(BaseFormula formula){
         Number number = ChartBaseUtils.formula2Number(formula);
         return number == null;
     }
@@ -423,20 +421,20 @@ public class ChartAxisLabelPane extends BasicPane implements UIObserver{
 
     private void update4Normal(Axis axis){
         if (labelSampleChoose.getSelectedIndex() == 0) {
-            axis.setLabelIntervalNumber(new Formula("0"));
+            axis.setLabelIntervalNumber(BaseFormula.createFormulaBuilder().build("0"));
         } else {
-            axis.setLabelIntervalNumber(new Formula(customLabelSamleTime.getText()));
+            axis.setLabelIntervalNumber(BaseFormula.createFormulaBuilder().build(customLabelSamleTime.getText()));
         }
     }
 
     private void update4Wrap(Axis axis){
         if (showWay.getSelectedIndex() == LABEL_WRAP) {
-             axis.setLabelIntervalNumber(new Formula());
+             axis.setLabelIntervalNumber(BaseFormula.createFormulaBuilder().build());
          } else if (showWay.getSelectedIndex() == LABEL_INTERVAL) {
              if (auto.isSelected()) {
-                 axis.setLabelIntervalNumber(new Formula("0"));
+                 axis.setLabelIntervalNumber(BaseFormula.createFormulaBuilder().build("0"));
              } else if (custom.isSelected()) {
-                 axis.setLabelIntervalNumber(new Formula(customLabelSamleTime.getText()));
+                 axis.setLabelIntervalNumber(BaseFormula.createFormulaBuilder().build(customLabelSamleTime.getText()));
              }
          }
     }

@@ -7,6 +7,7 @@ import com.fr.chart.chartdata.MoreNameCDDefinition;
 import com.fr.chart.chartdata.OneValueCDDefinition;
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.constants.LayoutConstants;
+import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.frpane.UIComboBoxPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
@@ -47,13 +48,18 @@ public class SeriesTypeUseComboxPane extends UIComboBoxPane<ChartCollection> {
     protected void initLayout() {
         this.setLayout(new BorderLayout(4, LayoutConstants.VGAP_MEDIUM));
         JPanel northPane = new JPanel(new BorderLayout(4, 0));
-        UILabel label1 = new UILabel(Inter.getLocText("ChartF-Series_Name_From") + ":", SwingConstants.RIGHT);
+        UILabel label1 = new UILabel(Inter.getLocText("ChartF-Series_Name_From"));
         label1.setPreferredSize(new Dimension(ChartDataPane.LABEL_WIDTH, ChartDataPane.LABEL_HEIGHT));
         northPane.add(GUICoreUtils.createBorderLayoutPane(new Component[]{jcb, null, null, label1, null}));
-        northPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 1));
+        northPane.setBorder(BorderFactory.createEmptyBorder(10, 24, 0, 15));
+        cardPane.setBorder(BorderFactory.createEmptyBorder(0, 24, 0, 15));
         this.add(northPane, BorderLayout.NORTH);
         this.add(cardPane, BorderLayout.CENTER);
-        this.add(dataScreeningPane = new ChartDataFilterPane(this.initplot, parent), BorderLayout.SOUTH);
+        dataScreeningPane =  new ChartDataFilterPane(this.initplot, parent);
+        JPanel panel = new UIExpandablePane(Inter.getLocText("FR-Chart-Data_Filter"), 290, 24, dataScreeningPane);
+        panel.setBorder(BorderFactory.createEmptyBorder(0,5,0,5));
+        dataScreeningPane.setBorder(BorderFactory.createEmptyBorder(10,5,0,5));
+        this.add(panel, BorderLayout.SOUTH);
     }
 
     /**

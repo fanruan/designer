@@ -26,7 +26,7 @@ import com.fr.report.elementcase.ElementCase;
  * @since 2012-3-22下午5:54:21
  */
 public class GridRowUI extends ComponentUI {
-    private Color detailsBackground = new Color(0xf0f0f3);
+    private Color detailsBackground = UIConstants.GRID_ROW_DETAILS_BACKGROUND;
     private int resolution ;
 
     GridRowUI(int resolution){
@@ -46,6 +46,9 @@ public class GridRowUI extends ComponentUI {
         ElementCasePane reportPane = gridRow.getElementCasePane();
         // size
         Dimension size = gridRow.getSize();
+        float time = (float)resolution/ScreenResolution.getScreenResolution();
+        g2d.setFont(gridRow.getFont().deriveFont(gridRow.getFont().getSize2D() * time));
+
         ElementCase elementCase = reportPane.getEditingElementCase();
         DynamicUnitList rowHeightList = ReportHelper.getRowHeightList(elementCase);
         int verticalValue = reportPane.getGrid().getVerticalValue();
@@ -152,24 +155,25 @@ public class GridRowUI extends ComponentUI {
             , ElementCase elementCase, Dimension size, double tmpHeight1) {
         // FontMetrics
         FontRenderContext fontRenderContext = g2d.getFontRenderContext();
-
-        float fmAscent = GraphHelper.getFontMetrics(gridRow.getFont()).getAscent();
-        double stringWidth = gridRow.getFont().getStringBounds(paintText, fontRenderContext).getWidth();
-        double stringHeight = gridRow.getFont().getStringBounds(paintText, fontRenderContext).getHeight();
-        if (isSelectedBounds) {
-            g2d.setColor(gridRow.getSelectedForeground());
-        } else {
-            // p:检查eanbled
-            if (gridRow.isEnabled()) {
-                g2d.setColor(gridRow.getForeground());
+        float time = (float)resolution/ScreenResolution.getScreenResolution();
+        float fmAscent = GraphHelper.getFontMetrics(gridRow.getFont()).getAscent() * time;
+        double stringWidth = gridRow.getFont().getStringBounds(paintText, fontRenderContext).getWidth() * time;
+        double stringHeight = gridRow.getFont().getStringBounds(paintText, fontRenderContext).getHeight() * time;
+        // 如果高度太小了就不画了
+        if (stringHeight <= tmpIncreaseHeight + 2) {
+            if (isSelectedBounds) {
+                g2d.setColor(gridRow.getSelectedForeground());
             } else {
-                g2d.setPaint(UIManager.getColor("controlShadow"));
+                // p:检查eanbled
+                if (gridRow.isEnabled()) {
+                    g2d.setColor(gridRow.getForeground());
+                } else {
+                    g2d.setPaint(UIManager.getColor("controlShadow"));
+                }
             }
+
+            GraphHelper.drawString(g2d, paintText, (size.width - stringWidth) / 2, tmpHeight1 + (tmpIncreaseHeight - stringHeight) / 2 + GridHeader.SIZE_ADJUST / 2 + fmAscent - 2);
         }
-
-        GraphHelper.drawString(g2d, paintText, (size.width - stringWidth) / 2, tmpHeight1 + (tmpIncreaseHeight - stringHeight) / 2 + GridHeader.SIZE_ADJUST / 2 + fmAscent
-                - 2);
-
     }
 
 }

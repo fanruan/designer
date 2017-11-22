@@ -1,11 +1,11 @@
 package com.fr.design.mainframe.chart.gui.data.table;
 
-import java.awt.BorderLayout;
-import java.util.List;
-
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartattr.PiePlot;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
+
+import java.awt.*;
+import java.util.List;
 
 public class PiePlotTableDataContentPane extends AbstractTableDataContentPane{
 	private SeriesTypeUseComboxPane typeChoosePane;
@@ -13,6 +13,7 @@ public class PiePlotTableDataContentPane extends AbstractTableDataContentPane{
 	public PiePlotTableDataContentPane(ChartDataPane parent) {
 		typeChoosePane = new SeriesTypeUseComboxPane(parent, new PiePlot());
 		this.setLayout(new BorderLayout());
+		this.add(getJSeparator(), BorderLayout.NORTH);
 		this.add(typeChoosePane, BorderLayout.CENTER);
 	}
 

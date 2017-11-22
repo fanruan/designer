@@ -3,9 +3,11 @@ package com.fr.design.data.datapane;
 import com.fr.base.BaseUtils;
 import com.fr.base.TableData;
 import com.fr.data.TableDataSource;
+import com.fr.data.impl.TableDataSourceDependent;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.UpdateAction;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.data.BasicTableDataTreePane;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.tabledata.StoreProcedureWorkerListener;
@@ -111,6 +113,8 @@ public class TableDataTreePane extends BasicTableDataTreePane {
         ToolBarDef toolbarDef = new ToolBarDef();
         toolbarDef.addShortCut(addMenuDef, SeparatorDef.DEFAULT, editAction, removeAction, SeparatorDef.DEFAULT, previewTableDataAction, connectionTableAction);
         UIToolbar toolBar = ToolBarDef.createJToolBar();
+        toolBar.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, UIConstants.TOOLBAR_BORDER_COLOR));
+        toolBar.setBorderPainted(true);
         toolbarDef.updateToolBar(toolBar);
 
         JPanel toolbarPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
@@ -156,10 +160,10 @@ public class TableDataTreePane extends BasicTableDataTreePane {
     }
 
     protected void initbuttonGroup() {
-        Icon[] iconArray = {BaseUtils.readIcon("/com/fr/design/images/data/datasource.png"), BaseUtils.readIcon("/com/fr/design/images/data/dock/serverdatabase.png")};
+//        Icon[] iconArray = {BaseUtils.readIcon("/com/fr/design/images/data/datasource.png"), BaseUtils.readIcon("/com/fr/design/images/data/dock/serverdatabase.png")};
         final Integer[] modeArray = {TEMPLATE_TABLE_DATA, SERVER_TABLE_DATA};
         String[] textArray = {Inter.getLocText(new String[]{"Template", "DS-TableData"}), Inter.getLocText("DS-Server_TableData")};
-        buttonGroup = new UIHeadGroup(iconArray, textArray) {
+        buttonGroup = new UIHeadGroup(textArray) {
             public void tabChanged(int index) {
                 if (op != null) {
                     op.setDataMode(modeArray[buttonGroup.getSelectedIndex()]);
@@ -201,6 +205,9 @@ public class TableDataTreePane extends BasicTableDataTreePane {
                 tc.renameTableData(oldName, nPanel.getObjectName(), false);
                 TableDataSource tds = tc.getBook();
                 TableData td = uPanel.updateBean();
+                if (td instanceof TableDataSourceDependent) {
+                    ((TableDataSourceDependent) td).setTableDataSource(tds);
+                }
                 String tdName = nPanel.getObjectName();
                 tds.putTableData(tdName, td);
                 Map<String, String> map = new HashMap<String, String>();

@@ -38,12 +38,10 @@ public abstract class AbstractSelectBox<T> extends AbstractPopBox implements Mou
 		displayComponent.setEmptyBackground();
 		displayComponent.setBorder(new TriggleLineBorder());
 		triggleButton = new UIToggleButton(UIConstants.ARROW_DOWN_ICON);
-		triggleButton.setRoundBorder(true, Constants.LEFT);
-		triggleButton.setPreferredSize(new Dimension(21, 20));
+		triggleButton.setPreferredSize(new Dimension(20, 20));
 
 		JPanel displayPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		displayPane.add(displayComponent, BorderLayout.CENTER);
-
 		displayComponent.setPreferredSize(new Dimension(preWidth, displayPane.getPreferredSize().height));
 
 		displayComponent.addMouseListener(mouseListener);
@@ -74,8 +72,6 @@ public abstract class AbstractSelectBox<T> extends AbstractPopBox implements Mou
 		displayComponent.setEnabled(enabled);
 		triggleButton.setEnabled(enabled);
 	}
-	
-	
 
 	@Override
 	public JPanel initWindowPane(double preWidth) {
@@ -88,8 +84,8 @@ public abstract class AbstractSelectBox<T> extends AbstractPopBox implements Mou
 		super.paint(g);
 		Graphics2D g2d = (Graphics2D)g;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		g2d.setColor(UIConstants.LINE_COLOR);
-		g2d.drawRoundRect(0, 0, this.getWidth() , this.getHeight() - 1, UIConstants.ARC, UIConstants.ARC);
+		g2d.setColor(UIConstants.POP_DIALOG_BORDER);
+		g2d.drawRoundRect(0, 0, this.getWidth() - 1 , this.getHeight() - 1, 4, 4);
 		triggleButton.setSelected(isPopupVisible());
 	}
 
@@ -105,15 +101,12 @@ public abstract class AbstractSelectBox<T> extends AbstractPopBox implements Mou
 
 	private  class TriggleLineBorder extends AbstractBorder {
 		private static final long serialVersionUID = 1065857667981063530L;
-		protected Insets borderInsets = new Insets(0, 0, 0, 1);
+		protected Insets borderInsets = new Insets(0, 0, 0, 0);
 
 		public void paintBorder(Component c, Graphics g, int x, int y, int w, int h) {
 			g.translate(x, y);
 
-			g.setColor(UIConstants.LINE_COLOR);
-			g.drawLine(3, 0, w-2, 0);
-			g.drawLine(3, h - 1, w-2, h - 1);
-			g.drawLine(w - 1, 0, w - 1, h);
+			g.setColor(UIConstants.POP_DIALOG_BORDER);
 
 			g.translate(-x, -y);
 		}

@@ -61,17 +61,14 @@ public class ImageBackgroundQuickPane extends BackgroundQuickPane {
 		contentPane.add(southPane, BorderLayout.NORTH);
 		this.add(contentPane, BorderLayout.CENTER);
 
-		JPanel selectFilePane = new JPanel(new GridLayout(0, 2));
 
 		UIButton selectPictureButton = new UIButton(Inter.getLocText("Image-Select_Picture"));
-		selectFilePane.add(new JPanel());
-		selectFilePane.add(selectPictureButton);
 		selectPictureButton.addActionListener(selectPictureActionListener);
 
         if(hasImageLayout){
-            southPane.add(imageLayoutPane, BorderLayout.CENTER);
+            southPane.add(imageLayoutPane, BorderLayout.SOUTH);
         }
-		southPane.add(selectFilePane, BorderLayout.SOUTH);
+		southPane.add(selectPictureButton, BorderLayout.CENTER);
 
 		imageLayoutPane.addChangeListener(new ChangeListener() {
 
@@ -181,5 +178,11 @@ public class ImageBackgroundQuickPane extends BackgroundQuickPane {
      */
 	public String title4PopupWindow() {
 		return Inter.getLocText("FR-Background_Image");
+	}
+
+	@Override
+	public void reset() {
+		imageLayoutPane.setSelectedIndex(0);
+		previewPane.setImage(null);
 	}
 }

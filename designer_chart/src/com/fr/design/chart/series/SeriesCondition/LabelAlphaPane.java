@@ -4,20 +4,26 @@ import com.fr.chart.base.AttrAlpha;
 import com.fr.chart.base.DataSeriesCondition;
 import com.fr.design.condition.ConditionAttrSingleConditionPane;
 import com.fr.design.condition.ConditionAttributesPane;
+import com.fr.design.gui.frpane.UINumberDragPane;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.style.AlphaPane;
 import com.fr.general.Inter;
 
+import javax.swing.*;
+import java.awt.*;
+
 /**
-* @author richie
-* @date 2015-03-26
-* @since 8.0
-*/
+ * @author richie
+ * @date 2015-03-26
+ * @since 8.0
+ */
 public class LabelAlphaPane extends ConditionAttrSingleConditionPane<DataSeriesCondition> {
-    private static final int ALPHASIZE = 100;
+    private static final double ALPHASIZE = 100.0;
+    private static final int PANEL_WIDTH = 200;
+    private static final int PANEL_HIGHT = 20;
 
     private UILabel nameLabel;
-    private AlphaPane alphaPane;
+    private UINumberDragPane alphaPane;
+
 
     private AttrAlpha attrAlpha = new AttrAlpha();
 
@@ -25,10 +31,17 @@ public class LabelAlphaPane extends ConditionAttrSingleConditionPane<DataSeriesC
         super(conditionAttributesPane, true);
 
         nameLabel = new UILabel(Inter.getLocText("ChartF-Alpha"));
-        alphaPane = new AlphaPane();
+        UILabel label = new UILabel(Inter.getLocText("ChartF-Alpha") + ":");
+        alphaPane = new UINumberDragPane(0, ALPHASIZE);
+
+        JPanel panel = new JPanel(new BorderLayout());
+
+        panel.add(label, BorderLayout.WEST);
+        panel.add(alphaPane, BorderLayout.CENTER);
+        panel.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HIGHT));
 
         this.add(nameLabel);
-        this.add(alphaPane);
+        this.add(panel);
     }
 
     @Override
@@ -44,12 +57,12 @@ public class LabelAlphaPane extends ConditionAttrSingleConditionPane<DataSeriesC
     public void populate(DataSeriesCondition condition) {
         if (condition instanceof AttrAlpha) {
             attrAlpha = (AttrAlpha) condition;
-            alphaPane.populate((int) (attrAlpha.getAlpha() * ALPHASIZE));
+            alphaPane.populateBean(attrAlpha.getAlpha() * ALPHASIZE);
         }
     }
 
     public DataSeriesCondition update() {
-        attrAlpha.setAlpha(this.alphaPane.update());
+        attrAlpha.setAlpha((float) (this.alphaPane.updateBean() / ALPHASIZE));
 
         return attrAlpha;
     }

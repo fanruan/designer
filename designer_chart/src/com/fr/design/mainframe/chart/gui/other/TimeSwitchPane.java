@@ -1,7 +1,7 @@
 package com.fr.design.mainframe.chart.gui.other;
 
+import com.fr.base.BaseFormula;
 import com.fr.base.BaseUtils;
-import com.fr.base.Formula;
 import com.fr.base.Utils;
 import com.fr.chart.base.ChartConstants;
 import com.fr.chart.base.TimeSwitchAttr;
@@ -22,7 +22,12 @@ import com.fr.general.Inter;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -85,10 +90,10 @@ public class TimeSwitchPane extends JPanel implements UIObserver {
 
     private void initTablePane(){
         tablePane = new JPanel(new TableLayout());
-        tablePane.add(new TimeTickBox(new Formula("1"),ChartConstants.MONTH_TYPE));
-        tablePane.add(new TimeTickBox(new Formula("3"),ChartConstants.MONTH_TYPE));
-        tablePane.add(new TimeTickBox(new Formula("6"),ChartConstants.MONTH_TYPE));
-        tablePane.add(new TimeTickBox(new Formula("1"), ChartConstants.YEAR_TYPE));
+        tablePane.add(new TimeTickBox(BaseFormula.createFormulaBuilder().build("1"),ChartConstants.MONTH_TYPE));
+        tablePane.add(new TimeTickBox(BaseFormula.createFormulaBuilder().build("3"),ChartConstants.MONTH_TYPE));
+        tablePane.add(new TimeTickBox(BaseFormula.createFormulaBuilder().build("6"),ChartConstants.MONTH_TYPE));
+        tablePane.add(new TimeTickBox(BaseFormula.createFormulaBuilder().build("1"), ChartConstants.YEAR_TYPE));
         tablePane.revalidate();
     }
 
@@ -111,7 +116,7 @@ public class TimeSwitchPane extends JPanel implements UIObserver {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                tablePane.add(new TimeTickBox(new Formula(),ChartConstants.YEAR_TYPE));
+                tablePane.add(new TimeTickBox(BaseFormula.createFormulaBuilder().build(),ChartConstants.YEAR_TYPE));
                 tablePane.revalidate();
                 fireChange();
             }
@@ -150,7 +155,7 @@ public class TimeSwitchPane extends JPanel implements UIObserver {
                continue;
             }
             TimeTickBox box =(TimeTickBox) component;
-            timeMap.add(new TimeSwitchAttr(new Formula(box.mainUnitField.getText()),VALUES.get(box.mainType.getSelectedItem())));
+            timeMap.add(new TimeSwitchAttr(BaseFormula.createFormulaBuilder().build(box.mainUnitField.getText()),VALUES.get(box.mainType.getSelectedItem())));
         }
     }
 
@@ -267,7 +272,7 @@ public class TimeSwitchPane extends JPanel implements UIObserver {
         private UIComboBox mainType;
         private UIButton delButton;
 
-         public TimeTickBox(Formula time,int unit){
+         public TimeTickBox(BaseFormula time,int unit){
              this.setLayout(new FlowLayout(FlowLayout.CENTER, 4, 0));
              mainUnitField = new UITextField(time.toString());
              mainUnitField.setEditable(false);
@@ -310,7 +315,7 @@ public class TimeSwitchPane extends JPanel implements UIObserver {
         private void showFormulaPane(final UITextField jTextField) {
             final UIFormula formulaPane = FormulaFactory.createFormulaPane();
             final String original = jTextField.getText();
-            formulaPane.populate(new Formula(original));
+            formulaPane.populate(BaseFormula.createFormulaBuilder().build(original));
             BasicDialog dlg = formulaPane.showLargeWindow(SwingUtilities.getWindowAncestor(TimeSwitchPane.this), new DialogActionAdapter() {
                 public void doOk() {
                     String newText = Utils.objectToString(formulaPane.update());

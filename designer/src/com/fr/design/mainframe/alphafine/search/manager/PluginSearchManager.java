@@ -96,7 +96,6 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
                 if (!httpClient.isServerAlive()) {
                     return getNoConnectList();
                 }
-                httpClient.setTimeout(5000);
                 result = httpClient.getResponseText();
                 AlphaFineHelper.checkCancel();
                 JSONObject jsonObject = new JSONObject(result);
@@ -104,18 +103,17 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
                 if (jsonArray != null) {
                     SearchResult searchResult = new SearchResult();
                     for (int i = 0; i < jsonArray.length(); i++) {
+                        AlphaFineHelper.checkCancel();
                         PluginModel cellModel = getPluginModel(jsonArray.optJSONObject(i), false);
                         if (!AlphaFineHelper.getFilterResult().contains(cellModel)) {
                             searchResult.add(cellModel);
                         }
                     }
-                    if (searchResult.size() < AlphaFineConstants.SHOW_SIZE + 1) {
+                    if (searchResult.isEmpty()) {
+                        return this.lessModelList;
+                    } else if (searchResult.size() < AlphaFineConstants.SHOW_SIZE + 1) {
                         lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer-Plugin_Addon")));
-                        if (searchResult.size() == 0) {
-                            lessModelList.add(AlphaFineHelper.NO_RESULT_MODEL);
-                        } else {
-                            lessModelList.addAll(searchResult);
-                        }
+                        lessModelList.addAll(searchResult);
                     } else {
                         lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer-Plugin_Addon"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"), true, CellType.PLUGIN));
                         lessModelList.addAll(searchResult.subList(0, AlphaFineConstants.SHOW_SIZE));

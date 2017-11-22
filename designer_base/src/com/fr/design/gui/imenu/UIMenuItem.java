@@ -37,7 +37,7 @@ public class UIMenuItem extends JMenuItem{
 		this();
 		setAction(action);
 	}
-	
+
 	@Override
 	public String getText() {
 		return StringUtils.BLANK + super.getText();

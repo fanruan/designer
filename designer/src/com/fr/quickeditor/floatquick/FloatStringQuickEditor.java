@@ -1,7 +1,7 @@
 package com.fr.quickeditor.floatquick;
 
+import com.fr.base.BaseFormula;
 import com.fr.base.BaseUtils;
-import com.fr.base.Formula;
 import com.fr.base.Style;
 import com.fr.base.TextFormat;
 import com.fr.design.constants.UIConstants;
@@ -68,10 +68,10 @@ public class FloatStringQuickEditor extends FloatQuickEditor {
         Object value = floatElement.getValue();
         if (value == null) {
             str = StringUtils.EMPTY;
-        } else if (value instanceof Formula) {
+        } else if (value instanceof BaseFormula) {
             //MoMeak: 没拆文本框和公式所以需要这么个玩意
             formulaButton.setVisible(true);
-            Formula formula = (Formula) value;
+            BaseFormula formula = (BaseFormula) value;
             str = formula.getContent();
             stringTextField.setLineWrap(false);
             this.setBorder(BorderFactory.createEmptyBorder(10, 75, 10, 10));
@@ -110,7 +110,7 @@ public class FloatStringQuickEditor extends FloatQuickEditor {
 
     protected void changeReportPaneCell(String tmpText) {
         if (tmpText != null && (tmpText.length() > 0 && tmpText.charAt(0) == '=')) {
-            Formula textFormula = new Formula(tmpText);
+            BaseFormula textFormula = BaseFormula.createFormulaBuilder().build(tmpText);
             textFormula.setReserveInResult(reserveInResult);
             textFormula.setReserveOnWriteOrAnaly(reserveOnWriteOrAnaly);
             floatElement.setValue(textFormula);

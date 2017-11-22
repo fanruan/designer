@@ -1,27 +1,31 @@
 package com.fr.design.gui.frpane;
 
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
+import com.fr.data.impl.NameTableData;
+import com.fr.data.impl.RecursionTableData;
+import com.fr.data.impl.TableDataDictionary;
+import com.fr.design.DesignModelAdapter;
 import com.fr.design.data.BasicTableDataTreePane;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.datapane.EditOrNewLabel;
 import com.fr.design.data.datapane.TableDataTreePane;
 import com.fr.design.data.datapane.TreeTableDataComboBox;
 import com.fr.design.data.datapane.preview.PreviewLabel;
-import com.fr.data.impl.NameTableData;
-import com.fr.data.impl.RecursionTableData;
-import com.fr.data.impl.TableDataDictionary;
 import com.fr.design.data.tabledata.wrapper.AbstractTableDataWrapper;
 import com.fr.design.data.tabledata.wrapper.TableDataWrapper;
 import com.fr.design.data.tabledata.wrapper.TemplateTableDataWrapper;
-import com.fr.design.DesignModelAdapter;
+import com.fr.design.dialog.BasicPane;
+import com.fr.design.editor.ValueEditorPane;
+import com.fr.design.editor.ValueEditorPaneFactory;
+import com.fr.design.editor.editor.ColumnIndexEditor;
+import com.fr.design.editor.editor.ColumnNameEditor;
+import com.fr.design.editor.editor.Editor;
+import com.fr.design.editor.editor.FormulaEditor;
+import com.fr.design.editor.editor.OldColumnIndexEditor;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.dialog.BasicPane;
-import com.fr.design.editor.ValueEditorPane;
-import com.fr.design.editor.ValueEditorPaneFactory;
-import com.fr.design.editor.editor.*;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 
@@ -163,8 +167,8 @@ public class JTreeAutoBuildPane extends BasicPane implements PreviewLabel.Previe
         Object object_text = this.textPane.update(StringUtils.EMPTY);
         if (object_text instanceof Object[]) {
             Object[] temp = (Object[]) object_text;
-            if (temp[0] instanceof Formula) {
-                tableDataDict.setFormula((Formula) temp[0]);
+            if (temp[0] instanceof BaseFormula) {
+                tableDataDict.setFormula((BaseFormula) temp[0]);
             } else {
                 tableDataDict.setValueColumnIndex(((Integer) temp[0]).intValue() - 1);
                 tableDataDict.setValueColumnName((String) temp[1]);
@@ -174,7 +178,7 @@ public class JTreeAutoBuildPane extends BasicPane implements PreviewLabel.Previe
         } else if (object_text instanceof String) {
             tableDataDict.setValueColumnName((String) object_text);
         } else {
-            tableDataDict.setFormula(((Formula) object));
+            tableDataDict.setFormula(((BaseFormula) object));
         }
 
         TableDataWrapper tableDataWrappe = this.treeTableDataComboBox.getSelectedItem();

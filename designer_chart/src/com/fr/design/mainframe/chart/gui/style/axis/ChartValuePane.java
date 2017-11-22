@@ -1,6 +1,6 @@
 package com.fr.design.mainframe.chart.gui.style.axis;
 
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.base.Utils;
 import com.fr.chart.base.ChartBaseUtils;
 import com.fr.chart.base.ChartConstants;
@@ -25,6 +25,7 @@ import com.fr.design.mainframe.chart.gui.style.ChartAxisTitleNoFormulaPane;
 import com.fr.design.mainframe.chart.gui.style.ChartAxisTitlePane;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
+import com.fr.plugin.chart.designer.component.format.FormatPaneWithOutFont;
 import com.fr.stable.Constants;
 import com.fr.stable.StringUtils;
 
@@ -74,7 +75,7 @@ public class ChartValuePane extends ChartAxisUsePane<Axis>{
         zeroPane = aliagnZero4Second();
         axisReversed = new UICheckBox(Inter.getLocText("FR-Designer_AxisReversed"));
         unitCombox = new UIComboBox(ChartConstants.UNIT_I18N_VALUES);
-        formatPane = new FormatPane();
+        formatPane = new FormatPaneWithOutFont();
         axisLabelPane = new ChartAxisLabelPane();
         dataPane = createDataDefinePane();
 
@@ -279,11 +280,11 @@ public class ChartValuePane extends ChartAxisUsePane<Axis>{
 				numberAxis.setLogBase(null);
 			} else {
 				numberAxis.setLog(true);
-				Formula formula = new Formula(increment);
+				BaseFormula formula = BaseFormula.createFormulaBuilder().build(increment);
 				Number number = ChartBaseUtils.formula2Number(formula);
 				// 界面处理防止 遇到 对数增量为小于1的值.
 				if (number != null && number.doubleValue() <= 1.0) {
-					numberAxis.setLogBase(new Formula("2"));
+					numberAxis.setLogBase(BaseFormula.createFormulaBuilder().build("2"));
 				} else {
 					numberAxis.setLogBase(formula);
 				}

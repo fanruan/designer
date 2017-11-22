@@ -1,9 +1,7 @@
 package com.fr.design.widget.ui.designer;
 
-import com.fr.base.GraphHelper;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.gui.icheckbox.UICheckBox;
-import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.form.ui.CustomWriteAbleRepeatEditor;
 import com.fr.general.Inter;
@@ -19,8 +17,6 @@ import java.awt.*;
 public abstract class CustomWritableRepeatEditorPane<T extends CustomWriteAbleRepeatEditor> extends WritableRepeatEditorPane<T> {
 
 	private UICheckBox customDataCheckBox;
-	private static final int CUSTOM_DATA_CHECK_BOX_WIDTH = GraphHelper.getLocTextWidth("Form-Allow_CustomData") + 30;
-	private static final int CUSTOM_DATA_CHECK_BOX_HEIGHT = 30;
 
 	public CustomWritableRepeatEditorPane(XCreator xCreator) {
 		super(xCreator);
@@ -29,9 +25,7 @@ public abstract class CustomWritableRepeatEditorPane<T extends CustomWriteAbleRe
 
 	public  JPanel setValidatePane(){
 		this.customDataCheckBox = new UICheckBox(Inter.getLocText("Form-Allow_CustomData"), false);
-		this.customDataCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		this.customDataCheckBox.setPreferredSize(
-				new Dimension(CUSTOM_DATA_CHECK_BOX_WIDTH, CUSTOM_DATA_CHECK_BOX_HEIGHT));
+		this.customDataCheckBox.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
 		JPanel otherContentPane = super.setValidatePane();
 		otherContentPane.add(GUICoreUtils.createFlowPane(new JComponent[]{customDataCheckBox}, FlowLayout.LEFT, 0));
 		return otherContentPane;

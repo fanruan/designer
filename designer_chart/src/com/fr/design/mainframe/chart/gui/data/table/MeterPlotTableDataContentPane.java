@@ -1,14 +1,5 @@
 package com.fr.design.mainframe.chart.gui.data.table;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.util.List;
-
-import javax.swing.JPanel;
-import javax.swing.JSeparator;
-import javax.swing.SwingConstants;
-
 import com.fr.base.Utils;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartattr.MeterPlot;
@@ -20,6 +11,11 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.ChartDataFilterPane;
 import com.fr.general.Inter;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.List;
 
 /**
  * 仪表盘, 属性表, 数据集数据界面.
@@ -27,8 +23,8 @@ import com.fr.general.Inter;
  * @version 创建时间：2012-12-21 下午04:51:50
  */
 public class MeterPlotTableDataContentPane extends AbstractTableDataContentPane {
-	private static final String METER_NAME = Inter.getLocText("Chart-Category_Use_Name") + ":";
-	private static final String METER_VALUE = Inter.getLocText("Chart-Pointer_Value") + ":";
+	private static final String METER_NAME = Inter.getLocText("Chart-Category_Use_Name");
+	private static final String METER_VALUE = Inter.getLocText("Chart-Pointer_Value");
 	
 	private UIComboBox nameBox;
 	private UIComboBox valueBox;
@@ -40,31 +36,33 @@ public class MeterPlotTableDataContentPane extends AbstractTableDataContentPane 
 		nameBox = new UIComboBox();
 		valueBox = new UIComboBox();
 		filterPane = new ChartDataFilterPane(new MeterPlot(), parent);
-		
-		nameBox.setPreferredSize(new Dimension(100, 20));
-		valueBox.setPreferredSize(new Dimension(100, 20));
 
 		double p = TableLayout.PREFERRED;
 		double f = TableLayout.FILL;
-		double[] columnSize = { p,f};
-		double[] rowSize = { p, p,p,p,p,p,p,p, p};
+		double[] columnSize = {f, COMPONENT_WIDTH};
+		double[] rowSize = {p, p};
 
         Component[][] components = createComponents();
 
-        JPanel panel = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
-        this.add(panel,BorderLayout.CENTER);
-        
+		JPanel jPanel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Chart-Data_Filter"),filterPane);
+		JPanel panel = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
+
+		filterPane.setBorder(BorderFactory.createEmptyBorder(0,10,0,15));
+		panel.setBorder(BorderFactory.createEmptyBorder(10,24,10,15));
+		jPanel.setBorder(BorderFactory.createEmptyBorder(0,12,0,5));
+
+        this.add(getJSeparator(),BorderLayout.NORTH);
+		this.add(panel,BorderLayout.CENTER);
+		this.add(jPanel,BorderLayout.SOUTH);
+
         nameBox.addItemListener(tooltipListener);
         valueBox.addItemListener(tooltipListener);
 	}
 
     private Component[][] createComponents() {
         return new Component[][]{
-                new Component[]{new BoldFontTextLabel(METER_NAME, SwingConstants.RIGHT), getNameComponent()},
-                new Component[]{new BoldFontTextLabel(METER_VALUE, SwingConstants.RIGHT), valueBox},
-                new Component[]{new JSeparator(), null},
-                new Component[]{new BoldFontTextLabel(Inter.getLocText("Chart-Data_Filter"))},
-                new Component[]{filterPane, null}
+                new Component[]{new BoldFontTextLabel(METER_NAME), getNameComponent()},
+                new Component[]{new BoldFontTextLabel(METER_VALUE), valueBox},
         };
     }
 

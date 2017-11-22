@@ -9,11 +9,7 @@ import com.fr.base.FRContext;
 import com.fr.design.actions.cell.CleanAuthorityAction;
 import com.fr.design.actions.cell.FloatStyleAction;
 import com.fr.design.actions.core.ActionFactory;
-import com.fr.design.actions.edit.CopyAction;
-import com.fr.design.actions.edit.CutAction;
-import com.fr.design.actions.edit.DeleteAction;
-import com.fr.design.actions.edit.EditFloatElementNameAction;
-import com.fr.design.actions.edit.PasteAction;
+import com.fr.design.actions.edit.*;
 import com.fr.design.actions.utils.DeprecatedActionManager;
 import com.fr.design.cell.clipboard.CellElementsClip;
 import com.fr.design.cell.clipboard.ElementsTransferable;
@@ -125,6 +121,7 @@ public class FloatSelection extends Selection {
         }
         popup.add(DeprecatedActionManager.getCellMenu(ePane).createJMenu());
         popup.add(new FloatStyleAction(ePane).createMenuItem());
+        popup.add(new HyperlinkAction().createMenuItem());
 
         // cut, copy and paste
         popup.addSeparator();

@@ -1,6 +1,13 @@
 package com.fr.grid;
 
-import com.fr.base.*;
+import com.fr.base.BaseFormula;
+import com.fr.base.BaseUtils;
+import com.fr.base.DynamicUnitList;
+import com.fr.base.FRContext;
+import com.fr.base.GraphHelper;
+import com.fr.base.Margin;
+import com.fr.base.PaperSize;
+import com.fr.base.Utils;
 import com.fr.base.background.ColorBackground;
 import com.fr.base.background.ImageBackground;
 import com.fr.design.constants.UIConstants;
@@ -41,8 +48,12 @@ import com.fr.third.antlr.ANTLRException;
 import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
 import java.awt.*;
-import java.awt.geom.*;
+import java.awt.geom.Area;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
 import java.awt.geom.Line2D.Double;
+import java.awt.geom.Path2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -768,8 +779,8 @@ public class GridUI extends ComponentUI {
 
     private void paintGridSelectionForFormula(Graphics2D g2d, ElementCase report, CellSelection cs) {
         // denny: 标记公式用到的单元格
-        if (report.getCellValue(cs.getColumn(), cs.getRow()) instanceof Formula) {
-            Formula tmpFormula = (Formula) report
+        if (report.getCellValue(cs.getColumn(), cs.getRow()) instanceof BaseFormula) {
+            BaseFormula tmpFormula = (BaseFormula) report
                     .getCellValue(cs.getColumn(), cs.getRow());
             String statement = tmpFormula.getContent();
             // denny: 获得公式中包含的所有单元格

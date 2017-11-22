@@ -172,7 +172,7 @@ public abstract class GUICoreUtils{
 	public static TitledBorder createTitledBorder(String s, Color c) {
 		UITitledBorder tb = UITitledBorder.createBorderWithTitle(s);
 		if (c == null) {
-			c = new Color(102, 153, 255);
+			c = Color.black;
 		}
 		tb.setTitleColor(c);
 		return tb;
@@ -185,7 +185,7 @@ public abstract class GUICoreUtils{
 	 * @return 同上
 	 */
 	public static TitledBorder createTitledBorder(String s) {
-		return createTitledBorder(s, new Color(102, 153, 255));
+		return createTitledBorder(s, Color.black);
 	}
 
 	/**
@@ -219,6 +219,33 @@ public abstract class GUICoreUtils{
 		}
 
 		return (UIToggleButton) object;
+	}
+
+	/**
+	 * 创建工具栏组件-反白icon
+	 * @param updateAction 更新动作
+	 * @return UIToggleButton 按钮
+	 *
+	 */
+	public static UIToggleButton createToolBarComponentWhiteIcon(UpdateAction updateAction) {
+		UIToggleButton button = new UIToggleButton((Icon[]) updateAction.getValue(Action.SMALL_ICON), true);
+		button.set4ToolbarButton();
+		Integer mnemonicInteger = (Integer) updateAction.getValue(Action.MNEMONIC_KEY);
+		if (mnemonicInteger != null) {
+			button.setMnemonic((char) mnemonicInteger.intValue());
+		}
+
+		button.addActionListener(updateAction);
+
+		button.registerKeyboardAction(updateAction, updateAction.getAccelerator(), JComponent.WHEN_IN_FOCUSED_WINDOW);
+
+		updateAction.putValue(UIToggleButton.class.getName(), button);
+		button.setText(StringUtils.EMPTY);
+		button.setEnabled(updateAction.isEnabled());
+
+		button.setToolTipText(ActionFactory.createButtonToolTipText(updateAction));
+
+		return button;
 	}
 
 	/**

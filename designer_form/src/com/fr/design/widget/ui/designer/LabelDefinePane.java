@@ -1,6 +1,7 @@
 package com.fr.design.widget.ui.designer;
 
 import com.fr.base.BaseUtils;
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
@@ -44,7 +45,10 @@ public class LabelDefinePane extends AbstractDataModify<Label> {
     public JPanel createAdvancePane() {
         formWidgetValuePane = new FormWidgetValuePane(creator.toData(), false);
         isPageSetupVertically = new UICheckBox(Inter.getLocText("FR-Designer_PageSetup-Vertically"));
+        isPageSetupVertically.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+
         isStyleAlignmentWrapText = new UICheckBox(Inter.getLocText("FR-Designer_StyleAlignment-Wrap_Text"));
+        isStyleAlignmentWrapText.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         Icon[] hAlignmentIconArray = {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_left_normal.png"),
                 BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_center_normal.png"),
                 BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_right_normal.png"),};
@@ -58,18 +62,20 @@ public class LabelDefinePane extends AbstractDataModify<Label> {
         double[] rowSize = {p, p, p, p, p, p, p};
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 3}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
+        UILabel widgetValueLabel = new UILabel(Inter.getLocText("FR-Designer-Estate_Widget_Value"));
+        widgetValueLabel.setVerticalAlignment(SwingConstants.TOP);
         UILabel fontLabel = new UILabel(Inter.getLocText("FR-Designer_Font-Size"));
         fontLabel.setVerticalAlignment(SwingConstants.TOP);
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer-Estate_Widget_Value")), formWidgetValuePane},
+                new Component[]{widgetValueLabel, formWidgetValuePane},
                 new Component[]{isStyleAlignmentWrapText, null},
                 new Component[]{isPageSetupVertically, null},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Widget_Display_Position")), hAlignmentPane},
                 new Component[]{fontLabel, frFontPane},
         };
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 20, 7);
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
         JPanel boundsPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         boundsPane.add(panel);
         return boundsPane;
     }
@@ -82,9 +88,9 @@ public class LabelDefinePane extends AbstractDataModify<Label> {
     @Override
     public void populateBean(Label ob) {
         formWidgetValuePane.populate(ob);
-        isStyleAlignmentWrapText.setSelected(ob.isAutoLine());
+        isStyleAlignmentWrapText.setSelected(ob.isWrap());
         isPageSetupVertically.setSelected(ob.isVerticalCenter());
-        hAlignmentPane.setSelectedIndex(ob.getTextalign());
+        hAlignmentPane.setSelectedItem(ob.getTextalign());
         frFontPane.populateBean(ob.getFont());
     }
 
@@ -93,9 +99,9 @@ public class LabelDefinePane extends AbstractDataModify<Label> {
     public Label updateBean() {
         Label layout = (Label) creator.toData();
         formWidgetValuePane.update(layout);
-        layout.setAutoLine(isStyleAlignmentWrapText.isSelected());
+        layout.setWrap(isStyleAlignmentWrapText.isSelected());
         layout.setVerticalCenter(isPageSetupVertically.isSelected());
-        layout.setTextalign(hAlignmentPane.getSelectedIndex());
+        layout.setTextalign((int) hAlignmentPane.getSelectedItem());
         layout.setFont(frFontPane.update(layout.getFont()));
         return layout;
     }

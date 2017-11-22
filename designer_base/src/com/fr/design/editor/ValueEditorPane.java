@@ -1,20 +1,22 @@
 package com.fr.design.editor;
 
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.dialog.BasicPane;
+import com.fr.design.editor.editor.ColumnNameEditor;
+import com.fr.design.editor.editor.Editor;
+import com.fr.design.editor.editor.FormulaEditor;
+import com.fr.design.editor.editor.TextEditor;
+import com.fr.design.editor.editor.XMLANameEditor;
 import com.fr.design.event.GlobalNameListener;
 import com.fr.design.event.GlobalNameObserver;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.gui.imenu.UIMenuItem;
+import com.fr.design.gui.imenu.UIMenuEastAttrItem;
+import com.fr.design.gui.imenu.UIPopupEastAttrMenu;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.dialog.BasicPane;
-import com.fr.design.editor.editor.ColumnNameEditor;
-import com.fr.design.editor.editor.Editor;
-import com.fr.design.editor.editor.TextEditor;
-import com.fr.design.editor.editor.XMLANameEditor;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
@@ -139,14 +141,14 @@ public class ValueEditorPane extends BasicPane implements UIObserver, GlobalName
 
 
     private JPopupMenu createPopMenu() {
-        JPopupMenu scate = new JPopupMenu();
+        JPopupMenu scate = new UIPopupEastAttrMenu();
 
         if (this.cards == null) {
             return scate;
         }
 
         for (int i = 0; i < this.cards.length; i++) {
-            UIMenuItem item = new UIMenuItem(cards[i].getName());
+            JMenuItem item = new UIMenuEastAttrItem(cards[i].getName());
             final int j = i;
             item.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
@@ -165,9 +167,6 @@ public class ValueEditorPane extends BasicPane implements UIObserver, GlobalName
                 }
             });
             scate.add(item);
-            if (i < cards.length - 1) {
-                scate.addSeparator();
-            }
         }
         return scate;
     }
@@ -207,9 +206,10 @@ public class ValueEditorPane extends BasicPane implements UIObserver, GlobalName
         String name = currentEditor.getName();
         Object columnIndex = currentEditor.getValue();
         //bug86542,这边为啥要new一个公式出来，只保留content,其他属性全不要了?
-//        if (ComparatorUtils.equals(name, Inter.getLocText("Formula"))) {
-//            columnIndex = new Formula(columnIndex == null ? "" : columnIndex.toString());
-//        }
+        //MoMeak：我也想注释了，但是有bug啊。。。
+        if (columnIndex == null && ComparatorUtils.equals(name, Inter.getLocText("Formula"))) {
+            columnIndex = ((FormulaEditor) currentEditor).getFormula();
+        }
 
         return columnIndex;
     }
@@ -220,7 +220,7 @@ public class ValueEditorPane extends BasicPane implements UIObserver, GlobalName
         Object columnName = StringUtils.EMPTY;
 
         if (ComparatorUtils.equals(name, Inter.getLocText("FR-Designer_Formula"))) {
-            columnIndex = new Formula(columnIndex == null ? "" : columnIndex.toString());
+            columnIndex = BaseFormula.createFormulaBuilder().build(columnIndex == null ? "" : columnIndex.toString());
         }
 
         if (currentEditor instanceof ColumnNameEditor) {
@@ -236,7 +236,7 @@ public class ValueEditorPane extends BasicPane implements UIObserver, GlobalName
         Object columnName = StringUtils.EMPTY;
 
         if (ComparatorUtils.equals(name, Inter.getLocText("FR-Designer_Formula"))) {
-            columnIndex = new Formula(columnIndex == null ? "" : columnIndex.toString());
+            columnIndex = BaseFormula.createFormulaBuilder().build(columnIndex == null ? "" : columnIndex.toString());
         }
 
         if (isXMLA) {
@@ -288,17 +288,16 @@ public class ValueEditorPane extends BasicPane implements UIObserver, GlobalName
                     if (returnValue == JOptionPane.OK_OPTION) {
 
                         setCurrentEditor(j);
-                        Formula formula = new Formula(string);
+                        BaseFormula formula = BaseFormula.createFormulaBuilder().build(string);
                         currentEditor.setValue(formula);
                     }
                 } else {
                     setCurrentEditor(j);
-                    Formula formula = new Formula(string);
+                    BaseFormula formula = BaseFormula.createFormulaBuilder().build(string);
                     currentEditor.setValue(formula);
                 }
             }
         }
-
     }
 
     private boolean isFormula(String string) {

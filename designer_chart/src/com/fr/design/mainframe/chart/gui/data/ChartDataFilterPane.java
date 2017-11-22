@@ -2,18 +2,19 @@ package com.fr.design.mainframe.chart.gui.data;
 
 import com.fr.base.Utils;
 import com.fr.base.chart.chartdata.TopDefinitionProvider;
-import com.fr.chart.chartdata.TopDefinition;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartattr.Plot;
+import com.fr.chart.chartdata.TopDefinition;
 import com.fr.design.gui.frpane.AbstractAttrNoScrollPane;
 import com.fr.design.gui.icheckbox.UICheckBox;
-import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.layout.TableLayout;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.style.AbstractChartTabPane;
 import com.fr.design.mainframe.chart.gui.style.ThirdTabPane;
 import com.fr.general.Inter;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
@@ -31,8 +32,8 @@ import java.util.List;
  */
 public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
     private static final long serialVersionUID = 3650522989381790194L;
-    private static final int PAN_WIDTH = 210;
-    private static final int FIL_HEIGHT = 130;
+    private static final int PAN_WIDTH = 246;
+    private static final int FIL_HEIGHT = 150;
 
     private CategoryFilterPane categoryPane;
     private SeriesFilterPane seriesPane;
@@ -43,6 +44,26 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
     public ChartDataFilterPane(Plot plot, ChartDataPane parent) {
         super(plot, parent);
         this.isNeedPresent = true;
+    }
+
+    protected void initTabPane() {
+        super.initTabPane();
+        tabPane.setPreferredSize(new Dimension(221, 25));
+
+    }
+
+    protected void initLayout() {
+        this.setLayout(new BorderLayout());
+        if (!paneList.isEmpty()) {
+            JPanel pane = new JPanel(new FlowLayout(FlowLayout.LEADING, 0, 0));
+            if (nameArray.length > 1) {
+                pane.add(tabPane);
+                this.add(pane, BorderLayout.NORTH);
+                centerPane.setBorder(BorderFactory.createEmptyBorder(10,0,0,0));
+            }
+            centerPane.setBorder(null);
+        }
+        this.add(centerPane, BorderLayout.CENTER);
     }
 
 
@@ -99,6 +120,8 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
         this.removeAll();
         paneList = initPaneList4NoPresent(plot4Pane, parentPane);
         initAllPane();
+        tabPane.setPreferredSize(new Dimension(221, 25));
+        centerPane.setPreferredSize(new Dimension(getContentPaneWidth(), 200));
         this.validate();
     }
 
@@ -160,9 +183,23 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
         private PresentComboBox present;
         private AbstractAttrNoScrollPane parent;
 
+
+        private JPanel preDataNumPane;
+        private JPanel presentPane;
+
         public CategoryFilterPane(AbstractAttrNoScrollPane parent) {
             super(true);
             this.parent = parent;
+        }
+
+        protected void layoutContentPane() {
+            super.layoutContentPane();
+            leftcontentPane.setBorder(BorderFactory.createEmptyBorder());
+        }
+
+        public void reloaPane(JPanel pane){
+            super.reloaPane(pane);
+            leftcontentPane.setBorder(BorderFactory.createEmptyBorder());
         }
 
         @Override
@@ -175,58 +212,60 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
         @Override
         protected JPanel createContentPane() {
             this.setLayout(new BorderLayout());
-            JPanel pane = new JPanel();
+            JPanel pane = initOtherPane();
             this.add(pane, BorderLayout.NORTH);
-            pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
-            pane.setPreferredSize(new Dimension(200, 110));
-            initOtherPane(pane);
-            initPresentPane(pane);
             return pane;
         }
 
-        protected void initOtherPane(JPanel pane) {
-            JPanel prePane = new JPanel();
-            prePane.setLayout(new FlowLayout(FlowLayout.LEFT));
-            prePane.setPreferredSize(new Dimension(200, 20));
-            pane.add(prePane);
-            onlyPreData = new UICheckBox(Inter.getLocText("FR-Chart-Data_OnlyUseBefore"));
+        protected JPanel initOtherPane() {
+            onlyPreData = new UICheckBox(Inter.getLocText("Plugin-ChartF_OnlyUseBeforeRecords"));
+            JPanel panel1 = new JPanel(new BorderLayout());
+            JPanel panel2 = new JPanel(new BorderLayout());
+            panel1.add(onlyPreData, BorderLayout.NORTH);
             preDataNum = new UITextField();
-            preDataNum.setPreferredSize(new Dimension(50, 20));
-            prePane.add(onlyPreData);
-            prePane.add(preDataNum);
-            prePane.add(new BoldFontTextLabel(Inter.getLocText("FR-Chart-Data_Records")));
-            JPanel otherPane = new JPanel();
-            otherPane.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 0));
-            pane.add(otherPane);
+            UILabel label = new UILabel(Inter.getLocText("Plugin-ChartF_RecordsNum"));
             combineOther = new UICheckBox(Inter.getLocText("FR-Chart-Data_CombineOther"));
             combineOther.setSelected(true);
-            otherPane.add(combineOther);
-            JPanel catePane = new JPanel();
-            pane.add(catePane);
-            catePane.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
+            double p = TableLayout.PREFERRED;
+            double f = TableLayout.FILL;
+            double[] columnSize = {p,f};
+            double[] rowSize = {p, p};
+            Component[][] components = new Component[][]{
+                    new Component[]{label,preDataNum},
+                    new Component[]{combineOther,null}
+            };
+
+            preDataNumPane = TableLayout4VanChartHelper.createGapTableLayoutPane(components, rowSize, columnSize);
+            preDataNumPane.setBorder(BorderFactory.createEmptyBorder(10,15,0,0));
+            //默认不显示
+            preDataNumPane.setVisible(false);
+            panel1.add(preDataNumPane, BorderLayout.CENTER);
             notShowNull = new UICheckBox(Inter.getLocText("FR-Chart-Data_NotShowCate"));
-            catePane.add(notShowNull);
+            panel2.add(notShowNull, BorderLayout.NORTH);
 
             onlyPreData.addChangeListener(new ChangeListener() {
                 public void stateChanged(ChangeEvent e) {
                     checkBoxUse();
                 }
             });
-        }
 
-        private void initPresentPane(JPanel pane) {
-            JPanel presentPane = new JPanel();
-            presentPane.setLayout(new FlowLayout(FlowLayout.LEFT, 8, 0));
-            pane.add(presentPane);
             present = new PresentComboBox() {
                 protected void fireChange() {
                     fire();
                 }
             };
-            present.setPreferredSize(new Dimension(70, 20));
-            presentPane.add(new BoldFontTextLabel(Inter.getLocText("FR-Chart-Style_Present") + ":"));
-            presentPane.add(present);
+            presentPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("FR-Chart-Style_Present") ,present);
+            panel2.add(presentPane, BorderLayout.SOUTH);
+
+            double[] column = {f};
+            double[] row = {p, p};
+            Component[][] coms = new Component[][]{
+                    new Component[]{panel1},
+                    new Component[]{panel2}
+            };
+            return TableLayout4VanChartHelper.createGapTableLayoutPane(coms, row,column);
         }
+
 
         private void fire() {
             if (this.parent != null) {
@@ -245,9 +284,7 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
          * 检查分类过滤界面 Box是否可用.
          */
         public void checkBoxUse() {
-            preDataNum.setEnabled(onlyPreData.isSelected());
-            combineOther.setEnabled(onlyPreData.isSelected());
-            ;
+            preDataNumPane.setVisible(onlyPreData.isSelected());
         }
 
         /**
@@ -320,6 +357,9 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
 
         private AbstractAttrNoScrollPane parent;
 
+        private JPanel preDataNumPane;
+        private JPanel presentPane;
+
         public SeriesFilterPane(AbstractAttrNoScrollPane parent) {
             super(true);
             this.parent = parent;
@@ -332,64 +372,75 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
             return dim;
         }
 
+
+        protected void layoutContentPane() {
+            super.layoutContentPane();
+            leftcontentPane.setBorder(BorderFactory.createEmptyBorder());
+        }
+
+        public void reloaPane(JPanel pane){
+            super.reloaPane(pane);
+            leftcontentPane.setBorder(BorderFactory.createEmptyBorder());
+        }
+
         @Override
         protected JPanel createContentPane() {
             this.setLayout(new BorderLayout());
-            JPanel pane = new JPanel();
+            JPanel pane = initOtherPane();
             this.add(pane, BorderLayout.NORTH);
-            pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
-            pane.setPreferredSize(new Dimension(200, 110));
-            initOtherPane(pane);
-            initPresentPane(pane);
             return pane;
         }
 
 
-        protected void initOtherPane(JPanel pane) {
-            JPanel prePane = new JPanel();
-            prePane.setLayout(new FlowLayout(FlowLayout.LEFT));
-            prePane.setPreferredSize(new Dimension(200, 20));
-            pane.add(prePane);
-            onlyPreData = new UICheckBox(Inter.getLocText("FR-Chart-Data_OnlyUseBefore"));
+        protected JPanel initOtherPane() {
+            onlyPreData = new UICheckBox(Inter.getLocText("Plugin-ChartF_OnlyUseBeforeRecords"));
+            JPanel panel1 = new JPanel(new BorderLayout());
+            JPanel panel2 = new JPanel(new BorderLayout());
+            panel1.add(onlyPreData, BorderLayout.NORTH);
             preDataNum = new UITextField();
-            preDataNum.setPreferredSize(new Dimension(50, 20));
-            prePane.add(onlyPreData);
-            prePane.add(preDataNum);
-            prePane.add(new UILabel(Inter.getLocText("FR-Chart-Data_Records")));
-            JPanel otherPane = new JPanel();
-            otherPane.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 0));
-            pane.add(otherPane);
-
+            UILabel label = new UILabel(Inter.getLocText("Plugin-ChartF_RecordsNum"));
             combineOther = new UICheckBox(Inter.getLocText("FR-Chart-Data_CombineOther"));
             combineOther.setSelected(true);
-            otherPane.add(combineOther);
-            JPanel catePane = new JPanel();
-            pane.add(catePane);
+            double p = TableLayout.PREFERRED;
+            double f = TableLayout.FILL;
+            double[] columnSize = {p,f};
+            double[] rowSize = {p, p};
+            Component[][] components = new Component[][]{
+                    new Component[]{label,preDataNum},
+                    new Component[]{combineOther,null}
+            };
 
-            catePane.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
+            preDataNumPane = TableLayout4VanChartHelper.createGapTableLayoutPane(components, rowSize, columnSize);
+            preDataNumPane.setBorder(BorderFactory.createEmptyBorder(10,15,0,0));
+            //默认不显示
+            preDataNumPane.setVisible(false);
+            panel1.add(preDataNumPane, BorderLayout.CENTER);
             notShowNull = new UICheckBox(Inter.getLocText("FR-Chart-Data_NotShowSeries"));
-            catePane.add(notShowNull);
+            panel2.add(notShowNull, BorderLayout.NORTH);
 
             onlyPreData.addChangeListener(new ChangeListener() {
                 public void stateChanged(ChangeEvent e) {
                     checkBoxUse();
                 }
             });
-        }
 
-        private void initPresentPane(JPanel pane) {
-            JPanel presentPane = new JPanel();
-            presentPane.setLayout(new FlowLayout(FlowLayout.LEFT, 8, 0));
-            pane.add(presentPane);
             present = new PresentComboBox() {
                 protected void fireChange() {
                     fire();
                 }
             };
-            present.setPreferredSize(new Dimension(70, 20));
-            presentPane.add(new BoldFontTextLabel(Inter.getLocText("FR-Chart-Style_Present") + ":"));
-            presentPane.add(present);
+            presentPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("FR-Chart-Style_Present") ,present);
+            panel2.add(presentPane, BorderLayout.SOUTH);
+
+            double[] column = {f};
+            double[] row = {p, p};
+            Component[][] coms = new Component[][]{
+                    new Component[]{panel1},
+                    new Component[]{panel2}
+            };
+            return TableLayout4VanChartHelper.createGapTableLayoutPane(coms, row,column);
         }
+
 
         private void fire() {
             if (this.parent != null) {
@@ -409,8 +460,7 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
          * 检查Box是否可用
          */
         public void checkBoxUse() {
-            preDataNum.setEnabled(onlyPreData.isSelected());
-            combineOther.setEnabled(onlyPreData.isSelected());
+            preDataNumPane.setVisible(onlyPreData.isSelected());
         }
 
         /**
@@ -480,11 +530,8 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
         @Override
         protected JPanel createContentPane() {
             this.setLayout(new BorderLayout());
-            JPanel pane = new JPanel();
+            JPanel pane = new JPanel(new BorderLayout());
             this.add(pane, BorderLayout.NORTH);
-            pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
-            pane.setPreferredSize(new Dimension(200, 110));
-            initOtherPane(pane);
             return pane;
         }
 
@@ -516,11 +563,8 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
         @Override
         protected JPanel createContentPane() {
             this.setLayout(new BorderLayout());
-            JPanel pane = new JPanel();
+            JPanel pane = initOtherPane();
             this.add(pane, BorderLayout.NORTH);
-            pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
-            pane.setPreferredSize(new Dimension(200, 110));
-            initOtherPane(pane);
             return pane;
         }
 

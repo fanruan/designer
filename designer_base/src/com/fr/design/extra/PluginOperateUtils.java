@@ -1,7 +1,14 @@
 package com.fr.design.extra;
 
+import com.fr.base.ConfigManager;
 import com.fr.base.FRContext;
-import com.fr.design.extra.exe.callback.*;
+import com.fr.design.extra.exe.callback.InstallFromDiskCallback;
+import com.fr.design.extra.exe.callback.InstallOnlineCallback;
+import com.fr.design.extra.exe.callback.JSCallback;
+import com.fr.design.extra.exe.callback.ModifyStatusCallback;
+import com.fr.design.extra.exe.callback.UninstallPluginCallback;
+import com.fr.design.extra.exe.callback.UpdateFromDiskCallback;
+import com.fr.design.extra.exe.callback.UpdateOnlineCallback;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
@@ -12,8 +19,6 @@ import com.fr.json.JSONObject;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.context.PluginMarker;
 import com.fr.plugin.manage.PluginManager;
-import com.fr.plugin.manage.bbs.BBSPluginLogin;
-import com.fr.plugin.manage.bbs.BBSUserInfo;
 import com.fr.plugin.manage.control.PluginControllerHelper;
 import com.fr.plugin.manage.control.PluginTask;
 import com.fr.plugin.manage.control.PluginTaskCallback;
@@ -21,7 +26,8 @@ import com.fr.plugin.manage.control.PluginTaskResult;
 import com.fr.plugin.view.PluginView;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import java.io.File;
 import java.util.List;
 
@@ -82,17 +88,17 @@ public class PluginOperateUtils {
     }
 
     public static void uninstallPlugin(final String pluginInfo, final boolean isForce, final JSCallback jsCallback) {
-    
+
         SwingUtilities.invokeLater(new Runnable() {
-    
+
             @Override
             public void run() {
                 int rv = JOptionPane.showConfirmDialog(
-                    null,
-                    Inter.getLocText("FR-Plugin_Delete_Confirmed"),
-                    Inter.getLocText("FR-Designer-Plugin_Warning"),
-                    JOptionPane.OK_CANCEL_OPTION,
-                    JOptionPane.INFORMATION_MESSAGE
+                        null,
+                        Inter.getLocText("FR-Plugin_Delete_Confirmed"),
+                        Inter.getLocText("FR-Designer-Plugin_Warning"),
+                        JOptionPane.OK_CANCEL_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE
                 );
                 if (rv == JOptionPane.OK_OPTION) {
                     PluginMarker pluginMarker = PluginUtils.createPluginMarker(pluginInfo);
@@ -102,107 +108,25 @@ public class PluginOperateUtils {
         });
     }
 
-    public static void readUpdateOnline(final JSCallback jsCallback) {
-    
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    List<PluginView> plugins = PluginsReaderFromStore.readPluginsForUpdate();
-                    JSONArray jsonArray = new JSONArray();
-                    for (PluginView plugin : plugins) {
-                        JSONObject jsonObject = new JSONObject();
-                        jsonObject.put("pluginid", plugin.getID());
-                        jsonArray.put(jsonObject);
-                    }
-                    String result = jsonArray.toString();
-                    jsCallback.execute(result);
-                } catch (Exception e) {
-                    FRLogger.getLogger().error(e.getMessage());
-                }
-            }
-        }).start();
-
-
-    }
-
-    public static void searchPlugin(final String keyword, final JSCallback jsCallback) {
-    
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    if (StringUtils.isBlank(keyword)) {
-                        getRecommendPlugins(jsCallback);
-                        return;
-                    }
-                    HttpClient httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("shop.plugin.store") + "&keyword=" + keyword);
-                    httpClient.asGet();
-                    String result = httpClient.getResponseText();
-                    JSONObject jsonObject = new JSONObject(result);
-                    JSONArray jsonArray = jsonObject.getJSONArray("result");
-                    jsCallback.execute(jsonArray.toString());
-                } catch (Exception e) {
-                    FRLogger.getLogger().error(e.getMessage());
-                }
-            }
-        }).start();
-
-    }
-
-    public static void getPluginFromStore(final String category, final String seller, final String fee, final JSCallback jsCallback) {
-    
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String plistUrl = SiteCenter.getInstance().acquireUrlByKind("shop.plugin.plist") + "?";
-                boolean getRecommend = StringUtils.isEmpty(category) && StringUtils.isEmpty(seller) && StringUtils.isEmpty(fee);
-                if (getRecommend) {
-                    getRecommendPlugins(jsCallback);
-                    return;
-                }
-
-                if (StringUtils.isNotBlank(plistUrl)) {
-                    StringBuilder url = new StringBuilder();
-                    url.append(plistUrl);
-                    dealParams(url, category, seller, fee);
-                    try {
-                        HttpClient httpClient = new HttpClient(url.toString());
-                        httpClient.asGet();
-                        String result = httpClient.getResponseText();
-                        JSONObject resultJSONObject = new JSONObject(result);
-                        JSONArray resultArr = resultJSONObject.getJSONArray("result");
-                        jsCallback.execute(resultArr.toString());
-                    } catch (Exception e) {
-                        FRLogger.getLogger().error(e.getMessage());
-                    }
-                } else {
-                    String result = PluginConstants.CONNECTION_404;
-                    jsCallback.execute(result);
-                }
-            }
-        
-        }).start();
-
-    }
-
-    public static void getRecommendPlugins(JSCallback jsCallback) {
+    public static String getRecommendPlugins() {
         String plistUrl = SiteCenter.getInstance().acquireUrlByKind("shop.plugin.feature");
+        JSONArray resultArray = JSONArray.create();
         try {
-            HttpClient httpClient = new HttpClient(plistUrl.toString());
+            HttpClient httpClient = new HttpClient(plistUrl);
             String result = httpClient.getResponseText();
-            jsCallback.execute(result);
+            JSONArray jsonArray = new JSONArray(result);
+            resultArray = PluginUtils.filterPluginsFromVersion(jsonArray);
         } catch (Exception e) {
             FRLogger.getLogger().error(e.getMessage());
         }
-
+        return resultArray.toString();
     }
 
     public static void dealParams(StringBuilder url, String category, String seller, String fee) {
         if (StringUtils.isNotBlank(category)) {
             url.append("cid=").append(category.split("-")[1]);
         } else {
-            url.append("cid=").append("");
+            url.append("cid=").append(StringUtils.EMPTY);
         }
         if (StringUtils.isNotBlank(seller)) {
             switch (seller.split("-")[1]) {
@@ -213,7 +137,7 @@ public class PluginOperateUtils {
                     url.append("&seller=").append(2);
                     break;
                 default:
-                    url.append("&seller=").append("");
+                    url.append("&seller=").append(StringUtils.EMPTY);
             }
         }
         if (StringUtils.isNotBlank(fee)) {
@@ -225,50 +149,19 @@ public class PluginOperateUtils {
                     url.append("&fee=").append(2);
                     break;
                 default:
-                    url.append("&fee=").append("");
+                    url.append("&fee=").append(StringUtils.EMPTY);
             }
         }
     }
 
-    public static void getPluginCategories(final JSCallback jsCallback) {
-    
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String result;
-                String url = SiteCenter.getInstance().acquireUrlByKind("shop.plugin.category");
-                if (url != null) {
-                    HttpClient httpClient = new HttpClient(url);
-                    result = httpClient.getResponseText();
-                } else {
-                    result = PluginConstants.CONNECTION_404;
-                }
-                jsCallback.execute(result);
-            }
-        }).start();
-    }
-
-    public static void getPluginPrefix(final JSCallback jsCallback) {
-    
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String result = SiteCenter.getInstance().acquireUrlByKind("plugin.url.prefix");
-                jsCallback.execute(result);
-            }
-        }).start();
-    }
-
     public static void getLoginInfo(JSCallback jsCallback, UILabel uiLabel) {
-        BBSUserInfo bbsUserInfo = BBSPluginLogin.getInstance().getUserInfo();
-        String username = bbsUserInfo == null ? "" : bbsUserInfo.getUserName();
-
+        String username = ConfigManager.getProviderInstance().getBbsUsername();
         if (StringUtils.isEmpty(username)) {
-            jsCallback.execute("");
+            jsCallback.execute(StringUtils.EMPTY);
             uiLabel.setText(Inter.getLocText("FR-Base_UnSignIn"));
         } else {
             uiLabel.setText(username);
-            String result =  username;
+            String result = username;
             jsCallback.execute(result);
         }
     }
@@ -284,23 +177,24 @@ public class PluginOperateUtils {
         StringBuilder pluginInfo = new StringBuilder();
         List<PluginTaskResult> pluginTaskResults = result.asList();
         for (PluginTaskResult pluginTaskResult : pluginTaskResults) {
-            if(pluginInfo.length() != 0){
+            if (pluginInfo.length() != 0) {
                 pluginInfo.append("\n");
             }
             PluginTask pluginTask = pluginTaskResult.getCurrentTask();
-            if(pluginTask == null){
+            if (pluginTask == null) {
                 pluginInfo.append(PluginUtils.getMessageByErrorCode(pluginTaskResult.errorCode()));
                 continue;
             }
-            PluginMarker pluginMarker = pluginTask.getMarker();
+            PluginMarker pluginMarker = pluginTask.getToMarker();
             PluginContext pluginContext = PluginManager.getContext(pluginMarker);
             if (pluginContext != null) {
                 pluginInfo.append(pluginContext.getName()).append(PluginUtils.getMessageByErrorCode(pluginTaskResult.errorCode()));
-            }else{
+            } else {
                 pluginInfo.append(pluginMarker.getPluginID()).append(PluginUtils.getMessageByErrorCode(pluginTaskResult.errorCode()));
             }
         }
         return pluginInfo.toString();
     }
+
 
 }

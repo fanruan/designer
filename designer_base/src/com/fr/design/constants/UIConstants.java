@@ -17,11 +17,24 @@ import java.awt.image.BufferedImage;
  */
 public interface UIConstants {
 
-
+    public static final Icon CPT_ICON = BaseUtils.readIcon("/com/fr/base/images/oem/cpt.png");
     public static final Icon BLACK_ICON = BaseUtils.readIcon("/com/fr/base/images/cell/blank.gif");
-    public static final Border CELL_ATTR_ZEROBORDER = BorderFactory.createEmptyBorder(0 ,0, 0, 0);
-    public static final Border CELL_ATTR_EMPTYBORDER = BorderFactory.createEmptyBorder(0 ,10, 0, 0);
-    public static final Border CELL_ATTR_NORMALBORDER =  BorderFactory.createEmptyBorder(0 ,10, 0, 15);
+
+    public static final Image APPFIT_V0 = BaseUtils.readImage("/com/fr/design/images/dialog/appfit/V0.png");
+    public static final Image APPFIT_V1 = BaseUtils.readImage("/com/fr/design/images/dialog/appfit/V1.png");
+    public static final Image APPFIT_V2 = BaseUtils.readImage("/com/fr/design/images/dialog/appfit/V2.png");
+    public static final Image APPFIT_V3 = BaseUtils.readImage("/com/fr/design/images/dialog/appfit/V3.png");
+    public static final Image APPFIT_V4 = BaseUtils.readImage("/com/fr/design/images/dialog/appfit/V4.png");
+    public static final Image APPFIT_H0 = BaseUtils.readImage("/com/fr/design/images/dialog/appfit/H0.png");
+    public static final Image APPFIT_H1 = BaseUtils.readImage("/com/fr/design/images/dialog/appfit/H1.png");
+    public static final Image APPFIT_H2 = BaseUtils.readImage("/com/fr/design/images/dialog/appfit/H2.png");
+    public static final Image APPFIT_H3 = BaseUtils.readImage("/com/fr/design/images/dialog/appfit/H3.png");
+    public static final Image APPFIT_H4 = BaseUtils.readImage("/com/fr/design/images/dialog/appfit/H4.png");
+
+    public static final Border CELL_ATTR_ZEROBORDER = BorderFactory.createEmptyBorder(0, 0, 0, 0);
+    public static final Border CELL_ATTR_EMPTYBORDER = BorderFactory.createEmptyBorder(0, 10, 0, 0);
+    public static final Border CELL_ATTR_PRESENTBORDER = BorderFactory.createEmptyBorder(0, 5, 0, 0);
+    public static final Border CELL_ATTR_NORMALBORDER = BorderFactory.createEmptyBorder(0, 10, 0, 15);
 
 
     public static final int SIZE = 17;
@@ -62,14 +75,18 @@ public interface UIConstants {
             Constants.LINE_MEDIUM_DASH_DOT_DOT, //medium dash-dot-dot border
             Constants.LINE_SLANTED_DASH_DOT, //slanted dash-dot border
     };
+    public static final Color TOOLBAR_BORDER_COLOR = new Color(0xD9DADD);
+    public static final Color COMBOBOX_BTN_NORMAL = new Color(0xD9DADD);
+    public static final Color COMBOBOX_BTN_ROLLOVER = new Color(0xC8C9CD);
+    public static final Color COMBOBOX_BTN_PRESS = new Color(0xD8F2FD);
     public static final Color LINE_COLOR = new Color(153, 153, 153);
     public static final Color FONT_COLOR = new Color(51, 51, 51);
     public static final Color LIGHT_BLUE = new Color(182, 217, 253);
     public static final Color SKY_BLUE = new Color(164, 192, 220);
     public static final Color OCEAN_BLUE = new Color(141, 179, 217);
     public static final Color DARK_BLUE = new Color(0, 88, 144);
-    public static final Color NORMAL_BACKGROUND = new Color(212, 212, 216);
-    public static final Color TREE_BACKGROUND = new Color(240, 240, 243);
+    public static final Color NORMAL_BACKGROUND = new Color(0xe0e0e3);
+    public static final Color TREE_BACKGROUND = new Color(245, 245, 247);
     public static final Color TOOL_PANE_BACKGROUND = new Color(232, 232, 223);
     public static final Color SELECT_TAB = new Color(245, 245, 247);
     public static final Color TOOLBARUI_BACKGROUND = new Color(255, 255, 255);
@@ -91,21 +108,42 @@ public interface UIConstants {
     public static final Color NORMAL_BLUE = new Color(0x419BF9);
     public static final Color ATTRIBUTE_NORMAL = Color.WHITE;
     public static final Color ATTRIBUTE_HOVER = new Color(0xF5F5F7);
+    public static final Color UI_TOOLBAR_COLOR = new Color(0xF5F5F7);
+    public static final Color DIALOG_TITLEBAR_BACKGROUND = new Color(0xFCFCFD);
     public static final Color CHECKBOX_HOVER_SELECTED = new Color(0x3394f0);
     public static final Color TEXT_FILED_BORDER_SELECTED = new Color(0x3384f0);
     public static final Color SHEET_NORMAL = new Color(0xc8c8ca);
     public static final Color SELECTED_BACKGROUND = new Color(0xdeedfe);
     public static final Color SELECTED_BORDER_LINE_COLOR = new Color(0x3384f0);
     public static final Color DEFAULT_BG_RULER = new Color(0xffffff);
-    public static final Color RULER_LINE_COLOR = new Color(0xababab);
+    public static final Color RULER_LINE_COLOR = new Color(0xD9DADD);
     public static final Color RULER_SCALE_COLOR = new Color(0x4e504f);
-    public static final Color PROPERTY_PANE_BACKGROUND = new Color(0xdadadd);
+    public static final Color PROPERTY_PANE_BACKGROUND = new Color(0xe8e8e9);
     public static final Color SPLIT_LINE = new Color(201, 198, 184);
-    public static final Color TITLED_BORDER_COLOR = new Color(0xededee);
+    public static final Color TITLED_BORDER_COLOR = new Color(0xe8e8e9);
+    public static final Color GRID_ROW_DETAILS_BACKGROUND = new Color(0xe8e8e9);
+    public static final Color GRID_COLUMN_DETAILS_BACKGROUND = GRID_ROW_DETAILS_BACKGROUND;
+    public static final Color TEMPLATE_TAB_PANE_BACKGROUND = NORMAL_BACKGROUND;
+    public static final Color LOG_MESSAGE_BAR_BACKGROUND = TEMPLATE_TAB_PANE_BACKGROUND;
+    public static final Color UI_MENU_BACKGOURND = LOG_MESSAGE_BAR_BACKGROUND;
     public static final Color POP_DIALOG_BORDER = new Color(218, 218, 221);
+    public static final Color PROPERTY_DIALOG_BORDER = new Color(0xc9c9cd);
+    public static final Color TAB_BUTTON_HOVER = new Color(248, 248, 248);
+    public static final Color TAB_BUTTON_HOVER_SELECTED = new Color(239, 239, 241);
+    public static final Color TAB_BUTTON_PRESS = new Color(228, 227, 232);
+    public static final Color TAB_BUTTON_PRESS_SELECTED = new Color(236, 236, 238);
+    public static final Color POPUP_TITLE_BACKGROUND = new Color(0xd8f2fd);
+    public static final Color LIST_ITEM_SPLIT_LINE = new Color(0xf0f0f3);
+
 
 
     public static final BufferedImage DRAG_BAR = BaseUtils.readImage("com/fr/design/images/control/bar.png");
+    public static final BufferedImage DRAG_BAR_LIGHT = BaseUtils.readImage("com/fr/design/images/control/bar-light.png");
+    public static final BufferedImage ARROW_NORTH = BaseUtils.readImage("com/fr/design/images/control/up_arrow.png");
+    public static final BufferedImage ARROW_SOUTH = BaseUtils.readImage("com/fr/design/images/control/down_arrow.png");
+    public static final BufferedImage ARROW_EAST = BaseUtils.readImage("com/fr/design/images/control/east_arrow.png");
+    public static final BufferedImage ARROW_WEST = BaseUtils.readImage("com/fr/design/images/control/west_arrow.png");
+
     public static final BufferedImage DRAG_BAR_RIGHT = BaseUtils.readImage("com/fr/design/images/control/barm.png");
     public static final BufferedImage DRAG_BAR_LEFT = BaseUtils.readImage("com/fr/design/images/control/barl.png");
     public static final BufferedImage DRAG_UP_NORMAL = BaseUtils.readImage("com/fr/design/images/control/upnor.png");
@@ -117,6 +155,8 @@ public interface UIConstants {
     public static final BufferedImage DRAG_LEFT_NORMAL = BaseUtils.readImage("com/fr/design/images/control/leftnor.png");
     public static final BufferedImage DRAG_LEFT_PRESS = BaseUtils.readImage("com/fr/design/images/control/leftpre.png");
     public static final BufferedImage DRAG_DOT = BaseUtils.readImage("com/fr/design/images/control/dot.png");
+    public static final BufferedImage DRAG_LINE = BaseUtils.readImage("com/fr/design/images/control/dot-line.png");
+    public static final BufferedImage ACCESSIBLE_EDITOR_DOT = BaseUtils.readImage("com/fr/design/images/control/dot.png");
     public static final BufferedImage DRAG_DOT_VERTICAL = BaseUtils.readImage("com/fr/design/images/control/dotv.png");
     public static final BufferedImage POP_BUTTON_DOWN = BaseUtils.readImage("com/fr/design/images/buttonicon/popdownarrow.png");
     public static final BufferedImage POP_BUTTON_UP = BaseUtils.readImage("com/fr/design/images/buttonicon/popuparrow.png");
@@ -149,13 +189,14 @@ public interface UIConstants {
     public static final Icon DELETE_ICON = BaseUtils.readIcon("com/fr/design/images/m_file/close.png");
     public static final Icon EDIT_ICON = BaseUtils.readIcon("com/fr/design/images/m_file/edit.png");
     public static final Icon SEARCH_ICON = BaseUtils.readIcon("/com/fr/design/images/data/search.png");
+    public static final Icon BLACK_SEARCH_ICON = BaseUtils.readIcon("/com/fr/design/images/data/black_search.png");
     public static final Icon CLEAR_ICON = BaseUtils.readIcon("/com/fr/design/images/data/source/delete.png");
     public static final Icon LIST_EDIT_ICON = BaseUtils.readIcon("/com/fr/design/images/control/edit.png");
     public static final Icon LIST_EDIT_WHITE_ICON = BaseUtils.readIcon("/com/fr/design/images/control/edit_white.png");
     public static final Color PRESSED_DARK_GRAY = new Color(127, 127, 127);
     public static final Color GRDIENT_DARK_GRAY = new Color(45, 45, 45);
     public static final Color BARNOMAL = new Color(232, 232, 233);
-    public static final Color COMPONENT_BACKGROUND_COLOR = new Color(237,237,238);
+    public static final Color COMPONENT_BACKGROUND_COLOR = new Color(237, 237, 238);
     public static final int ARC = 0;
     public static final int BUTTON_GROUP_ARC = 0;
     public static final int LARGEARC = 6;

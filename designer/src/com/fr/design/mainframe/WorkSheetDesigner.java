@@ -4,11 +4,13 @@ import java.awt.BorderLayout;
 
 import javax.swing.*;
 
+import com.fr.base.ScreenResolution;
 import com.fr.design.DesignState;
 import com.fr.design.actions.report.*;
 import com.fr.design.designer.EditingState;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
+import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.menu.*;
 import com.fr.grid.selection.CellSelection;
@@ -20,6 +22,8 @@ import com.fr.design.selection.SelectionListener;
 import com.fr.stable.ArrayUtils;
 
 public class WorkSheetDesigner extends ReportComponent<WorkSheet, ElementCasePaneDelegate, Selection> {
+
+    private static final int HUND = 100;
 
     public WorkSheetDesigner(WorkSheet sheet) {
         super(sheet);
@@ -164,6 +168,13 @@ public class WorkSheetDesigner extends ReportComponent<WorkSheet, ElementCasePan
         TemplateElementCase tpc = this.elementCasePane.getEditingElementCase();
         CellElement cellElement = tpc.getCellElement(0, 0);
         return cellElement == null ? new CellSelection() : new CellSelection(0, 0, cellElement.getColumnSpan(), cellElement.getRowSpan());
+    }
+
+    @Override
+    public void updateJSliderValue() {
+        ReportComponentComposite reportComposite = (ReportComponentComposite) HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getCurrentReportComponentPane();
+        JSliderPane jSliderContainer = reportComposite.getjSliderContainer();
+        jSliderContainer.getShowVal().setValue((int)Math.ceil((double) this.elementCasePane.getResolution() * HUND / ScreenResolution.getScreenResolution()));
     }
 
     @Override

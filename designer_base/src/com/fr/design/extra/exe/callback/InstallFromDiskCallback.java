@@ -77,7 +77,7 @@ public class InstallFromDiskCallback extends AbstractPluginTaskCallback {
         }else {
             jsCallback.execute("failed");
             FRLogger.getLogger().info(Inter.getLocText("FR-Plugin_Install_Failed"));
-            JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), Inter.getLocText("FR-Plugin_Install_Failed"), JOptionPane.ERROR_MESSAGE);
         }
     }
 }

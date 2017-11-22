@@ -33,6 +33,10 @@ public class BackgroundPane extends AbstractBasicStylePane {
 
     protected BackgroundQuickPane[] paneList;
 
+    //获取当前面板
+    protected JPanel currentPane = null;
+
+
     public BackgroundPane() {
         this.initComponents();
     }
@@ -76,7 +80,7 @@ public class BackgroundPane extends AbstractBasicStylePane {
         double[] rowSize = {p, p, p};
         double[] columnSize = {p,f};
         int[][] rowCount = {{1, 1},{1, 1},{1, 1}};
-        JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_SMALL, LayoutConstants.VGAP_MEDIUM);
+        JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_LARGE, LayoutConstants.VGAP_MEDIUM);
         this.add(panel, BorderLayout.CENTER);
 
     }
@@ -136,13 +140,21 @@ public class BackgroundPane extends AbstractBasicStylePane {
      * Populate background.
      */
     public void populateBean(Background background) {
+        resetPaneList();
         for (int i = 0; i < paneList.length; i++) {
             BackgroundQuickPane pane = paneList[i];
             if (pane.accept(background)) {
                 pane.populateBean(background);
                 typeComboBox.setSelectedIndex(i);
+                currentPane = paneList[i];
                 return;
             }
+        }
+    }
+
+    private void resetPaneList() {
+        for (BackgroundQuickPane pane : paneList) {
+            pane.reset();
         }
     }
 

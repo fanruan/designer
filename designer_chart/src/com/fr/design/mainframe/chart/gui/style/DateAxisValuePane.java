@@ -1,6 +1,6 @@
 package com.fr.design.mainframe.chart.gui.style;
 
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.base.Utils;
 import com.fr.chart.base.ChartConstants;
 import com.fr.chart.chartattr.CategoryAxis;
@@ -28,7 +28,12 @@ import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
@@ -194,7 +199,7 @@ public class DateAxisValuePane extends FurtherBasicBeanPane<CategoryAxis>{
 
     private void showFormulaPane(final UITextField jTextField) {
         final UIFormula formulaPane = FormulaFactory.createFormulaPane();
-        formulaPane.populate(new Formula(jTextField.getText()));
+        formulaPane.populate(BaseFormula.createFormulaBuilder().build(jTextField.getText()));
         BasicDialog dlg = formulaPane.showLargeWindow(SwingUtilities.getWindowAncestor(DateAxisValuePane.this), new DialogActionAdapter() {
             public void doOk() {
                 jTextField.setText(Utils.objectToString(formulaPane.update()));
@@ -214,7 +219,7 @@ public class DateAxisValuePane extends FurtherBasicBeanPane<CategoryAxis>{
     private void updateMain(CategoryAxis axis) {
         if (mainTickBox.isSelected() && StringUtils.isNotEmpty(mainUnitField.getText())) {
             axis.setCustomMainUnit(true);
-            axis.setMainUnit(new Formula(mainUnitField.getText()));
+            axis.setMainUnit(BaseFormula.createFormulaBuilder().build(mainUnitField.getText()));
             axis.setMainType(VALUES.get(mainType.getSelectedItem()));
         } else {
             axis.setCustomMainUnit(false);
@@ -305,7 +310,7 @@ public class DateAxisValuePane extends FurtherBasicBeanPane<CategoryAxis>{
         //最小值
         if (minCheckBox.isSelected()) {
         	if(minValueField.getCurrentEditor() instanceof FormulaEditor){
-        		Formula min = (Formula)minValueField.update();
+        		BaseFormula min = (BaseFormula) minValueField.update();
         		axis.setMinValue(min);
         		axis.setCustomMinValue(!StringUtils.isEmpty(min.getPureContent()));
         	}else{
@@ -313,7 +318,7 @@ public class DateAxisValuePane extends FurtherBasicBeanPane<CategoryAxis>{
         		DateEditor dateEditor = (DateEditor)minValueField.getCurrentEditor();
         		String dateString = dateEditor.getUIDatePickerFormat().format(datetmp);
         		axis.setCustomMinValue(!StringUtils.isEmpty(dateString));
-        		axis.setMinValue(new Formula(dateString));
+        		axis.setMinValue(BaseFormula.createFormulaBuilder().build(dateString));
         	}
         } else {
             axis.setCustomMinValue(false);
@@ -322,7 +327,7 @@ public class DateAxisValuePane extends FurtherBasicBeanPane<CategoryAxis>{
         //最大值
         if (maxCheckBox.isSelected()) {
         	if(maxValueField.getCurrentEditor() instanceof FormulaEditor){
-        		Formula max = (Formula)maxValueField.update();
+        		BaseFormula max = (BaseFormula) maxValueField.update();
         		axis.setMaxValue(max);
         		axis.setCustomMaxValue(!StringUtils.isEmpty(max.getPureContent()));
         	}else{
@@ -330,7 +335,7 @@ public class DateAxisValuePane extends FurtherBasicBeanPane<CategoryAxis>{
         		DateEditor dateEditor = (DateEditor)maxValueField.getCurrentEditor();
         		String dateString = dateEditor.getUIDatePickerFormat().format(datetmp);
         		axis.setCustomMaxValue(!StringUtils.isEmpty(dateString));
-        		axis.setMaxValue(new Formula(dateString));
+        		axis.setMaxValue(BaseFormula.createFormulaBuilder().build(dateString));
         	}
         } else {
             axis.setCustomMaxValue(false);
@@ -345,7 +350,7 @@ public class DateAxisValuePane extends FurtherBasicBeanPane<CategoryAxis>{
 	}
 	
 	//将从formula读出来的内容转化为指定格式的日期
-	private static final Date getDateFromFormula(Formula dateFormula){
+	private static final Date getDateFromFormula(BaseFormula dateFormula){
 		String dateStr = dateFormula.getPureContent();
 		dateStr = Pattern.compile("\"").matcher(dateStr).replaceAll(StringUtils.EMPTY);
 		Date toDate = DateUtils.string2Date(dateStr, true);

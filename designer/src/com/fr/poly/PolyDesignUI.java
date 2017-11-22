@@ -3,12 +3,7 @@
  */
 package com.fr.poly;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
@@ -29,6 +24,7 @@ import com.fr.page.PaperSettingProvider;
 import com.fr.page.ReportSettingsProvider;
 import com.fr.poly.creator.BlockCreator;
 import com.fr.poly.creator.ECBlockCreator;
+import com.fr.poly.creator.ECBlockEditor;
 import com.fr.poly.model.AddedData;
 import com.fr.poly.model.AddingData;
 import com.fr.report.report.Report;
@@ -109,8 +105,8 @@ public class PolyDesignUI extends ComponentUI {
             BlockCreator creator = addedData.getAddedAt(i);
             // richer:如果当前这个组件正在编辑，那么他是完全被他的编辑器所遮挡的，不需要画出来
 			if (creator == designer.getSelection()) {
-                paintPositionLine(g, creator.getX(time), creator.getY(time),
-                        (int) (designer.getHorizontalValue()*time), (int) (designer.getVerticalValue()*time));
+                paintPositionLine(g, Math.round(creator.getX(time)), Math.round(creator.getY(time)),
+                        Math.round(designer.getHorizontalValue()*time), Math.round(designer.getVerticalValue()*time));
                 if (creator.getEditor().isDragging()) {
                     creator.getEditor().paintAbsorptionline(g);
                     //如果与其他块重合了, 需要画出提示禁止重叠
@@ -121,8 +117,8 @@ public class PolyDesignUI extends ComponentUI {
                     creator.getEditor().hideForbiddenWindow();
                 }
 			} else {
-                paintCreator(g, creator, (int) (creator.getX()*time - designer.getHorizontalValue()*time), (int) (creator.getY()*time - designer.getVerticalValue()*time),
-                        (int) (creator.getWidth()*time), (int) (creator.getHeight()*time));
+                paintCreator(g, creator, creator.getX() - designer.getHorizontalValue(), creator.getY() - designer.getVerticalValue(),
+                            creator.getWidth(), creator.getHeight());
             }
         }
     }
@@ -212,10 +208,10 @@ public class PolyDesignUI extends ComponentUI {
 
     private void paintAddingData(Graphics g, AddingData addingData) {
         BlockCreator comp = addingData.getCreator();
-        int x = (int) (addingData.getCurrentX()*time);
-        int y = (int) (addingData.getCurrentY()*time);
-        int width = (int) (comp.getWidth()*time);
-        int height = (int) (comp.getHeight()*time);
+        int x = (int) (addingData.getCurrentX() / time);
+        int y = (int) (addingData.getCurrentY() / time);
+        int width = comp.getWidth();
+        int height = comp.getHeight();
         paintCreator(g, comp, x, y, width, height);
     }
 
@@ -223,16 +219,22 @@ public class PolyDesignUI extends ComponentUI {
         ArrayList<JComponent> dbcomponents = new ArrayList<JComponent>();
         // richer:禁止双缓冲行为,否则会出现两个图像
         ComponentUtils.disableBuffer(comp, dbcomponents);
-//        Graphics clipg = g.create(x, y, width*resolution/ScreenResolution.getScreenResolution(), height*resolution/ScreenResolution.getScreenResolution());
-//
-        BufferedImage img = CoreGraphHelper.createBufferedImage(comp.getWidth(), comp.getHeight(), BufferedImage.TYPE_INT_RGB);
-        Graphics2D g2d = img.createGraphics();
-        comp.printAll(g2d);
-        g2d.dispose();
-        g.drawImage(img,x,y,width,height,null);
+//        if (comp instanceof ECBlockCreator) {
+//            Graphics clipg = g.create((int) (x * time), (int) (y * time), (int) (width * time), (int) (height * time));
+//            comp.paint(clipg);
+//            clipg.dispose();
+//        }else {
+        BufferedImage img = CoreGraphHelper.createBufferedImage(comp.getWidth(), comp.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
 
-//        comp.paint(clipg);
-//        clipg.dispose();
+        Graphics2D g2d = img.createGraphics();
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        comp.printAll(g2d);
+        g.drawImage(img, (int) (x * time), (int) (y * time), (int) (width * time), (int) (height * time),null);
+
+        g2d.dispose();
+
+//        }
+
         ComponentUtils.resetBuffer(dbcomponents);
     }
 

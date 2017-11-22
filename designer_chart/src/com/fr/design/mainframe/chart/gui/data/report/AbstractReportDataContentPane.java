@@ -1,6 +1,6 @@
 package com.fr.design.mainframe.chart.gui.data.report;
 
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.base.Utils;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartdata.NormalReportDataDefinition;
@@ -16,6 +16,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.stable.StableUtils;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import java.awt.*;
 import java.util.ArrayList;
@@ -29,7 +30,8 @@ import java.util.List;
  */
 public abstract class AbstractReportDataContentPane extends BasicBeanPane<ChartCollection>{
 	private static final double ROW = 6;
-	
+	protected static final double COMPONENT_WIDTH = 124;
+
 	protected UICorrelationPane seriesPane;
 	
 	protected abstract String[] columnNames();
@@ -44,7 +46,10 @@ public abstract class AbstractReportDataContentPane extends BasicBeanPane<ChartC
 
         initSeriesPane();
 
-		this.add(seriesPane, "0,2,2,2");
+        JPanel panel = new JPanel(new BorderLayout());
+		panel.setBorder(BorderFactory.createEmptyBorder(0,24,0,15));
+		panel.add(seriesPane);
+		this.add(panel, "0,2,2,2");
 	}
 
     //kunsnat: 用于重载, 甘特图, 股价图 第一列 默认应该不可编辑.
@@ -135,7 +140,7 @@ public abstract class AbstractReportDataContentPane extends BasicBeanPane<ChartC
 			return null;
 		}
 		
-		return StableUtils.canBeFormula(object) ? new Formula(object.toString()) : object.toString();
+		return StableUtils.canBeFormula(object) ? BaseFormula.createFormulaBuilder().build(object) : object.toString();
 	}
 
     protected class InnerTableEditor extends UITableEditor {
@@ -174,7 +179,7 @@ public abstract class AbstractReportDataContentPane extends BasicBeanPane<ChartC
 					}
 
 					@Override
-					protected void populateTextField(Formula fm) {
+					protected void populateTextField(BaseFormula fm) {
 						formulaTextField.setText(fm.getContent());
 					}
 				};
@@ -189,6 +194,19 @@ public abstract class AbstractReportDataContentPane extends BasicBeanPane<ChartC
 			}
 			return editorComponent;
 		}
+	}
+
+	protected JSeparator getJSeparator() {
+		JSeparator jSeparator = new JSeparator();
+		jSeparator.setPreferredSize(new Dimension(246, 2));
+		return jSeparator;
+	}
+
+	protected Border getSidesBorder() {
+		return BorderFactory.createEmptyBorder(0,5,0,5);
+	}
+	protected Border getFilterPaneBorder() {
+		return BorderFactory.createEmptyBorder(10,5,0,5);
 	}
 
 }

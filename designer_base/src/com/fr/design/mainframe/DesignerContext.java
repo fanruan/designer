@@ -36,7 +36,8 @@ public class DesignerContext {
 	private static Hashtable<String, DesignerFrame> prop = new Hashtable<String, DesignerFrame>();
 
 	private static Hashtable<String, DesignerBean> beans = new Hashtable<String, DesignerBean>();
-	;
+
+	private static boolean refreshOnTargetModified = false;
 
 	/**
 	 * Return the main design frame from context
@@ -135,5 +136,21 @@ public class DesignerContext {
      */
     public static void setReportWritePane(BasicDialog dlg){
         reportWriteThread.set(dlg);
+    }
+
+    /**
+     * 在修改 Target 时，刷新右侧属性面板
+     */
+    public static void enableRefreshOnTargetModified() {
+        refreshOnTargetModified = true;
+    }
+
+    /**
+     * 在修改 Target 时，是否刷新右侧属性面板。仅可刷新一次，取值后重置为 false
+     */
+    public static boolean isRefreshOnTargetModifiedEnabled() {
+        boolean isRefresh = refreshOnTargetModified;
+        refreshOnTargetModified = false;
+        return isRefresh;
     }
 }

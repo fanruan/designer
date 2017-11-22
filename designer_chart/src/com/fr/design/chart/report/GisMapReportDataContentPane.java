@@ -1,26 +1,13 @@
 package com.fr.design.chart.report;
 
-import java.awt.*;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.base.Utils;
 import com.fr.chart.chartdata.BaseSeriesDefinition;
 import com.fr.chart.chartdata.GisMapReportDefinition;
 import com.fr.chart.chartdata.SeriesDefinition;
+import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.constants.UIConstants;
-import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.formula.TinyFormulaPane;
@@ -34,6 +21,15 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.Inter;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 属性表gis地图单元格数据源设置界面
@@ -179,7 +175,7 @@ public class GisMapReportDataContentPane extends FurtherBasicBeanPane<GisMapRepo
             return null;
         }
         if (StableUtils.canBeFormula(address)) {
-            reportDefinition.setCategoryName(new Formula(address));
+            reportDefinition.setCategoryName(BaseFormula.createFormulaBuilder().build(address));
         } else {
             reportDefinition.setCategoryName(address);
         }
@@ -200,7 +196,7 @@ public class GisMapReportDataContentPane extends FurtherBasicBeanPane<GisMapRepo
                 Object value = objects[1];
 
                 if (StableUtils.canBeFormula(value)) {
-                    value = new Formula(Utils.objectToString(value));
+                    value = BaseFormula.createFormulaBuilder().build(value);
                 }
                 SeriesDefinition definition = new SeriesDefinition(name, value);
                 reportDefinition.addTitleValue(definition);

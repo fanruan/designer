@@ -6,7 +6,13 @@ package com.fr.design;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.data.datapane.TableDataNameObjectCreator;
-import com.fr.design.fun.*;
+import com.fr.design.fun.CellWidgetOptionProvider;
+import com.fr.design.fun.Feedback;
+import com.fr.design.fun.FormWidgetOptionProvider;
+import com.fr.design.fun.ParameterWidgetOptionProvider;
+import com.fr.design.fun.ServerTableDataDefineProvider;
+import com.fr.design.fun.TableDataDefineProvider;
+import com.fr.design.fun.ToolbarItemProvider;
 import com.fr.design.gui.core.WidgetOption;
 import com.fr.design.gui.core.WidgetOptionFactory;
 import com.fr.design.menu.ShortCut;
@@ -16,13 +22,18 @@ import com.fr.general.FRLogger;
 import com.fr.general.GeneralUtils;
 import com.fr.general.IOUtils;
 import com.fr.plugin.AbstractExtraClassManager;
-import com.fr.plugin.solution.closeable.CompatibleInjectionContainer;
 import com.fr.plugin.injectable.PluginModule;
 import com.fr.plugin.injectable.PluginSingleInjection;
-import com.fr.stable.bridge.StableFactory;
+import com.fr.plugin.solution.closeable.CloseableContainedSet;
 import com.fr.stable.plugin.ExtraDesignClassManagerProvider;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author : richie
@@ -33,14 +44,14 @@ public class ExtraDesignClassManager extends AbstractExtraClassManager implement
     
     private static ExtraDesignClassManager classManager = new ExtraDesignClassManager();
     
-    private CompatibleInjectionContainer<ShortCut> shortCuts = new CompatibleInjectionContainer<>();
+    private Set<ShortCut> shortCuts = new CloseableContainedSet<>(HashSet.class);
     
     public synchronized static ExtraDesignClassManager getInstance() {
         return classManager;
     }
     
     static {
-        StableFactory.registerMarkedObject(PluginModule.ExtraDesign.getAgentName(), classManager);
+        PluginModule.registerAgent(PluginModule.ExtraDesign, classManager);
     }
     
     public TableDataNameObjectCreator[] getReportTableDataCreators() {
@@ -204,8 +215,8 @@ public class ExtraDesignClassManager extends AbstractExtraClassManager implement
     
     @Override
     protected boolean demountSpecific(PluginSingleInjection injection) {
-        
-        if (ShortCut.TEMPLATE_TREE.equals(injection.getName()) && injection.getOriginalObject() instanceof ShortCut) {
+    
+        if (ShortCut.TEMPLATE_TREE.equals(injection.getName()) && injection.getObject() instanceof ShortCut) {
             shortCuts.remove(injection.getObject());
             return true;
         }
@@ -214,16 +225,16 @@ public class ExtraDesignClassManager extends AbstractExtraClassManager implement
     
     @Override
     protected boolean mountSpecific(PluginSingleInjection injection) {
-        
-        if (ShortCut.TEMPLATE_TREE.equals(injection.getName()) && injection.getOriginalObject() instanceof ShortCut) {
-            shortCuts.put(injection.getObject(), (ShortCut) injection.getOriginalObject());
+    
+        if (ShortCut.TEMPLATE_TREE.equals(injection.getName()) && injection.getObject() instanceof ShortCut) {
+            shortCuts.add((ShortCut) injection.getObject());
             return true;
         }
         return false;
     }
     
     public Set<ShortCut> getExtraShortCuts() {
-        
-        return shortCuts.getSet();
+    
+        return Collections.unmodifiableSet(shortCuts);
     }
 }

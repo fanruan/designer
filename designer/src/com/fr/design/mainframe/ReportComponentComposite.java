@@ -2,6 +2,7 @@ package com.fr.design.mainframe;
 
 import com.fr.base.FRContext;
 import com.fr.base.ScreenResolution;
+import com.fr.common.inputevent.InputEventBaseOnOS;
 import com.fr.design.designer.EditingState;
 import com.fr.design.event.TargetModifiedListener;
 import com.fr.design.file.HistoryTemplateListPane;
@@ -11,6 +12,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.Inter;
 import com.fr.grid.Grid;
 import com.fr.main.impl.WorkBook;
+import com.fr.poly.PolyDesigner;
 import com.fr.report.report.TemplateReport;
 
 import javax.swing.*;
@@ -31,6 +33,7 @@ public class ReportComponentComposite extends JComponent {
     private static final int MAX = 400;
     private static final int HUND = 100;
     private static final int MIN = 10;
+    private static final int DIR = 15;
     private JWorkBook parent;
     private UIModeControlContainer parentContainer = null;
 
@@ -44,9 +47,6 @@ public class ReportComponentComposite extends JComponent {
     private JPanel hbarContainer;
 
     private JSliderPane jSliderContainer;
-
-    private boolean isCtrl = false;
-
 
     /**
      * Constructor with workbook..
@@ -66,32 +66,13 @@ public class ReportComponentComposite extends JComponent {
         jSliderContainer.getSelfAdaptButton().addItemListener(selfAdaptButtonItemListener);
     }
 
-    KeyListener showValSpinnerKeyListener = new KeyListener() {
-        @Override
-        public void keyTyped(KeyEvent e) {
-
-        }
-
-        @Override
-        public void keyPressed(KeyEvent e) {
-            if (e.isControlDown()) {
-                isCtrl = true;
-            }
-        }
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-            isCtrl = false;
-        }
-    };
-
     MouseWheelListener showValSpinnerMouseWheelListener = new MouseWheelListener() {
         @Override
         public void mouseWheelMoved(MouseWheelEvent e) {
-            if (isCtrl) {
+            if (InputEventBaseOnOS.isControlDown(e)) {
                 int dir = e.getWheelRotation();
                 int old_resolution = (int) jSliderContainer.getShowVal().getValue();
-                jSliderContainer.getShowVal().setValue(old_resolution - (dir * MIN));
+                jSliderContainer.getShowVal().setValue(old_resolution - (dir * DIR));
             }
         }
     };
@@ -131,7 +112,6 @@ public class ReportComponentComposite extends JComponent {
             return;
         }
         centerCardPane.populate(workbook.getTemplateReport(newIndex));
-
         if (parentContainer != null) {
             parentContainer.setDownPane(ReportComponentComposite.this);
         }
@@ -140,25 +120,33 @@ public class ReportComponentComposite extends JComponent {
             EditingState reportPaneEditState = templateStateList.get(newIndex);
             if (reportPaneEditState != null) {
                 reportPaneEditState.revert();
+                updateJSlider();
             }
         } else {
             while (templateStateList.size() <= newIndex) {
                 templateStateList.add(null);
             }
             centerCardPane.editingComponet.setSelection(centerCardPane.editingComponet.getDefaultSelectElement());
+            if (jSliderContainer != null){
+                jSliderContainer.reset();
+            }
         }
 
         if (centerCardPane.editingComponet.elementCasePane == null) {
+            centerCardPane.getPolyDezi().polyArea.addMouseWheelListener(showValSpinnerMouseWheelListener);
             return;
         }
         Grid grid = centerCardPane.editingComponet.elementCasePane.getGrid();
 
         this.centerCardPane.editingComponet.elementCasePane.getGrid().addMouseWheelListener(showValSpinnerMouseWheelListener);
-        this.centerCardPane.editingComponet.elementCasePane.getGrid().addKeyListener(showValSpinnerKeyListener);
 
         if (!grid.hasFocus() && grid.isRequestFocusEnabled()) {
             grid.requestFocus();
         }
+    }
+
+    private void updateJSlider(){
+        centerCardPane.editingComponet.updateJSliderValue();
     }
 
     /**
@@ -224,19 +212,14 @@ public class ReportComponentComposite extends JComponent {
     }
 
     private JComponent createSouthControlPane() {
-//        hbarContainer = FRGUIPaneFactory.createBorderLayout_S_Pane();
-//        hbarContainer.add(createSouthControlPaneWithJSliderPane());
         hbarContainer = FRGUIPaneFactory.createBorderLayout_S_Pane();
         hbarContainer.add(centerCardPane.editingComponet.getHorizontalScrollBar());
-//        JSplitPane splitpane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sheetNameTab, hbarContainer);
         JPanel southPane = new JPanel(new BorderLayout());
         jSliderContainer = JSliderPane.getInstance();
-        JSplitPane splitpane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sheetNameTab, jSliderContainer);
-        splitpane.setBorder(null);
-        splitpane.setDividerSize(3);
-        splitpane.setResizeWeight(1);
+
         southPane.add(hbarContainer, BorderLayout.NORTH);
-        southPane.add(splitpane, BorderLayout.CENTER);
+        southPane.add(sheetNameTab, BorderLayout.CENTER);
+        southPane.add(jSliderContainer, BorderLayout.EAST);
         return southPane;
     }
 

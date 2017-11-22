@@ -1,6 +1,6 @@
 package com.fr.design.chart;
 
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.base.Utils;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.formula.FormulaFactory;
@@ -58,10 +58,10 @@ public class ChartSwingUtils {
 	
 	private static void showFormulaPane(final UITextField jTextField, final OKListener l) {
 		final UIFormula formulaPane = FormulaFactory.createFormulaPane();
-		formulaPane.populate(new Formula(jTextField.getText()));
+		formulaPane.populate(BaseFormula.createFormulaBuilder().build(jTextField.getText()));
 		formulaPane.showLargeWindow(SwingUtilities.getWindowAncestor(FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane()), new DialogActionAdapter(){
 			public void doOk() {
-				Formula formula = formulaPane.update();
+				BaseFormula formula = formulaPane.update();
 				jTextField.setText(Utils.objectToString(formula));
 				if (l != null) {
 					l.action();

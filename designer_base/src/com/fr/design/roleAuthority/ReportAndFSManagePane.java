@@ -1,7 +1,6 @@
 package com.fr.design.roleAuthority;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.FRCoreContext;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.data.DesignTableDataManager;
@@ -15,7 +14,6 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DockingView;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.general.Inter;
-import com.fr.general.VT4FR;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -184,16 +182,9 @@ public class ReportAndFSManagePane extends DockingView implements Prepare4DataSo
     }
 
     private void initbuttonGroup() {
-        isSupportFS = VT4FR.isLicAvailable(FRCoreContext.getBytes()) && VT4FR.FS_BI.support();
-        Icon[] iconArray = null;
-        String[] textArray = null;
-        if (isSupportFS) {
-            iconArray = new Icon[]{BaseUtils.readIcon("/com/fr/web/images/platform/demo.png")};
-            textArray = new String[]{Inter.getLocText("FR-Designer_FS_Name")};
-        } else {
-            iconArray = new Icon[]{BaseUtils.readIcon("/com/fr/web/images/platform/platform_16_16.png")};
-            textArray = new String[]{Inter.getLocText("M_Server-Platform_Manager")};
-        }
+    
+        Icon[] iconArray = new Icon[]{BaseUtils.readIcon("/com/fr/web/images/platform/demo.png")};
+        String[] textArray = new String[]{Inter.getLocText("FR-Designer_FS_Name")};
         buttonGroup = new UIHeadGroup(iconArray, textArray) {
             public void tabChanged(int index) {
                 roleTree.setEditable(false);
@@ -274,9 +265,11 @@ public class ReportAndFSManagePane extends DockingView implements Prepare4DataSo
         DesignTableDataManager.addDsChangeListener(new ChangeListener() {
 
             public void stateChanged(ChangeEvent e) {
-                roleTree.refreshTreeNode();
-                expandTree(roleTree, true);
-                roleTree.updateUI();
+                if (BaseUtils.isAuthorityEditing()) {
+                    roleTree.refreshTreeNode();
+                    expandTree(roleTree, true);
+                    roleTree.updateUI();
+                }
             }
         });
 
@@ -543,5 +536,4 @@ public class ReportAndFSManagePane extends DockingView implements Prepare4DataSo
             tree.collapsePath(parent);
         }
     }
-
 }

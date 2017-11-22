@@ -137,8 +137,7 @@ public class MapPlotPane extends AbstractChartTypePane {
 			for(ChartImagePane imagePane : typeDemo) {
 				imagePane.isPressing = false;
 			}
-			typeDemo.get(mapPlot.getMapType().ordinal()).isPressing = true;
-			lastTypeIndex = mapPlot.getMapType().ordinal();//todo 这个属性是不是可以删了，eason
+			typeDemo.get(mapPlot.getDetailType()).isPressing = true;
 		}
 
 		checkDemosBackground();

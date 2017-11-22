@@ -1,11 +1,14 @@
 package com.fr.design.dscolumn;
 
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.data.util.SortOrder;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
-import com.fr.design.formula.*;
+import com.fr.design.formula.CustomVariableResolver;
+import com.fr.design.formula.FormulaFactory;
+import com.fr.design.formula.SortFormulaPane;
+import com.fr.design.formula.UIFormula;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icombobox.UIComboBox;
@@ -28,6 +31,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import static com.fr.report.cell.cellattr.core.group.FilterTypeEnum.BOTTOM;
+import static com.fr.report.cell.cellattr.core.group.FilterTypeEnum.SPECIFY;
+import static com.fr.report.cell.cellattr.core.group.FilterTypeEnum.TOP;
+
 public class DSColumnAdvancedPane extends BasicPane {
 
     private static final String InsetText = " ";
@@ -36,12 +43,11 @@ public class DSColumnAdvancedPane extends BasicPane {
     private ValuePane valuePane;
     private UICheckBox horizontalExtendableCheckBox;
     private UICheckBox verticalExtendableCheckBox;
-//    private UICheckBox isCoverCheckBox;
     private UICheckBox useMultiplyNumCheckBox;
     private UISpinner multiNumSpinner;
-    
+
     public DSColumnAdvancedPane() {
-    	this(DSColumnPane.SETTING_ALL);
+        this(DSColumnPane.SETTING_ALL);
     }
 
     public DSColumnAdvancedPane(int setting) {
@@ -49,15 +55,15 @@ public class DSColumnAdvancedPane extends BasicPane {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
 
         sortPane = new SortPane();
-        sortPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("Sort-Sort_Order"),null));
+        sortPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("Sort-Sort_Order"), null));
 
         if (setting > DSColumnPane.SETTING_DSRELATED) {
-	        selectCountPane = new SelectCountPane();
-	        selectCountPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("BindColumn-Results_Filter"),null));
+            selectCountPane = new SelectCountPane();
+            selectCountPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("BindColumn-Results_Filter"), null));
         }
-        
+
         valuePane = new ValuePane();
-        valuePane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("BindColumn-Custom_Data_Appearance"),null));
+        valuePane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("BindColumn-Custom_Data_Appearance"), null));
 
 
         JPanel extendablePane = null;
@@ -68,54 +74,54 @@ public class DSColumnAdvancedPane extends BasicPane {
             extendableDirectionPane.add(horizontalExtendableCheckBox = new UICheckBox(Inter.getLocText("ExpandD-Horizontal_Extendable")));
             extendableDirectionPane.add(verticalExtendableCheckBox = new UICheckBox(Inter.getLocText("ExpandD-Vertical_Extendable")));
 
-	        extendablePane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("ExpandD-Expandable"));
-	        extendablePane.setLayout(new BorderLayout());
-	        extendablePane.add(extendableDirectionPane, BorderLayout.CENTER);
+            extendablePane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("ExpandD-Expandable"));
+            extendablePane.setLayout(new BorderLayout());
+            extendablePane.add(extendableDirectionPane, BorderLayout.CENTER);
         }
 
         JPanel multiNumPane = null;
         if (setting > DSColumnPane.SETTING_DSRELATED) {
-	        multiNumPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("Fill_blank_Data"));
-	        useMultiplyNumCheckBox = new UICheckBox(Inter.getLocText("Column_Multiple"));
-	        multiNumPane.add(useMultiplyNumCheckBox);
-	        multiNumPane.add(new UILabel(InsetText));
-	        
-	        multiNumSpinner = new UISpinner(1, 10000, 1, 1);
-	        multiNumPane.add(multiNumSpinner);
-	        
-	        useMultiplyNumCheckBox.addActionListener(new ActionListener() {
+            multiNumPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("Fill_blank_Data"));
+            useMultiplyNumCheckBox = new UICheckBox(Inter.getLocText("Column_Multiple"));
+            multiNumPane.add(useMultiplyNumCheckBox);
+            multiNumPane.add(new UILabel(InsetText));
 
-	            public void actionPerformed(ActionEvent e) {
-	                checkButtonEnabled();
-	            }
-	        });
+            multiNumSpinner = new UISpinner(1, 10000, 1, 1);
+            multiNumPane.add(multiNumSpinner);
+
+            useMultiplyNumCheckBox.addActionListener(new ActionListener() {
+
+                public void actionPerformed(ActionEvent e) {
+                    checkButtonEnabled();
+                }
+            });
         }
 
         double[] rowSize = {TableLayout.PREFERRED, TableLayout.PREFERRED,
-            TableLayout.PREFERRED, TableLayout.PREFERRED, TableLayout.PREFERRED, TableLayout.PREFERRED};
+                TableLayout.PREFERRED, TableLayout.PREFERRED, TableLayout.PREFERRED, TableLayout.PREFERRED};
         double[] columnSize = {TableLayout.FILL};
-        
+
         Component[][] components = null;
         if (setting > DSColumnPane.SETTING_DSRELATED) {
-        	components = new Component[][]{
+            components = new Component[][]{
                     {sortPane},
                     {selectCountPane},
                     {valuePane},
                     {extendablePane},
                     {multiNumPane}
-                };
+            };
         } else {
-        	components = new Component[][]{
+            components = new Component[][]{
                     {sortPane},
                     {valuePane}
-                };
+            };
         }
         this.add(TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize), BorderLayout.CENTER);
     }
-    
+
     @Override
     protected String title4PopupWindow() {
-    	return Inter.getLocText("Advanced");
+        return Inter.getLocText("Advanced");
     }
 
     public void populate(TemplateCellElement cellElement) {
@@ -125,16 +131,16 @@ public class DSColumnAdvancedPane extends BasicPane {
 
         sortPane.populate(cellElement);
         valuePane.populate(cellElement);
-        
+
         if (selectCountPane != null) {
-        	selectCountPane.populate(cellElement);
-        	
-        	CellExpandAttr cellExpandAttr = cellElement.getCellExpandAttr();
-    		if (cellExpandAttr == null) {
-    		    cellExpandAttr = new CellExpandAttr();
-    		    cellElement.setCellExpandAttr(cellExpandAttr);
-    		}
-            
+            selectCountPane.populate(cellElement);
+
+            CellExpandAttr cellExpandAttr = cellElement.getCellExpandAttr();
+            if (cellExpandAttr == null) {
+                cellExpandAttr = new CellExpandAttr();
+                cellElement.setCellExpandAttr(cellExpandAttr);
+            }
+
             // extendable
             switch (cellExpandAttr.getExtendable()) {
                 case CellExpandAttr.Both_EXTENDABLE:
@@ -162,11 +168,11 @@ public class DSColumnAdvancedPane extends BasicPane {
                 this.useMultiplyNumCheckBox.setSelected(true);
                 this.multiNumSpinner.setValue(cellExpandAttr.getMultipleNumber());
             }
-            
+
             this.checkButtonEnabled();
         }
     }
-    
+
     public void update(TemplateCellElement cellElement) {
         if (cellElement == null) {
             return;
@@ -174,11 +180,11 @@ public class DSColumnAdvancedPane extends BasicPane {
 
         sortPane.update(cellElement);
         valuePane.update(cellElement);
-        
+
         if (selectCountPane != null) {
-        	selectCountPane.update(cellElement);
-        	
-        	CellExpandAttr cellExpandAttr = cellElement.getCellExpandAttr();
+            selectCountPane.update(cellElement);
+
+            CellExpandAttr cellExpandAttr = cellElement.getCellExpandAttr();
             if (cellExpandAttr == null) {
                 cellExpandAttr = new CellExpandAttr();
                 cellElement.setCellExpandAttr(cellExpandAttr);
@@ -208,10 +214,10 @@ public class DSColumnAdvancedPane extends BasicPane {
     }
 
     private static class SortPane extends SortFormulaPane {
-    	private CellElement cellElement;
-    	
-    	@Override
-		public void formulaAction() {            
+        private CellElement cellElement;
+
+        @Override
+        public void formulaAction() {
             if (cellElement == null) {
                 return;
             }
@@ -221,10 +227,10 @@ public class DSColumnAdvancedPane extends BasicPane {
             }
 
             String[] displayNames = DesignTableDataManager.getSelectedColumnNames(
-            		DesignTableDataManager.getEditingTableDataSource(), ((DSColumn) value).getDSName());
-            
+                    DesignTableDataManager.getEditingTableDataSource(), ((DSColumn) value).getDSName());
+
             showFormulaDialog(displayNames);
-    	}
+        }
 
         void populate(CellElement cellElement) {
             if (cellElement == null) {
@@ -281,7 +287,7 @@ public class DSColumnAdvancedPane extends BasicPane {
         private UIComboBox selectCountComboBox;
         private JPanel selectCountCardPane;
         private UITextField serialTextField;
-        
+
         JFormulaField topFormulaPane;
         JFormulaField bottomFormulaPane;
 
@@ -316,7 +322,7 @@ public class DSColumnAdvancedPane extends BasicPane {
                 }
             });
 
-            selectCountCardPane =FRGUIPaneFactory.createCardLayout_S_Pane();
+            selectCountCardPane = FRGUIPaneFactory.createCardLayout_S_Pane();
             this.add(GUICoreUtils.createFlowPane(new JComponent[]{new UILabel(InsetText), selectCountComboBox,
                     new UILabel(InsetText), selectCountCardPane}, FlowLayout.LEFT), BorderLayout.WEST);
 //            selectCountCardPane.setLayout(new CardLayout());
@@ -328,16 +334,16 @@ public class DSColumnAdvancedPane extends BasicPane {
             bottomFormulaPane = new JFormulaField("-1");
             serialTextField = new UITextField(18);
             JPanel oddPane = GUICoreUtils.createFlowPane(new UILabel(Inter.getLocText("BindColumn-Result_Serial_Number_Start_From_1")
-                + "  " + Inter.getLocText("BindColumn-Odd_Selected_(1,3,5...)")), FlowLayout.LEFT);
+                    + "  " + Inter.getLocText("BindColumn-Odd_Selected_(1,3,5...)")), FlowLayout.LEFT);
             JPanel evenPane = GUICoreUtils.createFlowPane(new UILabel(Inter.getLocText("BindColumn-Result_Serial_Number_Start_From_1")
-                + "  " + Inter.getLocText("BindColumn-Even_Selected_(2,4,6...)")), FlowLayout.LEFT);
+                    + "  " + Inter.getLocText("BindColumn-Even_Selected_(2,4,6...)")), FlowLayout.LEFT);
             JPanel specifyPane = GUICoreUtils.createFlowPane(new JComponent[]{
                     serialTextField, new UILabel(
                     Inter.getLocText(new String[]{
-                            "Format", "BindColumn-Result_Serial_Number_Start_From_1", "Inner_Parameter", "Group_Count"},
+                                    "Format", "BindColumn-Result_Serial_Number_Start_From_1", "Inner_Parameter", "Group_Count"},
                             new String[]{": 1,2-3,5,8  ", ",", "$__count__"})
             )
-                }, FlowLayout.LEFT);
+            }, FlowLayout.LEFT);
             serialTextField.setToolTipText(Inter.getLocText("StyleFormat-Sample") + ":=JOINARRAY(GREPARRAY(RANGE($__count__), item!=4), \",\")");
             selectCountCardPane.add(undefinedPane, "UNDEFINE");
             selectCountCardPane.add(topFormulaPane, "TOP");
@@ -367,11 +373,11 @@ public class DSColumnAdvancedPane extends BasicPane {
             if (selectCount != null) {
                 int selectCountType = selectCount.getType();
                 this.selectCountComboBox.setSelectedIndex(selectCountType);
-                if (selectCountType == SelectCount.TOP) {
-                	this.topFormulaPane.populate(selectCount.getFormulaCount());
-                } else if (selectCountType == SelectCount.BOTTOM) {
-                	this.bottomFormulaPane.populate(selectCount.getFormulaCount());
-                } else if (selectCountType == SelectCount.SPECIFY) {
+                if (selectCountType == TOP.getValue()) {
+                    this.topFormulaPane.populate(selectCount.getFormulaCount());
+                } else if (selectCountType == BOTTOM.getValue()) {
+                    this.bottomFormulaPane.populate(selectCount.getFormulaCount());
+                } else if (selectCountType == SPECIFY.getValue()) {
                     this.serialTextField.setText(selectCount.getSerial());
                 }
             }
@@ -395,11 +401,11 @@ public class DSColumnAdvancedPane extends BasicPane {
                 SelectCount selectCount = new SelectCount();
                 dSColumn.setSelectCount(selectCount);
                 selectCount.setType(selectCountSelectIndex);
-                if (selectCountSelectIndex == SelectCount.TOP) {
+                if (selectCountSelectIndex == TOP.getValue()) {
                     selectCount.setFormulaCount(this.topFormulaPane.getFormulaText());
-                } else if (selectCountSelectIndex == SelectCount.BOTTOM) {
+                } else if (selectCountSelectIndex == BOTTOM.getValue()) {
                     selectCount.setFormulaCount(this.bottomFormulaPane.getFormulaText());
-                } else if (selectCountSelectIndex == SelectCount.SPECIFY) {
+                } else if (selectCountSelectIndex == SPECIFY.getValue()) {
                     selectCount.setSerial(this.serialTextField.getText());
                 }
             }
@@ -411,22 +417,22 @@ public class DSColumnAdvancedPane extends BasicPane {
                 return ((JSpinner.DefaultEditor) editor).getTextField();
             } else {
                 System.err.println("Unexpected editor type: "
-                    + spinner.getEditor().getClass()
-                    + " isn't a descendant of DefaultEditor");
+                        + spinner.getEditor().getClass()
+                        + " isn't a descendant of DefaultEditor");
                 return null;
             }
         }
     }
-    
+
     private static class JFormulaField extends JPanel {
         private CellElement cellElement;
-    	private UITextField formulaTextField;
-    	private String defaultValue;
-    	
-    	public JFormulaField(String defaultValue) {
-    		this.defaultValue = defaultValue;
-    		
-    		this.setLayout(FRGUIPaneFactory.createBoxFlowLayout());
+        private UITextField formulaTextField;
+        private String defaultValue;
+
+        public JFormulaField(String defaultValue) {
+            this.defaultValue = defaultValue;
+
+            this.setLayout(FRGUIPaneFactory.createBoxFlowLayout());
             UILabel bottomLabel = new UILabel("=");
             bottomLabel.setFont(new Font("Dialog", Font.BOLD, 12));
             this.add(bottomLabel);
@@ -439,23 +445,24 @@ public class DSColumnAdvancedPane extends BasicPane {
             bottomFrmulaButton.setToolTipText(Inter.getLocText("Formula") + "...");
             bottomFrmulaButton.setPreferredSize(new Dimension(25, formulaTextField.getPreferredSize().height));
             bottomFrmulaButton.addActionListener(formulaButtonActionListener);
-    	}
-    	
-    	public void populate(String formulaContent) {
-    		this.formulaTextField.setText(formulaContent);
-    	}
-    	public void populateElement(CellElement cellElement) {
-    		this.cellElement = cellElement;
-    	}
-    	
-    	public String getFormulaText() {
-    		return this.formulaTextField.getText();
-    	}
-    	
-    	private ActionListener formulaButtonActionListener = new ActionListener() {
+        }
+
+        public void populate(String formulaContent) {
+            this.formulaTextField.setText(formulaContent);
+        }
+
+        public void populateElement(CellElement cellElement) {
+            this.cellElement = cellElement;
+        }
+
+        public String getFormulaText() {
+            return this.formulaTextField.getText();
+        }
+
+        private ActionListener formulaButtonActionListener = new ActionListener() {
 
             public void actionPerformed(ActionEvent evt) {
-                Formula valueFormula = new Formula();
+                BaseFormula valueFormula = BaseFormula.createFormulaBuilder().build();
                 String text = formulaTextField.getText();
                 if (text == null || text.length() <= 0) {
                     valueFormula.setContent(defaultValue);
@@ -479,8 +486,8 @@ public class DSColumnAdvancedPane extends BasicPane {
                 formulaPane.populate(valueFormula, new CustomVariableResolver(displayNames, true));
                 formulaPane.showLargeWindow(SwingUtilities.getWindowAncestor(JFormulaField.this), new DialogActionAdapter() {
                     @Override
-					public void doOk() {
-                        Formula valueFormula = formulaPane.update();
+                    public void doOk() {
+                        BaseFormula valueFormula = formulaPane.update();
                         if (valueFormula.getContent().length() <= 1) {
                             formulaTextField.setText(defaultValue);
                         } else {

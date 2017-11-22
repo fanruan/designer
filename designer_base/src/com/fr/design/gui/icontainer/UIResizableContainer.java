@@ -397,8 +397,8 @@ public class UIResizableContainer extends JPanel {
             Image upButton = (upModel == UIConstants.MODEL_NORMAL ? UIConstants.DRAG_UP_NORMAL : UIConstants.DRAG_UP_PRESS);
             Image downButton = (downModel == UIConstants.MODEL_NORMAL ? UIConstants.DRAG_DOWN_NORMAL : UIConstants.DRAG_DOWN_PRESS);
 
-            g.drawImage(UIConstants.DRAG_BAR, 0, 0, getWidth(), getHeight(), null);
-            g.drawImage(UIConstants.DRAG_DOT, (getWidth() - toolPaneHeight) / 2, 3, toolPaneHeight, 5, null);
+            g.drawImage(UIConstants.DRAG_BAR_LIGHT, 0, 0, getWidth(), getHeight(), null);
+            g.drawImage(UIConstants.DRAG_LINE, (getWidth() - toolPaneHeight) / 2, 3, toolPaneHeight, 5, null);
             g.drawImage(upButton, ARROW_MARGIN, 3, toolPaneHeight, 5, null);
             g.drawImage(downButton, getWidth() - toolPaneHeight - ARROW_MARGIN, 3, toolPaneHeight, 5, null);
         }
@@ -488,7 +488,7 @@ public class UIResizableContainer extends JPanel {
         public void paint(Graphics g) {
             Image button;
             if (direction == Constants.RIGHT) {
-                g.drawImage(UIConstants.DRAG_BAR, 0, 0, toolPaneHeight, getHeight(), null);
+                g.drawImage(UIConstants.DRAG_BAR_LIGHT, 0, 0, toolPaneHeight, getHeight(), null);
                 if (containerWidth == toolPaneHeight) {
                     if (model == UIConstants.MODEL_NORMAL) {
                         button = UIConstants.DRAG_RIGHT_NORMAL;
@@ -502,9 +502,9 @@ public class UIResizableContainer extends JPanel {
                         button = UIConstants.DRAG_LEFT_PRESS;
                     }
                 }
-                g.drawImage(button, 3, ARROW_MARGIN_VERTICAL, 5, 5, null);
+                g.drawImage(button, 3, ARROW_MARGIN_VERTICAL, 5, toolPaneHeight, null);
             } else {
-                g.drawImage(UIConstants.DRAG_BAR, 0, 0, toolPaneHeight, getHeight(), null);
+                g.drawImage(UIConstants.DRAG_BAR_LIGHT, 0, 0, toolPaneHeight, getHeight(), null);
                 if (containerWidth == toolPaneHeight) {
                     if (model == UIConstants.MODEL_NORMAL) {
                         button = UIConstants.DRAG_LEFT_NORMAL;

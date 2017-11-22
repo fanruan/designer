@@ -23,7 +23,13 @@ import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -150,7 +156,7 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
             UIMenuNameableCreator ui = configCreator.clone();
             final BasicBeanPane pane = ui.getPane();
             pane.populateBean(editingCollection);
-            UIDialog dialog = pane.showUnsizedWindow(SwingUtilities.getWindowAncestor(new JPanel()), new DialogActionListener() {
+            UIDialog dialog = pane.showUnsizedWindow(SwingUtilities.getWindowAncestor(parent), new DialogActionListener() {
                 @Override
                 public void doOk() {
                     pane.updateBean(editingCollection);

@@ -3,9 +3,9 @@ package com.fr.design.mainframe.chart.gui.style.series;
 
 import com.fr.chart.chartattr.Chart;
 import com.fr.design.ChartTypeInterfaceManager;
-import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
+import com.fr.plugin.chart.designer.AbstractVanChartScrollPane;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +15,7 @@ import java.awt.*;
 * @author kunsnat E-mail:kunsnat@gmail.com
 * @version 创建时间：2013-1-5 上午10:31:50
  */
-public class ChartSeriesPane extends BasicScrollPane<Chart>{
+public class ChartSeriesPane extends AbstractVanChartScrollPane<Chart> {
 
 	protected AbstractPlotSeriesPane seriesStyleContentPane;
 	protected Chart chart;

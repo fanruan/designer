@@ -1,18 +1,16 @@
 package com.fr.design.chart.series.PlotStyle;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.ArrayList;
+import com.fr.design.dialog.BasicPane;
+import com.fr.design.event.UIObserver;
+import com.fr.design.event.UIObserverListener;
+import com.fr.stable.ArrayUtils;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
-import com.fr.design.event.UIObserver;
-import com.fr.design.event.UIObserverListener;
-import com.fr.design.dialog.BasicPane;
-import com.fr.stable.ArrayUtils;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 /**
  *  图表选中demo的类. 用于 选中点击, 悬浮状态, 可以继承, 改变画的内容.
@@ -27,7 +25,7 @@ public class ChartSelectDemoPane extends BasicPane implements UIObserver, MouseL
 	// 所有统一参与的点击状态类. 相当于Group
 	protected ChartSelectDemoPane[] demoList = new ChartSelectDemoPane[0];
 
-	private boolean isRollOver;
+	protected boolean isRollOver;
 	private ArrayList<ChangeListener> changeListeners = new ArrayList<ChangeListener>();
 
 	public void setDemoGroup(ChartSelectDemoPane[] demos) {
@@ -56,7 +54,7 @@ public class ChartSelectDemoPane extends BasicPane implements UIObserver, MouseL
             fireStateChange();
 
             for (int i = 0; i < ArrayUtils.getLength(demoList); i++) {
-                demoList[i].checkBackground();
+                demoList[i].checkBorder();
                 demoList[i].repaint();
             }
         }
@@ -102,7 +100,7 @@ public class ChartSelectDemoPane extends BasicPane implements UIObserver, MouseL
             isRollOver = true;
 
             for (int i = 0; i < ArrayUtils.getLength(demoList); i++) {
-                demoList[i].checkBackground();
+                demoList[i].checkBorder();
                 demoList[i].repaint();
             }
         }
@@ -126,7 +124,7 @@ public class ChartSelectDemoPane extends BasicPane implements UIObserver, MouseL
             }
 
             for (int i = 0; i < ArrayUtils.getLength(demoList); i++) {
-                demoList[i].checkBackground();
+                demoList[i].checkBorder();
                 demoList[i].repaint();
             }
         }
@@ -158,16 +156,11 @@ public class ChartSelectDemoPane extends BasicPane implements UIObserver, MouseL
 		return true;
 	}
 
-    /**
-     * 修改背景颜色
-     */
-	public void checkBackground() {
-		if (!isRollOver &&  !isPressing) {
-			this.setBackground(null);
-		} else if(isRollOver && !isPressing){
-			this.setBackground(new Color(182, 217, 253));
-		} else {
-			this.setBackground(new Color(164, 192, 220));
-		}
+	/**
+	 * 修改边框颜色
+	 */
+	public void checkBorder() {
+		this.setBorder(null);
+
 	}
 }

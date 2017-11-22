@@ -15,14 +15,15 @@ import java.beans.PropertyDescriptor;
  */
 public final class CRPropertyDescriptor extends PropertyDescriptor {
     public static final String RENDERER = "renderer";
-	
-	private PropertyChangeAdapter l;
-	
+    private boolean isSubProperty = false;
+
+    private PropertyChangeAdapter l;
+
     public CRPropertyDescriptor(String name, Class<?> beanClass) throws IntrospectionException {
         super(name, beanClass);
     }
 
-    public CRPropertyDescriptor(String name, Class<?> beanClass, String readMethod, String writeMethod) throws IntrospectionException{
+    public CRPropertyDescriptor(String name, Class<?> beanClass, String readMethod, String writeMethod) throws IntrospectionException {
         super(name, beanClass, readMethod, writeMethod);
     }
 
@@ -33,17 +34,17 @@ public final class CRPropertyDescriptor extends PropertyDescriptor {
         }
         return this;
     }
-    
-	public CRPropertyDescriptor setPropertyChangeListener(PropertyChangeAdapter l) {
-		this.l = l;
-		return this;
-	}
 
-	public void firePropertyChanged() {
-		if (l != null) {
-			l.propertyChange();
-		}
-	}
+    public CRPropertyDescriptor setPropertyChangeListener(PropertyChangeAdapter l) {
+        this.l = l;
+        return this;
+    }
+
+    public void firePropertyChanged() {
+        if (l != null) {
+            l.propertyChange();
+        }
+    }
 
     public CRPropertyDescriptor setEditorClass(Class<?> clazz) {
         this.setPropertyEditorClass(clazz);
@@ -58,5 +59,14 @@ public final class CRPropertyDescriptor extends PropertyDescriptor {
     public CRPropertyDescriptor setI18NName(String displayName) {
         this.setDisplayName(displayName);
         return this;
+    }
+
+    public CRPropertyDescriptor setSubLevel(boolean isSubProperty) {
+        this.isSubProperty = isSubProperty;
+        return this;
+    }
+
+    public boolean isSubLevel() {
+        return isSubProperty;
     }
 }

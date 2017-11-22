@@ -1,28 +1,35 @@
 package com.fr.design.extra;
 
+import com.fr.base.ConfigManager;
 import com.fr.base.FRContext;
-import com.fr.design.DesignerEnvManager;
+import com.fr.design.bbs.BBSLoginUtils;
 import com.fr.design.dialog.UIDialog;
+import com.fr.design.extra.exe.PluginLoginExecutor;
 import com.fr.design.extra.ucenter.Client;
 import com.fr.design.extra.ucenter.XMLHelper;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.general.ComparatorUtils;
 import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONObject;
-import com.fr.plugin.manage.bbs.BBSPluginLogin;
-import com.fr.plugin.manage.bbs.BBSUserInfo;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.StringUtils;
+import javafx.concurrent.Task;
 import javafx.scene.web.WebEngine;
+import netscape.javascript.JSObject;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JDialog;
+import javax.swing.SwingUtilities;
+import java.awt.Desktop;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLEncoder;
-import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 
+/**
+ * @author vito
+ */
 public class LoginWebBridge {
 
     //默认查询消息时间, 30s
@@ -52,15 +59,12 @@ public class LoginWebBridge {
     private static final String LOGIN_FAILED = "failed";
 
     private static LoginWebBridge helper;
-    private UILabel pluginuiLabel;
     private UIDialog uiDialog;
     private UIDialog qqDialog;
     private UILabel uiLabel;
-    private String userName;
+    private WebEngine webEngine;
 
-    public LoginWebBridge() {
-        String username = DesignerEnvManager.getEnvManager().getBBSName();
-        setUserName(username, uiLabel);
+    private LoginWebBridge() {
     }
 
     public static LoginWebBridge getHelper() {
@@ -75,15 +79,21 @@ public class LoginWebBridge {
         }
     }
 
+    public static LoginWebBridge getHelper(WebEngine webEngine) {
+        getHelper();
+        helper.setWebEngine(webEngine);
+        return helper;
+    }
+
+    public void setWebEngine(WebEngine webEngine) {
+        this.webEngine = webEngine;
+    }
+
     public int getMessageCount() {
         return messageCount;
     }
 
-    public void setUILabelInPlugin(UILabel uiLabel) {
-        this.pluginuiLabel = uiLabel;
-    }
-
-    public void setQqDialog(UIDialog qqDialog) {
+    public void setQQDialog(UIDialog qqDialog) {
         closeQQWindow();
         this.qqDialog = qqDialog;
     }
@@ -95,22 +105,6 @@ public class LoginWebBridge {
 
     public void setUILabel(UILabel uiLabel) {
         this.uiLabel = uiLabel;
-    }
-
-    /**
-     * 设置显示的用户名
-     *
-     * @param userName 登录用户名
-     * @param label    label显示
-     */
-    public void setUserName(String userName, UILabel label) {
-        if (uiLabel == null) {
-            this.uiLabel = label;
-        }
-        if (StringUtils.isEmpty(userName)) {
-            return;
-        }
-        this.userName = userName;
     }
 
     /**
@@ -130,16 +124,16 @@ public class LoginWebBridge {
      */
     public void setMessageCount(int count) {
         if (count == MIN_MESSAGE_COUNT) {
-            uiLabel.setText(DesignerEnvManager.getEnvManager().getBBSName());
-            DesignerEnvManager.getEnvManager().setInShowBBsName(DesignerEnvManager.getEnvManager().getBBSName());
+            uiLabel.setText(ConfigManager.getProviderInstance().getBbsUsername());
+            ConfigManager.getProviderInstance().setInShowBBsName(ConfigManager.getProviderInstance().getBbsUsername());
             return;
         }
         this.messageCount = count;
         StringBuilder sb = new StringBuilder();
-        sb.append(StringUtils.BLANK).append(DesignerEnvManager.getEnvManager().getBBSName())
+        sb.append(StringUtils.BLANK).append(ConfigManager.getProviderInstance().getBbsUsername())
                 .append("(").append(this.messageCount)
                 .append(")").append(StringUtils.BLANK);
-        DesignerEnvManager.getEnvManager().setInShowBBsName(sb.toString());
+        ConfigManager.getProviderInstance().setInShowBBsName(sb.toString());
         uiLabel.setText(sb.toString());
     }
 
@@ -188,44 +182,54 @@ public class LoginWebBridge {
      * @param password 密码
      * @return 登录信息标志
      */
-    public String defaultLogin(String username, String password) {
-        return login(username, password, uiLabel);
-    }
-
-    /**
-     * 插件管理的用户登录部分
-     *
-     * @param username 用户名
-     * @param password 密码
-     * @param uiLabel  设计器端的label
-     * @return 登录信息标志
-     */
-    public String pluginManageLogin(String username, String password, UILabel uiLabel) {
-        return login(username, password, uiLabel);
+    public void defaultLogin(String username, String password, final JSObject callback) {
+        Task<Void> task = new PluginTask<>(webEngine, callback, new PluginLoginExecutor(username, password));
+        new Thread(task).start();
     }
 
     /**
      * 登录操作
      *
-     * @param username 用户名
+     * @param userInfo 登录信息
      * @param password 密码
-     * @param uiLabel  两边的label显示
      * @return 登录信息标志
      */
-    public String login(String username, String password, UILabel uiLabel) {
-        if (!StringUtils.isNotBlank(username) && !StringUtils.isNotBlank(password)) {
+    public String login(String userInfo, String password) {
+        if (!StringUtils.isNotBlank(userInfo) && !StringUtils.isNotBlank(password)) {
             return LOGIN_INFO_EMPTY;
         }
         if (!testConnection()) {
             return NET_FAILED;
         }
-        String loginResult = login(username, password);
-        if (loginResult.equals(LOGININ)) {
-            updateUserInfo(username);
-            loginSuccess(username, uiLabel);
-            setUserName(username, uiLabel);
+        List<String> loginResult = frPassport(userInfo, password);
+        String uid = loginResult.get(0);
+        String username = loginResult.get(1);
+        if (Integer.parseInt(uid) > 0) {
+            loginSuccess(username);
         }
-        return loginResult;
+        return uid;
+    }
+
+    private List<String> frPassport(String username, String password) {
+        LinkedList<String> list = new LinkedList<>();
+        try {
+            Client uc = new Client();
+            String result = uc.ucUserLogin(username, password);
+            result = new String(result.getBytes("iso-8859-1"), "gbk");
+            list = XMLHelper.ucUnserialize(result);
+            if (list.size() > 0) {
+                int uid = Integer.parseInt(list.get(0));
+                if (uid > 0) {
+                    BBSLoginUtils.bbsLogin(list);
+                }
+            } else {
+                list.push(NET_FAILED);
+            }
+        } catch (Exception e) {
+            FRContext.getLogger().info(e.getMessage());
+            list.push(UNKNOWN_ERROR);
+        }
+        return list;
     }
 
     /**
@@ -239,20 +243,11 @@ public class LoginWebBridge {
     }
 
     /**
-     * 更新后台的用户信息
+     * 关闭窗口并且重新赋值
      *
      * @param username 用户名
      */
-    public void updateUserInfo(String username) {
-        this.userName = username;
-    }
-
-    /**
-     * 关闭窗口并且重新赋值
-     *
-     * @param username
-     */
-    public void loginSuccess(String username, UILabel uiLabel) {
+    private void loginSuccess(String username) {
         closeWindow();
         uiLabel.setText(username);
     }
@@ -267,37 +262,6 @@ public class LoginWebBridge {
                 WebViewDlgHelper.createQQLoginDialog();
             }
         });
-    }
-
-    private String login(String username, String password) {
-        try {
-            Client uc = new Client();
-            String result = uc.uc_user_login(username, password);
-            result = new String(result.getBytes("iso-8859-1"), "gbk");
-            LinkedList<String> list = XMLHelper.uc_unserialize(result);
-            if (list.size() > 0) {
-                int $uid = Integer.parseInt(list.get(0));
-                if ($uid > 0) {
-                    DesignerEnvManager.getEnvManager().setBbsUid($uid);
-                    DesignerEnvManager.getEnvManager().setBBSName(username);
-                    DesignerEnvManager.getEnvManager().setInShowBBsName(username);
-                    DesignerEnvManager.getEnvManager().setBBSPassword(password);
-                    BBSPluginLogin.getInstance().login(new BBSUserInfo(username, password));
-                    return LOGININ;//登录成功，0
-                } else if ($uid == -1) {
-                    return USERNAME_NOT_EXSIT;//用户名不存在，-1
-                } else if ($uid == -2) {
-                    return PASSWORD_ERROR;//密码错误，-2
-                } else {
-                    return UNKNOWN_ERROR;//未知错误，-3
-                }
-            } else {
-                return NET_FAILED;
-            }
-        } catch (Exception e) {
-            FRContext.getLogger().info(e.getMessage());
-        }
-        return UNKNOWN_ERROR;
     }
 
     /**
@@ -316,25 +280,31 @@ public class LoginWebBridge {
      * @param userInfo
      */
     public void getLoginInfo(String userInfo) {
-        org.json.JSONObject jo = new org.json.JSONObject(userInfo);
-        String status = jo.get("status").toString();
-        if (status.equals(LOGIN_SUCCESS)) {
-            String username = jo.get("username").toString();
-            int uid = Integer.parseInt(jo.get("uid") == null ? "" : jo.get("uid").toString());
-            closeWindow();
-            closeQQWindow();
-            pluginuiLabel.setText(username);
-            DesignerEnvManager.getEnvManager().setBBSName(username);
-            DesignerEnvManager.getEnvManager().setBbsUid(uid);
-            DesignerEnvManager.getEnvManager().setInShowBBsName(username);
-            BBSPluginLogin.getInstance().login(new BBSUserInfo(username, ""));
-        } else if (status.equals(LOGIN_FAILED)) {
-            //账号没有QQ授权
-            closeQQWindow();
-            try {
-                Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("QQ_binding")));
-            } catch (Exception exp) {
+        try {
+            JSONObject jo = new JSONObject(userInfo);
+            String status = jo.get("status").toString();
+            if (ComparatorUtils.equals(status, LOGIN_SUCCESS)) {
+                String username = jo.get("username").toString();
+                int uid = Integer.parseInt(jo.get("uid") == null ? StringUtils.EMPTY : jo.get("uid").toString());
+                closeQQWindow();
+                loginSuccess(username);
+
+                LinkedList<String> list = new LinkedList<>();
+                list.add(String.valueOf(uid));
+                list.add(username);
+                list.add(StringUtils.EMPTY);
+                BBSLoginUtils.bbsLogin(list);
+            } else if (ComparatorUtils.equals(status, LOGIN_FAILED)) {
+                //账号没有QQ授权
+                closeQQWindow();
+                try {
+                    Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("QQ_binding")));
+                } catch (Exception ignored) {
+                    // ignored
+                }
             }
+        } catch (Exception e) {
+            FRContext.getLogger().error(e.getMessage());
         }
     }
 

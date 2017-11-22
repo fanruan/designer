@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 
 import com.fr.data.Dictionary;
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.gui.ispinner.UIBasicSpinner;
 import java.awt.event.ActionListener;
 
@@ -57,8 +58,7 @@ public class ButtonGroupDictPane extends JPanel {
 				{new UILabel(Inter.getLocText("FR-Designer_DS-Dictionary")), dictPane, null},
 				{adaptiveCheckbox, columnLabel, columnSpinner}
 		};
-		JPanel panel = TableLayoutHelper.createGapTableLayoutPane(n_components, rowSize, columnSize, 16, 8);
-		panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+		JPanel panel = TableLayoutHelper.createGapTableLayoutPane(n_components, rowSize, columnSize, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
 		this.add(panel);
 
 

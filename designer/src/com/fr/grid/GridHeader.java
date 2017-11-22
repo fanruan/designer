@@ -1,5 +1,7 @@
 package com.fr.grid;
 
+import com.fr.design.constants.UIConstants;
+
 import java.awt.*;
 
 
@@ -7,7 +9,7 @@ public abstract class GridHeader<T> extends BaseGridComponent {
     public final static int SIZE_ADJUST = 4;
 
     //属性
-    private Color separatorLineColor = new Color(172, 168, 153); //separator lines
+    private Color separatorLineColor = UIConstants.RULER_LINE_COLOR; //separator lines
     private Color selectedForeground = Color.black;
     private Color selectedBackground = new Color(208, 240, 252);
 

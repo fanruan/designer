@@ -1,8 +1,9 @@
 package com.fr.quickeditor.cellquick;
 
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.base.Style;
 import com.fr.base.TextFormat;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextarea.UITextArea;
 import com.fr.grid.GridKeyListener;
 import com.fr.grid.selection.CellSelection;
@@ -12,10 +13,12 @@ import com.fr.report.cell.DefaultTemplateCellElement;
 import com.fr.stable.ColumnRow;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -50,7 +53,7 @@ public class CellStringQuickEditor extends CellQuickEditor {
 
     };
 
-    private CellStringQuickEditor() {
+    public CellStringQuickEditor() {
         super();
     }
 
@@ -69,7 +72,7 @@ public class CellStringQuickEditor extends CellQuickEditor {
                     return;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    //todo 按enter键换至下一个单元格 yaoh.wu虽然模仿选中单元格按enter这种场景可以做到,但是原理没有弄清楚。
+                    //todo yaoh.wu:按enter键换至下一个单元格 虽然模仿选中单元格按enter这种场景可以做到,但是原理没有弄清楚。
                     GridKeyListener dispatchListener = new GridKeyListener(tc.getGrid());
                     dispatchListener.keyPressed(e);
                     dispatchListener.keyTyped(e);
@@ -90,6 +93,11 @@ public class CellStringQuickEditor extends CellQuickEditor {
         return content;
     }
 
+    @Override
+    public boolean isScrollAll() {
+        return true;
+    }
+
 
     private void changeReportPaneCell(String tmpText) {
         isEditing = true;
@@ -105,7 +113,7 @@ public class CellStringQuickEditor extends CellQuickEditor {
             tc.getEditingElementCase().addCellElement(cellElement, false);
         }
         if (tmpText != null && (tmpText.length() > 0 && tmpText.charAt(0) == '=')) {
-            Formula textFormula = new Formula(tmpText);
+            BaseFormula textFormula = BaseFormula.createFormulaBuilder().build(tmpText);
             textFormula.setReserveInResult(reserveInResult);
             textFormula.setReserveOnWriteOrAnaly(reserveOnWriteOrAnaly);
             cellElement.setValue(textFormula);
@@ -134,8 +142,8 @@ public class CellStringQuickEditor extends CellQuickEditor {
             Object value = cellElement.getValue();
             if (value == null) {
                 str = StringUtils.EMPTY;
-            } else if (value instanceof Formula) {
-                Formula formula = (Formula) value;
+            } else if (value instanceof BaseFormula) {
+                BaseFormula formula = (BaseFormula) value;
                 str = formula.getContent();
                 reserveInResult = formula.isReserveInResult();
                 reserveOnWriteOrAnaly = formula.isReserveOnWriteOrAnaly();

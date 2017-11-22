@@ -61,7 +61,6 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
             if (!httpClient.isServerAlive()) {
                 return getNoConnectList();
             }
-            httpClient.setTimeout(5000);
             result = httpClient.getResponseText();
             AlphaFineHelper.checkCancel();
             try {
@@ -76,13 +75,11 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
                             searchResult.add(cellModel);
                         }
                     }
-                    if (searchResult.size() < AlphaFineConstants.SHOW_SIZE + 1) {
+                    if (searchResult.isEmpty()) {
+                        return lessModelList;
+                    } else if (searchResult.size() < AlphaFineConstants.SHOW_SIZE + 1) {
                         lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP")));
-                        if (searchResult.size() == 0) {
-                            lessModelList.add(AlphaFineHelper.NO_RESULT_MODEL);
-                        } else {
-                            lessModelList.addAll(searchResult);
-                        }
+                        lessModelList.addAll(searchResult);
                     } else {
                         lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"), true, CellType.DOCUMENT));
                         lessModelList.addAll(searchResult.subList(0, AlphaFineConstants.SHOW_SIZE));
@@ -91,7 +88,6 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
                 }
             } catch (JSONException e) {
                 FRLogger.getLogger().error("document search error: " + e.getMessage());
-                return lessModelList;
             }
         }
         return lessModelList;

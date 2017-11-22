@@ -1,9 +1,14 @@
 package com.fr.design.editor;
 
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.dialog.BasicPane;
-import com.fr.design.editor.editor.*;
+import com.fr.design.editor.editor.ColumnIndexEditor;
+import com.fr.design.editor.editor.ColumnNameEditor;
+import com.fr.design.editor.editor.Editor;
+import com.fr.design.editor.editor.FormulaEditor;
+import com.fr.design.editor.editor.TextEditor;
+import com.fr.design.editor.editor.XMLANameEditor;
 import com.fr.design.event.GlobalNameListener;
 import com.fr.design.event.GlobalNameObserver;
 import com.fr.design.event.UIObserver;
@@ -128,6 +133,7 @@ public class DoubleDeckValueEditorPane extends BasicPane implements UIObserver, 
     }
 
     public void setCurrentEditor(int i) {
+        upButton.setSelectedIndex(i);
         currentEditor = this.cards[i];
         centerPane.removeAll();
         centerPane.add(currentEditor);
@@ -216,11 +222,15 @@ public class DoubleDeckValueEditorPane extends BasicPane implements UIObserver, 
         String name = currentEditor.getName();
         Object columnIndex = currentEditor.getValue();
         //bug86542,这边为啥要new一个公式出来，只保留content,其他属性全不要了?
-//        if (ComparatorUtils.equals(name, Inter.getLocText("Formula"))) {
-//            columnIndex = new Formula(columnIndex == null ? "" : columnIndex.toString());
-//        }
+        if (columnIndex == null && ComparatorUtils.equals(name, Inter.getLocText("Formula"))) {
+            columnIndex = ((FormulaEditor) currentEditor).getFormula();
+        }
 
         return columnIndex;
+    }
+
+    public void updateUpButton(){
+        upButton.setSelectedIndex(this.getCurrentEditorIndex());
     }
 
     public Object update(String makeAdiff) {
@@ -229,7 +239,7 @@ public class DoubleDeckValueEditorPane extends BasicPane implements UIObserver, 
         Object columnName = StringUtils.EMPTY;
 
         if (ComparatorUtils.equals(name, Inter.getLocText("FR-Designer_Formula"))) {
-            columnIndex = new Formula(columnIndex == null ? "" : columnIndex.toString());
+            columnIndex = BaseFormula.createFormulaBuilder().build(columnIndex == null ? "" : columnIndex.toString());
         }
 
         if (currentEditor instanceof ColumnNameEditor) {
@@ -245,7 +255,7 @@ public class DoubleDeckValueEditorPane extends BasicPane implements UIObserver, 
         Object columnName = StringUtils.EMPTY;
 
         if (ComparatorUtils.equals(name, Inter.getLocText("FR-Designer_Formula"))) {
-            columnIndex = new Formula(columnIndex == null ? "" : columnIndex.toString());
+            columnIndex = BaseFormula.createFormulaBuilder().build(columnIndex == null ? "" : columnIndex.toString());
         }
 
         if (isXMLA) {
@@ -297,12 +307,12 @@ public class DoubleDeckValueEditorPane extends BasicPane implements UIObserver, 
                     if (returnValue == JOptionPane.OK_OPTION) {
 
                         setCurrentEditor(j);
-                        Formula formula = new Formula(string);
+                        BaseFormula formula = BaseFormula.createFormulaBuilder().build(string);
                         currentEditor.setValue(formula);
                     }
                 } else {
                     setCurrentEditor(j);
-                    Formula formula = new Formula(string);
+                    BaseFormula formula = BaseFormula.createFormulaBuilder().build(string);
                     currentEditor.setValue(formula);
                 }
             }
@@ -335,6 +345,7 @@ public class DoubleDeckValueEditorPane extends BasicPane implements UIObserver, 
      * 清除组件数据
      */
     public void clearComponentsData() {
+        setCurrentEditor(0);
         for (Editor card : cards) {
             card.clearData();
         }

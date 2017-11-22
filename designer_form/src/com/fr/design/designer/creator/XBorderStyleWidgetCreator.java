@@ -1,11 +1,6 @@
 package com.fr.design.designer.creator;
 
-import java.awt.Dimension;
-import java.awt.Insets;
-
-import javax.swing.JComponent;
-
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.design.border.UIRoundedBorder;
 import com.fr.form.ui.AbstractBorderStyleWidget;
 import com.fr.form.ui.Label;
@@ -18,6 +13,9 @@ import com.fr.form.ui.container.WTitleLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.stable.Constants;
 import com.fr.stable.StringUtils;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -119,7 +117,7 @@ public class XBorderStyleWidgetCreator extends XWidgetCreator{
     
     private WidgetValue getTitleValue(WidgetTitle wTitle){
     	String content = String.valueOf(wTitle.getTextObject());
-    	Object vlaue = content.startsWith("=") ? new Formula(content) : content;
+    	Object vlaue = content.startsWith("=") ? BaseFormula.createFormulaBuilder().build(content) : content;
     	return new WidgetValue(vlaue);
     }
 
@@ -145,8 +143,12 @@ public class XBorderStyleWidgetCreator extends XWidgetCreator{
 		return new Insets(padding.getTop(), padding.getLeft(), padding.getBottom(), padding.getRight());
     }
 
-	public boolean supportSetVisibleOrEnable(){
-		return false;
+	/**
+	 * data属性改变触发其他操作
+	 *
+	 */
+	public void firePropertyChange(){
+
 	}
     
 }

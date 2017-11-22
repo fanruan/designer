@@ -5,11 +5,12 @@ import com.fr.chart.chartattr.BubblePlot;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartdata.BubbleReportDefinition;
 import com.fr.chart.chartdata.BubbleSeriesValue;
-import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.ChartDataFilterPane;
 import com.fr.general.Inter;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,9 +25,11 @@ public class BubblePlotReportDataContentPane extends AbstractReportDataContentPa
 	
 	public BubblePlotReportDataContentPane(ChartDataPane parent) {
 		initEveryPane();
-		
-		this.add(new BoldFontTextLabel(Inter.getLocText("Data_Filter")), "0,4,2,4");
-		this.add(filterPane = new ChartDataFilterPane(new BubblePlot(), parent), "0,6,2,4");
+		filterPane = new ChartDataFilterPane(new BubblePlot(), parent);
+		JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Chart-Data_Filter"),filterPane);
+		panel.setBorder(getSidesBorder());
+		filterPane.setBorder(getFilterPaneBorder());
+		this.add(panel, "0,6,2,4");
 	}
 	
 	@Override

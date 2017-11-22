@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fr.base.FRContext;
+import com.fr.design.actions.utils.ReportActionUtils;
 import com.fr.design.gui.controlpane.UIListControlPane;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.ElementCasePane;
@@ -15,6 +16,7 @@ import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.general.Inter;
 import com.fr.grid.selection.CellSelection;
+import com.fr.report.cell.CellElement;
 import com.fr.report.cell.DefaultTemplateCellElement;
 import com.fr.report.cell.TemplateCellElement;
 import com.fr.report.cell.cellattr.highlight.DefaultHighlight;
@@ -27,6 +29,7 @@ import com.fr.stable.Nameable;
 public class ConditionAttributesGroupPane extends UIListControlPane {
     private static ConditionAttributesGroupPane singleton;
     private TemplateCellElement editCellElement;  // 当前单元格对象
+	private ElementCasePane ePane;
 
 	private ConditionAttributesGroupPane() {
         super();
@@ -49,7 +52,14 @@ public class ConditionAttributesGroupPane extends UIListControlPane {
         if (isPopulating) {
             return;
         }
-        editCellElement.setHighlightGroup(updateHighlightGroup());
+		final CellSelection finalCS = (CellSelection) ePane.getSelection();
+		final TemplateElementCase tplEC = ePane.getEditingElementCase();
+
+        ReportActionUtils.actionIterateWithCellSelection(finalCS, tplEC, new ReportActionUtils.IterAction() {
+            public void dealWith(CellElement editCellElement) {
+                ((TemplateCellElement)editCellElement).setHighlightGroup(updateHighlightGroup());
+            }
+        });
         DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified();
 	}
 
@@ -64,12 +74,12 @@ public class ConditionAttributesGroupPane extends UIListControlPane {
     }
 
     public void populate(ElementCasePane ePane) {
+		this.ePane = ePane;
         CellSelection cs = (CellSelection) ePane.getSelection();
         final TemplateElementCase tplEC = ePane.getEditingElementCase();
         editCellElement = tplEC.getTemplateCellElement(cs.getColumn(), cs.getRow());
         if (editCellElement == null) {
             editCellElement = new DefaultTemplateCellElement(cs.getColumn(), cs.getRow());
-            tplEC.addCellElement(editCellElement);
         }
 
         SheetUtils.calculateDefaultParent(tplEC);  // 不知道这行代码的作用，怕去掉之后会出问题，先放在这里

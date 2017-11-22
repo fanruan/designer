@@ -9,6 +9,7 @@ import com.fr.chart.base.ChartConstants;
 import com.fr.chart.base.DataSeriesCondition;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.constants.LayoutConstants;
+import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.frpane.UIBubbleFloatPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icheckbox.UICheckBox;
@@ -18,15 +19,20 @@ import com.fr.design.gui.style.FormatPane;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
-import com.fr.design.dialog.BasicPane;
 import com.fr.general.FRFont;
 import com.fr.general.Inter;
+import com.fr.plugin.chart.designer.component.format.FormatPaneWithOutFont;
 import com.fr.stable.Constants;
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
 import java.text.Format;
 import java.util.HashMap;
@@ -226,7 +232,7 @@ public class ChartDatapointLabelPane extends BasicPane{
                     }
 
                     if(valueFormatPane == null) {
-                        valueFormatPane =  new FormatPane();
+                        valueFormatPane =  new FormatPaneWithOutFont();
                     }
                     Point comPoint = valueFormatButton.getLocationOnScreen();
                     Point arrowPoint = new Point(comPoint.x + valueFormatButton.getWidth(), comPoint.y + valueFormatButton.getHeight());
@@ -255,7 +261,7 @@ public class ChartDatapointLabelPane extends BasicPane{
                     }
 
                     if(percentFormatPane == null) {
-                        percentFormatPane =  new FormatPane();
+                        percentFormatPane =  new FormatPaneWithOutFont();
                     }
                     Point comPoint = valuePercentFormatButton.getLocationOnScreen();
                     Point arrowPoint = new Point(comPoint.x + valuePercentFormatButton.getWidth(), comPoint.y + valuePercentFormatButton.getHeight());
@@ -429,7 +435,7 @@ public class ChartDatapointLabelPane extends BasicPane{
 	protected void updatePercentFormatpane(){
 		if(isValuePercent!= null && isValuePercent.isSelected()){
             if(this.percentFormatPane == null){
-                this.percentFormatPane = new FormatPane();
+                this.percentFormatPane = new FormatPaneWithOutFont();
             }
             if(this.percentFormat == null){
                 DecimalFormat defaultFormat = new CoreDecimalFormat(new DecimalFormat("#.##%"), "#.##%");

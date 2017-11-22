@@ -265,7 +265,15 @@ public class StateModel {
         Rectangle bounds = createCurrentBounds(x, y);
 
         if ((x != currentX) || (y != currentY)) {
-            selectionModel.setSelectedCreators(getHotspotCreators(bounds, designer.getRootComponent()));
+            ArrayList<XCreator> creators = getHotspotCreators(bounds, designer.getRootComponent());
+            if (creators.isEmpty() && designer.getRootComponent().getXCreatorCount() > 0) {
+                //当初始化布局是绝对布局的时候特殊处理，画框的时候若没有控件，默认焦点设置在绝对布局上
+                XCreator layout = designer.getRootComponent().getXCreator(0);
+                if (layout.acceptType(XWAbsoluteBodyLayout.class)) {
+                    creators.add(layout);
+                }
+            }
+            selectionModel.setSelectedCreators(creators);
         }
         selectionModel.setHotspotBounds(null);
     }

@@ -2,6 +2,7 @@ package com.fr.design.widget.ui.btn;
 
 import javax.swing.*;
 
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.gui.ilable.UILabel;
 
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -34,10 +35,12 @@ public class DefineDeleteColumnRowPane extends BasicPane {
 		double rowSize[] = { p, p};
 		double columnSize[] = { p, f};
 		crEditor = new ColumnRowEditor();
+		UILabel messageLabel = new UILabel(Inter.getLocText("Append_Delete_Row_Message"));
+		messageLabel.setForeground(new Color(0x8F8F92));
 		Component[][] components = {
-				{ new UILabel(Inter.getLocText(new String[]{"Specify", "Cell"}) + ":"), crEditor },
-				{new UILabel(Inter.getLocText("Append_Delete_Row_Message")),null}};
-		JPanel contentPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+				{ new UILabel(Inter.getLocText(new String[]{"Specify", "Cell"})), crEditor },
+				{ messageLabel, null}};
+		JPanel contentPane = TableLayoutHelper.createGapTableLayoutPane(components, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_L2, IntervalConstants.INTERVAL_L1);
 		contentPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
 		setLayout(FRGUIPaneFactory.createBorderLayout());
 

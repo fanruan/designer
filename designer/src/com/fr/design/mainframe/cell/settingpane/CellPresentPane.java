@@ -1,6 +1,7 @@
 package com.fr.design.mainframe.cell.settingpane;
 
 import com.fr.base.present.Present;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.present.PresentPane;
 import com.fr.general.Inter;
 import com.fr.report.cell.DefaultTemplateCellElement;
@@ -17,16 +18,18 @@ import java.awt.event.ItemListener;
  * @since 2012-5-11下午5:24:35
  */
 public class CellPresentPane extends AbstractCellAttrPane {
-	private PresentPane presentPane;
+    private PresentPane presentPane;
 
     /**
      * 初始化面板
-     * @return   面板
+     *
+     * @return 面板
      */
-	public JPanel createContentPane() {
-		presentPane = new PresentPane();
+    public JPanel createContentPane() {
+        presentPane = new PresentPane();
         JPanel content = new JPanel(new BorderLayout());
         content.add(presentPane, BorderLayout.CENTER);
+        presentPane.setBorder(UIConstants.CELL_ATTR_PRESENTBORDER);
         presentPane.addTabChangeListener(new ItemListener() {
 
             @Override
@@ -35,23 +38,23 @@ public class CellPresentPane extends AbstractCellAttrPane {
             }
         });
         return content;
-	}
+    }
 
-	@Override
-	public String getIconPath() {
+    @Override
+    public String getIconPath() {
 //		return "com/fr/design/images/data/source/dataDictionary.png";
         return Inter.getLocText("FR-Designer_Present");
-	}
+    }
 
-	@Override
-	public void updateBean(TemplateCellElement cellElement) {
-		cellElement.setPresent(presentPane.updateBean());
-	}
+    @Override
+    public void updateBean(TemplateCellElement cellElement) {
+        cellElement.setPresent(presentPane.updateBean());
+    }
 
     /**
      * 保存
      */
-	public void updateBeans() {
+    public void updateBeans() {
         Present present = presentPane.updateBean();
         TemplateElementCase elementCase = elementCasePane.getEditingElementCase();
         int cellRectangleCount = cs.getCellRectangleCount();
@@ -71,21 +74,21 @@ public class CellPresentPane extends AbstractCellAttrPane {
                 }
             }
         }
-	}
+    }
 
-	@Override
-	protected void populateBean() {
+    @Override
+    protected void populateBean() {
         //选中的所有单元格都有形态，属性表才会有内容，否则是初始值
         //主要是解决37664
-		Present present = getSelectCellPresent();
+        Present present = getSelectCellPresent();
         presentPane.populateBean(present);
-	}
+    }
 
-    private Present getSelectCellPresent(){
+    private Present getSelectCellPresent() {
         TemplateElementCase elementCase = elementCasePane.getEditingElementCase();
         //按住ctrl选中多个cell块
         int cellRectangleCount = cs.getCellRectangleCount();
-        
+
         for (int rect = 0; rect < cellRectangleCount; rect++) {
             Rectangle cellRectangle = cs.getCellRectangle(rect);
             for (int j = 0; j < cellRectangle.height; j++) {
@@ -93,8 +96,8 @@ public class CellPresentPane extends AbstractCellAttrPane {
                     int column = i + cellRectangle.x;
                     int row = j + cellRectangle.y;
                     TemplateCellElement cellElement = elementCase.getTemplateCellElement(column, row);
-                    if(cellElement == null || cellElement.getPresent() == null){
-                       return null;
+                    if (cellElement == null || cellElement.getPresent() == null) {
+                        return null;
                     }
                 }
             }
@@ -104,15 +107,16 @@ public class CellPresentPane extends AbstractCellAttrPane {
 
     /**
      * 对话框标题
-     * @return    标题
+     *
+     * @return 标题
      */
-	public String title4PopupWindow() {
-		return Inter.getLocText("FR-Chart-Style_Present");
-	}
+    public String title4PopupWindow() {
+        return Inter.getLocText("FR-Chart-Style_Present");
+    }
 
-	public void setSelectedByIds(int level, String... id) {
-		presentPane.setSelectedByName(id[level]);
-	}
+    public void setSelectedByIds(int level, String... id) {
+        presentPane.setSelectedByName(id[level]);
+    }
 
 
 }

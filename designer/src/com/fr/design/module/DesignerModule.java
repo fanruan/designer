@@ -1,13 +1,27 @@
 package com.fr.design.module;
 
-import com.fr.base.*;
+import com.fr.base.BaseFormula;
+import com.fr.base.BaseUtils;
+import com.fr.base.ConfigManager;
+import com.fr.base.FRContext;
+import com.fr.base.Formula;
+import com.fr.base.MultiFieldParameter;
+import com.fr.base.Style;
+import com.fr.base.TempNameStyle;
 import com.fr.base.io.XMLEncryptUtils;
 import com.fr.base.process.ProcessOperator;
 import com.fr.base.remote.RemoteDeziConstants;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.core.ActionFactory;
-import com.fr.design.actions.insert.cell.*;
+import com.fr.design.actions.insert.cell.BiasCellAction;
+import com.fr.design.actions.insert.cell.ChartCellAction;
+import com.fr.design.actions.insert.cell.DSColumnCellAction;
+import com.fr.design.actions.insert.cell.FormulaCellAction;
+import com.fr.design.actions.insert.cell.GeneralCellAction;
+import com.fr.design.actions.insert.cell.ImageCellAction;
+import com.fr.design.actions.insert.cell.RichTextCellAction;
+import com.fr.design.actions.insert.cell.SubReportCellAction;
 import com.fr.design.actions.insert.flot.ChartFloatAction;
 import com.fr.design.actions.insert.flot.FormulaFloatAction;
 import com.fr.design.actions.insert.flot.ImageFloatAction;
@@ -17,7 +31,11 @@ import com.fr.design.fun.ElementUIProvider;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.javascript.ProcessTransitionAdapter;
-import com.fr.design.mainframe.*;
+import com.fr.design.mainframe.App;
+import com.fr.design.mainframe.DecodeDialog;
+import com.fr.design.mainframe.InformationCollector;
+import com.fr.design.mainframe.JTemplate;
+import com.fr.design.mainframe.JWorkBook;
 import com.fr.design.mainframe.bbs.BBSGuestPane;
 import com.fr.design.mainframe.form.FormECCompositeProvider;
 import com.fr.design.mainframe.form.FormECDesignerProvider;
@@ -27,13 +45,24 @@ import com.fr.design.mainframe.loghandler.DesignerLogImpl;
 import com.fr.design.parameter.WorkBookParameterReader;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.file.FILE;
-import com.fr.general.*;
+import com.fr.general.ComparatorUtils;
+import com.fr.general.FRLogger;
+import com.fr.general.IOUtils;
+import com.fr.general.Inter;
+import com.fr.general.ModuleContext;
 import com.fr.general.xml.GeneralXMLTools;
 import com.fr.io.importer.Excel2007ReportImporter;
 import com.fr.io.importer.ExcelReportImporter;
 import com.fr.main.impl.WorkBook;
-import com.fr.quickeditor.ChartQuickEditor;
-import com.fr.quickeditor.cellquick.*;
+import com.fr.quickeditor.cellquick.CellBiasTextPainterEditor;
+import com.fr.quickeditor.cellquick.CellDSColumnEditor;
+import com.fr.quickeditor.cellquick.CellFormulaQuickEditor;
+import com.fr.quickeditor.cellquick.CellImageQuickEditor;
+import com.fr.quickeditor.cellquick.CellRichTextEditor;
+import com.fr.quickeditor.cellquick.CellStringQuickEditor;
+import com.fr.quickeditor.cellquick.CellSubReportEditor;
+import com.fr.quickeditor.chartquick.BasicChartQuickEditor;
+import com.fr.quickeditor.chartquick.FloatChartQuickEditor;
 import com.fr.quickeditor.floatquick.FloatImageQuickEditor;
 import com.fr.quickeditor.floatquick.FloatStringQuickEditor;
 import com.fr.report.cell.CellElementValueConverter;
@@ -55,8 +84,11 @@ import com.fr.stable.xml.ObjectXMLWriterFinder;
 import com.fr.start.BBSGuestPaneProvider;
 import com.fr.xml.ReportXMLUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -107,23 +139,27 @@ public class DesignerModule extends DesignModule {
     /**
      * kunsnat:注册单元格选中Editor
      */
-
     private void registerCellEditor() {
-        ActionFactory.registerCellEditor(String.class, CellStringQuickEditor.class);
-        ActionFactory.registerCellEditor(Number.class, CellStringQuickEditor.class);
-        ActionFactory.registerCellEditor(Formula.class, CellFormulaQuickEditor.class);
-        ActionFactory.registerCellEditor(SubReport.class, CellSubReportEditor.class);
-        ActionFactory.registerCellEditor(RichText.class, CellRichTextEditor.class);
-        ActionFactory.registerCellEditor(DSColumn.class, CellDSColumnEditor.class);
-        ActionFactory.registerCellEditor(Image.class, CellImageQuickEditor.class);
-        ActionFactory.registerCellEditor(BiasTextPainter.class, CellBiasTextPainterEditor.class);
-        ActionFactory.registerCellEditor(BufferedImage.class, CellImageQuickEditor.class);
 
-        ActionFactory.registerChartCellEditorInEditor(ChartQuickEditor.class);
+        ActionFactory.registerCellEditorClass(String.class, CellStringQuickEditor.class);
+        ActionFactory.registerCellEditorClass(Number.class, CellStringQuickEditor.class);
+        ActionFactory.registerCellEditorClass(BaseFormula.class, CellFormulaQuickEditor.class);
+        ActionFactory.registerCellEditorClass(SubReport.class, CellSubReportEditor.class);
+        ActionFactory.registerCellEditorClass(RichText.class, CellRichTextEditor.class);
+        ActionFactory.registerCellEditorClass(DSColumn.class, CellDSColumnEditor.class);
+        ActionFactory.registerCellEditorClass(Image.class, CellImageQuickEditor.class);
+        ActionFactory.registerCellEditorClass(BiasTextPainter.class, CellBiasTextPainterEditor.class);
+        ActionFactory.registerCellEditorClass(BufferedImage.class, CellImageQuickEditor.class);
+
+        ActionFactory.registerChartCellEditorInEditor(BasicChartQuickEditor.class);
 
         Set<ElementUIProvider> providers = ExtraDesignClassManager.getInstance().getArray(ElementUIProvider.MARK_STRING);
         for (ElementUIProvider provider : providers) {
-            ActionFactory.registerCellEditor(provider.targetObjectClass(), provider.quickEditor());
+            try {
+                ActionFactory.registerCellEditorClass(provider.targetObjectClass(), provider.quickEditor());
+            } catch (Exception e) {
+                FRLogger.getLogger().error(e.getMessage(), e);
+            }
         }
     }
 
@@ -137,13 +173,13 @@ public class DesignerModule extends DesignModule {
      * kunnat: 注册悬浮选中Editor
      */
     private void registerFloatEditor() {
-        ActionFactory.registerFloatEditor(String.class, FloatStringQuickEditor.class);
-        ActionFactory.registerFloatEditor(Formula.class, FloatStringQuickEditor.class);
 
-        FloatImageQuickEditor floatImageQuickEditor = new FloatImageQuickEditor();
-        ActionFactory.registerFloatEditor(Image.class, FloatImageQuickEditor.class);
-        ActionFactory.registerFloatEditor(BufferedImage.class, FloatImageQuickEditor.class);
-        ActionFactory.registerChartFloatEditorInEditor(ChartQuickEditor.class);
+        ActionFactory.registerFloatEditorClass(String.class, FloatStringQuickEditor.class);
+        ActionFactory.registerFloatEditorClass(Formula.class, FloatStringQuickEditor.class);
+        ActionFactory.registerFloatEditorClass(Image.class, FloatImageQuickEditor.class);
+        ActionFactory.registerFloatEditorClass(BufferedImage.class, FloatImageQuickEditor.class);
+
+        ActionFactory.registerChartFloatEditorInEditor(FloatChartQuickEditor.class);
     }
 
     /**

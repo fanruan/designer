@@ -1,7 +1,6 @@
 package com.fr.design.chart.report;
 
 import com.fr.base.chart.chartdata.TopDefinitionProvider;
-import com.fr.chart.chartdata.TopDefinition;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartdata.MapMoreLayerReportDefinition;
@@ -9,11 +8,11 @@ import com.fr.chart.chartdata.MapMoreLayerTableDefinition;
 import com.fr.chart.chartdata.MapSingleLayerReportDefinition;
 import com.fr.chart.chartdata.MapSingleLayerTableDefinition;
 import com.fr.design.beans.FurtherBasicBeanPane;
+import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.gui.frpane.UIComboBoxPane;
 import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.mainframe.chart.gui.data.DataContentsPane;
-import com.fr.design.dialog.BasicScrollPane;
 import com.fr.general.Inter;
 
 import javax.swing.*;
@@ -88,7 +87,7 @@ public class MapDataPane extends DataContentsPane {
 					protected void initLayout() {
 						this.setLayout(new BorderLayout(0, 6));
 						JPanel northPane = new JPanel(new FlowLayout(FlowLayout.LEFT));
-						northPane.add(new BoldFontTextLabel(Inter.getLocText("Map Show Type") + ":"));
+						northPane.add(new BoldFontTextLabel(Inter.getLocText("FR-Chart-Map_ShowWay") + ":"));
 						northPane.add(jcb);
 						this.add(northPane, BorderLayout.NORTH);
 						this.add(cardPane, BorderLayout.CENTER);

@@ -1,46 +1,7 @@
 package com.fr.design.write.submit;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.EventObject;
-import java.util.List;
-
-import javax.swing.AbstractCellEditor;
-import javax.swing.BorderFactory;
-import javax.swing.DefaultCellEditor;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.Icon;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTree;
-import javax.swing.ListSelectionModel;
-import javax.swing.SwingUtilities;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableColumn;
-import javax.swing.tree.DefaultTreeCellRenderer;
-import javax.swing.tree.DefaultTreeModel;
-
+import com.fr.base.BaseFormula;
 import com.fr.base.BaseUtils;
-import com.fr.base.Formula;
 import com.fr.base.Parameter;
 import com.fr.data.DataConstants;
 import com.fr.data.condition.JoinCondition;
@@ -85,6 +46,27 @@ import com.fr.write.config.DeleteConfig;
 import com.fr.write.config.InsertConfig;
 import com.fr.write.config.IntelliDMLConfig;
 import com.fr.write.config.UpdateConfig;
+
+import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableColumn;
+import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.DefaultTreeModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.EventObject;
+import java.util.List;
 
 //august：这个东西应该分成两类，一类是有单元格的情况，一类是没有单元格的情况
 public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
@@ -752,7 +734,7 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
 				String columnName = column.getColumnName();
 				if (!acceptPara && column.getColumnValue() instanceof Parameter) {
 					// 表单中,将以前的参数转换为公式
-					column.setColumnValue(new Formula(((Parameter)column.getColumnValue()).getName()));
+					column.setColumnValue(BaseFormula.createFormulaBuilder().build(((Parameter)column.getColumnValue()).getName()));
 				}
 
 				KeyColumnNameValue newColumnNameValue = new KeyColumnNameValue(column.isKey(), new ColumnName(columnName), new ColumnValue(column.getColumnValue()),

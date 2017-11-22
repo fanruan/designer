@@ -1,5 +1,6 @@
 package com.fr.design.widget.ui;
 
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icombobox.DictionaryComboBox;
 import com.fr.design.gui.icombobox.DictionaryConstants;
@@ -55,9 +56,7 @@ public class MultiFileEditorPane extends FieldEditorDefinePane<MultiFileEditor> 
         double[] rowSize = {p, p, p};
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}};
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 22, 10);
-
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 00));
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
         contenter.add(panel, BorderLayout.CENTER);
 
         return contenter;

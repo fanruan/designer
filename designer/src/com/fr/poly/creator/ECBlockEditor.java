@@ -34,6 +34,7 @@ import java.awt.*;
  */
 public class ECBlockEditor extends BlockEditor<ECBlockPane, PolyECBlock> {
     private static final int HEIGHT_MORE = 5;
+    private int resolution = ScreenResolution.getScreenResolution();
 
     public ECBlockEditor(PolyDesigner designer, ECBlockCreator creator) {
         super(designer, creator);
@@ -46,6 +47,9 @@ public class ECBlockEditor extends BlockEditor<ECBlockPane, PolyECBlock> {
             @Override
             public void targetModified(TargetModifiedEvent e) {
                 designer.fireTargetModified();
+                if (DesignerContext.isRefreshOnTargetModifiedEnabled()) {
+                    resetSelectionAndChooseState();
+                }
             }
         });
     }
@@ -157,16 +161,26 @@ public class ECBlockEditor extends BlockEditor<ECBlockPane, PolyECBlock> {
             EastRegionContainerPane.getInstance().replaceCellAttrPane(CellElementPropertyPane.getInstance());
             EastRegionContainerPane.getInstance().replaceCellElementPane(QuickEditorRegion.getInstance());
             EastRegionContainerPane.getInstance().replaceWidgetSettingsPane(CellWidgetPropertyPane.getInstance());
-        }
+            // 条件属性
+            ConditionAttributesGroupPane conditionAttributesGroupPane = ConditionAttributesGroupPane.getInstance();
+            conditionAttributesGroupPane.populate(editComponent);
 
-        EastRegionContainerPane.getInstance().replaceCellAttrPane(CellElementPropertyPane.getInstance());
+            EastRegionContainerPane.getInstance().updateCellElementState(isSelectedOneCell());
+
+        }
 
         // 超级链接
         HyperlinkGroupPane hyperlinkGroupPane = DesignerContext.getDesignerFrame().getSelectedJTemplate()
                 .getHyperLinkPane(HyperlinkGroupPaneActionImpl.getInstance());
         hyperlinkGroupPane.populate(editComponent);
-        // 条件属性
-        ConditionAttributesGroupPane conditionAttributesGroupPane = ConditionAttributesGroupPane.getInstance();
-        conditionAttributesGroupPane.populate(editComponent);
+    }
+
+    private boolean isSelectedOneCell() {
+        JTemplate jTemplate = DesignerContext.getDesignerFrame().getSelectedJTemplate();
+        if (jTemplate == null) {
+            return false;
+        }
+        ElementCasePane ePane = (ElementCasePane)jTemplate.getCurrentElementCasePane();
+        return ePane != null && ePane.isSelectedOneCell();
     }
 }

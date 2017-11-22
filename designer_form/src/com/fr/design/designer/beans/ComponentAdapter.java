@@ -9,6 +9,7 @@ import javax.swing.JPopupMenu;
 
 import com.fr.design.beans.GroupModel;
 import com.fr.design.designer.beans.events.DesignerEditor;
+import com.fr.design.designer.creator.PropertyGroupPane;
 
 /**
  * 组件适配器接口
@@ -39,6 +40,12 @@ public interface ComponentAdapter {
      * @return BeanPropertyModel
      */
     ArrayList<GroupModel> getXCreatorPropertyModel();
+
+    /**
+     * 为当前组件创建描述各属性pane, 分组返回
+     * @return ArrayList<PropertyGroupPane>
+     */
+    ArrayList<PropertyGroupPane> getXCreatorPropertyPane();
 
 	/**
      * 提供双击设计器的编辑器

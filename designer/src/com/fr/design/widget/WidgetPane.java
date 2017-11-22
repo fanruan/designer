@@ -12,7 +12,6 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.CellWidgetPropertyPane;
-import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.widget.btn.ButtonConstants;
 import com.fr.form.ui.Button;
@@ -35,7 +34,7 @@ public class WidgetPane extends AbstractAttrNoScrollPane implements ItemListener
     private EditorTypeComboBox editorTypeComboBox;
     private CellWidgetCardPane cellEditorCardPane;
     private boolean shouldFireSelectedEvent = true;
-    protected JPanel northPane;
+    private JPanel northPane;
 
     public WidgetPane() {
         this(null);
@@ -48,6 +47,12 @@ public class WidgetPane extends AbstractAttrNoScrollPane implements ItemListener
         this.initComponents(pane);
     }
 
+
+    public boolean isShouldFireSelectedEvent(){
+        return shouldFireSelectedEvent;
+    }
+
+
     protected void initComponents(ElementCasePane pane) {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
@@ -55,7 +60,18 @@ public class WidgetPane extends AbstractAttrNoScrollPane implements ItemListener
         editorTypeComboBox = new EditorTypeComboBox(pane != null);
         editorTypeComboBox.setPreferredSize(new Dimension(155, 30));
         editorTypeComboBox.setMaximumRowCount(16);
+        northPane = initNorthPane();
+        northPane.setBorder(BorderFactory.createEmptyBorder(12, 10, 10, 15));
+        this.add(northPane, BorderLayout.NORTH);
 
+        editorTypeComboBox.addItemListener(this);
+
+        cellEditorCardPane = initWidgetCardPane(pane);
+        this.add(cellEditorCardPane, BorderLayout.CENTER);
+        this.addAttributeChangeListener(listener);
+    }
+
+    public JPanel initNorthPane() {
         UILabel emptyLabel = new UILabel();
         emptyLabel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
 
@@ -66,15 +82,12 @@ public class WidgetPane extends AbstractAttrNoScrollPane implements ItemListener
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(Inter.getLocText(new String[]{"FR-Designer_Selection", "FR-Designer_Widget"})), emptyLabel, editorTypeComboBox},
         };
-        northPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
-        northPane.setBorder(BorderFactory.createEmptyBorder(12, 10, 10, 15));
-        this.add(northPane, BorderLayout.NORTH);
+        JPanel jPanel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+        return jPanel;
+    }
 
-        editorTypeComboBox.addItemListener(this);
-
-        cellEditorCardPane = new CellWidgetCardPane(pane);
-        this.add(cellEditorCardPane, BorderLayout.CENTER);
-        this.addAttributeChangeListener(listener);
+    protected CellWidgetCardPane initWidgetCardPane(ElementCasePane pane) {
+        return new CellWidgetCardPane(pane);
     }
 
     protected JPanel createContentPane() {
@@ -85,8 +98,9 @@ public class WidgetPane extends AbstractAttrNoScrollPane implements ItemListener
     AttributeChangeListener listener = new AttributeChangeListener() {
         @Override
         public void attributeChange() {
-            CellWidgetPropertyPane.getInstance().update();
-            DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified();
+            if(shouldFireSelectedEvent){
+                CellWidgetPropertyPane.getInstance().update();
+            }
         }
     };
 
@@ -123,30 +137,28 @@ public class WidgetPane extends AbstractAttrNoScrollPane implements ItemListener
             editorTypeComboBox.setSelectedIndex(-1);
             return;
         }
-
+        // 预定义组件
         if (widget instanceof NameWidget) {
             String name = ((NameWidget) widget).getName();
             shouldFireSelectedEvent = false;
             editorTypeComboBox.setSelectedItem(new Item(name, name));
-            shouldFireSelectedEvent = true;
             cellEditorCardPane.populate(widget);
-            return;
+            shouldFireSelectedEvent = true;
         }
-
-        Class clazz = widget.getClass();
-        if (ArrayUtils.contains(ButtonConstants.CLASSES4BUTTON, clazz)) {
-            clazz = Button.class;
+        // 内置组件
+        else {
+            Class clazz = widget.getClass();
+            if (ArrayUtils.contains(ButtonConstants.CLASSES4BUTTON, clazz)) {
+                clazz = Button.class;
+            }
+            shouldFireSelectedEvent = false;
+            editorTypeComboBox.setSelectedItemByWidgetClass(clazz);
+            cellEditorCardPane.populate(widget);
+            shouldFireSelectedEvent = true;
         }
-        cellEditorCardPane.populate(widget);
-
-        shouldFireSelectedEvent = false;
-        editorTypeComboBox.setSelectedItemByWidgetClass(clazz);
-        shouldFireSelectedEvent = true;
-
         removeAttributeChangeListener();
         initAllListeners();
         this.addAttributeChangeListener(listener);
-
     }
 
     public Widget update() {
@@ -157,6 +169,10 @@ public class WidgetPane extends AbstractAttrNoScrollPane implements ItemListener
         this.populate(widget);
     }
 
+
+    public void registerListener(){
+        initAllListeners();
+    }
 
     private static class EditorTypeComboBox extends UIComboBox {
 

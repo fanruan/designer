@@ -1,5 +1,6 @@
 package com.fr.design.widget.ui.designer.layout;
 
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.icheckbox.UICheckBox;
@@ -33,19 +34,20 @@ public class WCardLayoutDefinePane extends AbstractDataModify<WCardLayout> {
     }
 
     public void initComponent() {
+        this.setLayout(FRGUIPaneFactory.createBorderLayout());
         carouselInterval = new UISpinner(0, 20, 1, 0);
         accessibleCardTagWLayoutBorderStyleEditor = new AccessibleCardTagWLayoutBorderStyleEditor();
-        accessibleCardTagWLayoutBorderStyleEditor.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         JPanel accessibleCardlayout = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        accessibleCardlayout.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        accessibleCardlayout.add(accessibleCardTagWLayoutBorderStyleEditor, BorderLayout.CENTER);
-        this.setLayout(FRGUIPaneFactory.createBorderLayout());
+        JPanel stylePane =  TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer-Widget_Style")), accessibleCardTagWLayoutBorderStyleEditor}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W3, IntervalConstants.INTERVAL_L1);
+        stylePane.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        accessibleCardlayout.add(stylePane, BorderLayout.CENTER);
         UIExpandablePane advanceExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer_Advanced"), 280, 20, accessibleCardlayout);
         final JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
         jPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         setCarousel = new UICheckBox(Inter.getLocText("FR-Designer_setCarousel"));
-
-        IntervalPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{new UILabel(Inter.getLocText("FR-Designer_carouselInterval")), carouselInterval}}, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);
+        IntervalPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{
+                new UILabel(Inter.getLocText("FR-Designer_carouselInterval")), carouselInterval}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
         IntervalPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         jPanel.add(setCarousel, BorderLayout.NORTH);
         jPanel.add(IntervalPane, BorderLayout.CENTER);

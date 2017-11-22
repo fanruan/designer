@@ -26,9 +26,16 @@ public class UIComboBoxRenderer extends DefaultListCellRenderer {
 	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 		cellHasFocus = cellHasFocus && !this.isEnabled();
 		JLabel renderer =(JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-		renderer.setForeground(Color.black);
-		list.setSelectionBackground(UIConstants.FLESH_BLUE);
-		list.setSelectionForeground(Color.black);
+		renderer.setOpaque(true);
+		list.setSelectionBackground(UIConstants.NORMAL_BLUE);
+		list.setSelectionForeground(Color.WHITE);
+		if (isSelected) {
+			renderer.setForeground(list.getSelectionForeground());
+			renderer.setBackground(list.getSelectionBackground());
+		} else {
+			renderer.setForeground(list.getForeground());
+			renderer.setBackground(list.getBackground());
+		}
 		renderer.setText(" " + renderer.getText());
 		return renderer;
 	}

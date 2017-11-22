@@ -1,5 +1,6 @@
 package com.fr.design.gui.controlpane;
 
+import com.fr.base.chart.BasePlot;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ilable.UILabel;
@@ -11,10 +12,13 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Nameable;
+import com.fr.stable.StringUtils;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -24,20 +28,26 @@ import java.awt.event.*;
 public abstract class UIControlPane extends BasicPane implements UnrepeatedNameHelper {
     protected static final int SHORT_WIDTH = 30; //每加一个short Divider位置加30
     protected JPanel controlUpdatePane;
-
     private ShortCut4JControlPane[] shorts;
     private NameableCreator[] creators;
     private ToolBarDef toolbarDef;
-
     private UIToolbar toolBar;
     private UIToolbar topToolBar;
-    protected PopupEditDialog popupEditDialog;
+    protected Window popupEditDialog;
     // peter:这是整体的一个cardLayout Pane
     protected CardLayout cardLayout;
-
     protected JPanel cardPane;
+    protected BasePlot plot;
+    private static final int TOP_TOOLBAR_HEIGHT = 20;
+    private static final int TOP_TOOLBAR_WIDTH = 156;  // 可能因为用了tablelayout，要比其他地方多一个像素，看起来才正常
+    private static final int TOP_TOOLBAR_WIDTH_SHORT = 76;
 
     public UIControlPane() {
+        this.initComponentPane();
+    }
+
+    public UIControlPane(BasePlot plot) {
+        this.plot =plot;
         this.initComponentPane();
     }
 
@@ -94,6 +104,11 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
 
     public abstract void saveSettings();
 
+    // 是否使用新样式
+    protected boolean isNewStyle() {
+        return true;
+    }
+
     protected void initComponentPane() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.creators = this.createNameableCreators();
@@ -107,16 +122,31 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
         UILabel selectLabel = new UILabel();
         cardPane.add(selectLabel, "SELECT");
         cardPane.add(controlUpdatePane, "EDIT");
-        popupEditDialog = new PopupEditDialog(cardPane);
-        // SplitPane
-//        JSplitPane mainSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, getLeftPane(), cardPane);
-//        mainSplitPane.setBorder(BorderFactory.createLineBorder(GUICoreUtils.getTitleLineBorderColor()));
-//        mainSplitPane.setOneTouchExpandable(true);
+        if (isNewStyle()) {
+            getPopupEditDialog(cardPane);
+            this.add(getLeftPane(), BorderLayout.CENTER);
+            this.setBorder(BorderFactory.createEmptyBorder(10, 10, 15, 10));
+        } else {
+            // 增加边框
+            JPanel leftPaneWrapper = new JPanel(new BorderLayout());
+            leftPaneWrapper.add(getLeftPane(), BorderLayout.CENTER);
+            leftPaneWrapper.setBorder(BorderFactory.createEmptyBorder(6, 6, 6, 6));
+            JPanel rightPaneWrapper = new JPanel(new BorderLayout());
+            rightPaneWrapper.add(cardPane, BorderLayout.CENTER);
+            rightPaneWrapper.setBorder(BorderFactory.createEmptyBorder(6, 6, 6, 6));
+            // SplitPane
+            JSplitPane mainSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, leftPaneWrapper, rightPaneWrapper);
+            mainSplitPane.setBorder(BorderFactory.createLineBorder(GUICoreUtils.getTitleLineBorderColor()));
+            mainSplitPane.setOneTouchExpandable(true);
+            this.add(mainSplitPane, BorderLayout.CENTER);
+            mainSplitPane.setDividerLocation(getLeftPreferredSize());
+        }
 
-        this.add(getLeftPane(), BorderLayout.CENTER);
-        this.setBorder(BorderFactory.createEmptyBorder(10, 10, 15, 15));
-//        mainSplitPane.setDividerLocation(getLeftPreferredSize());
         this.checkButtonEnabled();
+    }
+
+    protected void getPopupEditDialog (JPanel cardPane) {
+        popupEditDialog =  new PopupEditDialog(cardPane);
     }
 
     protected abstract JPanel createControlUpdatePane();
@@ -151,7 +181,8 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
         // 封装一层，加边框
         JPanel toolBarPane = new JPanel(new BorderLayout());
         toolBarPane.add(toolBar, BorderLayout.CENTER);
-        toolBarPane.setBorder(BorderFactory.createMatteBorder(1, 1, 0, 1, new Color(201, 198, 184)));
+        toolBarPane.setBorder(BorderFactory.createMatteBorder(1, 1, 0, 1, UIConstants.RULER_LINE_COLOR));
+
         leftContentPane.add(toolBarPane, BorderLayout.NORTH);
 
         //  顶部标签及add按钮
@@ -163,22 +194,28 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
                 g2.fillRect(0, 0, c.getWidth(), c.getHeight());
             }
         });
+        topToolBar.setBorder(null);
         topToolBar.setLayout(new BorderLayout());
         ShortCut addItem = addItemShortCut().getShortCut();
         addItem.intoJToolBar(topToolBar);
-        topToolBar.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
-        double p = TableLayout.PREFERRED;
-        double f = TableLayout.FILL;
-        double[] columnSize = { p, f, 155};
-        double[] rowSize = {p};
-        Component[][] components = new Component[][]{
-                new Component[]{new UILabel(getAddItemText()), null, topToolBar},
-        };
-        JPanel leftTopPane = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
+
+        JPanel leftTopPane = getLeftTopPane(topToolBar);
+
         leftTopPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 6, 0));
         leftPane.add(leftTopPane, BorderLayout.NORTH);
 
         return leftPane;
+    }
+
+    protected JPanel getLeftTopPane (UIToolbar topToolBar) {
+        double p = TableLayout.PREFERRED;
+        double f = TableLayout.FILL;
+        double[] columnSize = { p, f, isNewStyle() ? TOP_TOOLBAR_WIDTH : TOP_TOOLBAR_WIDTH_SHORT};
+        double[] rowSize = {TOP_TOOLBAR_HEIGHT};
+        Component[][] components = new Component[][]{
+                new Component[]{new UILabel(getAddItemText()), new JPanel(), topToolBar},
+        };
+       return TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
     }
 
     /**
@@ -269,6 +306,8 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
         ShortCut addItem = addItemShortCut().getShortCut();
         addItem.intoJToolBar(topToolBar);
         topToolBar.validate();
+        this.controlUpdatePane = createControlUpdatePane();//REPORT-4841 刷新一下编辑面板
+        cardPane.add(controlUpdatePane, "EDIT");
 
         this.repaint();
     }
@@ -276,15 +315,18 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
     // 点击"编辑"按钮，弹出面板
     protected class PopupEditDialog extends JDialog {
         private JComponent editPane;
+        private PopupToolPane popupToolPane;
         private static final int WIDTH = 570;
         private static final int HEIGHT = 490;
 
-        PopupEditDialog(JComponent pane) {
+        public PopupEditDialog(JComponent pane) {
             super(DesignerContext.getDesignerFrame());
             setUndecorated(true);
             pane.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10));
             this.editPane = pane;
             JPanel editPaneWrapper = new JPanel(new BorderLayout());
+            popupToolPane = new PopupToolPane(this);
+            editPaneWrapper.add(popupToolPane, BorderLayout.NORTH);
             editPaneWrapper.add(editPane, BorderLayout.CENTER);
             editPaneWrapper.setBorder(BorderFactory.createLineBorder(UIConstants.POP_DIALOG_BORDER, 1));
             this.getContentPane().add(editPaneWrapper, BorderLayout.CENTER);
@@ -294,10 +336,20 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
             initListener();
         }
 
+        public void setTitle(String title) {
+            popupToolPane.setTitle(title);
+        }
+
         private void hideDialog() {
             // 检查是否有子弹窗，如果有，则不隐藏
             for (Window window : getOwnedWindows()) {
                 if (window.isVisible()) {
+                    return;
+                }
+            }
+            // 如果有可见模态对话框，则不隐藏
+            for (Window window : DesignerContext.getDesignerFrame().getOwnedWindows()) {
+                if (window instanceof JDialog && window.isVisible() && ((JDialog)window).isModal()) {
                     return;
                 }
             }
@@ -313,6 +365,111 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
                     hideDialog();
                 }
             });
+        }
+    }
+
+    // 移动弹出编辑面板的工具条
+    private class PopupToolPane extends JPanel {
+        private JDialog parentDialog;  // 如果不在对话框中，值为null
+        private Color originColor;  // 初始背景
+        private JPanel contentPane;
+        private UILabel titleLabel;
+        private Point mouseDownCompCoords;  // 存储按下左键的位置，移动对话框时会用到
+
+        private static final int MIN_X = -150;
+        private static final int MAX_X_SHIFT = 50;
+        private static final int MAX_Y_SHIFT = 50;
+
+        private MouseListener mouseListener = new MouseAdapter() {
+            @Override
+            public void mouseExited(MouseEvent e) {
+                setCursor(Cursor.getDefaultCursor());
+                if (mouseDownCompCoords == null) {
+                    contentPane.setBackground(originColor);
+                }
+                repaint();
+            }
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                mouseDownCompCoords = null;
+                if (!getBounds().contains(e.getPoint())) {
+                    contentPane.setBackground(originColor);
+                }
+            }
+            @Override
+            public void mousePressed(MouseEvent e) {
+                mouseDownCompCoords = e.getPoint();
+            }
+        };
+
+        private MouseMotionListener mouseMotionListener = new MouseMotionListener() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+                contentPane.setBackground(UIConstants.POPUP_TITLE_BACKGROUND);
+                repaint();
+            }
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                if (mouseDownCompCoords != null) {
+                    Point currCoords = e.getLocationOnScreen();
+                    int x = currCoords.x - mouseDownCompCoords.x;
+                    int y = currCoords.y - mouseDownCompCoords.y;
+                    //屏幕可用区域
+                    Rectangle screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+
+                    int minY = screen.y;
+                    int maxX = Toolkit.getDefaultToolkit().getScreenSize().width - MAX_X_SHIFT;
+                    int maxY = Toolkit.getDefaultToolkit().getScreenSize().height - MAX_Y_SHIFT;
+                    if (x < MIN_X) {
+                        x = MIN_X;
+                    } else if (x > maxX) {
+                        x = maxX;
+                    }
+                    if (y < minY) {
+                        y = minY;
+                    } else if (y > maxY) {
+                        y = maxY;
+                    }
+                    // 移动到屏幕边缘时，需要校正位置
+                    parentDialog.setLocation(x, y);
+                }
+            }
+        };
+
+        public PopupToolPane(JDialog parentDialog) {
+            this(StringUtils.EMPTY, parentDialog);
+        }
+
+        public PopupToolPane(String title, JDialog parentDialog) {
+            super();
+            this.parentDialog = parentDialog;
+            originColor = UIConstants.DIALOG_TITLEBAR_BACKGROUND;
+
+            contentPane = new JPanel();
+            contentPane.setBackground(originColor);
+            contentPane.setLayout(new BorderLayout());
+            titleLabel = new UILabel(title);
+            Font font = new Font("SimSun", Font.PLAIN, 12);
+            titleLabel.setFont(font);
+            contentPane.add(titleLabel, BorderLayout.WEST);
+            contentPane.setBorder(new EmptyBorder(5, 14, 6, 0));
+
+            setLayout(new BorderLayout());
+            add(contentPane, BorderLayout.CENTER);
+            setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, UIConstants.TOOLBAR_BORDER_COLOR));
+
+            addMouseListener(mouseListener);
+            addMouseMotionListener(mouseMotionListener);
+        }
+
+        public void setTitle(String title) {
+            titleLabel.setText(title);
+        }
+
+        @Override
+        public Dimension getPreferredSize() {
+            return new Dimension(super.getPreferredSize().width, 28);
         }
     }
 }

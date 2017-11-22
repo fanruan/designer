@@ -1,12 +1,5 @@
 package com.fr.design.mainframe.chart.gui.style.axis;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-import javax.swing.JSeparator;
-
 import com.fr.chart.chartattr.Axis;
 import com.fr.chart.chartattr.Bar2DPlot;
 import com.fr.chart.chartattr.CategoryAxis;
@@ -15,10 +8,18 @@ import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.style.FormatPane;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.mainframe.chart.gui.style.*;
-import com.fr.general.Inter;
-import com.fr.stable.Constants;
+import com.fr.design.mainframe.chart.gui.style.ChartAxisLabelPane;
+import com.fr.design.mainframe.chart.gui.style.ChartAxisLineStylePane;
+import com.fr.design.mainframe.chart.gui.style.ChartAxisTitleNoFormulaPane;
+import com.fr.design.mainframe.chart.gui.style.ChartAxisTitlePane;
+import com.fr.design.mainframe.chart.gui.style.ChartAxisValueTypePane;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.general.Inter;
+import com.fr.plugin.chart.designer.component.format.FormatPaneWithOutFont;
+import com.fr.stable.Constants;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class ChartCategoryPane extends ChartAxisUsePane<Axis>{
 	
@@ -46,7 +47,7 @@ public class ChartCategoryPane extends ChartAxisUsePane<Axis>{
 
 			axisValuePane = new ChartAxisValueTypePane();
 			axisLineStylePane = new ChartAxisLineStylePane();
-			formatPane = new FormatPane();
+			formatPane = new FormatPaneWithOutFont();
 			axisLabelPane = new ChartAxisLabelPane();
 			axisReversed = new UICheckBox(Inter.getLocText("AxisReversed"));
             this.setLayout(new BorderLayout());

@@ -163,8 +163,8 @@ public class GisMapPlotPane extends AbstractChartTypePane{
             styleList.get(BAIDU).isPressing  =false;
 			keyInput.setText(plot.getGoogleKey());
 		}
-        styleList.get(GOOGLE).checkBackground();
-        styleList.get(BAIDU).checkBackground();
+        styleList.get(GOOGLE).checkBorder();
+        styleList.get(BAIDU).checkBorder();
 	}
 
     /**

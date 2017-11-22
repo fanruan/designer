@@ -1,22 +1,14 @@
 package com.fr.design.dialog;
 
-import java.awt.AWTEvent;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.LayoutManager;
+import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.gui.iscrollbar.UIScrollBar;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-import javax.swing.JScrollBar;
-
-import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.gui.iscrollbar.UIScrollBar;
 
 public abstract class BasicScrollPane<T> extends BasicBeanPane<T>{
 	private static final long serialVersionUID = -4293765343535336275L;
@@ -119,7 +111,7 @@ public abstract class BasicScrollPane<T> extends BasicBeanPane<T>{
 	/**
 	 * august:不容易啊 还要用笔画图立个方程才计算出来
 	 * 
-	 * @param e
+	 * @param
 	 */
 	protected void ajustValues() {
 		doLayout();
@@ -163,24 +155,37 @@ public abstract class BasicScrollPane<T> extends BasicBeanPane<T>{
 			} else {
 				int preferheight = leftcontentPane.getPreferredSize().height;
 				int value = scrollBar.getValue();
-				
+
 				int baseValue = MAXVALUE - scrollBar.getVisibleAmount();
 				beginY = baseValue == 0 ? 0 : value * (preferheight - maxheight) / baseValue;
 				if(MAXVALUE - scrollBar.getVisibleAmount() != 0) {
 					beginY = value * (preferheight - maxheight) / (MAXVALUE - scrollBar.getVisibleAmount());
 				}
 			}
-			int width = parent.getWidth();
-			int height = parent.getHeight();
-			if (leftcontentPane.getPreferredSize().height > maxheight) {
-				leftcontentPane.setBounds(0, -beginY, width - scrollBar.getWidth() - DET_WIDTH_OVER_HEIGHT, height + beginY);
-				scrollBar.setBounds(width - scrollBar.getWidth() - 1, 0, scrollBar.getWidth(), height);
-			} else {
-				leftcontentPane.setBounds(0, 0, width - DET_WIDTH, height);
-			}
+            setLeftContentPaneBounds(parent, scrollBar, beginY, maxheight);
 			leftcontentPane.validate();
 		}
 
+	}
+
+	protected void setLeftContentPaneBounds(Container parent, UIScrollBar scrollBar, int beginY, int maxheight) {
+        int width = parent.getWidth();
+        int height = parent.getHeight();
+        if (leftcontentPane.getPreferredSize().height > maxheight && scrollBar.isVisible()) {
+            leftcontentPane.setBounds(0, -beginY, width - scrollBar.getWidth() + getOverWidth() - DET_WIDTH_OVER_HEIGHT, height + beginY);
+            scrollBar.setBounds(width - scrollBar.getWidth() - 1, 0, scrollBar.getWidth(), height);
+        } else {
+			int hideBarWidth = hideBarWidth() ? scrollBar.getWidth() : 0;
+			leftcontentPane.setBounds(0, 0, width - DET_WIDTH + hideBarWidth, height);
+        }
+    }
+
+    protected int getOverWidth(){
+		return 0;
+	}
+
+	protected boolean hideBarWidth(){
+    	return false;
 	}
 
     protected boolean isShowScrollBar() {
@@ -191,7 +196,7 @@ public abstract class BasicScrollPane<T> extends BasicBeanPane<T>{
 	public T updateBean() {
 		return null;
 	}
-	
+
 	/**
 	 * 用于在调用removeAll以后恢复原来pane的结构，放在这边是因为BarLayout是内部类
 	 * @param pane

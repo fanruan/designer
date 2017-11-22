@@ -3,6 +3,8 @@
  */
 package com.fr.start;
 
+import com.fr.base.ConfigManagerCreatorProxy;
+import com.fr.base.ConfigManagerFactory;
 import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
@@ -22,10 +24,22 @@ import com.fr.env.SignIn;
 import com.fr.file.FILE;
 import com.fr.file.FILEFactory;
 import com.fr.file.FileFILE;
-import com.fr.general.*;
+import com.fr.general.ComparatorUtils;
+import com.fr.general.FRLogger;
+import com.fr.general.GeneralContext;
+import com.fr.general.Inter;
+import com.fr.general.ModuleContext;
+import com.fr.general.SiteCenter;
 import com.fr.plugin.PluginCollector;
+import com.fr.plugin.conversion.PluginConversionModule;
 import com.fr.plugin.manage.PluginManager;
-import com.fr.stable.*;
+import com.fr.plugin.manage.PluginStartup;
+import com.fr.register.Register;
+import com.fr.stable.ArrayUtils;
+import com.fr.stable.BuildContext;
+import com.fr.stable.OperatingSystem;
+import com.fr.stable.ProductConstants;
+import com.fr.stable.StableUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -48,25 +62,39 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
     private Timer timer;
 
     public BaseDesigner(String[] args) {
+    
+        init(args);
+    }
+    
+    private void init(String[] args) {
+        
+        RestartHelper.deleteRecordFilesWhenStart();
+        ConfigManagerFactory.registerConfigManagerProxy(new ConfigManagerCreatorProxy());
+        //启动core
+        BuildContext.setBuildFilePath(buildPropertiesPath());
+        
         if (isDebug()) {
             setDebugEnv();
+        } else {
+            DesignUtils.setPort(getStartPort());
         }
-        RestartHelper.deleteRecordFilesWhenStart();
-
-        DesignUtils.setPort(getStartPort());
         // 如果端口被占用了 说明程序已经运行了一次,也就是说，已经建立一个监听服务器，现在只要给服务器发送命令就好了
         if (DesignUtils.isStarted()) {
             DesignUtils.clientSend(args);
             return;
         }
-        BuildContext.setBuildFilePath(buildPropertiesPath());
-
+        
+        Register.load();
+        //标记一下是设计器启动
+        PluginConversionModule.getInstance().markDesignerStart();
+        SiteCenter.getInstance();
+        
         //下面这两句的位置不能随便调换，因为会影响语言切换的问题
         initLanguage();
-
+        
         // 在 initLanguage 之后加载设计器国际化文件，确保是正确的语言环境
         Inter.loadLocaleFile(GeneralContext.getLocale(), DesignModule.LOCALE_FILE_PATH);
-
+        
         SplashWindow splashWindow = new SplashWindow(createSplashPane());
         if (args != null) {
             for (String arg : args) {
@@ -77,46 +105,49 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
                 }
             }
         }
-
+        initLookAndFeel(args, splashWindow);
+    }
+    
+    private void initLookAndFeel(String[] args, SplashWindow splashWindow) {
+        
         // 初始化look and feel.这个在预加载之前执行是因为lookAndFeel里的东西，预加载时也要用到
         DesignUtils.initLookAndFeel();
-
+        
         DesignUtils.creatListeningServer(getStartPort(), startFileSuffix());
-        //初始化插件引擎
-        PluginManager.init();
+        
         // 初始化Log Handler
         DesignerEnvManager.loadLogSetting();
         DesignerFrame df = createDesignerFrame();
-
+        
         // 默认加载工作目录，用于读取License
         switch2LastEnv();
-
+        
         initDefaultFont();
         //PluginManager要在环境切换和模块启动之前初始化
         PluginManager.registerEnvListener();
         // 必须先初始化Env再去startModule, 不然会导致lic读取不到
         ModuleContext.startModule(module2Start());
-
+        
         // 再次加载工作目录，用于读取工作目录下的各种插件
         switch2LastEnv();
-
+        
         ModuleContext.clearModuleListener();
         collectUserInformation();
         showDesignerFrame(args, df, false);
         for (int i = 0; !TemplateTreePane.getInstance().getTemplateFileTree().isTemplateShowing() && i < LOAD_TREE_MAXNUM; i++) {
             TemplateTreePane.getInstance().getTemplateFileTree().refresh();
         }
-
+        
         splashWindow.setVisible(false);
         splashWindow.dispose();
-
+        
         bindGlobalListener();
-
+        
         showErrorPluginsMessage();
     }
-
-    private void bindGlobalListener() {
     
+    private void bindGlobalListener() {
+
         GlobalListenerProviderManager.getInstance().init();
     }
 
@@ -154,7 +185,8 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
 
     protected void initLanguage() {
         //这两句的位置不能随便调换，因为会影响语言切换的问题
-        FRContext.setLanguage(DesignerEnvManager.getEnvManager().getLanguage());
+        FRContext.setLanguage(DesignerEnvManager.getEnvManager(false).getLanguage());
+        DesignerEnvManager.checkNameEnvMap();
     }
 
     protected void initDefaultFont() {
@@ -177,7 +209,8 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
 
     //在VM options里加入-Ddebug=true激活
     private boolean isDebug() {
-        return "true".equals(System.getProperty("debug"));
+    
+        return ComparatorUtils.equals("true", System.getProperty("debug"));
     }
 
     private static final int DEBUG_PORT = 51463;
@@ -228,32 +261,7 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
                 file = FILEFactory.createFILE(FILEFactory.ENV_PREFIX
                         + DesignerEnvManager.getEnvManager().getLastOpenFile());
             }
-
-            //启动时打开指定文件的接口
-            DesignerStartOpenFileProcessor processor = ExtraDesignClassManager.getInstance().getSingle(DesignerStartOpenFileProcessor.XML_TAG);
-            if (processor != null) {
-                FILE f = processor.fileToShow();
-                if (f != null) {
-                    file = f;//避免null
-                } else {
-                    isException = true;//此时有文件nullpointer异常，执行打开空文件
-                }
-            }
-            if (file.exists() && !isException) {
-                df.openTemplate(file);
-            } else {
-                df.addAndActivateJTemplate();
-                MutilTempalteTabPane.getInstance().setTemTemplate(HistoryTemplateListPane.getInstance().getCurrentEditingTemplate());
-            }
-            if (OperatingSystem.isMacOS()) {
-                enableFullScreenMode(df);
-            }
-            df.addWindowListener(new WindowAdapter() {
-                public void windowOpened(WindowEvent e) {
-                    df.getSelectedJTemplate().requestGridFocus();
-                }
-            });
-            df.setVisible(true);
+            isException = openFile(df, isException, file);
         } catch (Exception e) {
             FRLogger.getLogger().error(e.getMessage(), e);
             if (!isException) {
@@ -263,8 +271,38 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
             }
         }
     }
-
-
+    
+    private boolean openFile(final DesignerFrame df, boolean isException, FILE file) {
+        
+        //启动时打开指定文件的接口
+        DesignerStartOpenFileProcessor processor = ExtraDesignClassManager.getInstance().getSingle(DesignerStartOpenFileProcessor.XML_TAG);
+        if (processor != null) {
+            FILE f = processor.fileToShow();
+            if (f != null) {
+                file = f;//避免null
+            } else {
+                isException = true;//此时有文件nullpointer异常，执行打开空文件
+            }
+        }
+        if (file.exists() && !isException) {
+            df.openTemplate(file);
+        } else {
+            df.addAndActivateJTemplate();
+            MutilTempalteTabPane.getInstance().setTemTemplate(HistoryTemplateListPane.getInstance().getCurrentEditingTemplate());
+        }
+        if (OperatingSystem.isMacOS()) {
+            enableFullScreenMode(df);
+        }
+        df.addWindowListener(new WindowAdapter() {
+            public void windowOpened(WindowEvent e) {
+                df.getSelectedJTemplate().requestGridFocus();
+            }
+        });
+        df.setVisible(true);
+        return isException;
+    }
+    
+    
     /**
      * @param window
      */

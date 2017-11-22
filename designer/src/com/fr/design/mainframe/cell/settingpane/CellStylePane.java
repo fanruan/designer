@@ -1,6 +1,7 @@
 package com.fr.design.mainframe.cell.settingpane;
 
 import com.fr.base.Style;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.mainframe.cell.settingpane.style.StylePane;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
@@ -25,6 +26,7 @@ public class CellStylePane extends AbstractCellAttrPane {
         JPanel content = new JPanel(new BorderLayout());
         stylePane = new StylePane();
         content.add(stylePane, BorderLayout.CENTER);
+        stylePane.setBorder(UIConstants.CELL_ATTR_PRESENTBORDER);
         stylePane.addPredefinedChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
                 attributeChanged();
@@ -37,7 +39,6 @@ public class CellStylePane extends AbstractCellAttrPane {
                 adjustValues();// 里面的Tab切换后要及时调整滚动条,因为一些界面可能不需要滚动条
             }
         });
-//		content.setBorder(UIConstants.CELL_ATTR_NORMALBORDER);
         return content;
     }
 

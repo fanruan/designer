@@ -74,10 +74,8 @@ public class AreaPlotPane extends AbstractChartTypePane{
 			if(area.isStacked()) {
 				if(area.getyAxis().isPercentage()) {
 					typeDemo.get(PERCENT_AREA_LINE_CHART).isPressing = true;
-                    lastTypeIndex = PERCENT_AREA_LINE_CHART;
 				} else {
 					typeDemo.get(STACK_AREA_CHART).isPressing = true;
-                    lastTypeIndex = STACK_AREA_CHART;
 				}
 			} 
 		} else if(plot instanceof Area3DPlot) {
@@ -85,10 +83,8 @@ public class AreaPlotPane extends AbstractChartTypePane{
 			if(threeDPlot.isStacked()) {
 				if(threeDPlot.getyAxis().isPercentage()) {
 					typeDemo.get(PERCENT_3D_AREA_LINE_CHART).isPressing = true;
-                    lastTypeIndex = PERCENT_3D_AREA_LINE_CHART;
 				} else {
 					typeDemo.get(STACK_3D_AREA_CHART).isPressing = true;
-                    lastTypeIndex = STACK_3D_AREA_CHART;
 				}
 			}
 		}

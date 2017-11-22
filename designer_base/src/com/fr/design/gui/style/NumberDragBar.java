@@ -53,6 +53,8 @@ public class NumberDragBar extends JComponent {
 	@Override
 	protected void paintComponent(Graphics g) {
 		int width = this.getWidth();
+		//x值在这里计算，setValue时,有时会因为组件还没画，获取到的是0
+		x = (value - minValue) * (width - WIDTH_ADJUST) / (maxValue - minValue) + X_ADJUST;
 		Graphics2D g2 = (Graphics2D)g;
 		RenderingHints qualityHints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		qualityHints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
@@ -74,7 +76,7 @@ public class NumberDragBar extends JComponent {
 
 		g2.setColor(isEnabled() ? UIConstants.FONT_COLOR : UIManager.getColor("Label.disabledForeground"));
 		g2.drawString(String.valueOf(minValue), 2, 10);
-		g2.drawString(String.valueOf(maxValue), width - 20, 10);
+		g2.drawString(String.valueOf(maxValue), width - 10 * String.valueOf(maxValue).length(), 10);
 		if(minValue < 0) {
 			g2.drawString("0", width / 2 - 2, 10);
 		}
@@ -118,8 +120,8 @@ public class NumberDragBar extends JComponent {
 					if(getWidth() <= 0) {
 						Thread.sleep(500);
 					}
-					int width = getWidth();
-					x = (value - minValue) * (width - WIDTH_ADJUST) / (maxValue - minValue) + X_ADJUST;
+//					int width = getWidth();
+//					x = (value - minValue) * (width - WIDTH_ADJUST) / (maxValue - minValue) + X_ADJUST;
 					validate();
 					repaint();
 					revalidate();

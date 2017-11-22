@@ -92,6 +92,7 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 	public void refreshDockingView() {
 		FormDesigner formDesigner = this.getEditingFormDesigner();
 		removeAll();
+		changeVarNameAction = null;
 		if(this.componentTree != null) {
 			this.componentTree.removeAll();
 		}
@@ -156,10 +157,10 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 	protected ShortCut4JControlPane[] createShortcuts() {
         ArrayList<ShortCut4JControlPane> shortCutList = new ArrayList<>();
         FormDesigner designer = getEditingFormDesigner();
-        if (changeVarNameAction == null) {
-            changeVarNameAction = new ChangeNameAction(designer);
-        }
-        shortCutList.add(new WidgetEnableShortCut(changeVarNameAction));
+		if (changeVarNameAction == null) {
+			changeVarNameAction = new ChangeNameAction(designer);
+		}
+		shortCutList.add(new WidgetEnableShortCut(changeVarNameAction));
         for (Action action : designer.getActions()) {
             shortCutList.add(new WidgetEnableShortCut((UndoableAction)action));
         }

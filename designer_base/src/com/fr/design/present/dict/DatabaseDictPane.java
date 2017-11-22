@@ -1,6 +1,6 @@
 package com.fr.design.present.dict;
 
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.base.TableData;
 import com.fr.data.core.db.DBUtils;
 import com.fr.data.impl.DatabaseDictionary;
@@ -37,6 +37,7 @@ public class DatabaseDictPane extends FurtherBasicBeanPane<DatabaseDictionary> i
     /**
      * richer:数据字典和数据链面板
      */
+    private static final int GAP_HUGER = 32;
     protected com.fr.data.impl.Connection database;
     protected DoubleDeckValueEditorPane keyColumnPane;
     protected DoubleDeckValueEditorPane valueDictPane;
@@ -76,10 +77,10 @@ public class DatabaseDictPane extends FurtherBasicBeanPane<DatabaseDictionary> i
 
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Actual_Value") + "  ", UILabel.LEFT), keyColumnPane},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Display_Value") + "  ", UILabel.LEFT), valueDictPane}
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Actual_Value"), UILabel.LEFT), keyColumnPane},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Display_Value"), UILabel.LEFT), valueDictPane}
         };
-        JPanel dbDictPanel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
+        JPanel dbDictPanel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, GAP_HUGER, LayoutConstants.VGAP_LARGE);
         this.setLayout(new BorderLayout(0, 4));
         this.add(chooseTable, BorderLayout.NORTH);
         this.add(dbDictPanel, BorderLayout.CENTER);
@@ -137,6 +138,8 @@ public class DatabaseDictPane extends FurtherBasicBeanPane<DatabaseDictionary> i
         this.chooseTable.populateBean(new DataBaseItems(dbName, dbDict.getSchema(), dbDict.getTableName()));
 
         if (this.database == null) {
+            this.keyColumnPane.updateUpButton();
+            this.valueDictPane.updateUpButton();
             return;
         }
 
@@ -187,6 +190,9 @@ public class DatabaseDictPane extends FurtherBasicBeanPane<DatabaseDictionary> i
             }
             dbDict.setKeyColumnIndex(keyColumnIndex);
             dbDict.setKeyColumnName(keyColumnName);
+        }else {
+            this.keyColumnPane.updateUpButton();
+            this.valueDictPane.updateUpButton();
         }
         Object value = this.valueDictPane.update();
         if (value instanceof Integer) {
@@ -199,7 +205,7 @@ public class DatabaseDictPane extends FurtherBasicBeanPane<DatabaseDictionary> i
             dbDict.setValueColumnIndex(valueColumnIndex);
             dbDict.setValueColumnName(valueColumnName);
         } else {
-            dbDict.setFormula(((Formula) value));
+            dbDict.setFormula(((BaseFormula) value));
         }
 
         return dbDict;

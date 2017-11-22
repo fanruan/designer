@@ -139,7 +139,7 @@ public abstract class AbstractExportAction extends JWorkBookAction {
         if (exporter instanceof AppExporter) {
             AppExporter appExporter = (AppExporter) exporter;
             if (exporter instanceof ExcelExporter || exporter instanceof CSVExporter
-                || exporter instanceof PDFExporterProcessor || exporter instanceof WordExporter) {
+                    || exporter instanceof PDFExporterProcessor || exporter instanceof WordExporter) {
                 ReportHelper.clearFormulaResult(tpl);// 清空rpt中的公式计算结果
 
                 appExporter.export(fileOutputStream, tpl.execute(parameterMap, ActorFactory.getActor(ActorConstants.TYPE_PAGE)

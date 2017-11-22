@@ -10,7 +10,6 @@ import com.fr.design.constants.UIConstants;
 import com.fr.design.fun.GridUIProcessor;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.mainframe.ElementCasePane;
-import com.fr.design.mainframe.templateinfo.TemplateInfoCollector;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.grid.event.CellEditorEvent;
@@ -36,7 +35,6 @@ import javax.swing.plaf.ComponentUI;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
-import java.util.Date;
 import java.util.Hashtable;
 import java.util.Iterator;
 
@@ -57,7 +55,7 @@ public class Grid extends BaseGridComponent {
     transient private TemplateCellElement editingCellElement;
 
     private boolean showGridLine = true;
-    private Color gridLineColor = new Color(0xf0f0f3); // line color.
+    private Color gridLineColor = UIConstants.RULER_LINE_COLOR; // line color.
 
     private boolean isShowPaginateLine = true;
     private Color paginationLineColor = Color.RED; // line color of paper
@@ -146,12 +144,10 @@ public class Grid extends BaseGridComponent {
     }
 
     /**
-	 * 应用界面设置
-	 * 
-	 *
-	 * @date 2014-12-21-下午6:32:43
-	 * 
-	 */
+     * 应用界面设置
+     *
+     * @date 2014-12-21-下午6:32:43
+     */
     public void updateUI() {
         GridUIProcessor localGridUIProcessor = ExtraDesignClassManager.getInstance().getSingle(GridUIProcessor.MARK_STRING, new DefaultGridUIProcessor());
         ComponentUI localComponentUI = localGridUIProcessor.appearanceForGrid(this.resolution);
@@ -160,14 +156,11 @@ public class Grid extends BaseGridComponent {
 
 
     /**
-	 * 是否显示格子线
-	 * 
-	 * @return 是否显示格子线
-	 *  
-	 *
-	 * @date 2014-12-21-下午6:32:13
-	 * 
-	 */
+     * 是否显示格子线
+     *
+     * @return 是否显示格子线
+     * @date 2014-12-21-下午6:32:13
+     */
     public boolean isShowGridLine() {
         return showGridLine;
     }
@@ -183,7 +176,7 @@ public class Grid extends BaseGridComponent {
         this.getElementCasePane().repaint();
     }
 
-    public GridMouseAdapter getGridMouseAdapter(){
+    public GridMouseAdapter getGridMouseAdapter() {
         return this.gridMouseAdapter;
     }
 
@@ -210,14 +203,11 @@ public class Grid extends BaseGridComponent {
     }
 
     /**
-	 * 是否显示分页线
-	 * 
-	 * @return 是否显示分页线
-	 * 
-	 *
-	 * @date 2014-12-21-下午6:31:45
-	 * 
-	 */
+     * 是否显示分页线
+     *
+     * @return 是否显示分页线
+     * @date 2014-12-21-下午6:31:45
+     */
     public boolean isShowPaginateLine() {
         return isShowPaginateLine;
     }
@@ -253,14 +243,11 @@ public class Grid extends BaseGridComponent {
 
 
     /**
-	 * 是否显示垂直冻结线
-	 * 
-	 * @return 是否显示垂直冻结线
-	 * 
-	 *
-	 * @date 2014-12-21-下午6:29:35
-	 * 
-	 */
+     * 是否显示垂直冻结线
+     *
+     * @return 是否显示垂直冻结线
+     * @date 2014-12-21-下午6:29:35
+     */
     public boolean isShowVerticalFrozenLine() {
         return isShowVerticalFrozenLine;
     }
@@ -295,14 +282,11 @@ public class Grid extends BaseGridComponent {
     }
 
     /**
-	 * 是否显示水平冻结线
-	 * 
-	 * @return 是否显示水平冻结线
-	 * 
-	 *
-	 * @date 2014-12-21-下午6:29:35
-	 * 
-	 */
+     * 是否显示水平冻结线
+     *
+     * @return 是否显示水平冻结线
+     * @date 2014-12-21-下午6:29:35
+     */
     public boolean isShowHorizontalFrozenLine() {
         return isShowHorizontalFrozenLine;
     }
@@ -377,14 +361,11 @@ public class Grid extends BaseGridComponent {
     }
 
     /**
-	 * 组件是否可以被编辑
-	 * 
-	 * @return 组件是否可以被编辑
-	 * 
-	 *
-	 * @date 2014-12-21-下午6:29:09
-	 * 
-	 */
+     * 组件是否可以被编辑
+     *
+     * @return 组件是否可以被编辑
+     * @date 2014-12-21-下午6:29:09
+     */
     public boolean isEditable() {
         return editable;
     }
@@ -501,27 +482,21 @@ public class Grid extends BaseGridComponent {
     // /////////////editor begin
 
     /**
-	 * 是否处于编辑状态
-	 * 
-	 * @return 是否处于编辑状态
-	 * 
-	 *
-	 * @date 2014-12-21-下午6:28:45
-	 * 
-	 */
+     * 是否处于编辑状态
+     *
+     * @return 是否处于编辑状态
+     * @date 2014-12-21-下午6:28:45
+     */
     public boolean isEditing() {
         return this.editorComponent != null;
     }
 
     /**
-	 * 当前编辑对象是否为单元格
-	 * 
-	 * @return 当前编辑对象是否为单元格
-	 * 
-	 *
-	 * @date 2014-12-21-下午6:28:18
-	 * 
-	 */
+     * 当前编辑对象是否为单元格
+     *
+     * @return 当前编辑对象是否为单元格
+     * @date 2014-12-21-下午6:28:18
+     */
     public boolean isCellEditing() {
         return this.isEditing() && cellEditor != null && notShowingTableSelectPane;
     }
@@ -534,27 +509,21 @@ public class Grid extends BaseGridComponent {
     }
 
     /**
-	 * 是否处于智能选择单元格阶段
-	 * 
-	 * @return 是否处于智能选择单元格阶段
-	 * 
-	 *
-	 * @date 2014-12-21-下午6:27:36
-	 * 
-	 */
+     * 是否处于智能选择单元格阶段
+     *
+     * @return 是否处于智能选择单元格阶段
+     * @date 2014-12-21-下午6:27:36
+     */
     public boolean IsNotShowingTableSelectPane() {
         return this.notShowingTableSelectPane;
     }
 
     /**
-	 * 当前是否在编辑悬浮元素
-	 * 
-	 * @return 是否在编辑悬浮元素
-	 * 
-	 *
-	 * @date 2014-12-21-下午6:26:46
-	 * 
-	 */
+     * 当前是否在编辑悬浮元素
+     *
+     * @return 是否在编辑悬浮元素
+     * @date 2014-12-21-下午6:26:46
+     */
     public boolean isFloatEditing() {
         return this.isEditing() && floatEditor != null;
     }
@@ -566,7 +535,7 @@ public class Grid extends BaseGridComponent {
      * @param column the column of the cell to edit, where 0 is the first column;
      * @param row    the row of the cell to edit, where 0 is the first row
      * @return the editor for this cell; if <code>null</code> return the default
-     *         editor for this type of cell
+     * editor for this type of cell
      * @see com.fr.design.cell.editor.CellEditor
      */
     public CellEditor getCellEditor(int column, int row) {
@@ -598,7 +567,7 @@ public class Grid extends BaseGridComponent {
      * edited. If nothing is being edited, returns -1.
      *
      * @return the index of the column that contains the cell currently being
-     *         edited; returns -1 if nothing being edited
+     * edited; returns -1 if nothing being edited
      */
     public int getEditingColumn() {
         return editingColumn;
@@ -618,7 +587,7 @@ public class Grid extends BaseGridComponent {
      * If nothing is being edited, returns -1.
      *
      * @return the index of the row that contains the cell currently being
-     *         edited; returns -1 if nothing being edited
+     * edited; returns -1 if nothing being edited
      */
     public int getEditingRow() {
         return editingRow;
@@ -800,25 +769,20 @@ public class Grid extends BaseGridComponent {
     }
 
     /**
-	 * 开始单元格编辑
-	 * 
-	 *
-	 * @date 2014-12-21-下午6:25:17
-	 * 
-	 */
+     * 开始单元格编辑
+     *
+     * @date 2014-12-21-下午6:25:17
+     */
     public void startEditing() {
         this.startEditing(false);
     }
 
     /**
-	 * 开始单元格编辑
-	 * 
-	 * @param byKeyEvent 是否为键盘触发
-	 * 
-	 *
-	 * @date 2014-12-21-下午6:25:17
-	 * 
-	 */
+     * 开始单元格编辑
+     *
+     * @param byKeyEvent 是否为键盘触发
+     * @date 2014-12-21-下午6:25:17
+     */
     protected void startEditing(boolean byKeyEvent) {
         ElementCasePane reportPane = this.getElementCasePane();
         ElementCase report = reportPane.getEditingElementCase();
@@ -867,19 +831,15 @@ public class Grid extends BaseGridComponent {
     }
 
     /**
-	 * 开始单元格编辑
-	 * 
-	 * @param column 列
-	 * @param row 行
-	 * @param cellTypeClass 单元格类型
-	 * @param byKeyEvent 是否为键盘触发
-	 * 
-	 * @return 编辑是否成功
-	 * 
-	 *
-	 * @date 2014-12-21-下午6:25:17
-	 * 
-	 */
+     * 开始单元格编辑
+     *
+     * @param column        列
+     * @param row           行
+     * @param cellTypeClass 单元格类型
+     * @param byKeyEvent    是否为键盘触发
+     * @return 编辑是否成功
+     * @date 2014-12-21-下午6:25:17
+     */
     public boolean startCellEditingAt_DEC(int column, int row, Class cellTypeClass, boolean byKeyEvent) {
         if (this.isEditing()) {
             this.stopEditing();// 需要先停止正在进行的编辑.
@@ -954,12 +914,10 @@ public class Grid extends BaseGridComponent {
     }
 
     /**
-	 * 停止编辑状态
-	 * 
-	 *
-	 * @date 2014-12-21-下午6:24:54
-	 * 
-	 */
+     * 停止编辑状态
+     *
+     * @date 2014-12-21-下午6:24:54
+     */
     public void stopEditing() {
         // 首先判断是哪种类型的编辑.
         if (this.isCellEditing()) {
@@ -1117,11 +1075,11 @@ public class Grid extends BaseGridComponent {
             if (styleChange || imageChange) {
                 return true;
             }
-    	} else {
-    		if(newValue instanceof RichText){
-        		setShowAsHtml(this.editingCellElement);
-    		}
-    		
+        } else {
+            if (newValue instanceof RichText) {
+                setShowAsHtml(this.editingCellElement);
+            }
+
             Object oldValue = this.editingCellElement.getValue();
             if (!ComparatorUtils.equals_exactly(oldValue, newValue)) {
                 editingCellElement.setValue(newValue);
@@ -1130,16 +1088,16 @@ public class Grid extends BaseGridComponent {
         }
         return false;
     }
-    
-	private void setShowAsHtml(CellElement cellElement){
-		CellGUIAttr guiAttr = cellElement.getCellGUIAttr();
-		if(guiAttr == null){
-			guiAttr = new CellGUIAttr();
-			cellElement.setCellGUIAttr(guiAttr);
-		}
-		
-		guiAttr.setShowAsHTML(true);
-	}
+
+    private void setShowAsHtml(CellElement cellElement) {
+        CellGUIAttr guiAttr = cellElement.getCellGUIAttr();
+        if (guiAttr == null) {
+            guiAttr = new CellGUIAttr();
+            cellElement.setCellGUIAttr(guiAttr);
+        }
+
+        guiAttr.setShowAsHTML(true);
+    }
 
     /**
      * 当单元格里的内容过长时，自动调整单元格
@@ -1148,34 +1106,32 @@ public class Grid extends BaseGridComponent {
      */
     private void shrinkToFit(TemplateElementCase tplEC) {
         if (editingCellElement == null) {
-        	return;
+            return;
         }
-        
+
         Object editElementValue = editingCellElement.getValue();
         if (valueNeedFit(editElementValue)) {
-        	int mode = this.getElementCasePane().getReportSettings().getShrinkToFitMode();
+            int mode = this.getElementCasePane().getReportSettings().getShrinkToFitMode();
             GridUtils.shrinkToFit(mode, tplEC, editingCellElement);
         }
     }
-    
+
     //是否需要根据内容自动调整, 目前只有字符串, 数字, 富文本需要
-    private boolean valueNeedFit(Object value){
-    	if(value == null){
-    		return false;
-    	}
-    	
-    	return value instanceof String ||
-    			value instanceof Number ||
-    			value instanceof RichText;
+    private boolean valueNeedFit(Object value) {
+        if (value == null) {
+            return false;
+        }
+
+        return value instanceof String ||
+                value instanceof Number ||
+                value instanceof RichText;
     }
 
     /**
-	 * 取消编辑状态
-	 * 
-	 *
-	 * @date 2014-12-21-下午6:24:34
-	 * 
-	 */
+     * 取消编辑状态
+     *
+     * @date 2014-12-21-下午6:24:34
+     */
     public void cancelEditing() {
         if (this.isEditing()) {
             removeEditor();
@@ -1184,12 +1140,10 @@ public class Grid extends BaseGridComponent {
     }
 
     /**
-	 * 移除选中组件
-	 * 
-	 *
-	 * @date 2014-12-21-下午6:24:16
-	 * 
-	 */
+     * 移除选中组件
+     *
+     * @date 2014-12-21-下午6:24:16
+     */
     public void removeEditor() {
         if (this.isCellEditing()) {
             this.removeCellEditor();
@@ -1199,12 +1153,10 @@ public class Grid extends BaseGridComponent {
     }
 
     /**
-	 * 移除单元格组件
-	 * 
-	 *
-	 * @date 2014-12-21-下午6:24:00
-	 * 
-	 */
+     * 移除单元格组件
+     *
+     * @date 2014-12-21-下午6:24:00
+     */
     public void removeCellEditor() {
         CellEditor cellEditor = getCellEditor();
         if (cellEditor == null) {
@@ -1233,12 +1185,10 @@ public class Grid extends BaseGridComponent {
     }
 
     /**
-	 * 移除悬浮元素组件
-	 * 
-	 *
-	 * @date 2014-12-21-下午6:23:38
-	 * 
-	 */
+     * 移除悬浮元素组件
+     *
+     * @date 2014-12-21-下午6:23:38
+     */
     public void removeFloatEditor() {
         FloatEditor floatEditor = getFloatEditor();
         if (floatEditor != null) {
@@ -1290,31 +1240,24 @@ public class Grid extends BaseGridComponent {
     // /////////////editor end
 
     /**
-	 * 鼠标点击事件
-	 * 
-	 * @param evtX x坐标
-	 * @param evtY y坐标
-	 * 
-	 *
-	 * @date 2014-12-21-下午6:22:56
-	 * 
-	 */
+     * 鼠标点击事件
+     *
+     * @param evtX x坐标
+     * @param evtY y坐标
+     * @date 2014-12-21-下午6:22:56
+     */
     public void doMousePress(double evtX, double evtY) {
         dispatchEvent(new MouseEvent(this, MouseEvent.MOUSE_PRESSED, System.currentTimeMillis(), 0, (int) evtX, (int) evtY, 1, false));
     }
 
     /**
      * 计算oldRectangle,因为CellElement的合并会变成多大的区域.
-	 * 
-	 * @param report 当前格子报表
-	 * @param oldRectangle 之前的选中区域
-	 * 
-	 * @return 插入的区域
-	 * 
-	 *
-	 * @date 2014-12-21-下午6:22:21
-	 * 
-	 */
+     *
+     * @param report       当前格子报表
+     * @param oldRectangle 之前的选中区域
+     * @return 插入的区域
+     * @date 2014-12-21-下午6:22:21
+     */
     public Rectangle caculateIntersectsUnion(ElementCase report, Rectangle oldRectangle) {
         Rectangle newRectangle = new Rectangle(oldRectangle);
 

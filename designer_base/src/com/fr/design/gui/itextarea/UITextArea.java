@@ -4,6 +4,7 @@ import com.fr.common.inputevent.InputEventBaseOnOS;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.stable.Constants;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -99,9 +100,10 @@ public class UITextArea extends JTextArea implements UIObserver {
 
     @Override
     protected void paintBorder(Graphics g) {
-
+        if (getBorder() != null) {
+            getUI().paintBorder((Graphics2D) g, getWidth(), getHeight(), true, Constants.NULL);
+        }
     }
-
 
     @Override
     /**
@@ -122,14 +124,14 @@ public class UITextArea extends JTextArea implements UIObserver {
      * @param args
      */
     public static void main(String... args) {
-        JFrame jf = new JFrame("test");
-        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JPanel content = (JPanel) jf.getContentPane();
-        content.setLayout(new BorderLayout());
-        UITextArea bb = new UITextArea("123455weoijweio reiwj kewl jfejkfljds kl jfldk jfk jdskfjkdsfklj dkl jfsdjf");
-        content.add(bb, BorderLayout.CENTER);
-        GUICoreUtils.centerWindow(jf);
-        jf.setSize(400, 400);
-        jf.setVisible(true);
+//        JFrame jf = new JFrame("test");
+//        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        JPanel content = (JPanel) jf.getContentPane();
+//        content.setLayout(new BorderLayout());
+//        UITextArea bb = new UITextArea("123455weoijweio reiwj kewl jfejkfljds kl jfldk jfk jdskfjkdsfklj dkl jfsdjf");
+//        content.add(bb, BorderLayout.CENTER);
+//        GUICoreUtils.centerWindow(jf);
+//        jf.setSize(400, 400);
+//        jf.setVisible(true);
     }
 }

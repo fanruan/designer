@@ -1,8 +1,8 @@
 package com.fr.design.widget.ui.designer.layout;
 
 import com.fr.design.data.DataCreatorUI;
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.XCreator;
-import com.fr.design.designer.creator.XWAbsoluteLayout;
 import com.fr.design.designer.properties.items.FRAbsoluteConstraintsItems;
 import com.fr.design.designer.properties.items.Item;
 import com.fr.design.foldablepane.UIExpandablePane;
@@ -14,7 +14,6 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.widget.ui.designer.AbstractDataModify;
 import com.fr.design.widget.ui.designer.component.WidgetBoundPane;
 import com.fr.form.ui.container.WAbsoluteLayout;
-import com.fr.form.ui.container.WBodyLayoutType;
 import com.fr.general.Inter;
 
 import javax.swing.*;
@@ -24,32 +23,28 @@ import java.awt.*;
  * Created by ibm on 2017/8/2.
  */
 public class FRAbsoluteLayoutDefinePane extends AbstractDataModify<WAbsoluteLayout> {
-    private XWAbsoluteLayout xwAbsoluteLayout;
-    private WAbsoluteLayout wAbsoluteLayout;
     protected UIComboBox comboBox;
-    private WBodyLayoutType layoutType = WBodyLayoutType.ABSOLUTE;
     private WidgetBoundPane boundPane;
 
     public FRAbsoluteLayoutDefinePane(XCreator xCreator) {
         super(xCreator);
-        this.xwAbsoluteLayout = (XWAbsoluteLayout) xCreator;
-        wAbsoluteLayout = xwAbsoluteLayout.toData();
         initComponent();
-
     }
 
 
     public void initComponent() {
-        boundPane = new WidgetBoundPane(creator);
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        this.add(boundPane, BorderLayout.NORTH);
+        JPanel centerPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        boundPane = new WidgetBoundPane(creator);
+        centerPane.add(boundPane, BorderLayout.NORTH);
         initUIComboBox();
         JPanel thirdPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        thirdPane.add(createThirdPane(), BorderLayout.CENTER);
-        thirdPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
-        UIExpandablePane layoutExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer-Widget_Area_Scaling"), 280, 20,thirdPane );
-
-        this.add(layoutExpandablePane, BorderLayout.CENTER);
+        JPanel jPanel = createThirdPane();
+        jPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        thirdPane.add(jPanel, BorderLayout.CENTER);
+        UIExpandablePane layoutExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer-Widget_Area_Scaling"), 280, 20, thirdPane);
+        centerPane.add(layoutExpandablePane, BorderLayout.CENTER);
+        this.add(centerPane, BorderLayout.CENTER);
     }
 
     public JPanel createThirdPane() {
@@ -61,8 +56,8 @@ public class FRAbsoluteLayoutDefinePane extends AbstractDataModify<WAbsoluteLayo
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer-Widget_Scaling_Mode")), comboBox},
         };
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 20, 7);
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
+//        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         return panel;
     }
 
@@ -99,7 +94,7 @@ public class FRAbsoluteLayoutDefinePane extends AbstractDataModify<WAbsoluteLayo
     }
 
     public WAbsoluteLayout updateSubPane() {
-        return new WAbsoluteLayout();
+        return (WAbsoluteLayout)creator.toData();
     }
 
     public void populateSubPane(WAbsoluteLayout ob) {

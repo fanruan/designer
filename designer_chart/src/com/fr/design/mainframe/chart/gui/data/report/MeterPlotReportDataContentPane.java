@@ -5,13 +5,13 @@ import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartattr.MeterPlot;
 import com.fr.chart.chartdata.MeterReportDefinition;
 import com.fr.design.formula.TinyFormulaPane;
-import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.ChartDataFilterPane;
 import com.fr.general.Inter;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 
 import javax.swing.*;
 import java.awt.*;
@@ -46,24 +46,21 @@ public class MeterPlotReportDataContentPane extends AbstractReportDataContentPan
 		double[] rowSize = { p, p, p};
 		
 		Component[][] components = new Component[][]{
-				new Component[]{new UILabel(getCateNameString(), SwingConstants.RIGHT), getSingCatePane()},
-				new Component[]{new UILabel(getNValueString(), SwingConstants.RIGHT), singValuePane = new TinyFormulaPane()},
+				new Component[]{new UILabel(getCateNameString()), getSingCatePane()},
+				new Component[]{new UILabel(getNValueString()), singValuePane = new TinyFormulaPane()},
 				new Component[]{null, null}
 		};
 		
-		JPanel panel = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
+		JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components,rowSize,columnSize,24,6);
+		panel.setBorder(BorderFactory.createEmptyBorder(0,24,0,15));
 		
 		this.setLayout(new BorderLayout());
 		this.add(panel, BorderLayout.NORTH);
-		
-		double[] cs = {p};
-		components = new Component[][]{
-				new Component[]{new JSeparator()},
-				new Component[]{new BoldFontTextLabel(Inter.getLocText("FR-Designer_Data_Filter"))},
-				new Component[]{filterPane = new ChartDataFilterPane(new MeterPlot(), parent)},
-		};
-		JPanel pane = TableLayoutHelper.createTableLayoutPane(components, rowSize, cs);
-		
+		filterPane = new ChartDataFilterPane(new MeterPlot(), parent);
+		JPanel pane = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Chart-Data_Filter"),filterPane);
+		pane.setBorder(getSidesBorder());
+		filterPane.setBorder(getFilterPaneBorder());
+
 		this.add(pane, BorderLayout.CENTER);
 	}
 

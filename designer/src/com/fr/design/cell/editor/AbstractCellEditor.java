@@ -7,6 +7,7 @@ import java.awt.Point;
 
 import javax.swing.event.EventListenerList;
 
+import com.fr.design.mainframe.EastRegionContainerPane;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.grid.event.CellEditorEvent;
 import com.fr.grid.event.CellEditorListener;
@@ -114,6 +115,7 @@ public abstract class AbstractCellEditor implements CellEditor {
 		}
 		if(ePane != null) {
 			ePane.fireSelectionChangeListener();
+            EastRegionContainerPane.getInstance().switchTabTo(EastRegionContainerPane.KEY_CELL_ELEMENT);
 		}
 	}
 

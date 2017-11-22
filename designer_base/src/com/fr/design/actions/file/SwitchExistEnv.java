@@ -3,7 +3,6 @@ package com.fr.design.actions.file;
 import com.fr.base.BaseUtils;
 import com.fr.base.Env;
 import com.fr.base.FRContext;
-import com.fr.base.FRCoreContext;
 import com.fr.dav.LocalEnv;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.UpdateAction;
@@ -118,7 +117,6 @@ public class SwitchExistEnv extends MenuDef {
                     return;
                 }
                 SignIn.signIn(selectedEnv);
-                FRCoreContext.resetBytes();
                 HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().refreshToolArea();
                 fireDSChanged();
             } catch (Exception em) {

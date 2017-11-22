@@ -59,7 +59,6 @@ public class RolesAlreadyEditedPane extends JPanel {
 //        this.add(northPane, BorderLayout.NORTH);
         rolesEditedPane = new RolesEditedPane();
         this.add(rolesEditedPane, BorderLayout.CENTER);
-
     }
 
     public RoleTree getRoleTree() {
@@ -102,7 +101,7 @@ public class RolesAlreadyEditedPane extends JPanel {
 
 
                 // 这里新建一个Label作为render是因为JTree在动态刷新的时候，节点上render画布的的宽度不会变，会使得一部分比较长的数据显示为"..."
-                this.setBackgroundNonSelectionColor(UIConstants.NORMAL_BACKGROUND);
+                this.setBackgroundNonSelectionColor(UIConstants.TREE_BACKGROUND);
                 this.setForeground(UIConstants.FONT_COLOR);
                 this.setBackgroundSelectionColor(UIConstants.FLESH_BLUE);
                 return this;

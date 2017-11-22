@@ -11,6 +11,9 @@ import java.awt.event.MouseEvent;
 
 public class ChartImagePane extends ChartSelectDemoPane {
 	private static final long serialVersionUID = -2785128245790568603L;
+	private static final int IMAGE_WIDTH = 58;
+	private static final int IMAGE_HIGTH = 50;
+	private static final Color ENTER_COLOR = new Color(216, 242, 253);
 	private boolean isDrawRightLine = false;
     public boolean isDoubleClicked = false;
 	
@@ -21,8 +24,10 @@ public class ChartImagePane extends ChartSelectDemoPane {
 		addMouseListener(this);
 		this.setToolTipText(tipName);
 		
-		this.setBorder(BorderFactory.createMatteBorder(1, 1, 1, isDrawRightLine ? 1 : 0, UIConstants.LINE_COLOR));
-	}
+		this.setBorder(BorderFactory.createMatteBorder(0, 0, 0, isDrawRightLine ? 1 : 0, UIConstants.SELECT_TAB));
+		this.setBackground(UIConstants.TOOLBARUI_BACKGROUND);
+        this.setPreferredSize(new Dimension(IMAGE_WIDTH, IMAGE_HIGTH));
+    }
 
     public ChartImagePane(String fullIconPath, String tipName, boolean isDrawRightLine){
         constructImagePane(fullIconPath, tipName, isDrawRightLine);
@@ -38,7 +43,10 @@ public class ChartImagePane extends ChartSelectDemoPane {
 
         this.setToolTipText(tipName);
 
-        this.setBorder(BorderFactory.createMatteBorder(1, 1, 1, isDrawRightLine ? 1 : 0, UIConstants.LINE_COLOR));
+        this.setBorder(BorderFactory.createMatteBorder(0, 0, 0, isDrawRightLine ? 1 : 0, UIConstants.SELECT_TAB));
+        this.setBackground(UIConstants.TOOLBARUI_BACKGROUND);
+        this.setPreferredSize(new Dimension(IMAGE_WIDTH, IMAGE_HIGTH));
+
     }
 
     /**
@@ -53,4 +61,18 @@ public class ChartImagePane extends ChartSelectDemoPane {
         }
         super.mouseClicked(e);
     }
+
+    /**
+     * 修改边框颜色
+     */
+    public void checkBorder() {
+        if (!isRollOver && !isPressing) {
+            this.setBorder(BorderFactory.createMatteBorder(0, 0, 0, isDrawRightLine ? 1 : 0, UIConstants.SELECT_TAB));
+        } else if (isRollOver && !isPressing) {
+            this.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, ENTER_COLOR));
+        } else {
+            this.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, UIConstants.FLESH_BLUE));
+        }
+    }
+
 }

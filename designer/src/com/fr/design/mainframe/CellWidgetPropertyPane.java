@@ -1,20 +1,18 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.FRContext;
-import com.fr.design.dialog.BasicDialog;
+import com.fr.design.actions.utils.ReportActionUtils;
 import com.fr.design.dialog.BasicPane;
-import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.present.CellWriteAttrPane;
 import com.fr.design.widget.WidgetPane;
 import com.fr.form.ui.NoneWidget;
 import com.fr.form.ui.Widget;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.grid.selection.CellSelection;
-import com.fr.grid.selection.FloatSelection;
 import com.fr.grid.selection.Selection;
 import com.fr.privilege.finegrain.WidgetPrivilegeControl;
+import com.fr.report.cell.CellElement;
 import com.fr.report.cell.DefaultTemplateCellElement;
 import com.fr.report.cell.TemplateCellElement;
 import com.fr.report.elementcase.TemplateElementCase;
@@ -30,8 +28,9 @@ public class CellWidgetPropertyPane extends BasicPane {
 
     private TemplateCellElement cellElement;
     private WidgetPane cellEditorDefPane;
+    private ElementCasePane ePane;
 
-    public static CellWidgetPropertyPane getInstance(){
+    public static CellWidgetPropertyPane getInstance() {
         if (singleton == null) {
             singleton = new CellWidgetPropertyPane();
         }
@@ -40,11 +39,9 @@ public class CellWidgetPropertyPane extends BasicPane {
 
     public CellWidgetPropertyPane() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
-//        this.addAttributeChangeListener(listener);
-//        cellEditorDefPane = new WidgetPane(elementCasePane);
     }
 
-    public void clear (){
+    public void clear() {
         singleton = null;
     }
 
@@ -78,12 +75,13 @@ public class CellWidgetPropertyPane extends BasicPane {
                 FRContext.getLogger().error(e.getMessage(), e);
             }
         }
-        cellEditorDefPane.populate(cellWidget);
 
+        cellEditorDefPane.populate(cellWidget);
     }
 
 
-    public void reInit(ElementCasePane ePane){
+    public void reInit(ElementCasePane ePane) {
+        this.ePane = ePane;
         cellEditorDefPane = new WidgetPane(ePane);
         this.removeAll();
         this.add(cellEditorDefPane, BorderLayout.CENTER);
@@ -93,7 +91,6 @@ public class CellWidgetPropertyPane extends BasicPane {
         TemplateCellElement editCellElement = tplEC.getTemplateCellElement(cs.getColumn(), cs.getRow());
         if (editCellElement == null) {
             editCellElement = new DefaultTemplateCellElement(cs.getColumn(), cs.getRow());
-            tplEC.addCellElement(editCellElement);
         }
         this.cellElement = editCellElement;
         this.populate(editCellElement);
@@ -105,12 +102,32 @@ public class CellWidgetPropertyPane extends BasicPane {
     }
 
     public void update() {
-        if (cellElement == null) {// 利用默认的CellElement.
+        if (cellElement == null || !cellEditorDefPane.isShouldFireSelectedEvent()) {
             return;
         }
+        final CellSelection finalCS = (CellSelection) ePane.getSelection();
+        final TemplateElementCase tplEC = ePane.getEditingElementCase();
+        if(finalCS.isSelectedOneCell(ePane)){
+            if(tplEC.getTemplateCellElement(cellElement.getColumn(), cellElement.getRow())== null){//cellElement未加入到report中时要添加进去
+                tplEC.addCellElement(cellElement);
+            }
+            setCellWidget(cellElement);
+        }else{
+            ReportActionUtils.actionIterateWithCellSelection(finalCS, tplEC, new ReportActionUtils.IterAction() {
+                public void dealWith(CellElement editCellElement) {
+                    // p:最后把这个cellEditorDef设置到CellGUIAttr.
+                    TemplateCellElement templateCellElement = (TemplateCellElement) editCellElement;
+                    setCellWidget(templateCellElement);
+                }
+            });
+        }
+        if(DesignerContext.getDesignerFrame().getSelectedJTemplate() != null){
+            DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified();
+        }
+    }
 
-        Widget cellWidget = this.cellEditorDefPane.update();
-        // p:最后把这个cellEditorDef设置到CellGUIAttr.
+    private void setCellWidget(TemplateCellElement cellElement){
+        Widget cellWidget = cellEditorDefPane.update();
         if (cellWidget instanceof NoneWidget) {
             cellElement.setWidget(null);
         } else {
@@ -119,9 +136,11 @@ public class CellWidgetPropertyPane extends BasicPane {
             }
             cellElement.setWidget(cellWidget);
         }
-
     }
 
+    public void reInitAllListener(){
+        cellEditorDefPane.registerListener();
+    }
 
     private Widget upDateWidgetAuthority(TemplateCellElement cellElement, Widget newWidget) {
         try {
@@ -135,14 +154,15 @@ public class CellWidgetPropertyPane extends BasicPane {
         return newWidget;
     }
 
-    @Override
     /**
-     *检测是否有效
+     * 检测是否有效
+     *
+     * @throws Exception e
      */
+    @Override
     public void checkValid() throws Exception {
         this.cellEditorDefPane.checkValid();
     }
-
 
 
 }

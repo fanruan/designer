@@ -16,7 +16,11 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.AWTEventListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * Created by IntelliJ IDEA.
@@ -126,7 +130,7 @@ public class UIEditLabel extends JPanel implements UIObserver{
              */
             public void mouseExited(MouseEvent e) {
                 showLabel.setToolTipText(getTooltip());
-                UIEditLabel.this.setBackground(UIConstants.NORMAL_BACKGROUND);
+                UIEditLabel.this.setBackground(UIConstants.SELECT_TAB);
             }
 
         });
@@ -149,7 +153,7 @@ public class UIEditLabel extends JPanel implements UIObserver{
      * 设置成正常的背景
      */
     public void resetNomalrBackground(){
-        UIEditLabel.this.setBackground(UIConstants.NORMAL_BACKGROUND);
+        UIEditLabel.this.setBackground(UIConstants.SELECT_TAB);
     }
 
     private String getTooltip(){

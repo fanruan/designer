@@ -1,10 +1,18 @@
 package com.fr.design.mainframe.errorinfo;
 
 import com.fr.base.FRContext;
-import com.fr.general.*;
+import com.fr.general.ComparatorUtils;
+import com.fr.general.FRLogger;
+import com.fr.general.GeneralContext;
+import com.fr.general.IOUtils;
+import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
+import com.fr.license.function.VT4FR;
+import com.fr.log.LogHandler;
+import com.fr.regist.FRCoreContext;
+import com.fr.regist.LicenseListener;
 import com.fr.stable.CodeUtils;
 import com.fr.stable.EnvChangedListener;
 import com.fr.stable.ProductConstants;
@@ -27,18 +35,31 @@ public class ErrorInfoUploader {
     public static final String FOLDER_NAME = "errorInfo";
 
     private static ErrorInfoUploader collector;
+    // 在一台不能上网的电脑里发现了10w个errorinfo...
+    private static final int MAX_ERROR_SIZE = 2000;
 
     static {
         GeneralContext.addEnvChangedListener(new EnvChangedListener() {
             @Override
             public void envChanged() {
-                FRLogger.getLogger().addLogAppender(new ErrorInfoLogAppender());
+                FRLogger.getLogger().addLogAppender(new LogHandler<ErrorInfoLogAppender>() {
+                    @Override
+                    public ErrorInfoLogAppender getHandler() {
+                        return new ErrorInfoLogAppender();
+                    }
+                });
             }
         });
+    
     }
 
     private ErrorInfoUploader() {
-        FRLogger.getLogger().addLogAppender(new ErrorInfoLogAppender());
+        FRLogger.getLogger().addLogAppender(new LogHandler<ErrorInfoLogAppender>() {
+            @Override
+            public ErrorInfoLogAppender getHandler() {
+                return new ErrorInfoLogAppender();
+            }
+        });
     }
 
     public static ErrorInfoUploader getInstance() {
@@ -51,6 +72,12 @@ public class ErrorInfoUploader {
 
     // 从云中心更新最新的解决方案文件
     private void checkUpdateSolution(){
+    
+        if (!VT4FR.AlphaFine.support()) {
+            return;
+        }
+
+
         Thread updateThread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -113,6 +140,11 @@ public class ErrorInfoUploader {
         }
 
         File[] files = folder.listFiles();
+        if (files.length > MAX_ERROR_SIZE) {
+            StableUtils.deleteFile(folder);
+            return;
+        }
+
         try {
             for (File file : files) {
                 String filePath = file.getPath();
@@ -121,6 +153,11 @@ public class ErrorInfoUploader {
                 if (suffix.endsWith(SUFFIX)) {
                     Thread.sleep(1000L);
                     String content = IOUtils.inputStream2String(new FileInputStream(file));
+                    if (content.length() > MAX_ERROR_SIZE) {
+                        file.delete();
+                        continue;
+                    }
+
                     String url = SiteCenter.getInstance().acquireUrlByKind("design.error");
                     if (sendErroInfo(url, content)) {
                         file.delete();
@@ -149,7 +186,7 @@ public class ErrorInfoUploader {
         try {
             success = ComparatorUtils.equals(new JSONObject(res).get("status"), "success");
         } catch (Exception ex) {
-            success = false;
+            success = true;
         }
         return success;
     }

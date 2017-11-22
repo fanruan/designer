@@ -23,8 +23,8 @@ public class UIHeadGroup extends JPanel {
 
     public UIHeadGroup(String[] textArray) {
         labelButtonList = new ArrayList<UIToggleButton>(textArray.length);
-        this.setBackground(UIConstants.NORMAL_BACKGROUND);
-        this.setLayout(new GridLayout(0, textArray.length, 1, 0));
+        this.setBackground(UIConstants.TREE_BACKGROUND);
+        this.setLayout(new GridLayout(0, textArray.length, 0, 0));
 //		this.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
         for (int i = 0; i < textArray.length; i++) {
             final int index = i;

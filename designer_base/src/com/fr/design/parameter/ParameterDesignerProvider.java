@@ -3,6 +3,7 @@ package com.fr.design.parameter;
 import com.fr.base.Parameter;
 import com.fr.base.parameter.ParameterUI;
 import com.fr.design.mainframe.AuthorityEditPane;
+import com.fr.design.mainframe.JTemplate;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,6 +31,8 @@ public interface ParameterDesignerProvider {
     void refresh4TableData(String oldName, String newName);
 
     void refreshParameter(ParaDefinitePane paraDefinitePane);
+
+    void refreshParameter(ParaDefinitePane paraDefinitePane, JTemplate jt);
 
     boolean isWithQueryButton();
 

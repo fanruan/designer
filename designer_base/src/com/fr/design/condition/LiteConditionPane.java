@@ -1,7 +1,7 @@
 package com.fr.design.condition;
 
+import com.fr.base.BaseFormula;
 import com.fr.base.BaseUtils;
-import com.fr.base.Formula;
 import com.fr.data.DataConstants;
 import com.fr.data.condition.*;
 import com.fr.design.beans.BasicBeanPane;
@@ -21,6 +21,7 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.general.data.Condition;
+import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import javax.swing.event.TreeExpansionEvent;
@@ -65,18 +66,22 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
     private UIButton moveDownButton;
     private UIButton bracketButton;
     private UIButton unBracketButton;
+    private static final int DOWN_PADDING = 4;
+    private static final int STRUT_ONE = 35;
+    private static final int STRUT_TWO = 4;
+    private static final int ADD_CONTROL_PANE_PADDING_RIGHT = -5;
 
     private ActionListener actionListener1 = new ActionListener() {
 
         @Override
         public void actionPerformed(ActionEvent evt) {
-            Formula formula;
+            BaseFormula formula;
 
             String text = formulaTextArea.getText();
             if (text == null || text.length() <= 0) {
-                formula = new Formula("");
+                formula = BaseFormula.createFormulaBuilder().build();
             } else {
-                formula = new Formula(text);
+                formula = BaseFormula.createFormulaBuilder().build(text);
             }
 
             final UIFormula formulaPane = FormulaFactory.createFormulaPane();
@@ -85,9 +90,9 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
 
                 @Override
                 public void doOk() {
-                    Formula formula = formulaPane.update();
+                    BaseFormula formula = formulaPane.update();
                     if (formula.getContent().length() <= 1) {// 如果没有填任何字符，则是空白文本
-                        formulaTextArea.setText("");
+                        formulaTextArea.setText(StringUtils.EMPTY);
                     } else {
                         formulaTextArea.setText(formula.getContent().substring(1));
                     }
@@ -485,11 +490,11 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
 
         UILabel conditionTypeLabel = new UILabel(Inter.getLocText("FR-Designer_Type") + ":");
         conditonTypePane.add(conditionTypeLabel, BorderLayout.WEST);
-        conditionTypeLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 4, 0));
+        conditionTypeLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, DOWN_PADDING, 0));
 
         JPanel northPane = FRGUIPaneFactory.createNColumnGridInnerContainer_S_Pane(2);
         conditonTypePane.add(northPane, BorderLayout.CENTER);
-        northPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 4, 0));
+        northPane.setBorder(BorderFactory.createEmptyBorder(0, 0, DOWN_PADDING, 0));
         northPane.add(GUICoreUtils.createFlowPane(commonRadioButton, FlowLayout.CENTER));
         northPane.add(GUICoreUtils.createFlowPane(formulaRadioButton, FlowLayout.CENTER));
         commonRadioButton.addActionListener(radioActionListener);
@@ -533,8 +538,14 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
 
     private void initControlPane(JPanel controlPane) {
         JPanel addControlPane = FRGUIPaneFactory.createRightFlowInnerContainer_S_Pane();
-        controlPane.add(addControlPane, BorderLayout.SOUTH);
-        addControlPane.setBorder(new ModLineBorder(ModLineBorder.TOP));
+        addControlPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, ADD_CONTROL_PANE_PADDING_RIGHT));
+        JPanel splitPane = new JPanel();
+        splitPane.setBorder(new ModLineBorder(ModLineBorder.TOP));
+
+        JPanel addControlPaneWrapper = new JPanel(new BorderLayout());
+        addControlPaneWrapper.add(addControlPane, BorderLayout.CENTER);
+        addControlPaneWrapper.add(splitPane, BorderLayout.NORTH);
+        controlPane.add(addControlPaneWrapper, BorderLayout.SOUTH);
 
         ButtonGroup bg = new ButtonGroup();
         bg.add(andRadioButton);
@@ -547,14 +558,14 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
         radioPane.add(andRadioButton);
         radioPane.add(orRadioButton);
 
-        addControlPane.add(Box.createHorizontalStrut(35));
+        addControlPane.add(Box.createHorizontalStrut(STRUT_ONE));
 
         addButton = new UIButton(Inter.getLocText("FR-Designer_Add"), BaseUtils.readIcon("com/fr/base/images/cell/control/add.png"));
         addButton.setMnemonic('A');
         addControlPane.add(addButton);
         addButton.addActionListener(actionListener2);
 
-        addControlPane.add(Box.createHorizontalStrut(4));
+        addControlPane.add(Box.createHorizontalStrut(STRUT_TWO));
 
         modifyButton = new UIButton(Inter.getLocText("FR-Designer_Modify"), BaseUtils.readIcon("com/fr/base/images/cell/control/rename.png"));
         modifyButton.setMnemonic('M');
@@ -842,7 +853,7 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
      */
     @Override
     public void populateBean(Condition liteCondition) {
-    	if(liteCondition == null){
+    	if (liteCondition == null){
     		return;
     	}
         // peter: 先删除所有的节点
@@ -850,6 +861,10 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
         ExpandMutableTreeNode rootTreeNode = (ExpandMutableTreeNode) defaultTreeModel.getRoot();
         rootTreeNode.setUserObject(new JoinCondition(DataConstants.AND, new ListCondition()));
         rootTreeNode.removeAllChildren();
+
+        // 清空编辑框
+        clearDefaultConditionPane();
+        formulaTextArea.setText(StringUtils.EMPTY);
 
         // peter:需要构建成ListCondition,加入到里面.
         if (liteCondition instanceof ListCondition) {
@@ -864,7 +879,7 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
             for (int i = 0; i < joinConditionCount; i++) {
                 addLiteConditionToListCondition(rootTreeNode, listCondition.getJoinCondition(i));
             }
-        } else if (needDoWithCondition(liteCondition)) {
+        } else if (isNeedDoWithCondition(liteCondition)) {
             // peter:直接添加
             ExpandMutableTreeNode newTreeNode = new ExpandMutableTreeNode(new JoinCondition(DataConstants.AND, liteCondition));
             rootTreeNode.add(newTreeNode);
@@ -886,7 +901,11 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
         }
     }
 
-    protected boolean needDoWithCondition(Condition liteCondition) {
+    // 有需要再重写，不用做成抽象方法
+    protected void clearDefaultConditionPane() {
+    }
+
+    protected boolean isNeedDoWithCondition(Condition liteCondition) {
         return true;
     }
 
@@ -925,12 +944,10 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
         // peter: 如果只有一个孩子节点, 返回空的 ListCondition
         if (childCount == 0) {
             return new ListCondition();
-        } // peter: 如果roottreeNode只有一个孩子节点.
-        else if (childCount == 1) {
+        } else if (childCount == 1) { // peter: 如果roottreeNode只有一个孩子节点.
             JoinCondition joinCondition = (JoinCondition) ((ExpandMutableTreeNode) rootTreeNode.getChildAt(0)).getUserObject();
             return joinCondition.getCondition();
-        } // peter: 有好多的孩子节点.
-        else {
+        } else { // peter: 有好多的孩子节点.
             // peter:深度遍历所有的孩子节点
             Enumeration depthEnumeration = rootTreeNode.depthFirstEnumeration();
             while (depthEnumeration.hasMoreElements()) {

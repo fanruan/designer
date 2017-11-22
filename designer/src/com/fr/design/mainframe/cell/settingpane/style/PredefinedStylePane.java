@@ -23,6 +23,8 @@ import java.util.Iterator;
 
 public class PredefinedStylePane extends FurtherBasicBeanPane<NameStyle> implements DesignerBean {
 
+    private static final int LEFT_BORDER = 10;
+    private static final int RIGHT_BORDER = 10;
     private DefaultListModel defaultListModel;
     private JList styleList;
     private ChangeListener changeListener;
@@ -65,7 +67,7 @@ public class PredefinedStylePane extends FurtherBasicBeanPane<NameStyle> impleme
         styleList.setCellRenderer(render);
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.add(styleList, BorderLayout.CENTER);
-        this.setBorder(UIConstants.CELL_ATTR_NORMALBORDER);
+        this.setBorder(BorderFactory.createEmptyBorder(0 ,LEFT_BORDER, 0, RIGHT_BORDER));
 
         styleList.addMouseListener(new MouseAdapter() {
             @Override

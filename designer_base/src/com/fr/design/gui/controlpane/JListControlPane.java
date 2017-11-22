@@ -8,13 +8,12 @@ import com.fr.design.data.tabledata.tabledatapane.GlobalMultiTDTableDataPane;
 import com.fr.design.data.tabledata.tabledatapane.GlobalTreeTableDataPane;
 import com.fr.design.data.tabledata.tabledatapane.MultiTDTableDataPane;
 import com.fr.design.data.tabledata.tabledatapane.TreeTableDataPane;
-import com.fr.design.file.HistoryTemplateListPane;
+import com.fr.design.gui.HyperlinkFilterHelper;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilist.JNameEdList;
 import com.fr.design.gui.ilist.ListModelElement;
 import com.fr.design.gui.ilist.ModNameActionListener;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.mainframe.JTemplate;
 import com.fr.design.menu.LineSeparator;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.ShortCut;
@@ -360,7 +359,7 @@ public abstract class JListControlPane extends JControlPane {
             this.creator = creators[0];
             this.setName(Inter.getLocText("FR-Action_Add"));
             this.setMnemonic('A');
-            this.setSmallIcon(BaseUtils.readIcon("/com/fr/base/images/cell/control/add.png"));
+            this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/buttonicon/add.png"));
         }
 
         @Override
@@ -384,7 +383,7 @@ public abstract class JListControlPane extends JControlPane {
 
         private void wrapActionListener(NameableCreator[] creators) {
             for (final NameableCreator creator : creators) {
-                if (!whetherAdd(creator.menuName())) {
+                if (!HyperlinkFilterHelper.whetherAddHyperlink4cell(creator.menuName())) {
                     continue;
                 }
                 boolean isTrue = ComparatorUtils.equals(creator.menuName(), Inter.getLocText("Datasource-Stored_Procedure")) ||
@@ -413,22 +412,6 @@ public abstract class JListControlPane extends JControlPane {
                     }
                 });
             }
-        }
-
-        private boolean whetherAdd(String itemName) {
-            JTemplate jTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
-            if (jTemplate == null) {
-                return false;
-            }
-            //先屏蔽掉这个，之后还有别的
-            String[] names = {Inter.getLocText("FR-Hyperlink_Chart_Float")};
-            for (String name : names) {
-                if (!jTemplate.isJWorkBook() && ComparatorUtils.equals(itemName, name)) {
-                    return false;
-                }
-            }
-            String formName = Inter.getLocText("Hyperlink-Form_link");
-            return !(jTemplate.isJWorkBook() && ComparatorUtils.equals(itemName, formName));
         }
     }
 
@@ -468,7 +451,7 @@ public abstract class JListControlPane extends JControlPane {
             this.setName(Inter.getLocText("FR-Action_Copy"));
             this.setMnemonic('C');
             this.setSmallIcon(BaseUtils
-                    .readIcon("/com/fr/base/images/cell/control/copy.png"));
+                    .readIcon("/com/fr/design/images/m_edit/copy.png"));
         }
 
         @Override

@@ -16,6 +16,8 @@ import com.fr.design.designer.beans.*;
 import com.fr.design.designer.beans.events.DesignerEditListener;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.XCreator;
+import com.fr.design.gui.icombobox.UIComboBox;
+import com.fr.design.gui.icombobox.UIComboBoxUI;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.mainframe.ComponentTree;
 import com.sun.java.swing.plaf.motif.*;
@@ -24,7 +26,7 @@ import com.sun.java.swing.plaf.windows.*;
 /**
  * 控件树下拉列表框
  */
-public class UITreeComboBox extends JComboBox{
+public class UITreeComboBox extends UIComboBox {
     /**
      * 显示用的树
      */
@@ -53,6 +55,14 @@ public class UITreeComboBox extends JComboBox{
         this.updateUI();
     }
 
+    @Override
+    public void setRenderer(ListCellRenderer aRenderer) {
+        ListCellRenderer oldRenderer = renderer;
+        renderer = aRenderer;
+        firePropertyChange( "renderer", oldRenderer, renderer );
+        invalidate();
+    }
+
     /**
      * 取得树
      * @return JTree
@@ -76,7 +86,7 @@ public class UITreeComboBox extends JComboBox{
         } else if(cui instanceof MotifComboBoxUI){
             cui = new MotifJTreeComboBoxUI();
         } else {
-            cui = new WindowsJTreeComboBoxUI();
+            cui = new UIJTreeComboBoxUI();
         }
         setUI(cui);
     }
@@ -104,6 +114,17 @@ public class UITreeComboBox extends JComboBox{
     class WindowsJTreeComboBoxUI extends WindowsComboBoxUI{
         protected ComboPopup createPopup() {
             return new TreePopup(comboBox);
+        }
+    }
+
+    class UIJTreeComboBoxUI extends UIComboBoxUI {
+        protected ComboPopup createPopup() {
+            return new TreePopup(comboBox);
+        }
+
+        @Override
+        public void paintCurrentValue(Graphics g, Rectangle bounds, boolean hasFocus) {
+            paintCurrentValue(g, bounds, hasFocus, 3);
         }
     }
 

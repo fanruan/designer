@@ -3,34 +3,7 @@
  */
 package com.fr.design.mainframe;
 
-import java.awt.AWTEvent;
-import java.awt.Adjustable;
-import java.awt.Dimension;
-import java.awt.Image;
-import java.awt.Rectangle;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.event.*;
-import java.lang.reflect.Constructor;
-import java.util.Set;
-
-import javax.swing.AbstractAction;
-import javax.swing.ActionMap;
-import javax.swing.Icon;
-import javax.swing.InputMap;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JScrollBar;
-import javax.swing.KeyStroke;
-
-import com.fr.base.BaseUtils;
-import com.fr.base.DynamicUnitList;
-import com.fr.base.FRContext;
-import com.fr.base.Formula;
-import com.fr.base.ScreenResolution;
-import com.fr.base.Style;
+import com.fr.base.*;
 import com.fr.design.DesignState;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
@@ -39,30 +12,8 @@ import com.fr.design.actions.ExitAuthorityEditAction;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.actions.cell.BorderAction;
 import com.fr.design.actions.cell.CleanAuthorityAction;
-import com.fr.design.actions.cell.style.AlignmentAction;
-import com.fr.design.actions.cell.style.ReportFontBoldAction;
-import com.fr.design.actions.cell.style.ReportFontForegroundAction;
-import com.fr.design.actions.cell.style.ReportFontItalicAction;
-import com.fr.design.actions.cell.style.ReportFontNameAction;
-import com.fr.design.actions.cell.style.ReportFontSizeAction;
-import com.fr.design.actions.cell.style.ReportFontUnderlineAction;
-import com.fr.design.actions.cell.style.StyleBackgroundAction;
-import com.fr.design.actions.columnrow.CancelColumnAction;
-import com.fr.design.actions.columnrow.CancelRowAction;
-import com.fr.design.actions.columnrow.ColumnHideAction;
-import com.fr.design.actions.columnrow.ColumnWidthAction;
-import com.fr.design.actions.columnrow.DeleteColumnAction;
-import com.fr.design.actions.columnrow.DeleteRowAction;
-import com.fr.design.actions.columnrow.FootColumnAction;
-import com.fr.design.actions.columnrow.FootRowAction;
-import com.fr.design.actions.columnrow.HeadColumnAction;
-import com.fr.design.actions.columnrow.HeadRowAction;
-import com.fr.design.actions.columnrow.InsertColumnAction;
-import com.fr.design.actions.columnrow.InsertRowAction;
-import com.fr.design.actions.columnrow.ResetColumnHideAction;
-import com.fr.design.actions.columnrow.ResetRowHideAction;
-import com.fr.design.actions.columnrow.RowHeightAction;
-import com.fr.design.actions.columnrow.RowHideAction;
+import com.fr.design.actions.cell.style.*;
+import com.fr.design.actions.columnrow.*;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.actions.edit.CopyAction;
 import com.fr.design.actions.edit.CutAction;
@@ -74,6 +25,7 @@ import com.fr.design.cell.clipboard.CellElementsClip;
 import com.fr.design.cell.clipboard.ElementsTransferable;
 import com.fr.design.cell.clipboard.FloatElementsClip;
 import com.fr.design.cell.editor.*;
+import com.fr.design.cell.editor.CellEditor;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.designer.EditingState;
 import com.fr.design.designer.TargetComponent;
@@ -83,11 +35,7 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.mainframe.cell.QuickEditorRegion;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
-import com.fr.design.menu.KeySetUtils;
-import com.fr.design.menu.MenuDef;
-import com.fr.design.menu.NameSeparator;
-import com.fr.design.menu.ShortCut;
-import com.fr.design.menu.ToolBarDef;
+import com.fr.design.menu.*;
 import com.fr.design.selection.QuickEditor;
 import com.fr.design.selection.Selectedable;
 import com.fr.design.selection.SelectionEvent;
@@ -95,11 +43,7 @@ import com.fr.design.selection.SelectionListener;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
-import com.fr.grid.Grid;
-import com.fr.grid.GridColumn;
-import com.fr.grid.GridCorner;
-import com.fr.grid.GridRow;
-import com.fr.grid.GridUtils;
+import com.fr.grid.*;
 import com.fr.grid.dnd.ElementCasePaneDropTarget;
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.Selection;
@@ -119,8 +63,16 @@ import com.fr.report.elementcase.ElementCase;
 import com.fr.report.elementcase.TemplateElementCase;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.ColumnRow;
-import com.fr.stable.Constants;
 import com.fr.stable.unit.FU;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.event.*;
+import java.lang.reflect.Constructor;
+import java.util.Set;
 
 import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
 
@@ -186,7 +138,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
     /**
      * Constructor.
      */
-        public ElementCasePane(T t) {
+    public ElementCasePane(T t) {
         super(t);
         // marks:能触发processEvent，不管是否给component增加listener。这里是使在reportPane中的任意位置滑动鼠标轮都能
         // 下拉grid。
@@ -209,7 +161,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
         this.setLayout(new RGridLayout());
 
         //todo 直接修改分辨率
-        if (this.resolution == 0){
+        if (this.resolution == 0) {
             this.resolution = ScreenResolution.getScreenResolution();
         }
 
@@ -241,7 +193,6 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
         initDefaultEditors();
         initFormatBrush();
     }
-
 
 
     public int getMenuState() {
@@ -294,8 +245,8 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
         setFormatState(DesignerContext.FORMAT_STATE_NULL);
         formatBrush.setSelected(false);
         grid.setCursor(UIConstants.CELL_DEFAULT_CURSOR);
-        if(DesignerContext.getReferencedElementCasePane() == null){
-        	return;
+        if (DesignerContext.getReferencedElementCasePane() == null) {
+            return;
         }
 
         ((ElementCasePane) DesignerContext.getReferencedElementCasePane()).getGrid().setNotShowingTableSelectPane(true);
@@ -348,11 +299,11 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
     }
 
 
-    public void setResolution(int resolution){
+    public void setResolution(int resolution) {
         this.resolution = resolution;
     }
 
-    public int getResolution(){
+    public int getResolution() {
         return this.resolution;
     }
 
@@ -371,7 +322,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
     private void initDefaultEditors() {
         Grid grid = this.getGrid();
         grid.setDefaultCellEditor(DSColumn.class, new DSColumnCellEditor(this));
-        grid.setDefaultCellEditor(Formula.class, new FormulaCellEditor(this));
+        grid.setDefaultCellEditor(BaseFormula.class, new FormulaCellEditor(this));
         grid.setDefaultCellEditor(RichText.class, new RichTextCellEditor(this));
 
         grid.setDefaultCellEditor(BiasTextPainter.class, new BiasTextPainterCellEditor(this));
@@ -1150,7 +1101,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
         HeadColumnAction headcolumnAction = new HeadColumnAction(this);
         FootColumnAction footcolumnAction = new FootColumnAction(this);
 
-        ColumnRow selectedCellPoint = GridUtils.getAdjustEventColumnRow_withresolution(this, evt.getX(), evt.getY(),this.resolution);
+        ColumnRow selectedCellPoint = GridUtils.getAdjustEventColumnRow_withresolution(this, evt.getX(), evt.getY(), this.resolution);
         ElementCase elementCase = this.getEditingElementCase();
         boolean cancel = false;
         ReportPageAttrProvider reportPageAttr = elementCase.getReportPageAttr();
@@ -1268,11 +1219,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
 
     protected ToolBarDef createAlignmentToolBar() {
         return ShortCut.asToolBarDef(new ShortCut[]{
-                new AlignmentAction(this, new Icon[]{
-                        BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_left_normal.png"),
-                        BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_center_normal.png"),
-                        BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_right_normal.png")},
-                        new Integer[]{Constants.LEFT, Constants.CENTER, Constants.RIGHT})}
+                new AlignmentAction(this)}
         );
     }
 
@@ -1325,7 +1272,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
      * @return 返回正在编辑的状态.
      */
     public EditingState createEditingState() {
-        return new ElementCaseEditingState(this.selection, this.verScrollBar.getValue(), this.horScrollBar.getValue());
+        return new ElementCaseEditingState(this.selection, this.verScrollBar.getValue(), this.horScrollBar.getValue(), this.resolution);
     }
 
     public void setCellNeedTOFormat(CellSelection selection) {
@@ -1341,15 +1288,18 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
         protected Selection selection;
         protected int verticalValue = 0;
         protected int horizontalValue = 0;
+        protected int resolution = ScreenResolution.getScreenResolution();
 
-        protected ElementCaseEditingState(Selection selection, int verticalValue, int horizontalValue) {
+        protected ElementCaseEditingState(Selection selection, int verticalValue, int horizontalValue, int resolution) {
             try {
                 this.selection = selection.clone();
+                this.resolution = resolution;
             } catch (CloneNotSupportedException e) {
                 throw new RuntimeException(e);
             }
             this.verticalValue = verticalValue;
             this.horizontalValue = horizontalValue;
+            this.resolution = resolution;
         }
 
         @Override
@@ -1363,7 +1313,8 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
 
             ElementCasePane.this.getVerticalScrollBar().setValue(this.verticalValue);
             ElementCasePane.this.getHorizontalScrollBar().setValue(this.horizontalValue);
-
+//            ElementCasePane.this.setResolution(this.resolution);
+            HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().setScale(this.resolution);
             // 重绘.
             ElementCasePane.this.repaint();
         }

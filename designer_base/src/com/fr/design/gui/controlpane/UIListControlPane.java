@@ -2,22 +2,23 @@ package com.fr.design.gui.controlpane;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
+import com.fr.base.chart.BasePlot;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.data.tabledata.tabledatapane.GlobalMultiTDTableDataPane;
 import com.fr.design.data.tabledata.tabledatapane.GlobalTreeTableDataPane;
 import com.fr.design.data.tabledata.tabledatapane.MultiTDTableDataPane;
 import com.fr.design.data.tabledata.tabledatapane.TreeTableDataPane;
-import com.fr.design.file.HistoryTemplateListPane;
+import com.fr.design.gui.HyperlinkFilterHelper;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icontainer.UIScrollPane;
-import com.fr.design.gui.ilist.UINameEdList;
 import com.fr.design.gui.ilist.ListModelElement;
 import com.fr.design.gui.ilist.ModNameActionListener;
+import com.fr.design.gui.ilist.UINameEdList;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.mainframe.JTemplate;
 import com.fr.design.menu.LineSeparator;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.ShortCut;
@@ -36,12 +37,7 @@ import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import java.awt.event.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
@@ -61,8 +57,13 @@ public abstract class UIListControlPane extends UIControlPane {
     private boolean isNameRepeated = false;
     protected boolean isPopulating = false;
 
+
     public UIListControlPane() {
         this.initComponentPane();
+    }
+
+    public UIListControlPane(BasePlot plot) {
+        super(plot);
     }
 
     @Override
@@ -83,6 +84,7 @@ public abstract class UIListControlPane extends UIControlPane {
     protected void initLeftPane(JPanel leftPane) {
         nameableList = createJNameList();
         nameableList.setName(LIST_NAME);
+        nameableList.setSelectionBackground(UIConstants.ATTRIBUTE_PRESS);
         leftPane.add(new UIScrollPane(nameableList), BorderLayout.CENTER);
 
 
@@ -102,22 +104,24 @@ public abstract class UIListControlPane extends UIControlPane {
                 }
             }
         });
-        nameableList.getModel().addListDataListener(new ListDataListener() {
-            @Override
-            public void intervalAdded(ListDataEvent e) {
-                saveSettings();
-            }
+        if (isNewStyle()) {
+            nameableList.getModel().addListDataListener(new ListDataListener() {
+                @Override
+                public void intervalAdded(ListDataEvent e) {
+                    saveSettings();
+                }
 
-            @Override
-            public void intervalRemoved(ListDataEvent e) {
-                saveSettings();
-            }
+                @Override
+                public void intervalRemoved(ListDataEvent e) {
+                    saveSettings();
+                }
 
-            @Override
-            public void contentsChanged(ListDataEvent e) {
-                saveSettings();
-            }
-        });
+                @Override
+                public void contentsChanged(ListDataEvent e) {
+                    saveSettings();
+                }
+            });
+        }
     }
 
     public UINameEdList createJNameList() {
@@ -125,6 +129,10 @@ public abstract class UIListControlPane extends UIControlPane {
             @Override
             protected void doAfterLostFocus() {
                 UIListControlPane.this.updateControlUpdatePane();
+            }
+            @Override
+            protected void doAfterStopEditing() {
+                saveSettings();
             }
         };
         nameEdList.setCellRenderer(new UINameableListCellRenderer(this));
@@ -150,9 +158,13 @@ public abstract class UIListControlPane extends UIControlPane {
         if (creators.length == 1) {
             addItemShortCut = new AddItemUpdateAction(creators);
         } else {
-            addItemShortCut = new AddItemMenuDef(creators);
+            addItemShortCut = getAddItemMenuDef(creators);
         }
         return new AbsoluteEnableShortCut(addItemShortCut);
+    }
+
+    protected AddItemMenuDef getAddItemMenuDef (NameableCreator[] creators) {
+        return new AddItemMenuDef(creators);
     }
 
     @Override
@@ -199,6 +211,7 @@ public abstract class UIListControlPane extends UIControlPane {
     @Override
     public void populate(Nameable[] nameableArray) {
         isPopulating = true;  // 加一个标识位，避免切换单元格时，触发 saveSettings
+        nameableList.getCellEditor().stopCellEditing();
         DefaultListModel listModel = (DefaultListModel) this.nameableList.getModel();
         listModel.removeAllElements();
         if (ArrayUtils.isEmpty(nameableArray)) {
@@ -314,6 +327,7 @@ public abstract class UIListControlPane extends UIControlPane {
         nameableList.ensureIndexIsVisible(index);
 
         nameEdList.repaint();
+        popupEditDialog();
     }
 
     /**
@@ -384,20 +398,29 @@ public abstract class UIListControlPane extends UIControlPane {
         }
     }
 
-    private void popupEditDialog(Point mousePos) {
-        Rectangle currentCellBounds = nameableList.getCellBounds(editingIndex, editingIndex);
-        if (editingIndex < 0 || !currentCellBounds.contains(mousePos)) {
-            return;
+    private void popupEditDialog() {
+        popupEditDialog(null);
+    }
+
+    protected void popupEditDialog(Point mousePos) {
+        if (isNewStyle()) {
+            Rectangle currentCellBounds = nameableList.getCellBounds(editingIndex, editingIndex);
+            if (editingIndex < 0 || (mousePos != null && !currentCellBounds.contains(mousePos))) {
+                return;
+            }
+            popupEditDialog.setLocation(getPopupDialogLocation());
+            if (popupEditDialog instanceof PopupEditDialog) {
+                ((PopupEditDialog)popupEditDialog).setTitle(getSelectedName());
+            }
+            popupEditDialog.setVisible(true);
         }
-        popupEditDialog.setLocation(getPopupDialogLocation());
-        popupEditDialog.setVisible(true);
     }
 
     private Point getPopupDialogLocation() {
         Point resultPos = new Point(0, 0);
         Point listPos = nameableList.getLocationOnScreen();
         resultPos.x = listPos.x - popupEditDialog.getWidth();
-        resultPos.y = listPos.y + (editingIndex - 1) * EDIT_RANGE;
+        resultPos.y = listPos.y + (nameableList.getSelectedIndex() - 1) * EDIT_RANGE;
 
         // 当对象在屏幕上的位置比较靠下时，往下移动弹窗至与属性面板平齐
         Window frame = DesignerContext.getDesignerFrame();
@@ -435,7 +458,7 @@ public abstract class UIListControlPane extends UIControlPane {
             this.creator = creators[0];
             this.setName(Inter.getLocText("FR-Action_Add"));
             this.setMnemonic('A');
-            this.setSmallIcon(BaseUtils.readIcon("/com/fr/base/images/cell/control/add.png"));
+            this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/buttonicon/add.png"));
         }
 
         /**
@@ -488,6 +511,7 @@ public abstract class UIListControlPane extends UIControlPane {
      */
     protected class AddItemMenuDef extends MenuDef {
         public AddItemMenuDef(NameableCreator[] creators) {
+            super(true);
             this.setName(Inter.getLocText("FR-Action_Add"));
             this.setMnemonic('A');
             this.setIconPath("/com/fr/design/images/control/addPopup.png");
@@ -542,20 +566,8 @@ public abstract class UIListControlPane extends UIControlPane {
             }
         }
 
-        private boolean whetherAdd(String itemName) {
-            JTemplate jTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
-            if (jTemplate == null) {
-                return false;
-            }
-            //先屏蔽掉这个，之后还有别的
-            String[] names = {Inter.getLocText("FR-Hyperlink_Chart_Float")};
-            for (String name : names) {
-                if (!jTemplate.isJWorkBook() && ComparatorUtils.equals(itemName, name)) {
-                    return false;
-                }
-            }
-            String formName = Inter.getLocText("Hyperlink-Form_link");
-            return !(jTemplate.isJWorkBook() && ComparatorUtils.equals(itemName, formName));
+        protected boolean whetherAdd(String itemName){
+            return HyperlinkFilterHelper.whetherAddHyperlink4cell(itemName);
         }
     }
 
@@ -576,6 +588,7 @@ public abstract class UIListControlPane extends UIControlPane {
                 UIListControlPane.this.nameableList.getCellEditor()
                         .stopCellEditing();
             } catch (Exception ignored) {
+                // do nothing
             }
             // bug:在选中一个NameObject并删除，会遗留下Name.
             doBeforeRemove();
@@ -595,7 +608,7 @@ public abstract class UIListControlPane extends UIControlPane {
             this.setName(Inter.getLocText("FR-Action_Copy"));
             this.setMnemonic('C');
             this.setSmallIcon(BaseUtils
-                    .readIcon("/com/fr/base/images/cell/control/copy.png"));
+                    .readIcon("/com/fr/design/images/m_edit/copy.png"));
         }
 
         @Override
@@ -765,6 +778,7 @@ public abstract class UIListControlPane extends UIControlPane {
                 nameableList.editItemAt(nameableList.getSelectedIndex());
             } else if (SwingUtilities.isLeftMouseButton(evt) && evt.getX() <= EDIT_RANGE) {
                 editingIndex = nameableList.getSelectedIndex();
+                selectedName = nameableList.getNameAt(editingIndex);
                 popupEditDialog(evt.getPoint());
             }
 
@@ -786,6 +800,20 @@ public abstract class UIListControlPane extends UIControlPane {
             // peter: 只有弹出菜单有子菜单的时候,才需要弹出来.
             GUICoreUtils.showPopupMenu(popupMenu, nameableList, evt.getX() - 1,
                     evt.getY() - 1);
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            JList list = (JList) e.getSource();
+            if (list.locationToIndex(e.getPoint()) == -1 && !e.isShiftDown()
+                    && !isMenuShortcutKeyDown(e)) {
+                list.clearSelection();
+            }
+        }
+
+        private boolean isMenuShortcutKeyDown(InputEvent event) {
+            return (event.getModifiers() & Toolkit.getDefaultToolkit()
+                    .getMenuShortcutKeyMask()) != 0;
         }
 
         @Override
@@ -889,6 +917,11 @@ public abstract class UIListControlPane extends UIControlPane {
 
     }
 
+
+    protected Object getob2Populate (Object ob2Populate) {
+        return  ob2Populate;
+    }
+
     private class JControlUpdatePane extends JPanel {
         private CardLayout card;
         private JPanel cardPane;
@@ -925,6 +958,7 @@ public abstract class UIListControlPane extends UIControlPane {
 
             for (int i = 0, len = updatePanes.length; i < len; i++) {
                 Object ob2Populate = creators[i].acceptObject2Populate(el.wrapper);
+                ob2Populate = getob2Populate(ob2Populate);
                 if (ob2Populate != null) {
                     if (updatePanes[i] == null) {
                         if (isMulti(creators[i].getUpdatePane()) || isTree(creators[i].getUpdatePane())) {
@@ -942,6 +976,7 @@ public abstract class UIListControlPane extends UIControlPane {
                 }
             }
         }
+
 
         public boolean isMulti(Class _class) {
             return ComparatorUtils.equals(_class, GlobalMultiTDTableDataPane.class) || ComparatorUtils.equals(_class, MultiTDTableDataPane.class);

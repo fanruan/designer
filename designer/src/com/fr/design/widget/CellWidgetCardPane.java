@@ -1,7 +1,10 @@
 package com.fr.design.widget;
 
+import com.fr.design.constants.UIConstants;
 import com.fr.design.data.DataCreatorUI;
+import com.fr.design.dialog.AttrScrollPane;
 import com.fr.design.dialog.BasicPane;
+import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.ibutton.UIHeadGroup;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -52,16 +55,22 @@ public class CellWidgetCardPane extends BasicPane {
         tabbedPane = new CardLayout();
         center = new JPanel(tabbedPane);
         this.add(center, BorderLayout.CENTER);
-
         attriTabPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         eventTabPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        eventTabPane.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
         initPaneList();
-        eventPane = new WidgetEventPane(pane);
+        eventPane = initWidgetEventPane(pane);
         eventTabPane.add(eventPane, BorderLayout.CENTER);
         //k
-        center.add(attriTabPane, Inter.getLocText("FR-Designer_Attribute"));
-        center.add(eventTabPane, Inter.getLocText("FR-Designer_Form_Editing_Listeners"));
-        final String[] tabTitles = new String[]{Inter.getLocText("FR-Designer_Attribute"), Inter.getLocText("FR-Designer_Form_Editing_Listeners")};
+        BasicScrollPane basicScrollPane = new AttrScrollPane() {
+            @Override
+            protected JPanel createContentPane() {
+                return attriTabPane;
+            }
+        };
+        center.add(basicScrollPane, Inter.getLocText("FR-Designer_Attribute"));
+        center.add(eventTabPane, Inter.getLocText("FR-Designer_Event"));
+        final String[] tabTitles = new String[]{Inter.getLocText("FR-Designer_Attribute"), Inter.getLocText("FR-Designer_Event")};
 
         tabsHeaderIconPane = new UIHeadGroup(tabTitles) {
             @Override
@@ -69,26 +78,31 @@ public class CellWidgetCardPane extends BasicPane {
                 tabbedPane.show(center, tabTitles[index]);
             }
         };
-        tabsHeaderIconPane.setNeedLeftRightOutLine(false);
+        tabsHeaderIconPane.setNeedLeftRightOutLine(true);
+        tabsHeaderIconPane.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, UIConstants.SHADOW_GREY));
         this.add(tabsHeaderIconPane, BorderLayout.NORTH);
 
         widgetPropertyPane = new BasicWidgetPropertySettingPane();
 
         UIExpandablePane uiExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer_Basic"), 280, 24, widgetPropertyPane);
 
-        attriTabPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+
+        attriTabPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
         attriTabPane.add(uiExpandablePane, BorderLayout.NORTH);
 
         attriCardPane = FRGUIPaneFactory.createCardLayout_S_Pane();
         attriTabPane.add(attriCardPane, BorderLayout.CENTER);
         attriCardLayout = (CardLayout) attriCardPane.getLayout();
-        this.setPreferredSize(new Dimension(600, 450));
     }
 
     private void initPaneList() {
         paneList = new ArrayList<JPanel>();
         paneList.add(attriTabPane);
         paneList.add(eventPane);
+    }
+
+    protected WidgetEventPane initWidgetEventPane(ElementCasePane pane){
+        return new WidgetEventPane(pane);
     }
 
     @Override

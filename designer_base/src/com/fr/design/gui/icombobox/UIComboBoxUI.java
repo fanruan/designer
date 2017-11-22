@@ -1,29 +1,23 @@
 package com.fr.design.gui.icombobox;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.event.InputEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import com.fr.common.inputevent.InputEventBaseOnOS;
+import com.fr.design.constants.UIConstants;
+import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.ibutton.UIButtonUI;
+import com.fr.design.gui.icontainer.UIScrollPane;
+import com.fr.design.utils.gui.GUIPaintUtils;
+import com.fr.stable.Constants;
+import com.fr.stable.StringUtils;
+import sun.swing.DefaultLookup;
 
 import javax.swing.*;
+import javax.swing.plaf.ButtonUI;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 import javax.swing.plaf.basic.BasicComboPopup;
 import javax.swing.plaf.basic.ComboPopup;
-
-import com.fr.common.inputevent.InputEventBaseOnOS;
-import com.fr.design.constants.UIConstants;
-import sun.swing.DefaultLookup;
-
-import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.gui.icontainer.UIScrollPane;
-import com.fr.stable.Constants;
-import com.fr.stable.StringUtils;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
 
@@ -46,6 +40,27 @@ public class UIComboBoxUI extends BasicComboBoxUI implements MouseListener {
             public boolean shouldResponseChangeListener() {
                 return false;
             }
+
+            @Override
+            public ButtonUI getUI() {
+                return new UIButtonUI() {
+                    @Override
+                    protected boolean isPressed(AbstractButton b) {
+                        return model.isArmed() && model.isPressed();
+                    }
+
+                    @Override
+                    protected void doExtraPainting(UIButton b, Graphics2D g2d, int w, int h, String selectedRoles) {
+                        if (isPressed(b) && b.isPressedPainted()) {
+                            GUIPaintUtils.fillPressed(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles), UIConstants.COMBOBOX_BTN_PRESS);
+                        } else if (isRollOver(b)) {
+                            GUIPaintUtils.fillRollOver(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles), b.isPressedPainted(), UIConstants.COMBOBOX_BTN_ROLLOVER);
+                        } else if (b.isNormalPainted()) {
+                            GUIPaintUtils.fillNormal(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles), b.isPressedPainted(), UIConstants.COMBOBOX_BTN_NORMAL);
+                        }
+                    }
+                };
+            }
         };
         ((UIButton) arrowButton).setRoundBorder(true, Constants.LEFT);
         arrowButton.addMouseListener(this);
@@ -57,19 +72,19 @@ public class UIComboBoxUI extends BasicComboBoxUI implements MouseListener {
         super.paint(g, c);
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        Color linecolor = UIConstants.TITLED_BORDER_COLOR;
+        Color linecolor = UIConstants.POP_DIALOG_BORDER;
 
         if (comboBox.isPopupVisible()) {
             arrowButton.setSelected(true);
         } else {
-            linecolor = UIConstants.TITLED_BORDER_COLOR;
+            linecolor = UIConstants.POP_DIALOG_BORDER;
             arrowButton.setSelected(false);
         }
         g2d.setColor(linecolor);
         if (!comboBox.isPopupVisible()) {
-            g2d.drawRoundRect(0, 0, c.getWidth() - arrowButton.getWidth() + 3, c.getHeight() - 1, UIConstants.LARGEARC, UIConstants.LARGEARC);
+            g2d.drawRoundRect(0, 0, c.getWidth() - arrowButton.getWidth() + 3, c.getHeight() - 1, UIConstants.ARC, UIConstants.ARC);
         } else {
-            g2d.drawRoundRect(0, 0, c.getWidth(), c.getHeight() + 3, UIConstants.LARGEARC, UIConstants.LARGEARC);
+            g2d.drawRoundRect(0, 0, c.getWidth(), c.getHeight() + 3, UIConstants.ARC, UIConstants.ARC);
             g2d.drawLine(0, c.getHeight() - 1, c.getWidth(), c.getHeight() - 1);
         }
     }
@@ -79,6 +94,10 @@ public class UIComboBoxUI extends BasicComboBoxUI implements MouseListener {
      */
     @Override
     public void paintCurrentValue(Graphics g, Rectangle bounds, boolean hasFocus) {
+        paintCurrentValue(g, bounds, hasFocus, 0);
+    }
+
+    public void paintCurrentValue(Graphics g, Rectangle bounds, boolean hasFocus, int paddingLeft) {
         ListCellRenderer renderer = comboBox.getRenderer();
         Component c;
 
@@ -127,7 +146,7 @@ public class UIComboBoxUI extends BasicComboBoxUI implements MouseListener {
 
         int x = bounds.x, y = bounds.y, w = bounds.width, h = bounds.height;
 
-        currentValuePane.paintComponent(g, c, comboBox, x, y, w, h, shouldValidate);
+        currentValuePane.paintComponent(g, c, comboBox, x + paddingLeft, y, w, h, shouldValidate);
     }
 
     @Override

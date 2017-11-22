@@ -15,6 +15,7 @@ import com.fr.general.Inter;
 import com.fr.script.Calculator;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.ParameterProvider;
+import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -76,7 +77,8 @@ public class ParameterTreeComboBox extends FRTreeComboBox {
 		if (obj instanceof TreePath) {
 			return ((Parameter)((ExpandMutableTreeNode)((TreePath)obj).getLastPathComponent()).getUserObject()).getName();
 		}
-		return (String)obj;
+		Object item = this.getEditor().getItem();
+		return item == null ? StringUtils.EMPTY : item.toString();
 	}
 
 	@Override

@@ -1,19 +1,19 @@
 package com.fr.design.mainframe.chart.gui.data.table;
 
-import com.fr.chart.chartdata.TopDefinition;
 import com.fr.chart.base.ChartConstants;
 import com.fr.chart.chartattr.Bar2DPlot;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartdata.NormalTableDataDefinition;
+import com.fr.chart.chartdata.TopDefinition;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
-import com.fr.design.utils.gui.GUICoreUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -41,17 +41,19 @@ public class CategoryPlotTableDataContentPane extends AbstractTableDataContentPa
 		categoryCombox = new UIComboBox();
 		JPanel categoryPane = new JPanel(new BorderLayout(4,0));
 		categoryPane.setBorder(BorderFactory.createMatteBorder(0, 0, 6, 1, getBackground()));
-        UILabel label1 = new BoldFontTextLabel(Inter.getLocText("FR-Chart-Category_Name") + ":", SwingConstants.RIGHT) ;
+        UILabel label1 = new BoldFontTextLabel(Inter.getLocText("FR-Chart-Category_Name")) ;
         label1.setPreferredSize(new Dimension(ChartDataPane.LABEL_WIDTH,ChartDataPane.LABEL_HEIGHT));
         categoryCombox.setPreferredSize(new Dimension(100,20));
 
         categoryCombox.addItem(Inter.getLocText("Chart-Use_None"));
         categoryPane.add(GUICoreUtils.createBorderLayoutPane(new Component[]{categoryCombox,null,null,label1,null}));
-		
+		categoryPane.setPreferredSize(new Dimension(246,30));
+		categoryPane.setBorder(BorderFactory.createEmptyBorder(0,24,10,15));
 		this.setLayout(new BorderLayout());
 
 		this.add(categoryPane, BorderLayout.NORTH);
-		
+
+		this.add(getJSeparator());
 		seriesTypeComboxPane = new SeriesTypeUseComboxPane(parent, new Bar2DPlot());
 		this.add(seriesTypeComboxPane, BorderLayout.SOUTH);
 		

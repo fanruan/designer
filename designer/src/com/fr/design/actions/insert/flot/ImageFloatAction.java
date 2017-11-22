@@ -4,6 +4,7 @@
 package com.fr.design.actions.insert.flot;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.DynamicUnitList;
 import com.fr.base.ScreenResolution;
 import com.fr.design.actions.ElementCaseAction;
 import com.fr.design.dialog.BasicDialog;
@@ -14,9 +15,12 @@ import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.design.report.SelectImagePane;
 import com.fr.general.Inter;
+import com.fr.grid.Grid;
 import com.fr.grid.selection.FloatSelection;
+import com.fr.report.ReportHelper;
 import com.fr.report.cell.FloatElement;
 import com.fr.report.cell.cellattr.CellImage;
+import com.fr.report.elementcase.TemplateElementCase;
 import com.fr.stable.CoreGraphHelper;
 import com.fr.stable.unit.FU;
 
@@ -34,7 +38,7 @@ public class ImageFloatAction extends ElementCaseAction {
     public ImageFloatAction(ElementCasePane t) {
         super(t);
         this.setMenuKeySet(FLOAT_INSERT_IMAGE);
-        this.setName(getMenuKeySet().getMenuKeySetName() + "...");
+        this.setName(getMenuKeySet().getMenuKeySetName());
         this.setMnemonic(getMenuKeySet().getMnemonic());
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_insert/image.png"));
     }
@@ -87,12 +91,33 @@ public class ImageFloatAction extends ElementCaseAction {
                     CoreGraphHelper.waitForImage(image);
 
                     floatElement.setValue(image);
-
-                    int resolution = ScreenResolution.getScreenResolution();
+                    Grid grid = reportPane.getGrid();
+                    int resolution = grid.getResolution();
                     floatElement.setWidth(FU.valueOfPix(image.getWidth(null), resolution));
                     floatElement.setHeight(FU.valueOfPix(image.getHeight(null), resolution));
+                    TemplateElementCase report = reportPane.getEditingElementCase();
+                    DynamicUnitList columnWidthList = ReportHelper.getColumnWidthList(report);
+                    DynamicUnitList rowHeightList = ReportHelper.getRowHeightList(report);
+                    int horizentalScrollValue = grid.getHorizontalValue();
+                    int verticalScrollValue = grid.getVerticalValue();
+
+                    int floatWdith = floatElement.getWidth().toPixI(resolution);
+                    int floatHeight = floatElement.getHeight().toPixI(resolution);
+
+                    int leftDifference = (grid.getWidth() - floatWdith) > 0 ? (grid.getWidth() - floatWdith) : 0;
+                    int topDifference = (grid.getHeight() - floatHeight) > 0 ? (grid.getHeight() - floatHeight) : 0;
+                    FU evtX_fu = FU.valueOfPix((leftDifference) / 2, resolution);
+                    FU evtY_fu = FU.valueOfPix((topDifference) / 2, resolution);
+
+                    FU leftDistance = FU.getInstance(evtX_fu.toFU() + columnWidthList.getRangeValue(0, horizentalScrollValue).toFU());
+                    FU topDistance = FU.getInstance(evtY_fu.toFU() + rowHeightList.getRangeValue(0, verticalScrollValue).toFU());
+
+                    floatElement.setLeftDistance(leftDistance);
+                    floatElement.setTopDistance(topDistance);
+
                     floatElement.setStyle(cellImage.getStyle());
-                    reportPane.addFloatElementToCenterOfElementPane(floatElement);
+//                    reportPane.addFloatElementToCenterOfElementPane(floatElement);
+                    reportPane.getEditingElementCase().addFloatElement(floatElement);
                     reportPane.setSelection(new FloatSelection(floatElement.getName()));
 
                     returnValue = true;

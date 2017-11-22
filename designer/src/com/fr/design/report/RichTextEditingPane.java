@@ -3,8 +3,8 @@
  */
 package com.fr.design.report;
 
+import com.fr.base.BaseFormula;
 import com.fr.base.FRContext;
-import com.fr.base.Formula;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.formula.FormulaFactory;
 import com.fr.design.formula.UIFormula;
@@ -139,12 +139,12 @@ public class RichTextEditingPane extends UITextPane{
 		private void popUpFormulaEditPane(final String formulaContent, final int formulaStart, 
 				final AttributeSet attrs){
 			final UIFormula formulaPane = FormulaFactory.createFormulaPane();
-			formulaPane.populate(new Formula(formulaContent));
+			formulaPane.populate(BaseFormula.createFormulaBuilder().build(formulaContent));
 			formulaPane.showLargeWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
 				@Override
 				public void doOk() {
 					StyledDocument doc = (StyledDocument) RichTextEditingPane.this.getDocument();
-					Formula fm = formulaPane.update();
+					BaseFormula fm = formulaPane.update();
 					String content = RichTextConverter.asFormula(fm.getContent());
 					try {
 						doc.remove(formulaStart, formulaContent.length() + WRAPPER_LEN);

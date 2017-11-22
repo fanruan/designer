@@ -37,6 +37,9 @@ public class ColumnSelectedEditor extends Editor<SimpleDSColumn> {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
                 //这边需要重新初始化columnNames, 否则nameList长度和columnNames长度不同导致出錯。
+				if (tableDataComboBox.getSelectedItem() == null) {
+					return;
+				}
                 List<String> nameList = tableDataComboBox.getSelectedItem().calculateColumnNameList();
                 columnNames = new String[nameList.size()];
 				columnNames = tableDataComboBox.getSelectedItem().calculateColumnNameList().toArray(columnNames);
@@ -56,7 +59,7 @@ public class ColumnSelectedEditor extends Editor<SimpleDSColumn> {
 
 	@Override
 	public SimpleDSColumn getValue() {
-		if (this.tableDataComboBox.getSelectedItem() == null && this.columnNameComboBox.getSelectedItem() == null) {
+		if (this.tableDataComboBox.getSelectedItem() == null || this.columnNameComboBox.getSelectedItem() == null) {
 			return null;
 		}
 		SimpleDSColumn dsColumn = new SimpleDSColumn();
@@ -99,4 +102,9 @@ public class ColumnSelectedEditor extends Editor<SimpleDSColumn> {
 		}
 	}
 
+	@Override
+	public void clearData() {
+        tableDataComboBox.setSelectedItem(null);
+        columnNameComboBox.setSelectedItem(null);
+    }
 }

@@ -1,11 +1,11 @@
 package com.fr.design.editor.editor;
 
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 
 
 public class ConstantsEditor extends FormulaEditor {
 
-	public ConstantsEditor(String name, Formula formula) {
+	public ConstantsEditor(String name, BaseFormula formula) {
 		super(name, formula);
 	}
 	
@@ -13,11 +13,11 @@ public class ConstantsEditor extends FormulaEditor {
 		// do nothing 防止修改...
 	}
 	
-	public void setValue(Formula value) {
+	public void setValue(BaseFormula value) {
 		// do nothing 防止修改...
     }
 	
 	public boolean accept(Object object) {
-        return object instanceof Formula && object.equals(this.getValue());
+        return object instanceof BaseFormula && object.equals(this.getValue());
     }
 }

@@ -1,14 +1,16 @@
 package com.fr.design.widget.ui.designer;
 
 import com.fr.design.data.DataCreatorUI;
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.XCreator;
-import com.fr.design.gui.frpane.TreeSettingPane;
 import com.fr.design.gui.icheckbox.UICheckBox;
 
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itree.refreshabletree.TreeRootPane;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 
+import com.fr.design.mainframe.widget.accessibles.AccessibleTreeModelEditor;
 import com.fr.form.ui.TreeEditor;
 import com.fr.general.Inter;
 
@@ -19,25 +21,34 @@ import java.awt.*;
 /*
  * richer:tree editor
  */
-public class TreeEditorDefinePane extends DictEditorDefinePane<TreeEditor> {
-    protected TreeSettingPane treeSettingPane;
+public class TreeEditorDefinePane extends CustomWritableRepeatEditorPane<TreeEditor> {
     protected TreeRootPane treeRootPane;
     private UICheckBox mutiSelect;
     private UICheckBox loadAsync;
     private UICheckBox returnLeaf;
     private UICheckBox returnPath;
+    private AccessibleTreeModelEditor accessibleTreeModelEditor;
 
     public TreeEditorDefinePane(XCreator xCreator) {
         super(xCreator);
         treeRootPane = new TreeRootPane();
-        treeSettingPane = new TreeSettingPane(true);
     }
+
+
 
     public JPanel createOtherPane() {
         mutiSelect = new UICheckBox(Inter.getLocText("Tree-Mutiple_Selection_Or_Not"));
+        mutiSelect.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+
         loadAsync = new UICheckBox(Inter.getLocText("Widget-Load_By_Async"));
+        loadAsync.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+
         returnLeaf = new UICheckBox(Inter.getLocText("FR-Designer_Widget_Return_Leaf"));
+        returnLeaf.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+
         returnPath = new UICheckBox(Inter.getLocText("FR-Designer_Widget_Return_Path"));
+        returnPath.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
@@ -48,8 +59,7 @@ public class TreeEditorDefinePane extends DictEditorDefinePane<TreeEditor> {
         };
         double[] rowSize = {p, p, p, p};
         double[] columnSize = {p};
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 10, 7);
-        panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, IntervalConstants.INTERVAL_L2, IntervalConstants.INTERVAL_L1);
         return panel;
     }
 
@@ -58,9 +68,16 @@ public class TreeEditorDefinePane extends DictEditorDefinePane<TreeEditor> {
         return "tree";
     }
 
-    protected  void populateSubDictionaryEditorBean(TreeEditor e){
+
+    protected Component[] createDictPane(){
+        accessibleTreeModelEditor = new AccessibleTreeModelEditor();
+        return new Component[]{new UILabel(Inter.getLocText("FR-Designer_DS-Dictionary")), accessibleTreeModelEditor};
+    }
+
+    @Override
+    protected void populateSubCustomWritableRepeatEditorBean(TreeEditor e) {
+        accessibleTreeModelEditor.setValue(e.getNodeOrDict());
         formWidgetValuePane.populate(e);
-        treeSettingPane.populate(e);
         treeRootPane.populate(e.getTreeAttr());
         mutiSelect.setSelected(e.isMultipleSelection());
         loadAsync.setSelected(e.isAjax());
@@ -68,7 +85,9 @@ public class TreeEditorDefinePane extends DictEditorDefinePane<TreeEditor> {
         returnPath.setSelected(e.isReturnFullPath());
     }
 
-    protected  TreeEditor updateSubDictionaryEditorBean(){
+
+    @Override
+    protected TreeEditor updateSubCustomWritableRepeatEditorBean() {
         TreeEditor editor = (TreeEditor)creator.toData();
         formWidgetValuePane.update(editor);
         editor.setTreeAttr(treeRootPane.update());
@@ -76,12 +95,12 @@ public class TreeEditorDefinePane extends DictEditorDefinePane<TreeEditor> {
         editor.setAjax(loadAsync.isSelected());
         editor.setSelectLeafOnly(returnLeaf.isSelected());
         editor.setReturnFullPath(returnPath.isSelected());
+        editor.setNodeOrDict(accessibleTreeModelEditor.getValue());
         return editor;
     }
 
-
     @Override
     public DataCreatorUI dataUI() {
-        return treeSettingPane;
+        return null;
     }
 }

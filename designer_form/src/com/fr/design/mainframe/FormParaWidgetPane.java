@@ -2,6 +2,7 @@ package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.ExtraDesignClassManager;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.designer.beans.events.DesignerEditListener;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.XCreatorUtils;
@@ -152,6 +153,7 @@ public class FormParaWidgetPane extends JPanel {
             widgetPane.add(eastScrollPane);
 
             widgetTypePopupMenu = new UIPopupMenu();
+            widgetTypePopupMenu.setBackground(UIConstants.SELECT_TAB);
             widgetTypePopupMenu.add(widgetPane);
         }
     }
@@ -167,6 +169,7 @@ public class FormParaWidgetPane extends JPanel {
             int y = (int) Math.ceil(chartOptions.length / ((double) COMMON_CHAR_NUM)) * (widgetButtonHeight + smallGAP);
             componentsPara.setPreferredSize(new Dimension(x, y));
             chartTypePopupMenu = new UIPopupMenu();
+            chartTypePopupMenu.setBackground(UIConstants.SELECT_TAB);
             chartTypePopupMenu.add(componentsPara);
         }
     }
@@ -284,8 +287,8 @@ public class FormParaWidgetPane extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 initChartTypePopUp();
                 chartTypePopupMenu.show(FormParaWidgetPane.this,
-                        (int) jSeparatorChart.getLocation().getX() + BORDER,
-                        (int) jSeparatorChart.getLocation().getY());
+                        (int) jSeparatorLayout.getLocation().getX() + BORDER,
+                        (int) jSeparatorLayout.getLocation().getY());
             }
         });
         labelPane.add(chartPopUpButton, BorderLayout.EAST);
@@ -304,8 +307,8 @@ public class FormParaWidgetPane extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 initWidgetTypePopUp();
                 widgetTypePopupMenu.show(FormParaWidgetPane.this,
-                        (int) jSeparatorLayout.getLocation().getX() + BORDER,
-                        (int) jSeparatorLayout.getLocation().getY());
+                        (int) jSeparatorChart.getLocation().getX() + BORDER,
+                        (int) jSeparatorChart.getLocation().getY());
             }
 
         });
@@ -316,7 +319,9 @@ public class FormParaWidgetPane extends JPanel {
 
     private int calculateWidgetWindowRowNum() {
         //向上取整
-        int rowNum = (int) Math.ceil((double) predifinedwidgeList.size() / (double) preWidgetShowMaxNum);
+        int eastRowNum = (int) Math.ceil((double) predifinedwidgeList.size() / (double) preWidgetShowMaxNum);
+        int westRowNum = (int) Math.ceil((double) loadWidgetOptions().length / (double) commonWidgetNum);
+        int rowNum = Math.max(eastRowNum, westRowNum);
         rowNum = Math.max(rowNum, 2);
         rowNum = Math.min(rowNum, preWidgetShowMaxRow);
         return rowNum;

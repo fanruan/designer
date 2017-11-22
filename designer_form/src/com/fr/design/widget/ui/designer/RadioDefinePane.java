@@ -1,6 +1,7 @@
 package com.fr.design.widget.ui.designer;
 
 import com.fr.base.FRContext;
+import com.fr.design.designer.creator.XCreator;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.form.ui.Radio;
@@ -11,8 +12,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class RadioDefinePane extends AbstractDataModify<Radio> {
-	public RadioDefinePane() {
-		this.iniComoponents();
+	public RadioDefinePane(XCreator xCreator) {
+		super(xCreator);
+		iniComoponents();
 	}
 	
 	private void iniComoponents() {
@@ -39,6 +41,6 @@ public class RadioDefinePane extends AbstractDataModify<Radio> {
 	
 	@Override
 	public Radio updateBean() {
-		return new Radio();
+		return  (Radio)creator.toData();
 	}
 }

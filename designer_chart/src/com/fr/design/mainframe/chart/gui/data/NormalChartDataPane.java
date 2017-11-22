@@ -3,13 +3,13 @@ package com.fr.design.mainframe.chart.gui.data;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.constants.LayoutConstants;
-import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.gui.frpane.UIComboBoxPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
+import com.fr.plugin.chart.designer.AbstractVanChartScrollPane;
 
 import javax.swing.*;
 import java.awt.*;
@@ -46,7 +46,12 @@ public class NormalChartDataPane extends DataContentsPane {
 	
 	@Override
 	protected JPanel createContentPane() {
-		return new BasicScrollPane<ChartCollection>() {
+		return new AbstractVanChartScrollPane<ChartCollection>() {
+
+			protected void layoutContentPane() {
+				leftcontentPane = createContentPane();
+				this.add(leftcontentPane);
+			}
 
 			@Override
 			protected JPanel createContentPane() {
@@ -56,9 +61,10 @@ public class NormalChartDataPane extends DataContentsPane {
 						this.setLayout(new BorderLayout(LayoutConstants.HGAP_LARGE,6));
 						JPanel northPane = new JPanel(new BorderLayout(LayoutConstants.HGAP_LARGE,0));
 						northPane.add(jcb, BorderLayout.CENTER);
-                        UILabel label1 = new UILabel(Inter.getLocText("Chart-Data_Resource") + ":", SwingConstants.RIGHT);
+                        UILabel label1 = new UILabel(Inter.getLocText("Chart-Data_Resource"));
                         label1.setPreferredSize(new Dimension(ChartDataPane.LABEL_WIDTH,ChartDataPane.LABEL_HEIGHT));
                         northPane.add(GUICoreUtils.createBorderLayoutPane(new Component[]{jcb, null, null, label1, null}));
+						northPane.setBorder(BorderFactory.createEmptyBorder(0,5,0,8));
 						this.add(northPane, BorderLayout.NORTH);
 						this.add(cardPane, BorderLayout.CENTER);
 
