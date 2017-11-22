@@ -15,8 +15,6 @@ public class ReportMobileAttrPane extends BasicBeanPane<ElementCaseMobileAttr>{
 
     private AppFitBrowserPane appFitBrowserPane;
 
-    private MobileUseHtmlGroupPane htmlGroupPane;
-
     //工具栏容器
     private MobileToolBarPane mobileToolBarPane;
 
@@ -34,8 +32,6 @@ public class ReportMobileAttrPane extends BasicBeanPane<ElementCaseMobileAttr>{
         appFitBrowserPane.setAppFitPreviewPane(appFitPreviewPane);
         jPanel.add(appFitBrowserPane);
 
-        jPanel.add(htmlGroupPane = new MobileUseHtmlGroupPane(Inter.getLocText("FR-Designer_Mobile_Report_Analysis_Annotation")));
-
         jPanel.add(mobileToolBarPane = new MobileToolBarPane());
 
         jPanel.add(appFitPreviewPane);
@@ -50,7 +46,6 @@ public class ReportMobileAttrPane extends BasicBeanPane<ElementCaseMobileAttr>{
         }
         appFitBrowserPane.populateBean(ob);
         mobileToolBarPane.populateBean(ob);
-        htmlGroupPane.populateBean(ob);
 
     }
 
@@ -58,7 +53,6 @@ public class ReportMobileAttrPane extends BasicBeanPane<ElementCaseMobileAttr>{
     public ElementCaseMobileAttr updateBean() {
         ElementCaseMobileAttr caseMobileAttr = appFitBrowserPane.updateBean();
         mobileToolBarPane.updateBean(caseMobileAttr);
-        htmlGroupPane.updateBean(caseMobileAttr);
 
         return caseMobileAttr;
     }

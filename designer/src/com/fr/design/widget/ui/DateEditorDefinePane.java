@@ -1,24 +1,26 @@
 package com.fr.design.widget.ui;
 
 import com.fr.base.FRContext;
-import com.fr.base.Formula;
 import com.fr.data.core.FormatField;
-import com.fr.design.gui.ibutton.UIHeadGroup;
+import com.fr.design.border.UIRoundedBorder;
+import com.fr.design.constants.UIConstants;
+import com.fr.design.designer.IntervalConstants;
+import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.mainframe.CellWidgetPropertyPane;
 import com.fr.design.widget.component.DateValuePane;
+import com.fr.design.widget.component.UIComboBoxNoArrow;
 import com.fr.form.ui.DateEditor;
-import com.fr.general.DateUtils;
 import com.fr.general.Inter;
-import com.fr.script.Calculator;
 import com.fr.stable.ArrayUtils;
-import com.fr.stable.UtilEvalError;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,15 +28,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor> {
-	private UIHeadGroup returnTypeComboBox;
+	private UIButtonGroup returnTypeComboBox;
 
 	private DateValuePane startDv;
 	private DateValuePane endDv;
 
 	private UIComboBox currentFormatComboBox;
 	private UILabel currentSamplelabel;
-	private UIHeadGroup fomatHeadGroup;
-
+	private UIButtonGroup fomatHeadGroup;
+	private static final int SAMPLE_LABEL_PADDING = 4;
 
 
 	public DateEditorDefinePane() {
@@ -47,12 +49,7 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 
 	@Override
 	protected JPanel setSecondContentPane() {
-			returnTypeComboBox = new UIHeadGroup(new String[] {Inter.getLocText("Date") ,  Inter.getLocText("String")}){
-				protected void tabChanged(int newSelectedIndex) {
-					//todo
-				}
-			};
-
+		returnTypeComboBox = new UIButtonGroup<>(new String[] {Inter.getLocText("Date") ,  Inter.getLocText("String")});
 		JPanel formatHead =  createFormatHead();
 
 		startDv = new DateValuePane();
@@ -60,26 +57,40 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 
 		double f = TableLayout.FILL;
 		double p = TableLayout.PREFERRED;
+		UILabel formatLabel = new UILabel(Inter.getLocText("FR-Engine_Format"));
+		formatLabel.setVerticalAlignment(SwingConstants.TOP);
+		UILabel startDateLabel = new UILabel(Inter.getLocText("FS_Start_Date"));
+		startDateLabel.setVerticalAlignment(SwingConstants.TOP);
+		UILabel endDateLabel = new UILabel(Inter.getLocText("FS_End_Date"));
+		endDateLabel.setVerticalAlignment(SwingConstants.TOP);
+
 		Component[][] components = new Component[][]{
-				new Component[]{new UILabel(Inter.getLocText("FR-Engine_Format") + ":"), formatHead},
-				new Component[]{new UILabel(Inter.getLocText("FS_Start_Date") + ":"), startDv},
-				new Component[]{new UILabel(Inter.getLocText("FS_End_Date") + ":"), endDv},
+				new Component[]{formatLabel, formatHead},
+				new Component[]{startDateLabel, startDv},
+				new Component[]{endDateLabel, endDv},
 				new Component[]{waterMarkDictPane, null},
-				new Component[]{new UILabel(Inter.getLocText("Widget-Date_Selector_Return_Type") + ":"), returnTypeComboBox }
+				new Component[]{new UILabel(Inter.getLocText("Widget-Date_Selector_Return_Type")), returnTypeComboBox }
 		};
 		double[] rowSize = {p, p, p, p, p, p, p};
 		double[] columnSize = {p, f};
 		int[][] rowCount = {{1, 3},{1, 1},{1, 1},{1, 1},{1, 1}};
-		JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 10, 7);
-		panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_L2, IntervalConstants.INTERVAL_L1);
 
 
 		return panel;
 	}
 
 	private JPanel createFormatPane(UIComboBox formatComboBox, UILabel sampleLabel){
-		JPanel previewPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Base_StyleFormat_Sample"));
-		previewPane.add(sampleLabel);
+
+		JPanel previewPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+		TitledBorder titledBorder = new TitledBorder(new UIRoundedBorder(UIConstants.LINE_COLOR, 1, 5), Inter.getLocText("FR-Base_StyleFormat_Sample"), 4, 2, this.getFont(), UIConstants.LINE_COLOR);
+		previewPane.setBorder(titledBorder);
+
+		JPanel sampleLabelWrapper = new JPanel(new BorderLayout());
+		sampleLabelWrapper.setBorder(BorderFactory.createEmptyBorder(0, SAMPLE_LABEL_PADDING, SAMPLE_LABEL_PADDING, SAMPLE_LABEL_PADDING));
+		sampleLabelWrapper.add(sampleLabel, BorderLayout.CENTER);
+
+		previewPane.add(sampleLabelWrapper, BorderLayout.CENTER);
 		JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		jPanel.add(previewPane, BorderLayout.NORTH);
 		jPanel.add(formatComboBox, BorderLayout.CENTER);
@@ -87,7 +98,13 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 	}
 
 	private UILabel createSamplePane(){
-		UILabel sampleLabel = new UILabel("");
+		UILabel sampleLabel = new UILabel("") {
+			@Override
+			public void setText(String text) {
+				// 加上<html>可以自动换行
+				super.setText("<html>" + text + "</html>");
+			}
+		};
 		sampleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		sampleLabel.setFont(FRContext.getDefaultValues().getFRFont());
 		return sampleLabel;
@@ -96,8 +113,8 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 	private JPanel createFormatHead(){
 		String[] dateArray = FormatField.getInstance().getFormatArray(FormatField.FormatContents.DATE);
 		String[] timeArray = FormatField.getInstance().getFormatArray(FormatField.FormatContents.TIME);
-		final UIComboBox dateFormatComboBox = new UIComboBox(dateArray);
-		final UIComboBox timeFormatComboBox = new UIComboBox(timeArray);
+		final UIComboBox dateFormatComboBox = new UIComboBoxNoArrow(dateArray);
+		final UIComboBox timeFormatComboBox = new UIComboBoxNoArrow(timeArray);
 		dateFormatComboBox.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				refreshPreviewLabel();
@@ -118,8 +135,11 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 		customPane.add(dateFormatPane, Inter.getLocText("StyleFormat-Date"));
 		customPane.add(timeFormatPane, Inter.getLocText("StyleFormat-Time"));
 		final String[] tabTitles = new String[]{Inter.getLocText("StyleFormat-Date"), Inter.getLocText("StyleFormat-Time")};
-		fomatHeadGroup = new UIHeadGroup(new String[]{Inter.getLocText("StyleFormat-Date"), Inter.getLocText("StyleFormat-Time")}){
-			protected void tabChanged(int newSelectedIndex) {
+		fomatHeadGroup = new UIButtonGroup(new String[]{Inter.getLocText("StyleFormat-Date"), Inter.getLocText("StyleFormat-Time")});
+		fomatHeadGroup.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				int newSelectedIndex = fomatHeadGroup.getSelectedIndex();
 				cardLayout.show(customPane, tabTitles[newSelectedIndex]);
 				if(newSelectedIndex == 0){
 					currentFormatComboBox = dateFormatComboBox;
@@ -129,13 +149,14 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 					currentSamplelabel = timeSampleLabel;
 				}
 				refreshPreviewLabel();
-				CellWidgetPropertyPane.getInstance().update();
 			}
-		};
+		});
 		fomatHeadPane.add(fomatHeadGroup, BorderLayout.NORTH);
 		fomatHeadPane.add(customPane, BorderLayout.CENTER);
 		return fomatHeadPane;
 	}
+
+
 
 	private void refreshPreviewLabel() {
 		String text = (String) currentFormatComboBox.getSelectedItem();
@@ -176,6 +197,7 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 	protected void populateSubDirectWriteEditorBean(DateEditor e) {
 		String formatText = e.getFormatText();
 		fomatHeadGroup.setSelectedIndex(getDateType(e));
+		fomatHeadGroup.populateBean();
 		currentFormatComboBox.setSelectedItem(formatText);
 
 		returnTypeComboBox.setSelectedIndex(e.isReturnDate() ? 0 : 1);
@@ -192,52 +214,6 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 		ob.setEndDate(endDv.update());
 
 		return ob;
-	}
-	/**
-	 * 更新日期控件的起止日期
-	 * @param dateWidgetEditor 日期控件
-	 */
-	public void updateStartEnd(DateEditor dateWidgetEditor) {
-		Object startObject = "";
-		Object endObject = endDv.update();
-		// wei : 对公式的处理
-		Calculator cal = null;
-		if (startObject instanceof Formula) {
-			cal = Calculator.createCalculator();
-			Formula startFormula = (Formula) startObject;
-			try {
-				startFormula.setResult(cal.evalValue(startFormula.getContent()));
-			} catch (UtilEvalError e) {
-				FRContext.getLogger().error(e.getMessage(), e);
-			}
-			startObject = startFormula.getResult();
-			dateWidgetEditor.setStartDateFM(startFormula);
-			dateWidgetEditor.setStartText(null);
-		} else {
-			try {
-				dateWidgetEditor.setStartText(startObject == null ? "" : DateUtils.getDate2Str("MM/dd/yyyy", (Date)startObject));
-			} catch(ClassCastException e) {
-				//wei : TODO 说明应用的公式不能转化成日期格式，应该做些处理。
-			}
-		}
-		if (endObject instanceof Formula) {
-			cal = Calculator.createCalculator();
-			Formula endFormula = (Formula) endObject;
-			try {
-				endFormula.setResult(cal.evalValue(endFormula.getContent()));
-			} catch (UtilEvalError e) {
-				FRContext.getLogger().error(e.getMessage(), e);
-			}
-			endObject = endFormula.getResult();
-			dateWidgetEditor.setEndDateFM(endFormula);
-			dateWidgetEditor.setEndText(null);
-		} else {
-			try {
-				dateWidgetEditor.setEndText(endObject == null ? "" : DateUtils.getDate2Str("MM/dd/yyyy", (Date)endObject));
-			} catch(ClassCastException e) {
-
-			}
-		}
 	}
 
 	private SimpleDateFormat getSimpleDateFormat() {

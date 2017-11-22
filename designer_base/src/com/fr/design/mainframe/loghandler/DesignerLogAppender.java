@@ -1,8 +1,10 @@
 package com.fr.design.mainframe.loghandler;
 
-import org.apache.log4j.AppenderSkeleton;
-import org.apache.log4j.Level;
-import org.apache.log4j.spi.LoggingEvent;
+
+import com.fr.general.FRLogLevel;
+import com.fr.third.apache.log4j.AppenderSkeleton;
+import com.fr.third.apache.log4j.Level;
+import com.fr.third.apache.log4j.spi.LoggingEvent;
 
 import java.util.Date;
 
@@ -12,7 +14,7 @@ import java.util.Date;
 public class DesignerLogAppender extends AppenderSkeleton {
 
     public DesignerLogAppender() {
-        this.layout = new org.apache.log4j.PatternLayout("%d{HH:mm:ss} %t %p [%c] %m%n");
+        this.layout = new com.fr.third.apache.log4j.PatternLayout("%d{HH:mm:ss} %t %p [%c] %m%n");
     }
 
     protected void append(LoggingEvent event) {
@@ -35,7 +37,7 @@ public class DesignerLogAppender extends AppenderSkeleton {
         synchronized (DesignerLogHandler.getInstance()) {
             Level level = event.getLevel();
             String msg = this.layout.format(event);
-            DesignerLogHandler.getInstance().printRemoteLog(msg, level, new Date());
+            DesignerLogHandler.getInstance().printRemoteLog(msg, FRLogLevel.convertLog4jToJava(level), new Date());
         }
     }
 }

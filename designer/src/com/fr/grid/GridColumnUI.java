@@ -27,7 +27,7 @@ import com.fr.report.elementcase.ElementCase;
  * @since 2012-3-22下午5:51:10
  */
 public class GridColumnUI extends ComponentUI {
-    protected Color withoutDetailsBackground =  new Color(0xf0f0f3);
+    protected Color withoutDetailsBackground =  UIConstants.GRID_COLUMN_DETAILS_BACKGROUND;
     private int resolution ;
 
     public GridColumnUI(int resolution){
@@ -48,6 +48,9 @@ public class GridColumnUI extends ComponentUI {
         Grid gird = reportPane.getGrid();
         // size
         Dimension size = gridColumn.getSize();
+        float time = (float)resolution/ScreenResolution.getScreenResolution();
+        g2d.setFont(gridColumn.getFont().deriveFont(gridColumn.getFont().getSize2D() * time));
+
         ElementCase elementCase = reportPane.getEditingElementCase();
         DynamicUnitList columnWidthList = ReportHelper.getColumnWidthList(elementCase);
         int horizontalValue = gird.getHorizontalValue();
@@ -77,7 +80,7 @@ public class GridColumnUI extends ComponentUI {
         g2d.setPaint(gridColumn.getSeparatorLineColor());
         GraphHelper.drawLine(g2d, 0, 0, 0, size.getHeight());
         double tmpWidth2 = 0;
-        drawColumn(horizontalBeginValue, horizontalEndValue, columnWidthList, tmpWidth2, reportPane, g2d, gridColumn);
+        drawColumn(horizontalBeginValue, horizontalEndValue, columnWidthList, tmpWidth2, reportPane, g2d, gridColumn, size);
         // 画上边的边框线.
         g2d.setColor(gridColumn.getSeparatorLineColor());
         GraphHelper.drawLine(g2d, 0, 0, tmpWidth2, 0);
@@ -85,14 +88,13 @@ public class GridColumnUI extends ComponentUI {
 
 
     private void drawColumn(int horizontalBeginValue, int horizontalEndValue, DynamicUnitList columnWidthList, double tmpWidth2,
-                            ElementCasePane reportPane, Graphics2D g2d, GridColumn gridColumn) {
+                            ElementCasePane reportPane, Graphics2D g2d, GridColumn gridColumn, Dimension size) {
 
         // draw column.
         boolean isSelectedBounds;
         double tmpWidth1 = 0;
         double tmpIncreaseWidth = 0;
         ElementCase elementCase = reportPane.getEditingElementCase();
-        Dimension size = gridColumn.getSize();
         // FontMetrics
         FontRenderContext fontRenderContext = g2d.getFontRenderContext();
         LineMetrics fm = gridColumn.getFont().getLineMetrics("", fontRenderContext);
@@ -158,13 +160,14 @@ public class GridColumnUI extends ComponentUI {
                 columnContent += "(FR)";
             }
         }
+        float time = (float)resolution/ScreenResolution.getScreenResolution();
 
-        double stringWidth = gridColumn.getFont().getStringBounds(columnContent, fontRenderContext).getWidth();
-//        if (stringWidth > tmpIncreaseWidth) {
-//            paintMoreContent(i, g2d, tmpWidth1, size, tmpIncreaseWidth, isSelectedBounds, gridColumn, elementCase, columnContent, stringWidth, fmAscent);
-//        } else {
+        double stringWidth = gridColumn.getFont().getStringBounds(columnContent, fontRenderContext).getWidth() * time;
+        if (stringWidth > tmpIncreaseWidth) {
+            paintMoreContent(i, g2d, tmpWidth1, size, tmpIncreaseWidth, isSelectedBounds, gridColumn, elementCase, columnContent, stringWidth, fmAscent);
+        } else {
             paintNormalContent(i, g2d, tmpWidth1, tmpIncreaseWidth, isSelectedBounds, gridColumn, elementCase, columnContent, stringWidth, fmAscent);
-//        }
+        }
     }
 
 
@@ -203,8 +206,8 @@ public class GridColumnUI extends ComponentUI {
                 g2d.setPaint(UIManager.getColor("controlShadow"));
             }
         }
-
-        GraphHelper.drawString(g2d, columnContent, tmpWidth1 + (tmpIncreaseWidth - stringWidth) / 2, fmAscent + GridHeader.SIZE_ADJUST / 2 + 1);
+        GraphHelper.drawString(g2d, columnContent, tmpWidth1 + (tmpIncreaseWidth - stringWidth) / 2,
+                (gridColumn.getSize().height/2 + g2d.getFont().getSize2D()/2));
     }
 
 

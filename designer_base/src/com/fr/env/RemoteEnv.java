@@ -1,7 +1,15 @@
 package com.fr.env;
 
-import com.fr.base.*;
+import com.fr.base.AbstractEnv;
+import com.fr.base.EnvException;
+import com.fr.base.FRContext;
+import com.fr.base.ModifiedTable;
+import com.fr.base.Parameter;
+import com.fr.base.StoreProcedureParameter;
+import com.fr.base.TableData;
+import com.fr.base.Utils;
 import com.fr.base.remote.RemoteDeziConstants;
+import com.fr.data.TableDataSource;
 import com.fr.data.core.DataCoreUtils;
 import com.fr.data.core.db.TableProcedure;
 import com.fr.data.impl.Connection;
@@ -26,8 +34,16 @@ import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
+import com.fr.license.function.VT4FR;
+import com.fr.regist.License;
 import com.fr.share.ShareConstants;
-import com.fr.stable.*;
+import com.fr.stable.ArrayUtils;
+import com.fr.stable.EncodeConstants;
+import com.fr.stable.JavaCompileInfo;
+import com.fr.stable.ProductConstants;
+import com.fr.stable.StableUtils;
+import com.fr.stable.StringUtils;
+import com.fr.stable.SvgProvider;
 import com.fr.stable.file.XMLFileManagerProvider;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.stable.xml.XMLPrintWriter;
@@ -36,17 +52,38 @@ import com.fr.stable.xml.XMLableReader;
 import com.fr.web.ResourceConstants;
 
 import javax.swing.*;
-import javax.xml.transform.*;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.awt.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.NoRouteToHostException;
 import java.net.Socket;
-import java.util.*;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
@@ -72,6 +109,7 @@ public class RemoteEnv extends AbstractEnv {
     private Timer logTimer = null;
     private static ThreadLocal<String> threadLocal = new ThreadLocal<String>();
     private boolean isReadTimeOut = false;
+    private String buildFilePath;
 
     public RemoteEnv() {
         this.clock = new Clock(this);
@@ -112,6 +150,15 @@ public class RemoteEnv extends AbstractEnv {
         return password;
     }
 
+    // 修复密码中包含特殊字符，无法登录的问题
+    private String getEncodedPassword() {
+        try {
+            return URLEncoder.encode(password, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            return password;
+        }
+    }
+
     public void setPassword(String password) {
         this.password = password;
         clearUserID();
@@ -146,7 +193,7 @@ public class RemoteEnv extends AbstractEnv {
     private String createUserID() throws EnvException {
         // 如果登录之后userID还是null
         if (this.userID == null) {
-            if (!VT4FR.REMOTE_DESIGN.support() && licNotSupport <= 0) {
+            if (!VT4FR.RemoteDesign.support() && licNotSupport <= 0) {
                 licNotSupport++;
                 JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Lic_does_not_Support_Remote"));
             }
@@ -175,12 +222,8 @@ public class RemoteEnv extends AbstractEnv {
      * 根据nameValuePairs,也就是参数对,生成PostMethod,不同之处在于,参数拼在path后面,不是method.addParameters
      */
     private HttpClient createHttpMethod2(HashMap<String, String> para) throws EnvException {
-        StringBuilder sb = new StringBuilder(path);
-
-        sb.append('?');
-        sb.append("id=").append(createUserID());
-
-        return new HttpClient(sb.toString(), para, true);
+        String methodPath = path + '?' + "id=" + createUserID();
+        return new HttpClient(methodPath, para, true);
     }
 
 
@@ -337,7 +380,7 @@ public class RemoteEnv extends AbstractEnv {
         para.put("op", "fr_remote_design");
         para.put("cmd", "test_server_connection");
         para.put("user", user);
-        para.put("password", password);
+        para.put("password", getEncodedPassword());
 
         if (path.startsWith("https") && (!DesignerEnvManager.getEnvManager().isHttps())) {
             return false;
@@ -362,7 +405,7 @@ public class RemoteEnv extends AbstractEnv {
                     Inter.getLocText(new String[]{"Datasource-Connection_failed", "Registration-User_Name", "Password", "Error"}, new String[]{",", "", "", "!"})
                     , Inter.getLocText("FR-Server-All_Error"), JOptionPane.ERROR_MESSAGE);
             return false;
-        } else if (res.indexOf("RegistEditionException") != -1) {
+        } else if (res.contains("RegistEditionException")) {
             if (needMessage) {
                 JOptionPane.showMessageDialog(parentComponent, Inter.getLocText(new String[]{"Datasource-Connection_failed", "Version-does-not-support"}, new String[]{",", "!"}));
             } else {
@@ -415,9 +458,8 @@ public class RemoteEnv extends AbstractEnv {
         para.put("op", "fr_remote_design");
         para.put("cmd", "heart_beat");
         para.put("user", user);
-        para.put("userid", userID);
 
-        HttpClient client = createHttpMethod(para, true);
+        HttpClient client = createHttpMethod(para);
         execute4InputStream(client);
 
         //这做法不好, 30秒刷一次, 刷新的时候会重新构建树, 构建完会把子节点都收缩起来, 效果太差.
@@ -459,7 +501,7 @@ public class RemoteEnv extends AbstractEnv {
         para.put("op", "fr_remote_design");
         para.put("cmd", "r_sign_in");
         para.put("user", user);
-        para.put("password", password);
+        para.put("password", getEncodedPassword());
 
         simulaRPC(para, true);
 
@@ -552,7 +594,7 @@ public class RemoteEnv extends AbstractEnv {
         if (resJSON == null) {
             return false;
         }
-        if (resJSON.indexOf("RegistEditionException") != -1) {
+        if (resJSON.contains("RegistEditionException")) {
             JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Lic_does_not_Support_Remote"));
             return false;
         }
@@ -1207,6 +1249,11 @@ public class RemoteEnv extends AbstractEnv {
         return DavXMLUtils.readXMLParameters(input);
     }
 
+    @Override
+    public EmbeddedTableData previewTableData(Object tableData, Map parameterMap, int rowCount) throws Exception {
+        return previewTableData(null, tableData, parameterMap, rowCount);
+    }
+
     /**
      * 根据指定的参数生成一个实际可预览的数据集
      *
@@ -1216,7 +1263,7 @@ public class RemoteEnv extends AbstractEnv {
      * @return 实际的二维数据集
      * @throws Exception 如果生成数据失败则抛出此异常
      */
-    public EmbeddedTableData previewTableData(Object tableData, java.util.Map parameterMap, int rowCount) throws Exception {
+    public EmbeddedTableData previewTableData(TableDataSource dataSource, Object tableData, java.util.Map parameterMap, int rowCount) throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
         // 把tableData写成xml文件到out
@@ -1253,6 +1300,11 @@ public class RemoteEnv extends AbstractEnv {
      */
     public Object previewTableData(Object tableData, java.util.Map parameterMap, int start, int end, String[] cols, int[] colIdx) throws Exception {
         return previewTableData(tableData, parameterMap, -1);
+    }
+
+    @Override
+    public Object previewTableData(TableDataSource dataSource, Object tableData, Map parameterMap, int start, int end, String[] cols, int[] colIdx) throws Exception {
+        return previewTableData(dataSource, tableData, parameterMap, -1);
     }
 
     /**
@@ -1381,7 +1433,6 @@ public class RemoteEnv extends AbstractEnv {
                     return;
                 }
                 SignIn.signIn(remoteEnv);
-                FRCoreContext.resetBytes();
                 HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().refreshToolArea();
             } catch (Exception em) {
                 FRContext.getLogger().error(em.getMessage(), em);
@@ -1480,7 +1531,7 @@ public class RemoteEnv extends AbstractEnv {
         testServerConnection();
 
         HashMap<String, String> para = new HashMap<String, String>();
-        para.put("op", "fr_remote_design");
+        para.put("op", "svgrelate");
         para.put("cmd", "design_save_svg");
         para.put("filePath", svgFile.getFilePath());
         para.put("current_uid", this.createUserID());
@@ -1785,7 +1836,7 @@ public class RemoteEnv extends AbstractEnv {
         if (input == null) {
             return;
         }
-        LogRecordTime[] records = DavXMLUtils.readXMLLogRecords(input);
+        LogRecordTime[] records = LogUtils.readXMLLogRecords(input);
         for (LogRecordTime logRecordTime : records) {
             //TODO
         }
@@ -1939,7 +1990,7 @@ public class RemoteEnv extends AbstractEnv {
         para.put("op", "fr_remote_design");
         para.put("cmd", "design_get_designer_version");
         para.put("user", user);
-        para.put("password", password);
+        para.put("password", getEncodedPassword());
 
         HttpClient client = createHttpMethod(para, true);
         try {
@@ -1979,26 +2030,27 @@ public class RemoteEnv extends AbstractEnv {
 
     @Override
     public String getLicName() {
-        return LicUtils.FILE_NAME;
+        return License.FILE_NAME;
     }
 
     @Override
     public void setLicName(String licName) {
         //do nth
     }
- 
-    
+
+
     /**
      * 获取当前env的build文件路径
      */
     public String getBuildFilePath() {
-        return ResourceConstants.BUILD_PATH;
+        return StringUtils.isEmpty(buildFilePath) ? ResourceConstants.BUILD_PATH : buildFilePath;
     }
 
     /**
      * 设置当前env的build文件路径
      */
     public void setBuildFilePath(String buildFilePath) {
+        this.buildFilePath = buildFilePath;
     }
 
     /**
@@ -2159,6 +2211,10 @@ public class RemoteEnv extends AbstractEnv {
         } catch (Exception e) {
             return StringUtils.EMPTY;
         }
+    }
+
+    public void doWhenServerShutDown() {
+
     }
     
     @Override

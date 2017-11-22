@@ -6,15 +6,12 @@ import com.fr.base.Style;
 import com.fr.design.actions.utils.ReportActionUtils;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.MultiTabPane;
-import com.fr.design.gui.ibutton.FiveButtonLayout;
 import com.fr.design.gui.style.*;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.style.BorderUtils;
-import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
 import com.fr.stable.Constants;
 
-import javax.swing.*;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.util.ArrayList;
@@ -40,18 +37,19 @@ public class CustomStylePane extends MultiTabPane<Style> {
     public CustomStylePane() {
         super();
         tabPane.setOneLineTab(true);
-        tabPane.setLayout(new FiveButtonLayout(1));
+        tabPane.setDrawLine(false);
+        tabPane.setLayout(new GridLayout(1, 3, 0, 0));
     }
 
     public static void main(String[] args) {
-        JFrame jf = new JFrame("test");
-        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JPanel content = (JPanel) jf.getContentPane();
-        content.setLayout(new BorderLayout());
-        content.add(new CustomStylePane(), BorderLayout.CENTER);
-        GUICoreUtils.centerWindow(jf);
-        jf.setSize(250, 400);
-        jf.setVisible(true);
+//        JFrame jf = new JFrame("test");
+//        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        JPanel content = (JPanel) jf.getContentPane();
+//        content.setLayout(new BorderLayout());
+//        content.add(new CustomStylePane(), BorderLayout.CENTER);
+//        GUICoreUtils.centerWindow(jf);
+//        jf.setSize(250, 400);
+//        jf.setVisible(true);
     }
 
     /**
@@ -110,7 +108,7 @@ public class CustomStylePane extends MultiTabPane<Style> {
 
 
     public boolean isBorderPaneSelected() {
-        return tabPane.getSelectedIndex() == TWO_INDEX;
+        return tabPane.getSelectedIndex() == ONE_INDEX;
     }
 
     /**
@@ -136,7 +134,7 @@ public class CustomStylePane extends MultiTabPane<Style> {
      *
      */
     public void updateBorder() {
-        BorderUtils.update(reportPane, ((BorderPane) paneList.get(TWO_INDEX)).update());
+        BorderUtils.update(reportPane, ((BorderPane) paneList.get(ONE_INDEX)).update());
     }
 
     /**
@@ -163,8 +161,6 @@ public class CustomStylePane extends MultiTabPane<Style> {
      *
      */
     public void updateBean(Style ob) {
-
+        return;
     }
-
-
 }

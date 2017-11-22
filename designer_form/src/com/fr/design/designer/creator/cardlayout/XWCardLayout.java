@@ -405,6 +405,7 @@ public class XWCardLayout extends XLayoutContainer {
 		XWCardMainBorderLayout borderLayout = (XWCardMainBorderLayout) this.getBackupParent();
 		WCardMainBorderLayout border = borderLayout.toData();
 		WCardTitleLayout titleLayout = border.getTitlePart();
+		titleLayout.setCardName(cardLayoutName);
 		WCardTagLayout tagLayout = titleLayout.getTagPart();
 		for (int i = 0, len = tagLayout.getWidgetCount(); i < len; i++) {
 			CardSwitchButton button = tagLayout.getSwitchButton(i);
@@ -443,4 +444,13 @@ public class XWCardLayout extends XLayoutContainer {
 	public boolean supportRenameInWidgetTree() {
 		return false;
 	}
+
+	/**
+	 * data属性改变触发其他操作
+	 *
+	 */
+	public void firePropertyChange(){
+		initStyle();
+	}
+
 }

@@ -6,12 +6,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
+
+import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.general.Inter;
 
 import javax.swing.JPanel;
-
-import static com.fr.design.constants.UIConstants.NORMAL_BACKGROUND;
 
 public class LogMessageBar extends JPanel {
 	private UILabel messageLabel;
@@ -36,7 +36,7 @@ public class LogMessageBar extends JPanel {
 		messageLabel = new UILabel();
 		setLayout(new BorderLayout());
 		add(messageLabel, BorderLayout.CENTER);
-		setBackground(NORMAL_BACKGROUND);
+		setBackground(UIConstants.LOG_MESSAGE_BAR_BACKGROUND);
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

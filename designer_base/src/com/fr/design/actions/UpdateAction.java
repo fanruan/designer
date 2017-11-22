@@ -9,8 +9,7 @@ import com.fr.base.Style;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.gui.imenu.UICheckBoxMenuItem;
-import com.fr.design.gui.imenu.UIMenuItem;
+import com.fr.design.gui.imenu.*;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.selection.SelectionListener;
 import com.fr.general.ComparatorUtils;
@@ -140,6 +139,10 @@ public abstract class UpdateAction extends ShortCut implements Action {
 		this.putValue(Action.SMALL_ICON, smallIcon);
 	}
 
+	public void setSmallIcon(Icon[] smallIcon, boolean white) {
+		this.putValue(Action.SMALL_ICON, smallIcon);
+	}
+
 	/**
 	 * Returns the mnemonic property setting.
 	 *
@@ -249,8 +252,15 @@ public abstract class UpdateAction extends ShortCut implements Action {
 
 			this.putValue(UIMenuItem.class.getName(), object);
 		}
-
 		return (UIMenuItem) object;
+	}
+
+	public UIMenuEastAttrItem createMenuItemEastAttr() {
+		UIMenuEastAttrItem menuItem = new UIMenuEastAttrItem(this);
+		// 设置名字用作单元测
+		menuItem.setName(getName());
+		this.putValue(UIMenuItem.class.getName(), menuItem);
+		return menuItem;
 	}
 
 	/**
@@ -317,7 +327,10 @@ public abstract class UpdateAction extends ShortCut implements Action {
 	@Override
 	public void intoJPopupMenu(JPopupMenu menu) {
 		update();
-
+		if (menu instanceof UIPopupEastAttrMenu){
+			menu.add(this.createMenuItemEastAttr());
+			return;
+		}
 		menu.add(this.createMenuItem());
 	}
 
@@ -491,10 +504,12 @@ public abstract class UpdateAction extends ShortCut implements Action {
 
 			} else if (component instanceof JComboBox) {
 				for (int i = 0; i < ((JComboBox) component).getItemCount(); i++) {
-					text.append(((JComboBox) component).getItemAt(i));
-					String title = String.valueOf(((JComboBox) component).getItemAt(i));
-					handleSearchText(separator, text, pinyin, shortPinyin, title);
-
+					Object componentName = ((JComboBox) component).getItemAt(i);
+					if (componentName instanceof String && StringUtils.isNotBlank(String.valueOf(componentName))) {
+						String title = String.valueOf(componentName);
+						text.append(title);
+						handleSearchText(separator, text, pinyin, shortPinyin, title);
+					}
 				}
 			} else if (component instanceof JTabbedPane) {
 				getTabPaneTexts((JTabbedPane) component, separator, text, pinyin, shortPinyin);

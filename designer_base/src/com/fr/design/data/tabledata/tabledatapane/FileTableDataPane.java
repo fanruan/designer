@@ -469,6 +469,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
                 String tipContent = Inter.getLocText("FR-Designer-Type_Parameter") + "reportlets/excel/FineReport${abc}." + getFileSuffixToString() + "<br>"
                         + "http://192.168.100.120:8080/XXServer/Report/excel${abc}.jsp<br>" + "&nbsp</body> </html> ";
                 tips.setText(tipContent);
+                setPanel.revalidate();
             }
         };
 

@@ -54,7 +54,14 @@ public class MeterSeriesPane extends AbstractPlotSeriesPane {
     }
 
     protected UIColorPickerPane createColorPickerPane(){
-        return new ColorPickerPaneWithFormula("meterString");
+        return new ColorPickerPaneWithFormula("meterString"){
+            protected double getEditAreaWidth () {
+                return 120;
+            }
+            protected int getColorgroupMarginLeft () {
+                return 20;
+            }
+        };
     }
 
 

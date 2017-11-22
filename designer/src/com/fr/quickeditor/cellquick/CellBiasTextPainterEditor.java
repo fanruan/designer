@@ -13,8 +13,10 @@ import com.fr.general.Inter;
 import com.fr.quickeditor.CellQuickEditor;
 import com.fr.report.cell.painter.BiasTextPainter;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -22,6 +24,9 @@ import java.awt.event.ActionListener;
  * 单元格元素斜线编辑器
  */
 public class CellBiasTextPainterEditor extends CellQuickEditor {
+    public CellBiasTextPainterEditor() {
+        super();
+    }
 
     @Override
     public JComponent createCenterBody() {
@@ -35,7 +40,7 @@ public class CellBiasTextPainterEditor extends CellQuickEditor {
         });
         editButton.setOpaque(false);
         content.add(TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
-                        new Component[]{emptyLabel, editButton}},
+                        new Component[]{EMPTY_LABEL, editButton}},
                 new double[]{TableLayout.PREFERRED},
                 new double[]{TableLayout.PREFERRED, TableLayout.FILL}, HGAP, VGAP), BorderLayout.CENTER);
         return content;
@@ -66,6 +71,11 @@ public class CellBiasTextPainterEditor extends CellQuickEditor {
 
     @Override
     protected void refreshDetails() {
+    }
+
+    @Override
+    public boolean isScrollAll() {
+        return true;
     }
 
 }

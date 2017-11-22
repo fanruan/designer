@@ -72,19 +72,27 @@ public class XWParameterLayout extends XWAbsoluteLayout {
                         .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
         };
 
-        ParameterWindowEditorProcessor processor = ExtraDesignClassManager.getInstance().getSingle(ParameterWindowEditorProcessor.MARK_STRING);
-        if (processor == null) {
-            return  propertyTableEditor;
-        }
-        CRPropertyDescriptor[] extraEditor = processor.createPropertyDescriptor(this.data.getClass());
-
-        return ArrayUtils.addAll(propertyTableEditor, extraEditor);
+        return ArrayUtils.addAll(propertyTableEditor, getExtraTableEditor());
     }
     
 	@Override
 	public LayoutAdapter getLayoutAdapter() {
 		return new FRParameterLayoutAdapter(this);
 	}
+
+    /**
+     * 获取插件给该控件提供的额外属性表
+     * TODO 需要抽成额外的接口，因为{@link XCreator#supportedDescriptor()} 提供的属性里面的默认属性面板都是额外自己画的，因此插件提供额外属性应该有一个方法去获取；
+     * TODO 此外，需要将基本高级等分开，在控件的对应属性（基本，高级还有一些其他分类）中进行过滤生成对应的面板。
+     * @return 插件给该控件提供的额外属性表
+     */
+    public CRPropertyDescriptor[] getExtraTableEditor(){
+        ParameterWindowEditorProcessor processor = ExtraDesignClassManager.getInstance().getSingle(ParameterWindowEditorProcessor.MARK_STRING);
+        if (processor == null) {
+            return  new CRPropertyDescriptor[0];
+        }
+        return processor.createPropertyDescriptor(this.data.getClass());
+    }
 
     /**
      * 该组件是否可以拖入参数面板
@@ -210,4 +218,13 @@ public class XWParameterLayout extends XWAbsoluteLayout {
     protected String getIconName() {
         return "layout_absolute.png";
     }
+
+    /**
+     * data属性改变触发其他操作
+     *
+     */
+    public void firePropertyChange(){
+
+    }
+
 }

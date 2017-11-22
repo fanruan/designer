@@ -1,15 +1,19 @@
 package com.fr.design.widget;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.mainframe.widget.editors.WidgetValueEditor;
 import com.fr.form.ui.DataControl;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.WidgetValue;
 import com.fr.general.Inter;
+
+import java.awt.*;
 
 public class ValueWidgetPane extends WidgetPane {
 	private JPanel widgetValuePane;
@@ -19,15 +23,36 @@ public class ValueWidgetPane extends WidgetPane {
 	@Override
 	protected void initComponents(ElementCasePane pane) {
 		super.initComponents(pane);
-		
+	}
+
+	public JPanel initNorthPane(){
+		JPanel northPane = super.initNorthPane();
 		label = new UILabel("     " + Inter.getLocText(new String[]{"Widget", "Value"})+ ":");
-		northPane.add(label);
 		label.setVisible(false);
 		widgetValuePane = new JPanel();
 		widgetValuePane.setLayout(FRGUIPaneFactory.createBorderLayout());
-		northPane.add(widgetValuePane);
+		double p = TableLayout.PREFERRED;
+		double f = TableLayout.FILL;
+		double[] columnSize = {p, p, f};
+		double[] rowSize = {p};
+		Component[][] components = new Component[][]{
+				new Component[]{northPane, label,widgetValuePane},
+		};
+		JPanel jPanel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+		return jPanel;
 	}
-	
+
+	protected CellWidgetCardPane initWidgetCardPane(ElementCasePane pane){
+		return new WidgetManageCardPane(pane);
+	}
+
+	/**
+	 * 初始化所有事件.
+	 */
+	public void initAllListeners() {
+
+	}
+
 	@Override
 	public void populate(Widget widget) {
 		super.populate(widget);

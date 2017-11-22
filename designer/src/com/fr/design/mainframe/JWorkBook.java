@@ -92,7 +92,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     private UIModeControlContainer centerPane;
     public ReportComponentComposite reportComposite;
     private ParameterDefinitePane parameterPane;
-    private int resolution;
+    private int resolution = ScreenResolution.getScreenResolution();
 
     public JWorkBook() {
         super(new WorkBook(new WorkSheet()), "WorkBook");
@@ -114,10 +114,13 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
         if (isEditingPolySheet()) {
             EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.POLY);
         } else {
-            EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.REPORT);
-            EastRegionContainerPane.getInstance().replaceCellElementPane(getEastUpPane());
-            EastRegionContainerPane.getInstance().replaceCellAttrPane(getEastDownPane());
+            if (isUpMode()) {
+                EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.REPORT_PARA);
+            } else {
+                EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.REPORT);
+            }
         }
+        refreshToolArea();
     }
 
     private boolean isEditingPolySheet() {
@@ -127,6 +130,11 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     @Override
     public TargetComponent getCurrentElementCasePane() {
         return getEditingElementCasePane();
+    }
+
+    @Override
+    public JComponent getCurrentReportComponentPane() {
+        return reportComposite;
     }
 
     @Override
@@ -394,7 +402,6 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
             HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().setJTemplateResolution(resolution);
             polyDezi.updateUI();
         }
-        HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().fireTargetModified();
     }
 
     @Override
@@ -852,6 +859,11 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     @Override
     public HyperlinkGroupPane getHyperLinkPane(HyperlinkGroupPaneActionProvider hyperlinkGroupPaneActionProvider) {
         return ReportHyperlinkGroupPane.getInstance(hyperlinkGroupPaneActionProvider);
+    }
+
+    @Override
+    public HyperlinkGroupPane getHyperLinkPaneNoPop(HyperlinkGroupPaneActionProvider hyperlinkGroupPaneActionProvider) {
+        return ReportHyperlinkGroupPaneNoPop.getInstance(hyperlinkGroupPaneActionProvider);
     }
 
     public void setAuthorityMode(boolean isUpMode) {

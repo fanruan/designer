@@ -1,5 +1,6 @@
 package com.fr.design.widget.ui.designer;
 
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.ilable.UILabel;
@@ -20,6 +21,7 @@ public abstract class ButtonDefinePane<T extends Button> extends AbstractDataMod
     private UITextField hotkeysTextField;
     private UITextField buttonNameTextField;
     private AccessibleIconEditor iconPane;
+    protected UITextField labelNameTextField;
 
 
     public ButtonDefinePane(XCreator creator){
@@ -31,25 +33,27 @@ public abstract class ButtonDefinePane<T extends Button> extends AbstractDataMod
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double rowSize[] = {p, p, p, p, p, p, p};
+        double rowSize[] = {p, p, p, p, p, p, p, p};
         double columnSize[] = {p, f};
-        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
+        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
         iconPane = new AccessibleIconEditor();
         hotkeysTextField = new UITextField();
         buttonNameTextField = new UITextField();
+        labelNameTextField = new UITextField();
         Component[] backgroundCompPane = createBackgroundComp();
         Component[] frFont = createFontPane();
         UILabel backgroundLabel = new UILabel(Inter.getLocText("FR-Designer_Background"));
         backgroundLabel.setVerticalAlignment(SwingConstants.TOP);
         Component[][] n_components = {
-                {new UILabel(Inter.getLocText("FR-Designer_Button-Name") + ":"), buttonNameTextField},
+                {new UILabel(Inter.getLocText("FR-Designer_Button-Name")), buttonNameTextField},
+                {new UILabel(Inter.getLocText("FR-Designer_Label_Name")), labelNameTextField},
                 backgroundCompPane,
                 frFont,
-                {new UILabel(Inter.getLocText("FR-Designer_Icon") + ":"), iconPane},
-                {new UILabel(Inter.getLocText("FR-Designer_Button-Hotkeys") + ":"), hotkeysTextField}
+                {new UILabel(Inter.getLocText("FR-Designer_Icon")), iconPane},
+                {new UILabel(Inter.getLocText("FR-Designer_Button-Hotkeys")), hotkeysTextField}
         };
         hotkeysTextField.setToolTipText(StableUtils.join(ButtonConstants.HOTKEYS, ","));
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(n_components, rowSize, columnSize, rowCount, 10, 10);
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(n_components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
         JPanel boundsPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         boundsPane.add(panel);
@@ -73,7 +77,8 @@ public abstract class ButtonDefinePane<T extends Button> extends AbstractDataMod
     @Override
     public void populateBean(T btn) {
         hotkeysTextField.setText(btn.getHotkeys());
-        buttonNameTextField.setText(btn.getLabelName());
+        buttonNameTextField.setText(btn.getText());
+        labelNameTextField.setText(btn.getLabelName());
         iconPane.setValue(btn.getIconName());
         populateSubButtonPane(btn);
     }
@@ -86,8 +91,9 @@ public abstract class ButtonDefinePane<T extends Button> extends AbstractDataMod
     public T updateBean() {
         T btn = updateSubButtonPane();
         btn.setHotkeys(hotkeysTextField.getText());
-        btn.setLabelName(buttonNameTextField.getText());
+        btn.setLabelName(labelNameTextField.getText());
         btn.setIconName((String)iconPane.getValue());
+        btn.setText(buttonNameTextField.getText());
         return btn;
     }
 

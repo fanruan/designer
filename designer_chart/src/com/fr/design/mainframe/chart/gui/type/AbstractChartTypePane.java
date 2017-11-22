@@ -4,8 +4,18 @@ import com.fr.base.ChartPreStyleManagerProvider;
 import com.fr.base.ChartPreStyleServerManager;
 import com.fr.base.FRContext;
 import com.fr.base.background.ColorBackground;
-import com.fr.chart.base.*;
-import com.fr.chart.chartattr.*;
+import com.fr.chart.base.AttrContents;
+import com.fr.chart.base.AttrFillStyle;
+import com.fr.chart.base.ChartConstants;
+import com.fr.chart.base.ChartPreStyle;
+import com.fr.chart.base.DataSeriesCondition;
+import com.fr.chart.base.TextAttr;
+import com.fr.chart.chartattr.Axis;
+import com.fr.chart.chartattr.CategoryPlot;
+import com.fr.chart.chartattr.Chart;
+import com.fr.chart.chartattr.Legend;
+import com.fr.chart.chartattr.Plot;
+import com.fr.chart.chartattr.Title;
 import com.fr.chart.chartglyph.ConditionAttr;
 import com.fr.chart.charttypes.BarIndependentChart;
 import com.fr.design.beans.FurtherBasicBeanPane;
@@ -43,12 +53,12 @@ public abstract class AbstractChartTypePane extends FurtherBasicBeanPane<Chart>{
     protected List<ChartImagePane> styleList;
 
     protected JPanel stylePane; //样式布局的面板
+    private JPanel typePane;
     protected abstract String[] getTypeIconPath();
     protected abstract String[] getTypeTipName();
     protected abstract String[] getTypeLayoutPath();
     protected abstract String[] getTypeLayoutTipName();
     protected int lastStyleIndex = -1;
-    protected int lastTypeIndex = -1;
     protected boolean typeChanged = false;//图表类型是否发生变化
 
     protected String[] getNormalLayoutTipName() {
@@ -70,7 +80,7 @@ public abstract class AbstractChartTypePane extends FurtherBasicBeanPane<Chart>{
 
         checkDemosBackground();
 
-        JPanel typePane = FRGUIPaneFactory.createNColumnGridInnerContainer_S_Pane(4);
+        typePane = FRGUIPaneFactory.createNColumnGridInnerContainer_S_Pane(4);
         for(int i = 0; i < typeDemo.size(); i++) {
             ChartImagePane tmp = typeDemo.get(i);
             typePane.add(tmp);
@@ -117,7 +127,7 @@ public abstract class AbstractChartTypePane extends FurtherBasicBeanPane<Chart>{
         int iconLen = iconPaths.length;
         int tipLen = tipNames.length;
         for(int i = 0, len = Math.min(iconLen, tipLen); i < len; i++) {
-            boolean isDrawRightLine = (i == len - 1 || (i + 1) % ONE_LINE_NUM == 0);
+            boolean isDrawRightLine = (i != len - 1 || (i + 1) % ONE_LINE_NUM != 0);
             ChartImagePane imagePane = new ChartImagePane(iconPaths[i], tipNames[i], isDrawRightLine);
             imagePane.isPressing = (i == 0);
             list.add(imagePane);
@@ -133,16 +143,15 @@ public abstract class AbstractChartTypePane extends FurtherBasicBeanPane<Chart>{
     }
 
     //子类覆盖
-    protected Plot getSelectedClonedPlot(){
+    protected <T extends Plot> T getSelectedClonedPlot(){
         return null;
     }
 
-    protected void checkTypeChange(){
+    protected void checkTypeChange(Plot oldPlot){
         if(styleList != null && !styleList.isEmpty()){
             for(int i = 0; i < typeDemo.size(); i++){
-                if(typeDemo.get(i).isPressing && i != lastTypeIndex){
+                if(typeDemo.get(i).isPressing && i != oldPlot.getDetailType()){
                     typeChanged = true;
-                    lastTypeIndex = i;
                     break;
                 }
                 typeChanged = false;
@@ -197,13 +206,13 @@ public abstract class AbstractChartTypePane extends FurtherBasicBeanPane<Chart>{
     protected void checkDemosBackground() {
         if(this.styleList != null && !styleList.isEmpty()){
             for(int i = 0; i < styleList.size(); i++) {
-                styleList.get(i).checkBackground();
+                styleList.get(i).checkBorder();
                 styleList.get(i).repaint();
             }
         }
 
         for(int i = 0; i < typeDemo.size(); i++) {
-            typeDemo.get(i).checkBackground();
+            typeDemo.get(i).checkBorder();
             typeDemo.get(i).repaint();
         }
     }
@@ -239,8 +248,9 @@ public abstract class AbstractChartTypePane extends FurtherBasicBeanPane<Chart>{
      * 保存风格,对选中的风格做设置
      */
     public void updateBean(Chart chart) {
-        checkTypeChange();//判断图表的类型是否发生变化
-        Plot newPlot = this.setSelectedClonedPlotWithCondition(chart.getPlot());
+        Plot oldPlot = chart.getPlot();
+        Plot newPlot = this.setSelectedClonedPlotWithCondition(oldPlot);
+        checkTypeChange(oldPlot);//判断图表的类型是否发生变化
         if(styleList != null && !styleList.isEmpty()){
             if(styleList.get(STYLE_SHADE).isPressing && lastStyleIndex != STYLE_SHADE){
                 lastStyleIndex = STYLE_SHADE;
@@ -584,6 +594,10 @@ public abstract class AbstractChartTypePane extends FurtherBasicBeanPane<Chart>{
         return chart != null
                 &&chart.getPlot() != null
                 && chart.getPlot().getPlotStyle() != ChartConstants.STYLE_NONE;
+    }
+
+    protected JPanel getTypePane(){
+        return typePane;
     }
 
     public Chart getDefaultChart() {

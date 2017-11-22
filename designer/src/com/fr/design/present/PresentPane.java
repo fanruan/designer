@@ -70,25 +70,21 @@ public class PresentPane extends UIComboBoxPane<Present> {
 		displays.add(none.title4PopupWindow());
 
 		dictPresentPane = new DictPresentPane();
-		dictPresentPane.setBorder(UIConstants.CELL_ATTR_NORMALBORDER);
 		paneList.add(dictPresentPane);
 		keys.add(DictPresent.class.getName());
 		displays.add(dictPresentPane.title4PopupWindow());
 
 		FurtherBasicBeanPane<BarcodePresent> bar = new BarCodePane();
-		bar.setBorder(UIConstants.CELL_ATTR_NORMALBORDER);
 		paneList.add(bar);
 		keys.add(BarcodePresent.class.getName());
 		displays.add(bar.title4PopupWindow());
 
 		FurtherBasicBeanPane<FormulaPresent> formula = new FormulaPresentPane();
-		formula.setBorder(UIConstants.CELL_ATTR_NORMALBORDER);
 		paneList.add(formula);
 		keys.add(FormulaPresent.class.getName());
 		displays.add(formula.title4PopupWindow());
 
 		FurtherBasicBeanPane<CurrencyLinePresent> currency = new CurrencyLinePane();
-		currency.setBorder(UIConstants.CELL_ATTR_NORMALBORDER);
 		paneList.add(currency);
 		keys.add(CurrencyLinePresent.class.getName());
 		displays.add(currency.title4PopupWindow());

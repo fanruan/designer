@@ -386,10 +386,10 @@ public class MultiTDTableDataPane extends AbstractTableDataPane<MultiTDTableData
             return new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     final UIFormula formulaPane = FormulaFactory.createFormulaPane();
-                    formulaPane.populate(new Formula(formulaContentTextField.getText()));
+                    formulaPane.populate(BaseFormula.createFormulaBuilder().build(formulaContentTextField.getText()));
                     formulaPane.showLargeWindow(SwingUtilities.getWindowAncestor(MultiTDTableDataPane.this), new DialogActionAdapter() {
                         public void doOk() {
-                            Formula formula = formulaPane.update();
+                            BaseFormula formula = formulaPane.update();
                             if (formula == null) {
                                 formulaContentTextField.setText("");
                             } else {

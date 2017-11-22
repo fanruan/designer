@@ -30,11 +30,14 @@ import com.fr.report.elementcase.TemplateElementCase;
 import com.fr.report.stable.ReportConstants;
 import com.fr.stable.Nameable;
 
+import javax.swing.*;
+
 public class WidgetEventPane extends ObjectUIControlPane {
 
     public WidgetEventPane(ElementCasePane pane) {
         super(pane);
         this.setNameListEditable(false);
+        setBorder(BorderFactory.createEmptyBorder(10, 0, 15, 0));
     }
 
     @Override
@@ -64,6 +67,10 @@ public class WidgetEventPane extends ObjectUIControlPane {
     
     public static class WidgetEventListenerUpdatePane extends ListenerUpdatePane {
     	private ElementCasePane epane;
+        // 反射会用到
+        public WidgetEventListenerUpdatePane() {
+            this(null);
+        }
     	public WidgetEventListenerUpdatePane(ElementCasePane epane){
     		this.epane = epane;
     		super.initComponents();

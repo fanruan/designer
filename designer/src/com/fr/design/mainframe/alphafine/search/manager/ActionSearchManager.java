@@ -74,15 +74,12 @@ public class ActionSearchManager implements AlphaFineSearchProcessor {
                 if (!AlphaFineHelper.getFilterResult().contains(object)) {
                     result.add(object);
                 }
-
             }
-            if (result.size() < AlphaFineConstants.SHOW_SIZE + 1) {
+            if (result.isEmpty()) {
+                return lessModelList;
+            } else if (result.size() < AlphaFineConstants.SHOW_SIZE + 1) {
                 lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Set")));
-                if (result.size() == 0) {
-                    lessModelList.add(AlphaFineHelper.NO_RESULT_MODEL);
-                } else {
-                    lessModelList.addAll(result);
-                }
+                lessModelList.addAll(result);
             } else {
                 lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Set"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"), true, CellType.ACTION));
                 lessModelList.addAll(result.subList(0, AlphaFineConstants.SHOW_SIZE));

@@ -3,6 +3,19 @@
  */
 package com.fr.design.mainframe.bbs;
 
+import com.fr.base.ConfigManager;
+import com.fr.base.FRContext;
+import com.fr.design.DesignerEnvManager;
+import com.fr.design.constants.UIConstants;
+import com.fr.design.dialog.BasicPane;
+import com.fr.design.mainframe.DesignerContext;
+import com.fr.general.DateUtils;
+import com.fr.general.FRLogger;
+import com.fr.general.GeneralContext;
+import com.fr.general.Inter;
+import com.fr.stable.EnvChangedListener;
+import com.fr.stable.StringUtils;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -10,17 +23,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
-import com.fr.base.FRContext;
-import com.fr.design.DesignerEnvManager;
-import com.fr.design.dialog.BasicPane;
-import com.fr.design.mainframe.DesignerContext;
-import com.fr.general.DateUtils;
-import com.fr.general.FRLogger;
-import com.fr.general.Inter;
-import com.fr.plugin.manage.bbs.BBSPluginLogin;
-import com.fr.plugin.manage.bbs.BBSUserInfo;
-import com.fr.stable.StringUtils;
 
 
 /**
@@ -31,7 +33,7 @@ import com.fr.stable.StringUtils;
 public class UserInfoPane extends BasicPane{
 	
 	//默认未登录颜色
-	private static final Color UN_LOGIN_BACKGROUND = new Color(210, 210, 210);
+	private static final Color UN_LOGIN_BACKGROUND = UIConstants.TEMPLATE_TAB_PANE_BACKGROUND;
 	private static final Color LOGIN_BACKGROUND = new Color(184, 220, 242);
 	private static final int WIDTH = 104;
 	private static final int HEIGHT = 24;
@@ -45,6 +47,7 @@ public class UserInfoPane extends BasicPane{
 	private static final int WAIT_TIME = 10000;
 	
 	private UserInfoLabel userInfoLabel;
+
 
 	public UserInfoLabel getUserInfoLabel() {
 		return userInfoLabel;
@@ -65,29 +68,26 @@ public class UserInfoPane extends BasicPane{
 		this.userInfoLabel = new UserInfoLabel(this);
 
 		this.markUnSignIn();
-		autoLogin();
+		addEnvChangedListener();
 		autoPushLoginDialog();
 		
 		this.add(userInfoLabel, BorderLayout.CENTER);
 	}
-	
-	// 后台自动登录
-	private void autoLogin(){
-		Thread bbsAutoLoginThread = new Thread(new Runnable() {
 
+	private void addEnvChangedListener(){
+		GeneralContext.addEnvChangedListener(new EnvChangedListener() {
 			@Override
-			public void run() {
-				String username = DesignerEnvManager.getEnvManager().getBBSName();
-				String inShowUsername = DesignerEnvManager.getEnvManager().getInShowBBsName();
-				if (StringUtils.isEmpty(username) && StringUtils.isEmpty(inShowUsername)){
+			public void envChanged() {
+				String username = ConfigManager.getProviderInstance().getBbsUsername();
+				if (StringUtils.isEmpty(username)){
 					markUnSignIn();
 				} else {
 					markSignIn(username);
 				}
 			}
 		});
-		bbsAutoLoginThread.start();
 	}
+
 	
 	// 计算xml保存的上次弹框时间和当前时间的时间差
 	private int getDiffFromLastLogin(){
@@ -133,7 +133,7 @@ public class UserInfoPane extends BasicPane{
 					FRContext.getLogger().error(e.getMessage());
 				}
 				
-				String userName = DesignerEnvManager.getEnvManager().getBBSName();
+				String userName = ConfigManager.getProviderInstance().getBbsUsername();
 				if(StringUtils.isNotEmpty(userName)){
 					return;
 				}
@@ -169,8 +169,6 @@ public class UserInfoPane extends BasicPane{
 	 * 
 	 */
 	public void markSignIn(String userName){
-		String password = DesignerEnvManager.getEnvManager().getBBSPassword();
-		BBSPluginLogin.getInstance().login(new BBSUserInfo(userName, password));
 		this.userInfoLabel.setText(userName);
 		this.userInfoLabel.setUserName(userName);
 		this.userInfoLabel.setOpaque(true);

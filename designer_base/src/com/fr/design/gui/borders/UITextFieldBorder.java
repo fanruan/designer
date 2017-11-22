@@ -4,6 +4,7 @@
 
 package com.fr.design.gui.borders;
 
+import com.fr.design.constants.UIConstants;
 import com.fr.design.utils.DrawRoutines;
 import com.fr.design.utils.ThemeUtils;
 
@@ -54,7 +55,7 @@ public class UITextFieldBorder extends AbstractBorder implements UIResource {
                     g, ThemeUtils.TEXT_BORDER_DISABLED_COLOR, x, y, w, h);
         } else {
             DrawRoutines.drawBorder(
-                    g, ThemeUtils.TEXT_BORDER_COLOR, x, y, w, h);
+                    g, UIConstants.POP_DIALOG_BORDER, x, y, w, h);
         }
     }
 }

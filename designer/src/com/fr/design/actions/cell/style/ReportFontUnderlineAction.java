@@ -11,15 +11,20 @@ import com.fr.general.Inter;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.stable.Constants;
 
+import javax.swing.*;
+
 /**
  * Bold.
  */
 public class ReportFontUnderlineAction extends ReportFontBoldAction {
-	public ReportFontUnderlineAction(ElementCasePane t) {
+
+    private final static Icon[] ICONS = {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/underline.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/underline_white.png")};
+
+    public ReportFontUnderlineAction(ElementCasePane t) {
 		super(t);
 
 		this.setName(Inter.getLocText("FRFont-Underline"));
-		this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/underline.png"));
+		this.setSmallIcon(ICONS, true);
 	}
 
     protected void setSelectedFont (Style style) {

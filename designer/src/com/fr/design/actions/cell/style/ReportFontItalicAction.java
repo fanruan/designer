@@ -10,16 +10,20 @@ import com.fr.general.FRFont;
 import com.fr.general.Inter;
 import com.fr.design.mainframe.ElementCasePane;
 
+import javax.swing.*;
+
 /**
  * Bold.
  */
 public class ReportFontItalicAction extends ReportFontBoldAction {
-	
-	public ReportFontItalicAction(ElementCasePane t) {
+
+    private final static Icon[] ICONS = {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/italic.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/italic_white.png")};
+
+    public ReportFontItalicAction(ElementCasePane t) {
 		super(t);
 
-		this.setName(Inter.getLocText("FRFont-italic"));
-		this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/italic.png"));
+		this.setName(Inter.getLocText("FR-Designer-FRFont_Italic"));
+		this.setSmallIcon(ICONS, true);
 	}
 
 
@@ -30,7 +34,6 @@ public class ReportFontItalicAction extends ReportFontBoldAction {
     protected void setUnselectedFont (Style style) {
         this.style = StyleUtils.unItalicReportFont(style);
     }
-
 
     protected boolean isStyle(FRFont frFont) {
         return frFont.isItalic();

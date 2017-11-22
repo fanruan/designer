@@ -1,18 +1,15 @@
 package com.fr.design.formula;
 
+import com.fr.base.BaseFormula;
 import com.fr.base.BaseUtils;
-import com.fr.base.Formula;
 import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.constants.LayoutConstants;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.TableLayout;
-import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
 
 import javax.swing.*;
@@ -51,11 +48,11 @@ public class TinyFormulaPane extends BasicBeanPane<String> implements UIObserver
 				String text = formulaTextField.getText();
 
 				final UIFormula formulaPane = FormulaFactory.createFormulaPane();
-				formulaPane.populate(new Formula(text));
+				formulaPane.populate(BaseFormula.createFormulaBuilder().build(text));
 				formulaPane.showLargeWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
 					@Override
 					public void doOk() {
-						Formula fm = formulaPane.update();
+						BaseFormula fm = formulaPane.update();
 						populateTextField(fm);
 						okEvent();
 					}
@@ -65,7 +62,7 @@ public class TinyFormulaPane extends BasicBeanPane<String> implements UIObserver
 		initLayout();
 	}
 
-	protected void populateTextField(Formula fm) {
+	protected void populateTextField(BaseFormula fm) {
 		if (fm.getContent().length() <= 1) {
 			formulaTextField.setText("$$$");
 		} else {

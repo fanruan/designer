@@ -527,4 +527,29 @@ public abstract class XLayoutContainer extends XBorderStyleWidgetCreator impleme
     public void setEditable(boolean isEditable) {
         this.editable = isEditable;
     }
+
+    /**
+     * data属性改变触发其他操作
+     *
+     */
+    public void firePropertyChange(){
+        initStyle();
+    }
+
+    /**
+     * 是否支持设置可见
+     * return boolean
+     */
+    public boolean supportSetVisible(){
+        return false;
+    }
+
+    /**
+     * 是否支持设置可用
+     * return boolean
+     */
+    public boolean supportSetEnable(){
+        return false;
+    }
+
 }

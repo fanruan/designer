@@ -94,20 +94,24 @@ public class ChartFillStylePane extends BasicBeanPane<AttrFillStyle>{
 	}
 	
 	protected void initLayout() {
-		customPane.setPreferredSize(new Dimension(200, 130));
+		customPane.setPreferredSize(new Dimension(200, 100));
 		colorGradient.setPreferredSize(new Dimension(120, 30));
 		
+
+        this.setLayout(new BorderLayout());
+        this.add(getContentPane(),BorderLayout.CENTER);
+	}
+
+	protected JPanel getContentPane () {
 		double p = TableLayout.PREFERRED;
 		double f = TableLayout.FILL;
 		double[] columnSize = { f };
 		double[] rowSize = { p, p};
-        Component[][] components = new Component[][]{
-                new Component[]{styleSelectBox},
-                new Component[]{customPane}
-        } ;
-        JPanel panel = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"ColorMatch"},components,rowSize,columnSize);
-        this.setLayout(new BorderLayout());
-        this.add(panel,BorderLayout.CENTER);
+		Component[][] components = new Component[][]{
+				new Component[]{styleSelectBox},
+				new Component[]{customPane}
+		} ;
+		return TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"ColorMatch"},components,rowSize,columnSize);
 	}
 	
 	@Override

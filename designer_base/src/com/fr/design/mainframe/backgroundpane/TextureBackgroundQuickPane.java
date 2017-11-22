@@ -33,7 +33,6 @@ public class TextureBackgroundQuickPane extends BackgroundQuickPane {
 		this.add(borderPane, BorderLayout.NORTH);
 		contentPane.setLayout(new GridLayout(0, 8, 1, 1));
 		contentPane.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
-		borderPane.setPreferredSize(new Dimension(0, 145));
 		ButtonGroup patternButtonGroup = new ButtonGroup();
 		textureButtonArray = new TextureButton[EMBED_TEXTURE_PAINT_ARRAY.length];
 		for (int i = 0; i < EMBED_TEXTURE_PAINT_ARRAY.length; i++) {
@@ -169,5 +168,11 @@ public class TextureBackgroundQuickPane extends BackgroundQuickPane {
 	@Override
 	public String title4PopupWindow() {
 		return Inter.getLocText("Background-Texture");
+	}
+
+	@Override
+	public void reset() {
+		this.texturePaint = null;
+		textureButtonArray[0].setSelected(true);
 	}
 }

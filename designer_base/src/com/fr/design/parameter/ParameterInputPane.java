@@ -3,28 +3,10 @@
  */
 package com.fr.design.parameter;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
-
-import com.fr.base.Utils;
-import com.fr.design.gui.ilable.UILabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
-
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.base.StoreProcedureParameter;
+import com.fr.base.Utils;
 import com.fr.data.impl.storeproc.StoreProcedureConstants;
-import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.editor.ValueEditorPane;
 import com.fr.design.editor.ValueEditorPaneFactory;
@@ -35,9 +17,20 @@ import com.fr.design.editor.editor.Editor;
 import com.fr.design.editor.editor.FloatEditor;
 import com.fr.design.editor.editor.IntegerEditor;
 import com.fr.design.editor.editor.TextEditor;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.Inter;
 import com.fr.stable.ParameterProvider;
 import com.fr.stable.StringUtils;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * The dialog used to input parameter.
@@ -130,7 +123,7 @@ public class ParameterInputPane extends BasicPane {
 			editors[0] = new DateEditor(true, Inter.getLocText("Date"));
 		} else if (pv instanceof Boolean) {
 			editors[0] = new BooleanEditor();
-		} else if (pv instanceof Formula) {
+		} else if (pv instanceof BaseFormula) {
 			editors = ValueEditorPaneFactory.basicEditors();
 		} else {
 			editors[0] = new TextEditor();

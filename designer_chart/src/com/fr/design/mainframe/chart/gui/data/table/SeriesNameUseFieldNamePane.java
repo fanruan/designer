@@ -12,7 +12,6 @@ import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.gui.frpane.UICorrelationPane;
 import com.fr.design.gui.icombobox.UIComboBox;
-import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.gui.itable.UITable;
 import com.fr.design.gui.itable.UITableEditor;
 import com.fr.design.gui.itextfield.UITextField;
@@ -98,7 +97,6 @@ public class SeriesNameUseFieldNamePane extends FurtherBasicBeanPane<ChartCollec
     protected Component[][] getUseComponent() {
         return new Component[][]{
                 new Component[]{seriesDataPane},
-                new Component[]{new BoldFontTextLabel(Inter.getLocText("FR-Chart-Data_Filter"))},
         };
     }
 

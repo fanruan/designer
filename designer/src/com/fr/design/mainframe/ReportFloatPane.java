@@ -23,7 +23,6 @@ import java.awt.*;
 public class ReportFloatPane extends JPanel {
 
     private static ReportFloatPane THIS;
-    private ElementCasePaneDelegate elementCasePaneDelegate;
     private MenuDef insertFloatMenu;
 
     private ReportFloatPane() {
@@ -37,12 +36,20 @@ public class ReportFloatPane extends JPanel {
         return THIS;
     }
 
+    public void refreshInsertFloatMenu(ElementCasePaneDelegate elementCasePaneDelegate) {
+        insertFloatMenu.clearShortCuts();
+        UpdateAction[] actions = ActionFactory.createFloatInsertAction(ElementCasePane.class, elementCasePaneDelegate);
+        for (int i = 0; i < actions.length; i++) {
+            insertFloatMenu.addShortCut(actions[i]);
+        }
+    }
+
     private void initComponent() {
         this.setLayout(new BorderLayout());
 
         UIToolbar topToolBar = new UIToolbar();
         topToolBar.setLayout(new BorderLayout());
-        insertFloatMenu = createInsertToolBar();
+        initInsertToolBar();
         topToolBar.setPreferredSize(new Dimension(155,20));
         topToolBar.add(createButtonUI(), BorderLayout.CENTER);
         topToolBar.setBorder(BorderFactory.createEmptyBorder(-1, -1, -1, -1));
@@ -62,23 +69,24 @@ public class ReportFloatPane extends JPanel {
                 new Component[]{new UILabel(), new UILabel(Inter.getLocText("FR-Designer_Add_FloatElement")), emptyLabel, toolBarPane},
         };
         JPanel leftTopPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
-        leftTopPane.setBorder(BorderFactory.createEmptyBorder(10, 5, 0, 15));
+        leftTopPane.setBorder(BorderFactory.createEmptyBorder(12, 5, 0, 15));
         this.add(leftTopPane, BorderLayout.NORTH);
     }
 
-    private MenuDef createInsertToolBar() {
-        MenuDef insertFloatMenu = new MenuDef();
+    private void initInsertToolBar() {
+        insertFloatMenu = new MenuDef(true);
         insertFloatMenu.setName(KeySetUtils.INSERT_FLOAT.getMenuKeySetName());
         insertFloatMenu.setTooltip(Inter.getLocText("FR-Designer_T_Insert_Float"));
         insertFloatMenu.setIconPath("com/fr/design/images/control/addPopup.png");
         JTemplate editingTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
-        elementCasePaneDelegate = (ElementCasePaneDelegate) editingTemplate.getCurrentElementCasePane();
-        UpdateAction[] actions = ActionFactory.createFloatInsertAction(ElementCasePane.class, elementCasePaneDelegate);
-        for (int i = 0; i < actions.length; i++) {
-            insertFloatMenu.addShortCut(actions[i]);
+        JComponent currentElementCasePane = editingTemplate.getCurrentElementCasePane();
+        if (currentElementCasePane != null) {
+            insertFloatMenu.clearShortCuts();
+            UpdateAction[] actions = ActionFactory.createFloatInsertAction(ElementCasePane.class, currentElementCasePane);
+            for (int i = 0; i < actions.length; i++) {
+                insertFloatMenu.addShortCut(actions[i]);
+            }
         }
-        return insertFloatMenu;
-
     }
 
     private UIButton createButtonUI() {

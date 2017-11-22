@@ -20,6 +20,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.editor.ValueEditorPane;
 import com.fr.design.editor.ValueEditorPaneFactory;
 import com.fr.general.Inter;
+import com.fr.stable.StringUtils;
 
 public class ObjectLiteConditionPane extends LiteConditionPane<ObjectCondition> {
 	
@@ -33,13 +34,23 @@ public class ObjectLiteConditionPane extends LiteConditionPane<ObjectCondition> 
 		return VariableResolver.DEFAULT;
 	}
 
-	private  class ObjectConditionPane extends BasicBeanPane<ObjectCondition> {
+	@Override
+	protected void clearDefaultConditionPane() {
+		((ObjectConditionPane)defaultConditionPane).clearConditionValuePane();
+        defaultConditionPane.populateBean(new ObjectCondition(new Compare(Compare.EQUALS, StringUtils.EMPTY)));
+    }
+
+	private class ObjectConditionPane extends BasicBeanPane<ObjectCondition> {
 
 		private UIComboBox conditionOPComboBox;
 		private ValueEditorPane conditionValuePane;
 
 		ObjectConditionPane() {
 			this.initComponents();
+		}
+
+		private void clearConditionValuePane() {
+			conditionValuePane.clearComponentsData();
 		}
 
 		protected void initComponents() {
@@ -68,7 +79,7 @@ public class ObjectLiteConditionPane extends LiteConditionPane<ObjectCondition> 
 
 			conditionValuePane = ValueEditorPaneFactory.createAllValueEditorPane();
 
-			Component[][] components = { { new UILabel(Inter.getLocText("ConditionB-Operator") + ":"), new UILabel() },
+			Component[][] components = { { new UILabel(Inter.getLocText("FR-Designer_ConditionB-Operator") + ":"), new UILabel() },
 					{ conditionOPComboBox, conditionValuePane } };
 
 			double p = TableLayout.PREFERRED;

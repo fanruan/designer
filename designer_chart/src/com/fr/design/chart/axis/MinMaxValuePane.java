@@ -1,6 +1,6 @@
 package com.fr.design.chart.axis;
 
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.chart.base.ChartBaseUtils;
 import com.fr.chart.chartattr.Axis;
 import com.fr.design.chart.ChartSwingUtils;
@@ -35,9 +35,9 @@ public class MinMaxValuePane extends JPanel {
 		minValueField = new UITextField(6);
 		maxCheckBox = new UICheckBox(Inter.getLocText(new String[]{"Custom", "Max_Value"}));
 		maxValueField = new UITextField(6);
-		isCustomMainUnitBox = new UICheckBox(Inter.getLocText("FR-Chart_MainGraduationUnit"));
+		isCustomMainUnitBox = new UICheckBox(Inter.getLocText(new String[]{"Custom", "FR-Chart_MainGraduationUnit"}));
 		mainUnitField = new UITextField(6);
-		isCustomSecUnitBox = new UICheckBox(Inter.getLocText("FR-Chart_SecondGraduationUnit"));
+		isCustomSecUnitBox = new UICheckBox(Inter.getLocText(new String[]{"Custom", "FR-Chart_SecondGraduationUnit"}));
 		secUnitField = new UITextField(6);
 
 		double p = TableLayout.PREFERRED;
@@ -81,7 +81,7 @@ public class MinMaxValuePane extends JPanel {
 		};
 	}
 
-	private void checkBoxUse() {
+	protected void checkBoxUse() {
 		minValueField.setEnabled(minCheckBox.isSelected());
 		maxValueField.setEnabled(maxCheckBox.isSelected());
 
@@ -147,13 +147,13 @@ public class MinMaxValuePane extends JPanel {
 		// 最大最小值
 		if (minCheckBox.isSelected()) {
 			axis.setCustomMinValue(StringUtils.isNotEmpty(minValueField.getText()));
-			axis.setMinValue(new Formula(minValueField.getText()));
+			axis.setMinValue(BaseFormula.createFormulaBuilder().build(minValueField.getText()));
 		} else {
 			axis.setCustomMinValue(false);
 		}
 		if (maxCheckBox.isSelected()) {
 			axis.setCustomMaxValue(StringUtils.isNotEmpty(maxValueField.getText()));
-			axis.setMaxValue(new Formula(maxValueField.getText()));
+			axis.setMaxValue(BaseFormula.createFormulaBuilder().build(maxValueField.getText()));
 		} else {
 			axis.setCustomMaxValue(false);
 		}
@@ -170,10 +170,10 @@ public class MinMaxValuePane extends JPanel {
                 axis.setMainUnit(null);
             } else {
                 axis.setCustomMainUnit(true);
-                Formula formula = new Formula(increment);
+                BaseFormula formula = BaseFormula.createFormulaBuilder().build(increment);
                 Number number = ChartBaseUtils.formula2Number(formula);
                 if(number != null && number.doubleValue() < 0) {
-                    axis.setMainUnit(new Formula("10"));
+                    axis.setMainUnit(BaseFormula.createFormulaBuilder().build("10"));
                 } else {
                     axis.setMainUnit(formula);
                 }
@@ -189,10 +189,10 @@ public class MinMaxValuePane extends JPanel {
                 axis.setSecUnit(null);
             } else {
                 axis.setCustomSecUnit(true);
-                Formula formula = new Formula(increment);
+                BaseFormula formula = BaseFormula.createFormulaBuilder().build(increment);
                 Number number = ChartBaseUtils.formula2Number(formula);
                 if(number != null && number.doubleValue() < 0) {
-                    axis.setSecUnit(new Formula("10"));
+                    axis.setSecUnit(BaseFormula.createFormulaBuilder().build("10"));
                 } else {
                     axis.setSecUnit(formula);
                 }

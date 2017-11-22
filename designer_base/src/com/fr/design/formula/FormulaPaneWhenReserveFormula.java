@@ -1,6 +1,6 @@
 package com.fr.design.formula;
 
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.general.Inter;
 
@@ -46,15 +46,15 @@ public class FormulaPaneWhenReserveFormula extends FormulaPane {
     }
 
     @Override
-    public void populate(Formula formula, VariableResolver variableResolver) {
+    public void populate(BaseFormula formula, VariableResolver variableResolver) {
         super.populate(formula, variableResolver);
         reserveCheckBox4Result.setSelected(formula.isReserveInResult());
         reserveCheckBox4Write.setSelected(formula.isReserveOnWriteOrAnaly());
     }
 
     @Override
-    public Formula update() {
-        Formula formula =  super.update();
+    public BaseFormula update() {
+        BaseFormula formula =  super.update();
         if (formula != null) {
             formula.setReserveInResult(this.reserveCheckBox4Result.isSelected());
             formula.setReserveOnWriteOrAnaly(this.reserveCheckBox4Write.isSelected());

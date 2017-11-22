@@ -1,5 +1,6 @@
 package com.fr.design.cell.bar;
 
+import com.fr.design.constants.UIConstants;
 import com.fr.general.ComparatorUtils;
 
 import javax.swing.*;
@@ -63,48 +64,16 @@ public class DynamicScrollButton extends BasicArrowButton {
     private void paintArrow(Graphics g, Dimension size) {
         switch (direction) {
             case SwingConstants.NORTH:
-                g.drawLine(8, 5, 8, 5);
-                g.drawLine(7, 6, 9, 6);
-                g.drawLine(6, 7, 10, 7);
-                g.drawLine(5, 8, 7, 8);
-                g.drawLine(9, 8, 11, 8);
-                g.drawLine(4, 9, 6, 9);
-                g.drawLine(10, 9, 12, 9);
-                g.drawLine(5, 10, 5, 10);
-                g.drawLine(11, 10, 11, 10);
+                g.drawImage(UIConstants.ARROW_NORTH, 0, 0, this);
                 break;
             case SwingConstants.SOUTH:
-                g.drawLine(5, 6, 5, 6);
-                g.drawLine(11, 6, 11, 6);
-                g.drawLine(4, 7, 6, 7);
-                g.drawLine(10, 7, 12, 7);
-                g.drawLine(5, 8, 7, 8);
-                g.drawLine(9, 8, 11, 8);
-                g.drawLine(6, 9, 10, 9);
-                g.drawLine(7, 10, 9, 10);
-                g.drawLine(8, 11, 8, 11);
+                g.drawImage(UIConstants.ARROW_SOUTH, 0, 0, this);
                 break;
             case SwingConstants.EAST:
-                g.drawLine(6, 5, 6, 5);
-                g.drawLine(6, 11, 6, 11);
-                g.drawLine(7, 4, 7, 6);
-                g.drawLine(7, 10, 7, 12);
-                g.drawLine(8, 5, 8, 7);
-                g.drawLine(8, 9, 8, 11);
-                g.drawLine(9, 6, 9, 10);
-                g.drawLine(10, 7, 10, 9);
-                g.drawLine(11, 8, 11, 8);
+                g.drawImage(UIConstants.ARROW_EAST, 0, 0, this);
                 break;
             case SwingConstants.WEST:
-                g.drawLine(4, 8, 4, 8);
-                g.drawLine(5, 7, 5, 9);
-                g.drawLine(6, 6, 6, 10);
-                g.drawLine(7, 5, 7, 7);
-                g.drawLine(7, 9, 7, 11);
-                g.drawLine(8, 4, 8, 6);
-                g.drawLine(8, 10, 8, 12);
-                g.drawLine(9, 5, 9, 5);
-                g.drawLine(9, 11, 9, 11);
+                g.drawImage(UIConstants.ARROW_WEST, 0, 0, this);
                 break;
         }
     }

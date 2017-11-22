@@ -1,28 +1,14 @@
 package com.fr.design.gui.frpane;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.LayoutManager;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.SwingUtilities;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
 import com.fr.base.BaseUtils;
-import com.fr.design.constants.UIConstants;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.constants.UIConstants;
+import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.dialog.DialogActionListener;
+import com.fr.design.dialog.UIDialog;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
-import com.fr.design.file.HistoryTemplateListPane;
+import com.fr.design.gui.HyperlinkFilterHelper;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.imenutable.UIMenuNameableCreator;
@@ -30,11 +16,7 @@ import com.fr.design.gui.imenutable.UIMenuTable;
 import com.fr.design.hyperlink.ReportletHyperlinkPane;
 import com.fr.design.hyperlink.WebHyperlinkPane;
 import com.fr.design.javascript.EmailPane;
-import com.fr.design.mainframe.BaseJForm;
-import com.fr.design.mainframe.JTemplate;
-import com.fr.design.dialog.DialogActionAdapter;
-import com.fr.design.dialog.DialogActionListener;
-import com.fr.design.dialog.UIDialog;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.js.AbstractJavaScript;
@@ -43,14 +25,22 @@ import com.fr.js.ReportletHyperlink;
 import com.fr.js.WebHyperlink;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
-import com.fr.design.utils.gui.GUICoreUtils;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UICorrelationComboBoxPane extends JPanel implements UIObserver {
     private static final Dimension DIALOG_SIZE = new Dimension(500, 500);
     private JPopupMenu popMenu;
     private UIMenuTable tablePane;
     private UIButton addButton;
-    private List<UIMenuNameableCreator> values;
+    private List<? extends UIMenuNameableCreator> values;
     private UIObserverListener uiObserverListener;
 
     public UICorrelationComboBoxPane() {
@@ -88,7 +78,7 @@ public class UICorrelationComboBoxPane extends JPanel implements UIObserver {
      * 刷新下拉列表和按钮
      * @param values 下拉列表里的值
      */
-    public void refreshMenuAndAddMenuAction(List<UIMenuNameableCreator> values) {
+    public void refreshMenuAndAddMenuAction(List<? extends UIMenuNameableCreator> values) {
         if (values == null || values.isEmpty()) {
             return;
         }
@@ -98,7 +88,7 @@ public class UICorrelationComboBoxPane extends JPanel implements UIObserver {
         if (values.size() > 1) {
             for (UIMenuNameableCreator value : values) {
                 final String itemName = value.getName();
-                if(!whetherAdd(itemName)){
+                if(!HyperlinkFilterHelper.whetherAddHyperlink4Chart(itemName)){
                     continue;
                 }
                 UIMenuItem item = new UIMenuItem(itemName);
@@ -133,25 +123,6 @@ public class UICorrelationComboBoxPane extends JPanel implements UIObserver {
             }
         }
         initAddButtonListener();
-    }
-
-    private boolean whetherAdd(String itemName){
-        JTemplate jTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
-        //先屏蔽掉这个，之后还有别的
-        String[] names = {Inter.getLocText("FR-Hyperlink_Chart_Float"), Inter.getLocText("FR-Hyperlink_Chart_Cell")};
-        for (String name : names){
-            if(!jTemplate.isJWorkBook() && ComparatorUtils.equals(itemName,name)){
-                if(jTemplate.getEditingReportIndex() == BaseJForm.ELEMENTCASE_TAB &&  ComparatorUtils.equals(itemName, names[0])){
-                    //表单报表块中图表悬浮元素超链，只屏蔽联动悬浮元素
-                    return false;
-                } else if(jTemplate.getEditingReportIndex() == BaseJForm.FORM_TAB) {
-                    //表单图表超链屏蔽掉联动悬浮元素和联动单元格
-                    return false;
-                }
-            }
-        }
-        String formName = Inter.getLocText("Hyperlink-Form_link");
-        return !(jTemplate.isJWorkBook() && ComparatorUtils.equals(itemName, formName));
     }
 
     private String createUnrepeatedName(String prefix) {
@@ -407,13 +378,13 @@ public class UICorrelationComboBoxPane extends JPanel implements UIObserver {
         content.setLayout(new BorderLayout());
         List<UIMenuNameableCreator> data = new ArrayList<UIMenuNameableCreator>();
         UIMenuNameableCreator reportlet = new UIMenuNameableCreator(Inter.getLocText("FR-Hyperlink_Reportlet"),
-                new ReportletHyperlink(), true ? ReportletHyperlinkPane.CHART.class : ReportletHyperlinkPane.class);
+                new ReportletHyperlink(), ReportletHyperlinkPane.class);
 
         UIMenuNameableCreator email = new UIMenuNameableCreator(Inter.getLocText("FR-Designer_Email"),
                 new EmailJavaScript(), EmailPane.class);
 
         UIMenuNameableCreator web = new UIMenuNameableCreator(Inter.getLocText("Hyperlink-Web_link"),
-                new WebHyperlink(), true ? WebHyperlinkPane.CHART.class : WebHyperlinkPane.class);
+                new WebHyperlink(), WebHyperlinkPane.class);
         data.add(reportlet);
         data.add(email);
         data.add(web);

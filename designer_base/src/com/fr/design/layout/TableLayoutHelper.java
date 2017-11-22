@@ -203,7 +203,7 @@ public class TableLayoutHelper {
      * 修改TableLayout布局的容器指定位置垂直间距的大小。
      *
      * @param container 容器
-     * @param index     vgap的索引，Container【vGapA[ComponentA]vGapB[ComponentB]vGapC】,vGapB index=2,
+     * @param index     vgap的索引，Container{vGapA[ComponentA]vGapB[ComponentB]vGapC},vGapB index=2,
      *                  详情见{@link TableLayout#setRow(int, double)}
      * @param vgap      vgap的新值
      */
@@ -211,6 +211,7 @@ public class TableLayoutHelper {
         TableLayout layout = (TableLayout) container.getLayout();
         layout.setRow(index, vgap);
         layout.layoutContainer(container);
+        container.revalidate();
         container.repaint();
     }
 
@@ -218,7 +219,7 @@ public class TableLayoutHelper {
      * 修改TableLayout布局的容器指定位置水平间距的大小。
      *
      * @param container 容器
-     * @param index     hgap的索引，Container【hGapA[ComponentA]hGapB[ComponentB]】,hGapB index=2,
+     * @param index     hgap的索引，Container{hGapA[ComponentA]hGapB[ComponentB]},hGapB index=2,
      *                  详情见{@link TableLayout#setColumn(int, double)}
      * @param hgap      hgap的新值
      */
@@ -226,6 +227,7 @@ public class TableLayoutHelper {
         TableLayout layout = (TableLayout) container.getLayout();
         layout.setColumn(index, hgap);
         layout.layoutContainer(container);
+        container.revalidate();
         container.repaint();
     }
 

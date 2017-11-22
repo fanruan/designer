@@ -8,24 +8,27 @@ import com.fr.base.Style;
 import com.fr.base.core.StyleUtils;
 import com.fr.design.actions.ToggleButtonUpdateAction;
 import com.fr.design.gui.ibutton.UIToggleButton;
-import com.fr.general.FRFont;
-import com.fr.general.Inter;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.general.FRFont;
+import com.fr.general.Inter;
+
+import javax.swing.*;
 
 /**
  * Bold.
  */
 public class ReportFontBoldAction extends AbstractStyleAction implements ToggleButtonUpdateAction {
-	private UIToggleButton button;
-	protected Style style;
+    private UIToggleButton button;
+    protected Style style;
+    private final static Icon[] ICONS = {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/bold.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/bold_white.png")};
 
-	public ReportFontBoldAction(ElementCasePane t) {
-		super(t);
+    public ReportFontBoldAction(ElementCasePane t) {
+        super(t);
 
-		this.setName(Inter.getLocText("FRFont-bold"));
-		this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/bold.png"));
-	}
+        this.setName(Inter.getLocText("FRFont-bold"));
+        this.setSmallIcon(ICONS, true);
+    }
 
 	/**
 	 * 根据按钮状态获取格式
@@ -45,16 +48,17 @@ public class ReportFontBoldAction extends AbstractStyleAction implements ToggleB
 			createToolBarComponent().setSelected(true);
 		}
 
-		return this.style;
-	}
+        return this.style;
+    }
 
-	protected void setSelectedFont(Style style) {
-		this.style = StyleUtils.boldReportFont(style);
-	}
 
-	protected void setUnselectedFont(Style style) {
-		this.style = StyleUtils.unBoldReportFont(style);
-	}
+    protected void setSelectedFont(Style style) {
+        this.style = StyleUtils.boldReportFont(style);
+    }
+
+    protected void setUnselectedFont(Style style) {
+        this.style = StyleUtils.unBoldReportFont(style);
+    }
 
 	/**
 	 * Update Style.
@@ -71,21 +75,21 @@ public class ReportFontBoldAction extends AbstractStyleAction implements ToggleB
 		createToolBarComponent().setSelected(isStyle(frFont));
 	}
 
-	protected boolean isStyle(FRFont frFont) {
-		return frFont.isBold();
-	}
+    protected boolean isStyle(FRFont frFont) {
+        return frFont.isBold();
+    }
 
-	/**
-	 * Gets component on toolbar.
-	 *
-	 * @return the created components on toolbar.
-	 */
-	@Override
-	public UIToggleButton createToolBarComponent() {
-		if (button == null) {
-			button = GUICoreUtils.createToolBarComponent(this);
-			button.setEventBannded(true);
-		}
-		return button;
-	}
+    /**
+     * Gets component on toolbar.
+     *
+     * @return the created components on toolbar.
+     */
+    @Override
+    public UIToggleButton createToolBarComponent() {
+        if (button == null) {
+            button = GUICoreUtils.createToolBarComponentWhiteIcon(this);
+            button.setEventBannded(true);
+        }
+        return button;
+    }
 }

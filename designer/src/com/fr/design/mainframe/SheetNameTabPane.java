@@ -25,11 +25,13 @@ import com.fr.design.actions.UpdateAction;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.ibutton.UIButtonUI;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
 import com.fr.design.roleAuthority.ReportAndFSManagePane;
 import com.fr.design.roleAuthority.RolesAlreadyEditedPane;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.design.utils.gui.GUIPaintUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.main.impl.WorkBook;
@@ -54,10 +56,10 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
     private static final Icon WORK_SHEET_ICON = BaseUtils.readIcon("com/fr/base/images/oem/worksheet.png");
     private static final Icon POLY_SHEET_ICON = BaseUtils.readIcon("com/fr/design/images/sheet/polysheet.png");
     private static final Image DESIGN_IMAGE = BaseUtils.readImage("com/fr/design/images/sheet/left_right_btn.png");
-    private static final Icon LEFT_ICON = BaseUtils.createIcon(DESIGN_IMAGE, 0, 0, 14, 14);
-    private static final Icon RIGHT_ICON = BaseUtils.createIcon(DESIGN_IMAGE, 14, 0, 14, 14);
-    private static final Icon DISABLED_LEFT_ICON = BaseUtils.createIcon(DESIGN_IMAGE, 0, 14, 14, 14);
-    private static final Icon DISABLED_RIGHT_ICON = BaseUtils.createIcon(DESIGN_IMAGE, 14, 14, 14, 14);
+    private static final Icon LEFT_ICON = BaseUtils.readIcon("com/fr/design/images/sheet/left_normal@1x.png");
+    private static final Icon RIGHT_ICON = BaseUtils.readIcon("com/fr/design/images/sheet/right_normal@1x.png");
+    private static final Icon DISABLED_LEFT_ICON = BaseUtils.readIcon("com/fr/design/images/sheet/left_hover@1x.png");
+    private static final Icon DISABLED_RIGHT_ICON = BaseUtils.readIcon("com/fr/design/images/sheet/right_hover@1x.png");
 
     private static final int ICON_SEP_DISTANCE = 8;
     private static final int TOOLBAR_HEIGHT = 16;
@@ -145,6 +147,18 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
                 return new Dimension(super.getPreferredSize().width, TOOLBAR_HEIGHT);
             }
         };
+        leftButton.setUI(new UIButtonUI() {
+            @Override
+            protected void doExtraPainting(UIButton b, Graphics2D g2d, int w, int h, String selectedRoles) {
+                if (isPressed(b) && b.isPressedPainted()) {
+                    GUIPaintUtils.fillPressed(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles), UIConstants.PROPERTY_PANE_BACKGROUND);
+                } else if (isRollOver(b)) {
+                    GUIPaintUtils.fillRollOver(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles), b.isPressedPainted(), UIConstants.PROPERTY_PANE_BACKGROUND);
+                } else if (b.isNormalPainted()) {
+                    GUIPaintUtils.fillNormal(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles), b.isPressedPainted());
+                }
+            }
+        });
         leftButton.set4ToolbarButton();
         leftButton.setDisabledIcon(DISABLED_LEFT_ICON);
         rightButton = new UIButton(RIGHT_ICON) {
@@ -152,6 +166,18 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
                 return new Dimension(super.getPreferredSize().width, TOOLBAR_HEIGHT);
             }
         };
+        rightButton.setUI(new UIButtonUI() {
+            @Override
+            protected void doExtraPainting(UIButton b, Graphics2D g2d, int w, int h, String selectedRoles) {
+                if (isPressed(b) && b.isPressedPainted()) {
+                    GUIPaintUtils.fillPressed(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles), UIConstants.PROPERTY_PANE_BACKGROUND);
+                } else if (isRollOver(b)) {
+                    GUIPaintUtils.fillRollOver(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles), b.isPressedPainted(), UIConstants.PROPERTY_PANE_BACKGROUND);
+                } else if (b.isNormalPainted()) {
+                    GUIPaintUtils.fillNormal(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles), b.isPressedPainted());
+                }
+            }
+        });
         rightButton.set4ToolbarButton();
         rightButton.setDisabledIcon(DISABLED_RIGHT_ICON);
         buttonPane = new JPanel(new BorderLayout(3, 0));
@@ -407,7 +433,7 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
         sheeticon.paintIcon(this, g2d, (int) textX + charWidth, 2);
         // peter:画字符
         g2d.setPaint(getForeground());
-        g2d.drawString(sheetName, (int) textX + charWidth + 14, textAscent);
+        GraphHelper.drawString(g2d, sheetName, (int) textX + charWidth + 14, textAscent);
     }
 
     /**
@@ -423,7 +449,7 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
      * @param i
      */
     private void paintUnSelectedTab(Graphics2D g2d, Icon sheetIcon, double textHeight, double textX, String sheetName, int charWidth, int textAscent, int i, boolean isNeedPaintAuthority) {
-        Color tabBackground = UIConstants.SHEET_NORMAL;
+        Color tabBackground = UIConstants.COMBOBOX_BTN_NORMAL;
         int width = widthArray[i];
         double[] x = {textX, textX, textX + LEFT_CORNOR, textX + width - RIGHT_CORNOR, textX + width, textX + width};
         double[] y = {0, textHeight - LEFT_CORNOR, textHeight, textHeight, textHeight - RIGHT_CORNOR, 0};
@@ -554,10 +580,12 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
         for (int i = scrollIndex; i <= lastOneIndex; i++) {
             int textWidth = widthArray[i];
             if (evtX >= textX && evtX < textX + textWidth) {
-                if (getSelectedIndex() != i) {
+                boolean needRefreshPropertiesPane = getSelectedIndex() != i;
+                setSelectedIndex(i);
+                if (needRefreshPropertiesPane) {
                     HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().refreshEastPropertiesPane();
                 }
-                setSelectedIndex(i);
+
                 isBlank = false;
                 reportComposite.setComposite();
                 if (isAuthorityEditing) {

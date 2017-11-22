@@ -1,7 +1,7 @@
 package com.fr.design.present.dict;
 
+import com.fr.base.BaseFormula;
 import com.fr.base.BaseUtils;
-import com.fr.base.Formula;
 import com.fr.data.impl.FormulaDictionary;
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.constants.LayoutConstants;
@@ -9,7 +9,6 @@ import com.fr.design.editor.editor.FormulaEditor;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 
@@ -20,6 +19,7 @@ import java.awt.*;
 public class FormulaDictPane extends FurtherBasicBeanPane<FormulaDictionary> {
 
     private static final int EDITOR_COLUMN = 15;
+    private static final int LEFT_BORDER = 5;
     private FormulaEditor keyFormulaEditor;
     private FormulaEditor valueFormulaEditor;
 
@@ -27,22 +27,11 @@ public class FormulaDictPane extends FurtherBasicBeanPane<FormulaDictionary> {
         initComponents();
     }
 
-    public static void main(String[] args) {
-        JFrame jf = new JFrame("test");
-        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JPanel content = (JPanel) jf.getContentPane();
-        content.setLayout(new BorderLayout());
-        content.add(new FormulaDictPane(), BorderLayout.NORTH);
-        GUICoreUtils.centerWindow(jf);
-        jf.setSize(250, 400);
-        jf.setVisible(true);
-    }
-
     private void initComponents() {
         keyFormulaEditor = new FormulaEditor();
         keyFormulaEditor.setColumns(EDITOR_COLUMN);
-        JPanel keyFormulaContainer = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
-        keyFormulaContainer.setBorder(BorderFactory.createEmptyBorder(0,-5,0,-5));
+        JPanel keyFormulaContainer = new JPanel(new FlowLayout(FlowLayout.RIGHT, LEFT_BORDER, 0));
+        keyFormulaContainer.setBorder(BorderFactory.createEmptyBorder(0, -LEFT_BORDER, 0, -LEFT_BORDER));
         keyFormulaEditor.setPreferredSize(new Dimension(144, 20));
         Icon icon = BaseUtils.readIcon("/com/fr/design/images/m_insert/formula.png");
         keyFormulaContainer.add(new JLabel(icon));
@@ -57,16 +46,17 @@ public class FormulaDictPane extends FurtherBasicBeanPane<FormulaDictionary> {
         double[] rowSize = {p, p, p};
         int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}};
 
-        UILabel tag = new UILabel(Inter.getLocText("Formula_Dictionary_Display_Examples_Html"));
-        tag.setPreferredSize(new Dimension(225,20));
+        UILabel tag = new UILabel(Inter.getLocText("FR-Designer-Formula_Dictionary_Display_Examples_Html"));
+        tag.setForeground(new Color(143, 143, 146));
+        tag.setPreferredSize(new Dimension(225, 80));
         JPanel t = new JPanel(new BorderLayout());
         t.add(tag, BorderLayout.CENTER);
 
-        Formula vf = new Formula("$$$");
-        valueFormulaEditor = new FormulaEditor("", vf);
+        BaseFormula vf = BaseFormula.createFormulaBuilder().build("$$$");
+        valueFormulaEditor = new FormulaEditor(StringUtils.EMPTY, vf);
 
-        JPanel valueFormulaContainer = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
-        valueFormulaContainer.setBorder(BorderFactory.createEmptyBorder(0,-5,0,-5));
+        JPanel valueFormulaContainer = new JPanel(new FlowLayout(FlowLayout.RIGHT, LEFT_BORDER, 0));
+        valueFormulaContainer.setBorder(BorderFactory.createEmptyBorder(0, -LEFT_BORDER, 0, -LEFT_BORDER));
         valueFormulaEditor.setPreferredSize(new Dimension(144, 20));
         valueFormulaContainer.add(new JLabel(icon));
         valueFormulaContainer.add(valueFormulaEditor);
@@ -96,8 +86,8 @@ public class FormulaDictPane extends FurtherBasicBeanPane<FormulaDictionary> {
 
     @Override
     public void populateBean(FormulaDictionary dict) {
-        keyFormulaEditor.setValue(new Formula(dict.getProduceFormula() == null ? StringUtils.EMPTY : dict.getProduceFormula()));
-        valueFormulaEditor.setValue(new Formula(dict.getExcuteFormula() == null ? StringUtils.EMPTY : dict.getExcuteFormula()));
+        keyFormulaEditor.setValue(BaseFormula.createFormulaBuilder().build(dict.getProduceFormula() == null ? StringUtils.EMPTY : dict.getProduceFormula()));
+        valueFormulaEditor.setValue(BaseFormula.createFormulaBuilder().build(dict.getExcuteFormula() == null ? StringUtils.EMPTY : dict.getExcuteFormula()));
     }
 
     @Override

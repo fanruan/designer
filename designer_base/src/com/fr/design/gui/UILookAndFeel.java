@@ -1,6 +1,5 @@
 package com.fr.design.gui;
 
-import com.fr.base.BaseUtils;
 import com.fr.design.gui.borders.*;
 import com.fr.design.gui.frpane.UIBasicOptionPaneUI;
 import com.fr.design.gui.ibutton.UIBasicButtonUI;
@@ -110,8 +109,6 @@ public class UILookAndFeel extends MetalLookAndFeel {
         table.put("RadioButtonMenuItem.border", border);
         table.put("ToolTip.border", new BorderUIResource(new UIToolTipBorder(true)));
         table.put("ToolTip.borderInactive", new BorderUIResource(new UIToolTipBorder(false)));
-        table.put("Tree.expandedIcon", BaseUtils.readIcon("/com/fr/design/images/tree/open.png"));
-        table.put("Tree.collapsedIcon", BaseUtils.readIcon("/com/fr/design/images/tree/close.png"));
         table.put("PopupMenu.border", new UIPopupMenuBorder());
         table.put("PopupMenu.foreground", new ColorUIResource(255, 0, 0));
         table.put("SplitPane.dividerSize", new Integer(7));
@@ -171,6 +168,7 @@ public class UILookAndFeel extends MetalLookAndFeel {
         table.put("FormattedTextField.border", new UITextFieldBorder());
         table.put("TextField.border", new UITextFieldBorder());
         table.put("PasswordField.border", new UITextFieldBorder());
+        table.put("TextArea.border", new UITextFieldBorder());
     }
 
 

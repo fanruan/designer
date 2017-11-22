@@ -9,6 +9,9 @@ import javafx.concurrent.Task;
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * 插件安装,卸载,更新等任务
  *
@@ -77,8 +80,23 @@ public class PluginTask<T> extends Task<T> {
      */
     private String trimText(String old) {
         if (StringUtils.isNotBlank(old)) {
-            return old.replaceAll("\n", "").replaceAll("\"", "\\\\\"").replaceAll("\'", "\\\\\'");
+            String b = filterHtmlTag(old);
+            return b.replaceAll("\\\\n", StringUtils.EMPTY).replaceAll("\\\\t", StringUtils.EMPTY).replaceAll("\"", "\\\\\"").replaceAll("\'", "\\\\\'").replaceAll("\\\\\\\\", "\\\\\\\\\\\\");
         }
         return StringUtils.EMPTY;
     }
+
+    /**
+     * 进行html标签过滤
+     * @param origin 原始字符串
+     * @return 处理之后的字符串
+     */
+    private String filterHtmlTag(String origin) {
+        String regHtml = "<[^>]+>";
+        Pattern patternHtml = Pattern.compile(regHtml, Pattern.CASE_INSENSITIVE);
+        Matcher matchHtml = patternHtml.matcher(origin);
+        origin = matchHtml.replaceAll(StringUtils.EMPTY);
+        return origin;
+    }
+
 }

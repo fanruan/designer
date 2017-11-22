@@ -2,6 +2,7 @@ package com.fr.design.actions;
 
 
 import com.fr.design.designer.TargetComponent;
+import com.fr.design.mainframe.DesignerContext;
 
 public abstract class TemplateComponentAction<T extends TargetComponent> extends UndoableAction implements TemplateComponentActionInterface<T> {
     private T t;
@@ -24,6 +25,7 @@ public abstract class TemplateComponentAction<T extends TargetComponent> extends
 
     @Override
     public void prepare4Undo() {
+        DesignerContext.enableRefreshOnTargetModified();
         this.getEditingComponent().fireTargetModified();
         T component = getEditingComponent();
         if (component == null) {

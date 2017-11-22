@@ -6,6 +6,9 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.mainframe.ElementCasePane;
+import com.fr.design.widget.CellWidgetCardPane;
+import com.fr.design.widget.WidgetManageCardPane;
 import com.fr.design.widget.WidgetPane;
 import com.fr.form.ui.*;
 import com.fr.general.Inter;
@@ -35,7 +38,12 @@ public class WidgetHighlightPane extends ConditionAttrSingleConditionPane<Highli
         widgetButton = new UIButton(Inter.getLocText("FR-Designer_Edit"));
         widgetButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                final WidgetPane widgetPane = new WidgetPane();
+                final WidgetPane widgetPane = new WidgetPane() {
+                    @Override
+                    protected CellWidgetCardPane initWidgetCardPane(ElementCasePane pane) {
+                        return new WidgetManageCardPane(pane);
+                    }
+                };
                 widgetPane.populate(widget);
                 BasicDialog dialog = widgetPane.showWindow(
                         SwingUtilities.getWindowAncestor(conditionAttributesPane));

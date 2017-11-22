@@ -57,7 +57,7 @@ public abstract class XWidgetCreator extends XCreator {
                 }),
                 new CRPropertyDescriptor("labelName", this.data.getClass(), "getLabelName", "setLabelName")
                         .setI18NName(Inter.getLocText("FR-Designer_Label_Name"))
-                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "FR-Designer_Advanced")
+                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
         };
 
     }

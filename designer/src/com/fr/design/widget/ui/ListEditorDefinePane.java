@@ -34,12 +34,12 @@ public class ListEditorDefinePane extends WriteUnableRepeatEditorPane<ListEditor
 
 	@Override
 	protected JPanel setThirdContentPane() {
-		JPanel contenter = FRGUIPaneFactory.createMediumHGapFlowInnerContainer_M_Pane_First0();
-		JPanel centerPane = FRGUIPaneFactory.createMediumHGapFlowInnerContainer_M_Pane_First0();
-		centerPane.add(needHeadCheckBox = new UICheckBox(Inter.getLocText("List-Need_Head")));
+		JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
+		needHeadCheckBox = new UICheckBox(Inter.getLocText("List-Need_Head"));
 		needHeadCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		contenter.add(centerPane);
-		return contenter;
+		jPanel.add(needHeadCheckBox, BorderLayout.CENTER);
+		jPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+		return jPanel;
 	}
 	
 	@Override

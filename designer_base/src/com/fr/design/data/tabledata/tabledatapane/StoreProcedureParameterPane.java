@@ -1,27 +1,25 @@
 package com.fr.design.data.tabledata.tabledatapane;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.util.Date;
-import java.util.HashMap;
-
-import com.fr.design.gui.ilable.UILabel;
-import javax.swing.JPanel;
-
-import com.fr.base.Formula;
-import com.fr.general.NameObject;
+import com.fr.base.BaseFormula;
 import com.fr.base.StoreProcedureParameter;
 import com.fr.data.impl.storeproc.StoreProcedureConstants;
-import com.fr.design.gui.icombobox.UIComboBox;
-import com.fr.design.gui.itextfield.UITextField;
-import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.layout.TableLayout;
-import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.editor.ValueEditorPane;
 import com.fr.design.editor.ValueEditorPaneFactory;
 import com.fr.design.editor.editor.CursorEditor;
+import com.fr.design.gui.icombobox.UIComboBox;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.Inter;
+import com.fr.general.NameObject;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.Date;
+import java.util.HashMap;
 
 
 public class StoreProcedureParameterPane extends BasicPane {
@@ -140,7 +138,7 @@ public class StoreProcedureParameterPane extends BasicPane {
 			type = Inter.getLocText("Date");
 		else if(value instanceof Boolean)
 			type = Inter.getLocText("Parameter-Boolean");
-		else if(value instanceof Formula)
+		else if(value instanceof BaseFormula)
 			type = Inter.getLocText("Formula");
 		else 
 			type = Inter.getLocText("Parameter-String");

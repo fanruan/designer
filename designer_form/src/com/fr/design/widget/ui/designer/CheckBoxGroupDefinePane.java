@@ -1,14 +1,13 @@
 package com.fr.design.widget.ui.designer;
 
 import com.fr.design.data.DataCreatorUI;
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.XCreator;
-import com.fr.design.gui.ibutton.UIButtonGroup;
-import com.fr.design.gui.ibutton.UIHeadGroup;
 import com.fr.design.gui.icheckbox.UICheckBox;
-import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.present.dict.DictionaryPane;
+import com.fr.design.widget.component.CheckBoxDictPane;
 import com.fr.design.widget.ui.designer.btn.ButtonGroupDefinePane;
 import com.fr.form.ui.CheckBoxGroup;
 import com.fr.general.Inter;
@@ -18,7 +17,7 @@ import java.awt.*;
 
 public class CheckBoxGroupDefinePane extends ButtonGroupDefinePane<CheckBoxGroup> {
 	private DictionaryPane dictPane;
-	private UIButtonGroup returnType;
+	private CheckBoxDictPane checkBoxDictPane;
 	private UICheckBox checkbox;
 
 	public CheckBoxGroupDefinePane(XCreator xCreator) {
@@ -42,27 +41,23 @@ public class CheckBoxGroupDefinePane extends ButtonGroupDefinePane<CheckBoxGroup
 	public JPanel createOtherPane(){
 		checkbox = new UICheckBox(Inter.getLocText(new String[]{"Provide", "Choose_All"}));
 		checkbox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		final String[] tabTitles = new String[]{Inter.getLocText("Widget-Array"), Inter.getLocText("String")};
-		returnType = new UIButtonGroup(tabTitles);
-
-
+		checkBoxDictPane = new CheckBoxDictPane();
 		double f = TableLayout.FILL;
 		double p = TableLayout.PREFERRED;
 		Component[][] components = new Component[][]{
 				new Component[]{checkbox,  null },
-				new Component[]{new UILabel(Inter.getLocText("Widget-Date_Selector_Return_Type")), returnType},
+				new Component[]{checkBoxDictPane, null},
 		};
 		double[] rowSize = {p, p};
 		double[] columnSize = {p, f};
 		int[][] rowCount = {{1, 1},{1, 1}};
-		JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 10, 7);
-		panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+		JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_L2, IntervalConstants.INTERVAL_L1);
 		return panel;
 	}
 
 	@Override
 	protected void populateSubButtonGroupBean(CheckBoxGroup ob) {
-		returnType.setSelectedIndex(ob.isReturnString() ? 1 : 0);
+		this.checkBoxDictPane.populate(ob);
 		this.dictPane.populateBean(ob.getDictionary());
 		checkbox.setSelected(ob.isChooseAll());
 	}
@@ -72,7 +67,7 @@ public class CheckBoxGroupDefinePane extends ButtonGroupDefinePane<CheckBoxGroup
 	@Override
 	protected CheckBoxGroup updateSubButtonGroupBean() {
 		CheckBoxGroup ob = (CheckBoxGroup) creator.toData();
-		ob.setReturnString(returnType.getSelectedIndex() == 1);
+		checkBoxDictPane.update(ob);
 		ob.setDictionary(this.dictPane.updateBean());
 		ob.setChooseAll(checkbox.isSelected());
 		return ob;

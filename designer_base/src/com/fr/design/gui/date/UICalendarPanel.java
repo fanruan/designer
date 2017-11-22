@@ -1,30 +1,48 @@
 package com.fr.design.gui.date;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.geom.RoundRectangle2D;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
-import javax.swing.*;
-
 import com.fr.base.BaseUtils;
 import com.fr.base.background.GradientBackground;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
-
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.EventListenerList;
-
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.utils.gui.GUIPaintUtils;
 import com.fr.general.Inter;
 import com.fr.stable.Constants;
 import com.fr.stable.StringUtils;
-import com.fr.design.utils.gui.GUIPaintUtils;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.Icon;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.EventListenerList;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.geom.RoundRectangle2D;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class UICalendarPanel extends JPanel {
     private static final Font FONT_SONG = new Font(Inter.getLocText("Song_TypeFace"),0,12);
@@ -60,6 +78,7 @@ public class UICalendarPanel extends JPanel {
     }
 
     public UICalendarPanel(Date selectedDate, boolean isTimerPicker) {
+
         this.selectedDate = selectedDate;
         this.isTimePicker = isTimerPicker;
         calendar = Calendar.getInstance();
@@ -84,11 +103,8 @@ public class UICalendarPanel extends JPanel {
         if (isTimerPicker) {
             setPreferredSize(new Dimension(218, 209));
             add(BorderLayout.SOUTH, createSouthPane());
-            updateDays();
             updateHMS();
         }
-
-        updateDays();
     }
 
     //   << <   yyyy/MM/dd  > >>

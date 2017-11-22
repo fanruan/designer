@@ -6,6 +6,7 @@ import com.fr.base.ScreenResolution;
 import com.fr.common.inputevent.InputEventBaseOnOS;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.mainframe.EastRegionContainerPane;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.mainframe.JSliderPane;
 import com.fr.design.present.CellWriteAttrPane;
@@ -204,7 +205,6 @@ public class GridMouseAdapter implements MouseListener, MouseWheelListener, Mous
      */
 
     private void showWidetWindow(TemplateCellElement cellElement, TemplateElementCase report) {
-//        int resolution = ScreenResolution.getScreenResolution();
         DynamicUnitList columnWidthList = ReportHelper.getColumnWidthList(report);
         DynamicUnitList rowHeightList = ReportHelper.getRowHeightList(report);
         double fixed_pos_x = this.oldEvtX - columnWidthList.getRangeValue(grid.getHorizontalValue(), cellElement.getColumn()).toPixD(resolution);
@@ -212,7 +212,7 @@ public class GridMouseAdapter implements MouseListener, MouseWheelListener, Mous
         double cell_width = columnWidthList.getRangeValue(cellElement.getColumn(), cellElement.getColumn() + cellElement.getColumnSpan()).toPixD(resolution);
         double cell_height = rowHeightList.getRangeValue(cellElement.getRow(), cellElement.getRow() + cellElement.getRowSpan()).toPixD(resolution);
         if (fitSizeToShow(cell_width, cell_height, fixed_pos_x, fixed_pos_y)) {
-            CellWriteAttrPane.showWidgetWindow(grid.getElementCasePane());
+            EastRegionContainerPane.getInstance().switchTabTo(EastRegionContainerPane.KEY_WIDGET_SETTINGS);
         }
     }
 
@@ -807,9 +807,11 @@ public class GridMouseAdapter implements MouseListener, MouseWheelListener, Mous
      * @param e
      */
     public void mouseWheelMoved(MouseWheelEvent e) {
-        ElementCasePane reportPane = grid.getElementCasePane();
-        if (reportPane.isHorizontalScrollBarVisible()) {
-            reportPane.getVerticalScrollBar().setValue(reportPane.getVerticalScrollBar().getValue() + e.getWheelRotation() * 3);
+        if (!InputEventBaseOnOS.isControlDown(e)) {
+            ElementCasePane reportPane = grid.getElementCasePane();
+            if (reportPane.isHorizontalScrollBarVisible()) {
+                reportPane.getVerticalScrollBar().setValue(reportPane.getVerticalScrollBar().getValue() + e.getWheelRotation() * 3);
+            }
         }
     }
 

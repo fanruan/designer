@@ -13,8 +13,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.Document;
 import java.awt.*;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 
 /**
  * @author Jerry
@@ -27,6 +25,9 @@ public class UITextField extends JTextField implements UIObserver, GlobalNameObs
     private String textFeildName = "";
     private GlobalNameListener globalNameListener = null;
     private Dimension preferredSize = null;
+
+    //有些情况下setText的时候不希望触发attributeChange，添加一个属性标识
+    private boolean isSetting = false;
 
     public UITextField() {
         super();
@@ -61,19 +62,32 @@ public class UITextField extends JTextField implements UIObserver, GlobalNameObs
 
     protected void initListener() {
         if (shouldResponseChangeListener()) {
-            addFocusListener(new FocusListener() {
+            getDocument().addDocumentListener(new DocumentListener() {
                 @Override
-                public void focusGained(FocusEvent e) {
+                public void insertUpdate(DocumentEvent e) {
+                    attributeChange();
                 }
 
                 @Override
-                public void focusLost(FocusEvent e) {
+                public void removeUpdate(DocumentEvent e) {
+                    attributeChange();
+                }
+
+                @Override
+                public void changedUpdate(DocumentEvent e) {
                     attributeChange();
                 }
             });
         }
     }
 
+    public boolean isSetting() {
+        return isSetting;
+    }
+
+    public void setSetting(boolean setting) {
+        isSetting = setting;
+    }
 
     public void setPreferredSize(Dimension preferredSize) {
         this.preferredSize = preferredSize;
@@ -84,6 +98,9 @@ public class UITextField extends JTextField implements UIObserver, GlobalNameObs
     }
 
     protected void attributeChange() {
+        if(isSetting){
+            return;
+        }
         if (globalNameListener != null && shouldResponseNameListener()) {
             globalNameListener.setGlobalName(textFeildName);
         }

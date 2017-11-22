@@ -41,7 +41,7 @@ import java.util.regex.Pattern;
  *
  * @author yaoh.wu
  * @version 2017年8月3日
- * 复用对话框代码，保留对话框原始布局
+ *          复用对话框代码，保留对话框原始布局
  * @since 8.0
  */
 public class SelectedDataColumnPane extends BasicPane {
@@ -282,7 +282,7 @@ public class SelectedDataColumnPane extends BasicPane {
     private void initWithParameterButton(final ElementCasePane casePane, final TemplateCellElement cellElement) {
         final SelectedDataColumnPane that = this;
         editorPane = new UITableEditorPane<ParameterProvider>(new ParameterTableModel());
-        paramButton = new UIButton(Inter.getLocText("TableData_Dynamic_Parameter_Setting"));
+        paramButton = new UIButton(Inter.getLocText("FR-Designer-Basic_Dynamic_Parameter_Injection"));
         paramButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 BasicDialog paramDialog = editorPane.showSmallWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {

@@ -12,6 +12,7 @@ import com.fr.base.GraphHelper;
 import com.fr.base.ScreenResolution;
 import com.fr.base.Style;
 import com.fr.base.Utils;
+import com.fr.design.file.HistoryTemplateListPane;
 
 public class HorizontalRulerUI extends RulerUI {
 
@@ -25,7 +26,8 @@ public class HorizontalRulerUI extends RulerUI {
         for (int i = k; i < (pxToLength(size.getWidth() + extra) + 1) * ratio; i++) {
             g.setColor(BaseRuler.UNIT_SIGN_COLOR);
             if (i %  BaseRuler.SCALE_10 == 0) {
-                String text = Utils.convertNumberStringToString(i / showText);
+                double times = (double)HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getJTemplateResolution() / ScreenResolution.getScreenResolution();
+                String text = Utils.convertNumberStringToString(Math.round((i / times) / showText));
                 Graphics2D gg = (Graphics2D) g.create((int) (toPX(i) / ratio) - extra + 1, 0, BaseRuler.NUMBER_100, size.height);
                 BaseUtils.drawStringStyleInRotation(gg, BaseRuler.NUMBER_100, BaseRuler.NUMBER_14, text, Style.getInstance().deriveHorizontalAlignment(
                         Style.LEFT_TO_RIGHT).deriveFRFont(BaseRuler.TEXT_FONT), ScreenResolution.getScreenResolution());

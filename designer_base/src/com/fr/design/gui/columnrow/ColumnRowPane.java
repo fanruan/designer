@@ -17,6 +17,7 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.gui.itextfield.UITextField;
@@ -96,7 +97,7 @@ public class ColumnRowPane extends JPanel implements UIObserver {
 	 * 初始化元素
 	 */
 	public void initComponents() {
-		this.setLayout(new GridLayout(0, 2, 0, 0));
+		this.setLayout(new GridLayout(0, 2, IntervalConstants.INTERVAL_L6, 0));
 		initColSpinner();
 		this.add(columnSpinner, BorderLayout.WEST);
 		initRowSpinner();

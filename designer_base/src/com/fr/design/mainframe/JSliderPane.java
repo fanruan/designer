@@ -4,9 +4,11 @@ import com.fr.base.BaseUtils;
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIRadioButton;
+import com.fr.design.gui.ibutton.UISliderButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.islider.UISlider;
 import com.fr.design.gui.ispinner.UIBasicSpinner;
+import com.fr.design.gui.ispinner.UISpinnerUI;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
@@ -17,6 +19,9 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.BasicSliderUI;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.awt.event.*;
 import java.math.BigDecimal;
@@ -45,7 +50,7 @@ public class JSliderPane extends JPanel {
     private static final int SHOWVALBUTTON_WIDTH = 40;
     private static final int SHOWVALBUTTON_HEIGHTH = 20;
     private static final int SLIDER_GAP = 5;
-    private static final int TOOLTIP_Y = 25;
+    private static final int TOOLTIP_Y = 30;
 
     private static final Color BACK_COLOR = new Color(245, 245, 247);
     public int showValue = 100;
@@ -58,7 +63,7 @@ public class JSliderPane extends JPanel {
     private int sliderValue;
     private UIButton downButton;
     private UIButton upButton;
-    private JButton showValButton;
+    private UISliderButton showValButton;
     private UIRadioButton twoHundredButton;
     private UIRadioButton oneHundredButton;
     private UIRadioButton SevenFiveButton;
@@ -77,11 +82,20 @@ public class JSliderPane extends JPanel {
         this.setLayout(new BorderLayout());
         initSlider();
         initShowValSpinner();
+        //MoMeak：控制只能输入10-400
+        JSpinner.NumberEditor editor = new JSpinner.NumberEditor(showValSpinner, "0");
+        showValSpinner.setEditor(editor);
+        JFormattedTextField textField = ((JSpinner.NumberEditor) showValSpinner.getEditor()).getTextField();
+        textField.setEditable(true);
+        DefaultFormatterFactory factory = (DefaultFormatterFactory) textField .getFormatterFactory();
+        NumberFormatter formatter = (NumberFormatter) factory.getDefaultFormatter();
+        formatter.setAllowsInvalid(false);
+
         initDownUpButton();
         initShowValButton();
         initUIRadioButton();
         initPane();
-        JPanel panel = new JPanel(new FlowLayout(1, 5, 0));
+        JPanel panel = new JPanel(new FlowLayout(1, 0, 0));
         panel.add(downButton);
         panel.add(slider);
         panel.add(upButton);
@@ -114,11 +128,12 @@ public class JSliderPane extends JPanel {
     }
 
     private void initShowValSpinner() {
-        showValSpinner = new UIBasicSpinner(new SpinnerNumberModel(HUNDRED, TEN, FOUR_HUNDRED, 1)) {
+        showValSpinner = new UIBasicSpinner(new SpinnerNumberModel(HUNDRED, 0, FOUR_HUNDRED, 1)) {
             public Point getToolTipLocation(MouseEvent event) {
                 return new Point(event.getX(), event.getY() - TOOLTIP_Y);
             }
         };
+        showValSpinner.setUI(new UISpinnerUI());
         showValSpinner.setEnabled(true);
         showValSpinner.addChangeListener(showValSpinnerChangeListener);
         showValSpinner.setPreferredSize(new Dimension(SPINNER_WIDTH, SPINNER_HEIGHT));
@@ -148,14 +163,7 @@ public class JSliderPane extends JPanel {
     }
 
     private void initShowValButton() {
-        showValButton = new JButton(showValSpinner.getValue() + "%") {
-            public Point getToolTipLocation(MouseEvent event) {
-                return new Point(event.getX(), event.getY() - TOOLTIP_Y);
-            }
-        };
-        showValButton.setOpaque(false);
-        showValButton.setMargin(new Insets(0, 0, 0, 0));
-        showValButton.setFont(new Font("SimSun", Font.PLAIN, 12));
+        showValButton = new UISliderButton(showValSpinner.getValue() + "%");
         showValButton.setBackground(BACK_COLOR);
         showValButton.setBorderPainted(false);
         showValButton.setPreferredSize(new Dimension(SHOWVALBUTTON_WIDTH, SHOWVALBUTTON_HEIGHTH));
@@ -178,8 +186,17 @@ public class JSliderPane extends JPanel {
         SevenFiveButton.addItemListener(radioButtonItemListener);
         fiveTenButton.addItemListener(radioButtonItemListener);
         twoFiveButton.addItemListener(radioButtonItemListener);
-        //TODO
-//        selfAdaptButton.addItemListener();
+        customButton.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                JRadioButton temp = (JRadioButton) e.getSource();
+                if (temp.isSelected()) {
+                    JFormattedTextField textField = ((JSpinner.NumberEditor) showValSpinner.getEditor()).getTextField();
+                    textField.requestFocus();
+                    textField.selectAll();
+                }
+            }
+        });
 
         ButtonGroup bg = new ButtonGroup();// 初始化按钮组
         bg.add(twoHundredButton);// 加入按钮组
@@ -261,6 +278,8 @@ public class JSliderPane extends JPanel {
             }
             refreshSlider(val);
             refreshBottun(val);
+            JFormattedTextField textField = ((JSpinner.NumberEditor) showValSpinner.getEditor()).getTextField();
+            textField.setCaretPosition(showValSpinner.getValue().toString().length());
         }
     };
 
@@ -320,6 +339,10 @@ public class JSliderPane extends JPanel {
         return this.showValue;
     }
 
+    public void reset(){
+        this.showValSpinner.setValue(HUNDRED);
+    }
+
     public static double divide(double v1, double v2, int scale) {
         BigDecimal b1 = new BigDecimal(Double.toString(v1));
         BigDecimal b2 = new BigDecimal(Double.toString(v2));
@@ -331,7 +354,7 @@ public class JSliderPane extends JPanel {
         public void actionPerformed(ActionEvent e) {
             showValue = (int) showValSpinner.getValue();
             isButtonOrIsTxt = true;
-            if (e.getActionCommand().equals("less")) {
+            if ("less".equals(e.getActionCommand())) {
                 int newDownVal = showValue - TEN;
                 if (newDownVal >= TEN) {
                     showValue = newDownVal;
@@ -341,7 +364,7 @@ public class JSliderPane extends JPanel {
                     showValSpinner.setValue(TEN);
                 }
             }
-            if (e.getActionCommand().equals("more")) {
+            if ("more".equals(e.getActionCommand())) {
                 int newUpVal = showValue + TEN;
                 if (newUpVal <= FOUR_HUNDRED) {
                     showValue = newUpVal;
@@ -382,14 +405,14 @@ public class JSliderPane extends JPanel {
             dialog = new PopupPane(upButton, dialogContentPanel);
             if (upButtonX == 0) {
                 upButtonX = btnCoords.x;
-                GUICoreUtils.showPopupMenu(dialog, upButton, -DIALOG_WIDTH + upButton.getWidth() + SHOWVALBUTTON_WIDTH + SLIDER_GAP * 2, -DIALOG_HEIGHT);
+                GUICoreUtils.showPopupMenu(dialog, upButton, -DIALOG_WIDTH + upButton.getWidth() + SHOWVALBUTTON_WIDTH, -DIALOG_HEIGHT);
             }
         } else {
             if (upButtonX == 0) {
                 upButtonX = btnCoords.x;
-                GUICoreUtils.showPopupMenu(dialog, upButton, -DIALOG_WIDTH + upButton.getWidth() + SHOWVALBUTTON_WIDTH + SLIDER_GAP * 2, -DIALOG_HEIGHT);
+                GUICoreUtils.showPopupMenu(dialog, upButton, -DIALOG_WIDTH + upButton.getWidth() + SHOWVALBUTTON_WIDTH, -DIALOG_HEIGHT);
             } else {
-                GUICoreUtils.showPopupMenu(dialog, upButton, -DIALOG_WIDTH + upButton.getWidth() + SHOWVALBUTTON_WIDTH + SLIDER_GAP * 2, -DIALOG_HEIGHT);
+                GUICoreUtils.showPopupMenu(dialog, upButton, -DIALOG_WIDTH + upButton.getWidth() + SHOWVALBUTTON_WIDTH, -DIALOG_HEIGHT);
             }
         }
     }
@@ -415,6 +438,7 @@ class JSliderPaneUI extends BasicSliderUI {
     private static final int FOUR = 4;
     private static final int FIVE = 5;
     private static final int SIX = 6;
+    private static final int MID_X_SHIFT = 2;  // 中点标记的水平位置偏移
 
     public JSliderPaneUI(UISlider b) {
         super(b);
@@ -432,10 +456,7 @@ class JSliderPaneUI extends BasicSliderUI {
         Graphics2D g2d = (Graphics2D) g;
 
         g2d.translate(knobBounds.x, knobBounds.y);
-//        g2d.setColor(slider.getBackground());
-//        g2d.fillRect(0, FOUR, FOUR, 9);
         g2d.setColor(new Color(51, 51, 52));
-        g2d.drawRoundRect(0, SIX, FOUR, 9, 2, 2);
         g2d.fillRoundRect(0, SIX, FOUR, 9, 2, 2);
     }
 
@@ -454,7 +475,7 @@ class JSliderPaneUI extends BasicSliderUI {
             g2.fillRect(0, -cy, cw + 10, cy * 4);
             g.setColor(new Color(216, 216, 216));
             g.drawLine(0, cy, cw + 3, cy);
-            g.drawLine(FIVE + cw / 2, cy - FOUR, FIVE + cw / 2, cy + FOUR);
+            g.drawLine(MID_X_SHIFT + cw / 2, cy - FOUR, MID_X_SHIFT + cw / 2, cy + FOUR);
         } else {
             super.paintTrack(g);
         }

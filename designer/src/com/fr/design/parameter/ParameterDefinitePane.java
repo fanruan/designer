@@ -75,12 +75,23 @@ public class ParameterDefinitePane extends JPanel implements ToolBarMenuDockPlus
         this.setBorder(null);
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         setComponentBg(this);
-//		formParaDesignEditor = new FormParaDesigner(new FormParameterUI());
         paraDesignEditor = DesignModuleFactory.getFormParaDesigner();
         if (paraDesignEditor == null) {
             return;
         }
         paraDesignEditor.initWidgetToolbarPane();
+
+        this.add(paraDesignEditor.createWrapper(), BorderLayout.CENTER);
+
+        setButton = new UIButton(BaseUtils.readIcon("com/fr/design/images/toolbarbtn/parametersetting.png"));
+        setButton.set4ToolbarButton();
+        isshowWindowItem = new JCheckBoxMenuItem(Inter.getLocText("ParameterD-Show_Parameter_Window"));
+        isdelayItem = new JCheckBoxMenuItem(Inter.getLocText("ParameterD-Delay_Playing"));
+
+        initListeners();
+    }
+
+    private void initListeners() {
         ((TargetComponent) paraDesignEditor).addTargetModifiedListener(new TargetModifiedListener() {
             @Override
             public void targetModified(TargetModifiedEvent e) {
@@ -93,7 +104,6 @@ public class ParameterDefinitePane extends JPanel implements ToolBarMenuDockPlus
         paraDesignEditor.addListener(this);
 
         propertyChangeListener = new PropertyChangeAdapter() {
-
             @Override
             public void propertyChange() {
                 if (isEditing) {
@@ -102,12 +112,7 @@ public class ParameterDefinitePane extends JPanel implements ToolBarMenuDockPlus
                 }
             }
         };
-        this.add(paraDesignEditor.createWrapper(), BorderLayout.CENTER);
-//        WidgetToolBarPane.getRecentSearchManger(formParaDesignEditor);
 
-        setButton = new UIButton(BaseUtils.readIcon("com/fr/design/images/toolbarbtn/parametersetting.png"));
-        setButton.set4ToolbarButton();
-        isshowWindowItem = new JCheckBoxMenuItem(Inter.getLocText("ParameterD-Show_Parameter_Window"));
         isshowWindowItem.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
@@ -116,9 +121,8 @@ public class ParameterDefinitePane extends JPanel implements ToolBarMenuDockPlus
                 }
             }
         });
-        isdelayItem = new JCheckBoxMenuItem(Inter.getLocText("ParameterD-Delay_Playing"));
-        isdelayItem.addItemListener(new ItemListener() {
 
+        isdelayItem.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if (propertyChangeListener != null) {
@@ -127,7 +131,6 @@ public class ParameterDefinitePane extends JPanel implements ToolBarMenuDockPlus
 
             }
         });
-
 
         setButton.addActionListener(new ActionListener() {
             @Override
@@ -298,7 +301,7 @@ public class ParameterDefinitePane extends JPanel implements ToolBarMenuDockPlus
      */
     public void refreshParameter() {
         if (paraDesignEditor != null) {
-            paraDesignEditor.refreshParameter(this);
+            paraDesignEditor.refreshParameter(this, this.workBook);
         }
     }
 

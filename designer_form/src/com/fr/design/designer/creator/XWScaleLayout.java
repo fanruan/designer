@@ -158,7 +158,12 @@ public class XWScaleLayout extends DedicateLayoutContainer {
 	}
 
 
-	public boolean supportSetVisibleOrEnable(){
-		return true;
+	/**
+	 * data属性改变触发其他操作
+	 *
+	 */
+	public void firePropertyChange(){
+		XCreator child = getXCreator(INDEX);
+		child.firePropertyChange();
 	}
 }

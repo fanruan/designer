@@ -1,6 +1,6 @@
 package com.fr.design.dscolumn;
 
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.condition.DSColumnLiteConditionPane;
 import com.fr.design.dialog.BasicPane;
@@ -333,7 +333,7 @@ public class SpecifiedGroupAttrPane extends BasicPane {
             formulaButton.setPreferredSize(new Dimension(25, valueField.getPreferredSize().height));
             formulaButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent evt) {
-                	Formula valueFormula = new Formula();
+                	BaseFormula valueFormula = BaseFormula.createFormulaBuilder().build();
                     String text = valueField.getText();
                     if (text == null || text.length() <= 0) {
                         valueFormula.setContent("$$$");
@@ -347,7 +347,7 @@ public class SpecifiedGroupAttrPane extends BasicPane {
     				formulaPane.showLargeWindow(SwingUtilities.getWindowAncestor(FormulaGroupPane.this), new DialogActionAdapter(){
     					@Override
 						public void doOk() {
-    						Formula valueFormula = formulaPane.update();
+    						BaseFormula valueFormula = formulaPane.update();
                             if (valueFormula.getContent().length() <= 1) {
                                 valueField.setText("$$$");
                             } else {

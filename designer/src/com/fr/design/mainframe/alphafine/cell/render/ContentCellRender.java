@@ -1,10 +1,10 @@
 package com.fr.design.mainframe.alphafine.cell.render;
 
+import com.bulenkov.iconloader.IconLoader;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
-import com.fr.general.IOUtils;
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
@@ -15,6 +15,9 @@ import java.awt.*;
  */
 public class ContentCellRender implements ListCellRenderer<Object> {
     private static final int OFFSET = 45;
+    private static final String SELECTED_PATH = AlphaFineConstants.IMAGE_URL + "selected";
+    private static final String CELL_PATH = AlphaFineConstants.IMAGE_URL + "alphafine";
+    private static final String SUFFIX = ".png";
 
     @Override
     public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
@@ -30,13 +33,13 @@ public class ContentCellRender implements ListCellRenderer<Object> {
         titleLabel.setText("  " + model.getName());
         if (model.hasAction()) {
             if (isSelected) {
-                String iconUrl = "/com/fr/design/mainframe/alphafine/images/selected" + model.getType().getTypeValue() + ".png";
+                String iconUrl = SELECTED_PATH + model.getType().getTypeValue() + SUFFIX;
                 panel.setBackground(AlphaFineConstants.BLUE);
                 titleLabel.setForeground(Color.WHITE);
-                titleLabel.setIcon(new ImageIcon(IOUtils.readImage(iconUrl)));
+                titleLabel.setIcon(IconLoader.getIcon(iconUrl));
             } else {
-                String iconUrl = "/com/fr/design/mainframe/alphafine/images/alphafine" + model.getType().getTypeValue() + ".png";
-                titleLabel.setIcon(new ImageIcon(IOUtils.readImage(iconUrl)));
+                String iconUrl = CELL_PATH + model.getType().getTypeValue() + SUFFIX;
+                titleLabel.setIcon(IconLoader.getIcon(iconUrl));
                 titleLabel.setForeground(AlphaFineConstants.BLACK);
             }
 
@@ -51,7 +54,7 @@ public class ContentCellRender implements ListCellRenderer<Object> {
             detailLabel.setForeground(AlphaFineConstants.LIGHT_GRAY);
             panel.add(detailLabel, BorderLayout.CENTER);
             int width = (int) (titleLabel.getPreferredSize().getWidth() + detailLabel.getPreferredSize().getWidth());
-            if ( width > AlphaFineConstants.LEFT_WIDTH - OFFSET) {
+            if (width > AlphaFineConstants.LEFT_WIDTH - OFFSET) {
                 int nameWidth = (int) (AlphaFineConstants.LEFT_WIDTH - detailLabel.getPreferredSize().getWidth() - OFFSET);
                 titleLabel.setPreferredSize(new Dimension(nameWidth, AlphaFineConstants.CELL_HEIGHT));
             }

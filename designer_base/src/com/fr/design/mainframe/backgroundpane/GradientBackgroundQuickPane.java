@@ -22,7 +22,7 @@ import java.awt.*;
 public class GradientBackgroundQuickPane extends BackgroundQuickPane {
 	private static final long serialVersionUID = -6854603990673031897L;
 
-    private static final int DEFAULT_GRADIENT_WIDTH = 185;
+    private static final int DEFAULT_GRADIENT_WIDTH = 150	;
 
     private int gradientBarWidth = DEFAULT_GRADIENT_WIDTH;
 
@@ -52,7 +52,7 @@ public class GradientBackgroundQuickPane extends BackgroundQuickPane {
 
         Component[][] components = new Component[][]{
                 new Component[]{gradientBar, null},
-                new Component[]{new UILabel(Inter.getLocText("Gradient-Direction") + ":"), directionPane}
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Gradient_Direction")), directionPane}
         };
         JPanel Gradient = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
         this.setLayout(new BorderLayout());
@@ -117,6 +117,21 @@ public class GradientBackgroundQuickPane extends BackgroundQuickPane {
 	@Override
 	public String title4PopupWindow() {
 		return Inter.getLocText("Gradient-Color");
+	}
+
+	@Override
+	public void reset() {
+		this.gradientBar.getSelectColorPointBtnP1().setColorInner(Color.WHITE);
+		this.gradientBar.getSelectColorPointBtnP2().setColorInner(Color.BLACK);
+		directionPane.setSelectedItem(0);
+		int startValue = 4;
+        int endValue = this.gradientBarWidth;
+		gradientBar.setStartValue(startValue);
+		gradientBar.setEndValue(endValue);
+		if(this.gradientBar.getSelectColorPointBtnP1() != null && this.gradientBar.getSelectColorPointBtnP2() != null){
+			this.gradientBar.getSelectColorPointBtnP1().setX(startValue);
+			this.gradientBar.getSelectColorPointBtnP2().setX(endValue);
+		}
 	}
 
 }

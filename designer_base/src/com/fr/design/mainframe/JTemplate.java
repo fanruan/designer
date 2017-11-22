@@ -2,6 +2,7 @@ package com.fr.design.mainframe;
 
 import com.fr.base.*;
 import com.fr.base.io.IOFile;
+import com.fr.base.iofileattr.TemplateIdAttrMark;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignState;
 import com.fr.design.DesignerEnvManager;
@@ -44,8 +45,10 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
+import com.fr.stable.OperatingSystem;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
+import com.fr.stable.core.UUID;
 import com.fr.stable.project.ProjectConstants;
 
 import javax.swing.*;
@@ -115,6 +118,8 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
     public abstract void refreshEastPropertiesPane();
 
     public abstract TargetComponent getCurrentElementCasePane();
+
+    public abstract JComponent getCurrentReportComponentPane();
 
     // 为收集模版信息作准备
     private void initForCollect() {
@@ -194,7 +199,11 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
         if (editingFileName.startsWith(ProjectConstants.REPORTLETS_NAME)) {
             editingFileName = ((FileNodeFILE) getEditingFILE()).getEnvPath() + File.separator + editingFileName;
         }
-        return editingFileName.replaceAll("/", "\\\\");
+        if (OperatingSystem.isWindows()) {
+            return editingFileName.replaceAll("/", "\\\\");
+        } else {
+            return editingFileName.replaceAll("\\\\", "/");
+        }
     }
 
     protected abstract JComponent createCenterPane();
@@ -928,6 +937,13 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
     public abstract HyperlinkGroupPane getHyperLinkPane(HyperlinkGroupPaneActionProvider hyperlinkGroupPaneActionProvider);
 
     /**
+     * 返回当前支持的超链界面pane
+     * 没有悬浮弹窗，显示为两列
+     * @return 超链连接界面
+     */
+    public abstract HyperlinkGroupPane getHyperLinkPaneNoPop(HyperlinkGroupPaneActionProvider hyperlinkGroupPaneActionProvider);
+
+    /**
      * 是否是图表
      *
      * @return 默认不是
@@ -1091,5 +1107,15 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
         }
 
         return uiButtons;
+    }
+
+    /**
+     * 由于老版本的模板没有模板ID，当勾选使用参数模板时候，就加一个模板ID attr
+     * @param isUseParamTemplate 是否使用参数模板
+     */
+    public void needAddTemplateIdAttr(boolean isUseParamTemplate) {
+        if (isUseParamTemplate && template.getAttrMark(TemplateIdAttrMark.XML_TAG) == null) {
+            template.addAttrMark(new TemplateIdAttrMark(UUID.randomUUID().toString()));
+        }
     }
 }

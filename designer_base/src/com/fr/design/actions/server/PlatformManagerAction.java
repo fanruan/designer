@@ -15,7 +15,7 @@ public class PlatformManagerAction extends UpdateAction {
         this.setMenuKeySet(PLATEFORM_MANAGER);
         this.setName(getMenuKeySet().getMenuKeySetName());
         this.setMnemonic(getMenuKeySet().getMnemonic());
-		this.setSmallIcon(BaseUtils.readIcon("/com/fr/web/images/platform/platform_16_16.png"));
+		this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/server/platform_16_16.png"));
 	}
 
     /**

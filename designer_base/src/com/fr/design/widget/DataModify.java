@@ -2,7 +2,8 @@ package com.fr.design.widget;
 
 import com.fr.design.data.DataCreatorUI;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+
 
 public interface DataModify<T> {
 
@@ -15,4 +16,9 @@ public interface DataModify<T> {
     DataCreatorUI dataUI();
 
     JComponent toSwingComponent();
+
+    String getGlobalName();
+
+    void setGlobalName(String globalName);
+
 }

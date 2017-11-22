@@ -3,9 +3,11 @@ package com.fr.design.present.dict;
 import com.fr.data.Dictionary;
 import com.fr.data.impl.DynamicSQLDict;
 import com.fr.design.beans.FurtherBasicBeanPane;
+import com.fr.design.constants.LayoutConstants;
 import com.fr.design.data.DataCreatorUI;
 import com.fr.design.gui.frpane.UIComboBoxPane;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.Inter;
@@ -25,18 +27,17 @@ public class DictionaryPane extends UIComboBoxPane<Dictionary> implements DataCr
     @Override
     protected void initLayout() {
         this.setLayout(new BorderLayout(0, 4));
-//		JPanel northPane = new JPanel(new BorderLayout(4, 0));
-//		northPane.add(new UILabel(Inter.getLocText("Type_Set"), UILabel.LEFT),BorderLayout.WEST);
-//		northPane.add(jcb,BorderLayout.CENTER);
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] columnSize = {p, f};
-        double[] rowSize = {p};
+        double[] rowSize = {p, p};
+        int[][] rowCount = {{1, 1}, {1, 1}};
 
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Type_Set"), UILabel.LEFT), jcb},
+                new Component[]{null, null}
         };
-        JPanel northPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+        JPanel northPane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_HUGER, LayoutConstants.VGAP_MEDIUM);
         this.add(northPane, BorderLayout.NORTH);
         this.add(cardPane, BorderLayout.CENTER);
     }

@@ -1,6 +1,8 @@
 package com.fr.design.widget.ui.designer;
 
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.XCreator;
+import com.fr.design.gui.frpane.RegFieldPane;
 import com.fr.design.gui.frpane.RegPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
@@ -17,7 +19,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor> {
-    protected RegPane regPane;
+    protected RegFieldPane regPane;
     private UITextField waterMarkDictPane;
     FormWidgetValuePane formWidgetValuePane;
 
@@ -47,7 +49,7 @@ public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor>
             }
         };
         regPane.addPhoneRegListener(pl);
-        waterMarkDictPane = new UITextField(13);
+        waterMarkDictPane = new UITextField();
         waterMarkDictPane.addKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent e) {
                 regPane.removePhoneRegListener(pl);
@@ -55,30 +57,23 @@ public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor>
                 waterMarkDictPane.removeKeyListener(this);
             }
         });
-        //监听填写规则下拉框的值的变化
-//        regPane.getRegComboBox().addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                RegExp regExp = (RegExp) regPane.getRegComboBox().getSelectedItem();
-////                regErrorMsgTextField.setEnabled(regExp.errorMessageEditable());
-//
-//            }
-//        });
-
 
         formWidgetValuePane = new FormWidgetValuePane(creator.toData(), false);
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
+        UILabel widgetValueLabel = new UILabel(Inter.getLocText("FR-Designer-Estate_Widget_Value"), SwingConstants.LEFT);
+        widgetValueLabel.setVerticalAlignment(SwingConstants.TOP);
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer-Estate_Widget_Value"), SwingConstants.LEFT),  formWidgetValuePane},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Label_Name")), labelNameTextField},
+                new Component[]{widgetValueLabel,  formWidgetValuePane},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_WaterMark"), SwingConstants.LEFT), waterMarkDictPane},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Font-Size"), SwingConstants.LEFT), fontSizePane}
         };
-        double[] rowSize = {p, p, p, p, p};
+        double[] rowSize = {p, p, p, p, p, p};
         double[] columnSize = {p,f};
-        int[][] rowCount = {{1, 3},{1, 1},{1, 1}};
-        final JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 10, 10);
+        int[][] rowCount = {{1, 1},{1, 3},{1, 1},{1, 1}};
+        final JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
         JPanel boundsPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         boundsPane.add(panel);
         return boundsPane;
     }
@@ -89,8 +84,8 @@ public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor>
 
 
 
-    protected RegPane createRegPane() {
-        return new RegPane();
+    protected RegFieldPane createRegPane() {
+        return new RegFieldPane();
     }
 
     @Override
@@ -100,22 +95,19 @@ public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor>
 
     @Override
     protected void populateSubFieldEditorBean(TextEditor e) {
-        this.regPane.populate(e.getRegex());
+        this.regPane.populate(e);
         waterMarkDictPane.setText(e.getWaterMark());
         formWidgetValuePane.populate(e);
     }
 
     @Override
     protected TextEditor updateSubFieldEditorBean() {
-        TextEditor ob = newTextEditorInstance();
-        ob.setRegex(this.regPane.update());
+        TextEditor ob = (TextEditor)creator.toData();
+        this.regPane.update(ob);
         ob.setWaterMark(waterMarkDictPane.getText());
         formWidgetValuePane.update(ob);
         return ob;
     }
 
-    protected TextEditor newTextEditorInstance() {
-        return new TextEditor();
-    }
 
 }

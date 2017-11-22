@@ -8,9 +8,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JDialog;
-import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
-import javax.swing.JRootPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -34,10 +32,7 @@ import com.fr.design.gui.ispinner.UIBasicSpinner;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.mainframe.ElementCasePane;
-import com.fr.design.mainframe.JTemplate;
-import com.fr.design.mainframe.JWorkBook;
+import com.fr.design.mainframe.*;
 import com.fr.design.selection.SelectionEvent;
 import com.fr.design.selection.SelectionListener;
 import com.fr.general.Inter;
@@ -46,12 +41,15 @@ import com.fr.grid.selection.FloatSelection;
 import com.fr.grid.selection.Selection;
 import com.fr.stable.ColumnRow;
 import com.fr.stable.ColumnRowGroup;
+import com.fr.stable.StringUtils;
 import com.fr.write.DMLConfigJob;
 
 public class SmartInsertDBManipulationPane extends DBManipulationPane {
 	private static final Selection NO_SELECTION = new CellSelection(-1, -1, -1, -1);
 	private ElementCasePane ePane;
 	private static int CELL_GROUP_LIMIT = 6;
+    private static int TOP_PADDING = 30;
+    private static int LEFT_COLUMN_MAX_WIDTH = 40;
 
 	public SmartInsertDBManipulationPane(ElementCasePane ePane) {
 		super(ValueEditorPaneFactory.extendedCellGroupEditors());
@@ -60,9 +58,13 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
 
     public SmartInsertDBManipulationPane() {
         super(ValueEditorPaneFactory.extendedCellGroupEditors());
-        JTemplate jTemplate = DesignerContext.getDesignerFrame().getSelectedJTemplate();
-        this.ePane = ((JWorkBook) jTemplate).getEditingElementCasePane();
+		init();
     }
+
+	private void init() {
+		JTemplate jTemplate = DesignerContext.getDesignerFrame().getSelectedJTemplate();
+		this.ePane = ((JWorkBook) jTemplate).getEditingElementCasePane();
+	}
 
 	@Override
 	protected SubmitJobListPane createSubmitJobListPane() {
@@ -126,7 +128,7 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
 				}
 			};
 			bPane.setLayout(FRGUIPaneFactory.createBorderLayout());
-			bPane.setBorder(BorderFactory.createEmptyBorder(30, 0, 0, 0));
+			bPane.setBorder(BorderFactory.createEmptyBorder(TOP_PADDING, 0, 0, 0));
 			final UIBasicSpinner columnSpinner = new UIBasicSpinner();
 			final UIBasicSpinner rowSpinner = new UIBasicSpinner();
 			Component[][] coms = new Component[][] { { new UILabel(Inter.getLocText("RWA-Row_Offset")), rowSpinner },{ new UILabel(Inter.getLocText("RWA-Column_Offset")), columnSpinner } };
@@ -196,11 +198,11 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
 			/*
 			 * 当前的ReportPane不可编辑,不可切换Sheet,加GridSelectionChangeListener
 			 */
-			ePane.setSelection(NO_SELECTION);
 			ePane.setEditable(false);
+			ePane.setSelection(NO_SELECTION);
 			ePane.getGrid().setNotShowingTableSelectPane(false);
 
-			BasicDialog dlg = bPane.showWindow(SwingUtilities.getWindowAncestor(SmartInsertDBManipulationPane.this));
+			BasicDialog dlg = bPane.showWindow(DesignerContext.getDesignerFrame());
 
 			dlg.setModal(false);
 			dlg.setVisible(true);
@@ -292,11 +294,6 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
 		}
 	}
 
-	private boolean possibleParentContainer(Container p) {
-		return p instanceof Dialog || p instanceof BasicPane ||
-				p instanceof JPanel || p instanceof JRootPane || p instanceof JLayeredPane;
-	}
-
 	private class SmartJTablePane4DB extends SmartJTablePane {
 
 		// 是否是单元格组
@@ -332,7 +329,7 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
 			 * set Width
 			 */
 			TableColumn column0 = table.getColumnModel().getColumn(0);
-			column0.setMaxWidth(40);
+			column0.setMaxWidth(LEFT_COLUMN_MAX_WIDTH);
 			/*
 			 * 设置Column 1的Renderer
 			 */
@@ -413,7 +410,7 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
 				// 要考虑多选的情况 要结合之前的看看 可能是增加 也可能需要减少
 				ColumnRowGroup add = new ColumnRowGroup();
 				int removeCount = 0;
-				if (oriCellSelection != null && sameStartPoint(cellselection, oriCellSelection)) {
+				if (oriCellSelection != null && isSameStartPoint(cellselection, oriCellSelection)) {
                     removeCount = dealDragSelection(add, cellselection);
 				} else if (cellselection.getSelectedType() == CellSelection.CHOOSE_ROW || cellselection.getSelectedType() == CellSelection.CHOOSE_COLUMN) {
                     dealSelectColRow(add, cellselection);
@@ -444,7 +441,7 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
 				return newValue;
 			}
 
-			private boolean sameStartPoint(CellSelection cs1, CellSelection cs2) {
+			private boolean isSameStartPoint(CellSelection cs1, CellSelection cs2) {
 				return cs1.getColumn() == cs2.getColumn() && cs1.getRow() == cs2.getRow();
 			}
 
@@ -482,6 +479,7 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
 		private SmartJTablePaneAction a = new AbstractSmartJTablePaneAction(this, SmartInsertDBManipulationPane.this) {
 			@Override
 			public void doOk() {
+                // 遗留代码
 			}
 
 			@Override
@@ -510,7 +508,7 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
 					if (((ColumnValue)value).obj != null) {
 						this.setText(((ColumnValue)value).obj.toString());
 					} else {
-						this.setText("");
+						this.setText(StringUtils.EMPTY);
 					}
 				}
 
@@ -538,12 +536,12 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
 					Object cv = ((ColumnValue) value).obj;
 					if (cv instanceof ColumnRowGroup && ((ColumnRowGroup)cv).getSize() >= CELL_GROUP_LIMIT) {
 						text.setText("[" + Inter.getLocText(new String[]{"Has_Selected", "Classifier-Ge", "Cell"},
-								new String[]{((ColumnRowGroup)cv).getSize()+"", ""}) + "]");
+								new String[]{((ColumnRowGroup)cv).getSize()+StringUtils.EMPTY, StringUtils.EMPTY}) + "]");
 						tip = cv.toString() + " " + tip;
 					} else if (cv != null) {
 						text.setText(cv.toString());
 					} else {
-						text.setText("");
+						text.setText(StringUtils.EMPTY);
 					}
 				}
 
@@ -571,12 +569,12 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
 					Object cv = ((ColumnValue) value).obj;
 					if (cv instanceof ColumnRowGroup && ((ColumnRowGroup)cv).getSize() >= CELL_GROUP_LIMIT) {
 						this.setText("[" + Inter.getLocText(new String[]{"Has_Selected", "Classifier-Ge", "Cell"},
-								new String[]{((ColumnRowGroup)cv).getSize()+"", ""}) + "]");
+								new String[]{((ColumnRowGroup)cv).getSize()+StringUtils.EMPTY, StringUtils.EMPTY}) + "]");
 						tip = cv.toString() + " " + tip;
 					} else if (cv != null) {
 						this.setText(cv.toString());
 					} else {
-						this.setText("");
+						this.setText(StringUtils.EMPTY);
 					}
 				}
 

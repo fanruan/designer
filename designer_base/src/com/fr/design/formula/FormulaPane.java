@@ -1,8 +1,8 @@
 package com.fr.design.formula;
 
+import com.fr.base.BaseFormula;
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
-import com.fr.base.Formula;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.border.UIRoundedBorder;
 import com.fr.design.constants.UIConstants;
@@ -32,13 +32,27 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
-import javax.swing.tree.*;
-
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.MutableTreeNode;
+import javax.swing.tree.TreePath;
 import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringReader;
 import java.util.Locale;
-import java.util.Set;
 
 /**
  * 公式编辑面板
@@ -468,11 +482,11 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
     /**
      * Populate
      */
-    public void populate(Formula formula) {
+    public void populate(BaseFormula formula) {
         this.populate(formula, VariableResolver.DEFAULT);
     }
 
-    public void populate(Formula formula, VariableResolver variableResolver) {
+    public void populate(BaseFormula formula, VariableResolver variableResolver) {
         this.variableTreeAndDescriptionArea.populate(variableResolver);
 
         // set text
@@ -508,19 +522,18 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
     /**
      * update
      */
-    public Formula update() {
-        Formula formula;
+    public BaseFormula update() {
+        BaseFormula formula;
         if (ifHasBeenWriten == 0) {
-            String content = StringUtils.EMPTY;
-            formula = new Formula(content);
+            formula = BaseFormula.createFormulaBuilder().build();
             return formula;
         } else {
             String content = this.formulaTextArea.getText();
 
             if (StringUtils.isEmpty(content) || content.trim().charAt(0) == '=') {
-                formula = new Formula(content);
+                formula = BaseFormula.createFormulaBuilder().build(content);
             } else {
-                formula = new Formula("=" + content);
+                formula = BaseFormula.createFormulaBuilder().build("=" + content);
             }
             return formula;
         }
@@ -703,7 +716,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
             UIScrollPane desScrollPane = new UIScrollPane(descriptionTextArea);
             desScrollPane.setBorder(null);
             this.add(this.createNamePane(Inter.getLocText("FR-Designer_FormulaPane_Formula_Description") + ":", desScrollPane), BorderLayout.EAST);
-            descriptionTextArea.setBackground(new Color(255, 255, 225));
+            descriptionTextArea.setBackground(Color.white);
             descriptionTextArea.setLineWrap(true);
             descriptionTextArea.setWrapStyleWord(true);
             descriptionTextArea.setEditable(false);

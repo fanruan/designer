@@ -32,34 +32,21 @@ import java.util.List;
  * @since 2012-5-8下午12:18:53
  */
 public class CellElementEditPane extends BasicPane {
-    private static int TIME_GAP = 80;
+    private static final int LEFT_BORDER = -5;
+    private static final int RIGHT_BORDER = 5;
     private List<AbstractCellAttrPane> paneList;
     private TemplateCellElement cellelement;
     private ElementCasePane ePane;
     private UIHeadGroup tabsHeaderIconPane;
 
     private boolean isEditing;
-    private int PaneListIndex;
     private CardLayout card;
     private JPanel center;
     private JPanel downTitle;
-    private JPanel title;
-    private UILabel titlename;
     private TitleChangeListener titleChangeListener = null;
 
     private CellAttributeProvider cellAttributeProvider = null;
 
-
-    public static void main(String[] args){
-        JFrame jf = new JFrame("test");
-        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JPanel content = (JPanel) jf.getContentPane();
-        content.setLayout(new BorderLayout());
-        content.add(new CellElementEditPane(), BorderLayout.CENTER);
-        GUICoreUtils.centerWindow(jf);
-        jf.setSize(290, 400);
-        jf.setVisible(true);
-    }
 
     public CellElementEditPane() {
         setLayout(new BorderLayout());
@@ -89,7 +76,7 @@ public class CellElementEditPane extends BasicPane {
         downTitle = new JPanel();
         downTitle.setLayout(new BorderLayout());
         downTitle.add(tabsHeaderIconPane, BorderLayout.NORTH);
-        center.setBorder(BorderFactory.createEmptyBorder(0, -10, 0, -10));
+        center.setBorder(BorderFactory.createEmptyBorder(0, LEFT_BORDER, 0, 0));
         downTitle.add(center, BorderLayout.CENTER);
 
         this.add(downTitle, BorderLayout.CENTER);

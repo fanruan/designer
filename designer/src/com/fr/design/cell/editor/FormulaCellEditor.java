@@ -3,7 +3,7 @@
  */
 package com.fr.design.cell.editor;
 
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.formula.FormulaFactory;
 import com.fr.design.formula.UIFormula;
@@ -34,7 +34,7 @@ public class FormulaCellEditor extends com.fr.design.cell.editor.AbstractCellEdi
      */
     @Override
     public Object getCellEditorValue() throws Exception {
-        Formula newFormula = this.formulaEditorPane.update();
+        BaseFormula newFormula = this.formulaEditorPane.update();
         if (newFormula.getContent() != null && newFormula.getContent().trim().length() > 1) {
             return newFormula;
         } else {
@@ -64,13 +64,13 @@ public class FormulaCellEditor extends com.fr.design.cell.editor.AbstractCellEdi
         if (cellElement != null) {
             value = cellElement.getValue();
         }
-        if (value == null || !(value instanceof Formula)) {
-            value = new Formula("");
+        if (value == null || !(value instanceof BaseFormula)) {
+            value = BaseFormula.createFormulaBuilder().build();
         }
 
         this.formulaEditorPane = FormulaFactory.createFormulaPaneWhenReserveFormula();
 
-        this.formulaEditorPane.populate((Formula) value);
+        this.formulaEditorPane.populate((BaseFormula) value);
         return this.formulaEditorPane.showLargeWindow(SwingUtilities.getWindowAncestor(grid), new DialogActionAdapter() {
 
             @Override

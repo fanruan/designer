@@ -7,6 +7,8 @@ import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONObject;
+import com.fr.plugin.basic.version.Version;
+import com.fr.plugin.basic.version.VersionIntervalFactory;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.context.PluginMarker;
 
@@ -78,8 +80,8 @@ public class PluginUtils {
         return jsonArray.toString();
     }
 
-    public static void downloadShopScripts(String id, String username, String password, Process<Double> p) throws Exception {
-        HttpClient httpClient = new HttpClient(getDownloadPath(id, username, password));
+    public static void downloadShopScripts(String id, Process<Double> p) throws Exception {
+        HttpClient httpClient = new HttpClient(getDownloadPath(id));
         if (httpClient.getResponseCode() == HttpURLConnection.HTTP_OK) {
             int totalSize = httpClient.getContentLength();
             InputStream reader = httpClient.getResponseStream();
@@ -104,11 +106,9 @@ public class PluginUtils {
         }
     }
 
-    private static String getDownloadPath(String id, String username, String password) throws Exception {
+    private static String getDownloadPath(String id) throws Exception {
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("id", id);
-        map.put("username", username);
-        map.put("password", password);
         HttpClient httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("shop.plugin.scripts"));
         httpClient.asGet();
         String resText = httpClient.getResponseText();
@@ -185,5 +185,25 @@ public class PluginUtils {
             return context.getMarker();
         }
         return null;
+    }
+
+    /**
+     * 在不同设计器版本下展示不同插件
+     * @return 插件
+     */
+    public static JSONArray filterPluginsFromVersion(JSONArray oriJSONArray) throws Exception{
+        JSONArray resultJSONArray =  JSONArray.create();
+        for(int i = 0; i < oriJSONArray.length(); i++){
+            JSONObject jo = oriJSONArray.getJSONObject(i);
+            String envVersion = jo.optString("envversion");
+            if(isCompatibleCurrentEnv(envVersion)){
+                resultJSONArray.put(jo);
+            }
+        }
+        return resultJSONArray;
+    }
+
+    private static boolean isCompatibleCurrentEnv(String envVersion){
+        return VersionIntervalFactory.create(envVersion).contain(Version.currentEnvVersion());
     }
 }

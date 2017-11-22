@@ -1,5 +1,6 @@
 package com.fr.design.extra;
 
+import com.fr.base.ConfigManager;
 import com.fr.base.FRContext;
 import com.fr.design.extra.tradition.callback.UpdateOnlineCallback;
 import com.fr.design.gui.frpane.UITabbedPane;
@@ -9,11 +10,10 @@ import com.fr.general.Inter;
 import com.fr.json.JSONObject;
 import com.fr.plugin.context.PluginMarker;
 import com.fr.plugin.manage.PluginManager;
-import com.fr.plugin.manage.bbs.BBSPluginLogin;
 import com.fr.plugin.manage.control.PluginTaskResult;
 import com.fr.plugin.manage.control.ProgressCallback;
 import com.fr.plugin.view.PluginView;
-
+import com.fr.stable.StringUtils;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
@@ -188,10 +188,10 @@ public class PluginFromStorePane extends PluginAbstractLoadingViewPane<List<Plug
     }
 
     private void doUpdateOnline(final PluginStatusCheckCompletePane pane) {
-        if (!BBSPluginLogin.getInstance().hasLogin()) {
+        if (!StringUtils.isNotEmpty(ConfigManager.getProviderInstance().getBbsUsername())) {
             LoginCheckContext.fireLoginCheckListener();
         }
-        if (BBSPluginLogin.getInstance().hasLogin()) {
+        if (StringUtils.isNotEmpty(ConfigManager.getProviderInstance().getBbsUsername())) {
             PluginView plugin = controlPane.getSelectedPlugin();
             String id = null;
             if (plugin != null) {

@@ -263,4 +263,13 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 	public JComponent getCoverPane(){
 		return coverPanel;
 	}
+
+	/**
+	 * data属性改变触发其他操作
+	 *
+	 */
+	public void firePropertyChange(){
+		initStyle();
+	}
+
 }

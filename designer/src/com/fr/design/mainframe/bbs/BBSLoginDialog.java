@@ -1,6 +1,8 @@
 package com.fr.design.mainframe.bbs;
 
-import com.fr.design.DesignerEnvManager;
+import com.fr.base.ConfigManager;
+import com.fr.base.FRContext;
+import com.fr.design.bbs.BBSLoginUtils;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.ActionLabel;
@@ -207,8 +209,8 @@ public class BBSLoginDialog extends UIDialog {
 
     // 登录成功
     private void loginSuccess() {
-        DesignerEnvManager.getEnvManager().setBBSPassword(String.valueOf(passField.getPassword()));
-        userInfoLabel.setUserName(nameField.getText());
+        String password = String.valueOf(passField.getPassword());
+        BBSLoginUtils.bbsLogin(nameField.getText(), password);
         userInfoLabel.getUserInfoPane().markSignIn(nameField.getText());
         BBSLoginDialog.this.setVisible(false);
     }

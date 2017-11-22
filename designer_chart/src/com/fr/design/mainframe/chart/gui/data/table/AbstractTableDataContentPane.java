@@ -1,17 +1,21 @@
 package com.fr.design.mainframe.chart.gui.data.table;
 
+import com.fr.chart.chartattr.ChartCollection;
+import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.data.tabledata.wrapper.TableDataWrapper;
+import com.fr.design.gui.icombobox.UIComboBox;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.List;
 
-import com.fr.chart.chartattr.ChartCollection;
-import com.fr.design.data.tabledata.wrapper.TableDataWrapper;
-import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.gui.icombobox.UIComboBox;
-
 public abstract class AbstractTableDataContentPane extends BasicBeanPane<ChartCollection>{
 
-    private boolean isNeedSummaryCaculateMethod = true;
+	protected static final double COMPONENT_WIDTH = 124;
+
+	private boolean isNeedSummaryCaculateMethod = true;
 	
 	public abstract void updateBean(ChartCollection ob);
 	
@@ -134,4 +138,10 @@ public abstract class AbstractTableDataContentPane extends BasicBeanPane<ChartCo
     public boolean isNeedSummaryCaculateMethod(){
         return this.isNeedSummaryCaculateMethod;
     }
+
+	protected JSeparator getJSeparator() {
+		JSeparator jSeparator = new JSeparator();
+		jSeparator.setPreferredSize(new Dimension(246, 2));
+		return jSeparator;
+	}
 }

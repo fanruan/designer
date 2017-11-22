@@ -8,8 +8,10 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.Inter;
 import com.fr.quickeditor.CellQuickEditor;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Component;
 
 /**
  * 单元格元素子报表编辑器
@@ -21,7 +23,7 @@ public class CellSubReportEditor extends CellQuickEditor {
     private UIButton subReportButton;
 
 
-    private CellSubReportEditor() {
+    public CellSubReportEditor() {
         super();
     }
 
@@ -31,7 +33,7 @@ public class CellSubReportEditor extends CellQuickEditor {
         subReportButton = new UIButton();
         subReportButton.setOpaque(false);
         content.add(TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
-                        new Component[]{emptyLabel, subReportButton}},
+                        new Component[]{EMPTY_LABEL, subReportButton}},
                 new double[]{TableLayout.PREFERRED},
                 new double[]{TableLayout.PREFERRED, TableLayout.FILL}, HGAP, VGAP), BorderLayout.CENTER);
         return content;
@@ -50,4 +52,8 @@ public class CellSubReportEditor extends CellQuickEditor {
         return ActionFactory.createAction(SubReportCellAction.class);
     }
 
+    @Override
+    public boolean isScrollAll() {
+        return true;
+    }
 }

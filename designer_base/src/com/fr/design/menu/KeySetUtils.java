@@ -384,7 +384,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return "EXCEL"+Inter.getLocText("FR-Designer_ExportAndOutput");
+            return "EXCEL" + Inter.getLocText("FR-Designer_ExportAndOutput");
         }
 
         @Override
@@ -756,7 +756,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("ExpandD-Cell_Expand_Attributes");
+            return Inter.getLocText("FR-Designer_Expand");
         }
 
         @Override
@@ -978,7 +978,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M_Format_A-Cell_Attributes");
+            return Inter.getLocText("FR-Designer_Other");
         }
 
         @Override

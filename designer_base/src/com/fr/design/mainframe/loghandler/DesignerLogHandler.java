@@ -1,30 +1,55 @@
 package com.fr.design.mainframe.loghandler;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.ConfigManager;
 import com.fr.base.FRContext;
-import com.fr.design.DesignerEnvManager;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.*;
+import com.fr.general.ComparatorUtils;
+import com.fr.general.FRLogLevel;
+import com.fr.general.FRLogger;
+import com.fr.general.GeneralContext;
+import com.fr.general.Inter;
+import com.fr.log.LogHandler;
 import com.fr.stable.EnvChangedListener;
 import com.fr.stable.xml.LogRecordTimeProvider;
-import org.apache.log4j.Level;
 
-import javax.swing.*;
-import javax.swing.text.*;
-import java.awt.*;
-import java.awt.event.*;
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JTextPane;
+import javax.swing.KeyStroke;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultEditorKit;
+import javax.swing.text.Document;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
 import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
 
 public class DesignerLogHandler {
-    protected static final int INFO_INT = FRLogLevel.INFO.toInt();
-    protected static final int ERRO_INT = FRLogLevel.ERROR.toInt();
-    protected static final int SERVER_INT = FRLogLevel.SEVERE.toInt();
+    protected static final int INFO_INT = FRLogLevel.INFO.intValue();
+    protected static final int ERRO_INT = FRLogLevel.ERROR.intValue();
+    protected static final int SERVER_INT = FRLogLevel.SEVERE.intValue();
     private static final int GAP_X = -150;
     private static final int INFO_GAP_Y = -60;
     private static final int ERRO_GAP_Y = -40;
@@ -35,7 +60,12 @@ public class DesignerLogHandler {
             @Override
             public void envChanged() {
                 // envchange后需要重新读取webinf里的log4j配置, 重新添加appender
-                FRLogger.getLogger().addLogAppender(new DesignerLogAppender());
+                FRLogger.getLogger().addLogAppender(new LogHandler<DesignerLogAppender>() {
+                    @Override
+                    public DesignerLogAppender getHandler() {
+                        return new DesignerLogAppender();
+                    }
+                });
             }
         });
     }
@@ -99,7 +129,7 @@ public class DesignerLogHandler {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JPopupMenu showsetPopup = new JPopupMenu();
-                int logLevelvalue = DesignerEnvManager.getEnvManager().getLogLevel().toInt();
+                int logLevelvalue = ConfigManager.getProviderInstance().getServerLogLevel().intValue();
                 if (logLevelvalue <= INFO_INT) {
                     showsetPopup.add(showInfo);
                     showsetPopup.add(showError);
@@ -211,7 +241,7 @@ public class DesignerLogHandler {
         }
 
         public void printStackTrace(String message, Level level, Date date) {
-            int logLevelvalue = level.toInt();
+            int logLevelvalue = level.intValue();
             if (logLevelvalue == INFO_INT && showInfo.isSelected()) {
                 printMessage(message, logLevelvalue, date);
             } else if (logLevelvalue == ERRO_INT && showError.isSelected()) {

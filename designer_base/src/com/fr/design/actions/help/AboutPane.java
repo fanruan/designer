@@ -34,15 +34,15 @@ public class AboutPane extends JPanel {
     private static final int DEFAULT_GAP = 12;
     private static final String COPYRIGHT_LABEL = "\u00A9 ";
     private static final String BUILD_PREFIX = "  Build #";
-    
+
     public AboutPane() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
 
         //center panel
-        JPanel centerPane=FRGUIPaneFactory.createBorderLayout_L_Pane();
+        JPanel centerPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
         this.add(centerPane, BorderLayout.CENTER);
 
-        JPanel contentPane=FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
+        JPanel contentPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
         centerPane.add(contentPane, BorderLayout.NORTH);
 
         BoxCenterAlignmentCopyablePane buildCopyPane = new BoxCenterAlignmentCopyablePane(
@@ -68,8 +68,8 @@ public class AboutPane extends JPanel {
                         Inter.getLocText("FR-Designer-Basic_Activation_Key_Copy_OK")
                 }));
 
-        if (shouldShowPhoneAndQQ()){
-            if(ComparatorUtils.equals(ProductConstants.APP_NAME,FINEREPORT)){
+        if (shouldShowPhoneAndQQ()) {
+            if (ComparatorUtils.equals(ProductConstants.APP_NAME, FINEREPORT)) {
                 boxCenterAlignmentPane = new BoxCenterAligmentPane(Inter.getLocText("FR-Designer_Service_Phone") + ProductConstants.COMPARE_TELEPHONE);
                 contentPane.add(boxCenterAlignmentPane);
             }
@@ -79,7 +79,7 @@ public class AboutPane extends JPanel {
 
         BoxCenterAligmentPane actionLabel = getURLActionLabel(SiteCenter.getInstance().acquireUrlByKind("website." + FRContext.getLocale(), ProductConstants.WEBSITE_URL));
         BoxCenterAligmentPane emailLabel = getEmailActionLabel(SiteCenter.getInstance().acquireUrlByKind("support.email", ProductConstants.SUPPORT_EMAIL));
-        
+
         contentPane.add(actionLabel);
         contentPane.add(emailLabel);
         if (shouldShowThanks()) {
@@ -91,6 +91,7 @@ public class AboutPane extends JPanel {
     private boolean shouldShowPhoneAndQQ() {
         return !FRContext.getLocale().equals(Locale.US);
     }
+
     // 是否显示鸣谢面板
     private boolean shouldShowThanks() {
         Locale[] hideLocales = {Locale.US, Locale.KOREA, Locale.JAPAN};
@@ -101,40 +102,40 @@ public class AboutPane extends JPanel {
         }
         return true;
     }
-    
+
     //添加鸣谢面板
-    private void addThankPane(JPanel contentPane){
+    private void addThankPane(JPanel contentPane) {
         BBSGuestPaneProvider pane = StableFactory.getMarkedInstanceObjectFromClass(BBSGuestPaneProvider.XML_TAG, BBSGuestPaneProvider.class);
-        if(pane == null){
-        	return;
+        if (pane == null) {
+            return;
         }
 
         contentPane.add(Box.createVerticalStrut(DEFAULT_GAP));
         contentPane.add((Component) pane);
     }
-    
-    private String append(String...strs){
-    	StringBuilder sb = new StringBuilder();
-    	for(String str : strs){
-    		sb.append(str);
-    	}
-    	
-    	return sb.toString();
+
+    private String append(String... strs) {
+        StringBuilder sb = new StringBuilder();
+        for (String str : strs) {
+            sb.append(str);
+        }
+
+        return sb.toString();
     }
-    
-    private String getCopyRight(){
-       return append(Inter.getLocText("FR-Designer_About_CopyRight"), COPYRIGHT_LABEL,
-    		   ProductConstants.HISTORY, StringUtils.BLANK, SiteCenter.getInstance().acquireUrlByKind("company.name", ProductConstants.COMPANY_NAME));
+
+    private String getCopyRight() {
+        return append(Inter.getLocText("FR-Designer_About_CopyRight"), COPYRIGHT_LABEL,
+                ProductConstants.HISTORY, StringUtils.BLANK, SiteCenter.getInstance().acquireUrlByKind("company.name", ProductConstants.COMPANY_NAME));
     }
 
     private String getBuildTitle() {
         return append(ProductConstants.APP_NAME, Inter.getLocText("FR-Designer_About_Version"),
                 StringUtils.BLANK, ProductConstants.RELEASE_VERSION, BUILD_PREFIX);
     }
-    
-    private BoxCenterAligmentPane getEmailActionLabel(final String mailTo){
+
+    private BoxCenterAligmentPane getEmailActionLabel(final String mailTo) {
         ActionLabel emailLabel = new ActionLabel(mailTo);
-        
+
         emailLabel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -145,12 +146,12 @@ public class AboutPane extends JPanel {
                 }
             }
         });
-        
+
         return new BoxCenterAligmentPane(emailLabel);
     }
-    
-    private BoxCenterAligmentPane getURLActionLabel(final String url){
-    	ActionLabel actionLabel = new ActionLabel(url);
+
+    private BoxCenterAligmentPane getURLActionLabel(final String url) {
+        ActionLabel actionLabel = new ActionLabel(url);
         actionLabel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -161,7 +162,7 @@ public class AboutPane extends JPanel {
                 }
             }
         });
-        
+
         return new BoxCenterAligmentPane(actionLabel);
     }
 
@@ -187,7 +188,7 @@ public class AboutPane extends JPanel {
     class BoxCenterAligmentPane extends JPanel {
 
         private UILabel textLabel;
-    	
+
         public BoxCenterAligmentPane(String text) {
             this(new UILabel(text));
         }

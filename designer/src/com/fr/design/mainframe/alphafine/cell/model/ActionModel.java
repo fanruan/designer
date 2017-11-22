@@ -1,25 +1,24 @@
 package com.fr.design.mainframe.alphafine.cell.model;
 
+import com.fr.design.actions.UpdateAction;
 import com.fr.design.mainframe.alphafine.CellType;
 import com.fr.general.FRLogger;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 
-import javax.swing.*;
-
 /**
  * Created by XiaXiang on 2017/4/20.
  */
 public class ActionModel extends AlphaCellModel {
-    private Action action;
+    private UpdateAction action;
 
 
-    public ActionModel(String name, String description, Action action, int searchCount) {
+    public ActionModel(String name, String description, UpdateAction action, int searchCount) {
         this(name, description, action);
         setSearchCount(searchCount);
     }
 
-    public ActionModel(String name, String description, Action action) {
+    public ActionModel(String name, String description, UpdateAction action) {
         super(name, null, CellType.ACTION);
         this.action = action;
         this.setDescription(description);
@@ -43,11 +42,11 @@ public class ActionModel extends AlphaCellModel {
         return action != null ? action.hashCode() : 0;
     }
 
-    public Action getAction() {
+    public UpdateAction getAction() {
         return action;
     }
 
-    public void setAction(Action action) {
+    public void setAction(UpdateAction action) {
         this.action = action;
     }
 

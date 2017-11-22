@@ -10,6 +10,7 @@ import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.file.TemplateTreePane;
 import com.fr.design.gui.itextarea.UITextArea;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.env.RemoteEnv;
 import com.fr.env.SignIn;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
@@ -18,6 +19,7 @@ import com.fr.stable.EnvChangedListener;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
+import com.fr.stable.OperatingSystem;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.start.server.JettyHost;
 
@@ -46,6 +48,10 @@ public class StartServer {
      * 找默认工作目录，不应该按照名字去找，而应该按照安装路径，因为默认工作目录的名字可能会改变。
      */
     public static void browserDemoURL() {
+        if (FRContext.getCurrentEnv() instanceof RemoteEnv) {
+            browser(FRContext.getCurrentEnv().getPath() + "?op=fs");
+            return;
+        }
         if (ComparatorUtils.equals(StableUtils.getInstallHome(), ".")) {//august:供代码使用
             String web = GeneralContext.getCurrentAppNameOfEnv();
             browserURLWithLocalEnv("http://localhost:" + DesignerEnvManager.getEnvManager().getJettyServerPort() + "/" + web + "/" + ConfigManager.getProviderInstance().getServletMapping()
@@ -154,8 +160,7 @@ public class StartServer {
             Desktop.getDesktop().browse(new URI(uri));
 
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer_Set_default_browser"));
-            FRContext.getLogger().errorWithServerLevel(e.getMessage(), e);
+            startBrowserFromCommand(uri, e);
         } catch (URISyntaxException e) {
             FRContext.getLogger().errorWithServerLevel(e.getMessage(), e);
         } catch (Exception e) {
@@ -164,12 +169,32 @@ public class StartServer {
         }
     }
 
+    private static void startBrowserFromCommand(String uri, IOException e) {
+        if (OperatingSystem.isWindows()) {
+            try {
+                // win10 内存用到到80%左右的时候, Desktop.browser经常提示"存储空间不足, 无法处理改命令", 用rundll32可以打开.
+                Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + uri);
+            } catch (IOException ee) {
+                JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer_Set_default_browser"));
+                FRContext.getLogger().errorWithServerLevel(e.getMessage(), e);
+            }
+        } else {
+            FRContext.getLogger().errorWithServerLevel(e.getMessage(), e);
+        }
+    }
+
     private static class InformationPane extends BasicPane {
         private static final long serialVersionUID = 1L;
+        private static final int FREE_STYLE_TOP = 15;
+        private static final int FREE_STYLE_OTHER = 5;
 
         public InformationPane(String message) {
+            init(message);
+        }
+
+        private void init(String message) {
             this.setLayout(new BorderLayout(10, 10));
-            this.setBorder(BorderFactory.createEmptyBorder(15, 5, 5, 5));
+            this.setBorder(BorderFactory.createEmptyBorder(FREE_STYLE_TOP, FREE_STYLE_OTHER, FREE_STYLE_OTHER, FREE_STYLE_OTHER));
             String text;
             if (!ComparatorUtils.equals(message, Inter.getLocText(new String[]{"Default", "Utils-Report_Runtime_Env"}))) {
                 text = new StringBuffer(Inter.getLocText("FR-Designer_Open"))

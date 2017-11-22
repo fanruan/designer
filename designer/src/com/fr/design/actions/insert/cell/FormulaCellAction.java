@@ -3,8 +3,8 @@
  */
 package com.fr.design.actions.insert.cell;
 
+import com.fr.base.BaseFormula;
 import com.fr.base.BaseUtils;
-import com.fr.base.Formula;
 import com.fr.design.actions.core.WorkBookSupportable;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.menu.MenuKeySet;
@@ -48,6 +48,6 @@ public class FormulaCellAction extends AbstractCellAction implements WorkBookSup
 
     @Override
     public Class getCellValueClass() {
-        return Formula.class;
+        return BaseFormula.class;
     }
 }

@@ -3,16 +3,19 @@ package com.fr.design.gui.frpane;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.designer.TargetComponent;
 import com.fr.design.fun.HyperlinkProvider;
-import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.controlpane.UIListControlPane;
-import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.module.DesignModuleFactory;
+import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
 import com.fr.general.NameObject;
 import com.fr.js.JavaScript;
 import com.fr.js.NameJavaScript;
 import com.fr.js.NameJavaScriptGroup;
+import com.fr.plugin.context.PluginContext;
+import com.fr.plugin.manage.PluginFilter;
+import com.fr.plugin.observer.PluginEvent;
+import com.fr.plugin.observer.PluginEventListener;
 import com.fr.stable.ListMap;
 import com.fr.stable.Nameable;
 
@@ -33,6 +36,28 @@ public abstract class HyperlinkGroupPane extends UIListControlPane {
         super();
         this.hyperlinkGroupPaneActionProvider = hyperlinkGroupPaneActionProvider;
     }
+
+    @Override
+    protected void initComponentPane() {
+        super.initComponentPane();
+        GeneralContext.listenPluginRunningChanged(new PluginEventListener() {
+
+            @Override
+            public void on(PluginEvent event) {
+
+               refreshNameableCreator(createNameableCreators());
+
+            }
+        }, new PluginFilter() {
+
+            @Override
+            public boolean accept(PluginContext context) {
+
+                return context.contain(HyperlinkProvider.XML_TAG);
+            }
+        });
+    }
+
     /**
      * 生成添加按钮的NameableCreator
      *

@@ -1,12 +1,12 @@
 package com.fr.design.widget.ui;
 
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.mainframe.CellWidgetPropertyPane;
 import com.fr.design.widget.ui.btn.ButtonDetailPaneFactory;
 import com.fr.form.ui.Button;
 import com.fr.form.ui.FreeButton;
 import com.fr.design.widget.btn.ButtonDetailPane;
 
-import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
@@ -28,6 +28,12 @@ public class ButtonDefinePane extends AbstractDataModify<Button> {
     }
 
     private void resetDetailPane(Button btn, Class cls) {
+        initDetailPane(btn, cls);
+        CellWidgetPropertyPane.getInstance().reInitAllListener();
+        CellWidgetPropertyPane.getInstance().update();
+    }
+
+    public void initDetailPane(Button btn, Class cls){
         if (detailPane != null) {
             remove(detailPane);
         }
@@ -44,7 +50,7 @@ public class ButtonDefinePane extends AbstractDataModify<Button> {
 
     @Override
     public void populateBean(Button btn) {
-        resetDetailPane(btn, btn instanceof FreeButton && !((FreeButton) btn).isCustomStyle() ? Button.class : null);
+        initDetailPane(btn, btn instanceof FreeButton && !((FreeButton) btn).isCustomStyle() ? Button.class : null);
     }
 
     @Override

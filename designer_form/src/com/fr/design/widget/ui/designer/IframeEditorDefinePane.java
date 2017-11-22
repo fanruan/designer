@@ -1,6 +1,7 @@
 package com.fr.design.widget.ui.designer;
 
 import com.fr.design.constants.LayoutConstants;
+import com.fr.design.designer.creator.XCreator;
 import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.frpane.ReportletParameterViewPane;
 import com.fr.design.gui.icheckbox.UICheckBox;
@@ -23,8 +24,8 @@ public class IframeEditorDefinePane extends AbstractDataModify<IframeEditor> {
 	private UICheckBox horizontalCheck;
 	private UICheckBox verticalCheck;
 
-	public IframeEditorDefinePane() {
-		this.initComponents();
+	public IframeEditorDefinePane(XCreator xCreator) {
+		super(xCreator);
 	}
 	
 	private void initComponents() {
@@ -72,7 +73,7 @@ public class IframeEditorDefinePane extends AbstractDataModify<IframeEditor> {
 
 	@Override
 	public IframeEditor updateBean() {
-		IframeEditor ob = new IframeEditor();
+		IframeEditor ob = (IframeEditor)creator.toData();
 		ob.setSrc(srcTextField.getText());
 		List<ParameterProvider> parameterList = parameterViewPane.update();
 		ob.setParameters(parameterList.toArray(new ParameterProvider[parameterList.size()]));

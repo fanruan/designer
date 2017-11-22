@@ -1,51 +1,76 @@
 package com.fr.design.extra;
 
+import com.fr.base.ConfigManager;
 import com.fr.base.FRContext;
-import com.fr.design.DesignerEnvManager;
 import com.fr.design.RestartHelper;
+import com.fr.design.bbs.BBSLoginUtils;
 import com.fr.design.dialog.UIDialog;
+import com.fr.design.extra.exe.GetPluginCategoriesExecutor;
+import com.fr.design.extra.exe.GetPluginFromStoreExecutor;
+import com.fr.design.extra.exe.GetPluginPrefixExecutor;
+import com.fr.design.extra.exe.PluginLoginExecutor;
+import com.fr.design.extra.exe.ReadUpdateOnlineExecutor;
+import com.fr.design.extra.exe.SearchOnlineExecutor;
 import com.fr.design.extra.exe.callback.JSCallback;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.utils.concurrent.ThreadFactoryBuilder;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
+import com.fr.json.JSONException;
+import com.fr.json.JSONObject;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.context.PluginMarker;
 import com.fr.plugin.manage.PluginManager;
-import com.fr.plugin.manage.bbs.BBSPluginLogin;
-import com.fr.plugin.manage.bbs.BBSUserInfo;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
+import javafx.concurrent.Task;
 import javafx.scene.web.WebEngine;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import netscape.javascript.JSObject;
-import org.json.JSONObject;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 开放给Web组件的接口,用于安装,卸载,更新以及更改插件可用状态
  */
 public class PluginWebBridge {
+    private static final String THREAD_NAME_TEMPLATE = "pluginbridge-thread-%s";
+    private static final String ACTION = "action";
+    private static final String KEYWORD = "keyword";
+    private static final int COREPOOLSIZE = 3;
+    private static final int MAXPOOLSIZE = 5;
 
     private static PluginWebBridge helper;
 
     private UIDialog uiDialog;
     private ACTIONS action;
-    private String ACTION = "action";
-    private String KEYWORD = "keyword";
+
     private Map<String, Object> config;
     private WebEngine webEngine;
 
     private UILabel uiLabel;
 
+    private ExecutorService threadPoolExecutor = new ThreadPoolExecutor(COREPOOLSIZE, MAXPOOLSIZE,
+            0L, TimeUnit.MILLISECONDS,
+            new LinkedBlockingQueue<Runnable>(COREPOOLSIZE),
+            new ThreadFactoryBuilder().setNameFormat(THREAD_NAME_TEMPLATE).build());
 
     /**
      * 动作枚举
@@ -92,10 +117,14 @@ public class PluginWebBridge {
     public String getRunConfig() {
         if (action != null) {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put(ACTION, action.getContext());
-            Set<String> keySet = config.keySet();
-            for (String key : keySet) {
-                jsonObject.put(key, config.get(key).toString());
+            try {
+                jsonObject.put(ACTION, action.getContext());
+                Set<String> keySet = config.keySet();
+                for (String key : keySet) {
+                    jsonObject.put(key, config.get(key).toString());
+                }
+            } catch (JSONException e) {
+                FRContext.getLogger().error(e.getMessage(), e);
             }
             return jsonObject.toString();
         }
@@ -216,8 +245,8 @@ public class PluginWebBridge {
      * 已安装插件检查更新
      */
     public void readUpdateOnline(final JSObject callback) {
-        JSCallback jsCallback = new JSCallback(webEngine, callback);
-        PluginOperateUtils.readUpdateOnline(jsCallback);
+        Task<Void> task = new PluginTask<>(webEngine, callback, new ReadUpdateOnlineExecutor());
+        threadPoolExecutor.submit(task);
     }
 
     /**
@@ -300,8 +329,8 @@ public class PluginWebBridge {
      * @param keyword 关键字
      */
     public void searchPlugin(String keyword, final JSObject callback) {
-        JSCallback jsCallback = new JSCallback(webEngine, callback);
-        PluginOperateUtils.searchPlugin(keyword, jsCallback);
+        Task<Void> task = new PluginTask<>(webEngine, callback, new SearchOnlineExecutor(keyword));
+        threadPoolExecutor.submit(task);
     }
 
     /**
@@ -313,14 +342,14 @@ public class PluginWebBridge {
      * @param callback 回调函数
      */
     public void getPluginFromStore(String category, String seller, String fee, final JSObject callback) {
-        JSCallback jsCallback = new JSCallback(webEngine, callback);
-        PluginOperateUtils.getPluginFromStore(category, seller, fee, jsCallback);
+        Task<Void> task = new PluginTask<>(webEngine, callback, new GetPluginFromStoreExecutor(category, seller, fee));
+        threadPoolExecutor.submit(task);
     }
 
 
     public void getPluginPrefix(final JSObject callback) {
-        JSCallback jsCallback = new JSCallback(webEngine, callback);
-        PluginOperateUtils.getPluginPrefix(jsCallback);
+        Task<Void> task = new PluginTask<>(webEngine, callback, new GetPluginPrefixExecutor());
+        threadPoolExecutor.submit(task);
     }
 
 
@@ -330,8 +359,8 @@ public class PluginWebBridge {
      * @param callback 回调函数
      */
     public void getPluginCategories(final JSObject callback) {
-        JSCallback jsCallback = new JSCallback(webEngine, callback);
-        PluginOperateUtils.getPluginCategories(jsCallback);
+        Task<Void> task = new PluginTask<>(webEngine, callback, new GetPluginCategoriesExecutor());
+        threadPoolExecutor.submit(task);
     }
 
     /**
@@ -382,8 +411,7 @@ public class PluginWebBridge {
      */
     public String getLoginInfo(final JSObject callback) {
         registerLoginInfo(callback);
-        BBSUserInfo bbsUserInfo = BBSPluginLogin.getInstance().getUserInfo();
-        return bbsUserInfo == null ? "" : bbsUserInfo.getUserName();
+        return ConfigManager.getProviderInstance().getBbsUsername();
     }
 
     /**
@@ -489,17 +517,15 @@ public class PluginWebBridge {
     }
 
     /**
-     * 登录操作的回调
+     * 设计器端的用户登录
      *
-     * @param username
-     * @param password
-     * @return
+     * @param username 用户名
+     * @param password 密码
+     * @return 登录信息标志
      */
     public void defaultLogin(String username, String password, final JSObject callback) {
-        JSCallback jsCallback = new JSCallback(webEngine, callback);
-        String result = LoginWebBridge.getHelper().pluginManageLogin(username, password, uiLabel);
-        jsCallback.execute(result);
-
+        Task<Void> task = new PluginTask<>(webEngine, callback, new PluginLoginExecutor(username, password));
+        threadPoolExecutor.submit(task);
     }
 
     /**
@@ -509,10 +535,15 @@ public class PluginWebBridge {
         LoginWebBridge.getHelper().showQQ();
     }
 
-    //通过QQ登录后通知登录
+    /**
+     * 通过QQ登录后通知登录
+     */
     public void ucsynLogin(long uid, String username, String password, final JSONObject callback) {
-        BBSUserInfo bbsUserInfo = new BBSUserInfo(username, password);
-        BBSPluginLogin.getInstance().login(bbsUserInfo);
+        try {
+            FRContext.getCurrentEnv().writeResource(ConfigManager.getProviderInstance());
+        } catch (Exception e) {
+            FRContext.getLogger().error(e.getMessage());
+        }
         uiLabel.setText(username);
     }
 
@@ -520,9 +551,8 @@ public class PluginWebBridge {
      * 清除用户信息
      */
     public void clearUserInfo() {
-        DesignerEnvManager.getEnvManager().setBBSName(StringUtils.EMPTY);
-        DesignerEnvManager.getEnvManager().setBBSPassword(StringUtils.EMPTY);
-        DesignerEnvManager.getEnvManager().setInShowBBsName(StringUtils.EMPTY);
+        ConfigManager.getProviderInstance().setInShowBBsName(StringUtils.EMPTY);
+        BBSLoginUtils.bbsLogout();
         uiLabel.setText(Inter.getLocText("FR-Base_UnSignIn"));
     }
 
@@ -530,7 +560,7 @@ public class PluginWebBridge {
      * 初始化设计器部分
      */
     public void initExtraDiff(final JSObject callback) {
-
+        //todo  初始化设计器其他部分
     }
 
     /**

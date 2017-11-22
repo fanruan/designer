@@ -1,6 +1,6 @@
 package com.fr.design.chart.axis;
 
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.base.Utils;
 import com.fr.chart.chartattr.ChartAlertValue;
 import com.fr.design.beans.BasicBeanPane;
@@ -162,10 +162,10 @@ public class ChartAlertValuePane extends BasicBeanPane<ChartAlertValue> {
 	
 	private void showFormulaPane() {
 		final UIFormula formulaPane = FormulaFactory.createFormulaPane();
-		formulaPane.populate(new Formula(textField.getText()));
+		formulaPane.populate(BaseFormula.createFormulaBuilder().build(textField.getText()));
 		formulaPane.showLargeWindow(SwingUtilities.getWindowAncestor(ChartAlertValuePane.this), new DialogActionAdapter(){
 			public void doOk() {
-				Formula formula = formulaPane.update();
+				BaseFormula formula = formulaPane.update();
 				textField.setText(Utils.objectToString(formula));
 			}
 		}).setVisible(true);
@@ -206,7 +206,7 @@ public class ChartAlertValuePane extends BasicBeanPane<ChartAlertValue> {
     
     public void updateBean(ChartAlertValue chartAlertValue) {
 
-		chartAlertValue.setAlertValueFormula(new Formula(textField.getText()));
+		chartAlertValue.setAlertValueFormula(BaseFormula.createFormulaBuilder().build(textField.getText()));
 		chartAlertValue.getLineColor().setSeriesColor(colorBox.getSelectObject());
 		chartAlertValue.getLineStyle().setLineStyle(lineCombo.getSelectedLineStyle());
 		chartAlertValue.setAlertLineAlpha(alphaPane.update());

@@ -1,6 +1,6 @@
 package com.fr.quickeditor.cellquick;
 
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.base.Style;
 import com.fr.base.TextFormat;
 import com.fr.design.actions.core.ActionFactory;
@@ -9,6 +9,7 @@ import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.formula.FormulaFactory;
 import com.fr.design.formula.UIFormula;
 import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
@@ -22,10 +23,14 @@ import com.fr.report.cell.DefaultTemplateCellElement;
 import com.fr.stable.ColumnRow;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -69,7 +74,7 @@ public class CellFormulaQuickEditor extends CellQuickEditor {
 
     };
 
-    private CellFormulaQuickEditor() {
+    public CellFormulaQuickEditor() {
         super();
     }
 
@@ -99,11 +104,11 @@ public class CellFormulaQuickEditor extends CellQuickEditor {
             public void actionPerformed(ActionEvent evt) {
                 String text = formulaTextField.getText();
                 final UIFormula formulaPane = FormulaFactory.createFormulaPane();
-                formulaPane.populate(new Formula(text));
+                formulaPane.populate(BaseFormula.createFormulaBuilder().build(text));
                 formulaPane.showLargeWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
                     @Override
                     public void doOk() {
-                        Formula fm = formulaPane.update();
+                        BaseFormula fm = formulaPane.update();
                         if (fm.getContent().length() <= 1) {
                             formulaTextField.setText(DEFAULT_FORMULA);
                         } else {
@@ -121,7 +126,7 @@ public class CellFormulaQuickEditor extends CellQuickEditor {
 
         content.add(pane, BorderLayout.NORTH);
         return TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
-                        new Component[]{emptyLabel, content}},
+                        new Component[]{EMPTY_LABEL, content}},
                 new double[]{TableLayout.PREFERRED},
                 new double[]{TableLayout.PREFERRED, TableLayout.FILL}, HGAP, VGAP);
     }
@@ -146,7 +151,7 @@ public class CellFormulaQuickEditor extends CellQuickEditor {
             tc.getEditingElementCase().addCellElement(cellElement, false);
         }
         if (tmpText != null && (tmpText.length() > 0 && tmpText.charAt(0) == '=')) {
-            Formula textFormula = new Formula(tmpText);
+            BaseFormula textFormula = BaseFormula.createFormulaBuilder().build(tmpText);
             textFormula.setReserveInResult(reserveInResult);
             textFormula.setReserveOnWriteOrAnaly(reserveOnWriteOrAnaly);
             cellElement.setValue(textFormula);
@@ -175,8 +180,8 @@ public class CellFormulaQuickEditor extends CellQuickEditor {
             Object value = cellElement.getValue();
             if (value == null) {
                 str = StringUtils.EMPTY;
-            } else if (value instanceof Formula) {
-                Formula formula = (Formula) value;
+            } else if (value instanceof BaseFormula) {
+                BaseFormula formula = (BaseFormula) value;
                 str = formula.getContent();
                 reserveInResult = formula.isReserveInResult();
                 reserveOnWriteOrAnaly = formula.isReserveOnWriteOrAnaly();
@@ -201,6 +206,11 @@ public class CellFormulaQuickEditor extends CellQuickEditor {
         formulaTextField.getDocument().removeDocumentListener(documentListener);
         formulaTextField.setText(str);
         formulaTextField.getDocument().addDocumentListener(documentListener);
+    }
+
+    @Override
+    public boolean isScrollAll() {
+        return true;
     }
 
 }

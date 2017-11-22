@@ -1,27 +1,16 @@
 package com.fr.design.gui.ibutton;
 
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Insets;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
+import com.fr.design.constants.UIConstants;
+import com.fr.design.roleAuthority.ReportAndFSManagePane;
+import com.fr.design.utils.gui.GUIPaintUtils;
+import com.fr.stable.StringUtils;
+import sun.swing.SwingUtilities2;
 
-import javax.swing.AbstractButton;
-import javax.swing.ButtonModel;
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.plaf.basic.BasicHTML;
 import javax.swing.text.View;
-
-import com.fr.design.constants.UIConstants;
-import com.fr.design.roleAuthority.ReportAndFSManagePane;
-import sun.swing.SwingUtilities2;
-
-import com.fr.stable.StringUtils;
-import com.fr.design.utils.gui.GUIPaintUtils;
+import java.awt.*;
 
 public class UIButtonUI extends BasicButtonUI {
 
@@ -42,17 +31,21 @@ public class UIButtonUI extends BasicButtonUI {
 
         ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         if (b.isExtraPainted()) {
-            if (isPressed(b) && b.isPressedPainted()) {
-                GUIPaintUtils.fillPressed(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles));
-            } else if (isRollOver(b)) {
-                GUIPaintUtils.fillRollOver(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles), b.isPressedPainted());
-            } else if (b.isNormalPainted()) {
-                GUIPaintUtils.fillNormal(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles), b.isPressedPainted());
-            }
+            doExtraPainting(b, g2d, w, h, selectedRoles);
         }
         ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
 
         paintContent(g, b, text);
+    }
+
+    protected void doExtraPainting(UIButton b, Graphics2D g2d, int w, int h, String selectedRoles) {
+        if (isPressed(b) && b.isPressedPainted()) {
+            GUIPaintUtils.fillPressed(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles));
+        } else if (isRollOver(b)) {
+            GUIPaintUtils.fillRollOver(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles), b.isPressedPainted());
+        } else if (b.isNormalPainted()) {
+            GUIPaintUtils.fillNormal(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles), b.isPressedPainted());
+        }
     }
 
     protected boolean isRollOver(AbstractButton b) {
@@ -75,6 +68,10 @@ public class UIButtonUI extends BasicButtonUI {
     }
 
     private void paintText(Graphics g, AbstractButton b, String text) {
+        paintText(g, b, text ,textRec);
+    }
+
+    protected void paintText(Graphics g, AbstractButton b, String text, Rectangle textRec) {
         View v = (View) b.getClientProperty(BasicHTML.propertyKey);
         if (v != null) {
             v.paint(g, textRec);
@@ -83,7 +80,7 @@ public class UIButtonUI extends BasicButtonUI {
         FontMetrics fm = SwingUtilities2.getFontMetrics(b, g);
         int mnemonicIndex = b.getDisplayedMnemonicIndex();
         if (b.isEnabled()) {
-            g.setColor(UIConstants.FONT_COLOR);
+            g.setColor(b.getForeground());
         } else {
             g.setColor(UIConstants.LINE_COLOR);
         }
@@ -123,7 +120,7 @@ public class UIButtonUI extends BasicButtonUI {
             return;
         }
         Icon selectedIcon = null;
-		/* the fallback icon should be based on the selected state */
+        /* the fallback icon should be based on the selected state */
         if (model.isSelected()) {
             selectedIcon = (Icon) b.getSelectedIcon();
             if (selectedIcon != null) {
@@ -163,7 +160,7 @@ public class UIButtonUI extends BasicButtonUI {
         paintModelIcon(model, icon, g, c);
     }
 
-    private void paintModelIcon(ButtonModel model, Icon icon, Graphics g, JComponent c) {
+    protected void paintModelIcon(ButtonModel model, Icon icon, Graphics g, JComponent c) {
         if (model.isPressed() && model.isArmed()) {
             icon.paintIcon(c, g, iconRec.x + getTextShiftOffset(),
                     iconRec.y + getTextShiftOffset());

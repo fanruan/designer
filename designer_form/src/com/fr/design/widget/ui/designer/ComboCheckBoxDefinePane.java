@@ -1,14 +1,14 @@
 package com.fr.design.widget.ui.designer;
 
 import com.fr.design.data.DataCreatorUI;
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.XCreator;
-import com.fr.design.gui.ibutton.UIButtonGroup;
-import com.fr.design.gui.ibutton.UIHeadGroup;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.widget.component.CheckBoxDictPane;
 import com.fr.form.ui.ComboCheckBox;
 import com.fr.general.Inter;
 
@@ -17,7 +17,7 @@ import java.awt.*;
 
 public class ComboCheckBoxDefinePane extends DictEditorDefinePane<ComboCheckBox> {
     private UICheckBox supportTagCheckBox;
-    private UIButtonGroup returnType;
+	private CheckBoxDictPane checkBoxDictPane;
     private UITextField waterMarkDictPane;
     private UICheckBox removeRepeatCheckBox;
 
@@ -39,26 +39,24 @@ public class ComboCheckBoxDefinePane extends DictEditorDefinePane<ComboCheckBox>
 
 	public JPanel createOtherPane(){
 		supportTagCheckBox = new UICheckBox(Inter.getLocText("Form-SupportTag"), true);
-
-		final String[] tabTitles = new String[]{Inter.getLocText("Widget-Array"), Inter.getLocText("String")};
-		returnType = new UIButtonGroup(tabTitles) ;
+		supportTagCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		checkBoxDictPane = new CheckBoxDictPane();
 
 		double f = TableLayout.FILL;
 		double p = TableLayout.PREFERRED;
 		Component[][] components = new Component[][]{
 				new Component[]{supportTagCheckBox,  null },
-				new Component[]{new UILabel(Inter.getLocText("Widget-Date_Selector_Return_Type")), returnType},
+				new Component[]{checkBoxDictPane, null},
 		};
 		double[] rowSize = {p, p};
 		double[] columnSize = {p, f};
 		int[][] rowCount = {{1, 1},{1, 1}};
-		JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 10, 7);
-		panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+		JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_L2, IntervalConstants.INTERVAL_L1);
 		return panel;
 	}
 
 	protected  void populateSubDictionaryEditorBean(ComboCheckBox ob){
-		returnType.setSelectedIndex(ob.isReturnString() ? 1 : 0);
+		this.checkBoxDictPane.populate(ob);
 		waterMarkDictPane.setText(ob.getWaterMark());
 		formWidgetValuePane.populate(ob);
 		this.supportTagCheckBox.setSelected(ob.isSupportTag());
@@ -67,7 +65,7 @@ public class ComboCheckBoxDefinePane extends DictEditorDefinePane<ComboCheckBox>
 
 	protected  ComboCheckBox updateSubDictionaryEditorBean(){
 		ComboCheckBox combo = (ComboCheckBox) creator.toData();
-		combo.setReturnString(returnType.getSelectedIndex() == 1);
+		checkBoxDictPane.update(combo);
 		formWidgetValuePane.update(combo);
 		combo.setWaterMark(waterMarkDictPane.getText());
 		combo.setSupportTag(this.supportTagCheckBox.isSelected());

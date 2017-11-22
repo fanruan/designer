@@ -1,15 +1,16 @@
 package com.fr.design.widget.ui.designer;
 
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icombobox.DictionaryComboBox;
 import com.fr.design.gui.icombobox.DictionaryConstants;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
-import com.fr.design.gui.itextfield.UINumberField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.widget.ui.designer.component.FontSizeComboPane;
 import com.fr.form.ui.MultiFileEditor;
 import com.fr.general.Inter;
 
@@ -19,8 +20,8 @@ import java.awt.*;
 public class MultiFileEditorPane extends FieldEditorDefinePane<MultiFileEditor> {
 	private DictionaryComboBox acceptType;
 	private UICheckBox singleFileCheckBox;
-	private UINumberField fileSizeField;
-	private UISpinner fontSizeField;
+	private UISpinner fileSizeField;
+	private FontSizeComboPane fontSizeField;
 
 	public MultiFileEditorPane(XCreator xCreator) {
 		super(xCreator);
@@ -37,38 +38,31 @@ public class MultiFileEditorPane extends FieldEditorDefinePane<MultiFileEditor> 
 		acceptType = new DictionaryComboBox(DictionaryConstants.acceptTypes, DictionaryConstants.fileTypeDisplays);
 		singleFileCheckBox = new UICheckBox(Inter.getLocText("SINGLE_FILE_UPLOAD"));
 		singleFileCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		fileSizeField = new UINumberField();
-		fontSizeField = new UISpinner(0, 20, 1, 0);
+		fileSizeField = new UISpinner(0, Integer.MAX_VALUE, 1, -1);
+		fileSizeField.setPreferredSize(new Dimension(140, 20));
+		fontSizeField = new FontSizeComboPane();
 
 		JPanel singleFilePane = FRGUIPaneFactory.createNormalFlowInnerContainer_M_Pane();
 		singleFilePane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		singleFilePane.add(singleFileCheckBox);
 
-		JPanel allowTypePane = FRGUIPaneFactory.createNormalFlowInnerContainer_M_Pane();
-		allowTypePane.setLayout(FRGUIPaneFactory.createLabelFlowLayout());
-		allowTypePane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		allowTypePane.add(new UILabel("   " + Inter.getLocText("File-Allow_Upload_Files") + ":"));
-		allowTypePane.add(acceptType);
-
-		JPanel fileSizePane = FRGUIPaneFactory.createNormalFlowInnerContainer_M_Pane();
-		fileSizePane.add(new UILabel(" " + Inter.getLocText("File-File_Size_Limit") + ":"));
-		fileSizePane.add(fileSizeField);
-		fileSizePane.add(new UILabel(" KB"));
+		JPanel fileSizePane = new JPanel(new BorderLayout());
+		fileSizePane.add(fileSizeField, BorderLayout.CENTER);
+		fileSizePane.add(new UILabel(" KB"), BorderLayout.EAST);
 
 		double f = TableLayout.FILL;
 		double p = TableLayout.PREFERRED;
 		Component[][] components = new Component[][]{
 				new Component[]{singleFileCheckBox, null },
-				new Component[]{new UILabel(Inter.getLocText("File-Allow_Upload_Files") + ":"), acceptType},
-				new Component[]{new UILabel( Inter.getLocText("File-File_Size_Limit") + ":"), fileSizeField},
+				new Component[]{new UILabel(Inter.getLocText("File-Allow_Upload_Files")), acceptType},
+				new Component[]{new UILabel( Inter.getLocText("File-File_Size_Limit")), fileSizePane},
 				new Component[]{new UILabel( Inter.getLocText("FR-Designer_Font-Size")), fontSizeField}
 		};
-		double[] rowSize = {p, p,p,p};
+		double[] rowSize = {p, p, p, p};
 		double[] columnSize = {p,f};
 		int[][] rowCount = {{1, 1},{1, 1},{1, 1},{1, 1}};
-		JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 10, 7);
+		JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
 		JPanel boundsPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-		panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
 		boundsPane.add(panel);
 
 		return boundsPane;
@@ -85,11 +79,11 @@ public class MultiFileEditorPane extends FieldEditorDefinePane<MultiFileEditor> 
 
 	@Override
 	protected MultiFileEditor updateSubFieldEditorBean() {
-		MultiFileEditor ob = new MultiFileEditor();
+		MultiFileEditor ob = (MultiFileEditor)creator.toData();
 		ob.setAccept((String) acceptType.getSelectedItem());
 		ob.setSingleFile(singleFileCheckBox.isSelected());
 		ob.setMaxSize(fileSizeField.getValue());
-		ob.setFontSize((int)fontSizeField.getValue());
+		ob.setFontSize(fontSizeField.getValue());
 		return ob;
 	}
 

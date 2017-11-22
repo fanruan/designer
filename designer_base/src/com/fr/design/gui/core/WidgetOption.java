@@ -127,27 +127,27 @@ public abstract class WidgetOption implements Serializable {
     }
 
     public static final WidgetOption DATEEDITOR = WidgetOptionFactory.createByWidgetClass(Inter.getLocText(new String[]{"Date", "Widget"}),
-            BaseUtils.readIcon("/com/fr/web/images/form/resources/date_16.png"),
+            BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/date_16.png"),
             DateEditor.class);
 
     public static final WidgetOption TREE = WidgetOptionFactory.createByWidgetClass(Inter.getLocText("Form-View_Tree"),
-            BaseUtils.readIcon("/com/fr/web/images/form/resources/tree_16.png"), TreeEditor.class);
+            BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/tree_16.png"), TreeEditor.class);
 
-    public static final WidgetOption TREECOMBOBOX = WidgetOptionFactory.createByWidgetClass(Inter.getLocText("FR-Designer_Tree-ComboBox"), BaseUtils.readIcon("/com/fr/web/images/form/resources/comboboxtree.png"),
+    public static final WidgetOption TREECOMBOBOX = WidgetOptionFactory.createByWidgetClass(Inter.getLocText("FR-Designer_Tree-ComboBox"), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/comboboxtree.png"),
             TreeComboBoxEditor.class);
 
     public static final WidgetOption CHECKBOXGROUP = WidgetOptionFactory.createByWidgetClass(
-            Inter.getLocText(new String[]{"Form-CheckBoxGroup", "Widget"}), BaseUtils.readIcon("/com/fr/web/images/form/resources/checkbox_group_16.png"), CheckBoxGroup.class);
+            Inter.getLocText(new String[]{"Form-CheckBoxGroup", "Widget"}), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/checkbox_group_16.png"), CheckBoxGroup.class);
 
     public static final WidgetOption RADIOGROUP = WidgetOptionFactory.createByWidgetClass(
-            Inter.getLocText(new String[]{"Form-RadioGroup", "Widget"}), BaseUtils.readIcon("/com/fr/web/images/form/resources/button_group_16.png"),
+            Inter.getLocText(new String[]{"Form-RadioGroup", "Widget"}), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/button_group_16.png"),
             RadioGroup.class);
 
     public static final WidgetOption NUMBEREDITOR = WidgetOptionFactory.createByWidgetClass(
-            Inter.getLocText(new String[]{"Number", "Widget"}), BaseUtils.readIcon("/com/fr/web/images/form/resources/number_field_16.png"), NumberEditor.class);
+            Inter.getLocText(new String[]{"Number", "Widget"}), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/number_field_16.png"), NumberEditor.class);
 
     public static final WidgetOption LABEL = WidgetOptionFactory.createByWidgetClass(
-            Inter.getLocText(new String[]{"Label", "Widget"}), BaseUtils.readIcon("/com/fr/web/images/form/resources/label_16.png"),
+            Inter.getLocText(new String[]{"Label", "Widget"}), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/label_16.png"),
             Label.class);
 
     public static final WidgetOption BUTTON = WidgetOptionFactory.createByWidgetClass(
@@ -155,23 +155,23 @@ public abstract class WidgetOption implements Serializable {
             Button.class);
 
     public static final WidgetOption FREEBUTTON = WidgetOptionFactory.createByWidgetClass(
-            Inter.getLocText(new String[]{"Form-Button", "Widget"}), BaseUtils.readIcon("/com/fr/web/images/form/resources/button_16.png"),
+            Inter.getLocText(new String[]{"Form-Button", "Widget"}), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/button_16.png"),
             FreeButton.class);
 
     public static final WidgetOption MULTI_FILEEDITOR = WidgetOptionFactory.createByWidgetClass(
-            Inter.getLocText(new String[]{"File", "Widget"}), BaseUtils.readIcon("/com/fr/web/images/form/resources/files_up.png"),
+            Inter.getLocText(new String[]{"File", "Widget"}), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/files_up.png"),
             MultiFileEditor.class);
 
     public static final WidgetOption COMBOBOX = WidgetOptionFactory.createByWidgetClass(
-            Inter.getLocText(new String[]{"Form-ComboBox", "Widget"}), BaseUtils.readIcon("/com/fr/web/images/form/resources/combo_box_16.png"),
+            Inter.getLocText(new String[]{"Form-ComboBox", "Widget"}), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/combo_box_16.png"),
             ComboBox.class);
 
     public static final WidgetOption COMBOCHECKBOX = WidgetOptionFactory.createByWidgetClass(
-            Inter.getLocText(new String[]{"Form-ComboCheckBox", "Widget"}), BaseUtils.readIcon("/com/fr/web/images/form/resources/combo_check_16.png"),
+            Inter.getLocText(new String[]{"Form-ComboCheckBox", "Widget"}), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/combo_check_16.png"),
             ComboCheckBox.class);
 
     public static final WidgetOption CHECKBOX = WidgetOptionFactory.createByWidgetClass(
-            Inter.getLocText(new String[]{"Form-CheckBox", "Widget"}), BaseUtils.readIcon("/com/fr/web/images/form/resources/check_box_16.png"),
+            Inter.getLocText(new String[]{"Form-CheckBox", "Widget"}), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/check_box_16.png"),
             CheckBox.class);
 
     public static final WidgetOption LIST = WidgetOptionFactory.createByWidgetClass(
@@ -183,16 +183,16 @@ public abstract class WidgetOption implements Serializable {
             TableTree.class);
 
     public static final WidgetOption TEXTEDITOR = WidgetOptionFactory.createByWidgetClass(Inter.getLocText(new String[]{"Text", "Widget"})
-            , BaseUtils.readIcon("/com/fr/web/images/form/resources/text_field_16.png"),
+            , BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/text_field_16.png"),
             TextEditor.class);
 
     public static final WidgetOption TEXTAREA = WidgetOptionFactory.createByWidgetClass(
-            Inter.getLocText(new String[]{"Form-TextArea", "Widget"}), BaseUtils.readIcon("/com/fr/web/images/form/resources/text_area_16.png"),
+            Inter.getLocText(new String[]{"Form-TextArea", "Widget"}), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/text_area_16.png"),
             TextArea.class);
 
     public static final WidgetOption PASSWORD = WidgetOptionFactory.createByWidgetClass(
             Inter.getLocText(new String[]{"Form-Password", "Widget"}),
-            BaseUtils.readIcon("/com/fr/web/images/form/resources/password_field_16.png"), Password.class);
+            BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/password_field_16.png"), Password.class);
 
     public static final WidgetOption IFRAMEDITOR = WidgetOptionFactory.createByWidgetClass(Inter.getLocText("FR-Designer_Form-Iframe"), BaseUtils.readIcon("/com/fr/web/images/form/resources/iframe_16.png"),
             IframeEditor.class);

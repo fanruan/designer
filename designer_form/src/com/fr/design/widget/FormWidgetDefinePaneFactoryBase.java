@@ -1,9 +1,10 @@
 package com.fr.design.widget;
 
 import com.fr.base.FRContext;
-import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.gui.core.WidgetConstants;
+import com.fr.design.mainframe.FormDesigner;
+import com.fr.design.widget.ui.designer.WidgetDefinePane;
 import com.fr.design.parameter.RootDesignDefinePane;
 import com.fr.design.widget.ui.designer.*;
 import com.fr.design.widget.ui.designer.layout.*;
@@ -12,7 +13,6 @@ import com.fr.form.ui.*;
 import com.fr.form.ui.container.*;
 import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
 import com.fr.form.ui.container.cardlayout.WTabFitLayout;
-import com.fr.general.Inter;
 import com.fr.stable.bridge.BridgeMark;
 import com.fr.stable.bridge.StableFactory;
 
@@ -53,28 +53,33 @@ public class FormWidgetDefinePaneFactoryBase {
         defineMap.put(Button.class, new Appearance(FreeButtonDefinePane.class, WidgetConstants.BUTTON + ""));
         defineMap.put(FreeButton.class, new Appearance(FreeButtonDefinePane.class, WidgetConstants.BUTTON + ""));
         defineMap.put(FormSubmitButton.class, new Appearance(FreeButtonDefinePane.class, WidgetConstants.BUTTON + ""));
-        defineMap.put(WFitLayout.class, new Appearance(FRFitLayoutDefinePane.class, Inter.getLocText("FR-Designer-Layout_Adaptive_Layout")));
-        defineMap.put(WCardMainBorderLayout.class, new Appearance(WCardMainLayoutDefinePane.class, Inter.getLocText("WLayout-Card-ToolTips")));
-//        if (StableFactory.getMarkedClass(BridgeMark.SUBMIT_BUTTON, Widget.class) != null) {
-//            defineMap.put(StableFactory.getMarkedClass(BridgeMark.SUBMIT_BUTTON, Widget.class), new Appearance(ButtonDefinePane.class, WidgetConstants.BUTTON + ""));
-//        }
+        defineMap.put(WFitLayout.class, new Appearance(FRFitLayoutDefinePane.class, "wFitLayout"));
+        defineMap.put(WCardMainBorderLayout.class, new Appearance(WCardMainLayoutDefinePane.class, "wCardMainBorderLayout"));
+        if (StableFactory.getMarkedClass(BridgeMark.CHART_EDITOR, AbstractBorderStyleWidget.class) != null) {
+            defineMap.put(StableFactory.getMarkedClass(BridgeMark.CHART_EDITOR, AbstractBorderStyleWidget.class), new Appearance(BorderStyleWidgetDefinePane.class, "chartEditor"));
+        }
 
-        defineMap.put(WAbsoluteLayout.class, new Appearance(FRAbsoluteLayoutDefinePane.class, Inter.getLocText("FR-Designer_AbsoluteLayout")));
-        defineMap.put(ElementCaseEditor.class, new Appearance(ElementEditorDefinePane.class, Inter.getLocText("FR-Designer_AbsoluteLayout")));
-        defineMap.put(WAbsoluteBodyLayout.class, new Appearance(FRAbsoluteBodyLayoutDefinePane.class, Inter.getLocText("FR-Designer-Layout_Adaptive_Layout")));
-        defineMap.put(WParameterLayout.class, new Appearance(RootDesignDefinePane.class, Inter.getLocText("FR-Designer_Para-Body")));
-        defineMap.put(WCardMainBorderLayout.class, new Appearance(WCardMainLayoutDefinePane.class, "tab"));
-        defineMap.put(WCardLayout.class, new Appearance(WCardLayoutDefinePane.class, "tablayout"));
+        defineMap.put(WAbsoluteLayout.class, new Appearance(FRAbsoluteLayoutDefinePane.class, "wAbsoluteLayout"));
+        defineMap.put(ElementCaseEditor.class, new Appearance(ElementEditorDefinePane.class, "elementCaseEditor"));
+        defineMap.put(WAbsoluteBodyLayout.class, new Appearance(FRAbsoluteBodyLayoutDefinePane.class, "wAbsoluteBodyLayout"));
+        defineMap.put(WParameterLayout.class, new Appearance(RootDesignDefinePane.class, "wParameterLayout"));
+        defineMap.put(WCardMainBorderLayout.class, new Appearance(WCardMainLayoutDefinePane.class, "wCardMainBorderLayout"));
+        defineMap.put(WCardLayout.class, new Appearance(WCardLayoutDefinePane.class, "wCardLayout"));
         defineMap.put(Label.class, new Appearance(LabelDefinePane.class, "label"));
-        defineMap.put(WTabFitLayout.class, new Appearance(WTabFitLayoutDefinePane.class, "label"));
-        defineMap.putAll(ExtraDesignClassManager.getInstance().getCellWidgetOptionsMap());
+        defineMap.put(WTabFitLayout.class, new Appearance(WTabFitLayoutDefinePane.class, "wTabFitLayout"));
+
     }
+
 
     private FormWidgetDefinePaneFactoryBase() {
 
     }
 
-    public static RN createWidgetDefinePane(XCreator creator, Widget widget, Operator operator) {
+    public static RN createWidgetDefinePane(XCreator creator, FormDesigner designer, Widget widget, Operator operator) {
+        if(isExtraXWidget(widget)){
+            WidgetDefinePane widgetDefinePane = new WidgetDefinePane(creator, designer);
+            return new RN(widgetDefinePane, widgetDefinePane.title4PopupWindow());
+        }
         Appearance dn = defineMap.get(widget.getClass());
         DataModify<Widget> definePane = null;
         try {
@@ -85,6 +90,10 @@ public class FormWidgetDefinePaneFactoryBase {
             FRContext.getLogger().error(e.getMessage(), e);
         }
         return new RN(definePane, dn.getDisplayName());
+    }
+
+    public static boolean isExtraXWidget(Widget widget){
+        return  defineMap.get(widget.getClass()) == null;
     }
 
     public static class RN {

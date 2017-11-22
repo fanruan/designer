@@ -6,7 +6,6 @@ import com.fr.chart.chartattr.BubblePlot;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartdata.BubbleTableDefinition;
 import com.fr.design.gui.icombobox.UIComboBox;
-import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
@@ -14,6 +13,7 @@ import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.ChartDataFilterPane;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
 
@@ -52,23 +52,23 @@ public class BubblePlotTableDataContentPane extends AbstractTableDataContentPane
         double[] columnSize_north = {p, f};
         double[] rowSize_north = {p, p, p, p};
         Component[][] components_north = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Chart-Series_Name")+":", SwingConstants.RIGHT), seriesName},
-                new Component[]{new UILabel("x :",SwingConstants.RIGHT), xCombox},
-                new Component[]{new UILabel("y :",SwingConstants.RIGHT), yCombox},
-                new Component[]{new UILabel(Inter.getLocText("FR-Chart_Bubble_Size")+":", SwingConstants.RIGHT), bubbleSize}
+                new Component[]{new UILabel(Inter.getLocText("Chart-Series_Name")), seriesName},
+                new Component[]{new UILabel("x"), xCombox},
+                new Component[]{new UILabel("y"), yCombox},
+                new Component[]{new UILabel(Inter.getLocText("FR-Chart_Bubble_Size")), bubbleSize}
         };
         JPanel north = TableLayoutHelper.createTableLayoutPane(components_north,rowSize_north,columnSize_north);
         north.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 1));
 
         Component[][] components = new Component[][]{
                      new Component[]{north},
-                     new Component[]{new JSeparator()},
-                     new Component[]{new BoldFontTextLabel(Inter.getLocText("Chart-Data_Filter"))},
-                     new Component[]{dataScreeningPane}
+                     new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Chart-Data_Filter"),dataScreeningPane), null},
              };
 
 
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+        dataScreeningPane.setBorder(BorderFactory.createEmptyBorder(10,10,0,15));
+
         this.setLayout(new BorderLayout());
         this.add(panel, BorderLayout.CENTER);
         

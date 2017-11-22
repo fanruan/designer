@@ -66,24 +66,25 @@ public class AlphaFineConstants {
 
     public static final Font GREATER_FONT = new Font("Song_TypeFace", 0, 20);
 
+    public static final String IMAGE_URL = "/com/fr/design/mainframe/alphafine/images/";
 
     public static final String PLUGIN_SEARCH_URL = SiteCenter.getInstance().acquireUrlByKind("plugin.searchAPI");
 
-    public static final String PLUGIN_URL = "http://shop.finereport.com/plugin/";
+    public static final String PLUGIN_URL = SiteCenter.getInstance().acquireUrlByKind("af.plugin");
 
-    public static final String REUSE_URL = "http://shop.finereport.com/reuse/";
+    public static final String REUSE_URL = SiteCenter.getInstance().acquireUrlByKind("af.reuse");
 
-    public static final String DOCUMENT_DOC_URL = "http://help.finereport.com/doc-view-";
+    public static final String DOCUMENT_DOC_URL = SiteCenter.getInstance().acquireUrlByKind("af.doc_view");
 
-    public static final String DOCUMENT_SEARCH_URL = "http://help.finereport.com/?api-search-title-";
+    public static final String DOCUMENT_SEARCH_URL = SiteCenter.getInstance().acquireUrlByKind("af.doc_search");
 
-    public static final String DOCUMENT_INFORMATION_URL = "http://help.finereport.com/?api-search-did-";
+    public static final String DOCUMENT_INFORMATION_URL = SiteCenter.getInstance().acquireUrlByKind("af.doc_info");
 
-    public static final String PLUGIN_IMAGE_URL = "http://shopres.finereport.com/";
+    public static final String PLUGIN_IMAGE_URL = SiteCenter.getInstance().acquireUrlByKind("af.plugin_image");
 
-    public static final String CLOUD_SERVER_URL = "http://cloud.fanruan.com/api/monitor/record_of_afsearch/single";
+    public static final String CLOUD_SERVER_URL = SiteCenter.getInstance().acquireUrlByKind("af.record");
 
-    public static final String SEARCH_API = "http://cloud.fanruan.com/api/intelligence/search/recommend?searchKey=";
+    public static final String SEARCH_API = SiteCenter.getInstance().acquireUrlByKind("af.cloud_search");
 
 
 }

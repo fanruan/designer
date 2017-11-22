@@ -33,10 +33,11 @@ public abstract class MiddleChartPropertyPane extends BaseChartPropertyPane{
 	
 	protected void initComponenet() {
 		this.setLayout(new BorderLayout());
-		this.setBorder(null);
+		this.setBorder(BorderFactory.createEmptyBorder(10,0,0,0));
 		
 		createNameLabel();
-		this.add(createNorthComponent(), BorderLayout.NORTH);
+		//去掉上方名字，先注释掉
+//		this.add(createNorthComponent(), BorderLayout.NORTH);
 		chartEditPane =  StableUtils.construct(ChartEditPane.class);
 		chartEditPane.setSupportCellData(true);
 	}

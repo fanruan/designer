@@ -1,7 +1,7 @@
 package com.fr.design.formula;
 
 
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.data.util.SortOrder;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.gui.ibutton.UIButton;
@@ -57,12 +57,11 @@ public abstract class SortFormulaPane extends JPanel {
     public void showFormulaDialog(String[] displayNames) {
     	String text = sortFormulaTextField.getText();
     	final UIFormula formulaPane = FormulaFactory.createFormulaPaneWhenReserveFormula();
-
-        formulaPane.populate(new Formula(text), new CustomVariableResolver(displayNames, true));
+        formulaPane.populate(BaseFormula.createFormulaBuilder().build(text), new CustomVariableResolver(displayNames, true));
         formulaPane.showLargeWindow(SwingUtilities.getWindowAncestor(SortFormulaPane.this),
             new DialogActionAdapter() {
                 public void doOk() {
-                    Formula fm = formulaPane.update();
+                    BaseFormula fm = formulaPane.update();
                     if (fm.getContent().length() <= 1) {
                         sortFormulaTextField.setText("");
                     } else {

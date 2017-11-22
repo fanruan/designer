@@ -1,17 +1,35 @@
 package com.fr.design.editor;
 
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
+import com.fr.design.editor.editor.BooleanEditor;
+import com.fr.design.editor.editor.ColumnRowEditor;
+import com.fr.design.editor.editor.ColumnRowGroupEditor;
+import com.fr.design.editor.editor.ColumnSelectedEditor;
+import com.fr.design.editor.editor.ConstantsEditor;
+import com.fr.design.editor.editor.CursorEditor;
+import com.fr.design.editor.editor.DateEditor;
+import com.fr.design.editor.editor.DoubleEditor;
+import com.fr.design.editor.editor.Editor;
+import com.fr.design.editor.editor.FormulaEditor;
+import com.fr.design.editor.editor.IntegerEditor;
+import com.fr.design.editor.editor.NoneEditor;
+import com.fr.design.editor.editor.ParameterEditor;
+import com.fr.design.editor.editor.SpinnerIntegerEditor;
+import com.fr.design.editor.editor.TextEditor;
+import com.fr.design.editor.editor.WidgetNameEditor;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itableeditorpane.ParameterTableModel;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.editor.editor.*;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class ValueEditorPaneFactory {
 
@@ -65,9 +83,10 @@ public class ValueEditorPaneFactory {
      * @return 返回公式编辑器面板
      */
     public static ValueEditorPane createFormulaValueEditorPane() {
-        return createValueEditorPane(new Editor[]{new FormulaEditor(Inter.getLocText("Parameter-Formula"))},
+        return createValueEditorPane(new Editor[]{new FormulaEditor(Inter.getLocText("FR-Designer_Parameter-Formula"))},
                 StringUtils.EMPTY, StringUtils.EMPTY);
     }
+
     /**
      * 创建基本的值编辑器面板
      *
@@ -138,11 +157,13 @@ public class ValueEditorPaneFactory {
 
     /**
      * 创建不带公式面板的pane
+     *
      * @return 编辑器面板
      */
-    public static ValueEditorPane  createBasicEditorWithoutFormulaPane(){
+    public static ValueEditorPane createBasicEditorWithoutFormulaPane() {
         return createValueEditorPane(basicEditorsWithoutFormula(), StringUtils.EMPTY, StringUtils.EMPTY);
     }
+
     /**
      * 创建NoCRNoColumn
      *
@@ -154,19 +175,22 @@ public class ValueEditorPaneFactory {
 
     /**
      * 创建数值编辑器
+     *
      * @return 值编辑器
      */
-    public static ValueEditorPane createNumberValueEditorPane(){
+    public static ValueEditorPane createNumberValueEditorPane() {
         return createValueEditorPane(numberEditors(), StringUtils.EMPTY, StringUtils.EMPTY);
     }
 
     /**
      * 创建日期编辑器
+     *
      * @return 值编辑器
      */
-    public static ValueEditorPane createDateValueEditorPane(){
+    public static ValueEditorPane createDateValueEditorPane() {
         return createValueEditorPane(dateEditors(), StringUtils.EMPTY, StringUtils.EMPTY);
     }
+
     /**
      * 根据参数paraUseType 创建编辑器类型.
      *
@@ -174,23 +198,27 @@ public class ValueEditorPaneFactory {
      * @return 值编辑器
      */
     public static ValueEditorPane createVallueEditorPaneWithUseType(int paraUseType) {
+       return createVallueEditorPaneWithUseType(paraUseType, null);
+    }
+
+    public static ValueEditorPane createVallueEditorPaneWithUseType(int paraUseType, HashMap hyperLinkEditorMap) {
         if (paraUseType == ParameterTableModel.NO_CHART_USE) {
             return createBasicValueEditorPane();
         } else if (paraUseType == ParameterTableModel.FORM_NORMAL_USE) {
             return createFormEditorPane();
         } else {
-            return createChartHotValueEditorPane(paraUseType);
+            return createChartHotValueEditorPane(hyperLinkEditorMap);
         }
     }
 
     /**
      * 图表用的参数编辑器的ValueEditorPane
      *
-     * @param paraUseType 参数类型
+     * @param hyperLinkEditorMap 超链下拉参数类型
      * @return 值编辑器
      */
-    public static ValueEditorPane createChartHotValueEditorPane(int paraUseType) {
-        return createValueEditorPane(chartHotEditors(paraUseType), StringUtils.EMPTY, StringUtils.EMPTY);
+    public static ValueEditorPane createChartHotValueEditorPane(HashMap hyperLinkEditorMap) {
+        return createValueEditorPane(chartHotEditors(hyperLinkEditorMap), StringUtils.EMPTY, StringUtils.EMPTY);
     }
 
     /**
@@ -199,12 +227,12 @@ public class ValueEditorPaneFactory {
      * @return 值编辑器
      */
     public static Editor<?>[] basicEditors() {
-        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("Parameter-Formula"));
+        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("FR-Designer_Parameter-Formula"));
         return new Editor[]{
                 new TextEditor(),
-                new IntegerEditor(),
+                new SpinnerIntegerEditor(),
                 new DoubleEditor(),
-                new DateEditor(true, Inter.getLocText("Date")),
+                new DateEditor(true, Inter.getLocText("FR-Designer_Date")),
                 new BooleanEditor(),
                 formulaEditor
         };
@@ -216,15 +244,15 @@ public class ValueEditorPaneFactory {
      * @return 值编辑器
      */
     public static Editor<?>[] formEditors() {
-        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("Parameter-Formula"));
+        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("FR-Designer_Parameter-Formula"));
         return new Editor[]{
                 new TextEditor(),
                 new IntegerEditor(),
                 new DoubleEditor(),
-                new DateEditor(true, Inter.getLocText("Date")),
+                new DateEditor(true, Inter.getLocText("FR-Designer_Date")),
                 new BooleanEditor(),
                 formulaEditor,
-                new WidgetNameEditor(Inter.getLocText("Widget"))
+                new WidgetNameEditor(Inter.getLocText("FR-Designer_Widget"))
         };
     }
 
@@ -234,48 +262,50 @@ public class ValueEditorPaneFactory {
      * @return 值编辑器
      */
     public static Editor<?>[] extendedEditors() {
-        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("Parameter-Formula"));
+        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("FR-Designer_Parameter-Formula"));
         return new Editor[]{
                 new TextEditor(),
                 new IntegerEditor(),
                 new DoubleEditor(),
-                new DateEditor(true, Inter.getLocText("Date")),
+                new DateEditor(true, Inter.getLocText("FR-Designer_Date")),
                 new BooleanEditor(),
                 formulaEditor,
                 new ParameterEditor(),
-                new ColumnRowEditor(Inter.getLocText("Cell"))
+                new ColumnRowEditor(Inter.getLocText("FR-Designer_Cell"))
         };
     }
 
-	/**
-	 * 带单元格组的编辑器
-	 * @return 值编辑器
-	 */
-	public static Editor<?>[] extendedCellGroupEditors() {
-		FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("Parameter-Formula"));
-		return new Editor[]{
-				new TextEditor(),
-				new IntegerEditor(),
-				new DoubleEditor(),
-				new DateEditor(true, Inter.getLocText("Date")),
-				new BooleanEditor(),
-				formulaEditor,
-				new ParameterEditor(),
-				new ColumnRowEditor(Inter.getLocText("Cell")),
-				new ColumnRowGroupEditor(Inter.getLocText("Cell_Group"))
-		};
-	}
+    /**
+     * 带单元格组的编辑器
+     *
+     * @return 值编辑器
+     */
+    public static Editor<?>[] extendedCellGroupEditors() {
+        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("FR-Designer_Parameter-Formula"));
+        return new Editor[]{
+                new TextEditor(),
+                new IntegerEditor(),
+                new DoubleEditor(),
+                new DateEditor(true, Inter.getLocText("FR-Designer_Date")),
+                new BooleanEditor(),
+                formulaEditor,
+                new ParameterEditor(),
+                new ColumnRowEditor(Inter.getLocText("FR-Designer_Cell")),
+                new ColumnRowGroupEditor(Inter.getLocText("FR-Designer-Cell_Group"))
+        };
+    }
 
-	/**
-	 * 只有单元格和单元格组的编辑器
-	 * @return 编辑器b
-	 */
-	public static Editor<?>[] cellGroupEditor() {
-		return new Editor[] {
-				new ColumnRowEditor(Inter.getLocText("Cell")),
-				new ColumnRowGroupEditor(Inter.getLocText("Cell_Group"))
-		};
-	}
+    /**
+     * 只有单元格和单元格组的编辑器
+     *
+     * @return 编辑器b
+     */
+    public static Editor<?>[] cellGroupEditor() {
+        return new Editor[]{
+                new ColumnRowEditor(Inter.getLocText("FR-Designer_Cell")),
+                new ColumnRowGroupEditor(Inter.getLocText("FR-Designer-Cell_Group"))
+        };
+    }
 
     /**
      * URL的一些编辑器.
@@ -286,7 +316,7 @@ public class ValueEditorPaneFactory {
      */
     public static Editor<?>[] URLEditors(String popupName, String textEditorValue) {
         return new Editor[]{
-                new NoneEditor(textEditorValue, StringUtils.isEmpty(popupName) ? Inter.getLocText("None") : popupName),
+                new NoneEditor(textEditorValue, StringUtils.isEmpty(popupName) ? Inter.getLocText("FR-Designer_None") : popupName),
                 new TextEditor()
         };
     }
@@ -300,9 +330,9 @@ public class ValueEditorPaneFactory {
      */
     public static Editor<?>[] dateEditors(String popupName, String textEditorValue) {
         return new Editor[]{
-                new NoneEditor(textEditorValue, StringUtils.isEmpty(popupName) ? Inter.getLocText("None") : popupName),
-                new DateEditor(true, Inter.getLocText("Date")),
-                new FormulaEditor(Inter.getLocText("Parameter-Formula"))
+                new NoneEditor(textEditorValue, StringUtils.isEmpty(popupName) ? Inter.getLocText("FR-Designer_None") : popupName),
+                new DateEditor(true, Inter.getLocText("FR-Designer_Date")),
+                new FormulaEditor(Inter.getLocText("FR-Designer_Parameter-Formula"))
         };
     }
 
@@ -312,17 +342,17 @@ public class ValueEditorPaneFactory {
      * @return 值编辑器
      */
     public static Editor<?>[] allEditors() {
-        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("Parameter-Formula"));
+        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("FR-Designer_Parameter-Formula"));
 //        formulaEditor.setEnabled(true);
         return new Editor[]{
                 new TextEditor(),
                 new IntegerEditor(),
                 new DoubleEditor(),
-                new DateEditor(true, Inter.getLocText("Date")),
+                new DateEditor(true, Inter.getLocText("FR-Designer_Date")),
                 new BooleanEditor(),
                 formulaEditor,
                 new ParameterEditor(),
-                new ColumnRowEditor(Inter.getLocText("Cell")),
+                new ColumnRowEditor(Inter.getLocText("FR-Designer_Cell")),
                 new ColumnSelectedEditor(),
                 //23328 allEditors中删除控件选项
 //                new WidgetNameEditor(Inter.getLocText("Widget"))
@@ -331,14 +361,15 @@ public class ValueEditorPaneFactory {
 
     /**
      * 不带公式编辑器
+     *
      * @return 编辑器不带公式
      */
-    public static Editor<?>[] basicEditorsWithoutFormula(){
+    public static Editor<?>[] basicEditorsWithoutFormula() {
         return new Editor[]{
                 new TextEditor(),
                 new IntegerEditor(),
                 new DoubleEditor(),
-                new DateEditor(true, Inter.getLocText("Date")),
+                new DateEditor(true, Inter.getLocText("FR-Designer_Date")),
                 new BooleanEditor(),
         };
     }
@@ -349,12 +380,12 @@ public class ValueEditorPaneFactory {
      * @return 编辑器
      */
     public static Editor<?>[] noCRnoColumnEditors() {
-        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("Parameter-Formula"));
+        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("FR-Designer_Parameter-Formula"));
         return new Editor[]{
                 new TextEditor(),
                 new IntegerEditor(),
                 new DoubleEditor(),
-                new DateEditor(true, Inter.getLocText("Date")),
+                new DateEditor(true, Inter.getLocText("FR-Designer_Date")),
                 new BooleanEditor(),
                 formulaEditor,
                 new ParameterEditor(),
@@ -363,10 +394,11 @@ public class ValueEditorPaneFactory {
 
     /**
      * 数值编辑器
-      * @return 编辑器
+     *
+     * @return 编辑器
      */
     public static Editor<?>[] numberEditors() {
-        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("Parameter-Formula"));
+        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("FR-Designer_Parameter-Formula"));
         return new Editor[]{
                 new IntegerEditor(),
                 new DoubleEditor(),
@@ -377,12 +409,13 @@ public class ValueEditorPaneFactory {
 
     /**
      * 日期编辑器
+     *
      * @return 编辑器
      */
     public static Editor<?>[] dateEditors() {
-        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("Parameter-Formula"));
+        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("FR-Designer_Parameter-Formula"));
         return new Editor[]{
-                new DateEditor(true, Inter.getLocText("Date")),
+                new DateEditor(true, Inter.getLocText("FR-Designer_Date")),
                 formulaEditor,
                 new ParameterEditor(),
         };
@@ -394,14 +427,14 @@ public class ValueEditorPaneFactory {
      * @return 存储过程的编辑器
      */
     public static Editor<?>[] StoreProcedureEditors() {
-        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("Parameter-Formula"));
+        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("FR-Designer_Parameter-Formula"));
         formulaEditor.setEnabled(true);
         return new Editor[]{
                 new CursorEditor(),
                 new TextEditor(),
                 new IntegerEditor(),
                 new DoubleEditor(),
-                new DateEditor(true, Inter.getLocText("Date")),
+                new DateEditor(true, Inter.getLocText("FR-Designer_Date")),
                 new BooleanEditor(),
                 formulaEditor
         };
@@ -410,19 +443,18 @@ public class ValueEditorPaneFactory {
     /**
      * 图表热点的一些编辑器
      *
-     * @param paraUseType 参数类型
      * @return 值编辑器
      */
-    public static Editor[] chartHotEditors(int paraUseType) {
-        List<Editor> list = createEditors4Chart(paraUseType);
+    public static Editor[] chartHotEditors(HashMap hyperLinkEditorMap) {
+        List<Editor> list = createEditors4Chart(hyperLinkEditorMap);
 
         list.add(new TextEditor());
         list.add(new IntegerEditor());
         list.add(new DoubleEditor());
-        list.add(new DateEditor(true, Inter.getLocText("Date")));
+        list.add(new DateEditor(true, Inter.getLocText("FR-Designer_Date")));
         list.add(new BooleanEditor());
 
-        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("Parameter-Formula"));
+        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("FR-Designer_Parameter-Formula"));
         formulaEditor.setEnabled(true);
         list.add(formulaEditor);
 
@@ -432,179 +464,20 @@ public class ValueEditorPaneFactory {
     /**
      * 为图表创建编辑器.
      *
-     * @param paraUseType 参数类型
      * @return 值编辑器
      */
-    private static List<Editor> createEditors4Chart(int paraUseType) {
-        if(paraUseType == ParameterTableModel.CHART_PIE_USE) {
-            return getPieEditor();
-        } else if(paraUseType == ParameterTableModel.CHART_MAP_USE) {
-            return getMapEditor();
-        } else if(paraUseType == ParameterTableModel.CHART_GIS_USE) {
-            return getGisEditor();
-        } else if(paraUseType == ParameterTableModel.CHART__XY_USE) {
-            return getXYEditor();
-        } else if(paraUseType == ParameterTableModel.CHART_BUBBLE_USE) {
-            return getBubbbleEdtor();
-        } else if(paraUseType == ParameterTableModel.CHART_NO_USE) {
-            return getChartNoUseEditor();
-        } else if(paraUseType == ParameterTableModel.CHART_METER_USE) {
-            return getMeterEditor();
-        } else if(paraUseType == ParameterTableModel.CHART_STOCK_USE) {
-            return getStockEditor();
-        } else if(paraUseType == ParameterTableModel.CHART_GANTT_USE) {
-            return getGanttEditor();
-        } else if(paraUseType == ParameterTableModel.FORM_ELEMENTCASE_USE) {
-            return getFormElementCaseEditor();
-        }   else if(paraUseType == ParameterTableModel.FORM_CHART_USE) {
-           return getFormChartEditor();
+    private static List<Editor> createEditors4Chart(HashMap hyperLinkEditorMap) {
+        List<Editor> lists = new ArrayList<Editor>();
+        if (hyperLinkEditorMap == null) {
+            return lists;
         }
-        else {
-            return getChartEditor();
+        Iterator<Map.Entry<String, BaseFormula>> entries = hyperLinkEditorMap.entrySet().iterator();
+        while (entries.hasNext()) {
+            Map.Entry<String, BaseFormula> entry = entries.next();
+            ConstantsEditor editor = new ConstantsEditor(entry.getKey(), entry.getValue());
+            editor.setEnabled(false);
+            lists.add(editor);
         }
-    }
-
-    private static List<Editor> getMeterEditor() {
-        ConstantsEditor cate = new ConstantsEditor(Inter.getLocText("CategoryName"), new Formula("CATEGORY"));
-        cate.setEnabled(false);
-        ConstantsEditor value = new ConstantsEditor(Inter.getLocText("Chart-Series_Value"), new Formula("VALUE"));
-        value.setEnabled(false);
-
-        List<Editor> lists = new ArrayList<Editor>();
-        lists.add(cate);
-        lists.add(value);
-
-        return lists;
-    }
-
-    private static List<Editor> getPieEditor() {
-        ConstantsEditor series = new ConstantsEditor(Inter.getLocText("ChartF-Series_Name"), new Formula("SERIES"));
-        series.setEnabled(false);
-        ConstantsEditor value = new ConstantsEditor(Inter.getLocText("Chart-Series_Value"), new Formula("VALUE"));
-        value.setEnabled(false);
-
-        List<Editor> lists = new ArrayList<Editor>();
-        lists.add(series);
-        lists.add(value);
-        return lists;
-    }
-
-    private static List<Editor> getGisEditor() {
-        ConstantsEditor areaValue = new ConstantsEditor(Inter.getLocText("Area_Value"), new Formula("AREA_VALUE"));
-        areaValue.setEnabled(false);
-        ConstantsEditor chartAddress = new ConstantsEditor(Inter.getLocText("Chart-Address"), new Formula("ADDRESS"));
-        chartAddress.setEnabled(false);
-        ConstantsEditor addressName = new ConstantsEditor(Inter.getLocText("Chart-Address-Name"), new Formula("ADDRESS_NAME"));
-        addressName.setEnabled(false);
-
-        List<Editor> lists = new ArrayList<Editor>();
-        lists.add(chartAddress);
-        lists.add(addressName);
-        lists.add(areaValue);
-
-        return lists;
-    }
-
-    private static List<Editor> getGanttEditor() {
-        ConstantsEditor projectid = new ConstantsEditor(Inter.getLocText("Chart_ProjectID"), new Formula("PROJECTID"));
-        projectid.setEnabled(false);
-        ConstantsEditor step = new ConstantsEditor(Inter.getLocText("Chart_Step_Name"), new Formula("STEP"));
-        step.setEnabled(false);
-
-        List<Editor> lists = new ArrayList<Editor>();
-        lists.add(projectid);
-        lists.add(step);
-
-        return lists;
-    }
-
-    private static List<Editor> getXYEditor() {
-        ConstantsEditor series = new ConstantsEditor(Inter.getLocText("ChartF-Series_Name"), new Formula("SERIES"));
-        series.setEnabled(false);
-        ConstantsEditor value = new ConstantsEditor(Inter.getLocText("Chart-Series_Value"), new Formula("VALUE"));
-        value.setEnabled(false);
-
-        List<Editor> lists = new ArrayList<Editor>();
-        lists.add(series);
-        lists.add(value);
-
-        return lists;
-    }
-
-    private static List<Editor> getStockEditor() {
-        List<Editor> lists = new ArrayList<Editor>();
-
-        return lists;
-    }
-
-    private static List<Editor> getBubbbleEdtor() {
-        ConstantsEditor series = new ConstantsEditor(Inter.getLocText("ChartF-Series_Name"), new Formula("SERIES"));
-        series.setEnabled(false);
-        ConstantsEditor value = new ConstantsEditor(Inter.getLocText("Chart-Series_Value"), new Formula("VALUE"));
-        value.setEnabled(false);
-
-        List<Editor> lists = new ArrayList<Editor>();
-        lists.add(series);
-        lists.add(value);
-
-        return lists;
-    }
-
-    private static List<Editor> getChartNoUseEditor() {
-        List<Editor> lists = new ArrayList<Editor>();
-
-        return lists;
-    }
-
-    private static List<Editor> getMapEditor() {
-        ConstantsEditor areaValue = new ConstantsEditor(Inter.getLocText("Area_Value"), new Formula("AREA_VALUE"));
-        areaValue.setEnabled(false);
-        ConstantsEditor areaName = new ConstantsEditor(Inter.getLocText("Area_Name"), new Formula("AREA_NAME"));
-        areaName.setEnabled(false);
-
-        List<Editor> lists = new ArrayList<Editor>();
-        lists.add(areaName);
-        lists.add(areaValue);
-
-        return lists;
-    }
-
-    private static List<Editor> getChartEditor() {
-        ConstantsEditor cate = new ConstantsEditor(Inter.getLocText("CategoryName"), new Formula("CATEGORY"));
-        cate.setEnabled(false);
-        ConstantsEditor series = new ConstantsEditor(Inter.getLocText("ChartF-Series_Name"), new Formula("SERIES"));
-        series.setEnabled(false);
-        ConstantsEditor value = new ConstantsEditor(Inter.getLocText("Chart-Series_Value"), new Formula("VALUE"));
-        value.setEnabled(false);
-
-        List<Editor> lists = new ArrayList<Editor>();
-        lists.add(cate);
-        lists.add(series);
-        lists.add(value);
-
-        return lists;
-    }
-
-    private static List<Editor> getFormElementCaseEditor() {
-
-        List<Editor> lists = new ArrayList<Editor>();
-
-        return lists;
-    }
-
-    private static List<Editor> getFormChartEditor() {
-        ConstantsEditor cate = new ConstantsEditor(Inter.getLocText("CategoryName"), new Formula("CATEGORY"));
-        cate.setEnabled(false);
-        ConstantsEditor series = new ConstantsEditor(Inter.getLocText("ChartF-Series_Name"), new Formula("SERIES"));
-        series.setEnabled(false);
-        ConstantsEditor value = new ConstantsEditor(Inter.getLocText("Chart-Series_Value"), new Formula("VALUE"));
-        value.setEnabled(false);
-
-        List<Editor> lists = new ArrayList<Editor>();
-        lists.add(cate);
-        lists.add(series);
-        lists.add(value);
-
         return lists;
     }
 
@@ -620,12 +493,12 @@ public class ValueEditorPaneFactory {
 
         JPanel paneLeft = FRGUIPaneFactory.createBorderLayout_S_Pane();
         pane.add(paneLeft);
-        paneLeft.add(new UILabel(" " + Inter.getLocText("Actual_Value") + ":"), BorderLayout.NORTH);
+        paneLeft.add(new UILabel(" " + Inter.getLocText("FR-Designer_Actual_Value") + ":"), BorderLayout.NORTH);
         paneLeft.add(keyColumnPane, BorderLayout.CENTER);
 
         JPanel paneRight = FRGUIPaneFactory.createBorderLayout_S_Pane();
         pane.add(paneRight);
-        paneRight.add(new UILabel(" " + Inter.getLocText("Display_Value") + ":"), BorderLayout.NORTH);
+        paneRight.add(new UILabel(" " + Inter.getLocText("FR-Designer_Display_Value") + ":"), BorderLayout.NORTH);
 
         paneRight.add(valueDictPane, BorderLayout.CENTER);
 

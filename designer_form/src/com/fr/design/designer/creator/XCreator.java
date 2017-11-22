@@ -227,7 +227,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	}
 
 	protected String getIconName() {
-        return "";
+        return StringUtils.EMPTY;
     }
 
 	public String getIconPath() {
@@ -472,11 +472,9 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 			selectionModel.selectACreatorAtMouseEvent(e);
 		}
 
-		if (editingMouseListener.stopEditing()) {
-			if (this != designer.getRootComponent()) {
-				ComponentAdapter adapter = AdapterBus.getComponentAdapter(designer, this);
-				editingMouseListener.startEditing(this, adapter.getDesignerEditor(), adapter);
-			}
+		if (editingMouseListener.stopEditing() && this != designer.getRootComponent()) {
+			ComponentAdapter adapter = AdapterBus.getComponentAdapter(designer, this);
+			editingMouseListener.startEditing(this, adapter.getDesignerEditor(), adapter);
 		}
 	}
 
@@ -627,10 +625,18 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	}
 
 	/**
-	 * 是否支持设置可见和可用
+	 * 是否支持设置可见
 	 * return boolean
 	 */
-	public boolean supportSetVisibleOrEnable(){
+	public boolean supportSetVisible(){
+		return true;
+	}
+
+	/**
+	 * 是否支持设置可用
+	 * return boolean
+	 */
+	public boolean supportSetEnable(){
 		return true;
 	}
 
@@ -640,6 +646,14 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	 */
 	public void resetData(Widget data){
 		this.data = data;
+	}
+
+	/**
+	 * data属性改变触发其他操作
+	 *
+	 */
+	public void firePropertyChange(){
+
 	}
 
 }

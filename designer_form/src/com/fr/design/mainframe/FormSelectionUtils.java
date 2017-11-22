@@ -5,24 +5,45 @@ import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.AbstractLayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.FRTabFitLayoutAdapter;
 import com.fr.design.designer.beans.events.DesignerEvent;
-import com.fr.design.designer.creator.*;
+import com.fr.design.designer.creator.XCreator;
+import com.fr.design.designer.creator.XCreatorUtils;
+import com.fr.design.designer.creator.XLayoutContainer;
+import com.fr.design.designer.creator.XWAbsoluteLayout;
+import com.fr.design.designer.creator.XWFitLayout;
+import com.fr.design.designer.creator.XWScaleLayout;
+import com.fr.design.designer.creator.XWTitleLayout;
 import com.fr.design.utils.ComponentUtils;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WTitleLayout;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * 表单选中工具类
+ *
+ * @author yaoh.wu
+ * @version 2017年11月15日13点51分
+ * @since 8.0
+ */
 public class FormSelectionUtils {
 
-    //组件复制时坐标偏移
+    /**
+     * 组件复制时坐标偏移
+     */
     private static final int DELAY_X_Y = 20;
 
-    //组件重命名后缀
+    /**
+     * 组件重命名后缀
+     */
     private static final String POSTFIX = "_c";
 
     private FormSelectionUtils() {
@@ -45,6 +66,25 @@ public class FormSelectionUtils {
             return;
         }
         Toolkit.getDefaultToolkit().beep();
+    }
+
+
+    public static void rebuildSelection(FormDesigner designer) {
+        ArrayList<XCreator> newSelection = new ArrayList<>();
+        List<Widget> widgetList = new ArrayList<>();
+        for (XCreator comp : designer.getSelectionModel().getSelection().getSelectedCreators()) {
+            widgetList.add(comp.toData());
+        }
+        designer.getSelectionModel().setSelectedCreators(
+                rebuildSelection(designer.getRootComponent(), widgetList, newSelection));
+    }
+
+    public static ArrayList<XCreator> rebuildSelection(XCreator rootComponent, Widget[] selectWidgets) {
+        List<Widget> selectionWidget = new ArrayList<>();
+        if (selectWidgets != null) {
+            selectionWidget.addAll(Arrays.asList(selectWidgets));
+        }
+        return FormSelectionUtils.rebuildSelection(rootComponent, selectionWidget, new ArrayList<XCreator>());
     }
 
     /**
@@ -92,31 +132,45 @@ public class FormSelectionUtils {
 
         designer.getSelectionModel().getSelection().reset();
         for (XCreator creator : clipboard.getSelectedCreators()) {
-            try {
-                Widget copied = copyWidget(designer, creator);
-                XCreator copiedCreator = XCreatorUtils.createXCreator(copied, creator.getSize());
-                if (adapter.getClass().equals(FRTabFitLayoutAdapter.class)) {
-                    if (!adapter.accept(copiedCreator, x - tabContainerRect.x, y - tabContainerRect.y)) {
-                        designer.showMessageDialog(Inter.getLocText("FR-Designer_Too_Small_To_Paste"));
-                        return;
-                    }
-                } else {
-                    if (!adapter.accept(copiedCreator, x, y)) {
-                        designer.showMessageDialog(Inter.getLocText("FR-Designer_Too_Small_To_Paste"));
-                        return;
-                    }
+            if (creator instanceof XWScaleLayout) {
+                //XWScaleLayout封装了在自适应布局中需要保持默认高度的控件，由于自适应粘贴时会再次包装，因此复制时要进行解包
+                Component[] innerComponents = creator.getComponents();
+                for (Component innerComponent : innerComponents) {
+                    XCreator innerXCreator = (XCreator) innerComponent;
+                    relativePasteXCreator(designer, innerXCreator, adapter, tabContainerRect, x, y);
                 }
-                boolean addSuccess = adapter.addBean(copiedCreator, x, y);
-                if (addSuccess) {
-                    designer.getSelectionModel().getSelection().addSelectedCreator(copiedCreator);
-                }
-            } catch (CloneNotSupportedException e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+            } else {
+                relativePasteXCreator(designer, creator, adapter, tabContainerRect, x, y);
             }
         }
         rebuildSelection(designer);
         designer.getEditListenerTable().fireCreatorModified(
                 designer.getSelectionModel().getSelection().getSelectedCreator(), DesignerEvent.CREATOR_PASTED);
+    }
+
+
+    private static void relativePasteXCreator(FormDesigner designer, XCreator creator, LayoutAdapter adapter, Rectangle tabContainerRect, int x, int y) {
+        try {
+            Widget copied = copyWidget(designer, creator);
+            XCreator copiedXCreator = XCreatorUtils.createXCreator(copied, creator.getSize());
+            if (adapter.getClass().equals(FRTabFitLayoutAdapter.class)) {
+                if (!adapter.accept(copiedXCreator, x - tabContainerRect.x, y - tabContainerRect.y)) {
+                    designer.showMessageDialog(Inter.getLocText("FR-Designer_Too_Small_To_Paste"));
+                    return;
+                }
+            } else {
+                if (!adapter.accept(copiedXCreator, x, y)) {
+                    designer.showMessageDialog(Inter.getLocText("FR-Designer_Too_Small_To_Paste"));
+                    return;
+                }
+            }
+            boolean addSuccess = adapter.addBean(copiedXCreator, x, y);
+            if (addSuccess) {
+                designer.getSelectionModel().getSelection().addSelectedCreator(copiedXCreator);
+            }
+        } catch (CloneNotSupportedException e) {
+            FRLogger.getLogger().error(e.getMessage(), e);
+        }
     }
 
     /**
@@ -182,23 +236,6 @@ public class FormSelectionUtils {
         return name.toString();
     }
 
-    public static void rebuildSelection(FormDesigner designer) {
-        ArrayList<XCreator> newSelection = new ArrayList<>();
-        List<Widget> widgetList = new ArrayList<>();
-        for (XCreator comp : designer.getSelectionModel().getSelection().getSelectedCreators()) {
-            widgetList.add(comp.toData());
-        }
-        designer.getSelectionModel().setSelectedCreators(
-                rebuildSelection(designer.getRootComponent(), widgetList, newSelection));
-    }
-
-    public static ArrayList<XCreator> rebuildSelection(XCreator rootComponent, Widget[] selectWidgets) {
-        List<Widget> selectionWidget = new ArrayList<>();
-        if (selectWidgets != null) {
-            selectionWidget.addAll(Arrays.asList(selectWidgets));
-        }
-        return FormSelectionUtils.rebuildSelection(rootComponent, selectionWidget, new ArrayList<XCreator>());
-    }
 
     private static ArrayList<XCreator> rebuildSelection(XCreator rootComponent, List<Widget> selectionWidget,
                                                         ArrayList<XCreator> newSelection) {

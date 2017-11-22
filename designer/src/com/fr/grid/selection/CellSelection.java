@@ -1,13 +1,25 @@
 package com.fr.grid.selection;
 
-import com.fr.base.*;
+import com.fr.base.BaseFormula;
+import com.fr.base.BaseUtils;
+import com.fr.base.ConfigManager;
+import com.fr.base.NameStyle;
+import com.fr.base.Utils;
 import com.fr.cache.list.IntList;
 import com.fr.design.actions.UpdateAction;
-import com.fr.design.actions.cell.*;
+import com.fr.design.actions.cell.CellAttributeAction;
+import com.fr.design.actions.cell.CellExpandAttrAction;
+import com.fr.design.actions.cell.CellWidgetAttrAction;
+import com.fr.design.actions.cell.CleanAuthorityAction;
+import com.fr.design.actions.cell.ConditionAttributesAction;
+import com.fr.design.actions.cell.EditCellAction;
+import com.fr.design.actions.cell.GlobalStyleMenuDef;
 import com.fr.design.actions.cell.GlobalStyleMenuDef.GlobalStyleSelection;
+import com.fr.design.actions.cell.StyleAction;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.actions.edit.CopyAction;
 import com.fr.design.actions.edit.CutAction;
+import com.fr.design.actions.edit.HyperlinkAction;
 import com.fr.design.actions.edit.PasteAction;
 import com.fr.design.actions.utils.DeprecatedActionManager;
 import com.fr.design.cell.clipboard.CellElementsClip;
@@ -25,7 +37,6 @@ import com.fr.design.mainframe.JTemplate;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.report.RowColumnPane;
 import com.fr.design.selection.QuickEditor;
-import com.fr.form.ui.CellWidget;
 import com.fr.general.Inter;
 import com.fr.grid.GridUtils;
 import com.fr.report.cell.CellElement;
@@ -35,6 +46,7 @@ import com.fr.report.cell.cellattr.CellGUIAttr;
 import com.fr.report.elementcase.TemplateElementCase;
 import com.fr.stable.ColumnRow;
 import com.fr.stable.StableUtils;
+import com.fr.stable.StringUtils;
 import com.fr.stable.unit.FU;
 
 import javax.swing.*;
@@ -241,10 +253,10 @@ public class CellSelection extends Selection {
         }
         FU [] columnWidth = new FU[columnSpan];
         FU [] rowHeight = new FU[rowSpan];
-        for(int i = 0; i < columnSpan; i++){
+        for (int i = 0; i < columnSpan; i++){
             columnWidth[i] = ec.getColumnWidth(this.column + i);
         }
-        for(int j = 0; j < rowSpan; j++){
+        for (int j = 0; j < rowSpan; j++){
             rowHeight[j] = ec.getRowHeight(this.row + j);
         }
         transferable.addObject(new CellElementsClip(this.columnSpan, this.rowSpan, columnWidth, rowHeight, list.toArray(new TemplateCellElement[list.size()])));
@@ -256,6 +268,7 @@ public class CellSelection extends Selection {
      * @param ePane 区域
      * @return  成功返回true
      */
+    @Override
     public boolean pasteCellElementsClip(CellElementsClip ceClip, ElementCasePane ePane) {
         TemplateElementCase ec = ePane.getEditingElementCase();
         CellSelection cs = ceClip.pasteAt(ec, column, row);
@@ -272,6 +285,7 @@ public class CellSelection extends Selection {
      * @param ePane  区域
      * @return 成功返回true
      */
+    @Override
     public boolean pasteString(String str, ElementCasePane ePane) {
         // 主要需要处理Excel当中的类型.
         // Excel 的剪贴板格式
@@ -289,14 +303,14 @@ public class CellSelection extends Selection {
             for (int c = 0; c < lineTextArray.length; c++) {
                 String textValue = lineTextArray[c];
                 if (textValue.length() > 0 && textValue.charAt(0) == '=') {
-                    ec.setCellValue(column + c, row + r, new Formula(textValue));
+                    ec.setCellValue(column + c, row + r, BaseFormula.createFormulaBuilder().build(textValue));
                 } else {
                     Number number = Utils.string2Number(lineTextArray[c]);
                     if (number != null) {
                         ec.setCellValue(column + c, row + r, number);
                     } else {
                         // alex:对于100,000,000这种数值,先做一个取巧的解决方法
-                        String newStr = Utils.replaceAllString(lineTextArray[c], ",", "");
+                        String newStr = Utils.replaceAllString(lineTextArray[c], ",", StringUtils.EMPTY);
                         number = Utils.string2Number(newStr);
                         if (number != null) {
                             ec.setCellValue(column + c, row + r, Utils.string2Number(newStr));
@@ -319,6 +333,7 @@ public class CellSelection extends Selection {
      * @param ePane 区域
      * @return 成功返回true
      */
+    @Override
     public boolean pasteOtherType(Object ob, ElementCasePane ePane) {
         TemplateElementCase ec = ePane.getEditingElementCase();
 
@@ -340,6 +355,7 @@ public class CellSelection extends Selection {
      * @param ePane 区域
      * @return 是则返回true
      */
+    @Override
     public boolean canMergeCells(ElementCasePane ePane) {
 
         return !this.isSelectedOneCell(ePane);
@@ -350,6 +366,7 @@ public class CellSelection extends Selection {
      * @param ePane 区域
      * @return 成功返回true
      */
+    @Override
     public boolean mergeCells(ElementCasePane ePane) {
 
         TemplateElementCase ec = ePane.getEditingElementCase();
@@ -372,6 +389,7 @@ public class CellSelection extends Selection {
      * @param ePane 区域
      * @return 是则返回true
      */
+    @Override
     public boolean canUnMergeCells(ElementCasePane ePane) {
         TemplateElementCase ec = ePane.getEditingElementCase();
 
@@ -392,6 +410,7 @@ public class CellSelection extends Selection {
      * @param ePane 区域
      * @return 成功返回true
      */
+    @Override
     public boolean unMergeCells(ElementCasePane ePane) {
         TemplateElementCase ec = ePane.getEditingElementCase();
 
@@ -433,9 +452,10 @@ public class CellSelection extends Selection {
             popup.add(new CleanAuthorityAction(ePane).createMenuItem());
             return popup;
         }
-        popup.add(DeprecatedActionManager.getCellMenu(ePane).createJMenu());
         popup.add(new EditCellAction(ePane).createMenuItem());
+        popup.add(DeprecatedActionManager.getCellMenu(ePane).createJMenu());
         // richer:add global style menu
+        popup.add(new CellExpandAttrAction().createMenuItem());
         if (!ConfigManager.getProviderInstance().hasStyle()) {
             UIMenu styleMenu = new UIMenu(KeySetUtils.GLOBAL_STYLE.getMenuName());
             styleMenu.setIcon(BaseUtils.readIcon("/com/fr/design/images/m_format/cell.png"));
@@ -454,13 +474,14 @@ public class CellSelection extends Selection {
         } else {
             popup.add(new StyleAction().createMenuItem());
         }
-        JTemplate jTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
-        if (jTemplate.isJWorkBook()){ //表单中报表块编辑屏蔽掉  控件设置
-            popup.add(new CellWidgetAttrAction(ePane).createMenuItem());
-        }
-        popup.add(new CellExpandAttrAction().createMenuItem());
         popup.add(DeprecatedActionManager.getPresentMenu(ePane).createJMenu());
         popup.add(new CellAttributeAction().createMenuItem());
+        JTemplate jTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+        if (jTemplate.isJWorkBook()){ //表单中报表块编辑屏蔽掉  控件设置
+            popup.add(new CellWidgetAttrAction().createMenuItem());
+        }
+        popup.add(new ConditionAttributesAction().createMenuItem());
+        popup.add(new HyperlinkAction().createMenuItem());
         // cut, copy and paste
         popup.addSeparator();
         popup.add(new CutAction(ePane).createMenuItem());
@@ -480,17 +501,18 @@ public class CellSelection extends Selection {
      * @param ePane  区域
      * @return 成功返回true
      */
+    @Override
     public boolean clear(Clear type, ElementCasePane ePane) {
         TemplateElementCase ec = ePane.getEditingElementCase();
         boolean isClear = true;
         int cellRectangleCount = getCellRectangleCount();
         for (int rect = 0; rect < cellRectangleCount; rect++) {
-            isClear = clearCell(type, ec, rect);
+            isClear = hasclearCell(type, ec, rect);
         }
         return isClear;
     }
 
-    private boolean clearCell(Clear type, TemplateElementCase ec, int rect) {
+    private boolean hasclearCell(Clear type, TemplateElementCase ec, int rect) {
         List<CellElement> removeElementList = new ArrayList<CellElement>();
         Rectangle cellRectangle = getCellRectangle(rect);
         column = cellRectangle.x;
@@ -537,6 +559,8 @@ public class CellSelection extends Selection {
                     CellElement element = removeElementList.get(i);
                     ((TemplateCellElement) element).setWidget(null);
                 }
+                break;
+            default:
                 break;
         }
         return true;
@@ -605,6 +629,7 @@ public class CellSelection extends Selection {
      * @param ePane 区域
      * @return 成功返回true
      */
+    @Override
     public boolean triggerDeleteAction(ElementCasePane ePane) {
         final TemplateElementCase ec = ePane.getEditingElementCase();
         final RowColumnPane rcPane = new RowColumnPane();
@@ -635,6 +660,7 @@ public class CellSelection extends Selection {
      * @param cr 行列
      * @return 包含返回true
      */
+    @Override
     public boolean containsColumnRow(ColumnRow cr) {
         return new Rectangle(column, row, columnSpan, rowSpan).contains(cr.column, cr.row);
     }
@@ -675,7 +701,7 @@ public class CellSelection extends Selection {
         if (cellElement != null && b) {
             value = cellElement.getValue();
         }
-        value = value == null ? "" : value;
+        value = value == null ? StringUtils.EMPTY : value;
         //之前是少了个bigInteger,刚kunsnat又发现少了个bigDecimal，数字类型的都用stringEditor，没必要那个样子
         QuickEditor editor = ActionFactory.getCellEditor((value instanceof Number) ? (Number.class) : (value.getClass()));
         if (editor == null) {

@@ -1,6 +1,7 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.ScreenResolution;
+import com.fr.common.inputevent.InputEventBaseOnOS;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XLayoutContainer;
@@ -34,6 +35,7 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
     private static final int ROTATIONS = 50;
     private static final int SHOWVALMAX = 400;
     private static final int SHOWVALMIN = 10;
+    private static final int RESIZE_PANE_GAP = 8;
     private FormDesigner designer;
     private int horizontalValue = 0;
     private int verticalValue = 0;
@@ -50,7 +52,6 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
     private double START_VALUE = DEFAULT_SLIDER;
     private int resolution = ScreenResolution.getScreenResolution();
     private double screenValue;
-    private boolean isCtrl = false;
 
     public FormScrollBar getHorScrollBar() {
         return horScrollBar;
@@ -86,35 +87,12 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
         }
         this.setFocusTraversalKeysEnabled(false);
         this.designer.addMouseWheelListener(showValSpinnerMouseWheelListener);
-        this.designer.addKeyListener(showValSpinnerKeyListener);
-        this.setOpaque(true);
-        this.setBackground(Color.WHITE);
     }
-
-
-    KeyListener showValSpinnerKeyListener = new KeyListener() {
-        @Override
-        public void keyTyped(KeyEvent e) {
-
-        }
-
-        @Override
-        public void keyPressed(KeyEvent e) {
-            if (e.isControlDown()) {
-                isCtrl = true;
-            }
-        }
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-            isCtrl = false;
-        }
-    };
 
     MouseWheelListener showValSpinnerMouseWheelListener = new MouseWheelListener() {
         @Override
         public void mouseWheelMoved(MouseWheelEvent e) {
-            if (isCtrl) {
+            if (InputEventBaseOnOS.isControlDown(e)) {
                 int dir = e.getWheelRotation();
                 int old_resolution = (int) slidePane.getShowVal().getValue();
                 slidePane.getShowVal().setValue(old_resolution - (dir * SHOWVALMIN));
@@ -140,19 +118,15 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
 //    	slidePane = new UINumberSlidePane(SLIDER_MIN, SLIDER_FLOAT);
 //    	slidePane.setPreferredSize(new Dimension(260,20));
         slidePane = JFormSliderPane.getInstance();
-        slidePane.setPreferredSize(new Dimension(350, 20));
+        slidePane.setPreferredSize(new Dimension(200, 20));
 
-
-        JPanel resizePane = TableLayoutHelper.createCommonTableLayoutPane(new JComponent[][]{
-                        {tipsPane, new UILabel(), widthPane, new UILabel(Inter.getLocText("FR-Designer_Indent-Pixel")), new UILabel("x"),
-                                heightPane, new UILabel(Inter.getLocText("FR-Designer_Indent-Pixel")), new UILabel(), slidePane}},
-                rowSize, columnSize, 8);
+        JPanel resizePane = TableLayoutHelper.createCommonTableLayoutPane(new JComponent[][]{{ tipsPane, new UILabel(), widthPane, new UILabel(Inter.getLocText("FR-Designer_Indent-Pixel")), new UILabel("x"), heightPane, new UILabel(Inter.getLocText("FR-Designer_Indent-Pixel")), new UILabel(), slidePane }}, rowSize, columnSize, RESIZE_PANE_GAP);
         this.add(FormRulerLayout.BOTTOM, resizePane);
         setWidgetsConfig();
         // 先初始话滑块及对应事件，然后获取分辨率调整容器的显示大小
         slidePane.setEnabled(false);
-        slidePane.setVisible(true);
-        initTransparent();
+        slidePane.setVisible(false);
+//        initTransparent();
         initCalculateSize();
     }
 
@@ -462,15 +436,18 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
         int id = evt.getID();
         switch (id) {
             case MouseEvent.MOUSE_WHEEL: {
-                int rotations = evt.getWheelRotation();
-                int value = this.verScrollBar.getValue() + rotations * ROTATIONS;
-                value = Math.min(value, verticalMax);
-                value = Math.max(0, value);
-                doLayout(); //加dolayout是因为每次滚动都要重置 Max的大小
-                this.verScrollBar.setValue(value);
+                onMouseWheelScroll(evt);
                 break;
             }
+            default:
         }
+    }
+
+    private void onMouseWheelScroll(MouseWheelEvent evt) {
+        int value = this.verScrollBar.getValue() + evt.getWheelRotation() * ROTATIONS;
+        value = Math.max(0, Math.min(value, verticalMax));
+        doLayout(); //加dolayout是因为每次滚动都要重置 Max的大小
+        this.verScrollBar.setValue(value);
     }
 
     /**
@@ -766,9 +743,12 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
     }
 
     private class FormRulerLayout extends RulerLayout {
-        private int DESIGNERWIDTH = 960;
-        private int DESIGNERHEIGHT = 540;
-        private int TOPGAP = 8;
+        private static final int DESIGNER_WIDTH = 960;
+        private static final int DESIGNER_HEIGHT = 540;
+        private static final int TOPGAP = 8;
+
+        private int DESIGNERWIDTH = DESIGNER_WIDTH;
+        private int DESIGNERHEIGHT = DESIGNER_HEIGHT;
 
         public FormRulerLayout() {
             super();

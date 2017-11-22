@@ -4,6 +4,7 @@ import com.fr.base.BaseUtils;
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIRadioButton;
+import com.fr.design.gui.ibutton.UISliderButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.islider.UISlider;
 import com.fr.design.gui.ispinner.UIBasicSpinner;
@@ -16,6 +17,8 @@ import com.fr.general.Inter;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.awt.event.*;
 import java.math.BigDecimal;
@@ -44,7 +47,7 @@ public class JFormSliderPane extends JPanel {
     private static final int SHOWVALBUTTON_WIDTH = 40;
     private static final int SHOWVALBUTTON_HEIGHTH = 20;
     private static final int SLIDER_GAP = 5;
-    private static final int TOOLTIP_Y = 25;
+    private static final int TOOLTIP_Y = 30;
     private static final Color BACK_COLOR = new Color(245, 245, 247);
     public int showValue = 100;
     public double resolutionTimes = 1.0;
@@ -56,7 +59,7 @@ public class JFormSliderPane extends JPanel {
     private int sliderValue;
     private UIButton downButton;
     private UIButton upButton;
-    private JButton showValButton;
+    private UISliderButton showValButton;
     private UIRadioButton twoHundredButton;
     private UIRadioButton oneHundredButton;
     private UIRadioButton SevenFiveButton;
@@ -75,11 +78,20 @@ public class JFormSliderPane extends JPanel {
         this.setLayout(new BorderLayout());
         initSlider();
         initShowValSpinner();
+        //MoMeak：控制只能输入10-400
+        JSpinner.NumberEditor editor = new JSpinner.NumberEditor(showValSpinner, "0");
+        showValSpinner.setEditor(editor);
+        JFormattedTextField textField = ((JSpinner.NumberEditor) showValSpinner.getEditor()).getTextField();
+        textField.setEditable(true);
+        DefaultFormatterFactory factory = (DefaultFormatterFactory) textField .getFormatterFactory();
+        NumberFormatter formatter = (NumberFormatter) factory.getDefaultFormatter();
+        formatter.setAllowsInvalid(false);
+
         initDownUpButton();
         initShowValButton();
         initUIRadioButton();
         initPane();
-        JPanel panel = new JPanel(new FlowLayout(1, 5, 0));
+        JPanel panel = new JPanel(new FlowLayout(1, 0, 0));
         panel.add(downButton);
         panel.add(slider);
         panel.add(upButton);
@@ -111,7 +123,7 @@ public class JFormSliderPane extends JPanel {
     }
 
     private void initShowValSpinner() {
-        showValSpinner = new UIBasicSpinner(new SpinnerNumberModel(HUNDRED, TEN, FOUR_HUNDRED, 1)){
+        showValSpinner = new UIBasicSpinner(new SpinnerNumberModel(HUNDRED, 0, FOUR_HUNDRED, 1)){
             public Point getToolTipLocation(MouseEvent event){
                 return new Point(event.getX(), event.getY() - TOOLTIP_Y);
             }
@@ -145,14 +157,7 @@ public class JFormSliderPane extends JPanel {
     }
 
     private void initShowValButton() {
-        showValButton = new JButton(showValSpinner.getValue() + "%"){
-            public Point getToolTipLocation(MouseEvent event){
-                return new Point(event.getX(), event.getY() - TOOLTIP_Y);
-            }
-        };
-        showValButton.setOpaque(false);
-        showValButton.setMargin(new Insets(0, 0, 0, 0));
-        showValButton.setFont(new Font("SimSun", Font.PLAIN, 12));
+        showValButton = new UISliderButton(showValSpinner.getValue() + "%");
         showValButton.setBackground(BACK_COLOR);
         showValButton.setBorderPainted(false);
         showValButton.setPreferredSize(new Dimension(SHOWVALBUTTON_WIDTH, SHOWVALBUTTON_HEIGHTH));
@@ -174,8 +179,17 @@ public class JFormSliderPane extends JPanel {
         SevenFiveButton.addItemListener(radioButtonItemListener);
         fiveTenButton.addItemListener(radioButtonItemListener);
         twoFiveButton.addItemListener(radioButtonItemListener);
-        //TODO
-//        selfAdaptButton.addItemListener();
+        customButton.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                JRadioButton temp = (JRadioButton) e.getSource();
+                if (temp.isSelected()) {
+                    JFormattedTextField textField = ((JSpinner.NumberEditor) showValSpinner.getEditor()).getTextField();
+                    textField.requestFocus();
+                    textField.selectAll();
+                }
+            }
+        });
 
         ButtonGroup bg = new ButtonGroup();// 初始化按钮组
         bg.add(twoHundredButton);// 加入按钮组
@@ -256,6 +270,8 @@ public class JFormSliderPane extends JPanel {
             }
             refreshSlider(val);
             refreshBottun(val);
+            JFormattedTextField textField = ((JSpinner.NumberEditor) showValSpinner.getEditor()).getTextField();
+            textField.setCaretPosition(showValSpinner.getValue().toString().length());
         }
     };
 
@@ -325,7 +341,7 @@ public class JFormSliderPane extends JPanel {
         public void actionPerformed(ActionEvent e) {
             showValue = (int) showValSpinner.getValue();
             isButtonOrIsTxt = true;
-            if (e.getActionCommand().equals("less")) {
+            if ("less".equals(e.getActionCommand())) {
                 int newDownVal = showValue - TEN;
                 if (newDownVal >= TEN) {
                     showValue = newDownVal;
@@ -335,7 +351,7 @@ public class JFormSliderPane extends JPanel {
                     showValSpinner.setValue(TEN);
                 }
             }
-            if (e.getActionCommand().equals("more")) {
+            if ("more".equals(e.getActionCommand())) {
                 int newUpVal = showValue + TEN;
                 if (newUpVal <= FOUR_HUNDRED) {
                     showValue = newUpVal;
@@ -376,14 +392,14 @@ public class JFormSliderPane extends JPanel {
             dialog = new FormPopupPane(upButton, dialogContentPanel);
             if (upButtonX == 0) {
                 upButtonX = btnCoords.x;
-                GUICoreUtils.showPopupMenu(dialog, upButton, -DIALOG_WIDTH + upButton.getWidth() + SHOWVALBUTTON_WIDTH + SLIDER_GAP, -DIALOG_HEIGHT);
+                GUICoreUtils.showPopupMenu(dialog, upButton, -DIALOG_WIDTH + upButton.getWidth() + SHOWVALBUTTON_WIDTH, -DIALOG_HEIGHT);
             }
         } else {
             if (upButtonX == 0) {
                 upButtonX = btnCoords.x;
-                GUICoreUtils.showPopupMenu(dialog, upButton, -DIALOG_WIDTH + upButton.getWidth() + SHOWVALBUTTON_WIDTH + SLIDER_GAP, -DIALOG_HEIGHT);
+                GUICoreUtils.showPopupMenu(dialog, upButton, -DIALOG_WIDTH + upButton.getWidth() + SHOWVALBUTTON_WIDTH, -DIALOG_HEIGHT);
             } else {
-                GUICoreUtils.showPopupMenu(dialog, upButton, -DIALOG_WIDTH + upButton.getWidth() + SHOWVALBUTTON_WIDTH + SLIDER_GAP, -DIALOG_HEIGHT);
+                GUICoreUtils.showPopupMenu(dialog, upButton, -DIALOG_WIDTH + upButton.getWidth() + SHOWVALBUTTON_WIDTH, -DIALOG_HEIGHT);
             }
         }
     }

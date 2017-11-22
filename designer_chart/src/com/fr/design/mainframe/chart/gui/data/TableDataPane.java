@@ -1,7 +1,8 @@
 package com.fr.design.mainframe.chart.gui.data;
 
 import com.fr.base.TableData;
-import com.fr.chart.chartattr.*;
+import com.fr.chart.chartattr.ChartCollection;
+import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartdata.TableDataDefinition;
 import com.fr.chart.chartdata.TopDefinition;
 import com.fr.data.impl.NameTableData;
@@ -11,7 +12,7 @@ import com.fr.design.data.tabledata.wrapper.TableDataWrapper;
 import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
-import com.fr.design.mainframe.chart.gui.data.table.*;
+import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.general.Inter;
 
 import javax.swing.*;
@@ -35,7 +36,7 @@ public class TableDataPane extends FurtherBasicBeanPane<ChartCollection>{
 	}
 
 	private void initDataPane() {
-		UILabel label = new BoldFontTextLabel(Inter.getLocText("Chart-DS_TableData") + ":", SwingConstants.RIGHT) ;
+		UILabel label = new BoldFontTextLabel(Inter.getLocText("Chart-DS_TableData")) ;
 		label.setPreferredSize(new Dimension(ChartDataPane.LABEL_WIDTH,ChartDataPane.LABEL_HEIGHT));
 		tableDataPane = new DatabaseTableDataPane(label) {
 			@Override
@@ -45,9 +46,7 @@ public class TableDataPane extends FurtherBasicBeanPane<ChartCollection>{
 			}
 		};
 
-		tableDataPane.setBorder(BorderFactory.createMatteBorder(0,6,0, 0, getBackground()));
-		tableDataPane.setBorder(BorderFactory.createEmptyBorder(0,1,0,1));
-		tableDataPane.setPreferredSize(new Dimension(205 , 20));
+		tableDataPane.setPreferredSize(new Dimension(246 , 20));
 		this.setBorder(BorderFactory.createEmptyBorder(TOP,0,0,0));
 		this.add(tableDataPane, BorderLayout.NORTH);
 	}

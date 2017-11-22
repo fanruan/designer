@@ -1,5 +1,6 @@
 package com.fr.design.mainframe.widget;
 
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
@@ -8,8 +9,10 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.Inter;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Component;
 
 /**
  * Created by plough on 2017/8/7.
@@ -25,7 +28,7 @@ public class BasicPropertyPane extends BasicPane {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         widgetName = new UITextField();
-
+        widgetName.setGlobalName(Inter.getLocText("FR-Designer_Basic"));
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         double[] rowSize = {p};
@@ -34,7 +37,7 @@ public class BasicPropertyPane extends BasicPane {
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Widget_Name")), widgetName},
         };
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 20, 7);
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         this.add(panel, BorderLayout.NORTH);
     }

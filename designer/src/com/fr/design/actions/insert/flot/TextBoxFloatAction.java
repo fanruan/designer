@@ -26,7 +26,7 @@ public class TextBoxFloatAction extends AbstractShapeAction {
     public TextBoxFloatAction(ElementCasePane t) {
         super(t);
         this.setMenuKeySet(FLOAT_INSERT_TEXT);
-        this.setName(getMenuKeySet().getMenuKeySetName() + "...");
+        this.setName(getMenuKeySet().getMenuKeySetName());
         this.setMnemonic(getMenuKeySet().getMnemonic());
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_insert/text.png"));
     }
@@ -54,6 +54,7 @@ public class TextBoxFloatAction extends AbstractShapeAction {
      *
      * @param e 动作
      */
+    @Override
     public void actionPerformed(ActionEvent e) {
         ElementCasePane jws = getEditingComponent();
         if (jws == null) {
@@ -67,7 +68,7 @@ public class TextBoxFloatAction extends AbstractShapeAction {
 
     private void doWithDrawingFloatElement() {
         ElementCasePane jws = (ElementCasePane) HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getCurrentElementCasePane();
-        ;
+
         Grid grid = jws.getGrid();
 
         ElementCasePane reportPane = grid.getElementCasePane();
@@ -93,5 +94,6 @@ public class TextBoxFloatAction extends AbstractShapeAction {
 
         report.addFloatElement(grid.getDrawingFloatElement());
         reportPane.setSelection(new FloatSelection(grid.getDrawingFloatElement().getName()));
+        reportPane.fireTargetModified();
     }
 }

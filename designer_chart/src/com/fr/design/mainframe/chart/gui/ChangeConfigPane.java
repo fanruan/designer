@@ -4,9 +4,9 @@ package com.fr.design.mainframe.chart.gui;
  * Created by hufan on 2016/10/20.
  */
 
-import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.base.AttrChangeConfig;
 import com.fr.chart.base.AttrChangeType;
+import com.fr.chart.chartattr.ChartCollection;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.ilable.UILabel;
@@ -15,6 +15,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
 import com.fr.general.Inter;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,8 +27,13 @@ import java.awt.event.ActionListener;
  */
 public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
     private static final int WIDTH = 100;
+    private static final int EDIT_AREA_WIDTH = 180;
+    private static final int LABEL_WIDTH = 20;
     private static final int MIN_TIME = 0;
     private static final int MAX_TIME = Integer.MAX_VALUE;
+    private static final int CONSTANT_TEN = 10;
+    private static final int CONSTANT_THIRTY = 30;
+    private static final int CONSTANT_ZERO = 0;
     private JPanel contentPane;
     //配置方式按钮
     private UIButtonGroup<Integer> configStyleButton;
@@ -42,12 +48,14 @@ public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
     private JPanel carouselConfigPane;
     protected UISpinner timeInterval;
     private ColorSelectBoxWithOutTransparent colorSelectBox4carousel;
+    private UIButtonGroup switchStyleGroup;
+
 
     public ChangeConfigPane(){
         initButtonGroup();
         configPane = createConfigPane();
         contentPane = createContentPane();
-        contentPane.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 30));
+        contentPane.setBorder(BorderFactory.createEmptyBorder(CONSTANT_TEN, CONSTANT_THIRTY, CONSTANT_TEN, CONSTANT_THIRTY));
         this.add(contentPane, BorderLayout.CENTER);
     }
 
@@ -55,11 +63,9 @@ public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] columnSize = {p, f};
-        double[] rowSize = {p,p,p,p};
+        double[] rowSize = {p,p};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Change_Style") + ":"),configStyleButton},
-                new Component[]{null, null},
-                new Component[]{new JSeparator(), null},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Change_Style")),configStyleButton},
                 new Component[]{configPane, null},
         };
         return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
@@ -73,7 +79,7 @@ public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
         JPanel panel = new JPanel(new CardLayout()){
             @Override
             public Dimension getPreferredSize() {
-                if(configStyleButton.getSelectedIndex() == 0){
+                if (configStyleButton.getSelectedIndex() == 0){
                     return buttonConfigPane.getPreferredSize();
                 } else{
                     return carouselConfigPane.getPreferredSize();
@@ -84,57 +90,68 @@ public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
         panel.add(buttonConfigPane, "button");
         panel.add(carouselConfigPane, "carousel");
 
+        panel.setBorder(BorderFactory.createEmptyBorder(CONSTANT_ZERO, CONSTANT_TEN, CONSTANT_ZERO, CONSTANT_ZERO));
+
         return panel;
     }
 
     private JPanel createCarouseConfigPane() {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = {p, f};
-        double[] rowSize = {p,p,p};
+        double[] columnSize = {p, f, p};
+        double[] rowSize = {p, p, p};
+        timeInterval = new UISpinner(MIN_TIME, MAX_TIME, 1, 0);
+        colorSelectBox4carousel = new ColorSelectBoxWithOutTransparent(WIDTH);
+        switchStyleGroup = new UIButtonGroup(new String[]{Inter.getLocText("FR-Designer_Show"), Inter.getLocText("FR-Designer_Hide")});
+
         Component[][] components = new Component[][]{
-                new Component[]{createTimeIntervalPane(),null},
-                new Component[]{new JSeparator(),null},
-                new Component[]{createCarouseBackgroundColorPane(),null},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Arrow_Style")), switchStyleGroup, null},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Time_Interval")), timeInterval, new UILabel(Inter.getLocText("FR-Base-Time_Second"))},
+                new Component[]{new UILabel(Inter.getLocText("Background")),colorSelectBox4carousel, null}
         };
 
-        return TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
+        return TableLayout4VanChartHelper.createGapTableLayoutPane(components, rowSize, columnSize);
     }
 
-    private Component createTimeIntervalPane() {
-        timeInterval = new UISpinner(MIN_TIME, MAX_TIME, 1, 0);
-        return TableLayoutHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_Time_Interval") + ":", timeInterval);
-    }
+    private JPanel createTitleStylePane() {
+        final UILabel text = new UILabel(Inter.getLocText("Plugin-Chart_Character"), SwingConstants.LEFT);
+        styleAttrPane = new ChartTextAttrPane() {
+            protected JPanel getContentPane(JPanel buttonPane) {
+                double p = TableLayout.PREFERRED;
+                double f = TableLayout.FILL;
+                double[] columnSize = {f, EDIT_AREA_WIDTH};
+                double[] rowSize = {p, p};
 
-    private JPanel createCarouseBackgroundColorPane() {
-        colorSelectBox4carousel = new ColorSelectBoxWithOutTransparent(WIDTH);
-        return TableLayoutHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Background") + ":", colorSelectBox4carousel);
-    }
+                return TableLayout4VanChartHelper.createGapTableLayoutPane(getComponents(buttonPane), rowSize, columnSize);
+            }
 
-    private JPanel createTitleStylePane(){
-        styleAttrPane = new ChartTextAttrPane();
-        styleAttrPane.setPreferredSize(new Dimension(WIDTH, (int) styleAttrPane.getPreferredSize().getHeight()));
-        return TableLayoutHelper.createTableLayoutPaneWithTitle(Inter.getLocText("FR-Designer-Widget_Style")+":", styleAttrPane);
+            protected Component[][] getComponents(JPanel buttonPane) {
+                return new Component[][]{
+                        new Component[]{text, fontNameComboBox},
+                        new Component[]{null, buttonPane}
+                };
+            }
+        };
+        return styleAttrPane;
     }
 
 
     private JPanel createButtonBackgroundColorPane(){
         colorSelectBox4button = new ColorSelectBoxWithOutTransparent(WIDTH);
-        return TableLayoutHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Background") + ":", colorSelectBox4button);
+        return TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Background"), colorSelectBox4button, EDIT_AREA_WIDTH);
     }
 
     private JPanel createButtonConfigPane() {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] columnSize = {p, f};
-        double[] rowSize = {p,p,p};
+        double[] rowSize = {p,p};
         Component[][] components = new Component[][]{
                 new Component[]{createTitleStylePane(),null},
-                new Component[]{new JSeparator(),null},
                 new Component[]{createButtonBackgroundColorPane(),null},
         };
 
-        return TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
+        return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
     }
 
     private void initButtonGroup() {
@@ -176,6 +193,7 @@ public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
         //轮播切换界面
         timeInterval.setValue(changeConfigAttr.getTimeInterval());
         colorSelectBox4carousel.setSelectObject(changeConfigAttr.getCarouselColor());
+        switchStyleGroup.setSelectedIndex(changeConfigAttr.isShowArrow() ? 0 : 1);
 
         checkCardPane();
 
@@ -199,6 +217,7 @@ public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
         changeConfigAttr.setButtonColor(colorSelectBox4button.getSelectObject());
         changeConfigAttr.setTimeInterval((int) timeInterval.getValue());
         changeConfigAttr.setCarouselColor(colorSelectBox4carousel.getSelectObject());
+        changeConfigAttr.setShowArrow(switchStyleGroup.getSelectedIndex() == 0);
     }
 
     @Override

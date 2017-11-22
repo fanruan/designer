@@ -1,14 +1,16 @@
 package com.fr.design.widget.component;
 
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.mainframe.widget.accessibles.AccessibleBackgroundEditor;
+import com.fr.design.mainframe.widget.accessibles.AccessibleImgBackgroundEditor;
 import com.fr.form.ui.Widget;
 import com.fr.general.Inter;
+import com.vividsolutions.jts.index.bintree.Interval;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,9 +20,9 @@ import java.awt.*;
  */
 public abstract class BackgroundCompPane<T extends Widget> extends BasicPane {
     protected UIButtonGroup backgroundHead;
-    protected AccessibleBackgroundEditor initalBackgroundEditor;
-    protected AccessibleBackgroundEditor overBackgroundEditor;
-    protected AccessibleBackgroundEditor clickBackgroundEditor;
+    protected AccessibleImgBackgroundEditor initalBackgroundEditor;
+    protected AccessibleImgBackgroundEditor overBackgroundEditor;
+    protected AccessibleImgBackgroundEditor clickBackgroundEditor;
     private JPanel panel;
 
     public BackgroundCompPane() {
@@ -29,9 +31,10 @@ public abstract class BackgroundCompPane<T extends Widget> extends BasicPane {
 
     public void initComponent() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        initalBackgroundEditor = new AccessibleBackgroundEditor();
-        overBackgroundEditor = new AccessibleBackgroundEditor();
-        clickBackgroundEditor = new AccessibleBackgroundEditor();
+        UILabel headLabel = createUILable();
+        initalBackgroundEditor = new AccessibleImgBackgroundEditor();
+        overBackgroundEditor = new AccessibleImgBackgroundEditor();
+        clickBackgroundEditor = new AccessibleImgBackgroundEditor();
         String [] titles = new String[]{Inter.getLocText("FR-Designer_DEFAULT"), Inter.getLocText("FR-Designer_Custom")};
 
         double f = TableLayout.FILL;
@@ -44,14 +47,20 @@ public abstract class BackgroundCompPane<T extends Widget> extends BasicPane {
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Background-Over")), overBackgroundEditor},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Background-Click")), clickBackgroundEditor},
         };
-        panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 7, 7);
-        panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W0, IntervalConstants.INTERVAL_L1);
+        panel.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L6, IntervalConstants.INTERVAL_L5, 0, 0));
         backgroundHead = new UIButtonGroup(titles);
-        this.add(backgroundHead, BorderLayout.NORTH);
+        JPanel headPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
+                new Component[]{headLabel, backgroundHead}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W3, IntervalConstants.INTERVAL_L1);
+
+        this.add(headPane, BorderLayout.NORTH);
         this.add(panel, BorderLayout.CENTER);
 
     }
 
+    protected UILabel createUILable(){
+        return new UILabel(Inter.getLocText("FR-Designer_Background"));
+    }
 
     public void update(T e){
     }

@@ -1,55 +1,5 @@
 package com.fr.file;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.swing.AbstractAction;
-import javax.swing.AbstractListModel;
-import javax.swing.ActionMap;
-import javax.swing.BorderFactory;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.DefaultListModel;
-import javax.swing.Icon;
-import javax.swing.InputMap;
-import javax.swing.JComponent;
-import javax.swing.JFileChooser;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.KeyStroke;
-import javax.swing.ListCellRenderer;
-import javax.swing.ListModel;
-import javax.swing.ListSelectionModel;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.filechooser.FileSystemView;
-import javax.swing.plaf.basic.BasicArrowButton;
-import javax.swing.plaf.basic.BasicButtonUI;
-
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.dav.LocalEnv;
@@ -66,6 +16,7 @@ import com.fr.design.gui.itextfield.UIAutoCompletionField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.file.filetree.FileNode;
@@ -74,11 +25,22 @@ import com.fr.file.filter.FILEFilter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
-import com.fr.stable.CoreConstants;
-import com.fr.stable.ProductConstants;
-import com.fr.stable.StableUtils;
-import com.fr.stable.StringUtils;
+import com.fr.stable.*;
 import com.fr.stable.project.ProjectConstants;
+
+import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.filechooser.FileSystemView;
+import javax.swing.plaf.basic.BasicArrowButton;
+import javax.swing.plaf.basic.BasicButtonUI;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /*
  * FileChooserPane要高亮显示某Button,以显示当前路径
@@ -304,15 +266,15 @@ public class FILEChooserPane extends BasicPane {
                 if (ss instanceof FILEFilter) {
                     setFILEFilter((FILEFilter) ss);
                 } else {
-					setFILEFilter(null);
-				}
+                    setFILEFilter(null);
+                }
             }
         });
     }
-    
-    private void doCancel(){
-    	this.locationBtnPane.setPopDir(null);
-    	dialogExit();
+
+    private void doCancel() {
+        this.locationBtnPane.setPopDir(null);
+        dialogExit();
     }
 
     /**
@@ -347,7 +309,7 @@ public class FILEChooserPane extends BasicPane {
         }
     }
 
-    protected String getEnvProjectName(){
+    protected String getEnvProjectName() {
         return Inter.getLocText("Utils-Report-Env_Directory");
     }
 
@@ -365,7 +327,7 @@ public class FILEChooserPane extends BasicPane {
      * 在指定index增加过滤器
      *
      * @param filter 过滤器
-     * @param index 序号
+     * @param index  序号
      */
     public void addChooseFILEFilter(FILEFilter filter, int index) {
         if (filterList.contains(filter)) {
@@ -381,7 +343,7 @@ public class FILEChooserPane extends BasicPane {
      * 若是已经存在，则将之删去之后，在指定的位置增加
      *
      * @param filter 过滤
-     * @param index 序号
+     * @param index  序号
      */
     public void addChooseFILEFilterToFist(FILEFilter filter, int index) {
         if (filterList.contains(filter)) {
@@ -425,7 +387,7 @@ public class FILEChooserPane extends BasicPane {
     /**
      * richer:默认的话就使用.cpt作为后缀名
      *
-     * @param text 文本
+     * @param text   文本
      * @param suffix 后缀
      */
     public void setFileNameTextField(String text, String suffix) {
@@ -461,6 +423,7 @@ public class FILEChooserPane extends BasicPane {
 
     /**
      * 打开对话框
+     *
      * @param parent 父类
      * @return 类型
      */
@@ -470,6 +433,7 @@ public class FILEChooserPane extends BasicPane {
 
     /**
      * 打开对话框
+     *
      * @param parent 父类
      * @param suffix 后缀
      * @return 类型
@@ -480,6 +444,7 @@ public class FILEChooserPane extends BasicPane {
 
     /**
      * 打开对话框
+     *
      * @param parent 父类
      * @return 类型
      */
@@ -489,6 +454,7 @@ public class FILEChooserPane extends BasicPane {
 
     /**
      * 打开对话框
+     *
      * @param parent 父类
      * @param suffix 后缀
      * @return 类型
@@ -501,7 +467,7 @@ public class FILEChooserPane extends BasicPane {
      * august:控件的事件都在这里面添加的 那么我每次showDialog，不都要重复添加一次事件吗？无语了
      *
      * @param parent 父类
-     * @param type 类型
+     * @param type   类型
      * @param suffix 后缀
      * @return 类型
      */
@@ -509,8 +475,7 @@ public class FILEChooserPane extends BasicPane {
         this.type = type;
         this.suffix = suffix;
 
-
-        dialog = showWindow(SwingUtilities.getWindowAncestor(parent), false);
+        dialog = showWindow(parent instanceof DesignerFrame ? (Window) parent : SwingUtilities.getWindowAncestor(parent), false);
         JPanel contentPane = (JPanel) dialog.getContentPane();
         contentPane.setLayout(FRGUIPaneFactory.createM_BorderLayout());
         contentPane.add(this, BorderLayout.CENTER);
@@ -549,11 +514,11 @@ public class FILEChooserPane extends BasicPane {
     protected void fileType() {
         String appName = ProductConstants.APP_NAME;
         JTemplate editing = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
-        if(ComparatorUtils.equals(suffix,".crt")){
+        if (ComparatorUtils.equals(suffix, ".crt")) {
             this.addChooseFILEFilter(new ChooseFileFilter("crt", appName + Inter.getLocText(new String[]{"Utils-The-Chart", "FR-App-All_File"})));
             return;
         }
-        if(editing == null || !editing.isChartBook()){
+        if (editing == null || !editing.isChartBook()) {
             String[] fileSuffix_local = LocalEnv.FILE_TYPE;
             String[] fileSuffix = {"cpt", "frm", "form", "cht", "chart"};
             if (type == JFileChooser.OPEN_DIALOG) {
@@ -570,10 +535,10 @@ public class FILEChooserPane extends BasicPane {
             // richer:form文件 daniel 改成三个字
             this.addChooseFILEFilter(new ChooseFileFilter("frm", appName + Inter.getLocText(new String[]{"FR-App-Template_Form", "FR-App-All_File"})));
             this.addChooseFILEFilter(new ChooseFileFilter("form", appName + Inter.getLocText(new String[]{"FR-App-Template_Form", "FR-App-All_File"})));
-        }else{
-            String[] fileSuffix_local =  {"xls","xlsx"};
+        } else {
+            String[] fileSuffix_local = {"xls", "xlsx"};
             if (type == JFileChooser.OPEN_DIALOG) {
-                this.addChooseFILEFilter(new ChooseFileFilter(fileSuffix_local,Inter.getLocText("Import-Excel_Source")));
+                this.addChooseFILEFilter(new ChooseFileFilter(fileSuffix_local, Inter.getLocText("Import-Excel_Source")));
             }
         }
 
@@ -582,8 +547,8 @@ public class FILEChooserPane extends BasicPane {
             this.addChooseFILEFilter(new ChooseFileFilter("xls", Inter.getLocText("Import-Excel_Source")));
             this.addChooseFILEFilter(new ChooseFileFilter("xlsx", Inter.getLocText("Import-Excel2007_Source")));
         }
-        if(ComparatorUtils.equals(suffix,".png")){
-            this.addChooseFILEFilter(new ChooseFileFilter("png",Inter.getLocText("FR-App-Export_png")));
+        if (ComparatorUtils.equals(suffix, ".png")) {
+            this.addChooseFILEFilter(new ChooseFileFilter("png", Inter.getLocText("FR-App-Export_png")));
         }
         if (type == JFileChooser.SAVE_DIALOG) {
             this.addChooseFILEFilter(new ChooseFileFilter("pdf", Inter.getLocText("FR-Import-Export_PDF")));
@@ -631,7 +596,7 @@ public class FILEChooserPane extends BasicPane {
             postfixComboBox.setSelectedIndex(suffixIndex("doc"));
         } else if (ComparatorUtils.equals(suffix, ".txt")) {
             postfixComboBox.setSelectedIndex(suffixIndex("txt"));
-        }else if(ComparatorUtils.equals(suffix,".png")){
+        } else if (ComparatorUtils.equals(suffix, ".png")) {
             postfixComboBox.setSelectedIndex(suffixIndex("png"));
         }
         //jerry 26216 只保留.cpt .frm有用的格式，并且不可编辑
@@ -647,10 +612,10 @@ public class FILEChooserPane extends BasicPane {
         }
     }
 
-    private int suffixIndex(String extension){
-        for(int i=0 ;i<filterList.size();i++){
+    private int suffixIndex(String extension) {
+        for (int i = 0; i < filterList.size(); i++) {
             FILEFilter fileFilter = filterList.get(i);
-            if(fileFilter.containsExtension(extension)){
+            if (fileFilter.containsExtension(extension)) {
                 return i;
             }
         }
@@ -701,7 +666,7 @@ public class FILEChooserPane extends BasicPane {
         FILE selectedFile = this.getSelectedFILE();
         if (!FRContext.getCurrentEnv().hasFileFolderAllow(selectedFile.getPath())) {
             JOptionPane.showMessageDialog(FILEChooserPane.this, Inter.getLocText("FR-App-Privilege_No") + "!", Inter.getLocText("FR-App-File_Message"), JOptionPane.WARNING_MESSAGE);
-            return ;
+            return;
         }
         if (selectedFile.exists()) {
             int selVal = JOptionPane.showConfirmDialog(dialog, Inter.getLocText("FR-Utils-Would_you_like_to_cover_the_current_file") + " ?",
@@ -785,7 +750,7 @@ public class FILEChooserPane extends BasicPane {
 
         PlaceListModel() {
             if (FILEChooserPane.this.showEnv) {
-                envFILE = new FileNodeFILE(new FileNode(ProjectConstants.REPORTLETS_NAME, true)){
+                envFILE = new FileNodeFILE(new FileNode(ProjectConstants.REPORTLETS_NAME, true)) {
                     public String getName() {
                         return getEnvProjectName();
                     }
@@ -804,14 +769,19 @@ public class FILEChooserPane extends BasicPane {
             }
             if (FILEChooserPane.this.showLoc) {
 
-                // 桌面
-                File[] desktop = FileSystemView.getFileSystemView().getRoots();
-                if (desktop != null) {
-                    for (int i = 0; i < desktop.length; i++) {
-                        if (desktop[i].exists()) {
-                            filesOfSystem.add(new FileFILE(desktop[i]));
+
+                if (OperatingSystem.isWindows()) {
+                    // windows下展示桌面
+                    File[] desktop = FileSystemView.getFileSystemView().getRoots();
+                    if (desktop != null) {
+                        for (int i = 0; i < desktop.length; i++) {
+                            if (desktop[i].exists()) {
+                                filesOfSystem.add(new FileFILE(desktop[i]));
+                            }
                         }
                     }
+                } else { // *nix下展示家目录
+                    filesOfSystem.add(new FileFILE(FileSystemView.getFileSystemView().getDefaultDirectory()));
                 }
 
                 // C, D, E等盘符
@@ -1175,9 +1145,9 @@ public class FILEChooserPane extends BasicPane {
                 }
             }
         }
-        
-        public void setPopDir(FILE file){
-        	popDir = file; 
+
+        public void setPopDir(FILE file) {
+            popDir = file;
         }
 
         public void populate(FILE dir) {
@@ -1186,6 +1156,7 @@ public class FILEChooserPane extends BasicPane {
                 return;
             }
 
+            boolean isWebAppNamePath;
             popDir = dir;
             this.buttonList.clear();
 
@@ -1194,12 +1165,13 @@ public class FILEChooserPane extends BasicPane {
             }
 
             String path = dir.getPath();
+            isWebAppNamePath = ComparatorUtils.equals(dir.prefix(), FILEFactory.WEBREPORT_PREFIX);
             // 确保最后一个字符是分隔符
             if (!path.endsWith("/") && !path.endsWith("\\") && !StringUtils.isBlank(path)) {
                 path = path + "/";
             }
             String webAppName = GeneralContext.getCurrentAppNameOfEnv();
-            if (StringUtils.isBlank(path)) {
+            if (StringUtils.isBlank(path) && isWebAppNamePath) {
                 this.buttonList.add(createBlankButton(new SetDirectoryAction(webAppName + '/')));
             }
 
@@ -1210,7 +1182,7 @@ public class FILEChooserPane extends BasicPane {
                 int start = matcher.start();
                 String btn_text = path.substring(node_start, start);
                 String btn_path = path.substring(0, start);
-                if (StringUtils.isBlank(btn_text)) {
+                if (StringUtils.isBlank(btn_text) && isWebAppNamePath) {
                     btn_text = webAppName;
                 }
                 this.buttonList.add(createBlankButton((new SetDirectoryAction(btn_text + '/',

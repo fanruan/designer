@@ -48,7 +48,7 @@ public class UnitFieldPane extends JPanel {
             } else if (unitType == Constants.UNIT_INCH) {
                 this.setText(Inter.getLocText("FR-Designer_Unit_INCH"));
             } else {
-                this.setText(Inter.getLocText("FR-Designer_Unit_MM-mm"));
+                this.setText(Inter.getLocText("FR-Designer_Unit_MM"));
             }
 
             //ajust the heigt of unitLabel.

@@ -1,19 +1,19 @@
 package com.fr.design.mainframe.chart.gui.style;
 
+import com.fr.base.BaseFormula;
 import com.fr.base.BaseUtils;
-import com.fr.base.Formula;
 import com.fr.base.Style;
 import com.fr.base.Utils;
 import com.fr.chart.chartattr.Axis;
 import com.fr.chart.chartattr.Title;
 import com.fr.design.constants.LayoutConstants;
+import com.fr.design.dialog.BasicPane;
 import com.fr.design.formula.TinyFormulaPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.dialog.BasicPane;
 import com.fr.general.FRFont;
 import com.fr.general.Inter;
 import com.fr.stable.Constants;
@@ -109,7 +109,7 @@ public class ChartAxisTitlePane extends BasicPane{
 				title.getTextAttr().setAlignText(Style.VERTICALTEXT);
 			}
 			if(StableUtils.canBeFormula(axisTitleContentPane.updateBean())) {
-				title.setTextObject(new Formula(axisTitleContentPane.updateBean()));
+				title.setTextObject(BaseFormula.createFormulaBuilder().build(axisTitleContentPane.updateBean()));
 			} else {
 				title.setTextObject(axisTitleContentPane.updateBean());
 			}
