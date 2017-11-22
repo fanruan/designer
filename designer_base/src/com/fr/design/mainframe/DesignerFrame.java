@@ -22,7 +22,6 @@ import com.fr.design.gui.imenu.UIMenuHighLight;
 import com.fr.design.gui.iscrollbar.UIScrollBar;
 import com.fr.design.gui.itoolbar.UIToolbar;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.mainframe.hold.DefaultTitlePlace;
 import com.fr.design.mainframe.loghandler.LogMessageBar;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDock;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
@@ -319,9 +318,9 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         if (processor != null) {
             processor.hold(northEastPane, LogMessageBar.getInstance(), ad.createBBSLoginPane());
         }
-        northEastPane.add(ad.createAlphafinePane());
+        northEastPane.add(ad.createAlphaFinePane());
         if (!DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isEnabled()) {
-            ad.createAlphafinePane().setVisible(false);
+            ad.createAlphaFinePane().setVisible(false);
         }
         northEastPane.add(ad.createBBSLoginPane());
     }
