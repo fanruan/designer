@@ -918,7 +918,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         if (tplFile instanceof FileFILE) {
             fullName = tplFile.getPath();
         }
-        fullName = fullName.replaceAll("/", "\\\\");
+        fullName = OperatingSystem.isMacOS() ? fullName.replaceAll("\\\\", "/") : fullName.replaceAll("/", "\\\\");
         int index = HistoryTemplateListPane.getInstance().contains(fullName);
         if (index != -1) {
             this.activateJTemplate(HistoryTemplateListPane.getInstance().getHistoryList().get(index));
