@@ -197,7 +197,7 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
         if (editingFileName.startsWith(ProjectConstants.REPORTLETS_NAME)) {
             editingFileName = ((FileNodeFILE) getEditingFILE()).getEnvPath() + File.separator + editingFileName;
         }
-        if (!OperatingSystem.isMacOS()) {
+        if (OperatingSystem.isWindows()) {
             return editingFileName.replaceAll("/", "\\\\");
         } else {
             return editingFileName.replaceAll("\\\\", "/");
