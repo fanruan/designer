@@ -45,6 +45,7 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
+import com.fr.stable.OperatingSystem;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
 import com.fr.stable.core.UUID;
@@ -196,7 +197,11 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
         if (editingFileName.startsWith(ProjectConstants.REPORTLETS_NAME)) {
             editingFileName = ((FileNodeFILE) getEditingFILE()).getEnvPath() + File.separator + editingFileName;
         }
-        return editingFileName.replaceAll("/", "\\\\");
+        if (!OperatingSystem.isMacOS()) {
+            return editingFileName.replaceAll("/", "\\\\");
+        } else {
+            return editingFileName.replaceAll("\\\\", "/");
+        }
     }
 
     protected abstract JComponent createCenterPane();
