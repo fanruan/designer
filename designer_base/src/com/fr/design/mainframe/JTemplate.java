@@ -83,6 +83,8 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
     private StringBuilder process = new StringBuilder("");  // 制作模板的过程
     public int resolution = ScreenResolution.getScreenResolution();
 
+    public JTemplate() {}
+
     public JTemplate(T t, String defaultFileName) {
         this(t, new MemFILE(newTemplateNameByIndex(defaultFileName)), true);
         openTime = System.currentTimeMillis();
@@ -883,6 +885,41 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
      * @return 是则返回true
      */
     public abstract boolean isJWorkBook();
+
+    /**
+     * 激活指定的template
+     *
+     */
+    public void activeJTemplate(int index, JTemplate jt) {
+        DesignerContext.getDesignerFrame().activateJTemplate(this);
+    };
+
+    /**
+     * 激活已存在的模板
+     *
+     */
+    public void activeOldJTemplate() {
+        DesignerContext.getDesignerFrame().activateJTemplate(this);
+    };
+
+    /**
+     * 激活新的模板
+     *
+     */
+    public void activeNewJTemplate() {
+        DesignerContext.getDesignerFrame().addAndActivateJTemplate(this);
+    };
+
+    /**
+     * 后台关闭template
+     *
+     */
+    public void closeOverLineTemplate(int index) {
+        JTemplate overTemplate = HistoryTemplateListPane.getInstance().getHistoryList().get(index);
+        HistoryTemplateListPane.getInstance().closeVirtualSelectedReport(overTemplate);
+        HistoryTemplateListPane.getInstance().getHistoryList().set(index, new JVirtualTemplate(overTemplate.getEditingFILE()));
+    };
+
 
     /**
      * 返回当前支持的超链界面pane

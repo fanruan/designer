@@ -933,8 +933,9 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 		}
 		fullName = fullName.replaceAll("/", "\\\\");
 		int index = HistoryTemplateListPane.getInstance().contains(fullName);
+		List<JTemplate<?, ?>> historyList = HistoryTemplateListPane.getInstance().getHistoryList();
 		if (index != -1) {
-			this.activateJTemplate(HistoryTemplateListPane.getInstance().getHistoryList().get(index));
+			historyList.get(index).activeJTemplate(index, jt);
 		} else {
 			this.addAndActivateJTemplate(jt);
 		}

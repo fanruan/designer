@@ -8,6 +8,7 @@ import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.imenu.UIScrollPopUpMenu;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
+import com.fr.design.mainframe.JVirtualTemplate;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.design.utils.gui.GUIPaintUtils;
 import com.fr.file.FILE;
@@ -219,12 +220,10 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
             templates[i].addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     selectedIndex = index;
-                    DesignerContext.getDesignerFrame().addAndActivateJTemplate(tem);
+                    tem.activeNewJTemplate();
                 }
             });
         }
-
-
         return templates;
     }
 
@@ -672,7 +671,8 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
                     this.repaint();
                     return;
                 }
-                DesignerContext.getDesignerFrame().addAndActivateJTemplate(openedTemplate.get(getTemplateIndex(evtX)));
+                JTemplate evtXTemplate = openedTemplate.get(getTemplateIndex(evtX));
+                evtXTemplate.activeNewJTemplate();
             }
             isShowList = false;
         }
@@ -779,7 +779,8 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
                 //如果关闭的模板不是当前选中的模板，则激活的模板不变
                 selectedIndex = HistoryTemplateListPane.getInstance().contains(fileName);
             }
-            DesignerContext.getDesignerFrame().activateJTemplate(openedTemplate.get(selectedIndex));
+            //如果是已后台关闭的模板，则重新打开文件
+            openedTemplate.get(selectedIndex).activeOldJTemplate();
         }
     }
 
