@@ -37,7 +37,7 @@ import com.fr.stable.project.ProjectConstants;
 import com.fr.design.utils.gui.GUIPaintUtils;
 
 public class HistoryTemplateListPane extends JPanel implements FileOperations {
-    //最大保 存内存中面板数,为0时关闭优化内存
+    //最大保存内存中面板数,为0时关闭优化内存
     private static final int DEAD_LINE = 5;
     private static final int LIST_BORDER = 4;
     private List<JTemplate<?, ?>> historyList;
