@@ -8,6 +8,7 @@ import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.imenu.UIScrollPopUpMenu;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
+import com.fr.design.mainframe.JVirtualTemplate;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.design.utils.gui.GUIPaintUtils;
 import com.fr.file.FILE;
@@ -219,11 +220,7 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
             templates[i].addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     selectedIndex = index;
-                    if (!tem.isJVirtualTemplate()) {
-                        DesignerContext.getDesignerFrame().addAndActivateJTemplate(tem);
-                    } else {
-                        DesignerContext.getDesignerFrame().openTemplate(tem.getEditingFILE());
-                    }
+                    tem.activeNewJTemplate();
                 }
             });
         }
@@ -675,11 +672,7 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
                     return;
                 }
                 JTemplate evtXTemplate = openedTemplate.get(getTemplateIndex(evtX));
-                if (!evtXTemplate.isJVirtualTemplate()) {
-                    DesignerContext.getDesignerFrame().addAndActivateJTemplate(openedTemplate.get(getTemplateIndex(evtX)));
-                } else {
-                    DesignerContext.getDesignerFrame().openTemplate(evtXTemplate.getEditingFILE());
-                }
+                evtXTemplate.activeNewJTemplate();
             }
             isShowList = false;
         }
@@ -787,11 +780,7 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
                 selectedIndex = HistoryTemplateListPane.getInstance().contains(fileName);
             }
             //如果是已后台关闭的模板，则重新打开文件
-            if (!openedTemplate.get(selectedIndex).isJVirtualTemplate()) {
-                DesignerContext.getDesignerFrame().activateJTemplate(openedTemplate.get(selectedIndex));
-            } else {
-                DesignerContext.getDesignerFrame().openTemplate(openedTemplate.get(selectedIndex).getEditingFILE());
-            }
+            openedTemplate.get(selectedIndex).activeOldJTemplate();
         }
     }
 

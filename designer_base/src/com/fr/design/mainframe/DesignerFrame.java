@@ -935,12 +935,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 		int index = HistoryTemplateListPane.getInstance().contains(fullName);
 		List<JTemplate<?, ?>> historyList = HistoryTemplateListPane.getInstance().getHistoryList();
 		if (index != -1) {
-			if (!historyList.get(index).isJVirtualTemplate()) {
-				this.activateJTemplate(historyList.get(index));
-			} else {
-				historyList.set(index, jt);
-				this.addAndActivateJTemplate(historyList.get(index));
-			}
+			historyList.get(index).activeJTemplate(index, jt);
 		} else {
 			this.addAndActivateJTemplate(jt);
 		}

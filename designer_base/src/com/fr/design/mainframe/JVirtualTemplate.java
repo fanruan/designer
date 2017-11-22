@@ -3,6 +3,7 @@ package com.fr.design.mainframe;
 import com.fr.base.BaseUtils;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.designer.TargetComponent;
+import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.frpane.HyperlinkGroupPane;
 import com.fr.design.gui.frpane.HyperlinkGroupPaneActionProvider;
 import com.fr.design.gui.imenu.UIMenuItem;
@@ -11,11 +12,14 @@ import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.file.FILE;
+import com.fr.file.FileFILE;
 import com.fr.file.FileNodeFILE;
+import com.fr.stable.StableUtils;
 import com.fr.stable.project.ProjectConstants;
 
 import javax.swing.*;
 import java.io.File;
+import java.util.List;
 
 /**
  * Author : MoMeak
@@ -218,8 +222,24 @@ public class JVirtualTemplate extends JTemplate {
     }
 
     @Override
-    public boolean isJVirtualTemplate() {
-        return true;
+    public void activeJTemplate(int index, JTemplate jt) {
+        List<JTemplate<?, ?>> historyList = HistoryTemplateListPane.getInstance().getHistoryList();
+        historyList.set(index, jt);
+        DesignerContext.getDesignerFrame().addAndActivateJTemplate(jt);
+    }
+
+    @Override
+    public void activeOldJTemplate() {
+        DesignerContext.getDesignerFrame().openTemplate(this.getEditingFILE());
+    }
+
+    @Override
+    public void activeNewJTemplate() {
+        DesignerContext.getDesignerFrame().openTemplate(this.getEditingFILE());
+    }
+
+    @Override
+    public void closeOverLineTemplate(int index) {
     }
 
     @Override

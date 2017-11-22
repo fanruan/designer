@@ -887,11 +887,29 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
     public abstract boolean isJWorkBook();
 
     /**
-     * 是否是虚拟工作薄，用于释放该template内存
+     * 激活指定的template
      *
-     * @return 是则返回true
      */
-    public abstract boolean isJVirtualTemplate();
+    public abstract void activeJTemplate(int index, JTemplate jt);
+
+    /**
+     * 激活已存在的模板
+     *
+     */
+    public abstract void activeOldJTemplate();
+
+    /**
+     * 激活新的模板
+     *
+     */
+    public abstract void activeNewJTemplate();
+
+    /**
+     * 后台关闭template
+     *
+     */
+    public abstract void closeOverLineTemplate(int index);
+
 
     /**
      * 返回当前支持的超链界面pane

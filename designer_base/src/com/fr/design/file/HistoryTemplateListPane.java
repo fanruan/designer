@@ -147,6 +147,13 @@ public class HistoryTemplateListPane extends JPanel implements FileOperations {
         }
     }
 
+    /**
+     * 关闭选择的文件
+     */
+    public void selectedReportToVirtual(int i) {
+        closeOverLineTemplate();
+    }
+
     public JTemplate<?, ?> getCurrentEditingTemplate() {
         return this.editingTemplate;
     }
@@ -320,9 +327,9 @@ public class HistoryTemplateListPane extends JPanel implements FileOperations {
         }
         for (int i = 0; i < vCount; i++) {
             JTemplate overTemplate = historyList.get(i);
-            if (!overTemplate.isJVirtualTemplate() && overTemplate.getEditingFILE().exists() && overTemplate.isALLSaved() && overTemplate != editingTemplate) {
-                closeVirtualSelectedReport(overTemplate);
-                historyList.set(i, new JVirtualTemplate(overTemplate.getEditingFILE()));
+
+            if (overTemplate.getEditingFILE().exists() && overTemplate.isALLSaved() && overTemplate != editingTemplate) {
+                historyList.get(i).closeOverLineTemplate(i);
             }
         }
         MutilTempalteTabPane.getInstance().refreshOpenedTemplate(historyList);

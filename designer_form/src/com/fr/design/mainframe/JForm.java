@@ -17,6 +17,7 @@ import com.fr.design.designer.creator.*;
 import com.fr.design.designer.properties.FormWidgetAuthorityEditPane;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
+import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.frpane.HyperlinkGroupPane;
 import com.fr.design.gui.frpane.HyperlinkGroupPaneActionProvider;
 import com.fr.design.gui.ilable.UILabel;
@@ -143,8 +144,25 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     }
 
     @Override
-    public boolean isJVirtualTemplate() {
-        return false;
+    public void activeJTemplate(int index, JTemplate jt) {
+        DesignerContext.getDesignerFrame().activateJTemplate(this);
+    }
+
+    @Override
+    public void activeOldJTemplate() {
+        DesignerContext.getDesignerFrame().activateJTemplate(this);
+    }
+
+    @Override
+    public void activeNewJTemplate() {
+        DesignerContext.getDesignerFrame().addAndActivateJTemplate(this);
+    }
+
+    @Override
+    public void closeOverLineTemplate(int index) {
+        JTemplate overTemplate = HistoryTemplateListPane.getInstance().getHistoryList().get(index);
+        HistoryTemplateListPane.getInstance().closeVirtualSelectedReport(overTemplate);
+        HistoryTemplateListPane.getInstance().getHistoryList().set(index, new JVirtualTemplate(overTemplate.getEditingFILE()));
     }
 
     /**
