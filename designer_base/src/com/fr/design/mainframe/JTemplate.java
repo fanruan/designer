@@ -890,25 +890,35 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
      * 激活指定的template
      *
      */
-    public abstract void activeJTemplate(int index, JTemplate jt);
+    public void activeJTemplate(int index, JTemplate jt) {
+        DesignerContext.getDesignerFrame().activateJTemplate(this);
+    };
 
     /**
      * 激活已存在的模板
      *
      */
-    public abstract void activeOldJTemplate();
+    public void activeOldJTemplate() {
+        DesignerContext.getDesignerFrame().activateJTemplate(this);
+    };
 
     /**
      * 激活新的模板
      *
      */
-    public abstract void activeNewJTemplate();
+    public void activeNewJTemplate() {
+        DesignerContext.getDesignerFrame().addAndActivateJTemplate(this);
+    };
 
     /**
      * 后台关闭template
      *
      */
-    public abstract void closeOverLineTemplate(int index);
+    public void closeOverLineTemplate(int index) {
+        JTemplate overTemplate = HistoryTemplateListPane.getInstance().getHistoryList().get(index);
+        HistoryTemplateListPane.getInstance().closeVirtualSelectedReport(overTemplate);
+        HistoryTemplateListPane.getInstance().getHistoryList().set(index, new JVirtualTemplate(overTemplate.getEditingFILE()));
+    };
 
 
     /**

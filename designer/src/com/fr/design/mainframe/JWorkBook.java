@@ -850,28 +850,6 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     }
 
     @Override
-    public void activeJTemplate(int index, JTemplate jt) {
-        DesignerContext.getDesignerFrame().activateJTemplate(this);
-    }
-
-    @Override
-    public void activeOldJTemplate() {
-        DesignerContext.getDesignerFrame().activateJTemplate(this);
-    }
-
-    @Override
-    public void activeNewJTemplate() {
-        DesignerContext.getDesignerFrame().addAndActivateJTemplate(this);
-    }
-
-    @Override
-    public void closeOverLineTemplate(int index) {
-        JTemplate overTemplate = HistoryTemplateListPane.getInstance().getHistoryList().get(index);
-        HistoryTemplateListPane.getInstance().closeVirtualSelectedReport(overTemplate);
-        HistoryTemplateListPane.getInstance().getHistoryList().set(index, new JVirtualTemplate(overTemplate.getEditingFILE()));
-    }
-
-    @Override
     public HyperlinkGroupPane getHyperLinkPane(HyperlinkGroupPaneActionProvider hyperlinkGroupPaneActionProvider) {
         return ReportHyperlinkGroupPane.getInstance(hyperlinkGroupPaneActionProvider);
     }

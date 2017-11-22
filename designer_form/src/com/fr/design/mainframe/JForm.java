@@ -143,28 +143,6 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         return false;
     }
 
-    @Override
-    public void activeJTemplate(int index, JTemplate jt) {
-        DesignerContext.getDesignerFrame().activateJTemplate(this);
-    }
-
-    @Override
-    public void activeOldJTemplate() {
-        DesignerContext.getDesignerFrame().activateJTemplate(this);
-    }
-
-    @Override
-    public void activeNewJTemplate() {
-        DesignerContext.getDesignerFrame().addAndActivateJTemplate(this);
-    }
-
-    @Override
-    public void closeOverLineTemplate(int index) {
-        JTemplate overTemplate = HistoryTemplateListPane.getInstance().getHistoryList().get(index);
-        HistoryTemplateListPane.getInstance().closeVirtualSelectedReport(overTemplate);
-        HistoryTemplateListPane.getInstance().getHistoryList().set(index, new JVirtualTemplate(overTemplate.getEditingFILE()));
-    }
-
     /**
      * 返回当前支持的超链界面pane
      *

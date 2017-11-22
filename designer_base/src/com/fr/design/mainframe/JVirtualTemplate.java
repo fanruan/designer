@@ -71,7 +71,6 @@ public class JVirtualTemplate extends JTemplate {
         return null;
     }
 
-    @Override
     public JComponent getCurrentReportComponentPane() {
         return null;
     }
@@ -247,7 +246,6 @@ public class JVirtualTemplate extends JTemplate {
         return null;
     }
 
-    @Override
     public HyperlinkGroupPane getHyperLinkPaneNoPop(HyperlinkGroupPaneActionProvider hyperlinkGroupPaneActionProvider) {
         return null;
     }
