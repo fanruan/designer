@@ -9,6 +9,7 @@ import java.util.logging.Level;
 
 import javax.swing.*;
 
+import com.fr.base.chart.chartdata.CallbackEvent;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.data.DesignTableDataManager;
@@ -25,7 +26,6 @@ import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilist.UIList;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
-import com.fr.design.mainframe.JVirtualTemplate;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
@@ -36,7 +36,7 @@ import com.fr.stable.Constants;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.design.utils.gui.GUIPaintUtils;
 
-public class HistoryTemplateListPane extends JPanel implements FileOperations {
+public class HistoryTemplateListPane extends JPanel implements FileOperations, CallbackEvent {
     //最大保存内存中面板数,为0时关闭优化内存
     private static final int DEAD_LINE = 5;
     private static final int LIST_BORDER = 4;
@@ -104,7 +104,8 @@ public class HistoryTemplateListPane extends JPanel implements FileOperations {
     }
 
     /**
-     *关闭选择的文件
+     * 关闭选择的文件
+     *
      * @param selected 选择的
      */
     public void closeSelectedReport(JTemplate<?, ?> selected) {
@@ -129,6 +130,7 @@ public class HistoryTemplateListPane extends JPanel implements FileOperations {
 
     /**
      * 临时关闭选择的文件
+     *
      * @param selected 选择的
      */
     public void closeVirtualSelectedReport(JTemplate<?, ?> selected) {
@@ -235,6 +237,7 @@ public class HistoryTemplateListPane extends JPanel implements FileOperations {
 
     /**
      * 判断是否打开过该模板
+     *
      * @param filename 文件名
      * @return 文件位置
      */
@@ -250,6 +253,7 @@ public class HistoryTemplateListPane extends JPanel implements FileOperations {
 
     /**
      * 是否是当前编辑的文件
+     *
      * @param filename 文件名
      * @return 是则返回TRUE
      */
@@ -258,6 +262,10 @@ public class HistoryTemplateListPane extends JPanel implements FileOperations {
         return ComparatorUtils.equals(filename, editingFileName);
     }
 
+    @Override
+    public void callback() {
+        getCurrentEditingTemplate().repaint();
+    }
 
     private class HistoryListCellRender extends DefaultListCellRenderer {
 
@@ -388,6 +396,7 @@ public class HistoryTemplateListPane extends JPanel implements FileOperations {
 
     /**
      * 路径
+     *
      * @return 路径
      */
     public String getSelectedTemplatePath() {
