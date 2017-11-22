@@ -1,34 +1,40 @@
 package com.fr.grid.selection;
 
-import java.awt.Toolkit;
-
-import javax.swing.JPopupMenu;
-
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.design.actions.cell.CleanAuthorityAction;
 import com.fr.design.actions.cell.FloatStyleAction;
 import com.fr.design.actions.core.ActionFactory;
-import com.fr.design.actions.edit.*;
+import com.fr.design.actions.edit.CopyAction;
+import com.fr.design.actions.edit.CutAction;
+import com.fr.design.actions.edit.DeleteAction;
+import com.fr.design.actions.edit.EditFloatElementNameAction;
+import com.fr.design.actions.edit.HyperlinkAction;
+import com.fr.design.actions.edit.PasteAction;
 import com.fr.design.actions.utils.DeprecatedActionManager;
 import com.fr.design.cell.clipboard.CellElementsClip;
 import com.fr.design.cell.clipboard.ElementsTransferable;
 import com.fr.design.cell.clipboard.FloatElementsClip;
 import com.fr.design.designer.TargetComponent;
 import com.fr.design.mainframe.CellElementPropertyPane;
-import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.mainframe.ElementCasePane.Clear;
+import com.fr.design.selection.QuickEditor;
+import com.fr.design.utils.DesignUtils;
+import com.fr.general.ComparatorUtils;
+import com.fr.general.Inter;
 import com.fr.report.cell.FloatElement;
 import com.fr.report.elementcase.TemplateElementCase;
-import com.fr.design.selection.QuickEditor;
 import com.fr.stable.ColumnRow;
 import com.fr.stable.unit.FU;
 import com.fr.stable.unit.OLDPIX;
-import com.fr.design.utils.DesignUtils;
+
+import javax.swing.JPopupMenu;
+import java.awt.Toolkit;
+
 /**
  * the float selection
+ *
  * @editor zhou
  * 2012-3-22下午2:09:20
  */
@@ -209,6 +215,7 @@ public class FloatSelection extends Selection {
     public boolean isSelectedOneCell(ElementCasePane ePane) {
         return false;
     }
+
     //TODO:august 这儿不比较FloatElement会不会有问题啊
     @Override
     public boolean equals(Object obj) {
@@ -232,8 +239,8 @@ public class FloatSelection extends Selection {
         CellElementPropertyPane.getInstance().removeAll();
     }
 
-    public void populateWidgetPropertyPane(ElementCasePane ePane){
-        return;
+    public void populateWidgetPropertyPane(ElementCasePane ePane) {
+
     }
 
 }

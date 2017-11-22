@@ -47,7 +47,7 @@ public class WidgetToolBarPane extends BasicPane implements DesignToolbarProvide
     }
 
     public void refreshToolbar() {
-        reset();
+        singleton.reset();
     }
 
     public static void refresh() {

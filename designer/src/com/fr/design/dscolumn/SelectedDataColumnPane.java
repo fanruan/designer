@@ -26,8 +26,11 @@ import com.fr.report.cell.cellattr.core.group.DSColumn;
 import com.fr.stable.ParameterProvider;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -41,7 +44,7 @@ import java.util.regex.Pattern;
  *
  * @author yaoh.wu
  * @version 2017年8月3日
- *          复用对话框代码，保留对话框原始布局
+ * 复用对话框代码，保留对话框原始布局
  * @since 8.0
  */
 public class SelectedDataColumnPane extends BasicPane {
@@ -53,19 +56,20 @@ public class SelectedDataColumnPane extends BasicPane {
     private ItemListener itemListener;
 
     private UIButton paramButton;
+    private ElementCasePane casePane;
 
     public SelectedDataColumnPane() {
-        this(true, false, null, null);
+        this(true, false, null);
     }
 
 
     public SelectedDataColumnPane(boolean showParameterButton) {
-        this(showParameterButton, false, null, null);
+        this(showParameterButton, false, null);
     }
 
-    public SelectedDataColumnPane(boolean showParameterButton, boolean verticalLayout, ElementCasePane casePane, TemplateCellElement cellElement) {
+    public SelectedDataColumnPane(boolean showParameterButton, boolean verticalLayout, TemplateCellElement cellElement) {
         if (verticalLayout) {
-            initComponentVerticalLayout(casePane, cellElement);
+            initComponentVerticalLayout(cellElement);
         } else {
             initComponent(showParameterButton);
         }
@@ -119,9 +123,9 @@ public class SelectedDataColumnPane extends BasicPane {
     /**
      * 初始化竖直布局的组件
      */
-    public void initComponentVerticalLayout(ElementCasePane casePane, TemplateCellElement cellElement) {
+    private void initComponentVerticalLayout(TemplateCellElement cellElement) {
         initTableNameComboBox();
-        initWithParameterButton(casePane, cellElement);
+        initWithParameterButton(cellElement);
         columnNameComboBox = new LazyComboBox() {
             @Override
             public Object[] load() {
@@ -149,7 +153,9 @@ public class SelectedDataColumnPane extends BasicPane {
     }
 
 
-    public void populate(TableDataSource source, TemplateCellElement cellElement) {
+    public void populate(TableDataSource source, TemplateCellElement cellElement, ElementCasePane casePane) {
+        tableNameComboBox.refresh(source);
+        this.casePane = casePane;
         if (cellElement == null) {
             return;
         }
@@ -189,6 +195,14 @@ public class SelectedDataColumnPane extends BasicPane {
         dsColumn.setColumn(simpleDSColumn.getColumn());
 
         dsColumn.setParameters((ps != null && ps.length > 0) ? ps : null);
+    }
+
+    /**
+     * 释放模板对象
+     */
+    public void release() {
+        this.casePane = null;
+        this.tableNameComboBox.setModel(new DefaultComboBoxModel());
     }
 
     /**
@@ -279,8 +293,7 @@ public class SelectedDataColumnPane extends BasicPane {
         });
     }
 
-    private void initWithParameterButton(final ElementCasePane casePane, final TemplateCellElement cellElement) {
-        final SelectedDataColumnPane that = this;
+    private void initWithParameterButton(final TemplateCellElement cellElement) {
         editorPane = new UITableEditorPane<ParameterProvider>(new ParameterTableModel());
         paramButton = new UIButton(Inter.getLocText("FR-Designer-Basic_Dynamic_Parameter_Injection"));
         paramButton.addActionListener(new ActionListener() {
@@ -290,7 +303,7 @@ public class SelectedDataColumnPane extends BasicPane {
                     public void doOk() {
                         List<ParameterProvider> parameterList = editorPane.update();
                         ps = parameterList.toArray(new Parameter[parameterList.size()]);
-                        that.update(cellElement);
+                        update(cellElement);
                         casePane.fireTargetModified();
                     }
                 });
