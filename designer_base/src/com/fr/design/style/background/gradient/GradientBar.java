@@ -181,11 +181,7 @@ public class GradientBar extends JComponent implements UIObserver,ColorSelectabl
         float[] dist = new float[list.size()];
         for (int i = 0; i < list.size(); i++) {
             float value = (float) ((list.get(i).getX() - 4) / (max - 4));
-            if (0 <= value && value <= 1) {
-                dist[i] = value;
-            } else {
-                dist[i] = value < 0 ? 0 : 1;
-            }
+            dist[i] = Math.min(Math.max(0, value), 1);
         }
         LinearGradientPaint paint = new LinearGradientPaint(start, end, dist, c);
 
