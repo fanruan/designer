@@ -182,6 +182,7 @@ public class GradientBar extends JComponent implements UIObserver,ColorSelectabl
         for (int i = 0; i < list.size(); i++) {
             dist[i] = (float) ((list.get(i).getX() - 4) / (max - 4));
         }
+        dist = correctDist(dist);
         LinearGradientPaint paint = new LinearGradientPaint(start, end, dist, c);
 
         g2.setPaint(paint);
@@ -191,6 +192,17 @@ public class GradientBar extends JComponent implements UIObserver,ColorSelectabl
         for (int i = 0; i < list.size(); i++) {
             list.get(i).paint(g2);
         }
+    }
+
+    /**
+     * 确保dist在0-1之间
+     */
+    public float[] correctDist(float[] dist){
+        if (dist.length == 2) {
+            dist[0] = dist[0] < 0 ? 0 : dist[0];
+            dist[1] = dist[1] > 1 ? 1 : dist[1];
+        }
+        return dist;
     }
 
     /**
