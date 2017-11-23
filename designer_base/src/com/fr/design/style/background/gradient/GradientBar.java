@@ -180,7 +180,8 @@ public class GradientBar extends JComponent implements UIObserver,ColorSelectabl
         }
         float[] dist = new float[list.size()];
         for (int i = 0; i < list.size(); i++) {
-            dist[i] = (float) ((list.get(i).getX() - 4) / (max - 4));
+            float value = (float) ((list.get(i).getX() - 4) / (max - 4));
+            dist[i] = Math.min(Math.max(0, value), 1);
         }
         LinearGradientPaint paint = new LinearGradientPaint(start, end, dist, c);
 
