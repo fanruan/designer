@@ -218,11 +218,11 @@ public class UIButtonGroup<T> extends JPanel implements GlobalNameObserver {
     }
 
     protected Border getGroupBorder() {
-        return BorderFactory.createEmptyBorder(0, 0, 0, 0);
+        return BorderFactory.createEmptyBorder(1, 1, 1, 1);
     }
 
     protected LayoutManager getGridLayout(int number) {
-        return new GridLayout(0, number, 0, 0);
+        return new GridLayout(0, number, 1, 0);
     }
 
     /**
@@ -233,7 +233,7 @@ public class UIButtonGroup<T> extends JPanel implements GlobalNameObserver {
     public void paintComponents(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         Shape oldClip = g2d.getClip();
-        g2d.clip(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), UIConstants.ARC, UIConstants.ARC));
+        g2d.clip(new RoundRectangle2D.Double(1, 1, getWidth(), getHeight(), UIConstants.ARC, UIConstants.ARC));
         super.paintComponents(g);
         g2d.setClip(oldClip);
     }
@@ -392,6 +392,34 @@ public class UIButtonGroup<T> extends JPanel implements GlobalNameObserver {
      */
     public void populateBean() {
         fireStateChanged();
+    }
+
+    /**
+     * 重载Border画法
+     *
+     * @param g
+     */
+    @Override
+    protected void paintBorder(Graphics g) {
+        if (isToolBarComponent) {
+            return;
+        }
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setColor(UIConstants.SHADOW_GREY);
+
+        int width = 0;
+        for (int i = 0; i < labelButtonList.size() - 1; i++) {
+            width += labelButtonList.get(i).getWidth() + 1;
+            int height = labelButtonList.get(i).getHeight();
+            g.drawLine(width, 0, width, height);
+        }
+
+        width += labelButtonList.get(labelButtonList.size() - 1).getWidth() + 1;
+
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.drawRoundRect(0, 0, width, getHeight() - 1, UIConstants.BUTTON_GROUP_ARC, UIConstants.BUTTON_GROUP_ARC);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+
     }
 
     /**
