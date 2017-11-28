@@ -35,7 +35,7 @@ public class ChartEmptyDataStyleAction extends UpdateAction {
 
             @Override
             public void doCancel() {
-
+                //直接关闭弹出框
             }
         });
 
