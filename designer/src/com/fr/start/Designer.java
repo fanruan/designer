@@ -45,13 +45,9 @@ import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.xml.XMLTools;
 
-import javax.swing.JComponent;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.MatteBorder;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -129,6 +125,9 @@ public class Designer extends BaseDesigner {
                 menuDef.addShortCut(new ServerConfigManagerAction(), new StyleListAction(), new WidgetManagerAction());
                 if (ActionFactory.getChartPreStyleAction() != null) {
                     menuDef.addShortCut(ActionFactory.getChartPreStyleAction());
+                }
+                if (ActionFactory.getChartEmptyDataStyleAction() != null) {
+                    menuDef.addShortCut(ActionFactory.getChartEmptyDataStyleAction());
                 }
                 if (ActionFactory.getChartMapEditorAction() != null) {
                     menuDef.addShortCut(ActionFactory.getChartMapEditorAction());
