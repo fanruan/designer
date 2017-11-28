@@ -3,6 +3,7 @@ package com.fr.design.file;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.GraphHelper;
+import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.imenu.UIScrollPopUpMenu;
@@ -19,11 +20,38 @@ import com.fr.stable.Constants;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.project.ProjectConstants;
 
-import javax.swing.*;
+import javax.swing.Action;
+import javax.swing.BorderFactory;
+import javax.swing.ButtonModel;
+import javax.swing.Icon;
+import javax.swing.JComponent;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.plaf.basic.BasicMenuItemUI;
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.geom.*;
+import java.awt.AWTEvent;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.Toolkit;
+import java.awt.event.AWTEventListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.geom.Arc2D;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
+import java.awt.geom.Path2D;
+import java.awt.geom.RoundRectangle2D;
 import java.io.File;
 import java.util.logging.Level;
 
@@ -711,21 +739,10 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
             if (returnVal == JOptionPane.YES_OPTION && specifiedTemplate.saveTemplate()) {
                 specifiedTemplate.saveTemplate();
                 FRLogger.getLogger().log(Level.INFO, Inter.getLocText(new String[]{"Template", "already-saved"}, new String[]{specifiedTemplate.getEditingFILE().getName(), "."}));
-                HistoryTemplateListPane.getInstance().closeSelectedReport(specifiedTemplate);
-                activeTemplate(filename);
-            } else if (returnVal == JOptionPane.NO_OPTION) {
-                //不保存
-                HistoryTemplateListPane.getInstance().closeSelectedReport(specifiedTemplate);
-                activeTemplate(filename);
             }
-            //若是点击取消关闭，则什么都不做
-        } else {
-            //若是已经保存过了，则关闭即可
-            HistoryTemplateListPane.getInstance().closeSelectedReport(specifiedTemplate);
-            activeTemplate(filename);
         }
-
-
+        HistoryTemplateListPane.getInstance().closeSelectedReport(specifiedTemplate);
+        activeTemplate(filename);
     }
 
     /**

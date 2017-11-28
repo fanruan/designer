@@ -14,8 +14,9 @@ import com.fr.report.cell.CellElement;
 import com.fr.report.cell.TemplateCellElement;
 import com.fr.report.cell.cellattr.CellExpandAttr;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -26,6 +27,29 @@ public class DSColumnBasicPane extends BasicPane {
     private ResultSetGroupPopUpPane resultSetGroupPane;
     private ExpandDirectionPane expandDirectionPane;
     private CellElement cellElement;
+
+    private ActionListener summaryDirectionActionlistener = new ActionListener() {
+
+        public void actionPerformed(ActionEvent evt) {
+            if (expandDirectionPane != null) {
+                expandDirectionPane.setNoneRadioButtonSelected(true);
+            }
+        }
+    };
+    private ActionListener othergroupDirectionActionlistener = new ActionListener() {
+
+        public void actionPerformed(ActionEvent evt) {
+            if (expandDirectionPane != null) {
+                expandDirectionPane.setNoneRadioButtonSelected(false);
+            }
+        }
+    };
+    private ActionListener sdcupdateActionlistener = new ActionListener() {
+
+        public void actionPerformed(ActionEvent evt) {
+            selectDataColumnPane.update(cellElement);
+        }
+    };
 
     public DSColumnBasicPane() {
         this(DSColumnPane.SETTING_ALL);
@@ -78,7 +102,7 @@ public class DSColumnBasicPane extends BasicPane {
 
         this.add(TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize), BorderLayout.CENTER);
 
-        this.resultSetGroupPane.addListeners(summary_direction_ActionListener, otherGroup_direction_ActionListener, sdcUpdate_ActionListener);
+        this.resultSetGroupPane.addListeners(summaryDirectionActionlistener, othergroupDirectionActionlistener, sdcupdateActionlistener);
     }
 
     @Override
@@ -93,7 +117,7 @@ public class DSColumnBasicPane extends BasicPane {
 
         this.cellElement = cellElement;
 
-        selectDataColumnPane.populate(source, cellElement);
+        selectDataColumnPane.populate(source, cellElement, null);
 
         CellExpandAttr cellExpandAttr = cellElement.getCellExpandAttr();
         if (conditionParentPane != null) {
@@ -133,29 +157,6 @@ public class DSColumnBasicPane extends BasicPane {
         }
         resultSetGroupPane.update();
     }
-
-    ActionListener summary_direction_ActionListener = new ActionListener() {
-
-        public void actionPerformed(ActionEvent evt) {
-            if (expandDirectionPane != null) {
-                expandDirectionPane.setNoneRadioButtonSelected(true);
-            }
-        }
-    };
-    ActionListener otherGroup_direction_ActionListener = new ActionListener() {
-
-        public void actionPerformed(ActionEvent evt) {
-            if (expandDirectionPane != null) {
-                expandDirectionPane.setNoneRadioButtonSelected(false);
-            }
-        }
-    };
-    ActionListener sdcUpdate_ActionListener = new ActionListener() {
-
-        public void actionPerformed(ActionEvent evt) {
-            selectDataColumnPane.update(cellElement);
-        }
-    };
 
     public void putElementcase(ElementCasePane t) {
         if (conditionParentPane != null) {

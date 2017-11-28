@@ -6,7 +6,7 @@ import com.fr.design.data.tabledata.wrapper.TemplateTableDataWrapper;
 import com.fr.main.impl.WorkBook;
 import com.fr.report.cell.TemplateCellElement;
 
-import java.awt.*;
+import java.awt.Dimension;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.Iterator;
@@ -32,7 +32,7 @@ public class SelectedConfirmedDataColumnPane extends SelectedDataColumnPane {
         tableNameComboBox.refresh(source);
         tableNameComboBox.setEditable(false);
         tableNameComboBox.setEnabled(false);
-        super.populate(source, cell);
+        super.populate(source, cell, null);
         try {
             Iterator it = source.getTableDataNameIterator();
             String name = (String) it.next();

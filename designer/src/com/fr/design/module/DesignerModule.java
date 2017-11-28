@@ -140,7 +140,6 @@ public class DesignerModule extends DesignModule {
      * kunsnat:注册单元格选中Editor
      */
     private void registerCellEditor() {
-
         ActionFactory.registerCellEditor(String.class, new CellStringQuickEditor());
         ActionFactory.registerCellEditor(Number.class, new CellStringQuickEditor());
         ActionFactory.registerCellEditor(BaseFormula.class, new CellFormulaQuickEditor());
@@ -150,9 +149,8 @@ public class DesignerModule extends DesignModule {
         ActionFactory.registerCellEditor(Image.class, new CellImageQuickEditor());
         ActionFactory.registerCellEditor(BiasTextPainter.class, new CellBiasTextPainterEditor());
         ActionFactory.registerCellEditor(BufferedImage.class, new CellImageQuickEditor());
-
-        ActionFactory.registerChartCellEditorInEditor(new BasicChartQuickEditor());
-
+        //todo 图表编辑器populate没能实现刷新面板显示
+        ActionFactory.registerChartCellEditorInEditor(BasicChartQuickEditor.class);
         Set<ElementUIProvider> providers = ExtraDesignClassManager.getInstance().getArray(ElementUIProvider.MARK_STRING);
         for (ElementUIProvider provider : providers) {
             try {
@@ -173,13 +171,13 @@ public class DesignerModule extends DesignModule {
      * kunnat: 注册悬浮选中Editor
      */
     private void registerFloatEditor() {
-        
+
         ActionFactory.registerFloatEditor(String.class, new FloatStringQuickEditor());
         ActionFactory.registerFloatEditor(Formula.class, new FloatStringQuickEditor());
         ActionFactory.registerFloatEditor(Image.class, new FloatImageQuickEditor());
         ActionFactory.registerFloatEditor(BufferedImage.class, new FloatImageQuickEditor());
-
-        ActionFactory.registerChartFloatEditorInEditor(new FloatChartQuickEditor());
+        //todo 图表编辑器populate没能实现刷新面板显示
+        ActionFactory.registerChartFloatEditorInEditor(FloatChartQuickEditor.class);
     }
 
     /**

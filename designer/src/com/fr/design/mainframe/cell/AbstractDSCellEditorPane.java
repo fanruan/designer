@@ -120,4 +120,9 @@ public abstract class AbstractDSCellEditorPane extends JPanel {
         scrollBar.setBlockIncrement(SCROLLBAR_WIDTH + CONTENT_PANE_WIDTH_GAP);
         scrollBar.setBorder(BorderFactory.createMatteBorder(0, CONTENT_PANE_WIDTH_GAP, 0, 0, this.getBackground()));
     }
+
+    /**
+     * 释放tc
+     */
+    protected abstract void release();
 }
