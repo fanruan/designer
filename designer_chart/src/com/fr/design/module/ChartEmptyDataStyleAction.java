@@ -18,7 +18,7 @@ public class ChartEmptyDataStyleAction extends UpdateAction {
 
     public ChartEmptyDataStyleAction() {
         this.setSmallIcon(IOUtils.readIcon("com/fr/design/images/chart/EmptyChart.png"));
-        this.setName(Inter.getLocText("FR-Designer_Chart-EmptyData"));
+        this.setName(Inter.getLocText("FR-Designer_Chart_Empty_Data"));
     }
 
     @Override

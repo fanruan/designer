@@ -37,7 +37,7 @@ public class ChartEmptyDataStylePane extends AbstractAttrNoScrollPane {
     private ImagePreviewPane previewPane;
     private ImageFileChooser imageFileChooser;
 
-    private Image emptyDataImage= null;
+    private Image emptyDataImage = null;
 
 
     @Override
@@ -59,7 +59,7 @@ public class ChartEmptyDataStylePane extends AbstractAttrNoScrollPane {
             }
         });
 
-        UILabel promptContent = new UILabel(Inter.getLocText("FR-Designer_Prompt_Content"));
+        UILabel promptContent = new UILabel(Inter.getLocText("FR-Designer_Tip_Content"));
         JPanel northPane = GUICoreUtils.createFlowPane(new Component[]{promptContent, emptyData}, FlowLayout.LEFT, 15, 0);
         northPane.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
         return northPane;
@@ -174,7 +174,7 @@ public class ChartEmptyDataStylePane extends AbstractAttrNoScrollPane {
 
     @Override
     public String title4PopupWindow() {
-        return Inter.getLocText("FR-Designer_Chart-EmptyData");
+        return Inter.getLocText("FR-Designer_Chart_Empty_Data");
     }
 
     public void populateBean() {
