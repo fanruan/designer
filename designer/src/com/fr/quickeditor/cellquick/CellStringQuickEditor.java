@@ -12,10 +12,11 @@ import com.fr.report.cell.DefaultTemplateCellElement;
 import com.fr.stable.ColumnRow;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import java.awt.*;
+import java.awt.BorderLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -50,7 +51,7 @@ public class CellStringQuickEditor extends CellQuickEditor {
 
     };
 
-    private CellStringQuickEditor() {
+    public CellStringQuickEditor() {
         super();
     }
 

@@ -49,8 +49,9 @@ import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.unit.FU;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -114,6 +115,7 @@ public class CellSelection extends Selection {
 
     /**
      * 增加选中的区域
+     *
      * @param cellRectangle 区域
      */
     public void addCellRectangle(Rectangle cellRectangle) {
@@ -164,6 +166,7 @@ public class CellSelection extends Selection {
 
     /**
      * 清除区域块
+     *
      * @param i 区域块
      */
     public void clearCellRectangles(int i) {
@@ -172,8 +175,9 @@ public class CellSelection extends Selection {
 
     /**
      * 包含单元格
-     * @param column  列
-     * @param row  行
+     *
+     * @param column 列
+     * @param row    行
      * @return 若不包含返回-1
      */
     public int containsCell(int column, int row) {
@@ -205,6 +209,7 @@ public class CellSelection extends Selection {
 
     /**
      * 转换成矩形
+     *
      * @return 矩形
      */
     public Rectangle toRectangle() {
@@ -213,6 +218,7 @@ public class CellSelection extends Selection {
 
     /**
      * 是否选择一个单元格
+     *
      * @param ePane 区域
      * @return 是则返回rue
      */
@@ -239,8 +245,9 @@ public class CellSelection extends Selection {
 
     /**
      * 作为可传输的
+     *
      * @param transferable 传输介质
-     * @param ePane 区域
+     * @param ePane        区域
      */
     public void asTransferable(ElementsTransferable transferable, ElementCasePane ePane) {
         java.util.List<TemplateCellElement> list = new java.util.ArrayList<TemplateCellElement>();
@@ -251,12 +258,12 @@ public class CellSelection extends Selection {
             TemplateCellElement cellElement = (TemplateCellElement) cells.next();
             list.add((TemplateCellElement) cellElement.deriveCellElement(cellElement.getColumn() - column, cellElement.getRow() - row));
         }
-        FU [] columnWidth = new FU[columnSpan];
-        FU [] rowHeight = new FU[rowSpan];
-        for (int i = 0; i < columnSpan; i++){
+        FU[] columnWidth = new FU[columnSpan];
+        FU[] rowHeight = new FU[rowSpan];
+        for (int i = 0; i < columnSpan; i++) {
             columnWidth[i] = ec.getColumnWidth(this.column + i);
         }
-        for (int j = 0; j < rowSpan; j++){
+        for (int j = 0; j < rowSpan; j++) {
             rowHeight[j] = ec.getRowHeight(this.row + j);
         }
         transferable.addObject(new CellElementsClip(this.columnSpan, this.rowSpan, columnWidth, rowHeight, list.toArray(new TemplateCellElement[list.size()])));
@@ -264,9 +271,10 @@ public class CellSelection extends Selection {
 
     /**
      * 黏贴单元格
+     *
      * @param ceClip 单元格
-     * @param ePane 区域
-     * @return  成功返回true
+     * @param ePane  区域
+     * @return 成功返回true
      */
     @Override
     public boolean pasteCellElementsClip(CellElementsClip ceClip, ElementCasePane ePane) {
@@ -281,8 +289,9 @@ public class CellSelection extends Selection {
 
     /**
      * 黏贴字符串
-     * @param str 字符串
-     * @param ePane  区域
+     *
+     * @param str   字符串
+     * @param ePane 区域
      * @return 成功返回true
      */
     @Override
@@ -329,7 +338,8 @@ public class CellSelection extends Selection {
 
     /**
      * 黏贴其他
-     * @param ob 要黏贴的东西
+     *
+     * @param ob    要黏贴的东西
      * @param ePane 区域
      * @return 成功返回true
      */
@@ -352,6 +362,7 @@ public class CellSelection extends Selection {
 
     /**
      * 是否能合并单元格
+     *
      * @param ePane 区域
      * @return 是则返回true
      */
@@ -363,6 +374,7 @@ public class CellSelection extends Selection {
 
     /**
      * 合并单元格
+     *
      * @param ePane 区域
      * @return 成功返回true
      */
@@ -386,6 +398,7 @@ public class CellSelection extends Selection {
 
     /**
      * 是否撤销合并单元格
+     *
      * @param ePane 区域
      * @return 是则返回true
      */
@@ -407,6 +420,7 @@ public class CellSelection extends Selection {
 
     /**
      * 撤销合并单元格
+     *
      * @param ePane 区域
      * @return 成功返回true
      */
@@ -443,6 +457,7 @@ public class CellSelection extends Selection {
 
     /**
      * 创建弹出菜单
+     *
      * @param ePane 区域
      * @return 菜单
      */
@@ -477,7 +492,7 @@ public class CellSelection extends Selection {
         popup.add(DeprecatedActionManager.getPresentMenu(ePane).createJMenu());
         popup.add(new CellAttributeAction().createMenuItem());
         JTemplate jTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
-        if (jTemplate.isJWorkBook()){ //表单中报表块编辑屏蔽掉  控件设置
+        if (jTemplate.isJWorkBook()) { //表单中报表块编辑屏蔽掉  控件设置
             popup.add(new CellWidgetAttrAction().createMenuItem());
         }
         popup.add(new ConditionAttributesAction().createMenuItem());
@@ -497,8 +512,9 @@ public class CellSelection extends Selection {
 
     /**
      * 清除
-     * @param type 要清除的类型
-     * @param ePane  区域
+     *
+     * @param type  要清除的类型
+     * @param ePane 区域
      * @return 成功返回true
      */
     @Override
@@ -581,6 +597,7 @@ public class CellSelection extends Selection {
 
     /**
      * 向左移动
+     *
      * @param ePane 区域
      */
     public void moveLeft(ElementCasePane ePane) {
@@ -592,6 +609,7 @@ public class CellSelection extends Selection {
 
     /**
      * 向右移动
+     *
      * @param ePane 区域
      */
     public void moveRight(ElementCasePane ePane) {
@@ -600,6 +618,7 @@ public class CellSelection extends Selection {
 
     /**
      * 向上移动
+     *
      * @param ePane 区域
      */
     public void moveUp(ElementCasePane ePane) {
@@ -611,6 +630,7 @@ public class CellSelection extends Selection {
 
     /**
      * 向下移动
+     *
      * @param ePane 区域
      */
     public void moveDown(ElementCasePane ePane) {
@@ -626,6 +646,7 @@ public class CellSelection extends Selection {
 
     /**
      * 触发删除动作
+     *
      * @param ePane 区域
      * @return 成功返回true
      */
@@ -657,6 +678,7 @@ public class CellSelection extends Selection {
 
     /**
      * 包含行列
+     *
      * @param cr 行列
      * @return 包含返回true
      */
@@ -716,7 +738,7 @@ public class CellSelection extends Selection {
         CellElementPropertyPane.getInstance().reInit(ePane);
     }
 
-    public void populateWidgetPropertyPane(ElementCasePane ePane){
+    public void populateWidgetPropertyPane(ElementCasePane ePane) {
         CellWidgetPropertyPane.getInstance().reInit(ePane);
     }
 

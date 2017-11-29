@@ -1,4 +1,4 @@
-package com.fr.quickeditor.cellquick;
+package com.fr.quickeditor.cellquick.layout;
 
 import javax.swing.*;
 import java.awt.*;
