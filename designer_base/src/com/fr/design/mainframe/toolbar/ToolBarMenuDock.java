@@ -58,7 +58,6 @@ import com.fr.plugin.observer.PluginEvent;
 import com.fr.plugin.observer.PluginEventListener;
 import com.fr.plugin.observer.PluginEventType;
 import com.fr.stable.ArrayUtils;
-import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
@@ -132,6 +131,9 @@ public abstract class ToolBarMenuDock {
     };
     private static final String FINEREPORT = "FineReport";
     private static final int MENUBAR_HEIGHT = 22;
+    
+    private static final List<PluginEventListener> PLUGIN_LISTENERS = new ArrayList<>();
+    
     private MenuDef[] menus;
     private ToolBarDef toolBarDef;
     private List<UpdateActionModel> shortCutsList;
@@ -177,7 +179,6 @@ public abstract class ToolBarMenuDock {
                 return dim;
             }
         };
-
         this.menus = menus(plus);
         for (int i = 0; i < menus.length; i++) {
             UIMenu subMenu = menus[i].createJMenu();
@@ -201,6 +202,8 @@ public abstract class ToolBarMenuDock {
     }
 
     public MenuDef[] menus(final ToolBarMenuDockPlus plus) {
+        //删除之前创建的插件菜单监听
+        clearPluginListeners();
         java.util.List<MenuDef> menuList = new java.util.ArrayList<MenuDef>();
         // 添加文件菜单
         menuList.add(createFileMenuDef(plus));
@@ -230,7 +233,14 @@ public abstract class ToolBarMenuDock {
 
         return menuList.toArray(new MenuDef[menuList.size()]);
     }
-
+    
+    private static synchronized void clearPluginListeners() {
+        
+        for (PluginEventListener listener : PLUGIN_LISTENERS) {
+            GeneralContext.stopListenPlugin(listener);
+        }
+    }
+    
     /**
      * 获取所有actionmodel
      *
@@ -602,9 +612,9 @@ public abstract class ToolBarMenuDock {
         addExtraMenus(menuDef, anchor, action, set);
 
     }
-
-    private void listenPluginMenuChange(final MenuDef menuDef, final String anchor, final ShortCutMethodAction action) {
-
+    
+    private static synchronized void listenPluginMenuChange(final MenuDef menuDef, final String anchor, final ShortCutMethodAction action) {
+    
         PluginFilter filter = new PluginFilter() {
 
             @Override
@@ -613,29 +623,35 @@ public abstract class ToolBarMenuDock {
                 return context.contain(MenuHandler.MARK_STRING);
             }
         };
-
-        GeneralContext.listenPlugin(PluginEventType.BeforeStop, new PluginEventListener() {
-
+        
+        PluginEventListener beforeStop = new PluginEventListener() {
+    
             @Override
             public void on(PluginEvent event) {
                 PluginRuntime runtime = event.getContext().getRuntime();
                 Set<MenuHandler> menuHandlers = runtime.get(MenuHandler.MARK_STRING);
                 removeExtraMenus(menuDef, anchor, action, menuHandlers);
             }
-        }, filter);
-        GeneralContext.listenPlugin(PluginEventType.AfterRun, new PluginEventListener() {
-
+        };
+        
+        PluginEventListener afterRun = new PluginEventListener() {
+    
             @Override
             public void on(PluginEvent event) {
-
+    
                 PluginRuntime runtime = event.getContext().getRuntime();
                 Set<MenuHandler> menuHandlers = runtime.get(MenuHandler.MARK_STRING);
                 addExtraMenus(menuDef, anchor, action, menuHandlers);
             }
-        }, filter);
+        };
+        
+        GeneralContext.listenPlugin(PluginEventType.BeforeStop, beforeStop, filter);
+        GeneralContext.listenPlugin(PluginEventType.AfterRun, afterRun, filter);
+        PLUGIN_LISTENERS.add(afterRun);
+        PLUGIN_LISTENERS.add(beforeStop);
     }
-
-    private void removeExtraMenus(MenuDef menuDef, String anchor, ShortCutMethodAction action, Set<MenuHandler> set) {
+    
+    private static void removeExtraMenus(MenuDef menuDef, String anchor, ShortCutMethodAction action, Set<MenuHandler> set) {
 
 
         List<MenuHandler> target = new ArrayList<>();
@@ -657,8 +673,8 @@ public abstract class ToolBarMenuDock {
             menuDef.removeShortCut(shortCut);
         }
     }
-
-    private void addExtraMenus(MenuDef menuDef, String anchor, ShortCutMethodAction action, Set<MenuHandler> set) {
+    
+    private static void addExtraMenus(MenuDef menuDef, String anchor, ShortCutMethodAction action, Set<MenuHandler> set) {
 
         List<MenuHandler> target = new ArrayList<>();
         for (MenuHandler handler : set) {
