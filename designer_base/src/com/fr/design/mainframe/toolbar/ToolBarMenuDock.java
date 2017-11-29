@@ -239,6 +239,7 @@ public abstract class ToolBarMenuDock {
         for (PluginEventListener listener : PLUGIN_LISTENERS) {
             GeneralContext.stopListenPlugin(listener);
         }
+        PLUGIN_LISTENERS.clear();
     }
     
     /**
