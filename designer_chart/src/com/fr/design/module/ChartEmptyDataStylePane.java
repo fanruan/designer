@@ -15,6 +15,7 @@ import com.fr.design.style.background.image.ImageFileChooser;
 import com.fr.design.style.background.image.ImagePreviewPane;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.FRLogger;
+import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.stable.CoreGraphHelper;
 import com.fr.stable.StringUtils;
@@ -29,11 +30,12 @@ import java.io.File;
  * Created by mengao on 2017/11/23.
  */
 public class ChartEmptyDataStylePane extends AbstractAttrNoScrollPane {
-    private static final int WIDTH =150;
-    private static final int HEIGHT =20;
-    private static final int FIVE =5;
-    private static final int TEN =10;
-    private static final int THIRTY =30;
+    private static final int WIDTH = 150;
+    private static final int HEIGHT = 20;
+    private static final int FIVE = 5;
+    private static final int TEN = 10;
+    private static final int THIRTY = 30;
+    private static final Image DEFAULT_EMPTY_DATA_IMAGE = IOUtils.readImage("com/fr/design/images/emptydataimage.png");
 
 
     private UIButtonGroup emptyData;
@@ -44,7 +46,7 @@ public class ChartEmptyDataStylePane extends AbstractAttrNoScrollPane {
     private ImagePreviewPane previewPane;
     private ImageFileChooser imageFileChooser;
 
-    private Image emptyDataImage = null;
+    private Image emptyDataImage = DEFAULT_EMPTY_DATA_IMAGE;
 
 
     @Override
@@ -63,6 +65,7 @@ public class ChartEmptyDataStylePane extends AbstractAttrNoScrollPane {
             @Override
             public void actionPerformed(ActionEvent e) {
                 checkEmptyDataStyle();
+                repaintPreviewPane();
             }
         });
 
@@ -127,12 +130,9 @@ public class ChartEmptyDataStylePane extends AbstractAttrNoScrollPane {
         return new ActionListener() {
 
             public void actionPerformed(ActionEvent evt) {
+                emptyDataImage = null;
                 checkCustomImage();
-                changeEmptyDataStyle();
-            }
-
-            private void changeEmptyDataStyle() {
-                previewPane.repaint();
+                repaintPreviewPane();
             }
         };
     }
@@ -151,9 +151,8 @@ public class ChartEmptyDataStylePane extends AbstractAttrNoScrollPane {
                     if (selectedFile != null && selectedFile.isFile()) {
                         emptyDataImage = BaseUtils.readImage(selectedFile.getPath());
                         CoreGraphHelper.waitForImage(emptyDataImage);
+                        repaintPreviewPane();
 
-                        previewPane.setImage(emptyDataImage);
-                        previewPane.repaint();
                     } else {
                         previewPane.setImage(null);
                     }
@@ -174,6 +173,12 @@ public class ChartEmptyDataStylePane extends AbstractAttrNoScrollPane {
         selectPictureButton.setVisible(customRadioButton.isSelected());
     }
 
+    private void repaintPreviewPane() {
+        emptyDataImage = customRadioButton.isSelected() ? emptyDataImage : DEFAULT_EMPTY_DATA_IMAGE;
+        previewPane.setImage(emptyData.getSelectedIndex() == 0 ? emptyDataImage : null);
+        previewPane.repaint();
+    }
+
     @Override
     public String getIconPath() {
         return StringUtils.EMPTY;
@@ -192,8 +197,7 @@ public class ChartEmptyDataStylePane extends AbstractAttrNoScrollPane {
 
         checkEmptyDataStyle();
         checkCustomImage();
-        previewPane.setImage(emptyDataImage);
-        previewPane.repaint();
+        repaintPreviewPane();
     }
 
     public void updateBean() {
