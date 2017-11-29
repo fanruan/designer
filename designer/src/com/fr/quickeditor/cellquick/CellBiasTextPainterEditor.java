@@ -13,8 +13,10 @@ import com.fr.general.Inter;
 import com.fr.quickeditor.CellQuickEditor;
 import com.fr.report.cell.painter.BiasTextPainter;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -22,6 +24,9 @@ import java.awt.event.ActionListener;
  * 单元格元素斜线编辑器
  */
 public class CellBiasTextPainterEditor extends CellQuickEditor {
+    public CellBiasTextPainterEditor() {
+        super();
+    }
 
     @Override
     public JComponent createCenterBody() {
