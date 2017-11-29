@@ -5,7 +5,6 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class UIToolbar extends JToolBar {
-    private static final int TOOLBAR_HEIGNT = 26;
 
     public UIToolbar() {
         this(FlowLayout.LEFT);
@@ -22,13 +21,6 @@ public class UIToolbar extends JToolBar {
 
     public UIToolbar(int align) {
         this(align, new UIToolBarUI());
-    }
-
-    @Override
-    public Dimension getPreferredSize() {
-        Dimension dim = super.getPreferredSize();
-        dim.height = TOOLBAR_HEIGNT;
-        return dim;
     }
 
     public void checkComponentsByNames(boolean flag, ArrayList<String> names) {
