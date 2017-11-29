@@ -13,6 +13,7 @@ import com.fr.design.designer.beans.actions.FormUndoableAction;
 import com.fr.design.designer.creator.XWAbsoluteBodyLayout;
 import com.fr.design.gui.controlpane.ShortCut4JControlPane;
 import com.fr.design.gui.controlpane.UIListControlPane;
+import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.itoolbar.UIToolBarUI;
 import com.fr.design.gui.itoolbar.UIToolbar;
 import com.fr.design.mainframe.widget.UITreeComboBox;
@@ -43,7 +44,7 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 
 	private ShortCut4JControlPane[] shorts;
 	private ComponentTree componentTree;
-	private UITreeComboBox treeComboBox;
+//	private UITreeComboBox treeComboBox;
     private ChangeNameAction changeVarNameAction;
 
 	public static FormHierarchyTreePane getInstance() {
@@ -96,9 +97,9 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 		if(this.componentTree != null) {
 			this.componentTree.removeAll();
 		}
-		if(this.treeComboBox != null) {
-			this.treeComboBox.removeAll();
-		}
+//		if(this.treeComboBox != null) {
+//			this.treeComboBox.removeAll();
+//		}
 		if (formDesigner == null) {
 			clearDockingView();
 			return;
@@ -129,8 +130,10 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 		headPane.add(getToolBarPane(), BorderLayout.EAST);
 
 		widgetPane.add(headPane, BorderLayout.CENTER);
-		treeComboBox = new UITreeComboBox(componentTree);
-		widgetPane.add(treeComboBox, BorderLayout.SOUTH);
+		UIScrollPane scrollPane = new UIScrollPane(componentTree);
+		scrollPane.setPreferredSize(new Dimension(210, 170));
+//		treeComboBox = new UITreeComboBox(componentTree);
+		widgetPane.add(scrollPane, BorderLayout.SOUTH);
 		return widgetPane;
 	}
 

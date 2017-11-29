@@ -1,6 +1,6 @@
 package com.fr.design.mainframe;
 
-import java.awt.Component;
+import java.awt.*;
 import java.util.ArrayList;
 
 import javax.swing.DropMode;
@@ -12,6 +12,7 @@ import com.fr.design.constants.UIConstants;
 import com.fr.design.designer.creator.*;
 import com.fr.design.designer.treeview.ComponentTreeCellRenderer;
 import com.fr.design.designer.treeview.ComponentTreeModel;
+import com.fr.design.gui.itree.UITreeUI;
 import com.fr.stable.StringUtils;
 
 public class ComponentTree extends JTree {
@@ -31,6 +32,7 @@ public class ComponentTree extends JTree {
         this.refreshTreeRoot();
         addTreeSelectionListener(designer);
         setEditable(true);
+        setUI(new UITreeUI());
     }
 
     public FormDesigner getDesigner() {
@@ -48,7 +50,12 @@ public class ComponentTree extends JTree {
         this.setModel(model);
     }
 
-
+    public void setSelectionPath(TreePath path) {
+        // 不管点击哪一项，都要先退出编辑状态（图表、报表块、绝对布局、tab块）
+//        getSelectionModel().setSelectionPath(path);
+        designer.stopEditing();
+        super.setSelectionPath(path);
+    }
 
 
     /**
@@ -58,11 +65,7 @@ public class ComponentTree extends JTree {
      */
     @Override
     public boolean isPathEditable(TreePath path) {
-        Object object = path.getLastPathComponent();
-        if (object == designer.getRootComponent()) {
-            return false;
-        }
-        return super.isPathEditable(path);
+        return false;
     }
 
     /**
