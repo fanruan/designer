@@ -222,7 +222,7 @@ public class UIButtonGroup<T> extends JPanel implements GlobalNameObserver {
     }
 
     protected LayoutManager getGridLayout(int number) {
-        return new GridLayout(0, number, 1, 0);
+        return new GridLayout(0, number, 0, 0);
     }
 
     /**
