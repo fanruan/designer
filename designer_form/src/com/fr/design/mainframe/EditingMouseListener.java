@@ -489,7 +489,7 @@ public class EditingMouseListener extends MouseInputAdapter {
         return false;
     }
 
-    private XCreator processTopLayoutMouseClick(XCreator creator) {
+    public XCreator processTopLayoutMouseClick(XCreator creator) {
         XLayoutContainer topLayout = XCreatorUtils.getHotspotContainer(creator).getTopLayout();
         if (topLayout != null) {
             if (clickTopLayout != null && !clickTopLayout.equals(topLayout) && !isCreatorInLayout(clickTopLayout,

@@ -53,7 +53,7 @@ public class ComponentTree extends JTree {
     public void setSelectionPath(TreePath path) {
         // 不管点击哪一项，都要先退出编辑状态（图表、报表块、绝对布局、tab块）
 //        getSelectionModel().setSelectionPath(path);
-        designer.stopEditing();
+        designer.stopEditing(path);
         super.setSelectionPath(path);
     }
 

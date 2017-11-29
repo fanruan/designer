@@ -1236,8 +1236,12 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     @Override
     public void stopEditing() {
         // do nothing
+    }
+
+    public void stopEditing(TreePath path) {
+        // do nothing
         editingMouseListener.stopEditing();
-//        editingMouseListener.processTopLayoutMouseClick()
+        editingMouseListener.processTopLayoutMouseClick((XCreator) path.getLastPathComponent());
     }
 
     /**
