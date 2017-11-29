@@ -10,6 +10,8 @@ import com.fr.design.actions.UndoableAction;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.designer.beans.actions.ChangeNameAction;
 import com.fr.design.designer.beans.actions.FormUndoableAction;
+import com.fr.design.designer.beans.events.DesignerEditListener;
+import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.XWAbsoluteBodyLayout;
 import com.fr.design.gui.controlpane.ShortCut4JControlPane;
 import com.fr.design.gui.controlpane.UIListControlPane;
@@ -105,6 +107,12 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 			return;
 		}
 		componentTree = new ComponentTree(formDesigner);
+		formDesigner.addDesignerEditListener(new DesignerEditListener() {
+			@Override
+			public void fireCreatorModified(DesignerEvent evt) {
+				componentTree.setAndScrollSelectionPath(componentTree.getSelectedTreePath());
+			}
+		});
 
 		ComponentTreeModel treeModel = (ComponentTreeModel) componentTree.getModel();
 		XCreator root = (XCreator)treeModel.getRoot();
