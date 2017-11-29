@@ -4,6 +4,7 @@ import com.fr.base.CellBorderStyle;
 import com.fr.base.NameStyle;
 import com.fr.base.Style;
 import com.fr.design.actions.utils.ReportActionUtils;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.MultiTabPane;
 import com.fr.design.gui.style.*;
@@ -12,6 +13,7 @@ import com.fr.design.style.BorderUtils;
 import com.fr.general.Inter;
 import com.fr.stable.Constants;
 
+import javax.swing.*;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.util.ArrayList;
@@ -38,6 +40,7 @@ public class CustomStylePane extends MultiTabPane<Style> {
         super();
         tabPane.setOneLineTab(true);
         tabPane.setDrawLine(false);
+        tabPane.setBorder(BorderFactory.createLineBorder(UIConstants.SHADOW_GREY));
         tabPane.setLayout(new GridLayout(1, 3, 0, 0));
     }
 
