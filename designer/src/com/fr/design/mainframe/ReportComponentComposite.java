@@ -127,9 +127,8 @@ public class ReportComponentComposite extends JComponent {
                 templateStateList.add(null);
             }
             centerCardPane.editingComponet.setSelection(centerCardPane.editingComponet.getDefaultSelectElement());
-            if (jSliderContainer != null){
-                jSliderContainer.reset();
-            }
+            jSliderContainer=JSliderPane.getInstance();
+            jSliderContainer.reset();
         }
 
         if (centerCardPane.editingComponet.elementCasePane == null) {

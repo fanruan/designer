@@ -16,6 +16,7 @@ import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.general.Inter;
 import com.fr.grid.selection.CellSelection;
+import com.fr.grid.selection.Selection;
 import com.fr.report.cell.CellElement;
 import com.fr.report.cell.DefaultTemplateCellElement;
 import com.fr.report.cell.TemplateCellElement;
@@ -29,6 +30,7 @@ import com.fr.stable.Nameable;
 public class ConditionAttributesGroupPane extends UIListControlPane {
     private static ConditionAttributesGroupPane singleton;
     private TemplateCellElement editCellElement;  // 当前单元格对象
+    private Selection editSelection;  // 当前编辑对象
 	private ElementCasePane ePane;
 
 	private ConditionAttributesGroupPane() {
@@ -52,10 +54,8 @@ public class ConditionAttributesGroupPane extends UIListControlPane {
         if (isPopulating) {
             return;
         }
-		final CellSelection finalCS = (CellSelection) ePane.getSelection();
 		final TemplateElementCase tplEC = ePane.getEditingElementCase();
-
-        ReportActionUtils.actionIterateWithCellSelection(finalCS, tplEC, new ReportActionUtils.IterAction() {
+        ReportActionUtils.actionIterateWithCellSelection((CellSelection) editSelection, tplEC, new ReportActionUtils.IterAction() {
             public void dealWith(CellElement editCellElement) {
                 ((TemplateCellElement)editCellElement).setHighlightGroup(updateHighlightGroup());
             }
@@ -75,6 +75,7 @@ public class ConditionAttributesGroupPane extends UIListControlPane {
 
     public void populate(ElementCasePane ePane) {
 		this.ePane = ePane;
+		this.editSelection = ePane.getSelection();
         CellSelection cs = (CellSelection) ePane.getSelection();
         final TemplateElementCase tplEC = ePane.getEditingElementCase();
         editCellElement = tplEC.getTemplateCellElement(cs.getColumn(), cs.getRow());

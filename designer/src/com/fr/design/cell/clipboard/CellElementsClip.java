@@ -12,6 +12,7 @@ import com.fr.report.cell.CellElement;
 import com.fr.report.cell.CellElementComparator;
 import com.fr.report.cell.TemplateCellElement;
 import com.fr.report.elementcase.TemplateElementCase;
+import com.fr.stable.StringUtils;
 import com.fr.stable.unit.FU;
 
 /**
@@ -62,8 +63,12 @@ public class CellElementsClip implements Cloneable, java.io.Serializable {
 			if (sbuf.length() > 0 && sbuf.charAt(sbuf.length() - 1) != '\n') {
 				sbuf.append('\t');
 			}
-
-			sbuf.append(cellElement.getValue());
+			//REPORT-5134:会复制出null
+			if (cellElement.getValue() == null) {
+				sbuf.append(StringUtils.EMPTY);
+			} else {
+				sbuf.append(cellElement.getValue());
+			}
 		}
 
 		return sbuf.toString();

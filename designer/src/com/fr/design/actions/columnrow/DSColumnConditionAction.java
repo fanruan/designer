@@ -9,14 +9,32 @@ import com.fr.design.mainframe.ElementCasePane;
 import com.fr.general.Inter;
 import com.fr.report.cell.TemplateCellElement;
 
+/**
+ * 数据列过滤条件Action
+ *
+ * @author null
+ * @version 2017年11月17日15点11分
+ * @since 8.0
+ */
 public class DSColumnConditionAction extends AbstractCellElementAction {
 
-    public DSColumnConditionAction(ElementCasePane t) {
-        super(t);
-
+    public DSColumnConditionAction() {
+        super();
         this.setName(Inter.getLocText("Filter"));
         this.setMnemonic('E');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/expand/cellAttr.gif"));
+    }
+
+    public DSColumnConditionAction(ElementCasePane t) {
+        super(t);
+        this.setName(Inter.getLocText("Filter"));
+        this.setMnemonic('E');
+        this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/expand/cellAttr.gif"));
+    }
+
+    @Override
+    public void setEditingComponent(ElementCasePane casePane) {
+        super.setEditingComponent(casePane);
     }
 
     @Override
