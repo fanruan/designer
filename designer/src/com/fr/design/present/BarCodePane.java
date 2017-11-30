@@ -276,7 +276,7 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
         this.barHeightSpinner.setValue(new Integer(barcodeAttr.getBarHeight()));
         this.drawingTextCheckBox.setSelected(barcodeAttr.isDrawingText());
         this.sizespinner.setValue(new Integer(barcodeAttr.getRcodeDrawPix()));
-        this.repai ntPreviewBarCode();
+        this.repaintPreviewBarCode();
     }
 
     @Override
