@@ -11,6 +11,7 @@ import com.fr.design.designer.beans.models.SelectionModel;
 import com.fr.design.designer.beans.models.StateModel;
 import com.fr.design.designer.creator.*;
 import com.fr.design.designer.creator.cardlayout.XCardSwitchButton;
+import com.fr.design.designer.creator.cardlayout.XWCardLayout;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.xpane.ToolTipEditor;
@@ -491,7 +492,8 @@ public class EditingMouseListener extends MouseInputAdapter {
 
     // 点击控件树，会触发此方法。如果在设计器中选中组件，则直接走 processTopLayoutMouseClick
     public void stopEditTopLayout(XCreator creator) {
-        if (clickTopLayout != null && clickTopLayout.equals(creator)) {
+        boolean isTabpaneSelected = creator instanceof XWCardLayout && creator.getParent().equals(clickTopLayout);
+        if (clickTopLayout != null && (isTabpaneSelected || clickTopLayout.equals(creator))) {
             clickTopLayout.setEditable(false);
         }
         processTopLayoutMouseClick(creator);
