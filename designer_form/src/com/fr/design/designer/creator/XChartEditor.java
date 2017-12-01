@@ -76,6 +76,11 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 		return true;
 	}
 
+	@Override
+	public void stopEditing() {
+		isEditing = false;
+	}
+
     /**
      *  得到属性名
      * @return 属性名

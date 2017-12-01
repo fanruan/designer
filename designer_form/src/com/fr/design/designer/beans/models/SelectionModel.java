@@ -68,7 +68,10 @@ public class SelectionModel {
         }
         // 获取e所在的组件
         XCreator comp = designer.getComponentAt(e);
+        selectACreator(comp);
+    }
 
+    public void selectACreator(XCreator comp) {
         //布局组件的顶层布局如不可编辑，要获取其顶层布局
         XLayoutContainer topLayout = XCreatorUtils.getHotspotContainer(comp).getTopLayout();
         if (topLayout != null && !topLayout.isEditable()) {

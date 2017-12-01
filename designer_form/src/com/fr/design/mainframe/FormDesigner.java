@@ -1240,8 +1240,12 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
 
     public void stopEditing(TreePath path) {
         // do nothing
+        XCreator comp = (XCreator) path.getLastPathComponent();
         editingMouseListener.stopEditing();
-        editingMouseListener.processTopLayoutMouseClick((XCreator) path.getLastPathComponent());
+        editingMouseListener.stopEditTopLayout(comp);
+
+        editingMouseListener.getSelectionModel().reset();
+        editingMouseListener.getSelectionModel().selectACreator(comp);
     }
 
     /**

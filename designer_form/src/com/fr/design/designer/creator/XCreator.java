@@ -653,7 +653,15 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	 *
 	 */
 	public void firePropertyChange(){
-
+        // do nothing
 	}
+
+    /**
+     * 有的控件是有编辑状态的，给一个退出编辑的接口
+     *
+     */
+    public void stopEditing() {
+        // do nothing
+    }
 
 }

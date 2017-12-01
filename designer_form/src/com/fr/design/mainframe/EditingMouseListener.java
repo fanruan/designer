@@ -489,6 +489,14 @@ public class EditingMouseListener extends MouseInputAdapter {
         return false;
     }
 
+    // 点击控件树，会触发此方法。如果在设计器中选中组件，则直接走 processTopLayoutMouseClick
+    public void stopEditTopLayout(XCreator creator) {
+        if (clickTopLayout != null && clickTopLayout.equals(creator)) {
+            clickTopLayout.setEditable(false);
+        }
+        processTopLayoutMouseClick(creator);
+    }
+
     public XCreator processTopLayoutMouseClick(XCreator creator) {
         XLayoutContainer topLayout = XCreatorUtils.getHotspotContainer(creator).getTopLayout();
         if (topLayout != null) {
@@ -589,6 +597,7 @@ public class EditingMouseListener extends MouseInputAdapter {
             }
             designer.invalidate();
             designer.repaint();
+            currentXCreator.stopEditing();
             currentXCreator = null;
             currentEditor = null;
             return true;
