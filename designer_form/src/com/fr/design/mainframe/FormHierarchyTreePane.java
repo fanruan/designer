@@ -99,9 +99,6 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 		if(this.componentTree != null) {
 			this.componentTree.removeAll();
 		}
-//		if(this.treeComboBox != null) {
-//			this.treeComboBox.removeAll();
-//		}
 		if (formDesigner == null) {
 			clearDockingView();
 			return;
@@ -111,6 +108,7 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 			@Override
 			public void fireCreatorModified(DesignerEvent evt) {
 				componentTree.setAndScrollSelectionPath(componentTree.getSelectedTreePath());
+                componentTree.refreshUI();
 			}
 		});
 
