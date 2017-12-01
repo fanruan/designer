@@ -9,8 +9,7 @@ import com.fr.design.menu.MenuKeySet;
 import com.fr.design.selection.QuickEditor;
 import com.fr.general.FRLogger;
 
-import javax.swing.Action;
-import javax.swing.KeyStroke;
+import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
@@ -50,6 +49,7 @@ public class ActionFactory {
     private static ConcurrentMap<Class, Class<? extends QuickEditor>> cellEditorClass = new ConcurrentHashMap<>();
 
     private static UpdateAction chartPreStyleAction = null;
+    private static UpdateAction chartEmptyDataStyleAction = null;
     private static UpdateAction chartMapEditorAction = null;
 
     private ActionFactory() {
@@ -127,6 +127,15 @@ public class ActionFactory {
     }
 
     /**
+     * 注册图表的 空数据提示样式.
+     *
+     * @param action 注册的图表空数据提示样式action
+     */
+    public static void registerChartEmptyDataStyleAction(UpdateAction action) {
+        chartEmptyDataStyleAction = action;
+    }
+
+    /**
      * kunsnat: 图表注册 悬浮元素编辑器 , 因为ChartCollection和ChartQuickEditor一个在Chart,一个在Designer, 所以分开注册.
      *
      * @param editorClass 悬浮元素图表编辑器类
@@ -155,6 +164,15 @@ public class ActionFactory {
      */
     public static UpdateAction getChartPreStyleAction() {
         return chartPreStyleAction;
+    }
+
+    /**
+     * 图表空数据提示样式Action
+     *
+     * @return 图表空数据提示样式Action
+     */
+    public static UpdateAction getChartEmptyDataStyleAction() {
+        return chartEmptyDataStyleAction;
     }
 
 
