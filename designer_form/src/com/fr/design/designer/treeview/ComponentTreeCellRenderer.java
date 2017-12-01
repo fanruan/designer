@@ -36,7 +36,7 @@ public class ComponentTreeCellRenderer extends DefaultTreeCellRenderer {
 		dim.height += 2;
 		this.setSize(dim);
 		this.setPreferredSize(dim);
-		this.setBackgroundNonSelectionColor(UIConstants.NORMAL_BACKGROUND);
+		this.setBackgroundNonSelectionColor(UIConstants.TREE_BACKGROUND);
 		return this;
 	}
 

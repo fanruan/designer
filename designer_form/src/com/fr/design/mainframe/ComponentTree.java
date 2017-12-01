@@ -3,8 +3,7 @@ package com.fr.design.mainframe;
 import java.awt.*;
 import java.util.ArrayList;
 
-import javax.swing.DropMode;
-import javax.swing.JTree;
+import javax.swing.*;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
@@ -19,10 +18,12 @@ public class ComponentTree extends JTree {
 
     private FormDesigner designer;
     private ComponentTreeModel model;
+    private static final int PADDING_LEFT = 10;
+    private static final int PADDING_TOP = 8;
 
     public ComponentTree(FormDesigner designer) {
         this.designer = designer;
-        this.setBackground(UIConstants.NORMAL_BACKGROUND);
+        this.setBackground(UIConstants.TREE_BACKGROUND);
         setRootVisible(true);
         setCellRenderer(new ComponentTreeCellRenderer());
         getSelectionModel().setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
@@ -33,6 +34,7 @@ public class ComponentTree extends JTree {
         addTreeSelectionListener(designer);
         setEditable(true);
         setUI(new UITreeUI());
+        setBorder(BorderFactory.createEmptyBorder(PADDING_TOP, PADDING_LEFT, 0, 0));
     }
 
     public FormDesigner getDesigner() {

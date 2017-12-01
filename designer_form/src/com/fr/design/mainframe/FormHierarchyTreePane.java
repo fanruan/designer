@@ -1,38 +1,27 @@
 package com.fr.design.mainframe;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.util.ArrayList;
-
-import javax.swing.*;
-
+import com.fr.base.BaseUtils;
 import com.fr.design.actions.UndoableAction;
-import com.fr.design.actions.UpdateAction;
-import com.fr.design.designer.beans.actions.ChangeNameAction;
-import com.fr.design.designer.beans.actions.FormUndoableAction;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.designer.beans.events.DesignerEditListener;
 import com.fr.design.designer.beans.events.DesignerEvent;
+import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XWAbsoluteBodyLayout;
+import com.fr.design.designer.creator.XWParameterLayout;
+import com.fr.design.designer.treeview.ComponentTreeModel;
 import com.fr.design.gui.controlpane.ShortCut4JControlPane;
-import com.fr.design.gui.controlpane.UIListControlPane;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.itoolbar.UIToolBarUI;
 import com.fr.design.gui.itoolbar.UIToolbar;
-import com.fr.design.mainframe.widget.UITreeComboBox;
-
+import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.design.parameter.HierarchyTreePane;
-import com.fr.design.designer.creator.XCreator;
-import com.fr.design.designer.creator.XWParameterLayout;
-import com.fr.design.designer.treeview.ComponentTreeModel;
-
-import com.fr.design.gui.ilable.UILabel;
-
-
-import com.fr.base.BaseUtils;
 import com.fr.general.Inter;
-import com.fr.design.layout.FRGUIPaneFactory;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.ArrayList;
 
 
 /**
@@ -46,8 +35,6 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 
 	private ShortCut4JControlPane[] shorts;
 	private ComponentTree componentTree;
-//	private UITreeComboBox treeComboBox;
-    private ChangeNameAction changeVarNameAction;
 
 	public static FormHierarchyTreePane getInstance() {
 		return HOLDER.singleton;
@@ -95,7 +82,6 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 	public void refreshDockingView() {
 		FormDesigner formDesigner = this.getEditingFormDesigner();
 		removeAll();
-		changeVarNameAction = null;
 		if(this.componentTree != null) {
 			this.componentTree.removeAll();
 		}
@@ -127,18 +113,13 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 		shorts = createShortcuts();
 
 		JPanel widgetPane = new JPanel();
-		widgetPane.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
+		widgetPane.setBorder(BorderFactory.createLineBorder(UIConstants.RULER_LINE_COLOR));
 		widgetPane.setLayout(FRGUIPaneFactory.createBorderLayout());
 
-		JPanel headPane = new JPanel(new BorderLayout());
-		headPane.add(new UILabel(Inter.getLocText("FR-Designer-Selected_Widget") + "  ",
-				SwingConstants.HORIZONTAL), BorderLayout.WEST);
-		headPane.add(getToolBarPane(), BorderLayout.EAST);
-
-		widgetPane.add(headPane, BorderLayout.CENTER);
+		widgetPane.add(getToolBarPane(), BorderLayout.CENTER);
 		UIScrollPane scrollPane = new UIScrollPane(componentTree);
+        scrollPane.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, UIConstants.RULER_LINE_COLOR));
 		scrollPane.setPreferredSize(new Dimension(210, 170));
-//		treeComboBox = new UITreeComboBox(componentTree);
 		widgetPane.add(scrollPane, BorderLayout.SOUTH);
 		return widgetPane;
 	}
@@ -166,10 +147,7 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 	protected ShortCut4JControlPane[] createShortcuts() {
         ArrayList<ShortCut4JControlPane> shortCutList = new ArrayList<>();
         FormDesigner designer = getEditingFormDesigner();
-		if (changeVarNameAction == null) {
-			changeVarNameAction = new ChangeNameAction(designer);
-		}
-		shortCutList.add(new WidgetEnableShortCut(changeVarNameAction));
+
         for (Action action : designer.getActions()) {
             shortCutList.add(new WidgetEnableShortCut((UndoableAction)action));
         }
