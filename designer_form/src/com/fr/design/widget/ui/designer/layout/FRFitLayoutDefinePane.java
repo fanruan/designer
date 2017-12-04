@@ -161,6 +161,7 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
                 wAbsoluteBodyLayout.setCompState(WAbsoluteLayout.STATE_FIXED);
                 Component[] components = xWFitLayout.getComponents();
                 xWFitLayout.removeAll();
+                layout.resetStyle();
                 XWAbsoluteBodyLayout xwAbsoluteBodyLayout = new XWAbsoluteBodyLayout(wAbsoluteBodyLayout, new Dimension(0, 0));
                 xWFitLayout.getLayoutAdapter().addBean(xwAbsoluteBodyLayout, 0, 0);
                 for (Component component : components) {
