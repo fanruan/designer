@@ -1,6 +1,7 @@
 package com.fr.design.mainframe.alphafine.search.manager;
 
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.mainframe.SiteCenterToken;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.alphafine.CellType;
@@ -43,7 +44,9 @@ public class RecommendSearchManager implements AlphaFineSearchProcessor {
         this.recommendModelList = new SearchResult();
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainRecommend()) {
             String result;
-            HttpClient httpClient = new HttpClient(AlphaFineConstants.SEARCH_API + CodeUtils.cjkEncode(searchText));
+            String url = AlphaFineConstants.SEARCH_API + CodeUtils.cjkEncode(searchText);
+            url = String.format("%s?token=%s", url, SiteCenterToken.generateToken());
+            HttpClient httpClient = new HttpClient(url);
             httpClient.asGet();
             if (!httpClient.isServerAlive()) {
                 return getNoConnectList();
