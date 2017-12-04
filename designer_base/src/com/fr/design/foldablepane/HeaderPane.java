@@ -3,6 +3,7 @@ package com.fr.design.foldablepane;
 import com.fr.base.GraphHelper;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.syntax.ui.rsyntaxtextarea.RSyntaxUtilities;
+import com.fr.stable.OperatingSystem;
 
 import javax.swing.*;
 import java.awt.*;
@@ -55,8 +56,11 @@ public class HeaderPane extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g.create();
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
+        //mac下抗锯齿处理
+        if(OperatingSystem.isMacOS()){
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                    RenderingHints.VALUE_ANTIALIAS_ON);
+        }
         BufferedImage panelImage = createPanelImage();
         g2d.drawImage(panelImage, null, 0, 0);
         GraphHelper.drawString(g2d, this.title, TITLE_X, headHeight - fontSize / 2 - 1);
