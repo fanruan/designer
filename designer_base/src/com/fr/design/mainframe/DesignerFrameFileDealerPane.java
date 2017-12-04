@@ -60,8 +60,8 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
     private OpenFolderAction openFolderAction = new OpenFolderAction();
     private RenameAction renameAction = new RenameAction();
     private DelFileAction delFileAction = new DelFileAction();
-    
-    
+
+
     /**
      * 刷新
      */

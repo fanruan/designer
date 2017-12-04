@@ -1,6 +1,7 @@
 package com.fr.design.mainframe.errorinfo;
 
 import com.fr.base.FRContext;
+import com.fr.design.mainframe.SiteCenterToken;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.GeneralContext;
@@ -11,8 +12,6 @@ import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.license.function.VT4FR;
 import com.fr.log.LogHandler;
-import com.fr.regist.FRCoreContext;
-import com.fr.regist.LicenseListener;
 import com.fr.stable.CodeUtils;
 import com.fr.stable.EnvChangedListener;
 import com.fr.stable.ProductConstants;
@@ -50,7 +49,7 @@ public class ErrorInfoUploader {
                 });
             }
         });
-    
+
     }
 
     private ErrorInfoUploader() {
@@ -71,8 +70,8 @@ public class ErrorInfoUploader {
     }
 
     // 从云中心更新最新的解决方案文件
-    private void checkUpdateSolution(){
-    
+    private void checkUpdateSolution() {
+
         if (!VT4FR.AlphaFine.support()) {
             return;
         }
@@ -94,6 +93,7 @@ public class ErrorInfoUploader {
     private void downloadSolution(File localCacheZip) {
         try {
             String downloadURL = SiteCenter.getInstance().acquireUrlByKind("solution.download", "http://cloud.fanruan.com/api/solution");
+            downloadURL = String.format("%s?token=%s", downloadURL, SiteCenterToken.generateToken());
             HttpClient hc = new HttpClient(downloadURL);
             hc.asGet();
             InputStream in = hc.getResponseStream();
@@ -110,13 +110,14 @@ public class ErrorInfoUploader {
 
     }
 
-    private boolean needUpdate(File localCacheZip){
+    private boolean needUpdate(File localCacheZip) {
         if (localCacheZip.exists()) {
             // 判断本地文件大小.
-            String checkURL = SiteCenter.getInstance().acquireUrlByKind("solution.check", "http://cloud.fanruan.com/api/checkUpdate");
+            String checkURL = SiteCenter.getInstance().acquireUrlByKind("solution.check", "http://cloud.fanruan.com/api/solution/cache/check");
+            checkURL = String.format("%s?token=%s", checkURL, SiteCenterToken.generateToken());
             HttpClient client = new HttpClient(checkURL);
             client.asGet();
-            if (client.isServerAlive()){
+            if (client.isServerAlive()) {
                 try {
                     JSONObject res = new JSONObject(client.getResponseText());
                     // 简单粗暴, 直接判断文件大小.
@@ -129,7 +130,7 @@ public class ErrorInfoUploader {
         return true;
     }
 
-    public void sendErrorInfo(){
+    public void sendErrorInfo() {
         // 判断更新解决方案缓存.
         checkUpdateSolution();
 
@@ -171,8 +172,7 @@ public class ErrorInfoUploader {
 
     private boolean sendErroInfo(String url, String content) {
         HashMap<String, String> para = new HashMap<>();
-        String date = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
-        para.put("token", CodeUtils.md5Encode(date, "", "MD5"));
+        para.put("token", SiteCenterToken.generateToken());
         para.put("content", content);
         HttpClient httpClient = new HttpClient(url, para, true);
         httpClient.asGet();
@@ -181,7 +181,7 @@ public class ErrorInfoUploader {
             return false;
         }
 
-        String res =  httpClient.getResponseText();
+        String res = httpClient.getResponseText();
         boolean success;
         try {
             success = ComparatorUtils.equals(new JSONObject(res).get("status"), "success");
