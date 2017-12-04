@@ -18,6 +18,7 @@ public class ComponentTree extends JTree {
 
     private FormDesigner designer;
     private ComponentTreeModel model;
+    private UITreeUI uiTreeUI = new UITreeUI();
     private static final int PADDING_LEFT = 10;
     private static final int PADDING_TOP = 8;
 
@@ -33,7 +34,7 @@ public class ComponentTree extends JTree {
         this.refreshTreeRoot();
         addTreeSelectionListener(designer);
         setEditable(true);
-        setUI(new UITreeUI());
+        setUI(uiTreeUI);
         setBorder(BorderFactory.createEmptyBorder(PADDING_TOP, PADDING_LEFT, 0, 0));
     }
 
@@ -101,10 +102,8 @@ public class ComponentTree extends JTree {
      */
     public void refreshUI() {
         updateUI();
+        setUI(uiTreeUI);
     }
-
-
-
 
 
     public TreePath[] getSelectedTreePath() {
@@ -115,8 +114,6 @@ public class ComponentTree extends JTree {
         }
         return paths;
     }
-
-
 
 
     /**
