@@ -1,10 +1,14 @@
 package com.fr.design.designer.beans.actions;
 
 import com.fr.base.BaseUtils;
+import com.fr.design.designer.beans.events.DesignerEvent;
+import com.fr.design.designer.creator.XCreator;
 import com.fr.design.mainframe.FormDesigner;
+import com.fr.design.mainframe.FormSelection;
 import com.fr.general.Inter;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
@@ -27,11 +31,20 @@ public class MoveToBottomAction extends FormEditAction {
 
     @Override
     public boolean executeActionReturnUndoRecordNeeded() {
-        FormDesigner editPane = getEditingComponent();
-        if (editPane == null) {
+        FormDesigner designer = getEditingComponent();
+        if (designer == null) {
             return false;
         }
-        return editPane.cut();
+        FormSelection selection = designer.getSelectionModel().getSelection();
+        XCreator creator = selection.getSelectedCreator();
+        Container container = creator.getParent();
+        int targetIndex = container.getComponentCount() - 1;
+        if (container.getComponentZOrder(creator) >= targetIndex) {
+            return false;
+        }
+        container.setComponentZOrder(creator, targetIndex);
+        designer.getEditListenerTable().fireCreatorModified(creator, DesignerEvent.CREATOR_DELETED);
+        return true;
     }
 
 }

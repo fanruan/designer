@@ -213,7 +213,6 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
         }
     }
 
-
     /**
      * 是否有查询按钮
      *
