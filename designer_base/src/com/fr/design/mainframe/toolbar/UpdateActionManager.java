@@ -27,12 +27,18 @@ public class UpdateActionManager {
         this.updateActions = updateActions;
     }
 
-    public boolean isEnable(UpdateAction updateAction) {
+    /**
+     * 根据action name获取action对象
+     *
+     * @param name
+     * @return
+     */
+    public UpdateAction getActionByName(String name) {
         for (UpdateActionModel action : updateActions) {
-            if (ComparatorUtils.equals(updateAction.getName(), action.getActionName()) && action.getAction().isEnabled()) {
-                return true;
+            if (ComparatorUtils.equals(name, action.getActionName()) && action.getAction().isEnabled()) {
+                return action.getAction();
             }
         }
-        return false;
+        return null;
     }
 }
