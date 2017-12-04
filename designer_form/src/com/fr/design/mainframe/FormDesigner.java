@@ -7,10 +7,7 @@ import com.fr.design.DesignState;
 import com.fr.design.designer.TargetComponent;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.Painter;
-import com.fr.design.designer.beans.actions.CopyAction;
-import com.fr.design.designer.beans.actions.CutAction;
-import com.fr.design.designer.beans.actions.FormDeleteAction;
-import com.fr.design.designer.beans.actions.PasteAction;
+import com.fr.design.designer.beans.actions.*;
 import com.fr.design.designer.beans.adapters.layout.FRParameterLayoutAdapter;
 import com.fr.design.designer.beans.events.CreatorEventListenerTable;
 import com.fr.design.designer.beans.events.DesignerEditListener;
@@ -1129,7 +1126,8 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     public Action[] getActions() {
         if (designerActions == null) {
             designerActions = new Action[]{new CutAction(this), new CopyAction(this), new PasteAction(this),
-                    new FormDeleteAction(this)};
+                    new FormDeleteAction(this), new MoveToTopAction(this), new MoveToBottomAction(this),
+                    new MoveUpAction(this), new MoveDownAction(this)};
         }
         return designerActions;
     }

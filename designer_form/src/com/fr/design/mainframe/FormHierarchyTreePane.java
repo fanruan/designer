@@ -29,9 +29,10 @@ import java.util.ArrayList;
  */
 public class FormHierarchyTreePane extends FormDockView implements HierarchyTreePane {
 
-	public static final int NODE_LENGTH = 2;
-	public static final int PARA = 0;
-	public static final int BODY = 1;
+	private static final int NODE_LENGTH = 2;
+	private static final int PARA = 0;
+	private static final int BODY = 1;
+    private static final int SHORTS_SEPARATOR_POS = 4;
 
 	private ShortCut4JControlPane[] shorts;
 	private ComponentTree componentTree;
@@ -125,10 +126,6 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 	}
 
 	private JPanel getToolBarPane() {
-		ToolBarDef toolbarDef = new ToolBarDef();
-		for (ShortCut4JControlPane sj : shorts) {
-			toolbarDef.addShortCut(sj.getShortCut());
-		}
 		UIToolbar toolBar = ToolBarDef.createJToolBar();
         toolBar.setUI(new UIToolBarUI(){
             @Override
@@ -138,7 +135,13 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
                 g2.fillRect(0, 0, c.getWidth(), c.getHeight());
             }
         });
-		toolbarDef.updateToolBar(toolBar);
+        for (int i = 0; i < shorts.length; i++) {
+            if (i == SHORTS_SEPARATOR_POS) {
+                toolBar.addSeparator(new Dimension(2, 16));
+            }
+            shorts[i].getShortCut().intoJToolBar(toolBar);
+        }
+
 		JPanel toolBarPane = new JPanel(new BorderLayout());
 		toolBarPane.add(toolBar, BorderLayout.CENTER);
 		return toolBarPane;
