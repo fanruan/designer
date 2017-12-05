@@ -20,7 +20,7 @@ import netscape.javascript.JSObject;
 
 import javax.swing.JDialog;
 import javax.swing.SwingUtilities;
-import java.awt.Desktop;
+import java.awt.*;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLEncoder;
@@ -57,6 +57,7 @@ public class LoginWebBridge {
     private static final int TIME_OUT = 10000;
     private static final String LOGIN_SUCCESS = "ok";
     private static final String LOGIN_FAILED = "failed";
+    private static final Color LOGIN_BACKGROUND = new Color(184, 220, 242);
 
     private static LoginWebBridge helper;
     private UIDialog uiDialog;
@@ -250,6 +251,7 @@ public class LoginWebBridge {
     private void loginSuccess(String username) {
         closeWindow();
         uiLabel.setText(username);
+        uiLabel.setBackground(LOGIN_BACKGROUND);
     }
 
     /**
