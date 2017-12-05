@@ -148,8 +148,8 @@ public class FloatSelection extends Selection {
         TemplateElementCase ec = ePane.getEditingElementCase();
         FloatElement fe = ec.getFloatElement(selectedFloatName);
         if (fe != null) {
-            ec.removeFloatElement(fe);
             ePane.setSelection(new CellSelection(0, 0, 1, 1));
+            ec.removeFloatElement(fe);
 
             return true;
         }
