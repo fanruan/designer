@@ -25,7 +25,7 @@ public class MoveToTopAction extends FormEditAction {
         super(t);
         this.setName(Inter.getLocText("FR-Designer_Move_To_Top"));
         this.setMnemonic('T');
-        this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/up.png"));
+        this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/to_top.png"));
         this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_CLOSE_BRACKET, DEFAULT_MODIFIER + InputEvent.ALT_MASK));
     }
 
