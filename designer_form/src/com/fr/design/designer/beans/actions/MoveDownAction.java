@@ -47,4 +47,13 @@ public class MoveDownAction extends FormEditAction {
         return true;
     }
 
+    @Override
+    public void update() {
+        FormDesigner designer = getEditingComponent();
+        if (designer == null) {
+            this.setEnabled(false);
+            return;
+        }
+        this.setEnabled(designer.isCurrentComponentMovableDown());
+    }
 }

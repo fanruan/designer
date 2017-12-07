@@ -22,6 +22,7 @@ import com.fr.base.BaseUtils;
 import com.fr.base.Parameter;
 import com.fr.base.parameter.ParameterUI;
 import com.fr.design.DesignModelAdapter;
+import com.fr.design.actions.UpdateAction;
 import com.fr.design.designer.beans.actions.CopyAction;
 import com.fr.design.designer.beans.actions.CutAction;
 import com.fr.design.designer.beans.actions.FormDeleteAction;
@@ -322,9 +323,9 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
      *
      * @return 同上
      */
-    public Action[] getActions() {
+    public UpdateAction[] getActions() {
         if (designerActions == null) {
-            designerActions = new Action[]{new CutAction(this), new CopyAction(this), new PasteAction(this),
+            designerActions = new UpdateAction[]{new CutAction(this), new CopyAction(this), new PasteAction(this),
                     new FormDeleteAction(this)};
         }
         return designerActions;
