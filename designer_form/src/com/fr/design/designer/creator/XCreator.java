@@ -6,6 +6,7 @@ package com.fr.design.designer.creator;
 import com.fr.base.BaseUtils;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
+import com.fr.design.designer.beans.actions.*;
 import com.fr.design.designer.beans.events.DesignerEditor;
 import com.fr.design.designer.beans.models.SelectionModel;
 import com.fr.design.fun.WidgetPropertyUIProvider;
@@ -663,5 +664,23 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
     public void stopEditing() {
         // do nothing
     }
+
+	/**
+	 * 创建右击弹出菜单
+	 *
+	 */
+	public JPopupMenu createPopupMenu(FormDesigner formDesigner) {
+		JPopupMenu popup = new JPopupMenu();
+		popup.add(new CutAction(formDesigner).createMenuItem());
+		popup.add(new CopyAction(formDesigner).createMenuItem());
+		popup.add(new PasteAction(formDesigner).createMenuItem());
+		popup.add(new FormDeleteAction(formDesigner).createMenuItem());
+		popup.addSeparator();
+		popup.add(new MoveToTopAction(formDesigner).createMenuItem());
+		popup.add(new MoveToBottomAction(formDesigner).createMenuItem());
+		popup.add(new MoveUpAction(formDesigner).createMenuItem());
+		popup.add(new MoveDownAction(formDesigner).createMenuItem());
+		return popup;
+	}
 
 }

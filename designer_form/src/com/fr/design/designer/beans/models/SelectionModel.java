@@ -62,7 +62,7 @@ public class SelectionModel {
      * @param e 鼠标事件
      */
     public void selectACreatorAtMouseEvent(MouseEvent e) {
-        if (!InputEventBaseOnOS.isControlDown(e) && !e.isShiftDown()) {
+        if (e.getButton() == MouseEvent.BUTTON3 || (!InputEventBaseOnOS.isControlDown(e) && !e.isShiftDown())) {
             // 如果Ctrl或者Shift键盘没有按下，则清除已经选择的组件
             selection.reset();
         }

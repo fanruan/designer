@@ -302,7 +302,8 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 
 	private void switchTab(MouseEvent e,EditingMouseListener editingMouseListener){
 		FormDesigner designer = editingMouseListener.getDesigner();
-		if (e.getClickCount() == 2 || designer.getCursor().getType() == Cursor.HAND_CURSOR){
+		if (e.getButton() == MouseEvent.BUTTON1 &&
+				(e.getClickCount() == 2 || designer.getCursor().getType() == Cursor.HAND_CURSOR)){
 			FormElementCaseContainerProvider component = (FormElementCaseContainerProvider) designer.getComponentAt(e);
 			//切换设计器
 			designer.switchTab(component);

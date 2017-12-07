@@ -17,6 +17,7 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.xpane.ToolTipEditor;
 import com.fr.design.icon.IconPathConstants;
 import com.fr.design.utils.ComponentUtils;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.general.Inter;
 import com.fr.stable.Constants;
@@ -528,8 +529,9 @@ public class EditingMouseListener extends MouseInputAdapter {
      */
     public void mouseClicked(MouseEvent e) {
         XCreator creator = designer.getComponentAt(e);
+        boolean isValidButton = e.getButton() == MouseEvent.BUTTON1 || e.getButton() == MouseEvent.BUTTON3;
 
-        if (e.getButton() != MouseEvent.BUTTON1 && !creator.acceptType(XCardSwitchButton.class)) {
+        if (!isValidButton && !creator.acceptType(XCardSwitchButton.class)) {
             return;
         }
 
@@ -537,6 +539,12 @@ public class EditingMouseListener extends MouseInputAdapter {
 
         if (creator != null) {
             creator.respondClick(this, e);
+            if (e.getButton() == MouseEvent.BUTTON3) {
+                JPopupMenu cellPopupMenu = creator.createPopupMenu(designer);
+                if (cellPopupMenu != null) {
+                    GUICoreUtils.showPopupMenu(cellPopupMenu, designer, e.getX(), e.getY());
+                }
+            }
         }
         creator.doLayout();
         LayoutUtils.layoutRootContainer(designer.getRootComponent());
