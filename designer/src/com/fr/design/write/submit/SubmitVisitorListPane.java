@@ -13,6 +13,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.scrollruler.ModLineBorder;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.design.write.submit.batch.BatchSubmitProvider;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
@@ -177,6 +178,7 @@ public class SubmitVisitorListPane extends ObjectJControlPane {
             for (SubmitProvider provider : providers) {
                 addSubmitPane(provider);
             }
+            addSubmitPane(BatchSubmitProvider.getInstance());
 
             configTypes = new ArrayList<>();
             for (Map.Entry<String, BasicBeanPane> entry : customSubmitPanes.entrySet()) {
