@@ -3,8 +3,12 @@ package com.fr.design.mainframe;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreePath;
@@ -17,6 +21,7 @@ import com.fr.design.designer.treeview.ComponentTreeModel;
 import com.fr.design.gui.itree.UITreeUI;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.stable.StringUtils;
+import com.fr.web.core.A.M;
 
 public class ComponentTree extends JTree {
 
@@ -61,7 +66,6 @@ public class ComponentTree extends JTree {
 
     public void setSelectionPath(TreePath path) {
         // 不管点击哪一项，都要先退出编辑状态（图表、报表块、绝对布局、tab块）
-//        getSelectionModel().setSelectionPath(path);
         designer.stopEditing(path);
         super.setSelectionPath(path);
     }
@@ -219,7 +223,7 @@ public class ComponentTree extends JTree {
         return new TreePath(components);
     }
 
-    private void popupPreviewPane(int popupPosYOnScreen) {
+    private void popupPreviewPane(int popupPosYOnScreen, XCreator comp) {
         if (previewPane == null) {
             previewPane = new PopupPreviewPane();
         }
@@ -228,6 +232,7 @@ public class ComponentTree extends JTree {
         }
 
         if (!previewPane.isVisible()) {
+            previewPane.setComp(comp);
             int popupPosY = popupPosYOnScreen - FormHierarchyTreePane.getInstance().getLocationOnScreen().y;
             GUICoreUtils.showPopupMenu(previewPane, FormHierarchyTreePane.getInstance(), -previewPane.getPreferredSize().width, popupPosY);
         }
@@ -256,7 +261,8 @@ public class ComponentTree extends JTree {
                 TreePath path = tree.getPathForRow(selRow);
                 Point point = tree.getPathBounds(path).getLocation();
                 SwingUtilities.convertPointToScreen(point, tree);
-                popupPreviewPane(point.y);
+                XCreator comp = (XCreator) path.getLastPathComponent();
+                popupPreviewPane(point.y, comp);
             } else {
                 hidePreviewPane();
             }
@@ -265,27 +271,40 @@ public class ComponentTree extends JTree {
 
     private class PopupPreviewPane extends JPopupMenu {
         private Container contentPane;
+        private BufferedImage compImage;
+        private static final int MAX_WIDTH = 360;
+        private static final int MAX_HEIGHT = 280;
 
         PopupPreviewPane() {
             contentPane = new JPanel();
-            contentPane.setBackground(Color.blue);
+            contentPane.setBackground(Color.white);
             this.setLayout(new BorderLayout());
-//            this.add(new PopupToolPane(propertyItem), BorderLayout.NORTH);
             this.add(contentPane, BorderLayout.CENTER);
             this.setOpaque(false);
-//            setPreferredSize(new Dimension(CONTAINER_WIDTH - TAB_WIDTH, POPUP_DEFAULT_HEIGHT));
-            setPreferredSize(new Dimension(200, 200));
+            setPreferredSize(new Dimension(MAX_WIDTH, MAX_HEIGHT));
             setBorder(BorderFactory.createLineBorder(UIConstants.LINE_COLOR));
+        }
+
+        public void setComp(XCreator comp) {
+            try {
+                this.compImage = componentToImage(comp);
+                this.updateSize();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void paint(Graphics g) {
+            super.paint(g);
+            if (compImage != null) {
+                g.drawImage(compImage, 0, 0, getWidth(), getHeight(), null);
+            }
         }
 
         @Override
         public void setVisible(boolean visible) {
             super.setVisible(visible);
-//            if (visible == true) {
-//                replaceContentPane(propertyItem.getContentArea());
-//            } else {
-//                propertyItem.reAddContentArea();
-//            }
         }
 
         public void menuSelectionChanged(boolean isIncluded) {
@@ -295,17 +314,27 @@ public class ComponentTree extends JTree {
             return contentPane;
         }
 
-        public void replaceContentPane(Container pane) {
-            this.remove(this.contentPane);
-            this.add(this.contentPane = pane);
-            refreshContainer();
+        private BufferedImage componentToImage(Component comp) throws IOException
+        {
+            BufferedImage im = new BufferedImage(comp.getWidth(), comp.getHeight(), BufferedImage.TYPE_INT_ARGB);
+            comp.paint(im.getGraphics());
+            return im;
         }
 
-        private void refreshContainer() {
-            validate();
-            repaint();
-            revalidate();
+        // 根据控件内容，更新弹出框大小
+        private void updateSize() {
+            int width = compImage.getWidth();
+            int height = compImage.getHeight();
+            double aspectRatio = (double)width / height;
+            if (width > MAX_WIDTH) {
+                width = MAX_WIDTH;
+                height = (int)(width / aspectRatio);
+            }
+            if (height > MAX_HEIGHT) {
+                height = MAX_HEIGHT;
+                width = (int)(height * aspectRatio);
+            }
+            this.setPreferredSize(new Dimension(width, height));
         }
     }
-
 }
