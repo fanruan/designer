@@ -70,6 +70,14 @@ public class ComponentTree extends JTree {
         super.setSelectionPath(path);
     }
 
+    @Override
+    public void removeAll() {
+        if (previewPane != null && previewPane.isVisible()) {
+            previewPane.setVisible(false);
+        }
+        super.removeAll();
+    }
+
 
     /**
      * 是否可编辑
