@@ -4,8 +4,10 @@
 package com.fr.design.designer.creator;
 
 import com.fr.base.BaseUtils;
+import com.fr.design.actions.UpdateAction;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
+import com.fr.design.designer.beans.actions.*;
 import com.fr.design.designer.beans.events.DesignerEditor;
 import com.fr.design.designer.beans.models.SelectionModel;
 import com.fr.design.fun.WidgetPropertyUIProvider;
@@ -47,8 +49,9 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	private Rectangle backupBound;
 	private String shareId = StringUtils.EMPTY;//如果组件是共享的会有这个属性
 	private boolean isHelpBtnOnFocus = false;//焦点是否在帮助按钮上
+    private static final int SHORTS_SEPARATOR_POS = 4;  // 弹出菜单分割的位置
 
-	public XCreator(Widget ob, Dimension initSize) {
+    public XCreator(Widget ob, Dimension initSize) {
 		this.data = ob;
 
 		this.initEditor();
@@ -653,7 +656,39 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	 *
 	 */
 	public void firePropertyChange(){
-
+        // do nothing
 	}
+
+    /**
+     * 有的控件是有编辑状态的，给一个退出编辑的接口
+     *
+     */
+    public void stopEditing() {
+        // do nothing
+    }
+
+	/**
+	 * 创建右击弹出菜单
+	 *
+	 */
+	public JPopupMenu createPopupMenu(FormDesigner formDesigner) {
+        UpdateAction[] actions = formDesigner.getActions();
+		JPopupMenu popup = new JPopupMenu();
+        for (int i = 0; i < actions.length; i++) {
+            if (i == SHORTS_SEPARATOR_POS) {
+                popup.addSeparator();
+            }
+            popup.add(actions[i].createMenuItem());
+        }
+		return popup;
+	}
+
+    /**
+     * 是否支持上移一层、下移一层等操作
+     *
+     */
+    public boolean isMovable() {
+        return true;
+    }
 
 }

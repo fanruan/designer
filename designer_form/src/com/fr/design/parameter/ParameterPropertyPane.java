@@ -118,7 +118,7 @@ public class ParameterPropertyPane extends JPanel{
 	private void setEditor(FormDesigner editor) {
 		if (formHierarchyTreePaneWrapper == null) {
 			formHierarchyTreePaneWrapper = new JPanel(new BorderLayout());
-			formHierarchyTreePaneWrapper.setBorder(BorderFactory.createEmptyBorder(0, PADDING_MIDDLE, 0, PADDING_LARGE));
+			formHierarchyTreePaneWrapper.setBorder(BorderFactory.createEmptyBorder(PADDING_MIDDLE, PADDING_MIDDLE, 0, PADDING_MIDDLE));
 			this.add(formHierarchyTreePaneWrapper, BorderLayout.SOUTH);
 		}
 		formHierarchyTreePaneWrapper.remove(FormHierarchyTreePane.getInstance());

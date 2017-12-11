@@ -1180,5 +1180,9 @@ public class XWFitLayout extends XLayoutContainer {
 	public WidgetPropertyUIProvider[] getWidgetPropertyUIProviders() {
 		return new WidgetPropertyUIProvider[]{ new BodyMobilePropertyUI(this)};
 	}
-	
+
+	@Override
+	public boolean isMovable() {
+		return false;
+	}
 }

@@ -4,13 +4,11 @@ import com.fr.base.BaseUtils;
 import com.fr.base.Parameter;
 import com.fr.base.ScreenResolution;
 import com.fr.design.DesignState;
+import com.fr.design.actions.UpdateAction;
 import com.fr.design.designer.TargetComponent;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.Painter;
-import com.fr.design.designer.beans.actions.CopyAction;
-import com.fr.design.designer.beans.actions.CutAction;
-import com.fr.design.designer.beans.actions.FormDeleteAction;
-import com.fr.design.designer.beans.actions.PasteAction;
+import com.fr.design.designer.beans.actions.*;
 import com.fr.design.designer.beans.adapters.layout.FRParameterLayoutAdapter;
 import com.fr.design.designer.beans.events.CreatorEventListenerTable;
 import com.fr.design.designer.beans.events.DesignerEditListener;
@@ -108,7 +106,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     private int resolution = ScreenResolution.getScreenResolution();
     // 编辑状态的事件表
     private CreatorEventListenerTable edit;
-    protected Action[] designerActions;
+    protected UpdateAction[] designerActions;
     private FormDesignerModeForSpecial<?> desigerMode;
     private Action switchAction;
     private FormElementCaseContainerProvider elementCaseContainer;
@@ -215,7 +213,6 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
             }
         }
     }
-
 
     /**
      * 是否有查询按钮
@@ -672,6 +669,10 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
                         setParameterArray(getNoRepeatParas(getTarget().getParameters()));
                         refreshParameter();
                     }
+                } else {
+                    for( UpdateAction action : getActions()) {
+                        action.update();
+                    }
                 }
             }
 
@@ -1126,12 +1127,27 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
      *
      * @return 同上
      */
-    public Action[] getActions() {
+    public UpdateAction[] getActions() {
         if (designerActions == null) {
-            designerActions = new Action[]{new CutAction(this), new CopyAction(this), new PasteAction(this),
-                    new FormDeleteAction(this)};
+            designerActions = new UpdateAction[]{new CutAction(this), new CopyAction(this), new PasteAction(this),
+                    new FormDeleteAction(this), new MoveToTopAction(this), new MoveToBottomAction(this),
+                    new MoveUpAction(this), new MoveDownAction(this)};
         }
         return designerActions;
+    }
+
+    // 当前选中控件可以上移一层吗？
+    public boolean isCurrentComponentMovableUp() {
+        XCreator creator = getSelectionModel().getSelection().getSelectedCreator();
+        Container container = creator.getParent();
+        return creator.isMovable() && container.getComponentZOrder(creator) > 0;
+    }
+
+    // 当前选中控件可以下移一层吗？
+    public boolean isCurrentComponentMovableDown() {
+        XCreator creator = getSelectionModel().getSelection().getSelectedCreator();
+        Container container = creator.getParent();
+        return creator.isMovable() && container.getComponentZOrder(creator) < container.getComponentCount() - 1;
     }
 
     protected Border getOuterBorder() {
@@ -1236,6 +1252,16 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     @Override
     public void stopEditing() {
         // do nothing
+    }
+
+    public void stopEditing(TreePath path) {
+        // do nothing
+        XCreator comp = (XCreator) path.getLastPathComponent();
+        editingMouseListener.stopEditing();
+        editingMouseListener.stopEditTopLayout(comp);
+
+        editingMouseListener.getSelectionModel().reset();
+        editingMouseListener.getSelectionModel().selectACreator(comp);
     }
 
     /**

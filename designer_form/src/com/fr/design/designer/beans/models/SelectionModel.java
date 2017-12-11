@@ -62,13 +62,16 @@ public class SelectionModel {
      * @param e 鼠标事件
      */
     public void selectACreatorAtMouseEvent(MouseEvent e) {
-        if (!InputEventBaseOnOS.isControlDown(e) && !e.isShiftDown()) {
+        if (e.getButton() == MouseEvent.BUTTON3 || (!InputEventBaseOnOS.isControlDown(e) && !e.isShiftDown())) {
             // 如果Ctrl或者Shift键盘没有按下，则清除已经选择的组件
             selection.reset();
         }
         // 获取e所在的组件
         XCreator comp = designer.getComponentAt(e);
+        selectACreator(comp);
+    }
 
+    public void selectACreator(XCreator comp) {
         //布局组件的顶层布局如不可编辑，要获取其顶层布局
         XLayoutContainer topLayout = XCreatorUtils.getHotspotContainer(comp).getTopLayout();
         if (topLayout != null && !topLayout.isEditable()) {
