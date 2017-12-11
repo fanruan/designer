@@ -19,11 +19,14 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.BasicSliderUI;
-import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseEvent;
 import java.math.BigDecimal;
 
 /**
@@ -31,6 +34,7 @@ import java.math.BigDecimal;
  */
 public class JSliderPane extends JPanel {
 
+    public static final Image APPFIT_V0 = BaseUtils.readImage("com/fr/design/images/control/icon_thumb_normal.png");
     private static final double ONEPOINTEIGHT = 1.8;
     private static final int SIX = 6;
     private static final int TEN = 10;
@@ -433,8 +437,8 @@ public class JSliderPane extends JPanel {
 class JSliderPaneUI extends BasicSliderUI {
 
     private static final Color BACK_COLOR = new Color(245, 245, 247);
-    private static final int VERTICAL_WIDTH = 11;
-    private static final int VERTICAL_HEIGHT = 16;
+    private static final int THUMB_XOFFSET = 8;
+    private static final int THUMB_YOFFSET = 3;
     private static final int FOUR = 4;
     private static final int FIVE = 5;
     private static final int SIX = 6;
@@ -451,13 +455,9 @@ class JSliderPaneUI extends BasicSliderUI {
 
     public void paintThumb(Graphics g) {
         Rectangle knobBounds = thumbRect;
-        int w = knobBounds.width;
-        int h = knobBounds.height;
         Graphics2D g2d = (Graphics2D) g;
-
-        g2d.translate(knobBounds.x, knobBounds.y);
-        g2d.setColor(new Color(51, 51, 52));
-        g2d.fillRoundRect(0, SIX, FOUR, 9, 2, 2);
+        g2d.drawImage(JSliderPane.APPFIT_V0, knobBounds.x - THUMB_XOFFSET, knobBounds.y + THUMB_YOFFSET, null);
+        g2d.dispose();
     }
 
     /** */
@@ -479,6 +479,11 @@ class JSliderPaneUI extends BasicSliderUI {
         } else {
             super.paintTrack(g);
         }
+    }
+
+    public void setThumbLocation(int x, int y) {
+        super.setThumbLocation(x, y);
+        slider.repaint();
     }
 
 }
