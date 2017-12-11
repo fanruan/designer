@@ -72,8 +72,9 @@ public class ComponentTree extends JTree {
 
     @Override
     public void removeAll() {
-        if (previewPane != null && previewPane.isVisible()) {
+        if (previewPane != null) {
             previewPane.setVisible(false);
+            previewPane.removeAll();
         }
         super.removeAll();
     }
