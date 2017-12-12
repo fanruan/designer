@@ -95,7 +95,7 @@ public class UIMenuItem extends JMenuItem{
             } else {
                 // *** paint the text normally
                 if (model.isArmed()|| (menuItem instanceof JMenu && model.isSelected())) {
-                    g.setColor(selectionForeground); // Uses protected field.
+                    g.setColor(Color.WHITE); // Uses protected field.
                 }
                 SwingUtilities2.drawStringUnderlineCharAt(menuItem, g,text,
                         -1, textRect.x, textRect.y + fm.getAscent());

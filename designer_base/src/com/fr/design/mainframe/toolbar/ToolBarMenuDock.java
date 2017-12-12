@@ -228,6 +228,11 @@ public abstract class ToolBarMenuDock {
         addAllUpdateActionsToList(menuList);
         UpdateActionManager.getUpdateActionManager().setUpdateActions(shortCutsList);
 
+        for (MenuDef menuDef : menuList
+             ) {
+            menuDef.setHasRecMenu(true);
+        }
+
         return menuList.toArray(new MenuDef[menuList.size()]);
     }
 
