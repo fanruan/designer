@@ -180,6 +180,7 @@ public abstract class ToolBarMenuDock {
 
         this.menus = menus(plus);
         for (int i = 0; i < menus.length; i++) {
+            menus[i].setHasRecMenu(true);
             UIMenu subMenu = menus[i].createJMenu();
             jMenuBar.add(subMenu);
             menus[i].updateMenu();
@@ -227,11 +228,6 @@ public abstract class ToolBarMenuDock {
         // 添加全部UpdateAction到actionmanager中
         addAllUpdateActionsToList(menuList);
         UpdateActionManager.getUpdateActionManager().setUpdateActions(shortCutsList);
-
-        for (MenuDef menuDef : menuList
-             ) {
-            menuDef.setHasRecMenu(true);
-        }
 
         return menuList.toArray(new MenuDef[menuList.size()]);
     }
