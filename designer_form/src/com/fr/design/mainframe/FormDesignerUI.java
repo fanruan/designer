@@ -1,7 +1,6 @@
 package com.fr.design.mainframe;
 
 import java.awt.AlphaComposite;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -28,8 +27,6 @@ import com.fr.design.designer.beans.models.SelectionModel;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.designer.creator.XWFitLayout;
-import com.fr.design.designer.creator.cardlayout.XWCardTagLayout;
-import com.fr.design.designer.creator.cardlayout.XWCardTitleLayout;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.roleAuthority.ReportAndFSManagePane;
 import com.fr.design.utils.ComponentUtils;
@@ -96,7 +93,7 @@ public class FormDesignerUI extends ComponentUI {
 
         if (hotspot_bounds != null) {
             // 当前区域选择框
-            g.setColor(new Color(254, 0, 0));
+            g.setColor(XCreatorConstants.SELECTION_COLOR);
             g.drawRect(hotspot_bounds.x - designer.getArea().getHorizontalValue(), hotspot_bounds.y
                     - designer.getArea().getVerticalValue(), hotspot_bounds.width, hotspot_bounds.height);
         }
@@ -222,7 +219,7 @@ public class FormDesignerUI extends ComponentUI {
             if (subCreator instanceof XLayoutContainer) {
                 paintAuthorityDetails(g, subCreator);
             } else {
-            	if (subCreator.toData().isDirtyWidget(selectedRoles)) {
+                if (subCreator.toData().isDirtyWidget(selectedRoles)) {
                     Rectangle creatorBounds = ComponentUtils.getRelativeBounds(subCreator);
                     creatorBounds.x -= designer.getArea().getHorizontalValue();
                     creatorBounds.y -= designer.getArea().getVerticalValue();
@@ -269,50 +266,50 @@ public class FormDesignerUI extends ComponentUI {
         bounds.y -= designer.getArea().getVerticalValue();
 
         drawResizingThumbs(g, selectionModel.getSelection().getDirections(), bounds.x, bounds.y, bounds.width, bounds.height);
-        g.setColor(new Color(254, 0, 0));
+        g.setColor(XCreatorConstants.FORM_BORDER_COLOR);
 
         for (XCreator creator : selectionModel.getSelection().getSelectedCreators()) {
             Rectangle creatorBounds = ComponentUtils.getRelativeBounds(creator);
             creatorBounds.x -= designer.getArea().getHorizontalValue();
             creatorBounds.y -= designer.getArea().getVerticalValue();
             if (creator.acceptType(XWFitLayout.class)) {
-            	resetFitlayoutBounds(creatorBounds);
+                resetFitlayoutBounds(creatorBounds);
             } else if (designer.getRootComponent().acceptType(XWFitLayout.class)) {
-            	resetCreatorBounds(creatorBounds);
+                resetCreatorBounds(creatorBounds);
             }
             GraphHelper.draw(g, creatorBounds, Constants.LINE_MEDIUM);
         }
     }
-    
+
     /**
      * 初始为自适应时，处理选中的范围
      * @param bound
      */
     private void resetFitlayoutBounds( Rectangle bound) {
-		bound.x ++;
-		bound.width -= 2;
-		bound.y ++;
-		bound.height -= 2;
+        bound.x ++;
+        bound.width -= 2;
+        bound.y ++;
+        bound.height -= 2;
     }
-    
+
     private void resetCreatorBounds( Rectangle bound) {
-    	Rectangle rec = bound;
-    	if (rec.x == 0) {
-    		bound.x ++;
-    		bound.width --;
-    	}
-    	if (rec.y == 0) {
-    		bound.y ++;
-    		bound.height --;
-    	}
-    	if (rec.x+rec.width == designer.getWidth()) {
-    		bound.width --;
-    	}
-    	if (rec.y+rec.height == designer.getHeight()) {
-    		bound.height --;
-    	}
+        Rectangle rec = bound;
+        if (rec.x == 0) {
+            bound.x ++;
+            bound.width --;
+        }
+        if (rec.y == 0) {
+            bound.y ++;
+            bound.height --;
+        }
+        if (rec.x+rec.width == designer.getWidth()) {
+            bound.width --;
+        }
+        if (rec.y+rec.height == designer.getHeight()) {
+            bound.height --;
+        }
     }
-    
+
 
     /**
      * 画出八个拖拽框
@@ -363,9 +360,9 @@ public class FormDesignerUI extends ComponentUI {
      * 画每一个小拖拽框
      */
     private void drawBox(Graphics g, int x, int y) {
-        g.setColor(new Color(254, 0, 0));
+        g.setColor(XCreatorConstants.RESIZE_BOX_INNER_COLOR);
         g.fillRect(x, y, XCreatorConstants.RESIZE_BOX_SIZ, XCreatorConstants.RESIZE_BOX_SIZ);
-        g.setColor(new Color(254, 0, 0));
+        g.setColor(XCreatorConstants.RESIZE_BOX_BORDER_COLOR);
         g.drawRect(x, y, XCreatorConstants.RESIZE_BOX_SIZ, XCreatorConstants.RESIZE_BOX_SIZ);
     }
 
@@ -400,7 +397,7 @@ public class FormDesignerUI extends ComponentUI {
         ComponentUtils.resetBuffer(dbcomponents);
         designer.resetEditorComponentBounds();
     }
-    
+
     /**
      * 画参数面板
      */
@@ -424,5 +421,5 @@ public class FormDesignerUI extends ComponentUI {
         // 恢复双缓冲
         ComponentUtils.resetBuffer(dbcomponents);
     }
-    
+
 }
