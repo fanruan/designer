@@ -1,14 +1,14 @@
 package com.fr.design.mainframe.widget.accessibles;
 
-import com.fr.base.BannerTemplateStyle;
-import com.fr.base.BookMarkTemplateStyle;
-import com.fr.base.CardTemplateStyle;
-import com.fr.base.DefaultTemplateStyle;
-import com.fr.base.MenuTemplateStyle;
-import com.fr.base.PentagonTemplateStyle;
-import com.fr.base.TrapezoidTemplateStyle;
+import com.fr.general.cardtag.BannerTemplateStyle;
+import com.fr.general.cardtag.BookMarkTemplateStyle;
+import com.fr.general.cardtag.CardTemplateStyle;
+import com.fr.general.cardtag.DefaultTemplateStyle;
+import com.fr.general.cardtag.MenuTemplateStyle;
+import com.fr.general.cardtag.PentagonTemplateStyle;
+import com.fr.general.cardtag.TrapezoidTemplateStyle;
 import com.fr.design.dialog.BasicPane;
-import com.fr.base.TemplateStyle;
+import com.fr.general.cardtag.TemplateStyle;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;

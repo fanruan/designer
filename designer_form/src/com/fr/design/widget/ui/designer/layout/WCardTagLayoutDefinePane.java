@@ -1,6 +1,6 @@
 package com.fr.design.widget.ui.designer.layout;
 
-import com.fr.base.TemplateStyle;
+import com.fr.general.cardtag.TemplateStyle;
 import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XLayoutContainer;

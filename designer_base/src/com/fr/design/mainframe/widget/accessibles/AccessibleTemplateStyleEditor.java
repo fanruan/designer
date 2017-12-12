@@ -2,7 +2,7 @@ package com.fr.design.mainframe.widget.accessibles;
 
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
-import com.fr.base.TemplateStyle;
+import com.fr.general.cardtag.TemplateStyle;
 import com.fr.design.mainframe.widget.wrappers.TemplateStyleWrapper;
 
 import javax.swing.SwingUtilities;

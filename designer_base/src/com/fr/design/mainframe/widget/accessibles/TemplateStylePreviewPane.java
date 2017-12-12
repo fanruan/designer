@@ -1,7 +1,7 @@
 package com.fr.design.mainframe.widget.accessibles;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.TemplateStyle;
+import com.fr.general.cardtag.TemplateStyle;
 
 import javax.swing.JPanel;
 import java.awt.Graphics;
