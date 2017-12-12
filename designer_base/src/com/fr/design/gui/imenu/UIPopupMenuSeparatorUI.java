@@ -23,7 +23,7 @@ public class UIPopupMenuSeparatorUI extends MetalSeparatorUI {
 
     public void paint(Graphics g, JComponent c) {
         Dimension s = c.getSize();
-        g.setColor(UIConstants.FONT_COLOR);
+        g.setColor(UIConstants.UIPOPUPMENU_LINE_COLOR);
         g.drawLine(2, 1, s.width - 3, 1);
     }
 }

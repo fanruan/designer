@@ -15,6 +15,7 @@ import com.fr.design.cell.clipboard.CellElementsClip;
 import com.fr.design.cell.clipboard.ElementsTransferable;
 import com.fr.design.cell.clipboard.FloatElementsClip;
 import com.fr.design.designer.TargetComponent;
+import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.mainframe.CellElementPropertyPane;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
@@ -114,7 +115,7 @@ public class FloatSelection extends Selection {
 
     @Override
     public JPopupMenu createPopupMenu(ElementCasePane ePane) {
-        JPopupMenu popup = new JPopupMenu();
+        UIPopupMenu popup = new UIPopupMenu();
         if (BaseUtils.isAuthorityEditing()) {
             popup.add(new CleanAuthorityAction(ePane).createMenuItem());
             return popup;
