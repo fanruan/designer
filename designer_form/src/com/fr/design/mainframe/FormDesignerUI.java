@@ -1,6 +1,7 @@
 package com.fr.design.mainframe;
 
 import java.awt.AlphaComposite;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -27,6 +28,8 @@ import com.fr.design.designer.beans.models.SelectionModel;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.designer.creator.XWFitLayout;
+import com.fr.design.designer.creator.cardlayout.XWCardTagLayout;
+import com.fr.design.designer.creator.cardlayout.XWCardTitleLayout;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.roleAuthority.ReportAndFSManagePane;
 import com.fr.design.utils.ComponentUtils;
@@ -93,7 +96,7 @@ public class FormDesignerUI extends ComponentUI {
 
         if (hotspot_bounds != null) {
             // 当前区域选择框
-            g.setColor(XCreatorConstants.SELECTION_COLOR);
+            g.setColor(new Color(254, 0, 0));
             g.drawRect(hotspot_bounds.x - designer.getArea().getHorizontalValue(), hotspot_bounds.y
                     - designer.getArea().getVerticalValue(), hotspot_bounds.width, hotspot_bounds.height);
         }
@@ -266,7 +269,7 @@ public class FormDesignerUI extends ComponentUI {
         bounds.y -= designer.getArea().getVerticalValue();
 
         drawResizingThumbs(g, selectionModel.getSelection().getDirections(), bounds.x, bounds.y, bounds.width, bounds.height);
-        g.setColor(XCreatorConstants.FORM_BORDER_COLOR);
+        g.setColor(new Color(254, 0, 0));
 
         for (XCreator creator : selectionModel.getSelection().getSelectedCreators()) {
             Rectangle creatorBounds = ComponentUtils.getRelativeBounds(creator);
@@ -360,9 +363,9 @@ public class FormDesignerUI extends ComponentUI {
      * 画每一个小拖拽框
      */
     private void drawBox(Graphics g, int x, int y) {
-        g.setColor(XCreatorConstants.RESIZE_BOX_INNER_COLOR);
+        g.setColor(new Color(254, 0, 0));
         g.fillRect(x, y, XCreatorConstants.RESIZE_BOX_SIZ, XCreatorConstants.RESIZE_BOX_SIZ);
-        g.setColor(XCreatorConstants.RESIZE_BOX_BORDER_COLOR);
+        g.setColor(new Color(254, 0, 0));
         g.drawRect(x, y, XCreatorConstants.RESIZE_BOX_SIZ, XCreatorConstants.RESIZE_BOX_SIZ);
     }
 

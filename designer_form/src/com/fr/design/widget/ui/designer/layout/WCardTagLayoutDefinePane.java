@@ -62,10 +62,10 @@ public class WCardTagLayoutDefinePane extends AbstractDataModify<WCardTagLayout>
         textDirectionGroup = new UIButtonGroup(WTabTextDirection.getStringArray());
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Tab_Style_Template")), templateStyleEditor},
-                new Component[]{new UILabel("显示位置"), displayPositionGroup},
-                new Component[]{new UILabel("背景"), backgroundEditor},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Tab_Display_Position")), displayPositionGroup},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Background")), backgroundEditor},
                 new Component[]{fontLabel, frFontPane},
-                new Component[]{new UILabel("文本方向"), textDirectionGroup}
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_StyleAlignment_Text_Rotation")), textDirectionGroup}
         };
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
         JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
