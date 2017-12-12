@@ -1,6 +1,9 @@
 package com.fr.design.designer.creator.cardlayout;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 
 import javax.swing.Icon;
@@ -106,7 +109,7 @@ public class XCardAddButton extends XButton{
 		FormHierarchyTreePane.getInstance().refreshRoot();
 		//将焦点切换到新增的tab对应的tabfitLayout上
 		showNewTab(editingMouseListener,index);
-		
+		tagLayout.setTabsAndAdjust();
 		LayoutUtils.layoutRootContainer(designer.getRootComponent());
     }
     
@@ -151,7 +154,6 @@ public class XCardAddButton extends XButton{
 		titleButton.setCustomStyle(true);
     	titleButton.setShowButton(true);
 		showButton.setBackupParent(tagLayout);
-
     	this.tagLayout.setCurrentCard(titleButton);
     	this.tagLayout.setTabFitIndex(index);
     	this.tagLayout.add(showButton);

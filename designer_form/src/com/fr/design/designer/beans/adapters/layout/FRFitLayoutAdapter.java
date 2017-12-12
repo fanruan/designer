@@ -13,6 +13,7 @@ import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.designer.creator.XWFitLayout;
 import com.fr.design.designer.creator.cardlayout.XWCardLayout;
 import com.fr.design.designer.creator.cardlayout.XWCardMainBorderLayout;
+import com.fr.design.designer.creator.cardlayout.XWCardTitleLayout;
 import com.fr.design.designer.creator.cardlayout.XWTabFitLayout;
 import com.fr.design.designer.properties.FRFitLayoutConstraints;
 import com.fr.design.designer.properties.FRFitLayoutPropertiesGroupModel;
@@ -20,10 +21,13 @@ import com.fr.design.utils.ComponentUtils;
 import com.fr.form.ui.LayoutBorderStyle;
 import com.fr.form.ui.container.WAbsoluteLayout;
 import com.fr.form.ui.container.WLayout;
+import com.fr.form.ui.container.WTabDisplayPosition;
 import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
 import com.fr.general.ComparatorUtils;
 
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -281,9 +285,22 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
         backupBound.y -= rec.y;
         XWCardLayout cardLayout = mainLayout.getCardPart();
         LayoutBorderStyle style = cardLayout.toData().getBorderStyle();
+        XWCardTitleLayout xwCardTitleLayout = mainLayout.getTitlePart();
+        Dimension titleDimension = xwCardTitleLayout.getSize();
+
         // 当tab布局为标题样式时，才需要处理标题栏高度产生的影响
         if (ComparatorUtils.equals(style.getType(), LayoutBorderStyle.TITLE)) {
-            backupBound.y -= WCardMainBorderLayout.TAB_HEIGHT;
+            WTabDisplayPosition wTabDisplayPosition = xwCardTitleLayout.getDisplayPosition();
+            switch (wTabDisplayPosition){
+                case TOP_POSITION:
+                    backupBound.y -= titleDimension.height;
+                    break;
+                case LEFT_POSITION:
+                    backupBound.x -= titleDimension.width;
+                    break;
+                default:
+                    return backupBound;
+            }
         }
         return backupBound;
     }
