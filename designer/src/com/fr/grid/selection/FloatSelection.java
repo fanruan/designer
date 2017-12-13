@@ -1,32 +1,35 @@
 package com.fr.grid.selection;
 
-import java.awt.Toolkit;
-
-import javax.swing.JPopupMenu;
-
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.design.actions.cell.CleanAuthorityAction;
 import com.fr.design.actions.cell.FloatStyleAction;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.actions.edit.*;
-import com.fr.design.actions.utils.DeprecatedActionManager;
+import com.fr.design.actions.edit.order.BringFloatElementForwardAction;
+import com.fr.design.actions.edit.order.BringFloatElementToFrontAction;
+import com.fr.design.actions.edit.order.SendFloatElementBackwardAction;
+import com.fr.design.actions.edit.order.SendFloatElementToBackAction;
 import com.fr.design.cell.clipboard.CellElementsClip;
 import com.fr.design.cell.clipboard.ElementsTransferable;
 import com.fr.design.cell.clipboard.FloatElementsClip;
 import com.fr.design.designer.TargetComponent;
+import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.mainframe.CellElementPropertyPane;
-import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.mainframe.ElementCasePane.Clear;
+import com.fr.design.selection.QuickEditor;
+import com.fr.design.utils.DesignUtils;
+import com.fr.general.ComparatorUtils;
+import com.fr.general.Inter;
 import com.fr.report.cell.FloatElement;
 import com.fr.report.elementcase.TemplateElementCase;
-import com.fr.design.selection.QuickEditor;
 import com.fr.stable.ColumnRow;
 import com.fr.stable.unit.FU;
 import com.fr.stable.unit.OLDPIX;
-import com.fr.design.utils.DesignUtils;
+
+import javax.swing.*;
+import java.awt.*;
 /**
  * the float selection
  * @editor zhou
@@ -114,24 +117,28 @@ public class FloatSelection extends Selection {
 
     @Override
     public JPopupMenu createPopupMenu(ElementCasePane ePane) {
-        JPopupMenu popup = new JPopupMenu();
+        JPopupMenu popup = new UIPopupMenu();
         if (BaseUtils.isAuthorityEditing()) {
             popup.add(new CleanAuthorityAction(ePane).createMenuItem());
             return popup;
         }
-        popup.add(DeprecatedActionManager.getCellMenu(ePane).createJMenu());
         popup.add(new FloatStyleAction(ePane).createMenuItem());
         popup.add(new HyperlinkAction().createMenuItem());
-
         // cut, copy and paste
         popup.addSeparator();
+
         popup.add(new CutAction(ePane).createMenuItem());
         popup.add(new CopyAction(ePane).createMenuItem());
         popup.add(new PasteAction(ePane).createMenuItem());
         popup.add(new DeleteAction(ePane).createMenuItem());
-
         popup.addSeparator();
-        popup.add(DeprecatedActionManager.getOrderMenu(ePane));
+
+        popup.add(new BringFloatElementToFrontAction(ePane).createMenuItem());
+        popup.add(new SendFloatElementToBackAction(ePane).createMenuItem());
+        popup.add(new BringFloatElementForwardAction(ePane).createMenuItem());
+        popup.add(new SendFloatElementBackwardAction(ePane).createMenuItem());
+        popup.addSeparator();
+
         popup.add(new EditFloatElementNameAction(ePane).createMenuItem());
 
         return popup;
