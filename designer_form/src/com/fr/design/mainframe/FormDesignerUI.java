@@ -219,7 +219,7 @@ public class FormDesignerUI extends ComponentUI {
             if (subCreator instanceof XLayoutContainer) {
                 paintAuthorityDetails(g, subCreator);
             } else {
-            	if (subCreator.toData().isDirtyWidget(selectedRoles)) {
+                if (subCreator.toData().isDirtyWidget(selectedRoles)) {
                     Rectangle creatorBounds = ComponentUtils.getRelativeBounds(subCreator);
                     creatorBounds.x -= designer.getArea().getHorizontalValue();
                     creatorBounds.y -= designer.getArea().getVerticalValue();
@@ -273,43 +273,43 @@ public class FormDesignerUI extends ComponentUI {
             creatorBounds.x -= designer.getArea().getHorizontalValue();
             creatorBounds.y -= designer.getArea().getVerticalValue();
             if (creator.acceptType(XWFitLayout.class)) {
-            	resetFitlayoutBounds(creatorBounds);
+                resetFitlayoutBounds(creatorBounds);
             } else if (designer.getRootComponent().acceptType(XWFitLayout.class)) {
-            	resetCreatorBounds(creatorBounds);
+                resetCreatorBounds(creatorBounds);
             }
             GraphHelper.draw(g, creatorBounds, Constants.LINE_MEDIUM);
         }
     }
-    
+
     /**
      * 初始为自适应时，处理选中的范围
      * @param bound
      */
     private void resetFitlayoutBounds( Rectangle bound) {
-		bound.x ++;
-		bound.width -= 2;
-		bound.y ++;
-		bound.height -= 2;
+        bound.x ++;
+        bound.width -= 2;
+        bound.y ++;
+        bound.height -= 2;
     }
-    
+
     private void resetCreatorBounds( Rectangle bound) {
-    	Rectangle rec = bound;
-    	if (rec.x == 0) {
-    		bound.x ++;
-    		bound.width --;
-    	}
-    	if (rec.y == 0) {
-    		bound.y ++;
-    		bound.height --;
-    	}
-    	if (rec.x+rec.width == designer.getWidth()) {
-    		bound.width --;
-    	}
-    	if (rec.y+rec.height == designer.getHeight()) {
-    		bound.height --;
-    	}
+        Rectangle rec = bound;
+        if (rec.x == 0) {
+            bound.x ++;
+            bound.width --;
+        }
+        if (rec.y == 0) {
+            bound.y ++;
+            bound.height --;
+        }
+        if (rec.x+rec.width == designer.getWidth()) {
+            bound.width --;
+        }
+        if (rec.y+rec.height == designer.getHeight()) {
+            bound.height --;
+        }
     }
-    
+
 
     /**
      * 画出八个拖拽框
@@ -397,7 +397,7 @@ public class FormDesignerUI extends ComponentUI {
         ComponentUtils.resetBuffer(dbcomponents);
         designer.resetEditorComponentBounds();
     }
-    
+
     /**
      * 画参数面板
      */
@@ -421,5 +421,5 @@ public class FormDesignerUI extends ComponentUI {
         // 恢复双缓冲
         ComponentUtils.resetBuffer(dbcomponents);
     }
-    
+
 }

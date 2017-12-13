@@ -8,7 +8,11 @@ import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.FRCardLayoutAdapter;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.beans.models.SelectionModel;
-import com.fr.design.designer.creator.*;
+import com.fr.design.designer.creator.CRPropertyDescriptor;
+import com.fr.design.designer.creator.XCreator;
+import com.fr.design.designer.creator.XCreatorUtils;
+import com.fr.design.designer.creator.XLayoutContainer;
+import com.fr.design.designer.creator.XWidgetCreator;
 import com.fr.design.form.layout.FRCardLayout;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.mainframe.FormDesigner;
@@ -16,7 +20,11 @@ import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.design.mainframe.widget.editors.BooleanEditor;
 import com.fr.design.mainframe.widget.editors.CardTagWLayoutBorderStyleEditor;
 import com.fr.design.mainframe.widget.editors.DoubleEditor;
-import com.fr.form.ui.*;
+import com.fr.form.ui.CardAddButton;
+import com.fr.form.ui.CardSwitchButton;
+import com.fr.form.ui.LayoutBorderStyle;
+import com.fr.form.ui.Widget;
+import com.fr.form.ui.WidgetTitle;
 import com.fr.form.ui.container.WBorderLayout;
 import com.fr.form.ui.container.WCardLayout;
 import com.fr.form.ui.container.WLayout;
@@ -30,7 +38,9 @@ import com.fr.stable.Constants;
 import com.fr.stable.core.PropertyChangeAdapter;
 
 import javax.swing.border.Border;
-import java.awt.*;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ContainerEvent;
 import java.beans.IntrospectionException;
 
@@ -67,7 +77,7 @@ public class XWCardLayout extends XLayoutContainer {
 	 * 
 	 */
 	public String createDefaultName() {
-    	return "tabpane";
+    	return "cardlayout";
     }
 
     /**
@@ -146,10 +156,12 @@ public class XWCardLayout extends XLayoutContainer {
 		//主结构是一个borderlayout, 标签部分是north, card部分为center
 		WCardMainBorderLayout border = new WCardMainBorderLayout();
 		XWCardMainBorderLayout xMainBorder = new XWCardMainBorderLayout(border, dimension);
+		//将子WCardBorder的style设置到父容器上
+		LayoutBorderStyle style = (this.toData()).getBorderStyle();
+		border.setBorderStyle(style);
 		this.setBackupParent(xMainBorder);
-		
 		XWCardTitleLayout titlePart = this.initTitlePart(widgetName, xMainBorder);
-		xMainBorder.addTitlePart(titlePart);
+		xMainBorder.addTitlePart(titlePart, WBorderLayout.NORTH);
 
 		return xMainBorder;
 	}
@@ -188,7 +200,7 @@ public class XWCardLayout extends XLayoutContainer {
 	private XWCardTagLayout initTagPart(String widgetName, XWCardTitleLayout xTitle){
 		Dimension dimension = new Dimension();
 		//放置标题的tab流式布局
-		WCardTagLayout tagLayout = new WCardTagLayout();
+		WCardTagLayout tagLayout = new WCardTagLayout("tabpane" + widgetName.replaceAll(createDefaultName(), ""));
 		XWCardTagLayout xTag = new XWCardTagLayout(tagLayout, dimension, this);
 		xTag.setBackupParent(xTitle);
 		

@@ -18,6 +18,9 @@ public class FRBorderLayoutPainter extends AbstractPainter {
 
     @Override
     public void paint(Graphics g, int startX, int startY) {
+        if(hotspot_bounds == null){
+            return;
+        }
     	super.paint(g, startX, startY);
         int x = hotspot.x;
         int y = hotspot.y;

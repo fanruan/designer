@@ -1,5 +1,6 @@
 package com.fr.design.designer.creator.cardlayout;
 
+import com.fr.base.GraphHelper;
 import com.fr.base.background.ColorBackground;
 import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.FRTabFitLayoutAdapter;
@@ -37,6 +38,9 @@ import java.beans.IntrospectionException;
 public class XWTabFitLayout extends XWFitLayout {
 	
 	private static final int MIN_SIZE = 1;
+
+	private static final int WIDTH_SIDE_OFFSET = 57;
+
 	// tab布局在拖拽导致的缩放里（含间隔时），如果拖拽宽高大于组件宽高，会导致调整的时候找不到原来的组件
 	// 这里先将拖拽之前的宽高先做备份
 	private static final Color NORMAL_GRAL = new Color(236,236,236);
@@ -539,6 +543,15 @@ public class XWTabFitLayout extends XWFitLayout {
 
 	public void firePropertyChange(){
 		checkButonType();
+		//根据字体长度设置tab宽度
+		setCardSwitchBtnSize();
+		XWCardLayout cardLayout = (XWCardLayout) this.getBackupParent();
+		XWCardMainBorderLayout mainLayout = (XWCardMainBorderLayout) cardLayout.getBackupParent();
+		XWCardTitleLayout titleLayout = mainLayout.getTitlePart();
+//		//放置tab按钮的tagLayout
+		XWCardTagLayout tagLayout = titleLayout.getTagPart();
+		tagLayout.setTabsAndAdjust();
+
 		initialBackground = ((WTabFitLayout) data).getInitialBackground();
 		overBackground = ((WTabFitLayout) data).getOverBackground();
 		clickBackground = ((WTabFitLayout)data).getClickBackground();
@@ -554,4 +567,14 @@ public class XWTabFitLayout extends XWFitLayout {
 			cardSwitchButton.setClickBackground(clickBackground);
 		}
 	}
+
+	public void setCardSwitchBtnSize(){
+		CardSwitchButton cardSwitchButton = (CardSwitchButton) xCardSwitchButton.toData();
+		Font f = cardSwitchButton.getFont();
+		FontMetrics fm = GraphHelper.getFontMetrics(f);
+		int width = fm.stringWidth(cardSwitchButton.getText())+ WIDTH_SIDE_OFFSET;
+		xCardSwitchButton.setPreferredSize(new Dimension(width, xCardSwitchButton.getHeight()));
+	}
+
+
 }

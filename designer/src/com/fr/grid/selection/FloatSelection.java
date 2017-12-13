@@ -117,7 +117,7 @@ public class FloatSelection extends Selection {
 
     @Override
     public JPopupMenu createPopupMenu(ElementCasePane ePane) {
-        JPopupMenu popup = new UIPopupMenu();
+        UIPopupMenu popup = new UIPopupMenu();
         if (BaseUtils.isAuthorityEditing()) {
             popup.add(new CleanAuthorityAction(ePane).createMenuItem());
             return popup;

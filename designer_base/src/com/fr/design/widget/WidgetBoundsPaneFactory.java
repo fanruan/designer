@@ -9,8 +9,11 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.Inter;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
+import java.awt.Component;
 
 /**
  * Created by plough on 2017/8/7.
@@ -68,5 +71,22 @@ public class WidgetBoundsPaneFactory {
         boundsPane.add(northPanel, BorderLayout.NORTH);
         boundsPane.add(centerPanel, BorderLayout.CENTER);
         return new UIExpandablePane(Inter.getLocText("FR-Designer_Coords_And_Size"), 230, 24, boundsPane);
+    }
+
+
+    public static UIExpandablePane createCardTagBoundPane(UISpinner width) {
+        JPanel boundsPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        double f = TableLayout.FILL;
+        double p = TableLayout.PREFERRED;
+        Component[][] components = new Component[][]{
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer-Widget_Size")), width},
+        };
+        double[] rowSize = {p};
+        double[] columnSize = {p, f};
+        int[][] rowCount = {{1, 1}};
+        final JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L6);
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        boundsPane.add(panel);
+        return new UIExpandablePane(Inter.getLocText("FR-Designer_Coords_And_Size"), 280, 24, boundsPane);
     }
 }

@@ -180,6 +180,7 @@ public abstract class ToolBarMenuDock {
 
         this.menus = menus(plus);
         for (int i = 0; i < menus.length; i++) {
+            menus[i].setHasRecMenu(true);
             UIMenu subMenu = menus[i].createJMenu();
             jMenuBar.add(subMenu);
             menus[i].updateMenu();
