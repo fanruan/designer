@@ -13,7 +13,6 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.scrollruler.ModLineBorder;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.design.write.submit.batch.BatchSubmitProvider;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
@@ -69,7 +68,7 @@ public class SubmitVisitorListPane extends ObjectJControlPane {
             return;
         }
 
-        List<NameObject> nameObjectList = new ArrayList<>();
+        List<NameObject> nameObjectList = new ArrayList<NameObject>();
 
         int submiterCount = reportWriteAttr.getSubmitVisitorCount();
         for (int i = 0; i < submiterCount; i++) {
@@ -170,17 +169,16 @@ public class SubmitVisitorListPane extends ObjectJControlPane {
         public CustomPane() {
             this.setLayout(FRGUIPaneFactory.createBorderLayout());
             customCardPane = FRGUIPaneFactory.createCardLayout_S_Pane();
-            customSubmitPanes = new HashMap<>();
-            comboItemsMap = new HashMap<>();
+            customSubmitPanes = new HashMap<String, BasicBeanPane>();
+            comboItemsMap = new HashMap<String, String>();
 
             Set<SubmitProvider> providers = ExtraDesignClassManager.getInstance().getArray(SubmitProvider.MARK_STRING);
             addSubmitPane(new DefaultSubmit());
             for (SubmitProvider provider : providers) {
                 addSubmitPane(provider);
             }
-            addSubmitPane(BatchSubmitProvider.getInstance());
 
-            configTypes = new ArrayList<>();
+            configTypes = new ArrayList<String>();
             for (Map.Entry<String, BasicBeanPane> entry : customSubmitPanes.entrySet()) {
                 String key = entry.getKey();
                 configTypes.add(comboItemsMap.get(key));
