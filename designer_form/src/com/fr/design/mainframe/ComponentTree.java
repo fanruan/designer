@@ -29,8 +29,8 @@ public class ComponentTree extends JTree {
     private ComponentTreeModel model;
     private UITreeUI uiTreeUI = new UITreeUI();
     private PopupPreviewPane previewPane;
-    private static final int PADDING_LEFT = 10;
-    private static final int PADDING_TOP = 8;
+    private static final int PADDING_LEFT = 5;
+    private static final int PADDING_TOP = 5;
 
     public ComponentTree(FormDesigner designer) {
         this.designer = designer;
