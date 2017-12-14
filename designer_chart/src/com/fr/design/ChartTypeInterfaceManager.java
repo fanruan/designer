@@ -129,6 +129,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
         GeneralContext.addEnvChangedListener(new EnvChangedListener() {
             @Override
             public void envChanged() {
+                DesignModuleFactory.registerExtraWidgetOptions(initWidgetOption());
                 DesignImageEvent.registerDefaultCallbackEvent(HistoryTemplateListPane.getInstance());
                 DesignImageEvent.registerDownloadSourcesEvent(new DownloadOnlineSourcesHelper());
             }
