@@ -7,10 +7,10 @@ import com.fr.base.BaseUtils;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
-import com.fr.design.designer.beans.actions.*;
 import com.fr.design.designer.beans.events.DesignerEditor;
 import com.fr.design.designer.beans.models.SelectionModel;
 import com.fr.design.fun.WidgetPropertyUIProvider;
+import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.*;
 import com.fr.design.utils.gui.LayoutUtils;
@@ -673,7 +673,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	 */
 	public JPopupMenu createPopupMenu(FormDesigner formDesigner) {
         UpdateAction[] actions = formDesigner.getActions();
-		JPopupMenu popup = new JPopupMenu();
+		JPopupMenu popup = new UIPopupMenu();
         for (int i = 0; i < actions.length; i++) {
             if (i == SHORTS_SEPARATOR_POS) {
                 popup.addSeparator();

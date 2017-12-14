@@ -23,7 +23,7 @@ public class MoveUpAction extends FormEditAction {
     public MoveUpAction(FormDesigner t) {
         super(t);
         this.setName(Inter.getLocText("FR-Designer_Move_Up"));
-        this.setMnemonic('T');
+        this.setMnemonic('F');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/up.png"));
         this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_CLOSE_BRACKET, DEFAULT_MODIFIER));
     }

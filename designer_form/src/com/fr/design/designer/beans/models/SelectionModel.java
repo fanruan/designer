@@ -81,7 +81,9 @@ public class SelectionModel {
         // 如果父层是scale和title两个专属容器，返回其父层，组件本身是不让被选中的
         if (comp != designer.getRootComponent() && comp != designer.getParaComponent()) {
             XCreator parentContainer = (XCreator) comp.getParent();
-            comp = parentContainer.isDedicateContainer() ? parentContainer : comp;
+            if (parentContainer != null) {
+                comp = parentContainer.isDedicateContainer() ? parentContainer : comp;
+            }
         }
         if (selection.removeSelectedCreator(comp) || selection.addSelectedCreator(comp)) {
             designer.getEditListenerTable().fireCreatorModified(comp, DesignerEvent.CREATOR_SELECTED);

@@ -24,7 +24,7 @@ public class MoveDownAction extends FormEditAction {
     public MoveDownAction(FormDesigner t) {
         super(t);
         this.setName(Inter.getLocText("FR-Designer_Move_Down"));
-        this.setMnemonic('T');
+        this.setMnemonic('B');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/down.png"));
         this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_OPEN_BRACKET, DEFAULT_MODIFIER));
     }

@@ -13,6 +13,7 @@ import com.fr.design.gui.controlpane.ShortCut4JControlPane;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.itoolbar.UIToolBarUI;
 import com.fr.design.gui.itoolbar.UIToolbar;
+import com.fr.design.gui.style.BorderPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
@@ -33,6 +34,7 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 	private static final int PARA = 0;
 	private static final int BODY = 1;
     private static final int SHORTS_SEPARATOR_POS = 4;
+    private static final int TOOLBAR_PADDING_RIGHT = 10;
 
 	private ShortCut4JControlPane[] shorts;
 	private ComponentTree componentTree;
@@ -114,12 +116,11 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 		shorts = createShortcuts();
 
 		JPanel widgetPane = new JPanel();
-		widgetPane.setBorder(BorderFactory.createLineBorder(UIConstants.RULER_LINE_COLOR));
 		widgetPane.setLayout(FRGUIPaneFactory.createBorderLayout());
 
 		widgetPane.add(getToolBarPane(), BorderLayout.CENTER);
 		UIScrollPane scrollPane = new UIScrollPane(componentTree);
-        scrollPane.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, UIConstants.RULER_LINE_COLOR));
+		scrollPane.setBorder(BorderFactory.createEmptyBorder());
 		scrollPane.setPreferredSize(new Dimension(210, 170));
 		widgetPane.add(scrollPane, BorderLayout.SOUTH);
 		return widgetPane;
@@ -144,7 +145,11 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 
 		JPanel toolBarPane = new JPanel(new BorderLayout());
 		toolBarPane.add(toolBar, BorderLayout.CENTER);
-		return toolBarPane;
+		toolBarPane.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, UIConstants.BARNOMAL));
+		JPanel toolBarPaneWrapper = new JPanel(new BorderLayout());
+		toolBarPaneWrapper.add(toolBarPane, BorderLayout.CENTER);
+		toolBarPaneWrapper.setBorder(BorderFactory.createEmptyBorder(1, 0, 2, TOOLBAR_PADDING_RIGHT));
+		return toolBarPaneWrapper;
 	}
 
 	protected ShortCut4JControlPane[] createShortcuts() {

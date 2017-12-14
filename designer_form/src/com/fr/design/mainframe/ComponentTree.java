@@ -29,8 +29,8 @@ public class ComponentTree extends JTree {
     private ComponentTreeModel model;
     private UITreeUI uiTreeUI = new UITreeUI();
     private PopupPreviewPane previewPane;
-    private static final int PADDING_LEFT = 10;
-    private static final int PADDING_TOP = 8;
+    private static final int PADDING_LEFT = 5;
+    private static final int PADDING_TOP = 5;
 
     public ComponentTree(FormDesigner designer) {
         this.designer = designer;
@@ -42,11 +42,17 @@ public class ComponentTree extends JTree {
         this.setDropMode(DropMode.ON_OR_INSERT);
         this.setTransferHandler(new TreeTransferHandler());
         this.refreshTreeRoot();
-        addTreeSelectionListener(designer);
-        addMouseMotionListener(new ComponetTreeMouseListener(this));
+        initListeners();
         setEditable(true);
         setUI(uiTreeUI);
         setBorder(BorderFactory.createEmptyBorder(PADDING_TOP, PADDING_LEFT, 0, 0));
+    }
+
+    private void initListeners() {
+        this.addTreeSelectionListener(designer);
+        ComponetTreeMouseListener componetTreeMouseListener = new ComponetTreeMouseListener(this);
+        this.addMouseMotionListener(componetTreeMouseListener);
+        this.addMouseListener(componetTreeMouseListener);
     }
 
     public FormDesigner getDesigner() {
@@ -275,6 +281,11 @@ public class ComponentTree extends JTree {
             } else {
                 hidePreviewPane();
             }
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            hidePreviewPane();
         }
     }
 

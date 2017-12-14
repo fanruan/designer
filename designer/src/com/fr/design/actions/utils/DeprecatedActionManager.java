@@ -69,23 +69,6 @@ public class DeprecatedActionManager {
     }
 
     /**
-     * Order menu
-     */
-    public static JMenu getOrderMenu(ElementCasePane ePane) {
-        JMenu orderMenu = new JMenu(Inter.getLocText("M_Edit-Order"));
-        orderMenu.setIcon(UIConstants.BLACK_ICON);
-        orderMenu.setMnemonic('O');
-        orderMenu.setBackground(UIConstants.NORMAL_BACKGROUND);
-
-        orderMenu.add(new BringFloatElementToFrontAction(ePane).createMenuItem());
-        orderMenu.add(new SendFloatElementToBackAction(ePane).createMenuItem());
-        orderMenu.add(new BringFloatElementForwardAction(ePane).createMenuItem());
-        orderMenu.add(new SendFloatElementBackwardAction(ePane).createMenuItem());
-
-        return orderMenu;
-    }
-
-    /**
      * Cell Style.
      */
     public static MenuDef getCellMenu(final ElementCasePane ePane) {
