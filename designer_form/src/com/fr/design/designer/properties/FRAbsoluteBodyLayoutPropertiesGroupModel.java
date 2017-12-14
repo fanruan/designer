@@ -100,7 +100,7 @@ public class FRAbsoluteBodyLayoutPropertiesGroupModel extends FRAbsoluteLayoutPr
                         return switch2FitBodyLayout();
                     } else {
                         XWFitLayout xfl = (XWFitLayout) xwAbsoluteLayout.getBackupParent();
-                        if (xfl.toData().removeMargin()) {
+                        if (xfl.toData().resetStyle()) {
                             DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified();
                         }
                     }
