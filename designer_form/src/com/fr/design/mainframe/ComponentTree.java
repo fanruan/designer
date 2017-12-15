@@ -1,27 +1,26 @@
 package com.fr.design.mainframe;
 
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import javax.swing.tree.TreeCellRenderer;
-import javax.swing.tree.TreePath;
-import javax.swing.tree.TreeSelectionModel;
-
 import com.fr.design.constants.UIConstants;
-import com.fr.design.designer.creator.*;
+import com.fr.design.designer.creator.XCreator;
+import com.fr.design.designer.creator.XLayoutContainer;
+import com.fr.design.designer.creator.XWAbsoluteBodyLayout;
+import com.fr.design.designer.creator.XWFitLayout;
 import com.fr.design.designer.treeview.ComponentTreeCellRenderer;
 import com.fr.design.designer.treeview.ComponentTreeModel;
 import com.fr.design.gui.itree.UITreeUI;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.stable.StringUtils;
-import com.fr.web.core.A.M;
+
+import javax.swing.*;
+import javax.swing.tree.TreeCellRenderer;
+import javax.swing.tree.TreePath;
+import javax.swing.tree.TreeSelectionModel;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class ComponentTree extends JTree {
 
