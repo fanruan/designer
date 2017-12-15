@@ -2,6 +2,7 @@ package com.fr.design.mainframe.alphafine.search.manager;
 
 import com.fr.base.FRContext;
 import com.fr.base.Utils;
+import com.fr.design.actions.UpdateAction;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.alphafine.CellType;
@@ -233,8 +234,12 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
                 SearchResult searchResult = new SearchResult();
                 while (modelIterator.hasNext()) {
                     AlphaCellModel model = modelIterator.next();
-                    if (model.getType() == CellType.ACTION && !UpdateActionManager.getUpdateActionManager().isEnable(((ActionModel) model).getAction())) {
-                        continue;
+                    if (model.getType() == CellType.ACTION) {
+                        UpdateAction action = UpdateActionManager.getUpdateActionManager().getActionByName(model.getName());
+                        if (action != null) {
+                            ((ActionModel) model).setAction(action);
+                            searchResult.add(model);
+                        }
                     } else {
                         searchResult.add(model);
                     }

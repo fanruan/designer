@@ -100,6 +100,7 @@ public class FRAbsoluteBodyLayoutDefinePane extends FRAbsoluteLayoutDefinePane {
         }
 
         if (layoutType == WBodyLayoutType.ABSOLUTE) {
+            ((XWFitLayout)creator.getBackupParent()).toData().resetStyle();
             if (state == WBodyLayoutType.FIT.getTypeValue()) {
                 switch2FitBodyLayout();
             }
