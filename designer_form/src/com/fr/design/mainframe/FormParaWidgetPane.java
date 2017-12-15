@@ -16,7 +16,11 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.utils.gui.LayoutUtils;
-import com.fr.form.ui.*;
+import com.fr.form.ui.UserDefinedWidgetConfig;
+import com.fr.form.ui.Widget;
+import com.fr.form.ui.WidgetConfig;
+import com.fr.form.ui.WidgetManager;
+import com.fr.form.ui.WidgetManagerProvider;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
@@ -83,8 +87,8 @@ public class FormParaWidgetPane extends JPanel {
             
             @Override
             public boolean accept(PluginContext context) {
-                
-                return context.contain(PluginModule.ExtraDesign, FormWidgetOptionProvider.XML_TAG);
+    
+                return context.contain(PluginModule.ExtraDesign, FormWidgetOptionProvider.XML_TAG) || context.contain(PluginModule.ExtraChartType);
             }
         });
     }

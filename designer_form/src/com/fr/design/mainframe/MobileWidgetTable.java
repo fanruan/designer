@@ -258,8 +258,6 @@ public class MobileWidgetTable extends JTable {
             return new String[0][0];
         }
 
-        body.setSorted(false);
-
         if (body.getWidgetCount() > 0 && body.getWidget(0).acceptType(WAbsoluteBodyLayout.class)) {
             WAbsoluteBodyLayout absoluteBodyLayout = (WAbsoluteBodyLayout) ((WAbsoluteLayout.BoundsWidget) body.getWidget(0)).getWidget();
             mobileWidgetList = absoluteBodyLayout.getOrderedMobileWidgetList();
@@ -272,7 +270,6 @@ public class MobileWidgetTable extends JTable {
             widgetName[i + 1][0] = mobileWidgetList.get(i);
         }
 
-        body.setSorted(true);
         return widgetName;
 
     }
