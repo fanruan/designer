@@ -142,6 +142,13 @@ public class FormSelectionUtils {
                 }
             }
         }
+        Component[] components = copiedCreator.getComponents();
+        for (Component component : components) {
+            try {
+                resetTabSub2RealSize((XCreator) component);
+            } catch (ClassCastException ignored) {
+            }
+        }
     }
 
     /**
