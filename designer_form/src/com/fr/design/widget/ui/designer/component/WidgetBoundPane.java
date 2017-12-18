@@ -81,6 +81,7 @@ public class WidgetBoundPane extends BasicPane {
 
     public void fix() {
         Rectangle bounds = new Rectangle(creator.getBounds());
+        creator.setBackupBound(creator.getBounds());
         int w = (int) width.getValue();
         int h = (int) height.getValue();
         Rectangle rec = ComponentUtils.getRelativeBounds(parent);

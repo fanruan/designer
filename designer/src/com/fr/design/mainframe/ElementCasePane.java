@@ -522,15 +522,15 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
      *  因为这边判断selection是一个selection，所以不会触发fireSelectionChanged
      */
     public void setSelection(Selection selection) {
-        try {
-            //旧选中内容编辑器释放模板对象
-            this.getCurrentEditor().release();
-        } catch (UnsupportedOperationException e) {
-            FRLogger.getLogger().info("Nothing to release");
-        }
 
         if (!ComparatorUtils.equals(this.selection, selection) ||
                 !ComparatorUtils.equals(EastRegionContainerPane.getInstance().getCellAttrPane(), CellElementPropertyPane.getInstance())) {
+            try {
+                //旧选中内容编辑器释放模板对象
+                this.getCurrentEditor().release();
+            } catch (UnsupportedOperationException e) {
+                FRLogger.getLogger().info("Nothing to release");
+            }
             this.selection = selection;
             fireSelectionChanged();
         }

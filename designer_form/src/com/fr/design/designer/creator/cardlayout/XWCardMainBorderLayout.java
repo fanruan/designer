@@ -17,7 +17,6 @@ import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.form.ui.container.WBorderLayout;
 import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
 import com.fr.general.IOUtils;
-import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.general.Inter;
 
 import java.awt.*;
@@ -273,5 +272,12 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 		else{
 			return this;
 		}
+	}
+
+	/**
+	 * data属性改变触发其他操作
+	 *
+	 */
+	public void firePropertyChange(){
 	}
 }
