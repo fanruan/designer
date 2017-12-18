@@ -12,11 +12,19 @@ public abstract class AbstractTemplateTreeShortCutProvider extends UpdateAction 
 
     @Override
     public int currentAPILevel() {
-        return TemplateTreeShortCutProvider.CURRENT_LEVEL;
+        return 1;
     }
 
     @Override
     public String mark4Provider() {
         return getClass().getName();
+    }
+
+    @Override
+    public void process() {
+    }
+
+    @Override
+    public void undo() {
     }
 }
