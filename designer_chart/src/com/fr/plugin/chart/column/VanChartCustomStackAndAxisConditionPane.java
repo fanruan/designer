@@ -95,8 +95,10 @@ public class VanChartCustomStackAndAxisConditionPane extends BasicBeanPane<Condi
 
     public void populateBean(ConditionAttr conditionAttr) {
         AttrSeriesStackAndAxis seriesStackAndAxis = (AttrSeriesStackAndAxis) conditionAttr.getExisted(AttrSeriesStackAndAxis.class);
-        XAxis = new UIButtonGroup<Integer>(seriesStackAndAxis.getXAxisNamesArray());
-        YAxis = new UIButtonGroup<Integer>(seriesStackAndAxis.getYAxisNameArray());
+        if (XAxis == null || YAxis == null) {
+            XAxis = new UIButtonGroup<Integer>(seriesStackAndAxis.getXAxisNamesArray());
+            YAxis = new UIButtonGroup<Integer>(seriesStackAndAxis.getYAxisNameArray());
+        }
 
         doLayoutPane();
         XAxis.setSelectedIndex(seriesStackAndAxis.getXAxisIndex());
