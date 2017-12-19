@@ -126,7 +126,7 @@ public class VanChartCustomStackAndAxisConditionPane extends BasicBeanPane<Condi
     }
 
     public ConditionAttr updateBean() {
-        AttrSeriesStackAndAxis seriesStackAndAxis = new AttrSeriesStackAndAxis();
+        AttrSeriesStackAndAxis seriesStackAndAxis = (AttrSeriesStackAndAxis)conditionAttr.getExisted(AttrSeriesStackAndAxis.class);
         seriesStackAndAxis.setXAxisIndex(XAxis.getSelectedIndex());
         seriesStackAndAxis.setYAxisIndex(YAxis.getSelectedIndex());
 
