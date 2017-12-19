@@ -31,6 +31,8 @@ public class VanChartCustomStackAndAxisConditionPane extends BasicBeanPane<Condi
     protected UIButtonGroup<Integer> isStacked;
     protected UIButtonGroup<Integer> isPercentStacked;
 
+    private ConditionAttr conditionAttr;
+
     private LiteConditionPane liteConditionPane;
 
     public VanChartCustomStackAndAxisConditionPane() {
@@ -94,6 +96,7 @@ public class VanChartCustomStackAndAxisConditionPane extends BasicBeanPane<Condi
     }
 
     public void populateBean(ConditionAttr conditionAttr) {
+        this.conditionAttr = conditionAttr;
         AttrSeriesStackAndAxis seriesStackAndAxis = (AttrSeriesStackAndAxis) conditionAttr.getExisted(AttrSeriesStackAndAxis.class);
         XAxis = new UIButtonGroup<Integer>(seriesStackAndAxis.getXAxisNamesArray());
         YAxis = new UIButtonGroup<Integer>(seriesStackAndAxis.getYAxisNameArray());
@@ -123,8 +126,7 @@ public class VanChartCustomStackAndAxisConditionPane extends BasicBeanPane<Condi
     }
 
     public ConditionAttr updateBean() {
-        ConditionAttr conditionAttr = new ConditionAttr();
-        AttrSeriesStackAndAxis seriesStackAndAxis = new AttrSeriesStackAndAxis();
+        AttrSeriesStackAndAxis seriesStackAndAxis = (AttrSeriesStackAndAxis)conditionAttr.getExisted(AttrSeriesStackAndAxis.class);
         seriesStackAndAxis.setXAxisIndex(XAxis.getSelectedIndex());
         seriesStackAndAxis.setYAxisIndex(YAxis.getSelectedIndex());
 
