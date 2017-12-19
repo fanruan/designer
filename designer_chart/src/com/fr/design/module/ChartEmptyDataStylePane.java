@@ -15,6 +15,7 @@ import com.fr.design.style.background.image.ImageFileChooser;
 import com.fr.design.style.background.image.ImagePreviewPane;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.FRLogger;
+import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.stable.CoreGraphHelper;
@@ -35,7 +36,7 @@ public class ChartEmptyDataStylePane extends AbstractAttrNoScrollPane {
     private static final int FIVE = 5;
     private static final int TEN = 10;
     private static final int THIRTY = 30;
-    private static final Image DEFAULT_EMPTY_DATA_IMAGE = IOUtils.readImage("com/fr/design/images/emptydataimage.png");
+    private static Image DEFAULT_EMPTY_DATA_IMAGE;
 
 
     private UIButtonGroup emptyData;
@@ -48,6 +49,11 @@ public class ChartEmptyDataStylePane extends AbstractAttrNoScrollPane {
 
     private Image emptyDataImage = DEFAULT_EMPTY_DATA_IMAGE;
 
+
+    static {
+        DEFAULT_EMPTY_DATA_IMAGE = GeneralContext.isChineseEnv() ? IOUtils.readImage("com/fr/design/images/zh_emptydata.png")
+                                                                : IOUtils.readImage("com/fr/design/images/us_emptydata.png");
+    }
 
     @Override
     protected JPanel createContentPane() {
