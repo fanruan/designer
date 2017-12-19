@@ -7,6 +7,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
+import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.general.Inter;
 import com.fr.design.mainframe.widget.editors.IntegerPropertyEditor;
 import com.fr.design.mainframe.widget.editors.PropertyCellEditor;
@@ -119,6 +120,8 @@ public class BoundsGroupModel implements ConstraintsGroupModel {
             WAbsoluteLayout wabs = parent.toData();
             wabs.setBounds(component.toData(),bounds);
             component.setBounds(bounds);
+            LayoutUtils.layoutContainer(component);
+            parent.updateBoundsWidget(component);
             
             return true;
         } else {
