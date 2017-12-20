@@ -129,6 +129,16 @@ public class WebViewDlgHelper {
         createPluginDialog();
     }
 
+    /**
+     * 以关键词打开设计器商店显示搜索结果
+     * @param keyword
+     * @param data
+     */
+    public static void showPluginInStore(String keyword, String data) {
+        PluginWebBridge.getHelper().showResultInStore(keyword, data);
+        createPluginDialog();
+    }
+
     public static void createLoginDialog() {
         if (StableUtils.getMajorJavaVersion() == VERSION_8) {
             File file = new File(StableUtils.pathJoin(installHome, "scripts"));
