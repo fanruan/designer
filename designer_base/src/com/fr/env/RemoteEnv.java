@@ -25,6 +25,7 @@ import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.fun.DesignerEnvProcessor;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrameFileDealerPane;
+import com.fr.design.mainframe.loghandler.DesignerLogHandler;
 import com.fr.file.CacheManager;
 import com.fr.file.DatasourceManager;
 import com.fr.file.DatasourceManagerProvider;
@@ -1838,7 +1839,7 @@ public class RemoteEnv extends AbstractEnv {
         }
         LogRecordTime[] records = LogUtils.readXMLLogRecords(input);
         for (LogRecordTime logRecordTime : records) {
-            //TODO
+            DesignerLogHandler.getInstance().printRemoteLog(logRecordTime);
         }
     }
 
