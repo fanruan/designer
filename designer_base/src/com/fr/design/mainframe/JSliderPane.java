@@ -6,6 +6,7 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.gui.ibutton.UISliderButton;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.gui.islider.UISlider;
 import com.fr.design.gui.ispinner.UIBasicSpinner;
 import com.fr.design.gui.ispinner.UISpinnerUI;
@@ -38,22 +39,15 @@ public class JSliderPane extends JPanel {
     private static final double ONEPOINTEIGHT = 1.8;
     private static final int SIX = 6;
     private static final int TEN = 10;
-    private static final int ONE_EIGHT = 18;
     private static final int FONT_SIZE = 12;
     private static final int SPINNER_WIDTH = 45;
     private static final int SPINNER_HEIGHT = 20;
     private static final int HALF_HUNDRED = 50;
     private static final int HUNDRED = 100;
     private static final int TWO_HUNDRED = 200;
-    private static final int THREE_HUNDRED = 300;
     private static final int FOUR_HUNDRED = 400;
-    private static final int DIALOG_WIDTH = 157;
-    private static final int DIALOG_HEIGHT = 192;
-    private static final int SLIDER_WIDTH = 220;
-    private static final int SLIDER_HEIGHT = 20;
     private static final int SHOWVALBUTTON_WIDTH = 40;
     private static final int SHOWVALBUTTON_HEIGHTH = 20;
-    private static final int SLIDER_GAP = 5;
     private static final int TOOLTIP_Y = 30;
 
     private static final Color BACK_COLOR = new Color(245, 245, 247);
@@ -409,14 +403,14 @@ public class JSliderPane extends JPanel {
             dialog = new PopupPane(upButton, dialogContentPanel);
             if (upButtonX == 0) {
                 upButtonX = btnCoords.x;
-                GUICoreUtils.showPopupMenu(dialog, upButton, -DIALOG_WIDTH + upButton.getWidth() + SHOWVALBUTTON_WIDTH, -DIALOG_HEIGHT);
+                GUICoreUtils.showPopupMenu(dialog, upButton, -dialog.getPreferredSize().width + upButton.getWidth() + SHOWVALBUTTON_WIDTH, -dialog.getPreferredSize().height);
             }
         } else {
             if (upButtonX == 0) {
                 upButtonX = btnCoords.x;
-                GUICoreUtils.showPopupMenu(dialog, upButton, -DIALOG_WIDTH + upButton.getWidth() + SHOWVALBUTTON_WIDTH, -DIALOG_HEIGHT);
+                GUICoreUtils.showPopupMenu(dialog, upButton, -dialog.getPreferredSize().width + upButton.getWidth() + SHOWVALBUTTON_WIDTH, -dialog.getPreferredSize().height);
             } else {
-                GUICoreUtils.showPopupMenu(dialog, upButton, -DIALOG_WIDTH + upButton.getWidth() + SHOWVALBUTTON_WIDTH, -DIALOG_HEIGHT);
+                GUICoreUtils.showPopupMenu(dialog, upButton, -dialog.getPreferredSize().width + upButton.getWidth() + SHOWVALBUTTON_WIDTH, -dialog.getPreferredSize().height);
             }
         }
     }
@@ -488,9 +482,12 @@ class JSliderPaneUI extends BasicSliderUI {
 
 }
 
-class PopupPane extends JPopupMenu {
+class PopupPane extends UIPopupMenu {
+    private static final float REC = 8f;
+    private static final int INSERT_TOPBOTTOM = 10;
+    private static final int INSERT_LEFTRIGHT = 2;
     private static final int DIALOG_WIDTH = 157;
-    private static final int DIALOG_HEIGHT = 192;
+    private static final int DIALOG_HEIGHT = 205;
 
     PopupPane(JButton b, JPanel dialogContentPanel) {
         this.add(dialogContentPanel, BorderLayout.CENTER);
@@ -498,5 +495,7 @@ class PopupPane extends JPopupMenu {
         this.setBackground(new Color(245, 245, 247));
     }
 
-
+    public Insets getInsets() {
+        return new Insets(INSERT_TOPBOTTOM, INSERT_LEFTRIGHT, INSERT_TOPBOTTOM, INSERT_LEFTRIGHT);
+    }
 }
