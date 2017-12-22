@@ -1,27 +1,26 @@
 package com.fr.design.mainframe;
 
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import javax.swing.tree.TreeCellRenderer;
-import javax.swing.tree.TreePath;
-import javax.swing.tree.TreeSelectionModel;
-
 import com.fr.design.constants.UIConstants;
-import com.fr.design.designer.creator.*;
+import com.fr.design.designer.creator.XCreator;
+import com.fr.design.designer.creator.XLayoutContainer;
+import com.fr.design.designer.creator.XWAbsoluteBodyLayout;
+import com.fr.design.designer.creator.XWFitLayout;
 import com.fr.design.designer.treeview.ComponentTreeCellRenderer;
 import com.fr.design.designer.treeview.ComponentTreeModel;
 import com.fr.design.gui.itree.UITreeUI;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.stable.StringUtils;
-import com.fr.web.core.A.M;
+
+import javax.swing.*;
+import javax.swing.tree.TreeCellRenderer;
+import javax.swing.tree.TreePath;
+import javax.swing.tree.TreeSelectionModel;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class ComponentTree extends JTree {
 
@@ -29,8 +28,8 @@ public class ComponentTree extends JTree {
     private ComponentTreeModel model;
     private UITreeUI uiTreeUI = new UITreeUI();
     private PopupPreviewPane previewPane;
-    private static final int PADDING_LEFT = 10;
-    private static final int PADDING_TOP = 8;
+    private static final int PADDING_LEFT = 5;
+    private static final int PADDING_TOP = 5;
 
     public ComponentTree(FormDesigner designer) {
         this.designer = designer;
@@ -42,11 +41,17 @@ public class ComponentTree extends JTree {
         this.setDropMode(DropMode.ON_OR_INSERT);
         this.setTransferHandler(new TreeTransferHandler());
         this.refreshTreeRoot();
-        addTreeSelectionListener(designer);
-        addMouseMotionListener(new ComponetTreeMouseListener(this));
+        initListeners();
         setEditable(true);
         setUI(uiTreeUI);
         setBorder(BorderFactory.createEmptyBorder(PADDING_TOP, PADDING_LEFT, 0, 0));
+    }
+
+    private void initListeners() {
+        this.addTreeSelectionListener(designer);
+        ComponetTreeMouseListener componetTreeMouseListener = new ComponetTreeMouseListener(this);
+        this.addMouseMotionListener(componetTreeMouseListener);
+        this.addMouseListener(componetTreeMouseListener);
     }
 
     public FormDesigner getDesigner() {
@@ -275,6 +280,11 @@ public class ComponentTree extends JTree {
             } else {
                 hidePreviewPane();
             }
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            hidePreviewPane();
         }
     }
 

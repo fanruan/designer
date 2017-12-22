@@ -8,7 +8,14 @@ import com.fr.base.FRContext;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.location.Direction;
-import com.fr.design.designer.creator.*;
+import com.fr.design.designer.creator.XComponent;
+import com.fr.design.designer.creator.XCreator;
+import com.fr.design.designer.creator.XCreatorUtils;
+import com.fr.design.designer.creator.XLayoutContainer;
+import com.fr.design.designer.creator.XWAbsoluteLayout;
+import com.fr.design.designer.creator.XWFitLayout;
+import com.fr.design.designer.creator.XWParameterLayout;
+import com.fr.design.designer.creator.cardlayout.XWCardTagLayout;
 import com.fr.form.ui.Widget;
 import com.fr.design.utils.ComponentUtils;
 import com.fr.design.utils.gui.LayoutUtils;
@@ -224,6 +231,9 @@ public class FormSelection {
         int size = selection.size();
         if (size == 1) {
             XCreator creator = selection.get(0);
+            if(creator.acceptType(XWCardTagLayout.class)){
+                creator = (XCreator)selection.get(0).getParent();
+            }
             creator.setBounds(rec);
             if (creator.acceptType(XWParameterLayout.class)) {
                 designer.setParaHeight((int) rec.getHeight());

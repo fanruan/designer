@@ -1140,6 +1140,9 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     public boolean isCurrentComponentMovableUp() {
         XCreator creator = getSelectionModel().getSelection().getSelectedCreator();
         Container container = creator.getParent();
+        if (container == null) {
+            return false;
+        }
         return creator.isMovable() && container.getComponentZOrder(creator) > 0;
     }
 
@@ -1147,6 +1150,9 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     public boolean isCurrentComponentMovableDown() {
         XCreator creator = getSelectionModel().getSelection().getSelectedCreator();
         Container container = creator.getParent();
+        if (container == null) {
+            return false;
+        }
         return creator.isMovable() && container.getComponentZOrder(creator) < container.getComponentCount() - 1;
     }
 
