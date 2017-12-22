@@ -99,6 +99,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     private int language;
     //2014-8-26默认显示全部, 因为以前的版本, 虽然是false, 实际上是显示所有表, 因此这边要兼容
     private boolean useOracleSystemSpace = true;
+    private int cachingTemplateLimit = 5;
     private boolean autoBackUp = true;
     private int undoLimit = 5;
     private short pageLengthUnit = Constants.UNIT_MM;
@@ -244,7 +245,8 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
 
         // 写文件的LogLocation
         String logLocation = DesignerEnvManager.getEnvManager().getLogLocation();
-        if (logLocation != null) {
+        //Mac下8.0,9.0 选项-日志设置为空时在根目录下检测文件存在会抛无权限，这里应该设个默认值比较好吧
+        if (StringUtils.isNotEmpty(logLocation)) {
             try {
                 Calendar calender = GregorianCalendar.getInstance();
                 calender.setTimeInMillis(System.currentTimeMillis());
@@ -629,6 +631,21 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
      */
     public void setOracleSystemSpace(boolean displayOracleSystem) {
         this.useOracleSystemSpace = displayOracleSystem;
+    }
+
+    /**
+     * 配置最大缓存模板个数
+     */
+    public void setCachingTemplateLimit(int cachingTemplateLimit) {
+        this.cachingTemplateLimit = cachingTemplateLimit;
+    }
+
+
+    /**
+     * 获取最大缓存模板个数
+     */
+    public int getCachingTemplateLimit() {
+        return this.cachingTemplateLimit;
     }
 
     /**
@@ -1394,6 +1411,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         this.setMaxNumberOrPreviewRow(reader.getAttrAsInt("maxNumberOrPreviewRow", 200));
 
         this.setOracleSystemSpace(reader.getAttrAsBoolean("useOracleSystemSpace", true));
+        this.setCachingTemplateLimit(reader.getAttrAsInt("cachingTemplateLimit", 5));
         this.setJoinProductImprove(reader.getAttrAsBoolean("joinProductImprove", true));
         this.setAutoBackUp(reader.getAttrAsBoolean("autoBackUp", true));
         this.setTemplateTreePaneExpanded(reader.getAttrAsBoolean("templateTreePaneExpanded", false));
@@ -1613,6 +1631,9 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         }
         if (!this.isOracleSystemSpace()) {
             writer.attr("useOracleSystemSpace", this.isOracleSystemSpace());
+        }
+        if (this.getCachingTemplateLimit() >= 0) {
+            writer.attr("cachingTemplateLimit", this.getCachingTemplateLimit());
         }
         if (!this.isJoinProductImprove()) {
             writer.attr("joinProductImprove", this.isJoinProductImprove());

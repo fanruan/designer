@@ -8,7 +8,6 @@ import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.imenu.UIScrollPopUpMenu;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
-import com.fr.design.mainframe.JVirtualTemplate;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.design.utils.gui.GUIPaintUtils;
 import com.fr.file.FILE;
@@ -17,6 +16,7 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.stable.Constants;
+import com.fr.stable.OperatingSystem;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.project.ProjectConstants;
 
@@ -701,8 +701,7 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
         if (filename.startsWith(ProjectConstants.REPORTLETS_NAME)) {
             filename = ((FileNodeFILE) openedTemplate.get(selectedIndex).getEditingFILE()).getEnvPath() + File.separator + filename;
         }
-
-        filename = filename.replaceAll("/", "\\\\");
+        filename = OperatingSystem.isWindows() ? filename.replaceAll("/", "\\\\") : filename.replaceAll("\\\\", "/");
 
         if (!specifiedTemplate.isALLSaved()) {
             specifiedTemplate.stopEditing();
