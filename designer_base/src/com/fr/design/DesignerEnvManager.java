@@ -61,6 +61,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
 
     private static final int MAX_SHOW_NUM = 10;
     private static final String VERSION_80 = "80";
+    private static final int CACHINGTEMPLATE_LIMIT = 5;
 
     private static DesignerEnvManager designerEnvManager; // gui.
     private String activationKey = null;
@@ -99,7 +100,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     private int language;
     //2014-8-26默认显示全部, 因为以前的版本, 虽然是false, 实际上是显示所有表, 因此这边要兼容
     private boolean useOracleSystemSpace = true;
-    private int cachingTemplateLimit = 5;
+    private int cachingTemplateLimit = CACHINGTEMPLATE_LIMIT;
     private boolean autoBackUp = true;
     private int undoLimit = 5;
     private short pageLengthUnit = Constants.UNIT_MM;
