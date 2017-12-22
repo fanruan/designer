@@ -112,6 +112,8 @@ public class WebViewDlgHelper {
                 while ((byteread = inStream.read(buffer)) != -1) {
                     fs.write(buffer, 0, byteread);
                 }
+                fs.flush();
+                fs.close();
                 inStream.close();
             }
         } catch (Exception e) {
