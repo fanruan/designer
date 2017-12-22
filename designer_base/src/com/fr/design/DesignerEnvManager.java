@@ -1412,7 +1412,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         this.setMaxNumberOrPreviewRow(reader.getAttrAsInt("maxNumberOrPreviewRow", 200));
 
         this.setOracleSystemSpace(reader.getAttrAsBoolean("useOracleSystemSpace", true));
-        this.setCachingTemplateLimit(reader.getAttrAsInt("cachingTemplateLimit", 5));
+        this.setCachingTemplateLimit(reader.getAttrAsInt("cachingTemplateLimit", CACHINGTEMPLATE_LIMIT));
         this.setJoinProductImprove(reader.getAttrAsBoolean("joinProductImprove", true));
         this.setAutoBackUp(reader.getAttrAsBoolean("autoBackUp", true));
         this.setTemplateTreePaneExpanded(reader.getAttrAsBoolean("templateTreePaneExpanded", false));
