@@ -32,7 +32,7 @@ public class ReportWebWidgetConstants {
 
     public static WidgetOption[] getWriteToolBarInstance() {
         return new WidgetOption[]{SUBMIT, VERIFY, EMAIL, EXPORT, PDF, EXCELP, EXCELO, EXCELS, WORD, PRINT, FLASHPRINT, APPLETPRINT, PDFPRINT, IMPORTEXCELDATA, SHOWCELLVALUE,
-                APPENDCOLUMNROW, DELETECOLUMNROW, SETPRINTEROFFSET, WRITEOFFLINEHTML, CUSTOM_BUTTON, WRITESTASH, WRITESTASHCLEAR, IMPORTEXCELDATA_CUSTOMIZED};
+                APPENDCOLUMNROW, DELETECOLUMNROW, SETPRINTEROFFSET, WRITEOFFLINEHTML, CUSTOM_BUTTON, WRITESTASH, WRITESTASHCLEAR, IMPORTEXCELDATA_CUSTOMIZED, IMPORTEXCEL};
     }
 
     public static WidgetOption[] getFormToolBarInstance() {
@@ -148,5 +148,7 @@ public class ReportWebWidgetConstants {
     // 数据清空
     public static final WidgetOption WRITESTASHCLEAR = WidgetOptionFactory
             .createByWidgetClass(Inter.getLocText("FR-Engine-Write_Clear"), BaseUtils.readIcon("/com/fr/web/images/edit/clearstash.png"), ClearStashedButton.class);
-
+    //Excel导入
+    public static final WidgetOption IMPORTEXCEL= WidgetOptionFactory.createByWidgetClass(Inter.getLocText("FR-Engine_Excel_Import_Repeat"),
+            BaseUtils.readIcon("/com/fr/web/images/excel.png"), ExcelImport.class);
 }
