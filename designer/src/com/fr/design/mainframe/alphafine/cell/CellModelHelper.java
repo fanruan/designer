@@ -2,10 +2,10 @@ package com.fr.design.mainframe.alphafine.cell;
 
 import com.fr.design.mainframe.alphafine.CellType;
 import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
-import com.fr.design.mainframe.alphafine.search.manager.ActionSearchManager;
-import com.fr.design.mainframe.alphafine.search.manager.DocumentSearchManager;
-import com.fr.design.mainframe.alphafine.search.manager.FileSearchManager;
-import com.fr.design.mainframe.alphafine.search.manager.PluginSearchManager;
+import com.fr.design.mainframe.alphafine.search.manager.impl.ActionSearchManager;
+import com.fr.design.mainframe.alphafine.search.manager.impl.DocumentSearchManager;
+import com.fr.design.mainframe.alphafine.search.manager.impl.FileSearchManager;
+import com.fr.design.mainframe.alphafine.search.manager.impl.PluginSearchManager;
 import com.fr.json.JSONObject;
 
 /**

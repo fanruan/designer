@@ -1,7 +1,8 @@
-package com.fr.design.mainframe.alphafine.search.manager;
+package com.fr.design.mainframe.alphafine.search.manager.impl;
 
 import com.fr.base.FRContext;
 import com.fr.base.Utils;
+import com.fr.design.actions.UpdateAction;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.alphafine.CellType;
@@ -10,6 +11,7 @@ import com.fr.design.mainframe.alphafine.cell.model.ActionModel;
 import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
+import com.fr.design.mainframe.alphafine.search.manager.fun.AlphaFineSearchProvider;
 import com.fr.design.mainframe.toolbar.UpdateActionManager;
 import com.fr.file.XMLFileManager;
 import com.fr.general.ComparatorUtils;
@@ -42,9 +44,9 @@ import java.util.Map;
 /**
  * Created by XiaXiang on 2017/5/15.
  */
-public class RecentSearchManager extends XMLFileManager implements AlphaFineSearchProcessor {
+public class RecentSearchManager extends XMLFileManager implements AlphaFineSearchProvider {
 
-    private static final String XML_TAG = "AlphaFineRecent";
+    private static final String XML_TAG = "AFSearch_Recent";
     private static final int MAX_SIZE = 3;
     private static RecentSearchManager recentSearchManager = null;
     private static File recentFile = null;
@@ -52,7 +54,7 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
     private SearchResult recentModelList;
     private Map<String, SearchResult> recentKVModelMap = new HashMap<>();
 
-    public synchronized static RecentSearchManager getRecentSearchManger() {
+    public synchronized static RecentSearchManager getInstance() {
         if (recentSearchManager == null) {
             recentSearchManager = new RecentSearchManager();
             try {
@@ -140,7 +142,7 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
 
     @Override
     public String fileName() {
-        return "AlphaFine_Recent.xml";
+        return "AFSearch_Recent.xml";
     }
 
 
@@ -156,8 +158,16 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
         return recentFile;
     }
 
+    private File getOldFile() {
+        return new File(ProductConstants.getEnvHome() + File.separator + "AlphaFine_Recent.xml");
+    }
+
     private File getRecentEnvFile() {
         File envFile = getRecentFile();
+        File oldFile = getOldFile();
+        if (oldFile.exists()) {
+            StableUtils.deleteFile(oldFile);
+        }
         if (!envFile.exists()) {
             createRecentFile(envFile);
         }
@@ -172,7 +182,7 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
     private void createRecentFile(File envFile) {
         try {
             FileWriter fileWriter = new FileWriter(envFile);
-            StringReader stringReader = new StringReader("<?xml version=\"1.0\" encoding=\"UTF-8\" ?><AlphaFineRecent></AlphaFineRecent>");
+            StringReader stringReader = new StringReader("<?xml version=\"1.0\" encoding=\"UTF-8\" ?><AFSearch_Recent></AFSearch_Recent>");
             Utils.copyCharTo(stringReader, fileWriter);
             stringReader.close();
             fileWriter.close();
@@ -233,8 +243,12 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
                 SearchResult searchResult = new SearchResult();
                 while (modelIterator.hasNext()) {
                     AlphaCellModel model = modelIterator.next();
-                    if (model.getType() == CellType.ACTION && !UpdateActionManager.getUpdateActionManager().isEnable(((ActionModel) model).getAction())) {
-                        continue;
+                    if (model.getType() == CellType.ACTION) {
+                        UpdateAction action = UpdateActionManager.getUpdateActionManager().getActionByName(model.getName());
+                        if (action != null) {
+                            ((ActionModel) model).setAction(action);
+                            searchResult.add(model);
+                        }
                     } else {
                         searchResult.add(model);
                     }
@@ -296,7 +310,7 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
     }
 
     @Override
-    public SearchResult getMoreSearchResult() {
+    public SearchResult getMoreSearchResult(String searchText) {
         return new SearchResult();
     }
 
