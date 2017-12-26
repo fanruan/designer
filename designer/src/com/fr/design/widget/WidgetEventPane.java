@@ -91,7 +91,7 @@ public class WidgetEventPane extends ObjectUIControlPane {
 
 				@Override
 				protected DBManipulationPane createDBManipulationPane() {
-					if(epane == null) {
+					if(epane == null && DesignerContext.getDesignerFrame().getSelectedJTemplate() != null) {
 						return autoCreateDBManipulationInWidgetEventPane();
 					} 
 					
