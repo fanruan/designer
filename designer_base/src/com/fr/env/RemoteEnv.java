@@ -1009,8 +1009,8 @@ public class RemoteEnv extends AbstractEnv {
         }
         try {
             HashMap<String, String> para = new HashMap<String, String>();
-            para.put("op", "fs_remote_vcs");
-            para.put("cmd", "hzzz");
+            para.put("op", "fr_remote_design");
+            para.put("cmd", "delete_file");
             para.put("file_path", filePath);
 
             HttpClient client = createHttpMethod(para);
@@ -2075,8 +2075,8 @@ public class RemoteEnv extends AbstractEnv {
         info.parseJSON(jo);
         return info;
     }
-    
-    
+
+
 
     @Override
     public String pluginServiceAction(String serviceID, String req) throws Exception {
@@ -2216,29 +2216,29 @@ public class RemoteEnv extends AbstractEnv {
     public void doWhenServerShutDown() {
 
     }
-    
+
     @Override
     public boolean isLocalEnv() {
-        
+
         return false;
     }
-    
+
     @Override
     public boolean hasPluginServiceStarted(String key) {
 
         return true;
     }
-    
+
     @Override
     public JSONArray getPluginStatus() {
-        
+
         try {
             HashMap<String, String> para = new HashMap<String, String>();
             para.put("op", "plugin");
             para.put("cmd", "get_status");
             para.put("current_uid", this.createUserID());
             para.put("currentUsername", this.getUser());
-            
+
             HttpClient client = createHttpMethod(para);
             InputStream input = execute4InputStream(client);
             return new JSONArray(stream2String(input));
