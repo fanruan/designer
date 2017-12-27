@@ -54,6 +54,7 @@ public class PluginWebBridge {
     private static final String THREAD_NAME_TEMPLATE = "pluginbridge-thread-%s";
     private static final String ACTION = "action";
     private static final String KEYWORD = "keyword";
+    private static final String PLUGIN_INFO = "pluginInfo";
     private static final int COREPOOLSIZE = 3;
     private static final int MAXPOOLSIZE = 5;
 
@@ -72,20 +73,7 @@ public class PluginWebBridge {
             new LinkedBlockingQueue<Runnable>(COREPOOLSIZE),
             new ThreadFactoryBuilder().setNameFormat(THREAD_NAME_TEMPLATE).build());
 
-    /**
-     * 动作枚举
-     */
-    public enum ACTIONS {
-        SEARCH("search");
-        private String context;
-
-        ACTIONS(String context) {
-            this.context = context;
-        }
-
-        public String getContext() {
-            return context;
-        }
+    private PluginWebBridge() {
     }
 
     public static PluginWebBridge getHelper() {
@@ -104,9 +92,6 @@ public class PluginWebBridge {
         getHelper();
         helper.setEngine(webEngine);
         return helper;
-    }
-
-    private PluginWebBridge() {
     }
 
     /**
@@ -155,10 +140,24 @@ public class PluginWebBridge {
      *
      * @param keyword 关键词
      */
+
     public void openWithSearch(String keyword) {
         HashMap<String, Object> map = new HashMap<String, Object>(2);
         map.put(KEYWORD, keyword);
         setRunConfig(ACTIONS.SEARCH, map);
+    }
+
+    /**
+     * 根据插件信息跳转到应用中心
+     *
+     * @param keyword
+     * @param pluginInfo
+     */
+    public void showResultInStore(String keyword, String pluginInfo) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put(KEYWORD, keyword);
+        map.put(PLUGIN_INFO, pluginInfo);
+        setRunConfig(ACTIONS.SHOW_RESULT, map);
     }
 
     public void setEngine(WebEngine webEngine) {
@@ -182,7 +181,6 @@ public class PluginWebBridge {
         PluginOperateUtils.installPluginOnline(pluginMarker, jsCallback);
     }
 
-
     /**
      * 从磁盘上选择插件安装包进行安装
      *
@@ -203,7 +201,6 @@ public class PluginWebBridge {
         JSCallback jsCallback = new JSCallback(webEngine, callback);
         PluginOperateUtils.uninstallPlugin(pluginInfo, isForce, jsCallback);
     }
-
 
     /**
      * 从插件服务器上更新选中的插件
@@ -346,12 +343,10 @@ public class PluginWebBridge {
         threadPoolExecutor.submit(task);
     }
 
-
     public void getPluginPrefix(final JSObject callback) {
         Task<Void> task = new PluginTask<>(webEngine, callback, new GetPluginPrefixExecutor());
         threadPoolExecutor.submit(task);
     }
-
 
     /**
      * 在线获取插件分类
@@ -487,9 +482,6 @@ public class PluginWebBridge {
         }
     }
 
-
-    /*-------------------------------登录部分的处理----------------------------------*/
-
     /**
      * 注册页面
      */
@@ -500,6 +492,9 @@ public class PluginWebBridge {
             FRContext.getLogger().info(e.getMessage());
         }
     }
+
+
+    /*-------------------------------登录部分的处理----------------------------------*/
 
     /**
      * 忘记密码
@@ -575,6 +570,22 @@ public class PluginWebBridge {
      */
     public boolean isDesigner() {
         return true;
+    }
+
+    /**
+     * 动作枚举
+     */
+    public enum ACTIONS {
+        SEARCH("search"), SHOW_RESULT("showResult");
+        private String context;
+
+        ACTIONS(String context) {
+            this.context = context;
+        }
+
+        public String getContext() {
+            return context;
+        }
     }
 
 }

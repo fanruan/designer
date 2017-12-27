@@ -122,7 +122,11 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 		if (editor.getFitStateInPC() == 0) {
 			editor.setReportFitAttr(null);
 		}
-		ReportFitAttrProvider reportFitAttr = editor.getReportFitAttr() == null ? fitAttr : editor.getReportFitAttr();
+		ReportFitAttrProvider reportFit = editor.getReportFitAttr();
+		if(fitAttr != null){
+			reportFit = fitAttr.fitInBrowser() ? editor.getReportFitAttr() : fitAttr;
+		}
+		ReportFitAttrProvider reportFitAttr = editor.getReportFitAttr() == null ? fitAttr : reportFit;
 		PropertyDescriptor[] extraEditor = processor.createPropertyDescriptor(this.data.getClass(), reportFitAttr);
 		if (editor.getReportFitAttr() == null) {
 			editor.setReportFitInPc(processor.getFitStateInPC(fitAttr));
@@ -302,7 +306,8 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 
 	private void switchTab(MouseEvent e,EditingMouseListener editingMouseListener){
 		FormDesigner designer = editingMouseListener.getDesigner();
-		if (e.getClickCount() == 2 || designer.getCursor().getType() == Cursor.HAND_CURSOR){
+		if (e.getButton() == MouseEvent.BUTTON1 &&
+				(e.getClickCount() == 2 || designer.getCursor().getType() == Cursor.HAND_CURSOR)){
 			FormElementCaseContainerProvider component = (FormElementCaseContainerProvider) designer.getComponentAt(e);
 			//切换设计器
 			designer.switchTab(component);

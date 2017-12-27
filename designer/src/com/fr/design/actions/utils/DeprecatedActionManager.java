@@ -49,7 +49,7 @@ public class DeprecatedActionManager {
      */
     public static UIMenu getClearMenu(ElementCasePane ePane) {
         UIMenu clearMenu = new UIMenu(Inter.getLocText("M_Edit-Clear"));
-        clearMenu.setIcon(UIConstants.BLACK_ICON);
+        clearMenu.setIcon(BaseUtils.readIcon("/com/fr/design/images/control/clear.png"));
         clearMenu.setMnemonic('a');
 
         ClearAction ReportComponentAction = new ClearAllAction(ePane);
@@ -66,23 +66,6 @@ public class DeprecatedActionManager {
             clearMenu.add(ReportComponentAction.createMenuItem());
         }
         return clearMenu;
-    }
-
-    /**
-     * Order menu
-     */
-    public static JMenu getOrderMenu(ElementCasePane ePane) {
-        JMenu orderMenu = new JMenu(Inter.getLocText("M_Edit-Order"));
-        orderMenu.setIcon(UIConstants.BLACK_ICON);
-        orderMenu.setMnemonic('O');
-        orderMenu.setBackground(UIConstants.NORMAL_BACKGROUND);
-
-        orderMenu.add(new BringFloatElementToFrontAction(ePane).createMenuItem());
-        orderMenu.add(new SendFloatElementToBackAction(ePane).createMenuItem());
-        orderMenu.add(new BringFloatElementForwardAction(ePane).createMenuItem());
-        orderMenu.add(new SendFloatElementBackwardAction(ePane).createMenuItem());
-
-        return orderMenu;
     }
 
     /**

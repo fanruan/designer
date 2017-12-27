@@ -107,5 +107,9 @@ public class XWAbsoluteBodyLayout extends XWAbsoluteLayout {
         initStyle();
     }
 
+    @Override
+    public boolean isMovable() {
+        return false;
+    }
 
 }

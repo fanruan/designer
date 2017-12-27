@@ -1,6 +1,7 @@
 package com.fr.design.gui.imenu;
 
 
+import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.iscrollbar.UIScrollBar;
 
 import java.awt.*;
@@ -16,12 +17,13 @@ import java.awt.event.MouseWheelListener;
  */
 public class UIScrollPopUpMenu extends UIPopupMenu {
     private static final int MAX_SHOW_NUM = 27;
-
+    private static final float REC = 8f;
     private UIScrollBar scrollBar;
 
 
     public UIScrollPopUpMenu() {
         super();
+        setOpaque(false);
         setLayout(new ScrollPopupMenuLayout());
         super.add(getScrollBar());
         addMouseWheelListener(new MouseWheelListener() {
@@ -39,6 +41,11 @@ public class UIScrollPopUpMenu extends UIPopupMenu {
 
 
     public void paintChildren(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+        int rec = (int) REC;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setColor(UIConstants.NORMAL_BACKGROUND);
+        g2d.fillRoundRect(1, 1, getWidth() - 2, getHeight() - 2, rec, rec);
         Insets insets = getInsets();
         g.clipRect(insets.left, insets.top, getWidth(), getHeight() - insets.top - insets.bottom);
         super.paintChildren(g);

@@ -227,4 +227,9 @@ public class XWParameterLayout extends XWAbsoluteLayout {
 
     }
 
+    @Override
+    public boolean isMovable() {
+        return false;
+    }
+
 }

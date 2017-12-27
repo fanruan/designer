@@ -5,6 +5,7 @@ import com.fr.design.constants.UIConstants;
 import com.fr.stable.Constants;
 
 import java.awt.*;
+import java.awt.geom.GeneralPath;
 import java.awt.geom.RoundRectangle2D;
 
 public class GUIPaintUtils {
@@ -200,6 +201,42 @@ public class GUIPaintUtils {
         g2.setStroke(new BasicStroke(shadowWidth));
         g2.draw(shape);
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+    }
+
+    /**
+     * 自定义popMenu画法,一种下面两圆角矩形
+     *
+     */
+    public static final Shape paintShape(Graphics2D g2, float width, float height, float REC) {
+        REC = REC / 2;
+        float recdir = (float) (REC - (REC / Math.sqrt(2)));
+        GeneralPath gp1 = new GeneralPath();
+        gp1.moveTo(0f, 0f);
+        gp1.lineTo(width, 0f);
+        gp1.lineTo(width, height - REC);
+        gp1.quadTo(width - recdir, height - recdir, width - REC, height);
+        gp1.lineTo(REC, height);
+        gp1.quadTo(recdir, height - recdir, 0, height - REC);
+        gp1.closePath();
+        return gp1;
+    }
+
+    /**
+     * 自定义popMenu边框画法,一种下面两圆角矩形
+     *
+     */
+    public static final void paintShapeBorder(Graphics2D g2, int x, int y, int width, int height, int rec) {
+        g2.setColor(UIConstants.UIPOPUPMENU_LINE_COLOR);
+        width = width - 1;
+        height = height - 1;
+        rec = rec / 2;
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+        g2.drawLine(x, y, x + width, y);
+        g2.drawLine(x + width, y, x + width, y + height - rec);
+        g2.drawArc(x + width - (rec / 2), y + height - (rec / 2), rec / 2, rec / 2, 0, 90);
+        g2.drawLine(x + width - rec, y + height, x + rec, y + height);
+        g2.drawArc(x - (rec / 2), y + height - (rec / 2), rec / 2, rec / 2, 0, 90);
+        g2.drawLine(x, y + height - rec, x, y);
     }
 
 }

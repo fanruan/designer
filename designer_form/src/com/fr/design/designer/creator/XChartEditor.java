@@ -76,6 +76,11 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 		return true;
 	}
 
+	@Override
+	public void stopEditing() {
+		isEditing = false;
+	}
+
     /**
      *  得到属性名
      * @return 属性名
@@ -201,7 +206,8 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 	public void respondClick(EditingMouseListener editingMouseListener,MouseEvent e){
 		FormDesigner designer = editingMouseListener.getDesigner();
 		SelectionModel selectionModel = editingMouseListener.getSelectionModel();
-		isEditing =  e.getClickCount() == 2 || designer.getCursor().getType() == Cursor.HAND_CURSOR;
+		isEditing =  e.getButton() == MouseEvent.BUTTON1 &&
+				(e.getClickCount() == 2 || designer.getCursor().getType() == Cursor.HAND_CURSOR);
 		displayCoverPane(!isEditing);
 		selectionModel.selectACreatorAtMouseEvent(e);
 
