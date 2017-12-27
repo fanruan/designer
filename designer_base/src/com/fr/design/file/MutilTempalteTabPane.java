@@ -3,12 +3,12 @@ package com.fr.design.file;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.GraphHelper;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.imenu.UIScrollPopUpMenu;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
-import com.fr.design.mainframe.JVirtualTemplate;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.design.utils.gui.GUIPaintUtils;
 import com.fr.file.FILE;
@@ -102,6 +102,8 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
     // 模板时，模板B会自动关闭
     private JTemplate<?, ?> temTemplate = null;
 
+    //版本管理时候不允许切换tab
+    private boolean isVcsMode = false;
 
     private AWTEventListener awt = new AWTEventListener() {
         public void eventDispatched(AWTEvent event) {
@@ -632,6 +634,12 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
      * @param e 鼠标事件
      */
     public void mousePressed(MouseEvent e) {
+        //如果在版本管理情况下，不允许切换tab
+        if (DesignerMode.isVcsMode()) {
+            //TODO hzzz 国际化
+            JOptionPane.showMessageDialog(null, "版本管理不允许切换", Inter.getLocText("FR-Designer_Alert"), JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
         int evtX = e.getX();
         int evtY = e.getY();
@@ -952,6 +960,4 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
             }
         }
     }
-
-
 }

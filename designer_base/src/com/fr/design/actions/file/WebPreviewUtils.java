@@ -1,5 +1,6 @@
 package com.fr.design.actions.file;
 
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.utils.DesignUtils;
@@ -11,6 +12,8 @@ import com.fr.general.web.ParameterConsts;
 import com.fr.stable.project.ProjectConstants;
 
 import javax.swing.*;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 public final class WebPreviewUtils {
@@ -28,11 +31,15 @@ public final class WebPreviewUtils {
             return;
         }
 
+        if (map == null || map == Collections.EMPTY_MAP) {
+            map = new HashMap<>();
+        }
+        map.put("mode", DesignerMode.getMode().toString());
         DesignerContext.getDesignerFrame().refreshToolbar();
 
         jt.stopEditing();
         /*
-		 * alex:如果没有保存,先保存到Env
+         * alex:如果没有保存,先保存到Env
 		 * 
 		 * 如果保存失败,不执行下面的WebPreview
 		 */
@@ -68,20 +75,19 @@ public final class WebPreviewUtils {
             String path = currentTemplate.getPath();
             if (path.startsWith(ProjectConstants.REPORTLETS_NAME)) {
                 path = path.substring(ProjectConstants.REPORTLETS_NAME.length() + 1);
-
-                java.util.List<String> parameterNameList = new java.util.ArrayList<String>();
-                java.util.List<String> parameterValueList = new java.util.ArrayList<String>();
-
-                parameterNameList.add(actionType);
-                parameterValueList.add(path);
-                if (map != null) {
-                    for (String key : map.keySet()) {
-                        parameterNameList.add(key);
-                        parameterValueList.add(GeneralUtils.objectToString(map.get(key)));
-                    }
-                }
-                DesignUtils.visitEnvServerByParameters(parameterNameList.toArray(new String[parameterNameList.size()]), parameterValueList.toArray(new String[parameterValueList.size()]));
             }
+            java.util.List<String> parameterNameList = new java.util.ArrayList<String>();
+            java.util.List<String> parameterValueList = new java.util.ArrayList<String>();
+
+            parameterNameList.add(actionType);
+            parameterValueList.add(path);
+            if (map != null) {
+                for (String key : map.keySet()) {
+                    parameterNameList.add(key);
+                    parameterValueList.add(GeneralUtils.objectToString(map.get(key)));
+                }
+            }
+            DesignUtils.visitEnvServerByParameters(parameterNameList.toArray(new String[parameterNameList.size()]), parameterValueList.toArray(new String[parameterValueList.size()]));
         } else {
             int selVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("Web_Preview_Message"),
                     Inter.getLocText("Preview_ToolTips"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);

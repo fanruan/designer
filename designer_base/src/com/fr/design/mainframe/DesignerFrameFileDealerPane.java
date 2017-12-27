@@ -174,7 +174,8 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
     /*
      * Open Report Action
      */
-    private class OpenReportAction extends UpdateAction {
+    private class
+    OpenReportAction extends UpdateAction {
 
         public OpenReportAction() {
             this.setName(KeySetUtils.OPEN_TEMPLATE.getMenuKeySetName());

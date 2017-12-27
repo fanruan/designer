@@ -1009,8 +1009,8 @@ public class RemoteEnv extends AbstractEnv {
         }
         try {
             HashMap<String, String> para = new HashMap<String, String>();
-            para.put("op", "fr_remote_design");
-            para.put("cmd", "delete_file");
+            para.put("op", "fs_remote_vcs");
+            para.put("cmd", "hzzz");
             para.put("file_path", filePath);
 
             HttpClient client = createHttpMethod(para);
