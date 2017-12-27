@@ -10,6 +10,7 @@ import com.fr.design.designer.creator.XWFitLayout;
 import com.fr.design.designer.creator.XWParameterLayout;
 import com.fr.design.designer.creator.XWScaleLayout;
 import com.fr.design.designer.creator.XWTitleLayout;
+import com.fr.design.designer.creator.cardlayout.XWCardTagLayout;
 import com.fr.design.dialog.AttrScrollPane;
 import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.foldablepane.UIExpandablePane;
@@ -22,6 +23,7 @@ import com.fr.design.widget.FormWidgetDefinePaneFactoryBase;
 import com.fr.design.widget.Operator;
 import com.fr.design.widget.ui.designer.component.WidgetAbsoluteBoundPane;
 import com.fr.design.widget.ui.designer.component.WidgetBoundPane;
+import com.fr.design.widget.ui.designer.component.WidgetCardTagBoundPane;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WScaleLayout;
 import com.fr.form.ui.container.WTitleLayout;
@@ -73,10 +75,12 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
 
     public WidgetBoundPane createWidgetBoundPane(XCreator xCreator) {
         XLayoutContainer xLayoutContainer = getParent(xCreator);
-        if (xLayoutContainer == null || xCreator instanceof XWParameterLayout || xCreator instanceof XWAbsoluteLayout) {
+        if (xLayoutContainer == null || xCreator.acceptType(XWParameterLayout.class) || xCreator.acceptType(XWAbsoluteLayout.class)) {
             return null;
-        } else if (xLayoutContainer instanceof XWAbsoluteLayout) {
+        } else if (xLayoutContainer.acceptType(XWAbsoluteLayout.class)) {
             return new WidgetAbsoluteBoundPane(xCreator);
+        } else if(xCreator.acceptType(XWCardTagLayout.class)){
+            return new WidgetCardTagBoundPane(xCreator);
         }
         return new WidgetBoundPane(xCreator);
     }

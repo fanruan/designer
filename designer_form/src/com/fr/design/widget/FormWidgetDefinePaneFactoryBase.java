@@ -12,6 +12,7 @@ import com.fr.form.parameter.FormSubmitButton;
 import com.fr.form.ui.*;
 import com.fr.form.ui.container.*;
 import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
+import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.form.ui.container.cardlayout.WTabFitLayout;
 import com.fr.stable.bridge.BridgeMark;
 import com.fr.stable.bridge.StableFactory;
@@ -64,6 +65,7 @@ public class FormWidgetDefinePaneFactoryBase {
         defineMap.put(WAbsoluteBodyLayout.class, new Appearance(FRAbsoluteBodyLayoutDefinePane.class, "wAbsoluteBodyLayout"));
         defineMap.put(WParameterLayout.class, new Appearance(RootDesignDefinePane.class, "wParameterLayout"));
         defineMap.put(WCardMainBorderLayout.class, new Appearance(WCardMainLayoutDefinePane.class, "wCardMainBorderLayout"));
+        defineMap.put(WCardTagLayout.class, new Appearance(WCardTagLayoutDefinePane.class, "wCardMainBorderLayout"));
         defineMap.put(WCardLayout.class, new Appearance(WCardLayoutDefinePane.class, "wCardLayout"));
         defineMap.put(Label.class, new Appearance(LabelDefinePane.class, "label"));
         defineMap.put(WTabFitLayout.class, new Appearance(WTabFitLayoutDefinePane.class, "wTabFitLayout"));

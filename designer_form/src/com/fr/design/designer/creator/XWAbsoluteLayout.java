@@ -467,7 +467,8 @@ public class XWAbsoluteLayout extends XLayoutContainer {
     public void respondClick(EditingMouseListener editingMouseListener, MouseEvent e) {
         FormDesigner designer = editingMouseListener.getDesigner();
         SelectionModel selectionModel = editingMouseListener.getSelectionModel();
-        boolean isEditing = isEditable() || designer.getCursor().getType() == Cursor.HAND_CURSOR || e.getClickCount() == 2;
+        boolean isEditing = isEditable() ||
+                e.getButton() == MouseEvent.BUTTON1 && (designer.getCursor().getType() == Cursor.HAND_CURSOR || e.getClickCount() == 2);
         setEditable(isEditing);
 
         selectionModel.selectACreatorAtMouseEvent(e);

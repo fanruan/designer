@@ -1,4 +1,4 @@
-package com.fr.design.mainframe.alphafine.search.manager;
+package com.fr.design.mainframe.alphafine.search.manager.impl;
 
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
@@ -7,6 +7,7 @@ import com.fr.design.mainframe.alphafine.CellType;
 import com.fr.design.mainframe.alphafine.cell.model.DocumentModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
+import com.fr.design.mainframe.alphafine.search.manager.fun.AlphaFineSearchProvider;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.general.http.HttpClient;
@@ -18,12 +19,12 @@ import com.fr.stable.StringUtils;
 /**
  * Created by XiaXiang on 2017/3/27.
  */
-public class DocumentSearchManager implements AlphaFineSearchProcessor {
+public class DocumentSearchManager implements AlphaFineSearchProvider {
     private static DocumentSearchManager documentSearchManager = null;
     private SearchResult lessModelList;
     private SearchResult moreModelList;
 
-    public synchronized static DocumentSearchManager getDocumentSearchManager() {
+    public synchronized static DocumentSearchManager getInstance() {
         if (documentSearchManager == null) {
             documentSearchManager = new DocumentSearchManager();
 
@@ -106,7 +107,7 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
     }
 
     @Override
-    public SearchResult getMoreSearchResult() {
+    public SearchResult getMoreSearchResult(String searchText) {
         return moreModelList;
     }
 

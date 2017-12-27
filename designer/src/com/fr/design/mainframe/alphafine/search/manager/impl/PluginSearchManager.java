@@ -1,4 +1,4 @@
-package com.fr.design.mainframe.alphafine.search.manager;
+package com.fr.design.mainframe.alphafine.search.manager.impl;
 
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
@@ -7,6 +7,7 @@ import com.fr.design.mainframe.alphafine.CellType;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.cell.model.PluginModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
+import com.fr.design.mainframe.alphafine.search.manager.fun.AlphaFineSearchProvider;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
@@ -22,13 +23,13 @@ import java.net.URLEncoder;
 /**
  * Created by XiaXiang on 2017/3/27.
  */
-public class PluginSearchManager implements AlphaFineSearchProcessor {
+public class PluginSearchManager implements AlphaFineSearchProvider {
     private static PluginSearchManager pluginSearchManager = null;
     private SearchResult lessModelList;
     private SearchResult moreModelList;
 
 
-    public synchronized static PluginSearchManager getPluginSearchManager() {
+    public synchronized static PluginSearchManager getInstance() {
         if (pluginSearchManager == null) {
             pluginSearchManager = new PluginSearchManager();
         }
@@ -39,13 +40,14 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
     private static PluginModel getPluginModel(JSONObject object, boolean isFromCloud) {
         String name = object.optString("name");
         String content = object.optString("description");
-        int pluginId = object.optInt("id");
+        String pluginId = object.optString("pluginid");
+        int id = object.optInt("id");
         int searchCount = object.optInt("searchCount");
         String imageUrl = null;
         try {
             imageUrl = isFromCloud ? AlphaFineConstants.PLUGIN_IMAGE_URL + URLEncoder.encode(object.optString("pic").toString().substring(AlphaFineConstants.PLUGIN_IMAGE_URL.length()), "utf8") : object.optString("pic");
         } catch (UnsupportedEncodingException e) {
-            FRLogger.getLogger().error(e.getMessage());
+            FRLogger.getLogger().error("plugin icon error: " + e.getMessage());
         }
         String version = null;
         String jartime = null;
@@ -59,7 +61,7 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
             type = CellType.REUSE;
         }
         int price = object.optInt("price");
-        return new PluginModel(name, content, imageUrl, version, jartime, link, type, price, pluginId, searchCount);
+        return new PluginModel(name, content, imageUrl, version, jartime, link, pluginId, type, price, id, searchCount);
     }
 
     /**
@@ -137,7 +139,7 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
     }
 
     @Override
-    public SearchResult getMoreSearchResult() {
+    public SearchResult getMoreSearchResult(String searchText) {
         return this.moreModelList;
     }
 }

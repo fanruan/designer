@@ -3,9 +3,20 @@
  */
 package com.fr.design.form.layout;
 
+import com.fr.design.designer.beans.LayoutAdapter;
+import com.fr.design.designer.beans.adapters.layout.FRHorizontalLayoutAdapter;
+import com.fr.design.designer.beans.location.Direction;
+import com.fr.design.designer.creator.XCreator;
+import com.fr.design.designer.creator.XWHorizontalBoxLayout;
+import com.fr.design.designer.creator.XWidgetCreator;
+import com.fr.form.ui.Widget;
+import com.fr.form.ui.container.WHorizontalBoxLayout;
+
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.Insets;
+import java.awt.event.ContainerEvent;
 
 /**
  * @author richer
@@ -70,4 +81,29 @@ public class FRHorizontalLayout extends FRFlowLayout {
 		}
 		return total;
 	}
+
+	public void componentAdded(ContainerEvent e, WHorizontalBoxLayout wlayout){
+		XWidgetCreator creator = (XWidgetCreator) e.getChild();
+		Widget wgt = creator.toData();
+		wlayout.setWidthAtWidget(wgt, creator.getWidth());
+	}
+
+	public Dimension calculatePreferredSize(WHorizontalBoxLayout wlayout, Widget widget){
+		return new Dimension(wlayout.getWidthAtWidget(widget), 0);
+	}
+
+
+	public void setDirections(Component component){
+		XCreator creator = (XCreator) component;
+		creator.setDirections(new int[]{Direction.LEFT, Direction.RIGHT});
+	}
+
+	public LayoutAdapter getLayoutAdapter(XWHorizontalBoxLayout xwHorizontalBoxLayout){
+		return new FRHorizontalLayoutAdapter(xwHorizontalBoxLayout);
+	}
+
+	public void adjustComponents(Component component){
+
+	}
+
 }

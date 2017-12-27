@@ -29,6 +29,7 @@ import com.fr.form.ui.container.WAbsoluteBodyLayout;
 import com.fr.form.ui.container.WAbsoluteLayout;
 import com.fr.form.ui.container.WBodyLayoutType;
 import com.fr.form.ui.container.WFitLayout;
+import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 
@@ -144,7 +145,9 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
     @Override
     public WFitLayout updateBean() {
         WFitLayout layout = (WFitLayout) creator.toData();
-        paddingBound.update(layout);
+        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_Layout-Padding"))) {
+            paddingBound.update(layout);
+        }
         LayoutBorderStyle borderStyle =  (LayoutBorderStyle) stylePane.getValue();
         if(borderStyle != null){
             layout.setBorderStyle(borderStyle);

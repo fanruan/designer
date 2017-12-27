@@ -8,8 +8,7 @@ import java.awt.Dimension;
 import java.awt.event.ContainerEvent;
 
 import com.fr.design.designer.beans.LayoutAdapter;
-import com.fr.design.designer.beans.adapters.layout.FRHorizontalLayoutAdapter;
-import com.fr.design.designer.beans.location.Direction;
+import com.fr.design.form.layout.FRFlowLayout;
 import com.fr.design.form.layout.FRHorizontalLayout;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WHorizontalBoxLayout;
@@ -19,6 +18,16 @@ import com.fr.form.ui.container.WHorizontalBoxLayout;
  * @since 6.5.3
  */
 public class XWHorizontalBoxLayout extends XLayoutContainer {
+
+    public FRFlowLayout getFrFlowLayout() {
+        return frFlowLayout;
+    }
+
+    public void setFrFlowLayout(FRFlowLayout frFlowLayout) {
+        this.frFlowLayout = frFlowLayout;
+    }
+
+    private FRFlowLayout frFlowLayout ;
 
     public XWHorizontalBoxLayout(WHorizontalBoxLayout widget, Dimension initSize) {
         super(widget, initSize);
@@ -46,7 +55,8 @@ public class XWHorizontalBoxLayout extends XLayoutContainer {
 
     @Override
 	protected void initLayoutManager() {
-        this.setLayout(new FRHorizontalLayout(toData().getAlignment(), toData().getHgap(), toData().getVgap()));
+        this.frFlowLayout = new FRHorizontalLayout(toData().getAlignment(), toData().getHgap(), toData().getVgap());
+        this.setLayout(frFlowLayout);
     }
 
     @Override
@@ -60,7 +70,7 @@ public class XWHorizontalBoxLayout extends XLayoutContainer {
         for (int i = 0, count = this.getComponentCount(); i < count; i++) {
             if (creator == this.getComponent(i)) {
                 wlayout.addWidget(wgt, i);
-                wlayout.setWidthAtWidget(wgt, creator.getWidth());
+                frFlowLayout.componentAdded(e, wlayout);
             }
         }
         this.recalculateChildrenPreferredSize();
@@ -70,7 +80,7 @@ public class XWHorizontalBoxLayout extends XLayoutContainer {
     protected Dimension calculatePreferredSize(Widget wgt) {
         // 注意这里计算PreferredSize的时候需要取当前容器的实际大小
         // 高度是自适应的，直接就写成0了
-        return new Dimension(this.toData().getWidthAtWidget(wgt), 0);
+        return frFlowLayout.calculatePreferredSize(this.toData(), wgt);
     }
 
     // 在添加的时候需要把可拉伸的方向确定，所以重写了add方法
@@ -80,13 +90,12 @@ public class XWHorizontalBoxLayout extends XLayoutContainer {
         if (comp == null) {
             return null;
         }
-        XCreator creator = (XCreator) comp;
-        creator.setDirections(new int[]{Direction.LEFT, Direction.RIGHT});
+        frFlowLayout.setDirections(comp);
         return comp;
     }
 
 	@Override
 	public LayoutAdapter getLayoutAdapter() {
-		return new FRHorizontalLayoutAdapter(this);
+		return frFlowLayout.getLayoutAdapter(this);
 	}
 }

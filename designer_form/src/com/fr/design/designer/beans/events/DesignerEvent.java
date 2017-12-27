@@ -23,6 +23,8 @@ public class DesignerEvent {
 	
 	public static final int CREATOR_RENAMED = 8;
 
+	public static final int CREATOR_ORDER_CHANGED = 9;
+
 	private int eventID;
 	private XComponent affectedXCreator;
 
