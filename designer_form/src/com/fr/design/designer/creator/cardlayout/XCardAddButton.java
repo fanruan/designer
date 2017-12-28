@@ -1,6 +1,9 @@
 package com.fr.design.designer.creator.cardlayout;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 
 import javax.swing.Icon;
@@ -26,13 +29,11 @@ public class XCardAddButton extends XButton{
 	
 	private XWCardTagLayout tagLayout;
 	private XWCardLayout cardLayout;
-	private static final int LEFT_GAP = 5;
-	private static final int UP_GAP = 10;
 	
-	private static final int START_INDEX = 3;
-	private static final int INDEX = 0;
+
 	private static final int DEFAULT_BUTTON_WIDTH = 80;
-	
+	private static final int ICON_OFFSET = 8;
+
 	
 	private static Icon ADD_ICON = BaseUtils.readIcon("/com/fr/design/form/images/add.png");
 	private Icon addIcon = ADD_ICON;
@@ -106,7 +107,7 @@ public class XCardAddButton extends XButton{
 		FormHierarchyTreePane.getInstance().refreshRoot();
 		//将焦点切换到新增的tab对应的tabfitLayout上
 		showNewTab(editingMouseListener,index);
-		
+		tagLayout.setTabsAndAdjust();
 		LayoutUtils.layoutRootContainer(designer.getRootComponent());
     }
     
@@ -125,7 +126,9 @@ public class XCardAddButton extends XButton{
     }
     
 	private void drawAddIcon(Graphics2D g2d){
-		addIcon.paintIcon(this, g2d,LEFT_GAP,UP_GAP);
+		int width = this.getWidth();
+		int height = this.getHeight();
+		addIcon.paintIcon(this, g2d, width / 2 - ICON_OFFSET, height / 2 - ICON_OFFSET);
 	}
 	
 	//将原来的tab页设置为未选中状态
@@ -151,7 +154,6 @@ public class XCardAddButton extends XButton{
 		titleButton.setCustomStyle(true);
     	titleButton.setShowButton(true);
 		showButton.setBackupParent(tagLayout);
-
     	this.tagLayout.setCurrentCard(titleButton);
     	this.tagLayout.setTabFitIndex(index);
     	this.tagLayout.add(showButton);

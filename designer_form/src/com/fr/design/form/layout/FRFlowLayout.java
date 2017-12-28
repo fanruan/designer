@@ -1,10 +1,16 @@
 package com.fr.design.form.layout;
 
+import com.fr.design.designer.beans.LayoutAdapter;
+import com.fr.design.designer.creator.XWHorizontalBoxLayout;
+import com.fr.form.ui.Widget;
+import com.fr.form.ui.container.WHorizontalBoxLayout;
+
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.LayoutManager;
+import java.awt.event.ContainerEvent;
 
 public abstract class FRFlowLayout implements LayoutManager, FRLayoutManager, java.io.Serializable {
 
@@ -51,6 +57,24 @@ public abstract class FRFlowLayout implements LayoutManager, FRLayoutManager, ja
 	protected abstract int reSizeComponents(Container target, Insets insets);
 
 	protected abstract void moveComponents(Container target, Insets insets, int total);
+
+	public void componentAdded(ContainerEvent e, WHorizontalBoxLayout wlayout){
+
+	}
+
+	public Dimension calculatePreferredSize(WHorizontalBoxLayout wlayout, Widget widget){
+			return new Dimension();
+	}
+
+	public void setDirections(Component component){
+
+	}
+
+	public abstract LayoutAdapter getLayoutAdapter(XWHorizontalBoxLayout xwHorizontalBoxLayout) ;
+
+	public void adjustComponents(Component component){
+
+	}
 
 	@Override
 	public void addLayoutComponent(String name, Component comp) {

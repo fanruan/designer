@@ -1,53 +1,48 @@
 package com.fr.design.mainframe.alphafine.cell.model;
 
+import com.fr.base.FRContext;
+import com.fr.design.extra.WebViewDlgHelper;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.CellType;
+import com.fr.env.RemoteEnv;
 import com.fr.general.FRLogger;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
-
-import java.awt.*;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
+import com.fr.stable.StringUtils;
 
 /**
  * Created by XiaXiang on 2017/4/20.
  */
 public class PluginModel extends AlphaCellModel {
-    private static final String PLUGIN_INFORMATION_URL = "http://shop.finereport.com/ShopServer?pg=plugin&pid=";
-    private static final String REUSE_INFORMATION_URL = "http://shop.finereport.com/reuses/";
-    private String pluginUrl;
     private String imageUrl;
     private String version;
     private String jartime;
     private String link;
     private String informationUrl;
-    private int pluginId;
+    private String pluginId;
+    private int id;
     private int price;
 
-    public PluginModel(String name, String content, String imageUrl, String version, String jartime, String link, CellType type, int price, int pluginId, int serchCount) {
-        this(name, content, imageUrl, version, jartime, link, type, price, pluginId);
+    public PluginModel(String name, String content, String imageUrl, String version, String jartime, String link, String pluginId, CellType type, int price, int id, int serchCount) {
+        this(name, content, imageUrl, version, jartime, link, pluginId, type, price, id);
         setSearchCount(serchCount);
     }
 
-    public PluginModel(String name, String content, String imageUrl, String version, String jartime, String link, CellType type, int price, int pluginId) {
+    public PluginModel(String name, String content, String imageUrl, String version, String jartime, String link, String pluginId, CellType type, int price, int id) {
         super(name, content);
         this.link = link;
         setType(type);
-        this.pluginId = pluginId;
-        if (getType() == CellType.PLUGIN) {
-            this.pluginUrl = AlphaFineConstants.PLUGIN_URL + pluginId;
-            this.informationUrl = PLUGIN_INFORMATION_URL + this.pluginId;
-        } else {
-            this.pluginUrl = AlphaFineConstants.REUSE_URL + pluginId;
-            this.informationUrl = REUSE_INFORMATION_URL + this.pluginId;
-
-        }
+        this.id = id;
         this.imageUrl = imageUrl;
         this.jartime = jartime;
         this.version = version;
         this.price = price;
+        this.pluginId = pluginId;
+        if (getType() == CellType.PLUGIN) {
+            this.informationUrl = AlphaFineConstants.PLUGIN_URL + id;
+        } else {
+            this.informationUrl = AlphaFineConstants.REUSE_URL + id;
+        }
     }
 
     public String getImageUrl() {
@@ -56,14 +51,6 @@ public class PluginModel extends AlphaCellModel {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
-    }
-
-    public String getPluginUrl() {
-        return pluginUrl;
-    }
-
-    public void setPluginUrl(String pluginUrl) {
-        this.pluginUrl = pluginUrl;
     }
 
     public String getVersion() {
@@ -103,7 +90,7 @@ public class PluginModel extends AlphaCellModel {
         JSONObject object = JSONObject.create();
         try {
             JSONObject modelObject = JSONObject.create();
-            modelObject.put("name", getName()).put("description", getContent()).put("pic", getImageUrl()).put("version", getVersion()).put("jartime", getJartime()).put("type", getType().getTypeValue()).put("price", getPrice()).put("id", getPluginId()).put("link", getLink()).put("searchCount", getSearchCount());
+            modelObject.put("name", getName()).put("description", getContent()).put("pic", getImageUrl()).put("version", getVersion()).put("jartime", getJartime()).put("id", getId()).put("pluginid", getPluginId()).put("type", getType().getTypeValue()).put("price", getPrice()).put("link", getLink()).put("searchCount", getSearchCount());
             object.put("result", modelObject).put("cellType", getType().getTypeValue());
         } catch (JSONException e) {
             FRLogger.getLogger().error(e.getMessage());
@@ -119,15 +106,11 @@ public class PluginModel extends AlphaCellModel {
 
     @Override
     public void doAction() {
-        try {
-            Desktop.getDesktop().browse(new URI(getPluginUrl()));
-        } catch (IOException e) {
-            FRLogger.getLogger().error(e.getMessage());
-        } catch (URISyntaxException e) {
-            FRLogger.getLogger().error(e.getMessage());
+        if (StringUtils.isBlank(this.pluginId) || FRContext.getCurrentEnv() instanceof RemoteEnv) {
+            return;
         }
+        WebViewDlgHelper.showPluginInStore(getName(), "[" + ModelToJson().optString("result") + "]");
     }
-
 
     @Override
     public boolean equals(Object o) {
@@ -139,21 +122,21 @@ public class PluginModel extends AlphaCellModel {
         }
         PluginModel that = (PluginModel) o;
 
-        return pluginUrl != null ? pluginUrl.equals(that.pluginUrl) : that.pluginUrl == null;
+        return pluginId != null ? pluginId.equals(that.pluginId) : that.pluginId == null;
     }
 
     @Override
     public int hashCode() {
-        return pluginUrl != null ? pluginUrl.hashCode() : 0;
+        return pluginId != null ? pluginId.hashCode() : 0;
     }
 
 
-    public int getPluginId() {
-        return pluginId;
+    public int getId() {
+        return id;
     }
 
-    public void setPluginId(int pluginId) {
-        this.pluginId = pluginId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getInformationUrl() {
@@ -162,5 +145,13 @@ public class PluginModel extends AlphaCellModel {
 
     public void setInformationUrl(String informationUrl) {
         this.informationUrl = informationUrl;
+    }
+
+    public String getPluginId() {
+        return pluginId;
+    }
+
+    public void setPluginId(String pluginId) {
+        this.pluginId = pluginId;
     }
 }

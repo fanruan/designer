@@ -1,4 +1,4 @@
-package com.fr.design.mainframe.alphafine.search.manager;
+package com.fr.design.mainframe.alphafine.search.manager.impl;
 
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
@@ -8,6 +8,7 @@ import com.fr.design.mainframe.alphafine.cell.model.ActionModel;
 import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
+import com.fr.design.mainframe.alphafine.search.manager.fun.AlphaFineSearchProvider;
 import com.fr.design.mainframe.toolbar.UpdateActionManager;
 import com.fr.design.mainframe.toolbar.UpdateActionModel;
 import com.fr.general.ComparatorUtils;
@@ -20,13 +21,13 @@ import java.util.List;
 /**
  * Created by XiaXiang on 2017/3/27.
  */
-public class ActionSearchManager implements AlphaFineSearchProcessor {
+public class ActionSearchManager implements AlphaFineSearchProvider {
     private static ActionSearchManager actionSearchManager = null;
     private SearchResult filterModelList;
     private SearchResult lessModelList;
     private SearchResult moreModelList;
 
-    public synchronized static ActionSearchManager getActionSearchManager() {
+    public synchronized static ActionSearchManager getInstance() {
         if (actionSearchManager == null) {
             actionSearchManager = new ActionSearchManager();
         }
@@ -63,6 +64,7 @@ public class ActionSearchManager implements AlphaFineSearchProcessor {
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainAction()) {
             List<UpdateActionModel> updateActions = UpdateActionManager.getUpdateActionManager().getUpdateActions();
             for (UpdateActionModel updateActionModel : updateActions) {
+                AlphaFineHelper.checkCancel();
                 if (StringUtils.isNotBlank(updateActionModel.getSearchKey())) {
                     if (updateActionModel.getSearchKey().contains(searchText) && updateActionModel.getAction().isEnabled()) {
                         filterModelList.add(new ActionModel(updateActionModel.getActionName(), updateActionModel.getParentName(), updateActionModel.getAction()));
@@ -91,7 +93,7 @@ public class ActionSearchManager implements AlphaFineSearchProcessor {
     }
 
     @Override
-    public SearchResult getMoreSearchResult() {
+    public SearchResult getMoreSearchResult(String searchText) {
         return moreModelList;
     }
 }

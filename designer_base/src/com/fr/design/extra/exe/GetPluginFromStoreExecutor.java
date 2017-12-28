@@ -20,11 +20,20 @@ public class GetPluginFromStoreExecutor implements Executor {
     private String category;
     private String seller;
     private String fee;
+    private String scope;
 
-    public GetPluginFromStoreExecutor(String category, String seller, String fee) {
+    public GetPluginFromStoreExecutor(JSONObject info) {
+        this.category = info.optString("category");
+        this.fee = info.optString("fee");
+        this.seller = info.optString("seller");
+        this.scope = info.optString("scope");
+    }
+
+    public GetPluginFromStoreExecutor(String category, String seller, String fee, String scope) {
         this.category = category;
         this.seller = seller;
         this.fee = fee;
+        this.scope = scope;
     }
 
     @Override
@@ -44,7 +53,7 @@ public class GetPluginFromStoreExecutor implements Executor {
                     @Override
                     public void run(Process<String> process) {
                         String plistUrl = SiteCenter.getInstance().acquireUrlByKind("shop.plugin.plist") + "?";
-                        boolean getRecommend = StringUtils.isEmpty(category) && StringUtils.isEmpty(seller) && StringUtils.isEmpty(fee);
+                        boolean getRecommend = StringUtils.isEmpty(category) && StringUtils.isEmpty(seller) && StringUtils.isEmpty(fee) && StringUtils.isEmpty(scope);
                         if (getRecommend) {
                             result = PluginOperateUtils.getRecommendPlugins();
                             return;
@@ -53,7 +62,7 @@ public class GetPluginFromStoreExecutor implements Executor {
                         if (StringUtils.isNotBlank(plistUrl)) {
                             StringBuilder url = new StringBuilder();
                             url.append(plistUrl);
-                            PluginOperateUtils.dealParams(url, category, seller, fee);
+                            PluginOperateUtils.dealParams(url, category, seller, fee, scope);
                             try {
                                 HttpClient httpClient = new HttpClient(url.toString());
                                 httpClient.asGet();
@@ -66,7 +75,7 @@ public class GetPluginFromStoreExecutor implements Executor {
                                 FRLogger.getLogger().error(e.getMessage());
                             }
                         } else {
-                             result = PluginConstants.CONNECTION_404;
+                            result = PluginConstants.CONNECTION_404;
                         }
                     }
                 }

@@ -11,11 +11,13 @@ import com.fr.design.designer.beans.models.SelectionModel;
 import com.fr.design.designer.beans.models.StateModel;
 import com.fr.design.designer.creator.*;
 import com.fr.design.designer.creator.cardlayout.XCardSwitchButton;
+import com.fr.design.designer.creator.cardlayout.XWCardLayout;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.xpane.ToolTipEditor;
 import com.fr.design.icon.IconPathConstants;
 import com.fr.design.utils.ComponentUtils;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.general.Inter;
 import com.fr.stable.Constants;
@@ -489,7 +491,16 @@ public class EditingMouseListener extends MouseInputAdapter {
         return false;
     }
 
-    private XCreator processTopLayoutMouseClick(XCreator creator) {
+    // 点击控件树，会触发此方法。如果在设计器中选中组件，则直接走 processTopLayoutMouseClick
+    public void stopEditTopLayout(XCreator creator) {
+        boolean isTabpaneSelected = creator instanceof XWCardLayout && creator.getParent().equals(clickTopLayout);
+        if (clickTopLayout != null && (isTabpaneSelected || clickTopLayout.equals(creator))) {
+            clickTopLayout.setEditable(false);
+        }
+        processTopLayoutMouseClick(creator);
+    }
+
+    public XCreator processTopLayoutMouseClick(XCreator creator) {
         XLayoutContainer topLayout = XCreatorUtils.getHotspotContainer(creator).getTopLayout();
         if (topLayout != null) {
             if (clickTopLayout != null && !clickTopLayout.equals(topLayout) && !isCreatorInLayout(clickTopLayout,
@@ -518,8 +529,9 @@ public class EditingMouseListener extends MouseInputAdapter {
      */
     public void mouseClicked(MouseEvent e) {
         XCreator creator = designer.getComponentAt(e);
+        boolean isValidButton = e.getButton() == MouseEvent.BUTTON1 || e.getButton() == MouseEvent.BUTTON3;
 
-        if (e.getButton() != MouseEvent.BUTTON1 && !creator.acceptType(XCardSwitchButton.class)) {
+        if (!isValidButton && !creator.acceptType(XCardSwitchButton.class)) {
             return;
         }
 
@@ -527,6 +539,12 @@ public class EditingMouseListener extends MouseInputAdapter {
 
         if (creator != null) {
             creator.respondClick(this, e);
+            if (e.getButton() == MouseEvent.BUTTON3) {
+                JPopupMenu cellPopupMenu = creator.createPopupMenu(designer);
+                if (cellPopupMenu != null) {
+                    GUICoreUtils.showPopupMenu(cellPopupMenu, designer, e.getX(), e.getY());
+                }
+            }
         }
         creator.doLayout();
         LayoutUtils.layoutRootContainer(designer.getRootComponent());
@@ -589,6 +607,7 @@ public class EditingMouseListener extends MouseInputAdapter {
             }
             designer.invalidate();
             designer.repaint();
+            currentXCreator.stopEditing();
             currentXCreator = null;
             currentEditor = null;
             return true;

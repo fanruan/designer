@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 
+import com.fr.design.designer.creator.cardlayout.XWCardTagLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.design.designer.beans.ConstraintsGroupModel;
 import com.fr.design.designer.beans.HoverPainter;
@@ -35,6 +36,9 @@ public class FRBorderLayoutAdapter extends AbstractLayoutAdapter {
      * @param creator 组件
      */
     public void fix(XCreator creator) {
+        if(creator.acceptType(XWCardTagLayout.class)){
+            creator = (XCreator) creator.getParent();
+        }
         FRBorderLayout layout = (FRBorderLayout)container.getFRLayout();
         Object constraints = layout.getConstraints(creator);
         if (ComparatorUtils.equals(constraints, BorderLayout.NORTH)) {

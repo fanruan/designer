@@ -8,6 +8,7 @@ import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.designer.creator.XWFitLayout;
 import com.fr.design.designer.creator.XWParameterLayout;
 import com.fr.design.designer.creator.cardlayout.XWCardLayout;
+import com.fr.design.designer.creator.cardlayout.XWCardTagLayout;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -44,6 +45,9 @@ public class WidgetBoundPane extends BasicPane {
     }
 
     public XLayoutContainer getParent(XCreator source) {
+        if(source.acceptType(XWCardTagLayout.class)){
+            return (XLayoutContainer)source.getParent();
+        }
         XLayoutContainer container = XCreatorUtils.getParentXLayoutContainer(source);
         if (source.acceptType(XWFitLayout.class) || source.acceptType(XWParameterLayout.class)) {
             container = null;
@@ -122,7 +126,6 @@ public class WidgetBoundPane extends BasicPane {
             difference = bounds.width - w;
             bounds.width = w;
         }
-        width.setValue(bounds.width);
         wabs.setBounds(creator.toData(), bounds);
         adjustComponents(bounds, difference, 0);
     }
@@ -144,7 +147,6 @@ public class WidgetBoundPane extends BasicPane {
             difference = bounds.height - h;
             bounds.height = h;
         }
-        height.setValue(bounds.height);
         wabs.setBounds(creator.toData(), bounds);
         adjustComponents(bounds, difference, 1);
     }

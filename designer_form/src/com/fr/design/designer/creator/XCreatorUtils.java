@@ -237,6 +237,9 @@ public class XCreatorUtils {
 		Container c = creator.getParent();
 		while (c != null) {
 			XCreator crea = (XCreator) c;
+			if(crea.acceptType(XWCardTitleLayout.class)){
+			    return (XLayoutContainer) c.getParent();
+            }
 			if (crea.isDedicateContainer()) {
 				return (XLayoutContainer) c.getParent();
 			} 

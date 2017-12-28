@@ -72,8 +72,8 @@ public class UIMenuUI extends BasicMenuUI {
             }
         } else {
             // *** paint the text normally
-            if (model.isArmed() || (menuItem instanceof JMenu && model.isSelected())) {
-                g.setColor(selectionForeground); // Uses protected field.
+            if (model.isArmed() || (menuItem instanceof JMenu && menuItem.isSelected() && menuItem.getIcon() != null)) {
+                g.setColor(Color.WHITE); // Uses protected field.
             }
             SwingUtilities2.drawStringUnderlineCharAt(menuItem, g, text,
                     mnemIndex, textRect.x, textRect.y + fm.getAscent());

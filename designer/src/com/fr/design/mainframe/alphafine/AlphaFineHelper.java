@@ -7,8 +7,8 @@ import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
 import com.fr.design.mainframe.alphafine.cell.model.NoResultModel;
 import com.fr.design.mainframe.alphafine.component.AlphaFineDialog;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
-import com.fr.design.mainframe.alphafine.search.manager.RecentSearchManager;
-import com.fr.design.mainframe.alphafine.search.manager.RecommendSearchManager;
+import com.fr.design.mainframe.alphafine.search.manager.impl.RecentSearchManager;
+import com.fr.design.mainframe.alphafine.search.manager.impl.RecommendSearchManager;
 import com.fr.general.Inter;
 import com.fr.general.ProcessCanceledException;
 import com.fr.stable.StringUtils;
@@ -89,8 +89,8 @@ public class AlphaFineHelper {
     }
 
     public static List<AlphaCellModel> getFilterResult() {
-        List<AlphaCellModel> recentList = RecentSearchManager.getRecentSearchManger().getRecentModelList();
-        List<AlphaCellModel> recommendList = RecommendSearchManager.getRecommendSearchManager().getRecommendModelList();
+        List<AlphaCellModel> recentList = RecentSearchManager.getInstance().getRecentModelList();
+        List<AlphaCellModel> recommendList = RecommendSearchManager.getInstance().getRecommendModelList();
         SearchResult filterResult = new SearchResult();
         filterResult.addAll(recentList);
         filterResult.addAll(recommendList);

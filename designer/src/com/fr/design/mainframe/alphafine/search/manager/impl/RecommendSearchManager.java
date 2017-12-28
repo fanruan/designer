@@ -1,4 +1,4 @@
-package com.fr.design.mainframe.alphafine.search.manager;
+package com.fr.design.mainframe.alphafine.search.manager.impl;
 
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
@@ -9,6 +9,7 @@ import com.fr.design.mainframe.alphafine.cell.model.ActionModel;
 import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
+import com.fr.design.mainframe.alphafine.search.manager.fun.AlphaFineSearchProvider;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.general.http.HttpClient;
@@ -24,12 +25,12 @@ import java.util.List;
 /**
  * Created by XiaXiang on 2017/3/31.
  */
-public class RecommendSearchManager implements AlphaFineSearchProcessor {
+public class RecommendSearchManager implements AlphaFineSearchProvider {
     private static RecommendSearchManager recommendSearchManager = null;
     private SearchResult modelList;
     private SearchResult recommendModelList;
 
-    public synchronized static RecommendSearchManager getRecommendSearchManager() {
+    public synchronized static RecommendSearchManager getInstance() {
         if (recommendSearchManager == null) {
             recommendSearchManager = new RecommendSearchManager();
         }
@@ -48,7 +49,7 @@ public class RecommendSearchManager implements AlphaFineSearchProcessor {
             if (!httpClient.isServerAlive()) {
                 return getNoConnectList();
             }
-            httpClient.setTimeout(5000);
+            httpClient.setTimeout(3000);
             result = httpClient.getResponseText();
             AlphaFineHelper.checkCancel();
             try {
@@ -90,7 +91,7 @@ public class RecommendSearchManager implements AlphaFineSearchProcessor {
      * @return
      */
     private boolean alreadyContain(AlphaCellModel cellModel) {
-        return RecentSearchManager.getRecentSearchManger().getRecentModelList().contains(cellModel) || this.recommendModelList.contains(cellModel);
+        return RecentSearchManager.getInstance().getRecentModelList().contains(cellModel) || this.recommendModelList.contains(cellModel);
     }
 
     private SearchResult getNoConnectList() {
@@ -101,7 +102,7 @@ public class RecommendSearchManager implements AlphaFineSearchProcessor {
     }
 
     @Override
-    public SearchResult getMoreSearchResult() {
+    public SearchResult getMoreSearchResult(String searchText) {
         return new SearchResult();
     }
 
