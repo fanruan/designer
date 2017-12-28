@@ -59,6 +59,7 @@ import com.fr.plugin.observer.PluginEvent;
 import com.fr.plugin.observer.PluginEventListener;
 import com.fr.plugin.observer.PluginEventType;
 import com.fr.stable.ArrayUtils;
+import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
@@ -316,23 +317,26 @@ public abstract class ToolBarMenuDock {
     }
 
     public MenuDef createFileMenuDef(ToolBarMenuDockPlus plus) {
-        boolean notVcs = !DesignerMode.isVcsMode();
-        MenuDef menuDef = new MenuDef(Inter.getLocText("FR-Designer_File"), 'F');
 
+        if (DesignerMode.isVcsMode()) {
+            MenuDef menuDef = VcsScene.createFileMenuDef(plus);
+            insertMenu(menuDef, MenuHandler.FILE);
+            return menuDef;
+        }
+        MenuDef menuDef = new MenuDef(Inter.getLocText("FR-Designer_File"), 'F');
         ShortCut[] scs = new ShortCut[0];
-        if (!BaseUtils.isAuthorityEditing() && notVcs) {
+        if (!BaseUtils.isAuthorityEditing()) {
             scs = createNewFileShortCuts();
         }
         if (!ArrayUtils.isEmpty(scs)) {
             menuDef.addShortCut(scs);
         }
 
-        if (notVcs) {
-            menuDef.addShortCut(openTemplateAction());
-            menuDef.addShortCut(new OpenRecentReportMenuDef());
-            addCloseCurrentTemplateAction(menuDef);
-        }
+        menuDef.addShortCut(openTemplateAction());
 
+        menuDef.addShortCut(new OpenRecentReportMenuDef());
+
+        addCloseCurrentTemplateAction(menuDef);
 
         scs = plus.shortcut4FileMenu();
         if (!ArrayUtils.isEmpty(scs)) {
@@ -343,9 +347,8 @@ public abstract class ToolBarMenuDock {
 
         addPreferenceAction(menuDef);
 
-        if (notVcs) {
-            addSwitchExistEnvAction(menuDef);
-        }
+        addSwitchExistEnvAction(menuDef);
+
         menuDef.addShortCut(new ExitDesignerAction());
 
         insertMenu(menuDef, MenuHandler.FILE);
@@ -577,7 +580,22 @@ public abstract class ToolBarMenuDock {
     }
 
     public NewTemplatePane getNewTemplatePane() {
-        return ToolBarNewTemplatePane.getInstance();
+        return new NewTemplatePane() {
+            @Override
+            public Icon getNew() {
+                return BaseUtils.readIcon("/com/fr/design/images/buttonicon/addicon.png");
+            }
+
+            @Override
+            public Icon getMouseOverNew() {
+                return BaseUtils.readIcon("/com/fr/design/images/buttonicon/add_press.png");
+            }
+
+            @Override
+            public Icon getMousePressNew() {
+                return BaseUtils.readIcon("/com/fr/design/images/buttonicon/add_press.png");
+            }
+        };
     }
 
     protected void insertMenu(MenuDef menuDef, String anchor) {
