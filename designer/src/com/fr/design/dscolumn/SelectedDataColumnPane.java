@@ -261,7 +261,7 @@ public class SelectedDataColumnPane extends BasicPane {
 
     protected void initTableNameComboBox() {
         tableNameComboBox = new TableDataComboBox(DesignTableDataManager.getEditingTableDataSource());
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        final ExecutorService executorService = Executors.newSingleThreadExecutor();
         tableNameComboBox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
