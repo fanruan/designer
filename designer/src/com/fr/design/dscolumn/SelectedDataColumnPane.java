@@ -26,6 +26,7 @@ import com.fr.report.cell.cellattr.core.group.DSColumn;
 import com.fr.stable.ParameterProvider;
 import com.fr.stable.StringUtils;
 
+import javax.swing.SwingWorker;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
@@ -262,7 +263,17 @@ public class SelectedDataColumnPane extends BasicPane {
         tableNameComboBox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                columnNameComboBox.setLoaded(false);
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    new SwingWorker<Void, Void>() {
+
+                        @Override
+                        protected Void doInBackground() throws Exception {
+                            columnNameComboBox.loadInstant();
+                            return null;
+                        }
+
+                    }.execute();
+                }
             }
         });
         tableNameComboBox.setPreferredSize(new Dimension(100, 20));
