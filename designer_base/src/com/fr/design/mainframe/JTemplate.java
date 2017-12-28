@@ -3,6 +3,7 @@ package com.fr.design.mainframe;
 import com.fr.base.*;
 import com.fr.base.io.IOFile;
 import com.fr.base.iofileattr.TemplateIdAttrMark;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignState;
 import com.fr.design.DesignerEnvManager;
@@ -29,6 +30,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.templateinfo.TemplateInfoCollector;
 import com.fr.design.mainframe.templateinfo.TemplateProcessInfo;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
+import com.fr.design.mainframe.toolbar.VcsScene;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.NameSeparator;
 import com.fr.design.menu.ShortCut;
@@ -682,7 +684,9 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
      * @return 返回菜单
      */
     public ShortCut[] shortcut4FileMenu() {
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isVcsMode()) {
+            return VcsScene.shortcut4FileMenu(this);
+        } else if (BaseUtils.isAuthorityEditing()) {
             return new ShortCut[]{new SaveTemplateAction(this), new UndoAction(this), new RedoAction(this)};
         } else {
             return new ShortCut[]{new SaveTemplateAction(this), new SaveAsTemplateAction(this), new UndoAction(this), new RedoAction(this)};
