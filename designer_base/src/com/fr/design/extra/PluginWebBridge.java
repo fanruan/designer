@@ -339,9 +339,25 @@ public class PluginWebBridge {
      * @param callback 回调函数
      */
     public void getPluginFromStore(String category, String seller, String fee, final JSObject callback) {
-        Task<Void> task = new PluginTask<>(webEngine, callback, new GetPluginFromStoreExecutor(category, seller, fee));
+        Task<Void> task = new PluginTask<>(webEngine, callback, new GetPluginFromStoreExecutor(category, seller, fee, ""));
         threadPoolExecutor.submit(task);
     }
+
+    /**
+     * 根据条件获取在线插件
+     *
+     * @param info     插件信息
+     * @param callback 回调函数
+     */
+    public void getPluginFromStoreNew(String info, final JSObject callback) {
+        try {
+            Task<Void> task = new PluginTask<>(webEngine, callback, new GetPluginFromStoreExecutor(new JSONObject(info)));
+            threadPoolExecutor.submit(task);
+        } catch (JSONException e) {
+            FRLogger.getLogger().error(e.getMessage());
+        }
+    }
+
 
     public void getPluginPrefix(final JSObject callback) {
         Task<Void> task = new PluginTask<>(webEngine, callback, new GetPluginPrefixExecutor());
