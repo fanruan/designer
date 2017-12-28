@@ -30,6 +30,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.templateinfo.TemplateInfoCollector;
 import com.fr.design.mainframe.templateinfo.TemplateProcessInfo;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
+import com.fr.design.mainframe.toolbar.VcsScene;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.NameSeparator;
 import com.fr.design.menu.ShortCut;
@@ -683,10 +684,10 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
      * @return 返回菜单
      */
     public ShortCut[] shortcut4FileMenu() {
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isVcsMode()) {
+            return VcsScene.shortcut4FileMenu(this);
+        } else if (BaseUtils.isAuthorityEditing()) {
             return new ShortCut[]{new SaveTemplateAction(this), new UndoAction(this), new RedoAction(this)};
-        } else if (DesignerMode.isVcsMode()) {
-            return new ShortCut[]{new UndoAction(this), new RedoAction(this)};
         } else {
             return new ShortCut[]{new SaveTemplateAction(this), new SaveAsTemplateAction(this), new UndoAction(this), new RedoAction(this)};
         }

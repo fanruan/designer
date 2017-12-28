@@ -1,8 +1,11 @@
 package com.fr.design.mainframe.toolbar;
 
 import com.fr.base.BaseUtils;
+import com.fr.design.actions.edit.RedoAction;
+import com.fr.design.actions.edit.UndoAction;
 import com.fr.design.actions.file.ExitDesignerAction;
 import com.fr.design.actions.file.PreferenceAction;
+import com.fr.design.mainframe.JTemplate;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
 import com.fr.design.menu.ShortCut;
@@ -35,5 +38,9 @@ public class VcsScene {
 
         menuDef.addShortCut(new ExitDesignerAction());
         return menuDef;
+    }
+
+    public  static ShortCut[] shortcut4FileMenu(JTemplate jTemplate) {
+        return new ShortCut[]{new UndoAction(jTemplate), new RedoAction(jTemplate)};
     }
 }
