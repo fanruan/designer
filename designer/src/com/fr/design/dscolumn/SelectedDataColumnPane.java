@@ -26,7 +26,6 @@ import com.fr.report.cell.cellattr.core.group.DSColumn;
 import com.fr.stable.ParameterProvider;
 import com.fr.stable.StringUtils;
 
-import javax.swing.SwingWorker;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
@@ -38,6 +37,8 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.regex.Pattern;
 
 /**
@@ -260,19 +261,19 @@ public class SelectedDataColumnPane extends BasicPane {
 
     protected void initTableNameComboBox() {
         tableNameComboBox = new TableDataComboBox(DesignTableDataManager.getEditingTableDataSource());
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
         tableNameComboBox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
-                    new SwingWorker<Void, Void>() {
-
+                    executorService.execute(new Runnable() {
                         @Override
-                        protected Void doInBackground() throws Exception {
-                            columnNameComboBox.loadInstant();
-                            return null;
+                        public void run() {
+                            synchronized (columnNameComboBox) {
+                                columnNameComboBox.loadInstant();
+                            }
                         }
-
-                    }.execute();
+                    });
                 }
             }
         });
