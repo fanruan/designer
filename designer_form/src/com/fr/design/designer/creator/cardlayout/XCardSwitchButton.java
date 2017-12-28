@@ -4,6 +4,7 @@
 package com.fr.design.designer.creator.cardlayout;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.GraphHelper;
 import com.fr.base.background.ColorBackground;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
@@ -29,19 +30,24 @@ import com.fr.general.Background;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
 import com.fr.general.Inter;
+import com.fr.stable.unit.PT;
 
 import javax.swing.Action;
 import javax.swing.Icon;
+import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
+import javax.swing.plaf.basic.BasicLabelUI;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 /**
  *
@@ -72,6 +78,11 @@ public class XCardSwitchButton extends XButton {
 
 	// tab按钮里的字体因为按钮内部的布局看起来比正常的要小，加个调整量
 	private static final int FONT_SIZE_ADJUST = 2;
+
+	//文字竖排时用来计算文字大小
+	private static final int RESLUTION = 120;
+
+	private static final int DOTSLINESPACE = 6;
 
 	private XWCardLayout cardLayout;
 	private XWCardTagLayout tagLayout;
@@ -124,7 +135,6 @@ public class XCardSwitchButton extends XButton {
 
 	public XCardSwitchButton(CardSwitchButton widget, Dimension initSize) {
 		super(widget, initSize);
-
 	}
 
 	public XCardSwitchButton(CardSwitchButton widget, Dimension initSize,
@@ -340,31 +350,18 @@ public class XCardSwitchButton extends XButton {
 	private void drawTitle() {
 		CardSwitchButton button = (CardSwitchButton) this.toData();
 		String titleText = button.getText();
-		if(tagLayout != null){
-			WCardTagLayout wCardTagLayout = (WCardTagLayout) tagLayout.toData();
-			StringBuilder titleString = new StringBuilder();
-			//竖向处理
-			if(ComparatorUtils.equals(wCardTagLayout.getTextDirection(), WTabTextDirection.TEXT_VER_DIRECTION)){
-				titleString.append("<html>");
-				for(int i = 0; i < titleText.length(); i++){
-					titleString.append(titleText.charAt(i)).append("<br/>");
-				}
-				titleString.append("</html>");
-				titleText = titleString.toString();
-			}
-		}
 
 		this.setButtonText(titleText);
 		if (this.cardLayout == null) {
 			initRelateLayout(this);
 		}
 
-		LayoutBorderStyle style = this.cardLayout.toData().getBorderStyle();
+        LayoutBorderStyle style = this.cardLayout.toData().getBorderStyle();
 
-		// 标题部分
-		WidgetTitle title = style.getTitle();
-		FRFont font = title.getFrFont();
-		FRFont newFont = FRFont.getInstance(font.getName(),font.getStyle(),font.getSize() + FONT_SIZE_ADJUST);
+        // 标题部分
+        WidgetTitle title = style.getTitle();
+        FRFont font = title.getFrFont();
+        FRFont newFont = FRFont.getInstance(font.getName(),font.getStyle(),font.getSize() + FONT_SIZE_ADJUST);
 		UILabel label = this.getContentLabel();
 		label.setFont(newFont);
 		label.setForeground(font.getForeground());
@@ -435,5 +432,78 @@ public class XCardSwitchButton extends XButton {
 		super.firePropertyChange();
 		tagLayout.setTabsAndAdjust();
 		repaint();
+	}
+
+    @Override
+    protected UILabel initContentLabel() {
+        return  new CardSwitchBtnLabel();
+    }
+
+	public class CardSwitchBtnLabel extends UILabel{
+		public CardSwitchBtnLabel(){
+            updateUI();
+		}
+        @Override
+        public void updateUI() {
+            setUI(new CardSwitchBtnLabelUI());
+        }
+	}
+
+
+    public class CardSwitchBtnLabelUI extends BasicLabelUI{
+
+        @Override
+        public void paint(Graphics g, JComponent c)
+        {
+            Graphics2D g2d = (Graphics2D)g;
+            CardSwitchButton button = (CardSwitchButton) XCardSwitchButton.this.toData();
+            int width = XCardSwitchButton.this.getWidth();
+            int height= XCardSwitchButton.this.getHeight();
+            String titleText = button.getText();
+            LayoutBorderStyle style = cardLayout.toData().getBorderStyle();
+            WidgetTitle title = style.getTitle();
+            FRFont font = title.getFrFont();
+            FRFont newFont = FRFont.getInstance(font.getName(),font.getStyle(),font.getSize() + FONT_SIZE_ADJUST);
+            FontMetrics fm = GraphHelper.getFontMetrics(newFont);
+
+            WCardTagLayout wCardTagLayout = (WCardTagLayout) tagLayout.toData();
+            StringBuilder titleStringBuf = new StringBuilder();
+            //竖向处理
+            if(ComparatorUtils.equals(wCardTagLayout.getTextDirection(), WTabTextDirection.TEXT_VER_DIRECTION)){
+                java.util.List verticalTextList = new ArrayList();
+                for (int i = 0; i < titleText.length(); i++) {
+                    titleStringBuf.append(titleText.charAt(i));
+                    verticalTextList.add(titleStringBuf.substring(0,  titleStringBuf.length()));
+                    titleStringBuf.delete(0, titleStringBuf.length());
+                }
+                int textAscent = fm.getAscent();
+                int textHeight = fm.getHeight();
+                int textY = 0;
+                textY += textAscent;
+                for (int i = 0; i < verticalTextList.size(); i++) {
+                    String paint_str = (String) verticalTextList.get(i);
+
+                    GraphHelper.drawString(g2d, paint_str, (width - fm.stringWidth(paint_str)) / 2, textY);
+                    textY += textHeight;
+                    textY += PT.pt2pix(0, RESLUTION);
+                    if (textY  > height - textHeight && i < verticalTextList.size()-1) {
+                        textY -= 10;
+                        paintDots(g2d, textY, (width - fm.stringWidth(paint_str)) / 2);
+                        break;
+                    }
+                }
+            }else{
+                super.paint(g, c);
+            }
+        }
+
+        public void paintDots(Graphics2D g2d, int startY, int startX){
+            for (int i = 0; i < 3; i++) {
+                String paint_str = ".";
+                GraphHelper.drawString(g2d, paint_str, startX, startY);
+                startY += DOTSLINESPACE;//
+                startY += PT.pt2pix(0, RESLUTION);
+            }
+        }
 	}
 }

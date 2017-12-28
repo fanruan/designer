@@ -3,6 +3,8 @@ package com.fr.design.widget.ui.designer.component;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.creator.XCreator;
+import com.fr.design.designer.creator.XLayoutContainer;
+import com.fr.design.designer.creator.cardlayout.XWCardMainBorderLayout;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.WidgetPropertyPane;
@@ -12,6 +14,7 @@ import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 
+import javax.swing.JOptionPane;
 import java.awt.Rectangle;
 
 /**
@@ -41,10 +44,21 @@ public class WidgetCardTagBoundPane extends WidgetBoundPane {
 
         WCardTagLayout tagLayout = (WCardTagLayout)creator.toData();
         WTabDisplayPosition displayPosition = tagLayout.getDisplayPosition();
-        if( ComparatorUtils.equals(displayPosition, WTabDisplayPosition.TOP_POSITION) || ComparatorUtils.equals(displayPosition, WTabDisplayPosition.BOTTOM_POSITION)){
-            parentBounds.height = (int)cardTagWidth.getValue();
+        int size = (int)cardTagWidth.getValue();
+        XLayoutContainer tabLayout = creator.getTopLayout();
+        Rectangle rectangle = tabLayout.getBounds();
+        if(ComparatorUtils.equals(displayPosition, WTabDisplayPosition.TOP_POSITION) || ComparatorUtils.equals(displayPosition, WTabDisplayPosition.BOTTOM_POSITION)){
+            if(rectangle.height < size){
+                JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Beyond_Tablayout_Bounds"));
+                return;
+            }
+            parentBounds.height = size;
         }else{
-            parentBounds.width = (int)cardTagWidth.getValue();
+            if(rectangle.width < size){
+                JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Beyond_Tablayout_Bounds"));
+                return;
+            }
+            parentBounds.width = size;
         }
 
         parent.setBounds(parentBounds);

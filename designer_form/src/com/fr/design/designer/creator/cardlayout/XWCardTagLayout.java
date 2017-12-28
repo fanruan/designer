@@ -166,6 +166,7 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
                 comp.setBackupParent(this);
             }
         }
+//        setTabsAndAdjust();
         isRefreshing = false;
     }
 
@@ -256,9 +257,13 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
 		path.remove(0);
     }
 
+    public boolean isSupportDrag(){
+        return false;
+    }
 
     @Override
     public void doLayout() {
+        setTabsAndAdjust();
         //设置布局
         super.doLayout();
     }
@@ -308,12 +313,11 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
         repaint();
     }
 
-
     public void setTabsAndAdjust() {
         WCardTagLayout wCardTagLayout = (WCardTagLayout)this.toData();
         int tabLength = this.getComponentCount();
-        Map<Integer, Integer> cardWidth = new HashMap<>();
-        Map<Integer, Integer> cardHeight = new HashMap<>();
+        Map<Integer, Integer> cardWidth = new HashMap<Integer, Integer>();
+        Map<Integer, Integer> cardHeight = new HashMap<Integer, Integer>();
         for (int i = 0; i < tabLength; i++) {
             XCardSwitchButton temp = (XCardSwitchButton) this.getComponent(i);
             CardSwitchButton tempCard = (CardSwitchButton) temp.toData();
@@ -351,18 +355,20 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
         if (width == null) {
             return;
         }
+        XLayoutContainer parent = this.getBackupParent();
+        int tabPaneSize = parent.getHeight();
         //调整XWCardTagLayout的高度
         int tempX = 0;
-        int maxHeight = DEFAULT_BUTTON_HEIGHT;
+//        int maxHeight = DEFAULT_BUTTON_HEIGHT;
         for (int i = 0; i < tabLength; i++) {
 
             Rectangle rectangle = this.getComponent(i).getBounds();
             Integer cardWidth = width.get(i) + WIDTH_SIDE_OFFSET;
-            Integer cardHeight = height.get(i)+ HEIGHT_SIDE_OFFSET ;
+            Integer cardHeight = tabPaneSize;
             if(cardHeight < DEFAULT_BUTTON_HEIGHT){
                 cardHeight = DEFAULT_BUTTON_HEIGHT;
             }
-            maxHeight = maxHeight > cardHeight ? maxHeight : cardHeight ;
+//            maxHeight = maxHeight > cardHeight ? maxHeight : cardHeight ;
             rectangle.setBounds(tempX, 0, cardWidth, cardHeight);
             tempX += cardWidth;
             XCardSwitchButton temp = (XCardSwitchButton) this.getComponent(i);
@@ -370,10 +376,6 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
         }
 
         FormDesigner formDesigner = WidgetPropertyPane.getInstance().getEditingFormDesigner();
-        XLayoutContainer parent = this.getBackupParent();
-        Rectangle parentBounds = new Rectangle(parent.getBounds());
-        parentBounds.height = maxHeight;
-        parent.setBounds(parentBounds);
         LayoutAdapter layoutAdapter = AdapterBus.searchLayoutAdapter(formDesigner, parent);
         if (layoutAdapter != null) {
             parent.setBackupBound(parent.getBounds());
@@ -400,12 +402,14 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
         if (width == null) {
             return;
         }
+        XLayoutContainer parent = this.getBackupParent();
+        int tabPaneSize = parent.getWidth();
         int tempY = 0;
-        int maxWidth = DEFAULT_BUTTON_HEIGHT;
+//        int maxWidth = DEFAULT_BUTTON_HEIGHT;
         for (int i = 0; i < tabLength; i++) {
             Rectangle rectangle = this.getComponent(i).getBounds();
-            Integer cardWidth = width.get(i) + WIDTH_SIDE_OFFSET;
-            maxWidth = maxWidth > cardWidth ? maxWidth : cardWidth;
+            Integer cardWidth = tabPaneSize;
+//            maxWidth = maxWidth > cardWidth ? maxWidth : cardWidth;
             //先用这边的固定高度
             Integer cardHeight = height.get(i) + HEIGHT_SIDE_OFFSET;
 
@@ -422,10 +426,6 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
         }
 
         FormDesigner formDesigner = WidgetPropertyPane.getInstance().getEditingFormDesigner();
-        XLayoutContainer parent = this.getBackupParent();
-        Rectangle parentBounds = new Rectangle(parent.getBounds());
-        parentBounds.width = maxWidth;
-        parent.setBounds(parentBounds);
         LayoutAdapter layoutAdapter = AdapterBus.searchLayoutAdapter(formDesigner, parent);
         if (layoutAdapter != null) {
             parent.setBackupBound(parent.getBounds());
