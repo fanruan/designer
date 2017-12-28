@@ -29,13 +29,11 @@ public class XCardAddButton extends XButton{
 	
 	private XWCardTagLayout tagLayout;
 	private XWCardLayout cardLayout;
-	private static final int LEFT_GAP = 5;
-	private static final int UP_GAP = 10;
 	
-	private static final int START_INDEX = 3;
-	private static final int INDEX = 0;
+
 	private static final int DEFAULT_BUTTON_WIDTH = 80;
-	
+	private static final int ICON_OFFSET = 8;
+
 	
 	private static Icon ADD_ICON = BaseUtils.readIcon("/com/fr/design/form/images/add.png");
 	private Icon addIcon = ADD_ICON;
@@ -128,7 +126,9 @@ public class XCardAddButton extends XButton{
     }
     
 	private void drawAddIcon(Graphics2D g2d){
-		addIcon.paintIcon(this, g2d,LEFT_GAP,UP_GAP);
+		int width = this.getWidth();
+		int height = this.getHeight();
+		addIcon.paintIcon(this, g2d, width / 2 - ICON_OFFSET, height / 2 - ICON_OFFSET);
 	}
 	
 	//将原来的tab页设置为未选中状态

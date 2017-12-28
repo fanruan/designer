@@ -17,6 +17,7 @@ import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.form.ui.container.WBorderLayout;
 import com.fr.form.ui.container.WTabDisplayPosition;
 import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
+import com.fr.general.ComparatorUtils;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import java.awt.AlphaComposite;
@@ -27,6 +28,7 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -82,6 +84,14 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 	public void addTitlePart(XWCardTitleLayout title, String position){
 		toData().setTabPosition(position);
 		this.add(title, position);
+	}
+
+	public int getTitleWidth(){
+		String position = toData().getTabPosition();
+		if(ComparatorUtils.equals(WBorderLayout.NORTH, position) || ComparatorUtils.equals(WBorderLayout.SOUTH, position)){
+			return getTitlePart().getHeight();
+		}
+		return getTitlePart().getWidth();
 	}
 
     public void add(Component comp, String position) {
@@ -309,23 +319,30 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 
 	public void resetTabDisplayPosition(WTabDisplayPosition wTabDisplayPosition){
 		XWCardTitleLayout xwCardTitleLayout = getTitlePart();
+		int titleSize = getTitleWidth();
 		xwCardTitleLayout.resetNewBtnPosition(wTabDisplayPosition);
+		Rectangle parentBounds = new Rectangle(xwCardTitleLayout.getBounds());
 		switch (wTabDisplayPosition){
 			case TOP_POSITION:
-				this.addTitlePart(getTitlePart(),WBorderLayout.NORTH);
+				this.addTitlePart(xwCardTitleLayout,WBorderLayout.NORTH);
+				parentBounds.height = titleSize;
 				break;
 			case LEFT_POSITION:
-				this.addTitlePart(getTitlePart(),WBorderLayout.WEST);
+				this.addTitlePart(xwCardTitleLayout,WBorderLayout.WEST);
+				parentBounds.width = titleSize;
 				break;
 			case BOTTOM_POSITION:
-				this.addTitlePart(getTitlePart(),WBorderLayout.SOUTH);
+				this.addTitlePart(xwCardTitleLayout,WBorderLayout.SOUTH);
+				parentBounds.height = titleSize;
 				break;
 			case RIGHT_POSITION:
-				this.addTitlePart(getTitlePart(),WBorderLayout.EAST);
+				this.addTitlePart(xwCardTitleLayout,WBorderLayout.EAST);
+				parentBounds.width = titleSize;
 				break;
 			default:
 				break;
 		}
+		xwCardTitleLayout.setBounds(parentBounds);
 		this.addCardPart((XWCardLayout)this.getComponent(0));
 	}
 }

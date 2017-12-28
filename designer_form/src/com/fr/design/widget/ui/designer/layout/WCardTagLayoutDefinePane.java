@@ -1,5 +1,6 @@
 package com.fr.design.widget.ui.designer.layout;
 
+import com.fr.general.ComparatorUtils;
 import com.fr.general.cardtag.TemplateStyle;
 import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.XCreator;
@@ -58,7 +59,13 @@ public class WCardTagLayoutDefinePane extends AbstractDataModify<WCardTagLayout>
         UILabel fontLabel = new UILabel(Inter.getLocText("FR-Designer_Font"));
         fontLabel.setVerticalAlignment(SwingConstants.TOP);
         frFontPane = new FRFontPane();
-        displayPositionGroup =  new UIButtonGroup(WTabDisplayPosition.getStringArray());
+        displayPositionGroup =  new UIButtonGroup(WTabDisplayPosition.getStringArray()){
+            @Override
+            public boolean shouldResponseNameListener() {
+                return true;
+            }
+        };
+        displayPositionGroup.setGlobalName(Inter.getLocText("FR-Designer_Tab_Style_Template"));
         textDirectionGroup = new UIButtonGroup(WTabTextDirection.getStringArray());
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Tab_Style_Template")), templateStyleEditor},
@@ -105,7 +112,11 @@ public class WCardTagLayoutDefinePane extends AbstractDataModify<WCardTagLayout>
         layoutBorderStyle.getTitle().setBackground((Background) backgroundEditor.getValue());
         layoutBorderStyle.getTitle().setFrFont(frFontPane.update(frFont));
         WCardTagLayout layout = (WCardTagLayout) creator.toData();
-        layout.setDisplayPosition(WTabDisplayPosition.parse(displayPositionGroup.getSelectedIndex()));
+        boolean isHori = displayPositionGroup.getSelectedIndex() == WTabDisplayPosition.TOP_POSITION.getType() || displayPositionGroup.getSelectedIndex() == WTabDisplayPosition.BOTTOM_POSITION.getType();
+        if(ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_Tab_Style_Template"))){
+            layout.setDisplayPosition(WTabDisplayPosition.parse(displayPositionGroup.getSelectedIndex()));
+            textDirectionGroup.setSelectedIndex(isHori? WTabTextDirection.TEXT_HORI_DERECTION.getType():WTabTextDirection.TEXT_VER_DIRECTION.getType());
+        }
         layout.setTextDirection(WTabTextDirection.parse(textDirectionGroup.getSelectedIndex()));
         layout.setTemplateStyle((TemplateStyle) templateStyleEditor.getValue());
 

@@ -198,10 +198,14 @@ public class XButton extends XWidgetCreator {
     protected JComponent initEditor() {
         if (editor == null) {
             editor = new UILabel();
-            contentLabel = new UILabel();
+            contentLabel = initContentLabel();
         }
         return editor;
     }
+
+	protected UILabel initContentLabel() {
+		return  new UILabel();
+	}
     
 	@Override
 	public void paintComponent(Graphics g) {
