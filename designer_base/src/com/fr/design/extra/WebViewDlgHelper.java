@@ -5,6 +5,7 @@ import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.general.CommonIOUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
@@ -22,9 +23,7 @@ import javax.swing.SwingWorker;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.net.HttpURLConnection;
 import java.util.concurrent.ExecutionException;
@@ -94,29 +93,17 @@ public class WebViewDlgHelper {
     public static void checkAndCopyMainFile(String indexPath, String mainJsPath) {
         File file = new File(indexPath);
         if (!file.exists()) {
-            copyMainFile(indexPath, mainJsPath);
+            copyMainFile(mainJsPath);
         }
     }
 
     /**
      * 將script文件夹中的plugin.html文件复制到webreport下
      */
-    public static void copyMainFile(String indexPath, String mainJsPath) {
+    private static void copyMainFile(String mainJsPath) {
         try {
-            File mainJsFile = new File(mainJsPath);
-            int byteread = 0;
-            if (mainJsFile.exists()) {
-                InputStream inStream = new FileInputStream(mainJsPath);
-                FileOutputStream fs = new FileOutputStream(indexPath);
-                byte[] buffer = new byte[BYTES_NUM];
-                while ((byteread = inStream.read(buffer)) != -1) {
-                    fs.write(buffer, 0, byteread);
-                }
-                fs.flush();
-                fs.close();
-                inStream.close();
-            }
-        } catch (Exception e) {
+            CommonIOUtils.copy(new File(mainJsPath), new File(installHome));
+        } catch (IOException e) {
             FRContext.getLogger().error(e.getMessage());
         }
     }
@@ -133,6 +120,7 @@ public class WebViewDlgHelper {
 
     /**
      * 以关键词打开设计器商店显示搜索结果
+     *
      * @param keyword
      * @param data
      */
@@ -242,7 +230,7 @@ public class WebViewDlgHelper {
                     if (get()) {
                         String relativePath = "/scripts/plugin.html";
                         IOUtils.unzip(new File(StableUtils.pathJoin(PluginConstants.DOWNLOAD_PATH, PluginConstants.TEMP_FILE)), installHome);
-                        copyMainFile(StableUtils.pathJoin(installHome, "plugin.html"), StableUtils.pathJoin(installHome, relativePath));
+                        copyMainFile(StableUtils.pathJoin(installHome, relativePath));
                         // TODO: 2017/4/17 删除之前存放在安装目录下的script
                         PluginStoreConstants.refreshProps();    // 下载完刷新一下版本号等
                         JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Shop_Installed"), Inter.getLocText("FR-Designer_Tooltips"), JOptionPane.INFORMATION_MESSAGE);
