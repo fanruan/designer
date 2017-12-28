@@ -795,13 +795,34 @@ public class AlphaFineDialog extends UIDialog {
      * @param selectedValue
      */
     private void rebuildShowMoreList(int index, MoreModel selectedValue) {
-        SearchResult moreResult = getMoreResult(selectedValue);
         if ((selectedValue).getContent().equals(Inter.getLocText("FR-Designer_AlphaFine_ShowLess"))) {
-            for (int i = 0; i < moreResult.size(); i++) {
-                this.searchListModel.add(index + AlphaFineConstants.SHOW_SIZE + 1 + i, moreResult.get(i));
+            splitLabel.setIcon(new ImageIcon(getClass().getResource("/com/fr/design/mainframe/alphafine/images/bigloading.gif")));
+            refreshContainer();
+            if (this.searchWorker != null && !this.searchWorker.isDone()) {
+                this.searchWorker.cancel(true);
+                this.searchWorker = null;
             }
+            this.searchWorker = new SwingWorker() {
+                @Override
+                protected Object doInBackground() throws Exception {
+                    splitLabel.setIcon(new ImageIcon(getClass().getResource("/com/fr/design/mainframe/alphafine/images/bigloading.gif")));
+                    for (int i = 0; i < getMoreResult(selectedValue).size(); i++) {
+                        searchListModel.add(index + AlphaFineConstants.SHOW_SIZE + 1 + i, getMoreResult(selectedValue).get(i));
+                    }
+                    return null;
+                }
+
+                @Override
+                protected void done() {
+                    if (!isCancelled()) {
+                        splitLabel.setIcon(null);
+                    }
+                }
+            };
+            this.searchWorker.execute();
+
         } else {
-            for (int i = 0; i < moreResult.size(); i++) {
+            for (int i = 0; i < getMoreResult(selectedValue).size(); i++) {
                 this.searchListModel.remove(index + AlphaFineConstants.SHOW_SIZE + 1);
 
             }
