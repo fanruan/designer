@@ -37,6 +37,8 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.regex.Pattern;
 
 /**
@@ -259,10 +261,20 @@ public class SelectedDataColumnPane extends BasicPane {
 
     protected void initTableNameComboBox() {
         tableNameComboBox = new TableDataComboBox(DesignTableDataManager.getEditingTableDataSource());
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
         tableNameComboBox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                columnNameComboBox.setLoaded(false);
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    executorService.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            synchronized (columnNameComboBox) {
+                                columnNameComboBox.loadInstant();
+                            }
+                        }
+                    });
+                }
             }
         });
         tableNameComboBox.setPreferredSize(new Dimension(100, 20));
