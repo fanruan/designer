@@ -21,11 +21,20 @@ import com.fr.general.Inter;
 import com.fr.stable.CoreGraphHelper;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import javax.swing.BorderFactory;
+import javax.swing.JFileChooser;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ButtonGroup;
+import java.awt.Image;
+import java.awt.Dimension;
+import java.awt.Component;
+import java.awt.GridLayout;
 
 /**
  * Created by mengao on 2017/11/23.

@@ -45,9 +45,13 @@ import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.xml.XMLTools;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.border.MatteBorder;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
