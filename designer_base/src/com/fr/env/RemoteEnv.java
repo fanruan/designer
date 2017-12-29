@@ -29,7 +29,12 @@ import com.fr.file.CacheManager;
 import com.fr.file.DatasourceManager;
 import com.fr.file.DatasourceManagerProvider;
 import com.fr.file.filetree.FileNode;
-import com.fr.general.*;
+import com.fr.general.ComparatorUtils;
+import com.fr.general.FRLogger;
+import com.fr.general.IOUtils;
+import com.fr.general.Inter;
+import com.fr.general.LogRecordTime;
+import com.fr.general.LogUtils;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
@@ -549,7 +554,7 @@ public class RemoteEnv extends AbstractEnv {
     }
 
     private void stopLogTimer() {
-        if(logTimer != null) {
+        if (logTimer != null) {
             logTimer.cancel();
             logTimer = null;
         }
@@ -2077,7 +2082,6 @@ public class RemoteEnv extends AbstractEnv {
     }
 
 
-
     @Override
     public String pluginServiceAction(String serviceID, String req) throws Exception {
         HashMap<String, String> para = new HashMap<String, String>();
@@ -2092,11 +2096,13 @@ public class RemoteEnv extends AbstractEnv {
 
     /**
      * 远程不启动，使用虚拟服务
+     *
      * @param serviceID
      */
     @Override
-    public void pluginServiceStart(String serviceID){
+    public void pluginServiceStart(String serviceID) {
     }
+
     @Override
     public File[] loadREUFile() throws Exception {
         File target = new File(CacheManager.getProviderInstance().getCacheDirectory(),
@@ -2244,6 +2250,16 @@ public class RemoteEnv extends AbstractEnv {
             return new JSONArray(stream2String(input));
         } catch (Exception e) {
             return JSONArray.create();
+        }
+    }
+
+    public String post(HashMap<String, String> para, boolean isSignIn) {
+        try {
+            HttpClient client = createHttpMethod(para, isSignIn);
+            return stream2String(execute4InputStream(client));
+        } catch (Exception e) {
+            FRContext.getLogger().error(e.getMessage());
+            return StringUtils.EMPTY;
         }
     }
 }
