@@ -9,7 +9,8 @@ import com.fr.design.menu.MenuKeySet;
 import com.fr.design.selection.QuickEditor;
 import com.fr.general.FRLogger;
 
-import javax.swing.*;
+import javax.swing.Action;
+import javax.swing.KeyStroke;
 import java.awt.event.KeyEvent;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
