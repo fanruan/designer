@@ -2,10 +2,7 @@ package com.fr.design.menu;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.gui.imenu.UIMenu;
-import com.fr.design.gui.imenu.UIPopupEastAttrMenu;
-import com.fr.design.gui.imenu.UIPopupMenu;
-import com.fr.design.gui.imenu.UIScrollMenu;
+import com.fr.design.gui.imenu.*;
 import com.fr.design.gui.iscrollbar.UIScrollBar;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.stable.StringUtils;
@@ -41,6 +38,7 @@ public class MenuDef extends ShortCut {
     protected UIButton createdButton;
     protected JPopupMenu popupMenu;
     private boolean hasScrollSubMenu;
+    private boolean isHeadMenu;
 
     private String anchor;
 
@@ -86,6 +84,10 @@ public class MenuDef extends ShortCut {
 
     public void setHasScrollSubMenu(boolean scrollSubMenu) {
         this.hasScrollSubMenu = scrollSubMenu;
+    }
+
+    public void setHasRecMenu(boolean headMenu) {
+        this.isHeadMenu = headMenu;
     }
 
     public String getIconPath() {
@@ -186,6 +188,8 @@ public class MenuDef extends ShortCut {
         if (createdJMenu == null) {
             if (hasScrollSubMenu) {
                 createdJMenu = new UIScrollMenu(this.getName());
+            } else if (isHeadMenu){
+                createdJMenu = new UIHeadMenu(this.getName());
             } else {
                 createdJMenu = new UIMenu(this.getName());
             }

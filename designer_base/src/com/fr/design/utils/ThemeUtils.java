@@ -13,7 +13,7 @@ import java.awt.*;
  */
 public class ThemeUtils {
     public static final ColorUIResource NORMAL_FOREGROUND = new ColorUIResource(0, 0, 0);
-    public static final ColorUIResource TEXT_SELECTED_BG_COLOR = new ColorUIResource(43, 107, 197);
+    public static final ColorUIResource TEXT_SELECTED_BG_COLOR = new ColorUIResource(65, 155, 249);
     public static final ColorUIResource TEXT_SELECTED_TEXT_COLOR = new ColorUIResource(255, 255, 255);
     public static final ColorUIResource NORMAL_BG = new ColorUIResource(212, 212, 216);
     public static final ColorUIResource DISABLE_TEXT = new ColorUIResource(143, 142, 139);
