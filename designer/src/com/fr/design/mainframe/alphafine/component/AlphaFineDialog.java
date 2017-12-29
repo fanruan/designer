@@ -390,7 +390,6 @@ public class AlphaFineDialog extends UIDialog {
      */
     private void rebuildList(String searchText) {
         resetContainer();
-
         if (searchText.startsWith(ADVANCED_SEARCH_MARK)) {
             if (searchText.startsWith(ACTION_MARK_SHORT) || searchText.startsWith(ACTION_MARK)) {
                 storeText = searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length());
@@ -624,6 +623,7 @@ public class AlphaFineDialog extends UIDialog {
     private void dealWithMoreOrLessResult(int index, MoreModel selectedValue) {
         if (ComparatorUtils.equals(Inter.getLocText("FR-Designer_AlphaFine_ShowAll"), selectedValue.getContent())) {
             selectedValue.setContent(Inter.getLocText("FR-Designer_AlphaFine_ShowLess"));
+
             rebuildShowMoreList(index, selectedValue);
         } else {
             selectedValue.setContent(Inter.getLocText("FR-Designer_AlphaFine_ShowAll"));
@@ -796,8 +796,7 @@ public class AlphaFineDialog extends UIDialog {
      */
     private void rebuildShowMoreList(int index, MoreModel selectedValue) {
         if ((selectedValue).getContent().equals(Inter.getLocText("FR-Designer_AlphaFine_ShowLess"))) {
-            splitLabel.setIcon(new ImageIcon(getClass().getResource("/com/fr/design/mainframe/alphafine/images/bigloading.gif")));
-            refreshContainer();
+            splitLabel.setIcon(new ImageIcon(getClass().getResource(AlphaFineConstants.IMAGE_URL + "bigloading.gif")));
             if (this.searchWorker != null && !this.searchWorker.isDone()) {
                 this.searchWorker.cancel(true);
                 this.searchWorker = null;
@@ -805,7 +804,6 @@ public class AlphaFineDialog extends UIDialog {
             this.searchWorker = new SwingWorker() {
                 @Override
                 protected Object doInBackground() throws Exception {
-                    splitLabel.setIcon(new ImageIcon(getClass().getResource("/com/fr/design/mainframe/alphafine/images/bigloading.gif")));
                     for (int i = 0; i < getMoreResult(selectedValue).size(); i++) {
                         searchListModel.add(index + AlphaFineConstants.SHOW_SIZE + 1 + i, getMoreResult(selectedValue).get(i));
                     }
