@@ -98,6 +98,7 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
         super.add(comp, position);
     }
 
+
 	/**
 	 * 切换到非添加状态
 	 *
@@ -152,7 +153,7 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 	 * @param path 控件树list
 	 */
 	public void notShowInComponentTree(ArrayList<Component> path) {
-		path.remove(LAYOUT_INDEX);
+		return;
 	}
 
     @Override
@@ -306,6 +307,13 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 		else{
 			return this;
 		}
+	}
+
+	public int getIndexOfChild(Object child) {
+		if(child instanceof XWCardTagLayout){
+			return 0;
+		}
+		return -1;
 	}
 
 	/**

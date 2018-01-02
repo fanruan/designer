@@ -3,8 +3,10 @@
  */
 package com.fr.design.designer.creator.cardlayout;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.border.Border;
 
@@ -33,6 +35,9 @@ public class XWCardTitleLayout extends XWBorderLayout {
 	
 	private static final int CENTER = 1;
 
+	private static final int LAYOUT_INDEX = 0;
+
+
 	/**
 	 * 构造函数
 	 */
@@ -50,6 +55,14 @@ public class XWCardTitleLayout extends XWBorderLayout {
 
 	public WTabDisplayPosition getDisplayPosition(){
 		return ((WCardTagLayout)this.getTagPart().toData()).getDisplayPosition();
+	}
+
+	/**
+	 * 控件树不显示此组件
+	 * @param path 控件树list
+	 */
+	public void notShowInComponentTree(ArrayList<Component> path) {
+		path.remove(LAYOUT_INDEX);
 	}
 	
     /**

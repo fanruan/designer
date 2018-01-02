@@ -40,9 +40,11 @@ import com.fr.stable.core.PropertyChangeAdapter;
 import javax.swing.border.Border;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ContainerEvent;
 import java.beans.IntrospectionException;
+import java.util.ArrayList;
 
 /**
  * @author richer
@@ -222,16 +224,25 @@ public class XWCardLayout extends XLayoutContainer {
 		
 		return xFirstBtn;
 	}
-	
+
+	/**
+	 * 控件树不显示此组件
+	 * @param path 控件树list
+	 */
+	public void notShowInComponentTree(ArrayList<Component> path) {
+		path.remove(0);
+    }
+
+
 	/**
 	 * 设置父容器的名字
-	 * 
+	 *
 	 * @param parentPanel 当前父容器
 	 * @param widgetName 当前控件名
-	 * 
+	 *
 	 *
 	 * @date 2014-11-27-上午9:47:00
-	 * 
+	 *
 	 */
 	protected void setWrapperName(XLayoutContainer parentPanel, String widgetName) {
 		parentPanel.toData().setWidgetName("tablayout" + widgetName.replaceAll(createDefaultName(),""));

@@ -10,7 +10,6 @@ import java.awt.FontMetrics;
 import java.awt.Rectangle;
 import java.awt.event.ContainerEvent;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -252,8 +251,17 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
         return this.getBackupParent().getTopLayout();
     }
 
-    public void notShowInComponentTree(ArrayList<Component> path) {
-		path.remove(0);
+
+    public int getIndexOfChild(Object child) {
+        XLayoutContainer cardPart  = ((XWCardMainBorderLayout)this.getTopLayout()).getCardPart();
+        int count = cardPart.getComponentCount();
+        for (int i = 0; i < count; i++) {
+            Component comp = cardPart.getComponent(i);
+            if (comp == child) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     public boolean isSupportDrag(){

@@ -160,7 +160,7 @@ public class XCardSwitchButton extends XButton {
 
 		//关闭重新打开，相关的layout未存到xml中，初始化
 		if(cardLayout == null){
-			initRelateLayout(this);
+			initRelateLayout();
 		}
 		
 		//获取当前tab的index
@@ -254,7 +254,7 @@ public class XCardSwitchButton extends XButton {
 	
 	
 	//SwitchButton对应的XWCardLayout和XWCardTagLayout暂未存到xml中,重新打开时根据父子层关系获取
-	private void initRelateLayout(XCardSwitchButton button){
+	private void initRelateLayout(){
 		this.tagLayout = (XWCardTagLayout)this.getBackupParent();
 		XWCardTitleLayout titleLayout = (XWCardTitleLayout) this.tagLayout.getBackupParent();
 		XWCardMainBorderLayout borderLayout = (XWCardMainBorderLayout)titleLayout.getBackupParent();
@@ -353,7 +353,7 @@ public class XCardSwitchButton extends XButton {
 
 		this.setButtonText(titleText);
 		if (this.cardLayout == null) {
-			initRelateLayout(this);
+			initRelateLayout();
 		}
 
         LayoutBorderStyle style = this.cardLayout.toData().getBorderStyle();
@@ -418,6 +418,10 @@ public class XCardSwitchButton extends XButton {
 	public XCreator getXCreator() {
 		//根据index获取对应的tabFitLayout
 		int index = ((CardSwitchButton) this.toData()).getIndex();
+		//关闭重新打开，相关的layout未存到xml中，初始化
+		if(cardLayout == null){
+			initRelateLayout();
+		}
 		return (XCreator) cardLayout.getComponent(index);
 	}
 

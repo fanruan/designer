@@ -5,6 +5,8 @@ import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.designer.creator.XWAbsoluteBodyLayout;
 import com.fr.design.designer.creator.XWFitLayout;
+import com.fr.design.designer.creator.cardlayout.XWCardLayout;
+import com.fr.design.designer.creator.cardlayout.XWCardMainBorderLayout;
 import com.fr.design.designer.treeview.ComponentTreeCellRenderer;
 import com.fr.design.designer.treeview.ComponentTreeModel;
 import com.fr.design.gui.itree.UITreeUI;
@@ -15,7 +17,13 @@ import javax.swing.*;
 import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -218,10 +226,12 @@ public class ComponentTree extends JTree {
 
         while (parent != null) {
             XCreator creator = (XCreator) parent;
+
             path.add(0, parent);
             if (creator != comp) {
                 creator.notShowInComponentTree(path);
             }
+
             //绝对布局作为body的时候不显示自适应布局父层
             if (((XCreator) parent).acceptType(XWAbsoluteBodyLayout.class)) {
                 if ((parent.getParent() != null)
@@ -229,6 +239,10 @@ public class ComponentTree extends JTree {
                     parent = parent.getParent().getParent();
                     continue;
                 }
+            }
+            if(((XCreator) parent).acceptType(XWCardLayout.class)){
+                parent = ((XWCardMainBorderLayout)parent.getParent()).getTitlePart().getTagPart();
+                continue;
             }
 
             parent = parent.getParent();
