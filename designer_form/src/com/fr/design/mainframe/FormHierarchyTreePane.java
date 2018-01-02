@@ -96,8 +96,7 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 		formDesigner.addDesignerEditListener(new DesignerEditListener() {
 			@Override
 			public void fireCreatorModified(DesignerEvent evt) {
-				componentTree.setAndScrollSelectionPath(componentTree.getSelectedTreePath());
-                componentTree.refreshUI();
+				refreshComponentTree();
 			}
 		});
 
@@ -110,6 +109,21 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 		}
 
 		add(getWidgetPane(), BorderLayout.CENTER);
+
+		try {
+			// 这里要刷新一下，否则控件树中没有任何一个控件处于选中状态
+			refreshComponentTree();
+		} catch (Throwable th) {
+			// do nothing
+		}
+	}
+
+	private void refreshComponentTree() {
+		if (DesignerContext.getDesignerFrame().getSelectedJTemplate() == null) {  // 还在初始化状态
+			return;
+		}
+		componentTree.setAndScrollSelectionPath(componentTree.getSelectedTreePath());
+		componentTree.refreshUI();
 	}
 
 	private JPanel getWidgetPane() {
