@@ -5,9 +5,10 @@ package com.fr.design.designer.creator;
 
 import com.fr.form.ui.container.WLayout;
 
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.beans.IntrospectionException;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 一些控件专属的容器，如标题容器，sclae容器
@@ -50,7 +51,7 @@ public abstract class DedicateLayoutContainer extends XLayoutContainer {
      *
      * @param path 控件树list
      */
-    public void notShowInComponentTree(ArrayList<Component> path) {
+    public void notShowInComponentTree(List<Component> path) {
         path.remove(path.size() - 1);
     }
 

@@ -439,6 +439,20 @@ public class XWTabFitLayout extends XWFitLayout {
 			wgt.setBackupBounds(this.getComponent(m).getBounds());
 		}
 	}
+
+	/**
+	 * 获取其在控件树上可见父层
+	 * @return 组件
+	 */
+	@Override
+	public Component getParentShow(){
+		XCardSwitchButton cardSwitchButton = this.getxCardSwitchButton();
+		//控件树上显示其taglayout层
+		if ((cardSwitchButton != null)) {
+			return cardSwitchButton.getTagLayout();
+		}
+		return super.getParentShow();
+	}
 	
     /**
      * 去除原有的间隔

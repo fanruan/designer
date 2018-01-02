@@ -32,6 +32,7 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * card布局主体框架
@@ -44,13 +45,12 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 
 	private static final int CENTER = 1;
 	private static final int NORTH = 0;
-	public static final Color DEFAULT_BORDER_COLOR = new Color(210,210,210);
-	private static final int LAYOUT_INDEX = 0;
 	private static final int TITLE_STYLE = 2;
-	private static final int NORMAL_STYLE = 1;
 
 	private static final int EDIT_BTN_WIDTH = 60;
 	private static final int EDIT_BTN_HEIGHT = 24;
+
+	private final int CARDMAINLAYOUT_CHILD_COUNT = 1;
 
 	/**
 	 * 构造函数
@@ -152,8 +152,14 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 	 * 控件树不显示此组件
 	 * @param path 控件树list
 	 */
-	public void notShowInComponentTree(ArrayList<Component> path) {
+	@Override
+	public void notShowInComponentTree(List<Component> path) {
 		return;
+	}
+
+	@Override
+	public int getShowXCreatorCount() {
+		return CARDMAINLAYOUT_CHILD_COUNT;
 	}
 
     @Override
@@ -310,10 +316,8 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 	}
 
 	public int getIndexOfChild(Object child) {
-		if(child instanceof XWCardTagLayout){
-			return 0;
-		}
-		return -1;
+		XWCardTitleLayout titlePart = this.getTitlePart();
+		return titlePart.getIndexOfChild(child);
 	}
 
 	/**

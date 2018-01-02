@@ -44,7 +44,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ContainerEvent;
 import java.beans.IntrospectionException;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author richer
@@ -229,7 +229,7 @@ public class XWCardLayout extends XLayoutContainer {
 	 * 控件树不显示此组件
 	 * @param path 控件树list
 	 */
-	public void notShowInComponentTree(ArrayList<Component> path) {
+	public void notShowInComponentTree(List<Component> path) {
 		path.remove(0);
     }
 

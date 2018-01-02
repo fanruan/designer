@@ -15,7 +15,6 @@ import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.designer.creator.XWAbsoluteBodyLayout;
 import com.fr.design.designer.creator.XWFitLayout;
 import com.fr.design.designer.creator.XWidgetCreator;
-import com.fr.design.designer.creator.cardlayout.XWCardMainBorderLayout;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.form.ui.Widget;
@@ -28,7 +27,6 @@ public class ComponentTreeModel implements TreeModel {
 
     private final int ABSOLUTE_AS_BODY_NOT_FOUND = -1;
 
-    private final int CARDMAINLAYOUT_CHILD_COUNT = 1;
 
     public ComponentTreeModel(FormDesigner designer, Component root) {
         this.designer = designer;
@@ -65,12 +63,9 @@ public class ComponentTreeModel implements TreeModel {
 
     @Override
     public int getChildCount(Object parent) {
-        if(parent instanceof XWCardMainBorderLayout){
-            return CARDMAINLAYOUT_CHILD_COUNT;
-        }
         if (parent != null && parent instanceof XLayoutContainer) {
         	XLayoutContainer xlayout = (XLayoutContainer) parent;
-        	return xlayout.getXCreatorCount();
+        	return xlayout.getShowXCreatorCount();
         }
 
         return 0;

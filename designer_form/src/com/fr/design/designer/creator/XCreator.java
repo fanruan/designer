@@ -370,8 +370,16 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	 * 控件树不显示此组件
 	 * @param path 控件树list
 	 */
-	public void notShowInComponentTree(ArrayList<Component> path) {
+	public void notShowInComponentTree(List<Component> path) {
 		return;
+	}
+
+	/**
+	 * 获取其在控件树上可见父层
+	 * @return 组件
+	 */
+	public Component getParentShow(){
+		return this.getParent();
 	}
 
 	/**

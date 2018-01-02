@@ -6,7 +6,7 @@ package com.fr.design.designer.creator.cardlayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.border.Border;
 
@@ -37,6 +37,8 @@ public class XWCardTitleLayout extends XWBorderLayout {
 
 	private static final int LAYOUT_INDEX = 0;
 
+	private static final int POSISIONT_OFFSET = 1;
+
 
 	/**
 	 * 构造函数
@@ -61,8 +63,19 @@ public class XWCardTitleLayout extends XWBorderLayout {
 	 * 控件树不显示此组件
 	 * @param path 控件树list
 	 */
-	public void notShowInComponentTree(ArrayList<Component> path) {
+	public void notShowInComponentTree(List<Component> path) {
 		path.remove(LAYOUT_INDEX);
+	}
+
+	public int getIndexOfChild(Object child) {
+		int count = getComponentCount();
+		for (int i = 0; i < count; i++) {
+			Component comp = getComponent(i);
+			if (comp == child) {
+				return i - POSISIONT_OFFSET;
+			}
+		}
+		return -1;
 	}
 	
     /**
