@@ -81,6 +81,7 @@ public class XWCardLayout extends XLayoutContainer {
 	 * @date 2014-11-25-下午6:22:40
 	 * 
 	 */
+	@Override
 	public String createDefaultName() {
     	return "cardlayout";
     }
@@ -94,7 +95,8 @@ public class XWCardLayout extends XLayoutContainer {
 	 * @date 2014-11-25-下午6:22:17
 	 * 
 	 */
-    public WCardLayout toData() {
+    @Override
+	public WCardLayout toData() {
         return (WCardLayout) data;
     }
 
@@ -102,6 +104,7 @@ public class XWCardLayout extends XLayoutContainer {
 	 *  初始化时默认的组件大小
 	 * @return   默认Dimension
 	 */
+	@Override
 	public Dimension initEditorSize() {
 		return new Dimension(500, 300);
 	}
@@ -155,6 +158,7 @@ public class XWCardLayout extends XLayoutContainer {
 	 * @date 2014-11-25-下午4:47:23
 	 * 
 	 */
+	@Override
 	protected XLayoutContainer getCreatorWrapper(String widgetName) {
 		initStyle();
 		Dimension dimension = new Dimension();
@@ -248,6 +252,7 @@ public class XWCardLayout extends XLayoutContainer {
 	 * @date 2014-11-27-上午9:47:00
 	 *
 	 */
+	@Override
 	protected void setWrapperName(XLayoutContainer parentPanel, String widgetName) {
 		parentPanel.toData().setWidgetName("tablayout" + widgetName.replaceAll(createDefaultName(),""));
 	}
@@ -261,7 +266,8 @@ public class XWCardLayout extends XLayoutContainer {
 	 * @date 2014-11-25-下午4:57:55
 	 * 
 	 */
-	protected void addToWrapper(XLayoutContainer parentPanel, int width, int minHeight){			
+	@Override
+	protected void addToWrapper(XLayoutContainer parentPanel, int width, int minHeight){
 		parentPanel.add(this, WBorderLayout.CENTER);
 	}
 
@@ -274,7 +280,8 @@ public class XWCardLayout extends XLayoutContainer {
 	 * @date 2014-11-25-下午6:20:10
 	 * 
 	 */
-    public void componentAdded(ContainerEvent e) {
+    @Override
+	public void componentAdded(ContainerEvent e) {
         if (isRefreshing) {
             return;
         }
@@ -299,6 +306,7 @@ public class XWCardLayout extends XLayoutContainer {
 	 * 是否支持标题样式
 	 * @return 默认false
 	 */
+	@Override
 	public boolean hasTitleStyle() {
 		return true;
 	}
@@ -308,6 +316,7 @@ public class XWCardLayout extends XLayoutContainer {
 	 * @return 属性名
 	 * @throws IntrospectionException
 	 */
+	@Override
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
 		//嵌套的tab组件，内层的不支持轮播属性，屏蔽属性表
 		if(!isNested()) {
@@ -394,7 +403,8 @@ public class XWCardLayout extends XLayoutContainer {
 	}
 	
 	//初始化样式
-    protected void initStyle() {
+    @Override
+	protected void initStyle() {
     	LayoutBorderStyle style = toData().getBorderStyle();
     	initBorderTitleStyle(style);
     	initBorderStyle();
@@ -447,7 +457,8 @@ public class XWCardLayout extends XLayoutContainer {
      * @param designer 表单设计器
      * 
      */
-	public void deleteRelatedComponent(XCreator creator,FormDesigner designer){
+	@Override
+	public void deleteRelatedComponent(XCreator creator, FormDesigner designer){
 		XWCardMainBorderLayout mainLayout = (XWCardMainBorderLayout) creator.getBackupParent();
 		SelectionModel selectionModel = designer.getSelectionModel();
 		selectionModel.setSelectedCreator(mainLayout);
@@ -476,6 +487,7 @@ public class XWCardLayout extends XLayoutContainer {
 	 * data属性改变触发其他操作
 	 *
 	 */
+	@Override
 	public void firePropertyChange(){
 		initStyle();
 	}

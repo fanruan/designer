@@ -108,6 +108,7 @@ public class XWTabFitLayout extends XWFitLayout {
 	 * @return 属性名
 	 * @throws IntrospectionException
 	 */
+	@Override
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
 		checkButonType();
 		CRPropertyDescriptor[] crp = ((WTabFitLayout) data).isCustomStyle() ? getisCustomStyle() : getisnotCustomStyle();
@@ -250,7 +251,8 @@ public class XWTabFitLayout extends XWFitLayout {
 	 * @param designer 表单设计器
 	 * 
 	 */
-	public void deleteRelatedComponent(XCreator creator,FormDesigner designer){
+	@Override
+	public void deleteRelatedComponent(XCreator creator, FormDesigner designer){
 		//逐层回溯找出相关的layout和对应的tab按钮
     	XWTabFitLayout fitLayout = (XWTabFitLayout)creator;
     	WTabFitLayout fit = (WTabFitLayout) fitLayout.toData();
@@ -317,7 +319,8 @@ public class XWTabFitLayout extends XWFitLayout {
 	 * @param comp 当前组件
 	 * void
 	 */
-    public void seleteRelatedComponent(XCreator comp){
+    @Override
+	public void seleteRelatedComponent(XCreator comp){
     	XWTabFitLayout fitLayout = (XWTabFitLayout)comp;
     	WTabFitLayout fit = (WTabFitLayout) fitLayout.toData();
     	int index = fit.getIndex();
@@ -342,7 +345,8 @@ public class XWTabFitLayout extends XWFitLayout {
 	 * @date 2014-12-30-下午3:15:28
 	 * 
 	 */
-    public XLayoutContainer findNearestFit(){
+    @Override
+	public XLayoutContainer findNearestFit(){
     	XLayoutContainer parent = this.getBackupParent();
     	return parent == null ? null : parent.findNearestFit();
     } 
@@ -351,6 +355,7 @@ public class XWTabFitLayout extends XWFitLayout {
 	 * 非顶层自适应布局的缩放
 	 * @param percent 百分比
 	 */
+	@Override
 	public void adjustCompSize(double percent) {
 		this.adjustCreatorsWhileSlide(percent);
 	}
@@ -369,6 +374,7 @@ public class XWTabFitLayout extends XWFitLayout {
 	 * 
 	 * @param percent 宽度变化的百分比
 	 */
+	@Override
 	public void adjustCreatorsWidth(double percent) {
 		if (this.getComponentCount()==0) {
 			// 初始化没有拖入控件时，实际宽度依然调整
@@ -401,6 +407,7 @@ public class XWTabFitLayout extends XWFitLayout {
 	 * 同时调整容器内的组件们,缩小时需要考虑有的组件高度不满足缩小高度
 	 * @param percent 高度变化的百分比
 	 */
+	@Override
 	public void adjustCreatorsHeight(double percent) {
 		if (this.getComponentCount()==0) {
 			//调整高度后，wlayout那边记录下
@@ -425,6 +432,7 @@ public class XWTabFitLayout extends XWFitLayout {
 		LayoutUtils.layoutContainer(this);
 	}
 	
+	@Override
 	public XLayoutContainer getOuterLayout(){
 		XWCardLayout cardLayout = (XWCardLayout) this.getBackupParent();
 		return cardLayout.getBackupParent();
@@ -458,7 +466,8 @@ public class XWTabFitLayout extends XWFitLayout {
      * 去除原有的间隔
      * @param gap 间隔
      */
-    public void moveCompInterval(int gap) {
+    @Override
+	public void moveCompInterval(int gap) {
     	if (gap == 0) {
     		return;
     	}
@@ -515,7 +524,8 @@ public class XWTabFitLayout extends XWFitLayout {
      * ps:改变布局大小或者拖入、删除、拉伸都要重新考虑间隔
      * @param gap 间隔
      */
-    public void addCompInterval(int gap) {
+    @Override
+	public void addCompInterval(int gap) {
     	if (gap == 0) {
     		return;
     	}
@@ -560,6 +570,7 @@ public class XWTabFitLayout extends XWFitLayout {
 		return new WidgetPropertyUIProvider[0];
 	}
 
+	@Override
 	public void firePropertyChange(){
 		checkButonType();
 		//根据字体长度设置tab宽度

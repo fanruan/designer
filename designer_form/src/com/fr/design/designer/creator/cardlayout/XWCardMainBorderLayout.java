@@ -68,6 +68,7 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 	 * @date 2014-12-10-下午1:46:33
 	 *
 	 */
+	@Override
 	public WCardMainBorderLayout toData() {
 		return (WCardMainBorderLayout) super.toData();
 	}
@@ -104,6 +105,7 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 	 *
 	 * @return designer 表单设计器
 	 */
+	@Override
 	public void stopAddingState(FormDesigner designer){
 		designer.stopAddingState();
 		return;
@@ -177,7 +179,8 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
      * 重新调整子组件的宽度
      * @param width 宽度
      */
-    public void recalculateChildWidth(int width){
+    @Override
+	public void recalculateChildWidth(int width){
 		ArrayList<?> childrenList = this.getTargetChildrenList();
 		int size = childrenList.size();
 		if (size > 0) {
@@ -208,7 +211,8 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
      * 重新调整子组件的高度
      * @param height 高度
      */
-    public void recalculateChildHeight(int height){
+    @Override
+	public void recalculateChildHeight(int height){
 		ArrayList<?> childrenList = this.getTargetChildrenList();
 		int size = childrenList.size();
 		if (size > 0) {
@@ -240,6 +244,7 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 
     }
 
+	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
 		//如果鼠标移动到布局内且布局不可编辑，画出编辑蒙层
@@ -282,7 +287,8 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 	 * @param editingMouseListener 鼠标点击，位置处理器
 	 * @param e 鼠标点击事件
 	 */
-	public void respondClick(EditingMouseListener editingMouseListener,MouseEvent e){
+	@Override
+	public void respondClick(EditingMouseListener editingMouseListener, MouseEvent e){
 		FormDesigner designer = editingMouseListener.getDesigner();
 		SelectionModel selectionModel = editingMouseListener.getSelectionModel();
 		boolean isEditing = e.getButton() == MouseEvent.BUTTON1 &&
@@ -325,6 +331,7 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 	 * data属性改变触发其他操作
 	 *
 	 */
+	@Override
 	public void firePropertyChange(){
 		getCardPart().initStyle();
 	}

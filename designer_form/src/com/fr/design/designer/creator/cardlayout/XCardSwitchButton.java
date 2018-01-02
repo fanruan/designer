@@ -153,8 +153,9 @@ public class XCardSwitchButton extends XButton {
 	 *            点击事件
 	 * 
 	 */
+	@Override
 	public void respondClick(EditingMouseListener editingMouseListener,
-			MouseEvent e) {
+							 MouseEvent e) {
 		FormDesigner designer = editingMouseListener.getDesigner();
 		SelectionModel selectionModel = editingMouseListener.getSelectionModel();
 
@@ -310,7 +311,8 @@ public class XCardSwitchButton extends XButton {
 		}
 	}
 	
-    public void paintComponent(Graphics g) {
+    @Override
+	public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         drawBackground();
@@ -432,6 +434,7 @@ public class XCardSwitchButton extends XButton {
 		label = this.getContentLabel();
 	}
 
+	@Override
 	public void firePropertyChange() {
 		super.firePropertyChange();
 		tagLayout.setTabsAndAdjust();

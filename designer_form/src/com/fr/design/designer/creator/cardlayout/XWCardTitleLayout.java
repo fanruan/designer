@@ -168,7 +168,8 @@ public class XWCardTitleLayout extends XWBorderLayout {
      * 
      * @return designer 表单设计器
      */
-    public void stopAddingState(FormDesigner designer){
+    @Override
+	public void stopAddingState(FormDesigner designer){
     	designer.stopAddingState();
     	return;
     }
@@ -211,6 +212,7 @@ public class XWCardTitleLayout extends XWBorderLayout {
 		return this.getBackupParent().getTopLayout();
 	}
 
+	@Override
 	public String createDefaultName() {
 		return "tabpane";
 	}

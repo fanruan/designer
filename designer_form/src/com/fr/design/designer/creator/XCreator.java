@@ -271,6 +271,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	 *@param formEditor 设计界面组件
 	 *@return 工具界面
 	 */
+	@Override
 	public JComponent createToolPane(BaseJForm jform, FormDesigner formEditor) {
 		if (!BaseUtils.isAuthorityEditing()) {
 			if (isDedicateContainer()) {
@@ -379,6 +380,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	 * 获取其在控件树上可见父层
 	 * @return 组件
 	 */
+	@Override
 	public Component getParentShow(){
 		return this.getParent();
 	}
@@ -387,6 +389,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	 * 重置组件的名称
 	 * @param name 名称
 	 */
+	@Override
 	public void resetCreatorName(String name) {
 		toData().setWidgetName(name);
 	}
@@ -403,6 +406,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	 * 返回编辑的子组件，scale为其内部组件
 	 * @return 组件
 	 */
+	@Override
 	public XCreator getEditingChildCreator() {
 		return this;
 	}
@@ -411,6 +415,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	 * 返回对应属性表的组件，scale和title返回其子组件
 	 * @return 组件
 	 */
+	@Override
 	public XCreator getPropertyDescriptorCreator() {
 		return this;
 	}
@@ -419,6 +424,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	 * 更新子组件的Bound; 没有不处理
 	 * @param minHeight 最小高度
 	 */
+	@Override
 	public void updateChildBound(int minHeight) {
 		return;
 	}
@@ -427,6 +433,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	 * 是否作为控件树的叶子节点
 	 * @return 是则返回true
 	 */
+	@Override
 	public boolean isComponentTreeLeaf() {
 		return true;
 	}
@@ -435,6 +442,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	 *  是否为sclae和title专属容器
 	 * @return 是则返回true
 	 */
+	@Override
 	public boolean isDedicateContainer() {
 		return false;
 	}
