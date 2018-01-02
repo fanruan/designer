@@ -59,6 +59,7 @@ public class SelectedDataColumnPane extends BasicPane {
 
     private UIButton paramButton;
     private ElementCasePane casePane;
+    private CellElement cellElement;  // 保存当前选中的 CE
 
     public SelectedDataColumnPane() {
         this(true, false, null);
@@ -161,6 +162,7 @@ public class SelectedDataColumnPane extends BasicPane {
         if (cellElement == null) {
             return;
         }
+        this.cellElement = cellElement;
         if (itemListener != null) {
             removeListener(itemListener);
         }
@@ -315,7 +317,7 @@ public class SelectedDataColumnPane extends BasicPane {
                     public void doOk() {
                         List<ParameterProvider> parameterList = editorPane.update();
                         ps = parameterList.toArray(new Parameter[parameterList.size()]);
-                        update(cellElement);
+                        update(SelectedDataColumnPane.this.cellElement);
                         casePane.fireTargetModified();
                     }
                 });
