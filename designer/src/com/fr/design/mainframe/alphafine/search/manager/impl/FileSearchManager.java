@@ -106,8 +106,8 @@ public class FileSearchManager implements AlphaFineSearchProvider {
         if (moreModelList != null && !moreModelList.isEmpty()) {
             return moreModelList;
         }
+        searchText = dealWithSearchText(searchText);
         this.filterModelList = new SearchResult();
-        this.lessModelList = new SearchResult();
         this.moreModelList = new SearchResult();
         searchText = dealWithSearchText(searchText);
         Env env = FRContext.getCurrentEnv();
