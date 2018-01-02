@@ -3,8 +3,10 @@
  */
 package com.fr.design.designer.creator.cardlayout;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
+import java.util.List;
 
 import javax.swing.border.Border;
 
@@ -33,6 +35,11 @@ public class XWCardTitleLayout extends XWBorderLayout {
 	
 	private static final int CENTER = 1;
 
+	private static final int LAYOUT_INDEX = 0;
+
+	private static final int POSISIONT_OFFSET = 1;
+
+
 	/**
 	 * 构造函数
 	 */
@@ -51,10 +58,32 @@ public class XWCardTitleLayout extends XWBorderLayout {
 	public WTabDisplayPosition getDisplayPosition(){
 		return ((WCardTagLayout)this.getTagPart().toData()).getDisplayPosition();
 	}
+
+	/**
+	 * 控件树不显示此组件
+	 * @param path 控件树list
+	 */
+	@Override
+	public void notShowInComponentTree(List<Component> path) {
+		path.remove(LAYOUT_INDEX);
+	}
+
+	@Override
+	public int getIndexOfChild(Object child) {
+		int count = getComponentCount();
+		for (int i = 0; i < count; i++) {
+			Component comp = getComponent(i);
+			if (comp == child) {
+				return i - POSISIONT_OFFSET;
+			}
+		}
+		return -1;
+	}
 	
     /**
      * 将WLayout转换为XLayoutContainer
      */
+	@Override
 	public void convert(){
         isRefreshing = true;
         WCardTitleLayout titleLayout = (WCardTitleLayout)this.toData();
@@ -139,7 +168,8 @@ public class XWCardTitleLayout extends XWBorderLayout {
      * 
      * @return designer 表单设计器
      */
-    public void stopAddingState(FormDesigner designer){
+    @Override
+	public void stopAddingState(FormDesigner designer){
     	designer.stopAddingState();
     	return;
     }
@@ -182,6 +212,7 @@ public class XWCardTitleLayout extends XWBorderLayout {
 		return this.getBackupParent().getTopLayout();
 	}
 
+	@Override
 	public String createDefaultName() {
 		return "tabpane";
 	}

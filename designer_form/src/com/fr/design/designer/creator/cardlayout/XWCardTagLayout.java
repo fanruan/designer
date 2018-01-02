@@ -3,14 +3,12 @@
  */
 package com.fr.design.designer.creator.cardlayout;
 
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Rectangle;
 import java.awt.event.ContainerEvent;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -119,6 +117,7 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
      * @param e 事件
      * @date 2014-11-25-下午6:20:10
      */
+    @Override
     public void componentAdded(ContainerEvent e) {
         super.componentAdded(e);
 
@@ -153,6 +152,7 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
     /**
      * 将WLayout转换为XLayoutContainer
      */
+    @Override
     public void convert() {
         isRefreshing = true;
         WCardTagLayout layout = (WCardTagLayout) this.toData();
@@ -169,6 +169,7 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
         isRefreshing = false;
     }
 
+    @Override
     public String createDefaultName() {
         return "tabpane";
     }
@@ -178,6 +179,7 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
      *
      * @return designer 表单设计器
      */
+    @Override
     public void stopAddingState(FormDesigner designer) {
         designer.stopAddingState();
     }
@@ -212,6 +214,7 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
      *
      * @param
      */
+    @Override
     public void setBorder(Border border) {
 
     }
@@ -239,10 +242,12 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
         }
     }
 
+    @Override
     public int[] getDirections() {
         return ((XCreator)getParent()).getDirections();
     }
 
+    @Override
     public Rectangle getBounds() {
         return this.getParent().getBounds();
     }
@@ -252,10 +257,14 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
         return this.getBackupParent().getTopLayout();
     }
 
-    public void notShowInComponentTree(ArrayList<Component> path) {
-		path.remove(0);
+
+    @Override
+    public int getIndexOfChild(Object child) {
+        XLayoutContainer cardPart  = ((XWCardMainBorderLayout)this.getTopLayout()).getCardPart();
+        return cardPart.getIndexOfChild(child);
     }
 
+    @Override
     public boolean isSupportDrag(){
         return false;
     }
@@ -303,6 +312,7 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
      * data属性改变触发其他操作
      *
      */
+    @Override
     public void firePropertyChange() {
         WCardTagLayout wCardTagLayout = (WCardTagLayout) this.toData();
         ((XWCardMainBorderLayout) getTopLayout()).resetTabDisplayPosition(wCardTagLayout.getDisplayPosition());

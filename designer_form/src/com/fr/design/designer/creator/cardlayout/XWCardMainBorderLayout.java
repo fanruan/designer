@@ -32,6 +32,7 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * card布局主体框架
@@ -44,13 +45,12 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 
 	private static final int CENTER = 1;
 	private static final int NORTH = 0;
-	public static final Color DEFAULT_BORDER_COLOR = new Color(210,210,210);
-	private static final int LAYOUT_INDEX = 0;
 	private static final int TITLE_STYLE = 2;
-	private static final int NORMAL_STYLE = 1;
 
 	private static final int EDIT_BTN_WIDTH = 60;
 	private static final int EDIT_BTN_HEIGHT = 24;
+
+	private final int CARDMAINLAYOUT_CHILD_COUNT = 1;
 
 	/**
 	 * 构造函数
@@ -68,6 +68,7 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 	 * @date 2014-12-10-下午1:46:33
 	 *
 	 */
+	@Override
 	public WCardMainBorderLayout toData() {
 		return (WCardMainBorderLayout) super.toData();
 	}
@@ -98,11 +99,13 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
         super.add(comp, position);
     }
 
+
 	/**
 	 * 切换到非添加状态
 	 *
 	 * @return designer 表单设计器
 	 */
+	@Override
 	public void stopAddingState(FormDesigner designer){
 		designer.stopAddingState();
 		return;
@@ -151,8 +154,14 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 	 * 控件树不显示此组件
 	 * @param path 控件树list
 	 */
-	public void notShowInComponentTree(ArrayList<Component> path) {
-		path.remove(LAYOUT_INDEX);
+	@Override
+	public void notShowInComponentTree(List<Component> path) {
+		return;
+	}
+
+	@Override
+	public int getShowXCreatorCount() {
+		return CARDMAINLAYOUT_CHILD_COUNT;
 	}
 
     @Override
@@ -170,7 +179,8 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
      * 重新调整子组件的宽度
      * @param width 宽度
      */
-    public void recalculateChildWidth(int width){
+    @Override
+	public void recalculateChildWidth(int width){
 		ArrayList<?> childrenList = this.getTargetChildrenList();
 		int size = childrenList.size();
 		if (size > 0) {
@@ -201,7 +211,8 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
      * 重新调整子组件的高度
      * @param height 高度
      */
-    public void recalculateChildHeight(int height){
+    @Override
+	public void recalculateChildHeight(int height){
 		ArrayList<?> childrenList = this.getTargetChildrenList();
 		int size = childrenList.size();
 		if (size > 0) {
@@ -233,6 +244,7 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 
     }
 
+	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
 		//如果鼠标移动到布局内且布局不可编辑，画出编辑蒙层
@@ -275,7 +287,8 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 	 * @param editingMouseListener 鼠标点击，位置处理器
 	 * @param e 鼠标点击事件
 	 */
-	public void respondClick(EditingMouseListener editingMouseListener,MouseEvent e){
+	@Override
+	public void respondClick(EditingMouseListener editingMouseListener, MouseEvent e){
 		FormDesigner designer = editingMouseListener.getDesigner();
 		SelectionModel selectionModel = editingMouseListener.getSelectionModel();
 		boolean isEditing = e.getButton() == MouseEvent.BUTTON1 &&
@@ -308,10 +321,17 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 		}
 	}
 
+	@Override
+	public int getIndexOfChild(Object child) {
+		XWCardTitleLayout titlePart = this.getTitlePart();
+		return titlePart.getIndexOfChild(child);
+	}
+
 	/**
 	 * data属性改变触发其他操作
 	 *
 	 */
+	@Override
 	public void firePropertyChange(){
 		getCardPart().initStyle();
 	}
