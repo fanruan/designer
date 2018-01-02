@@ -39,6 +39,7 @@ public class FileSearchManager implements AlphaFineSearchProvider {
     private static FileSearchManager fileSearchManager = null;
     private SearchResult filterModelList;
     private SearchResult lessModelList;
+    private SearchResult moreModelList;
     private List<FileNode> fileNodes = null;
     //停止搜索
     private boolean stopSearch = false;
@@ -73,6 +74,7 @@ public class FileSearchManager implements AlphaFineSearchProvider {
     public synchronized SearchResult getLessSearchResult(String searchText) {
         this.filterModelList = new SearchResult();
         this.lessModelList = new SearchResult();
+        this.moreModelList = new SearchResult();
         searchText = dealWithSearchText(searchText);
         if (StringUtils.isBlank(searchText) || ComparatorUtils.equals(searchText, DS_NAME)) {
             lessModelList.add(new MoreModel(Inter.getLocText("FR-Designer_Templates")));
@@ -101,16 +103,20 @@ public class FileSearchManager implements AlphaFineSearchProvider {
 
     @Override
     public SearchResult getMoreSearchResult(String searchText) {
+        if (moreModelList != null && !moreModelList.isEmpty()) {
+            return moreModelList;
+        }
         this.filterModelList = new SearchResult();
         this.lessModelList = new SearchResult();
+        this.moreModelList = new SearchResult();
         searchText = dealWithSearchText(searchText);
         Env env = FRContext.getCurrentEnv();
         AlphaFineHelper.checkCancel();
         isContainCpt = true;
         isContainFrm = true;
         doSearch(searchText, false, env);
-        lessModelList.addAll(filterModelList.subList(AlphaFineConstants.SHOW_SIZE, filterModelList.size()));
-        return lessModelList;
+        moreModelList.addAll(filterModelList.subList(AlphaFineConstants.SHOW_SIZE, filterModelList.size()));
+        return moreModelList;
     }
 
     private void doSearch(String searchText, boolean needMore, Env env) {
@@ -193,7 +199,7 @@ public class FileSearchManager implements AlphaFineSearchProvider {
                 if (!AlphaFineHelper.getFilterResult().contains(model)) {
                     filterModelList.add(model);
                 }
-                if (filterModelList.size() > AlphaFineConstants.SHOW_SIZE && needMore) {
+                if(filterModelList.size() > AlphaFineConstants.SHOW_SIZE && needMore) {
                     stopSearch = true;
                 }
                 isAlreadyContain = true;
@@ -271,5 +277,13 @@ public class FileSearchManager implements AlphaFineSearchProvider {
 
     public void setContainFrm(boolean containFrm) {
         isContainFrm = containFrm;
+    }
+
+    public SearchResult getMoreModelList() {
+        return moreModelList;
+    }
+
+    public void setMoreModelList(SearchResult moreModelList) {
+        this.moreModelList = moreModelList;
     }
 }

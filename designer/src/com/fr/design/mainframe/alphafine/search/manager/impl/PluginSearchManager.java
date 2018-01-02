@@ -15,6 +15,8 @@ import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
+import com.fr.plugin.basic.version.Version;
+import com.fr.plugin.basic.version.VersionIntervalFactory;
 import com.fr.stable.StringUtils;
 
 import java.io.UnsupportedEncodingException;
@@ -37,10 +39,18 @@ public class PluginSearchManager implements AlphaFineSearchProvider {
 
     }
 
+    private static boolean isCompatibleCurrentEnv(String envVersion){
+        return VersionIntervalFactory.create(envVersion).contain(Version.currentEnvVersion());
+    }
+
     private static PluginModel getPluginModel(JSONObject object, boolean isFromCloud) {
         String name = object.optString("name");
         String content = object.optString("description");
         String pluginId = object.optString("pluginid");
+        String envVersion = object.optString("envversion");
+        if (!isCompatibleCurrentEnv(envVersion)) {
+            return null;
+        }
         int id = object.optInt("id");
         int searchCount = object.optInt("searchCount");
         String imageUrl = null;
@@ -107,7 +117,7 @@ public class PluginSearchManager implements AlphaFineSearchProvider {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         AlphaFineHelper.checkCancel();
                         PluginModel cellModel = getPluginModel(jsonArray.optJSONObject(i), false);
-                        if (!AlphaFineHelper.getFilterResult().contains(cellModel)) {
+                        if (cellModel != null && !AlphaFineHelper.getFilterResult().contains(cellModel)) {
                             searchResult.add(cellModel);
                         }
                     }
