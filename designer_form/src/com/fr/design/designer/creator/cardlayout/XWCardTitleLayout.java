@@ -63,10 +63,12 @@ public class XWCardTitleLayout extends XWBorderLayout {
 	 * 控件树不显示此组件
 	 * @param path 控件树list
 	 */
+	@Override
 	public void notShowInComponentTree(List<Component> path) {
 		path.remove(LAYOUT_INDEX);
 	}
 
+	@Override
 	public int getIndexOfChild(Object child) {
 		int count = getComponentCount();
 		for (int i = 0; i < count; i++) {
@@ -81,6 +83,7 @@ public class XWCardTitleLayout extends XWBorderLayout {
     /**
      * 将WLayout转换为XLayoutContainer
      */
+	@Override
 	public void convert(){
         isRefreshing = true;
         WCardTitleLayout titleLayout = (WCardTitleLayout)this.toData();

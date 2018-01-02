@@ -232,6 +232,7 @@ public class XWCardLayout extends XLayoutContainer {
 	 * 控件树不显示此组件
 	 * @param path 控件树list
 	 */
+	@Override
 	public void notShowInComponentTree(List<Component> path) {
 		path.remove(LAYOUT_INDEX);
 	}

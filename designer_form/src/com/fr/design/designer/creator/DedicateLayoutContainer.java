@@ -51,6 +51,7 @@ public abstract class DedicateLayoutContainer extends XLayoutContainer {
      *
      * @param path 控件树list
      */
+    @Override
     public void notShowInComponentTree(List<Component> path) {
         path.remove(path.size() - 1);
     }

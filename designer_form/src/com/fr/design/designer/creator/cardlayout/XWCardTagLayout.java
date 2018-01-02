@@ -251,11 +251,13 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
     }
 
 
+    @Override
     public int getIndexOfChild(Object child) {
         XLayoutContainer cardPart  = ((XWCardMainBorderLayout)this.getTopLayout()).getCardPart();
         return cardPart.getIndexOfChild(child);
     }
 
+    @Override
     public boolean isSupportDrag(){
         return false;
     }

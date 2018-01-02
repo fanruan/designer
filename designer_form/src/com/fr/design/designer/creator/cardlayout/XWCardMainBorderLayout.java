@@ -315,6 +315,7 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 		}
 	}
 
+	@Override
 	public int getIndexOfChild(Object child) {
 		XWCardTitleLayout titlePart = this.getTitlePart();
 		return titlePart.getIndexOfChild(child);
