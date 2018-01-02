@@ -25,12 +25,6 @@ public class ComponentTreeCellRenderer extends DefaultTreeCellRenderer {
 		super.getTreeCellRendererComponent(tree, value, selected, expanded, leaf, row, hasFocus);
 		if (value instanceof XCreator) {
 			String name = ((XCreator) value).toData().getWidgetName();
-			//树节点上不显示此控件
-			if(value instanceof XWCardLayout){
-				this.setSize(new Dimension(0, 0));
-				this.setPreferredSize(new Dimension(0, 0));
-				return this;
-			}
 			setText(name);
 			Icon icon = XCreatorUtils.getCreatorIcon((XCreator) value);
 			if (icon != null) {
