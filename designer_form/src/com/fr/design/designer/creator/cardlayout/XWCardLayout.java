@@ -57,6 +57,9 @@ public class XWCardLayout extends XLayoutContainer {
 	private static final int NORTH = 0;
 	private FormDesigner designer;
 
+	private static final int LAYOUT_INDEX = 0;
+
+
 	//默认蓝色标题背景
 	private static final Color TITLE_COLOR = new Color(51, 132, 240);
 
@@ -230,8 +233,8 @@ public class XWCardLayout extends XLayoutContainer {
 	 * @param path 控件树list
 	 */
 	public void notShowInComponentTree(List<Component> path) {
-		path.remove(0);
-    }
+		path.remove(LAYOUT_INDEX);
+	}
 
 
 	/**
