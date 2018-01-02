@@ -76,19 +76,18 @@ public class FileSearchManager implements AlphaFineSearchProvider {
         this.filterModelList = new SearchResult();
         this.lessModelList = new SearchResult();
         this.moreModelList = new SearchResult();
-        searchText = dealWithSearchText(searchText);
-        if (StringUtils.isBlank(searchText) || ComparatorUtils.equals(searchText, DS_NAME)) {
+        this.searchText = dealWithSearchText(searchText);
+        if (StringUtils.isBlank(this.searchText) || ComparatorUtils.equals(this.searchText, DS_NAME)) {
             lessModelList.add(new MoreModel(Inter.getLocText("FR-Designer_Templates")));
             return lessModelList;
         }
-        this.searchText = searchText;
         Env env = FRContext.getCurrentEnv();
         fileNodes = new ArrayList<>();
         fileNodes = listTpl(env, ProjectConstants.REPORTLETS_NAME, true);
         AlphaFineHelper.checkCancel();
         isContainCpt = true;
         isContainFrm = true;
-        doSearch(searchText, true, env);
+        doSearch(this.searchText, true, env);
         if (stopSearch) {
             lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Templates"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"), true, CellType.FILE));
             lessModelList.addAll(filterModelList.subList(0, AlphaFineConstants.SHOW_SIZE));
