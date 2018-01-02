@@ -40,6 +40,7 @@ public class FileSearchManager implements AlphaFineSearchProvider {
     private SearchResult filterModelList;
     private SearchResult lessModelList;
     private SearchResult moreModelList;
+    private String searchText;
     private List<FileNode> fileNodes = null;
     //停止搜索
     private boolean stopSearch = false;
@@ -80,6 +81,7 @@ public class FileSearchManager implements AlphaFineSearchProvider {
             lessModelList.add(new MoreModel(Inter.getLocText("FR-Designer_Templates")));
             return lessModelList;
         }
+        this.searchText = searchText;
         Env env = FRContext.getCurrentEnv();
         fileNodes = new ArrayList<>();
         fileNodes = listTpl(env, ProjectConstants.REPORTLETS_NAME, true);
@@ -106,15 +108,13 @@ public class FileSearchManager implements AlphaFineSearchProvider {
         if (moreModelList != null && !moreModelList.isEmpty()) {
             return moreModelList;
         }
-        searchText = dealWithSearchText(searchText);
         this.filterModelList = new SearchResult();
         this.moreModelList = new SearchResult();
-        searchText = dealWithSearchText(searchText);
         Env env = FRContext.getCurrentEnv();
         AlphaFineHelper.checkCancel();
         isContainCpt = true;
         isContainFrm = true;
-        doSearch(searchText, false, env);
+        doSearch(this.searchText, false, env);
         moreModelList.addAll(filterModelList.subList(AlphaFineConstants.SHOW_SIZE, filterModelList.size()));
         return moreModelList;
     }
@@ -285,5 +285,13 @@ public class FileSearchManager implements AlphaFineSearchProvider {
 
     public void setMoreModelList(SearchResult moreModelList) {
         this.moreModelList = moreModelList;
+    }
+
+    public String getSearchText() {
+        return searchText;
+    }
+
+    public void setSearchText(String searchText) {
+        this.searchText = searchText;
     }
 }
