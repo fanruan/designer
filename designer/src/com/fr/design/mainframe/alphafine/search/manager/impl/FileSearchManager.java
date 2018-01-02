@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -121,10 +122,11 @@ public class FileSearchManager implements AlphaFineSearchProvider {
     private void doSearch(String searchText, boolean needMore, Env env) {
         for (FileNode node : fileNodes) {
             boolean isAlreadyContain = false;
-            String fileEnvPath = node.getEnvPath();
-            String filePath = StableUtils.pathJoin(env.getPath(), fileEnvPath);
             isAlreadyContain = searchFile(searchText, node, isAlreadyContain, needMore);
-            searchFileContent(searchText, node, isAlreadyContain, filePath, needMore);
+            searchFileContent(env, searchText, node, isAlreadyContain, needMore);
+            if (filterModelList.size() > AlphaFineConstants.SHOW_SIZE && stopSearch) {
+                return;
+            }
 
         }
     }
@@ -146,13 +148,11 @@ public class FileSearchManager implements AlphaFineSearchProvider {
      * @param searchText
      * @param node
      * @param isAlreadyContain
-     * @param filePath
      */
-    private void searchFileContent(String searchText, FileNode node, boolean isAlreadyContain, String filePath, boolean needMore) {
+    private void searchFileContent(Env env, String searchText, FileNode node, boolean isAlreadyContain, boolean needMore) {
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainFileContent()) {
-
             try {
-                InputStreamReader isr = new InputStreamReader(new FileInputStream(new File(filePath)), "UTF-8");
+                InputStreamReader isr = new InputStreamReader(env.readBean(node.getEnvPath().substring(ProjectConstants.REPORTLETS_NAME.length() + 1), ProjectConstants.REPORTLETS_NAME), "UTF-8");
                 BufferedReader reader = new BufferedReader(isr);
                 String line;
                 int columnNumber;
@@ -167,6 +167,7 @@ public class FileSearchManager implements AlphaFineSearchProvider {
                 if (isFoundInContent && !isAlreadyContain) {
                     FileModel model = new FileModel(node.getName(), node.getEnvPath());
                     if (!AlphaFineHelper.getFilterResult().contains(model)) {
+                        AlphaFineHelper.checkCancel();
                         filterModelList.add(model);
                     }
                     if (this.filterModelList.size() > AlphaFineConstants.SHOW_SIZE && needMore) {
@@ -175,10 +176,8 @@ public class FileSearchManager implements AlphaFineSearchProvider {
                 }
                 isr.close();
                 reader.close();
-            } catch (FileNotFoundException e) {
-                FRLogger.getLogger().error(e.getMessage());
-            } catch (IOException e) {
-                FRLogger.getLogger().error(e.getMessage());
+            } catch (Exception e) {
+                FRLogger.getLogger().error("file read error: " + e.getMessage());
             }
         }
     }
@@ -196,6 +195,7 @@ public class FileSearchManager implements AlphaFineSearchProvider {
             if (node.getName().toLowerCase().contains(searchText)) {
                 FileModel model = new FileModel(node.getName(), node.getEnvPath());
                 if (!AlphaFineHelper.getFilterResult().contains(model)) {
+                    AlphaFineHelper.checkCancel();
                     filterModelList.add(model);
                 }
                 if(filterModelList.size() > AlphaFineConstants.SHOW_SIZE && needMore) {
