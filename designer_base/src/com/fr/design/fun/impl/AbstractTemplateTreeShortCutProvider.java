@@ -12,11 +12,6 @@ import com.fr.stable.fun.mark.API;
 public abstract class AbstractTemplateTreeShortCutProvider extends UpdateAction implements TemplateTreeShortCutProvider {
 
     @Override
-    public int currentAPILevel() {
-        return 1;
-    }
-
-    @Override
     public String mark4Provider() {
         return getClass().getName();
     }
