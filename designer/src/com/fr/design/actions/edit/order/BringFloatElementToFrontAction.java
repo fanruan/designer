@@ -28,7 +28,7 @@ public class BringFloatElementToFrontAction extends AbstractFloatElementOrderAct
         this.setName(Inter.getLocText("M_Edit-Bring_to_Front"));
         this.setMnemonic('T');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/to_top.png"));
-		this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_CLOSE_BRACKET, DEFAULT_MODIFIER + InputEvent.ALT_MASK));
+//		this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_CLOSE_BRACKET, DEFAULT_MODIFIER + InputEvent.ALT_MASK));
 	}
 
 	@Override

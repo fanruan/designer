@@ -27,7 +27,7 @@ public class BringFloatElementForwardAction extends AbstractFloatElementOrderAct
         this.setName(Inter.getLocText("M_Edit-Bring_Forward"));
         this.setMnemonic('F');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/up.png"));
-		this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_CLOSE_BRACKET, DEFAULT_MODIFIER));
+//		this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_CLOSE_BRACKET, DEFAULT_MODIFIER));
 	}
 
 	@Override
