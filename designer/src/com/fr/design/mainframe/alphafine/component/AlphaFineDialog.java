@@ -776,7 +776,7 @@ public class AlphaFineDialog extends UIDialog {
             } catch (JSONException e) {
                 FRLogger.getLogger().error(e.getMessage());
             }
-            final HashMap<String, String> para = new HashMap<>();
+            final HashMap<String, String> para = new HashMap<String, String>();
             String date = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
             para.put("token", CodeUtils.md5Encode(date, StringUtils.EMPTY, "MD5"));
             para.put("content", object.toString());
@@ -796,7 +796,7 @@ public class AlphaFineDialog extends UIDialog {
      * @param index
      * @param selectedValue
      */
-    private void rebuildShowMoreList(int index, final MoreModel selectedValue) {
+    private void rebuildShowMoreList(final int index, final MoreModel selectedValue) {
         if ((selectedValue).getContent().equals(Inter.getLocText("FR-Designer_AlphaFine_ShowLess"))) {
             splitLabel.setIcon(new ImageIcon(getClass().getResource(AlphaFineConstants.IMAGE_URL + "bigloading.gif")));
             if (this.searchWorker != null && !this.searchWorker.isDone()) {
