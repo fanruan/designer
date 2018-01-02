@@ -776,7 +776,7 @@ public class AlphaFineDialog extends UIDialog {
             } catch (JSONException e) {
                 FRLogger.getLogger().error(e.getMessage());
             }
-            final HashMap<String, String> para = new HashMap<String, String>();
+            final HashMap<String, String> para = new HashMap<>();
             String date = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
             para.put("token", CodeUtils.md5Encode(date, StringUtils.EMPTY, "MD5"));
             para.put("content", object.toString());
