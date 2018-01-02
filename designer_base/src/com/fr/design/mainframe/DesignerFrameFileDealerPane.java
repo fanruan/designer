@@ -230,6 +230,10 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         this.otherToobarStateChangeListeners.add(toobarStateChangeListener);
     }
 
+    public void removeToobarStateChangeListener(FileToolbarStateChangeListener toobarStateChangeListener) {
+        this.otherToobarStateChangeListeners.remove(toobarStateChangeListener);
+    }
+
     private void otherStateChange() {
         for (FileToolbarStateChangeListener toobarStateChangeListener : otherToobarStateChangeListeners) {
             toobarStateChangeListener.stateChange();
