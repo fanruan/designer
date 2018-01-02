@@ -664,7 +664,9 @@ public class AlphaFineDialog extends UIDialog {
                     searchResultList.setSelectedIndex(searchResultList.getSelectedIndex() + 1);
                 } else if (e.getKeyCode() == KeyEvent.VK_UP) {
                     searchResultList.setSelectedIndex(searchResultList.getSelectedIndex() - 1);
-                } else escAlphaFineDialog(e);
+                } else {
+                    escAlphaFineDialog(e);
+                }
             }
         });
 
@@ -794,7 +796,7 @@ public class AlphaFineDialog extends UIDialog {
      * @param index
      * @param selectedValue
      */
-    private void rebuildShowMoreList(int index, MoreModel selectedValue) {
+    private void rebuildShowMoreList(int index, final MoreModel selectedValue) {
         if ((selectedValue).getContent().equals(Inter.getLocText("FR-Designer_AlphaFine_ShowLess"))) {
             splitLabel.setIcon(new ImageIcon(getClass().getResource(AlphaFineConstants.IMAGE_URL + "bigloading.gif")));
             if (this.searchWorker != null && !this.searchWorker.isDone()) {
@@ -804,8 +806,9 @@ public class AlphaFineDialog extends UIDialog {
             this.searchWorker = new SwingWorker() {
                 @Override
                 protected Object doInBackground() throws Exception {
-                    for (int i = 0; i < getMoreResult(selectedValue).size(); i++) {
-                        searchListModel.add(index + AlphaFineConstants.SHOW_SIZE + 1 + i, getMoreResult(selectedValue).get(i));
+                    SearchResult moreResults = getMoreResult(selectedValue);
+                    for (int i = 0; i < moreResults.size(); i++) {
+                        searchListModel.add(index + AlphaFineConstants.SHOW_SIZE + 1 + i, moreResults.get(i));
                     }
                     return null;
                 }
