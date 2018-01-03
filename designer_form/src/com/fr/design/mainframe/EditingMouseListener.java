@@ -14,6 +14,7 @@ import com.fr.design.designer.creator.cardlayout.XCardSwitchButton;
 import com.fr.design.designer.creator.cardlayout.XWCardLayout;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.gui.xpane.ToolTipEditor;
 import com.fr.design.icon.IconPathConstants;
 import com.fr.design.utils.ComponentUtils;
@@ -540,8 +541,8 @@ public class EditingMouseListener extends MouseInputAdapter {
         if (creator != null) {
             creator.respondClick(this, e);
             if (e.getButton() == MouseEvent.BUTTON3) {
-                JPopupMenu cellPopupMenu = creator.createPopupMenu(designer);
-                if (cellPopupMenu != null) {
+                UIPopupMenu cellPopupMenu = creator.createPopupMenu(designer);
+                if (cellPopupMenu != UIPopupMenu.EMPTY) {
                     GUICoreUtils.showPopupMenu(cellPopupMenu, designer, e.getX(), e.getY());
                 }
             }
