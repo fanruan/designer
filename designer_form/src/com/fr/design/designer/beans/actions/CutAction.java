@@ -11,7 +11,7 @@ import com.fr.design.mainframe.FormDesigner;
 
 import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
 
-public class CutAction extends FormEditAction {
+public class CutAction extends FormWidgetEditAction {
 
 	public CutAction(FormDesigner t) {
 		super(t);
