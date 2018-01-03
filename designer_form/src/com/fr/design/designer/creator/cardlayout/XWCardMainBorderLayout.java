@@ -333,7 +333,7 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 	 */
 	@Override
 	public void firePropertyChange(){
-		getCardPart().initStyle();
+		return;
 	}
 
 
@@ -365,4 +365,5 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 		xwCardTitleLayout.setBounds(parentBounds);
 		this.addCardPart((XWCardLayout)this.getComponent(0));
 	}
+
 }
