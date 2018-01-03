@@ -515,4 +515,9 @@ public class XWAbsoluteLayout extends XLayoutContainer {
             widget.setBounds(xCreator.getBounds());
         }
     }
+
+    @Override
+    public boolean supportInnerOrderChangeActions() {
+        return true;
+    }
 }
