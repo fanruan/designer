@@ -6,7 +6,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 
-import javax.swing.Icon;
+import javax.swing.*;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.background.ColorBackground;
@@ -110,6 +110,11 @@ public class XCardAddButton extends XButton{
 		tagLayout.setTabsAndAdjust();
 		LayoutUtils.layoutRootContainer(designer.getRootComponent());
     }
+
+	@Override
+	public JPopupMenu createPopupMenu(FormDesigner formDesigner) {
+		return null;  // 不要菜单
+	}
     
     private void initRelateLayout(){
     	XWCardTitleLayout titleLayout = (XWCardTitleLayout)this.getBackupParent();

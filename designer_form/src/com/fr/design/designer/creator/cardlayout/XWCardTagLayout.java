@@ -12,6 +12,7 @@ import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.*;
 import javax.swing.border.Border;
 
 import com.fr.base.GraphHelper;
@@ -240,6 +241,11 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
                 editingMouseListener.startEditing(this, adapter.getDesignerEditor(), adapter);
             }
         }
+    }
+
+    @Override
+    public JPopupMenu createPopupMenu(FormDesigner formDesigner) {
+        return null;  // 不要菜单
     }
 
     @Override

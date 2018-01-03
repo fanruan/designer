@@ -224,6 +224,11 @@ public class XCardSwitchButton extends XButton {
 		GUICoreUtils.showPopupMenu(jPopupMenu, editingMouseListener.getDesigner(), e.getX(), e.getY());
 	}
 
+	@Override
+	public JPopupMenu createPopupMenu(FormDesigner formDesigner) {
+		return null;  // 自己有一个showPopupMenu，不需要使用通用的弹出菜单
+	}
+
 	//删除card，同时修改其他switchbutton和tabfit的index
 	private void deleteCard(XCardSwitchButton button,int index){
 		String titleName = button.getContentLabel().getText();

@@ -26,6 +26,7 @@ import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.core.PropertyChangeAdapter;
 
+import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.Color;
 import java.awt.Component;
@@ -101,6 +102,11 @@ public class XWTabFitLayout extends XWFitLayout {
 	
 	public XWTabFitLayout(WTabFitLayout widget, Dimension initSize) {
 		super(widget, initSize);
+	}
+
+	@Override
+	public JPopupMenu createPopupMenu(FormDesigner formDesigner) {
+		return null;  // 不要菜单
 	}
 
 	/**
