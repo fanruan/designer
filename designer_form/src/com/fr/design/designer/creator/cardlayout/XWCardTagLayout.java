@@ -3,17 +3,6 @@
  */
 package com.fr.design.designer.creator.cardlayout;
 
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Rectangle;
-import java.awt.event.ContainerEvent;
-import java.awt.event.MouseEvent;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.swing.border.Border;
-
 import com.fr.base.GraphHelper;
 import com.fr.base.ScreenResolution;
 import com.fr.design.designer.beans.AdapterBus;
@@ -22,15 +11,12 @@ import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.FRHorizontalLayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.FRVerticalLayoutAdapter;
 import com.fr.design.designer.beans.models.SelectionModel;
-import com.fr.design.designer.creator.XCreator;
-import com.fr.design.designer.creator.XCreatorUtils;
-import com.fr.design.designer.creator.XLayoutContainer;
-import com.fr.design.designer.creator.XWHorizontalBoxLayout;
-import com.fr.design.designer.creator.XWidgetCreator;
+import com.fr.design.designer.creator.*;
 import com.fr.design.form.layout.FRFlowLayout;
 import com.fr.design.form.layout.FRHorizontalLayout;
 import com.fr.design.form.layout.FRVerticalLayout;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.mainframe.EditingMouseListener;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.WidgetPropertyPane;
@@ -42,6 +28,13 @@ import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.form.ui.container.cardlayout.WTabFitLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
+
+import javax.swing.border.Border;
+import java.awt.*;
+import java.awt.event.ContainerEvent;
+import java.awt.event.MouseEvent;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @date: 2014-11-25-下午3:11:14
@@ -240,6 +233,11 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
                 editingMouseListener.startEditing(this, adapter.getDesignerEditor(), adapter);
             }
         }
+    }
+
+    @Override
+    public UIPopupMenu createPopupMenu(FormDesigner formDesigner) {
+        return UIPopupMenu.EMPTY;  // 不要菜单
     }
 
     @Override

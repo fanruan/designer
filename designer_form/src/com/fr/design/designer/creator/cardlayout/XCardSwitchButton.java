@@ -14,6 +14,7 @@ import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.mainframe.EditingMouseListener;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.FormHierarchyTreePane;
@@ -32,19 +33,9 @@ import com.fr.general.FRFont;
 import com.fr.general.Inter;
 import com.fr.stable.unit.PT;
 
-import javax.swing.Action;
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.plaf.basic.BasicLabelUI;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -222,6 +213,11 @@ public class XCardSwitchButton extends XButton {
 		jPopupMenu.add(next);
 		jPopupMenu.add(end);
 		GUICoreUtils.showPopupMenu(jPopupMenu, editingMouseListener.getDesigner(), e.getX(), e.getY());
+	}
+
+	@Override
+	public UIPopupMenu createPopupMenu(FormDesigner formDesigner) {
+		return UIPopupMenu.EMPTY;  // 自己有一个showPopupMenu，不需要使用通用的弹出菜单
 	}
 
 	//删除card，同时修改其他switchbutton和tabfit的index

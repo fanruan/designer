@@ -13,7 +13,6 @@ import com.fr.design.gui.controlpane.ShortCut4JControlPane;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.itoolbar.UIToolBarUI;
 import com.fr.design.gui.itoolbar.UIToolbar;
-import com.fr.design.gui.style.BorderPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
@@ -96,8 +95,7 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 		formDesigner.addDesignerEditListener(new DesignerEditListener() {
 			@Override
 			public void fireCreatorModified(DesignerEvent evt) {
-				componentTree.setAndScrollSelectionPath(componentTree.getSelectedTreePath());
-                componentTree.refreshUI();
+				refreshComponentTree();
 			}
 		});
 
@@ -110,6 +108,14 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 		}
 
 		add(getWidgetPane(), BorderLayout.CENTER);
+
+		// 这里要刷新一下，否则控件树中没有任何一个控件处于选中状态
+		refreshComponentTree();
+	}
+
+	private void refreshComponentTree() {
+		componentTree.setAndScrollSelectionPath(componentTree.getSelectedTreePath());
+		componentTree.refreshUI();
 	}
 
 	private JPanel getWidgetPane() {

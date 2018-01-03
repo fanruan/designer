@@ -1,13 +1,5 @@
 package com.fr.design.designer.creator.cardlayout;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.event.MouseEvent;
-
-import javax.swing.Icon;
-
 import com.fr.base.BaseUtils;
 import com.fr.base.background.ColorBackground;
 import com.fr.design.designer.beans.AdapterBus;
@@ -15,6 +7,7 @@ import com.fr.design.designer.beans.ComponentAdapter;
 import com.fr.design.designer.beans.models.SelectionModel;
 import com.fr.design.designer.creator.XButton;
 import com.fr.design.designer.creator.XLayoutContainer;
+import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.mainframe.EditingMouseListener;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.FormHierarchyTreePane;
@@ -24,6 +17,10 @@ import com.fr.form.ui.CardSwitchButton;
 import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseEvent;
 
 public class XCardAddButton extends XButton{
 	
@@ -110,6 +107,11 @@ public class XCardAddButton extends XButton{
 		tagLayout.setTabsAndAdjust();
 		LayoutUtils.layoutRootContainer(designer.getRootComponent());
     }
+
+	@Override
+	public UIPopupMenu createPopupMenu(FormDesigner formDesigner) {
+		return UIPopupMenu.EMPTY;  // 不要菜单
+	}
     
     private void initRelateLayout(){
     	XWCardTitleLayout titleLayout = (XWCardTitleLayout)this.getBackupParent();
