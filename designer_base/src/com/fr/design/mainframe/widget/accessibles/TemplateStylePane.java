@@ -41,11 +41,11 @@ public class TemplateStylePane extends BasicPane {
         listModel = new DefaultListModel();
         listModel.addElement(new DefaultTemplateStyle());
         listModel.addElement(new CardTemplateStyle());
+        listModel.addElement(new BannerTemplateStyle());
         listModel.addElement(new BookMarkTemplateStyle());
         listModel.addElement(new PentagonTemplateStyle());
         listModel.addElement(new MenuTemplateStyle());
         listModel.addElement(new TrapezoidTemplateStyle());
-        listModel.addElement(new BannerTemplateStyle());
         styleList = new JList(listModel);
         styleList.setCellRenderer(render);
 

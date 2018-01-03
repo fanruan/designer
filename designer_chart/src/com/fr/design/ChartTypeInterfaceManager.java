@@ -81,8 +81,12 @@ import com.fr.plugin.chart.treemap.VanChartTreeMapPlot;
 import com.fr.plugin.chart.vanchart.imgevent.design.DesignImageEvent;
 import com.fr.plugin.chart.wordcloud.VanChartWordCloudPlot;
 import com.fr.plugin.chart.wordcloud.designer.WordCloudIndependentVanChartInterface;
+import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.injectable.PluginModule;
 import com.fr.plugin.injectable.PluginSingleInjection;
+import com.fr.plugin.manage.PluginFilter;
+import com.fr.plugin.observer.PluginEvent;
+import com.fr.plugin.observer.PluginEventListener;
 import com.fr.plugin.solution.closeable.CloseableContainedMap;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.EnvChangedListener;
@@ -125,10 +129,24 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
         GeneralContext.addEnvChangedListener(new EnvChangedListener() {
             @Override
             public void envChanged() {
-                //重新注册designModuleFactory
                 DesignModuleFactory.registerExtraWidgetOptions(initWidgetOption());
                 DesignImageEvent.registerDefaultCallbackEvent(HistoryTemplateListPane.getInstance());
                 DesignImageEvent.registerDownloadSourcesEvent(new DownloadOnlineSourcesHelper());
+            }
+        });
+        GeneralContext.listenPluginRunningChanged(new PluginEventListener(1) {
+        
+            @Override
+            public void on(PluginEvent event) {
+                //重新注册designModuleFactory
+                DesignModuleFactory.registerExtraWidgetOptions(initWidgetOption());
+            }
+        }, new PluginFilter() {
+        
+            @Override
+            public boolean accept(PluginContext context) {
+                //图表插件变化时
+                return context.contain(PluginModule.ExtraChartType);
             }
         });
     }

@@ -130,6 +130,9 @@ public class Designer extends BaseDesigner {
                 if (ActionFactory.getChartPreStyleAction() != null) {
                     menuDef.addShortCut(ActionFactory.getChartPreStyleAction());
                 }
+                if (ActionFactory.getChartEmptyDataStyleAction() != null) {
+                    menuDef.addShortCut(ActionFactory.getChartEmptyDataStyleAction());
+                }
                 if (ActionFactory.getChartMapEditorAction() != null) {
                     menuDef.addShortCut(ActionFactory.getChartMapEditorAction());
                 }

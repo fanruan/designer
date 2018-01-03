@@ -3,19 +3,6 @@
  */
 package com.fr.design.designer.creator.cardlayout;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Rectangle;
-import java.awt.event.ContainerEvent;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.swing.border.Border;
-
 import com.fr.base.GraphHelper;
 import com.fr.base.ScreenResolution;
 import com.fr.design.designer.beans.AdapterBus;
@@ -24,15 +11,12 @@ import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.FRHorizontalLayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.FRVerticalLayoutAdapter;
 import com.fr.design.designer.beans.models.SelectionModel;
-import com.fr.design.designer.creator.XCreator;
-import com.fr.design.designer.creator.XCreatorUtils;
-import com.fr.design.designer.creator.XLayoutContainer;
-import com.fr.design.designer.creator.XWHorizontalBoxLayout;
-import com.fr.design.designer.creator.XWidgetCreator;
+import com.fr.design.designer.creator.*;
 import com.fr.design.form.layout.FRFlowLayout;
 import com.fr.design.form.layout.FRHorizontalLayout;
 import com.fr.design.form.layout.FRVerticalLayout;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.mainframe.EditingMouseListener;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.WidgetPropertyPane;
@@ -44,6 +28,13 @@ import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.form.ui.container.cardlayout.WTabFitLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
+
+import javax.swing.border.Border;
+import java.awt.*;
+import java.awt.event.ContainerEvent;
+import java.awt.event.MouseEvent;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @date: 2014-11-25-下午3:11:14
@@ -119,6 +110,7 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
      * @param e 事件
      * @date 2014-11-25-下午6:20:10
      */
+    @Override
     public void componentAdded(ContainerEvent e) {
         super.componentAdded(e);
 
@@ -153,6 +145,7 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
     /**
      * 将WLayout转换为XLayoutContainer
      */
+    @Override
     public void convert() {
         isRefreshing = true;
         WCardTagLayout layout = (WCardTagLayout) this.toData();
@@ -169,6 +162,7 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
         isRefreshing = false;
     }
 
+    @Override
     public String createDefaultName() {
         return "tabpane";
     }
@@ -178,6 +172,7 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
      *
      * @return designer 表单设计器
      */
+    @Override
     public void stopAddingState(FormDesigner designer) {
         designer.stopAddingState();
     }
@@ -212,6 +207,7 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
      *
      * @param
      */
+    @Override
     public void setBorder(Border border) {
 
     }
@@ -239,10 +235,17 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
         }
     }
 
+    @Override
+    public UIPopupMenu createPopupMenu(FormDesigner formDesigner) {
+        return UIPopupMenu.EMPTY;  // 不要菜单
+    }
+
+    @Override
     public int[] getDirections() {
         return ((XCreator)getParent()).getDirections();
     }
 
+    @Override
     public Rectangle getBounds() {
         return this.getParent().getBounds();
     }
@@ -252,13 +255,21 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
         return this.getBackupParent().getTopLayout();
     }
 
-    public void notShowInComponentTree(ArrayList<Component> path) {
-		path.remove(0);
+
+    @Override
+    public int getIndexOfChild(Object child) {
+        XLayoutContainer cardPart  = ((XWCardMainBorderLayout)this.getTopLayout()).getCardPart();
+        return cardPart.getIndexOfChild(child);
     }
 
+    @Override
+    public boolean isSupportDrag(){
+        return false;
+    }
 
     @Override
     public void doLayout() {
+        setTabsAndAdjust();
         //设置布局
         super.doLayout();
     }
@@ -299,6 +310,7 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
      * data属性改变触发其他操作
      *
      */
+    @Override
     public void firePropertyChange() {
         WCardTagLayout wCardTagLayout = (WCardTagLayout) this.toData();
         ((XWCardMainBorderLayout) getTopLayout()).resetTabDisplayPosition(wCardTagLayout.getDisplayPosition());
@@ -308,12 +320,11 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
         repaint();
     }
 
-
     public void setTabsAndAdjust() {
         WCardTagLayout wCardTagLayout = (WCardTagLayout)this.toData();
         int tabLength = this.getComponentCount();
-        Map<Integer, Integer> cardWidth = new HashMap<>();
-        Map<Integer, Integer> cardHeight = new HashMap<>();
+        Map<Integer, Integer> cardWidth = new HashMap<Integer, Integer>();
+        Map<Integer, Integer> cardHeight = new HashMap<Integer, Integer>();
         for (int i = 0; i < tabLength; i++) {
             XCardSwitchButton temp = (XCardSwitchButton) this.getComponent(i);
             CardSwitchButton tempCard = (CardSwitchButton) temp.toData();
@@ -351,18 +362,17 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
         if (width == null) {
             return;
         }
+        XLayoutContainer parent = this.getBackupParent();
+        int tabPaneSize = parent.getHeight();
         //调整XWCardTagLayout的高度
         int tempX = 0;
-        int maxHeight = DEFAULT_BUTTON_HEIGHT;
         for (int i = 0; i < tabLength; i++) {
-
             Rectangle rectangle = this.getComponent(i).getBounds();
             Integer cardWidth = width.get(i) + WIDTH_SIDE_OFFSET;
-            Integer cardHeight = height.get(i)+ HEIGHT_SIDE_OFFSET ;
+            Integer cardHeight = tabPaneSize;
             if(cardHeight < DEFAULT_BUTTON_HEIGHT){
                 cardHeight = DEFAULT_BUTTON_HEIGHT;
             }
-            maxHeight = maxHeight > cardHeight ? maxHeight : cardHeight ;
             rectangle.setBounds(tempX, 0, cardWidth, cardHeight);
             tempX += cardWidth;
             XCardSwitchButton temp = (XCardSwitchButton) this.getComponent(i);
@@ -370,10 +380,6 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
         }
 
         FormDesigner formDesigner = WidgetPropertyPane.getInstance().getEditingFormDesigner();
-        XLayoutContainer parent = this.getBackupParent();
-        Rectangle parentBounds = new Rectangle(parent.getBounds());
-        parentBounds.height = maxHeight;
-        parent.setBounds(parentBounds);
         LayoutAdapter layoutAdapter = AdapterBus.searchLayoutAdapter(formDesigner, parent);
         if (layoutAdapter != null) {
             parent.setBackupBound(parent.getBounds());
@@ -400,12 +406,12 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
         if (width == null) {
             return;
         }
+        XLayoutContainer parent = this.getBackupParent();
+        int tabPaneSize = parent.getWidth();
         int tempY = 0;
-        int maxWidth = DEFAULT_BUTTON_HEIGHT;
         for (int i = 0; i < tabLength; i++) {
             Rectangle rectangle = this.getComponent(i).getBounds();
-            Integer cardWidth = width.get(i) + WIDTH_SIDE_OFFSET;
-            maxWidth = maxWidth > cardWidth ? maxWidth : cardWidth;
+            Integer cardWidth = tabPaneSize;
             //先用这边的固定高度
             Integer cardHeight = height.get(i) + HEIGHT_SIDE_OFFSET;
 
@@ -422,10 +428,6 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
         }
 
         FormDesigner formDesigner = WidgetPropertyPane.getInstance().getEditingFormDesigner();
-        XLayoutContainer parent = this.getBackupParent();
-        Rectangle parentBounds = new Rectangle(parent.getBounds());
-        parentBounds.width = maxWidth;
-        parent.setBounds(parentBounds);
         LayoutAdapter layoutAdapter = AdapterBus.searchLayoutAdapter(formDesigner, parent);
         if (layoutAdapter != null) {
             parent.setBackupBound(parent.getBounds());

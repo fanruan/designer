@@ -25,11 +25,17 @@ import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.fun.DesignerEnvProcessor;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrameFileDealerPane;
+import com.fr.design.mainframe.loghandler.DesignerLogHandler;
 import com.fr.file.CacheManager;
 import com.fr.file.DatasourceManager;
 import com.fr.file.DatasourceManagerProvider;
 import com.fr.file.filetree.FileNode;
-import com.fr.general.*;
+import com.fr.general.ComparatorUtils;
+import com.fr.general.FRLogger;
+import com.fr.general.IOUtils;
+import com.fr.general.Inter;
+import com.fr.general.LogRecordTime;
+import com.fr.general.LogUtils;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
@@ -549,7 +555,7 @@ public class RemoteEnv extends AbstractEnv {
     }
 
     private void stopLogTimer() {
-        if(logTimer != null) {
+        if (logTimer != null) {
             logTimer.cancel();
             logTimer = null;
         }
@@ -1838,7 +1844,7 @@ public class RemoteEnv extends AbstractEnv {
         }
         LogRecordTime[] records = LogUtils.readXMLLogRecords(input);
         for (LogRecordTime logRecordTime : records) {
-            //TODO
+            DesignerLogHandler.getInstance().printRemoteLog(logRecordTime);
         }
     }
 
@@ -2075,8 +2081,7 @@ public class RemoteEnv extends AbstractEnv {
         info.parseJSON(jo);
         return info;
     }
-    
-    
+
 
     @Override
     public String pluginServiceAction(String serviceID, String req) throws Exception {
@@ -2092,11 +2097,13 @@ public class RemoteEnv extends AbstractEnv {
 
     /**
      * 远程不启动，使用虚拟服务
+     *
      * @param serviceID
      */
     @Override
-    public void pluginServiceStart(String serviceID){
+    public void pluginServiceStart(String serviceID) {
     }
+
     @Override
     public File[] loadREUFile() throws Exception {
         File target = new File(CacheManager.getProviderInstance().getCacheDirectory(),
@@ -2216,34 +2223,44 @@ public class RemoteEnv extends AbstractEnv {
     public void doWhenServerShutDown() {
 
     }
-    
+
     @Override
     public boolean isLocalEnv() {
-        
+
         return false;
     }
-    
+
     @Override
     public boolean hasPluginServiceStarted(String key) {
 
         return true;
     }
-    
+
     @Override
     public JSONArray getPluginStatus() {
-        
+
         try {
             HashMap<String, String> para = new HashMap<String, String>();
             para.put("op", "plugin");
             para.put("cmd", "get_status");
             para.put("current_uid", this.createUserID());
             para.put("currentUsername", this.getUser());
-            
+
             HttpClient client = createHttpMethod(para);
             InputStream input = execute4InputStream(client);
             return new JSONArray(stream2String(input));
         } catch (Exception e) {
             return JSONArray.create();
+        }
+    }
+
+    public String post(HashMap<String, String> para, boolean isSignIn) {
+        try {
+            HttpClient client = createHttpMethod(para, isSignIn);
+            return stream2String(execute4InputStream(client));
+        } catch (Exception e) {
+            FRContext.getLogger().error(e.getMessage());
+            return StringUtils.EMPTY;
         }
     }
 }

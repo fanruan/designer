@@ -344,7 +344,8 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 	}
 
 	private void sendUserInfoInOtherThread(){
-		if (!DesignerEnvManager.getEnvManager().isJoinProductImprove() || !FRContext.isChineseEnv()) {
+		
+		if (!DesignerEnvManager.getEnvManager().isJoinProductImprove() || !FRContext.isChineseEnv() || !FRContext.getCurrentEnv().isLocalEnv()) {
 			return;
 		}
 		

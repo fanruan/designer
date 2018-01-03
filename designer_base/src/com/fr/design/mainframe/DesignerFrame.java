@@ -10,6 +10,7 @@ import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignState;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
+import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.datapane.TableDataTreePane;
@@ -49,9 +50,23 @@ import com.fr.stable.StableUtils;
 import com.fr.stable.image4j.codec.ico.ICODecoder;
 import com.fr.stable.project.ProjectConstants;
 
-import javax.swing.*;
+import javax.swing.Icon;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
+import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 import javax.swing.border.MatteBorder;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.*;
@@ -734,6 +749,8 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
      * @param jt 添加的模板.
      */
     public void addAndActivateJTemplate(JTemplate<?, ?> jt) {
+        //释放模板对象
+        ActionFactory.editorRelease();
         if (jt == null || jt.getEditingFILE() == null) {
             return;
         }
@@ -750,6 +767,8 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
      * @param jt 模板
      */
     public void activateJTemplate(JTemplate<?, ?> jt) {
+        //释放模板对象
+        ActionFactory.editorRelease();
         if (jt == null || jt.getEditingFILE() == null) {
             return;
         }

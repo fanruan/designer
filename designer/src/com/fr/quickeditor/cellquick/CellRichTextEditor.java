@@ -58,4 +58,9 @@ public class CellRichTextEditor extends CellQuickEditor {
         return true;
     }
 
+    @Override
+    public void release() {
+        super.release();
+        richTextButton.setAction(null);
+    }
 }

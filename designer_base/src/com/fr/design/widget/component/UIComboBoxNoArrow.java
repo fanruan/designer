@@ -9,9 +9,11 @@ import com.fr.stable.StringUtils;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.plaf.basic.BasicComboBoxUI;
-import java.awt.*;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+
+import java.awt.Dimension;
+import java.awt.Insets;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 /**
  * Created by kerry on 2017/9/14.
@@ -66,14 +68,29 @@ public class UIComboBoxNoArrow extends UIComboBox {
             super();
             this.comboBox = comboBox;
             textField.getDocument().addDocumentListener(this);
-            textField.addFocusListener(new FocusListener() {
+            textField.addMouseListener(new MouseListener() {
                 @Override
-                public void focusGained(FocusEvent e) {
+                public void mouseClicked(MouseEvent e) {
                     changeHandler();
                 }
 
                 @Override
-                public void focusLost(FocusEvent e) {
+                public void mousePressed(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
 
                 }
             });

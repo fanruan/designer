@@ -142,17 +142,6 @@ public class CellDSColumnEditor extends CellQuickEditor {
 
 
     /**
-     * 关闭时候释放
-     */
-    @Override
-    public void release() {
-        super.release();
-        dsColumnRegion = null;
-        centerPane = null;
-    }
-
-
-    /**
      * 初始化基本和高级设置切换tab
      */
     private void createSwitchTab() {
@@ -187,6 +176,12 @@ public class CellDSColumnEditor extends CellQuickEditor {
         paneList.add(cellDSColumnAdvancedPane);
     }
 
+    @Override
+    public void release() {
+        super.release();
+        cellDSColumnBasicPane.release();
+        cellDSColumnAdvancedPane.release();
+    }
 
     /**
      * 单元格元素 数据列 高级设置内容面板
@@ -252,7 +247,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
         };
 
         DSColumnBasicEditorPane() {
-            dataPane = new SelectedDataColumnPane(true, true, tc, cellElement);
+            dataPane = new SelectedDataColumnPane(true, true, cellElement);
             groupPane = new ResultSetGroupDockingPane();
             dataPane.addListener(dataListener);
             groupPane.setListener(groupListener);
@@ -297,11 +292,17 @@ public class CellDSColumnEditor extends CellQuickEditor {
 
         @Override
         public void populate() {
-            dataPane.populate(null, cellElement);
+            dataPane.populate(DesignTableDataManager.getEditingTableDataSource(), cellElement, tc);
             groupPane.populate(cellElement);
             if (tc != null) {
                 condition.setEditingComponent(tc);
             }
+        }
+
+        @Override
+        protected void release() {
+            condition.setEditingComponent(null);
+            dataPane.release();
         }
 
 
@@ -432,6 +433,11 @@ public class CellDSColumnEditor extends CellQuickEditor {
                 }
                 this.checkButtonEnabled();
             }
+        }
+
+        @Override
+        protected void release() {
+
         }
 
         /**

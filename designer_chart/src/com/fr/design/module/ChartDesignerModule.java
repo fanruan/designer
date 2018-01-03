@@ -53,6 +53,7 @@ public class ChartDesignerModule extends DesignModule {
         DesignModuleFactory.registerChartPropertyPaneClass(ChartPropertyPane.class);
 
         ActionFactory.registerChartPreStyleAction(new ChartPreStyleAction());
+        ActionFactory.registerChartEmptyDataStyleAction(new ChartEmptyDataStyleAction());
         ActionFactory.registerChartMapEditorAction(new ChartMapEditorAction());
     }
 

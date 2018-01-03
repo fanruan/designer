@@ -74,14 +74,22 @@ public class PluginTask<T> extends Task<T> {
      * 2.js字符串中的\n会导致js字符串变成多行,而js字符串不支持多行拼接
      * 3.由JSONObject.toString()得到的字符串中html标签的属性会自动加上\造成替换难度加大，
      * 这边建议去除所有的html标签
-     *
+     * 字符\在java中实际存储的是\\,替换字符串\\n, 需要用\\\\n;
+     * "\t"、"\n"、"\t" 转义成"";
+     * "\\"需要转换成"\\\";
+     * 
      * @param old 原始字符串
      * @return 处理之后的字符串
      */
     private String trimText(String old) {
         if (StringUtils.isNotBlank(old)) {
             String b = filterHtmlTag(old);
-            return b.replaceAll("\\\\n", StringUtils.EMPTY).replaceAll("\\\\t", StringUtils.EMPTY).replaceAll("\"", "\\\\\"").replaceAll("\'", "\\\\\'").replaceAll("\\\\\\\\", "\\\\\\\\\\\\");
+            return b.replaceAll("\\\\n", StringUtils.EMPTY)
+                    .replaceAll("\\\\r", StringUtils.EMPTY)
+                    .replaceAll("\\\\t", StringUtils.EMPTY)
+                    .replaceAll("\"", "\\\\\"")
+                    .replaceAll("\'", "\\\\\'")
+                    .replaceAll("\\\\\\\\", "\\\\\\\\\\\\");
         }
         return StringUtils.EMPTY;
     }
