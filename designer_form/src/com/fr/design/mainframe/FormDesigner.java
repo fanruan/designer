@@ -46,7 +46,6 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
-import com.fr.stable.CoreGraphHelper;
 import com.fr.stable.bridge.StableFactory;
 
 import javax.swing.*;
@@ -148,7 +147,6 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
         new FormDesignerDropTarget(this);// 添加Drag and Drop.
 
         this.switchAction = switchAction;
-        populateParameterPropertyPane();
     }
 
     /**
@@ -1013,6 +1011,9 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
      */
     @Override
     public void valueChanged(TreeSelectionEvent e) {
+        if (DesignerContext.getDesignerFrame().getSelectedJTemplate() == null) {  // 初始化完成前，不响应事件
+            return;
+        }
         ComponentTree tree = (ComponentTree) e.getSource();
         TreePath[] paths = tree.getSelectionPaths();
 
