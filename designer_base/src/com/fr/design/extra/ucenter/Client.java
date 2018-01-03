@@ -15,17 +15,21 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
+ * 用于和Ucenter通信的客户端
  *
  * @author lp
  * @date 2016/9/9
+ * 1.client借用的是id为9的应用，信息为fanruan官网http://www.fanruan.com，
+ * 2.借用当前的应用id就会导致无法同步登陆到该应用所在的网站，权衡之后这个影响是比较小的
+ * 3.key和appid是成对匹配的
  */
 public class Client extends AbstractClient {
 
-    private static String UC_IP = "";
-    private static String UC_API = "";
+    private static String UC_API = SiteCenter.getInstance().acquireUrlByKind("bbs.ucapi");
+    private static String UC_IP = SiteCenter.getInstance().acquireUrlByKind("bbs.ip");
     private static String UC_CONNECT = "";
-    private static String UC_KEY = "Rc85U37411p4zdvcedm8D4t4D3l9Sa42H0kd98Gbd82aA99a61S2Z5LbQ9u430M0";
-    private static String UC_APPID = "4";
+    private static String UC_KEY = SiteCenter.getInstance().acquireUrlByKind("bbs.uc.key", "1v12H473J2Y99935473T4360w5L014522281007621223O1708wv870273fB0200");
+    private static String UC_APPID = SiteCenter.getInstance().acquireUrlByKind("bbs.uc.appid", "9");
     private static String UC_CLIENT_RELEASE = "20090212";
     public static String UC_ROOT = "";
     private static String UC_API_FUNC = "mysql".equals(UC_CONNECT) ? UC_API_MYSQL : UC_API_POST;
@@ -92,8 +96,6 @@ public class Client extends AbstractClient {
             sep = "&";
         }
         String postData = ucApiRequestdata(module, action, str.toString(), "");
-        UC_API = SiteCenter.getInstance().acquireUrlByKind("bbs.ucapi");
-        UC_IP = SiteCenter.getInstance().acquireUrlByKind("bbs.ip");
         return ucFopen2(UC_API + "/index.php", 500000, postData, "", true, UC_IP, 20, true);
     }
 
