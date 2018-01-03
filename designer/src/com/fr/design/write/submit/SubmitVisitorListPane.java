@@ -68,7 +68,7 @@ public class SubmitVisitorListPane extends ObjectJControlPane {
             return;
         }
 
-        List<NameObject> nameObjectList = new ArrayList<>();
+        List<NameObject> nameObjectList = new ArrayList<NameObject>();
 
         int submiterCount = reportWriteAttr.getSubmitVisitorCount();
         for (int i = 0; i < submiterCount; i++) {
@@ -169,8 +169,8 @@ public class SubmitVisitorListPane extends ObjectJControlPane {
         public CustomPane() {
             this.setLayout(FRGUIPaneFactory.createBorderLayout());
             customCardPane = FRGUIPaneFactory.createCardLayout_S_Pane();
-            customSubmitPanes = new HashMap<>();
-            comboItemsMap = new HashMap<>();
+            customSubmitPanes = new HashMap<String, BasicBeanPane>();
+            comboItemsMap = new HashMap<String, String>();
 
             Set<SubmitProvider> providers = ExtraDesignClassManager.getInstance().getArray(SubmitProvider.MARK_STRING);
             addSubmitPane(new DefaultSubmit());
@@ -178,7 +178,7 @@ public class SubmitVisitorListPane extends ObjectJControlPane {
                 addSubmitPane(provider);
             }
 
-            configTypes = new ArrayList<>();
+            configTypes = new ArrayList<String>();
             for (Map.Entry<String, BasicBeanPane> entry : customSubmitPanes.entrySet()) {
                 String key = entry.getKey();
                 configTypes.add(comboItemsMap.get(key));

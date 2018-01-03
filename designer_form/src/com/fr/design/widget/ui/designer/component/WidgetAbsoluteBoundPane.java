@@ -1,7 +1,11 @@
 package com.fr.design.widget.ui.designer.component;
 
 import com.fr.design.designer.creator.XCreator;
+import com.fr.design.designer.creator.XWAbsoluteLayout;
 import com.fr.design.gui.ispinner.UISpinner;
+import com.fr.design.mainframe.FormDesigner;
+import com.fr.design.mainframe.WidgetPropertyPane;
+import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.design.widget.WidgetBoundsPaneFactory;
 import com.fr.form.ui.container.WLayout;
 import com.fr.general.Inter;
@@ -35,6 +39,8 @@ public class WidgetAbsoluteBoundPane extends WidgetBoundPane {
 
     @Override
     public void update() {
+        FormDesigner formDesigner = WidgetPropertyPane.getInstance().getEditingFormDesigner();
+        formDesigner.getSelectionModel().getSelection().backupBounds();
         super.update();
         Rectangle bounds = new Rectangle(creator.getBounds());
         bounds.x = (int) x.getValue();
@@ -45,6 +51,9 @@ public class WidgetAbsoluteBoundPane extends WidgetBoundPane {
         WLayout wabs = parent.toData();
         wabs.setBounds(creator.toData(), bounds);
         creator.setBounds(bounds);
+        LayoutUtils.layoutContainer(creator);
+        XWAbsoluteLayout layout = (XWAbsoluteLayout) parent;
+        layout.updateBoundsWidget(creator);
     }
 
     @Override

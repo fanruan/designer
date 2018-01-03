@@ -247,34 +247,30 @@ public class MobileWidgetTable extends JTable {
      * @return String[][] 二维数组，[0][0]widgetName
      */
     private String[][] getData() {
-        List<String> mobileWidgetList = new ArrayList<String>();
         if (designer.isFormParaDesigner()) {
             return new String[0][0];
         }
 
-        WSortLayout body = (WSortLayout) designer.getRootComponent().toData();
+        //选择的控件
+        XCreator selectedCreator = designer.getSelectionModel().getSelection().getSelectedCreator();
+        Widget selectedModel = selectedCreator != null ? selectedCreator.toData() : null;
 
-        if (body == null) {
+        if (selectedModel == null) {
             return new String[0][0];
         }
 
-        body.setSorted(false);
-
-        if (body.getWidgetCount() > 0 && body.getWidget(0).acceptType(WAbsoluteBodyLayout.class)) {
-            WAbsoluteBodyLayout absoluteBodyLayout = (WAbsoluteBodyLayout) ((WAbsoluteLayout.BoundsWidget) body.getWidget(0)).getWidget();
-            mobileWidgetList = absoluteBodyLayout.getOrderedMobileWidgetList();
+        // 选择的控件有两种类型，一种是WLayout，代表容器，一种是Widget，代表控件
+        if (selectedModel.acceptType(WSortLayout.class)) {
+            List<String> mobileWidgetList = ((WSortLayout) selectedModel).getOrderedMobileWidgetList();
+            String[][] widgetName = new String[mobileWidgetList.size() + 1][1];
+            widgetName[0][0] = Inter.getLocText("FR-Designer_WidgetOrder");
+            for (int i = 0; i < mobileWidgetList.size(); i++) {
+                widgetName[i + 1][0] = mobileWidgetList.get(i);
+            }
+            return widgetName;
         } else {
-            mobileWidgetList = body.getOrderedMobileWidgetList();
+            return new String[0][0];
         }
-        String[][] widgetName = new String[mobileWidgetList.size() + 1][1];
-        widgetName[0][0] = Inter.getLocText("FR-Designer_WidgetOrder");
-        for (int i = 0; i < mobileWidgetList.size(); i++) {
-            widgetName[i + 1][0] = mobileWidgetList.get(i);
-        }
-
-        body.setSorted(true);
-        return widgetName;
-
     }
 
     public boolean isCollapsed() {

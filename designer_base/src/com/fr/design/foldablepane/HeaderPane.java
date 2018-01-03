@@ -2,12 +2,16 @@ package com.fr.design.foldablepane;
 
 import com.fr.base.GraphHelper;
 import com.fr.design.constants.UIConstants;
-import com.fr.design.gui.syntax.ui.rsyntaxtextarea.RSyntaxUtilities;
-
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.util.Map;
 
 /**
  * Created by MoMeak on 2017/7/5.
@@ -55,26 +59,20 @@ public class HeaderPane extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g.create();
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
         BufferedImage panelImage = createPanelImage();
         g2d.drawImage(panelImage, null, 0, 0);
+        GraphHelper.applyRenderingHints(g2d);
         GraphHelper.drawString(g2d, this.title, TITLE_X, headHeight - fontSize / 2 - 1);
     }
 
     private BufferedImage createPanelImage() {
         BufferedImage panelImage = new BufferedImage(getWidth(), headHeight, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = panelImage.createGraphics();
-
         g2d.setColor(isPressed ? UIConstants.POPUP_TITLE_BACKGROUND : UIConstants.COMPONENT_BACKGROUND_COLOR);
         headWidth = this.getWidth();
         g2d.fillRect(0, 0, headWidth, headHeight);
         g2d.setFont(new Font("SimSun", 0, fontSize));
         g2d.setPaint(bgColor);
-        Map<?, ?> desktopHints = RSyntaxUtilities.getDesktopAntiAliasHints();
-        if (desktopHints != null) {
-            g2d.setRenderingHints(desktopHints);
-        }
         int leftWdith = headWidth - LEFT_X;
         if (this.isShow) {
             image = UIConstants.DRAG_DOWN_SELECTED_SMALL;

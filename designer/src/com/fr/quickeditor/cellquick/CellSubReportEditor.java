@@ -56,4 +56,10 @@ public class CellSubReportEditor extends CellQuickEditor {
     public boolean isScrollAll() {
         return true;
     }
+
+    @Override
+    public void release() {
+        super.release();
+        subReportButton.setAction(null);
+    }
 }
