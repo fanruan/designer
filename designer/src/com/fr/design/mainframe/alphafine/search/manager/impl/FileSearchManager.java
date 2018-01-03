@@ -20,6 +20,7 @@ import com.fr.stable.project.ProjectConstants;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -148,7 +149,8 @@ public class FileSearchManager implements AlphaFineSearchProvider {
      */
     private void searchFileContent(Env env, String searchText, FileNode node, boolean isAlreadyContain, boolean needMore) {
         try {
-            InputStreamReader isr = new InputStreamReader(env.readBean(node.getEnvPath().substring(ProjectConstants.REPORTLETS_NAME.length() + 1), ProjectConstants.REPORTLETS_NAME), "UTF-8");
+            InputStream inputStream = env.readBean(node.getEnvPath().substring(ProjectConstants.REPORTLETS_NAME.length() + 1), ProjectConstants.REPORTLETS_NAME);
+            InputStreamReader isr = new InputStreamReader(inputStream, "UTF-8");
             BufferedReader reader = new BufferedReader(isr);
             String line;
             int columnNumber;
