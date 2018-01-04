@@ -59,14 +59,11 @@ public abstract class LazyComboBox extends UIComboBox implements PopupMenuListen
 	}
 
 	/**
-	 * 通过调用该方法，在点击下拉框按钮之前就加载好数据
+	 * 通过调用该方法，在点击下拉框按钮之前就加载好数据,不需要出现loading了
 	 */
 	public void loadInstant() {
-		if (loaded) {
-			return;
-		}
-		setModel(new DefaultComboBoxModel(load()));
-		loaded = true;
+		setLoaded(true);
+		loadList();
 	}
 
 	@Override

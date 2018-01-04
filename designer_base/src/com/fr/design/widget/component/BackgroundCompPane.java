@@ -10,7 +10,6 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.widget.accessibles.AccessibleImgBackgroundEditor;
 import com.fr.form.ui.Widget;
 import com.fr.general.Inter;
-import com.vividsolutions.jts.index.bintree.Interval;
 
 import javax.swing.*;
 import java.awt.*;

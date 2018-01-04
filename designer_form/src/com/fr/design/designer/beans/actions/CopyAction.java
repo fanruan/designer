@@ -10,7 +10,7 @@ import java.awt.event.KeyEvent;
 
 import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
 
-public class CopyAction extends FormEditAction {
+public class CopyAction extends FormWidgetEditAction {
 
     public CopyAction(FormDesigner t) {
         super(t);

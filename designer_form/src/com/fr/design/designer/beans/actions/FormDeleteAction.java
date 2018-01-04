@@ -17,7 +17,7 @@ import com.fr.design.mainframe.FormSelection;
  * @author richer
  * @since 6.5.3
  */
-public class FormDeleteAction extends FormUndoableAction {
+public class FormDeleteAction extends FormWidgetEditAction {
 
     public FormDeleteAction(FormDesigner t) {
         super(t);
@@ -54,10 +54,5 @@ public class FormDeleteAction extends FormUndoableAction {
 
         creator.deleteRelatedComponent(creator, designer);
         return false;
-    }
-
-    @Override
-    public void update() {
-        this.setEnabled(true);
     }
 }

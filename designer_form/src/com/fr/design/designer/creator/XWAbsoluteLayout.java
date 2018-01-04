@@ -171,16 +171,14 @@ public class XWAbsoluteLayout extends XLayoutContainer {
                 tabLayout.updateBoundsWidget();
             }
         }
-        BoundsWidget boundsWidget = (BoundsWidget) layout.getBoundsWidget(xCreator.toData());
-        Rectangle rectangle = dealWidgetBound(xCreator.getBounds());
     }
 
     private Rectangle calculateBound(Rectangle rec, double pw, double ph) {
         Rectangle calRec = new Rectangle(0, 0, 0, 0);
-        calRec.x = (int) (rec.x / pw);
-        calRec.y = (int) (rec.y / ph);
-        calRec.width = (int) (rec.width / pw);
-        calRec.height = (int) (rec.height / ph);
+        calRec.x = (int) Math.round(rec.x / pw);
+        calRec.y = (int) Math.round(rec.y / ph);
+        calRec.width = (int) Math.round(rec.width / pw);
+        calRec.height = (int) Math.round(rec.height / ph);
         return calRec;
     }
 
@@ -514,5 +512,10 @@ public class XWAbsoluteLayout extends XLayoutContainer {
             BoundsWidget widget = (BoundsWidget) toData().getBoundsWidget(xCreator.toData());
             widget.setBounds(xCreator.getBounds());
         }
+    }
+
+    @Override
+    public boolean supportInnerOrderChangeActions() {
+        return true;
     }
 }

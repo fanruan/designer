@@ -688,9 +688,9 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	 * 创建右击弹出菜单
 	 *
 	 */
-	public JPopupMenu createPopupMenu(FormDesigner formDesigner) {
+	public UIPopupMenu createPopupMenu(FormDesigner formDesigner) {
         UpdateAction[] actions = formDesigner.getActions();
-		JPopupMenu popup = new UIPopupMenu();
+		UIPopupMenu popup = new UIPopupMenu();
         for (int i = 0; i < actions.length; i++) {
             if (i == SHORTS_SEPARATOR_POS) {
                 popup.addSeparator();

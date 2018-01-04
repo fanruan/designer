@@ -16,7 +16,16 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JSeparator;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.BasicSliderUI;
@@ -69,7 +78,9 @@ public class JSliderPane extends JPanel {
     private UIRadioButton twoFiveButton;
     private UIRadioButton selfAdaptButton;
     private UIRadioButton customButton;
-    //拖动条处理和button、直接输入不一样
+    /**
+     * 拖动条处理和button、直接输入不一样
+     */
     private boolean isButtonOrIsTxt = true;
     private PopupPane dialog;
     private int upButtonX;
@@ -93,7 +104,7 @@ public class JSliderPane extends JPanel {
         initShowValButton();
         initUIRadioButton();
         initPane();
-        JPanel panel = new JPanel(new FlowLayout(1, 0, 0));
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         panel.add(downButton);
         panel.add(slider);
         panel.add(upButton);
@@ -103,12 +114,8 @@ public class JSliderPane extends JPanel {
     }
 
 
-    public static final JSliderPane getInstance() {
-//        if (THIS == null) {
-//            THIS = new JSliderPane();
-//        }
-        THIS = new JSliderPane();
-        return THIS;
+    public static JSliderPane getInstance() {
+        return new JSliderPane();
     }
 
     private void initSlider() {
@@ -253,14 +260,14 @@ public class JSliderPane extends JPanel {
         return spinnerPanel;
     }
 
-    ActionListener showValButtonActionListener = new ActionListener() {
+    private ActionListener showValButtonActionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             popupDialog();
         }
     };
 
-    ChangeListener showValSpinnerChangeListener = new ChangeListener() {
+    private ChangeListener showValSpinnerChangeListener = new ChangeListener() {
         @Override
         public void stateChanged(ChangeEvent e) {
             int val = (int) ((UIBasicSpinner) e.getSource()).getValue();
@@ -283,7 +290,7 @@ public class JSliderPane extends JPanel {
 
 
     //定义一个监听器，用于监听所有滑动条
-    ChangeListener listener = new ChangeListener() {
+    private ChangeListener listener = new ChangeListener() {
         public void stateChanged(ChangeEvent event) {
             //取出滑动条的值，并在文本中显示出来
             if (!isButtonOrIsTxt) {
@@ -303,7 +310,7 @@ public class JSliderPane extends JPanel {
         }
     };
 
-    ItemListener radioButtonItemListener = new ItemListener() {
+    private ItemListener radioButtonItemListener = new ItemListener() {
         @Override
         public void itemStateChanged(ItemEvent e) {
             JRadioButton temp = (JRadioButton) e.getSource();
@@ -384,7 +391,7 @@ public class JSliderPane extends JPanel {
         } else if (value < HALF_HUNDRED) {
             times = (int) Math.round(ONEPOINTEIGHT * value + TEN);
         } else {
-            times = (int) (SIX * value - TWO_HUNDRED);
+            times = SIX * value - TWO_HUNDRED;
         }
     }
 
