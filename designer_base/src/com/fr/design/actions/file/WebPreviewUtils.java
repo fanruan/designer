@@ -34,15 +34,17 @@ public final class WebPreviewUtils {
         if (map == null || map == Collections.EMPTY_MAP) {
             map = new HashMap<>();
         }
-        map.put("mode", DesignerMode.getMode().toString());
+        if (DesignerMode.isVcsMode()) {
+            map.put("mode", DesignerMode.getMode().toString());
+        }
         DesignerContext.getDesignerFrame().refreshToolbar();
 
         jt.stopEditing();
         /*
          * alex:如果没有保存,先保存到Env
-		 * 
-		 * 如果保存失败,不执行下面的WebPreview
-		 */
+         *
+         * 如果保存失败,不执行下面的WebPreview
+         */
         if (!jt.isSaved() && !jt.saveTemplate2Env()) {
             return;
         }
