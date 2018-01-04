@@ -5,6 +5,8 @@ package com.fr.design.designer.creator.cardlayout;
 
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
+import com.fr.design.designer.beans.LayoutAdapter;
+import com.fr.design.designer.beans.adapters.layout.FRCardMainBorderLayoutAdapter;
 import com.fr.design.designer.beans.models.SelectionModel;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XCreatorUtils;
@@ -364,6 +366,11 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 		}
 		xwCardTitleLayout.setBounds(parentBounds);
 		this.addCardPart((XWCardLayout)this.getComponent(0));
+	}
+
+	@Override
+	public LayoutAdapter getLayoutAdapter() {
+		return new FRCardMainBorderLayoutAdapter(this);
 	}
 
 }
