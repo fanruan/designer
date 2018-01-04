@@ -37,6 +37,7 @@ import com.fr.design.menu.ToolBarDef;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
+import com.fr.general.sql.SqlUtils;
 import com.fr.script.Calculator;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.ParameterProvider;
@@ -177,8 +178,8 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 
 	private void refresh() {
 		String[] paramTexts = new String[2];
-		paramTexts[0] = sqlTextPane.getText();
-		paramTexts[1] = pageQuery;
+		paramTexts[0] = SqlUtils.tryPureSqlText(sqlTextPane.getText());
+		paramTexts[1] = SqlUtils.tryPureSqlText(pageQuery);
 		List<ParameterProvider> existParameterList = editorPane.update();
 		Parameter[] ps = existParameterList == null ? new Parameter[0] : existParameterList.toArray(new Parameter[existParameterList.size()]);
 
