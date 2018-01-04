@@ -455,11 +455,27 @@ public class XWTabFitLayout extends XWFitLayout {
 	@Override
 	public Component getParentShow(){
 		XCardSwitchButton cardSwitchButton = this.getxCardSwitchButton();
+		if(cardSwitchButton == null){
+			initRelateSwitchButton();
+		}
 		//控件树上显示其taglayout层
 		if ((cardSwitchButton != null)) {
 			return cardSwitchButton.getTagLayout();
 		}
 		return super.getParentShow();
+	}
+
+	public void initRelateSwitchButton(){
+		//先确定此tabFitLayout所处位置
+		XLayoutContainer parentContainer = this.getBackupParent();
+		int index = parentContainer.getIndexOfChild(this);
+		XWCardMainBorderLayout cardMainBorderLayout = (XWCardMainBorderLayout) this.getTopLayout();
+		XWCardTitleLayout titleLayout = cardMainBorderLayout.getTitlePart();
+		XWCardTagLayout tagLayout =  titleLayout.getTagPart();
+		XCreator xCreator = tagLayout.getXCreator(index);
+		if(xCreator != null){
+			this.setxCardSwitchButton((XCardSwitchButton)xCreator);
+		}
 	}
 	
     /**
@@ -605,6 +621,5 @@ public class XWTabFitLayout extends XWFitLayout {
 		int width = fm.stringWidth(cardSwitchButton.getText())+ WIDTH_SIDE_OFFSET;
 		xCardSwitchButton.setPreferredSize(new Dimension(width, xCardSwitchButton.getHeight()));
 	}
-
 
 }
