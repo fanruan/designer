@@ -147,6 +147,9 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
         new FormDesignerDropTarget(this);// 添加Drag and Drop.
 
         this.switchAction = switchAction;
+
+        // 必须刷新"参数/控件树"面板，否则，若最近一次打开模版为 cpt，重启设计器，打开 frm，控件树消失
+        populateParameterPropertyPane();
     }
 
     /**
@@ -1027,9 +1030,11 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
             if (!BaseUtils.isAuthorityEditing()) {
                 selectionModel.setSelectedCreators(selected);
 
-                TreePath path = e.getNewLeadSelectionPath();
-                XCreator comp = (XCreator) path.getLastPathComponent();
-                formArea.scrollPathToVisible(comp);
+                if (formArea != null) {
+                    TreePath path = e.getNewLeadSelectionPath();
+                    XCreator comp = (XCreator) path.getLastPathComponent();
+                    formArea.scrollPathToVisible(comp);
+                }
             } else {
                 showAuthorityEditPane();
             }
