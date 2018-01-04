@@ -19,7 +19,6 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.mainframe.EditingMouseListener;
 import com.fr.design.mainframe.FormDesigner;
-import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.form.ui.CardSwitchButton;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WCardLayout;
@@ -378,13 +377,6 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
             XCardSwitchButton temp = (XCardSwitchButton) this.getComponent(i);
             setTabBtnSize(cardWidth, cardHeight, temp);
         }
-
-        FormDesigner formDesigner = WidgetPropertyPane.getInstance().getEditingFormDesigner();
-        LayoutAdapter layoutAdapter = AdapterBus.searchLayoutAdapter(formDesigner, parent);
-        if (layoutAdapter != null) {
-            parent.setBackupBound(parent.getBounds());
-            layoutAdapter.fix(parent);
-        }
     }
 
     public void setTabBtnSize(int cardWidth, int cardHeight,  XCardSwitchButton temp){
@@ -427,12 +419,6 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
             setTabBtnSize(cardWidth, cardHeight, temp);
         }
 
-        FormDesigner formDesigner = WidgetPropertyPane.getInstance().getEditingFormDesigner();
-        LayoutAdapter layoutAdapter = AdapterBus.searchLayoutAdapter(formDesigner, parent);
-        if (layoutAdapter != null) {
-            parent.setBackupBound(parent.getBounds());
-            layoutAdapter.fix(parent);
-        }
     }
 
 }
