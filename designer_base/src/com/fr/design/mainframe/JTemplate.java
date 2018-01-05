@@ -989,7 +989,21 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
         return UIConstants.RUN_BIG_ICON;
     }
 
+    /**
+     * 获取所有参数
+     *
+     * @return
+     */
     public Parameter[] getParameters() {
+        return new Parameter[0];
+    }
+
+    /**
+     * 获取模板参数
+     *
+     * @return
+     */
+    public Parameter[] getJTemplateParameters() {
         return new Parameter[0];
     }
 
