@@ -60,13 +60,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 			this.setLayout(FRGUIPaneFactory.createBorderLayout());
 			add(editor, BorderLayout.CENTER);
 		}
-
-		if (initSize.width == 0) {
-			initSize.width = this.initEditorSize().width;
-		}
-		if (initSize.height == 0) {
-			initSize.height = this.initEditorSize().height;
-		}
+		setInitSize(initSize);
 		this.setPreferredSize(initSize);
 		this.setSize(initSize);
 		this.setMaximumSize(initSize);
@@ -87,6 +81,18 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	public void useBackupSize() {
 		if (this.backupSize != null) {
 			setSize(this.backupSize);
+		}
+	}
+
+	/**
+	 * 初始化组件大小
+	 */
+	public void setInitSize(Dimension initSize) {
+		if (initSize.width == 0) {
+			initSize.width = this.initEditorSize().width;
+		}
+		if (initSize.height == 0) {
+			initSize.height = this.initEditorSize().height;
 		}
 	}
 
