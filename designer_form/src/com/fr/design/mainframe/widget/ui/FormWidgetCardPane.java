@@ -17,6 +17,7 @@ import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.frpane.AbstractAttrNoScrollPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
+import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.FormDesigner;
@@ -211,8 +212,9 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
         currentEditorDefinePane.setGlobalName(getGlobalName());
         Widget widget = currentEditorDefinePane.updateBean();
         if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_Basic")) && widgetPropertyPane != null) {
-            if (designer.getTarget().isNameExist(widgetPropertyPane.getWidgetNameField().getText()) && !ComparatorUtils.equals(widgetPropertyPane.getWidgetNameField().getText(), widget.getWidgetName())) {
-                widgetPropertyPane.getWidgetNameField().setText(widget.getWidgetName());
+            UITextField widgetNameField = widgetPropertyPane.getWidgetNameField();
+            if (designer.getTarget().isNameExist(widgetNameField.getText()) && !ComparatorUtils.equals(widgetNameField.getText(), widget.getWidgetName())) {
+                widgetNameField.setText(widget.getWidgetName());
                 JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("FR-Designer_Form_Widget_Rename_Failure"), Inter.getLocText("FR-Designer_Joption_News"), JOptionPane.ERROR_MESSAGE, BaseUtils.readIcon("com/fr/design/form/images/joption_failure.png"));
                 return;
             }
