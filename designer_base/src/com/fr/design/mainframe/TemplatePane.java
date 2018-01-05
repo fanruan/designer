@@ -10,6 +10,7 @@ import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.dialog.InformationWarnPane;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.file.TemplateTreePane;
+import com.fr.design.fun.DesignerFrameUpButtonProvider;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.env.EnvListPane;
@@ -18,6 +19,10 @@ import com.fr.env.SignIn;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
+import com.fr.plugin.context.PluginContext;
+import com.fr.plugin.manage.PluginFilter;
+import com.fr.plugin.observer.PluginEvent;
+import com.fr.plugin.observer.PluginEventListener;
 import com.fr.stable.EnvChangedListener;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
@@ -33,6 +38,23 @@ import java.awt.event.MouseListener;
 public class TemplatePane extends JPanel implements MouseListener {
     private static final long NUM = 1L;
     private static int NUM200 = 200;
+
+    static {
+        GeneralContext.listenPluginRunningChanged(new PluginEventListener() {
+            @Override
+            public void on(PluginEvent event) {
+                JTemplate template = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+                if (template != null) {
+                    template.refreshToolArea();
+                }
+            }
+        }, new PluginFilter() {
+            @Override
+            public boolean accept(PluginContext context) {
+                return context.contain(DesignerFrameUpButtonProvider.XML_TAG);
+            }
+        });
+    }
 
     public static TemplatePane getInstance() {
         return HOLDER.singleton;
