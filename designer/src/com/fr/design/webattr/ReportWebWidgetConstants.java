@@ -32,7 +32,8 @@ public class ReportWebWidgetConstants {
 
     public static WidgetOption[] getWriteToolBarInstance() {
         return new WidgetOption[]{SUBMIT, VERIFY, EMAIL, EXPORT, PDF, EXCELP, EXCELO, EXCELS, WORD, PRINT, FLASHPRINT, APPLETPRINT, PDFPRINT, IMPORTEXCELDATA, SHOWCELLVALUE,
-                APPENDCOLUMNROW, DELETECOLUMNROW, SETPRINTEROFFSET, WRITEOFFLINEHTML, CUSTOM_BUTTON, WRITESTASH, WRITESTASHCLEAR, IMPORTEXCELDATA_CUSTOMIZED};
+                APPENDCOLUMNROW, DELETECOLUMNROW, SETPRINTEROFFSET, WRITEOFFLINEHTML, CUSTOM_BUTTON, WRITESTASH, WRITESTASHCLEAR, IMPORTEXCELDATA_CUSTOMIZED,
+                IMPORTEXCEL, IMPORTEXCEL_COVER, IMPORTEXCEL_CLEAN, IMPORTEXCEL_APPEND};
     }
 
     public static WidgetOption[] getFormToolBarInstance() {
@@ -148,5 +149,16 @@ public class ReportWebWidgetConstants {
     // 数据清空
     public static final WidgetOption WRITESTASHCLEAR = WidgetOptionFactory
             .createByWidgetClass(Inter.getLocText("FR-Engine-Write_Clear"), BaseUtils.readIcon("/com/fr/web/images/edit/clearstash.png"), ClearStashedButton.class);
-
+    //Excel导入
+    public static final WidgetOption IMPORTEXCEL= WidgetOptionFactory.createByWidgetClass(Inter.getLocText("FR-Engine_Excel_Import_Repeat"),
+            BaseUtils.readIcon("/com/fr/web/images/excel.png"), ExcelImport.class);
+    //Excel导入_覆盖
+    public static final WidgetOption IMPORTEXCEL_COVER= WidgetOptionFactory.createByWidgetClass(Inter.getLocText("FR-Engine_Excel_Import_Cover"),
+            BaseUtils.readIcon("/com/fr/web/images/excel.png"), ImExcelCover.class);
+    //Excel导入_清空
+    public static final WidgetOption IMPORTEXCEL_CLEAN= WidgetOptionFactory.createByWidgetClass(Inter.getLocText("FR-Engine_Excel_Import_Clean"),
+            BaseUtils.readIcon("/com/fr/web/images/excel.png"), ImExcelClean.class);
+    //Excel导入_增量
+    public static final WidgetOption IMPORTEXCEL_APPEND= WidgetOptionFactory.createByWidgetClass(Inter.getLocText("FR-Engine_Excel_Import_Append"),
+            BaseUtils.readIcon("/com/fr/web/images/excel.png"), ImExcelAppend.class);
 }

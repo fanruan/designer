@@ -37,6 +37,8 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.regex.Pattern;
 
 /**
@@ -57,6 +59,7 @@ public class SelectedDataColumnPane extends BasicPane {
 
     private UIButton paramButton;
     private ElementCasePane casePane;
+    private CellElement cellElement;  // 保存当前选中的 CE
 
     public SelectedDataColumnPane() {
         this(true, false, null);
@@ -159,6 +162,7 @@ public class SelectedDataColumnPane extends BasicPane {
         if (cellElement == null) {
             return;
         }
+        this.cellElement = cellElement;
         if (itemListener != null) {
             removeListener(itemListener);
         }
@@ -259,10 +263,20 @@ public class SelectedDataColumnPane extends BasicPane {
 
     protected void initTableNameComboBox() {
         tableNameComboBox = new TableDataComboBox(DesignTableDataManager.getEditingTableDataSource());
+        final ExecutorService executorService = Executors.newSingleThreadExecutor();
         tableNameComboBox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                columnNameComboBox.setLoaded(false);
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    executorService.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            synchronized (columnNameComboBox) {
+                                columnNameComboBox.loadInstant();
+                            }
+                        }
+                    });
+                }
             }
         });
         tableNameComboBox.setPreferredSize(new Dimension(100, 20));
@@ -303,7 +317,7 @@ public class SelectedDataColumnPane extends BasicPane {
                     public void doOk() {
                         List<ParameterProvider> parameterList = editorPane.update();
                         ps = parameterList.toArray(new Parameter[parameterList.size()]);
-                        update(cellElement);
+                        update(SelectedDataColumnPane.this.cellElement);
                         casePane.fireTargetModified();
                     }
                 });

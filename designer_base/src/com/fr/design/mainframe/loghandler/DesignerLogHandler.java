@@ -11,6 +11,7 @@ import com.fr.general.FRLogLevel;
 import com.fr.general.FRLogger;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
+import com.fr.general.LogRecordTime;
 import com.fr.log.LogHandler;
 import com.fr.stable.EnvChangedListener;
 import com.fr.stable.xml.LogRecordTimeProvider;
@@ -157,6 +158,10 @@ public class DesignerLogHandler {
 
     public void printRemoteLog(String message, Level level, Date date) {
         logHandlerArea.printStackTrace(message, level, date);
+    }
+
+    public void printRemoteLog(LogRecordTime logRecordTime) {
+        logHandlerArea.printStackTrace(logRecordTime);
     }
 
     private class LogHandlerArea extends JPanel {
