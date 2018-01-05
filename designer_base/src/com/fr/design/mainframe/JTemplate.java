@@ -1003,7 +1003,9 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
      *
      * @return
      */
-    public abstract Parameter[] getJTemplateParameters();
+    public Parameter[] getJTemplateParameters() {
+        return new Parameter[0];
+    }
 
     /**
      * 请求表单焦点

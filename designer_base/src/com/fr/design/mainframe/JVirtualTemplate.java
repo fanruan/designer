@@ -1,7 +1,6 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.Parameter;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.designer.TargetComponent;
 import com.fr.design.file.HistoryTemplateListPane;
@@ -254,11 +253,6 @@ public class JVirtualTemplate extends JTemplate {
     @Override
     public void setAuthorityMode(boolean isUpMode) {
 
-    }
-
-    @Override
-    public Parameter[] getJTemplateParameters() {
-        return new Parameter[0];
     }
 
     @Override
