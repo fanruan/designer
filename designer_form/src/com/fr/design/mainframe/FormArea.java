@@ -116,12 +116,11 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
                     changeWidthPaneValue(MOBILE_ONLY_WIDTH);
                     heightPane.setValue(MOBILE_ONLY_HEIGHT);
                     changeHeightPaneValue(MOBILE_ONLY_HEIGHT);
-                    widthPane.setEnabled(false);
-                } else if (!formMobileAttr.isMobileOnly() && !widthPane.isEnabled()) {
-                    widthPane.setEnabled(true);
                 }
+                widthPane.setEnabled(!formMobileAttr.isMobileOnly());
             }
         });
+        widthPane.setEnabled(!jForm.getTarget().getFormMobileAttr().isMobileOnly());
     }
 
     MouseWheelListener showValSpinnerMouseWheelListener = new MouseWheelListener() {
