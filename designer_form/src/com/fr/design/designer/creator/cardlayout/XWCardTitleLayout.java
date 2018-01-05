@@ -54,6 +54,14 @@ public class XWCardTitleLayout extends XWBorderLayout {
 		super(widget, initSize);
 	}
 
+	/**
+	 * 初始化组件大小，titlePart的宽高可能为0
+	 */
+	@Override
+	public void setInitSize(Dimension initSize){
+		return;
+	}
+
 
 	public WTabDisplayPosition getDisplayPosition(){
 		return ((WCardTagLayout)this.getTagPart().toData()).getDisplayPosition();
@@ -87,8 +95,7 @@ public class XWCardTitleLayout extends XWBorderLayout {
 	public void convert(){
         isRefreshing = true;
         WCardTitleLayout titleLayout = (WCardTitleLayout)this.toData();
-        this.setVisible(titleLayout.isVisible());
-        this.removeAll();
+		this.removeAll();
         String[] arrs = {WBorderLayout.NORTH, WBorderLayout.SOUTH, WBorderLayout.EAST, WBorderLayout.WEST, WBorderLayout.CENTER};
         for (int i = 0; i < arrs.length; i++) {
             Widget wgt = titleLayout.getLayoutWidget(arrs[i]);
@@ -222,5 +229,5 @@ public class XWCardTitleLayout extends XWBorderLayout {
 	public XCreator getXCreator() {
 		return (XCreator)this.getComponent(1);
 	}
-
+	
 }
