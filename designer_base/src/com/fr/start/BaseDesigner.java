@@ -123,8 +123,6 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
         switch2LastEnv();
         
         initDefaultFont();
-        //PluginManager要在环境切换和模块启动之前初始化
-        PluginManager.registerEnvListener();
         // 必须先初始化Env再去startModule, 不然会导致lic读取不到
         ModuleContext.startModule(module2Start());
         
