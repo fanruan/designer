@@ -1,6 +1,8 @@
 package com.fr.design.dialog.mobile;
 
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.event.ChangeListener;
+import com.fr.design.event.UIObserverListener;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
@@ -10,6 +12,7 @@ import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +44,10 @@ public class MobileRadioCheckPane extends BasicBeanPane<Boolean> {
         fitOpsPane.setBorder(BorderFactory.createEmptyBorder(5, 0, 10, 0));
 
         this.add(fitOpsPane);
+	}
+
+	public void registerChangeLister(UIObserverListener listener) {
+		checkBoxes.get(0).registerChangeListener(listener);
 	}
 
 	public int getCurrentState() {
