@@ -236,7 +236,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         centerPane.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, new Color(85, 85, 85)));
         formDesign = new FormDesigner(this.getTarget(), new TabChangeAction(BaseJForm.ELEMENTCASE_TAB, this));
         WidgetToolBarPane.getInstance(formDesign);
-        FormArea area = new FormArea(formDesign);
+        FormArea area = new FormArea(formDesign, this);
         JPanel areaWrapper = new JPanel(new BorderLayout());
         areaWrapper.add(area, BorderLayout.CENTER);
         areaWrapper.setBackground(Color.white);

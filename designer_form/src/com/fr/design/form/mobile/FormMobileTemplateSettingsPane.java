@@ -133,6 +133,8 @@ public class FormMobileTemplateSettingsPane extends BasicBeanPane<FormMobileAttr
             ob = new FormMobileAttr();
         }
 //        this.mobileOnlyCheckPane.populateBean(ob.isRefresh());
+        mobileOnlyCheck.setSelected(ob.isMobileOnly());
+        adaptivePropertyAutoMatchCheck.setSelected(ob.isAdaptivePropertyAutoMatch());
     }
 
     @Override
@@ -142,14 +144,15 @@ public class FormMobileTemplateSettingsPane extends BasicBeanPane<FormMobileAttr
 
     @Override
     public void updateBean(FormMobileAttr mobileAttr) {
-//        if(mobileAttr != null) {
-//            mobileAttr.setRefresh(this.mobileOnlyCheckPane.updateBean());
-//        }
+        if(mobileAttr != null) {
+            mobileAttr.setMobileOnly(mobileOnlyCheck.isSelected());
+            mobileAttr.setAdaptivePropertyAutoMatch(adaptivePropertyAutoMatchCheck.isSelected());
+        }
     }
 
     @Override
     protected String title4PopupWindow() {
-        return "模版设置";
+        return Inter.getLocText("FR-Designer_Template_Settings");
     }
 
 }
