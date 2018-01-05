@@ -39,7 +39,7 @@ public class EditFloatElementNameAction extends FloatSelectionAction {
 				if (report.getFloatElement(name) == null) {
 					selectedFloatElement.setName(name);
 				}
-				reportPane.setSelection(new FloatSelection(name));
+				((FloatSelection) reportPane.getSelection()).setFloatName(name);
 			}                
         });
         nameDialog.setVisible(true);
