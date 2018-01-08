@@ -51,6 +51,8 @@ public class ReportSplashPane extends SplashPane {
     private int loadingIndex = 0;
     private String[] loading = new String[]{"..", "....", "......"};
     private java.util.Timer timer = new java.util.Timer();
+    
+    private ModuleListener listener;
 
     private static float uiScale(float f) {
         return f * JBUI_INIT_SCALE;
@@ -74,8 +76,8 @@ public class ReportSplashPane extends SplashPane {
                 ReportSplashPane.this.repaint();
             }
         }, 0, 300);
-
-        ModuleListener moduleListener = new ModuleAdapter() {
+    
+        listener = new ModuleAdapter() {
             @Override
             public void onStartBefore(String moduleName, String moduleI18nName) {
                 moduleID = moduleI18nName;
@@ -84,9 +86,13 @@ public class ReportSplashPane extends SplashPane {
                 ReportSplashPane.this.repaint();
             }
         };
-        ModuleContext.registerModuleListener(moduleListener);
     }
-
+    
+    public ModuleListener getModuleListener() {
+        
+        return listener;
+    }
+    
     protected void paintComponent(Graphics g) {
         Icon icon = IconLoader.getIcon(StableUtils.pathJoin(OEM_PATH, getImageName()));
         icon.paintIcon(null, g, 0, 0);
