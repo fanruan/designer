@@ -39,23 +39,6 @@ public class TemplatePane extends JPanel implements MouseListener {
     private static final long NUM = 1L;
     private static int NUM200 = 200;
 
-    static {
-        GeneralContext.listenPluginRunningChanged(new PluginEventListener() {
-            @Override
-            public void on(PluginEvent event) {
-                JTemplate template = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
-                if (template != null) {
-                    template.refreshToolArea();
-                }
-            }
-        }, new PluginFilter() {
-            @Override
-            public boolean accept(PluginContext context) {
-                return context.contain(DesignerFrameUpButtonProvider.XML_TAG);
-            }
-        });
-    }
-
     public static TemplatePane getInstance() {
         return HOLDER.singleton;
     }
