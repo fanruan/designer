@@ -434,6 +434,9 @@ public class StateModel {
     // 拖拽时画依附线用到的painter
     private void setDependLinePainter(MouseEvent e) {
         XCreator comp = designer.getComponentAt(e.getX(), e.getY(), selectionModel.getSelection().getSelectedCreators());
+        if(comp ==null){
+            return;
+        }
         XLayoutContainer container = XCreatorUtils.getHotspotContainer(comp);
         XCreator creator = selectionModel.getSelection().getSelectedCreator();
         HoverPainter painter = AdapterBus.getContainerPainter(designer, container);

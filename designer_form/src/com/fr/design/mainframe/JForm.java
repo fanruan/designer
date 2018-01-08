@@ -2,6 +2,7 @@ package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.PaperSize;
+import com.fr.base.Parameter;
 import com.fr.design.DesignState;
 import com.fr.design.actions.core.WorkBookSupportable;
 import com.fr.design.actions.file.WebPreviewUtils;
@@ -14,12 +15,7 @@ import com.fr.design.designer.beans.actions.FormDeleteAction;
 import com.fr.design.designer.beans.actions.PasteAction;
 import com.fr.design.designer.beans.events.DesignerEditListener;
 import com.fr.design.designer.beans.events.DesignerEvent;
-import com.fr.design.designer.creator.XComponent;
-import com.fr.design.designer.creator.XCreator;
-import com.fr.design.designer.creator.XCreatorUtils;
-import com.fr.design.designer.creator.XLayoutContainer;
-import com.fr.design.designer.creator.XWAbsoluteBodyLayout;
-import com.fr.design.designer.creator.XWParameterLayout;
+import com.fr.design.designer.creator.*;
 import com.fr.design.designer.properties.FormWidgetAuthorityEditPane;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
@@ -62,17 +58,8 @@ import com.fr.stable.ArrayUtils;
 import com.fr.stable.Constants;
 import com.fr.stable.bridge.StableFactory;
 
-import javax.swing.BorderFactory;
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -681,6 +668,11 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
      */
     public Icon getPreviewLargeIcon() {
         return UIConstants.RUN_BIG_ICON;
+    }
+
+    @Override
+    public Parameter[] getJTemplateParameters() {
+        return this.getTarget().getTemplateParameters();
     }
 
     @Override

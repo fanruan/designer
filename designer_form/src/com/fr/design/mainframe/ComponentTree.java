@@ -240,7 +240,7 @@ public class ComponentTree extends JTree {
             previewPane.setVisible(false);
         }
 
-        if (!previewPane.isVisible()) {
+        if (!previewPane.isVisible() && comp.getWidth() != 0 && comp.getHeight() != 0) {
             previewPane.setComp(comp);
             int popupPosY = popupPosYOnScreen - FormHierarchyTreePane.getInstance().getLocationOnScreen().y;
             GUICoreUtils.showPopupMenu(previewPane, FormHierarchyTreePane.getInstance(), -previewPane.getPreferredSize().width, popupPosY);

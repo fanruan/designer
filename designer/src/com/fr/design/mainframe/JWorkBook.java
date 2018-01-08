@@ -976,6 +976,11 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
         return ps;
     }
 
+    @Override
+    public Parameter[] getJTemplateParameters() {
+        return this.parameterPane.getAllParameters();
+    }
+
     /**
      * 请求单元格区域的焦点
      */

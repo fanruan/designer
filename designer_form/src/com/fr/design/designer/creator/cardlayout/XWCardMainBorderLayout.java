@@ -12,9 +12,11 @@ import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XCreatorUtils;
 import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.designer.creator.XWBorderLayout;
+import com.fr.design.designer.creator.XWidgetCreator;
 import com.fr.design.icon.IconPathConstants;
 import com.fr.design.mainframe.EditingMouseListener;
 import com.fr.design.mainframe.FormDesigner;
+import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.form.ui.container.WBorderLayout;
 import com.fr.form.ui.container.WTabDisplayPosition;
@@ -101,6 +103,31 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
         super.add(comp, position);
     }
 
+
+	/**
+	 * 将WLayout转换为XLayoutContainer
+	 */
+	@Override
+	public void convert() {
+		isRefreshing = true;
+		WBorderLayout wb = this.toData();
+		this.removeAll();
+		String[] arrs = {WBorderLayout.NORTH, WBorderLayout.SOUTH, WBorderLayout.EAST, WBorderLayout.WEST, WBorderLayout.CENTER};
+		for (int i = 0; i < arrs.length; i++) {
+			Widget wgt = wb.getLayoutWidget(arrs[i]);
+			//用来兼容之前titlePart设置不可见
+			if (wgt != null && ComparatorUtils.equals(arrs[i], WBorderLayout.NORTH) && !wgt.isVisible()) {
+				wgt.setVisible(true);
+				this.toData().setNorthSize(0);
+			}
+			if (wgt != null) {
+				XWidgetCreator comp = (XWidgetCreator) XCreatorUtils.createXCreator(wgt, calculatePreferredSize(wgt));
+				this.add(comp, arrs[i]);
+				comp.setBackupParent(this);
+			}
+		}
+		isRefreshing = false;
+	}
 
 	/**
 	 * 切换到非添加状态
