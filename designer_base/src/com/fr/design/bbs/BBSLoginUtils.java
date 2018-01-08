@@ -2,6 +2,8 @@ package com.fr.design.bbs;
 
 import com.fr.base.ConfigManager;
 import com.fr.base.FRContext;
+import com.fr.base.entity.BBSAttr;
+import com.fr.base.entity.LoginTypeKey;
 import com.fr.stable.StringUtils;
 
 import java.util.List;
@@ -13,8 +15,10 @@ public class BBSLoginUtils {
 
     public static void bbsLogin(String username, String password){
         try{
-            ConfigManager.getProviderInstance().setBbsUsername(username);
-            ConfigManager.getProviderInstance().setBbsPassword(password);
+            BBSAttr bbsAttr = new BBSAttr();
+            bbsAttr.setBbsUsername(username);
+            bbsAttr.setBbsPassword(password);
+            ConfigManager.getProviderInstance().setAttribute(LoginTypeKey.LOGIN_TYPE_BBS, bbsAttr);
             FRContext.getCurrentEnv().writeResource(ConfigManager.getProviderInstance());
         }catch (Exception e){
             FRContext.getLogger().error(e.getMessage());
@@ -22,16 +26,14 @@ public class BBSLoginUtils {
     }
 
     public static void bbsLogin(List<String> list){
-        try{
+        try {
             String uid = list.get(0);
             String username = list.get(1);
             String password = list.get(2);
-            ConfigManager.getProviderInstance().setBbsUsername(username);
-            ConfigManager.getProviderInstance().setBbsPassword(password);
-            ConfigManager.getProviderInstance().setBbsUid(Integer.parseInt(uid));
-            ConfigManager.getProviderInstance().setInShowBBsName(username);
+            BBSAttr bbsAttr = new BBSAttr(username, password, Integer.parseInt(uid), username);
+            ConfigManager.getProviderInstance().setAttribute(LoginTypeKey.LOGIN_TYPE_BBS, bbsAttr);
             FRContext.getCurrentEnv().writeResource(ConfigManager.getProviderInstance());
-        }catch (Exception e){
+        } catch (Exception e) {
             FRContext.getLogger().error(e.getMessage());
         }
     }
