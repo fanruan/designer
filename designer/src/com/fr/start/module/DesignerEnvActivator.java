@@ -39,8 +39,6 @@ public class DesignerEnvActivator extends Activator {
         //todo 也切换到新Module
         ModuleContext.registerModuleListener(getModule().findSingleton(ModuleListener.class));
         ModuleContext.startModule(DesignerModule.class.getName());
-        switch2LastEnv();
-    
     }
     
     
