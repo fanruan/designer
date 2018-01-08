@@ -687,6 +687,10 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         TemplateTreePane.getInstance().refreshDockingView();
         DesignTableDataManager.clearGlobalDs();
         EastRegionContainerPane.getInstance().refreshDownPane();
+        JTemplate template = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+        if (template != null) {
+            template.refreshToolArea();
+        }
     }
 
     /**
