@@ -428,6 +428,23 @@ public class PageSetupPane extends BasicPane {
 
             setAndPopulate(isCustomed, unitType);
             populateMargin();
+
+            checkMobileSetting(report);
+        }
+
+        private void checkMobileSetting(Report report) {
+            if (report.getBook().getReportMobileAttr().isMobileCanvasSize()) {
+                // 当勾选移动端画布大小后，自定义选项不可修改；限制宽度范围
+                predefinedRadioButton.setEnabled(false);
+                predefinedComboBox.setEnabled(false);
+                double maxWidth;
+                if (unitType == Constants.UNIT_MM) {  // 毫米
+                    maxWidth = PaperSize.PAPERSIZE_MOBILE.getWidth().toMMValue4Scale2();
+                } else {  // 英寸
+                    maxWidth = PaperSize.PAPERSIZE_MOBILE.getWidth().toINCHValue4Scale3();
+                }
+                ((SpinnerNumberModel)paperWidthSpinner.getModel()).setMaximum(maxWidth);
+            }
         }
         
         private void unitSet(int unitType) {
