@@ -876,6 +876,15 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
         return true;
     }
 
+    /**
+     * 是否应该画出分页线
+     *
+     * @return 是则返回true
+     */
+    public boolean shouldPaintPaginateLines() {
+        return true;
+    }
+
     @Override
     public HyperlinkGroupPane getHyperLinkPane(HyperlinkGroupPaneActionProvider hyperlinkGroupPaneActionProvider) {
         return ReportHyperlinkGroupPane.getInstance(hyperlinkGroupPaneActionProvider);

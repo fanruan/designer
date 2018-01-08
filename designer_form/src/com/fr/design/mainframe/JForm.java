@@ -1,6 +1,7 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.PaperSize;
 import com.fr.design.DesignState;
 import com.fr.design.actions.core.WorkBookSupportable;
 import com.fr.design.actions.file.WebPreviewUtils;
@@ -22,7 +23,6 @@ import com.fr.design.designer.creator.XWParameterLayout;
 import com.fr.design.designer.properties.FormWidgetAuthorityEditPane;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
-import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.frpane.HyperlinkGroupPane;
 import com.fr.design.gui.frpane.HyperlinkGroupPaneActionProvider;
 import com.fr.design.gui.ilable.UILabel;
@@ -56,6 +56,8 @@ import com.fr.form.ui.container.WLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
+import com.fr.page.PaperSettingProvider;
+import com.fr.report.worksheet.FormElementCase;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Constants;
 import com.fr.stable.bridge.StableFactory;
@@ -163,6 +165,15 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
      */
     public boolean isJWorkBook() {
         return false;
+    }
+
+    /**
+     * 是否应该画出分页线
+     *
+     * @return 是则返回true
+     */
+    public boolean shouldPaintPaginateLines() {
+        return getTarget().getFormMobileAttr().isMobileOnly();
     }
 
     /**
@@ -830,7 +841,12 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         designerClass.put(Constants.ARG_0, FormElementCaseProvider.class);
 
         Object[] designerArg = new Object[]{formDesign.getElementCase()};
-        return StableFactory.getMarkedInstanceObjectFromClass(FormECDesignerProvider.XML_TAG, designerArg, designerClass, FormECDesignerProvider.class);
+        FormECDesignerProvider formECDesigner = StableFactory.getMarkedInstanceObjectFromClass(FormECDesignerProvider.XML_TAG, designerArg, designerClass, FormECDesignerProvider.class);
+        // 如果是移动端专属模版，需要修改页面大小并显示边缘线
+        PaperSettingProvider paperSetting = ((FormElementCase)formECDesigner.getEditingElementCase()).getReportSettings().getPaperSetting();
+        paperSetting.setPaperSize(getTarget().getFormMobileAttr().isMobileOnly() ? PaperSize.PAPERSIZE_MOBILE : new PaperSize());
+
+        return formECDesigner;
     }
 
     /**
