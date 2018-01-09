@@ -779,17 +779,10 @@ public class GridUI extends ComponentUI {
 
     private void paintGridSelectionForFormula(Graphics2D g2d, ElementCase report, CellSelection cs) {
         // denny: 标记公式用到的单元格
-        if (report.getCellValue(cs.getColumn(), cs.getRow()) instanceof BaseFormula) {
-            BaseFormula tmpFormula = (BaseFormula) report
-                    .getCellValue(cs.getColumn(), cs.getRow());
-            String statement = tmpFormula.getContent();
-            // denny: 获得公式中包含的所有单元格
-            ColumnRow[] columnRowArray = new ColumnRow[0];
-            try {
-                columnRowArray = CalculatorUtils.relatedColumnRowArray(statement.substring(1));
-            } catch (ANTLRException ae) {
-                // do nothing.
-            }
+        Object cellValue = report.getCellValue(cs.getColumn(), cs.getRow());
+        if (cellValue instanceof BaseFormula) {
+            BaseFormula tmpFormula = (BaseFormula) cellValue;
+            ColumnRow[] columnRowArray = tmpFormula.getRelatedColumnRows();
             Area formulaCellArea = null;
             for (int i = 0; i < columnRowArray.length; i++) {
                 ColumnRow columnRow = columnRowArray[i];
