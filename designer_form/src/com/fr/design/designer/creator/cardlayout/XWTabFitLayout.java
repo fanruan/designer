@@ -43,7 +43,7 @@ import java.beans.IntrospectionException;
  */
 public class XWTabFitLayout extends XWFitLayout {
 	
-	private static final int MIN_SIZE = 1;
+	private static final int MIN_SIZE = 0;
 
 	private static final int WIDTH_SIDE_OFFSET = 57;
 
@@ -281,7 +281,7 @@ public class XWTabFitLayout extends XWFitLayout {
 			}
 		}
     	//删除整个tab布局
-    	if(tag.getWidgetCount() <= 0){
+    	if(tag.getWidgetCount() <= MIN_SIZE){
     		deleteTabLayout(mainLayout,designer);
     		return;
     	}
