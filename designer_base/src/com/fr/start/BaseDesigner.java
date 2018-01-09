@@ -83,7 +83,7 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
             DesignUtils.clientSend(args);
             return;
         }
-        
+
         Register.load();
         //标记一下是设计器启动
         PluginConversionModule.getInstance().markDesignerStart();

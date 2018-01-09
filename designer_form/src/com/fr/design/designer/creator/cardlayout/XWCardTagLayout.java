@@ -19,6 +19,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.mainframe.EditingMouseListener;
 import com.fr.design.mainframe.FormDesigner;
+import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.form.ui.CardSwitchButton;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WCardLayout;
@@ -55,6 +56,8 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
     private static final int HEIGHT_SIDE_OFFSET = 20;
 
     private static final int DEFAULT_BUTTON_HEIGHT = 40;
+
+    public static final String DEFAULT_NAME = "tabpane";
 
     public CardSwitchButton getCurrentCard() {
         return currentCard;
@@ -163,7 +166,7 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
 
     @Override
     public String createDefaultName() {
-        return "tabpane";
+        return DEFAULT_NAME;
     }
 
     /**
@@ -324,6 +327,8 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
         int tabLength = this.getComponentCount();
         Map<Integer, Integer> cardWidth = new HashMap<Integer, Integer>();
         Map<Integer, Integer> cardHeight = new HashMap<Integer, Integer>();
+        XLayoutContainer parent  = this.getBackupParent();
+
         for (int i = 0; i < tabLength; i++) {
             XCardSwitchButton temp = (XCardSwitchButton) this.getComponent(i);
             CardSwitchButton tempCard = (CardSwitchButton) temp.toData();
@@ -351,17 +356,17 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
             }
         }
         if(isHori()){
-            adjustTabsH(tabLength, cardWidth, cardHeight);
+            adjustTabsH(parent, tabLength, cardWidth, cardHeight);
         }else {
-            adjustTabsV(tabLength, cardWidth, cardHeight);
+            adjustTabsV(parent, tabLength, cardWidth, cardHeight);
         }
+        fixTitleLayout(parent);
     }
 
-    public void adjustTabsH(int tabLength, Map<Integer, Integer> width, Map<Integer, Integer> height) {
+    public void adjustTabsH(XLayoutContainer parent, int tabLength, Map<Integer, Integer> width, Map<Integer, Integer> height) {
         if (width == null) {
             return;
         }
-        XLayoutContainer parent = this.getBackupParent();
         int tabPaneSize = parent.getHeight();
         //调整XWCardTagLayout的高度
         int tempX = 0;
@@ -369,9 +374,6 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
             Rectangle rectangle = this.getComponent(i).getBounds();
             Integer cardWidth = width.get(i) + WIDTH_SIDE_OFFSET;
             Integer cardHeight = tabPaneSize;
-            if(cardHeight < DEFAULT_BUTTON_HEIGHT){
-                cardHeight = DEFAULT_BUTTON_HEIGHT;
-            }
             rectangle.setBounds(tempX, 0, cardWidth, cardHeight);
             tempX += cardWidth;
             XCardSwitchButton temp = (XCardSwitchButton) this.getComponent(i);
@@ -394,11 +396,10 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
     }
 
 
-    public void adjustTabsV(int tabLength, Map<Integer, Integer> width, Map<Integer, Integer> height) {
+    public void adjustTabsV(XLayoutContainer parent, int tabLength, Map<Integer, Integer> width, Map<Integer, Integer> height) {
         if (width == null) {
             return;
         }
-        XLayoutContainer parent = this.getBackupParent();
         int tabPaneSize = parent.getWidth();
         int tempY = 0;
         for (int i = 0; i < tabLength; i++) {
@@ -406,19 +407,21 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
             Integer cardWidth = tabPaneSize;
             //先用这边的固定高度
             Integer cardHeight = height.get(i) + HEIGHT_SIDE_OFFSET;
-
-            if(cardWidth < DEFAULT_BUTTON_HEIGHT){
-                cardWidth = DEFAULT_BUTTON_HEIGHT;
-            }
-            if(cardHeight < DEFAULT_BUTTON_HEIGHT){
-                cardHeight = DEFAULT_BUTTON_HEIGHT;
-            }
             rectangle.setBounds(0, tempY, cardWidth, cardHeight);
             tempY += cardHeight;
             XCardSwitchButton temp = (XCardSwitchButton) this.getComponent(i);
             setTabBtnSize(cardWidth, cardHeight, temp);
         }
 
+    }
+
+    private void fixTitleLayout(XLayoutContainer parent){
+        FormDesigner formDesigner = WidgetPropertyPane.getInstance().getEditingFormDesigner();
+        LayoutAdapter layoutAdapter = AdapterBus.searchLayoutAdapter(formDesigner, parent);
+        if (layoutAdapter != null) {
+            parent.setBackupBound(parent.getBounds());
+            layoutAdapter.fix(parent);
+        }
     }
 
 }

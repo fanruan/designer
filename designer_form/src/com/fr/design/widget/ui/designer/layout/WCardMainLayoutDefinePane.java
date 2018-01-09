@@ -2,6 +2,8 @@ package com.fr.design.widget.ui.designer.layout;
 
 import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.XCreator;
+import com.fr.design.designer.creator.cardlayout.XWCardLayout;
+import com.fr.design.designer.creator.cardlayout.XWCardTagLayout;
 import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
@@ -13,6 +15,8 @@ import com.fr.design.widget.ui.designer.AbstractDataModify;
 import com.fr.form.ui.LayoutBorderStyle;
 import com.fr.form.ui.container.WCardLayout;
 import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
+import com.fr.form.ui.container.cardlayout.WCardTagLayout;
+import com.fr.form.ui.container.cardlayout.WCardTitleLayout;
 import com.fr.general.Inter;
 
 import javax.swing.BorderFactory;
@@ -21,6 +25,7 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.UUID;
 
 /**
  * Created by ibm on 2017/8/2.
@@ -75,7 +80,7 @@ public class WCardMainLayoutDefinePane  extends AbstractDataModify<WCardMainBord
         WCardLayout cardLayout = ob.getCardPart();
         accessibleCardTagWLayoutBorderStyleEditor.setValue(ob.getBorderStyle());
         setCarousel.setSelected(cardLayout.isCarousel());
-        IntervalPane.setVisible(ob.isCarousel());
+        IntervalPane.setVisible(cardLayout.isCarousel());
         carouselInterval.setValue(cardLayout.getCarouselInterval());
     }
 
@@ -83,8 +88,8 @@ public class WCardMainLayoutDefinePane  extends AbstractDataModify<WCardMainBord
     @Override
     public WCardMainBorderLayout updateBean() {
         WCardMainBorderLayout layout = (WCardMainBorderLayout) creator.toData();
-        layout.setBorderStyle((LayoutBorderStyle) accessibleCardTagWLayoutBorderStyleEditor.getValue());
         WCardLayout wCardLayout = layout.getCardPart();
+        wCardLayout.setBorderStyle((LayoutBorderStyle) accessibleCardTagWLayoutBorderStyleEditor.getValue());
         wCardLayout.setCarousel(setCarousel.isSelected());
         wCardLayout.setCarouselInterval((int)carouselInterval.getValue());
         return layout;

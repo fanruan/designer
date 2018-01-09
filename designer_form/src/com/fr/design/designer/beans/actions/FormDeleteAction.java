@@ -48,11 +48,8 @@ public class FormDeleteAction extends FormWidgetEditAction {
         if (designer == null) {
             return false;
         }
-        FormSelection selection = designer.getSelectionModel().getSelection();
-        XCreator creator = selection.getSelectedCreator();
         designer.getSelectionModel().deleteSelection();
 
-        creator.deleteRelatedComponent(creator, designer);
         return false;
     }
 }

@@ -35,6 +35,7 @@ public class TabMoveAction extends FormUndoableAction {
             moveTabAction(xwCardTagLayout, currentButton, xCurrentTab, currentTab);
 
             xwCardTagLayout.setSwitchingTab(false);
+            xwCardTagLayout.doLayout();
         }catch (Exception e){
             xwCardTagLayout.setSwitchingTab(false);
             FRLogger.getLogger().error(e.getMessage());

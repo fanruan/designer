@@ -28,7 +28,12 @@ import com.fr.stable.ArrayUtils;
 import com.fr.stable.core.PropertyChangeAdapter;
 
 import javax.swing.border.Border;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Rectangle;
 import java.beans.IntrospectionException;
 
 
@@ -38,7 +43,7 @@ import java.beans.IntrospectionException;
  */
 public class XWTabFitLayout extends XWFitLayout {
 	
-	private static final int MIN_SIZE = 1;
+	private static final int MIN_SIZE = 0;
 
 	private static final int WIDTH_SIDE_OFFSET = 57;
 
@@ -266,21 +271,22 @@ public class XWTabFitLayout extends XWFitLayout {
     	//放置tab按钮的tagLayout
     	XWCardTagLayout tagLayout = titleLayout.getTagPart();
     	WCardTagLayout tag = (WCardTagLayout) tagLayout.toData();
-    	
+
+		//先删除对应的tab按钮
+		for(int i=0;i<tagLayout.getComponentCount();i++){
+			CardSwitchButton button = tag.getSwitchButton(i);
+			if(button.getIndex()==index){
+				tagLayout.remove(i);
+				break;
+			}
+		}
     	//删除整个tab布局
     	if(tag.getWidgetCount() <= MIN_SIZE){
     		deleteTabLayout(mainLayout,designer);
     		return;
     	}
     	
-    	//先删除对应的tab按钮
-    	for(int i=0;i<tagLayout.getComponentCount();i++){
-    		CardSwitchButton button = tag.getSwitchButton(i);
-    		if(button.getIndex()==index){
-    			tagLayout.remove(i);
-    			break;
-    		}
-    	}
+
     	//刷新tab按钮和tabFitLayout的index
     	refreshIndex(tag,cardLayout,index);
     	
@@ -298,21 +304,21 @@ public class XWTabFitLayout extends XWFitLayout {
 		FormHierarchyTreePane.getInstance().refreshRoot();
 		selectionModel.setSelectedCreator(designer.getRootComponent());
 	}
-	
-	private void refreshIndex(WCardTagLayout tag,XWCardLayout cardLayout,int index){
-    	for(int i=0;i<tag.getWidgetCount();i++){
-    		CardSwitchButton button = tag.getSwitchButton(i);
-    		XWTabFitLayout tempFit = (XWTabFitLayout) cardLayout.getComponent(i);
-    		WTabFitLayout tempFitLayout = (WTabFitLayout) tempFit.toData();
-    		int currentFitIndex = tempFitLayout.getIndex();
-    		int buttonIndex = button.getIndex();
-    		if(buttonIndex > index){
-    			button.setIndex(--buttonIndex);
-    		}
-    		if(currentFitIndex > index){
-    			tempFitLayout.setIndex(--currentFitIndex);
-    		}
-    	}
+
+	private void refreshIndex(WCardTagLayout tag, XWCardLayout cardLayout, int index) {
+		for (int i = 0; i < tag.getWidgetCount(); i++) {
+			CardSwitchButton button = tag.getSwitchButton(i);
+			XWTabFitLayout tempFit = (XWTabFitLayout) cardLayout.getComponent(i);
+			WTabFitLayout tempFitLayout = (WTabFitLayout) tempFit.toData();
+			int currentFitIndex = tempFitLayout.getIndex();
+			int buttonIndex = button.getIndex();
+			if (buttonIndex > index) {
+				button.setIndex(--buttonIndex);
+			}
+			if (currentFitIndex > index) {
+				tempFitLayout.setIndex(--currentFitIndex);
+			}
+		}
 	}
 	
 	/**
@@ -461,7 +467,7 @@ public class XWTabFitLayout extends XWFitLayout {
 		}
 		//控件树上显示其taglayout层
 		if ((cardSwitchButton != null)) {
-			return cardSwitchButton.getTagLayout();
+			return cardSwitchButton.getBackupParent();
 		}
 		return super.getParentShow();
 	}
