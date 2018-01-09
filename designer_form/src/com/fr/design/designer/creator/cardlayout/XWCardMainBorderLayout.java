@@ -379,7 +379,7 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 	 */
 	@Override
 	public void firePropertyChange(){
-
+		return;
 	}
 
 
