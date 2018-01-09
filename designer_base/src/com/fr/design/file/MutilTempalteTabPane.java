@@ -24,8 +24,17 @@ import com.fr.stable.project.ProjectConstants;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicMenuItemUI;
 import java.awt.*;
-import java.awt.event.*;
-import java.awt.geom.*;
+import java.awt.event.AWTEventListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.geom.Arc2D;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
+import java.awt.geom.Path2D;
+import java.awt.geom.RoundRectangle2D;
 import java.io.File;
 import java.util.logging.Level;
 
@@ -305,6 +314,15 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
         paintBackgroundAndLine(g2d, maxWidth);
     }
 
+
+    public void paint(Graphics g) {
+        //不可见时，按钮.4f透明
+        AlphaComposite composite = DesignerMode.isVcsMode()
+                ? AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f)
+                : (AlphaComposite) ((Graphics2D) g).getComposite();
+        ((Graphics2D) g).setComposite(composite);
+        super.paint(g);
+    }
 
     private void paintBackgroundAndLine(Graphics2D g2d, double maxWidth) {
         paintDefaultBackground(g2d);
@@ -635,7 +653,6 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
     public void mousePressed(MouseEvent e) {
         //如果在版本管理情况下，不允许切换tab
         if (DesignerMode.isVcsMode()) {
-            JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Vcs_tab_click"), Inter.getLocText("FR-Designer_Alert"), JOptionPane.WARNING_MESSAGE);
             return;
         }
 

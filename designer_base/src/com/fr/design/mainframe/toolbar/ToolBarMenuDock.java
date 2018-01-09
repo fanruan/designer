@@ -591,22 +591,7 @@ public abstract class ToolBarMenuDock {
     }
 
     public NewTemplatePane getNewTemplatePane() {
-        return new NewTemplatePane() {
-            @Override
-            public Icon getNew() {
-                return BaseUtils.readIcon("/com/fr/design/images/buttonicon/addicon.png");
-            }
-
-            @Override
-            public Icon getMouseOverNew() {
-                return BaseUtils.readIcon("/com/fr/design/images/buttonicon/add_press.png");
-            }
-
-            @Override
-            public Icon getMousePressNew() {
-                return BaseUtils.readIcon("/com/fr/design/images/buttonicon/add_press.png");
-            }
-        };
+        return ToolBarNewTemplatePane.getInstance();
     }
 
     protected void insertMenu(MenuDef menuDef, String anchor) {
