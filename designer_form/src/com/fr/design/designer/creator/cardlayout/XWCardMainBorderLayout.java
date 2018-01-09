@@ -19,8 +19,11 @@ import com.fr.design.mainframe.FormDesigner;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.form.ui.container.WBorderLayout;
+import com.fr.form.ui.container.WCardLayout;
 import com.fr.form.ui.container.WTabDisplayPosition;
 import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
+import com.fr.form.ui.container.cardlayout.WCardTagLayout;
+import com.fr.form.ui.container.cardlayout.WCardTitleLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
@@ -126,7 +129,27 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 				comp.setBackupParent(this);
 			}
 		}
+		dealCompatibility(wb);
+
 		isRefreshing = false;
+	}
+
+	private void dealCompatibility(WBorderLayout wb){
+		WCardMainBorderLayout ob = (WCardMainBorderLayout)wb;
+		WCardLayout cardLayout = ob.getCardPart();
+		//tab结构改变需要兼容以前的tab，重新命名tabpane
+		WCardTitleLayout wCardTitleLayout = ob.getTitlePart();
+		if(cardLayout == null || wCardTitleLayout == null){
+			return;
+		}
+		WCardTagLayout wCardTagLayout = wCardTitleLayout.getTagPart();
+		String tabpaneName = cardLayout.getWidgetName();
+		if (!wCardTagLayout.isNewTab()) {
+			wCardTagLayout.setWidgetName(tabpaneName);
+			cardLayout.setWidgetName(XWCardLayout.DEFAULT_NAME + tabpaneName.replaceAll(XWCardTagLayout.DEFAULT_NAME, ""));
+			wCardTagLayout.setNewTab(true);
+			wCardTagLayout.setNewTab(true);
+		}
 	}
 
 	/**
@@ -341,13 +364,7 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 	 */
 	@Override
 	public XLayoutContainer getTopLayout() {
-		XLayoutContainer xTopLayout = XCreatorUtils.getParentXLayoutContainer(this).getTopLayout();
-		if (xTopLayout != null && !xTopLayout.isEditable()){
-			return xTopLayout;
-		}
-		else{
 			return this;
-		}
 	}
 
 	@Override
@@ -362,7 +379,7 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 	 */
 	@Override
 	public void firePropertyChange(){
-		return;
+
 	}
 
 

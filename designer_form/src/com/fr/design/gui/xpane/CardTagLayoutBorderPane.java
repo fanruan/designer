@@ -92,15 +92,18 @@ public class CardTagLayoutBorderPane extends LayoutBorderPane {
 		return;
 	}
 
-	    public LayoutBorderStyle update() {
-	        LayoutBorderStyle style = new LayoutBorderStyle();
-	        style.setBorderStyle(this.getBorderStyleCombo().getSelectedIndex());
-	        style.setBorder(this.getCurrentLineCombo().getSelectedLineStyle());
-	        style.setColor(this.getCurrentLineColorPane().getColor());
-	        style.setBackground(this.getBackgroundPane().update());
-	        style.setAlpha((float)(this.getNumberDragPane().updateBean()/this.getMaxNumber()));
-			return style;
+	public LayoutBorderStyle update() {
+		LayoutBorderStyle style = new LayoutBorderStyle();
+		if (this.getBorderStyle() != null) {
+			style.setStyle(this.getBorderStyle());
 		}
+		style.setBorderStyle(this.getBorderStyleCombo().getSelectedIndex());
+		style.setBorder(this.getCurrentLineCombo().getSelectedLineStyle());
+		style.setColor(this.getCurrentLineColorPane().getColor());
+		style.setBackground(this.getBackgroundPane().update());
+		style.setAlpha((float) (this.getNumberDragPane().updateBean() / this.getMaxNumber()));
+		return style;
+	}
 
 	protected void populateBorderType(){
 		return;
