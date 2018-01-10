@@ -46,10 +46,6 @@ public class MobileRadioCheckPane extends BasicBeanPane<Boolean> {
         this.add(fitOpsPane);
 	}
 
-	public void registerChangeLister(UIObserverListener listener) {
-		checkBoxes.get(0).registerChangeListener(listener);
-	}
-
 	public int getCurrentState() {
 		return checkBoxes.get(0).isSelected() ? 0 : 1;
 	}

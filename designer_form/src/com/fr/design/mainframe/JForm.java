@@ -155,15 +155,6 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     }
 
     /**
-     * 是否应该画出分页线
-     *
-     * @return 是则返回true
-     */
-    public boolean shouldPaintPaginateLines() {
-        return getTarget().getFormMobileAttr().isMobileOnly();
-    }
-
-    /**
      * 返回当前支持的超链界面pane
      *
      * @return 超链连接界面
@@ -840,7 +831,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         HashMap<String, Class> designerClass = new HashMap<String, Class>();
         designerClass.put(Constants.ARG_0, FormElementCaseProvider.class);
 
-        Object[] designerArg = new Object[]{formDesign.getElementCase()};
+        Object[] designerArg = new Object[]{formDesign.getElementCase(), getTarget()};
         FormECDesignerProvider formECDesigner = StableFactory.getMarkedInstanceObjectFromClass(FormECDesignerProvider.XML_TAG, designerArg, designerClass, FormECDesignerProvider.class);
         // 如果是移动端专属模版，需要修改页面大小并显示边缘线
         PaperSettingProvider paperSetting = ((FormElementCase)formECDesigner.getEditingElementCase()).getReportSettings().getPaperSetting();

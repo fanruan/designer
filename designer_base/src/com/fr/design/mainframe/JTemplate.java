@@ -900,15 +900,6 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
     public abstract boolean isJWorkBook();
 
     /**
-     * 是否应该画出分页线
-     *
-     * @return 是则返回true
-     */
-    public boolean shouldPaintPaginateLines() {
-        return false;
-    }
-
-    /**
      * 激活指定的template
      *
      */

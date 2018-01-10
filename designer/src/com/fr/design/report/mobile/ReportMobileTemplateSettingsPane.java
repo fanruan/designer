@@ -83,7 +83,9 @@ public class ReportMobileTemplateSettingsPane extends BasicBeanPane<ElementCaseM
 
     @Override
     public ElementCaseMobileAttr updateBean() {
-        return null;
+        ElementCaseMobileAttr mobileAttr = new ElementCaseMobileAttr();
+        mobileAttr.setMobileCanvasSize(mobileCanvasSizeCheck.isSelected());
+        return mobileAttr;
     }
 
     @Override
