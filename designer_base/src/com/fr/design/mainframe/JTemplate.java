@@ -905,7 +905,7 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
      */
     public void activeJTemplate(int index, JTemplate jt) {
         DesignerContext.getDesignerFrame().activateJTemplate(this);
-    };
+    }
 
     /**
      * 激活已存在的模板

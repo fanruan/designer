@@ -7,6 +7,8 @@ import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.designer.creator.XWBorderLayout;
 import com.fr.design.designer.creator.XWFitLayout;
+import com.fr.design.event.TargetModifiedEvent;
+import com.fr.design.event.TargetModifiedListener;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UIBasicSpinner;
@@ -16,6 +18,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.scrollruler.*;
 import com.fr.design.utils.ComponentUtils;
 import com.fr.design.utils.gui.LayoutUtils;
+import com.fr.form.main.mobile.FormMobileAttr;
 import com.fr.form.ui.container.WBorderLayout;
 import com.fr.general.FRScreen;
 import com.fr.general.Inter;
@@ -36,6 +39,8 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
     private static final int SHOWVALMAX = 400;
     private static final int SHOWVALMIN = 10;
     private static final int RESIZE_PANE_GAP = 8;
+    private static final int MOBILE_ONLY_WIDTH = 375;
+    private static final int MOBILE_ONLY_HEIGHT = 560;
     private FormDesigner designer;
     private int horizontalValue = 0;
     private int verticalValue = 0;
@@ -62,10 +67,18 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
     }
 
     public FormArea(FormDesigner designer) {
-        this(designer, true);
+        this(designer, null, true);
+    }
+
+    public FormArea(FormDesigner designer, JForm jForm) {
+        this(designer, jForm, true);
     }
 
     public FormArea(FormDesigner designer, boolean useScrollBar) {
+        this(designer, null, useScrollBar);
+    }
+
+    public FormArea(FormDesigner designer, JForm jForm, boolean useScrollBar) {
         this.designer = designer;
         this.designer.setParent(this);
         isValid = useScrollBar;
@@ -87,6 +100,27 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
         }
         this.setFocusTraversalKeysEnabled(false);
         this.designer.addMouseWheelListener(showValSpinnerMouseWheelListener);
+        initMobileAttrModifiedListener(jForm);
+    }
+
+    private void initMobileAttrModifiedListener(JForm jForm) {
+        if (jForm == null) {
+            return;
+        }
+        jForm.addTargetModifiedListener(new TargetModifiedListener() {
+            @Override
+            public void targetModified(TargetModifiedEvent e) {
+                FormMobileAttr formMobileAttr = jForm.getTarget().getFormMobileAttr();
+                if (formMobileAttr.isMobileOnly() && Math.abs(widthPane.getValue() - MOBILE_ONLY_WIDTH) > 0.0000001) {
+                    widthPane.setValue(MOBILE_ONLY_WIDTH);
+                    changeWidthPaneValue(MOBILE_ONLY_WIDTH);
+                    heightPane.setValue(MOBILE_ONLY_HEIGHT);
+                    changeHeightPaneValue(MOBILE_ONLY_HEIGHT);
+                }
+                widthPane.setEnabled(!formMobileAttr.isMobileOnly());
+            }
+        });
+        widthPane.setEnabled(!jForm.getTarget().getFormMobileAttr().isMobileOnly());
     }
 
     MouseWheelListener showValSpinnerMouseWheelListener = new MouseWheelListener() {

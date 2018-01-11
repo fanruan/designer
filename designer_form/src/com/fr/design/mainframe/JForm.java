@@ -1,6 +1,7 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.PaperSize;
 import com.fr.base.Parameter;
 import com.fr.design.DesignState;
 import com.fr.design.actions.core.WorkBookSupportable;
@@ -14,16 +15,10 @@ import com.fr.design.designer.beans.actions.FormDeleteAction;
 import com.fr.design.designer.beans.actions.PasteAction;
 import com.fr.design.designer.beans.events.DesignerEditListener;
 import com.fr.design.designer.beans.events.DesignerEvent;
-import com.fr.design.designer.creator.XComponent;
-import com.fr.design.designer.creator.XCreator;
-import com.fr.design.designer.creator.XCreatorUtils;
-import com.fr.design.designer.creator.XLayoutContainer;
-import com.fr.design.designer.creator.XWAbsoluteBodyLayout;
-import com.fr.design.designer.creator.XWParameterLayout;
+import com.fr.design.designer.creator.*;
 import com.fr.design.designer.properties.FormWidgetAuthorityEditPane;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
-import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.frpane.HyperlinkGroupPane;
 import com.fr.design.gui.frpane.HyperlinkGroupPaneActionProvider;
 import com.fr.design.gui.ilable.UILabel;
@@ -57,21 +52,14 @@ import com.fr.form.ui.container.WLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
+import com.fr.page.PaperSettingProvider;
+import com.fr.report.worksheet.FormElementCase;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Constants;
 import com.fr.stable.bridge.StableFactory;
 
-import javax.swing.BorderFactory;
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -237,7 +225,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         centerPane.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, new Color(85, 85, 85)));
         formDesign = new FormDesigner(this.getTarget(), new TabChangeAction(BaseJForm.ELEMENTCASE_TAB, this));
         WidgetToolBarPane.getInstance(formDesign);
-        FormArea area = new FormArea(formDesign);
+        FormArea area = new FormArea(formDesign, this);
         JPanel areaWrapper = new JPanel(new BorderLayout());
         areaWrapper.add(area, BorderLayout.CENTER);
         areaWrapper.setBackground(Color.white);
@@ -811,6 +799,14 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     }
 
     /**
+     * 模板更新
+     */
+    public void fireTargetModified() {
+        super.fireTargetModified();
+        WidgetPropertyPane.getInstance().refreshDockingView();
+    }
+
+    /**
      * 在Form和ElementCase, 以及ElementCase和ElementCase之间切换
      *
      * @param index       切换位置
@@ -835,8 +831,13 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         HashMap<String, Class> designerClass = new HashMap<String, Class>();
         designerClass.put(Constants.ARG_0, FormElementCaseProvider.class);
 
-        Object[] designerArg = new Object[]{formDesign.getElementCase()};
-        return StableFactory.getMarkedInstanceObjectFromClass(FormECDesignerProvider.XML_TAG, designerArg, designerClass, FormECDesignerProvider.class);
+        Object[] designerArg = new Object[]{formDesign.getElementCase(), getTarget()};
+        FormECDesignerProvider formECDesigner = StableFactory.getMarkedInstanceObjectFromClass(FormECDesignerProvider.XML_TAG, designerArg, designerClass, FormECDesignerProvider.class);
+        // 如果是移动端专属模版，需要修改页面大小并显示边缘线
+        PaperSettingProvider paperSetting = ((FormElementCase)formECDesigner.getEditingElementCase()).getReportSettings().getPaperSetting();
+        paperSetting.setPaperSize(getTarget().getFormMobileAttr().isMobileOnly() ? PaperSize.PAPERSIZE_MOBILE : new PaperSize());
+
+        return formECDesigner;
     }
 
     /**
