@@ -75,9 +75,7 @@ public class UIMenu extends JMenu {
 
 			};
 			popupMenu.setInvoker(this);
-			if (popupMenu.getComponentCount() != 0) {
-				System.out.println(popupMenu.getComponentCount());
-			}
+
 			popupListener = createWinListener(popupMenu);
 		}
 	}
