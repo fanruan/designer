@@ -284,4 +284,11 @@ public class UIMenu extends JMenu {
 		return (popupMenu == null) ? new Component[0] : popupMenu.getComponents();
 	}
 
+	/**
+	 * 得到子元素
+	 * @return  子元素
+	 */
+	public MenuElement[] getSubElements() {
+		return popupMenu == null ? new MenuElement[0] : new MenuElement[]{popupMenu};
+	}
 }
