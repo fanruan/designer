@@ -52,7 +52,6 @@ public class ComponentTree extends JTree {
     }
 
     private void initListeners() {
-        this.addTreeSelectionListener(designer);
         ComponetTreeMouseListener componetTreeMouseListener = new ComponetTreeMouseListener(this);
         this.addMouseMotionListener(componetTreeMouseListener);
         this.addMouseListener(componetTreeMouseListener);
