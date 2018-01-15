@@ -215,6 +215,77 @@ public class UIMenu extends JMenu {
 		popupMenu.insert(new JPopupMenu.Separator(), index);
 	}
 
+
+	/**
+	 * 移除
+	 * @param item   菜单项
+	 */
+	public void remove(JMenuItem item) {
+		if (popupMenu != null) {
+			popupMenu.remove(item);
+		}
+	}
+
+	/**
+	 * 移除指定位置菜单项
+	 * @param pos  指定位置
+	 */
+	public void remove(int pos) {
+		if (pos < 0) {
+			throw new IllegalArgumentException("index less than zero.");
+		}
+		if (pos > getItemCount()) {
+			throw new IllegalArgumentException("index greater than the number of items.");
+		}
+		if (popupMenu != null) {
+			popupMenu.remove(pos);
+		}
+	}
+
+	/**
+	 * 移除组件
+	 * @param c  组件
+	 */
+	public void remove(Component c) {
+		if (popupMenu != null) {
+			popupMenu.remove(c);
+		}
+	}
+
+	/**
+	 * 移除所有
+	 */
+	public void removeAll() {
+		if (popupMenu != null) {
+			popupMenu.removeAll();
+		}
+	}
+
+	/**
+	 *  组件总数
+	 * @return   组件总数
+	 */
+	public int getMenuComponentCount() {
+		return (popupMenu == null) ? 0 : popupMenu.getComponentCount();
+	}
+
+	/**
+	 * 指定位置组件
+	 * @param n   指定位置
+	 * @return    组件
+	 */
+	public Component getMenuComponent(int n) {
+		return (popupMenu == null) ? null : popupMenu.getComponent(n);
+	}
+
+	/**
+	 * 所有组件
+	 * @return   所有组件
+	 */
+	public Component[] getMenuComponents() {
+		return (popupMenu == null) ? new Component[0] : popupMenu.getComponents();
+	}
+
 	/**
 	 * 得到子元素
 	 * @return  子元素
