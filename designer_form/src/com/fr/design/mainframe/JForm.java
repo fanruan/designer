@@ -248,9 +248,11 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
 
             @Override
             public void fireCreatorModified(DesignerEvent evt) {
-                if (evt.getCreatorEventID() == DesignerEvent.CREATOR_CUTED
-                        || evt.getCreatorEventID() == DesignerEvent.CREATOR_DELETED) {
+                if (evt.getCreatorEventID() == DesignerEvent.CREATOR_CUTED) {
                     setPropertyPaneChange(formDesign.getRootComponent());
+                } else if (evt.getCreatorEventID() == DesignerEvent.CREATOR_DELETED) {
+                    // 在 delete 之前，会先 select 父组件。这里直接传入 lastAffectedCreator 就好了
+                    setPropertyPaneChange(lastAffectedCreator);
                 } else if (evt.getCreatorEventID() == DesignerEvent.CREATOR_SELECTED) {
                     lastAffectedCreator = evt.getAffectedCreator();
                     setPropertyPaneChange(lastAffectedCreator);

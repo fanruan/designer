@@ -21,7 +21,9 @@ import com.fr.design.mainframe.EditingMouseListener;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.form.ui.CardSwitchButton;
+import com.fr.form.ui.LayoutBorderStyle;
 import com.fr.form.ui.Widget;
+import com.fr.form.ui.WidgetTitle;
 import com.fr.form.ui.container.WCardLayout;
 import com.fr.form.ui.container.WTabDisplayPosition;
 import com.fr.form.ui.container.cardlayout.WCardTagLayout;
@@ -55,7 +57,7 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
 
     private static final int HEIGHT_SIDE_OFFSET = 20;
 
-    private static final int DEFAULT_BUTTON_HEIGHT = 40;
+    private static final int DEFAULT_VERTICAL_SPACING = 3;
 
     public static final String DEFAULT_NAME = "tabpane";
 
@@ -323,41 +325,46 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
     }
 
     public void setTabsAndAdjust() {
-        WCardTagLayout wCardTagLayout = (WCardTagLayout)this.toData();
+        WCardTagLayout wCardTagLayout = (WCardTagLayout) this.toData();
         int tabLength = this.getComponentCount();
         Map<Integer, Integer> cardWidth = new HashMap<Integer, Integer>();
         Map<Integer, Integer> cardHeight = new HashMap<Integer, Integer>();
-        XLayoutContainer parent  = this.getBackupParent();
+        XLayoutContainer parent = this.getBackupParent();
 
         for (int i = 0; i < tabLength; i++) {
             XCardSwitchButton temp = (XCardSwitchButton) this.getComponent(i);
             CardSwitchButton tempCard = (CardSwitchButton) temp.toData();
             String tempText = tempCard.getText();
-            Font f = tempCard.getFont();
+            if (this.cardLayout == null) {
+                initCardLayout();
+            }
+            LayoutBorderStyle borderStyle = this.cardLayout.toData().getBorderStyle();
+            WidgetTitle title = borderStyle.getTitle();
+            FRFont f = title.getFrFont();
             FontMetrics fm = GraphHelper.getFontMetrics(f);
 
-            switch (wCardTagLayout.getTextDirection()){
+            switch (wCardTagLayout.getTextDirection()) {
                 case TEXT_HORI_DERECTION:
-                    cardWidth.put(i,fm.stringWidth(tempText));
-                    cardHeight.put(i,fm.getHeight());
+                    cardWidth.put(i, fm.stringWidth(tempText));
+                    cardHeight.put(i, fm.getHeight());
                     break;
                 case TEXT_VER_DIRECTION:
                     int perHeight = fm.getHeight();
                     int wordCount = tempText.length();
-                    if(tempText.length() !=0 ){
-                        cardWidth.put(i,fm.stringWidth(tempText)/tempText.length());
-                    }else {
+                    if (tempText.length() != 0) {
+                        cardWidth.put(i, fm.stringWidth(tempText) / tempText.length());
+                    } else {
                         cardWidth.put(i, 0);
                     }
-                    cardHeight.put(i,(perHeight+3)*wordCount);
+                    cardHeight.put(i, (perHeight + DEFAULT_VERTICAL_SPACING) * wordCount);
                     break;
                 default:
                     break;
             }
         }
-        if(isHori()){
+        if (isHori()) {
             adjustTabsH(parent, tabLength, cardWidth, cardHeight);
-        }else {
+        } else {
             adjustTabsV(parent, tabLength, cardWidth, cardHeight);
         }
         fixTitleLayout(parent);

@@ -78,7 +78,7 @@ public class WCardMainLayoutDefinePane  extends AbstractDataModify<WCardMainBord
     @Override
     public void populateBean(WCardMainBorderLayout ob) {
         WCardLayout cardLayout = ob.getCardPart();
-        accessibleCardTagWLayoutBorderStyleEditor.setValue(ob.getBorderStyle());
+        accessibleCardTagWLayoutBorderStyleEditor.setValue(cardLayout.getBorderStyle());
         setCarousel.setSelected(cardLayout.isCarousel());
         IntervalPane.setVisible(cardLayout.isCarousel());
         carouselInterval.setValue(cardLayout.getCarouselInterval());
