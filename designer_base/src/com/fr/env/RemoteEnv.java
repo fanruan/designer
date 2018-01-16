@@ -1537,7 +1537,7 @@ public class RemoteEnv extends AbstractEnv {
         testServerConnection();
 
         HashMap<String, String> para = new HashMap<String, String>();
-        para.put("op", "svgrelate");
+        para.put("op", "svginit");
         para.put("cmd", "design_save_svg");
         para.put("filePath", svgFile.getFilePath());
         para.put("current_uid", this.createUserID());
