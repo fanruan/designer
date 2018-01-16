@@ -42,6 +42,7 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
     private static final int MOBILE_ONLY_WIDTH = 375;
     private static final int MOBILE_ONLY_HEIGHT = 560;
     private FormDesigner designer;
+    private JForm jForm;
     private int horizontalValue = 0;
     private int verticalValue = 0;
     private int verticalMax = 0;
@@ -81,6 +82,7 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
     public FormArea(FormDesigner designer, JForm jForm, boolean useScrollBar) {
         this.designer = designer;
         this.designer.setParent(this);
+        this.jForm = jForm;
         isValid = useScrollBar;
         verScrollBar = new FormScrollBar(Adjustable.VERTICAL, this);
         horScrollBar = new FormScrollBar(Adjustable.HORIZONTAL, this);
@@ -100,10 +102,10 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
         }
         this.setFocusTraversalKeysEnabled(false);
         this.designer.addMouseWheelListener(showValSpinnerMouseWheelListener);
-        initMobileAttrModifiedListener(jForm);
+        initMobileAttrModifiedListener();
     }
 
-    private void initMobileAttrModifiedListener(JForm jForm) {
+    private void initMobileAttrModifiedListener() {
         if (jForm == null) {
             return;
         }
