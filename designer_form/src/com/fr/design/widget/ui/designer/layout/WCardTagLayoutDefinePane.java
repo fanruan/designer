@@ -1,5 +1,6 @@
 package com.fr.design.widget.ui.designer.layout;
 
+import com.fr.design.constants.LayoutConstants;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.cardtag.TemplateStyle;
 import com.fr.design.designer.IntervalConstants;
@@ -58,7 +59,21 @@ public class WCardTagLayoutDefinePane extends AbstractDataModify<WCardTagLayout>
 
         UILabel fontLabel = new UILabel(Inter.getLocText("FR-Designer_Font"));
         fontLabel.setVerticalAlignment(SwingConstants.TOP);
-        frFontPane = new FRFontPane();
+        frFontPane = new FRFontPane(){
+
+            protected JPanel createRightPane() {
+                double p = TableLayout.PREFERRED;
+                double f = TableLayout.FILL;
+                double[] columnSize = {f};
+                double[] rowSize = {p};
+                int[][] rowCount = {{1, 1}};
+                Component[][] components = new Component[][]{
+                        new Component[]{fontSizeComboBox},
+                };
+                return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
+            }
+
+        };
         displayPositionGroup =  new UIButtonGroup(WTabDisplayPosition.getStringArray()){
             @Override
             public boolean shouldResponseNameListener() {
