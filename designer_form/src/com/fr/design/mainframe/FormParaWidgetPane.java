@@ -371,7 +371,7 @@ public class FormParaWidgetPane extends JPanel {
 
             designer.addParaComponent();
             JPanel pane = FormWidgetDetailPane.getInstance(designer);
-            EastRegionContainerPane.getInstance().replaceDownPane(pane);
+            EastRegionContainerPane.getInstance().replaceWidgetLibPane(pane);
             this.setEnabled(false);
 
             designer.addDesignerEditListener(new paraButtonDesignerAdapter(this));

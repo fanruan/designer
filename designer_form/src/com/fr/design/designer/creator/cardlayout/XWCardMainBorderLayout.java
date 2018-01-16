@@ -16,11 +16,14 @@ import com.fr.design.designer.creator.XWidgetCreator;
 import com.fr.design.icon.IconPathConstants;
 import com.fr.design.mainframe.EditingMouseListener;
 import com.fr.design.mainframe.FormDesigner;
+import com.fr.form.event.Listener;
+import com.fr.form.ui.LayoutBorderStyle;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.form.ui.container.WBorderLayout;
 import com.fr.form.ui.container.WCardLayout;
 import com.fr.form.ui.container.WTabDisplayPosition;
+import com.fr.form.ui.container.WTitleLayout;
 import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
 import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.form.ui.container.cardlayout.WCardTitleLayout;
@@ -135,7 +138,7 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 	}
 
 	private void dealCompatibility(WBorderLayout wb){
-		WCardMainBorderLayout ob = (WCardMainBorderLayout)wb;
+ 		WCardMainBorderLayout ob = (WCardMainBorderLayout)wb;
 		WCardLayout cardLayout = ob.getCardPart();
 		//tab结构改变需要兼容以前的tab，重新命名tabpane
 		WCardTitleLayout wCardTitleLayout = ob.getTitlePart();
@@ -146,9 +149,25 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 		String tabpaneName = cardLayout.getWidgetName();
 		if (!wCardTagLayout.isNewTab()) {
 			wCardTagLayout.setWidgetName(tabpaneName);
+			LayoutBorderStyle borderStyle = cardLayout.getBorderStyle();
+			if(borderStyle != null){
+				//新tab默认都有标题
+				borderStyle.setType(LayoutBorderStyle.TITLE);
+			}
 			cardLayout.setWidgetName(XWCardLayout.DEFAULT_NAME + tabpaneName.replaceAll(XWCardTagLayout.DEFAULT_NAME, ""));
+			wCardTitleLayout.setCardName(cardLayout.getWidgetName());
 			wCardTagLayout.setNewTab(true);
-			wCardTagLayout.setNewTab(true);
+			//这边需要设置成默认值兼容之前的title高度(不知道为啥之前的title的高度会改变)
+			if(this.toData().getNorthSize() != 0){
+				ob.setNorthSize(WTitleLayout.TITLE_HEIGHT);
+			}
+			for(int i = 0 ;i < cardLayout.getListenerSize(); i ++){
+				Listener listener = cardLayout.getListener(i);
+				if(listener != null){
+					wCardTagLayout.addListener(listener);
+				}
+			}
+			cardLayout.clearListeners();
 		}
 	}
 
