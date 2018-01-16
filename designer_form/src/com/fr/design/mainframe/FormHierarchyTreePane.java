@@ -111,8 +111,6 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 
 		// 这里要刷新一下，否则控件树中没有任何一个控件处于选中状态
 		refreshComponentTree();
-		// 初始刷新完成后，再加 listener
-		componentTree.addTreeSelectionListener(formDesigner);
 	}
 
 	private void refreshComponentTree() {
