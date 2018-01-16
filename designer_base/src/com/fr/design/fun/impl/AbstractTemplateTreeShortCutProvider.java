@@ -11,6 +11,9 @@ import com.fr.stable.fun.mark.API;
 @API(level = TemplateTreeShortCutProvider.CURRENT_LEVEL)
 public abstract class AbstractTemplateTreeShortCutProvider extends UpdateAction implements TemplateTreeShortCutProvider {
 
+    public void notifyFromAuhtorityChange(boolean isAuhtority) {
+    }
+
     @Override
     public String mark4Provider() {
         return getClass().getName();
