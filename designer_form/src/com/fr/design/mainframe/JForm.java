@@ -248,6 +248,9 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
 
             @Override
             public void fireCreatorModified(DesignerEvent evt) {
+                if (formDesign.getArea() == null || !formDesign.getArea().isValid()) {
+                    return;
+                }
                 if (evt.getCreatorEventID() == DesignerEvent.CREATOR_CUTED) {
                     setPropertyPaneChange(formDesign.getRootComponent());
                 } else if (evt.getCreatorEventID() == DesignerEvent.CREATOR_DELETED) {
