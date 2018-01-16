@@ -3,6 +3,7 @@ package com.fr.start;
 import com.fr.base.BaseUtils;
 import com.fr.base.Env;
 import com.fr.base.FRContext;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.actions.file.WebPreviewUtils;
@@ -294,7 +295,7 @@ public class Designer extends BaseDesigner {
         if (jt == null) {
             return;
         }
-        saveButton.setEnabled(!jt.isSaved());
+        saveButton.setEnabled(!jt.isSaved() && !DesignerMode.isVcsMode());
         MutilTempalteTabPane.getInstance().refreshOpenedTemplate(HistoryTemplateListPane.getInstance().getHistoryList());
         MutilTempalteTabPane.getInstance().repaint();
         if (DesignerEnvManager.getEnvManager().isSupportUndo()) {
