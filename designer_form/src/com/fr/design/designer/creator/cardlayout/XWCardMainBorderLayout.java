@@ -138,7 +138,7 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 	}
 
 	private void dealCompatibility(WBorderLayout wb){
-		WCardMainBorderLayout ob = (WCardMainBorderLayout)wb;
+ 		WCardMainBorderLayout ob = (WCardMainBorderLayout)wb;
 		WCardLayout cardLayout = ob.getCardPart();
 		//tab结构改变需要兼容以前的tab，重新命名tabpane
 		WCardTitleLayout wCardTitleLayout = ob.getTitlePart();
@@ -158,7 +158,9 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 			wCardTitleLayout.setCardName(cardLayout.getWidgetName());
 			wCardTagLayout.setNewTab(true);
 			//这边需要设置成默认值兼容之前的title高度(不知道为啥之前的title的高度会改变)
-			ob.setNorthSize(WTitleLayout.TITLE_HEIGHT);
+			if(this.toData().getNorthSize() != 0){
+				ob.setNorthSize(WTitleLayout.TITLE_HEIGHT);
+			}
 			for(int i = 0 ;i < cardLayout.getListenerSize(); i ++){
 				Listener listener = cardLayout.getListener(i);
 				if(listener != null){
