@@ -30,6 +30,12 @@ public class FormDeleteAction extends FormWidgetEditAction {
     }
 
     @Override
+    protected String getToolTipText() {
+        String originText = super.getToolTipText();
+        return originText.replace(KeyEvent.getKeyText(KeyEvent.VK_BACK_SPACE), KeyEvent.getKeyText(KeyEvent.VK_DELETE));
+    }
+
+    @Override
     public JComponent createToolBarComponent() {
         JComponent comp = super.createToolBarComponent();
         // 除了 BACKSPACE 之外，DELETE 键也要能删除（直接在此处添加绑定，没有按钮提示）

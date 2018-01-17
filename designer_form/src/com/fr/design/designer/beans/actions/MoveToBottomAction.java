@@ -27,7 +27,13 @@ public class MoveToBottomAction extends FormWidgetEditAction {
         this.setName(Inter.getLocText("FR-Designer_Move_To_Bottom"));
         this.setMnemonic('K');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/to_bottom.png"));
-        this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_OPEN_BRACKET, DEFAULT_MODIFIER + InputEvent.ALT_MASK));
+        this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_OPEN_BRACKET, DEFAULT_MODIFIER + InputEvent.SHIFT_MASK));
+    }
+
+    @Override
+    protected String getToolTipText() {
+        String originText = super.getToolTipText();
+        return originText.replace(KeyEvent.getKeyText(KeyEvent.VK_OPEN_BRACKET), "[");
     }
 
     @Override
