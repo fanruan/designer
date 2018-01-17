@@ -726,7 +726,7 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
         }
         filename = OperatingSystem.isWindows() ? filename.replaceAll("/", "\\\\") : filename.replaceAll("\\\\", "/");
 
-        if (!specifiedTemplate.isALLSaved()) {
+        if (!specifiedTemplate.isALLSaved() && !DesignerMode.isVcsMode()) {
             specifiedTemplate.stopEditing();
             int returnVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("Utils-Would_you_like_to_save") + " \"" + specifiedTemplate.getEditingFILE() + "\" ?",
                     ProductConstants.PRODUCT_NAME, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);

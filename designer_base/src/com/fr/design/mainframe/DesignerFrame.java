@@ -18,6 +18,7 @@ import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
 import com.fr.design.file.*;
 import com.fr.design.fun.TitlePlaceProcessor;
+import com.fr.design.fun.impl.AbstractTemplateTreeShortCutProvider;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.imenu.UIMenuHighLight;
 import com.fr.design.gui.iscrollbar.UIScrollBar;
@@ -27,6 +28,7 @@ import com.fr.design.mainframe.loghandler.LogMessageBar;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDock;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.menu.MenuManager;
+import com.fr.design.menu.ShortCut;
 import com.fr.design.utils.DesignUtils;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.file.FILE;
@@ -77,6 +79,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 
 public class DesignerFrame extends JFrame implements JTemplateActionListener, TargetModifiedListener {
@@ -601,6 +604,15 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
     public void needToAddAuhtorityPaint() {
 
         newWorkBookPane.setButtonGray(BaseUtils.isAuthorityEditing());
+
+        // 进入或退出权限编辑模式，通知插件
+        Set<ShortCut> extraShortCuts = ExtraDesignClassManager.getInstance().getExtraShortCuts();
+        for (ShortCut shortCut : extraShortCuts) {
+            if (shortCut instanceof AbstractTemplateTreeShortCutProvider) {
+                ((AbstractTemplateTreeShortCutProvider) shortCut).notifyFromAuhtorityChange(BaseUtils.isAuthorityEditing());
+            }
+        }
+
     }
 
     /**

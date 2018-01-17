@@ -708,7 +708,9 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
             tplMenu.addShortCut(new TableDataSourceAction(this));
             tplMenu.addShortCut(shortcut4TemplateMenu());
         }
-        tplMenu.addShortCut(shortCuts4Authority());
+        if (!DesignerMode.isVcsMode()) {
+            tplMenu.addShortCut(shortCuts4Authority());
+        }
 
         return new MenuDef[]{tplMenu};
     }
