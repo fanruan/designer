@@ -106,7 +106,7 @@ public class ParameterPropertyPane extends JPanel{
     }
 
     public void setAddParaPaneVisible(boolean isVisible, JTemplate jt) {
-        if (isVisible == addParaPane.isVisible() || formHierarchyTreePaneWrapper == null) {
+        if (formHierarchyTreePaneWrapper == null) {
             return;
         }
         // 表单中，只有添加并选中参数面板时，才显示
@@ -122,7 +122,9 @@ public class ParameterPropertyPane extends JPanel{
             this.setPreferredSize(null);
         } else {
             addParaPane.setVisible(false);
-            this.setPreferredSize(new Dimension(getWidth(), formHierarchyTreePaneWrapper.getPreferredSize().height + UIConstants.GAP_NORMAL));
+			if (formHierarchyTreePaneWrapper.getPreferredSize().height > 0) {
+            	this.setPreferredSize(new Dimension(getWidth(), formHierarchyTreePaneWrapper.getPreferredSize().height + UIConstants.GAP_NORMAL));
+			}
         }
     }
 	
