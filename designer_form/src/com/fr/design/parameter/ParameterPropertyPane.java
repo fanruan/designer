@@ -72,7 +72,7 @@ public class ParameterPropertyPane extends JPanel{
             }
         };
         JPanel scrollPaneWrapperInner = new JPanel(new BorderLayout());
-        scrollPaneWrapperInner.setBorder(BorderFactory.createEmptyBorder(0, PADDING_MIDDLE, PADDING_MIDDLE, PADDING_SMALL));
+        scrollPaneWrapperInner.setBorder(BorderFactory.createEmptyBorder(PADDING_MIDDLE, PADDING_MIDDLE, PADDING_MIDDLE, PADDING_SMALL));
         scrollPaneWrapperInner.add(basicScrollPane, BorderLayout.CENTER);
         addParaPane = new JPanel(new BorderLayout());
         addParaPane.add(scrollPaneWrapperInner, BorderLayout.CENTER);
@@ -80,8 +80,8 @@ public class ParameterPropertyPane extends JPanel{
 
         initParameterListener();
         this.setLayout(new BorderLayout(0, 6));
-        this.setBorder(BorderFactory.createEmptyBorder(PADDING_MIDDLE, 0, PADDING_MIDDLE, 0));
-        this.add(addParaPane, BorderLayout.CENTER);
+        this.setBorder(BorderFactory.createEmptyBorder(0, 0, PADDING_MIDDLE, 0));
+        this.add(addParaPane, BorderLayout.NORTH);
     }
 
     // 显示或隐藏添加参数面板
@@ -132,7 +132,7 @@ public class ParameterPropertyPane extends JPanel{
 		if (formHierarchyTreePaneWrapper == null) {
 			formHierarchyTreePaneWrapper = new JPanel(new BorderLayout());
 			formHierarchyTreePaneWrapper.setBorder(BorderFactory.createEmptyBorder(0, PADDING_MIDDLE, 0, 0));
-			this.add(formHierarchyTreePaneWrapper, BorderLayout.SOUTH);
+			this.add(formHierarchyTreePaneWrapper, BorderLayout.CENTER);
 		}
 		formHierarchyTreePaneWrapper.remove(FormHierarchyTreePane.getInstance());
 		formHierarchyTreePaneWrapper.add(FormHierarchyTreePane.getInstance(editor), BorderLayout.CENTER);
