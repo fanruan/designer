@@ -31,6 +31,7 @@ import com.fr.general.Background;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
 import com.fr.general.Inter;
+import com.fr.general.cardtag.TemplateStyle;
 import com.fr.stable.unit.PT;
 
 import javax.swing.*;
@@ -364,13 +365,15 @@ public class XCardSwitchButton extends XButton {
 		label.setFont(newFont);
 		label.setForeground(font.getForeground());
 		Background background = title.getBackground();
-		if (background != null) {
-			if(button.isShowButton() && selectBackground != null){
-				this.setContentBackground(selectBackground);
-			}else if (button.isShowButton() && selectBackground == null){
-				background = ColorBackground.getInstance(CHOOSED_GRAL);
-				this.setContentBackground(background);
-			} else {
+				TemplateStyle templateStyle = ((WCardTagLayout)tagLayout.toData()).getTemplateStyle();
+				Background selectBackground = templateStyle.getSelectBackground();
+				if (background != null) {
+					if(button.isShowButton() && selectBackground != null){
+						this.setContentBackground(selectBackground);
+					}else if (button.isShowButton() && selectBackground == null){
+						background = ColorBackground.getInstance(CHOOSED_GRAL);
+						this.setContentBackground(background);
+					} else {
 				this.setContentBackground(background);
 			}
 		}
