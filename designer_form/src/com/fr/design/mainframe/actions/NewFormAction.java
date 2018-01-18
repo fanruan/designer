@@ -22,7 +22,7 @@ public class NewFormAction extends UpdateAction {
         this.setMenuKeySet(NEW_FORM);
         this.setName(getMenuKeySet().getMenuKeySetName());
         this.setMnemonic(getMenuKeySet().getMnemonic());
-        this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/buttonicon/new_form3.png"));
+        this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/imag es/buttonicon/new_form3.png"));
         this.setAccelerator(getMenuKeySet().getKeyStroke());
     }
 
