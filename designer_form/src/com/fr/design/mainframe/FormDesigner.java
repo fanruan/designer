@@ -349,11 +349,11 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
         }
 
         parameterArray = null;
-        refreshParameter();
+
         //parameter多的时候，不刷新会出现控件边界交叉
         refreshRoot();
-        //不知道为什么添加完参数后控件树只有一个label，这儿刷新一下控件树好了
-        EastRegionContainerPane.getInstance().refreshDownPane();
+        // 最后刷新"添加参数面板"和控件树
+        refreshParameter();
     }
 
     private void addParaPaneTooltips() {
