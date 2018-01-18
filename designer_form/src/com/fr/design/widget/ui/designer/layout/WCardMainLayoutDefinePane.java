@@ -43,7 +43,7 @@ public class WCardMainLayoutDefinePane  extends AbstractDataModify<WCardMainBord
 
     public void initComponent() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        carouselInterval = new UISpinner(0, 20, 1, 0);
+        carouselInterval = new UISpinner(0, Integer.MAX_VALUE, 1, 0);
         accessibleCardTagWLayoutBorderStyleEditor = new AccessibleCardTagWLayoutBorderStyleEditor();
         JPanel accessibleCardlayout = FRGUIPaneFactory.createBorderLayout_S_Pane();
         JPanel stylePane =  TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
@@ -91,7 +91,7 @@ public class WCardMainLayoutDefinePane  extends AbstractDataModify<WCardMainBord
         WCardLayout wCardLayout = layout.getCardPart();
         wCardLayout.setBorderStyle((LayoutBorderStyle) accessibleCardTagWLayoutBorderStyleEditor.getValue());
         wCardLayout.setCarousel(setCarousel.isSelected());
-        wCardLayout.setCarouselInterval((int)carouselInterval.getValue());
+        wCardLayout.setCarouselInterval(carouselInterval.getValue());
         return layout;
     }
 }

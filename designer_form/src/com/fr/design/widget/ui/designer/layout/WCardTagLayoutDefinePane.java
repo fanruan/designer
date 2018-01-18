@@ -1,6 +1,7 @@
 package com.fr.design.widget.ui.designer.layout;
 
 import com.fr.design.constants.LayoutConstants;
+import com.fr.design.mainframe.widget.accessibles.AccessibleTabBackgroundEditor;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.cardtag.TemplateStyle;
 import com.fr.design.designer.IntervalConstants;
@@ -14,7 +15,6 @@ import com.fr.design.gui.style.FRFontPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.mainframe.widget.accessibles.AccessibleImgBackgroundEditor;
 import com.fr.design.mainframe.widget.accessibles.AccessibleTemplateStyleEditor;
 import com.fr.design.widget.ui.designer.AbstractDataModify;
 import com.fr.form.ui.LayoutBorderStyle;
@@ -35,7 +35,7 @@ import java.awt.Component;
  * Created by kerry on 2017/11/16.
  */
 public class WCardTagLayoutDefinePane extends AbstractDataModify<WCardTagLayout> {
-    private AccessibleImgBackgroundEditor backgroundEditor;
+    private AccessibleTabBackgroundEditor backgroundEditor;
     private FRFontPane frFontPane;
     private UIButtonGroup displayPositionGroup;
     private UIButtonGroup textDirectionGroup;
@@ -49,7 +49,7 @@ public class WCardTagLayoutDefinePane extends AbstractDataModify<WCardTagLayout>
     public void initComponent() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
 
-        backgroundEditor = new AccessibleImgBackgroundEditor();
+        backgroundEditor = new AccessibleTabBackgroundEditor();
         templateStyleEditor = new AccessibleTemplateStyleEditor();
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
@@ -60,7 +60,6 @@ public class WCardTagLayoutDefinePane extends AbstractDataModify<WCardTagLayout>
         UILabel fontLabel = new UILabel(Inter.getLocText("FR-Designer_Font"));
         fontLabel.setVerticalAlignment(SwingConstants.TOP);
         frFontPane = new FRFontPane(){
-
             protected JPanel createRightPane() {
                 double p = TableLayout.PREFERRED;
                 double f = TableLayout.FILL;
@@ -124,7 +123,6 @@ public class WCardTagLayoutDefinePane extends AbstractDataModify<WCardTagLayout>
         XLayoutContainer topLayout = creator.getTopLayout();
         LayoutBorderStyle layoutBorderStyle = ((XWCardMainBorderLayout)topLayout).getCardPart().toData().getBorderStyle();
         FRFont frFont = layoutBorderStyle.getTitle().getFrFont() == null ? FRFont.getInstance() : layoutBorderStyle.getTitle().getFrFont();
-        layoutBorderStyle.getTitle().setBackground((Background) backgroundEditor.getValue());
         layoutBorderStyle.getTitle().setFrFont(frFontPane.update(frFont));
         WCardTagLayout layout = (WCardTagLayout) creator.toData();
         boolean isHori = displayPositionGroup.getSelectedIndex() == WTabDisplayPosition.TOP_POSITION.getType() || displayPositionGroup.getSelectedIndex() == WTabDisplayPosition.BOTTOM_POSITION.getType();
@@ -133,7 +131,14 @@ public class WCardTagLayoutDefinePane extends AbstractDataModify<WCardTagLayout>
             textDirectionGroup.setSelectedIndex(isHori? WTabTextDirection.TEXT_HORI_DERECTION.getType():WTabTextDirection.TEXT_VER_DIRECTION.getType());
         }
         layout.setTextDirection(WTabTextDirection.parse(textDirectionGroup.getSelectedIndex()));
-        layout.setTemplateStyle((TemplateStyle) templateStyleEditor.getValue());
+        TemplateStyle templateStyle = (TemplateStyle) templateStyleEditor.getValue();
+        if(!ComparatorUtils.equals(layout.getTemplateStyle(), templateStyle)){
+            backgroundEditor.setValue(templateStyle.getDefaultBackground());
+            layoutBorderStyle.getTitle().setBackground(templateStyle.getDefaultBackground());
+            layout.setTemplateStyle(templateStyle);
+        }else{
+            layoutBorderStyle.getTitle().setBackground((Background) backgroundEditor.getValue());
+        }
 
         return layout;
     }
