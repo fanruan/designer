@@ -1,6 +1,7 @@
 package com.fr.design.parameter;
 
 import com.fr.design.constants.UIConstants;
+import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XWParameterLayout;
 import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.gui.ibutton.UIButton;
@@ -112,8 +113,9 @@ public class ParameterPropertyPane extends JPanel{
         // 表单中，只有添加并选中参数面板时，才显示
 		boolean hideInJForm;
         try {
+			XCreator creator = (XCreator) FormHierarchyTreePane.getInstance().getComponentTree().getSelectionPath().getLastPathComponent();
             hideInJForm = jt instanceof JForm &&
-                    !(FormHierarchyTreePane.getInstance().getComponentTree().getSelectionPath().getLastPathComponent() instanceof XWParameterLayout);
+                    !(creator instanceof XWParameterLayout || creator.getParent() instanceof XWParameterLayout);
         } catch (NullPointerException ex) {
             hideInJForm = true;
         }
