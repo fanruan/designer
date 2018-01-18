@@ -27,7 +27,13 @@ public class MoveToTopAction extends FormWidgetEditAction {
         this.setName(Inter.getLocText("FR-Designer_Move_To_Top"));
         this.setMnemonic('T');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/to_top.png"));
-        this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_CLOSE_BRACKET, DEFAULT_MODIFIER + InputEvent.ALT_MASK));
+        this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_CLOSE_BRACKET, DEFAULT_MODIFIER + InputEvent.SHIFT_MASK));
+    }
+
+    @Override
+    protected String getToolTipText() {
+        String originText = super.getToolTipText();
+        return originText.replace(KeyEvent.getKeyText(KeyEvent.VK_CLOSE_BRACKET), "]");
     }
 
     @Override
