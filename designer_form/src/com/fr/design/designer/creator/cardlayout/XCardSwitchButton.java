@@ -63,7 +63,7 @@ public class XCardSwitchButton extends XButton {
 
 	// 删除按钮识别区域偏移量
 	private static final int RIGHT_OFFSET = 15;
-	private static final int TOP_OFFSET = 25;
+	private static final int TOP_OFFSET = 15;
 
 	//这边先不计算button的高度,涉及到layout那边的整体高度,先用之前的固定高度
 	private static final int DEFAULT_BUTTON_HEIGHT = 36;
@@ -283,20 +283,19 @@ public class XCardSwitchButton extends XButton {
 		//减掉tab布局的相对位置
 		ex -= mainX;
 		ey -= mainY;
-		
+
+		XLayoutContainer titleLayout = tagLayout.getBackupParent();
+		Point titlePoint = titleLayout.getLocation();
 		// button position
 		XCardSwitchButton button = this;
 		Point position = button.getLocation();
 		int width = button.getWidth();
-		int height = button.getHeight();
-
-		ey = ey % DEFAULT_BUTTON_HEIGHT;
 
 		// 鼠标进入按钮右侧删除图标区域
-		double recX = position.getX() + (width - RIGHT_OFFSET);
-		double recY = position.getY() + (height - TOP_OFFSET);
+		double recX = position.getX() + titlePoint.getX() +  (width - RIGHT_OFFSET);
+		double recY = position.getY() + titlePoint.getY() + TOP_OFFSET;
 		
-		return (recX < ex && ex < recX + RIGHT_OFFSET &&  ey < recY);
+		return (recX < ex && ex < recX + RIGHT_OFFSET &&  ey < recY && ey > position.getY());
 	}
 	
 	//将当前switchButton改为选中状态

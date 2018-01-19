@@ -4,7 +4,6 @@ import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XLayoutContainer;
-import com.fr.design.designer.creator.cardlayout.XWCardMainBorderLayout;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.WidgetPropertyPane;
