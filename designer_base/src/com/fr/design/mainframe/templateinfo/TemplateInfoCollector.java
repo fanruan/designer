@@ -6,6 +6,7 @@ import com.fr.base.io.IOFile;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
+import com.fr.design.mainframe.SiteCenterToken;
 import com.fr.env.RemoteEnv;
 import com.fr.general.*;
 import com.fr.general.http.HttpClient;
@@ -292,8 +293,7 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable, XM
 
     private boolean sendSingleTemplateInfo(String url, String content) {
         HashMap<String, String> para = new HashMap<>();
-        String date = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
-        para.put("token", CodeUtils.md5Encode(date, "", "MD5"));
+        para.put("token", SiteCenterToken.generateToken());
         para.put("content", content);
         HttpClient httpClient = new HttpClient(url, para, true);
         httpClient.setTimeout(5000);

@@ -3,7 +3,6 @@ package com.fr.design.designer.beans.adapters.layout;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-
 import com.fr.general.ComparatorUtils;
 import com.fr.design.designer.beans.ConstraintsGroupModel;
 import com.fr.design.designer.beans.HoverPainter;

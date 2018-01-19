@@ -23,12 +23,12 @@ import com.fr.design.mainframe.alphafine.preview.DocumentPreviewPane;
 import com.fr.design.mainframe.alphafine.preview.FilePreviewPane;
 import com.fr.design.mainframe.alphafine.preview.NoResultPane;
 import com.fr.design.mainframe.alphafine.preview.PluginPreviewPane;
-import com.fr.design.mainframe.alphafine.search.manager.ActionSearchManager;
-import com.fr.design.mainframe.alphafine.search.manager.DocumentSearchManager;
-import com.fr.design.mainframe.alphafine.search.manager.FileSearchManager;
-import com.fr.design.mainframe.alphafine.search.manager.PluginSearchManager;
-import com.fr.design.mainframe.alphafine.search.manager.RecentSearchManager;
-import com.fr.design.mainframe.alphafine.search.manager.RecommendSearchManager;
+import com.fr.design.mainframe.alphafine.search.manager.impl.ActionSearchManager;
+import com.fr.design.mainframe.alphafine.search.manager.impl.DocumentSearchManager;
+import com.fr.design.mainframe.alphafine.search.manager.impl.FileSearchManager;
+import com.fr.design.mainframe.alphafine.search.manager.impl.PluginSearchManager;
+import com.fr.design.mainframe.alphafine.search.manager.impl.RecentSearchManager;
+import com.fr.design.mainframe.alphafine.search.manager.impl.RecommendSearchManager;
 import com.fr.form.main.Form;
 import com.fr.form.main.FormIO;
 import com.fr.general.ComparatorUtils;
@@ -390,7 +390,6 @@ public class AlphaFineDialog extends UIDialog {
      */
     private void rebuildList(String searchText) {
         resetContainer();
-
         if (searchText.startsWith(ADVANCED_SEARCH_MARK)) {
             if (searchText.startsWith(ACTION_MARK_SHORT) || searchText.startsWith(ACTION_MARK)) {
                 storeText = searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length());
@@ -445,47 +444,35 @@ public class AlphaFineDialog extends UIDialog {
     }
 
     private void buildDocumentList(final String searchText) {
-        SearchResult documentModelList = DocumentSearchManager.getDocumentSearchManager().getLessSearchResult(searchText);
-        for (AlphaCellModel object : documentModelList) {
-            searchListModel.addElement(object);
-        }
+        addSearchResult(DocumentSearchManager.getInstance().getLessSearchResult(searchText));
     }
 
     private void buildFileList(final String searchText) {
-        SearchResult fileModelList = FileSearchManager.getFileSearchManager().getLessSearchResult(searchText);
-        for (AlphaCellModel object : fileModelList) {
-            AlphaFineHelper.checkCancel();
-            searchListModel.addElement(object);
-        }
+        addSearchResult(FileSearchManager.getInstance().getLessSearchResult(searchText));
     }
 
     private void buildActionList(final String searchText) {
-        SearchResult actionModelList = ActionSearchManager.getActionSearchManager().getLessSearchResult(searchText);
-        for (AlphaCellModel object : actionModelList) {
-            searchListModel.addElement(object);
-        }
+        addSearchResult(ActionSearchManager.getInstance().getLessSearchResult(searchText));
     }
 
     private void buildPluginList(final String searchText) {
-        SearchResult pluginModelList = PluginSearchManager.getPluginSearchManager().getLessSearchResult(searchText);
-        for (AlphaCellModel object : pluginModelList) {
-            searchListModel.addElement(object);
-        }
+        addSearchResult(PluginSearchManager.getInstance().getLessSearchResult(searchText));
     }
 
     private void buildRecommendList(final String searchText) {
-        SearchResult recommendModelList = RecommendSearchManager.getRecommendSearchManager().getLessSearchResult(searchText);
-        for (AlphaCellModel object : recommendModelList) {
-            searchListModel.addElement(object);
-        }
+        addSearchResult(RecommendSearchManager.getInstance().getLessSearchResult(searchText));
     }
 
     private void buildRecentList(final String searchText) {
-        SearchResult recentModelList = RecentSearchManager.getRecentSearchManger().getLessSearchResult(searchText);
-        for (AlphaCellModel object : recentModelList) {
+        addSearchResult(RecentSearchManager.getInstance().getLessSearchResult(searchText));
+
+    }
+
+    private synchronized void addSearchResult(SearchResult searchResult) {
+        for (AlphaCellModel object : searchResult) {
+            AlphaFineHelper.checkCancel();
             searchListModel.addElement(object);
         }
-
     }
 
     /**
@@ -636,6 +623,7 @@ public class AlphaFineDialog extends UIDialog {
     private void dealWithMoreOrLessResult(int index, MoreModel selectedValue) {
         if (ComparatorUtils.equals(Inter.getLocText("FR-Designer_AlphaFine_ShowAll"), selectedValue.getContent())) {
             selectedValue.setContent(Inter.getLocText("FR-Designer_AlphaFine_ShowLess"));
+
             rebuildShowMoreList(index, selectedValue);
         } else {
             selectedValue.setContent(Inter.getLocText("FR-Designer_AlphaFine_ShowAll"));
@@ -676,7 +664,9 @@ public class AlphaFineDialog extends UIDialog {
                     searchResultList.setSelectedIndex(searchResultList.getSelectedIndex() + 1);
                 } else if (e.getKeyCode() == KeyEvent.VK_UP) {
                     searchResultList.setSelectedIndex(searchResultList.getSelectedIndex() - 1);
-                } else escAlphaFineDialog(e);
+                } else {
+                    escAlphaFineDialog(e);
+                }
             }
         });
 
@@ -758,7 +748,7 @@ public class AlphaFineDialog extends UIDialog {
      * @param cellModel
      */
     private void saveLocalHistory(AlphaCellModel cellModel) {
-        RecentSearchManager recentSearchManager = RecentSearchManager.getRecentSearchManger();
+        RecentSearchManager recentSearchManager = RecentSearchManager.getInstance();
         recentSearchManager.addRecentModel(storeText, cellModel);
         recentSearchManager.saveXMLFile();
         sendDataToServer(storeText, cellModel);
@@ -806,14 +796,34 @@ public class AlphaFineDialog extends UIDialog {
      * @param index
      * @param selectedValue
      */
-    private void rebuildShowMoreList(int index, MoreModel selectedValue) {
-        SearchResult moreResult = getMoreResult(selectedValue);
+    private void rebuildShowMoreList(final int index, final MoreModel selectedValue) {
         if ((selectedValue).getContent().equals(Inter.getLocText("FR-Designer_AlphaFine_ShowLess"))) {
-            for (int i = 0; i < moreResult.size(); i++) {
-                this.searchListModel.add(index + AlphaFineConstants.SHOW_SIZE + 1 + i, moreResult.get(i));
+            splitLabel.setIcon(new ImageIcon(getClass().getResource(AlphaFineConstants.IMAGE_URL + "bigloading.gif")));
+            if (this.searchWorker != null && !this.searchWorker.isDone()) {
+                this.searchWorker.cancel(true);
+                this.searchWorker = null;
             }
+            this.searchWorker = new SwingWorker() {
+                @Override
+                protected Object doInBackground() throws Exception {
+                    SearchResult moreResults = getMoreResult(selectedValue);
+                    for (int i = 0; i < moreResults.size(); i++) {
+                        searchListModel.add(index + AlphaFineConstants.SHOW_SIZE + 1 + i, moreResults.get(i));
+                    }
+                    return null;
+                }
+
+                @Override
+                protected void done() {
+                    if (!isCancelled()) {
+                        splitLabel.setIcon(null);
+                    }
+                }
+            };
+            this.searchWorker.execute();
+
         } else {
-            for (int i = 0; i < moreResult.size(); i++) {
+            for (int i = 0; i < getMoreResult(selectedValue).size(); i++) {
                 this.searchListModel.remove(index + AlphaFineConstants.SHOW_SIZE + 1);
 
             }
@@ -824,16 +834,16 @@ public class AlphaFineDialog extends UIDialog {
         SearchResult moreResult;
         switch (selectedValue.getContentType()) {
             case PLUGIN:
-                moreResult = PluginSearchManager.getPluginSearchManager().getMoreSearchResult();
+                moreResult = PluginSearchManager.getInstance().getMoreSearchResult(searchTextField.getText());
                 break;
             case DOCUMENT:
-                moreResult = DocumentSearchManager.getDocumentSearchManager().getMoreSearchResult();
+                moreResult = DocumentSearchManager.getInstance().getMoreSearchResult(searchTextField.getText());
                 break;
             case FILE:
-                moreResult = FileSearchManager.getFileSearchManager().getMoreSearchResult();
+                moreResult = FileSearchManager.getInstance().getMoreSearchResult(searchTextField.getText());
                 break;
             case ACTION:
-                moreResult = ActionSearchManager.getActionSearchManager().getMoreSearchResult();
+                moreResult = ActionSearchManager.getInstance().getMoreSearchResult(searchTextField.getText());
                 break;
             default:
                 moreResult = new SearchResult();

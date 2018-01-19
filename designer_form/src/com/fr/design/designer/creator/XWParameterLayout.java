@@ -227,4 +227,14 @@ public class XWParameterLayout extends XWAbsoluteLayout {
 
     }
 
+    @Override
+    public boolean isMovable() {
+        return false;
+    }
+
+    @Override
+    public boolean supportInnerOrderChangeActions() {
+        return false;
+    }
+
 }

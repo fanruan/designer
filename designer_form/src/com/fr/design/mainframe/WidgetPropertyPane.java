@@ -395,7 +395,7 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
          */
         public void fireCreatorModified(DesignerEvent evt) {
             int[] validEventIds = {DesignerEvent.CREATOR_RESIZED, DesignerEvent.CREATOR_EDITED,
-                    DesignerEvent.CREATOR_SELECTED, DesignerEvent.CREATOR_ADDED};
+                    DesignerEvent.CREATOR_SELECTED, DesignerEvent.CREATOR_ADDED, DesignerEvent.CREATOR_ORDER_CHANGED};
             boolean isValid = false;
             for (int validEventId : validEventIds) {
                 if (evt.getCreatorEventID() == validEventId) {

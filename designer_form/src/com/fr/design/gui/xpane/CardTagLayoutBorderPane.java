@@ -4,19 +4,11 @@
 package com.fr.design.gui.xpane;
 
 import java.awt.BorderLayout;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
 import com.fr.base.Utils;
-import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
@@ -25,14 +17,9 @@ import com.fr.design.gui.style.FRFontPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.mainframe.JForm;
-import com.fr.design.mainframe.JTemplate;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.form.ui.LayoutBorderStyle;
-import com.fr.form.ui.WidgetTitle;
-import com.fr.general.FRFont;
 import com.fr.general.Inter;
-import com.fr.stable.Constants;
 
 /**
  * CardTagLayoutBorderPane Pane.
@@ -41,7 +28,8 @@ public class CardTagLayoutBorderPane extends LayoutBorderPane {
 	public CardTagLayoutBorderPane(){
 		initComponents();
 	}
-	
+
+
 	protected UIScrollPane initRightBottomPane(){
         this.setFontSizeComboBox(new UIComboBox(FRFontPane.FONT_SIZES));
         this.setFontNameComboBox(new UIComboBox(Utils.getAvailableFontFamilyNames4Report())); 
@@ -90,66 +78,38 @@ public class CardTagLayoutBorderPane extends LayoutBorderPane {
 
 	        JPanel rightPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 	        defaultPane.add(rightPane, BorderLayout.EAST);
-	        rightPane.add(initRightBottomPane(), BorderLayout.CENTER);
-	        JTemplate jTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
-	        if (!jTemplate.isJWorkBook() && ((JForm)jTemplate).isSelectRootPane()){
-	            //界面上表单主体只有背景和透明度可以设置
-	            rightPane.add(initBodyRightTopPane(), BorderLayout.NORTH);
-	        } else {
-	            rightPane.add(initRightTopPane(), BorderLayout.NORTH);
-	        }
+            rightPane.add(initRightTopPane(), BorderLayout.NORTH);
 	  }
-	  
-	  
-	    public LayoutBorderStyle update() {
-	        LayoutBorderStyle style = new LayoutBorderStyle();
-	        style.setType(this.getBorderTypeCombo().getSelectedIndex());
-	        style.setBorderStyle(this.getBorderStyleCombo().getSelectedIndex());
-	        style.setBorder(this.getCurrentLineCombo().getSelectedLineStyle());
-	        style.setColor(this.getCurrentLineColorPane().getColor());
-	        style.setBackground(this.getBackgroundPane().update());
-	        style.setAlpha((float)(this.getNumberDragPane().updateBean()/this.getMaxNumber()));
 
-	        WidgetTitle title = style.getTitle() == null ? new WidgetTitle() : style.getTitle();
-	        title.setTextObject("title");
-	        FRFont frFont = title.getFrFont();
-	        frFont = frFont.applySize((Integer)this.getFontSizeComboBox().getSelectedItem());
-	        frFont = frFont.applyName(this.getFontNameComboBox().getSelectedItem().toString());
-	        frFont = frFont.applyForeground(this.getColorSelectPane().getColor());
-	        frFont = updateItalicBold(frFont);
-	        int line = this.getUnderline().isSelected() ? this.getUnderlineCombo().getSelectedLineStyle() : Constants.LINE_NONE;
-	        frFont = frFont.applyUnderline(line);
-	        title.setFrFont(frFont);
-	        title.setBackground(this.getTitleBackgroundPane().update());
-	        style.setTitle(title);
-			return style;
+	protected JComponent[] getBorderTypeComp(){
+		return new JComponent[]{null, null};
+	}
+	protected JComponent[] getBorderCornerSpinnerComp(){
+		return new JComponent[]{null, null};
+	}
+
+	protected void switchBorderType(){
+		return;
+	}
+
+	public LayoutBorderStyle update() {
+		LayoutBorderStyle style = new LayoutBorderStyle();
+		if (this.getBorderStyle() != null) {
+			style.setStyle(this.getBorderStyle());
 		}
-	    
-	    
-	    protected void populateTitle(){
-	        WidgetTitle widgetTitle = this.getBorderStyle() == null ? new WidgetTitle() : this.getBorderStyle().getTitle();
-	        widgetTitle = widgetTitle == null ? new WidgetTitle() : widgetTitle;
-	        populateFont(widgetTitle);
-	        this.getUnderline().addMouseListener(new MouseAdapter() {
-	            @Override
-	            public void mouseClicked(MouseEvent e) {
-	                paintPreviewPane();
-	            }
-	        });
-	        this.getUnderlineCombo().addItemListener(new ItemListener() {
-	            @Override
-	            public void itemStateChanged(ItemEvent e) {
-	                paintPreviewPane();
-	            }
-	        });
+		style.setBorderStyle(this.getBorderStyleCombo().getSelectedIndex());
+		style.setBorder(this.getCurrentLineCombo().getSelectedLineStyle());
+		style.setColor(this.getCurrentLineColorPane().getColor());
+		style.setBackground(this.getBackgroundPane().update());
+		style.setAlpha((float) (this.getNumberDragPane().updateBean() / this.getMaxNumber()));
+		return style;
+	}
 
-	    	this.getTitleBackgroundPane().populateBean(widgetTitle.getBackground());
-	        this.getTitleBackgroundPane().addChangeListener(new ChangeListener() {
-	            @Override
-	            public void stateChanged(ChangeEvent e) {
-	                paintPreviewPane();
-	            }
-	        });
-	        paintPreviewPane();
+	protected void populateBorderType(){
+		return;
+	}
+	    
+	protected void populateTitle(){
+			return;
 	    }
 }

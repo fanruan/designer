@@ -1,12 +1,25 @@
 package com.fr.design.mainframe;
 
-import com.fr.base.*;
+import com.fr.base.BaseUtils;
+import com.fr.base.DynamicUnitList;
+import com.fr.base.FRContext;
+import com.fr.base.Parameter;
+import com.fr.base.ScreenResolution;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.AllowAuthorityEditAction;
 import com.fr.design.actions.ExitAuthorityEditAction;
 import com.fr.design.actions.file.WebPreviewUtils;
-import com.fr.design.actions.file.export.*;
+import com.fr.design.actions.file.export.CSVExportAction;
+import com.fr.design.actions.file.export.EmbeddedExportExportAction;
+import com.fr.design.actions.file.export.ExcelExportAction;
+import com.fr.design.actions.file.export.PDFExportAction;
+import com.fr.design.actions.file.export.PageExcelExportAction;
+import com.fr.design.actions.file.export.PageToSheetExcelExportAction;
+import com.fr.design.actions.file.export.SVGExportAction;
+import com.fr.design.actions.file.export.TextExportAction;
+import com.fr.design.actions.file.export.WordExportAction;
 import com.fr.design.actions.report.ReportExportAttrAction;
 import com.fr.design.actions.report.ReportMobileAttrAction;
 import com.fr.design.actions.report.ReportParameterAction;
@@ -30,7 +43,11 @@ import com.fr.design.mainframe.cell.QuickEditorRegion;
 import com.fr.design.mainframe.templateinfo.JWorkBookProcessInfo;
 import com.fr.design.mainframe.templateinfo.TemplateProcessInfo;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
-import com.fr.design.menu.*;
+import com.fr.design.menu.KeySetUtils;
+import com.fr.design.menu.MenuDef;
+import com.fr.design.menu.NameSeparator;
+import com.fr.design.menu.ShortCut;
+import com.fr.design.menu.ToolBarDef;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.parameter.ParameterDefinitePane;
 import com.fr.design.parameter.ParameterInputPane;
@@ -62,7 +79,6 @@ import com.fr.poly.PolyDesigner;
 import com.fr.poly.creator.BlockCreator;
 import com.fr.privilege.finegrain.WorkSheetPrivilegeControl;
 import com.fr.report.ReportHelper;
-import com.fr.report.elementcase.ElementCase;
 import com.fr.report.elementcase.TemplateElementCase;
 import com.fr.report.poly.PolyWorkSheet;
 import com.fr.report.worksheet.WorkSheet;
@@ -73,11 +89,13 @@ import com.fr.stable.module.Module;
 import com.fr.stable.project.ProjectConstants;
 
 import javax.swing.*;
-import javax.swing.Icon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileOutputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * JWorkBook used to edit WorkBook.
@@ -570,9 +588,11 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      * @return 子菜单
      */
     public ShortCut[] shortcut4FileMenu() {
-        return (ShortCut[]) ArrayUtils.addAll(
-                super.shortcut4FileMenu(),
-                BaseUtils.isAuthorityEditing() || (FRContext.getCurrentEnv() instanceof RemoteEnv) ? new ShortCut[0] : new ShortCut[]{this.createWorkBookExportMenu()}
+        boolean showWorkBookExportMenu = DesignerMode.isVcsMode()
+                || BaseUtils.isAuthorityEditing()
+                || (FRContext.getCurrentEnv() instanceof RemoteEnv);
+        return (ShortCut[]) ArrayUtils.addAll(super.shortcut4FileMenu(),
+                showWorkBookExportMenu ? new ShortCut[0] : new ShortCut[]{this.createWorkBookExportMenu()}
         );
     }
 

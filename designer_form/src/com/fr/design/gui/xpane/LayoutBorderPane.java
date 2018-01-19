@@ -14,7 +14,11 @@ import com.fr.design.dialog.BasicPane;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.formula.TinyFormulaPane;
 import com.fr.design.gui.frpane.UINumberDragPane;
-import com.fr.design.gui.ibutton.*;
+import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.ibutton.UIButtonGroup;
+import com.fr.design.gui.ibutton.UIButtonUI;
+import com.fr.design.gui.ibutton.UIColorButton;
+import com.fr.design.gui.ibutton.UIToggleButton;
 import com.fr.design.gui.icombobox.LineComboBox;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.icontainer.UIScrollPane;
@@ -37,15 +41,35 @@ import com.fr.general.FRFont;
 import com.fr.general.Inter;
 import com.fr.stable.Constants;
 
-import javax.swing.*;
+import javax.swing.AbstractButton;
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.ButtonModel;
+import javax.swing.Icon;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JToggleButton;
 import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.plaf.basic.BasicToggleButtonUI;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
 
 /**
@@ -97,47 +121,47 @@ public class LayoutBorderPane extends BasicPane {
     private int minNumber = 0;
     private double maxNumber = 100;
     private int iconWidth = 32;
-    
+
     public LayoutBorderStyle getBorderStyle() {
-		return borderStyle;
-	}
+        return borderStyle;
+    }
 
-	public void setBorderStyle(LayoutBorderStyle borderStyle) {
-		this.borderStyle = borderStyle;
-	}
+    public void setBorderStyle(LayoutBorderStyle borderStyle) {
+        this.borderStyle = borderStyle;
+    }
 
-	public LayoutBorderPreviewPane getLayoutBorderPreviewPane() {
-		return layoutBorderPreviewPane;
-	}
+    public LayoutBorderPreviewPane getLayoutBorderPreviewPane() {
+        return layoutBorderPreviewPane;
+    }
 
-	public void setLayoutBorderPreviewPane(
-			LayoutBorderPreviewPane layoutBorderPreviewPane) {
-		this.layoutBorderPreviewPane = layoutBorderPreviewPane;
-	}
+    public void setLayoutBorderPreviewPane(
+            LayoutBorderPreviewPane layoutBorderPreviewPane) {
+        this.layoutBorderPreviewPane = layoutBorderPreviewPane;
+    }
 
-	public UIComboBox getBorderTypeCombo() {
-		return borderTypeCombo;
-	}
+    public UIComboBox getBorderTypeCombo() {
+        return borderTypeCombo;
+    }
 
-	public void setBorderTypeCombo(UIComboBox borderTypeCombo) {
-		this.borderTypeCombo = borderTypeCombo;
-	}
+    public void setBorderTypeCombo(UIComboBox borderTypeCombo) {
+        this.borderTypeCombo = borderTypeCombo;
+    }
 
-	public UIComboBox getBorderStyleCombo() {
-		return borderStyleCombo;
-	}
+    public UIComboBox getBorderStyleCombo() {
+        return borderStyleCombo;
+    }
 
-	public void setBorderStyleCombo(UIComboBox borderStyleCombo) {
-		this.borderStyleCombo = borderStyleCombo;
-	}
+    public void setBorderStyleCombo(UIComboBox borderStyleCombo) {
+        this.borderStyleCombo = borderStyleCombo;
+    }
 
-	public LineComboBox getCurrentLineCombo() {
-		return currentLineCombo;
-	}
+    public LineComboBox getCurrentLineCombo() {
+        return currentLineCombo;
+    }
 
-	public void setCurrentLineCombo(LineComboBox currentLineCombo) {
-		this.currentLineCombo = currentLineCombo;
-	}
+    public void setCurrentLineCombo(LineComboBox currentLineCombo) {
+        this.currentLineCombo = currentLineCombo;
+    }
 
 
     public UISpinner getBorderCornerSpinner() {
@@ -150,162 +174,162 @@ public class LayoutBorderPane extends BasicPane {
 
 
     public UIColorButton getCurrentLineColorPane() {
-		return currentLineColorPane;
-	}
+        return currentLineColorPane;
+    }
 
-	public void setCurrentLineColorPane(UIColorButton currentLineColorPane) {
-		this.currentLineColorPane = currentLineColorPane;
-	}
+    public void setCurrentLineColorPane(UIColorButton currentLineColorPane) {
+        this.currentLineColorPane = currentLineColorPane;
+    }
 
 
-	public BackgroundSpecialPane getBackgroundPane() {
-		return backgroundPane;
-	}
+    public BackgroundSpecialPane getBackgroundPane() {
+        return backgroundPane;
+    }
 
-	public void setBackgroundPane(BackgroundSpecialPane backgroundPane) {
-		this.backgroundPane = backgroundPane;
-	}
+    public void setBackgroundPane(BackgroundSpecialPane backgroundPane) {
+        this.backgroundPane = backgroundPane;
+    }
 
-	public UINumberDragPane getNumberDragPane() {
-		return numberDragPane;
-	}
+    public UINumberDragPane getNumberDragPane() {
+        return numberDragPane;
+    }
 
-	public void setNumberDragPane(UINumberDragPane numberDragPane) {
-		this.numberDragPane = numberDragPane;
-	}
+    public void setNumberDragPane(UINumberDragPane numberDragPane) {
+        this.numberDragPane = numberDragPane;
+    }
 
-	public TinyFormulaPane getFormulaPane() {
-		return formulaPane;
-	}
+    public TinyFormulaPane getFormulaPane() {
+        return formulaPane;
+    }
 
-	public void setFormulaPane(TinyFormulaPane formulaPane) {
-		this.formulaPane = formulaPane;
-	}
+    public void setFormulaPane(TinyFormulaPane formulaPane) {
+        this.formulaPane = formulaPane;
+    }
 
-	public UIComboBox getFontNameComboBox() {
-		return fontNameComboBox;
-	}
+    public UIComboBox getFontNameComboBox() {
+        return fontNameComboBox;
+    }
 
-	public void setFontNameComboBox(UIComboBox fontNameComboBox) {
-		this.fontNameComboBox = fontNameComboBox;
-	}
+    public void setFontNameComboBox(UIComboBox fontNameComboBox) {
+        this.fontNameComboBox = fontNameComboBox;
+    }
 
-	public UIComboBox getFontSizeComboBox() {
-		return fontSizeComboBox;
-	}
+    public UIComboBox getFontSizeComboBox() {
+        return fontSizeComboBox;
+    }
 
-	public void setFontSizeComboBox(UIComboBox fontSizeComboBox) {
-		this.fontSizeComboBox = fontSizeComboBox;
-	}
+    public void setFontSizeComboBox(UIComboBox fontSizeComboBox) {
+        this.fontSizeComboBox = fontSizeComboBox;
+    }
 
-	public UIColorButton getColorSelectPane() {
-		return colorSelectPane;
-	}
+    public UIColorButton getColorSelectPane() {
+        return colorSelectPane;
+    }
 
-	public void setColorSelectPane(UIColorButton colorSelectPane) {
-		this.colorSelectPane = colorSelectPane;
-	}
+    public void setColorSelectPane(UIColorButton colorSelectPane) {
+        this.colorSelectPane = colorSelectPane;
+    }
 
-	public UIToggleButton getBold() {
-		return bold;
-	}
+    public UIToggleButton getBold() {
+        return bold;
+    }
 
-	public void setBold(UIToggleButton bold) {
-		this.bold = bold;
-	}
+    public void setBold(UIToggleButton bold) {
+        this.bold = bold;
+    }
 
-	public UIToggleButton getItalic() {
-		return italic;
-	}
+    public UIToggleButton getItalic() {
+        return italic;
+    }
 
-	public void setItalic(UIToggleButton italic) {
-		this.italic = italic;
-	}
+    public void setItalic(UIToggleButton italic) {
+        this.italic = italic;
+    }
 
-	public UIToggleButton getUnderline() {
-		return underline;
-	}
+    public UIToggleButton getUnderline() {
+        return underline;
+    }
 
-	public void setUnderline(UIToggleButton underline) {
-		this.underline = underline;
-	}
+    public void setUnderline(UIToggleButton underline) {
+        this.underline = underline;
+    }
 
-	public LineComboBox getUnderlineCombo() {
-		return underlineCombo;
-	}
+    public LineComboBox getUnderlineCombo() {
+        return underlineCombo;
+    }
 
-	public void setUnderlineCombo(LineComboBox underlineCombo) {
-		this.underlineCombo = underlineCombo;
-	}
+    public void setUnderlineCombo(LineComboBox underlineCombo) {
+        this.underlineCombo = underlineCombo;
+    }
 
-	public UIButtonGroup gethAlignmentPane() {
-		return hAlignmentPane;
-	}
+    public UIButtonGroup gethAlignmentPane() {
+        return hAlignmentPane;
+    }
 
-	public void sethAlignmentPane(UIButtonGroup hAlignmentPane) {
-		this.hAlignmentPane = hAlignmentPane;
-	}
+    public void sethAlignmentPane(UIButtonGroup hAlignmentPane) {
+        this.hAlignmentPane = hAlignmentPane;
+    }
 
-	public BackgroundNoImagePane getTitleBackgroundPane() {
-		return titleBackgroundPane;
-	}
+    public BackgroundNoImagePane getTitleBackgroundPane() {
+        return titleBackgroundPane;
+    }
 
-	public void setTitleBackgroundPane(BackgroundNoImagePane titleBackgroundPane) {
-		this.titleBackgroundPane = titleBackgroundPane;
-	}
+    public void setTitleBackgroundPane(BackgroundNoImagePane titleBackgroundPane) {
+        this.titleBackgroundPane = titleBackgroundPane;
+    }
 
-	public UIScrollPane getTitlePane() {
-		return titlePane;
-	}
+    public UIScrollPane getTitlePane() {
+        return titlePane;
+    }
 
-	public void setTitlePane(UIScrollPane titlePane) {
-		this.titlePane = titlePane;
-	}
+    public void setTitlePane(UIScrollPane titlePane) {
+        this.titlePane = titlePane;
+    }
 
-	public int getMinNumber() {
-		return minNumber;
-	}
+    public int getMinNumber() {
+        return minNumber;
+    }
 
-	public void setMinNumber(int minNumber) {
-		this.minNumber = minNumber;
-	}
+    public void setMinNumber(int minNumber) {
+        this.minNumber = minNumber;
+    }
 
-	public double getMaxNumber() {
-		return maxNumber;
-	}
+    public double getMaxNumber() {
+        return maxNumber;
+    }
 
-	public void setMaxNumber(double maxNumber) {
-		this.maxNumber = maxNumber;
-	}
+    public void setMaxNumber(double maxNumber) {
+        this.maxNumber = maxNumber;
+    }
 
-	public int getIconWidth() {
-		return iconWidth;
-	}
+    public int getIconWidth() {
+        return iconWidth;
+    }
 
-	public void setIconWidth(int iconWidth) {
-		this.iconWidth = iconWidth;
-	}
+    public void setIconWidth(int iconWidth) {
+        this.iconWidth = iconWidth;
+    }
 
-	public final static int[] BORDER_LINE_STYLE_ARRAY = new int[]{
+    public final static int[] BORDER_LINE_STYLE_ARRAY = new int[]{
             Constants.LINE_NONE,
             Constants.LINE_THIN, //1px
             Constants.LINE_MEDIUM, //2px
             Constants.LINE_THICK, //3px
-            };
+    };
 
     public final static String[] BORDER_TYPE = new String[]{Inter.getLocText("FR-Designer-Widget-Style_Standard"), Inter.getLocText("FR-Designer-Widget-Style_Custom")};
     public final static String[] BORDER_STYLE= new String[]{Inter.getLocText("FR-Designer-Widget-Style_Common"), Inter.getLocText("FR-Designer-Widget-Style_Shadow")};
 
     private final static Dimension BUTTON_SIZE = new Dimension(24, 20);
-    
+
     public LayoutBorderPane() {
         this.initComponents();
     }
-    
+
     protected void initComponents() {
-    	this.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
+        this.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
-    
+
         JPanel defaultPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         this.add(defaultPane, BorderLayout.CENTER);
 
@@ -318,7 +342,7 @@ public class LayoutBorderPane extends BasicPane {
         borderPane.setBorder(BorderFactory.createEmptyBorder(10, 4, 10, 4));
 
         layoutBorderPreviewPane = new LayoutBorderPreviewPane(borderStyle);
-       	
+
         borderPane.add(layoutBorderPreviewPane, BorderLayout.CENTER);
 
         JPanel rightPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
@@ -336,17 +360,7 @@ public class LayoutBorderPane extends BasicPane {
     }
 
     protected UIScrollPane initRightTopPane(){
-        this.borderTypeCombo = new UIComboBox(BORDER_TYPE);
-        this.borderTypeCombo.addItemListener(new ItemListener() {
-            public void itemStateChanged(ItemEvent e) {
-              if(borderTypeCombo.getSelectedIndex() == 0){
-                   titlePane.setVisible(false);
-              }  else {
-                   titlePane.setVisible(true);
-                  currentLineCombo.setSelectedItem(Constants.LINE_THIN);
-              }
-            }
-        });
+        switchBorderType();
         this.borderStyleCombo = new UIComboBox(BORDER_STYLE);
         this.currentLineCombo = new LineComboBox(BORDER_LINE_STYLE_ARRAY);
         this.currentLineColorPane = new UIColorButton(null);
@@ -366,22 +380,43 @@ public class LayoutBorderPane extends BasicPane {
         double[] rowSize = {p,p,p,p,p,p,p,p};
         double[] columnSize = { p, MAX_WIDTH};
         JPanel rightTopContentPane = TableLayoutHelper.createCommonTableLayoutPane(new JComponent[][]{
-                {new UILabel(Inter.getLocText("FR-Designer-Widget-Style_Frame_Style")), borderTypeCombo},
+                getBorderTypeComp(),
                 {new UILabel(Inter.getLocText("FR-Designer-Widget-Style_Render_Style")), borderStyleCombo},
                 {new UILabel(Inter.getLocText("FR-Designer-Widget-Style_Border_Line")), currentLineCombo},
                 {new UILabel(Inter.getLocText("FR-Designer-Widget-Style_Border_Color")), buttonPane},
-                {new UILabel(Inter.getLocText("plugin-ChartF_Radius")+":"),borderCornerSpinner},
+                getBorderCornerSpinnerComp(),
                 {new UILabel(Inter.getLocText("FR-Designer-Widget-Style_Body_Background")), backgroundPane},
                 {new UILabel(""),new UILabel(Inter.getLocText("FR-Designer-Widget-Style_Alpha"))},
                 {new UILabel(""),transparencyPane},
-                }, rowSize, columnSize, 10);
+        }, rowSize, columnSize, 10);
         rightTopContentPane.setBorder(BorderFactory.createEmptyBorder(15, 12, 10, 12));
         UIScrollPane rightTopPane = new UIScrollPane(rightTopContentPane);
         rightTopPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("FR-Designer-Widget-Style_Frame"),null));
         rightTopPane.setPreferredSize(rightTopPane.getPreferredSize());
         return  rightTopPane;
     }
-    
+
+    protected JComponent[] getBorderTypeComp(){
+        return new JComponent[]{new UILabel(Inter.getLocText("FR-Designer-Widget-Style_Frame_Style")), borderTypeCombo};
+    }
+
+    protected JComponent[] getBorderCornerSpinnerComp(){
+        return new JComponent[]{new UILabel(Inter.getLocText("plugin-ChartF_Radius")+":"),borderCornerSpinner};
+    }
+
+    protected void switchBorderType(){
+        this.borderTypeCombo = new UIComboBox(BORDER_TYPE);
+        this.borderTypeCombo.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+                if(borderTypeCombo.getSelectedIndex() == 0){
+                    titlePane.setVisible(false);
+                }  else {
+                    titlePane.setVisible(true);
+                    currentLineCombo.setSelectedItem(Constants.LINE_THIN);
+                }
+            }
+        });
+    }
 
 
 
@@ -452,8 +487,8 @@ public class LayoutBorderPane extends BasicPane {
         titlePane.setVisible(false);
         return titlePane;
     }
-    
-    
+
+
 
     protected JPanel initFontButtonPane(){
         colorSelectPane = new UIColorButton();
@@ -524,8 +559,8 @@ public class LayoutBorderPane extends BasicPane {
         title.setPosition((Integer)hAlignmentPane.getSelectedItem());
         title.setBackground(titleBackgroundPane.update());
         style.setTitle(title);
-		return style;
-	}
+        return style;
+    }
 
     protected FRFont updateItalicBold(FRFont frFont) {
         int italic_bold = frFont.getStyle();
@@ -547,10 +582,10 @@ public class LayoutBorderPane extends BasicPane {
     }
 
     public void populate(LayoutBorderStyle style) {
-    	if(this.borderStyle == null) {
-    		borderStyle = new LayoutBorderStyle();
-    	}
-    	this.borderStyle.setStyle(style);
+        if(this.borderStyle == null) {
+            borderStyle = new LayoutBorderStyle();
+        }
+        this.borderStyle.setStyle(style);
 
         populateBorder();
 
@@ -558,7 +593,7 @@ public class LayoutBorderPane extends BasicPane {
 
     }
 
-    protected void populateBorder(){
+    protected void populateBorderType(){
         this.borderTypeCombo.setSelectedIndex(borderStyle.getType());
         this.borderTypeCombo.addItemListener(new ItemListener() {
             @Override
@@ -566,6 +601,10 @@ public class LayoutBorderPane extends BasicPane {
                 paintPreviewPane();
             }
         });
+    }
+
+    protected void populateBorder(){
+        populateBorderType();
         this.borderStyleCombo.setSelectedIndex(borderStyle.getBorderStyle());
         this.borderStyleCombo.addItemListener(new ItemListener() {
             @Override
@@ -610,7 +649,7 @@ public class LayoutBorderPane extends BasicPane {
 
         populateFourmula(widgetTitle);
         populateFont(widgetTitle);
-        
+
         underline.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -631,10 +670,10 @@ public class LayoutBorderPane extends BasicPane {
                 paintPreviewPane();
             }
         });
-    
 
 
-    	titleBackgroundPane.populateBean(widgetTitle.getBackground());
+
+        titleBackgroundPane.populateBean(widgetTitle.getBackground());
         this.titleBackgroundPane.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -716,27 +755,27 @@ public class LayoutBorderPane extends BasicPane {
         };
     }
 
-    
-	private void populateFourmula(WidgetTitle widgetTitle) {
-		this.formulaPane.populateBean(widgetTitle.getTextObject().toString());
-		this.formulaPane.getUITextField().getDocument()
-				.addDocumentListener(new DocumentListener() {
-					@Override
-					public void insertUpdate(DocumentEvent e) {
-						paintPreviewPane();
-					}
 
-					@Override
-					public void removeUpdate(DocumentEvent e) {
-						paintPreviewPane();
-					}
+    private void populateFourmula(WidgetTitle widgetTitle) {
+        this.formulaPane.populateBean(widgetTitle.getTextObject().toString());
+        this.formulaPane.getUITextField().getDocument()
+                .addDocumentListener(new DocumentListener() {
+                    @Override
+                    public void insertUpdate(DocumentEvent e) {
+                        paintPreviewPane();
+                    }
 
-					@Override
-					public void changedUpdate(DocumentEvent e) {
-						paintPreviewPane();
-					}
-				});
-	}
+                    @Override
+                    public void removeUpdate(DocumentEvent e) {
+                        paintPreviewPane();
+                    }
+
+                    @Override
+                    public void changedUpdate(DocumentEvent e) {
+                        paintPreviewPane();
+                    }
+                });
+    }
 
 
     protected JPanel createVerButtonPane(JToggleButton noBorder, String text) {
@@ -747,119 +786,119 @@ public class LayoutBorderPane extends BasicPane {
 
         return verPane;
     }
-    
+
     protected class VerButtonPane extends JPanel {
-    	
-    	JToggleButton noBorder;
-    	BorderButton normalBorder;
-    	BorderButton RoundedBorder;
-    	ButtonGroup group;
-		
-    	private VerButtonPane () {
-    		setLayout(new FlowLayout(FlowLayout.CENTER));
-    		setBorder(BorderFactory.createEmptyBorder(0, 0, 4, 0));
-    		group = new ButtonGroup();
-    		noBorder = new BorderButton(NO_BORDERS);
-    		normalBorder = new BorderButton(RIGHTANGLE_BORDERS);
-    		RoundedBorder = new BorderButton(ROUNDED_BORDERS);
-    		group.add(noBorder);
-    		group.add(normalBorder);
-    		group.add(RoundedBorder);
-    
+
+        JToggleButton noBorder;
+        BorderButton normalBorder;
+        BorderButton RoundedBorder;
+        ButtonGroup group;
+
+        private VerButtonPane () {
+            setLayout(new FlowLayout(FlowLayout.CENTER));
+            setBorder(BorderFactory.createEmptyBorder(0, 0, 4, 0));
+            group = new ButtonGroup();
+            noBorder = new BorderButton(NO_BORDERS);
+            normalBorder = new BorderButton(RIGHTANGLE_BORDERS);
+            RoundedBorder = new BorderButton(ROUNDED_BORDERS);
+            group.add(noBorder);
+            group.add(normalBorder);
+            group.add(RoundedBorder);
+
 //    		add(createVerButtonPane(noBorder, Inter.getLocText("None")));
 //    		add(createVerButtonPane(normalBorder, Inter.getLocText("Border-Style-Normal")));
 //    		add(createVerButtonPane(RoundedBorder, Inter.getLocText("Border-Style-Radius")));
-    	}
-    	
-    	public void populate(LayoutBorderStyle style) {
-			if(style.getBorder() == Constants.LINE_NONE) {
-				group.setSelected(noBorder.getModel(), true);
-			} else if(style.getBorderRadius() != NO_RADIUS) {
+        }
+
+        public void populate(LayoutBorderStyle style) {
+            if(style.getBorder() == Constants.LINE_NONE) {
+                group.setSelected(noBorder.getModel(), true);
+            } else if(style.getBorderRadius() != NO_RADIUS) {
                 group.setSelected(RoundedBorder.getModel(), true);
             }  else {
-				group.setSelected(normalBorder.getModel(), true);
-			}
-		}
+                group.setSelected(normalBorder.getModel(), true);
+            }
+        }
     }
-    
-	private class BorderButton extends JToggleButton {
-		private BorderButton(int border) {
-			super();
-			this.setIcon(new BorderButtonIcon(border));
-			addBorderActionListener(border);
-			setPreferredSize(new Dimension(32, 32));
-			this.setBorder(new UIRoundedBorder(new Color(220, 220, 220), 1, 5));
-			this.setRolloverEnabled(true);
-		}
 
-		@Override
-		public Border getBorder() {
-			ButtonModel model = getModel();
-			if (this.isSelected()) {
-				return null;
-			}
-			if (isRolloverEnabled() && model.isRollover()) {
-				return new UIRoundedBorder(new Color(148, 148, 148), 1, 5);
-			}
-			return super.getBorder();
-		}
+    private class BorderButton extends JToggleButton {
+        private BorderButton(int border) {
+            super();
+            this.setIcon(new BorderButtonIcon(border));
+            addBorderActionListener(border);
+            setPreferredSize(new Dimension(32, 32));
+            this.setBorder(new UIRoundedBorder(new Color(220, 220, 220), 1, 5));
+            this.setRolloverEnabled(true);
+        }
 
-		@Override
-		public void updateUI() {
-			setUI(new BorderToggleButtonUI());
-		}
+        @Override
+        public Border getBorder() {
+            ButtonModel model = getModel();
+            if (this.isSelected()) {
+                return null;
+            }
+            if (isRolloverEnabled() && model.isRollover()) {
+                return new UIRoundedBorder(new Color(148, 148, 148), 1, 5);
+            }
+            return super.getBorder();
+        }
 
-		private void addBorderActionListener(final int border) {
-			addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent ae) {
-					if (border == 0) {
-						borderStyle.reset();
-					} else {
-						borderStyle.setColor(currentLineColorPane.getColor());
-						borderStyle.setBorder(currentLineCombo.getSelectedLineStyle());
-						borderStyle.setBorderRadius((int)borderCornerSpinner.getValue());
-					}
+        @Override
+        public void updateUI() {
+            setUI(new BorderToggleButtonUI());
+        }
+
+        private void addBorderActionListener(final int border) {
+            addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent ae) {
+                    if (border == 0) {
+                        borderStyle.reset();
+                    } else {
+                        borderStyle.setColor(currentLineColorPane.getColor());
+                        borderStyle.setBorder(currentLineCombo.getSelectedLineStyle());
+                        borderStyle.setBorderRadius((int)borderCornerSpinner.getValue());
+                    }
 
                     layoutBorderPreviewPane.repaint();
-				}
-			});
+                }
+            });
 
-		}
-	}
+        }
+    }
 
-	private class BorderToggleButtonUI extends BasicToggleButtonUI {
+    private class BorderToggleButtonUI extends BasicToggleButtonUI {
 
-		@Override
-		public void paint(Graphics g, JComponent c) {
-			paintBackground(g, (AbstractButton) c);
-			super.paint(g, c);
-		}
+        @Override
+        public void paint(Graphics g, JComponent c) {
+            paintBackground(g, (AbstractButton) c);
+            super.paint(g, c);
+        }
 
-		private void paintBackground(Graphics g, AbstractButton b) {
-			if (b.isContentAreaFilled()) {
-				Dimension size = b.getSize();
-				Background background = new GradientBackground(new Color(247, 247, 247), new Color(228, 228, 228),
-						GradientBackground.TOP2BOTTOM);
-				background.paint(g, new RoundRectangle2D.Double(2, 2, size.width - 4, size.height - 4, 5, 5));
-			}
-		}
+        private void paintBackground(Graphics g, AbstractButton b) {
+            if (b.isContentAreaFilled()) {
+                Dimension size = b.getSize();
+                Background background = new GradientBackground(new Color(247, 247, 247), new Color(228, 228, 228),
+                        GradientBackground.TOP2BOTTOM);
+                background.paint(g, new RoundRectangle2D.Double(2, 2, size.width - 4, size.height - 4, 5, 5));
+            }
+        }
 
-		private void paintBorder(Graphics g, Color lineColor, int width, int height) {
-			Graphics2D g2d = (Graphics2D) g;
-			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			g2d.setColor(lineColor);
-			g2d.drawRoundRect(0, 0, width - 1, height - 1, 5, 5);
-			g2d.setColor(Color.WHITE);
-			g2d.drawRoundRect(1, 1, width - 3, height - 3, 5, 5);
-			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
-		}
+        private void paintBorder(Graphics g, Color lineColor, int width, int height) {
+            Graphics2D g2d = (Graphics2D) g;
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g2d.setColor(lineColor);
+            g2d.drawRoundRect(0, 0, width - 1, height - 1, 5, 5);
+            g2d.setColor(Color.WHITE);
+            g2d.drawRoundRect(1, 1, width - 3, height - 3, 5, 5);
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+        }
 
-		@Override
-		protected void paintButtonPressed(Graphics g, AbstractButton b) {
-			Dimension size = b.getSize();
-			paintBorder(g, new Color(78,143,203), size.height, size.width);
-		}
-	}
+        @Override
+        protected void paintButtonPressed(Graphics g, AbstractButton b) {
+            Dimension size = b.getSize();
+            paintBorder(g, new Color(78,143,203), size.height, size.width);
+        }
+    }
 
     // Icon to display in shortcut setting buttons
     private class BorderButtonIcon implements Icon {
@@ -883,13 +922,13 @@ public class LayoutBorderPane extends BasicPane {
                 g.drawRect(3, 3, this.getIconWidth() - 7, this.getIconHeight() - 7);
             } else if (display == LayoutBorderPane.ROUNDED_BORDERS) {
                 g.setColor(Color.black);
-				g.drawRoundRect(3, 3, this.getIconWidth() - 7, this.getIconHeight() - 7, 6, 6);
+                g.drawRoundRect(3, 3, this.getIconWidth() - 7, this.getIconHeight() - 7, 6, 6);
             }
         }
     }
 
-	@Override
-	protected String title4PopupWindow() {
-		return Inter.getLocText("FR-Designer-Widget_Style");
-	}
+    @Override
+    protected String title4PopupWindow() {
+        return Inter.getLocText("FR-Designer-Widget_Style");
+    }
 }

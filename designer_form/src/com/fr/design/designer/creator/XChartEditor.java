@@ -14,7 +14,6 @@ import com.fr.design.gui.chart.BaseChartPropertyPane;
 import com.fr.design.gui.chart.MiddleChartComponent;
 import com.fr.design.mainframe.*;
 import com.fr.design.mainframe.widget.editors.WLayoutBorderStyleEditor;
-import com.fr.design.mainframe.widget.renderer.LayoutBorderStyleRenderer;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.designer.beans.events.DesignerEditor;
 import com.fr.form.ui.BaseChartEditor;
@@ -74,6 +73,11 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
      */
     public boolean hasTitleStyle() {
 		return true;
+	}
+
+	@Override
+	public void stopEditing() {
+		isEditing = false;
 	}
 
     /**
@@ -201,7 +205,8 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 	public void respondClick(EditingMouseListener editingMouseListener,MouseEvent e){
 		FormDesigner designer = editingMouseListener.getDesigner();
 		SelectionModel selectionModel = editingMouseListener.getSelectionModel();
-		isEditing =  e.getClickCount() == 2 || designer.getCursor().getType() == Cursor.HAND_CURSOR;
+		isEditing =  e.getButton() == MouseEvent.BUTTON1 &&
+				(e.getClickCount() == 2 || designer.getCursor().getType() == Cursor.HAND_CURSOR);
 		displayCoverPane(!isEditing);
 		selectionModel.selectACreatorAtMouseEvent(e);
 
@@ -262,6 +267,14 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 
 	public JComponent getCoverPane(){
 		return coverPanel;
+	}
+
+	/**
+	 * 是否支持设置可用
+	 * return boolean
+	 */
+	public boolean supportSetEnable(){
+		return false;
 	}
 
 	/**

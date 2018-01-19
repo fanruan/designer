@@ -10,7 +10,11 @@ import com.fr.design.constants.UIConstants;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.datapane.TableDataTreePane;
 import com.fr.design.data.tabledata.ResponseDataSourceChange;
-import com.fr.design.file.*;
+import com.fr.design.file.FileOperations;
+import com.fr.design.file.FileToolbarStateChangeListener;
+import com.fr.design.file.HistoryTemplateListPane;
+import com.fr.design.file.MutilTempalteTabPane;
+import com.fr.design.file.TemplateTreePane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.imenu.UIMenuHighLight;
@@ -41,6 +45,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -51,6 +56,11 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
 
     private CardLayout card;
     private JPanel cardPane;
+    private java.util.List<FileToolbarStateChangeListener> otherToobarStateChangeListeners= new ArrayList<>();
+
+    public FileOperations getSelectedOperation() {
+        return selectedOperation;
+    }
 
     private FileOperations selectedOperation;
     private UIToolbar toolBar;
@@ -60,8 +70,8 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
     private OpenFolderAction openFolderAction = new OpenFolderAction();
     private RenameAction renameAction = new RenameAction();
     private DelFileAction delFileAction = new DelFileAction();
-    
-    
+
+
     /**
      * 刷新
      */
@@ -133,7 +143,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         }
         toolbarDef.addShortCut(delFileAction);
         Set<ShortCut> extraShortCuts = ExtraDesignClassManager.getInstance().getExtraShortCuts();
-        for (ShortCut shortCut : extraShortCuts){
+        for (ShortCut shortCut : extraShortCuts) {
             toolbarDef.addShortCut(shortCut);
         }
 
@@ -159,8 +169,9 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
     }
 
     /**
-     *  响应数据集改变
-     * @param map     改变名字的数据集
+     * 响应数据集改变
+     *
+     * @param map 改变名字的数据集
      */
     public void fireDSChanged(Map<String, String> map) {
         DesignTableDataManager.fireDSChanged(map);
@@ -211,6 +222,21 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         public void actionPerformed(ActionEvent evt) {
             selectedOperation.refresh();
             stateChange();
+
+        }
+    }
+
+    public void addToobarStateChangeListener(FileToolbarStateChangeListener toobarStateChangeListener) {
+        this.otherToobarStateChangeListeners.add(toobarStateChangeListener);
+    }
+
+    public void removeToobarStateChangeListener(FileToolbarStateChangeListener toobarStateChangeListener) {
+        this.otherToobarStateChangeListeners.remove(toobarStateChangeListener);
+    }
+
+    private void otherStateChange() {
+        for (FileToolbarStateChangeListener toobarStateChangeListener : otherToobarStateChangeListeners) {
+            toobarStateChangeListener.stateChange();
         }
     }
 
@@ -294,8 +320,8 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
                     openReportAction.setEnabled(false);
                 }
                 FileNode node = TemplateTreePane.getInstance().getTemplateFileTree().getSelectedFileNode();
-                if (selectedOperation.getSelectedTemplatePath() != null){
-                    if (node.getLock() != null && !ComparatorUtils.equals(node.getUserID(),node.getLock())){
+                if (selectedOperation.getSelectedTemplatePath() != null) {
+                    if (node.getLock() != null && !ComparatorUtils.equals(node.getUserID(), node.getLock())) {
                         delFileAction.setEnabled(false);
                     } else {
                         delFileAction.setEnabled(true);
@@ -328,6 +354,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             delFileAction.setEnabled(true);
         }
 
+        otherStateChange();
     }
 
     /**

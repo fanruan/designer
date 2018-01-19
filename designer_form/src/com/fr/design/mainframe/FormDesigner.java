@@ -4,13 +4,11 @@ import com.fr.base.BaseUtils;
 import com.fr.base.Parameter;
 import com.fr.base.ScreenResolution;
 import com.fr.design.DesignState;
+import com.fr.design.actions.UpdateAction;
 import com.fr.design.designer.TargetComponent;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.Painter;
-import com.fr.design.designer.beans.actions.CopyAction;
-import com.fr.design.designer.beans.actions.CutAction;
-import com.fr.design.designer.beans.actions.FormDeleteAction;
-import com.fr.design.designer.beans.actions.PasteAction;
+import com.fr.design.designer.beans.actions.*;
 import com.fr.design.designer.beans.adapters.layout.FRParameterLayoutAdapter;
 import com.fr.design.designer.beans.events.CreatorEventListenerTable;
 import com.fr.design.designer.beans.events.DesignerEditListener;
@@ -23,6 +21,7 @@ import com.fr.design.designer.beans.models.SelectionModel;
 import com.fr.design.designer.beans.models.StateModel;
 import com.fr.design.designer.creator.*;
 import com.fr.design.designer.properties.FormWidgetAuthorityEditPane;
+import com.fr.design.event.DesignerOpenedListener;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
@@ -48,7 +47,6 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
-import com.fr.stable.CoreGraphHelper;
 import com.fr.stable.bridge.StableFactory;
 
 import javax.swing.*;
@@ -108,7 +106,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     private int resolution = ScreenResolution.getScreenResolution();
     // 编辑状态的事件表
     private CreatorEventListenerTable edit;
-    protected Action[] designerActions;
+    protected UpdateAction[] designerActions;
     private FormDesignerModeForSpecial<?> desigerMode;
     private Action switchAction;
     private FormElementCaseContainerProvider elementCaseContainer;
@@ -150,6 +148,8 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
         new FormDesignerDropTarget(this);// 添加Drag and Drop.
 
         this.switchAction = switchAction;
+
+        // 必须刷新"参数/控件树"面板，否则，若最近一次打开模版为 cpt，重启设计器，打开 frm，控件树消失
         populateParameterPropertyPane();
     }
 
@@ -215,7 +215,6 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
             }
         }
     }
-
 
     /**
      * 是否有查询按钮
@@ -351,11 +350,11 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
         }
 
         parameterArray = null;
-        refreshParameter();
+
         //parameter多的时候，不刷新会出现控件边界交叉
         refreshRoot();
-        //不知道为什么添加完参数后控件树只有一个label，这儿刷新一下控件树好了
-        EastRegionContainerPane.getInstance().refreshDownPane();
+        // 最后刷新"添加参数面板"和控件树
+        refreshParameter();
     }
 
     private void addParaPaneTooltips() {
@@ -672,9 +671,20 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
                         setParameterArray(getNoRepeatParas(getTarget().getParameters()));
                         refreshParameter();
                     }
+                } else {
+                    for( UpdateAction action : getActions()) {
+                        action.update();
+                    }
                 }
             }
 
+        });
+
+        DesignerContext.getDesignerFrame().addDesignerOpenedListener(new DesignerOpenedListener() {
+            @Override
+            public void designerOpened() {
+                setToolbarButtons();
+            }
         });
     }
 
@@ -1012,6 +1022,9 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
      */
     @Override
     public void valueChanged(TreeSelectionEvent e) {
+        if (DesignerContext.getDesignerFrame().getSelectedJTemplate() == null) {  // 初始化完成前，不响应事件
+            return;
+        }
         ComponentTree tree = (ComponentTree) e.getSource();
         TreePath[] paths = tree.getSelectionPaths();
 
@@ -1025,15 +1038,30 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
             if (!BaseUtils.isAuthorityEditing()) {
                 selectionModel.setSelectedCreators(selected);
 
-                TreePath path = e.getNewLeadSelectionPath();
-                XCreator comp = (XCreator) path.getLastPathComponent();
-                formArea.scrollPathToVisible(comp);
+                if (formArea != null) {
+                    TreePath path = e.getNewLeadSelectionPath();
+                    XCreator comp = (XCreator) path.getLastPathComponent();
+                    formArea.scrollPathToVisible(comp);
+                }
             } else {
                 showAuthorityEditPane();
             }
             //先选中再检查
-            setToolbarButtons(paths.length == 1 && tree.getSelectionPath().getParentPath() == null);
+            setToolbarButtons();
         }
+    }
+
+    /**
+     * 是否选中了自适应布局或底层form
+     */
+    public boolean isRootSelected() {
+        ComponentTree tree = FormHierarchyTreePane.getInstance().getComponentTree();
+        TreePath[] paths = tree.getSelectionPaths();
+        if (paths == null) {
+            return true;
+        }
+        boolean isForm = paths.length == 1 && tree.getSelectionPath().getParentPath() == null;
+        return isForm || isRoot(getSelectionModel().getSelection().getSelectedCreator());
     }
 
     /**
@@ -1066,9 +1094,9 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     }
 
 
-    protected void setToolbarButtons(boolean flag) {
+    protected void setToolbarButtons() {
         //自适应布局和底层都不能删除
-        DesignerContext.getDesignerFrame().checkCombineUp(!(isRoot(getSelectionModel().getSelection().getSelectedCreator()) || flag), NAME_ARRAY_LIST);
+        DesignerContext.getDesignerFrame().checkCombineUp(!isRootSelected(), NAME_ARRAY_LIST);
     }
 
     private void invalidateLayout() {
@@ -1126,12 +1154,33 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
      *
      * @return 同上
      */
-    public Action[] getActions() {
+    public UpdateAction[] getActions() {
         if (designerActions == null) {
-            designerActions = new Action[]{new CutAction(this), new CopyAction(this), new PasteAction(this),
-                    new FormDeleteAction(this)};
+            designerActions = new UpdateAction[]{new CutAction(this), new CopyAction(this), new PasteAction(this),
+                    new FormDeleteAction(this), new MoveToTopAction(this), new MoveToBottomAction(this),
+                    new MoveUpAction(this), new MoveDownAction(this)};
         }
         return designerActions;
+    }
+
+    // 当前选中控件可以上移一层吗？
+    public boolean isCurrentComponentMovableUp() {
+        XCreator creator = getSelectionModel().getSelection().getSelectedCreator();
+        XLayoutContainer container = (XLayoutContainer) creator.getParent();
+        if (container == null || !container.supportInnerOrderChangeActions()) {
+            return false;
+        }
+        return creator.isMovable() && container.getComponentZOrder(creator) > 0;
+    }
+
+    // 当前选中控件可以下移一层吗？
+    public boolean isCurrentComponentMovableDown() {
+        XCreator creator = getSelectionModel().getSelection().getSelectedCreator();
+        XLayoutContainer container = (XLayoutContainer) creator.getParent();
+        if (container == null || !container.supportInnerOrderChangeActions()) {
+            return false;
+        }
+        return creator.isMovable() && container.getComponentZOrder(creator) < container.getComponentCount() - 1;
     }
 
     protected Border getOuterBorder() {
@@ -1236,6 +1285,16 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     @Override
     public void stopEditing() {
         // do nothing
+    }
+
+    public void stopEditing(TreePath path) {
+        // do nothing
+        XCreator comp = (XCreator) path.getLastPathComponent();
+        editingMouseListener.stopEditing();
+        editingMouseListener.stopEditTopLayout(comp);
+
+        editingMouseListener.getSelectionModel().reset();
+        editingMouseListener.getSelectionModel().selectACreator(comp);
     }
 
     /**

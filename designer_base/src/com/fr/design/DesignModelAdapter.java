@@ -26,7 +26,7 @@ public abstract class DesignModelAdapter<T extends IOFile, S extends JTemplatePr
 
     public DesignModelAdapter(S jTemplate) {
         this.jTemplate = jTemplate;
-        setCurrentModelAdapter(this);
+            setCurrentModelAdapter(this);
     }
 
     public S getjTemplate() {

@@ -3,6 +3,7 @@ package com.fr.design.mainframe;
 import com.fr.base.*;
 import com.fr.base.io.IOFile;
 import com.fr.base.iofileattr.TemplateIdAttrMark;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignState;
 import com.fr.design.DesignerEnvManager;
@@ -29,6 +30,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.templateinfo.TemplateInfoCollector;
 import com.fr.design.mainframe.templateinfo.TemplateProcessInfo;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
+import com.fr.design.mainframe.toolbar.VcsScene;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.NameSeparator;
 import com.fr.design.menu.ShortCut;
@@ -66,6 +68,7 @@ import java.util.regex.Pattern;
  * 报表设计和表单设计的编辑区域(设计器编辑的IO文件)
  */
 public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> extends TargetComponent<T> implements ToolBarMenuDockPlus, JTemplateProvider {
+
     // TODO ALEX_SEP editingFILE这个属性一定要吗?如果非要不可,有没有可能保证不为null
     private static final int PREFIX_NUM = 3000;
     private FILE editingFILE = null;
@@ -85,6 +88,8 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
     private TemplateInfoCollector tic = TemplateInfoCollector.getInstance();
     private StringBuilder process = new StringBuilder("");  // 制作模板的过程
     public int resolution = ScreenResolution.getScreenResolution();
+
+    public JTemplate() {}
 
     public JTemplate(T t, String defaultFileName) {
         this(t, new MemFILE(newTemplateNameByIndex(defaultFileName)), true);
@@ -680,7 +685,9 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
      * @return 返回菜单
      */
     public ShortCut[] shortcut4FileMenu() {
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isVcsMode()) {
+            return VcsScene.shortcut4FileMenu(this);
+        } else if (BaseUtils.isAuthorityEditing()) {
             return new ShortCut[]{new SaveTemplateAction(this), new UndoAction(this), new RedoAction(this)};
         } else {
             return new ShortCut[]{new SaveTemplateAction(this), new SaveAsTemplateAction(this), new UndoAction(this), new RedoAction(this)};
@@ -701,7 +708,9 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
             tplMenu.addShortCut(new TableDataSourceAction(this));
             tplMenu.addShortCut(shortcut4TemplateMenu());
         }
-        tplMenu.addShortCut(shortCuts4Authority());
+        if (!DesignerMode.isVcsMode()) {
+            tplMenu.addShortCut(shortCuts4Authority());
+        }
 
         return new MenuDef[]{tplMenu};
     }
@@ -892,6 +901,41 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
      * @return 是则返回true
      */
     public abstract boolean isJWorkBook();
+
+    /**
+     * 激活指定的template
+     *
+     */
+    public void activeJTemplate(int index, JTemplate jt) {
+        DesignerContext.getDesignerFrame().activateJTemplate(this);
+    };
+
+    /**
+     * 激活已存在的模板
+     *
+     */
+    public void activeOldJTemplate() {
+        DesignerContext.getDesignerFrame().activateJTemplate(this);
+    };
+
+    /**
+     * 激活新的模板
+     *
+     */
+    public void activeNewJTemplate() {
+        DesignerContext.getDesignerFrame().addAndActivateJTemplate(this);
+    };
+
+    /**
+     * 后台关闭template
+     *
+     */
+    public void closeOverLineTemplate(int index) {
+        JTemplate overTemplate = HistoryTemplateListPane.getInstance().getHistoryList().get(index);
+        HistoryTemplateListPane.getInstance().closeVirtualSelectedReport(overTemplate);
+        HistoryTemplateListPane.getInstance().getHistoryList().set(index, new JVirtualTemplate(overTemplate.getEditingFILE()));
+    };
+
 
     /**
      * 返回当前支持的超链界面pane

@@ -3,14 +3,17 @@
  */
 package com.fr.design.designer.creator.cardlayout;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
+import java.util.List;
 
 import javax.swing.border.Border;
 
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
 import com.fr.design.designer.beans.models.SelectionModel;
+import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XCreatorUtils;
 import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.designer.creator.XWBorderLayout;
@@ -19,6 +22,8 @@ import com.fr.design.mainframe.EditingMouseListener;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WBorderLayout;
+import com.fr.form.ui.container.WTabDisplayPosition;
+import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.form.ui.container.cardlayout.WCardTitleLayout;
 
 /**
@@ -29,6 +34,11 @@ import com.fr.form.ui.container.cardlayout.WCardTitleLayout;
 public class XWCardTitleLayout extends XWBorderLayout {
 	
 	private static final int CENTER = 1;
+
+	private static final int LAYOUT_INDEX = 0;
+
+	private static final int POSISIONT_OFFSET = 1;
+
 
 	/**
 	 * 构造函数
@@ -43,15 +53,49 @@ public class XWCardTitleLayout extends XWBorderLayout {
 	public XWCardTitleLayout(WCardTitleLayout widget, Dimension initSize) {
 		super(widget, initSize);
 	}
+
+	/**
+	 * 初始化组件大小，titlePart的宽高可能为0
+	 */
+	@Override
+	public void setInitSize(Dimension initSize){
+		return;
+	}
+
+
+	public WTabDisplayPosition getDisplayPosition(){
+		return ((WCardTagLayout)this.getTagPart().toData()).getDisplayPosition();
+	}
+
+	/**
+	 * 控件树不显示此组件
+	 * @param path 控件树list
+	 */
+	@Override
+	public void notShowInComponentTree(List<Component> path) {
+		path.remove(LAYOUT_INDEX);
+	}
+
+	@Override
+	public int getIndexOfChild(Object child) {
+		int count = getComponentCount();
+		for (int i = 0; i < count; i++) {
+			Component comp = getComponent(i);
+			if (comp == child) {
+				return i - POSISIONT_OFFSET;
+			}
+		}
+		return -1;
+	}
 	
     /**
      * 将WLayout转换为XLayoutContainer
      */
+	@Override
 	public void convert(){
         isRefreshing = true;
         WCardTitleLayout titleLayout = (WCardTitleLayout)this.toData();
-        this.setVisible(titleLayout.isVisible());
-        this.removeAll();
+		this.removeAll();
         String[] arrs = {WBorderLayout.NORTH, WBorderLayout.SOUTH, WBorderLayout.EAST, WBorderLayout.WEST, WBorderLayout.CENTER};
         for (int i = 0; i < arrs.length; i++) {
             Widget wgt = titleLayout.getLayoutWidget(arrs[i]);
@@ -102,13 +146,37 @@ public class XWCardTitleLayout extends XWBorderLayout {
 	public void addNewButton(XCardAddButton addBtn){
 		this.add(addBtn, WBorderLayout.EAST);
 	}
+
+	public void resetNewBtnPosition(WTabDisplayPosition wTabDisplayPosition){
+		XCardAddButton xCardAddButton = (XCardAddButton) this.getComponent(0);
+		switch (wTabDisplayPosition){
+			case TOP_POSITION:
+				this.add(xCardAddButton, WBorderLayout.EAST);
+				break;
+			case LEFT_POSITION:
+				this.add(xCardAddButton, WBorderLayout.SOUTH);
+				break;
+			case BOTTOM_POSITION:
+				this.add(xCardAddButton, WBorderLayout.EAST);
+				break;
+			case RIGHT_POSITION:
+				this.add(xCardAddButton, WBorderLayout.SOUTH);
+				break;
+			default:
+				break;
+		}
+		//需要重新添加一次保证组件顺序不变(重新初始化CardTagLayout改变内部布局)
+		XWCardTagLayout xwCardTagLayout =  (XWCardTagLayout) this.getComponent(0);
+		this.addTagPart(xwCardTagLayout);
+	}
 	
     /**
      * 切换到非添加状态
      * 
      * @return designer 表单设计器
      */
-    public void stopAddingState(FormDesigner designer){
+    @Override
+	public void stopAddingState(FormDesigner designer){
     	designer.stopAddingState();
     	return;
     }
@@ -134,10 +202,8 @@ public class XWCardTitleLayout extends XWBorderLayout {
 		FormDesigner designer = editingMouseListener.getDesigner();
 		SelectionModel selectionModel = editingMouseListener.getSelectionModel();
 
-		XWCardMainBorderLayout mainLayout = (XWCardMainBorderLayout) this.getBackupParent();
-		if(mainLayout != null){
-			XWCardLayout cardLayout = mainLayout.getCardPart();
-			selectionModel.setSelectedCreator(cardLayout);
+		if (e.getClickCount() <= 1) {
+			selectionModel.selectACreatorAtMouseEvent(e);
 		}
 		
 		if (editingMouseListener.stopEditing()) {
@@ -152,4 +218,16 @@ public class XWCardTitleLayout extends XWBorderLayout {
 	public XLayoutContainer getTopLayout() {
 		return this.getBackupParent().getTopLayout();
 	}
+
+	@Override
+	public String createDefaultName() {
+		return "tabpane";
+	}
+
+
+	@Override
+	public XCreator getXCreator() {
+		return (XCreator)this.getComponent(1);
+	}
+	
 }

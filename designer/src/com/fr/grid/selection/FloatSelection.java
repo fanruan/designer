@@ -5,17 +5,16 @@ import com.fr.base.FRContext;
 import com.fr.design.actions.cell.CleanAuthorityAction;
 import com.fr.design.actions.cell.FloatStyleAction;
 import com.fr.design.actions.core.ActionFactory;
-import com.fr.design.actions.edit.CopyAction;
-import com.fr.design.actions.edit.CutAction;
-import com.fr.design.actions.edit.DeleteAction;
-import com.fr.design.actions.edit.EditFloatElementNameAction;
-import com.fr.design.actions.edit.HyperlinkAction;
-import com.fr.design.actions.edit.PasteAction;
-import com.fr.design.actions.utils.DeprecatedActionManager;
+import com.fr.design.actions.edit.*;
+import com.fr.design.actions.edit.order.BringFloatElementForwardAction;
+import com.fr.design.actions.edit.order.BringFloatElementToFrontAction;
+import com.fr.design.actions.edit.order.SendFloatElementBackwardAction;
+import com.fr.design.actions.edit.order.SendFloatElementToBackAction;
 import com.fr.design.cell.clipboard.CellElementsClip;
 import com.fr.design.cell.clipboard.ElementsTransferable;
 import com.fr.design.cell.clipboard.FloatElementsClip;
 import com.fr.design.designer.TargetComponent;
+import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.mainframe.CellElementPropertyPane;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.mainframe.ElementCasePane.Clear;
@@ -29,12 +28,10 @@ import com.fr.stable.ColumnRow;
 import com.fr.stable.unit.FU;
 import com.fr.stable.unit.OLDPIX;
 
-import javax.swing.JPopupMenu;
-import java.awt.Toolkit;
-
+import javax.swing.*;
+import java.awt.*;
 /**
  * the float selection
- *
  * @editor zhou
  * 2012-3-22下午2:09:20
  */
@@ -120,24 +117,28 @@ public class FloatSelection extends Selection {
 
     @Override
     public JPopupMenu createPopupMenu(ElementCasePane ePane) {
-        JPopupMenu popup = new JPopupMenu();
+        UIPopupMenu popup = new UIPopupMenu();
         if (BaseUtils.isAuthorityEditing()) {
             popup.add(new CleanAuthorityAction(ePane).createMenuItem());
             return popup;
         }
-        popup.add(DeprecatedActionManager.getCellMenu(ePane).createJMenu());
         popup.add(new FloatStyleAction(ePane).createMenuItem());
         popup.add(new HyperlinkAction().createMenuItem());
-
         // cut, copy and paste
         popup.addSeparator();
+
         popup.add(new CutAction(ePane).createMenuItem());
         popup.add(new CopyAction(ePane).createMenuItem());
         popup.add(new PasteAction(ePane).createMenuItem());
         popup.add(new DeleteAction(ePane).createMenuItem());
-
         popup.addSeparator();
-        popup.add(DeprecatedActionManager.getOrderMenu(ePane));
+
+        popup.add(new BringFloatElementToFrontAction(ePane).createMenuItem());
+        popup.add(new SendFloatElementToBackAction(ePane).createMenuItem());
+        popup.add(new BringFloatElementForwardAction(ePane).createMenuItem());
+        popup.add(new SendFloatElementBackwardAction(ePane).createMenuItem());
+        popup.addSeparator();
+
         popup.add(new EditFloatElementNameAction(ePane).createMenuItem());
 
         return popup;
@@ -148,6 +149,7 @@ public class FloatSelection extends Selection {
         TemplateElementCase ec = ePane.getEditingElementCase();
         FloatElement fe = ec.getFloatElement(selectedFloatName);
         if (fe != null) {
+            //  REPORT-5955 [Report]删除悬浮元素后，设计器卡死；之前wu做了释放内存，删除悬浮元素会报npe；删除悬浮元素逻辑改为先setSelection 再 remove
             ePane.setSelection(new CellSelection(0, 0, 1, 1));
             ec.removeFloatElement(fe);
 
@@ -215,7 +217,6 @@ public class FloatSelection extends Selection {
     public boolean isSelectedOneCell(ElementCasePane ePane) {
         return false;
     }
-
     //TODO:august 这儿不比较FloatElement会不会有问题啊
     @Override
     public boolean equals(Object obj) {
@@ -239,8 +240,7 @@ public class FloatSelection extends Selection {
         CellElementPropertyPane.getInstance().removeAll();
     }
 
-    public void populateWidgetPropertyPane(ElementCasePane ePane) {
-
+    public void populateWidgetPropertyPane(ElementCasePane ePane){
     }
 
 }

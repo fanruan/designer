@@ -5,9 +5,10 @@ package com.fr.design.designer.creator;
 
 import com.fr.form.ui.container.WLayout;
 
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.beans.IntrospectionException;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 一些控件专属的容器，如标题容器，sclae容器
@@ -27,6 +28,7 @@ public abstract class DedicateLayoutContainer extends XLayoutContainer {
      * @return 属性名
      * @throws IntrospectionException
      */
+    @Override
     public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
         return new CRPropertyDescriptor[0];
     }
@@ -50,7 +52,8 @@ public abstract class DedicateLayoutContainer extends XLayoutContainer {
      *
      * @param path 控件树list
      */
-    public void notShowInComponentTree(ArrayList<Component> path) {
+    @Override
+    public void notShowInComponentTree(List<Component> path) {
         path.remove(path.size() - 1);
     }
 
@@ -59,6 +62,7 @@ public abstract class DedicateLayoutContainer extends XLayoutContainer {
      *
      * @param name 名称
      */
+    @Override
     public void resetCreatorName(String name) {
         super.resetCreatorName(name);
         XCreator child = getXCreator(XWScaleLayout.INDEX);
@@ -70,6 +74,7 @@ public abstract class DedicateLayoutContainer extends XLayoutContainer {
      * 重置组件的可见性
      * @param visible 可见性
      */
+    @Override
     public void resetVisible(boolean visible){
         super.resetVisible(visible);
         XCreator child = getXCreator(XWScaleLayout.INDEX);
@@ -80,6 +85,7 @@ public abstract class DedicateLayoutContainer extends XLayoutContainer {
      *
      * @return 组件
      */
+    @Override
     public XCreator getPropertyDescriptorCreator() {
         return getXCreator(XWScaleLayout.INDEX);
     }
@@ -89,6 +95,7 @@ public abstract class DedicateLayoutContainer extends XLayoutContainer {
      *
      * @return 是则返回true
      */
+    @Override
     public boolean isComponentTreeLeaf() {
         return true;
     }
@@ -98,6 +105,7 @@ public abstract class DedicateLayoutContainer extends XLayoutContainer {
      *
      * @return 是则返回true
      */
+    @Override
     public boolean isDedicateContainer() {
         return true;
     }

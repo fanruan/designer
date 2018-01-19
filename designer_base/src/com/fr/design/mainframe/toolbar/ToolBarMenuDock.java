@@ -5,6 +5,7 @@ package com.fr.design.mainframe.toolbar;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignState;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.UpdateAction;
@@ -181,6 +182,7 @@ public abstract class ToolBarMenuDock {
         };
         this.menus = menus(plus);
         for (int i = 0; i < menus.length; i++) {
+            menus[i].setHasRecMenu(true);
             UIMenu subMenu = menus[i].createJMenu();
             jMenuBar.add(subMenu);
             menus[i].updateMenu();
@@ -326,8 +328,13 @@ public abstract class ToolBarMenuDock {
     }
 
     public MenuDef createFileMenuDef(ToolBarMenuDockPlus plus) {
-        MenuDef menuDef = new MenuDef(Inter.getLocText("FR-Designer_File"), 'F');
 
+        if (DesignerMode.isVcsMode()) {
+            MenuDef menuDef = VcsScene.createFileMenuDef(plus);
+            insertMenu(menuDef, MenuHandler.FILE);
+            return menuDef;
+        }
+        MenuDef menuDef = new MenuDef(Inter.getLocText("FR-Designer_File"), 'F');
         ShortCut[] scs = new ShortCut[0];
         if (!BaseUtils.isAuthorityEditing()) {
             scs = createNewFileShortCuts();
@@ -584,22 +591,7 @@ public abstract class ToolBarMenuDock {
     }
 
     public NewTemplatePane getNewTemplatePane() {
-        return new NewTemplatePane() {
-            @Override
-            public Icon getNew() {
-                return BaseUtils.readIcon("/com/fr/design/images/buttonicon/addicon.png");
-            }
-
-            @Override
-            public Icon getMouseOverNew() {
-                return BaseUtils.readIcon("/com/fr/design/images/buttonicon/add_press.png");
-            }
-
-            @Override
-            public Icon getMousePressNew() {
-                return BaseUtils.readIcon("/com/fr/design/images/buttonicon/add_press.png");
-            }
-        };
+        return ToolBarNewTemplatePane.getInstance();
     }
 
     protected void insertMenu(MenuDef menuDef, String anchor) {

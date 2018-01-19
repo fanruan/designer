@@ -5,17 +5,13 @@ import com.fr.design.designer.beans.adapters.layout.FRAbsoluteBodyLayoutAdapter;
 import com.fr.design.designer.properties.mobile.BodyMobilePropertyUI;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.fun.WidgetPropertyUIProvider;
-import com.fr.design.mainframe.widget.editors.PaddingMarginEditor;
 import com.fr.design.mainframe.widget.editors.WLayoutBorderStyleEditor;
-import com.fr.design.mainframe.widget.renderer.LayoutBorderStyleRenderer;
-import com.fr.design.mainframe.widget.renderer.PaddingMarginCellRenderer;
-import com.fr.form.ui.LayoutBorderStyle;
 import com.fr.form.ui.container.WAbsoluteBodyLayout;
-import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.stable.core.PropertyChangeAdapter;
 
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.beans.IntrospectionException;
 
 /**
@@ -89,6 +85,20 @@ public class XWAbsoluteBodyLayout extends XWAbsoluteLayout {
         };
     }
 
+    /**
+     * 获取其在控件树上可见父层
+     * @return 组件
+     */
+    @Override
+    public Component getParentShow(){
+        //绝对布局作为body的时候不显示自适应布局父层
+        if ((this.getParent() != null)) {
+            return ((XCreator) this.getParent()).getParentShow();
+        }
+        return super.getParentShow();
+    }
+
+
     @Override
     public WidgetPropertyUIProvider[] getWidgetPropertyUIProviders() {
         return new WidgetPropertyUIProvider[]{ new BodyMobilePropertyUI(this)};
@@ -107,5 +117,9 @@ public class XWAbsoluteBodyLayout extends XWAbsoluteLayout {
         initStyle();
     }
 
+    @Override
+    public boolean isMovable() {
+        return false;
+    }
 
 }

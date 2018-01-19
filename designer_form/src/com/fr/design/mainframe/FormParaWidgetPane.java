@@ -44,6 +44,7 @@ import java.util.List;
 public class FormParaWidgetPane extends JPanel {
     private static FormParaWidgetPane THIS;
     private final static int BORDER = 5;
+    private final static int WIDGET_WIDTHGAP = 4;
 
     private List<WidgetOption> predifinedwidgeList = new ArrayList<WidgetOption>();
 
@@ -127,39 +128,37 @@ public class FormParaWidgetPane extends JPanel {
     }
 
     private void initWidgetTypePopUp() {
-        if (widgetTypePopupMenu == null) {
-            JPanel widgetPane = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-            loadPredefinedWidget();
-            int rowNum = calculateWidgetWindowRowNum();
-            JPanel westPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            for (WidgetOption o : loadWidgetOptions()) {
-                westPanel.add(new ToolBarButton(o));
-            }
-            int x = commonWidgetNum * (widgetButtonWidth + smallGAP) - smallGAP;
-            westPanel.setPreferredSize(new Dimension(x, (int) (rowNum * westPanel.getPreferredSize().getHeight())));
-            JPanel eastPane = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            for (WidgetOption no : predifinedwidgeList) {
-                eastPane.add(new ToolBarButton(no));
-            }
-            int maxWidth = preWidgetShowMaxNum * (widgetButtonWidth + smallGAP) - smallGAP;
-            int width = predifinedwidgeList.size() >= preWidgetShowMaxNum ? maxWidth : (int) eastPane.getPreferredSize().getWidth();
-            eastPane.setPreferredSize(new Dimension(width, (int) (rowNum * eastPane.getPreferredSize().getHeight())));
-
-            UIScrollPane eastScrollPane = new UIScrollPane(eastPane);
-            eastScrollPane.setBorder(null);
-            int maxHeight = preWidgetShowMaxRow * (widgetButtonHeight + smallGAP) - smallGAP;
-            int height = predifinedwidgeList.size() >= preWidgetShowMaxNum * preWidgetShowMaxRow ? maxHeight : (int) eastPane.getPreferredSize().getHeight();
-            width = predifinedwidgeList.size() >= preWidgetShowMaxNum * preWidgetShowMaxRow ? (int) eastPane.getPreferredSize().getWidth() + smallGAP + jsparatorWidth : (int) eastPane.getPreferredSize().getWidth();
-            eastScrollPane.setPreferredSize(new Dimension(width, height));
-
-            widgetPane.add(westPanel);
-            widgetPane.add(createJSeparator(height));
-            widgetPane.add(eastScrollPane);
-
-            widgetTypePopupMenu = new UIPopupMenu();
-            widgetTypePopupMenu.setBackground(UIConstants.SELECT_TAB);
-            widgetTypePopupMenu.add(widgetPane);
+        JPanel widgetPane = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        loadPredefinedWidget();
+        int rowNum = calculateWidgetWindowRowNum();
+        JPanel westPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        for (WidgetOption o : loadWidgetOptions()) {
+            westPanel.add(new ToolBarButton(o));
         }
+        int x = commonWidgetNum * (widgetButtonWidth + smallGAP) - smallGAP;
+        westPanel.setPreferredSize(new Dimension(x, (int) (rowNum * westPanel.getPreferredSize().getHeight())));
+        JPanel eastPane = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        for (WidgetOption no : predifinedwidgeList) {
+            eastPane.add(new ToolBarButton(no));
+        }
+        int maxWidth = preWidgetShowMaxNum * (widgetButtonWidth + smallGAP) - smallGAP + WIDGET_WIDTHGAP;
+        int width = predifinedwidgeList.size() >= preWidgetShowMaxNum ? maxWidth : (int) eastPane.getPreferredSize().getWidth();
+        eastPane.setPreferredSize(new Dimension(width, (int) (rowNum * eastPane.getPreferredSize().getHeight())));
+
+        UIScrollPane eastScrollPane = new UIScrollPane(eastPane);
+        eastScrollPane.setBorder(null);
+        int maxHeight = preWidgetShowMaxRow * (widgetButtonHeight + smallGAP) - smallGAP;
+        int height = predifinedwidgeList.size() >= preWidgetShowMaxNum * preWidgetShowMaxRow ? maxHeight : (int) eastPane.getPreferredSize().getHeight();
+        width = predifinedwidgeList.size() >= preWidgetShowMaxNum * preWidgetShowMaxRow ? (int) eastPane.getPreferredSize().getWidth() + smallGAP + jsparatorWidth : (int) eastPane.getPreferredSize().getWidth();
+        eastScrollPane.setPreferredSize(new Dimension(width, height));
+
+        widgetPane.add(westPanel);
+        widgetPane.add(createJSeparator(height));
+        widgetPane.add(eastScrollPane);
+
+        widgetTypePopupMenu = new UIPopupMenu();
+        widgetTypePopupMenu.setBackground(UIConstants.SELECT_TAB);
+        widgetTypePopupMenu.add(widgetPane);
     }
 
     private void initChartTypePopUp() {
@@ -372,7 +371,7 @@ public class FormParaWidgetPane extends JPanel {
 
             designer.addParaComponent();
             JPanel pane = FormWidgetDetailPane.getInstance(designer);
-            EastRegionContainerPane.getInstance().replaceDownPane(pane);
+            EastRegionContainerPane.getInstance().replaceWidgetLibPane(pane);
             this.setEnabled(false);
 
             designer.addDesignerEditListener(new paraButtonDesignerAdapter(this));

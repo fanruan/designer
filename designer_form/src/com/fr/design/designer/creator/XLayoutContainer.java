@@ -126,6 +126,14 @@ public abstract class XLayoutContainer extends XBorderStyleWidgetCreator impleme
         return this;
     }
 
+    public void setComponentZOrder(XCreator creator, int targetIndex) {
+        super.setComponentZOrder(creator, targetIndex);  // 设计器界面上更改
+        // 以下是数据层更改，会反映到 web 端
+        WLayout layout = this.toData();
+        String widgetName = creator.toData().getWidgetName();
+        layout.setWidgetIndex(layout.getWidget(widgetName), targetIndex);
+    }
+
     /**
      * 当前组件zorder位置替换新的控件
      *
@@ -231,6 +239,10 @@ public abstract class XLayoutContainer extends XBorderStyleWidgetCreator impleme
             creator.setPreferredSize(dim);
             creator.setMaximumSize(dim);
         }
+    }
+
+    public int getShowXCreatorCount() {
+        return getXCreatorCount();
     }
 
     public int getXCreatorCount() {
@@ -549,6 +561,14 @@ public abstract class XLayoutContainer extends XBorderStyleWidgetCreator impleme
      * return boolean
      */
     public boolean supportSetEnable(){
+        return false;
+    }
+
+    /**
+     * 内部组件是否支持叠加顺序的调整
+     * return boolean
+     */
+    public boolean supportInnerOrderChangeActions() {
         return false;
     }
 

@@ -1,4 +1,4 @@
-package com.fr.design.mainframe.alphafine.search.manager;
+package com.fr.design.mainframe.alphafine.search.manager.impl;
 
 import com.fr.base.Env;
 import com.fr.base.FRContext;
@@ -6,24 +6,21 @@ import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.alphafine.CellType;
-import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
 import com.fr.design.mainframe.alphafine.cell.model.FileModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
+import com.fr.design.mainframe.alphafine.search.manager.fun.AlphaFineSearchProvider;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.json.JSONObject;
-import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +28,7 @@ import java.util.List;
 /**
  * Created by XiaXiang on 2017/3/27.
  */
-public class FileSearchManager implements AlphaFineSearchProcessor {
+public class FileSearchManager implements AlphaFineSearchProvider {
     private static final int MARK_LENGTH = 6;
     private static final String DS_NAME = "dsname=\"";
     private static final String FRM_PREFIX = "k:frm ";
@@ -40,12 +37,15 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
     private SearchResult filterModelList;
     private SearchResult lessModelList;
     private SearchResult moreModelList;
+    private String searchText;
     private List<FileNode> fileNodes = null;
+    //停止搜索
+    private boolean stopSearch = false;
     //隐藏的搜索功能，可根据特殊的字符标记判断搜索分类
     private boolean isContainCpt = true;
     private boolean isContainFrm = true;
 
-    public synchronized static FileSearchManager getFileSearchManager() {
+    public synchronized static FileSearchManager getInstance() {
         init();
         return fileSearchManager;
     }
@@ -73,6 +73,63 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
         this.filterModelList = new SearchResult();
         this.lessModelList = new SearchResult();
         this.moreModelList = new SearchResult();
+        this.searchText = dealWithSearchText(searchText);
+        if (StringUtils.isBlank(this.searchText) || ComparatorUtils.equals(this.searchText, DS_NAME)) {
+            lessModelList.add(new MoreModel(Inter.getLocText("FR-Designer_Templates")));
+            return lessModelList;
+        }
+        Env env = FRContext.getCurrentEnv();
+        fileNodes = new ArrayList<>();
+        fileNodes = listTpl(env, ProjectConstants.REPORTLETS_NAME, true);
+        AlphaFineHelper.checkCancel();
+        isContainCpt = true;
+        isContainFrm = true;
+        doSearch(this.searchText, true, env);
+        if (stopSearch) {
+            lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Templates"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"), true, CellType.FILE));
+            lessModelList.addAll(filterModelList.subList(0, AlphaFineConstants.SHOW_SIZE));
+            stopSearch = false;
+            return this.lessModelList;
+        }
+        if (filterModelList.isEmpty()) {
+            return new SearchResult();
+        }
+        lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Templates"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"), false, CellType.FILE));
+        lessModelList.addAll(filterModelList);
+        return lessModelList;
+    }
+
+    @Override
+    public SearchResult getMoreSearchResult(String searchText) {
+        if (moreModelList != null && !moreModelList.isEmpty()) {
+            return moreModelList;
+        }
+        this.filterModelList = new SearchResult();
+        this.moreModelList = new SearchResult();
+        Env env = FRContext.getCurrentEnv();
+        AlphaFineHelper.checkCancel();
+        isContainCpt = true;
+        isContainFrm = true;
+        doSearch(this.searchText, false, env);
+        moreModelList.addAll(filterModelList.subList(AlphaFineConstants.SHOW_SIZE, filterModelList.size()));
+        return moreModelList;
+    }
+
+    private void doSearch(String searchText, boolean needMore, Env env) {
+        for (FileNode node : fileNodes) {
+            boolean isAlreadyContain = false;
+            isAlreadyContain = searchFile(searchText, node, isAlreadyContain, needMore);
+            if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainFileContent() && node.getLock() == null) {
+                searchFileContent(env, searchText, node, isAlreadyContain, needMore);
+            }
+            if (filterModelList.size() > AlphaFineConstants.SHOW_SIZE && stopSearch) {
+                return;
+            }
+
+        }
+    }
+
+    private String dealWithSearchText(String searchText) {
         if (searchText.startsWith(FRM_PREFIX)) {
             isContainCpt = false;
             searchText = searchText.substring(MARK_LENGTH, searchText.length());
@@ -80,44 +137,7 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
             isContainFrm = false;
             searchText = searchText.substring(MARK_LENGTH, searchText.length());
         }
-        if (StringUtils.isBlank(searchText) || ComparatorUtils.equals(searchText, DS_NAME)) {
-            lessModelList.add(new MoreModel(Inter.getLocText("FR-Designer_Templates")));
-            return lessModelList;
-        }
-
-        Env env = FRContext.getCurrentEnv();
-        fileNodes = new ArrayList<>();
-        fileNodes = listTpl(env, ProjectConstants.REPORTLETS_NAME, true);
-        AlphaFineHelper.checkCancel();
-        isContainCpt = true;
-        isContainFrm = true;
-        for (FileNode node : fileNodes) {
-            boolean isAlreadyContain = false;
-            String fileEnvPath = node.getEnvPath();
-            String filePath = StableUtils.pathJoin(env.getPath(), fileEnvPath);
-            isAlreadyContain = searchFile(searchText, node, isAlreadyContain);
-            searchFileContent(searchText, node, isAlreadyContain, filePath);
-
-        }
-        SearchResult result = new SearchResult();
-        for (AlphaCellModel object : filterModelList) {
-            if (!AlphaFineHelper.getFilterResult().contains(object)) {
-                result.add(object);
-            }
-
-        }
-        if (result.isEmpty()) {
-            return lessModelList;
-        } else if (result.size() < AlphaFineConstants.SHOW_SIZE + 1) {
-            lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Templates")));
-            lessModelList.addAll(result);
-        } else {
-            lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Templates"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"), true, CellType.FILE));
-            lessModelList.addAll(result.subList(0, AlphaFineConstants.SHOW_SIZE));
-            moreModelList.addAll(result.subList(AlphaFineConstants.SHOW_SIZE, result.size()));
-        }
-
-        return this.lessModelList;
+        return searchText;
     }
 
     /**
@@ -126,35 +146,36 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
      * @param searchText
      * @param node
      * @param isAlreadyContain
-     * @param filePath
      */
-    private void searchFileContent(String searchText, FileNode node, boolean isAlreadyContain, String filePath) {
-        if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainFileContent()) {
-
-            try {
-                InputStreamReader isr = new InputStreamReader(new FileInputStream(new File(filePath)), "UTF-8");
-                BufferedReader reader = new BufferedReader(isr);
-                String line;
-                int columnNumber;
-                boolean isFoundInContent = false;
-                while ((line = reader.readLine()) != null) {
-                    columnNumber = line.toLowerCase().indexOf(searchText);
-                    if (columnNumber != -1) {
-                        isFoundInContent = true;
-                        break;
-                    }
+    private void searchFileContent(Env env, String searchText, FileNode node, boolean isAlreadyContain, boolean needMore) {
+        try {
+            InputStream inputStream = env.readBean(node.getEnvPath().substring(ProjectConstants.REPORTLETS_NAME.length() + 1), ProjectConstants.REPORTLETS_NAME);
+            InputStreamReader isr = new InputStreamReader(inputStream, "UTF-8");
+            BufferedReader reader = new BufferedReader(isr);
+            String line;
+            int columnNumber;
+            boolean isFoundInContent = false;
+            while ((line = reader.readLine()) != null) {
+                columnNumber = line.toLowerCase().indexOf(searchText);
+                if (columnNumber != -1) {
+                    isFoundInContent = true;
+                    break;
                 }
-                if (isFoundInContent && !isAlreadyContain) {
-                    FileModel model = new FileModel(node.getName(), node.getEnvPath());
-                    this.filterModelList.add(model);
-                }
-                isr.close();
-                reader.close();
-            } catch (FileNotFoundException e) {
-                FRLogger.getLogger().error(e.getMessage());
-            } catch (IOException e) {
-                FRLogger.getLogger().error(e.getMessage());
             }
+            if (isFoundInContent && !isAlreadyContain) {
+                FileModel model = new FileModel(node.getName(), node.getEnvPath());
+                if (!AlphaFineHelper.getFilterResult().contains(model)) {
+                    AlphaFineHelper.checkCancel();
+                    filterModelList.add(model);
+                }
+                if (this.filterModelList.size() > AlphaFineConstants.SHOW_SIZE && needMore) {
+                    stopSearch = true;
+                }
+            }
+            isr.close();
+            reader.close();
+        } catch (Exception e) {
+            FRLogger.getLogger().error("file read error: " + e.getMessage());
         }
     }
 
@@ -166,20 +187,21 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
      * @param isAlreadyContain
      * @return
      */
-    private boolean searchFile(String searchText, FileNode node, boolean isAlreadyContain) {
+    private boolean searchFile(String searchText, FileNode node, boolean isAlreadyContain, boolean needMore) {
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainTemplate()) {
             if (node.getName().toLowerCase().contains(searchText)) {
                 FileModel model = new FileModel(node.getName(), node.getEnvPath());
-                this.filterModelList.add(model);
+                if (!AlphaFineHelper.getFilterResult().contains(model)) {
+                    AlphaFineHelper.checkCancel();
+                    filterModelList.add(model);
+                }
+                if (filterModelList.size() > AlphaFineConstants.SHOW_SIZE && needMore) {
+                    stopSearch = true;
+                }
                 isAlreadyContain = true;
             }
         }
         return isAlreadyContain;
-    }
-
-    @Override
-    public SearchResult getMoreSearchResult() {
-        return moreModelList;
     }
 
     /**
@@ -251,5 +273,21 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
 
     public void setContainFrm(boolean containFrm) {
         isContainFrm = containFrm;
+    }
+
+    public SearchResult getMoreModelList() {
+        return moreModelList;
+    }
+
+    public void setMoreModelList(SearchResult moreModelList) {
+        this.moreModelList = moreModelList;
+    }
+
+    public String getSearchText() {
+        return searchText;
+    }
+
+    public void setSearchText(String searchText) {
+        this.searchText = searchText;
     }
 }

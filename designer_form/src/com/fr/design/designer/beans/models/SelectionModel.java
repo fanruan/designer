@@ -62,13 +62,16 @@ public class SelectionModel {
      * @param e 鼠标事件
      */
     public void selectACreatorAtMouseEvent(MouseEvent e) {
-        if (!InputEventBaseOnOS.isControlDown(e) && !e.isShiftDown()) {
+        if (e.getButton() == MouseEvent.BUTTON3 || (!InputEventBaseOnOS.isControlDown(e) && !e.isShiftDown())) {
             // 如果Ctrl或者Shift键盘没有按下，则清除已经选择的组件
             selection.reset();
         }
         // 获取e所在的组件
         XCreator comp = designer.getComponentAt(e);
+        selectACreator(comp);
+    }
 
+    public void selectACreator(XCreator comp) {
         //布局组件的顶层布局如不可编辑，要获取其顶层布局
         XLayoutContainer topLayout = XCreatorUtils.getHotspotContainer(comp).getTopLayout();
         if (topLayout != null && !topLayout.isEditable()) {
@@ -78,7 +81,9 @@ public class SelectionModel {
         // 如果父层是scale和title两个专属容器，返回其父层，组件本身是不让被选中的
         if (comp != designer.getRootComponent() && comp != designer.getParaComponent()) {
             XCreator parentContainer = (XCreator) comp.getParent();
-            comp = parentContainer.isDedicateContainer() ? parentContainer : comp;
+            if (parentContainer != null) {
+                comp = parentContainer.isDedicateContainer() ? parentContainer : comp;
+            }
         }
         if (selection.removeSelectedCreator(comp) || selection.addSelectedCreator(comp)) {
             designer.getEditListenerTable().fireCreatorModified(comp, DesignerEvent.CREATOR_SELECTED);
@@ -229,7 +234,6 @@ public class SelectionModel {
      */
     public void deleteSelection() {
         XCreator[] roots = selection.getSelectedCreators();
-
         if (roots.length > 0) {
             boolean isInPara = true;  // 在参数面板内删除控件
             for (XCreator creator : roots) {
@@ -240,10 +244,12 @@ public class SelectionModel {
                     designer.removeParaComponent();
                 }
                 removeCreatorFromContainer(creator, creator.getWidth(), creator.getHeight());
+                creator.deleteRelatedComponent(creator, designer);
                 creator.removeAll();
                 // 清除被选中的组件
                 selection.reset();
             }
+
             setSelectedCreator(isInPara ? designer.getParaComponent() : designer.getRootComponent());
             // 触发事件
             designer.getEditListenerTable().fireCreatorModified(DesignerEvent.CREATOR_DELETED);

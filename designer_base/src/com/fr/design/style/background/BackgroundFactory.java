@@ -139,7 +139,7 @@ public class BackgroundFactory {
         return new NullBackgroundPane();
     }
 
-    private static BackgroundDetailPane createByWrapper(BackgroundUIWrapper wrapper) {
+    public static BackgroundDetailPane createByWrapper(BackgroundUIWrapper wrapper) {
         Class<? extends BackgroundDetailPane> clazz = wrapper.getType();
         if (clazz == null) {
             clazz = NullBackgroundPane.class;

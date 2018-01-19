@@ -1,20 +1,32 @@
 package com.fr.design.file;
 
-import com.fr.base.FRContext;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.*;
+import java.util.List;
+import java.util.logging.Level;
+
+import javax.swing.*;
+
 import com.fr.base.chart.chartdata.CallbackEvent;
+import com.fr.design.constants.UIConstants;
+import com.fr.design.DesignerEnvManager;
+import com.fr.design.data.DesignTableDataManager;
+import com.fr.design.gui.ilable.UILabel;
+
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import com.fr.base.FRContext;
+import com.fr.design.data.datapane.TableDataTreePane;
 import com.fr.dav.LocalEnv;
 import com.fr.design.DesignModelAdapter;
-import com.fr.design.DesignerEnvManager;
-import com.fr.design.constants.UIConstants;
-import com.fr.design.data.DesignTableDataManager;
-import com.fr.design.data.datapane.TableDataTreePane;
 import com.fr.design.gui.icontainer.UIScrollPane;
-import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ilist.UIList;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.module.DesignModuleFactory;
-import com.fr.design.utils.gui.GUIPaintUtils;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
@@ -22,19 +34,11 @@ import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
 import com.fr.stable.Constants;
 import com.fr.stable.project.ProjectConstants;
+import com.fr.design.utils.gui.GUIPaintUtils;
 
-import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.logging.Level;
-
-public class HistoryTemplateListPane extends JPanel implements FileOperations, CallbackEvent{
+public class HistoryTemplateListPane extends JPanel implements FileOperations, CallbackEvent {
+    //最大保存内存中面板数,为0时关闭优化内存
+    private static final int DEAD_LINE = DesignerEnvManager.getEnvManager().getCachingTemplateLimit();
     private static final int LIST_BORDER = 4;
     private List<JTemplate<?, ?>> historyList;
     private JTemplate<?, ?> editingTemplate;
@@ -100,7 +104,8 @@ public class HistoryTemplateListPane extends JPanel implements FileOperations, C
     }
 
     /**
-     *关闭选择的文件
+     * 关闭选择的文件
+     *
      * @param selected 选择的
      */
     public void closeSelectedReport(JTemplate<?, ?> selected) {
@@ -121,6 +126,34 @@ public class HistoryTemplateListPane extends JPanel implements FileOperations, C
             FRContext.getLogger().error(e.getMessage(), e);
         }
 
+    }
+
+    /**
+     * 临时关闭选择的文件
+     *
+     * @param selected 选择的
+     */
+    public void closeVirtualSelectedReport(JTemplate<?, ?> selected) {
+        DesignModuleFactory.clearChartPropertyPane();
+        DesignTableDataManager.closeTemplate(selected);
+        GeneralContext.removeEnvWillChangedListener(selected.getFullPathName());
+        if (contains(selected) == -1) {
+            return;
+        }
+        selected.fireJTemplateClosed();
+        selected.stopEditing();
+        try {
+            selected.getEditingFILE().closeTemplate();
+        } catch (Exception e) {
+            FRContext.getLogger().error(e.getMessage(), e);
+        }
+    }
+
+    /**
+     * 关闭选择的文件
+     */
+    public void selectedReportToVirtual(int i) {
+        closeOverLineTemplate();
     }
 
     public JTemplate<?, ?> getCurrentEditingTemplate() {
@@ -204,6 +237,7 @@ public class HistoryTemplateListPane extends JPanel implements FileOperations, C
 
     /**
      * 判断是否打开过该模板
+     *
      * @param filename 文件名
      * @return 文件位置
      */
@@ -219,6 +253,7 @@ public class HistoryTemplateListPane extends JPanel implements FileOperations, C
 
     /**
      * 是否是当前编辑的文件
+     *
      * @param filename 文件名
      * @return 是则返回TRUE
      */
@@ -284,8 +319,28 @@ public class HistoryTemplateListPane extends JPanel implements FileOperations, C
 
         public void add(JTemplate<?, ?> jt) {
             historyList.add(jt);
+            closeOverLineTemplate();
             refresh();
         }
+    }
+
+    /**
+     * 打开new模板的同时关闭old模板,优先关已保存的、先打开的
+     */
+    public void closeOverLineTemplate() {
+        int size = historyList.size();
+        int vCount = size - DEAD_LINE;
+        if (DEAD_LINE == 0 || vCount <= 0) {
+            return;
+        }
+        for (int i = 0; i < vCount; i++) {
+            JTemplate overTemplate = historyList.get(i);
+
+            if (overTemplate.getEditingFILE().exists() && overTemplate.isALLSaved() && overTemplate != editingTemplate) {
+                historyList.get(i).closeOverLineTemplate(i);
+            }
+        }
+        MutilTempalteTabPane.getInstance().refreshOpenedTemplate(historyList);
     }
 
     /**
@@ -341,6 +396,7 @@ public class HistoryTemplateListPane extends JPanel implements FileOperations, C
 
     /**
      * 路径
+     *
      * @return 路径
      */
     public String getSelectedTemplatePath() {

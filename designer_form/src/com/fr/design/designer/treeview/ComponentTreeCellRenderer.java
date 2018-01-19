@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import javax.swing.Icon;
 
 import com.fr.design.constants.UIConstants;
+import com.fr.design.designer.creator.cardlayout.XWCardLayout;
 import com.fr.design.gui.ilable.UILabel;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
@@ -23,7 +24,8 @@ public class ComponentTreeCellRenderer extends DefaultTreeCellRenderer {
 			boolean leaf, int row, boolean hasFocus) {
 		super.getTreeCellRendererComponent(tree, value, selected, expanded, leaf, row, hasFocus);
 		if (value instanceof XCreator) {
-			setText(((XCreator) value).toData().getWidgetName());
+			String name = ((XCreator) value).toData().getWidgetName();
+			setText(name);
 			Icon icon = XCreatorUtils.getCreatorIcon((XCreator) value);
 			if (icon != null) {
 				setIcon(icon);
@@ -36,7 +38,7 @@ public class ComponentTreeCellRenderer extends DefaultTreeCellRenderer {
 		dim.height += 2;
 		this.setSize(dim);
 		this.setPreferredSize(dim);
-		this.setBackgroundNonSelectionColor(UIConstants.NORMAL_BACKGROUND);
+		this.setBackgroundNonSelectionColor(UIConstants.TREE_BACKGROUND);
 		return this;
 	}
 

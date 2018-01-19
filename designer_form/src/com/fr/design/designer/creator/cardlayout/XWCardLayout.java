@@ -8,7 +8,11 @@ import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.FRCardLayoutAdapter;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.beans.models.SelectionModel;
-import com.fr.design.designer.creator.*;
+import com.fr.design.designer.creator.CRPropertyDescriptor;
+import com.fr.design.designer.creator.XCreator;
+import com.fr.design.designer.creator.XCreatorUtils;
+import com.fr.design.designer.creator.XLayoutContainer;
+import com.fr.design.designer.creator.XWidgetCreator;
 import com.fr.design.form.layout.FRCardLayout;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.mainframe.FormDesigner;
@@ -16,13 +20,18 @@ import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.design.mainframe.widget.editors.BooleanEditor;
 import com.fr.design.mainframe.widget.editors.CardTagWLayoutBorderStyleEditor;
 import com.fr.design.mainframe.widget.editors.DoubleEditor;
-import com.fr.form.ui.*;
+import com.fr.form.ui.CardAddButton;
+import com.fr.form.ui.CardSwitchButton;
+import com.fr.form.ui.LayoutBorderStyle;
+import com.fr.form.ui.Widget;
+import com.fr.form.ui.WidgetTitle;
 import com.fr.form.ui.container.WBorderLayout;
 import com.fr.form.ui.container.WCardLayout;
 import com.fr.form.ui.container.WLayout;
 import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
 import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.form.ui.container.cardlayout.WCardTitleLayout;
+import com.fr.form.ui.container.cardlayout.WTabFitLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
@@ -30,9 +39,13 @@ import com.fr.stable.Constants;
 import com.fr.stable.core.PropertyChangeAdapter;
 
 import javax.swing.border.Border;
-import java.awt.*;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ContainerEvent;
 import java.beans.IntrospectionException;
+import java.util.List;
 
 /**
  * @author richer
@@ -44,6 +57,11 @@ public class XWCardLayout extends XLayoutContainer {
 	private boolean initFlag = true;
 	private static final int NORTH = 0;
 	private FormDesigner designer;
+
+	private static final int LAYOUT_INDEX = 0;
+
+	public static final String DEFAULT_NAME = "cardlayout";
+
 
 	//默认蓝色标题背景
 	private static final Color TITLE_COLOR = new Color(51, 132, 240);
@@ -66,8 +84,9 @@ public class XWCardLayout extends XLayoutContainer {
 	 * @date 2014-11-25-下午6:22:40
 	 * 
 	 */
+	@Override
 	public String createDefaultName() {
-    	return "tabpane";
+    	return DEFAULT_NAME;
     }
 
     /**
@@ -79,7 +98,8 @@ public class XWCardLayout extends XLayoutContainer {
 	 * @date 2014-11-25-下午6:22:17
 	 * 
 	 */
-    public WCardLayout toData() {
+    @Override
+	public WCardLayout toData() {
         return (WCardLayout) data;
     }
 
@@ -87,6 +107,7 @@ public class XWCardLayout extends XLayoutContainer {
 	 *  初始化时默认的组件大小
 	 * @return   默认Dimension
 	 */
+	@Override
 	public Dimension initEditorSize() {
 		return new Dimension(500, 300);
 	}
@@ -140,16 +161,19 @@ public class XWCardLayout extends XLayoutContainer {
 	 * @date 2014-11-25-下午4:47:23
 	 * 
 	 */
+	@Override
 	protected XLayoutContainer getCreatorWrapper(String widgetName) {
 		initStyle();
 		Dimension dimension = new Dimension();
 		//主结构是一个borderlayout, 标签部分是north, card部分为center
 		WCardMainBorderLayout border = new WCardMainBorderLayout();
 		XWCardMainBorderLayout xMainBorder = new XWCardMainBorderLayout(border, dimension);
+		//将子WCardBorder的style设置到父容器上
+		LayoutBorderStyle style = (this.toData()).getBorderStyle();
+		border.setBorderStyle(style);
 		this.setBackupParent(xMainBorder);
-		
 		XWCardTitleLayout titlePart = this.initTitlePart(widgetName, xMainBorder);
-		xMainBorder.addTitlePart(titlePart);
+		xMainBorder.addTitlePart(titlePart, WBorderLayout.NORTH);
 
 		return xMainBorder;
 	}
@@ -188,7 +212,8 @@ public class XWCardLayout extends XLayoutContainer {
 	private XWCardTagLayout initTagPart(String widgetName, XWCardTitleLayout xTitle){
 		Dimension dimension = new Dimension();
 		//放置标题的tab流式布局
-		WCardTagLayout tagLayout = new WCardTagLayout();
+		WCardTagLayout tagLayout = new WCardTagLayout("tabpane" + widgetName.replaceAll(createDefaultName(), ""));
+		tagLayout.setNewTab(true);
 		XWCardTagLayout xTag = new XWCardTagLayout(tagLayout, dimension, this);
 		xTag.setBackupParent(xTitle);
 		
@@ -210,17 +235,28 @@ public class XWCardLayout extends XLayoutContainer {
 		
 		return xFirstBtn;
 	}
-	
+
+	/**
+	 * 控件树不显示此组件
+	 * @param path 控件树list
+	 */
+	@Override
+	public void notShowInComponentTree(List<Component> path) {
+		path.remove(LAYOUT_INDEX);
+	}
+
+
 	/**
 	 * 设置父容器的名字
-	 * 
+	 *
 	 * @param parentPanel 当前父容器
 	 * @param widgetName 当前控件名
-	 * 
+	 *
 	 *
 	 * @date 2014-11-27-上午9:47:00
-	 * 
+	 *
 	 */
+	@Override
 	protected void setWrapperName(XLayoutContainer parentPanel, String widgetName) {
 		parentPanel.toData().setWidgetName("tablayout" + widgetName.replaceAll(createDefaultName(),""));
 	}
@@ -234,7 +270,8 @@ public class XWCardLayout extends XLayoutContainer {
 	 * @date 2014-11-25-下午4:57:55
 	 * 
 	 */
-	protected void addToWrapper(XLayoutContainer parentPanel, int width, int minHeight){			
+	@Override
+	protected void addToWrapper(XLayoutContainer parentPanel, int width, int minHeight){
 		parentPanel.add(this, WBorderLayout.CENTER);
 	}
 
@@ -247,7 +284,8 @@ public class XWCardLayout extends XLayoutContainer {
 	 * @date 2014-11-25-下午6:20:10
 	 * 
 	 */
-    public void componentAdded(ContainerEvent e) {
+    @Override
+	public void componentAdded(ContainerEvent e) {
         if (isRefreshing) {
             return;
         }
@@ -272,6 +310,7 @@ public class XWCardLayout extends XLayoutContainer {
 	 * 是否支持标题样式
 	 * @return 默认false
 	 */
+	@Override
 	public boolean hasTitleStyle() {
 		return true;
 	}
@@ -281,6 +320,7 @@ public class XWCardLayout extends XLayoutContainer {
 	 * @return 属性名
 	 * @throws IntrospectionException
 	 */
+	@Override
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
 		//嵌套的tab组件，内层的不支持轮播属性，屏蔽属性表
 		if(!isNested()) {
@@ -367,7 +407,8 @@ public class XWCardLayout extends XLayoutContainer {
 	}
 	
 	//初始化样式
-    protected void initStyle() {
+    @Override
+	protected void initStyle() {
     	LayoutBorderStyle style = toData().getBorderStyle();
     	initBorderTitleStyle(style);
     	initBorderStyle();
@@ -420,12 +461,14 @@ public class XWCardLayout extends XLayoutContainer {
      * @param designer 表单设计器
      * 
      */
-	public void deleteRelatedComponent(XCreator creator,FormDesigner designer){
+	@Override
+	public void deleteRelatedComponent(XCreator creator, FormDesigner designer){
 		XWCardMainBorderLayout mainLayout = (XWCardMainBorderLayout) creator.getBackupParent();
 		SelectionModel selectionModel = designer.getSelectionModel();
 		selectionModel.setSelectedCreator(mainLayout);
 		selectionModel.deleteSelection();
 	}
+
 	@Override
 	public void setBorder(Border border) {
 		super.setBorder(border);
@@ -449,6 +492,7 @@ public class XWCardLayout extends XLayoutContainer {
 	 * data属性改变触发其他操作
 	 *
 	 */
+	@Override
 	public void firePropertyChange(){
 		initStyle();
 	}

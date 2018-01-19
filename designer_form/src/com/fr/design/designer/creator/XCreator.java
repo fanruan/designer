@@ -4,11 +4,13 @@
 package com.fr.design.designer.creator;
 
 import com.fr.base.BaseUtils;
+import com.fr.design.actions.UpdateAction;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
 import com.fr.design.designer.beans.events.DesignerEditor;
 import com.fr.design.designer.beans.models.SelectionModel;
 import com.fr.design.fun.WidgetPropertyUIProvider;
+import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.*;
 import com.fr.design.utils.gui.LayoutUtils;
@@ -47,8 +49,9 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	private Rectangle backupBound;
 	private String shareId = StringUtils.EMPTY;//如果组件是共享的会有这个属性
 	private boolean isHelpBtnOnFocus = false;//焦点是否在帮助按钮上
+    private static final int SHORTS_SEPARATOR_POS = 4;  // 弹出菜单分割的位置
 
-	public XCreator(Widget ob, Dimension initSize) {
+    public XCreator(Widget ob, Dimension initSize) {
 		this.data = ob;
 
 		this.initEditor();
@@ -57,13 +60,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 			this.setLayout(FRGUIPaneFactory.createBorderLayout());
 			add(editor, BorderLayout.CENTER);
 		}
-
-		if (initSize.width == 0) {
-			initSize.width = this.initEditorSize().width;
-		}
-		if (initSize.height == 0) {
-			initSize.height = this.initEditorSize().height;
-		}
+		setInitSize(initSize);
 		this.setPreferredSize(initSize);
 		this.setSize(initSize);
 		this.setMaximumSize(initSize);
@@ -84,6 +81,18 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	public void useBackupSize() {
 		if (this.backupSize != null) {
 			setSize(this.backupSize);
+		}
+	}
+
+	/**
+	 * 初始化组件大小
+	 */
+	public void setInitSize(Dimension initSize) {
+		if (initSize.width == 0) {
+			initSize.width = this.initEditorSize().width;
+		}
+		if (initSize.height == 0) {
+			initSize.height = this.initEditorSize().height;
 		}
 	}
 
@@ -268,6 +277,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	 *@param formEditor 设计界面组件
 	 *@return 工具界面
 	 */
+	@Override
 	public JComponent createToolPane(BaseJForm jform, FormDesigner formEditor) {
 		if (!BaseUtils.isAuthorityEditing()) {
 			if (isDedicateContainer()) {
@@ -367,14 +377,25 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	 * 控件树不显示此组件
 	 * @param path 控件树list
 	 */
-	public void notShowInComponentTree(ArrayList<Component> path) {
+	@Override
+	public void notShowInComponentTree(List<Component> path) {
 		return;
+	}
+
+	/**
+	 * 获取其在控件树上可见父层
+	 * @return 组件
+	 */
+	@Override
+	public Component getParentShow(){
+		return this.getParent();
 	}
 
 	/**
 	 * 重置组件的名称
 	 * @param name 名称
 	 */
+	@Override
 	public void resetCreatorName(String name) {
 		toData().setWidgetName(name);
 	}
@@ -391,6 +412,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	 * 返回编辑的子组件，scale为其内部组件
 	 * @return 组件
 	 */
+	@Override
 	public XCreator getEditingChildCreator() {
 		return this;
 	}
@@ -399,6 +421,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	 * 返回对应属性表的组件，scale和title返回其子组件
 	 * @return 组件
 	 */
+	@Override
 	public XCreator getPropertyDescriptorCreator() {
 		return this;
 	}
@@ -407,6 +430,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	 * 更新子组件的Bound; 没有不处理
 	 * @param minHeight 最小高度
 	 */
+	@Override
 	public void updateChildBound(int minHeight) {
 		return;
 	}
@@ -415,6 +439,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	 * 是否作为控件树的叶子节点
 	 * @return 是则返回true
 	 */
+	@Override
 	public boolean isComponentTreeLeaf() {
 		return true;
 	}
@@ -423,6 +448,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	 *  是否为sclae和title专属容器
 	 * @return 是则返回true
 	 */
+	@Override
 	public boolean isDedicateContainer() {
 		return false;
 	}
@@ -653,7 +679,39 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	 *
 	 */
 	public void firePropertyChange(){
-
+        // do nothing
 	}
+
+    /**
+     * 有的控件是有编辑状态的，给一个退出编辑的接口
+     *
+     */
+    public void stopEditing() {
+        // do nothing
+    }
+
+	/**
+	 * 创建右击弹出菜单
+	 *
+	 */
+	public UIPopupMenu createPopupMenu(FormDesigner formDesigner) {
+        UpdateAction[] actions = formDesigner.getActions();
+		UIPopupMenu popup = new UIPopupMenu();
+        for (int i = 0; i < actions.length; i++) {
+            if (i == SHORTS_SEPARATOR_POS) {
+                popup.addSeparator();
+            }
+            popup.add(actions[i].createMenuItem());
+        }
+		return popup;
+	}
+
+    /**
+     * 是否支持上移一层、下移一层等操作
+     *
+     */
+    public boolean isMovable() {
+        return true;
+    }
 
 }

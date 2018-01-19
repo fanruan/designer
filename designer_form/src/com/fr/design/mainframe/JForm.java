@@ -1,6 +1,7 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignState;
 import com.fr.design.actions.core.WorkBookSupportable;
 import com.fr.design.actions.file.WebPreviewUtils;
@@ -59,17 +60,8 @@ import com.fr.stable.ArrayUtils;
 import com.fr.stable.Constants;
 import com.fr.stable.bridge.StableFactory;
 
-import javax.swing.BorderFactory;
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -136,7 +128,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         return processInfo;
     }
 
-    public FormECCompositeProvider getReportComposite(){
+    public FormECCompositeProvider getReportComposite() {
         return this.reportComposite;
     }
 
@@ -199,7 +191,8 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
      */
     public ShortCut[] shortcut4FileMenu() {
         return (ShortCut[]) ArrayUtils.addAll(
-                super.shortcut4FileMenu(), new ShortCut[]{this.createWorkBookExportMenu()}
+                super.shortcut4FileMenu(),
+                DesignerMode.isVcsMode() ? new ShortCut[0] : new ShortCut[]{this.createWorkBookExportMenu()}
         );
     }
 
@@ -252,11 +245,14 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         });
         formDesign.addDesignerEditListener(new DesignerEditListener() {
             private XComponent lastAffectedCreator;
+
             @Override
             public void fireCreatorModified(DesignerEvent evt) {
-                if (evt.getCreatorEventID() == DesignerEvent.CREATOR_CUTED
-                        || evt.getCreatorEventID() == DesignerEvent.CREATOR_DELETED) {
+                if (evt.getCreatorEventID() == DesignerEvent.CREATOR_CUTED) {
                     setPropertyPaneChange(formDesign.getRootComponent());
+                } else if (evt.getCreatorEventID() == DesignerEvent.CREATOR_DELETED) {
+                    // 在 delete 之前，会先 select 父组件。这里直接传入 lastAffectedCreator 就好了
+                    setPropertyPaneChange(lastAffectedCreator);
                 } else if (evt.getCreatorEventID() == DesignerEvent.CREATOR_SELECTED) {
                     lastAffectedCreator = evt.getAffectedCreator();
                     setPropertyPaneChange(lastAffectedCreator);
@@ -729,9 +725,8 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.FORM);
         EastRegionContainerPane.getInstance().replaceWidgetSettingsPane(WidgetPropertyPane.getInstance(formDesign));
         ParameterPropertyPane parameterPropertyPane = ParameterPropertyPane.getInstance(formDesign);
-        parameterPropertyPane.setAddParaPaneVisible(false, this);
+        parameterPropertyPane.refreshState(this);
         EastRegionContainerPane.getInstance().addParameterPane(parameterPropertyPane);
-        EastRegionContainerPane.getInstance().setParameterHeight(parameterPropertyPane.getPreferredSize().height);
 
         refreshWidgetLibPane();
     }

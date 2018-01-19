@@ -8,6 +8,9 @@ import com.fr.design.actions.ElementCaseAction;
 import com.fr.general.Inter;
 import com.fr.design.mainframe.ElementCasePane;
 
+import javax.swing.*;
+import java.awt.event.KeyEvent;
+
 /**
  * Delete Row, Column or FloatElement..
  */
@@ -18,10 +21,11 @@ public class DeleteAction extends ElementCaseAction {
     public DeleteAction(ElementCasePane t) {
 		super(t);
 		
-        this.setName(Inter.getLocText("M_Edit-Delete") + "...");
+        this.setName(Inter.getLocText("M_Edit-Delete"));
         this.setMnemonic('D');
         //Richie:删除菜单图标
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_report/delete.png"));
+//        this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, 0));
     }
     
     @Override

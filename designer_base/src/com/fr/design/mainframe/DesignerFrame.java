@@ -14,14 +14,12 @@ import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.datapane.TableDataTreePane;
+import com.fr.design.event.DesignerOpenedListener;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
-import com.fr.design.file.HistoryTemplateListPane;
-import com.fr.design.file.MutilTempalteTabPane;
-import com.fr.design.file.NewTemplatePane;
-import com.fr.design.file.SaveSomeTemplatePane;
-import com.fr.design.file.TemplateTreePane;
+import com.fr.design.file.*;
 import com.fr.design.fun.TitlePlaceProcessor;
+import com.fr.design.fun.impl.AbstractTemplateTreeShortCutProvider;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.imenu.UIMenuHighLight;
 import com.fr.design.gui.iscrollbar.UIScrollBar;
@@ -31,6 +29,7 @@ import com.fr.design.mainframe.loghandler.LogMessageBar;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDock;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.menu.MenuManager;
+import com.fr.design.menu.ShortCut;
 import com.fr.design.utils.DesignUtils;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.file.FILE;
@@ -73,26 +72,15 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
-import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DropTarget;
-import java.awt.dnd.DropTargetDragEvent;
-import java.awt.dnd.DropTargetDropEvent;
-import java.awt.dnd.DropTargetEvent;
-import java.awt.dnd.DropTargetListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.dnd.*;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 
 public class DesignerFrame extends JFrame implements JTemplateActionListener, TargetModifiedListener {
@@ -104,6 +92,8 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
     private static final Integer SECOND_LAYER = new Integer(100);
     private static final Integer TOP_LAYER = new Integer((200));
     private static java.util.List<App<?>> appList = new java.util.ArrayList<App<?>>();
+
+    private List<DesignerOpenedListener> designerOpenedListenerList = new ArrayList<>();
 
     private ToolBarMenuDock ad;
 
@@ -168,6 +158,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
             closeMode.paintIcon(this, g, 0, 0);
         }
     };
+
     private MouseListener closeMouseListener = new MouseAdapter() {
         public void mousePressed(MouseEvent e) {
             closeMode = UIConstants.CLOSE_PRESS_AUTHORITY;
@@ -296,6 +287,22 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         }
     }
 
+    /**
+     * 注册"设计器初始化完成"的监听
+     */
+    public void addDesignerOpenedListener(DesignerOpenedListener listener) {
+        designerOpenedListenerList.add(listener);
+    }
+
+    /**
+     * 触发"设计器初始化完成"事件
+     */
+    public void fireDesignerOpened() {
+        for (DesignerOpenedListener listener : designerOpenedListenerList) {
+            listener.designerOpened();
+        }
+    }
+
     protected DesktopCardPane getCenterTemplateCardPane() {
         return centerTemplateCardPane;
     }
@@ -355,7 +362,6 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         northEastPane.add(ad.createBBSLoginPane());
     }
 
-
     public void initTitleIcon() {
         try {
             @SuppressWarnings("unchecked")
@@ -379,6 +385,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         arrayList.add(windowAdapter);
         return arrayList;
     }
+
 
     protected void laoyoutWestPane() {
         basePane.add(WestRegionContainerPane.getInstance(), BorderLayout.WEST);
@@ -616,6 +623,15 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
     public void needToAddAuhtorityPaint() {
 
         newWorkBookPane.setButtonGray(BaseUtils.isAuthorityEditing());
+
+        // 进入或退出权限编辑模式，通知插件
+        Set<ShortCut> extraShortCuts = ExtraDesignClassManager.getInstance().getExtraShortCuts();
+        for (ShortCut shortCut : extraShortCuts) {
+            if (shortCut instanceof AbstractTemplateTreeShortCutProvider) {
+                ((AbstractTemplateTreeShortCutProvider) shortCut).notifyFromAuhtorityChange(BaseUtils.isAuthorityEditing());
+            }
+        }
+
     }
 
     /**
@@ -702,6 +718,10 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         TemplateTreePane.getInstance().refreshDockingView();
         DesignTableDataManager.clearGlobalDs();
         EastRegionContainerPane.getInstance().refreshDownPane();
+        JTemplate template = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+        if (template != null) {
+            template.refreshToolArea();
+        }
     }
 
     /**
@@ -939,8 +959,9 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         }
         fullName = OperatingSystem.isWindows() ? fullName.replaceAll("/", "\\\\") : fullName.replaceAll("\\\\", "/");
         int index = HistoryTemplateListPane.getInstance().contains(fullName);
+        List<JTemplate<?, ?>> historyList = HistoryTemplateListPane.getInstance().getHistoryList();
         if (index != -1) {
-            this.activateJTemplate(HistoryTemplateListPane.getInstance().getHistoryList().get(index));
+            historyList.get(index).activeJTemplate(index, jt);
         } else {
             this.addAndActivateJTemplate(jt);
         }
