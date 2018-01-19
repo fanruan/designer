@@ -95,8 +95,6 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
     private List<DesignerOpenedListener> designerOpenedListenerList = new ArrayList<>();
 
-    private boolean isDesignerOpened = false;  // 加一个标记。可以通过它来判断设计器是否初始化完成
-
     private ToolBarMenuDock ad;
 
     private DesktopCardPane centerTemplateCardPane;
@@ -303,16 +301,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         for (DesignerOpenedListener listener : designerOpenedListenerList) {
             listener.designerOpened();
         }
-        isDesignerOpened = true;
     }
-
-    /**
-     * 判断设计器是否初始化完成
-     */
-    public boolean isDesignerOpened() {
-        return isDesignerOpened;
-    }
-
 
     protected DesktopCardPane getCenterTemplateCardPane() {
         return centerTemplateCardPane;

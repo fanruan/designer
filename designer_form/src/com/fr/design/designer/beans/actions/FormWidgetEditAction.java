@@ -13,7 +13,12 @@ import java.awt.event.ActionEvent;
 
 public abstract class FormWidgetEditAction extends TemplateComponentAction<FormDesigner> {
 
-	private UpdateBehavior updateBehavior;
+	private UpdateBehavior updateBehavior = new UpdateBehavior() {
+		@Override
+		public void doUpdate(FormWidgetEditAction action) {
+			action.setEnabled(true);
+		}
+	};
 
 	protected FormWidgetEditAction(FormDesigner t) {
 		super(t);
@@ -21,11 +26,7 @@ public abstract class FormWidgetEditAction extends TemplateComponentAction<FormD
 
 	@Override
 	public void update() {
-		if (updateBehavior != null) {
-			updateBehavior.doUpdate(this);
-		} else {
-			this.setEnabled(true);
-		}
+		updateBehavior.doUpdate(this);
 	}
 
 	@Override
