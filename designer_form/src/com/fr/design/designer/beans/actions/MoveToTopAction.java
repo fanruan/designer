@@ -1,6 +1,7 @@
 package com.fr.design.designer.beans.actions;
 
 import com.fr.base.BaseUtils;
+import com.fr.design.designer.beans.actions.behavior.MovableUpEnable;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XLayoutContainer;
@@ -28,6 +29,7 @@ public class MoveToTopAction extends FormWidgetEditAction {
         this.setMnemonic('T');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/to_top.png"));
         this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_CLOSE_BRACKET, DEFAULT_MODIFIER + InputEvent.SHIFT_MASK));
+        this.setUpdateBehavior(new MovableUpEnable());
     }
 
     @Override
@@ -52,15 +54,4 @@ public class MoveToTopAction extends FormWidgetEditAction {
         designer.getEditListenerTable().fireCreatorModified(creator, DesignerEvent.CREATOR_SELECTED);
         return true;
     }
-
-    @Override
-    public void update() {
-        FormDesigner designer = getEditingComponent();
-        if (designer == null) {
-            this.setEnabled(false);
-            return;
-        }
-        this.setEnabled(designer.isCurrentComponentMovableUp());
-    }
-
 }

@@ -125,6 +125,11 @@ public class ComponentTree extends JTree {
         scrollPathToVisible(treepath[0]);
     }
 
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+        designer.getSelectionModel();  // 否则参数一个一个加会导致参数面板和body结构出问题
+    }
 
     /**
      * 刷新
