@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.*;
 
 import com.fr.base.BaseUtils;
+import com.fr.design.designer.beans.actions.behavior.ComponentEnable;
 import com.fr.general.Inter;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.mainframe.FormDesigner;
@@ -27,6 +28,7 @@ public class FormDeleteAction extends FormWidgetEditAction {
         // Richie:删除菜单图标
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_report/delete.png"));
         this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, 0));
+        this.setUpdateBehavior(new ComponentEnable());
     }
 
     @Override
