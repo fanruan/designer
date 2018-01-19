@@ -6,7 +6,7 @@ import com.fr.design.mainframe.FormDesigner;
 /**
  * Created by plough on 2018/1/19.
  */
-public class MovableDownEnable implements UpdateBehavior {
+public class MovableDownEnable implements UpdateBehavior<FormWidgetEditAction> {
     @Override
     public void doUpdate(FormWidgetEditAction action) {
         FormDesigner designer = action.getEditingComponent();

@@ -6,7 +6,7 @@ import com.fr.design.mainframe.FormDesigner;
 /**
  * Created by plough on 2018/1/19.
  */
-public class MovableUpEnable implements UpdateBehavior {
+public class MovableUpEnable implements UpdateBehavior<FormWidgetEditAction> {
     @Override
     public void doUpdate(FormWidgetEditAction action) {
         FormDesigner designer = action.getEditingComponent();
