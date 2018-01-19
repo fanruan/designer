@@ -19,7 +19,7 @@ public class StartFinishActivator extends Activator {
         DesignUtils.creatListeningServer(getStartPort(), startFileSuffix());
         ModuleContext.clearModuleListener();
         GlobalListenerProviderManager.getInstance().init();
-        Register.setStarted(true);
+//        Register.setStarted(true);
     }
     
     private int getStartPort() {
