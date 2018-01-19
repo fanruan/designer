@@ -1,6 +1,7 @@
 package com.fr.design.designer.beans.actions;
 
 import com.fr.design.actions.TemplateComponentAction;
+import com.fr.design.designer.beans.actions.behavior.UpdateBehavior;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.general.Inter;
 import com.fr.plugin.ExtraClassManager;
@@ -12,13 +13,19 @@ import java.awt.event.ActionEvent;
 
 public abstract class FormWidgetEditAction extends TemplateComponentAction<FormDesigner> {
 
+	private UpdateBehavior updateBehavior;
+
 	protected FormWidgetEditAction(FormDesigner t) {
 		super(t);
 	}
 
 	@Override
 	public void update() {
-		this.setEnabled(true);
+		if (updateBehavior != null) {
+			updateBehavior.doUpdate(this);
+		} else {
+			this.setEnabled(true);
+		}
 	}
 
 	@Override
@@ -35,6 +42,10 @@ public abstract class FormWidgetEditAction extends TemplateComponentAction<FormD
 			}
 			processor.recordFunction(functionProcessor);
 		}
+	}
+
+	public void setUpdateBehavior(UpdateBehavior updateBehavior) {
+		this.updateBehavior = updateBehavior;
 	}
 
 }
