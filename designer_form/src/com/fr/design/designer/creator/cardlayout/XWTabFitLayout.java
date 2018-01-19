@@ -109,6 +109,12 @@ public class XWTabFitLayout extends XWFitLayout {
 		return UIPopupMenu.EMPTY;  // 不要菜单
 	}
 
+	@Override
+	protected String getIconName() {
+		return "tab_fit_layout.png";
+	}
+
+
 	/**
 	 *  得到属性名
 	 * @return 属性名
