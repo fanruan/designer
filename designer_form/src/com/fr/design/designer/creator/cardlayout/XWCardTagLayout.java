@@ -140,6 +140,11 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
     }
 
 
+    @Override
+    protected String getIconName() {
+        return "tabpane.png";
+    }
+
     private void initCardLayout() {
         XWCardTitleLayout titleLayout = (XWCardTitleLayout) this.getBackupParent();
         XWCardMainBorderLayout borderLayout = (XWCardMainBorderLayout) titleLayout.getBackupParent();
