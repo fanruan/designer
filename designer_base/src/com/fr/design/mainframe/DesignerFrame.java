@@ -14,6 +14,7 @@ import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.datapane.TableDataTreePane;
+import com.fr.design.event.DesignerOpenedListener;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
 import com.fr.design.file.*;
@@ -91,6 +92,10 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
     private static final Integer SECOND_LAYER = new Integer(100);
     private static final Integer TOP_LAYER = new Integer((200));
     private static java.util.List<App<?>> appList = new java.util.ArrayList<App<?>>();
+
+    private List<DesignerOpenedListener> designerOpenedListenerList = new ArrayList<>();
+
+    private boolean isDesignerOpened = false;  // 加一个标记。可以通过它来判断设计器是否初始化完成
 
     private ToolBarMenuDock ad;
 
@@ -283,6 +288,31 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
             appList.remove(app);
         }
     }
+
+    /**
+     * 注册"设计器初始化完成"的监听
+     */
+    public void addDesignerOpenedListener(DesignerOpenedListener listener) {
+        designerOpenedListenerList.add(listener);
+    }
+
+    /**
+     * 触发"设计器初始化完成"事件
+     */
+    public void fireDesignerOpened() {
+        for (DesignerOpenedListener listener : designerOpenedListenerList) {
+            listener.designerOpened();
+        }
+        isDesignerOpened = true;
+    }
+
+    /**
+     * 判断设计器是否初始化完成
+     */
+    public boolean isDesignerOpened() {
+        return isDesignerOpened;
+    }
+
 
     protected DesktopCardPane getCenterTemplateCardPane() {
         return centerTemplateCardPane;

@@ -137,7 +137,9 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
         for (int i = 0; !TemplateTreePane.getInstance().getTemplateFileTree().isTemplateShowing() && i < LOAD_TREE_MAXNUM; i++) {
             TemplateTreePane.getInstance().getTemplateFileTree().refresh();
         }
-        
+
+        df.fireDesignerOpened();
+
         splashWindow.setVisible(false);
         splashWindow.dispose();
         

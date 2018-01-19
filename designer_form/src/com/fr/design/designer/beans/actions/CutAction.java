@@ -30,4 +30,14 @@ public class CutAction extends FormWidgetEditAction {
 		return editPane.cut();
 	}
 
+	@Override
+	public void update() {
+		FormDesigner designer = getEditingComponent();
+		if (designer == null) {
+			this.setEnabled(false);
+			return;
+		}
+		this.setEnabled(!designer.isRootSelected());
+	}
+
 }

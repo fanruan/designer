@@ -58,4 +58,14 @@ public class FormDeleteAction extends FormWidgetEditAction {
 
         return false;
     }
+
+    @Override
+    public void update() {
+        FormDesigner designer = getEditingComponent();
+        if (designer == null) {
+            this.setEnabled(false);
+            return;
+        }
+        this.setEnabled(!designer.isRootSelected());
+    }
 }

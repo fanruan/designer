@@ -21,6 +21,7 @@ import com.fr.design.designer.beans.models.SelectionModel;
 import com.fr.design.designer.beans.models.StateModel;
 import com.fr.design.designer.creator.*;
 import com.fr.design.designer.properties.FormWidgetAuthorityEditPane;
+import com.fr.design.event.DesignerOpenedListener;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
@@ -678,6 +679,13 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
             }
 
         });
+
+        DesignerContext.getDesignerFrame().addDesignerOpenedListener(new DesignerOpenedListener() {
+            @Override
+            public void designerOpened() {
+                setToolbarButtons();
+            }
+        });
     }
 
     /**
@@ -1039,8 +1047,21 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
                 showAuthorityEditPane();
             }
             //先选中再检查
-            setToolbarButtons(paths.length == 1 && tree.getSelectionPath().getParentPath() == null);
+            setToolbarButtons();
         }
+    }
+
+    /**
+     * 是否选中了自适应布局或底层form
+     */
+    public boolean isRootSelected() {
+        ComponentTree tree = FormHierarchyTreePane.getInstance().getComponentTree();
+        TreePath[] paths = tree.getSelectionPaths();
+        if (paths == null) {
+            return true;
+        }
+        boolean isForm = paths.length == 1 && tree.getSelectionPath().getParentPath() == null;
+        return isForm || isRoot(getSelectionModel().getSelection().getSelectedCreator());
     }
 
     /**
@@ -1073,9 +1094,9 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     }
 
 
-    protected void setToolbarButtons(boolean flag) {
+    protected void setToolbarButtons() {
         //自适应布局和底层都不能删除
-        DesignerContext.getDesignerFrame().checkCombineUp(!(isRoot(getSelectionModel().getSelection().getSelectedCreator()) || flag), NAME_ARRAY_LIST);
+        DesignerContext.getDesignerFrame().checkCombineUp(!isRootSelected(), NAME_ARRAY_LIST);
     }
 
     private void invalidateLayout() {
