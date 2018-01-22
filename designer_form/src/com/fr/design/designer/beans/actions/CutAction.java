@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.KeyStroke;
 
 import com.fr.base.BaseUtils;
+import com.fr.design.designer.beans.actions.behavior.ComponentEnable;
 import com.fr.general.Inter;
 import com.fr.design.mainframe.FormDesigner;
 
@@ -19,6 +20,7 @@ public class CutAction extends FormWidgetEditAction {
 		this.setMnemonic('T');
 		this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_edit/cut.png"));
 		this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, DEFAULT_MODIFIER));
+		this.setUpdateBehavior(new ComponentEnable());
 	}
 
 	@Override
@@ -29,5 +31,4 @@ public class CutAction extends FormWidgetEditAction {
 		}
 		return editPane.cut();
 	}
-
 }
