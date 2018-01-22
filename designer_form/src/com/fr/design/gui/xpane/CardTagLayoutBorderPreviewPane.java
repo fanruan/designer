@@ -11,4 +11,9 @@ public class CardTagLayoutBorderPreviewPane extends LayoutBorderPreviewPane{
 	public CardTagLayoutBorderPreviewPane(LayoutBorderStyle borderStyle) {
 		super(borderStyle,true);
 	}
+
+	@Override
+	protected void showTitlePreviewPane(){
+		return;
+	}
 }
