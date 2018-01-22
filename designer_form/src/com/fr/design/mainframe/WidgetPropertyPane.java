@@ -35,6 +35,8 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
 
     private static final String PARA = "para";
     private static final String BODY = "body";
+    private static final int PADDING = 10;
+    private static final int PADDING_M = 12;
     private FormWidgetCardPane formWidgetCardPane; // 控件的属性表
     private EventPropertyTable eventTable; // 控件的事件表
     private List<AbstractPropertyTable> widgetPropertyTables; // 这个变量应该是保存控件拓展的属性tab
@@ -224,6 +226,7 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
             for (WidgetPropertyUIProvider widgetAttrProvider : widgetAttrProviders) {
                 MobileWidgetDefinePane extraPane = (MobileWidgetDefinePane) widgetAttrProvider.createWidgetAttrPane();
                 if (extraPane != null) {
+                    extraPane.setBorder(BorderFactory.createEmptyBorder(PADDING, PADDING, PADDING, PADDING_M));
                     mobileExtraPropertyPanes.add(extraPane);
                     wsp.add(extraPane);
                 }

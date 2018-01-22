@@ -10,6 +10,9 @@ import com.fr.base.chart.BaseChartCollection;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
 import com.fr.design.designer.beans.models.SelectionModel;
+import com.fr.design.designer.properties.mobile.ChartEditorPropertyUI;
+import com.fr.design.designer.properties.mobile.ElementCasePropertyUI;
+import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.design.gui.chart.BaseChartPropertyPane;
 import com.fr.design.gui.chart.MiddleChartComponent;
 import com.fr.design.mainframe.*;
@@ -278,4 +281,8 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 		initStyle();
 	}
 
+	@Override
+	public WidgetPropertyUIProvider[] getWidgetPropertyUIProviders() {
+		return new WidgetPropertyUIProvider[]{ new ChartEditorPropertyUI(this)};
+	}
 }
