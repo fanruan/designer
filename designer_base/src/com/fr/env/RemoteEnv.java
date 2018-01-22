@@ -2169,8 +2169,8 @@ public class RemoteEnv extends AbstractEnv {
         para.put("op", "fr_remote_design");
         para.put("cmd", "design_get_plugin_service_data");
         para.put("serviceID", serviceID);
-        para.put("req", req);
         HttpClient client = createHttpMethod(para); //jim ：加上user，远程设计点击预览时传递用户角色信息
+        client.setContent(req.getBytes(EncodeConstants.ENCODING_UTF_8));
         InputStream inputStream = execute4InputStream(client);
         return IOUtils.inputStream2String(inputStream);
     }
