@@ -14,6 +14,6 @@ public class CardTagLayoutBorderPreviewPane extends LayoutBorderPreviewPane{
 
 	@Override
 	protected void showTitlePreviewPane(){
-		return;
+
 	}
 }
