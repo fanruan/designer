@@ -92,7 +92,12 @@ public class LayoutBorderPreviewPane extends JPanel{
             jp.setBounds(smallGAP,smallGAP, getWidth() - GAP, height);
             borderStyle.paint(g, new Rectangle2D.Double(smallGAP, smallGAP, getWidth() - GAP, getHeight() - GAP));
             jp.setFontObject(borderStyle.getTitle().getFrFont());
+            showTitlePreviewPane();
         }
+    }
+
+    protected void showTitlePreviewPane(){
+        jp.setVisible(borderStyle.getType() == LayoutBorderStyle.TITLE);
     }
 
     private class titlePreviewPane extends UITextArea {
