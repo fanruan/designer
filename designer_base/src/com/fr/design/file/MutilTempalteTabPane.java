@@ -370,7 +370,9 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
             templateStartX += realWidth;
         }
 
-        paintListDown(g2d, maxWidth);
+        if (!DesignerMode.isVcsMode()) {
+            paintListDown(g2d, maxWidth);
+        }
         paintUnderLine(templateStartX, maxWidth, g2d);
     }
 
@@ -549,7 +551,9 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
         g2d.drawString(sheetName, (int) templateStartX + sheeticon.getIconWidth() + 2 * GAP, getHeight() - GAP * 2);
         int closePosition = (int) templateStartX + realWidth - CLOSE.getIconWidth() - SMALLGAP;
         int closeY = (getHeight() - closeIcon.getIconHeight()) / 2;
-        closeIcon.paintIcon(this, g2d, closePosition, closeY);
+        if (!DesignerMode.isVcsMode()) {
+            closeIcon.paintIcon(this, g2d, closePosition, closeY);
+        }
         return closePosition;
 
     }
@@ -605,7 +609,9 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
         g2d.drawString(sheetName, (int) templateStartX + sheeticon.getIconWidth() + 2 * GAP, getHeight() - GAP * 2);
         int closeY = (getHeight() - closeIcon.getIconHeight()) / 2;
         int closePosition = (int) templateStartX + realWidth - CLOSE.getIconWidth() - SMALLGAP;
-        closeIcon.paintIcon(this, g2d, closePosition, closeY);
+        if (!DesignerMode.isVcsMode()) {
+            closeIcon.paintIcon(this, g2d, closePosition, closeY);
+        }
         return closePosition;
     }
 
