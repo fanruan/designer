@@ -1,28 +1,26 @@
 package com.fr.design.widget.ui.designer.mobile;
 
 import com.fr.base.mobile.ChartMobileFitAttrState;
-import com.fr.base.mobile.MobileFitAttrState;
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.properties.items.Item;
 import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
-import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.form.ui.ChartEditor;
-import com.fr.form.ui.ElementCaseEditor;
 import com.fr.general.Inter;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 /**
  * Created by plough on 2018/1/18.
@@ -31,17 +29,16 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane{
     private static final Item[] ITEMS = {
             new Item(ChartMobileFitAttrState.AUTO.description(), ChartMobileFitAttrState.AUTO),
             new Item(ChartMobileFitAttrState.AREA.description(), ChartMobileFitAttrState.AREA),
-            new Item(ChartMobileFitAttrState.GEOMETRIC.description(), ChartMobileFitAttrState.GEOMETRIC)
+            new Item(ChartMobileFitAttrState.PROPORTION.description(), ChartMobileFitAttrState.PROPORTION)
     };
 
     private XCreator xCreator; // 当前选中控件的xCreator
     private FormDesigner designer; // 当前设计器
-//    private UIComboBox hComboBox; // 横屏下拉框
-    private UIComboBox vComboBox;// 竖屏下拉框
-//    private UICheckBox heightRestrictCheckBox; // 手机显示限制高度复选框
+    private UIComboBox zoomOutComboBox;// 缩小逻辑下拉框
     private UILabel maxHeightLabel;
     private UISpinner maxHeightSpinner; // 最大高度Spinner
     private AttributeChangeListener changeListener;
+    private UILabel tipLabel;
 
     public ChartEditorDefinePane (XCreator xCreator) {
         this.xCreator = xCreator;
@@ -71,33 +68,44 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane{
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
 //        this.hComboBox = new UIComboBox(ITEMS);
-        this.vComboBox = new UIComboBox(ITEMS);
-//        this.heightRestrictCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Mobile-Height-Limit"));
-        this.maxHeightLabel = new UILabel(Inter.getLocText("FR-Designer_Mobile-Height-Percent"), SwingConstants.LEFT);
-        this.maxHeightSpinner = new UISpinner(0, 1, 0.01, 0.75);
-        maxHeightSpinner.setVisible(false);
-        maxHeightLabel.setVisible(false);
+        this.zoomOutComboBox = new UIComboBox(ITEMS);
+        this.zoomOutComboBox.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                updateTipLabel();
+            }
+        });
+
+        tipLabel = new UILabel();
+        tipLabel.setForeground(Color.gray);
+        updateTipLabel();
 
         Component[][] components = new Component[][]{
-                new Component[] {new UILabel("放大逻辑", SwingConstants.LEFT), new UILabel("等比例自适应")},
-                new Component[] {new UILabel("缩小逻辑", SwingConstants.LEFT), vComboBox},
-                new Component[] {new UILabel("提示：系统根据模版自动匹配缩小逻辑"), null},
-                new Component[] {maxHeightLabel, maxHeightSpinner}
+                new Component[] {new UILabel(Inter.getLocText("FR-Designer_Zoom_In_Logic"), SwingConstants.LEFT), new UILabel(ChartMobileFitAttrState.PROPORTION.description())},
+                new Component[] {new UILabel(Inter.getLocText("FR-Designer_Zoom_Out_Logic"), SwingConstants.LEFT), zoomOutComboBox},
+                new Component[] {tipLabel, null}
         };
+
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
-        double[] rowSize = {p, p, p, p};
+        double[] rowSize = {p, p, p};
         double[] columnSize = {p,f};
-        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}};
+        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}};
         final JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 30, LayoutConstants.VGAP_LARGE);
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         final JPanel panelWrapper = FRGUIPaneFactory.createBorderLayout_S_Pane();
         panelWrapper.add(panel, BorderLayout.NORTH);
-        UIExpandablePane folderPane = new UIExpandablePane("图表自适应", 280, 20, panelWrapper);
+        UIExpandablePane folderPane = new UIExpandablePane(Inter.getLocText("FR-Designer_Chart_Adaptivity"), 280, 20, panelWrapper);
         this.add(folderPane, BorderLayout.NORTH);
         this.bingListeners2Widgets();
         this.setGlobalNames();
         this.repaint();
+    }
+
+    private void updateTipLabel() {
+        ChartMobileFitAttrState fitAttrState = (ChartMobileFitAttrState) ((Item)zoomOutComboBox.getSelectedItem()).getValue();
+        // 使用 html，可以自动换行
+        tipLabel.setText("<html>" + fitAttrState.tip() + "</html>");
     }
 
     private void bingListeners2Widgets() {
@@ -119,9 +127,10 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane{
 
     @Override
     public void populate(FormDesigner designer) {
-//        this.designer = designer;
-//        this.addAttributeChangeListener(changeListener);
-//        ChartEditor elementCaseEditor = (ChartEditor)xCreator.toData();
+        this.designer = designer;
+        this.addAttributeChangeListener(changeListener);
+        ChartEditor chartEditor = (ChartEditor)xCreator.toData();
+//        this.zoomOutComboBox.setSelectedIndex(0);
 //        this.hComboBox.setSelectedItem(new Item (elementCaseEditor.getHorziontalAttr().description(), elementCaseEditor.getHorziontalAttr()));
 //        this.vComboBox.setSelectedItem(new Item (elementCaseEditor.getVerticalAttr().description(), elementCaseEditor.getVerticalAttr()));
 //        this.heightRestrictCheckBox.setSelected(elementCaseEditor.isHeightRestrict());
