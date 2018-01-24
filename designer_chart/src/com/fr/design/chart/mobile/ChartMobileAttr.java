@@ -42,7 +42,7 @@ public class ChartMobileAttr implements ChartMobileAttrProvider {
 
     @Override
     public boolean isAdaptive() {
-        // TODO: body 是否开启手机重布局
+        // TODO: body 是否开启手机重布局。需要解决模块间依赖问题。这个方法暂时没用，等功能做好之后，再考虑是否去掉
         return true;
     }
 

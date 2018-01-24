@@ -15,6 +15,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.form.ui.ChartEditor;
+import com.fr.form.ui.container.WFitLayout;
 import com.fr.general.Inter;
 
 import javax.swing.*;
@@ -35,8 +36,6 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane{
     private XCreator xCreator; // 当前选中控件的xCreator
     private FormDesigner designer; // 当前设计器
     private UIComboBox zoomOutComboBox;// 缩小逻辑下拉框
-    private UILabel maxHeightLabel;
-    private UISpinner maxHeightSpinner; // 最大高度Spinner
     private AttributeChangeListener changeListener;
     private UILabel tipLabel;
 
@@ -67,7 +66,28 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane{
     public void initPropertyGroups(Object source) {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
-//        this.hComboBox = new UIComboBox(ITEMS);
+
+        if (((WFitLayout)designer.getRootComponent().toData()).isAppRelayout()) {  // 如果开启了手机重布局
+            this.add(getMobileSettingsPane(), BorderLayout.NORTH);
+            this.bingListeners2Widgets();
+            this.setGlobalNames();
+        } else {
+            this.add(getUnavailableTipPane(), BorderLayout.NORTH);
+        }
+
+        this.repaint();
+    }
+
+    private JPanel getUnavailableTipPane() {
+        JPanel panel = new JPanel(new BorderLayout());
+        UILabel unavailableTipLabel = new UILabel();
+        unavailableTipLabel.setText("<html>" + Inter.getLocText("FR-Designer_Tip_Chart_Adaptivity_Unavailable") + "<html>");
+        unavailableTipLabel.setForeground(Color.gray);
+        panel.add(unavailableTipLabel, BorderLayout.NORTH);
+        return panel;
+    }
+
+    private UIExpandablePane getMobileSettingsPane() {
         this.zoomOutComboBox = new UIComboBox(ITEMS);
         this.zoomOutComboBox.addItemListener(new ItemListener() {
             @Override
@@ -95,11 +115,7 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane{
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         final JPanel panelWrapper = FRGUIPaneFactory.createBorderLayout_S_Pane();
         panelWrapper.add(panel, BorderLayout.NORTH);
-        UIExpandablePane folderPane = new UIExpandablePane(Inter.getLocText("FR-Designer_Chart_Adaptivity"), 280, 20, panelWrapper);
-        this.add(folderPane, BorderLayout.NORTH);
-        this.bingListeners2Widgets();
-        this.setGlobalNames();
-        this.repaint();
+        return new UIExpandablePane(Inter.getLocText("FR-Designer_Chart_Adaptivity"), 280, 20, panelWrapper);
     }
 
     private void updateTipLabel() {
@@ -127,9 +143,9 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane{
 
     @Override
     public void populate(FormDesigner designer) {
-        this.designer = designer;
-        this.addAttributeChangeListener(changeListener);
-        ChartEditor chartEditor = (ChartEditor)xCreator.toData();
+//        this.designer = designer;
+//        this.addAttributeChangeListener(changeListener);
+//        ChartEditor chartEditor = (ChartEditor)xCreator.toData();
 //        this.zoomOutComboBox.setSelectedIndex(0);
 //        this.hComboBox.setSelectedItem(new Item (elementCaseEditor.getHorziontalAttr().description(), elementCaseEditor.getHorziontalAttr()));
 //        this.vComboBox.setSelectedItem(new Item (elementCaseEditor.getVerticalAttr().description(), elementCaseEditor.getVerticalAttr()));
