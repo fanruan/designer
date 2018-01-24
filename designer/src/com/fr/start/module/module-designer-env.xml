@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--设计器环境模块-->
-<designer-env activator="com.fr.start.module.DesignerEnvActivator" invoke-children-strategy="custom">
-    <core ref="/com/fr/startup/config/module-core.xml"/>
-    <!--todo 现在存在的这些个模块-->
-</designer-env>
