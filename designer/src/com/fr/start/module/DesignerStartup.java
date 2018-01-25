@@ -35,7 +35,10 @@ public class DesignerStartup extends Activator {
         //启动画面
         SplashWindow splashWindow = createSplashWindow();
         //启动env
-        startSub(DesignerEnvActivator.class);
+        startSub(DesignerEnvProvider.class);
+        //启动各个模块
+        getSub("core").start();
+        getSub("designer").start();
         //启动设计器界面
         startDesigner();
         //启动画面结束

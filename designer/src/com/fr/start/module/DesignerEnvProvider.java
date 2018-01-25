@@ -3,20 +3,17 @@ package com.fr.start.module;
 import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.TemplatePane;
-import com.fr.design.module.DesignerModule;
 import com.fr.env.SignIn;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
-import com.fr.general.ModuleContext;
 import com.fr.module.Activator;
-import com.fr.stable.module.ModuleListener;
 import com.fr.start.StartServer;
 
 /**
  * Created by juhaoyu on 2018/1/8.
  * 设计器启动时的环境相关模块activator
  */
-public class DesignerEnvActivator extends Activator {
+public class DesignerEnvProvider extends Activator {
     
     @Override
     public void start() {
@@ -33,12 +30,6 @@ public class DesignerEnvActivator extends Activator {
         }
         //设置好环境即可，具体跟环境有关的模块会自动调用
         switch2LastEnv();
-        //启动core部分
-        getSub("core").start();
-        //启动其他模块
-        //todo 也切换到新Module
-        ModuleContext.registerModuleListener(getModule().findSingleton(ModuleListener.class));
-        ModuleContext.startModule(DesignerModule.class.getName());
     }
     
     
