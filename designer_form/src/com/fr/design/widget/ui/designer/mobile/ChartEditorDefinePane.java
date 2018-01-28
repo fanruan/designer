@@ -1,6 +1,7 @@
 package com.fr.design.widget.ui.designer.mobile;
 
 import com.fr.base.mobile.ChartMobileFitAttrState;
+import com.fr.base.mobile.ChartMobileFitAttrStateProvider;
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.properties.items.Item;
@@ -8,13 +9,13 @@ import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.WidgetPropertyPane;
-import com.fr.form.ui.ChartEditor;
+import com.fr.form.ui.BaseChartEditor;
 import com.fr.form.ui.container.WFitLayout;
 import com.fr.general.Inter;
 
@@ -38,6 +39,7 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane{
     private UIComboBox zoomOutComboBox;// 缩小逻辑下拉框
     private AttributeChangeListener changeListener;
     private UILabel tipLabel;
+    private boolean isPopulating = false;
 
     public ChartEditorDefinePane (XCreator xCreator) {
         this.xCreator = xCreator;
@@ -70,7 +72,7 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane{
         if (((WFitLayout)designer.getRootComponent().toData()).isAppRelayout()) {  // 如果开启了手机重布局
             this.add(getMobileSettingsPane(), BorderLayout.NORTH);
             this.bingListeners2Widgets();
-            this.setGlobalNames();
+            this.addAttributeChangeListener(changeListener);
         } else {
             this.add(getUnavailableTipPane(), BorderLayout.NORTH);
         }
@@ -88,13 +90,7 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane{
     }
 
     private UIExpandablePane getMobileSettingsPane() {
-        this.zoomOutComboBox = new UIComboBox(ITEMS);
-        this.zoomOutComboBox.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                updateTipLabel();
-            }
-        });
+        initZoomOutComboBox();
 
         tipLabel = new UILabel();
         tipLabel.setForeground(Color.gray);
@@ -115,8 +111,25 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane{
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         final JPanel panelWrapper = FRGUIPaneFactory.createBorderLayout_S_Pane();
         panelWrapper.add(panel, BorderLayout.NORTH);
+
         return new UIExpandablePane(Inter.getLocText("FR-Designer_Chart_Adaptivity"), 280, 20, panelWrapper);
     }
+
+    private void initZoomOutComboBox() {
+        this.zoomOutComboBox = new UIComboBox(ITEMS);
+
+        BaseChartEditor chartEditor = (BaseChartEditor)xCreator.toData();
+        ChartMobileFitAttrStateProvider zoomOutAttr = chartEditor.getMobileAttr().getZoomOutAttr();
+        this.zoomOutComboBox.setSelectedItem(new Item(zoomOutAttr.description(), zoomOutAttr));
+
+        this.zoomOutComboBox.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                updateTipLabel();
+            }
+        });
+    }
+
 
     private void updateTipLabel() {
         ChartMobileFitAttrState fitAttrState = (ChartMobileFitAttrState) ((Item)zoomOutComboBox.getSelectedItem()).getValue();
@@ -129,6 +142,9 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane{
         this.changeListener = new AttributeChangeListener() {
             @Override
             public void attributeChange() {
+                if (isPopulating) {
+                    return;
+                }
                 update();
             }
         };
@@ -143,46 +159,13 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane{
 
     @Override
     public void populate(FormDesigner designer) {
-//        this.designer = designer;
-//        this.addAttributeChangeListener(changeListener);
-//        ChartEditor chartEditor = (ChartEditor)xCreator.toData();
-//        this.zoomOutComboBox.setSelectedIndex(0);
-//        this.hComboBox.setSelectedItem(new Item (elementCaseEditor.getHorziontalAttr().description(), elementCaseEditor.getHorziontalAttr()));
-//        this.vComboBox.setSelectedItem(new Item (elementCaseEditor.getVerticalAttr().description(), elementCaseEditor.getVerticalAttr()));
-//        this.heightRestrictCheckBox.setSelected(elementCaseEditor.isHeightRestrict());
-//        this.maxHeightLabel.setVisible();
-//        this.maxHeightSpinner.setVisible(elementCaseEditor.isHeightRestrict());
-//        this.maxHeightSpinner.setValue(elementCaseEditor.getHeightPercent());
+        // 感觉 populate 方法没啥用。可以直接在 initPropertyGroups 中更新界面
     }
 
     @Override
     public void update() {
-//        DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified(); // 触发设计器保存按钮亮起来
-//        String globalName = this.getGlobalName();
-//        switch (globalName) {
-//            case "hComboBox":
-////                ((ChartEditor)xCreator.toData()).setHorziontalAttr(((MobileFitAttrState)((Item)hComboBox.getSelectedItem()).getValue()));
-//                break;
-//            case "vComboBox":
-////                ((ChartEditor)xCreator.toData()).setVerticalAttr(((MobileFitAttrState)((Item)vComboBox.getSelectedItem()).getValue()));
-//                break;
-//            case "heightRestrictCheckBox":
-//                boolean isHeightRestrict = heightRestrictCheckBox.isSelected();
-////                ((ChartEditor)xCreator.toData()).setHeightRestrict(isHeightRestrict);
-//                maxHeightSpinner.setVisible(isHeightRestrict);
-//                maxHeightLabel.setVisible(isHeightRestrict);
-//                break;
-//            case "maxHeightSpinner":
-////                ((ChartEditor)xCreator.toData()).setHeightPercent(maxHeightSpinner.getValue());
-//                break;
-//        }
+        ((BaseChartEditor)xCreator.toData()).getMobileAttr().setZoomInAttr(ChartMobileFitAttrState.PROPORTION);
+        ((BaseChartEditor)xCreator.toData()).getMobileAttr().setZoomOutAttr((ChartMobileFitAttrState)((Item)zoomOutComboBox.getSelectedItem()).getValue());
+        DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified(); // 触发设计器保存按钮亮起来
     }
-
-    private void setGlobalNames() {
-//        this.hComboBox.setGlobalName("hComboBox");
-//        this.vComboBox.setGlobalName("vComboBox");
-//        this.heightRestrictCheckBox.setGlobalName("heightRestrictCheckBox");
-//        this.maxHeightSpinner.setGlobalName("maxHeightSpinner");
-    }
-
 }
