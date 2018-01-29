@@ -2,8 +2,6 @@ package com.fr.design.widget.ui.designer.layout;
 
 import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.XCreator;
-import com.fr.design.designer.creator.cardlayout.XWCardLayout;
-import com.fr.design.designer.creator.cardlayout.XWCardTagLayout;
 import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
@@ -15,8 +13,6 @@ import com.fr.design.widget.ui.designer.AbstractDataModify;
 import com.fr.form.ui.LayoutBorderStyle;
 import com.fr.form.ui.container.WCardLayout;
 import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
-import com.fr.form.ui.container.cardlayout.WCardTagLayout;
-import com.fr.form.ui.container.cardlayout.WCardTitleLayout;
 import com.fr.general.Inter;
 
 import javax.swing.BorderFactory;
@@ -56,7 +52,7 @@ public class WCardMainLayoutDefinePane  extends AbstractDataModify<WCardMainBord
         setCarousel = new UICheckBox(Inter.getLocText("FR-Designer_setCarousel"));
         IntervalPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{
                 new UILabel(Inter.getLocText("FR-Designer_carouselInterval")), carouselInterval}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
-        IntervalPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        IntervalPane.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L6, IntervalConstants.INTERVAL_L5, IntervalConstants.INTERVAL_L6, IntervalConstants.INTERVAL_L6));
         jPanel.add(setCarousel, BorderLayout.NORTH);
         jPanel.add(IntervalPane, BorderLayout.CENTER);
         setCarousel.addActionListener(new ActionListener() {
