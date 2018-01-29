@@ -1,6 +1,7 @@
 package com.fr.design.widget.ui.designer.component;
 
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.mainframe.widget.accessibles.AccessibleTabBackgroundEditor;
 import com.fr.design.widget.component.BackgroundCompPane;
 import com.fr.form.ui.CardSwitchButton;
 import com.fr.form.ui.container.cardlayout.WTabFitLayout;
@@ -14,6 +15,13 @@ public class TabFitLayoutBackgroundPane extends BackgroundCompPane<WTabFitLayout
 
     public TabFitLayoutBackgroundPane(){
 
+    }
+
+    @Override
+    protected void initBackgroundEditor(){
+        initalBackgroundEditor = new AccessibleTabBackgroundEditor();
+        overBackgroundEditor = new AccessibleTabBackgroundEditor();
+        clickBackgroundEditor = new AccessibleTabBackgroundEditor();
     }
 
     public void update(CardSwitchButton cardSwitchButton){

@@ -1,7 +1,7 @@
 package com.fr.design.widget.ui.designer.layout;
 
 import com.fr.design.constants.LayoutConstants;
-import com.fr.design.mainframe.widget.accessibles.AccessibleTabBackgroundEditor;
+import com.fr.design.mainframe.widget.accessibles.AccessibleTabPaneBackgroundEditor;
 import com.fr.form.ui.CardSwitchButton;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.cardtag.DefaultTemplateStyle;
@@ -37,7 +37,7 @@ import java.awt.Component;
  * Created by kerry on 2017/11/16.
  */
 public class WCardTagLayoutDefinePane extends AbstractDataModify<WCardTagLayout> {
-    private AccessibleTabBackgroundEditor backgroundEditor;
+    private AccessibleTabPaneBackgroundEditor backgroundEditor;
     private FRFontPane frFontPane;
     private UIButtonGroup displayPositionGroup;
     private UIButtonGroup textDirectionGroup;
@@ -51,7 +51,7 @@ public class WCardTagLayoutDefinePane extends AbstractDataModify<WCardTagLayout>
     public void initComponent() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
 
-        backgroundEditor = new AccessibleTabBackgroundEditor();
+        backgroundEditor = new AccessibleTabPaneBackgroundEditor();
         templateStyleEditor = new AccessibleTemplateStyleEditor();
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
