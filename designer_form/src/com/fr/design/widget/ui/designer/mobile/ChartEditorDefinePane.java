@@ -1,5 +1,6 @@
 package com.fr.design.widget.ui.designer.mobile;
 
+import com.fr.base.mobile.ChartMobileAttrProvider;
 import com.fr.base.mobile.ChartMobileFitAttrState;
 import com.fr.base.mobile.ChartMobileFitAttrStateProvider;
 import com.fr.design.constants.LayoutConstants;
@@ -20,7 +21,9 @@ import com.fr.form.ui.BaseChartEditor;
 import com.fr.form.ui.container.WFitLayout;
 import com.fr.general.Inter;
 import com.fr.plugin.ExtraClassManager;
+import com.fr.stable.StringUtils;
 import com.fr.stable.fun.FunctionProcessor;
+import com.fr.third.org.apache.poi.util.StringUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -52,7 +55,7 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane{
 
     @Override
     protected JPanel createContentPane() {
-        return null;
+        return new JPanel();
     }
 
     @Override
@@ -62,7 +65,7 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane{
 
     @Override
     public String title4PopupWindow() {
-        return "ChartEditor";
+        return StringUtils.EMPTY;
     }
 
 
@@ -175,8 +178,9 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane{
 
     @Override
     public void update() {
-        ((BaseChartEditor)xCreator.toData()).getMobileAttr().setZoomInAttr(ChartMobileFitAttrState.PROPORTION);
-        ((BaseChartEditor)xCreator.toData()).getMobileAttr().setZoomOutAttr((ChartMobileFitAttrState)((Item)zoomOutComboBox.getSelectedItem()).getValue());
+        ChartMobileAttrProvider mobileAttr = ((BaseChartEditor)xCreator.toData()).getMobileAttr();
+        mobileAttr.setZoomInAttr(ChartMobileFitAttrState.PROPORTION);
+        mobileAttr.setZoomOutAttr((ChartMobileFitAttrState)((Item)zoomOutComboBox.getSelectedItem()).getValue());
         DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified(); // 触发设计器保存按钮亮起来
     }
 }
