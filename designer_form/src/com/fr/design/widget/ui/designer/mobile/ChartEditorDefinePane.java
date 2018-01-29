@@ -23,7 +23,6 @@ import com.fr.general.Inter;
 import com.fr.plugin.ExtraClassManager;
 import com.fr.stable.StringUtils;
 import com.fr.stable.fun.FunctionProcessor;
-import com.fr.third.org.apache.poi.util.StringUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -60,7 +59,7 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane{
 
     @Override
     public String getIconPath() {
-        return "";
+        return StringUtils.EMPTY;
     }
 
     @Override
@@ -73,16 +72,13 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane{
     public void initPropertyGroups(Object source) {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
-
-        if (((WFitLayout)designer.getRootComponent().toData()).isAppRelayout()) {  // 如果开启了手机重布局
-            this.add(getMobileSettingsPane(), BorderLayout.NORTH);
-            this.bingListeners2Widgets();
-            this.addAttributeChangeListener(changeListener);
-        } else {
-            this.add(getUnavailableTipPane(), BorderLayout.NORTH);
-        }
-
+        this.add(isAppRelayout() ? getMobileSettingsPane() : getUnavailableTipPane(), BorderLayout.NORTH);
         this.repaint();
+    }
+
+    // body是否开启手机重布局
+    private boolean isAppRelayout() {
+        return ((WFitLayout)designer.getRootComponent().toData()).isAppRelayout();
     }
 
     private JPanel getUnavailableTipPane() {
@@ -122,29 +118,6 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane{
 
     private void initZoomOutComboBox() {
         this.zoomOutComboBox = new UIComboBox(ITEMS);
-
-        BaseChartEditor chartEditor = (BaseChartEditor)xCreator.toData();
-        ChartMobileFitAttrStateProvider zoomOutAttr = chartEditor.getMobileAttr().getZoomOutAttr();
-        this.zoomOutComboBox.setSelectedItem(new Item(zoomOutAttr.description(), zoomOutAttr));
-
-        this.zoomOutComboBox.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                // 只响应选中事件
-                if (e.getStateChange() != ItemEvent.SELECTED) {
-                    return;
-                }
-                updateTipLabel();
-                ChartMobileFitAttrState selectedAttr = (ChartMobileFitAttrState)((Item)e.getItem()).getValue();
-                if (selectedAttr.getState() != ChartMobileFitAttrState.AUTO.getState()) {
-                    // 功能埋点
-                    FunctionProcessor processor = ExtraClassManager.getInstance().getFunctionProcessor();
-                    if (processor != null) {
-                        processor.recordFunction(FormFunctionProcessor.MOBILE_CHART_ADAPTIVITY);
-                    }
-                }
-            }
-        });
     }
 
 
@@ -154,7 +127,7 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane{
         tipLabel.setText("<html>" + fitAttrState.tip() + "</html>");
     }
 
-    private void bingListeners2Widgets() {
+    private void bindListeners2Widgets() {
         reInitAllListeners();
         this.changeListener = new AttributeChangeListener() {
             @Override
@@ -173,7 +146,37 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane{
 
     @Override
     public void populate(FormDesigner designer) {
-        // 感觉 populate 方法没啥用。可以直接在 initPropertyGroups 中更新界面
+        this.designer = designer;
+
+        if (!isAppRelayout()) {
+            return;
+        }
+
+        BaseChartEditor chartEditor = (BaseChartEditor)xCreator.toData();
+        ChartMobileFitAttrStateProvider zoomOutAttr = chartEditor.getMobileAttr().getZoomOutAttr();
+        this.zoomOutComboBox.setSelectedItem(new Item(zoomOutAttr.description(), zoomOutAttr));
+
+        // 数据 populate 完成后，再设置监听
+        this.bindListeners2Widgets();
+        this.zoomOutComboBox.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                // 只响应选中事件
+                if (e.getStateChange() != ItemEvent.SELECTED) {
+                    return;
+                }
+                updateTipLabel();
+                ChartMobileFitAttrState selectedAttr = (ChartMobileFitAttrState)((Item)e.getItem()).getValue();
+                if (selectedAttr.getState() != ChartMobileFitAttrState.AUTO.getState()) {
+                    // 功能埋点
+                    FunctionProcessor processor = ExtraClassManager.getInstance().getFunctionProcessor();
+                    if (processor != null) {
+                        processor.recordFunction(FormFunctionProcessor.MOBILE_CHART_ADAPTIVITY);
+                    }
+                }
+            }
+        });
+        this.addAttributeChangeListener(changeListener);
     }
 
     @Override

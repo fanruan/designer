@@ -124,6 +124,7 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
         if (mobileExtraPropertyPanes != null) {
             for (MobileWidgetDefinePane extraPane : mobileExtraPropertyPanes) {
                 extraPane.initPropertyGroups(designer);
+                extraPane.populate(designer);
             }
         }
         if (widgetPropertyTables != null) {
