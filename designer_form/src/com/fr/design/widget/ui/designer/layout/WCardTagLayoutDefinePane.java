@@ -2,7 +2,9 @@ package com.fr.design.widget.ui.designer.layout;
 
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.mainframe.widget.accessibles.AccessibleTabBackgroundEditor;
+import com.fr.form.ui.CardSwitchButton;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.cardtag.DefaultTemplateStyle;
 import com.fr.general.cardtag.TemplateStyle;
 import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.XCreator;
@@ -59,7 +61,7 @@ public class WCardTagLayoutDefinePane extends AbstractDataModify<WCardTagLayout>
 
         UILabel fontLabel = new UILabel(Inter.getLocText("FR-Designer_Font"));
         fontLabel.setVerticalAlignment(SwingConstants.TOP);
-        frFontPane = new FRFontPane(){
+        frFontPane = new FRFontPane() {
             protected JPanel createRightPane() {
                 double p = TableLayout.PREFERRED;
                 double f = TableLayout.FILL;
@@ -73,7 +75,7 @@ public class WCardTagLayoutDefinePane extends AbstractDataModify<WCardTagLayout>
             }
 
         };
-        displayPositionGroup =  new UIButtonGroup(WTabDisplayPosition.getStringArray()){
+        displayPositionGroup = new UIButtonGroup(WTabDisplayPosition.getStringArray()) {
             @Override
             public boolean shouldResponseNameListener() {
                 return true;
@@ -105,7 +107,7 @@ public class WCardTagLayoutDefinePane extends AbstractDataModify<WCardTagLayout>
     public void populateBean(WCardTagLayout ob) {
         //标题背景和字体属性设置在WCardLayout上做兼容
         XLayoutContainer topLayout = creator.getTopLayout();
-        LayoutBorderStyle layoutBorderStyle = ((XWCardMainBorderLayout)topLayout).getCardPart().toData().getBorderStyle();
+        LayoutBorderStyle layoutBorderStyle = ((XWCardMainBorderLayout) topLayout).getCardPart().toData().getBorderStyle();
 
         displayPositionGroup.setSelectedIndex(ob.getDisplayPosition().getType());
         textDirectionGroup.setSelectedIndex(ob.getTextDirection().getType());
@@ -121,25 +123,41 @@ public class WCardTagLayoutDefinePane extends AbstractDataModify<WCardTagLayout>
     public WCardTagLayout updateBean() {
         //标题背景和字体属性设置在WCardLayout上做兼容
         XLayoutContainer topLayout = creator.getTopLayout();
-        LayoutBorderStyle layoutBorderStyle = ((XWCardMainBorderLayout)topLayout).getCardPart().toData().getBorderStyle();
+        LayoutBorderStyle layoutBorderStyle = ((XWCardMainBorderLayout) topLayout).getCardPart().toData().getBorderStyle();
         FRFont frFont = layoutBorderStyle.getTitle().getFrFont() == null ? FRFont.getInstance() : layoutBorderStyle.getTitle().getFrFont();
         layoutBorderStyle.getTitle().setFrFont(frFontPane.update(frFont));
         WCardTagLayout layout = (WCardTagLayout) creator.toData();
         boolean isHori = displayPositionGroup.getSelectedIndex() == WTabDisplayPosition.TOP_POSITION.getType() || displayPositionGroup.getSelectedIndex() == WTabDisplayPosition.BOTTOM_POSITION.getType();
-        if(ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_Tab_Style_Template"))){
+        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_Tab_Style_Template"))) {
             layout.setDisplayPosition(WTabDisplayPosition.parse(displayPositionGroup.getSelectedIndex()));
-            textDirectionGroup.setSelectedIndex(isHori? WTabTextDirection.TEXT_HORI_DERECTION.getType():WTabTextDirection.TEXT_VER_DIRECTION.getType());
+            textDirectionGroup.setSelectedIndex(isHori ? WTabTextDirection.TEXT_HORI_DERECTION.getType() : WTabTextDirection.TEXT_VER_DIRECTION.getType());
+            layout.setHgap(isHori ? WCardTagLayout.DESIGNER_DEFAULT_GAP : 0);
+            layout.setVgap(isHori ? 0 : WCardTagLayout.DESIGNER_DEFAULT_GAP);
         }
         layout.setTextDirection(WTabTextDirection.parse(textDirectionGroup.getSelectedIndex()));
         TemplateStyle templateStyle = (TemplateStyle) templateStyleEditor.getValue();
-        if(!ComparatorUtils.equals(layout.getTemplateStyle(), templateStyle)){
+        if (!ComparatorUtils.equals(layout.getTemplateStyle(), templateStyle)) {
             backgroundEditor.setValue(templateStyle.getDefaultBackground());
             layoutBorderStyle.getTitle().setBackground(templateStyle.getDefaultBackground());
+            //重置内部tab的默认背景
+            resetTabBackground(layout, templateStyle);
             layout.setTemplateStyle(templateStyle);
-        }else{
+        } else {
             layoutBorderStyle.getTitle().setBackground((Background) backgroundEditor.getValue());
         }
 
         return layout;
+    }
+
+    private void resetTabBackground(WCardTagLayout layout, TemplateStyle templateStyle) {
+        for (int i = 0, len = layout.getWidgetCount(); i < len; i++) {
+            CardSwitchButton button = layout.getSwitchButton(i);
+            //兼容默认样式
+            boolean defaultStyle = ComparatorUtils.equals(templateStyle.getStyle(), DefaultTemplateStyle.DEFAULT_TEMPLATE_STYLE);
+            button.setInitialBackground(defaultStyle ? null : templateStyle.getTabDefaultBackground());
+            button.setOverBackground(null);
+            button.setClickBackground(null);
+            button.setCustomStyle(true);
+        }
     }
 }

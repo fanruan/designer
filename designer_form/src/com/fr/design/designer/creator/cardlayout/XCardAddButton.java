@@ -1,7 +1,6 @@
 package com.fr.design.designer.creator.cardlayout;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.background.ColorBackground;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
 import com.fr.design.designer.beans.models.SelectionModel;
@@ -151,9 +150,7 @@ public class XCardAddButton extends XButton{
     	CardSwitchButton titleButton = new CardSwitchButton(index,cardLayoutName);
     	//设置标题
     	titleButton.setText(getTabTitleName());
-		titleButton.setInitialBackground(ColorBackground.getInstance(Color.WHITE));
     	XCardSwitchButton showButton = new XCardSwitchButton(titleButton, dimension, cardLayout, tagLayout);
-		titleButton.setCustomStyle(true);
     	titleButton.setShowButton(true);
 		showButton.setBackupParent(tagLayout);
     	this.tagLayout.setCurrentCard(titleButton);
