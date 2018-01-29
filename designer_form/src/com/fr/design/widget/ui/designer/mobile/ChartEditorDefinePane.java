@@ -15,9 +15,12 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.WidgetPropertyPane;
+import com.fr.form.FormFunctionProcessor;
 import com.fr.form.ui.BaseChartEditor;
 import com.fr.form.ui.container.WFitLayout;
 import com.fr.general.Inter;
+import com.fr.plugin.ExtraClassManager;
+import com.fr.stable.fun.FunctionProcessor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -39,7 +42,6 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane{
     private UIComboBox zoomOutComboBox;// 缩小逻辑下拉框
     private AttributeChangeListener changeListener;
     private UILabel tipLabel;
-    private boolean isPopulating = false;
 
     public ChartEditorDefinePane (XCreator xCreator) {
         this.xCreator = xCreator;
@@ -125,7 +127,19 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane{
         this.zoomOutComboBox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
+                // 只响应选中事件
+                if (e.getStateChange() != ItemEvent.SELECTED) {
+                    return;
+                }
                 updateTipLabel();
+                ChartMobileFitAttrState selectedAttr = (ChartMobileFitAttrState)((Item)e.getItem()).getValue();
+                if (selectedAttr.getState() != ChartMobileFitAttrState.AUTO.getState()) {
+                    // 功能埋点
+                    FunctionProcessor processor = ExtraClassManager.getInstance().getFunctionProcessor();
+                    if (processor != null) {
+                        processor.recordFunction(FormFunctionProcessor.MOBILE_CHART_ADAPTIVITY);
+                    }
+                }
             }
         });
     }
@@ -142,9 +156,6 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane{
         this.changeListener = new AttributeChangeListener() {
             @Override
             public void attributeChange() {
-                if (isPopulating) {
-                    return;
-                }
                 update();
             }
         };
