@@ -331,9 +331,6 @@ public class XCardSwitchButton extends XButton {
 			this.setContentBackground(defaultSelectBackground);
 		} else {
 			this.setContentBackground(initialBackground == null ? background : initialBackground);
-//			if(templateStyle instanceof DefaultTemplateStyle){
-//				this.setContentBackground(initialBackground == null ? background : initialBackground);
-//			}
 		}
 	}
 	
