@@ -31,9 +31,7 @@ public abstract class BackgroundCompPane<T extends Widget> extends BasicPane {
     public void initComponent() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         UILabel headLabel = createUILable();
-        initalBackgroundEditor = new AccessibleImgBackgroundEditor();
-        overBackgroundEditor = new AccessibleImgBackgroundEditor();
-        clickBackgroundEditor = new AccessibleImgBackgroundEditor();
+        initBackgroundEditor();
         String [] titles = new String[]{Inter.getLocText("FR-Designer_DEFAULT"), Inter.getLocText("FR-Designer_Custom")};
 
         double f = TableLayout.FILL;
@@ -55,6 +53,12 @@ public abstract class BackgroundCompPane<T extends Widget> extends BasicPane {
         this.add(headPane, BorderLayout.NORTH);
         this.add(panel, BorderLayout.CENTER);
 
+    }
+
+    protected void initBackgroundEditor(){
+        initalBackgroundEditor = new AccessibleImgBackgroundEditor();
+        overBackgroundEditor = new AccessibleImgBackgroundEditor();
+        clickBackgroundEditor = new AccessibleImgBackgroundEditor();
     }
 
     protected UILabel createUILable(){

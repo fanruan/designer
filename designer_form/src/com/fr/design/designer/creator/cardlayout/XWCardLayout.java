@@ -31,7 +31,6 @@ import com.fr.form.ui.container.WLayout;
 import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
 import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.form.ui.container.cardlayout.WCardTitleLayout;
-import com.fr.form.ui.container.cardlayout.WTabFitLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
@@ -227,12 +226,9 @@ public class XWCardLayout extends XLayoutContainer {
 	private XCardSwitchButton initFirstButton(String widgetName, XWCardTagLayout xTag){
 		CardSwitchButton firstBtn = new CardSwitchButton(widgetName);
 		firstBtn.setText(Inter.getLocText("FR-Designer_Title") + 0);
-		firstBtn.setInitialBackground(ColorBackground.getInstance(Color.WHITE));
-		firstBtn.setCustomStyle(true);
 		xTag.setCurrentCard(firstBtn);
 		XCardSwitchButton xFirstBtn = new XCardSwitchButton(firstBtn, new Dimension(CardSwitchButton.DEF_WIDTH, -1), this, xTag);
 		xFirstBtn.setBackupParent(xTag);
-		
 		return xFirstBtn;
 	}
 

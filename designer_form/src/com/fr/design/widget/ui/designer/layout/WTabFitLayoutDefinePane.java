@@ -78,12 +78,12 @@ public class WTabFitLayoutDefinePane extends AbstractDataModify<WTabFitLayout> {
 
     @Override
     public void populateBean(WTabFitLayout ob) {
-        borderStyle.populate(ob);
         paddingBoundPane.populate(ob);
         componentInterval.setValue(ob.getCompInterval());
         if(ob.getCurrentCard() == null){
             ob.setCurrentCard(getRelateSwitchButton(ob));
         }
+        borderStyle.populate(ob.getCurrentCard());
         titleField.setText(ob.getCurrentCard().getText());
     }
 
@@ -118,7 +118,7 @@ public class WTabFitLayoutDefinePane extends AbstractDataModify<WTabFitLayout> {
     @Override
     public WTabFitLayout updateBean() {
         WTabFitLayout layout = (WTabFitLayout) creator.toData();
-        borderStyle.update(layout);
+        borderStyle.update(layout.getCurrentCard());
         if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_Layout-Padding"))) {
             paddingBoundPane.update(layout);
         }

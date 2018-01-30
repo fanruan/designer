@@ -1,7 +1,6 @@
 package com.fr.design.designer.creator.cardlayout;
 
 import com.fr.base.GraphHelper;
-import com.fr.base.background.ColorBackground;
 import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.FRTabFitLayoutAdapter;
 import com.fr.design.designer.beans.models.SelectionModel;
@@ -22,7 +21,6 @@ import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.form.ui.container.cardlayout.WTabFitLayout;
 import com.fr.general.Background;
-import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.core.PropertyChangeAdapter;
@@ -213,40 +211,27 @@ public class XWTabFitLayout extends XWFitLayout {
 	}
 
 	private void checkButonType() {
-		if (this.xCardSwitchButton == null) {
-			//假如为空，默认获取第一个tab的cardBtn属性
-			try {
-				xCardSwitchButton = (XCardSwitchButton) ((XWCardMainBorderLayout) this.getTopLayout()).getTitlePart().getTagPart().getComponent(0);
-			}catch (Exception e){
-				FRLogger.getLogger().error(e.getMessage());
-			}
-			return;
-		}
-		boolean isStyle = ((WTabFitLayout) data).isCustomStyle();
-		Background bg;
-		bg = ColorBackground.getInstance(NORMAL_GRAL);
+		WTabFitLayout wTabFitLayout = ((WTabFitLayout) data);
 		CardSwitchButton cardSwitchButton = (CardSwitchButton) this.xCardSwitchButton.toData();
+		boolean isStyle = wTabFitLayout.isCustomStyle();
+		Background initialBackground = wTabFitLayout.getInitialBackground();
+		Background overBackground = wTabFitLayout.getOverBackground();
+		Background clickBackground = wTabFitLayout.getClickBackground();
 		if (!isStyle) {
-			this.xCardSwitchButton.setCustomStyle(false);
-			this.xCardSwitchButton.setSelectBackground(bg);
+			cardSwitchButton.setCustomStyle(false);
 			cardSwitchButton.setInitialBackground(null);
 			cardSwitchButton.setClickBackground(null);
 			cardSwitchButton.setOverBackground(null);
 		} else {
-			Background initialBackground = cardSwitchButton.getInitialBackground();
-			bg = initialBackground == null ? bg : initialBackground;
-			this.xCardSwitchButton.setSelectBackground(bg);
-			this.xCardSwitchButton.setCustomStyle(true);
 			cardSwitchButton.setCustomStyle(true);
-			if (this.initialBackground != null){
-				this.xCardSwitchButton.setSelectBackground(this.initialBackground);
-				cardSwitchButton.setInitialBackground(this.initialBackground);
+			if (initialBackground != null){
+				cardSwitchButton.setInitialBackground(initialBackground);
 			}
-			if (this.overBackground != null){
-				cardSwitchButton.setOverBackground(this.overBackground);
+			if (overBackground != null){
+				cardSwitchButton.setOverBackground(overBackground);
 			}
-			if (this.clickBackground != null) {
-				cardSwitchButton.setClickBackground(this.clickBackground);
+			if (clickBackground != null) {
+				cardSwitchButton.setClickBackground(clickBackground);
 			}
 		}
 	}
@@ -601,30 +586,14 @@ public class XWTabFitLayout extends XWFitLayout {
 
 	@Override
 	public void firePropertyChange(){
-		checkButonType();
 		//根据字体长度设置tab宽度
 		setCardSwitchBtnSize();
 		XWCardLayout cardLayout = (XWCardLayout) this.getBackupParent();
 		XWCardMainBorderLayout mainLayout = (XWCardMainBorderLayout) cardLayout.getBackupParent();
 		XWCardTitleLayout titleLayout = mainLayout.getTitlePart();
-//		//放置tab按钮的tagLayout
+		//放置tab按钮的tagLayout
 		XWCardTagLayout tagLayout = titleLayout.getTagPart();
 		tagLayout.setTabsAndAdjust();
-
-		initialBackground = ((WTabFitLayout) data).getInitialBackground();
-		overBackground = ((WTabFitLayout) data).getOverBackground();
-		clickBackground = ((WTabFitLayout)data).getClickBackground();
-		CardSwitchButton cardSwitchButton = (CardSwitchButton) xCardSwitchButton.toData();
-		if(initialBackground != null){
-			xCardSwitchButton.setSelectBackground(initialBackground);
-			cardSwitchButton.setInitialBackground(initialBackground);
-		}
-		if(overBackground != null){
-			cardSwitchButton.setOverBackground(overBackground);
-		}
-		if(clickBackground != null){
-			cardSwitchButton.setClickBackground(clickBackground);
-		}
 	}
 
 	public void setCardSwitchBtnSize(){
