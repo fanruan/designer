@@ -11,13 +11,18 @@ import com.fr.design.DesignState;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.core.ActionFactory;
+import com.fr.design.actions.file.SwitchExistEnv;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.datapane.TableDataTreePane;
 import com.fr.design.event.DesignerOpenedListener;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
-import com.fr.design.file.*;
+import com.fr.design.file.HistoryTemplateListPane;
+import com.fr.design.file.MutilTempalteTabPane;
+import com.fr.design.file.NewTemplatePane;
+import com.fr.design.file.SaveSomeTemplatePane;
+import com.fr.design.file.TemplateTreePane;
 import com.fr.design.fun.TitlePlaceProcessor;
 import com.fr.design.fun.impl.AbstractTemplateTreeShortCutProvider;
 import com.fr.design.gui.ibutton.UIButton;
@@ -53,27 +58,25 @@ import com.fr.stable.StableUtils;
 import com.fr.stable.image4j.codec.ico.ICODecoder;
 import com.fr.stable.project.ProjectConstants;
 
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JLayeredPane;
-import javax.swing.JMenuBar;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 import javax.swing.border.MatteBorder;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
-import java.awt.dnd.*;
-import java.awt.event.*;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetDragEvent;
+import java.awt.dnd.DropTargetDropEvent;
+import java.awt.dnd.DropTargetEvent;
+import java.awt.dnd.DropTargetListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -95,7 +98,10 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
     private List<DesignerOpenedListener> designerOpenedListenerList = new ArrayList<>();
 
-    private ToolBarMenuDock ad;
+    //顶部日志+登陆按钮
+    private static final JPanel northEastPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+
+    private static ToolBarMenuDock ad;
 
     private DesktopCardPane centerTemplateCardPane;
 
@@ -313,41 +319,39 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
     protected void initMenuPane() {
         menuPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         menuPane.add(new UIMenuHighLight(), BorderLayout.SOUTH);
-        menuPane.add(initNorthEastPane(ad), BorderLayout.EAST);
+        menuPane.add(initNorthEastPane(), BorderLayout.EAST);
         basePane.add(menuPane, BorderLayout.NORTH);
         this.resetToolkitByPlus(null);
     }
 
     /**
-     * @param ad
      * @return
      */
-    protected JPanel initNorthEastPane(final ToolBarMenuDock ad) {
+    protected JPanel initNorthEastPane() {
         //hugh: private修改为protected方便oem的时候修改右上的组件构成
-        //顶部日志+登陆按钮
-        final JPanel northEastPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+
         //优先级为-1，保证最后全面刷新一次
         GeneralContext.listenPluginRunningChanged(new PluginEventListener(-1) {
 
             @Override
             public void on(PluginEvent event) {
 
-                refreshNorthEastPane(northEastPane, ad);
+                refreshNorthEastPane();
                 DesignUtils.refreshDesignerFrame(FRContext.getCurrentEnv());
             }
         }, new PluginFilter() {
 
             @Override
             public boolean accept(PluginContext context) {
-
-                return context.contain(PluginModule.ExtraDesign);
+                return !SwitchExistEnv.isSwitching()
+                        && context.contain(PluginModule.ExtraDesign);
             }
         });
-        refreshNorthEastPane(northEastPane, ad);
+        refreshNorthEastPane();
         return northEastPane;
     }
 
-    private void refreshNorthEastPane(JPanel northEastPane, ToolBarMenuDock ad) {
+    public static void refreshNorthEastPane() {
         northEastPane.removeAll();
         northEastPane.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 0));
         northEastPane.add(LogMessageBar.getInstance());
@@ -711,6 +715,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
      * @param env 环境
      */
     public void refreshEnv(Env env) {
+        long start = System.currentTimeMillis();
 
         this.setTitle();
         DesignerFrameFileDealerPane.getInstance().refreshDockingView();
@@ -722,6 +727,8 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         if (template != null) {
             template.refreshToolArea();
         }
+        System.out.println("hzzzzzz end: " + (System.currentTimeMillis() - start));
+
     }
 
     /**

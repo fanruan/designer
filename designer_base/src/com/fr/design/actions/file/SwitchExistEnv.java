@@ -36,6 +36,9 @@ import java.util.logging.Level;
 
 public class SwitchExistEnv extends MenuDef {
 
+     // 标志开始切换环境
+    private static boolean isSwitching = false;
+
     public SwitchExistEnv() {
         this.setMenuKeySet(KeySetUtils.SWITCH_ENV);
         this.setName(getMenuKeySet().getMenuName());
@@ -101,6 +104,7 @@ public class SwitchExistEnv extends MenuDef {
          * @param e 事件
          */
         public void actionPerformed(ActionEvent e) {
+            isSwitching = true;
             DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
             Env selectedEnv = envManager.getEnv(this.getName());
             try {
@@ -123,7 +127,13 @@ public class SwitchExistEnv extends MenuDef {
                 FRContext.getLogger().error(em.getMessage(), em);
                 JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText(new String[]{"M-SwitchWorkspace", "Failed"}));
                 TemplatePane.getInstance().editItems();
+            } finally {
+                isSwitching = false;
             }
         }
+    }
+
+    public static boolean isSwitching() {
+        return isSwitching;
     }
 }
