@@ -24,6 +24,11 @@ public class TabFitLayoutBackgroundPane extends BackgroundCompPane<WTabFitLayout
         clickBackgroundEditor = new AccessibleTabBackgroundEditor();
     }
 
+    @Override
+    protected UILabel getClickLabel(){
+        return new UILabel(Inter.getLocText("FR-Designer_Background_Select"));
+    }
+
     public void update(CardSwitchButton cardSwitchButton){
         int selectIndex = backgroundHead.getSelectedIndex();
         if(selectIndex == 0){

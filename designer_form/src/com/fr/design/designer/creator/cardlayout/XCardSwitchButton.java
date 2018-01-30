@@ -325,10 +325,9 @@ public class XCardSwitchButton extends XButton {
 		Background background = widgetTitle.getBackground();
 		TemplateStyle templateStyle = ((WCardTagLayout) tagLayout.toData()).getTemplateStyle();
 		Background initialBackground = button.getInitialBackground();
-		Background defaultSelectBackground = templateStyle.getSelectBackground();
-		//todo 这边先这么改，之后会加一个选中背景设置再做调整
+		Background selectBackground = button.getClickBackground();
 		if (button.isShowButton()) {
-			this.setContentBackground(defaultSelectBackground);
+			this.setContentBackground(selectBackground == null ? templateStyle.getSelectBackground() : selectBackground);
 		} else {
 			this.setContentBackground(initialBackground == null ? background : initialBackground);
 		}

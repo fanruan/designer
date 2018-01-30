@@ -157,7 +157,7 @@ public class WCardTagLayoutDefinePane extends AbstractDataModify<WCardTagLayout>
             button.setInitialBackground(defaultStyle ? null : templateStyle.getTabDefaultBackground());
             button.setOverBackground(null);
             button.setClickBackground(null);
-            button.setCustomStyle(true);
+            button.setCustomStyle(!defaultStyle);
         }
     }
 }

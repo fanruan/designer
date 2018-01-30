@@ -42,7 +42,7 @@ public abstract class BackgroundCompPane<T extends Widget> extends BasicPane {
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Background-Initial")), initalBackgroundEditor},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Background-Over")), overBackgroundEditor},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Background-Click")), clickBackgroundEditor},
+                new Component[]{getClickLabel(), clickBackgroundEditor},
         };
         panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
         panel.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L6, IntervalConstants.INTERVAL_L5, 0, 0));
@@ -59,6 +59,10 @@ public abstract class BackgroundCompPane<T extends Widget> extends BasicPane {
         initalBackgroundEditor = new AccessibleImgBackgroundEditor();
         overBackgroundEditor = new AccessibleImgBackgroundEditor();
         clickBackgroundEditor = new AccessibleImgBackgroundEditor();
+    }
+
+    protected UILabel getClickLabel(){
+        return new UILabel(Inter.getLocText("FR-Designer_Background-Click"));
     }
 
     protected UILabel createUILable(){
