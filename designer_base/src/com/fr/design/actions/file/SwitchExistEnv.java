@@ -121,7 +121,6 @@ public class SwitchExistEnv extends MenuDef {
                     return;
                 }
                 SignIn.signIn(selectedEnv);
-                HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().refreshToolArea();
                 fireDSChanged();
             } catch (Exception em) {
                 FRContext.getLogger().error(em.getMessage(), em);

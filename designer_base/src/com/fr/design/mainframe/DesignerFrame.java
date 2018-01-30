@@ -715,8 +715,6 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
      * @param env 环境
      */
     public void refreshEnv(Env env) {
-        long start = System.currentTimeMillis();
-
         this.setTitle();
         DesignerFrameFileDealerPane.getInstance().refreshDockingView();
         TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter());
@@ -727,8 +725,6 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         if (template != null) {
             template.refreshToolArea();
         }
-        System.out.println("hzzzzzz end: " + (System.currentTimeMillis() - start));
-
     }
 
     /**
