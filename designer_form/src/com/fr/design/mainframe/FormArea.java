@@ -102,7 +102,9 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
         }
         this.setFocusTraversalKeysEnabled(false);
         this.designer.addMouseWheelListener(showValSpinnerMouseWheelListener);
-        widthPane.setEnabled(!jForm.getTarget().getFormMobileAttr().isMobileOnly());
+        if (jForm != null) {
+            widthPane.setEnabled(!jForm.getTarget().getFormMobileAttr().isMobileOnly());
+        }
     }
 
     public void onMobileAttrModified() {
