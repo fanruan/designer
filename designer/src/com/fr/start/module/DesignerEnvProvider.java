@@ -1,12 +1,9 @@
 package com.fr.start.module;
 
-import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
-import com.fr.design.mainframe.TemplatePane;
-import com.fr.env.SignIn;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
 import com.fr.module.Activator;
+import com.fr.start.EnvSwitcher;
 import com.fr.start.StartServer;
 
 /**
@@ -28,27 +25,17 @@ public class DesignerEnvProvider extends Activator {
                 }
             }
         }
+        getRoot().setSingleton(EnvSwitcher.class, new EnvSwitcher());
         //设置好环境即可，具体跟环境有关的模块会自动调用
-        switch2LastEnv();
+        getRoot().getSingleton(EnvSwitcher.class).switch2LastEnv();
     }
     
     
-    private void switch2LastEnv() {
-        
-        try {
-            String current = DesignerEnvManager.getEnvManager().getCurEnvName();
-            SignIn.signIn(DesignerEnvManager.getEnvManager().getEnv(current));
-            if (!FRContext.getCurrentEnv().testServerConnectionWithOutShowMessagePane()) {
-                throw new Exception(Inter.getLocText("Datasource-Connection_failed"));
-            }
-        } catch (Exception e) {
-            TemplatePane.getInstance().dealEvnExceptionWhenStartDesigner();
-        }
-    }
-    
+
     
     @Override
     public void stop() {
         //清空模块
+        getRoot().removeSingleton(EnvSwitcher.class);
     }
 }
