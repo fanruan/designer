@@ -40,18 +40,17 @@ import com.fr.design.utils.concurrent.ThreadFactoryBuilder;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
+import com.fr.module.Module;
+import com.fr.module.ModuleStartup;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.xml.XMLTools;
+import com.fr.start.module.StartupArgs;
 
-import javax.swing.JComponent;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.MatteBorder;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -83,7 +82,11 @@ public class Designer extends BaseDesigner {
      * @param args 参数
      */
     public static void main(String[] args) {
-        new Designer(args);
+    
+        Module designerRoot = ModuleStartup.parse("/com/fr/config/starter/designer-startup.xml");
+        //传递启动参数
+        designerRoot.setSingleton(StartupArgs.class, new StartupArgs(args));
+        designerRoot.start();
     }
 
     public Designer(String[] args) {
@@ -373,12 +376,6 @@ public class Designer extends BaseDesigner {
     @Override
     public Component createAlphaFinePane() {
         return AlphaFinePane.getAlphaFinePane();
-    }
-
-
-    @Override
-    protected SplashPane createSplashPane() {
-        return new ReportSplashPane();
     }
 
     /**
