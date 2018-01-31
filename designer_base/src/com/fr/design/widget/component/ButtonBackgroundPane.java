@@ -21,7 +21,7 @@ public class ButtonBackgroundPane extends BackgroundCompPane<FreeButton> {
             freeButton.setClickBackground(null);
         }else{
             freeButton.setCustomStyle(true);
-            freeButton.setInitialBackground((Background) initalBackgroundEditor.getValue());
+            freeButton.setInitialBackground((Background) initialBackgroundEditor.getValue());
             freeButton.setOverBackground((Background) overBackgroundEditor.getValue());
             freeButton.setClickBackground((Background)clickBackgroundEditor.getValue());
         }
@@ -31,12 +31,12 @@ public class ButtonBackgroundPane extends BackgroundCompPane<FreeButton> {
     public void populate(FreeButton freeButton){
         if(!freeButton.isCustomStyle()){
             backgroundHead.setSelectedIndex(0);
-            initalBackgroundEditor.setValue(null);
+            initialBackgroundEditor.setValue(null);
             overBackgroundEditor.setValue(null);
             clickBackgroundEditor.setValue(null);
         }else{
             backgroundHead.setSelectedIndex(1);
-            initalBackgroundEditor.setValue(freeButton.getInitialBackground());
+            initialBackgroundEditor.setValue(freeButton.getInitialBackground());
             overBackgroundEditor.setValue(freeButton.getOverBackground());
             clickBackgroundEditor.setValue(freeButton.getClickBackground());
         }

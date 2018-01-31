@@ -24,7 +24,7 @@ public class TabFitLayoutBackgroundPane extends BackgroundCompPane<WTabFitLayout
             wTabFitLayout.setClickBackground(null);
         }else{
             wTabFitLayout.setCustomStyle(true);
-            wTabFitLayout.setInitialBackground((Background) initalBackgroundEditor.getValue());
+            wTabFitLayout.setInitialBackground((Background) initialBackgroundEditor.getValue());
             wTabFitLayout.setOverBackground((Background) overBackgroundEditor.getValue());
             wTabFitLayout.setClickBackground((Background)clickBackgroundEditor.getValue());
         }
@@ -34,12 +34,12 @@ public class TabFitLayoutBackgroundPane extends BackgroundCompPane<WTabFitLayout
     public void populate(WTabFitLayout wTabFitLayout){
         if(!wTabFitLayout.isCustomStyle()){
             backgroundHead.setSelectedIndex(0);
-            initalBackgroundEditor.setValue(null);
+            initialBackgroundEditor.setValue(null);
             overBackgroundEditor.setValue(null);
             clickBackgroundEditor.setValue(null);
         }else{
             backgroundHead.setSelectedIndex(1);
-            initalBackgroundEditor.setValue(wTabFitLayout.getInitialBackground());
+            initialBackgroundEditor.setValue(wTabFitLayout.getInitialBackground());
             overBackgroundEditor.setValue(wTabFitLayout.getOverBackground());
             clickBackgroundEditor.setValue(wTabFitLayout.getClickBackground());
         }

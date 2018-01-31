@@ -10,7 +10,6 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.widget.accessibles.AccessibleImgBackgroundEditor;
 import com.fr.form.ui.Widget;
 import com.fr.general.Inter;
-import com.vividsolutions.jts.index.bintree.Interval;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,7 +19,7 @@ import java.awt.*;
  */
 public abstract class BackgroundCompPane<T extends Widget> extends BasicPane {
     protected UIButtonGroup backgroundHead;
-    protected AccessibleImgBackgroundEditor initalBackgroundEditor;
+    protected AccessibleImgBackgroundEditor initialBackgroundEditor;
     protected AccessibleImgBackgroundEditor overBackgroundEditor;
     protected AccessibleImgBackgroundEditor clickBackgroundEditor;
     private JPanel panel;
@@ -32,7 +31,7 @@ public abstract class BackgroundCompPane<T extends Widget> extends BasicPane {
     public void initComponent() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         UILabel headLabel = createUILable();
-        initalBackgroundEditor = new AccessibleImgBackgroundEditor();
+        initialBackgroundEditor = new AccessibleImgBackgroundEditor();
         overBackgroundEditor = new AccessibleImgBackgroundEditor();
         clickBackgroundEditor = new AccessibleImgBackgroundEditor();
         String [] titles = new String[]{Inter.getLocText("FR-Designer_DEFAULT"), Inter.getLocText("FR-Designer_Custom")};
@@ -43,7 +42,7 @@ public abstract class BackgroundCompPane<T extends Widget> extends BasicPane {
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 1},{1, 1},{1, 1}};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Background-Initial")), initalBackgroundEditor},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Background-Initial")), initialBackgroundEditor},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Background-Over")), overBackgroundEditor},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Background-Click")), clickBackgroundEditor},
         };
