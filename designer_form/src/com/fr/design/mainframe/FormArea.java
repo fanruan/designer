@@ -42,7 +42,6 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
     private static final int MOBILE_ONLY_WIDTH = 375;
     private static final int MOBILE_ONLY_HEIGHT = 560;
     private FormDesigner designer;
-    private JForm jForm;
     private int horizontalValue = 0;
     private int verticalValue = 0;
     private int verticalMax = 0;
@@ -68,21 +67,12 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
     }
 
     public FormArea(FormDesigner designer) {
-        this(designer, null, true);
-    }
-
-    public FormArea(FormDesigner designer, JForm jForm) {
-        this(designer, jForm, true);
+        this(designer, true);
     }
 
     public FormArea(FormDesigner designer, boolean useScrollBar) {
-        this(designer, null, useScrollBar);
-    }
-
-    public FormArea(FormDesigner designer, JForm jForm, boolean useScrollBar) {
         this.designer = designer;
         this.designer.setParent(this);
-        this.jForm = jForm;
         isValid = useScrollBar;
         verScrollBar = new FormScrollBar(Adjustable.VERTICAL, this);
         horScrollBar = new FormScrollBar(Adjustable.HORIZONTAL, this);
@@ -94,6 +84,7 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
             this.add(FormRulerLayout.VERTICAL, verScrollBar);
             this.add(FormRulerLayout.HIRIZONTAL, horScrollBar);
             enableEvents(AWTEvent.MOUSE_WHEEL_EVENT_MASK);
+            widthPane.setEnabled(!designer.getTarget().getFormMobileAttr().isMobileOnly());
         } else {
             // 报表参数界面只要标尺和中心pane
             this.setLayout(new RulerLayout());
@@ -102,13 +93,10 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
         }
         this.setFocusTraversalKeysEnabled(false);
         this.designer.addMouseWheelListener(showValSpinnerMouseWheelListener);
-        if (jForm != null) {
-            widthPane.setEnabled(!jForm.getTarget().getFormMobileAttr().isMobileOnly());
-        }
     }
 
     public void onMobileAttrModified() {
-        FormMobileAttr formMobileAttr = jForm.getTarget().getFormMobileAttr();
+        FormMobileAttr formMobileAttr = designer.getTarget().getFormMobileAttr();
         if (formMobileAttr.isMobileOnly()) {
             widthPane.setValue(MOBILE_ONLY_WIDTH);
             changeWidthPaneValue(MOBILE_ONLY_WIDTH);
