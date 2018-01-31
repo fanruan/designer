@@ -6,6 +6,7 @@ import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.form.mobile.FormMobileAttrPane;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.mainframe.FormArea;
 import com.fr.design.mainframe.JForm;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.form.main.Form;
@@ -52,6 +53,7 @@ public class FormMobileAttrAction extends JTemplateAction<JForm> {
             public void doOk() {
                 FormMobileAttr formMobileAttr = mobileAttrPane.updateBean();
                 formTpl.setFormMobileAttr(formMobileAttr);
+                ((FormArea)jf.getFormDesign().getParent()).onMobileAttrModified();
                 jf.fireTargetModified();
                 if (formMobileAttr.isMobileOnly()) {
                     FunctionProcessor processor = ExtraClassManager.getInstance().getFunctionProcessor();

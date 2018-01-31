@@ -443,6 +443,7 @@ public class PageSetupPane extends BasicPane {
                 } else {  // 英寸
                     maxWidth = PaperSize.PAPERSIZE_MOBILE.getWidth().toINCHValue4Scale3();
                 }
+                maxWidth = Math.round(maxWidth * 100) / 100.0;  // 保留两位小数
                 ((SpinnerNumberModel)paperWidthSpinner.getModel()).setMaximum(maxWidth);
             }
         }

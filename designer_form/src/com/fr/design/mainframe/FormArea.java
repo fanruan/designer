@@ -102,27 +102,18 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
         }
         this.setFocusTraversalKeysEnabled(false);
         this.designer.addMouseWheelListener(showValSpinnerMouseWheelListener);
-        initMobileAttrModifiedListener();
+        widthPane.setEnabled(!jForm.getTarget().getFormMobileAttr().isMobileOnly());
     }
 
-    private void initMobileAttrModifiedListener() {
-        if (jForm == null) {
-            return;
+    public void onMobileAttrModified() {
+        FormMobileAttr formMobileAttr = jForm.getTarget().getFormMobileAttr();
+        if (formMobileAttr.isMobileOnly()) {
+            widthPane.setValue(MOBILE_ONLY_WIDTH);
+            changeWidthPaneValue(MOBILE_ONLY_WIDTH);
+            heightPane.setValue(MOBILE_ONLY_HEIGHT);
+            changeHeightPaneValue(MOBILE_ONLY_HEIGHT);
         }
-        jForm.addTargetModifiedListener(new TargetModifiedListener() {
-            @Override
-            public void targetModified(TargetModifiedEvent e) {
-                FormMobileAttr formMobileAttr = jForm.getTarget().getFormMobileAttr();
-                if (formMobileAttr.isMobileOnly() && Math.abs(widthPane.getValue() - MOBILE_ONLY_WIDTH) > 0.0000001) {
-                    widthPane.setValue(MOBILE_ONLY_WIDTH);
-                    changeWidthPaneValue(MOBILE_ONLY_WIDTH);
-                    heightPane.setValue(MOBILE_ONLY_HEIGHT);
-                    changeHeightPaneValue(MOBILE_ONLY_HEIGHT);
-                }
-                widthPane.setEnabled(!formMobileAttr.isMobileOnly());
-            }
-        });
-        widthPane.setEnabled(!jForm.getTarget().getFormMobileAttr().isMobileOnly());
+        widthPane.setEnabled(!formMobileAttr.isMobileOnly());
     }
 
     MouseWheelListener showValSpinnerMouseWheelListener = new MouseWheelListener() {
