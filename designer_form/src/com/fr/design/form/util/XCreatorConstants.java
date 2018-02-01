@@ -31,7 +31,7 @@ public class XCreatorConstants {
     public static final Color RESIZE_BOX_BORDER_COLOR = new Color(143, 171, 196);
     // 当前选取的组件的边框线着色
     public static final Color SELECTION_COLOR = new Color(179, 209, 236);
-    public static final Color FORM_BORDER_COLOR = new Color(200, 201, 205);
+    public static final Color FORM_BORDER_COLOR = new Color(141, 194, 249);
     // 设计器区域外边框的颜色和粗细
     public static final Border AREA_BORDER = BorderFactory.createLineBorder(new Color(224, 224, 255), 0);
     // 布局拖拽时的颜色
@@ -43,6 +43,8 @@ public class XCreatorConstants {
     public static final Color FIT_LAYOUT_POINT_COLOR = new Color(106, 168, 222);
     // 格子布局的分割线
     public static final Color LAYOUT_SEP_COLOR = new Color(210, 210, 210);
+
+    public static final Color COVER_COLOR = new Color(216, 242, 253);
     
     // 伸缩表单操作条的颜色
     public static final Color OP_COLOR = new Color(157,228,245);
