@@ -253,9 +253,10 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
         if ("body".equals(selection.getWidgetName())) {
             JPanel jPanel = FRGUIPaneFactory.createY_AXISBoxInnerContainer_S_Pane();
             jPanel.add(abstractPropertyTable);
-            MobileWidgetTable mobileWidgetTable = new MobileWidgetTable(designer);
-            jPanel.add(mobileWidgetTable.getTableHeader());
-            jPanel.add(mobileWidgetTable);
+//            MobileWidgetTable mobileWidgetTable = new MobileWidgetTable(designer);
+//            jPanel.add(mobileWidgetTable.getTableHeader());
+//            jPanel.add(mobileWidgetTable);
+            jPanel.add(new MobileWidgetListPane(designer));
             return jPanel;
         }
         return abstractPropertyTable;
