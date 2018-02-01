@@ -43,7 +43,7 @@ public class XCreatorConstants {
     public static final Color FIT_LAYOUT_POINT_COLOR = new Color(106, 168, 222);
     // 格子布局的分割线
     public static final Color LAYOUT_SEP_COLOR = new Color(210, 210, 210);
-
+    // 组件覆盖层颜色
     public static final Color COVER_COLOR = new Color(216, 242, 253);
     
     // 伸缩表单操作条的颜色
