@@ -53,7 +53,6 @@ public class UISimpleListControlPane extends BasicPane {
     protected void initComponentPane() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.add(getContentPane(), BorderLayout.CENTER);
-        this.setBorder(BorderFactory.createEmptyBorder(10, 10, 15, 10));
         this.checkButtonEnabled();
     }
 

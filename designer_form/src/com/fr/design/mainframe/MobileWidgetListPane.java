@@ -53,7 +53,7 @@ public class MobileWidgetListPane extends UISimpleListControlPane {
         // 选择的控件有两种类型，一种是WLayout，代表容器，一种是Widget，代表控件
         if (selectedModel.acceptType(WSortLayout.class)) {
             java.util.List<String> mobileWidgetList = ((WSortLayout) selectedModel).getOrderedMobileWidgetList();
-            List widgetName = new ArrayList<String>();
+            List<String> widgetName = new ArrayList<String>();
 //            [mobileWidgetList.size() + 1][1];
 //            widgetName[0][0] = Inter.getLocText("FR-Designer_WidgetOrder");
             for (int i = 0; i < mobileWidgetList.size(); i++) {
