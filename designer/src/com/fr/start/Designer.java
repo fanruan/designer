@@ -41,7 +41,7 @@ import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.module.Module;
-import com.fr.module.ModuleStartup;
+import com.fr.module.ModuleContext;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
@@ -83,7 +83,7 @@ public class Designer extends BaseDesigner {
      */
     public static void main(String[] args) {
     
-        Module designerRoot = ModuleStartup.parse("/com/fr/config/starter/designer-startup.xml");
+        Module designerRoot = ModuleContext.parse("designer-startup.xml");
         //传递启动参数
         designerRoot.setSingleton(StartupArgs.class, new StartupArgs(args));
         designerRoot.start();
