@@ -83,7 +83,7 @@ public class Designer extends BaseDesigner {
      */
     public static void main(String[] args) {
     
-        Module designerRoot = ModuleContext.parse("designer-startup.xml");
+        Module designerRoot = ModuleContext.parseRoot("designer-startup.xml");
         //传递启动参数
         designerRoot.setSingleton(StartupArgs.class, new StartupArgs(args));
         designerRoot.start();
