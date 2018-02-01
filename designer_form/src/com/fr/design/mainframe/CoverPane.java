@@ -1,9 +1,13 @@
 package com.fr.design.mainframe;
 
+import com.fr.base.GraphHelper;
+import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.icon.IconPathConstants;
+import com.fr.design.utils.ComponentUtils;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
+import com.fr.stable.Constants;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +21,9 @@ import java.awt.*;
 public class CoverPane extends JPanel {
 
     private UIButton editButton;
-    private AlphaComposite composite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 60 / 100.0F);
+    private AlphaComposite composite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 50 / 100.0F);
+    private static final int BORDER_WIDTH = 2;
+    private static final Color COVER_COLOR = new Color(216, 242, 253);
 
     public CoverPane() {
         setLayout(getCoverLayout());
@@ -89,9 +95,15 @@ public class CoverPane extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
         Composite oldComposite = g2d.getComposite();
         g2d.setComposite(composite);
-        g2d.setColor(Color.WHITE);
+        g2d.setColor(COVER_COLOR);
         g2d.fillRect(0, 0, getWidth(), getHeight());
         g2d.setComposite(oldComposite);
+        g.setColor(XCreatorConstants.FORM_BORDER_COLOR);
+        GraphHelper.draw(g, getPaintBorderBounds(), Constants.LINE_MEDIUM);
         super.paint(g);
+    }
+
+    protected Rectangle getPaintBorderBounds(){
+        return new Rectangle(BORDER_WIDTH, BORDER_WIDTH, getWidth() - BORDER_WIDTH * 2 , getHeight() - BORDER_WIDTH * 2);
     }
 }
