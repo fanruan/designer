@@ -14,11 +14,18 @@ import com.fr.design.mainframe.ActiveKeyGenerator;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
+import com.fr.general.SiteCenter;
 import com.fr.stable.OperatingSystem;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 import javax.swing.border.TitledBorder;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Desktop;
+import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -28,10 +35,10 @@ import java.util.Locale;
 
 public class CollectUserInformationDialog extends UIDialog {
 
-    private static final String CN_LOGIN_HTML = "http://www.finereport.com/products/frlogin";
-    private static final String EN_LOGIN_HTML = "http://www.finereport.com/en/frlogin";
-    private static final String TW_LOGIN_HTML = "http://www.finereport.com/tw/products/frlogin";
-    private static final String JP_LOGIN_HTML = "http://www.finereport.com/jp/products/frlogin";
+    private static final String CN_LOGIN_HTML = SiteCenter.getInstance().acquireUrlByKind("frlogin.cn");
+    private static final String EN_LOGIN_HTML = SiteCenter.getInstance().acquireUrlByKind("frlogin.en");
+    private static final String TW_LOGIN_HTML = SiteCenter.getInstance().acquireUrlByKind("frlogin.tw");
+    private static final String JP_LOGIN_HTML = SiteCenter.getInstance().acquireUrlByKind("frlogin.jp");
     private static final int ONLINE_VERIFY_TIMEOUT = 30 * 1000;
     private static final int DIALOG_WIDTH = 480;
     private static final int DIALOG_HEIGHT = 300;

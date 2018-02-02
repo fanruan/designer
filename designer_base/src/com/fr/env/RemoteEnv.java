@@ -564,7 +564,7 @@ public class RemoteEnv extends AbstractEnv {
     }
 
     private void stopLogTimer() {
-        if(logTimer != null) {
+        if (logTimer != null) {
             logTimer.cancel();
             logTimer = null;
         }
@@ -2177,10 +2177,11 @@ public class RemoteEnv extends AbstractEnv {
 
     /**
      * 远程不启动，使用虚拟服务
+     *
      * @param serviceID
      */
     @Override
-    public void pluginServiceStart(String serviceID){
+    public void pluginServiceStart(String serviceID) {
     }
 
     @Override
@@ -2289,19 +2290,7 @@ public class RemoteEnv extends AbstractEnv {
 
     @Override
     public String getSharePath() {
-        try {
-            HashMap<String, String> para = new HashMap<String, String>();
-            para.put("op", "fr_remote_design");
-            para.put("cmd", "design_get_share_path");
-            para.put("current_uid", this.createUserID());
-            para.put("currentUsername", this.getUser());
-
-            HttpClient client = createHttpMethod(para);
-            InputStream input = execute4InputStream(client);
-            return stream2String(input);
-        } catch (Exception e) {
-            return StringUtils.EMPTY;
-        }
+        return StringUtils.EMPTY;
     }
 
     @Override
