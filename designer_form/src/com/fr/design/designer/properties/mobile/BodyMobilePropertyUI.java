@@ -26,7 +26,6 @@ public class BodyMobilePropertyUI extends AbstractWidgetPropertyUIProvider {
 
     @Override
     public AbstractPropertyTable createWidgetAttrTable() {
-//        return new BodyAppRelayoutTable(xCreator);
         return null;
     }
 

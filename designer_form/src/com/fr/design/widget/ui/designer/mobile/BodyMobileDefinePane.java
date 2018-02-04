@@ -1,5 +1,6 @@
 package com.fr.design.widget.ui.designer.mobile;
 
+import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
@@ -8,21 +9,25 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.MobileWidgetListPane;
 import com.fr.design.mainframe.WidgetPropertyPane;
+import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.lang.reflect.Method;
 
 /**
  * Created by plough on 2018/2/1.
  */
 public class BodyMobileDefinePane extends MobileWidgetDefinePane {
-    private XCreator xCreator; // 当前选中控件的xCreator
+    private XCreator bodyCreator;
     private FormDesigner designer;
     private AttributeChangeListener changeListener;
+    private UICheckBox appRelayoutCheck;
+    private MobileWidgetListPane mobileWidgetListPane;
 
     public BodyMobileDefinePane(XCreator xCreator) {
-        this.xCreator = xCreator;
+        this.bodyCreator = xCreator;
     }
 
     @Override
@@ -56,23 +61,23 @@ public class BodyMobileDefinePane extends MobileWidgetDefinePane {
     // 手机属性
     private UIExpandablePane getMobilePropertyPane() {
         JPanel panel = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        UICheckBox relayoutCheck = new UICheckBox("手机重布局", true);
-        relayoutCheck.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+        appRelayoutCheck = new UICheckBox("手机重布局", true);
+        appRelayoutCheck.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
-        panel.add(relayoutCheck);
+        panel.add(appRelayoutCheck);
 
         final JPanel panelWrapper = FRGUIPaneFactory.createBorderLayout_S_Pane();
         panelWrapper.add(panel, BorderLayout.NORTH);
 
-        return new UIExpandablePane("手机属性", 280, 20, panelWrapper);
+        return new UIExpandablePane(Inter.getLocText("FR-Designer_Properties_Mobile"), 280, 20, panelWrapper);
     }
 
     // 控件顺序
     private UIExpandablePane getMobileWidgetListPane() {
-        JPanel panel = new MobileWidgetListPane(designer);
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 5, 0));
+        mobileWidgetListPane = new MobileWidgetListPane(designer);
+        mobileWidgetListPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 5, 0));
         JPanel panelWrapper = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        panelWrapper.add(panel, BorderLayout.CENTER);
+        panelWrapper.add(mobileWidgetListPane, BorderLayout.CENTER);
 
         return new UIExpandablePane("控件顺序", 280, 20, panelWrapper);
     }
@@ -94,27 +99,44 @@ public class BodyMobileDefinePane extends MobileWidgetDefinePane {
         initListener(this);
     }
 
+    // body是否开启手机重布局
+    private boolean isAppRelayout() {
+        boolean result = false;
+        try {
+            Method m = bodyCreator.toData().getClass().getMethod("isAppRelayout");
+            result = (boolean)m.invoke(bodyCreator.toData());
+        } catch (Exception e) {
+            // do nothing
+        }
+        return result;
+    }
+
+    private void setAppRelayout(boolean appRelayoutSeleted) {
+        if (appRelayoutSeleted == isAppRelayout()) {
+            return;
+        }
+        try {
+            Method m = bodyCreator.toData().getClass().getMethod("setAppRelayout", boolean.class);
+            m.invoke(bodyCreator.toData(), appRelayoutSeleted);
+        } catch (Exception e) {
+            // do nothing
+        }
+    }
+
     @Override
     public void populate(FormDesigner designer) {
         this.designer = designer;
+        appRelayoutCheck.setSelected(isAppRelayout());
 
-//        if (!isAppRelayout()) {
-//            return;
-//        }
-//
-//        BaseChartEditor chartEditor = (BaseChartEditor)xCreator.toData();
-//        ChartMobileFitAttrStateProvider zoomOutAttr = chartEditor.getMobileAttr().getZoomOutAttr();
-//
-//        // 数据 populate 完成后，再设置监听
-//        this.bindListeners2Widgets();
-//        this.addAttributeChangeListener(changeListener);
+        // 数据 populate 完成后，再设置监听
+        this.bindListeners2Widgets();
+        this.addAttributeChangeListener(changeListener);
     }
 
     @Override
     public void update() {
-//        ChartMobileAttrProvider mobileAttr = ((BaseChartEditor)xCreator.toData()).getMobileAttr();
-//        mobileAttr.setZoomInAttr(ChartMobileFitAttrState.PROPORTION);
-//        mobileAttr.setZoomOutAttr((ChartMobileFitAttrState)((Item)zoomOutComboBox.getSelectedItem()).getValue());
-//        DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified(); // 触发设计器保存按钮亮起来
+        setAppRelayout(appRelayoutCheck.isSelected());
+        mobileWidgetListPane.updateToDesigner();
+        designer.getEditListenerTable().fireCreatorModified(DesignerEvent.CREATOR_EDITED);
     }
 }

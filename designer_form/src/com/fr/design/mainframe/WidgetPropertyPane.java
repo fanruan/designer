@@ -236,30 +236,11 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
                     widgetPropertyTables.add(propertyTable);
                     designer.addDesignerEditListener(new WidgetPropertyDesignerAdapter(formWidgetCardPane));
 
-                    UIScrollPane uiScrollPane = new UIScrollPane(getExtraBodyTable(propertyTable));
+                    UIScrollPane uiScrollPane = new UIScrollPane(propertyTable);
                     wsp.add(uiScrollPane);
                 }
             }
         }
-    }
-
-    /**
-     * 如果是body的拓展属性表，那么要额外加上一张控件顺序表
-     *
-     * @return
-     */
-    private Component getExtraBodyTable(AbstractPropertyTable abstractPropertyTable) {
-        Widget selection = designer.getSelectionModel().getSelection().getSelectedCreator().toData();
-        if ("body".equals(selection.getWidgetName())) {
-            JPanel jPanel = FRGUIPaneFactory.createY_AXISBoxInnerContainer_S_Pane();
-            jPanel.add(abstractPropertyTable);
-//            MobileWidgetTable mobileWidgetTable = new MobileWidgetTable(designer);
-//            jPanel.add(mobileWidgetTable.getTableHeader());
-//            jPanel.add(mobileWidgetTable);
-            jPanel.add(new MobileWidgetListPane(designer));
-            return jPanel;
-        }
-        return abstractPropertyTable;
     }
 
     private void initTabPane() {

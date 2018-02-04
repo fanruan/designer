@@ -6,6 +6,7 @@ import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WSortLayout;
 import com.fr.general.Inter;
 import com.fr.general.NameObject;
+import com.fr.stable.Nameable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,18 @@ public class MobileWidgetListPane extends UISimpleListControlPane {
             nameObjectList.add(new NameObject(name, null));
         }
         populate(nameObjectList.toArray(new NameObject[nameObjectList.size()]));
+    }
+
+    /**
+     * 保存移动端控件列表顺序
+     */
+    public void updateToDesigner() {
+        Nameable[] nameableList = update();
+        List<String> newMobileWidgetList = new ArrayList<>();
+        for (Nameable nameable : nameableList) {
+            newMobileWidgetList.add(nameable.getName());
+        }
+        ((WSortLayout) designer.getSelectionModel().getSelection().getSelectedCreator().toData()).updateSortedMobileWidgetList(newMobileWidgetList);
     }
 
     /**
