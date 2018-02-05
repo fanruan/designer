@@ -3,6 +3,7 @@
  */
 package com.fr.design.designer.creator;
 
+import com.fr.base.GraphHelper;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
 import com.fr.design.designer.beans.LayoutAdapter;
@@ -11,6 +12,7 @@ import com.fr.design.designer.beans.location.Direction;
 import com.fr.design.designer.beans.models.SelectionModel;
 import com.fr.design.designer.creator.cardlayout.XWTabFitLayout;
 import com.fr.design.form.layout.FRAbsoluteLayout;
+import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.icon.IconPathConstants;
 import com.fr.design.mainframe.EditingMouseListener;
 import com.fr.design.mainframe.FormArea;
@@ -23,6 +25,7 @@ import com.fr.form.ui.container.WLayout;
 import com.fr.general.FRScreen;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
+import com.fr.stable.Constants;
 
 import java.awt.*;
 import java.awt.event.ContainerEvent;
@@ -42,6 +45,8 @@ public class XWAbsoluteLayout extends XLayoutContainer {
     private static final int EDIT_BTN_HEIGHT = 24;
     private int minWidth = WLayout.MIN_WIDTH;
     private int minHeight = WLayout.MIN_HEIGHT;
+    private static final Color OUTER_BORDER_COLOR = new Color(65, 155, 249, 30);
+    private static final Color INNER_BORDER_COLOR = new Color(65, 155, 249);
 
     //由于屏幕分辨率不同，界面上的容器大小可能不是默认的100%，此时拖入组件时，保存的大小按照100%时的计算
     protected double containerPercent = 1.0;
@@ -432,8 +437,8 @@ public class XWAbsoluteLayout extends XLayoutContainer {
             Graphics2D g2d = (Graphics2D) g;
             Composite oldComposite = g2d.getComposite();
             //画白色的编辑层
-            g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 60 / 100.0F));
-            g2d.setColor(Color.WHITE);
+            g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 50 / 100.0F));
+            g2d.setColor(XCreatorConstants.COVER_COLOR);
             g2d.fillRect(x, y, w, h);
             //画编辑按钮所在框
             g2d.setComposite(oldComposite);
@@ -453,9 +458,21 @@ public class XWAbsoluteLayout extends XLayoutContainer {
             g2d.setColor(Color.BLACK);
             //画编辑文字
             g2d.drawString(Inter.getLocText("FR-Designer_Edit"), x + w / 2 - 2, y + h / 2 + 5);
+            g.setColor(XCreatorConstants.FORM_BORDER_COLOR);
+            GraphHelper.draw(g, new Rectangle(0, 0, getWidth(), getHeight()), Constants.LINE_MEDIUM);
         }
+
     }
 
+    @Override
+    public void paintBorder(Graphics g, Rectangle bounds){
+        if(editable){
+            g.setColor(OUTER_BORDER_COLOR);
+            GraphHelper.draw(g, new Rectangle(bounds.x - 3, bounds.y - 3, bounds.width + 5, bounds.height + 5), Constants.LINE_LARGE);
+            g.setColor(INNER_BORDER_COLOR);
+            GraphHelper.draw(g, new Rectangle(bounds.x, bounds.y, bounds.width, bounds.height), Constants.LINE_MEDIUM);
+        }
+    }
     /**
      * 响应点击事件
      *

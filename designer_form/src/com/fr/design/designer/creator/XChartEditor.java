@@ -6,6 +6,7 @@ import java.beans.IntrospectionException;
 
 import javax.swing.*;
 
+import com.fr.base.GraphHelper;
 import com.fr.base.chart.BaseChartCollection;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
@@ -24,6 +25,8 @@ import com.fr.form.ui.BaseChartEditor;
 import com.fr.form.ui.Widget;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.general.Inter;
+import com.fr.stable.Constants;
+import com.fr.stable.GraphDrawHelper;
 import com.fr.stable.core.PropertyChangeAdapter;
 
 /**
@@ -43,6 +46,8 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 
 	private boolean isEditing = false;
 	private JPanel coverPanel;
+	private static final Color OUTER_BORDER_COLOR = new Color(65, 155, 249, 30);
+	private static final Color INNER_BORDER_COLOR = new Color(65, 155, 249);
 
 	public XChartEditor(BaseChartEditor editor) {
 		this(editor, new Dimension(250, 150));
@@ -120,6 +125,21 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
     public boolean canEnterIntoParaPane(){
         return false;
     }
+
+
+	/**
+	 *  编辑状态的时候需要重新绘制下边框
+	 *
+	 */
+	@Override
+	public void paintBorder(Graphics g, Rectangle bounds){
+		if(isEditing){
+			g.setColor(OUTER_BORDER_COLOR);
+			GraphHelper.draw(g, new Rectangle(bounds.x - 3, bounds.y - 3, bounds.width + 5, bounds.height + 5), Constants.LINE_LARGE);
+			g.setColor(INNER_BORDER_COLOR);
+			GraphHelper.draw(g, new Rectangle(bounds.x, bounds.y, bounds.width, bounds.height), Constants.LINE_MEDIUM);
+		}
+	}
 
 	/**
 	 * 返回设计器的Editor

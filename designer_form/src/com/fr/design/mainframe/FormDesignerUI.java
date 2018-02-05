@@ -1,6 +1,7 @@
 package com.fr.design.mainframe;
 
 import java.awt.AlphaComposite;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -266,6 +267,7 @@ public class FormDesignerUI extends ComponentUI {
         bounds.y -= designer.getArea().getVerticalValue();
 
         drawResizingThumbs(g, selectionModel.getSelection().getDirections(), bounds.x, bounds.y, bounds.width, bounds.height);
+        //选中时边框颜色
         g.setColor(XCreatorConstants.FORM_BORDER_COLOR);
 
         for (XCreator creator : selectionModel.getSelection().getSelectedCreators()) {
@@ -277,7 +279,7 @@ public class FormDesignerUI extends ComponentUI {
             } else if (designer.getRootComponent().acceptType(XWFitLayout.class)) {
                 resetCreatorBounds(creatorBounds);
             }
-            GraphHelper.draw(g, creatorBounds, Constants.LINE_MEDIUM);
+            creator.paintBorder(g, creatorBounds);
         }
     }
 
