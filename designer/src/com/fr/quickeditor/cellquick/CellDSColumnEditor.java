@@ -247,9 +247,9 @@ public class CellDSColumnEditor extends CellQuickEditor {
         };
 
         DSColumnBasicEditorPane() {
-            dataPane = new SelectedDataColumnPane(true, true, cellElement);
+            dataPane = new SelectedDataColumnPane(true, true);
             groupPane = new ResultSetGroupDockingPane();
-            dataPane.addListener(dataListener);
+            dataPane.setListener(dataListener);
             groupPane.setListener(groupListener);
 
             double[] rowSize = {P}, columnSize = {P, F};
