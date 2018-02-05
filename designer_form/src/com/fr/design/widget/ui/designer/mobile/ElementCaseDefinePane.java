@@ -49,25 +49,6 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane{
     }
 
     @Override
-    protected void initContentPane() {}
-
-    @Override
-    protected JPanel createContentPane() {
-        return null;
-    }
-
-    @Override
-    public String getIconPath() {
-        return "";
-    }
-
-    @Override
-    public String title4PopupWindow() {
-        return "ElementCase";
-    }
-
-
-    @Override
     public void initPropertyGroups(Object source) {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();

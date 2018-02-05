@@ -9,8 +9,8 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.MobileWidgetListPane;
 import com.fr.design.mainframe.WidgetPropertyPane;
+import com.fr.form.ui.container.WSortLayout;
 import com.fr.general.Inter;
-import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,25 +29,6 @@ public class BodyMobileDefinePane extends MobileWidgetDefinePane {
     public BodyMobileDefinePane(XCreator xCreator) {
         this.bodyCreator = xCreator;
     }
-
-    @Override
-    protected void initContentPane() {}
-
-    @Override
-    protected JPanel createContentPane() {
-        return new JPanel();
-    }
-
-    @Override
-    public String getIconPath() {
-        return StringUtils.EMPTY;
-    }
-
-    @Override
-    public String title4PopupWindow() {
-        return StringUtils.EMPTY;
-    }
-
 
     @Override
     public void initPropertyGroups(Object source) {
@@ -74,7 +55,7 @@ public class BodyMobileDefinePane extends MobileWidgetDefinePane {
 
     // 控件顺序
     private UIExpandablePane getMobileWidgetListPane() {
-        mobileWidgetListPane = new MobileWidgetListPane(designer);
+        mobileWidgetListPane = new MobileWidgetListPane(designer, (WSortLayout) bodyCreator.toData());
         mobileWidgetListPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 5, 0));
         JPanel panelWrapper = FRGUIPaneFactory.createBorderLayout_S_Pane();
         panelWrapper.add(mobileWidgetListPane, BorderLayout.CENTER);

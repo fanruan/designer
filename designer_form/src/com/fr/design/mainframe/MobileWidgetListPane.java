@@ -5,6 +5,7 @@ import com.fr.design.gui.controlpane.UISimpleListControlPane;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WSortLayout;
 import com.fr.general.NameObject;
+import com.fr.stable.ArrayUtils;
 import com.fr.stable.Nameable;
 
 import java.util.ArrayList;
@@ -17,12 +18,13 @@ public class MobileWidgetListPane extends UISimpleListControlPane {
     public static final String LIST_NAME = "Widget_List";
 
     private FormDesigner designer;
-    private List<String> widgetNameList;
-    private static final List<String> EMPTY_LIST = new ArrayList<String>();
+    private WSortLayout wSortLayout;
+    private String[] widgetNameList;
 
-    public MobileWidgetListPane(FormDesigner designer) {
+    public MobileWidgetListPane(FormDesigner designer, WSortLayout wSortLayout) {
         super();
         this.designer = designer;
+        this.wSortLayout = wSortLayout;
         widgetNameList = getData();
 
         List<NameObject> nameObjectList = new ArrayList<NameObject>();
@@ -41,7 +43,7 @@ public class MobileWidgetListPane extends UISimpleListControlPane {
         for (Nameable nameable : nameableList) {
             newMobileWidgetList.add(nameable.getName());
         }
-        ((WSortLayout) designer.getSelectionModel().getSelection().getSelectedCreator().toData()).updateSortedMobileWidgetList(newMobileWidgetList);
+        wSortLayout.updateSortedMobileWidgetList(newMobileWidgetList);
     }
 
     /**
@@ -49,25 +51,21 @@ public class MobileWidgetListPane extends UISimpleListControlPane {
      *
      * @return List<String> widgetNameList
      */
-    private List<String> getData() {
+    private String[] getData() {
         //选择的控件
         XCreator selectedCreator = designer.getSelectionModel().getSelection().getSelectedCreator();
         Widget selectedModel = selectedCreator != null ? selectedCreator.toData() : null;
 
-        if (selectedModel == null) {
-            return new ArrayList<>();
+        if (selectedModel == null || !selectedModel.acceptType(WSortLayout.class)) {
+            return ArrayUtils.EMPTY_STRING_ARRAY;
         }
 
         // 选择的控件有两种类型，一种是WLayout，代表容器，一种是Widget，代表控件
-        if (selectedModel.acceptType(WSortLayout.class)) {
-            java.util.List<String> mobileWidgetList = ((WSortLayout) selectedModel).getOrderedMobileWidgetList();
-            List<String> widgetName = new ArrayList<String>();
-            for (int i = 0; i < mobileWidgetList.size(); i++) {
-                widgetName.add(mobileWidgetList.get(i));
-            }
-            return widgetName;
-        } else {
-            return EMPTY_LIST;
+        java.util.List<String> mobileWidgetList = ((WSortLayout) selectedModel).getOrderedMobileWidgetList();
+        String[] widgetNames = new String[mobileWidgetList.size()];
+        for (int i = 0; i < mobileWidgetList.size(); i++) {
+            widgetNames[i] = mobileWidgetList.get(i);
         }
+        return widgetNames;
     }
 }

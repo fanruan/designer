@@ -50,25 +50,6 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane{
     }
 
     @Override
-    protected void initContentPane() {}
-
-    @Override
-    protected JPanel createContentPane() {
-        return new JPanel();
-    }
-
-    @Override
-    public String getIconPath() {
-        return StringUtils.EMPTY;
-    }
-
-    @Override
-    public String title4PopupWindow() {
-        return StringUtils.EMPTY;
-    }
-
-
-    @Override
     public void initPropertyGroups(Object source) {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
