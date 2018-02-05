@@ -3,7 +3,6 @@ package com.fr.design.widget.ui.designer.component;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.widget.accessibles.AccessibleTabBackgroundEditor;
 import com.fr.design.widget.component.BackgroundCompPane;
-import com.fr.form.ui.CardSwitchButton;
 import com.fr.form.ui.container.cardlayout.WTabFitLayout;
 import com.fr.general.Background;
 import com.fr.general.Inter;
@@ -29,33 +28,35 @@ public class TabFitLayoutBackgroundPane extends BackgroundCompPane<WTabFitLayout
         return new UILabel(Inter.getLocText("FR-Designer_Background_Select"));
     }
 
-    public void update(CardSwitchButton cardSwitchButton){
+    @Override
+    public void update(WTabFitLayout tabFitLayout){
         int selectIndex = backgroundHead.getSelectedIndex();
         if(selectIndex == 0){
-            cardSwitchButton.setCustomStyle(false);
-            cardSwitchButton.setInitialBackground(null);
-            cardSwitchButton.setOverBackground(null);
-            cardSwitchButton.setClickBackground(null);
+            tabFitLayout.setCustomStyle(false);
+            tabFitLayout.setInitialBackground(null);
+            tabFitLayout.setOverBackground(null);
+            tabFitLayout.setClickBackground(null);
         }else{
-            cardSwitchButton.setCustomStyle(true);
-            cardSwitchButton.setInitialBackground((Background) initalBackgroundEditor.getValue());
-            cardSwitchButton.setOverBackground((Background) overBackgroundEditor.getValue());
-            cardSwitchButton.setClickBackground((Background)clickBackgroundEditor.getValue());
+            tabFitLayout.setCustomStyle(true);
+            tabFitLayout.setInitialBackground((Background) initalBackgroundEditor.getValue());
+            tabFitLayout.setOverBackground((Background) overBackgroundEditor.getValue());
+            tabFitLayout.setClickBackground((Background)clickBackgroundEditor.getValue());
         }
         switchCard();
     }
 
-    public void populate(CardSwitchButton cardSwitchButton){
-        if(!cardSwitchButton.isCustomStyle()){
+    @Override
+    public void populate(WTabFitLayout tabFitLayout){
+        if(!tabFitLayout.isCustomStyle()){
             backgroundHead.setSelectedIndex(0);
             initalBackgroundEditor.setValue(null);
             overBackgroundEditor.setValue(null);
             clickBackgroundEditor.setValue(null);
         }else{
             backgroundHead.setSelectedIndex(1);
-            initalBackgroundEditor.setValue(cardSwitchButton.getInitialBackground());
-            overBackgroundEditor.setValue(cardSwitchButton.getOverBackground());
-            clickBackgroundEditor.setValue(cardSwitchButton.getClickBackground());
+            initalBackgroundEditor.setValue(tabFitLayout.getInitialBackground());
+            overBackgroundEditor.setValue(tabFitLayout.getOverBackground());
+            clickBackgroundEditor.setValue(tabFitLayout.getClickBackground());
         }
         switchCard();
     }
