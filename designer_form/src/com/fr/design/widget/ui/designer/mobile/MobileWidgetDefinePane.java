@@ -3,6 +3,8 @@ package com.fr.design.widget.ui.designer.mobile;
 import com.fr.design.gui.frpane.AbstractAttrNoScrollPane;
 import com.fr.design.mainframe.FormDesigner;
 
+import javax.swing.*;
+
 /**
  * 所有移动端需要拓展的属性面板均继承此类
  *
@@ -23,4 +25,14 @@ public abstract class MobileWidgetDefinePane extends AbstractAttrNoScrollPane{
      * 从属性面板把数据传到后台
      */
     public abstract void update();
+
+    // 暂不需要此方法
+    @Override
+    protected void initContentPane() {}
+
+    // 暂不需要此方法
+    @Override
+    protected JPanel createContentPane() {
+        return new JPanel();
+    }
 }
