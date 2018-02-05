@@ -50,10 +50,6 @@ public class MobileWidgetListPane extends UISimpleListControlPane {
      * @return List<String> widgetNameList
      */
     private List<String> getData() {
-        if (designer.isFormParaDesigner()) {
-            return EMPTY_LIST;
-        }
-
         //选择的控件
         XCreator selectedCreator = designer.getSelectionModel().getSelection().getSelectedCreator();
         Widget selectedModel = selectedCreator != null ? selectedCreator.toData() : null;

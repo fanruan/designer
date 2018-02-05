@@ -4,7 +4,6 @@ import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
-import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.MobileWidgetListPane;
@@ -14,7 +13,6 @@ import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.lang.reflect.Method;
 
 /**
  * Created by plough on 2018/2/5.
@@ -23,7 +21,6 @@ public class ParaMobileDefinePane extends MobileWidgetDefinePane {
     private XCreator paraCreator;
     private FormDesigner designer;
     private AttributeChangeListener changeListener;
-    private UICheckBox appRelayoutCheck;
     private MobileWidgetListPane mobileWidgetListPane;
 
     public ParaMobileDefinePane(XCreator xCreator) {
@@ -64,7 +61,7 @@ public class ParaMobileDefinePane extends MobileWidgetDefinePane {
         JPanel panelWrapper = FRGUIPaneFactory.createBorderLayout_S_Pane();
         panelWrapper.add(mobileWidgetListPane, BorderLayout.CENTER);
 
-        return new UIExpandablePane("控件顺序", 280, 20, panelWrapper);
+        return new UIExpandablePane(Inter.getLocText("FR-Designer_WidgetOrder"), 280, 20, panelWrapper);
     }
 
     private void bindListeners2Widgets() {

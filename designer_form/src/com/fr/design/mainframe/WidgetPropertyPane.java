@@ -7,7 +7,6 @@ import com.fr.design.designer.beans.events.DesignerEditListener;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.*;
 import com.fr.design.designer.properties.EventPropertyTable;
-import com.fr.design.dialog.BasicPane;
 import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.design.gui.ibutton.UIHeadGroup;
 import com.fr.design.gui.icontainer.UIScrollPane;
@@ -16,13 +15,10 @@ import com.fr.design.gui.itable.AbstractPropertyTable;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.widget.ui.FormWidgetCardPane;
 import com.fr.design.widget.ui.designer.mobile.MobileWidgetDefinePane;
-import com.fr.form.ui.Widget;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
-import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -214,7 +210,7 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
     // "无可用配置项"面板
     private JPanel getUnavailablePane() {
         JPanel panel = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        UILabel label = new UILabel("无可用配置项");
+        UILabel label = new UILabel(Inter.getLocText("FR-Designer_No_Settings_Available"));
         label.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(label);
         return panel;
