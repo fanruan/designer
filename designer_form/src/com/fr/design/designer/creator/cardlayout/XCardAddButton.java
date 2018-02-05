@@ -16,6 +16,7 @@ import com.fr.form.ui.CardSwitchButton;
 import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
+import com.fr.general.cardtag.DefaultTemplateStyle;
 
 
 import javax.swing.Icon;
@@ -154,6 +155,10 @@ public class XCardAddButton extends XButton{
 		String cardLayoutName = cardLayout.toData().getWidgetName();
     	CardSwitchButton titleButton = new CardSwitchButton(index,cardLayoutName);
 		WCardTagLayout layout = (WCardTagLayout) this.tagLayout.toData();
+        if(!ComparatorUtils.equals(layout.getTemplateStyle().getStyle(), DefaultTemplateStyle.DEFAULT_TEMPLATE_STYLE)){
+            titleButton.setInitialBackground(layout.getTemplateStyle().getTabDefaultBackground());
+            titleButton.setCustomStyle(true);
+        }
     	//设置标题
     	titleButton.setText(getTabTitleName(layout));
     	XCardSwitchButton showButton = new XCardSwitchButton(titleButton, dimension, cardLayout, tagLayout);
