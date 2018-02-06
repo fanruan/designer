@@ -21,7 +21,7 @@ import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.project.ProjectConstants;
-import com.fr.start.server.JettyHost;
+import com.fr.start.server.TomcatHost;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,9 +31,9 @@ import java.net.URISyntaxException;
 
 public class StartServer {
     public static boolean NEED_LOAD_ENV = true;
-    // 原先的jettyHost放在类JettyHost里面，很不方便操作，而且因为存在多个进程的原因，
+    // 原先的tomcatHost放在类TomcatHost里面，很不方便操作，而且因为存在多个进程的原因，
     // 原先的getInstance()方法无多大意义
-    private static JettyHost jettyHost = null;
+    private static TomcatHost tomcatHost = null;
 
     static {
         GeneralContext.addEnvChangedListener(new EnvChangedListener() {
@@ -81,19 +81,19 @@ public class StartServer {
     }
 
     private static void initDemoServerAndBrowser() {
-        if (jettyHost != null) {
-            if (!jettyHost.isDemoAppLoaded()) {
-                jettyHost.exit();
-                jettyHost = new JettyHost(DesignerEnvManager.getEnvManager().getJettyServerPort());
-                jettyHost.addAndStartInstallHomeWebApp();
+        if (tomcatHost != null) {
+            if (!tomcatHost.isDemoAppLoaded()) {
+                tomcatHost.exit();
+                tomcatHost = new TomcatHost(DesignerEnvManager.getEnvManager().getJettyServerPort());
+                tomcatHost.addAndStartInstallHomeWebApp();
             }
         } else {
-            jettyHost = new JettyHost(DesignerEnvManager.getEnvManager().getJettyServerPort());
-            jettyHost.addAndStartInstallHomeWebApp();
+            tomcatHost = new TomcatHost(DesignerEnvManager.getEnvManager().getJettyServerPort());
+            tomcatHost.addAndStartInstallHomeWebApp();
         }
         try {
-            if (!jettyHost.isStarted()) {
-                jettyHost.start();
+            if (!tomcatHost.isStarted()) {
+                tomcatHost.start();
             }
         } catch (Exception e) {
             FRContext.getLogger().errorWithServerLevel(e.getMessage());
@@ -112,20 +112,20 @@ public class StartServer {
      */
     public static void browserURLWithLocalEnv(String url) {
         try {
-            if (jettyHost != null) {
+            if (tomcatHost != null) {
                 if (NEED_LOAD_ENV) {
-                    jettyHost.exit();
-                    jettyHost = new JettyHost(DesignerEnvManager.getEnvManager().getJettyServerPort());
-                    jettyHost.addAndStartLocalEnvHomeWebApp();
+                    tomcatHost.exit();
+                    tomcatHost = new TomcatHost(DesignerEnvManager.getEnvManager().getJettyServerPort());
+                    tomcatHost.addAndStartLocalEnvHomeWebApp();
 
                 }
             } else {
-                jettyHost = new JettyHost(DesignerEnvManager.getEnvManager().getJettyServerPort());
-                jettyHost.addAndStartLocalEnvHomeWebApp();
+                tomcatHost = new TomcatHost(DesignerEnvManager.getEnvManager().getJettyServerPort());
+                tomcatHost.addAndStartLocalEnvHomeWebApp();
 
             }
-            if (!jettyHost.isStarted()) {
-                jettyHost.start();
+            if (!tomcatHost.isStarted()) {
+                tomcatHost.start();
             }
         } catch (InterruptedException e) {
             FRContext.getLogger().errorWithServerLevel(e.getMessage());
@@ -137,9 +137,9 @@ public class StartServer {
         }
     }
 
-    public static JettyHost getInstance() {
+    public static TomcatHost getInstance() {
         // august： 正确的逻辑能保证jettyHost不为null，不然就有bug，不允许这儿加是否等于null判断
-        return jettyHost;
+        return tomcatHost;
     }
 
     /**

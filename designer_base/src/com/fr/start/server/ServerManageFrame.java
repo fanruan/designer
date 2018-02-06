@@ -24,16 +24,16 @@ import com.fr.design.utils.DesignUtils;
 import com.fr.design.utils.gui.GUICoreUtils;
 
 /**
- * 内置Jetty服务器管理界面 
+ * 内置Tomcat服务器管理界面 
  */
 public class ServerManageFrame extends JFrame {
 	// 由于实际情况，只需要一个当前对象的Instance.
 	private static ServerManageFrame serverManageFrame = null;
-	private JettyHost hostJettyServer;
+	private TomcatHost hostTomcatServer;
 	
-	public static ServerManageFrame getServerManageFrame(JettyHost hostJettyServer) {
+	public static ServerManageFrame getServerManageFrame(TomcatHost hostTomcatServer) {
 		if(serverManageFrame == null) {			
-			serverManageFrame = new ServerManageFrame(hostJettyServer);
+			serverManageFrame = new ServerManageFrame(hostTomcatServer);
 		}
 
 		//p:每次启动之前都需要检查按钮的Enabled属性.
@@ -49,8 +49,8 @@ public class ServerManageFrame extends JFrame {
 	private JPanel startPane;
 	private JPanel stopPane;
 	
-	private ServerManageFrame(JettyHost hostJettyServer) {
-		this.hostJettyServer = hostJettyServer;
+	private ServerManageFrame(TomcatHost hostTomcatServer) {
+		this.hostTomcatServer = hostTomcatServer;
 		
 		DesignUtils.initLookAndFeel();	
 		this.setIconImage(BaseUtils.readImage("/com/fr/base/images/oem/trayStarted.png"));
@@ -82,11 +82,11 @@ public class ServerManageFrame extends JFrame {
 		startPane.add(new UILabel(Inter.getLocText("Server-Start")));
 		startButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JettyHost jettyServer = StartServer.getInstance();
+				TomcatHost tomcatServer = StartServer.getInstance();
 				try {
-					if(!jettyServer.isStarted()) {
-						jettyServer.start();
-                        jettyServer.addAndStartLocalEnvHomeWebApp();
+					if(!tomcatServer.isStarted()) {
+						tomcatServer.start();
+                        tomcatServer.addAndStartLocalEnvHomeWebApp();
 					}
 					checkButtonEnabled();
 				} catch(Exception exp) {
@@ -103,10 +103,10 @@ public class ServerManageFrame extends JFrame {
 		stopPane.add(new UILabel(Inter.getLocText("Server-Stop")));
 		stopButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JettyHost jettyServer = StartServer.getInstance();
+				TomcatHost tomcatServer = StartServer.getInstance();
 				try {
-					if(jettyServer.isStarted()) {
-						jettyServer.stop();
+					if(tomcatServer.isStarted()) {
+						tomcatServer.stop();
 					}
 					checkButtonEnabled();
 				} catch(Exception exp) {
@@ -126,7 +126,7 @@ public class ServerManageFrame extends JFrame {
 		logPathTextField.setEditable(false);
 		
 		// logfile
-		logPathTextField.setText(hostJettyServer.getOutLogFile().getPath());
+		logPathTextField.setText(hostTomcatServer.getOutLogFile().getPath());
 		
 		UIButton openButton = new UIButton();
 		infoPane.add(openButton, BorderLayout.EAST);
@@ -137,7 +137,7 @@ public class ServerManageFrame extends JFrame {
 				
 				Desktop desktop = Desktop.getDesktop();
 				try {
-					desktop.open(ServerManageFrame.this.hostJettyServer.getOutLogFile());
+					desktop.open(ServerManageFrame.this.hostTomcatServer.getOutLogFile());
 				} catch(Exception exp) {
                     FRContext.getLogger().error(exp.getMessage());
 				}
@@ -154,8 +154,8 @@ public class ServerManageFrame extends JFrame {
      * @throws Exception 异常
      */
 	public void checkButtonEnabled() throws Exception  {
-		JettyHost jettyServer = StartServer.getInstance();
-		if(jettyServer.isStarted()) {
+		TomcatHost tomcatServer = StartServer.getInstance();
+		if(tomcatServer.isStarted()) {
 			GUICoreUtils.setEnabled(startPane, false);
 			GUICoreUtils.setEnabled(stopPane, true);
 		} else {

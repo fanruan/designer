@@ -32,19 +32,19 @@ public class ServerTray {
 
 	private TrayIcon trayIcon;
 
-	private JettyHost hostJettyServer;
+	private TomcatHost hostTomcatServer;
 
 
-	public ServerTray(JettyHost hostJettyServer) {
+	public ServerTray(TomcatHost hostTomcatServer) {
 
-		this.hostJettyServer = hostJettyServer;
+		this.hostTomcatServer = hostTomcatServer;
 
 		//p:首先构建右键菜单
 		PopupMenu popup = new PopupMenu();
 		manangeMenu = new MenuItem(Inter.getLocText("Server-Open_Service_Manager"));
 		manangeMenu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-		    	serverManageFrame = ServerManageFrame.getServerManageFrame(ServerTray.this.hostJettyServer);
+		    	serverManageFrame = ServerManageFrame.getServerManageFrame(ServerTray.this.hostTomcatServer);
 		    	if(!serverManageFrame.isVisible()) {
 		    		serverManageFrame.setVisible(true);
 		    	}
@@ -57,11 +57,11 @@ public class ServerTray {
 		//创建打开监听器
 		ActionListener startListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JettyHost jettyServer = StartServer.getInstance();
+				TomcatHost tomcatServer = StartServer.getInstance();
 				try {
-					if(!jettyServer.isStarted()) {
-						jettyServer.start();
-						jettyServer.addAndStartLocalEnvHomeWebApp();//暂停后再打开jetty,需要addApp
+					if(!tomcatServer.isStarted()) {
+						tomcatServer.start();
+						tomcatServer.addAndStartLocalEnvHomeWebApp();//暂停后再打开Tomcat,需要addApp
 					}
 				} catch(Exception exp) {
                     FRContext.getLogger().error(exp.getMessage(), exp);
@@ -70,10 +70,10 @@ public class ServerTray {
 		};
 		ActionListener stopListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JettyHost jettyServer = StartServer.getInstance();
+				TomcatHost tomcatServer = StartServer.getInstance();
 				try {
-					if(jettyServer.isStarted()) {
-						jettyServer.stop();
+					if(tomcatServer.isStarted()) {
+						tomcatServer.stop();
 					}
 				} catch(Exception exp) {
                     FRContext.getLogger().error(exp.getMessage(), exp);
@@ -106,7 +106,7 @@ public class ServerTray {
 		    		return;
 		    	}
 
-		    	ServerManageFrame serverManageFrame = ServerManageFrame.getServerManageFrame(ServerTray.this.hostJettyServer);
+		    	ServerManageFrame serverManageFrame = ServerManageFrame.getServerManageFrame(ServerTray.this.hostTomcatServer);
 		    	if(!serverManageFrame.isVisible()) {
 		    		serverManageFrame.setVisible(true);
 		    	}
@@ -126,13 +126,13 @@ public class ServerTray {
 		}
 
 		//p:先check
-		checkPopupMenuItemEnabled(this.hostJettyServer);
+		checkPopupMenuItemEnabled(this.hostTomcatServer);
 
 		// TODOJ
-		this.hostJettyServer.addListener(new MyJettyListner());
+		this.hostTomcatServer.addListener(new MyTomcatListner());
 		try {
-			if (!this.hostJettyServer.isStarted()) {
-				this.hostJettyServer.start();
+			if (!this.hostTomcatServer.isStarted()) {
+				this.hostTomcatServer.start();
 			}
 		} catch (Exception e){
 			FRContext.getLogger().error(e.getMessage(), e);
@@ -140,16 +140,16 @@ public class ServerTray {
 	}
 
 	private void exit() {
-		if (hostJettyServer != null) {
+		if (hostTomcatServer != null) {
 			try {
-				if(hostJettyServer.isStarted()) {
-					hostJettyServer.exit();
+				if(hostTomcatServer.isStarted()) {
+					hostTomcatServer.exit();
 				}
 			} catch(Exception exp) {
                 FRContext.getLogger().error(exp.getMessage(), exp);
 			}
 
-			hostJettyServer = null;
+			hostTomcatServer = null;
 		}
 
 
@@ -160,30 +160,30 @@ public class ServerTray {
 		}
 	}
 
-	class MyJettyListner implements JettyServerListener {
+	class MyTomcatListner implements TomcatServerListener {
 		/**
 		 * Started
 		 */
-		public void started(JettyHost jettyServer) {
-			checkPopupMenuItemEnabled(jettyServer);
+		public void started(TomcatHost tomcatServer) {
+			checkPopupMenuItemEnabled(tomcatServer);
 		}
 
 		/**
 		 * Stopped
 		 */
-		public void stopped(JettyHost jettyServer) {
-			checkPopupMenuItemEnabled(jettyServer);
+		public void stopped(TomcatHost tomcatServer) {
+			checkPopupMenuItemEnabled(tomcatServer);
 		}
 
 		@Override
-		public void exited(JettyHost jettyServer) {
+		public void exited(TomcatHost tomcatServer) {
 			exit();
 		}
 	}
 
-	private void checkPopupMenuItemEnabled(JettyHost jettyServer) {
+	private void checkPopupMenuItemEnabled(TomcatHost tomcatServer) {
 		try {
-			if(jettyServer.isStarted()) {
+			if(tomcatServer.isStarted()) {
 				startMenu.setEnabled(false);
 				stopMenu.setEnabled(true);
 
