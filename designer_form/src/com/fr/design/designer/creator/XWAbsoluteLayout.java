@@ -47,6 +47,7 @@ public class XWAbsoluteLayout extends XLayoutContainer {
     private int minHeight = WLayout.MIN_HEIGHT;
     private static final Color OUTER_BORDER_COLOR = new Color(65, 155, 249, 30);
     private static final Color INNER_BORDER_COLOR = new Color(65, 155, 249);
+    private static final int BORDER_WIDTH = 1;
 
     //由于屏幕分辨率不同，界面上的容器大小可能不是默认的100%，此时拖入组件时，保存的大小按照100%时的计算
     protected double containerPercent = 1.0;
@@ -445,7 +446,7 @@ public class XWAbsoluteLayout extends XLayoutContainer {
             g2d.setColor(new Color(176, 196, 222));
             g2d.fillRect((x + w / 2 - EDIT_BTN_WIDTH / 2), (y + h / 2 - EDIT_BTN_HEIGHT / 2), EDIT_BTN_WIDTH, EDIT_BTN_HEIGHT);
             //画编辑按钮图标
-            BufferedImage image = IOUtils.readImage(IconPathConstants.TD_EDIT_ICON_PATH);
+            BufferedImage image = IOUtils.readImage(IconPathConstants.EDIT_ICON_PATH);
             g2d.drawImage(
                     image,
                     (x + w / 2 - 23),
@@ -459,7 +460,7 @@ public class XWAbsoluteLayout extends XLayoutContainer {
             //画编辑文字
             g2d.drawString(Inter.getLocText("FR-Designer_Edit"), x + w / 2 - 2, y + h / 2 + 5);
             g.setColor(XCreatorConstants.FORM_BORDER_COLOR);
-            GraphHelper.draw(g, new Rectangle(0, 0, getWidth(), getHeight()), Constants.LINE_MEDIUM);
+            GraphHelper.draw(g, new Rectangle(BORDER_WIDTH, BORDER_WIDTH, getWidth() - BORDER_WIDTH * 2, getHeight() - BORDER_WIDTH * 2), Constants.LINE_MEDIUM);
         }
 
     }
@@ -471,6 +472,8 @@ public class XWAbsoluteLayout extends XLayoutContainer {
             GraphHelper.draw(g, new Rectangle(bounds.x - 3, bounds.y - 3, bounds.width + 5, bounds.height + 5), Constants.LINE_LARGE);
             g.setColor(INNER_BORDER_COLOR);
             GraphHelper.draw(g, new Rectangle(bounds.x, bounds.y, bounds.width, bounds.height), Constants.LINE_MEDIUM);
+        }else if(!isMouseEnter){
+            super.paintBorder(g, bounds);
         }
     }
     /**

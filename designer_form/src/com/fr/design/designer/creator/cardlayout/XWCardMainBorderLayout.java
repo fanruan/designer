@@ -57,6 +57,7 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 
 	private static final int EDIT_BTN_WIDTH = 60;
 	private static final int EDIT_BTN_HEIGHT = 24;
+	private static final int BORDER_WIDTH = 1;
 
 	private final int CARDMAINLAYOUT_CHILD_COUNT = 1;
 
@@ -298,7 +299,7 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 			g2d.setColor(new Color(176, 196, 222));
 			g2d.fillRect((x + w / 2 - EDIT_BTN_WIDTH / 2), (y + h / 2 - EDIT_BTN_HEIGHT / 2), EDIT_BTN_WIDTH, EDIT_BTN_HEIGHT);
 			//画编辑按钮图标
-			BufferedImage image = IOUtils.readImage(IconPathConstants.TD_EDIT_ICON_PATH);
+			BufferedImage image = IOUtils.readImage(IconPathConstants.EDIT_ICON_PATH);
 			g2d.drawImage(
 					image,
 					(x + w / 2 - 23),
@@ -312,7 +313,14 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 			//画编辑文字
 			g2d.drawString(Inter.getLocText("FR-Designer_Edit"), x + w / 2 - 2, y + h / 2 + 5);
 			g.setColor(XCreatorConstants.FORM_BORDER_COLOR);
-			GraphHelper.draw(g, new Rectangle(0, 0, getWidth(), getHeight()), Constants.LINE_MEDIUM);
+			GraphHelper.draw(g, new Rectangle(BORDER_WIDTH, BORDER_WIDTH, getWidth() - BORDER_WIDTH * 2, getHeight() - BORDER_WIDTH * 2), Constants.LINE_MEDIUM);
+		}
+	}
+
+	@Override
+	public void paintBorder(Graphics g, Rectangle bounds){
+		if (!isMouseEnter) {
+			super.paintBorder(g, bounds);
 		}
 	}
 

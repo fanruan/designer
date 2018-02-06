@@ -21,7 +21,7 @@ import java.awt.event.WindowEvent;
  * Time: 11:32
  */
 public class CoverReportPane extends CoverPane implements HelpDialogHandler{
-    private static final int BORDER_WIDTH = 2;
+    private static final int BORDER_WIDTH = 1;
     private Icon controlMode = IOUtils.readIcon(IconPathConstants.TD_EL_SHARE_HELP_ICON_PATH);
     private JComponent controlButton = new JComponent() {
         protected void paintComponent(Graphics g) {
@@ -129,7 +129,7 @@ public class CoverReportPane extends CoverPane implements HelpDialogHandler{
 
     @Override
     protected Rectangle getPaintBorderBounds(){
-        return new Rectangle(BORDER_WIDTH - 1, BORDER_WIDTH- 1, getWidth() - BORDER_WIDTH * 2 , getHeight() - BORDER_WIDTH * 2);
+        return new Rectangle(BORDER_WIDTH, BORDER_WIDTH, getWidth() - 3 * BORDER_WIDTH , getHeight() - 3 * BORDER_WIDTH);
     }
 
     @Override

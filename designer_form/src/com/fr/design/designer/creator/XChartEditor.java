@@ -38,6 +38,7 @@ import com.fr.stable.core.PropertyChangeAdapter;
  */
 public class XChartEditor extends XBorderStyleWidgetCreator {
 	private static final long serialVersionUID = -7009439442104836657L;
+	private static int BORDER_WIDTH = 2;
 	//具体来说是DesignerEditor<SimpleChartComponent>
 	private DesignerEditor<JComponent> designerEditor;
 	//	private DesignerEditor<SimpleChartComponent> designerEditor;
@@ -45,6 +46,8 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 	private boolean isRefreshing = false;
 
 	private boolean isEditing = false;
+
+	private boolean isHovering = false;
 	private JPanel coverPanel;
 	private static final Color OUTER_BORDER_COLOR = new Color(65, 155, 249, 30);
 	private static final Color INNER_BORDER_COLOR = new Color(65, 155, 249);
@@ -135,11 +138,12 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 	public void paintBorder(Graphics g, Rectangle bounds){
 		if(isEditing){
 			g.setColor(OUTER_BORDER_COLOR);
-			GraphHelper.draw(g, new Rectangle(bounds.x - 3, bounds.y - 3, bounds.width + 5, bounds.height + 5), Constants.LINE_LARGE);
-			g.setColor(INNER_BORDER_COLOR);
-			GraphHelper.draw(g, new Rectangle(bounds.x, bounds.y, bounds.width, bounds.height), Constants.LINE_MEDIUM);
+			GraphHelper.draw(g, new Rectangle(bounds.x - BORDER_WIDTH, bounds.y - BORDER_WIDTH, bounds.width + BORDER_WIDTH + 1, bounds.height + BORDER_WIDTH + 1), Constants.LINE_LARGE);
+		}else if(!isHovering){
+			super.paintBorder(g, bounds);
 		}
 	}
+
 
 	/**
 	 * 返回设计器的Editor
@@ -209,6 +213,10 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 	public void paint(Graphics g) {
 		designerEditor.paintEditor(g, this.getSize());
 		super.paint(g);
+		if(isEditing){
+			g.setColor(INNER_BORDER_COLOR);
+			GraphHelper.draw(g, new Rectangle(0, 0, getWidth(), getHeight()), Constants.LINE_MEDIUM);
+		}
 	}
 
 	/**
@@ -283,6 +291,7 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 	 * @param display     是否
 	 */
 	public void  displayCoverPane(boolean display){
+		isHovering = display;
 		coverPanel.setVisible(display);
 		coverPanel.setPreferredSize(editor.getPreferredSize());
 		coverPanel.setBounds(editor.getBounds());
