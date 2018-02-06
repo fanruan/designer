@@ -57,6 +57,7 @@ public class FRTreeComboBox extends UIComboBox {
     // richer:下拉展示用的tree
     protected JTree tree;
     private boolean onlyLeafSelectable = true;
+    private Object selectedObject = null;
 
     public FRTreeComboBox() {
         this(new JTree());
@@ -162,6 +163,7 @@ public class FRTreeComboBox extends UIComboBox {
     }
 
     public void setSelectedItem(Object o) {
+        selectedObject = o;
         if (o instanceof String) {
             this.setSelectedItemString((String) o);
             return;
@@ -173,6 +175,10 @@ public class FRTreeComboBox extends UIComboBox {
             this.getModel().setSelectedItem(o);
         }
     }
+
+    public Object getSelectedItemObject() {
+        return selectedObject;
+    }
     
     private boolean validTreePath(String treePath){
     	return StringUtils.isNotEmpty(treePath) && treePath.charAt(0) == '[' && treePath.endsWith("]");
@@ -183,12 +189,7 @@ public class FRTreeComboBox extends UIComboBox {
         if (validTreePath(temp)) {
             temp = temp.substring(2, temp.length() - 1);
             String[] selectedtable = temp.split(",");
-            String table = selectedtable[selectedtable.length - 1].trim();
-            if (table.contains(".")) {
-                String[] temp2 = table.split("\\.");
-                table = temp2[temp2.length - 1].trim();
-            }
-            return table;
+            return selectedtable[selectedtable.length - 1].trim();
         }
         return "";
     }
