@@ -38,7 +38,7 @@ import com.fr.stable.core.PropertyChangeAdapter;
  */
 public class XChartEditor extends XBorderStyleWidgetCreator {
 	private static final long serialVersionUID = -7009439442104836657L;
-	private static int BORDER_WIDTH = 2;
+	private static final int BORDER_WIDTH = 2;
 	//具体来说是DesignerEditor<SimpleChartComponent>
 	private DesignerEditor<JComponent> designerEditor;
 	//	private DesignerEditor<SimpleChartComponent> designerEditor;
