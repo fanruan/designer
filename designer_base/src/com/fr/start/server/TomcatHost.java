@@ -145,28 +145,12 @@ public class TomcatHost {
         return server;
     }
 
-    //MoMeak：调试用，等ju那边联调好了删
-    private void setRootNull(){
-         Class<?> clazz = ModuleContext.class;
-        try {
-            Field field = clazz.getDeclaredField("root");
-            field.setAccessible(true);
-            field.set(null,null);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
     /**
      * Start
      *
      * @throws Exception
      */
     public void start() throws Exception {
-        //MoMeak：调试用
-        setRootNull();
         tomcat.start();
         for (int i = 0; i < listenerList.size(); i++) {
             TomcatServerListener listener = TomcatHost.this.getLinstener(i);
