@@ -466,9 +466,12 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
 
     protected String getTableName() {
         String tableName = "";
-        Object obj = this.tableNameComboBox.getSelectedItem();
+        Object obj = this.tableNameComboBox.getSelectedItemObject();
         if (obj == null) {
-            obj = this.tableNameComboBox.getEditor().getItem();
+            obj = this.tableNameComboBox.getSelectedItem();
+            if (obj == null) {
+                obj = this.tableNameComboBox.getEditor().getItem();
+            }
         }
         if (obj instanceof TreePath) {
             Object tp = ((ExpandMutableTreeNode) ((TreePath) obj).getLastPathComponent()).getUserObject();

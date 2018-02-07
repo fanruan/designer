@@ -30,6 +30,7 @@ import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.form.ui.container.cardlayout.WTabFitLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
+import com.fr.general.cardtag.DefaultTemplateStyle;
 
 import javax.swing.border.Border;
 import java.awt.*;
@@ -132,7 +133,14 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
         WTabFitLayout fitLayout = new WTabFitLayout(widgetName, tabFitIndex, currentCard);
         fitLayout.setTabNameIndex(getTabNameIndex());
         XWTabFitLayout tabFitLayout = new XWTabFitLayout(fitLayout, new Dimension());
+        WCardTagLayout layout = (WCardTagLayout) this.toData();
+
+        if(!ComparatorUtils.equals(layout.getTemplateStyle().getStyle(), DefaultTemplateStyle.DEFAULT_TEMPLATE_STYLE)){
+            fitLayout.setInitialBackground(layout.getTemplateStyle().getTabDefaultBackground());
+            fitLayout.setCustomStyle(true);
+        }
         tabFitLayout.setxCardSwitchButton((XCardSwitchButton)this.getComponent(0));
+        tabFitLayout.checkButonType();
         tabFitLayout.setBackupParent(cardLayout);
         cardLayout.add(tabFitLayout, widgetName);
         this.cardLayout.toData().setShowIndex(index);

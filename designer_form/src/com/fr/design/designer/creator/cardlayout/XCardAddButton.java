@@ -1,7 +1,6 @@
 package com.fr.design.designer.creator.cardlayout;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.background.ColorBackground;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
 import com.fr.design.designer.beans.models.SelectionModel;
@@ -17,9 +16,13 @@ import com.fr.form.ui.CardSwitchButton;
 import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
+import com.fr.general.cardtag.DefaultTemplateStyle;
 
-import javax.swing.*;
-import java.awt.*;
+
+import javax.swing.Icon;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 
 public class XCardAddButton extends XButton{
@@ -81,7 +84,8 @@ public class XCardAddButton extends XButton{
 	 * @param e 点击事件
 	 * 
 	 */
-    public void respondClick(EditingMouseListener editingMouseListener,MouseEvent e){
+    @Override
+	public void respondClick(EditingMouseListener editingMouseListener, MouseEvent e){
 		FormDesigner designer = editingMouseListener.getDesigner();
 		designer.fireTargetModified();
     	
@@ -121,7 +125,8 @@ public class XCardAddButton extends XButton{
 		this.cardLayout = borderLayout.getCardPart();
     }
     
-    public void paintComponent(Graphics g) {
+    @Override
+	public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         drawAddIcon(g2d);
@@ -149,11 +154,14 @@ public class XCardAddButton extends XButton{
     	
 		String cardLayoutName = cardLayout.toData().getWidgetName();
     	CardSwitchButton titleButton = new CardSwitchButton(index,cardLayoutName);
+		WCardTagLayout layout = (WCardTagLayout) this.tagLayout.toData();
+        if(!ComparatorUtils.equals(layout.getTemplateStyle().getStyle(), DefaultTemplateStyle.DEFAULT_TEMPLATE_STYLE)){
+            titleButton.setInitialBackground(layout.getTemplateStyle().getTabDefaultBackground());
+            titleButton.setCustomStyle(true);
+        }
     	//设置标题
-    	titleButton.setText(getTabTitleName());
-		titleButton.setInitialBackground(ColorBackground.getInstance(Color.WHITE));
+    	titleButton.setText(getTabTitleName(layout));
     	XCardSwitchButton showButton = new XCardSwitchButton(titleButton, dimension, cardLayout, tagLayout);
-		titleButton.setCustomStyle(true);
     	titleButton.setShowButton(true);
 		showButton.setBackupParent(tagLayout);
     	this.tagLayout.setCurrentCard(titleButton);
@@ -171,8 +179,7 @@ public class XCardAddButton extends XButton{
 	}
 	
     //新增时去tabFitLayout名字中最大的Index+1，防止重名
-    private String getTabTitleName(){
-    	WCardTagLayout layout = (WCardTagLayout) this.tagLayout.toData();
+    private String getTabTitleName(WCardTagLayout layout){
     	int size = layout.getWidgetCount();
     	String prefix = Inter.getLocText("FR-Designer_Title");
     	String newTextName = prefix + size;

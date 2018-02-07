@@ -20,6 +20,8 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -56,6 +58,12 @@ public class ComponentTree extends JTree {
         ComponetTreeMouseListener componetTreeMouseListener = new ComponetTreeMouseListener(this);
         this.addMouseMotionListener(componetTreeMouseListener);
         this.addMouseListener(componetTreeMouseListener);
+        this.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                designer.dispatchEvent(e);
+            }
+        });
     }
 
     public FormDesigner getDesigner() {
