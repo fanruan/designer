@@ -68,28 +68,36 @@ public class AboutPane extends JPanel {
                         Inter.getLocText("FR-Designer-Basic_Activation_Key_Copy_OK")
                 }));
 
-        if (shouldShowPhoneAndQQ()) {
-            if (ComparatorUtils.equals(ProductConstants.APP_NAME, FINEREPORT)) {
-                boxCenterAlignmentPane = new BoxCenterAligmentPane(Inter.getLocText("FR-Designer_Service_Phone") + ProductConstants.COMPARE_TELEPHONE);
-                contentPane.add(boxCenterAlignmentPane);
-            }
-            boxCenterAlignmentPane = new BoxCenterAligmentPane("QQ:" + SiteCenter.getInstance().acquireUrlByKind("help.qq"));
-            contentPane.add(boxCenterAlignmentPane);
-        }
+        addPhoneAndQQPane(contentPane);
 
-        BoxCenterAligmentPane actionLabel = getURLActionLabel(SiteCenter.getInstance().acquireUrlByKind("website." + FRContext.getLocale(), ProductConstants.WEBSITE_URL));
-        BoxCenterAligmentPane emailLabel = getEmailActionLabel(SiteCenter.getInstance().acquireUrlByKind("support.email", ProductConstants.SUPPORT_EMAIL));
+        // 官网
+        JPanel urlActionPane = getURLActionPane(Inter.getLocText("FR-Designer_Official_Website"), SiteCenter.getInstance().acquireUrlByKind("website." + FRContext.getLocale(), ProductConstants.WEBSITE_URL));
 
-        contentPane.add(actionLabel);
-        contentPane.add(emailLabel);
+        // 支持邮箱
+        String defaultEmail = SiteCenter.getInstance().acquireUrlByKind("support.email", ProductConstants.SUPPORT_EMAIL);
+        JPanel emailPane = getEmailActionPane(Inter.getLocText("FR-Designer_Support_Email"),SiteCenter.getInstance().acquireUrlByKind("support.email." + FRContext.getLocale(), defaultEmail));
+
+        contentPane.add(urlActionPane);
+        contentPane.add(emailPane);
         if (shouldShowThanks()) {
             addThankPane(contentPane);
         }
     }
 
-    // 是否显示服务电话和 qq
-    private boolean shouldShowPhoneAndQQ() {
-        return !FRContext.getLocale().equals(Locale.US);
+    private void addPhoneAndQQPane(JPanel contentPane) {
+        BoxCenterAligmentPane boxCenterAlignmentPane;
+        // 英文版不显示服务电话和QQ
+        if (FRContext.getLocale().equals(Locale.US)) {
+            return;
+        }
+        boxCenterAlignmentPane = new BoxCenterAligmentPane(Inter.getLocText("FR-Designer_Service_Phone") + SiteCenter.getInstance().acquireUrlByKind("service.phone." + FRContext.getLocale(), ProductConstants.COMPARE_TELEPHONE));
+        contentPane.add(boxCenterAlignmentPane);
+        // 繁体版不显示QQ
+        if (FRContext.getLocale().equals(Locale.TAIWAN)) {
+            return;
+        }
+        boxCenterAlignmentPane = new BoxCenterAligmentPane("QQ: " + SiteCenter.getInstance().acquireUrlByKind("help.qq"));
+        contentPane.add(boxCenterAlignmentPane);
     }
 
     // 是否显示鸣谢面板
@@ -133,7 +141,7 @@ public class AboutPane extends JPanel {
                 StringUtils.BLANK, ProductConstants.RELEASE_VERSION, BUILD_PREFIX);
     }
 
-    private BoxCenterAligmentPane getEmailActionLabel(final String mailTo) {
+    private JPanel getEmailActionPane(final String desc, final String mailTo){
         ActionLabel emailLabel = new ActionLabel(mailTo);
 
         emailLabel.addActionListener(new ActionListener() {
@@ -147,10 +155,13 @@ public class AboutPane extends JPanel {
             }
         });
 
-        return new BoxCenterAligmentPane(emailLabel);
+        JPanel panel = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
+        panel.add(new UILabel(desc));
+        panel.add(emailLabel);
+        return panel;
     }
 
-    private BoxCenterAligmentPane getURLActionLabel(final String url) {
+    private JPanel getURLActionPane(final String desc, final String url){
         ActionLabel actionLabel = new ActionLabel(url);
         actionLabel.addActionListener(new ActionListener() {
             @Override
@@ -163,7 +174,11 @@ public class AboutPane extends JPanel {
             }
         });
 
-        return new BoxCenterAligmentPane(actionLabel);
+        JPanel panel = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
+        panel.add(new UILabel(desc));
+        panel.add(actionLabel);
+
+        return panel;
     }
 
     class UserLabel extends BoldFontTextLabel {
