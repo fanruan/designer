@@ -1,10 +1,12 @@
 package com.fr.start.server;
 
+import com.fr.module.ModuleContext;
 import java.awt.SystemTray;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,7 +22,6 @@ import org.apache.catalina.LifecycleException;
 import org.apache.catalina.Server;
 import org.apache.catalina.core.AprLifecycleListener;
 import org.apache.catalina.core.StandardServer;
-import org.apache.catalina.startup.Bootstrap;
 
 import com.fr.base.Env;
 import com.fr.base.FRContext;
@@ -34,7 +35,6 @@ import com.fr.start.StartServer;
 public class TomcatHost {
 
     private static FRTomcat tomcat;
-    private static Bootstrap bootstrap;
     private StandardServer server;
     private AprLifecycleListener listener;
 
@@ -66,11 +66,11 @@ public class TomcatHost {
             //直接用自定义的，不用server.xml
             this.tomcat = new FRTomcat();
             this.tomcat.setPort(this.currentPort);
-            this.tomcat.setBaseDir(ProductConstants.getEnvHome());
+            this.tomcat.setBaseDir(StableUtils.getInstallHome());
             this.server = (StandardServer) tomcat.getServer();
             this.listener = new AprLifecycleListener();
             this.server.addLifecycleListener(listener);
-            this.tomcat.getHost().setAppBase(ProductConstants.getEnvHome() + File.separator + ".");
+            this.tomcat.getHost().setAppBase(StableUtils.getInstallHome() + File.separator + ".");
         } catch (Exception e) {
             //todo 最好加一个用server.xml
             FRContext.getLogger().error(e.getMessage(), e);
@@ -107,14 +107,6 @@ public class TomcatHost {
         FRContext.getLogger().info("The new  Application Path is: \n" + webappsPath + ", it will be added.");
         if (webAppsMap.get(context) != null) {
             Context webapp = webAppsMap.remove(context);
-            try {
-                if (isStarted()) {
-                    stop();
-                }
-            } catch (Exception e) {
-                FRContext.getLogger().error(e.getMessage(), e);
-            }
-
         }
         try {
             if (!isStarted()) {
@@ -123,7 +115,7 @@ public class TomcatHost {
             Context webapp = tomcat.addWebapp(context, webappsPath);
             webAppsMap.put(context, webapp);
         } catch (Exception e) {
-            e.printStackTrace();
+            FRContext.getLogger().error(e.getMessage(), e);
         }
     }
 
@@ -153,20 +145,29 @@ public class TomcatHost {
         return server;
     }
 
+    //MoMeak：调试用，等ju那边联调好了删
+    private void setRootNull(){
+         Class<?> clazz = ModuleContext.class;
+        try {
+            Field field = clazz.getDeclaredField("root");
+            field.setAccessible(true);
+            field.set(null,null);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Start
      *
      * @throws Exception
      */
     public void start() throws Exception {
-
+        //MoMeak：调试用
+        setRootNull();
         tomcat.start();
-//        bootstrap.setCatalinaHome("/Users/momeak/Documents/Working/develop/others/tomcatsrc/WebReport");
-//        bootstrap.init();
-//        bootstrap.setAwait(false);
-//
-//        bootstrap.start();
-
         for (int i = 0; i < listenerList.size(); i++) {
             TomcatServerListener listener = TomcatHost.this.getLinstener(i);
             listener.started(this);
@@ -181,8 +182,6 @@ public class TomcatHost {
     public void stop() throws Exception {
 
         tomcat.stop();
-//        bootstrap.stop();
-
 
         for (int i = 0; i < listenerList.size(); i++) {
             TomcatServerListener listener = this.getLinstener(i);

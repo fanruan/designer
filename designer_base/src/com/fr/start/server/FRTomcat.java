@@ -24,7 +24,7 @@ public class FRTomcat extends Tomcat{
 
         Context ctx = createContext(host, contextPath);
         if (ctx instanceof StandardContext) {
-//            ((StandardContext)ctx).setDelegate(true);
+            ((StandardContext)ctx).setDelegate(true);
         }
         ctx.setPath(contextPath);
         ctx.setDocBase(docBase);
