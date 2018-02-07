@@ -91,7 +91,7 @@ public class SelectedDataColumnPane extends BasicPane {
     /**
      * 数据集下拉框变动后修改数据列下拉框加载状态的监听器
      */
-    private ItemListener loadInstantListener = new ItemListener() {
+    private ItemListener isNeedReloadListener = new ItemListener() {
         @Override
         public void itemStateChanged(ItemEvent e) {
             if (e.getStateChange() == ItemEvent.SELECTED) {
@@ -313,6 +313,7 @@ public class SelectedDataColumnPane extends BasicPane {
     private void addListener() {
         tableNameComboBox.addItemListener(this.itemListener);
         columnNameComboBox.addItemListener(this.itemListener);
+        tableNameComboBox.addItemListener(this.isNeedReloadListener);
     }
 
     /**
@@ -321,13 +322,13 @@ public class SelectedDataColumnPane extends BasicPane {
     private void removeListener() {
         tableNameComboBox.removeItemListener(this.itemListener);
         columnNameComboBox.removeItemListener(this.itemListener);
+        tableNameComboBox.removeItemListener(this.isNeedReloadListener);
     }
 
 
     protected void initTableNameComboBox() {
         tableNameComboBox = new TableDataComboBox(DesignTableDataManager.getEditingTableDataSource());
         tableNameComboBox.setPreferredSize(new Dimension(100, 20));
-        tableNameComboBox.addItemListener(this.loadInstantListener);
     }
 
     @Override
