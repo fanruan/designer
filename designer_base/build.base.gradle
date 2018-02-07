@@ -1,0 +1,104 @@
+apply plugin: 'java'
+tasks.withType(JavaCompile){
+	options.encoding = 'UTF-8'
+}
+buildscript {
+    repositories {
+        maven {
+            url "https://maven.eveoh.nl/content/repositories/releases"
+        }
+    }
+
+    dependencies {
+        classpath "nl.eveoh:gradle-aspectj:1.6"
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+project.ext {
+    aspectjVersion = '1.8.4'
+}
+
+apply plugin: 'aspectj'
+
+//指定构建的jdk版本
+sourceCompatibility=1.7
+//指定生成jar包版本
+version='10.0'
+//生成jar包重命名
+jar{
+	baseName='fr-designer-core'
+}
+
+
+def srcDir="."
+def baseDir=".."
+ant{
+	delete(dir:"src/main")
+	mkdir(dir:"src/main/java")
+	move(todir:"src/main/java"){
+		fileset(dir:"src",includes:"com/**")
+	}
+}
+//指定源码路径
+//sourceSets{
+//	main{
+//		java{
+//			srcDirs=["${srcDir}/src"]
+//		}
+//	}
+//}
+//获取什么分支名
+FileTree files =fileTree(dir:'./',include:'build.*.gradle')
+def buildDir=files[0].path.substring(0,files[0].path.lastIndexOf ('\\'))
+buildDir=buildDir.substring(0,buildDir.lastIndexOf ('\\'))
+def branchName=buildDir.substring(buildDir.lastIndexOf ('\\')+1)
+
+//声明外部依赖
+dependencies{
+	compile fileTree(dir:"../${baseDir}/lib-other",include:'**/*.jar')
+	compile fileTree(dir:"../${baseDir}/lib-core",include:'**/*.jar')
+	compile fileTree(dir:"../${baseDir}/lib-design",include:'**/*.jar')
+	compile fileTree(dir:"../${baseDir}",include:"**/build/libs/*.jar",exclude:"bi/**/*.jar")
+ 	testCompile 'junit:junit:4.12'
+}
+
+//输出依赖报
+FileTree f=fileTree(dir:"../${baseDir}/lib-design",include:"**/*.jar");
+f.each{File file->
+	println "----------${file.path}"
+}
+//复制非.java文件到classes文件夹下参与打包
+task copyFile(type:Copy,dependsOn:compileJava){
+	copy{
+		from ("${srcDir}/src/main/java"){
+			exclude '**/.setting/**','.classpath','.project','**/*.java','**/*.db','**/*.g','**/package.html'
+		}
+		into 'build/classes/main'
+	}
+
+}
+
+
+//压缩项目中的js文件
+task compressJS{
+	ant.taskdef(name:'yuicompress',classname:'com.yahoo.platform.yui.compressor.YUICompressTask'){
+		classpath {
+			fileset(dir:"../${baseDir}/lib4build",includes:'**/*.jar')
+		}
+	}
+	ant.yuicompress(linebreak:"500",warn:"false", munge:"yes",preserveallsemicolons:"false",charset:"utf-8",encoding:"utf-8",outputfolder:'build/classes/main'){
+		fileset (dir:"${srcDir}/src/main/java"){
+			include (name:'**/*.js')
+			include (name:'**/*.css')
+		}
+
+	}
+}
+jar.dependsOn compressJS
+
+
+
