@@ -324,11 +324,15 @@ public class XCardSwitchButton extends XButton {
 	private void drawBackground(CardSwitchButton button, WidgetTitle widgetTitle){
 		Background background = widgetTitle.getBackground();
 		TemplateStyle templateStyle = ((WCardTagLayout) tagLayout.toData()).getTemplateStyle();
-		Background initialBackground = button.getInitialBackground();
-		Background defaultSelectBackground = templateStyle.getSelectBackground();
-		//todo 这边先这么改，之后会加一个选中背景设置再做调整
+		//获取当前tab的index
+		CardSwitchButton currentButton = (CardSwitchButton) this.toData();
+		int index = currentButton.getIndex();
+		XWTabFitLayout tabFitLayout = (XWTabFitLayout) cardLayout.getComponent(index);
+		WTabFitLayout wTabFitLayout = tabFitLayout.getWTabFitLayout();
+		Background initialBackground = wTabFitLayout.getInitialBackground();
+		Background selectBackground = wTabFitLayout.getClickBackground();
 		if (button.isShowButton()) {
-			this.setContentBackground(defaultSelectBackground);
+			this.setContentBackground(selectBackground == null ? templateStyle.getSelectBackground() : selectBackground);
 		} else {
 			this.setContentBackground(initialBackground == null ? background : initialBackground);
 		}

@@ -1,10 +1,9 @@
 package com.fr.design.widget.ui.designer.layout;
 
 import com.fr.design.constants.LayoutConstants;
+import com.fr.design.designer.creator.cardlayout.XWCardLayout;
 import com.fr.design.mainframe.widget.accessibles.AccessibleTabPaneBackgroundEditor;
-import com.fr.form.ui.CardSwitchButton;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.cardtag.DefaultTemplateStyle;
 import com.fr.general.cardtag.TemplateStyle;
 import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.XCreator;
@@ -123,7 +122,8 @@ public class WCardTagLayoutDefinePane extends AbstractDataModify<WCardTagLayout>
     public WCardTagLayout updateBean() {
         //标题背景和字体属性设置在WCardLayout上做兼容
         XLayoutContainer topLayout = creator.getTopLayout();
-        LayoutBorderStyle layoutBorderStyle = ((XWCardMainBorderLayout) topLayout).getCardPart().toData().getBorderStyle();
+        XWCardLayout xCardLayout = ((XWCardMainBorderLayout) topLayout).getCardPart();
+        LayoutBorderStyle layoutBorderStyle = xCardLayout.toData().getBorderStyle();
         FRFont frFont = layoutBorderStyle.getTitle().getFrFont() == null ? FRFont.getInstance() : layoutBorderStyle.getTitle().getFrFont();
         layoutBorderStyle.getTitle().setFrFont(frFontPane.update(frFont));
         WCardTagLayout layout = (WCardTagLayout) creator.toData();
@@ -140,24 +140,12 @@ public class WCardTagLayoutDefinePane extends AbstractDataModify<WCardTagLayout>
             backgroundEditor.setValue(templateStyle.getDefaultBackground());
             layoutBorderStyle.getTitle().setBackground(templateStyle.getDefaultBackground());
             //重置内部tab的默认背景
-            resetTabBackground(layout, templateStyle);
+            xCardLayout.resetTabBackground(templateStyle);
             layout.setTemplateStyle(templateStyle);
         } else {
             layoutBorderStyle.getTitle().setBackground((Background) backgroundEditor.getValue());
         }
 
         return layout;
-    }
-
-    private void resetTabBackground(WCardTagLayout layout, TemplateStyle templateStyle) {
-        for (int i = 0, len = layout.getWidgetCount(); i < len; i++) {
-            CardSwitchButton button = layout.getSwitchButton(i);
-            //兼容默认样式
-            boolean defaultStyle = ComparatorUtils.equals(templateStyle.getStyle(), DefaultTemplateStyle.DEFAULT_TEMPLATE_STYLE);
-            button.setInitialBackground(defaultStyle ? null : templateStyle.getTabDefaultBackground());
-            button.setOverBackground(null);
-            button.setClickBackground(null);
-            button.setCustomStyle(true);
-        }
     }
 }

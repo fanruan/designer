@@ -102,6 +102,10 @@ public class XWTabFitLayout extends XWFitLayout {
 		super(widget, initSize);
 	}
 
+	public WTabFitLayout getWTabFitLayout(){
+		return (WTabFitLayout)data;
+	}
+
 	@Override
 	public UIPopupMenu createPopupMenu(FormDesigner formDesigner) {
 		return UIPopupMenu.EMPTY;  // 不要菜单
@@ -210,8 +214,12 @@ public class XWTabFitLayout extends XWFitLayout {
 		return crPropertyDescriptors;
 	}
 
-	private void checkButonType() {
+	public void checkButonType() {
 		WTabFitLayout wTabFitLayout = ((WTabFitLayout) data);
+		XCardSwitchButton xCardSwitchButton = this.getxCardSwitchButton();
+		if(xCardSwitchButton == null){
+			initRelateSwitchButton();
+		}
 		CardSwitchButton cardSwitchButton = (CardSwitchButton) this.xCardSwitchButton.toData();
 		boolean isStyle = wTabFitLayout.isCustomStyle();
 		Background initialBackground = wTabFitLayout.getInitialBackground();
@@ -586,6 +594,7 @@ public class XWTabFitLayout extends XWFitLayout {
 
 	@Override
 	public void firePropertyChange(){
+		checkButonType();
 		//根据字体长度设置tab宽度
 		setCardSwitchBtnSize();
 		XWCardLayout cardLayout = (XWCardLayout) this.getBackupParent();

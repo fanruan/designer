@@ -31,8 +31,11 @@ import com.fr.form.ui.container.WLayout;
 import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
 import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.form.ui.container.cardlayout.WCardTitleLayout;
+import com.fr.form.ui.container.cardlayout.WTabFitLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
+import com.fr.general.cardtag.DefaultTemplateStyle;
+import com.fr.general.cardtag.TemplateStyle;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Constants;
 import com.fr.stable.core.PropertyChangeAdapter;
@@ -491,6 +494,19 @@ public class XWCardLayout extends XLayoutContainer {
 	@Override
 	public void firePropertyChange(){
 		initStyle();
+	}
+
+	public void resetTabBackground(TemplateStyle templateStyle){
+		for (int i = 0; i < this.getXCreatorCount(); i++) {
+			XWTabFitLayout xCreator = (XWTabFitLayout)this.getXCreator(i);
+			WTabFitLayout wTabFitLayout = (WTabFitLayout)xCreator.toData();
+			boolean defaultStyle = ComparatorUtils.equals(templateStyle.getStyle(), DefaultTemplateStyle.DEFAULT_TEMPLATE_STYLE);
+			wTabFitLayout.setInitialBackground(defaultStyle ? null : templateStyle.getTabDefaultBackground());
+			wTabFitLayout.setOverBackground(null);
+			wTabFitLayout.setClickBackground(null);
+			wTabFitLayout.setCustomStyle(!defaultStyle);
+			xCreator.checkButonType();
+		}
 	}
 
 }
