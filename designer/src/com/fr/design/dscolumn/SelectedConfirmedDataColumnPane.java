@@ -17,6 +17,7 @@ public class SelectedConfirmedDataColumnPane extends SelectedDataColumnPane {
         super(false);
     }
 
+    @Override
     protected void initTableNameComboBox() {
         tableNameComboBox = new TableDataComboBox(new WorkBook());
         tableNameComboBox.addItemListener(new ItemListener() {
@@ -39,7 +40,7 @@ public class SelectedConfirmedDataColumnPane extends SelectedDataColumnPane {
             TemplateTableDataWrapper wrapper = new TemplateTableDataWrapper(source.getTableData(name), name);
             tableNameComboBox.setSelectedItem(wrapper);
             tableNameComboBox.getModel().setSelectedItem(wrapper);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
     }
 }
