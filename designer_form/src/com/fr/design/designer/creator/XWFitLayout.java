@@ -28,7 +28,8 @@ import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
+
 
 /**
  * @author jim
