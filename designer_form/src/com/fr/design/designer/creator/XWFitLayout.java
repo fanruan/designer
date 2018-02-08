@@ -28,6 +28,8 @@ import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 
+import javax.swing.*;
+
 /**
  * @author jim
  * @date 2014-6-23
@@ -958,11 +960,13 @@ public class XWFitLayout extends XLayoutContainer {
     public boolean canAddInterval(int interval) {
     	int val = interval/2;
     	for (int i=0, len=this.getComponentCount(); i<len; i++) {
-    		Component comp = this.getComponent(i);
+    		XCreator comp = (XCreator) this.getComponent(i);
     		Rectangle rec = comp.getBounds();
     		Dimension d = new Dimension(this.getWidth(), this.getHeight());
     		Rectangle bound = dealBound(rec, d, val, 0);
     		if (bound.width < minWidth || bound.height< minHeight) {
+				String widgetName = comp.toData().getWidgetName();
+				JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Engine_Invalid_Setting_Cause_Reach_Min_Widget_Size", widgetName));
     			return false;
     		}
     	}
