@@ -78,13 +78,11 @@ public class FormMobileTemplateSettingsPane extends BasicBeanPane<FormMobileAttr
 
     private JPanel getAdaptivePropertyAutoMatchCheckPane() {
         JPanel panel = new JPanel(FRGUIPaneFactory.createBorderLayout());
-        final String selectedDesc = Inter.getLocText("FR-Designer_Adaptive_Property_Auto_Match");
-        final String unselectedDesc = Inter.getLocText("FR-Designer_Open_Adaptive_Property_Auto_Match");
         adaptivePropertyAutoMatchCheck = new UICheckBox();
         adaptivePropertyAutoMatchCheck.registerChangeListener(new UIObserverListener() {
             @Override
             public void doChange() {
-                adaptivePropertyAutoMatchCheck.setText(adaptivePropertyAutoMatchCheck.isSelected() ? selectedDesc : unselectedDesc);
+                adaptivePropertyAutoMatchCheck.setText(Inter.getLocText("FR-Designer_Adaptive_Property_Auto_Match"));
             }
         });
         adaptivePropertyAutoMatchCheck.setSelected(true);
