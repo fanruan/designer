@@ -12,10 +12,12 @@ import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
 import com.fr.js.WebHyperlink;
 import com.fr.stable.ParameterProvider;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.FlowLayout;
+import java.util.HashMap;
 import java.util.List;
+import javax.swing.BorderFactory;
 
 public class WebHyperlinkPane extends BasicBeanPane<WebHyperlink> {
 	private WebHyperNorthPane northPane;
@@ -31,7 +33,11 @@ public class WebHyperlinkPane extends BasicBeanPane<WebHyperlink> {
 		this.initComponents();
 	}
 
-	protected void initComponents() {
+	//支持平台内打开插件
+	public WebHyperlinkPane(HashMap hyperLinkEditorMap, boolean needRenamePane) {
+    }
+
+    protected void initComponents() {
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
 		this.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
 
