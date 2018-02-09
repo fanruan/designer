@@ -5,7 +5,7 @@ import com.fr.design.gui.frpane.HyperlinkGroupPaneActionProvider;
 /**
  * Created by plough on 2017/9/4.
  */
-public class ReportHyperlinkGroupPaneNoPop extends ReportHyperlinkGroupPane{
+public class ReportHyperlinkGroupPaneNoPop extends ReportHyperlinkGroupPane {
     private static ReportHyperlinkGroupPaneNoPop singleton;
 
     private ReportHyperlinkGroupPaneNoPop(HyperlinkGroupPaneActionProvider hyperlinkGroupPaneActionProvider) {
@@ -22,6 +22,11 @@ public class ReportHyperlinkGroupPaneNoPop extends ReportHyperlinkGroupPane{
 
     @Override
     protected boolean isNewStyle() {
+        return false;
+    }
+
+    @Override
+    public boolean needAutoSave() {
         return false;
     }
 }
