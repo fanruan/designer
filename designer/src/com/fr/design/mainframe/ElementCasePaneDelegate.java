@@ -1,38 +1,42 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
-import com.fr.design.actions.edit.HyperlinkAction;
-import com.fr.design.fun.MenuHandler;
-import com.fr.design.gui.frpane.HyperlinkGroupPane;
-import com.fr.design.menu.KeySetUtils;
-import com.fr.design.present.ConditionAttributesGroupPane;
-import com.fr.general.Inter;
-import com.fr.grid.selection.FloatSelection;
-import com.fr.grid.selection.Selection;
-import com.fr.page.ReportSettingsProvider;
-import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.DesignState;
 import com.fr.design.actions.UpdateAction;
-import com.fr.design.actions.cell.*;
+import com.fr.design.actions.cell.CellAttributeAction;
+import com.fr.design.actions.cell.CellExpandAttrAction;
+import com.fr.design.actions.cell.CellWidgetAttrAction;
+import com.fr.design.actions.cell.ConditionAttributesAction;
+import com.fr.design.actions.cell.GlobalStyleMenuDef;
 import com.fr.design.actions.columnrow.InsertColumnAction;
 import com.fr.design.actions.columnrow.InsertRowAction;
 import com.fr.design.actions.core.ActionFactory;
+import com.fr.design.actions.edit.HyperlinkAction;
 import com.fr.design.actions.edit.merge.MergeCellAction;
 import com.fr.design.actions.edit.merge.UnmergeCellAction;
 import com.fr.design.actions.utils.DeprecatedActionManager;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
+import com.fr.design.file.HistoryTemplateListPane;
+import com.fr.design.fun.MenuHandler;
+import com.fr.design.gui.frpane.HyperlinkGroupPane;
 import com.fr.design.mainframe.cell.QuickEditorRegion;
+import com.fr.design.menu.KeySetUtils;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
-import com.fr.report.worksheet.WorkSheet;
+import com.fr.design.present.ConditionAttributesGroupPane;
 import com.fr.design.roleAuthority.RolesAlreadyEditedPane;
 import com.fr.design.selection.SelectionEvent;
 import com.fr.design.selection.SelectionListener;
+import com.fr.general.Inter;
+import com.fr.grid.selection.FloatSelection;
+import com.fr.grid.selection.Selection;
+import com.fr.page.ReportSettingsProvider;
+import com.fr.report.worksheet.WorkSheet;
 import com.fr.stable.ArrayUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
 
 /**
  * 类说明: 设计面板中最上方的"插入" "单元格"下拉列表Menu模块.
@@ -79,11 +83,11 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
         CellElementPropertyPane.getInstance().populate(ElementCasePaneDelegate.this);
         QuickEditorRegion.getInstance().populate(getCurrentEditor());
         JTemplate editingTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+        // 模板初始化完成后，才能初始化超级链接面板
         if (editingTemplate != null && !editingTemplate.isUpMode()) {
             Selection editingSelection = getSelection();
-            // 模板初始化完成后，才能初始化超级链接面板
+            // 获取超级链接面板并刷新显示
             HyperlinkGroupPane hyperlinkGroupPane = editingTemplate.getHyperLinkPane(HyperlinkGroupPaneActionImpl.getInstance());
-            hyperlinkGroupPane.populate(ElementCasePaneDelegate.this);
             if (editingSelection instanceof FloatSelection) {
                 EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.REPORT_FLOAT);
                 JPanel floatPane = new JPanel(new BorderLayout());
