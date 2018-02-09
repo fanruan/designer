@@ -488,7 +488,7 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
     public void scrollPathToVisible(XCreator creator) {
         creator.seleteRelatedComponent(creator);
 
-        if (!ComponentUtils.isComponentVisible(creator) && !designer.isRoot(creator) && (creator.toData()).isVisible()) {
+        if (!ComponentUtils.isComponentVisible(creator) && !designer.isRoot(creator)) {
             designer.makeVisible(creator);
         }
 
