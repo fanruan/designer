@@ -28,7 +28,12 @@ import com.fr.stable.ArrayUtils;
 import com.fr.stable.core.PropertyChangeAdapter;
 
 import javax.swing.border.Border;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Rectangle;
 import java.beans.IntrospectionException;
 
 
@@ -621,6 +626,28 @@ public class XWTabFitLayout extends XWFitLayout {
 		FontMetrics fm = GraphHelper.getFontMetrics(f);
 		int width = fm.stringWidth(cardSwitchButton.getText())+ WIDTH_SIDE_OFFSET;
 		xCardSwitchButton.setPreferredSize(new Dimension(width, xCardSwitchButton.getHeight()));
+	}
+
+	private void checkVisible(){
+		WTabFitLayout wTabFitLayout = (WTabFitLayout)this.data;
+		CardSwitchButton cardSwitchButton = wTabFitLayout.getCurrentCard();
+		cardSwitchButton.setVisible(wTabFitLayout.isVisible());
+	}
+
+
+	/**
+	 * 是否支持设置可见
+	 * return boolean
+	 */
+	@Override
+	public boolean supportSetVisible(){
+		return true;
+	}
+
+
+	@Override
+	public void resetVisible(boolean visible){
+		checkVisible();
 	}
 
 }
