@@ -8,6 +8,7 @@ import com.fr.design.form.mobile.FormMobileAttrPane;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.FormArea;
 import com.fr.design.mainframe.JForm;
+import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.form.main.Form;
 import com.fr.form.main.mobile.FormMobileAttr;
@@ -16,7 +17,7 @@ import com.fr.plugin.ExtraClassManager;
 import com.fr.stable.ReportFunctionProcessor;
 import com.fr.stable.fun.FunctionProcessor;
 
-import javax.swing.*;
+import javax.swing.KeyStroke;
 import java.awt.event.ActionEvent;
 
 /**
@@ -54,7 +55,7 @@ public class FormMobileAttrAction extends JTemplateAction<JForm> {
                 FormMobileAttr formMobileAttr = mobileAttrPane.updateBean();
                 formTpl.setFormMobileAttr(formMobileAttr);
                 ((FormArea)jf.getFormDesign().getParent()).onMobileAttrModified();
-                jf.fireTargetModified();
+                WidgetPropertyPane.getInstance().refreshDockingView();
                 if (formMobileAttr.isMobileOnly()) {
                     FunctionProcessor processor = ExtraClassManager.getInstance().getFunctionProcessor();
                     if (processor != null) {
