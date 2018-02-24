@@ -53,6 +53,7 @@ import com.fr.general.ModuleContext;
 import com.fr.general.xml.GeneralXMLTools;
 import com.fr.io.importer.Excel2007ReportImporter;
 import com.fr.io.importer.ExcelReportImporter;
+import com.fr.io.utils.ResourceIOUtils;
 import com.fr.main.impl.WorkBook;
 import com.fr.quickeditor.cellquick.CellBiasTextPainterEditor;
 import com.fr.quickeditor.cellquick.CellDSColumnEditor;
@@ -348,7 +349,7 @@ public class DesignerModule extends DesignModule {
                 namestyle.clear();
                 String checkStr = StringUtils.EMPTY;
                 try {
-                    checkStr = IOUtils.inputStream2String(file.asInputStream());
+                    checkStr = ResourceIOUtils.inputStream2String(file.asInputStream());
                     tpl.readStream(file.asInputStream());
                 } catch (Exception exp) {
                     String errorMessage = StringUtils.EMPTY;

@@ -28,6 +28,7 @@ import com.fr.file.FileNodeFILE;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
+import com.fr.io.utils.ResourceIOUtils;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.project.ProjectConstants;
@@ -382,8 +383,8 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
                 return;
             }
 
-            final FileNodeFILE nodeFile = new FileNodeFILE(new FileNode(StableUtils.pathJoin(new String[]{ProjectConstants.REPORTLETS_NAME, reportPath}), false));
-            final String path = StableUtils.pathJoin(new String[]{nodeFile.getEnvPath(), nodeFile.getPath()});
+            final FileNodeFILE nodeFile = new FileNodeFILE(new FileNode(StableUtils.pathJoin(ProjectConstants.REPORTLETS_NAME, reportPath), false));
+            final String path = nodeFile.getPath();
             oldName = nodeFile.getName();
             suffix = oldName.substring(oldName.lastIndexOf(CoreConstants.DOT), oldName.length());
             oldName = oldName.replaceAll(suffix, "");
@@ -476,8 +477,9 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             String newPath = path.replace(nodeFile.getName(), userInput + suffix);
             renameTemplateInMemory(nodeFile, userInput + suffix, oldName + suffix);
             DesignerEnvManager.getEnvManager().replaceRecentOpenedFilePath(oldPath, newPath.replaceAll("/", "\\\\"));
-            File newFile = new File(newPath);
-            new File(path).renameTo(newFile);
+
+            //模版重命名
+            ResourceIOUtils.renameTo(path, newPath);
             selectedOperation.refresh();
             DesignerContext.getDesignerFrame().setTitle();
             jd.dispose();
