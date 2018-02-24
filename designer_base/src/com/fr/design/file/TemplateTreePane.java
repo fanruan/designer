@@ -320,7 +320,7 @@ public class TemplateTreePane extends JPanel implements FileOperations {
             try {
                 fileUtils.moveToTrash(new File[]{new File(StableUtils.pathJoin(nodeFile.getEnvPath(), nodeFile.getPath()))});
                 //todo 走下这个流程，否则集群下其它节点无法同步删除
-                //DEC-156 资源文件调用接口调整FRContext.getCurrentEnv().deleteFile(nodeFile.getPath());
+                //FRContext.getCurrentEnv().deleteFile(nodeFile.getPath());
             } catch (IOException e) {
                 FRLogger.getLogger().info(e.getMessage());
                 FRContext.getCurrentEnv().deleteFile(nodeFile.getPath());
