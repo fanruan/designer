@@ -26,7 +26,11 @@ import com.sun.jna.platform.FileUtils;
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -139,7 +143,7 @@ public class TemplateTreePane extends JPanel implements FileOperations {
     public void openContainerFolder() {
         FileNode fn = TemplateTreePane.this.reportletsTree.getSelectedFileNode();
         LocalEnv localEnv = (LocalEnv) FRContext.getCurrentEnv();
-        String filePath = StableUtils.pathJoin(new String[]{localEnv.path, fn.getEnvPath()});
+        String filePath = StableUtils.pathJoin(localEnv.path, fn.getEnvPath());
         filePath = filePath.substring(0, filePath.lastIndexOf(CoreConstants.SEPARATOR));
         try {
             Desktop.getDesktop().open(new File(filePath));
@@ -315,6 +319,8 @@ public class TemplateTreePane extends JPanel implements FileOperations {
         if (fileUtils.hasTrash()) {
             try {
                 fileUtils.moveToTrash(new File[]{new File(StableUtils.pathJoin(nodeFile.getEnvPath(), nodeFile.getPath()))});
+                //todo 走下这个流程，否则集群下其它节点无法同步删除
+                //FRContext.getCurrentEnv().deleteFile(nodeFile.getPath());
             } catch (IOException e) {
                 FRLogger.getLogger().info(e.getMessage());
                 FRContext.getCurrentEnv().deleteFile(nodeFile.getPath());
