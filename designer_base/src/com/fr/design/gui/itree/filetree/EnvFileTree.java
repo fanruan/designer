@@ -49,8 +49,6 @@ public class EnvFileTree extends RefreshableJTree {
 		this.setSubPathes(subPathes);
 
 		this.init();
-		//9.0的时候是在设置环境之前构造的这个对象，10.0改为之后了
-		this.refreshEnv(FRContext.getCurrentEnv());
 	}
 
 	private void setTreeRootPath(String path) {

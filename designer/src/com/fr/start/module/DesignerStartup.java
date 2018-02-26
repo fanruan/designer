@@ -4,9 +4,11 @@ import com.fr.design.DesignerEnvManager;
 import com.fr.design.utils.DesignUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.module.Activator;
+import com.fr.stable.CoreActivator;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.module.ModuleListener;
 import com.fr.start.Designer;
+import com.fr.start.EnvSwitcher;
 import com.fr.start.ReportSplashPane;
 import com.fr.start.SplashWindow;
 import com.fr.startup.activators.BasicActivator;
@@ -34,13 +36,16 @@ public class DesignerStartup extends Activator {
         startSub(BasicActivator.class);
         //启动画面
         SplashWindow splashWindow = createSplashWindow();
+        String[] args = getModule().findSingleton(StartupArgs.class).get();
+        Designer designer = new Designer(args);
         //启动env
         startSub(DesignerEnvProvider.class);
         //启动各个模块
-        getSub("core").start();
+        getSub(CoreActivator.class).start();
         getSub("designer").start();
+        getRoot().getSingleton(EnvSwitcher.class).switch2LastEnv();
         //启动设计器界面
-        startDesigner();
+        designer.show(args);
         //启动画面结束
         splashWindow.setVisible(false);
         splashWindow.dispose();
@@ -53,12 +58,6 @@ public class DesignerStartup extends Activator {
         SplashWindow splashWindow = new SplashWindow(reportSplashPane);
         getModule().setSingleton(ModuleListener.class, reportSplashPane.getModuleListener());
         return splashWindow;
-    }
-    
-    
-    private void startDesigner() {
-        
-        new Designer(getModule().getSingleton(StartupArgs.class).get());
     }
     
     private boolean checkMultiStart() {

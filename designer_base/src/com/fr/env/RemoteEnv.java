@@ -31,6 +31,7 @@ import com.fr.file.DatasourceManagerProvider;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.*;
 import com.fr.general.http.HttpClient;
+import com.fr.io.utils.ResourceIOUtils;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
@@ -39,6 +40,7 @@ import com.fr.regist.License;
 import com.fr.share.ShareConstants;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.EncodeConstants;
+import com.fr.stable.Filter;
 import com.fr.stable.JavaCompileInfo;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
@@ -1481,16 +1483,11 @@ public class RemoteEnv extends AbstractEnv {
      * @param path 制定路径,是基于报表目录下resource文件夹路径
      * @return 读到的文件
      */
-    public File[] readPathSvgFiles(String path) {
-        String cataloguePath = StableUtils.pathJoin(new String[]{CacheManager.getProviderInstance().getCacheDirectory().getPath(), SvgProvider.SERVER, path});
+    public String[] readPathSvgFiles(String path) {
+        String cataloguePath = StableUtils.pathJoin(CacheManager.getProviderInstance().getCacheDirectory().getPath(), SvgProvider.SERVER, path);
 
-        //检查缓存文件保存的目录下serversvgs文件夹是否存在 ，先用来暂存服务器读过来的svg文件
-        File catalogue = new File(cataloguePath);
-        if (!catalogue.exists()) {
-            catalogue.mkdirs();
-        }
 
-        ArrayList<File> fileArray = new ArrayList<>();
+        ArrayList<String> fileArray = new ArrayList<>();
         try {
             HashMap<String, String> para = new HashMap<String, String>();
             para.put("op", "fr_remote_design");
@@ -1506,17 +1503,17 @@ public class RemoteEnv extends AbstractEnv {
                 JSONObject jsonObject = (JSONObject) ja.get(i);
                 String svgFileName = (String) jsonObject.get("svgfileName");
                 String svgfileContent = (String) jsonObject.get("svgfileContent");
-                File file = new File(StableUtils.pathJoin(new String[]{cataloguePath, svgFileName}));
+
+                String file = StableUtils.pathJoin(cataloguePath, svgFileName);
                 InputStream in = new ByteArrayInputStream(svgfileContent.getBytes(EncodeConstants.ENCODING_UTF_8));
-                FileOutputStream out = new FileOutputStream(file);
-                IOUtils.copyBinaryTo(in, out);
+                ResourceIOUtils.write(file, in);
                 fileArray.add(file);
             }
         } catch (Exception e) {
             FRContext.getLogger().error(e.getMessage());
         }
 
-        return fileArray.toArray(new File[fileArray.size()]);
+        return fileArray.toArray(new String[fileArray.size()]);
     }
 
 
@@ -2098,14 +2095,12 @@ public class RemoteEnv extends AbstractEnv {
     public void pluginServiceStart(String serviceID){
     }
     @Override
-    public File[] loadREUFile() throws Exception {
-        File target = new File(CacheManager.getProviderInstance().getCacheDirectory(),
-                ShareConstants.DIR_SHARE_CACHE);
-        StableUtils.deleteFile(target);
-        StableUtils.mkdirs(target);
-        File cacheDir = null;
-        File zip = null;
-        OutputStream out = null;
+    public String[] loadREUFile() throws Exception {
+        ResourceIOUtils.delete(StableUtils.pathJoin(
+                CacheManager.getProviderInstance().getCacheDirectory().getAbsolutePath(),
+                ShareConstants.DIR_SHARE_CACHE));
+
+        String zipFilePath = null;
         try {
             HashMap<String, String> para = new HashMap<String, String>();
             para.put("op", "fr_remote_design");
@@ -2114,34 +2109,35 @@ public class RemoteEnv extends AbstractEnv {
             para.put("currentUsername", this.getUser());
 
             HttpClient client = createHttpMethod(para);
-            InputStream input = client.getResponseStream();//拿到服务端传过来的整个共享文件夹的压缩文件的文件流
-            zip = new File(StableUtils.pathJoin(CacheManager.getProviderInstance().getCacheDirectory().getAbsolutePath()), "share.zip");
-            cacheDir = new File(StableUtils.pathJoin(CacheManager.getProviderInstance().getCacheDirectory().getAbsolutePath()), ShareConstants.DIR_SHARE_CACHE);
-            StableUtils.deleteFile(cacheDir);
-            StableUtils.mkdirs(cacheDir);
-            StableUtils.makesureFileExist(zip);
-            out = new FileOutputStream(zip);
-            IOUtils.copyBinaryTo(input, out);//放到本地缓存目录下
+            //拿到服务端传过来的整个共享文件夹的压缩文件的文件流
+            InputStream input = client.getResponseStream();
 
-            IOUtils.unzip(zip, cacheDir.getAbsolutePath(), EncodeConstants.ENCODING_GBK);//先解压到临时目录
-            if (cacheDir.exists() && cacheDir.isDirectory()) {
-                return cacheDir.listFiles(new FilenameFilter() {
-                    public boolean accept(File file, String s) {
-                        return s.endsWith("reu");
-                    }
-                });
-            }
+            zipFilePath = StableUtils.pathJoin(CacheManager.getProviderInstance().getCacheDirectory().getAbsolutePath(), "share.zip");
+            String cacheDir = StableUtils.pathJoin(CacheManager.getProviderInstance().getCacheDirectory().getAbsolutePath(), ShareConstants.DIR_SHARE_CACHE);
+
+            ResourceIOUtils.write(zipFilePath, input);
+            ResourceIOUtils.unzip(zipFilePath, cacheDir, EncodeConstants.ENCODING_GBK);
+
+            List<String> files = ResourceIOUtils.listWithFullPath(cacheDir, new Filter<String>() {
+                @Override
+                public boolean accept(String s) {
+                    return s.endsWith(ProjectConstants.REU);
+                }
+            });
+
+
+            return files.toArray(new String[files.size()]);
 
         } catch (Exception e) {
             FRContext.getLogger().error(e.getMessage());
         } finally {
-            if (out != null) {
-                out.flush();
-                out.close();
+
+            if (zipFilePath != null) {
+                ResourceIOUtils.delete(zipFilePath);
             }
-            StableUtils.deleteFile(zip);
         }
-        return new File[0];
+
+        return new String[0];
     }
 
     @Override
