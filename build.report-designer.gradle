@@ -1,0 +1,45 @@
+
+apply plugin: 'java'
+tasks.withType(JavaCompile){
+		options.encoding = 'UTF-8'
+}
+//指定构建的jdk版本
+sourceCompatibility=1.6
+
+//jar包版本
+version='10.0'
+//jar包名称
+jar{
+	baseName='fine-report-designer'
+}
+
+def srcDir="."
+def baseDir=".."
+
+//获取什么分支名
+FileTree files =fileTree(dir:'./',include:'build.*.gradle')
+def buildDir=files[0].path.substring(0,files[0].path.lastIndexOf ('\\'))
+def branchName=buildDir.substring(buildDir.lastIndexOf ('\\')+1)
+
+//输出jar名称
+FileTree f=fileTree(dir:"${baseDir}/design/designer_base/build/libs",include:"**/*.jar");
+f.each{File file->
+	println "----------${file.path}"
+}
+task unjars {
+ ant{
+   unjar(dest:"build/classes/main"){
+   fileset(dir:"${baseDir}/design/designer_base/build/libs"){
+    include(name:'fr-*.jar')
+   }
+   fileset(dir:"${baseDir}/design/designer_chart/build/libs"){
+    include(name:'fr-*.jar')
+   }
+   fileset(dir:"${baseDir}/design/designer_form/build/libs"){
+    include(name:'fr-*.jar')
+   } 
+  }
+
+ }
+}
+jar.dependsOn unjars
