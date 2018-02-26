@@ -5,6 +5,8 @@ import com.fr.base.mobile.ChartMobileFitAttrState;
 import com.fr.base.mobile.ChartMobileFitAttrStateProvider;
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.designer.creator.XCreator;
+import com.fr.design.designer.creator.XWAbsoluteBodyLayout;
+import com.fr.design.designer.creator.XWAbsoluteLayout;
 import com.fr.design.designer.properties.items.Item;
 import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
@@ -53,8 +55,27 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane{
     public void initPropertyGroups(Object source) {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
-        this.add(isAppRelayout() ? getMobileSettingsPane() : getUnavailableTipPane(), BorderLayout.NORTH);
+        JPanel mobileSettingsPane;
+        if (isInAbsoluteLayout()) {
+            mobileSettingsPane = getUnavailableTipPane(Inter.getLocText("FR-Designer_Tip_Chart_Adaptivity_Unavailable_In_Absolute_Layout"));
+        } else if (!isAppRelayout()) {
+            mobileSettingsPane = getUnavailableTipPane(Inter.getLocText("FR-Designer_Tip_Chart_Adaptivity_Unavailable"));
+        } else {
+            mobileSettingsPane = getMobileSettingsPane();
+        }
+        this.add(mobileSettingsPane, BorderLayout.NORTH);
         this.repaint();
+    }
+
+    private boolean isInAbsoluteLayout() {
+        Container parent = xCreator.getParent();
+        while (parent != null) {
+            if (parent instanceof XWAbsoluteLayout && !(parent instanceof XWAbsoluteBodyLayout)) {
+                return true;
+            }
+            parent = parent.getParent();
+        }
+        return false;
     }
 
     // body是否开启手机重布局
@@ -62,10 +83,10 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane{
         return ((WFitLayout)designer.getRootComponent().toData()).isAppRelayout();
     }
 
-    private JPanel getUnavailableTipPane() {
+    private JPanel getUnavailableTipPane(String tipText) {
         JPanel panel = new JPanel(new BorderLayout());
         UILabel unavailableTipLabel = new UILabel();
-        unavailableTipLabel.setText("<html>" + Inter.getLocText("FR-Designer_Tip_Chart_Adaptivity_Unavailable") + "<html>");
+        unavailableTipLabel.setText("<html>" + tipText + "<html>");
         unavailableTipLabel.setForeground(Color.gray);
         panel.add(unavailableTipLabel, BorderLayout.NORTH);
         return panel;
@@ -129,7 +150,7 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane{
     public void populate(FormDesigner designer) {
         this.designer = designer;
 
-        if (!isAppRelayout()) {
+        if (!isAppRelayout() || isInAbsoluteLayout()) {
             return;
         }
 
