@@ -3,26 +3,21 @@
  */
 package com.fr.start;
 
-import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.file.MutilTempalteTabPane;
 import com.fr.design.file.TemplateTreePane;
 import com.fr.design.fun.DesignerStartOpenFileProcessor;
-import com.fr.design.fun.impl.GlobalListenerProviderManager;
+import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrame;
-import com.fr.design.mainframe.TemplatePane;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDock;
 import com.fr.design.utils.DesignUtils;
-import com.fr.env.SignIn;
 import com.fr.file.FILE;
 import com.fr.file.FILEFactory;
 import com.fr.file.FileFILE;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
-import com.fr.general.Inter;
-import com.fr.general.ModuleContext;
 import com.fr.stable.OperatingSystem;
 
 import java.awt.*;
@@ -44,25 +39,28 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
     }
     
     private void init(String[] args) {
-    
+        
         // 初始化look and feel.这个在预加载之前执行是因为lookAndFeel里的东西，预加载时也要用到
         DesignUtils.initLookAndFeel();
     
         // 初始化Log Handler
         DesignerEnvManager.loadLogSetting();
-        DesignerFrame df = createDesignerFrame();
+        createDesignerFrame();
+    }
     
+    public void show(String[] args) {
+        
         collectUserInformation();
-        showDesignerFrame(args, df, false);
+        showDesignerFrame(args, DesignerContext.getDesignerFrame(), false);
         for (int i = 0; !TemplateTreePane.getInstance().getTemplateFileTree().isTemplateShowing() && i < LOAD_TREE_MAXNUM; i++) {
             TemplateTreePane.getInstance().getTemplateFileTree().refresh();
         }
     }
     
-   
-
-    private DesignerFrame createDesignerFrame() {
-        return new DesignerFrame(this);
+    
+    private void createDesignerFrame() {
+        
+        new DesignerFrame(this);
     }
 
 
