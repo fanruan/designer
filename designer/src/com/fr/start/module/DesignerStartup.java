@@ -4,6 +4,7 @@ import com.fr.design.DesignerEnvManager;
 import com.fr.design.utils.DesignUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.module.Activator;
+import com.fr.stable.CoreActivator;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.module.ModuleListener;
 import com.fr.start.Designer;
@@ -40,7 +41,7 @@ public class DesignerStartup extends Activator {
         //启动env
         startSub(DesignerEnvProvider.class);
         //启动各个模块
-        getSub("core").start();
+        getSub(CoreActivator.class).start();
         getSub("designer").start();
         getRoot().getSingleton(EnvSwitcher.class).switch2LastEnv();
         //启动设计器界面
