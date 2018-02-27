@@ -53,7 +53,6 @@ public class RootDesignDefinePane extends AbstractDataModify<WParameterLayout> {
         initComponent();
     }
 
-
     public void initComponent() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         designerWidth = new UISpinner(1, Integer.MAX_VALUE, 1);
