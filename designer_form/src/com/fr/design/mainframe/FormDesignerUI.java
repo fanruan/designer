@@ -7,17 +7,16 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 import javax.swing.plaf.ComponentUI;
 
-import com.fr.base.BaseUtils;
 import com.fr.base.GraphHelper;
 import com.fr.base.ScreenResolution;
 import com.fr.base.Utils;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
@@ -33,7 +32,6 @@ import com.fr.design.utils.ComponentUtils;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Constants;
-import com.fr.stable.CoreGraphHelper;
 
 /**
  * FormDesigner的UI类，是一个有状态的UI类，它根据FormDesigner的当前状态画出
@@ -85,7 +83,7 @@ public class FormDesignerUI extends ComponentUI {
 
         paintSelection(g);
 
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             paintAuthorityDetails(g, designer.getRootComponent());
         }
 

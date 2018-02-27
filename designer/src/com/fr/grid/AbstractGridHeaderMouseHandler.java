@@ -18,7 +18,7 @@ import com.fr.base.BaseUtils;
 import com.fr.base.DynamicUnitList;
 import com.fr.base.FRContext;
 import com.fr.base.ScreenResolution;
-import com.fr.base.Utils;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.mainframe.ElementCasePane;
@@ -417,7 +417,7 @@ public abstract class AbstractGridHeaderMouseHandler extends MouseInputAdapter {
             this.setToolTipText2(this.getSelectedHeaderTooltip(Math.abs(startMultiSelectIndex - endMultiSelectIndex) + 1));
         } else if (dragType == GridUtils.DRAG_CELL_SIZE) {
             //权限编辑状态不可以改变行列的宽度
-            if (BaseUtils.isAuthorityEditing()) {
+            if (DesignerMode.isAuthorityEditing()) {
                 return;
             }
             if (!(isDragPermited)) {
@@ -488,7 +488,7 @@ public abstract class AbstractGridHeaderMouseHandler extends MouseInputAdapter {
             tmpIncreaseSize = sizeList.get(i).toPixD(resolution);
             tmpSize2 = tmpIncreaseSize <= 0 ? tmpSize1 + 1 : tmpSize1 + tmpIncreaseSize;
 
-            if (BaseUtils.isAuthorityEditing()) {
+            if (DesignerMode.isAuthorityEditing()) {
                 break;
             }
 

@@ -1,6 +1,6 @@
 package com.fr.design.mainframe;
 
-import com.fr.base.BaseUtils;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignState;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.actions.cell.CellAttributeAction;
@@ -51,7 +51,7 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
         this.addSelectionChangeListener(new SelectionListener() {
             @Override
             public void selectionChanged(SelectionEvent e) {
-                if (!isEditable() && !BaseUtils.isAuthorityEditing()) {
+                if (!isEditable() && !DesignerMode.isAuthorityEditing()) {
                     return;
                 }
                 refreshPropertyPanes();
@@ -71,7 +71,7 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
 
     private void refreshPropertyPanes() {
         //在编辑权限，所以要更新权限编辑面板
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             AuthorityPropertyPane authorityPropertyPane = new AuthorityPropertyPane(ElementCasePaneDelegate.this);
             authorityPropertyPane.populate();
             EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.AUTHORITY_EDITION);
@@ -124,7 +124,7 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
      * @return 返回MenuDef数组.
      */
     public MenuDef[] menus4Target() {
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             return super.menus4Target();
         }
         return (MenuDef[]) ArrayUtils.addAll(super.menus4Target(), new MenuDef[]{createInsertMenuDef(), createCellMenuDef()});
