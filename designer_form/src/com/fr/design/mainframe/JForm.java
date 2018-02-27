@@ -1,8 +1,7 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.PaperSize;
-import com.fr.base.Parameter;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignState;
 import com.fr.design.actions.core.WorkBookSupportable;
 import com.fr.design.actions.file.WebPreviewUtils;
@@ -57,23 +56,12 @@ import com.fr.form.ui.container.WLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
-import com.fr.page.PaperSettingProvider;
-import com.fr.report.worksheet.FormElementCase;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Constants;
 import com.fr.stable.bridge.StableFactory;
 
-import javax.swing.BorderFactory;
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -140,7 +128,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         return processInfo;
     }
 
-    public FormECCompositeProvider getReportComposite(){
+    public FormECCompositeProvider getReportComposite() {
         return this.reportComposite;
     }
 
@@ -203,7 +191,8 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
      */
     public ShortCut[] shortcut4FileMenu() {
         return (ShortCut[]) ArrayUtils.addAll(
-                super.shortcut4FileMenu(), new ShortCut[]{this.createWorkBookExportMenu()}
+                super.shortcut4FileMenu(),
+                DesignerMode.isVcsMode() ? new ShortCut[0] : new ShortCut[]{this.createWorkBookExportMenu()}
         );
     }
 
@@ -256,11 +245,14 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         });
         formDesign.addDesignerEditListener(new DesignerEditListener() {
             private XComponent lastAffectedCreator;
+
             @Override
             public void fireCreatorModified(DesignerEvent evt) {
-                if (evt.getCreatorEventID() == DesignerEvent.CREATOR_CUTED
-                        || evt.getCreatorEventID() == DesignerEvent.CREATOR_DELETED) {
+                if (evt.getCreatorEventID() == DesignerEvent.CREATOR_CUTED) {
                     setPropertyPaneChange(formDesign.getRootComponent());
+                } else if (evt.getCreatorEventID() == DesignerEvent.CREATOR_DELETED) {
+                    // 在 delete 之前，会先 select 父组件。这里直接传入 lastAffectedCreator 就好了
+                    setPropertyPaneChange(lastAffectedCreator);
                 } else if (evt.getCreatorEventID() == DesignerEvent.CREATOR_SELECTED) {
                     lastAffectedCreator = evt.getAffectedCreator();
                     setPropertyPaneChange(lastAffectedCreator);
@@ -552,9 +544,9 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     @Override
     protected void applyUndoState(FormUndoState u) {
         try {
-            //JForm的target重置
-            this.setTarget((Form) u.getForm().clone());
             if (this.index == FORM_TAB) {
+                //JForm的target重置
+                this.setTarget((Form) u.getForm().clone());
                 JForm.this.refreshRoot();
                 this.formDesign.getArea().setAreaSize(u.getAreaSize(), u.getHorizontalValue(), u.getVerticalValue(), u.getWidthValue(), u.getHeightValue(), u.getSlideValue());
                 //撤销的时候要重新选择的body布局
@@ -562,9 +554,12 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
                         formDesign.getRootComponent() == selectedBodyLayout() ? u.getSelectWidgets() : new Widget[]{selectedBodyLayout().toData()}));
                 refreshToolArea();
             } else {
+                // 只在报表块里撤销是不需要修改外部form对象的, 因为编辑的是当前报表块.
+                // 修改了JForm的Target需要同步修改formDesign的Target.
+                Form undoForm = (Form) u.getForm().clone();
                 String widgetName = this.formDesign.getElementCaseContainerName();
                 //这儿太坑了，u.getForm() 与 getTarget内容不一样
-                FormElementCaseProvider dataTable = getTarget().getElementCaseByName(widgetName);
+                FormElementCaseProvider dataTable = undoForm.getElementCaseByName(widgetName);
                 this.reportComposite.setSelectedWidget(dataTable);
                 //下面这句话是防止撤销之后直接退出编辑再编辑撤销的东西会回来,因为撤销不会保存EC
                 formDesign.setElementCase(dataTable);
@@ -676,11 +671,6 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     }
 
     @Override
-    public Parameter[] getJTemplateParameters() {
-        return this.getTarget().getTemplateParameters();
-    }
-
-    @Override
     /**
      * 创建菜单项Preview
      *
@@ -738,9 +728,8 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.FORM);
         EastRegionContainerPane.getInstance().replaceWidgetSettingsPane(WidgetPropertyPane.getInstance(formDesign));
         ParameterPropertyPane parameterPropertyPane = ParameterPropertyPane.getInstance(formDesign);
-        parameterPropertyPane.setAddParaPaneVisible(false, this);
+        parameterPropertyPane.refreshState(this);
         EastRegionContainerPane.getInstance().addParameterPane(parameterPropertyPane);
-        EastRegionContainerPane.getInstance().setParameterHeight(parameterPropertyPane.getPreferredSize().height);
 
         refreshWidgetLibPane();
     }
@@ -811,6 +800,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
             JForm.this.fireTargetModified();
         }
     }
+
     /**
      * 在Form和ElementCase, 以及ElementCase和ElementCase之间切换
      *
@@ -836,13 +826,8 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         HashMap<String, Class> designerClass = new HashMap<String, Class>();
         designerClass.put(Constants.ARG_0, FormElementCaseProvider.class);
 
-        Object[] designerArg = new Object[]{formDesign.getElementCase(), getTarget()};
-        FormECDesignerProvider formECDesigner = StableFactory.getMarkedInstanceObjectFromClass(FormECDesignerProvider.XML_TAG, designerArg, designerClass, FormECDesignerProvider.class);
-        // 如果是移动端专属模版，需要修改页面大小并显示边缘线
-        PaperSettingProvider paperSetting = ((FormElementCase)formECDesigner.getEditingElementCase()).getReportSettings().getPaperSetting();
-        paperSetting.setPaperSize(getTarget().getFormMobileAttr().isMobileOnly() ? PaperSize.PAPERSIZE_MOBILE : new PaperSize());
-
-        return formECDesigner;
+        Object[] designerArg = new Object[]{formDesign.getElementCase()};
+        return StableFactory.getMarkedInstanceObjectFromClass(FormECDesignerProvider.XML_TAG, designerArg, designerClass, FormECDesignerProvider.class);
     }
 
     /**

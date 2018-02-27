@@ -4,7 +4,6 @@
 package com.fr.design.designer.creator;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.GraphHelper;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
@@ -17,7 +16,6 @@ import com.fr.design.mainframe.*;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WTitleLayout;
-import com.fr.stable.Constants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 
@@ -691,14 +689,6 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
     public void stopEditing() {
         // do nothing
     }
-
-	/**
-	 *  编辑状态的时候需要重新绘制下边框
-	 *
-	 */
-	public void paintBorder(Graphics g, Rectangle bounds){
-		GraphHelper.draw(g, bounds, Constants.LINE_MEDIUM);
-	}
 
 	/**
 	 * 创建右击弹出菜单
