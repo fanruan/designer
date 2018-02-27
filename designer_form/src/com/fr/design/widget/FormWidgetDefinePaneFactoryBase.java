@@ -85,8 +85,8 @@ public class FormWidgetDefinePaneFactoryBase {
         Appearance dn = defineMap.get(widget.getClass());
         DataModify<Widget> definePane = null;
         try {
-            Constructor con =  dn.getDefineClass().getConstructor(XCreator.class);
-            definePane  = (DataModify)con.newInstance(creator);
+            Constructor con =  dn.getDefineClass().getConstructor(XCreator.class, FormDesigner.class);
+            definePane  = (DataModify)con.newInstance(creator, designer);
             operator.did(definePane.dataUI(), dn.getDisplayName());
         } catch (Exception e) {
             FRContext.getLogger().error(e.getMessage(), e);
