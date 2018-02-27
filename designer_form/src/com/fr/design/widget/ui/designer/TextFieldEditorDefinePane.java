@@ -28,10 +28,6 @@ public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor>
         super(xCreator);
     }
 
-    public TextFieldEditorDefinePane(XCreator xCreator, FormDesigner designer) {
-        super(xCreator, designer);
-    }
-
     @Override
     protected JPanel setFirstContentPane() {
         regPane = createRegPane();

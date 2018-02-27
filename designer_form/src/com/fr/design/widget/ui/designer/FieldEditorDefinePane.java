@@ -10,6 +10,7 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.FormDesigner;
+import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.design.widget.ui.designer.component.FontSizeComboPane;
 import com.fr.form.ui.FieldEditor;
 import com.fr.form.ui.Widget;
@@ -35,11 +36,6 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
 
     public FieldEditorDefinePane(XCreator xCreator) {
         super(xCreator);
-        this.initComponents();
-    }
-
-    public FieldEditorDefinePane(XCreator xCreator, FormDesigner designer) {
-        super(xCreator, designer);
         this.initComponents();
     }
 
@@ -79,6 +75,7 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
         e.setAllowBlank(this.allowBlankCheckBox.isSelected());
         e.setErrorMessage(this.errorMsgTextField.getText());
         e.setFontSize(fontSizePane.getValue());
+        designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
         if (!ComparatorUtils.equals(e.getLabelName(), labelNameTextField.getText())) {
             XCreator xCreator = designer.getSelectionModel().getSelection().getSelectedCreator();
             Widget selectedWidget = xCreator.toData();
