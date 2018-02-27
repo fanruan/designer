@@ -230,6 +230,13 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         updateAllPropertyPane();
     }
 
+    /**
+    * 可通过此方法，判断当前的编辑模式
+    * */
+    public PropertyMode getCurrentMode() {
+        return currentMode;
+    }
+
     public void updateAllPropertyPane() {
         updatePropertyItemMap();
         initContentPane();
