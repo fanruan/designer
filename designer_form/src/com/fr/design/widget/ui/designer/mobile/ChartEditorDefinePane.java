@@ -1,0 +1,191 @@
+package com.fr.design.widget.ui.designer.mobile;
+
+import com.fr.base.mobile.ChartMobileAttrProvider;
+import com.fr.base.mobile.ChartMobileFitAttrState;
+import com.fr.base.mobile.ChartMobileFitAttrStateProvider;
+import com.fr.design.constants.LayoutConstants;
+import com.fr.design.designer.creator.XCreator;
+import com.fr.design.designer.creator.XWAbsoluteBodyLayout;
+import com.fr.design.designer.creator.XWAbsoluteLayout;
+import com.fr.design.designer.properties.items.Item;
+import com.fr.design.foldablepane.UIExpandablePane;
+import com.fr.design.gui.frpane.AttributeChangeListener;
+import com.fr.design.gui.icombobox.UIComboBox;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.mainframe.FormDesigner;
+import com.fr.design.mainframe.WidgetPropertyPane;
+import com.fr.form.FormFunctionProcessor;
+import com.fr.form.ui.BaseChartEditor;
+import com.fr.form.ui.container.WFitLayout;
+import com.fr.general.Inter;
+import com.fr.plugin.ExtraClassManager;
+import com.fr.stable.StringUtils;
+import com.fr.stable.fun.FunctionProcessor;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+
+/**
+ * Created by plough on 2018/1/18.
+ */
+public class ChartEditorDefinePane extends MobileWidgetDefinePane{
+    private static final Item[] ITEMS = {
+            new Item(ChartMobileFitAttrState.AUTO.description(), ChartMobileFitAttrState.AUTO),
+            new Item(ChartMobileFitAttrState.AREA.description(), ChartMobileFitAttrState.AREA),
+            new Item(ChartMobileFitAttrState.PROPORTION.description(), ChartMobileFitAttrState.PROPORTION)
+    };
+
+    private XCreator xCreator; // 当前选中控件的xCreator
+    private FormDesigner designer; // 当前设计器
+    private UIComboBox zoomOutComboBox;// 缩小逻辑下拉框
+    private AttributeChangeListener changeListener;
+    private UILabel tipLabel;
+
+    public ChartEditorDefinePane (XCreator xCreator) {
+        this.xCreator = xCreator;
+    }
+
+    @Override
+    public void initPropertyGroups(Object source) {
+        this.setLayout(FRGUIPaneFactory.createBorderLayout());
+        this.designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
+        JPanel mobileSettingsPane;
+        if (isInAbsoluteLayout()) {
+            mobileSettingsPane = getUnavailableTipPane(Inter.getLocText("FR-Designer_Tip_Chart_Adaptivity_Unavailable_In_Absolute_Layout"));
+        } else if (!isAppRelayout()) {
+            mobileSettingsPane = getUnavailableTipPane(Inter.getLocText("FR-Designer_Tip_Chart_Adaptivity_Unavailable"));
+        } else {
+            mobileSettingsPane = getMobileSettingsPane();
+        }
+        this.add(mobileSettingsPane, BorderLayout.NORTH);
+        this.repaint();
+    }
+
+    private boolean isInAbsoluteLayout() {
+        Container parent = xCreator.getParent();
+        while (parent != null) {
+            if (parent instanceof XWAbsoluteLayout && !(parent instanceof XWAbsoluteBodyLayout)) {
+                return true;
+            }
+            parent = parent.getParent();
+        }
+        return false;
+    }
+
+    // body是否开启手机重布局
+    private boolean isAppRelayout() {
+        return ((WFitLayout)designer.getRootComponent().toData()).isAppRelayout();
+    }
+
+    private JPanel getUnavailableTipPane(String tipText) {
+        JPanel panel = new JPanel(new BorderLayout());
+        UILabel unavailableTipLabel = new UILabel();
+        unavailableTipLabel.setText("<html>" + tipText + "<html>");
+        unavailableTipLabel.setForeground(Color.gray);
+        panel.add(unavailableTipLabel, BorderLayout.NORTH);
+        return panel;
+    }
+
+    private UIExpandablePane getMobileSettingsPane() {
+        initZoomOutComboBox();
+
+        tipLabel = new UILabel();
+        tipLabel.setForeground(Color.gray);
+        updateTipLabel();
+
+        Component[][] components = new Component[][]{
+                new Component[] {new UILabel(Inter.getLocText("FR-Designer_Zoom_In_Logic"), SwingConstants.LEFT), new UILabel(ChartMobileFitAttrState.PROPORTION.description())},
+                new Component[] {new UILabel(Inter.getLocText("FR-Designer_Zoom_Out_Logic"), SwingConstants.LEFT), zoomOutComboBox},
+                new Component[] {tipLabel, null}
+        };
+
+        double f = TableLayout.FILL;
+        double p = TableLayout.PREFERRED;
+        double[] rowSize = {p, p, p};
+        double[] columnSize = {p,f};
+        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}};
+        final JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 30, LayoutConstants.VGAP_LARGE);
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+        final JPanel panelWrapper = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        panelWrapper.add(panel, BorderLayout.NORTH);
+
+        return new UIExpandablePane(Inter.getLocText("FR-Designer_Chart_Adaptivity"), 280, 20, panelWrapper);
+    }
+
+    private void initZoomOutComboBox() {
+        this.zoomOutComboBox = new UIComboBox(ITEMS);
+    }
+
+
+    private void updateTipLabel() {
+        ChartMobileFitAttrState fitAttrState = (ChartMobileFitAttrState) ((Item)zoomOutComboBox.getSelectedItem()).getValue();
+        // 使用 html，可以自动换行
+        tipLabel.setText("<html>" + fitAttrState.tip() + "</html>");
+    }
+
+    private void bindListeners2Widgets() {
+        reInitAllListeners();
+        this.changeListener = new AttributeChangeListener() {
+            @Override
+            public void attributeChange() {
+                update();
+            }
+        };
+    }
+
+    /**
+     * 后台初始化所有事件.
+     */
+    private void reInitAllListeners() {
+        initListener(this);
+    }
+
+    @Override
+    public void populate(FormDesigner designer) {
+        this.designer = designer;
+
+        if (!isAppRelayout() || isInAbsoluteLayout()) {
+            return;
+        }
+
+        BaseChartEditor chartEditor = (BaseChartEditor)xCreator.toData();
+        ChartMobileFitAttrStateProvider zoomOutAttr = chartEditor.getMobileAttr().getZoomOutAttr();
+        this.zoomOutComboBox.setSelectedItem(new Item(zoomOutAttr.description(), zoomOutAttr));
+
+        // 数据 populate 完成后，再设置监听
+        this.bindListeners2Widgets();
+        this.zoomOutComboBox.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                // 只响应选中事件
+                if (e.getStateChange() != ItemEvent.SELECTED) {
+                    return;
+                }
+                updateTipLabel();
+                ChartMobileFitAttrState selectedAttr = (ChartMobileFitAttrState)((Item)e.getItem()).getValue();
+                if (selectedAttr.getState() != ChartMobileFitAttrState.AUTO.getState()) {
+                    // 功能埋点
+                    FunctionProcessor processor = ExtraClassManager.getInstance().getFunctionProcessor();
+                    if (processor != null) {
+                        processor.recordFunction(FormFunctionProcessor.MOBILE_CHART_ADAPTIVITY);
+                    }
+                }
+            }
+        });
+        this.addAttributeChangeListener(changeListener);
+    }
+
+    @Override
+    public void update() {
+        ChartMobileAttrProvider mobileAttr = ((BaseChartEditor)xCreator.toData()).getMobileAttr();
+        mobileAttr.setZoomInAttr(ChartMobileFitAttrState.PROPORTION);
+        mobileAttr.setZoomOutAttr((ChartMobileFitAttrState)((Item)zoomOutComboBox.getSelectedItem()).getValue());
+        DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified(); // 触发设计器保存按钮亮起来
+    }
+}

@@ -581,11 +581,6 @@ public class GridUI extends ComponentUI {
     }
 
     private void paintPaginateLines(Graphics g, Grid grid) {
-        JTemplate jTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
-        if(!jTemplate.isJWorkBook()){
-            //报表块无分页之说
-            return;
-        }
         Graphics2D g2d = (Graphics2D) g;
 
         // james 画分页线
