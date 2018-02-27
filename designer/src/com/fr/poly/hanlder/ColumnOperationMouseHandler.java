@@ -6,8 +6,8 @@ package com.fr.poly.hanlder;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 
-import com.fr.base.BaseUtils;
 import com.fr.base.ScreenResolution;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.general.ComparatorUtils;
 import com.fr.poly.PolyDesigner;
 import com.fr.poly.PolyDesigner.SelectionType;
@@ -57,7 +57,7 @@ public abstract class ColumnOperationMouseHandler<T extends BlockEditor> extends
 	 * 
 	 */
 	public void mousePressed(MouseEvent e) {
-		if (BaseUtils.isAuthorityEditing()) {
+		if (DesignerMode.isAuthorityEditing()) {
 			designer.noAuthorityEdit();
 		}
 		startPoint = e.getPoint();
@@ -74,7 +74,7 @@ public abstract class ColumnOperationMouseHandler<T extends BlockEditor> extends
 	 * 
 	 */
 	public void mouseDragged(MouseEvent e) {
-		if (BaseUtils.isAuthorityEditing()) {
+		if (DesignerMode.isAuthorityEditing()) {
 			return;
 		}
 		TemplateBlock block = editor.getValue();

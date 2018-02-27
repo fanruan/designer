@@ -148,7 +148,7 @@ public abstract class NewTemplatePane extends JComponent implements MouseListene
 	}
 
 	private boolean needGrayNewCpt() {
-		return BaseUtils.isAuthorityEditing() || DesignerMode.isVcsMode();
+		return DesignerMode.isAuthorityEditing() || DesignerMode.isVcsMode();
 	}
 
 

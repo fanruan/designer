@@ -13,7 +13,6 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -21,6 +20,7 @@ import javax.swing.JPanel;
 import com.fr.base.BaseUtils;
 import com.fr.base.Parameter;
 import com.fr.base.parameter.ParameterUI;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.designer.beans.actions.CopyAction;
@@ -107,7 +107,7 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
         EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.REPORT_PARA);
         EastRegionContainerPane.getInstance().replaceWidgetLibPane(
                 FormWidgetDetailPane.getInstance(this));
-        if (!BaseUtils.isAuthorityEditing()) {
+        if (!DesignerMode.isAuthorityEditing()) {
             ParameterPropertyPane parameterPropertyPane = ParameterPropertyPane.getInstance(this);
             parameterPropertyPane.refreshState();
             EastRegionContainerPane.getInstance().addParameterPane(parameterPropertyPane);

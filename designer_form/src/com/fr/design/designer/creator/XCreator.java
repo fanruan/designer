@@ -3,7 +3,7 @@
  */
 package com.fr.design.designer.creator;
 
-import com.fr.base.BaseUtils;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
@@ -279,7 +279,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	 */
 	@Override
 	public JComponent createToolPane(BaseJForm jform, FormDesigner formEditor) {
-		if (!BaseUtils.isAuthorityEditing()) {
+		if (!DesignerMode.isAuthorityEditing()) {
 			if (isDedicateContainer()) {
 				// 图表块和报表块由于控件树处不显示，但对应的属性表要显示，此处处理下
 				XCreator child = ((XLayoutContainer) this).getXCreator(0);

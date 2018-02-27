@@ -123,7 +123,7 @@ public class Designer extends BaseDesigner {
             return menuDef;
         }
 
-        if (!BaseUtils.isAuthorityEditing()) {
+        if (!DesignerMode.isAuthorityEditing()) {
             menuDef.addShortCut(SeparatorDef.DEFAULT);
 
             if (FRContext.getCurrentEnv().isRoot()) {
@@ -320,7 +320,7 @@ public class Designer extends BaseDesigner {
     @Override
     public JComponent resetToolBar(JComponent toolbarComponent, ToolBarMenuDockPlus plus) {
         //如果是处于权限编辑状态
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             if (plus instanceof JWorkBook && plus.toolbars4Target() == null) {
                 //聚合块编辑
                 return super.polyToolBar(Inter.getLocText(new String[]{"Polybolck", "DashBoard-Potence", "Edit"}));

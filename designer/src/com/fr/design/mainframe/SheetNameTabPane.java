@@ -21,6 +21,7 @@ import javax.swing.UIManager;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.GraphHelper;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.file.HistoryTemplateListPane;
@@ -318,7 +319,7 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
      */
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        isAuthorityEditing = BaseUtils.isAuthorityEditing();
+        isAuthorityEditing = DesignerMode.isAuthorityEditing();
         showCount = 0;
         // 开始画那些Tab.
         Graphics2D g2d = (Graphics2D) g;

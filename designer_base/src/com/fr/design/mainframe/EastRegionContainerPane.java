@@ -1,6 +1,7 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ibutton.UIButton;
@@ -436,7 +437,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         // 无可用 tab 时，显示提示文字
         if (!hasAvailableTab) {
             resetPropertyIcons();
-            if (!hasEnabledTab && BaseUtils.isAuthorityEditing()) {
+            if (!hasEnabledTab && DesignerMode.isAuthorityEditing()) {
                 propertyCard.show(rightPane, DEFAULT_AUTHORITY_PANE);
             } else {
                 propertyCard.show(rightPane, DEFAULT_PANE);

@@ -2,6 +2,7 @@ package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
@@ -119,7 +120,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         HistoryTemplateListPane.getInstance().setCurrentEditingTemplate(jt);
         //处理自动新建的模板
         MutilTempalteTabPane.getInstance().doWithtemTemplate();
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             RolesAlreadyEditedPane.getInstance().refreshDockingView();
         }
 

@@ -693,7 +693,7 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
                 openedTemplate.get(selectedIndex).stopEditing();
                 selectedIndex = getTemplateIndex(evtX);
                 //如果在权限编辑情况下，不允许切换到表单类型的工作簿
-                if (BaseUtils.isAuthorityEditing() && !openedTemplate.get(selectedIndex).isJWorkBook()) {
+                if (DesignerMode.isAuthorityEditing() && !openedTemplate.get(selectedIndex).isJWorkBook()) {
                     DesignerContext.getDesignerFrame().addAndActivateJTemplate(openedTemplate.get(tempSelectedIndex));
                     JOptionPane.showMessageDialog(this, Inter.getLocText("FR-Designer_Form-AuthorityEdited_Cannot_be_Supported")
                             + "!", Inter.getLocText("FR-Designer_Alert"), JOptionPane.WARNING_MESSAGE);
