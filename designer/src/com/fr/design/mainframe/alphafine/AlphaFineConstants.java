@@ -70,9 +70,10 @@ public class AlphaFineConstants {
 
     public static final String PLUGIN_SEARCH_URL = SiteCenter.getInstance().acquireUrlByKind("plugin.searchAPI");
 
-    public static final String PLUGIN_URL = SiteCenter.getInstance().acquireUrlByKind("af.plugin");
+    public static final String PLUGIN_URL = SiteCenter.getInstance().acquireUrlByKind("af.pluginInfo");
 
-    public static final String REUSE_URL = SiteCenter.getInstance().acquireUrlByKind("af.reuse");
+    public static final String REUSE_URL = SiteCenter.getInstance().acquireUrlByKind("af.reuseInfo");
+
 
     public static final String DOCUMENT_DOC_URL = SiteCenter.getInstance().acquireUrlByKind("af.doc_view");
 
@@ -85,6 +86,8 @@ public class AlphaFineConstants {
     public static final String CLOUD_SERVER_URL = SiteCenter.getInstance().acquireUrlByKind("af.record");
 
     public static final String SEARCH_API = SiteCenter.getInstance().acquireUrlByKind("af.cloud_search");
+
+
 
 
 }
