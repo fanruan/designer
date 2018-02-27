@@ -3,6 +3,7 @@
  */
 package com.fr.design.designer.creator;
 
+import com.fr.base.GraphHelper;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.designer.beans.AdapterBus;
@@ -12,16 +13,29 @@ import com.fr.design.designer.beans.models.SelectionModel;
 import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.mainframe.*;
+import com.fr.design.mainframe.AuthorityPropertyPane;
+import com.fr.design.mainframe.BaseJForm;
+import com.fr.design.mainframe.EditingMouseListener;
+import com.fr.design.mainframe.FormDesigner;
+import com.fr.design.mainframe.NoSupportAuthorityEdit;
+import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WTitleLayout;
+import com.fr.stable.Constants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.border.Border;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.beans.IntrospectionException;
 import java.util.ArrayList;
@@ -689,6 +703,14 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
     public void stopEditing() {
         // do nothing
     }
+
+	/**
+	 *  编辑状态的时候需要重新绘制下边框
+	 *
+	 */
+	public void paintBorder(Graphics g, Rectangle bounds){
+		GraphHelper.draw(g, bounds, Constants.LINE_MEDIUM);
+	}
 
 	/**
 	 * 创建右击弹出菜单
