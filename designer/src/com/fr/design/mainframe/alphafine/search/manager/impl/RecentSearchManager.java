@@ -57,7 +57,7 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
 
     public synchronized static RecentSearchManager getInstance() {
         if (recentSearchManager == null) {
-            return new RecentSearchManager();
+            recentSearchManager = new RecentSearchManager();
         }
         return recentSearchManager;
     }
@@ -177,7 +177,6 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
             //遍历结果
             for (ScoreDoc scoreDoc : scores) {
                 Document document = searcher.doc(scoreDoc.doc);
-                System.out.println(document.get("cellModel") + "\n" + document.get("searchCount") + "\n");
                 AlphaCellModel model = CellModelHelper.getModelFromJson(new JSONObject(document.get("cellModel")));
                 this.recentModelList.add(model);
 
