@@ -1,10 +1,13 @@
 package com.fr.design.mainframe.alphafine.search.manager.impl;
 
+import com.fr.design.mainframe.alphafine.CellType;
 import com.fr.design.mainframe.alphafine.cell.CellModelHelper;
+import com.fr.design.mainframe.alphafine.cell.model.ActionModel;
 import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.search.manager.fun.AlphaFineSearchProvider;
+import com.fr.design.mainframe.toolbar.UpdateActionManager;
 import com.fr.general.Inter;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
@@ -178,7 +181,11 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
             for (ScoreDoc scoreDoc : scores) {
                 Document document = searcher.doc(scoreDoc.doc);
                 AlphaCellModel model = CellModelHelper.getModelFromJson(new JSONObject(document.get("cellModel")));
-                this.recentModelList.add(model);
+                if (model.getType() == CellType.ACTION && !UpdateActionManager.getUpdateActionManager().isEnable(((ActionModel) model).getAction())) {
+                    continue;
+                } else {
+                    recentModelList.add(model);
+                }
 
             }
         } catch (Exception e) {
