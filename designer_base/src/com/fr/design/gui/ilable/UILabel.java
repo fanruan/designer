@@ -2,8 +2,13 @@ package com.fr.design.gui.ilable;
 
 import com.fr.design.utils.gui.GUICoreUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.Icon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,6 +18,7 @@ import java.awt.*;
  * Time: 下午3:15
  */
 public class UILabel extends JLabel {
+	private static final int HTML_SHIFT_HEIGHT = 3;
 
 	public UILabel(String text, Icon image, int horizontalAlignment) {
 		super(text, image, horizontalAlignment);
@@ -44,6 +50,16 @@ public class UILabel extends JLabel {
 
 	public UILabel() {
 		super();
+	}
+
+	@Override
+	public Dimension getPreferredSize() {
+		Dimension preferredSize = super.getPreferredSize();
+		// （Windows 下）使用 html 时，文字内容会略微向下偏移，导致文字底部被截断，所以适当增加 UILabel 的高度
+		if (getText().startsWith("<html>")) {
+			return new Dimension(preferredSize.width, preferredSize.height + HTML_SHIFT_HEIGHT);
+		}
+		return preferredSize;
 	}
 
 
