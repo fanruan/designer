@@ -283,6 +283,13 @@ public class DesignUtils {
     }
 
     /**
+     * 访问服务器环境-空参数
+     */
+    public static void visitEnvServer() {
+        visitEnvServerByParameters(new String[] {}, new String[] {});
+    }
+
+    /**
      * 访问服务器环境
      *
      * @param names  参数名字
