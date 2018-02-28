@@ -122,7 +122,7 @@ public class PluginOperateUtils {
         return resultArray.toString();
     }
 
-    public static void dealParams(StringBuilder url, String category, String seller, String fee) {
+    public static void dealParams(StringBuilder url, String category, String seller, String fee, String scope) {
         if (StringUtils.isNotBlank(category)) {
             url.append("cid=").append(category.split("-")[1]);
         } else {
@@ -150,6 +150,18 @@ public class PluginOperateUtils {
                     break;
                 default:
                     url.append("&fee=").append(StringUtils.EMPTY);
+            }
+        }
+        if (StringUtils.isNotBlank(scope)) {
+            switch (scope.split("-")[1]) {
+                case "universal":
+                    url.append("&scope=").append(1);
+                    break;
+                case "program":
+                    url.append("&scope=").append(2);
+                    break;
+                default:
+                    url.append("&scope=").append(StringUtils.EMPTY);
             }
         }
     }
