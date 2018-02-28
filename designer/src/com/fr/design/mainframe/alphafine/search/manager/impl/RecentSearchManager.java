@@ -1,5 +1,6 @@
 package com.fr.design.mainframe.alphafine.search.manager.impl;
 
+import com.fr.design.actions.UpdateAction;
 import com.fr.design.mainframe.alphafine.CellType;
 import com.fr.design.mainframe.alphafine.cell.CellModelHelper;
 import com.fr.design.mainframe.alphafine.cell.model.ActionModel;
@@ -181,11 +182,16 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
             for (ScoreDoc scoreDoc : scores) {
                 Document document = searcher.doc(scoreDoc.doc);
                 AlphaCellModel model = CellModelHelper.getModelFromJson(new JSONObject(document.get("cellModel")));
-                if (model.getType() == CellType.ACTION && !UpdateActionManager.getUpdateActionManager().isEnable(((ActionModel) model).getAction())) {
-                    continue;
+                if (model.getType() == CellType.ACTION) {
+                    UpdateAction action = UpdateActionManager.getUpdateActionManager().getActionByName(model.getName());
+                    if (action != null) {
+                        ((ActionModel) model).setAction(action);
+                        recentModelList.add(model);
+                    }
                 } else {
                     recentModelList.add(model);
                 }
+
 
             }
         } catch (Exception e) {
