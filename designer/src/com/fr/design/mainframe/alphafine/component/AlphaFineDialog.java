@@ -390,6 +390,7 @@ public class AlphaFineDialog extends UIDialog {
      */
     private void rebuildList(String searchText) {
         resetContainer();
+        setStoreText(searchText);
         if (searchText.startsWith(ADVANCED_SEARCH_MARK)) {
             dealWithSearchText(searchText);
         } else {
@@ -425,7 +426,8 @@ public class AlphaFineDialog extends UIDialog {
      * @return
      */
     private String getStoreText(String searchText) {
-        return searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length());
+        setStoreText(searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length()));
+        return storeText;
     }
 
     /**
