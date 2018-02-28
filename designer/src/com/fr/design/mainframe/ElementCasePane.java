@@ -183,7 +183,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
         this.add(RGridLayout.VerticalBar, this.verScrollBar);
 //         this.add(RGridLayout.HorizontalBar, this.horScrollBar);
 
-        // Init input/action map defaultly.
+        // Init input/action objMap defaultly.
         initInputActionMap();
 
         // 设置最小的尺寸,方便 ScrollPane.
@@ -808,7 +808,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
     }
 
     /**
-     * Init input/action map.
+     * Init input/action objMap.
      */
     protected void initInputActionMap() {
         InputMap inputMapAncestor = this.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);

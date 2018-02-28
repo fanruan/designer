@@ -396,7 +396,7 @@ public class RSyntaxDocument extends RDocument implements Iterable<Token>,
 		Element map = getDefaultRootElement();
 		Element elem = map.getElement(line);
 		int startOffset = elem.getStartOffset();
-		//int endOffset = (line==map.getElementCount()-1 ? elem.getEndOffset() - 1:
+		//int endOffset = (line==objMap.getElementCount()-1 ? elem.getEndOffset() - 1:
 		//									elem.getEndOffset() - 1);
 		int endOffset = elem.getEndOffset() - 1; // Why always "-1"?
 		try {
@@ -476,7 +476,7 @@ public class RSyntaxDocument extends RDocument implements Iterable<Token>,
 	private final void setSharedSegment(int line) {
 
 		Element map = getDefaultRootElement();
-		//int numLines = map.getElementCount();
+		//int numLines = objMap.getElementCount();
 
 		Element element = map.getElement(line);
 		if (element==null)

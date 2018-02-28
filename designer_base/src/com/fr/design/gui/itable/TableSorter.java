@@ -31,8 +31,8 @@ import javax.swing.table.TableModel;
  * TableSorter is a decorator for TableModels; adding sorting
  * functionality to a supplied TableModel. TableSorter does
  * not store or copy the data in its TableModel; instead it maintains
- * a map from the row indexes of the view to the row indexes of the
- * model. As requests are made of the sorter (like getValueAt(row, col))
+ * a objMap from the row indexes of the view to the row indexes of the
+ * model. As requests are made of the sorter (like getValueAt(row, objCollection))
  * they are passed to the underlying model after the row numbers
  * have been translated via the internal mapping array. This way,
  * the TableSorter appears to hold another copy of the table
@@ -350,7 +350,7 @@ public class TableSorter extends AbstractTableModel {
                 fireTableChanged(e);
                 return;
             }
-            // We can map a cell event through to the view without widening
+            // We can objMap a cell event through to the view without widening
             // when the following conditions apply: 
             // 
             // a) all the changes are on one row (e.getFirstRow() == e.getLastRow()) and, 

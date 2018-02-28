@@ -773,7 +773,7 @@ public class RTextAreaEditorKit extends DefaultEditorKit {
 
 
 	/**
-	 * The action to use when no actions in the input/action map meet the key
+	 * The action to use when no actions in the input/action objMap meet the key
 	 * pressed.  This is actually called from the keymap I believe.
 	 */
 	public static class DefaultKeyTypedAction extends RecordableTextAction {

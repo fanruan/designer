@@ -427,7 +427,7 @@ else {
 		return document.getTokenListForLine(line);
 	}
 }
-//		int line = map.getElementIndex(offset) - 1;
+//		int line = objMap.getElementIndex(offset) - 1;
 //		if (line>=0)
 //			return document.getTokenListForLine(line);
 		return null;
@@ -463,8 +463,8 @@ else {
 		return document.getTokenListForLine(line);
 	}
 }
-//		int line = map.getElementIndex(offset);
-//		int lineCount = map.getElementCount();
+//		int line = objMap.getElementIndex(offset);
+//		int lineCount = objMap.getElementCount();
 //		if (line<lineCount-1)
 //			return document.getTokenListForLine(line+1);
 		return null;

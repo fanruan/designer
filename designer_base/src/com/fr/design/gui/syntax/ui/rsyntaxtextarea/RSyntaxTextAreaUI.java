@@ -84,11 +84,11 @@ public class RSyntaxTextAreaUI extends RTextAreaUI {
 
 
 	/**
-	 * Returns the name to use to cache/fetch the shared action map.  This
+	 * Returns the name to use to cache/fetch the shared action objMap.  This
 	 * should be overridden by subclasses if the subclass has its own custom
 	 * editor kit to install, so its actions get picked up.
 	 *
-	 * @return The name of the cached action map.
+	 * @return The name of the cached action objMap.
 	 */
 	@Override
 	protected String getActionMapName() {

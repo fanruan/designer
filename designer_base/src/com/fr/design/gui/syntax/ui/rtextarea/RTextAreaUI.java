@@ -197,7 +197,7 @@ public class RTextAreaUI extends BasicTextAreaUI {
 
 
 	/**
-	 * Creates a default action map.  This action map contains actions for all
+	 * Creates a default action objMap.  This action objMap contains actions for all
 	 * basic text area work - cut, copy, paste, select, caret motion, etc.<p>
 	 *
 	 * This isn't named <code>createActionMap()</code> because there is a
@@ -205,7 +205,7 @@ public class RTextAreaUI extends BasicTextAreaUI {
 	 * and some compilers will give warnings that we are not overriding that
 	 * method since it is package-private.
 	 *
-	 * @return The action map.
+	 * @return The action objMap.
 	 */
 	protected ActionMap createRTextAreaActionMap() {
 
@@ -234,11 +234,11 @@ public class RTextAreaUI extends BasicTextAreaUI {
 
 
 	/**
-	 * Returns the name to use to cache/fetch the shared action map.  This
+	 * Returns the name to use to cache/fetch the shared action objMap.  This
 	 * should be overridden by subclasses if the subclass has its own custom
 	 * editor kit to install, so its actions get picked up.
 	 *
-	 * @return The name of the cached action map.
+	 * @return The name of the cached action objMap.
 	 */
 	protected String getActionMapName() {
 		return SHARED_ACTION_MAP_NAME;
@@ -269,7 +269,7 @@ public class RTextAreaUI extends BasicTextAreaUI {
 
 
 	/**
-	 * Returns an action map to use by a text area.<p>
+	 * Returns an action objMap to use by a text area.<p>
 	 *
 	 * This method is not named <code>getActionMap()</code> because there is
 	 * a package-private method in <code>BasicTextAreaUI</code> with that name.
@@ -277,13 +277,13 @@ public class RTextAreaUI extends BasicTextAreaUI {
 	 * issue warnings that you are not actually overriding the original method
 	 * (since it is package-private).
 	 *
-	 * @return The action map.
+	 * @return The action objMap.
 	 * @see #createRTextAreaActionMap()
 	 */
 	private ActionMap getRTextAreaActionMap() {
 
-		// Get the UIManager-cached action map; if this is the first
-		// RTextArea created, create the action map and cache it.
+		// Get the UIManager-cached action objMap; if this is the first
+		// RTextArea created, create the action objMap and cache it.
 		ActionMap map = (ActionMap)UIManager.get(getActionMapName());
 		if (map==null) {
 			map = createRTextAreaActionMap();
@@ -386,7 +386,7 @@ public class RTextAreaUI extends BasicTextAreaUI {
 		RTextArea textArea = getRTextArea();
 
 		// backward compatibility support... keymaps for the UI
-		// are now installed in the more friendly input map.
+		// are now installed in the more friendly input objMap.
 		textArea.setKeymap(createKeymap()); 
 
 		// Since BasicTextUI.getInputMap() is package-private, instead use
@@ -394,7 +394,7 @@ public class RTextAreaUI extends BasicTextAreaUI {
 		InputMap map = getRTextAreaInputMap();
 		SwingUtilities.replaceUIInputMap(textArea,JComponent.WHEN_FOCUSED,map);
 
-		// Same thing here with action map.
+		// Same thing here with action objMap.
 		ActionMap am = getRTextAreaActionMap();
 		if (am!=null) {
 		    SwingUtilities.replaceUIActionMap(textArea, am);

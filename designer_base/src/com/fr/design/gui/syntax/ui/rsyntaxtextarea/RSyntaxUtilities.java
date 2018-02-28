@@ -372,7 +372,7 @@ public class RSyntaxUtilities implements SwingConstants {
 		int lineNum = map.getElementIndex(p0);
 		// We do ">1" because p1 might be the first position on the next line
 		// or the last position on the previous one.
-		// if (lineNum!=map.getElementIndex(p1))
+		// if (lineNum!=objMap.getElementIndex(p1))
 		if (Math.abs(lineNum-map.getElementIndex(p1))>1)
 			throw new IllegalArgumentException("p0 and p1 are not on the " +
 						"same line (" + p0 + ", " + p1 + ").");

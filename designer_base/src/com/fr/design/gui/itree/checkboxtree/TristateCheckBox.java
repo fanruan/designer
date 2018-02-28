@@ -61,7 +61,7 @@ public class TristateCheckBox extends UICheckBox {
                 model.setState(getNextState(model.getState()));
             }
         });
-        // Reset the keyboard action map
+        // Reset the keyboard action objMap
         ActionMap map = new ActionMapUIResource();
         map.put("pressed", new AbstractAction() {
             public void actionPerformed(ActionEvent e) {

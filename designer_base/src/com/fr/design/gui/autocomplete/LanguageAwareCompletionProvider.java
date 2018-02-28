@@ -259,7 +259,7 @@ public class LanguageAwareCompletionProvider extends CompletionProviderBase
 			}
 
 			// TokenMakers can use types < 0 for "internal types."  This
-			// gives them a chance to map their internal types back to "real"
+			// gives them a chance to objMap their internal types back to "real"
 			// types to get completion providers.
 			else if (type<0) {
 				type = doc.getClosestStandardTokenTypeForInternalType(type);

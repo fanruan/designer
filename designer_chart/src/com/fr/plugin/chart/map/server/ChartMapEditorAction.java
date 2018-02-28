@@ -27,7 +27,7 @@ public class ChartMapEditorAction extends UpdateAction {
         String web = GeneralContext.getCurrentAppNameOfEnv();
         String serverlet = ConfigManager.getProviderInstance().getServletMapping();
         Env env = FRContext.getCurrentEnv();
-        StartServer.browserURLWithLocalEnv(env.isLocalEnv() ? String.format("http://localhost:%d/%s/%s?op=map", port, web, serverlet) : env.getPath() + "?op=map");
+        StartServer.browserURLWithLocalEnv(env.isLocalEnv() ? String.format("http://localhost:%d/%s/%s?op=objMap", port, web, serverlet) : env.getPath() + "?op=objMap");
     }
 
 }
