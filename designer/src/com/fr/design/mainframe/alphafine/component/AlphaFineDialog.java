@@ -391,30 +391,41 @@ public class AlphaFineDialog extends UIDialog {
     private void rebuildList(String searchText) {
         resetContainer();
         if (searchText.startsWith(ADVANCED_SEARCH_MARK)) {
-            if (searchText.startsWith(ACTION_MARK_SHORT) || searchText.startsWith(ACTION_MARK)) {
-                storeText = searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length());
-                buildActionList(storeText);
-            } else if (searchText.startsWith(DOCUMENT_MARK_SHORT) || searchText.startsWith(DOCUMENT_MARK)) {
-                storeText = searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length());
-                buildDocumentList(storeText);
-            } else if (searchText.startsWith(FILE_MARK_SHORT) || searchText.startsWith(FILE_MARK)) {
-                storeText = searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length());
-                buildFileList(storeText);
-            } else if (searchText.startsWith(CPT_MARK) || searchText.startsWith(FRM_MARK)) {
-                storeText = searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length());
-                buildFileList(searchText);
-            } else if (searchText.startsWith(DS_MARK)) {
-                storeText = searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length());
-                buildFileList(DS_NAME + storeText);
-            } else if (searchText.startsWith(PLUGIN_MARK_SHORT) || searchText.startsWith(PLUGIN_MARK)) {
-                storeText = searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length());
-                buildPluginList(storeText);
-            }
+            dealWithSearchText(searchText);
         } else {
             storeText = searchText.trim();
             doNormalSearch(storeText);
         }
 
+    }
+
+    /**
+     * 处理搜索字符串
+     * @param searchText
+     */
+    private void dealWithSearchText(String searchText) {
+        if (searchText.startsWith(ACTION_MARK_SHORT) || searchText.startsWith(ACTION_MARK)) {
+            buildActionList(getStoreText(searchText));
+        } else if (searchText.startsWith(DOCUMENT_MARK_SHORT) || searchText.startsWith(DOCUMENT_MARK)) {
+            buildDocumentList(getStoreText(searchText));
+        } else if (searchText.startsWith(FILE_MARK_SHORT) || searchText.startsWith(FILE_MARK)) {
+            buildFileList(getStoreText(searchText));
+        } else if (searchText.startsWith(CPT_MARK) || searchText.startsWith(FRM_MARK)) {
+            buildFileList(searchText);
+        } else if (searchText.startsWith(DS_MARK)) {
+            buildFileList(DS_NAME + getStoreText(searchText));
+        } else if (searchText.startsWith(PLUGIN_MARK_SHORT) || searchText.startsWith(PLUGIN_MARK)) {
+            buildPluginList(getStoreText(searchText));
+        }
+    }
+
+    /**
+     * 截取字符串中关键词
+     * @param searchText
+     * @return
+     */
+    private String getStoreText(String searchText) {
+        return searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length());
     }
 
     /**
