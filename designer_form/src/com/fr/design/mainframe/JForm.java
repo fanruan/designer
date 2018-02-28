@@ -1,6 +1,8 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.PaperSize;
+import com.fr.base.Parameter;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignState;
 import com.fr.design.actions.core.WorkBookSupportable;
@@ -56,12 +58,23 @@ import com.fr.form.ui.container.WLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
+import com.fr.page.PaperSettingProvider;
+import com.fr.report.worksheet.FormElementCase;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Constants;
 import com.fr.stable.bridge.StableFactory;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -671,6 +684,11 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     }
 
     @Override
+    public Parameter[] getJTemplateParameters() {
+        return this.getTarget().getTemplateParameters();
+    }
+
+    @Override
     /**
      * 创建菜单项Preview
      *
@@ -826,8 +844,13 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         HashMap<String, Class> designerClass = new HashMap<String, Class>();
         designerClass.put(Constants.ARG_0, FormElementCaseProvider.class);
 
-        Object[] designerArg = new Object[]{formDesign.getElementCase()};
-        return StableFactory.getMarkedInstanceObjectFromClass(FormECDesignerProvider.XML_TAG, designerArg, designerClass, FormECDesignerProvider.class);
+        Object[] designerArg = new Object[]{formDesign.getElementCase(), getTarget()};
+        FormECDesignerProvider formECDesigner = StableFactory.getMarkedInstanceObjectFromClass(FormECDesignerProvider.XML_TAG, designerArg, designerClass, FormECDesignerProvider.class);
+        // 如果是移动端专属模版，需要修改页面大小并显示边缘线
+        PaperSettingProvider paperSetting = ((FormElementCase)formECDesigner.getEditingElementCase()).getReportSettings().getPaperSetting();
+        paperSetting.setPaperSize(getTarget().getFormMobileAttr().isMobileOnly() ? PaperSize.PAPERSIZE_MOBILE : new PaperSize());
+
+        return formECDesigner;
     }
 
     /**
