@@ -2,6 +2,7 @@ package com.fr.start;
 
 import com.fr.base.ConfigManager;
 import com.fr.base.FRContext;
+import com.fr.decision.base.query.FineServletConfig;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.data.datapane.TableDataTreePane;
@@ -54,8 +55,7 @@ public class StartServer {
         }
         if (ComparatorUtils.equals(StableUtils.getInstallHome(), ".")) {//august:供代码使用
             String web = GeneralContext.getCurrentAppNameOfEnv();
-            browserURLWithLocalEnv("http://localhost:" + DesignerEnvManager.getEnvManager().getJettyServerPort() + "/" + web + "/" + ConfigManager.getProviderInstance().getServletMapping()
-                    + "?op=fs");
+            browserURLWithLocalEnv("http://localhost:" + DesignerEnvManager.getEnvManager().getJettyServerPort() + "/" + web + "/" + FineServletConfig.getInstance().getServletName());
             return;
         }
         DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
@@ -100,8 +100,7 @@ public class StartServer {
         } finally {
             //先访问Demo, 后访问报表, 不需要重置服务器.
             NEED_LOAD_ENV = false;
-            browser("http://localhost:" + DesignerEnvManager.getEnvManager().getJettyServerPort() + "/" + ProjectConstants.WEBAPP_NAME + "/" + ConfigManager.getProviderInstance().getServletMapping()
-                    + "?op=fs");
+            browser("http://localhost:" + DesignerEnvManager.getEnvManager().getJettyServerPort() + "/" + ProjectConstants.WEBAPP_NAME + "/" + FineServletConfig.getInstance().getServletName());
         }
     }
 

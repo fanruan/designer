@@ -24,8 +24,8 @@ public class PlatformManagerAction extends UpdateAction {
      */
 	public void actionPerformed(ActionEvent evt) {
 		DesignUtils.visitEnvServerByParameters(
-				new String[] {ParameterConsts.OP}, 
-				new String[] {"fr_platform"}
+				new String[] {},
+				new String[] {}
 		);
 	}
 
