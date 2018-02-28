@@ -17,7 +17,7 @@ import com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap;
 
 
 /**
- * The default input objMap for an <code>RSyntaxTextArea</code>.
+ * The default input map for an <code>RSyntaxTextArea</code>.
  * Currently, the new key bindings include:
  * <ul>
  *   <li>Shift+Tab indents the current line or currently selected lines
@@ -30,7 +30,7 @@ import com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap;
 public class RSyntaxTextAreaDefaultInputMap extends RTADefaultInputMap {
 
 	/**
-	 * Constructs the default input objMap for an <code>RSyntaxTextArea</code>.
+	 * Constructs the default input map for an <code>RSyntaxTextArea</code>.
 	 */
 	public RSyntaxTextAreaDefaultInputMap() {
 

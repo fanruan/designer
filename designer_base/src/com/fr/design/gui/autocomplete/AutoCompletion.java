@@ -201,12 +201,12 @@ public class AutoCompletion {
     private LookAndFeelChangeListener lafListener;
 
     /**
-     * The key used in the input objMap for the AutoComplete action.
+     * The key used in the input map for the AutoComplete action.
      */
     private static final String PARAM_TRIGGER_KEY = "AutoComplete";
 
     /**
-     * Key used in the input objMap for the parameter completion action.
+     * Key used in the input map for the parameter completion action.
      */
     private static final String PARAM_COMPLETE_KEY = "AutoCompletion.FunctionStart";
 

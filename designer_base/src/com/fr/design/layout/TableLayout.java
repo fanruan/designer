@@ -383,7 +383,7 @@ public class TableLayout implements LayoutManager2, Serializable {
     protected void init(double[] col, double[] row) {
         // Check parameters
         if (col == null)
-            throw new IllegalArgumentException("Parameter objCollection cannot be null");
+            throw new IllegalArgumentException("Parameter col cannot be null");
 
         if (row == null)
             throw new IllegalArgumentException("Parameter row cannot be null");

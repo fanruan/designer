@@ -38,7 +38,7 @@ public class TokenMap {
 
 
 	/**
-	 * Constructs a new token objMap that is case-sensitive.
+	 * Constructs a new token map that is case-sensitive.
 	 */
 	public TokenMap() {
 		this(DEFAULT_TOKEN_MAP_SIZE);
@@ -46,9 +46,9 @@ public class TokenMap {
 
 
 	/**
-	 * Constructs a new token objMap that is case-sensitive.
+	 * Constructs a new token map that is case-sensitive.
 	 *
-	 * @param size The size of the token objMap.
+	 * @param size The size of the token map.
 	 */
 	public TokenMap(int size) {
 		this(size, false);
@@ -56,9 +56,9 @@ public class TokenMap {
 
 
 	/**
-	 * Constructs a new token objMap.
+	 * Constructs a new token map.
 	 *
-	 * @param ignoreCase Whether or not this token objMap should ignore case
+	 * @param ignoreCase Whether or not this token map should ignore case
 	 *        when comparing tokens.
 	 */
 	public TokenMap(boolean ignoreCase) {
@@ -67,10 +67,10 @@ public class TokenMap {
 
 
 	/**
-	 * Constructs a new token objMap.
+	 * Constructs a new token map.
 	 *
-	 * @param size The size of the token objMap.
-	 * @param ignoreCase Whether or not this token objMap should ignore case
+	 * @param size The size of the token map.
+	 * @param ignoreCase Whether or not this token map should ignore case
 	 *        when comparing tokens.
 	 */
 	public TokenMap(int size, boolean ignoreCase) {
@@ -81,7 +81,7 @@ public class TokenMap {
 
 
 	/**
-	 * Adds a token to a specified bucket in the token objMap.
+	 * Adds a token to a specified bucket in the token map.
 	 *
 	 * @param bucket The bucket in which to add the token.
 	 * @param token The token to add.
@@ -95,13 +95,13 @@ public class TokenMap {
 
 	/**
 	 * Returns the token type associated with the given text, if the given
-	 * text is in this token objMap.  If it isn't, <code>-1</code> is returned.
+	 * text is in this token map.  If it isn't, <code>-1</code> is returned.
 	 *
 	 * @param text The segment from which to get the text to compare.
 	 * @param start The starting index in the segment of the text.
 	 * @param end The ending index in the segment of the text.
 	 * @return The token type associated with the given text, or
-	 *         <code>-1</code> if this token was not specified in this objMap.
+	 *         <code>-1</code> if this token was not specified in this map.
 	 */
 	public int get(Segment text, int start, int end) {
 		return get(text.array, start, end);
@@ -110,13 +110,13 @@ public class TokenMap {
 
 	/**
 	 * Returns the token type associated with the given text, if the given
-	 * text is in this token objMap.  If it isn't, <code>-1</code> is returned.
+	 * text is in this token map.  If it isn't, <code>-1</code> is returned.
 	 *
 	 * @param array1 An array of characters containing the text.
 	 * @param start The starting index in the array of the text.
 	 * @param end The ending index in the array of the text.
 	 * @return The token type associated with the given text, or
-	 *         <code>-1</code> if this token was not specified in this objMap.
+	 *         <code>-1</code> if this token was not specified in this map.
 	 */
 	public int get(char[] array1, int start, int end) {
 
@@ -159,7 +159,7 @@ public class TokenMap {
 		}
 
 		// If matches are NOT case-sensitive (HTML)...
-		// Note that all tokens saved in this objMap were converted to
+		// Note that all tokens saved in this map were converted to
 		// lower-case already.
 		else {
 
@@ -205,7 +205,7 @@ public class TokenMap {
 
 
 	/**
-	 * Returns whether this token objMap ignores case when checking for tokens.
+	 * Returns whether this token map ignores case when checking for tokens.
 	 * This property is set in the constructor and cannot be changed, as this
 	 * is an intrinsic property of a particular programming language.
 	 *
@@ -217,7 +217,7 @@ public class TokenMap {
 
 
 	/**
-	 * Adds a string to this token objMap.
+	 * Adds a string to this token map.
 	 *
 	 * @param string The string to add.
 	 * @param tokenType The type of token the string is.
@@ -231,7 +231,7 @@ public class TokenMap {
 
 
 	/**
-	 * Adds a string to this token objMap.  The char array passed-in will be used
+	 * Adds a string to this token map.  The char array passed-in will be used
 	 * as the actual data for the token, so it may well be modified (such as
 	 * lower-casing it if <code>ignoreCase</code> is <code>true</code>).  This
 	 * shouldn't be an issue though as this method is only called from the
@@ -247,7 +247,7 @@ public class TokenMap {
 
 
 	/**
-	 * The "token" used by a token objMap.  Note that this isn't the same thing
+	 * The "token" used by a token map.  Note that this isn't the same thing
 	 * as the {@link Token} class, but it's basically a 1-1 correspondence
 	 * for reserved words, etc.
 	 */

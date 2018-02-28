@@ -416,8 +416,8 @@ class AutoCompletePopupWindow extends JWindow implements CaretListener,
      * "Puts back" the original key/Action pair for a keystroke.  This is used
      * when this popup is hidden.
      *
-     * @param im  The input objMap.
-     * @param am  The action objMap.
+     * @param im  The input map.
+     * @param am  The action map.
      * @param key The keystroke whose key/Action pair to change.
      * @param kap The (original) key/Action pair.
      * @see #replaceAction(InputMap, ActionMap, int, KeyActionPair, KeyActionPair)
@@ -434,8 +434,8 @@ class AutoCompletePopupWindow extends JWindow implements CaretListener,
      * Replaces a key/Action pair in an InputMap and ActionMap with a new
      * pair.
      *
-     * @param im  The input objMap.
-     * @param am  The action objMap.
+     * @param im  The input map.
+     * @param am  The action map.
      * @param key The keystroke whose information to replace.
      * @param kap The new key/Action pair for <code>key</code>.
      * @param old A buffer in which to place the old key/Action pair.

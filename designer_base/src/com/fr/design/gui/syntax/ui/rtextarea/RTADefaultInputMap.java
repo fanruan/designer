@@ -17,7 +17,7 @@ import javax.swing.text.DefaultEditorKit;
 
 
 /**
- * The default input objMap for an <code>RTextArea</code>.  For the most part it is
+ * The default input map for an <code>RTextArea</code>.  For the most part it is
  * exactly that the one for a <code>JTextArea</code>, but it adds a few things.
  * Currently, the new key bindings include:
  * <ul>
@@ -50,7 +50,7 @@ public class RTADefaultInputMap extends InputMap {
 	public static final int DEFAULT_MODIFIER = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
 
 	/**
-	 * Constructs the default input objMap for an <code>RTextArea</code>.
+	 * Constructs the default input map for an <code>RTextArea</code>.
 	 */
 	public RTADefaultInputMap() {
 
@@ -129,7 +129,7 @@ public class RTADefaultInputMap extends InputMap {
 		put(KeyStroke.getKeyStroke(KeyEvent.VK_K,		defaultModifier|shift),		RTextAreaEditorKit.rtaPrevOccurrenceAction);
 		put(KeyStroke.getKeyStroke(KeyEvent.VK_K,		defaultModifier),			RTextAreaEditorKit.rtaNextOccurrenceAction);
 
-		/* NOTE:  Currently, macros aren't part of the default input objMap for */
+		/* NOTE:  Currently, macros aren't part of the default input map for */
 		/* RTextArea, as they display their own popup windows, etc. which    */
 		/* may or may not clash with the application in which the RTextArea  */
 		/* resides.  You can add the macro actions yourself into an          */

@@ -738,8 +738,8 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 		else {
 //			Document doc = getDocument();
 //			if (doc!=null) {
-//				Element objMap = doc.getDefaultRootElement();
-//				int caretLine = objMap.getElementIndex(dot);
+//				Element map = doc.getDefaultRootElement();
+//				int caretLine = map.getElementIndex(dot);
 //				Rectangle alloc = ((RTextAreaUI)getUI()).
 //											getVisibleEditorRect();
 //				if (alloc!=null)

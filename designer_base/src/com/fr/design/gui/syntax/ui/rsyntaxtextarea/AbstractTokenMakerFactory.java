@@ -25,7 +25,7 @@ public abstract class AbstractTokenMakerFactory extends TokenMakerFactory {
 	/**
 	 * A mapping from keys to the names of {@link TokenMaker} implementation
 	 * class names.  When {@link #getTokenMaker(String)} is called with a key
-	 * defined in this objMap, a <code>TokenMaker</code> of the corresponding type
+	 * defined in this map, a <code>TokenMaker</code> of the corresponding type
 	 * is returned.
 	 */
 	private Map<String, Object> tokenMakerMap;

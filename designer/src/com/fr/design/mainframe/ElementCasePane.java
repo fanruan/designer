@@ -183,7 +183,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
         this.add(RGridLayout.VerticalBar, this.verScrollBar);
 //         this.add(RGridLayout.HorizontalBar, this.horScrollBar);
 
-        // Init input/action objMap defaultly.
+        // Init input/action map defaultly.
         initInputActionMap();
 
         // 设置最小的尺寸,方便 ScrollPane.

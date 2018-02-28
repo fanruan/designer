@@ -58,7 +58,7 @@ public class UILookAndFeel extends MetalLookAndFeel {
     /**
      * Initializes the uiClassID to BasicComponentUI mapping.
      * The JComponent classes define their own uiClassID constants. This table
-     * must objMap those constants to a BasicComponentUI class of the appropriate
+     * must map those constants to a BasicComponentUI class of the appropriate
      * type.
      *
      * @param table The ui defaults table.
