@@ -808,7 +808,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
     }
 
     /**
-     * Init input/action objMap.
+     * Init input/action map.
      */
     protected void initInputActionMap() {
         InputMap inputMapAncestor = this.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
