@@ -118,9 +118,9 @@ public class ViewToolBarPane extends AbstractEditToolBarPane {
 		} else {
 			webView.setToolBarManagers(new ToolBarManager[0]);
 		}
-		webView.setIsSortFuncCheck(this.sortCheckBox.isSelected());
-		webView.setIsConditionFuncCheck(this.conditonFilterBox.isSelected());
-		webView.setIsListFuncCheck(this.listFilterBox.isSelected());
+		webView.setSortFuncCheck(this.sortCheckBox.isSelected());
+		webView.setConditionFuncCheck(this.conditonFilterBox.isSelected());
+		webView.setListFuncCheck(this.listFilterBox.isSelected());
 		for (int i = 0; i < eventPane.update().size(); i++) {
 			Listener listener = eventPane.update().get(i);
 			webView.addListener(listener);

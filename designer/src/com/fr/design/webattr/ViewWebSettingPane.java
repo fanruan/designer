@@ -51,9 +51,9 @@ public class ViewWebSettingPane extends WebSettingPane<WebView> {
     @Override
     protected WebView updateSubWebSettingBean() {
         WebView webView = new WebView();
-        webView.setIsListFuncCheck(listFilterBox.isSelected());
-        webView.setIsConditionFuncCheck(conditionFilterBox.isSelected());
-        webView.setIsSortFuncCheck(sortCheckBox.isSelected());
+        webView.setListFuncCheck(listFilterBox.isSelected());
+        webView.setConditionFuncCheck(conditionFilterBox.isSelected());
+        webView.setSortFuncCheck(sortCheckBox.isSelected());
         return webView;
     }
 
