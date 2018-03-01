@@ -1,10 +1,15 @@
 package com.fr.design.utils;
 
-import com.fr.base.*;
+import com.fr.base.BaseUtils;
+import com.fr.base.Env;
+import com.fr.base.EnvException;
+import com.fr.base.FRContext;
+import com.fr.base.FeedBackInfo;
+import com.fr.base.Utils;
 import com.fr.base.remote.RemoteDeziConstants;
+import com.fr.config.ServerConfig;
 import com.fr.dav.DavXMLUtils;
 import com.fr.dav.LocalEnv;
-import com.fr.decision.base.query.FineServletConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.fun.DesignerEnvProcessor;
@@ -12,15 +17,37 @@ import com.fr.design.gui.UILookAndFeel;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.env.RemoteEnv;
 import com.fr.file.FileFILE;
-import com.fr.general.*;
+import com.fr.general.ComparatorUtils;
+import com.fr.general.FRFont;
+import com.fr.general.FRLogger;
+import com.fr.general.GeneralContext;
+import com.fr.general.Inter;
 import com.fr.general.http.HttpClient;
-import com.fr.stable.*;
+import com.fr.stable.ArrayUtils;
+import com.fr.stable.CodeUtils;
+import com.fr.stable.EncodeConstants;
+import com.fr.stable.StableUtils;
+import com.fr.stable.StringUtils;
 import com.fr.start.StartServer;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.URI;
+import java.net.URLEncoder;
 import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.Locale;
@@ -326,7 +353,7 @@ public class DesignUtils {
         } else {
             try {
                 String web = GeneralContext.getCurrentAppNameOfEnv();
-                String url = "http://localhost:" + DesignerEnvManager.getEnvManager().getJettyServerPort() + "/" + web + "/" + FineServletConfig.getInstance().getServletName()
+                String url = "http://localhost:" + DesignerEnvManager.getEnvManager().getJettyServerPort() + "/" + web + "/" + ServerConfig.getInstance().getServletName()
                         + postfixOfUri;
                 StartServer.browserURLWithLocalEnv(url);
             } catch (Throwable e) {
