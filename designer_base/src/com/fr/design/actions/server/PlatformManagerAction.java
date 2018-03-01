@@ -23,10 +23,7 @@ public class PlatformManagerAction extends UpdateAction {
      * @param evt 事件
      */
 	public void actionPerformed(ActionEvent evt) {
-		DesignUtils.visitEnvServerByParameters(
-				new String[] {ParameterConsts.OP}, 
-				new String[] {"fr_platform"}
-		);
+		DesignUtils.visitEnvServer();
 	}
 
 	public static final MenuKeySet PLATEFORM_MANAGER = new MenuKeySet() {

@@ -4,6 +4,7 @@ import com.fr.base.*;
 import com.fr.base.remote.RemoteDeziConstants;
 import com.fr.dav.DavXMLUtils;
 import com.fr.dav.LocalEnv;
+import com.fr.decision.base.query.FineServletConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.fun.DesignerEnvProcessor;
@@ -282,6 +283,13 @@ public class DesignUtils {
     }
 
     /**
+     * 访问服务器环境-空参数
+     */
+    public static void visitEnvServer() {
+        visitEnvServerByParameters(new String[] {}, new String[] {});
+    }
+
+    /**
      * 访问服务器环境
      *
      * @param names  参数名字
@@ -318,7 +326,7 @@ public class DesignUtils {
         } else {
             try {
                 String web = GeneralContext.getCurrentAppNameOfEnv();
-                String url = "http://localhost:" + DesignerEnvManager.getEnvManager().getJettyServerPort() + "/" + web + "/" + ConfigManager.getProviderInstance().getServletMapping()
+                String url = "http://localhost:" + DesignerEnvManager.getEnvManager().getJettyServerPort() + "/" + web + "/" + FineServletConfig.getInstance().getServletName()
                         + postfixOfUri;
                 StartServer.browserURLWithLocalEnv(url);
             } catch (Throwable e) {
