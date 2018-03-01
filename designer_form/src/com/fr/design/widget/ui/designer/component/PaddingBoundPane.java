@@ -1,5 +1,6 @@
 package com.fr.design.widget.ui.designer.component;
 
+import com.fr.base.iofileattr.TemplateIdAttrMark;
 import com.fr.design.designer.IntervalConstants;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ilable.UILabel;
@@ -7,8 +8,8 @@ import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.form.ui.AbstractMarginWidget;
 import com.fr.form.ui.PaddingMargin;
+import com.fr.form.ui.RichStyleWidgetProvider;
 import com.fr.general.Inter;
 
 import javax.swing.BorderFactory;
@@ -75,7 +76,7 @@ public class PaddingBoundPane extends BasicPane{
     }
 
 
-    public void update(AbstractMarginWidget marginWidget) {
+    public void update(RichStyleWidgetProvider marginWidget) {
         marginWidget.setMargin(new PaddingMargin((int)top.getValue(), (int)left.getValue(), (int)bottom.getValue(), (int)right.getValue() ));
     }
 
@@ -83,7 +84,7 @@ public class PaddingBoundPane extends BasicPane{
         return "PaddingBoundPane";
     }
 
-    public void populate(AbstractMarginWidget marginWidget) {
+    public void populate(RichStyleWidgetProvider marginWidget) {
         PaddingMargin paddingMargin = marginWidget.getMargin();
         top.setValue(paddingMargin.getTop());
         bottom.setValue(paddingMargin.getBottom());
