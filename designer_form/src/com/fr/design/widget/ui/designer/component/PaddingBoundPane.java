@@ -76,7 +76,7 @@ public class PaddingBoundPane extends BasicPane{
     }
 
 
-    public void update(RichStyle WidgetProvider marginWidget) {
+    public void update(RichStyleWidgetProvider marginWidget) {
         marginWidget.setMargin(new PaddingMargin((int)top.getValue(), (int)left.getValue(), (int)bottom.getValue(), (int)right.getValue() ));
     }
 
