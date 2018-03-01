@@ -7,13 +7,14 @@ import com.fr.design.editor.ValueEditorPaneFactory;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
+import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
-import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.layout.TableLayout;
-import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.layout.*;
+import com.fr.design.layout.VerticalFlowLayout;
+import com.fr.design.mainframe.EastRegionContainerPane;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
@@ -63,8 +64,14 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
 
     private UICheckBox canBreakOnPaginateCheckBox;
     private UICheckBox repeatCheckBox;
-    private UICheckBox autoHeightCheckBox;
-    private UICheckBox autoWidthCheckBox;
+
+    // 自动调整
+    private UIRadioButton autoHeightRadioButton;  // 自动调整行高
+    private UIRadioButton autoWidthRadioButton;  // 自动调整列宽
+    private UIRadioButton noAutoRadioButton;  // 不自动调整
+    private UIRadioButton defaultAutoRadioButton;  // 跟随页面设置（默认）
+    private UIRadioButton[] adjustRadioButtons;
+
     // 插入行策略
     private UIButtonGroup insertRowPolicy;
     private ValueEditorPane valueEditor;
@@ -80,7 +87,7 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
      */
     public JPanel createContentPane() {
         JPanel downPane = new JPanel(new BorderLayout());
-        downPane.add(new UIExpandablePane(Inter.getLocText("FR-Designer_Advanced"), HEAD_WDITH, HEAD_HEIGTH, seniorPane()), BorderLayout.NORTH);
+        downPane.add(new UIExpandablePane(Inter.getLocText("FR-Designer_Auto_Adjust_Size"), HEAD_WDITH, HEAD_HEIGTH, seniorPane()), BorderLayout.NORTH);
         downPane.add(new UIExpandablePane(Inter.getLocText("FR-Designer_Pagination"), HEAD_WDITH, HEAD_HEIGTH, pagePane()), BorderLayout.CENTER);
         JPanel contentPane = new JPanel(new BorderLayout(0, 0));
         contentPane.add(new UIExpandablePane(Inter.getLocText("FR-Designer_Basic"), HEAD_WDITH, HEAD_HEIGTH, basicPane()), BorderLayout.NORTH);
@@ -89,24 +96,36 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
         return contentPane;
     }
 
-
     private JPanel basicPane() {
-        autoHeightCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Auto_Adjust_Height"));
-        autoWidthCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Auto_Adjust_Wdith"));
-        autoHeightCheckBox.setBorder(UIConstants.CELL_ATTR_ZEROBORDER);
-        autoWidthCheckBox.setBorder(UIConstants.CELL_ATTR_ZEROBORDER);
-        double p = TableLayout.PREFERRED;
-        double[] rowSize = {p, p, p, p};
-        double[] columnSize = {p};
-        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}};
-        Component[][] components = new Component[][]{
-                new Component[]{null},
-                new Component[]{autoHeightCheckBox},
-                new Component[]{autoWidthCheckBox},
-                new Component[]{null},
+        defaultAutoRadioButton = new UIRadioButton(Inter.getLocText("FR-Designer_Follow_Paper_Settings"));
+        noAutoRadioButton = new UIRadioButton(Inter.getLocText("FR-Designer_No_Auto_Adjust"));
+        autoHeightRadioButton = new UIRadioButton(Inter.getLocText("FR-Designer_Auto_Adjust_Height"));
+        autoWidthRadioButton = new UIRadioButton(Inter.getLocText("FR-Designer_Auto_Adjust_Wdith"));
+        adjustRadioButtons = new UIRadioButton[]{
+                defaultAutoRadioButton, noAutoRadioButton, autoHeightRadioButton, autoWidthRadioButton
         };
-        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_LARGE);
 
+        // 指定分组
+        ButtonGroup autoBG = new ButtonGroup();
+        for (UIRadioButton radioButton : adjustRadioButtons) {
+            autoBG.add(radioButton);
+        }
+
+        JPanel basicPane = new JPanel() {
+            @Override
+            public Insets getInsets() {
+                return new Insets(LayoutConstants.VGAP_MEDIUM, 0, LayoutConstants.VGAP_MEDIUM, 0);
+            }
+        };
+        VerticalFlowLayout verticalFlowLayout = new VerticalFlowLayout(VerticalFlowLayout.CENTER, 0, 0);
+        verticalFlowLayout.setAlignLeft(true);
+        basicPane.setLayout(verticalFlowLayout);
+        basicPane.add(defaultAutoRadioButton);
+        basicPane.add(noAutoRadioButton);
+        basicPane.add(autoHeightRadioButton);
+        basicPane.add(autoWidthRadioButton);
+
+        return basicPane;
     }
 
     private JPanel seniorPane() {
@@ -268,9 +287,10 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
 
 
     private void initAllNames() {
-//        autoshrik.setGlobalName(Inter.getLocText("FR-Designer_Auto_Adjust_Size"));
-        autoHeightCheckBox.setGlobalName(Inter.getLocText("FR-Designer_Auto_Adjust_Height"));
-        autoWidthCheckBox.setGlobalName(Inter.getLocText("FR-Designer_Auto_Adjust_Wdith"));
+        defaultAutoRadioButton.setGlobalName(Inter.getLocText("FR-Designer_Follow_Paper_Settings"));
+        noAutoRadioButton.setGlobalName(Inter.getLocText("FR-Designer_No_Auto_Adjust"));
+        autoHeightRadioButton.setGlobalName(Inter.getLocText("FR-Designer_Auto_Adjust_Height"));
+        autoWidthRadioButton.setGlobalName(Inter.getLocText("FR-Designer_Auto_Adjust_Height"));
         previewCellContent.setGlobalName(Inter.getLocText("FR-Designer_Preview"));
         printAndExportContent.setGlobalName(Inter.getLocText("CellWrite-Preview_Cell_Content"));
         printAndExportBackground.setGlobalName(Inter.getLocText("CellWrite-Print_Background"));
@@ -300,27 +320,32 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
         if (cellGUIAttr == null) {
             cellGUIAttr = CellGUIAttr.DEFAULT_CELLGUIATTR;
         }
-//        autoshrik.setSelectedIndex(cellGUIAttr.getAdjustMode());
+
+        // 是否在编辑表单中的报表块
+        boolean isInForm = EastRegionContainerPane.getInstance().getCurrentMode().equals(EastRegionContainerPane.PropertyMode.FORM_REPORT);
+
+        defaultAutoRadioButton.setVisible(!isInForm);
         switch (cellGUIAttr.getAdjustMode()) {
-            case 0:
-                autoHeightCheckBox.setSelected(false);
-                autoWidthCheckBox.setSelected(false);
+            case CellGUIAttr.ADJUST_MODE_NO_AUTO:
+                noAutoRadioButton.setSelected(true);
                 break;
-            case 1:
-                autoHeightCheckBox.setSelected(true);
-                autoWidthCheckBox.setSelected(false);
+            case CellGUIAttr.ADJUST_MODE_AUTO_HEIGHT:
+                autoHeightRadioButton.setSelected(true);
                 break;
-            case 2:
-                autoHeightCheckBox.setSelected(false);
-                autoWidthCheckBox.setSelected(true);
+            case CellGUIAttr.ADJUST_MODE_AUTO_WIDTH:
+                autoWidthRadioButton.setSelected(true);
                 break;
-            case 3:
-                autoHeightCheckBox.setSelected(true);
-                autoWidthCheckBox.setSelected(true);
+            case CellGUIAttr.ADJUST_MODE_DEFAULT:
+                if (isInForm) {
+                    autoHeightRadioButton.setSelected(true);
+                } else {
+                    defaultAutoRadioButton.setSelected(true);
+                }
                 break;
             default:
                 break;
         }
+
         previewCellContent.setSelected(cellGUIAttr.isPreviewContent());
         printAndExportContent.setSelected(cellGUIAttr.isPrintContent());
         printAndExportBackground.setSelected(cellGUIAttr.isPrintBackground());
@@ -384,26 +409,23 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
             cellGUIAttr = new CellGUIAttr();
         }
 
-//        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_Auto_Adjust_Size"))) {
-//            cellGUIAttr.setAdjustMode(autoshrik.getSelectedIndex());
-//        }
-
-        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_Auto_Adjust_Height")) || ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_Auto_Adjust_Wdith"))) {
-            int flag;
-            if (autoHeightCheckBox.isSelected()) {
-                if (autoWidthCheckBox.isSelected()) {
-                    flag = 3;
+        for (UIRadioButton radioButton : adjustRadioButtons) {
+            if (ComparatorUtils.equals(getGlobalName(), radioButton.getGlobalName())) {
+                // 自动调整
+                int flag;
+                if (defaultAutoRadioButton.isSelected()) {
+                    flag = CellGUIAttr.ADJUST_MODE_DEFAULT;
+                } else if (autoWidthRadioButton.isSelected()) {
+                    flag = CellGUIAttr.ADJUST_MODE_AUTO_WIDTH;
+                } else if (autoHeightRadioButton.isSelected()) {
+                    flag = CellGUIAttr.ADJUST_MODE_AUTO_HEIGHT;
                 } else {
-                    flag = 1;
+                    flag = CellGUIAttr.ADJUST_MODE_NO_AUTO;
                 }
-            } else if (autoWidthCheckBox.isSelected()) {
-                flag = 2;
-            } else {
-                flag = 0;
+                cellGUIAttr.setAdjustMode(flag);
+                break;
             }
-            cellGUIAttr.setAdjustMode(flag);
         }
-
 
         if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_Preview"))) {
             cellGUIAttr.setPreviewContent(previewCellContent.isSelected());
