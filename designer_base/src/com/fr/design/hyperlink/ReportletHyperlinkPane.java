@@ -17,11 +17,12 @@ import com.fr.general.Inter;
 import com.fr.js.ReportletHyperlink;
 import com.fr.stable.ParameterProvider;
 import com.fr.stable.StringUtils;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
+import java.util.HashMap;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 public class ReportletHyperlinkPane extends BasicBeanPane<ReportletHyperlink> {
     private ReporletHyperNorthPane northPane;
@@ -31,6 +32,10 @@ public class ReportletHyperlinkPane extends BasicBeanPane<ReportletHyperlink> {
     public ReportletHyperlinkPane() {
         super();
         this.initComponents();
+    }
+
+    //支持平台内打开插件
+    public ReportletHyperlinkPane(HashMap hyperLinkEditorMap, boolean needRenamePane) {
     }
 
     protected void initComponents() {
