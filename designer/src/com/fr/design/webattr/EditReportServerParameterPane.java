@@ -41,6 +41,8 @@ public class EditReportServerParameterPane extends LoadingBasicPane {
     
     private ErrorTemplatePane errorTemplatePane;
 
+    private PrintSettingPane printSettingPane;
+
 
     @Override
 	protected synchronized void initComponents(JPanel container) {
@@ -68,6 +70,7 @@ public class EditReportServerParameterPane extends LoadingBasicPane {
         tabbedPane.addTab(Inter.getLocText("ReportServerP-Import_Css"), cssPane = new WebCssPane());
         tabbedPane.addTab(Inter.getLocText("ReportServerP-Import_JavaScript"), jsPane = new WebJsPane());
         tabbedPane.addTab(Inter.getLocText("FR-Designer_ErrorHandlerTemplate"), errorTemplatePane = new ErrorTemplatePane());
+        tabbedPane.addTab(Inter.getLocText("FR-Designer_Print_Setting"), printSettingPane = new PrintSettingPane());
     }
     
     @Override
@@ -86,8 +89,8 @@ public class EditReportServerParameterPane extends LoadingBasicPane {
         	viewPane.populateBean(webAttr.getWebView());
         	writePane.populateBean(webAttr.getWebWrite());
         	cssPane.populate(webAttr);
-            
         	jsPane.populate(webAttr);
+            printSettingPane.populate(webAttr);
         }
         
         this.errorTemplatePane.populateBean(reportServerConfigManager.getErrorTemplate());
@@ -107,8 +110,8 @@ public class EditReportServerParameterPane extends LoadingBasicPane {
         webAttr.setWebWrite(writePane.updateBean());
         
         cssPane.update(webAttr);
-        
         jsPane.update(webAttr);
+        printSettingPane.update(webAttr);
         
         reportServerConfigManager.setErrorTemplate(this.errorTemplatePane.updateBean());
     }
