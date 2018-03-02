@@ -2,6 +2,7 @@ package com.fr.design.gui.ilable;
 
 import com.fr.design.utils.gui.GUICoreUtils;
 
+import com.fr.stable.StringUtils;
 import javax.swing.Icon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -56,7 +57,7 @@ public class UILabel extends JLabel {
 	public Dimension getPreferredSize() {
 		Dimension preferredSize = super.getPreferredSize();
 		// （Windows 下）使用 html 时，文字内容会略微向下偏移，导致文字底部被截断，所以适当增加 UILabel 的高度
-		if (getText().startsWith("<html>")) {
+		if (StringUtils.isNotEmpty(getText()) && getText().startsWith("<html>")) {
 			return new Dimension(preferredSize.width, preferredSize.height + HTML_SHIFT_HEIGHT);
 		}
 		return preferredSize;
