@@ -42,6 +42,7 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane{
     private UICheckBox heightRestrictCheckBox; // 手机显示限制高度复选框
     private UILabel maxHeightLabel;
     private UISpinner maxHeightSpinner; // 最大高度Spinner
+    private static final double MAX_HEIGHT_LIMIT = 0.8;
     private AttributeChangeListener changeListener;
 
     public ElementCaseDefinePane (XCreator xCreator) {
@@ -56,7 +57,18 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane{
         this.vComboBox = new UIComboBox(ITEMS);
         this.heightRestrictCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Mobile-Height-Limit"));
         this.maxHeightLabel = new UILabel(Inter.getLocText("FR-Designer_Mobile-Height-Percent"), SwingConstants.LEFT);
-        this.maxHeightSpinner = new UISpinner(0, 1, 0.01, 0.75);
+        this.maxHeightSpinner = new UISpinner(0, MAX_HEIGHT_LIMIT, 0.01, 0.75) {
+            public void setValue(double value) {
+                if (value > MAX_HEIGHT_LIMIT) {
+                    //弹窗提示
+                    JOptionPane.showMessageDialog(null,
+                            Inter.getLocText("FR-Designer_Mobile-Warning"),
+                            Inter.getLocText("FR-Designer_Tooltips"),
+                            JOptionPane.PLAIN_MESSAGE);
+                }
+                super.setValue(value);
+            }
+        };
         maxHeightSpinner.setVisible(false);
         maxHeightLabel.setVisible(false);
 
