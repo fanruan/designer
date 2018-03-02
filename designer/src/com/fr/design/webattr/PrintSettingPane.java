@@ -1,27 +1,33 @@
 package com.fr.design.webattr;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.PaperSize;
+import com.fr.base.Utils;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icombobox.UIComboBox;
+import com.fr.design.gui.icombobox.UIComboBoxRenderer;
+import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UIBasicSpinner;
-import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.report.UnitFieldPane;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.print.nativeprint.core.NativePrintConfigManager;
+import com.fr.report.stable.ReportConstants;
 import com.fr.stable.Constants;
 import com.fr.web.attr.ReportWebAttr;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.Icon;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.SpinnerNumberModel;
 import java.awt.BorderLayout;
@@ -70,10 +76,8 @@ public class PrintSettingPane extends BasicPane {
         printPane.add(noClientPrintRadioButton.getText(), getNoClientPrintPane());
         printPane.add(nativePrintRadioButton.getText(), getNativePrintPane());
 
-//        north.add(printPane);
         north.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
 
-//        JPanel center = FRGUIPaneFactory.createTitledBorderPane("默认配置");
         allPanel.add(printPane, BorderLayout.CENTER);
     }
 
@@ -109,7 +113,22 @@ public class PrintSettingPane extends BasicPane {
         printPane.add(northPane, BorderLayout.NORTH);
 
         JPanel centerPane = FRGUIPaneFactory.createTitledBorderPane("默认配置");
-        centerPane.add(getBasicSettingPane());
+
+        UICheckBox inheritPageMarginSettingCheck = getNoBorderCheckBox("继承页面边距设置");
+        JPanel pageMarginSettingPane = getPageMarginSettingPane();
+        pageMarginSettingPane.setBorder(BorderFactory.createEmptyBorder(10, -10, 0, 0));
+        JPanel pageMarginCheckPane = getCheckboxAndDynamicPane(inheritPageMarginSettingCheck, pageMarginSettingPane);
+        // TableLayout
+        double p = TableLayout.PREFERRED;
+        double[] rowSize = {p, p};
+        double[] columnSize = {60, p};
+        Component[][] components = {
+                {getTopAlignLabelPane("边距："), pageMarginCheckPane},
+                {getTopAlignLabelPane("顺序："), getPageOrderPane()}
+        };
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 0, 15);
+
+        centerPane.add(panel);
 
         printPane.add(centerPane, BorderLayout.CENTER);
 
@@ -135,12 +154,16 @@ public class PrintSettingPane extends BasicPane {
         JPanel centerPane = FRGUIPaneFactory.createTitledBorderPane("默认配置");
 
 
-        JPanel centerContentPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        centerContentPane.add(getNativePrintMainSettingPane(), BorderLayout.CENTER);
-        JPanel basicSettingPane = getBasicSettingPane();
-        basicSettingPane.setBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0));
-        centerContentPane.add(basicSettingPane, BorderLayout.SOUTH);
-        centerPane.add(centerContentPane);
+//        JPanel centerContentPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+
+        UIScrollPane scrollPane = new UIScrollPane(getNativePrintMainSettingPane());
+        scrollPane.setBorder(null);
+        scrollPane.setPreferredSize(new Dimension(600, 340));
+//        centerContentPane.add(scrollPane, BorderLayout.CENTER);
+
+//        centerContentPane.add(getNativePrintMainSettingPane(), BorderLayout.CENTER);
+//        centerPane.add(centerContentPane);
+        centerPane.add(scrollPane);
 
         printPane.add(centerPane, BorderLayout.CENTER);
         return printPane;
@@ -162,7 +185,13 @@ public class PrintSettingPane extends BasicPane {
         copyPane.add(copySpinner);
 
         UICheckBox inheritPagePaperSettingCheck = getNoBorderCheckBox("继承页面纸张设置");
+        JPanel paperSettingPane = getPaperSettingPane();
+        JPanel paperSettingCheckPane = getCheckboxAndDynamicPane(inheritPagePaperSettingCheck, paperSettingPane);
+
         UICheckBox inheritPageLayoutSettingCheck = getNoBorderCheckBox("继承页面布局设置");
+        JPanel layoutSettingPane = getLayoutSettingPane();
+        JPanel layoutSettingCheckPane = getCheckboxAndDynamicPane(inheritPageLayoutSettingCheck, layoutSettingPane);
+
         UICheckBox zoomCheck = getNoBorderCheckBox("根据纸张大小缩放打印");
 
         // 页码标签
@@ -171,19 +200,84 @@ public class PrintSettingPane extends BasicPane {
         printAreaLabelPane.add(printAreaLabel, BorderLayout.NORTH);
         printAreaLabel.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
 
+        // 边距
+        UICheckBox inheritPageMarginSettingCheck = getNoBorderCheckBox("继承页面边距设置");
+        JPanel pageMarginSettingPane = getPageMarginSettingPane();
+        pageMarginSettingPane.setBorder(BorderFactory.createEmptyBorder(10, -10, 0, 0));
+        JPanel pageMarginCheckPane = getCheckboxAndDynamicPane(inheritPageMarginSettingCheck, pageMarginSettingPane);
+
         // TableLayout
         double p = TableLayout.PREFERRED;
-        double[] rowSize = {p, p, p, p, p, p};
+        double[] rowSize = {p, p, p, p, p, p, p, p};
         double[] columnSize = {60, p};
         Component[][] components = {
                 {new UILabel("打印机："), printerPane},
                 {new UILabel("份数："), copyPane},
                 {printAreaLabelPane, getPrintAreaPane()},
-                {new UILabel("纸张："), inheritPagePaperSettingCheck},
-                {new UILabel("布局："), inheritPageLayoutSettingCheck},
-                {new UILabel("缩放："), zoomCheck}
+                {getTopAlignLabelPane("纸张："), paperSettingCheckPane},
+                {getTopAlignLabelPane("布局："), layoutSettingCheckPane},
+                {getTopAlignLabelPane("边距："), pageMarginCheckPane},
+                {new UILabel("缩放："), zoomCheck},
+                {getTopAlignLabelPane("顺序："), getPageOrderPane()}
         };
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 0, 15);
+        return panel;
+    }
+
+    private JPanel getLayoutSettingPane() {
+        JPanel layoutSettingPane = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
+        layoutSettingPane.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
+        UIRadioButton portraitRadioButton = new UIRadioButton(Inter.getLocText("PageSetup-Portrait"));
+        portraitRadioButton.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
+        UIRadioButton landscapeRadioButton = new UIRadioButton(Inter.getLocText("PageSetup-Landscape"));
+        layoutSettingPane.add(portraitRadioButton);
+        layoutSettingPane.add(landscapeRadioButton);
+
+        ButtonGroup layoutButtonGroup = new ButtonGroup();
+        layoutButtonGroup.add(portraitRadioButton);
+        layoutButtonGroup.add(landscapeRadioButton);
+
+        portraitRadioButton.setSelected(true);
+        return layoutSettingPane;
+    }
+
+    private JPanel getPaperSettingPane() {
+        UIComboBox predefinedComboBox = new UIComboBox();
+        for (int i = 0; i < ReportConstants.PaperSizeNameSizeArray.length; i++) {
+            Object[] tmpPaperSizeNameArray = ReportConstants.PaperSizeNameSizeArray[i];
+            predefinedComboBox.addItem(tmpPaperSizeNameArray[1]);
+        }
+        predefinedComboBox.setRenderer(new UIComboBoxRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+
+                if (value instanceof PaperSize) {
+                    PaperSize paperSize = (PaperSize) value;
+                    for (int i = 0; i < ReportConstants.PaperSizeNameSizeArray.length; i++) {
+                        Object[] tmpPaperSizeNameArray = ReportConstants.PaperSizeNameSizeArray[i];
+
+                        if (ComparatorUtils.equals(paperSize, tmpPaperSizeNameArray[1])) {
+                            String sbuf = tmpPaperSizeNameArray[0].toString() + " [" +
+                                    Utils.convertNumberStringToString(paperSize.getWidth().toMMValue4Scale2()) +
+                                    'x' +
+                                    Utils.convertNumberStringToString(paperSize.getHeight().toMMValue4Scale2()) +
+                                    ' ' +
+                                    Inter.getLocText("PageSetup-mm") +
+                                    ']';
+                            this.setText(sbuf);
+                            break;
+                        }
+                    }
+                }
+
+                return this;
+            }
+        });
+
+        JPanel panel = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
+        panel.add(predefinedComboBox);
+        panel.setBorder(BorderFactory.createEmptyBorder(8, 0, 0, 0));
         return panel;
     }
 
@@ -220,34 +314,19 @@ public class PrintSettingPane extends BasicPane {
         return tipLabel;
     }
 
-    // 边距 + 顺序
-    private JPanel getBasicSettingPane() {
-        UICheckBox inheritPageMarginSettingCheck = getNoBorderCheckBox("继承页面边距设置");
-        JPanel pageMarginCheckPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        JPanel pageMarginSettingPane = getPageMarginSettingPane();
-        pageMarginSettingPane.setBorder(BorderFactory.createEmptyBorder(10, -10, 0, 0));
-        pageMarginCheckPane.add(inheritPageMarginSettingCheck, BorderLayout.NORTH);
-        pageMarginCheckPane.add(pageMarginSettingPane, BorderLayout.CENTER);
-        initListenerForCheckboxAndDynamicPane(inheritPageMarginSettingCheck, pageMarginSettingPane);
-
-        // TableLayout
-        double p = TableLayout.PREFERRED;
-        double[] rowSize = {p, p};
-        double[] columnSize = {60, p};
-        Component[][] components = {
-                {getTopAlignLabelPane("边距："), pageMarginCheckPane},
-                {getTopAlignLabelPane("顺序："), getPageOrderPane()}
-        };
-        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 0, 15);
-    }
-
-    private void initListenerForCheckboxAndDynamicPane(UICheckBox checkBox, JPanel dynamicPane) {
+    private JPanel getCheckboxAndDynamicPane(UICheckBox checkBox, JPanel dynamicPane) {
         checkBox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 dynamicPane.setVisible(e.getStateChange() == ItemEvent.DESELECTED);
             }
         });
+        JPanel panel = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        panel.add(checkBox, BorderLayout.NORTH);
+        JPanel dynamicPaneWrapper = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
+        dynamicPaneWrapper.add(dynamicPane);
+        panel.add(dynamicPaneWrapper, BorderLayout.CENTER);
+        return panel;
     }
 
     // 返回包含一个标签的 panel，标签始终位于 panel 顶部
