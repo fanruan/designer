@@ -2,6 +2,7 @@ package com.fr.design.webattr;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.ConfigManager;
+import com.fr.config.Configuration;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
@@ -20,7 +21,10 @@ import com.fr.report.web.ToolBarManager;
 import com.fr.report.web.WebContent;
 import com.fr.report.web.WebWrite;
 import com.fr.stable.Constants;
+import com.fr.transaction.Configurations;
+import com.fr.transaction.Worker;
 import com.fr.web.attr.ReportWebAttr;
+import com.fr.web.attr.ReportWebConfig;
 
 import javax.swing.*;
 
@@ -260,12 +264,23 @@ public class WriteToolBarPane extends AbstractEditToolBarPane {
 
             @Override
             public void doOk() {
-                ReportWebAttr reportWebAttr = ((ReportWebAttr) ConfigManager.getProviderInstance().getGlobalAttribute(ReportWebAttr.class));
-                if (reportWebAttr == null) {
-                    reportWebAttr = new ReportWebAttr();
-                    ConfigManager.getProviderInstance().putGlobalAttribute(ReportWebAttr.class, reportWebAttr);
-                }
-                reportWebAttr.setWebWrite(serverPageToolBarPane.updateBean());
+                Configurations.update(new Worker() {
+                    @Override
+                    public void run() {
+                        ReportWebAttr reportWebAttr = ((ReportWebAttr) ConfigManager.getProviderInstance().getGlobalAttribute(ReportWebAttr.class));
+                        if (reportWebAttr == null) {
+                            reportWebAttr = new ReportWebAttr();
+                            ConfigManager.getProviderInstance().putGlobalAttribute(ReportWebAttr.class, reportWebAttr);
+                        }
+                        reportWebAttr.setWebWrite(serverPageToolBarPane.updateBean());
+                    }
+
+                    @Override
+                    public Class<? extends Configuration>[] targets() {
+                        return new Class[]{ReportWebConfig.class};
+                    }
+                });
+
             }
         });
         serverPageDialog.setVisible(true);

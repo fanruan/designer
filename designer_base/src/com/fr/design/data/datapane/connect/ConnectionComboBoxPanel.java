@@ -1,6 +1,7 @@
 package com.fr.design.data.datapane.connect;
 
 import com.fr.base.FRContext;
+import com.fr.config.Configuration;
 import com.fr.data.impl.AbstractDatabaseConnection;
 import com.fr.data.impl.Connection;
 import com.fr.data.impl.NameDatabaseConnection;
@@ -8,10 +9,13 @@ import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.server.ConnectionListAction;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.file.ConnectionConfig;
 import com.fr.file.DatasourceManager;
 import com.fr.file.DatasourceManagerProvider;
 import com.fr.general.ComparatorUtils;
 import com.fr.stable.StringUtils;
+import com.fr.transaction.Configurations;
+import com.fr.transaction.Worker;
 
 import javax.swing.*;
 import java.awt.event.ItemEvent;
@@ -96,17 +100,38 @@ public class ConnectionComboBoxPanel extends ItemEditableComboBoxPanel {
                     connectionListDialog.setDoOKSucceed(false);
                     return;
                 }
-                if (!ConnectionListAction.doWithDatasourceManager(datasourceManager, backupManager, connectionListPane,
-                        connectionListDialog)) {
-                    //如果更新失败，则不关闭对话框，也不写xml文件，并且将对话框定位在请重命名的那个对象页面
-                    return;
-                }
-                // marks:保存数据
-                ConnectionListAction.writeFile(datasourceManager);
+                Configurations.update(new Worker() {
+                    @Override
+                    public void run() {
+                        if (!ConnectionListAction.doWithDatasourceManager(datasourceManager, backupManager, connectionListPane,
+                                connectionListDialog)) {
+                            //如果更新失败，则不关闭对话框，也不写xml文件，并且将对话框定位在请重命名的那个对象页面
+                            return;
+                        }
+                        // marks:保存数据
+                        ConnectionListAction.writeFile(datasourceManager);
+                    }
+
+                    @Override
+                    public Class<? extends Configuration>[] targets() {
+                        return new Class[]{ConnectionConfig.class};
+                    }
+                });
+
             }
 
             public void doCancel() {
-                datasourceManager.synchronizedWithServer();
+                Configurations.update(new Worker() {
+                    @Override
+                    public void run() {
+                        datasourceManager.synchronizedWithServer();
+                    }
+
+                    @Override
+                    public Class<? extends Configuration>[] targets() {
+                        return new Class[]{ConnectionConfig.class};
+                    }
+                });
             }
         });
         connectionListDialog.setVisible(true);

@@ -1,6 +1,7 @@
 package com.fr.design.webattr;
 
 import com.fr.base.ConfigManager;
+import com.fr.config.Configuration;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.gui.core.WidgetOption;
@@ -15,7 +16,10 @@ import com.fr.report.web.Location;
 import com.fr.report.web.ToolBarManager;
 import com.fr.report.web.WebContent;
 import com.fr.report.web.WebView;
+import com.fr.transaction.Configurations;
+import com.fr.transaction.Worker;
 import com.fr.web.attr.ReportWebAttr;
+import com.fr.web.attr.ReportWebConfig;
 
 import javax.swing.*;
 import java.awt.*;
@@ -113,14 +117,14 @@ public class ViewToolBarPane extends AbstractEditToolBarPane {
 	@Override
 	public WebView updateBean() {
 		WebView webView = new WebView();
-		if (this.isUseToolBarCheckBox.isSelected()) {
-			webView.setToolBarManagers(this.toolBarManagers);
+		if (isUseToolBarCheckBox.isSelected()) {
+			webView.setToolBarManagers(toolBarManagers);
 		} else {
 			webView.setToolBarManagers(new ToolBarManager[0]);
 		}
-		webView.setSortFuncCheck(this.sortCheckBox.isSelected());
-		webView.setConditionFuncCheck(this.conditonFilterBox.isSelected());
-		webView.setListFuncCheck(this.listFilterBox.isSelected());
+		webView.setSortFuncCheck(sortCheckBox.isSelected());
+		webView.setConditionFuncCheck(conditonFilterBox.isSelected());
+		webView.setListFuncCheck(listFilterBox.isSelected());
 		for (int i = 0; i < eventPane.update().size(); i++) {
 			Listener listener = eventPane.update().get(i);
 			webView.addListener(listener);
@@ -143,12 +147,23 @@ public class ViewToolBarPane extends AbstractEditToolBarPane {
 			
 			@Override
 			public void doOk() {
-				ReportWebAttr reportWebAttr = ((ReportWebAttr)ConfigManager.getProviderInstance().getGlobalAttribute(ReportWebAttr.class));
-				if (reportWebAttr == null) {
-					reportWebAttr = new ReportWebAttr();
-					ConfigManager.getProviderInstance().putGlobalAttribute(ReportWebAttr.class, reportWebAttr);
-				}
-				reportWebAttr.setWebView(serverPageToolBarPane.updateBean());
+				Configurations.update(new Worker() {
+					@Override
+					public void run() {
+						ReportWebAttr reportWebAttr = ((ReportWebAttr)ConfigManager.getProviderInstance().getGlobalAttribute(ReportWebAttr.class));
+						if (reportWebAttr == null) {
+							reportWebAttr = new ReportWebAttr();
+							ConfigManager.getProviderInstance().putGlobalAttribute(ReportWebAttr.class, reportWebAttr);
+						}
+						reportWebAttr.setWebView(serverPageToolBarPane.updateBean());
+					}
+
+					@Override
+					public Class<? extends Configuration>[] targets() {
+						return new Class[]{ReportWebConfig.class};
+					}
+				});
+
 			}
 		});
 		serverPageDialog.setVisible(true);

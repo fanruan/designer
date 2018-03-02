@@ -2,6 +2,7 @@ package com.fr.design.actions.server;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
+import com.fr.config.Configuration;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.data.DesignTableDataManager;
@@ -13,7 +14,10 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrame;
 import com.fr.file.DatasourceManager;
 import com.fr.file.DatasourceManagerProvider;
+import com.fr.file.ProcedureConfig;
 import com.fr.general.Inter;
+import com.fr.transaction.Configurations;
+import com.fr.transaction.Worker;
 
 import java.awt.event.ActionEvent;
 
@@ -42,16 +46,27 @@ public class ProcedureListAction extends UpdateAction {
 		BasicDialog databaseListDialog = databaseManagerPane.showLargeWindow(designerFrame,null);
 		databaseListDialog.addDialogActionListener(new DialogActionAdapter() {
 			public void doOk() {
-				DesignTableDataManager.clearGlobalDs();
-				databaseManagerPane.update(datasourceManager);
+				Configurations.update(new Worker() {
+					@Override
+					public void run() {
+						DesignTableDataManager.clearGlobalDs();
+						databaseManagerPane.update(datasourceManager);
 
-				// marks:保存数据
-                try {
-                    FRContext.getCurrentEnv().writeResource(datasourceManager);
-                } catch (Exception e) {
-                    FRContext.getLogger().error(e.getMessage());
-                }
-                TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter());
+						// marks:保存数据
+						try {
+							FRContext.getCurrentEnv().writeResource(datasourceManager);
+						} catch (Exception e) {
+							FRContext.getLogger().error(e.getMessage());
+						}
+						TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter());
+					}
+
+					@Override
+					public Class<? extends Configuration>[] targets() {
+						return new Class[]{ProcedureConfig.class};
+					}
+				});
+
 			}
 		});
 		databaseListDialog.setVisible(true);

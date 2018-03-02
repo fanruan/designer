@@ -3,6 +3,7 @@ package com.fr.design.actions.server;
 import com.fr.base.Env;
 import com.fr.base.FRContext;
 import com.fr.base.ModifiedTable;
+import com.fr.config.Configuration;
 import com.fr.data.impl.Connection;
 import com.fr.dav.LocalEnv;
 import com.fr.design.actions.UpdateAction;
@@ -14,10 +15,13 @@ import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.menu.MenuKeySet;
+import com.fr.file.ConnectionConfig;
 import com.fr.file.DatasourceManager;
 import com.fr.file.DatasourceManagerProvider;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
+import com.fr.transaction.Configurations;
+import com.fr.transaction.Worker;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -74,20 +78,41 @@ public class ConnectionListAction extends UpdateAction {
         final BasicDialog databaseListDialog = databaseManagerPane.showLargeWindow(designerFrame, null);
         databaseListDialog.addDialogActionListener(new DialogActionAdapter() {
             public void doOk() {
-                if (!databaseManagerPane.isNamePermitted()) {
-                    databaseListDialog.setDoOKSucceed(false);
-                    return;
-                }
-                if (!doWithDatasourceManager(datasourceManager, backupManager, databaseManagerPane, databaseListDialog)) {
-                    //如果更新失败，则不关闭对话框，也不写xml文件，并且将对话框定位在请重命名的那个对象页面
-                    return;
-                }
-                // marks:保存数据
-                writeFile(datasourceManager);
+                Configurations.update(new Worker() {
+                    @Override
+                    public void run() {
+                        if (!databaseManagerPane.isNamePermitted()) {
+                            databaseListDialog.setDoOKSucceed(false);
+                            return;
+                        }
+                        if (!doWithDatasourceManager(datasourceManager, backupManager, databaseManagerPane, databaseListDialog)) {
+                            //如果更新失败，则不关闭对话框，也不写xml文件，并且将对话框定位在请重命名的那个对象页面
+                            return;
+                        }
+                        // marks:保存数据
+                        writeFile(datasourceManager);
+                    }
+
+                    @Override
+                    public Class<? extends Configuration>[] targets() {
+                        return new Class[]{ConnectionConfig.class};
+                    }
+                });
+
             }
 
             public void doCancel() {
-                datasourceManager.synchronizedWithServer();
+                Configurations.update(new Worker() {
+                    @Override
+                    public void run() {
+                        datasourceManager.synchronizedWithServer();
+                    }
+
+                    @Override
+                    public Class<? extends Configuration>[] targets() {
+                        return new Class[]{ConnectionConfig.class};
+                    }
+                });
             }
         });
         databaseListDialog.setVisible(true);

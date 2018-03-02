@@ -4,6 +4,7 @@
 package com.fr.design.actions.server;
 
 import com.fr.base.*;
+import com.fr.config.Configuration;
 import com.fr.dav.LocalEnv;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.actions.UpdateAction;
@@ -18,7 +19,10 @@ import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.file.DatasourceManager;
 import com.fr.file.DatasourceManagerProvider;
+import com.fr.file.TableDataConfig;
 import com.fr.general.Inter;
+import com.fr.transaction.Configurations;
+import com.fr.transaction.Worker;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -68,8 +72,18 @@ public class GlobalTableDataAction extends UpdateAction implements ResponseDataS
                 populate(datasourceManager);
             }
 
-            protected void renameConnection(String oldName, String newName) {
-                datasourceManager.getConnectionLocalModifyTable().rename(oldName, newName);
+            protected void renameConnection(final String oldName, final String newName) {
+                Configurations.update(new Worker() {
+                    @Override
+                    public void run() {
+                        datasourceManager.getConnectionLocalModifyTable().rename(oldName, newName);
+                    }
+
+                    @Override
+                    public Class<? extends Configuration>[] targets() {
+                        return new Class[]{DatasourceManager.class};
+                    }
+                });
             }
         };
         final BasicDialog globalTableDataDialog = globalTableDataPane.showLargeWindow(designerFrame, null);
@@ -78,26 +92,48 @@ public class GlobalTableDataAction extends UpdateAction implements ResponseDataS
 
             @Override
             public void doOk() {
-                if (!globalTableDataPane.isNamePermitted()) {
-                    globalTableDataDialog.setDoOKSucceed(false);
-                    return;
-                }
+                Configurations.update(new Worker() {
+                    @Override
+                    public void run() {
+                        if (!globalTableDataPane.isNamePermitted()) {
+                            globalTableDataDialog.setDoOKSucceed(false);
+                            return;
+                        }
 
-                DesignTableDataManager.clearGlobalDs();
-                globalTableDataPane.update(datasourceManager);
-                if (!doWithDatasourceManager(datasourceManager, backupManager, globalTableDataPane, globalTableDataDialog)) {
-                    //如果更新失败，则不关闭对话框，也不写xml文件，并且将对话框定位在请重命名的那个对象页面
-                    return;
-                }
+                        DesignTableDataManager.clearGlobalDs();
+                        globalTableDataPane.update(datasourceManager);
+                        if (!doWithDatasourceManager(datasourceManager, backupManager, globalTableDataPane, globalTableDataDialog)) {
+                            //如果更新失败，则不关闭对话框，也不写xml文件，并且将对话框定位在请重命名的那个对象页面
+                            return;
+                        }
 
-                writeFile(datasourceManager);
-                // 刷新共有数据集
-                TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter());
-                fireDSChanged(globalTableDataPane.getDsChangedNameMap());
+                        writeFile(datasourceManager);
+                        // 刷新共有数据集
+                        TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter());
+                        fireDSChanged(globalTableDataPane.getDsChangedNameMap());
+                    }
+
+                    @Override
+                    public Class<? extends Configuration>[] targets() {
+                        return new Class[]{TableDataConfig.class};
+                    }
+                });
+
             }
 
             public void doCancel() {
-                datasourceManager.synchronizedWithServer();
+                Configurations.update(new Worker() {
+                    @Override
+                    public void run() {
+                        datasourceManager.synchronizedWithServer();
+                    }
+
+                    @Override
+                    public Class<? extends Configuration>[] targets() {
+                        return new Class[]{TableDataConfig.class
+                        };
+                    }
+                });
             }
         });
         globalTableDataDialog.setVisible(true);

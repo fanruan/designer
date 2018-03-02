@@ -7,6 +7,8 @@ import com.fr.base.BaseUtils;
 import com.fr.base.ConfigManager;
 import com.fr.base.Env;
 import com.fr.base.FRContext;
+import com.fr.config.Configuration;
+import com.fr.config.ServerConfig;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.dialog.BasicDialog;
@@ -17,6 +19,8 @@ import com.fr.design.menu.MenuKeySet;
 import com.fr.design.parameter.ParameterManagerPane;
 import com.fr.general.Inter;
 import com.fr.base.ConfigManagerProvider;
+import com.fr.transaction.Configurations;
+import com.fr.transaction.Worker;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -50,20 +54,31 @@ public class GlobalParameterAction extends UpdateAction {
         parameterManagerPane.populate(configManager);
         parameterManagerDialog.addDialogActionListener(new DialogActionAdapter() {
             public void doOk() {
-                //apply new parameter list.
-                parameterManagerPane.update(configManager);
-                //marks:保存数据
-                Env currentEnv = FRContext.getCurrentEnv();
-                try {
-                    currentEnv.writeResource(configManager);
-                } catch (Exception ex) {
-                    FRContext.getLogger().error(ex.getMessage(), ex);
-                }
-                DesignModelAdapter<?, ?> model = DesignModelAdapter.getCurrentModelAdapter();
-                if (model != null) {
-                    model.parameterChanged();
-                }
-                parameterManagerDialog.setDoOKSucceed(!parameterManagerPane.isContainsRename());
+                Configurations.update(new Worker() {
+                    @Override
+                    public void run() {
+                        //apply new parameter list.
+                        parameterManagerPane.update(configManager);
+                        //marks:保存数据
+                        Env currentEnv = FRContext.getCurrentEnv();
+                        try {
+                            currentEnv.writeResource(configManager);
+                        } catch (Exception ex) {
+                            FRContext.getLogger().error(ex.getMessage(), ex);
+                        }
+                        DesignModelAdapter<?, ?> model = DesignModelAdapter.getCurrentModelAdapter();
+                        if (model != null) {
+                            model.parameterChanged();
+                        }
+                        parameterManagerDialog.setDoOKSucceed(!parameterManagerPane.isContainsRename());
+                    }
+
+                    @Override
+                    public Class<? extends Configuration>[] targets() {
+                        return new Class[]{ServerConfig.class};
+                    }
+                });
+
             }
         });
         parameterManagerDialog.setModal(true);
