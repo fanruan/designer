@@ -12,7 +12,7 @@ import com.fr.design.mainframe.toolbar.UpdateActionManager;
 import com.fr.general.Inter;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
-import com.fr.log.FRLoggerFactory;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ProductConstants;
 import com.fr.third.org.apache.lucene.analysis.Analyzer;
 import com.fr.third.org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -98,12 +98,12 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
             try {
                 directory = FSDirectory.open(new File(path));
             } catch (IOException e) {
-                FRLoggerFactory.getLogger().error("cannot open directory " + path);
+                FineLoggerFactory.getLogger().error("cannot open directory " + path);
             }
             try {
                 indexWriter = new IndexWriter(directory, config);
             } catch (IOException e) {
-                FRLoggerFactory.getLogger().error("not privilege to write to" + path);
+                FineLoggerFactory.getLogger().error("not privilege to write to" + path);
             }
         }
 
@@ -118,7 +118,7 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
                 directory = FSDirectory.open(new File(path));
                 indexReader = DirectoryReader.open(directory);
             } catch (IOException e) {
-                FRLoggerFactory.getLogger().error("not privilege to read " + path);
+                FineLoggerFactory.getLogger().error("not privilege to read " + path);
             }
             indexSearcher = new IndexSearcher(indexReader);
         }
@@ -140,7 +140,7 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
             doc.add(new IntField("searchCount", searchCount, Field.Store.YES));
             writeDoc(doc);
         } catch (JSONException e) {
-            FRLoggerFactory.getLogger().error("add document error: " + e.getMessage());
+            FineLoggerFactory.getLogger().error("add document error: " + e.getMessage());
         }
     }
 
@@ -154,7 +154,7 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
             indexWriter.commit();
             indexWriter.close();
         } catch (IOException e) {
-            FRLoggerFactory.getLogger().error("write document error: " + e.getMessage());
+            FineLoggerFactory.getLogger().error("write document error: " + e.getMessage());
         }
     }
 
@@ -195,7 +195,7 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
 
             }
         } catch (Exception e) {
-            FRLoggerFactory.getLogger().error("local search error: " + e.getMessage());
+            FineLoggerFactory.getLogger().error("local search error: " + e.getMessage());
             return recentModelList;
         }
         return recentModelList;
