@@ -33,7 +33,7 @@ import com.fr.file.filter.ChooseFileFilter;
 import com.fr.general.Inter;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.StringUtils;
-import com.fr.web.attr.ReportWebAttr;
+import com.fr.web.attr.ReportWebConfig;
 
 public class WebJsPane extends BasicPane {
 	private UITextField localText;
@@ -260,7 +260,7 @@ public class WebJsPane extends BasicPane {
 		chooseFile.setEnabled(false);
 	}
 
-	public void populate(ReportWebAttr reportWebAttr) {
+	public void populate(ReportWebConfig reportWebAttr) {
 		if (reportWebAttr == null) {
 			editingPane.populateBean(new ArrayList<String>());
 			return;
@@ -274,7 +274,7 @@ public class WebJsPane extends BasicPane {
 		editingPane.populateBean(list);
 	}
 
-	public void update(ReportWebAttr reportWebAttr) {
+	public void update(ReportWebConfig reportWebAttr) {
 		List<String> valueList = editingPane.updateBean();
 		reportWebAttr.clearJSImportList();
 		for (int i = 0; i < valueList.size(); i++) {

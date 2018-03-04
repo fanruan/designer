@@ -1,7 +1,7 @@
 package com.fr.design.extra;
 
-import com.fr.base.ConfigManager;
 import com.fr.base.FRContext;
+import com.fr.config.ServerConfig;
 import com.fr.design.extra.tradition.callback.UpdateOnlineCallback;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.gui.ilable.UILabel;
@@ -188,10 +188,10 @@ public class PluginFromStorePane extends PluginAbstractLoadingViewPane<List<Plug
     }
 
     private void doUpdateOnline(final PluginStatusCheckCompletePane pane) {
-        if (!StringUtils.isNotEmpty(ConfigManager.getProviderInstance().getBbsUsername())) {
+        if (!StringUtils.isNotEmpty(ServerConfig.getInstance().getBbsUsername())) {
             LoginCheckContext.fireLoginCheckListener();
         }
-        if (StringUtils.isNotEmpty(ConfigManager.getProviderInstance().getBbsUsername())) {
+        if (StringUtils.isNotEmpty(ServerConfig.getInstance().getBbsUsername())) {
             PluginView plugin = controlPane.getSelectedPlugin();
             String id = null;
             if (plugin != null) {

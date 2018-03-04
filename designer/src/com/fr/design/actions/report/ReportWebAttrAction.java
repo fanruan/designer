@@ -3,10 +3,6 @@
  */
 package com.fr.design.actions.report;
 
-import com.fr.base.ConfigManager;
-import com.fr.base.ConfigManagerProvider;
-import com.fr.base.Env;
-import com.fr.base.FRContext;
 import com.fr.config.Configuration;
 import com.fr.design.actions.JWorkBookAction;
 import com.fr.design.dialog.BasicDialog;
@@ -50,7 +46,8 @@ public class ReportWebAttrAction extends JWorkBookAction {
 		final ReportWebAttrPane reportWebAttrPane = new ReportWebAttrPane() {
 			@Override
 			public void complete() {
-				populate(wbTpl.getReportWebAttr());
+				ReportWebConfig config = wbTpl.getReportWebAttr();
+				populate((ReportWebConfig) config.clone());
 			}
 		};
 		final BasicDialog dialog = reportWebAttrPane.showWindow(
@@ -64,13 +61,6 @@ public class ReportWebAttrAction extends JWorkBookAction {
 					@Override
 					public void run() {
 						wbTpl.setReportWebAttr(reportWebAttrPane.update());
-						final ConfigManagerProvider configManager = ConfigManager.getProviderInstance();
-						Env currentEnv = FRContext.getCurrentEnv();
-						try {
-							currentEnv.writeResource(configManager);
-						} catch (Exception ex) {
-							FRContext.getLogger().error(ex.getMessage(), ex);
-						}
 						jwb.fireTargetModified();
 					}
 

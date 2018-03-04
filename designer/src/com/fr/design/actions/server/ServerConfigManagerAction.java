@@ -3,11 +3,8 @@
  */
 package com.fr.design.actions.server;
 
-import com.fr.base.ConfigManager;
-import com.fr.base.ConfigManagerProvider;
-import com.fr.base.Env;
-import com.fr.base.FRContext;
 import com.fr.config.Configuration;
+import com.fr.config.ServerConfig;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
@@ -40,11 +37,11 @@ public class ServerConfigManagerAction extends UpdateAction {
      * @param e 事件
      */
     public void actionPerformed(ActionEvent e) {
-        final ConfigManagerProvider configManager = ConfigManager.getProviderInstance();
+        final ServerConfig config = ServerConfig.getInstance();
         final EditReportServerParameterPane editReportServerParameterPane = new EditReportServerParameterPane() {
             @Override
 			public void complete() {
-                populate(configManager);
+                populate((ServerConfig)config.clone());
             }
         };
 
@@ -58,18 +55,12 @@ public class ServerConfigManagerAction extends UpdateAction {
                 Configurations.update(new Worker() {
                     @Override
                     public void run() {
-                        editReportServerParameterPane.update(configManager);
-                        Env currentEnv = FRContext.getCurrentEnv();
-                        try {
-                            currentEnv.writeResource(configManager);
-                        } catch (Exception ex) {
-                            FRContext.getLogger().error(ex.getMessage(), ex);
-                        }
+                        editReportServerParameterPane.update(config);
                     }
 
                     @Override
                     public Class<? extends Configuration>[] targets() {
-                        return new Class[]{ReportWebConfig.class};
+                        return new Class[]{ReportWebConfig.class, ServerConfig.class};
                     }
                 });
 

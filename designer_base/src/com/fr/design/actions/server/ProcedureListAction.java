@@ -12,8 +12,6 @@ import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrame;
-import com.fr.file.DatasourceManager;
-import com.fr.file.DatasourceManagerProvider;
 import com.fr.file.ProcedureConfig;
 import com.fr.general.Inter;
 import com.fr.transaction.Configurations;
@@ -37,10 +35,10 @@ public class ProcedureListAction extends UpdateAction {
 	public void actionPerformed(ActionEvent evt) {
 		DesignerFrame designerFrame = DesignerContext.getDesignerFrame();
 
-		final DatasourceManagerProvider datasourceManager = DatasourceManager.getProviderInstance();
+		final ProcedureConfig procedureConfig = ProcedureConfig.getInstance();
 		final ProcedureManagerPane databaseManagerPane = new ProcedureManagerPane() {
 			public void complete() {
-				populate(datasourceManager);
+				populate((ProcedureConfig)procedureConfig.clone());
 			}
 		};
 		BasicDialog databaseListDialog = databaseManagerPane.showLargeWindow(designerFrame,null);
@@ -50,14 +48,7 @@ public class ProcedureListAction extends UpdateAction {
 					@Override
 					public void run() {
 						DesignTableDataManager.clearGlobalDs();
-						databaseManagerPane.update(datasourceManager);
-
-						// marks:保存数据
-						try {
-							FRContext.getCurrentEnv().writeResource(datasourceManager);
-						} catch (Exception e) {
-							FRContext.getLogger().error(e.getMessage());
-						}
+						databaseManagerPane.update(procedureConfig);
 						TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter());
 					}
 

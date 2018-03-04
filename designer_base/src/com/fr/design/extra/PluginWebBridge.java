@@ -1,7 +1,7 @@
 package com.fr.design.extra;
 
-import com.fr.base.ConfigManager;
 import com.fr.base.FRContext;
+import com.fr.config.ServerConfig;
 import com.fr.design.RestartHelper;
 import com.fr.design.bbs.BBSLoginUtils;
 import com.fr.design.dialog.UIDialog;
@@ -422,7 +422,7 @@ public class PluginWebBridge {
      */
     public String getLoginInfo(final JSObject callback) {
         registerLoginInfo(callback);
-        return ConfigManager.getProviderInstance().getBbsUsername();
+        return ServerConfig.getInstance().getBbsUsername();
     }
 
     /**
@@ -550,11 +550,6 @@ public class PluginWebBridge {
      * 通过QQ登录后通知登录
      */
     public void ucsynLogin(long uid, String username, String password, final JSONObject callback) {
-        try {
-            FRContext.getCurrentEnv().writeResource(ConfigManager.getProviderInstance());
-        } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage());
-        }
         uiLabel.setText(username);
     }
 
@@ -562,7 +557,7 @@ public class PluginWebBridge {
      * 清除用户信息
      */
     public void clearUserInfo() {
-        ConfigManager.getProviderInstance().setInShowBBsName(StringUtils.EMPTY);
+        ServerConfig.getInstance().setInShowBBsName(StringUtils.EMPTY);
         BBSLoginUtils.bbsLogout();
         uiLabel.setText(Inter.getLocText("FR-Base_UnSignIn"));
     }

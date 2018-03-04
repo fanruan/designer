@@ -227,7 +227,7 @@ public class FormParaWidgetPane extends JPanel {
                 predifinedwidgeList.add(designerPre[i]);
             }
         }
-        WidgetManagerProvider mgr = WidgetManager.getProviderInstance();
+        WidgetInfoConfig mgr = WidgetInfoConfig.getInstance();
         Iterator<String> nameIt = mgr.getWidgetConfigNameIterator();
         while (nameIt.hasNext()) {
             String name = nameIt.next();

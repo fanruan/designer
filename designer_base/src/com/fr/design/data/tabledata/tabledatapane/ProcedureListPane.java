@@ -7,7 +7,7 @@ import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.ilist.ListModelElement;
-import com.fr.file.DatasourceManagerProvider;
+import com.fr.file.ProcedureConfig;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.NameObject;
 import com.fr.stable.Nameable;
@@ -113,16 +113,16 @@ public class ProcedureListPane extends JListControlPane {
 	/**
 	 * Populate.
 	 * 
-	 * @param datasourceManager
+	 * @param procedureConfig
 	 *            the new datasourceManager.
 	 */
-	public void populate(DatasourceManagerProvider datasourceManager) {
-		Iterator<String> nameIt = datasourceManager.getProcedureNameIterator();
+	public void populate(ProcedureConfig procedureConfig) {
+		Iterator<String> nameIt = procedureConfig.getProcedures().keySet().iterator();
 
 		List<NameObject> nameObjectList = new ArrayList<NameObject>();
 		while (nameIt.hasNext()) {
 			String name = nameIt.next();
-			nameObjectList.add(new NameObject(name, datasourceManager.getProcedure(name)));
+			nameObjectList.add(new NameObject(name, procedureConfig.getProcedure(name)));
 		}
 		this.populate(nameObjectList.toArray(new NameObject[nameObjectList.size()]));
 
@@ -131,17 +131,17 @@ public class ProcedureListPane extends JListControlPane {
 	/**
 	 * Update.
 	 */
-	public void update(DatasourceManagerProvider datasourceManager) {
+	public void update(ProcedureConfig procedureConfig) {
 		// Nameable[]居然不能强转成NameObject[],一定要这么写...
 		Nameable[] res = this.update();
 		NameObject[] res_array = new NameObject[res.length];
 		java.util.Arrays.asList(res).toArray(res_array);
 
-		datasourceManager.clearAllProcedure();
+		procedureConfig.removeAllProcedure();
 
 		for (int i = 0; i < res_array.length; i++) {
 			NameObject nameObject = res_array[i];
-			datasourceManager.putProcedure(nameObject.getName(), (StoreProcedure) nameObject.getObject());
+			procedureConfig.addProcedure(nameObject.getName(), (StoreProcedure) nameObject.getObject());
 		}
 	}
 

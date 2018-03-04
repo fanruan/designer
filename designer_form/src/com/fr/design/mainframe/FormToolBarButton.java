@@ -7,7 +7,7 @@ import com.fr.design.gui.core.WidgetOption;
 import com.fr.design.roleAuthority.ReportAndFSManagePane;
 import com.fr.design.utils.gui.GUIPaintUtils;
 import com.fr.form.ui.Widget;
-import com.fr.form.ui.WidgetManager;
+import com.fr.form.ui.WidgetInfoConfig;
 import com.fr.stable.Constants;
 import com.fr.stable.StringUtils;
 
@@ -36,7 +36,7 @@ public class FormToolBarButton extends JButton implements MouseListener {
             com.fr.form.ui.Button button = (com.fr.form.ui.Button) widget;
             String iconName = button.getIconName();
             if (StringUtils.isNotEmpty(iconName)) {
-                Image iimage = WidgetManager.getProviderInstance().getIconManager().getIconImage(iconName);
+                Image iimage = WidgetInfoConfig.getInstance().getIconManager().getIconImage(iconName);
                 if (iimage != null) {
                     setIcon(new ImageIcon(iimage));
                 }

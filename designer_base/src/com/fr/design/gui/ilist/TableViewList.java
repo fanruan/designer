@@ -10,8 +10,7 @@ import com.fr.data.impl.Connection;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.mainframe.dnd.SerializableTransferable;
-import com.fr.file.DatasourceManager;
-import com.fr.file.DatasourceManagerProvider;
+import com.fr.file.ConnectionConfig;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
@@ -86,7 +85,7 @@ public class TableViewList extends UIList {
 
             @Override
             protected Void doInBackground() throws Exception {
-                Connection datasource = DatasourceManager.getProviderInstance().getConnection(databaseName);
+                Connection datasource = ConnectionConfig.getInstance().getConnection(databaseName);
                 boolean status = false;
                 int count = 3;
                 //总共给3次连接的机会
@@ -127,8 +126,7 @@ public class TableViewList extends UIList {
      */
     private DefaultListModel processDataInAnotherThread(String databaseName, String searchFilter, String... typesFilter) throws Exception {
         DefaultListModel defaultListModel = new DefaultListModel();
-        DatasourceManagerProvider datasourceManager = DatasourceManager.getProviderInstance();
-        Connection datasource = datasourceManager.getConnection(databaseName);
+        Connection datasource = ConnectionConfig.getInstance().getConnection(databaseName);
         if (datasource == null) {
             return defaultListModel;
         }

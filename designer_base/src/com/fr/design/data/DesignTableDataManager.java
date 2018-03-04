@@ -24,8 +24,8 @@ import com.fr.design.gui.iprogressbar.AutoProgressBar;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.parameter.ParameterInputPane;
-import com.fr.file.DatasourceManager;
-import com.fr.file.DatasourceManagerProvider;
+import com.fr.file.ProcedureConfig;
+import com.fr.file.TableDataConfig;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.data.DataModel;
 import com.fr.general.data.TableDataException;
@@ -317,13 +317,13 @@ public abstract class DesignTableDataManager {
     }
 
     private static void addServerData(java.util.Map<String, TableDataWrapper> resMap) {
-        DatasourceManagerProvider mgr = DatasourceManager.getProviderInstance();
-        String[] namearray = TableDataFactory.getSortOfChineseNameOfServerData(mgr);
+        TableDataConfig tableDataConfig = TableDataConfig.getInstance();
+        String[] namearray = TableDataFactory.getSortOfChineseNameOfServerData(tableDataConfig);
         for (String name : namearray) {
             if (globalDsCache.containsKey(name)) {
                 resMap.put(name, globalDsCache.get(name));
             } else {
-                TableDataWrapper tdw = new ServerTableDataWrapper(mgr.getTableData(name), name);
+                TableDataWrapper tdw = new ServerTableDataWrapper(tableDataConfig.getTableData(name), name);
                 resMap.put(name, tdw);
                 globalDsCache.put(name, tdw);
             }
@@ -332,17 +332,17 @@ public abstract class DesignTableDataManager {
 
 
     private static void addStoreProcedureData(java.util.Map<String, TableDataWrapper> resMap) {
-        DatasourceManagerProvider mgr = DatasourceManager.getProviderInstance();
+        ProcedureConfig procedureConfig = ProcedureConfig.getInstance();
         String[] namearray = new String[0];
         @SuppressWarnings("unchecked")
-        java.util.Iterator<String> nameIt = mgr.getProcedureNameIterator();
+        java.util.Iterator<String> nameIt = procedureConfig.getProcedures().keySet().iterator();
         while (nameIt.hasNext()) {
             namearray = (String[]) ArrayUtils.add(namearray, nameIt.next());
         }
         Arrays.sort(namearray, Collator.getInstance(java.util.Locale.CHINA));
 
         for (String name : namearray) {
-            StoreProcedure storeProcedure = mgr.getProcedure(name);
+            StoreProcedure storeProcedure = procedureConfig.getProcedure(name);
             if (globalDsCache.containsKey(name)) {
                 resMap.put(name, globalDsCache.get(name));
             } else {

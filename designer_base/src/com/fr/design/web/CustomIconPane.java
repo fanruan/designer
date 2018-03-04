@@ -18,7 +18,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.form.ui.WidgetManager;
+import com.fr.form.ui.WidgetInfoConfig;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.stable.Constants;
@@ -106,7 +106,7 @@ public class CustomIconPane extends BasicPane {
 
 	private void initIcons() {
 		iconButtonMap = new ListMap();
-		iconManager = WidgetManager.getProviderInstance().getIconManager();
+		iconManager = WidgetInfoConfig.getInstance().getIconManager();
 		bg = new ButtonGroup();
 		Object[] names = iconManager.getIconNames();
 		Object name = null;
@@ -315,7 +315,7 @@ public class CustomIconPane extends BasicPane {
 			this.addActionListener(this);
             this.setCursor(new Cursor(Cursor.HAND_CURSOR));
             this.setBorder(null);
-            this.iconImage = WidgetManager.getProviderInstance().getIconManager().getIconImage(name);
+            this.iconImage = WidgetInfoConfig.getInstance().getIconManager().getIconImage(name);
             this.setToolTipText(iconName);
 		}
 
@@ -408,7 +408,7 @@ public class CustomIconPane extends BasicPane {
                     if (oldName != null && ComparatorUtils.equals(oldName, nameTextField.getText())) {
                         return;
                     }
-                    if (WidgetManager.getProviderInstance().getIconManager().contains(nameTextField.getText())) {
+                    if (WidgetInfoConfig.getInstance().getIconManager().contains(nameTextField.getText())) {
                         JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
                                 Inter.getLocText("FR-Designer_Custom_Icon_Message3"),
                                 Inter.getLocText("FR-Designer_Tooltips"),

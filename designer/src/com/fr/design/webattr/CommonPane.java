@@ -17,7 +17,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.editor.editor.LongEditor;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
-import com.fr.web.attr.ReportWebAttr;
+import com.fr.web.attr.ReportWebConfig;
 
 public class CommonPane extends JPanel {
     private UITextField titleTextField;
@@ -53,7 +53,7 @@ public class CommonPane extends JPanel {
         		BorderLayout.CENTER);
     }
 
-    public void populate(ReportWebAttr reportWebAttr) {
+    public void populate(ReportWebConfig reportWebAttr) {
         if (reportWebAttr.getTitle() != null && reportWebAttr.getTitle().length() > 0) {
             this.titleTextField.setText(reportWebAttr.getTitle());
         }
@@ -61,7 +61,7 @@ public class CommonPane extends JPanel {
         this.cacheValidateTimeEditor.setValue(Long.valueOf(reportWebAttr.getCacheValidateTime()));
     }
 
-    public void update(ReportWebAttr reportWebAttr) {
+    public void update(ReportWebConfig reportWebAttr) {
         if (!StringUtils.isEmpty(this.titleTextField.getText())) {
             reportWebAttr.setTitle(this.titleTextField.getText());
         } else {

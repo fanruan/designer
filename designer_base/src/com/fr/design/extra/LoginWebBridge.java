@@ -1,7 +1,7 @@
 package com.fr.design.extra;
 
-import com.fr.base.ConfigManager;
 import com.fr.base.FRContext;
+import com.fr.config.ServerConfig;
 import com.fr.design.bbs.BBSLoginUtils;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.extra.exe.PluginLoginExecutor;
@@ -125,16 +125,16 @@ public class LoginWebBridge {
      */
     public void setMessageCount(int count) {
         if (count == MIN_MESSAGE_COUNT) {
-            uiLabel.setText(ConfigManager.getProviderInstance().getBbsUsername());
-            ConfigManager.getProviderInstance().setInShowBBsName(ConfigManager.getProviderInstance().getBbsUsername());
+            uiLabel.setText(ServerConfig.getInstance().getBbsUsername());
+            ServerConfig.getInstance().setInShowBBsName(ServerConfig.getInstance().getBbsUsername());
             return;
         }
         this.messageCount = count;
         StringBuilder sb = new StringBuilder();
-        sb.append(StringUtils.BLANK).append(ConfigManager.getProviderInstance().getBbsUsername())
+        sb.append(StringUtils.BLANK).append(ServerConfig.getInstance().getBbsUsername())
                 .append("(").append(this.messageCount)
                 .append(")").append(StringUtils.BLANK);
-        ConfigManager.getProviderInstance().setInShowBBsName(sb.toString());
+        ServerConfig.getInstance().setInShowBBsName(sb.toString());
         uiLabel.setText(sb.toString());
     }
 

@@ -7,8 +7,7 @@ import com.fr.design.data.tabledata.wrapper.TableDataWrapper;
 import com.fr.design.data.tabledata.wrapper.TemplateTableDataWrapper;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.icombobox.UIComboBoxRenderer;
-import com.fr.file.DatasourceManager;
-import com.fr.file.DatasourceManagerProvider;
+import com.fr.file.TableDataConfig;
 
 import javax.swing.*;
 import java.awt.*;
@@ -58,8 +57,8 @@ public class TreeTableDataComboBox extends UIComboBox {
 		}
 
 		// 全局数据集
-        DatasourceManagerProvider mgr = DatasourceManager.getProviderInstance();
-		nameIt = mgr.getTableDataNameIterator();
+        TableDataConfig mgr = TableDataConfig.getInstance();
+		nameIt = mgr.getTableDatas().keySet().iterator();
 		while (nameIt.hasNext()) {
 			String name = nameIt.next();
 			if(mgr.getTableData(name) instanceof RecursionTableData) {

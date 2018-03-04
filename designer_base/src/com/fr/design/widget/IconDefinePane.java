@@ -10,7 +10,7 @@ import com.fr.design.web.CustomIconPane;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
-import com.fr.form.ui.WidgetManager;
+import com.fr.form.ui.WidgetInfoConfig;
 import com.fr.general.Inter;
 
 import javax.swing.*;
@@ -49,13 +49,6 @@ public class IconDefinePane extends BasicPane {
                         curIconName = cip.update();
                         setShowIconImage();
                         IconDefinePane.this.repaint();
-
-                        Env currentEnv = FRContext.getCurrentEnv();
-                        try {
-                            currentEnv.writeResource(WidgetManager.getProviderInstance());
-                        } catch (Exception ex) {
-                            FRContext.getLogger().error(ex.getMessage(), ex);
-                        }
                     }
                 });
                 editDialog.setVisible(true);
@@ -82,7 +75,7 @@ public class IconDefinePane extends BasicPane {
     }
 
     private void setShowIconImage() {
-        Image iimage = WidgetManager.getProviderInstance().getIconManager().getIconImage(curIconName);
+        Image iimage = WidgetInfoConfig.getInstance().getIconManager().getIconImage(curIconName);
         if (iimage != null) {
             showIconImageLable.setIcon(new ImageIcon(iimage));
         } else {

@@ -1,7 +1,7 @@
 package com.fr.design.parameter;
 
-import com.fr.base.ConfigManager;
 import com.fr.base.Parameter;
+import com.fr.config.ServerConfig;
 import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.controlpane.NameableSelfCreator;
@@ -9,7 +9,6 @@ import com.fr.design.gui.controlpane.UnrepeatedNameHelper;
 import com.fr.design.gui.ilist.ModNameActionListener;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
-import com.fr.base.ConfigManagerProvider;
 import com.fr.stable.Nameable;
 import com.fr.stable.StringUtils;
 import com.fr.stable.core.PropertyChangeAdapter;
@@ -30,10 +29,9 @@ public class ParameterArrayPane extends JListControlPane {
 			}
 
 		});
-		this.addEditingListner(new PropertyChangeAdapter() {
+		this.addEditingListner( new PropertyChangeAdapter() {
 			public void propertyChange() {
-				final ConfigManagerProvider configManager = ConfigManager.getProviderInstance();
-				Parameter[] parameters = configManager.getGlobal_Parameters();
+				Parameter[] parameters = ServerConfig.getInstance().getGlobeParameters();
 				String[] allListNames = nameableList.getAllNames();
 				allListNames[nameableList.getSelectedIndex()] = StringUtils.EMPTY;
 				String tempName = getEditingName();

@@ -7,7 +7,7 @@ import com.fr.data.impl.*;
 import com.fr.data.impl.storeproc.StoreProcedure;
 import com.fr.design.data.datapane.TableDataNameObjectCreator;
 import com.fr.design.data.tabledata.tabledatapane.*;
-import com.fr.file.DatasourceManagerProvider;
+import com.fr.file.TableDataConfig;
 import com.fr.general.ComparatorUtils;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
@@ -153,12 +153,12 @@ public abstract class TableDataFactory {
     }
 
     @SuppressWarnings("unchecked")
-    public static String[] getSortOfChineseNameOfServerData(DatasourceManagerProvider mgr) {
+    public static String[] getSortOfChineseNameOfServerData(TableDataConfig tableDataConfig) {
         clearAll();
-        java.util.Iterator<String> nameIt = mgr.getTableDataNameIterator();
+        java.util.Iterator<String> nameIt = tableDataConfig.getTableDatas().keySet().iterator();
         while (nameIt.hasNext()) {
             String name = nameIt.next();
-            TableData td = mgr.getTableData(name);
+            TableData td = TableDataConfig.getInstance().getTableData(name);
             addName(name, td);
         }
         return getSortedNameArray();

@@ -3,9 +3,7 @@
  */
 package com.fr.design.actions.server;
 
-import com.fr.base.BaseUtils;
-import com.fr.base.Env;
-import com.fr.base.FRContext;
+
 import com.fr.config.Configuration;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.dialog.BasicDialog;
@@ -14,8 +12,6 @@ import com.fr.design.formula.FunctionManagerPane;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.file.FunctionConfig;
-import com.fr.file.FunctionManager;
-import com.fr.file.FunctionManagerProvider;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.transaction.Configurations;
@@ -46,19 +42,13 @@ public class FunctionManagerAction extends UpdateAction {
         BasicDialog functionManagerDialog =
         	functionManagerPane.showWindow(
         			DesignerContext.getDesignerFrame(),null);
-        final FunctionManagerProvider functionManager = FunctionManager.getProviderInstance();
+        final FunctionConfig functionManager = FunctionConfig.getInstance();
         functionManagerDialog.addDialogActionListener(new DialogActionAdapter() {
 			public void doOk() {
                 Configurations.update(new Worker() {
                     @Override
                     public void run() {
                         functionManagerPane.update(functionManager);
-                        Env currentEnv = FRContext.getCurrentEnv();
-                        try {
-                            currentEnv.writeResource(functionManager);
-                        } catch (Exception e) {
-                            FRContext.getLogger().error(e.getMessage(), e);
-                        }
                     }
 
                     @Override
@@ -69,7 +59,7 @@ public class FunctionManagerAction extends UpdateAction {
 
 			}
         });
-        functionManagerPane.populate(functionManager);
+        functionManagerPane.populate((FunctionConfig) functionManager.clone());
         functionManagerDialog.setVisible(true);
     }
     

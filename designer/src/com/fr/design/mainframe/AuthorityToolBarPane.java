@@ -1,7 +1,5 @@
 package com.fr.design.mainframe;
 
-import com.fr.base.ConfigManager;
-import com.fr.base.ConfigManagerProvider;
 import com.fr.base.FRContext;
 import com.fr.common.inputevent.InputEventBaseOnOS;
 import com.fr.design.beans.BasicBeanPane;
@@ -24,7 +22,7 @@ import com.fr.report.web.Location;
 import com.fr.report.web.ToolBarManager;
 import com.fr.report.web.WebContent;
 import com.fr.stable.ArrayUtils;
-import com.fr.web.attr.ReportWebAttr;
+import com.fr.web.attr.ReportWebConfig;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,7 +34,7 @@ import java.util.List;
  * Date: 13-9-9
  * Time: 下午4:58
  */
-public class AuthorityToolBarPane<T extends WebContent> extends BasicBeanPane<ReportWebAttr> implements AuthorityEditToolBarComponent {
+public class AuthorityToolBarPane<T extends WebContent> extends BasicBeanPane<ReportWebConfig> implements AuthorityEditToolBarComponent {
     private static final int SMALL_GAP = 13;
     private static final int GAP = 25;
     private static final int PRE_GAP = 9;
@@ -195,7 +193,7 @@ public class AuthorityToolBarPane<T extends WebContent> extends BasicBeanPane<Re
     }
 
 
-    private ReportWebAttr getReportWebAttr() {
+    private ReportWebConfig getReportWebAttr() {
         JTemplate editingTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
         if (!editingTemplate.isJWorkBook()) {
             return null;
@@ -215,9 +213,8 @@ public class AuthorityToolBarPane<T extends WebContent> extends BasicBeanPane<Re
         JWorkBook editingWorkBook = (JWorkBook) editingTemplate;
         TemplateWorkBook wbTpl = editingWorkBook.getTarget();
 
-        ReportWebAttr rw = wbTpl.getReportWebAttr();
-        ConfigManagerProvider cm = ConfigManager.getProviderInstance();
-        ReportWebAttr webAttr = ((ReportWebAttr) cm.getGlobalAttribute(ReportWebAttr.class));
+        ReportWebConfig rw = wbTpl.getReportWebAttr();
+        ReportWebConfig webAttr = ReportWebConfig.getInstance();
 
         //wbTpl.clear先清空
         //再将所有的保存进去
@@ -264,7 +261,7 @@ public class AuthorityToolBarPane<T extends WebContent> extends BasicBeanPane<Re
     }
 
 
-    public void populateBean(ReportWebAttr reportWebAttr) {
+    public void populateBean(ReportWebConfig reportWebAttr) {
         this.remove(title);
         // 如果是空值就说明采用服务器配置了
         if (reportWebAttr == null || this.getWebContent(reportWebAttr) == null) {
@@ -280,7 +277,7 @@ public class AuthorityToolBarPane<T extends WebContent> extends BasicBeanPane<Re
         populate(webContent.getToolBarManagers());
     }
 
-    public ReportWebAttr updateBean() {
+    public ReportWebConfig updateBean() {
         return null;
     }
 
@@ -318,8 +315,7 @@ public class AuthorityToolBarPane<T extends WebContent> extends BasicBeanPane<Re
 
 
     private void populateServerSettings() {
-        ConfigManagerProvider cm = ConfigManager.getProviderInstance();
-        ReportWebAttr webAttr = ((ReportWebAttr) cm.getGlobalAttribute(ReportWebAttr.class));
+        ReportWebConfig webAttr = (ReportWebConfig)ReportWebConfig.getInstance().clone();
         if (this.getWebContent(webAttr) != null) {
             populate(this.getWebContent(webAttr).getToolBarManagers());
         }
@@ -330,7 +326,7 @@ public class AuthorityToolBarPane<T extends WebContent> extends BasicBeanPane<Re
     }
 
 
-    private T getWebContent(ReportWebAttr reportWebAttr) {
+    private T getWebContent(ReportWebConfig reportWebAttr) {
         if (choseComboBox.getSelectedIndex() == 0) {
             return reportWebAttr == null ? null : (T) reportWebAttr.getWebPage();
         } else if (choseComboBox.getSelectedIndex() == 1) {

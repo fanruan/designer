@@ -1,8 +1,8 @@
 package com.fr.design.mainframe.loghandler;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.ConfigManager;
 import com.fr.base.FRContext;
+import com.fr.config.ServerConfig;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -129,7 +129,7 @@ public class DesignerLogHandler {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JPopupMenu showsetPopup = new JPopupMenu();
-                int logLevelvalue = ConfigManager.getProviderInstance().getServerLogLevel().intValue();
+                int logLevelvalue = ServerConfig.getInstance().getServerLogLevel().intValue();
                 if (logLevelvalue <= INFO_INT) {
                     showsetPopup.add(showInfo);
                     showsetPopup.add(showError);

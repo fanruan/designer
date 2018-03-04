@@ -1,9 +1,9 @@
 package com.fr.design.mainframe.errorinfo;
 
-import com.fr.base.ConfigManager;
 import com.fr.base.FRContext;
 import com.fr.base.io.IOFile;
 import com.fr.base.io.XMLReadHelper;
+import com.fr.config.ServerConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.general.FRLogLevel;
 import com.fr.general.FRLogManager;
@@ -39,7 +39,7 @@ public class ErrorInfoLogAppender extends AppenderSkeleton {
         this.layout = new com.fr.third.apache.log4j.PatternLayout("%d{HH:mm:ss} %t %p [%c] %m%n");
 
         DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
-        this.username = ConfigManager.getProviderInstance().getBbsUsername();
+        this.username = ServerConfig.getInstance().getBbsUsername();
         this.uuid = envManager.getUUID();
         this.activekey = envManager.getActivationKey();
     }

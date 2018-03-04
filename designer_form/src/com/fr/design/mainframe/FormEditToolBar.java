@@ -186,7 +186,7 @@ public class FormEditToolBar extends BasicPane {
                 if (widget instanceof Button) {
                     String iconname = ((Button) widget).getIconName();
                     if (StringUtils.isNotBlank(iconname)) {
-                        Image iimage = WidgetManager.getProviderInstance().getIconManager().getIconImage(iconname);
+                        Image iimage = WidgetInfoConfig.getInstance().getIconManager().getIconImage(iconname);
                         toolBarButton.setIcon(new ImageIcon(iimage));
                     }
                 }

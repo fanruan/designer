@@ -1,11 +1,10 @@
 package com.fr.design.mainframe.cell.settingpane.style;
 
-import com.fr.base.ConfigManager;
 import com.fr.base.NameStyle;
 import com.fr.base.ScreenResolution;
 import com.fr.base.Style;
+import com.fr.config.ServerConfig;
 import com.fr.design.beans.FurtherBasicBeanPane;
-import com.fr.design.constants.UIConstants;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerBean;
 import com.fr.design.mainframe.DesignerContext;
@@ -143,8 +142,8 @@ public class PredefinedStylePane extends FurtherBasicBeanPane<NameStyle> impleme
      */
     public void refreshBeanElement() {
         defaultListModel.removeAllElements();
-        if (ConfigManager.getProviderInstance().hasStyle()) {
-            Iterator iterato = ConfigManager.getProviderInstance().getStyleNameIterator();
+        if (ServerConfig.getInstance().hasStyle()) {
+            Iterator iterato = ServerConfig.getInstance().getStyleNameIterator();
             while (iterato.hasNext()) {
                 String name = (String) iterato.next();
                 NameStyle nameStyle = NameStyle.getInstance(name);

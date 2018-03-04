@@ -1,15 +1,14 @@
 package com.fr.design.widget.ui;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.ConfigManager;
 import com.fr.base.Parameter;
 import com.fr.base.TableData;
+import com.fr.config.ServerConfig;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.gui.icombobox.FRTreeComboBox;
 import com.fr.design.gui.itree.refreshabletree.ExpandMutableTreeNode;
 import com.fr.design.parameter.ParameterGroup;
-import com.fr.file.DatasourceManager;
-import com.fr.file.DatasourceManagerProvider;
+import com.fr.file.TableDataConfig;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.script.Calculator;
@@ -155,17 +154,17 @@ public class ParameterTreeComboBox extends FRTreeComboBox {
 		}
 		
 		// 全局参数
-		parameters = ConfigManager.getProviderInstance().getGlobal_Parameters();
+		parameters = ServerConfig.getInstance().getGlobeParameters();
 		if (!ArrayUtils.isEmpty(parameters)) {
 			groupList.add(new ParameterGroup(Inter.getLocText("M_Server-Global_Parameters"), parameters));
 		}
 		// 全局数据源参数
 		parameters = new Parameter[0];
 		Calculator c = Calculator.createCalculator();
-		DatasourceManagerProvider datasourceManager = DatasourceManager.getProviderInstance();
-		Iterator<String> nameIt = datasourceManager.getTableDataNameIterator();
+		TableDataConfig tableDataConfig = TableDataConfig.getInstance();
+		Iterator<String> nameIt = tableDataConfig.getTableDatas().keySet().iterator();
 		while (nameIt.hasNext()) {
-			TableData tableData = datasourceManager.getTableData(nameIt.next());
+			TableData tableData = tableDataConfig.getTableData(nameIt.next());
 			ParameterProvider[] ps = tableData.getParameters(c);
 			if (!ArrayUtils.isEmpty(ps)) {
 				parameters = (Parameter[])ArrayUtils.addAll(parameters, ps);

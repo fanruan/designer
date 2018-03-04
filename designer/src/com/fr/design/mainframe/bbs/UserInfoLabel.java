@@ -3,8 +3,8 @@
  */
 package com.fr.design.mainframe.bbs;
 
-import com.fr.base.ConfigManager;
 import com.fr.base.FRContext;
+import com.fr.config.ServerConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.bbs.BBSLoginUtils;
 import com.fr.design.extra.LoginContextListener;
@@ -95,7 +95,7 @@ public class UserInfoLabel extends UILabel {
     private void init(UserInfoPane userInfoPane) {
         this.userInfoPane = userInfoPane;
 
-        String userName = ConfigManager.getProviderInstance().getBbsUsername();
+        String userName = ServerConfig.getInstance().getBbsUsername();
         this.addMouseListener(userInfoAdapter);
         this.setHorizontalAlignment(SwingConstants.CENTER);
         this.setText(userName);
@@ -240,7 +240,7 @@ public class UserInfoLabel extends UILabel {
 
         @Override
         public void mouseClicked(MouseEvent e) {
-            userName = ConfigManager.getProviderInstance().getBbsUsername();
+            userName = ServerConfig.getInstance().getBbsUsername();
             if (StringUtils.isNotEmpty(userName)) {
                 UIPopupMenu menu = new UIPopupMenu();
                 menu.setOnlyText(true);

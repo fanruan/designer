@@ -1,6 +1,5 @@
 package com.fr.design.webattr;
 
-import com.fr.base.ConfigManager;
 import com.fr.config.Configuration;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
@@ -19,7 +18,6 @@ import com.fr.report.web.WebContent;
 import com.fr.report.web.WebPage;
 import com.fr.transaction.Configurations;
 import com.fr.transaction.Worker;
-import com.fr.web.attr.ReportWebAttr;
 import com.fr.web.attr.ReportWebConfig;
 
 import javax.swing.*;
@@ -168,7 +166,7 @@ public class PageToolBarPane extends AbstractEditToolBarPane {
 	@Override
 	public void editServerToolBarPane() {
 		final PageToolBarPane serverPageToolBarPane = new PageToolBarPane();
-		ReportWebAttr reportWebAttr = ((ReportWebAttr)ConfigManager.getProviderInstance().getGlobalAttribute(ReportWebAttr.class));
+		ReportWebConfig reportWebAttr = ReportWebConfig.getInstance();
 		if (reportWebAttr != null) {
 			serverPageToolBarPane.populateBean(reportWebAttr.getWebPage());
 		}
@@ -180,11 +178,7 @@ public class PageToolBarPane extends AbstractEditToolBarPane {
 				Configurations.update(new Worker() {
 					@Override
 					public void run() {
-						ReportWebAttr reportWebAttr = ((ReportWebAttr)ConfigManager.getProviderInstance().getGlobalAttribute(ReportWebAttr.class));
-						if (reportWebAttr == null) {
-							reportWebAttr = new ReportWebAttr();
-							ConfigManager.getProviderInstance().putGlobalAttribute(ReportWebAttr.class, reportWebAttr);
-						}
+						ReportWebConfig reportWebAttr = ReportWebConfig.getInstance();
 						reportWebAttr.setWebPage(serverPageToolBarPane.updateBean());
 					}
 

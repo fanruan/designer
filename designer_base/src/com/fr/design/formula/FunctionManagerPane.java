@@ -16,11 +16,10 @@ import com.fr.design.gui.itextarea.UITextArea;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.file.FunctionManagerProvider;
+import com.fr.file.FunctionConfig;
 import com.fr.general.Inter;
 import com.fr.general.NameObject;
 import com.fr.stable.Nameable;
-import com.fr.stable.ProductConstants;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.stable.script.FunctionDef;
 
@@ -63,10 +62,11 @@ public class FunctionManagerPane extends BasicPane {
     /**
      * Populate.
      */
-    public void populate(FunctionManagerProvider functionManager) {
-        this.functionTextField.setText(FRContext.getCurrentEnv().getPath() + File.separator
-            + ProjectConstants.RESOURCES_NAME
-            + File.separator + functionManager.fileName());
+    public void populate(FunctionConfig functionManager) {
+        //todo 原来界面上显示的xml路径
+//        this.functionTextField.setText(FRContext.getCurrentEnv().getPath() + File.separator
+//            + ProjectConstants.RESOURCES_NAME
+//            + File.separator + functionManager.fileName());
 
         List<NameObject> nameObjectList = new ArrayList<NameObject>();
         for (int i = 0; i < functionManager.getFunctionDefCount(); i++) {
@@ -80,7 +80,7 @@ public class FunctionManagerPane extends BasicPane {
     /**
      * Update.
      */
-    public void update(FunctionManagerProvider functionManager) {
+    public void update(FunctionConfig functionManager) {
         // Nameable[]居然不能强转成NameObject[],一定要这么写...
         Nameable[] res = this.functionControlPane.update();
         NameObject[] res_array = new NameObject[res.length];

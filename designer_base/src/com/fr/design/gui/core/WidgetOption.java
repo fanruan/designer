@@ -84,7 +84,7 @@ public abstract class WidgetOption implements Serializable {
      */
     public static WidgetOption[] getPredefinedWidget() {
         java.util.List<WidgetOption> list = new ArrayList<WidgetOption>();
-        WidgetManagerProvider mgr = WidgetManager.getProviderInstance();
+        WidgetInfoConfig mgr = WidgetInfoConfig.getInstance();
         java.util.Iterator<String> nameIt = mgr.getWidgetConfigNameIterator();
         while (nameIt.hasNext()) {
             String name = nameIt.next();

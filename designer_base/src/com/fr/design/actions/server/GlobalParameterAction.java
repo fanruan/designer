@@ -4,9 +4,6 @@
 package com.fr.design.actions.server;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.ConfigManager;
-import com.fr.base.Env;
-import com.fr.base.FRContext;
 import com.fr.config.Configuration;
 import com.fr.config.ServerConfig;
 import com.fr.design.DesignModelAdapter;
@@ -18,7 +15,6 @@ import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.design.parameter.ParameterManagerPane;
 import com.fr.general.Inter;
-import com.fr.base.ConfigManagerProvider;
 import com.fr.transaction.Configurations;
 import com.fr.transaction.Worker;
 
@@ -49,9 +45,9 @@ public class GlobalParameterAction extends UpdateAction {
         final BasicDialog parameterManagerDialog = parameterManagerPane.showWindow(designerFrame);
 
         //marks:读取服务器配置信息
-        final ConfigManagerProvider configManager = ConfigManager.getProviderInstance();
+        final ServerConfig configManager = ServerConfig.getInstance();
 
-        parameterManagerPane.populate(configManager);
+        parameterManagerPane.populate((ServerConfig) configManager.clone());
         parameterManagerDialog.addDialogActionListener(new DialogActionAdapter() {
             public void doOk() {
                 Configurations.update(new Worker() {
@@ -59,13 +55,6 @@ public class GlobalParameterAction extends UpdateAction {
                     public void run() {
                         //apply new parameter list.
                         parameterManagerPane.update(configManager);
-                        //marks:保存数据
-                        Env currentEnv = FRContext.getCurrentEnv();
-                        try {
-                            currentEnv.writeResource(configManager);
-                        } catch (Exception ex) {
-                            FRContext.getLogger().error(ex.getMessage(), ex);
-                        }
                         DesignModelAdapter<?, ?> model = DesignModelAdapter.getCurrentModelAdapter();
                         if (model != null) {
                             model.parameterChanged();

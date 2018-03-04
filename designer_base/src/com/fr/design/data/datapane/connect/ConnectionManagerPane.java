@@ -5,7 +5,7 @@ import com.fr.design.gui.frpane.LoadingBasicPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.file.DatasourceManagerProvider;
+import com.fr.file.ConnectionConfig;
 import com.fr.general.Inter;
 import com.fr.stable.project.ProjectConstants;
 
@@ -48,13 +48,13 @@ public class ConnectionManagerPane extends LoadingBasicPane implements Connectio
         return connectionListPane.getRenameMap();
     }
 
-    public void populate(DatasourceManagerProvider datasourceManager) {
+    public void populate(ConnectionConfig datasourceManager) {
         this.connectionTextField.setText(FRContext.getCurrentEnv().getPath() + File.separator + ProjectConstants.RESOURCES_NAME
                 + File.separator + datasourceManager.fileName());
         this.connectionListPane.populate(datasourceManager);
     }
 
-    public void update(DatasourceManagerProvider datasourceManager) {
+    public void update(ConnectionConfig datasourceManager) {
         this.connectionListPane.update(datasourceManager);
     }
 

@@ -9,7 +9,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.style.background.BackgroundPane;
 import com.fr.design.style.background.BackgroundPane4Browser;
 import com.fr.general.Inter;
-import com.fr.web.attr.ReportWebAttr;
+import com.fr.web.attr.ReportWebConfig;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +18,7 @@ import java.awt.*;
  * ReportWebAttr Dialog
  */
 public class ReportWebAttrPane extends LoadingBasicPane {
-    private ReportWebAttr reportWebAttr;
+    private ReportWebConfig reportWebAttr;
 
     private UITabbedPane tabbedPane;
     private CommonPane commonPane;
@@ -60,9 +60,9 @@ public class ReportWebAttrPane extends LoadingBasicPane {
     	return Inter.getLocText("FR-Designer_Template_Web_Attributes");
     }
         
-    public void populate(ReportWebAttr reportWebAttr) {
+    public void populate(ReportWebConfig reportWebAttr) {
         if (reportWebAttr == null) {
-            reportWebAttr = new ReportWebAttr();
+            reportWebAttr = ReportWebConfig.getInstance();
         }
         this.reportWebAttr = reportWebAttr;
 
@@ -79,7 +79,7 @@ public class ReportWebAttrPane extends LoadingBasicPane {
         
     }
 
-    public ReportWebAttr update() {
+    public ReportWebConfig update() {
     	reportWebAttr.setPrinter(this.serverPrintPane.update());
     	pageWeb.update(reportWebAttr);
     	writeWeb.update(reportWebAttr);

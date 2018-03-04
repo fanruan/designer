@@ -1,9 +1,5 @@
 package com.fr.design.actions.server;
 
-import com.fr.base.BaseUtils;
-import com.fr.base.ConfigManager;
-import com.fr.base.Env;
-import com.fr.base.FRContext;
 import com.fr.config.Configuration;
 import com.fr.config.ServerConfig;
 import com.fr.design.actions.UpdateAction;
@@ -47,14 +43,7 @@ public class StyleListAction extends UpdateAction {
 				Configurations.update(new Worker() {
 					@Override
 					public void run() {
-						styleListPane.update(ConfigManager.getProviderInstance());
-						//marks:保存数据
-						Env currentEnv = FRContext.getCurrentEnv();
-						try {
-							currentEnv.writeResource(ConfigManager.getProviderInstance());
-						} catch (Exception e) {
-							FRContext.getLogger().error(e.getMessage(), e);
-						}
+						styleListPane.update(ServerConfig.getInstance());
 					}
 
 					@Override
@@ -66,7 +55,7 @@ public class StyleListAction extends UpdateAction {
 			}                
         });
 
-        styleListPane.populate(ConfigManager.getProviderInstance());
+        styleListPane.populate((ServerConfig) ServerConfig.getInstance().clone());
 		styleListDialog.setVisible(true);
 	
 	}

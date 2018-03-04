@@ -6,8 +6,7 @@ import com.fr.design.condition.DSColumnLiteConditionPane;
 import com.fr.design.gui.ilist.CheckBoxList;
 import com.fr.design.gui.ilist.CheckBoxList.CheckBoxListSelectionChangeListener;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.file.DatasourceManager;
-import com.fr.file.DatasourceManagerProvider;
+import com.fr.file.TableDataConfig;
 import com.fr.general.Inter;
 import com.fr.general.data.DataModel;
 import com.fr.general.data.TableDataException;
@@ -22,8 +21,8 @@ public class DecoratedTableDataPane extends AbstractTableDataPane<DecoratedTable
 	public DecoratedTableDataPane() {
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
 		
-		DatasourceManagerProvider mgr = DatasourceManager.getProviderInstance();
-		java.util.Iterator serverTableDataNameIterator = mgr.getTableDataNameIterator();
+		TableDataConfig tableDataConfig = TableDataConfig.getInstance();
+		java.util.Iterator serverTableDataNameIterator = tableDataConfig.getTableDatas().keySet().iterator();
 		java.util.List<String> tableDataNameList = new java.util.ArrayList<String>();
 		while (serverTableDataNameIterator.hasNext()) {
 			tableDataNameList.add((String)serverTableDataNameIterator.next());

@@ -3,9 +3,8 @@
  */
 package com.fr.design.webattr;
 
-import com.fr.base.ConfigManager;
-import com.fr.base.ConfigManagerProvider;
 import com.fr.base.FRContext;
+import com.fr.config.ServerConfig;
 import com.fr.design.gui.frpane.LoadingBasicPane;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.gui.ilable.UILabel;
@@ -13,12 +12,10 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
-import com.fr.stable.project.ProjectConstants;
-import com.fr.web.attr.ReportWebAttr;
+import com.fr.web.attr.ReportWebConfig;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 
 /**
  * Edit Report Server Parameter.
@@ -33,7 +30,7 @@ public class EditReportServerParameterPane extends LoadingBasicPane {
     //TODO 表单
 //    private FormToolBarPane formPane;
     private WriteToolBarPane writePane;
-    private ReportWebAttr webAttr;
+    private ReportWebConfig webAttr;
     
     private WebCssPane cssPane;
     
@@ -75,12 +72,13 @@ public class EditReportServerParameterPane extends LoadingBasicPane {
     	return Inter.getLocText("ReportServerP-Report_server_parameter");
     }
 
-    public void populate(ConfigManagerProvider reportServerConfigManager) {
-        this.configFileTextField.setText(FRContext.getCurrentEnv().getPath() + File.separator +
-                ProjectConstants.RESOURCES_NAME +
-                File.separator + ConfigManager.getProviderInstance().fileName());
+    public void populate(ServerConfig reportServerConfig) {
+        //todo 原来界面上显示的xml路径
+//        this.configFileTextField.setText(FRContext.getCurrentEnv().getPath() + File.separator +
+//                ProjectConstants.RESOURCES_NAME +
+//                File.separator + reportServerConfig.fileName());
 
-        webAttr = ((ReportWebAttr)ConfigManager.getProviderInstance().getGlobalAttribute(ReportWebAttr.class));
+        webAttr = (ReportWebConfig) ReportWebConfig.getInstance().clone();
         if (webAttr != null) {
         	pagePane.populateBean(webAttr.getWebPage());
         	viewPane.populateBean(webAttr.getWebView());
@@ -90,18 +88,14 @@ public class EditReportServerParameterPane extends LoadingBasicPane {
         	jsPane.populate(webAttr);
         }
         
-        this.errorTemplatePane.populateBean(reportServerConfigManager.getErrorTemplate());
+        this.errorTemplatePane.populateBean(reportServerConfig.getErrorTemplate());
     }
 
     /**
      * Update.
      */
-    public void update(ConfigManagerProvider reportServerConfigManager) {
-        ReportWebAttr webAttr = ((ReportWebAttr)ConfigManager.getProviderInstance().getGlobalAttribute(ReportWebAttr.class));
-        if (webAttr == null) {
-        	webAttr = new ReportWebAttr();
-        	reportServerConfigManager.putGlobalAttribute(ReportWebAttr.class, webAttr);
-        }
+    public void update(ServerConfig reportServerConfig) {
+        ReportWebConfig webAttr = ReportWebConfig.getInstance();
         webAttr.setWebPage(pagePane.updateBean());
         webAttr.setWebView(viewPane.updateBean());
         webAttr.setWebWrite(writePane.updateBean());
@@ -109,7 +103,7 @@ public class EditReportServerParameterPane extends LoadingBasicPane {
         cssPane.update(webAttr);
         
         jsPane.update(webAttr);
-        
-        reportServerConfigManager.setErrorTemplate(this.errorTemplatePane.updateBean());
+
+        reportServerConfig.setErrorTemplate(this.errorTemplatePane.updateBean());
     }
 }

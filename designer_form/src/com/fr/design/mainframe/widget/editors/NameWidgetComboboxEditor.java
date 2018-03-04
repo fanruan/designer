@@ -2,8 +2,7 @@ package com.fr.design.mainframe.widget.editors;
 
 import com.fr.design.Exception.ValidationException;
 import com.fr.design.gui.icombobox.UIComboBox;
-import com.fr.form.ui.WidgetManager;
-import com.fr.form.ui.WidgetManagerProvider;
+import com.fr.form.ui.WidgetInfoConfig;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +17,7 @@ public class NameWidgetComboboxEditor extends AbstractPropertyEditor {
 
 	public NameWidgetComboboxEditor() {
 		Vector<String> items = new Vector<String>();
-		WidgetManagerProvider manager = WidgetManager.getProviderInstance();
+		WidgetInfoConfig manager = WidgetInfoConfig.getInstance();
 		java.util.Iterator<String> nameIt = manager.getWidgetConfigNameIterator();
 		while (nameIt.hasNext()) {
 			String name = nameIt.next();

@@ -1,7 +1,7 @@
 package com.fr.design.bbs;
 
-import com.fr.base.ConfigManager;
 import com.fr.base.FRContext;
+import com.fr.config.ServerConfig;
 import com.fr.stable.StringUtils;
 
 import java.util.List;
@@ -13,9 +13,8 @@ public class BBSLoginUtils {
 
     public static void bbsLogin(String username, String password){
         try{
-            ConfigManager.getProviderInstance().setBbsUsername(username);
-            ConfigManager.getProviderInstance().setBbsPassword(password);
-            FRContext.getCurrentEnv().writeResource(ConfigManager.getProviderInstance());
+            ServerConfig.getInstance().setBbsUsername(username);
+            ServerConfig.getInstance().setBbsPassword(password);
         }catch (Exception e){
             FRContext.getLogger().error(e.getMessage());
         }
@@ -26,11 +25,10 @@ public class BBSLoginUtils {
             String uid = list.get(0);
             String username = list.get(1);
             String password = list.get(2);
-            ConfigManager.getProviderInstance().setBbsUsername(username);
-            ConfigManager.getProviderInstance().setBbsPassword(password);
-            ConfigManager.getProviderInstance().setBbsUid(Integer.parseInt(uid));
-            ConfigManager.getProviderInstance().setInShowBBsName(username);
-            FRContext.getCurrentEnv().writeResource(ConfigManager.getProviderInstance());
+            ServerConfig.getInstance().setBbsUsername(username);
+            ServerConfig.getInstance().setBbsPassword(password);
+            ServerConfig.getInstance().setBbsUid(Integer.parseInt(uid));
+            ServerConfig.getInstance().setInShowBBsName(username);
         }catch (Exception e){
             FRContext.getLogger().error(e.getMessage());
         }
@@ -38,11 +36,10 @@ public class BBSLoginUtils {
 
     public static void bbsLogout(){
         try{
-            ConfigManager.getProviderInstance().setBbsUsername(StringUtils.EMPTY);
-            ConfigManager.getProviderInstance().setBbsPassword(StringUtils.EMPTY);
-            ConfigManager.getProviderInstance().setBbsUid(0);
-            ConfigManager.getProviderInstance().setInShowBBsName(StringUtils.EMPTY);
-            FRContext.getCurrentEnv().writeResource(ConfigManager.getProviderInstance());
+            ServerConfig.getInstance().setBbsUsername(StringUtils.EMPTY);
+            ServerConfig.getInstance().setBbsPassword(StringUtils.EMPTY);
+            ServerConfig.getInstance().setBbsUid(0);
+            ServerConfig.getInstance().setInShowBBsName(StringUtils.EMPTY);
         }catch (Exception e){
             FRContext.getLogger().error(e.getMessage());
         }

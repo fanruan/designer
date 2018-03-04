@@ -1,8 +1,8 @@
 package com.fr.design.actions.file;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.ConfigManager;
 import com.fr.base.FRContext;
+import com.fr.config.ServerConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.RestartHelper;
 import com.fr.design.dialog.BasicDialog;
@@ -371,7 +371,7 @@ public class PreferencePane extends BasicPane {
         logLevelPane.add(logLevelComboBox);
         logLevelComboBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                ConfigManager.getProviderInstance().setServerLogLevel(((FRLevel) logLevelComboBox.getSelectedItem()).getLevel());
+                ServerConfig.getInstance().setServerLogLevel(((FRLevel) logLevelComboBox.getSelectedItem()).getLevel());
             }
         });
     }
@@ -551,7 +551,7 @@ public class PreferencePane extends BasicPane {
 
         this.logExportDirectoryField.setText(designerEnvManager.getLogLocation());
 
-        this.logLevelComboBox.setSelectedItem(FRLevel.getByLevel(ConfigManager.getProviderInstance().getServerLogLevel()));
+        this.logLevelComboBox.setSelectedItem(FRLevel.getByLevel(ServerConfig.getInstance().getServerLogLevel()));
 
         this.languageComboBox.setSelectedItem(LANGUAGE.get(designerEnvManager.getLanguage()));
         designerEnvLanguageIndex = designerEnvManager.getLanguage();
@@ -631,12 +631,7 @@ public class PreferencePane extends BasicPane {
             designerEnvManager.setUndoLimit(MAX_UNDO_LIMIT_50);
         }
 
-        ConfigManager.getProviderInstance().setServerLogLevel(((FRLevel) logLevelComboBox.getSelectedItem()).getLevel());
-        try {
-            FRContext.getCurrentEnv().writeResource(ConfigManager.getProviderInstance());
-        } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage());
-        }
+        ServerConfig.getInstance().setServerLogLevel(((FRLevel) logLevelComboBox.getSelectedItem()).getLevel());
 
     }
 

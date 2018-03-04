@@ -5,9 +5,7 @@ import java.awt.*;
 import com.fr.base.FRContext;
 import com.fr.base.Icon;
 import com.fr.base.IconManager;
-import com.fr.form.ui.WidgetManager;
-
-import javax.swing.*;
+import com.fr.form.ui.WidgetInfoConfig;
 
 public class IconCellRenderer extends GenericCellRenderer {
 	private Image img;
@@ -20,7 +18,7 @@ public class IconCellRenderer extends GenericCellRenderer {
 	@Override
 	public void setValue(Object v) {
 		try {
-			Icon icon = WidgetManager.getProviderInstance().getIconManager().getIcon(v);
+			Icon icon = WidgetInfoConfig.getInstance().getIconManager().getIcon(v);
 			this.setImage(icon == null ? null : icon.getImage());
 		} catch (CloneNotSupportedException e) {
 			this.setImage(null);
