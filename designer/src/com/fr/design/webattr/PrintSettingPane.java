@@ -15,12 +15,16 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.report.UnitFieldPane;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
+import com.fr.print.NoClientPrintAttr;
+import com.fr.print.PrintAttr;
 import com.fr.print.nativeprint.core.NativePrintConfigManager;
 import com.fr.report.stable.ReportConstants;
+import com.fr.report.web.button.Print;
 import com.fr.stable.Constants;
 import com.fr.web.attr.ReportWebAttr;
 
@@ -47,6 +51,7 @@ public class PrintSettingPane extends BasicPane {
     private UIRadioButton nativePrintRadioButton = new UIRadioButton("本地软件打印");
     private UIRadioButton topBottomRadioButton;
     private UIRadioButton leftRightRadioButton;
+    private UICheckBox setMarginOnPrintCheck;
     private CardLayout printCard;
     private JPanel printPane;
 
@@ -103,11 +108,11 @@ public class PrintSettingPane extends BasicPane {
     private JPanel getNoClientPrintPane() {
         JPanel printPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 
-        UICheckBox marginSettingCheck = new UICheckBox("打印时可设置打印边距");
-        marginSettingCheck.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
+        setMarginOnPrintCheck = new UICheckBox("打印时可设置打印边距");
+        setMarginOnPrintCheck.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
         UILabel tipLabel = getTipLabel("提示：若不勾选，则使用如下默认设置中的打印边距。");
         JPanel northPane = GUICoreUtils.createFlowPane(new Component[] {
-                marginSettingCheck, tipLabel}, FlowLayout.LEFT);
+                setMarginOnPrintCheck, tipLabel}, FlowLayout.LEFT);
         northPane.setBorder(BorderFactory.createEmptyBorder(8, 10, 10, 0));
 
         printPane.add(northPane, BorderLayout.NORTH);
@@ -407,11 +412,35 @@ public class PrintSettingPane extends BasicPane {
         return Inter.getLocText("ReportServerP-Import_JavaScript");
     }
 
-    public void populate(ReportWebAttr reportWebAttr) {
+    public void populate(PrintAttr printAttr) {
+        if (printAttr == null) {
+            return;
+        }
 
+        if (printAttr.getPrintType() == PrintAttr.NO_CLIENT_PRINT) {
+            noClientPrintRadioButton.setSelected(true);
+        } else {
+            nativePrintRadioButton.setSelected(true);
+        }
+
+
+        NoClientPrintAttr noClientPrintAttr = printAttr.getNoClientPrintAttr();
+        setMarginOnPrintCheck.setSelected(noClientPrintAttr.isSetMarginOnPrint());
     }
 
-    public void update(ReportWebAttr reportWebAttr) {
+    public PrintAttr updateBean() {
+        PrintAttr printAttr = new PrintAttr();
 
+        printAttr.setPrintType(noClientPrintRadioButton.isSelected() ?
+                PrintAttr.NO_CLIENT_PRINT : PrintAttr.NATIVE_PRINT);
+
+
+        NoClientPrintAttr noClientPrintAttr = new NoClientPrintAttr();
+//        NoClientPrintAttr noClientPrintAttr = reportWebAttr.getNoClientPrintAttr();
+        noClientPrintAttr.setSetMarginOnPrint(setMarginOnPrintCheck.isSelected());
+        printAttr.setNoClientPrintAttr(noClientPrintAttr);
+
+
+        return printAttr;
     }
 }

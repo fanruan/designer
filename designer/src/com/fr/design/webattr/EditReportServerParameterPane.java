@@ -90,7 +90,7 @@ public class EditReportServerParameterPane extends LoadingBasicPane {
         	writePane.populateBean(webAttr.getWebWrite());
         	cssPane.populate(webAttr);
         	jsPane.populate(webAttr);
-            printSettingPane.populate(webAttr);
+            printSettingPane.populate(webAttr.getPrintAttr());
         }
         
         this.errorTemplatePane.populateBean(reportServerConfigManager.getErrorTemplate());
@@ -111,7 +111,7 @@ public class EditReportServerParameterPane extends LoadingBasicPane {
         
         cssPane.update(webAttr);
         jsPane.update(webAttr);
-        printSettingPane.update(webAttr);
+        webAttr.setPrintAttr(printSettingPane.updateBean());
         
         reportServerConfigManager.setErrorTemplate(this.errorTemplatePane.updateBean());
     }
