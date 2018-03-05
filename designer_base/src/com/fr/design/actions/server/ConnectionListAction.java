@@ -2,6 +2,7 @@ package com.fr.design.actions.server;
 
 
 import com.fr.config.Configuration;
+import com.fr.data.impl.Connection;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.data.datapane.connect.ConnectionManagerPane;
 import com.fr.design.data.datapane.connect.ConnectionShowPane;
@@ -15,12 +16,12 @@ import com.fr.file.ConnectionConfig;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.locale.InterProviderFactory;
-import com.fr.stable.ListMap;
 import com.fr.transaction.Configurations;
 import com.fr.transaction.Worker;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.util.Map;
 
 /**
  * DatasourceList Action
@@ -163,10 +164,10 @@ public class ConnectionListAction extends UpdateAction {
      * @return 包含则返回序列 ,若返回-1则说明不包含重命名key
      */
     public static int isConnectionMapContainsRename(ConnectionConfig datasourceManager) {
-        ListMap tableDataMap = (ListMap) datasourceManager.getConnections();
+        Map<String, Connection> tableDataMap = datasourceManager.getConnections();
         String rename = InterProviderFactory.getProvider().getLocText("FR-Engine_Please_Rename") + "!";
         if (tableDataMap.containsKey(rename)) {
-            return tableDataMap.indexOf(rename);
+            return datasourceManager.getConnectionIndex(rename);
         }
         //todo  这边同上面和远程修改数据集属性有关先屏蔽
 //        for (int i = tableDataRenameIndex; i >= 1; i--) {
