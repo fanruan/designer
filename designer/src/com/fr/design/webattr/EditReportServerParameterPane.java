@@ -12,6 +12,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.design.webattr.printsettings.PrintSettingPane;
 import com.fr.general.Inter;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.web.attr.ReportWebAttr;
@@ -41,6 +42,8 @@ public class EditReportServerParameterPane extends LoadingBasicPane {
     
     private ErrorTemplatePane errorTemplatePane;
 
+    private PrintSettingPane printSettingPane;
+
 
     @Override
 	protected synchronized void initComponents(JPanel container) {
@@ -68,6 +71,7 @@ public class EditReportServerParameterPane extends LoadingBasicPane {
         tabbedPane.addTab(Inter.getLocText("ReportServerP-Import_Css"), cssPane = new WebCssPane());
         tabbedPane.addTab(Inter.getLocText("ReportServerP-Import_JavaScript"), jsPane = new WebJsPane());
         tabbedPane.addTab(Inter.getLocText("FR-Designer_ErrorHandlerTemplate"), errorTemplatePane = new ErrorTemplatePane());
+        tabbedPane.addTab(Inter.getLocText("FR-Designer_Print_Setting"), printSettingPane = new PrintSettingPane());
     }
     
     @Override
@@ -86,8 +90,8 @@ public class EditReportServerParameterPane extends LoadingBasicPane {
         	viewPane.populateBean(webAttr.getWebView());
         	writePane.populateBean(webAttr.getWebWrite());
         	cssPane.populate(webAttr);
-            
         	jsPane.populate(webAttr);
+            printSettingPane.populate(webAttr.getPrintAttr());
         }
         
         this.errorTemplatePane.populateBean(reportServerConfigManager.getErrorTemplate());
@@ -107,8 +111,8 @@ public class EditReportServerParameterPane extends LoadingBasicPane {
         webAttr.setWebWrite(writePane.updateBean());
         
         cssPane.update(webAttr);
-        
         jsPane.update(webAttr);
+        webAttr.setPrintAttr(printSettingPane.updateBean());
         
         reportServerConfigManager.setErrorTemplate(this.errorTemplatePane.updateBean());
     }

@@ -1,6 +1,7 @@
 package com.fr.design.gui.ilable;
 
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.stable.StringUtils;
 
 import com.fr.stable.StringUtils;
 import javax.swing.Icon;
