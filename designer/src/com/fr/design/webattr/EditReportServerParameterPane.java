@@ -12,6 +12,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.design.webattr.printsettings.PrintSettingPane;
 import com.fr.general.Inter;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.web.attr.ReportWebAttr;
