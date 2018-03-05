@@ -61,6 +61,7 @@ public class GlobalTableDataAction extends UpdateAction implements ResponseDataS
 
     /**
      * 动作
+     *
      * @param evt 事件
      */
     public void actionPerformed(ActionEvent evt) {
@@ -68,7 +69,7 @@ public class GlobalTableDataAction extends UpdateAction implements ResponseDataS
         final TableDataConfig tableDataConfig = TableDataConfig.getInstance();
         final TableDataManagerPane globalTableDataPane = new TableDataManagerPane() {
             public void complete() {
-                populate((TableDataConfig) tableDataConfig.clone());
+                populate(tableDataConfig.copy());
             }
 
             protected void renameConnection(final String oldName, final String newName) {

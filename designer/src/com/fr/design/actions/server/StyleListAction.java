@@ -55,7 +55,7 @@ public class StyleListAction extends UpdateAction {
 			}                
         });
 
-        styleListPane.populate((ServerConfig) ServerConfig.getInstance().clone());
+        styleListPane.populate(ServerConfig.getInstance().copy());
 		styleListDialog.setVisible(true);
 	
 	}

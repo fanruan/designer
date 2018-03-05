@@ -47,7 +47,7 @@ public class GlobalParameterAction extends UpdateAction {
         //marks:读取服务器配置信息
         final ServerConfig configManager = ServerConfig.getInstance();
 
-        parameterManagerPane.populate((ServerConfig) configManager.clone());
+        parameterManagerPane.populate(configManager.copy());
         parameterManagerDialog.addDialogActionListener(new DialogActionAdapter() {
             public void doOk() {
                 Configurations.update(new Worker() {
