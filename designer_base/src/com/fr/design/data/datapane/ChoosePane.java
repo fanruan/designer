@@ -180,7 +180,7 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
         dsNameComboBox.setRefreshingModel(true);
         ConnectionConfig connectionConfig = ConnectionConfig.getInstance();
         @SuppressWarnings("unchecked")
-        Iterator<String> datasourceNameIterator = connectionConfig.getConnectionNameIterator();
+        Iterator<String> datasourceNameIterator = connectionConfig.getConnections().keySet().iterator();
         List<String> dsList = new ArrayList<String>();
         while (datasourceNameIterator.hasNext()) {
             dsList.add((String) datasourceNameIterator.next());
@@ -287,7 +287,7 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
         }
         ConnectionConfig connectionConfig = ConnectionConfig.getInstance();
         @SuppressWarnings("unchecked")
-        Iterator<String> datasourceNameIterator = connectionConfig.getConnectionNameIterator();
+        Iterator<String> datasourceNameIterator = connectionConfig.getConnections().keySet().iterator();
         while (datasourceNameIterator.hasNext()) {
             String datasourceName = datasourceNameIterator.next();
             if (ComparatorUtils.equals(selectedDSName, datasourceName)) {
