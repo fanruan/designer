@@ -28,6 +28,7 @@ import java.awt.*;
  * Created by fanglei on 2017/8/8.
  */
 public class ElementCaseDefinePane extends MobileWidgetDefinePane{
+    private static final double MAX_HEIGHT_LIMIT = 0.8;
     private static final Item[] ITEMS = {
             new Item(MobileFitAttrState.HORIZONTAL.description(), MobileFitAttrState.HORIZONTAL),
             new Item(MobileFitAttrState.VERTICAL.description(), MobileFitAttrState.VERTICAL),
@@ -42,7 +43,6 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane{
     private UICheckBox heightRestrictCheckBox; // 手机显示限制高度复选框
     private UILabel maxHeightLabel;
     private UISpinner maxHeightSpinner; // 最大高度Spinner
-    private static final double MAX_HEIGHT_LIMIT = 0.8;
     private AttributeChangeListener changeListener;
 
     public ElementCaseDefinePane (XCreator xCreator) {
