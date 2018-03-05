@@ -17,15 +17,15 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.editor.editor.LongEditor;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
-import com.fr.web.attr.ReportWebConfig;
+import com.fr.web.attr.ReportWebAttr;
 
 public class CommonPane extends JPanel {
     private UITextField titleTextField;
-    
+
     private LongEditor cacheValidateTimeEditor;
 
     public CommonPane() {
-        
+
         this.initComponents();
     }
 
@@ -38,12 +38,12 @@ public class CommonPane extends JPanel {
 
         this.titleTextField = new UITextField(24);
         this.cacheValidateTimeEditor = new LongEditor();
-        
+
         JComponent[][] comps = {
 				{new UILabel(Inter.getLocText("Title") + ":"), this.titleTextField, null},
 				{new UILabel(Inter.getLocText("CacheValidateTime") + ":"), this.cacheValidateTimeEditor, new UILabel("milliseconds")}
 		};
-        
+
         this.add(
         		TableLayoutHelper.createCommonTableLayoutPane(
 						comps,
@@ -53,15 +53,15 @@ public class CommonPane extends JPanel {
         		BorderLayout.CENTER);
     }
 
-    public void populate(ReportWebConfig reportWebAttr) {
+    public void populate(ReportWebAttr reportWebAttr) {
         if (reportWebAttr.getTitle() != null && reportWebAttr.getTitle().length() > 0) {
             this.titleTextField.setText(reportWebAttr.getTitle());
         }
-        
+
         this.cacheValidateTimeEditor.setValue(Long.valueOf(reportWebAttr.getCacheValidateTime()));
     }
 
-    public void update(ReportWebConfig reportWebAttr) {
+    public void update(ReportWebAttr reportWebAttr) {
         if (!StringUtils.isEmpty(this.titleTextField.getText())) {
             reportWebAttr.setTitle(this.titleTextField.getText());
         } else {

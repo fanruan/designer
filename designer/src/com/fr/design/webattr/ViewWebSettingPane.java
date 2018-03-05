@@ -8,7 +8,7 @@ import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
 import com.fr.report.web.ToolBarManager;
 import com.fr.report.web.WebView;
-import com.fr.web.attr.ReportWebConfig;
+import com.fr.web.attr.ReportWebAttr;
 
 import javax.swing.*;
 import java.awt.*;
@@ -73,7 +73,7 @@ public class ViewWebSettingPane extends WebSettingPane<WebView> {
     }
 
     @Override
-    protected WebView getWebContent(ReportWebConfig reportWebAttr) {
+    protected WebView getWebContent(ReportWebAttr reportWebAttr) {
         return reportWebAttr == null ? null : reportWebAttr.getWebView();
     }
 
@@ -83,7 +83,7 @@ public class ViewWebSettingPane extends WebSettingPane<WebView> {
     }
 
     @Override
-    protected void setWebContent(ReportWebConfig reportWebAttr, WebView webContent) {
+    protected void setWebContent(ReportWebAttr reportWebAttr, WebView webContent) {
         reportWebAttr.setWebView(webContent);
     }
     @Override

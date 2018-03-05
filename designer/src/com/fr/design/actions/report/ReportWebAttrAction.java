@@ -15,7 +15,7 @@ import com.fr.general.IOUtils;
 import com.fr.main.TemplateWorkBook;
 import com.fr.transaction.Configurations;
 import com.fr.transaction.Worker;
-import com.fr.web.attr.ReportWebConfig;
+import com.fr.web.attr.ReportWebAttr;
 
 import java.awt.event.ActionEvent;
 
@@ -46,8 +46,7 @@ public class ReportWebAttrAction extends JWorkBookAction {
 		final ReportWebAttrPane reportWebAttrPane = new ReportWebAttrPane() {
 			@Override
 			public void complete() {
-				ReportWebConfig config = wbTpl.getReportWebAttr();
-				populate((ReportWebConfig) config.clone());
+				populate(wbTpl.getReportWebAttr());
 			}
 		};
 		final BasicDialog dialog = reportWebAttrPane.showWindow(
@@ -66,7 +65,7 @@ public class ReportWebAttrAction extends JWorkBookAction {
 
 					@Override
 					public Class<? extends Configuration>[] targets() {
-						return new Class[]{ReportWebConfig.class};
+						return new Class[]{ReportWebAttr.class};
 					}
 				});
 

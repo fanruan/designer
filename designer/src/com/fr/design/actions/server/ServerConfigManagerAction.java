@@ -15,7 +15,7 @@ import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.transaction.Configurations;
 import com.fr.transaction.Worker;
-import com.fr.web.attr.ReportWebConfig;
+import com.fr.web.attr.ReportWebAttr;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -60,7 +60,7 @@ public class ServerConfigManagerAction extends UpdateAction {
 
                     @Override
                     public Class<? extends Configuration>[] targets() {
-                        return new Class[]{ReportWebConfig.class, ServerConfig.class};
+                        return new Class[]{ReportWebAttr.class, ServerConfig.class};
                     }
                 });
 
