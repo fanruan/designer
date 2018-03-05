@@ -112,6 +112,19 @@ public class XWTitleLayout extends DedicateLayoutContainer {
 	}
 
 	/**
+	 *  编辑状态的时候需要重新绘制下边框
+	 *
+	 */
+	@Override
+	public void paintBorder(Graphics g, Rectangle bounds) {
+		XCreator childCreator = getEditingChildCreator();
+		if (childCreator != null) {
+			childCreator.paintBorder(g, bounds);
+		}
+
+	}
+
+	/**
 	 * 将WLayout转换为XLayoutContainer
 	 */
 	@Override

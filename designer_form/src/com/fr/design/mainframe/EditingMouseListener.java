@@ -1,6 +1,7 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
 import com.fr.design.designer.beans.events.DesignerEditor;
@@ -145,7 +146,7 @@ public class EditingMouseListener extends MouseInputAdapter {
         if (e.getButton() == MouseEvent.BUTTON1) {
 
             Direction dir = selectionModel.getDirectionAt(e);
-            if (!BaseUtils.isAuthorityEditing()) {
+            if (!DesignerMode.isAuthorityEditing()) {
                 stateModel.setDirection(dir);
             }
 
@@ -284,7 +285,7 @@ public class EditingMouseListener extends MouseInputAdapter {
         if (designer.isDrawLineMode() && stateModel.getDirection() == Location.outer) {
             designer.updateDrawLineMode(e);
         }
-        if (!BaseUtils.isAuthorityEditing()) {
+        if (!DesignerMode.isAuthorityEditing()) {
             stateModel.setDirection(dir);
         }
 
@@ -412,7 +413,7 @@ public class EditingMouseListener extends MouseInputAdapter {
      * @param e 鼠标事件
      */
     public void mouseDragged(MouseEvent e) {
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             return;
         }
         // 如果当前是左键拖拽状态，拖拽组件

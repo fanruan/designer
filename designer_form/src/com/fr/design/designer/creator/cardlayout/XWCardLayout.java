@@ -31,8 +31,11 @@ import com.fr.form.ui.container.WLayout;
 import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
 import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.form.ui.container.cardlayout.WCardTitleLayout;
+import com.fr.form.ui.container.cardlayout.WTabFitLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
+import com.fr.general.cardtag.DefaultTemplateStyle;
+import com.fr.general.cardtag.TemplateStyle;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Constants;
 import com.fr.stable.core.PropertyChangeAdapter;
@@ -59,6 +62,8 @@ public class XWCardLayout extends XLayoutContainer {
 
 	private static final int LAYOUT_INDEX = 0;
 
+	public static final String DEFAULT_NAME = "cardlayout";
+
 
 	//默认蓝色标题背景
 	private static final Color TITLE_COLOR = new Color(51, 132, 240);
@@ -83,7 +88,7 @@ public class XWCardLayout extends XLayoutContainer {
 	 */
 	@Override
 	public String createDefaultName() {
-    	return "cardlayout";
+    	return DEFAULT_NAME;
     }
 
     /**
@@ -210,6 +215,7 @@ public class XWCardLayout extends XLayoutContainer {
 		Dimension dimension = new Dimension();
 		//放置标题的tab流式布局
 		WCardTagLayout tagLayout = new WCardTagLayout("tabpane" + widgetName.replaceAll(createDefaultName(), ""));
+		tagLayout.setNewTab(true);
 		XWCardTagLayout xTag = new XWCardTagLayout(tagLayout, dimension, this);
 		xTag.setBackupParent(xTitle);
 		
@@ -223,12 +229,9 @@ public class XWCardLayout extends XLayoutContainer {
 	private XCardSwitchButton initFirstButton(String widgetName, XWCardTagLayout xTag){
 		CardSwitchButton firstBtn = new CardSwitchButton(widgetName);
 		firstBtn.setText(Inter.getLocText("FR-Designer_Title") + 0);
-		firstBtn.setInitialBackground(ColorBackground.getInstance(Color.WHITE));
-		firstBtn.setCustomStyle(true);
 		xTag.setCurrentCard(firstBtn);
 		XCardSwitchButton xFirstBtn = new XCardSwitchButton(firstBtn, new Dimension(CardSwitchButton.DEF_WIDTH, -1), this, xTag);
 		xFirstBtn.setBackupParent(xTag);
-		
 		return xFirstBtn;
 	}
 
@@ -464,6 +467,7 @@ public class XWCardLayout extends XLayoutContainer {
 		selectionModel.setSelectedCreator(mainLayout);
 		selectionModel.deleteSelection();
 	}
+
 	@Override
 	public void setBorder(Border border) {
 		super.setBorder(border);
@@ -490,6 +494,19 @@ public class XWCardLayout extends XLayoutContainer {
 	@Override
 	public void firePropertyChange(){
 		initStyle();
+	}
+
+	public void resetTabBackground(TemplateStyle templateStyle){
+		for (int i = 0; i < this.getXCreatorCount(); i++) {
+			XWTabFitLayout xCreator = (XWTabFitLayout)this.getXCreator(i);
+			WTabFitLayout wTabFitLayout = (WTabFitLayout)xCreator.toData();
+			boolean defaultStyle = ComparatorUtils.equals(templateStyle.getStyle(), DefaultTemplateStyle.DEFAULT_TEMPLATE_STYLE);
+			wTabFitLayout.setInitialBackground(defaultStyle ? null : templateStyle.getTabDefaultBackground());
+			wTabFitLayout.setOverBackground(null);
+			wTabFitLayout.setClickBackground(null);
+			wTabFitLayout.setCustomStyle(!defaultStyle);
+			xCreator.checkButonType();
+		}
 	}
 
 }

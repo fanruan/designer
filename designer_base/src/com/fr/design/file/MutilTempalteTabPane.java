@@ -370,7 +370,9 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
             templateStartX += realWidth;
         }
 
-        paintListDown(g2d, maxWidth);
+        if (!DesignerMode.isVcsMode()) {
+            paintListDown(g2d, maxWidth);
+        }
         paintUnderLine(templateStartX, maxWidth, g2d);
     }
 
@@ -549,7 +551,9 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
         g2d.drawString(sheetName, (int) templateStartX + sheeticon.getIconWidth() + 2 * GAP, getHeight() - GAP * 2);
         int closePosition = (int) templateStartX + realWidth - CLOSE.getIconWidth() - SMALLGAP;
         int closeY = (getHeight() - closeIcon.getIconHeight()) / 2;
-        closeIcon.paintIcon(this, g2d, closePosition, closeY);
+        if (!DesignerMode.isVcsMode()) {
+            closeIcon.paintIcon(this, g2d, closePosition, closeY);
+        }
         return closePosition;
 
     }
@@ -605,7 +609,9 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
         g2d.drawString(sheetName, (int) templateStartX + sheeticon.getIconWidth() + 2 * GAP, getHeight() - GAP * 2);
         int closeY = (getHeight() - closeIcon.getIconHeight()) / 2;
         int closePosition = (int) templateStartX + realWidth - CLOSE.getIconWidth() - SMALLGAP;
-        closeIcon.paintIcon(this, g2d, closePosition, closeY);
+        if (!DesignerMode.isVcsMode()) {
+            closeIcon.paintIcon(this, g2d, closePosition, closeY);
+        }
         return closePosition;
     }
 
@@ -687,7 +693,7 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
                 openedTemplate.get(selectedIndex).stopEditing();
                 selectedIndex = getTemplateIndex(evtX);
                 //如果在权限编辑情况下，不允许切换到表单类型的工作簿
-                if (BaseUtils.isAuthorityEditing() && !openedTemplate.get(selectedIndex).isJWorkBook()) {
+                if (DesignerMode.isAuthorityEditing() && !openedTemplate.get(selectedIndex).isJWorkBook()) {
                     DesignerContext.getDesignerFrame().addAndActivateJTemplate(openedTemplate.get(tempSelectedIndex));
                     JOptionPane.showMessageDialog(this, Inter.getLocText("FR-Designer_Form-AuthorityEdited_Cannot_be_Supported")
                             + "!", Inter.getLocText("FR-Designer_Alert"), JOptionPane.WARNING_MESSAGE);
@@ -726,7 +732,7 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
         }
         filename = OperatingSystem.isWindows() ? filename.replaceAll("/", "\\\\") : filename.replaceAll("\\\\", "/");
 
-        if (!specifiedTemplate.isALLSaved()) {
+        if (!specifiedTemplate.isALLSaved() && !DesignerMode.isVcsMode()) {
             specifiedTemplate.stopEditing();
             int returnVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("Utils-Would_you_like_to_save") + " \"" + specifiedTemplate.getEditingFILE() + "\" ?",
                     ProductConstants.PRODUCT_NAME, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);

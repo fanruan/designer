@@ -1,7 +1,6 @@
 package com.fr.design.designer.creator.cardlayout;
 
 import com.fr.base.GraphHelper;
-import com.fr.base.background.ColorBackground;
 import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.FRTabFitLayoutAdapter;
 import com.fr.design.designer.beans.models.SelectionModel;
@@ -22,13 +21,17 @@ import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.form.ui.container.cardlayout.WTabFitLayout;
 import com.fr.general.Background;
-import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.core.PropertyChangeAdapter;
 
 import javax.swing.border.Border;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Rectangle;
 import java.beans.IntrospectionException;
 
 
@@ -38,7 +41,7 @@ import java.beans.IntrospectionException;
  */
 public class XWTabFitLayout extends XWFitLayout {
 	
-	private static final int MIN_SIZE = 1;
+	private static final int MIN_SIZE = 0;
 
 	private static final int WIDTH_SIDE_OFFSET = 57;
 
@@ -99,10 +102,20 @@ public class XWTabFitLayout extends XWFitLayout {
 		super(widget, initSize);
 	}
 
+	public WTabFitLayout getWTabFitLayout(){
+		return (WTabFitLayout)data;
+	}
+
 	@Override
 	public UIPopupMenu createPopupMenu(FormDesigner formDesigner) {
 		return UIPopupMenu.EMPTY;  // 不要菜单
 	}
+
+	@Override
+	protected String getIconName() {
+		return "tab_fit_layout.png";
+	}
+
 
 	/**
 	 *  得到属性名
@@ -201,41 +214,32 @@ public class XWTabFitLayout extends XWFitLayout {
 		return crPropertyDescriptors;
 	}
 
-	private void checkButonType() {
-		if (this.xCardSwitchButton == null) {
-			//假如为空，默认获取第一个tab的cardBtn属性
-			try {
-				xCardSwitchButton = (XCardSwitchButton) ((XWCardMainBorderLayout) this.getTopLayout()).getTitlePart().getTagPart().getComponent(0);
-			}catch (Exception e){
-				FRLogger.getLogger().error(e.getMessage());
-			}
-			return;
+	public void checkButonType() {
+		WTabFitLayout wTabFitLayout = ((WTabFitLayout) data);
+		XCardSwitchButton xCardSwitchButton = this.getxCardSwitchButton();
+		if(xCardSwitchButton == null){
+			initRelateSwitchButton();
 		}
-		boolean isStyle = ((WTabFitLayout) data).isCustomStyle();
-		Background bg;
-		bg = ColorBackground.getInstance(NORMAL_GRAL);
 		CardSwitchButton cardSwitchButton = (CardSwitchButton) this.xCardSwitchButton.toData();
+		boolean isStyle = wTabFitLayout.isCustomStyle();
+		Background initialBackground = wTabFitLayout.getInitialBackground();
+		Background overBackground = wTabFitLayout.getOverBackground();
+		Background clickBackground = wTabFitLayout.getClickBackground();
 		if (!isStyle) {
-			this.xCardSwitchButton.setCustomStyle(false);
-			this.xCardSwitchButton.setSelectBackground(bg);
+			cardSwitchButton.setCustomStyle(false);
 			cardSwitchButton.setInitialBackground(null);
 			cardSwitchButton.setClickBackground(null);
 			cardSwitchButton.setOverBackground(null);
 		} else {
-			Background initialBackground = cardSwitchButton.getInitialBackground();
-			bg = initialBackground == null ? bg : initialBackground;
-			this.xCardSwitchButton.setSelectBackground(bg);
-			this.xCardSwitchButton.setCustomStyle(true);
 			cardSwitchButton.setCustomStyle(true);
-			if (this.initialBackground != null){
-				this.xCardSwitchButton.setSelectBackground(this.initialBackground);
-				cardSwitchButton.setInitialBackground(this.initialBackground);
+			if (initialBackground != null){
+				cardSwitchButton.setInitialBackground(initialBackground);
 			}
-			if (this.overBackground != null){
-				cardSwitchButton.setOverBackground(this.overBackground);
+			if (overBackground != null){
+				cardSwitchButton.setOverBackground(overBackground);
 			}
-			if (this.clickBackground != null) {
-				cardSwitchButton.setClickBackground(this.clickBackground);
+			if (clickBackground != null) {
+				cardSwitchButton.setClickBackground(clickBackground);
 			}
 		}
 	}
@@ -266,21 +270,22 @@ public class XWTabFitLayout extends XWFitLayout {
     	//放置tab按钮的tagLayout
     	XWCardTagLayout tagLayout = titleLayout.getTagPart();
     	WCardTagLayout tag = (WCardTagLayout) tagLayout.toData();
-    	
+
+		//先删除对应的tab按钮
+		for(int i=0;i<tagLayout.getComponentCount();i++){
+			CardSwitchButton button = tag.getSwitchButton(i);
+			if(button.getIndex()==index){
+				tagLayout.remove(i);
+				break;
+			}
+		}
     	//删除整个tab布局
     	if(tag.getWidgetCount() <= MIN_SIZE){
     		deleteTabLayout(mainLayout,designer);
     		return;
     	}
     	
-    	//先删除对应的tab按钮
-    	for(int i=0;i<tagLayout.getComponentCount();i++){
-    		CardSwitchButton button = tag.getSwitchButton(i);
-    		if(button.getIndex()==index){
-    			tagLayout.remove(i);
-    			break;
-    		}
-    	}
+
     	//刷新tab按钮和tabFitLayout的index
     	refreshIndex(tag,cardLayout,index);
     	
@@ -298,21 +303,21 @@ public class XWTabFitLayout extends XWFitLayout {
 		FormHierarchyTreePane.getInstance().refreshRoot();
 		selectionModel.setSelectedCreator(designer.getRootComponent());
 	}
-	
-	private void refreshIndex(WCardTagLayout tag,XWCardLayout cardLayout,int index){
-    	for(int i=0;i<tag.getWidgetCount();i++){
-    		CardSwitchButton button = tag.getSwitchButton(i);
-    		XWTabFitLayout tempFit = (XWTabFitLayout) cardLayout.getComponent(i);
-    		WTabFitLayout tempFitLayout = (WTabFitLayout) tempFit.toData();
-    		int currentFitIndex = tempFitLayout.getIndex();
-    		int buttonIndex = button.getIndex();
-    		if(buttonIndex > index){
-    			button.setIndex(--buttonIndex);
-    		}
-    		if(currentFitIndex > index){
-    			tempFitLayout.setIndex(--currentFitIndex);
-    		}
-    	}
+
+	private void refreshIndex(WCardTagLayout tag, XWCardLayout cardLayout, int index) {
+		for (int i = 0; i < tag.getWidgetCount(); i++) {
+			CardSwitchButton button = tag.getSwitchButton(i);
+			XWTabFitLayout tempFit = (XWTabFitLayout) cardLayout.getComponent(i);
+			WTabFitLayout tempFitLayout = (WTabFitLayout) tempFit.toData();
+			int currentFitIndex = tempFitLayout.getIndex();
+			int buttonIndex = button.getIndex();
+			if (buttonIndex > index) {
+				button.setIndex(--buttonIndex);
+			}
+			if (currentFitIndex > index) {
+				tempFitLayout.setIndex(--currentFitIndex);
+			}
+		}
 	}
 	
 	/**
@@ -461,7 +466,7 @@ public class XWTabFitLayout extends XWFitLayout {
 		}
 		//控件树上显示其taglayout层
 		if ((cardSwitchButton != null)) {
-			return cardSwitchButton.getTagLayout();
+			return cardSwitchButton.getBackupParent();
 		}
 		return super.getParentShow();
 	}
@@ -595,24 +600,9 @@ public class XWTabFitLayout extends XWFitLayout {
 		XWCardLayout cardLayout = (XWCardLayout) this.getBackupParent();
 		XWCardMainBorderLayout mainLayout = (XWCardMainBorderLayout) cardLayout.getBackupParent();
 		XWCardTitleLayout titleLayout = mainLayout.getTitlePart();
-//		//放置tab按钮的tagLayout
+		//放置tab按钮的tagLayout
 		XWCardTagLayout tagLayout = titleLayout.getTagPart();
 		tagLayout.setTabsAndAdjust();
-
-		initialBackground = ((WTabFitLayout) data).getInitialBackground();
-		overBackground = ((WTabFitLayout) data).getOverBackground();
-		clickBackground = ((WTabFitLayout)data).getClickBackground();
-		CardSwitchButton cardSwitchButton = (CardSwitchButton) xCardSwitchButton.toData();
-		if(initialBackground != null){
-			xCardSwitchButton.setSelectBackground(initialBackground);
-			cardSwitchButton.setInitialBackground(initialBackground);
-		}
-		if(overBackground != null){
-			cardSwitchButton.setOverBackground(overBackground);
-		}
-		if(clickBackground != null){
-			cardSwitchButton.setClickBackground(clickBackground);
-		}
 	}
 
 	public void setCardSwitchBtnSize(){
@@ -621,6 +611,28 @@ public class XWTabFitLayout extends XWFitLayout {
 		FontMetrics fm = GraphHelper.getFontMetrics(f);
 		int width = fm.stringWidth(cardSwitchButton.getText())+ WIDTH_SIDE_OFFSET;
 		xCardSwitchButton.setPreferredSize(new Dimension(width, xCardSwitchButton.getHeight()));
+	}
+
+	private void checkVisible(){
+		WTabFitLayout wTabFitLayout = (WTabFitLayout)this.data;
+		CardSwitchButton cardSwitchButton = wTabFitLayout.getCurrentCard();
+		cardSwitchButton.setVisible(wTabFitLayout.isVisible());
+	}
+
+
+	/**
+	 * 是否支持设置可见
+	 * return boolean
+	 */
+	@Override
+	public boolean supportSetVisible(){
+		return true;
+	}
+
+
+	@Override
+	public void resetVisible(boolean visible){
+		checkVisible();
 	}
 
 }

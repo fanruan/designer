@@ -27,4 +27,6 @@ public class IntervalConstants {
 
     public static final int INTERVAL_W3 = 49;
 
+    public static final int INTERVAL_W4 = 22;
+
 }

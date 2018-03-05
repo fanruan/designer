@@ -21,7 +21,7 @@ import java.awt.geom.Rectangle2D;
 public abstract class NewTemplatePane extends JComponent implements MouseListener, MouseMotionListener {
 
 	private static final Icon GRAY_NEW_CPT = BaseUtils.readIcon("/com/fr/design/images/buttonicon/additicon_grey.png");
-	private static final int PRE_GAP = 0;
+	private static final int PRE_GAP = 5;
 	private static final int HEIGHT = 26;
 	private Graphics2D g2d;
 	private Icon newWorkBookIconMode = null;
@@ -148,7 +148,7 @@ public abstract class NewTemplatePane extends JComponent implements MouseListene
 	}
 
 	private boolean needGrayNewCpt() {
-		return BaseUtils.isAuthorityEditing() || DesignerMode.isVcsMode();
+		return DesignerMode.isAuthorityEditing() || DesignerMode.isVcsMode();
 	}
 
 

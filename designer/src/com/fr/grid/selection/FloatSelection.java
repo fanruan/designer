@@ -1,7 +1,7 @@
 package com.fr.grid.selection;
 
-import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.actions.cell.CleanAuthorityAction;
 import com.fr.design.actions.cell.FloatStyleAction;
 import com.fr.design.actions.core.ActionFactory;
@@ -118,7 +118,7 @@ public class FloatSelection extends Selection {
     @Override
     public JPopupMenu createPopupMenu(ElementCasePane ePane) {
         UIPopupMenu popup = new UIPopupMenu();
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             popup.add(new CleanAuthorityAction(ePane).createMenuItem());
             return popup;
         }

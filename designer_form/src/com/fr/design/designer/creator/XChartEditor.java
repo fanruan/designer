@@ -6,21 +6,26 @@ import java.beans.IntrospectionException;
 
 import javax.swing.*;
 
+import com.fr.base.GraphHelper;
 import com.fr.base.chart.BaseChartCollection;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
 import com.fr.design.designer.beans.models.SelectionModel;
+import com.fr.design.designer.properties.mobile.ChartEditorPropertyUI;
+import com.fr.design.designer.properties.mobile.ElementCasePropertyUI;
+import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.design.gui.chart.BaseChartPropertyPane;
 import com.fr.design.gui.chart.MiddleChartComponent;
 import com.fr.design.mainframe.*;
 import com.fr.design.mainframe.widget.editors.WLayoutBorderStyleEditor;
-import com.fr.design.mainframe.widget.renderer.LayoutBorderStyleRenderer;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.designer.beans.events.DesignerEditor;
 import com.fr.form.ui.BaseChartEditor;
 import com.fr.form.ui.Widget;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.general.Inter;
+import com.fr.stable.Constants;
+import com.fr.stable.GraphDrawHelper;
 import com.fr.stable.core.PropertyChangeAdapter;
 
 /**
@@ -32,6 +37,7 @@ import com.fr.stable.core.PropertyChangeAdapter;
  */
 public class XChartEditor extends XBorderStyleWidgetCreator {
 	private static final long serialVersionUID = -7009439442104836657L;
+	private static final int BORDER_WIDTH = 2;
 	//具体来说是DesignerEditor<SimpleChartComponent>
 	private DesignerEditor<JComponent> designerEditor;
 	//	private DesignerEditor<SimpleChartComponent> designerEditor;
@@ -39,7 +45,11 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 	private boolean isRefreshing = false;
 
 	private boolean isEditing = false;
+
+	private boolean isHovering = false;
 	private JPanel coverPanel;
+	private static final Color OUTER_BORDER_COLOR = new Color(65, 155, 249, 30);
+	private static final Color INNER_BORDER_COLOR = new Color(65, 155, 249);
 
 	public XChartEditor(BaseChartEditor editor) {
 		this(editor, new Dimension(250, 150));
@@ -118,6 +128,22 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
         return false;
     }
 
+
+	/**
+	 *  编辑状态的时候需要重新绘制下边框
+	 *
+	 */
+	@Override
+	public void paintBorder(Graphics g, Rectangle bounds){
+		if(isEditing){
+			g.setColor(OUTER_BORDER_COLOR);
+			GraphHelper.draw(g, new Rectangle(bounds.x - BORDER_WIDTH, bounds.y - BORDER_WIDTH, bounds.width + BORDER_WIDTH + 1, bounds.height + BORDER_WIDTH + 1), Constants.LINE_LARGE);
+		}else if(!isHovering){
+			super.paintBorder(g, bounds);
+		}
+	}
+
+
 	/**
 	 * 返回设计器的Editor
 	 */
@@ -186,6 +212,10 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 	public void paint(Graphics g) {
 		designerEditor.paintEditor(g, this.getSize());
 		super.paint(g);
+		if(isEditing){
+			g.setColor(INNER_BORDER_COLOR);
+			GraphHelper.draw(g, new Rectangle(0, 0, getWidth(), getHeight()), Constants.LINE_MEDIUM);
+		}
 	}
 
 	/**
@@ -260,6 +290,7 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 	 * @param display     是否
 	 */
 	public void  displayCoverPane(boolean display){
+		isHovering = display;
 		coverPanel.setVisible(display);
 		coverPanel.setPreferredSize(editor.getPreferredSize());
 		coverPanel.setBounds(editor.getBounds());
@@ -271,6 +302,14 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 	}
 
 	/**
+	 * 是否支持设置可用
+	 * return boolean
+	 */
+	public boolean supportSetEnable(){
+		return false;
+	}
+
+	/**
 	 * data属性改变触发其他操作
 	 *
 	 */
@@ -278,4 +317,8 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 		initStyle();
 	}
 
+	@Override
+	public WidgetPropertyUIProvider[] getWidgetPropertyUIProviders() {
+		return new WidgetPropertyUIProvider[]{ new ChartEditorPropertyUI(this)};
+	}
 }

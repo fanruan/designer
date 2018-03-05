@@ -20,6 +20,7 @@ import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.design.present.ConditionAttributesGroupPane;
+import com.fr.form.main.Form;
 import com.fr.js.NameJavaScriptGroup;
 import com.fr.page.ReportSettingsProvider;
 import com.fr.report.elementcase.TemplateElementCase;
@@ -31,8 +32,9 @@ import com.fr.design.selection.SelectionListener;
  */
 public class FormElementCasePaneDelegate extends ElementCasePane<FormElementCase>{
 
-	public FormElementCasePaneDelegate(FormElementCase sheet) {
+	public FormElementCasePaneDelegate(FormElementCase sheet, Form form) {
         super(sheet);
+        this.getGrid().setShowPaginateLine(form.getFormMobileAttr().isMobileOnly());
         this.addSelectionChangeListener(new SelectionListener() {
             @Override
             public void selectionChanged(SelectionEvent e) {

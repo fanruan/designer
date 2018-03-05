@@ -23,7 +23,7 @@ public class GetPluginFromStoreExecutor implements Executor {
     private String scope;
 
     public GetPluginFromStoreExecutor(JSONObject info) {
-        this.category = info.optString("category");
+        this.category = info.optString("categories");
         this.fee = info.optString("fee");
         this.seller = info.optString("seller");
         this.scope = info.optString("scope");

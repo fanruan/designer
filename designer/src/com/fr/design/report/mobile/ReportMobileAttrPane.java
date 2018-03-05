@@ -12,9 +12,8 @@ import javax.swing.*;
  */
 public class ReportMobileAttrPane extends BasicBeanPane<ElementCaseMobileAttr>{
 
-
+    private ReportMobileTemplateSettingsPane reportMobileTemplateSettingsPane;  // 模版设置面板
     private AppFitBrowserPane appFitBrowserPane;
-
     //工具栏容器
     private MobileToolBarPane mobileToolBarPane;
 
@@ -28,6 +27,10 @@ public class ReportMobileAttrPane extends BasicBeanPane<ElementCaseMobileAttr>{
         JPanel jPanel = new JPanel();
         jPanel.setLayout(new BoxLayout(jPanel, BoxLayout.Y_AXIS));
         jPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        reportMobileTemplateSettingsPane = new ReportMobileTemplateSettingsPane();
+        jPanel.add(reportMobileTemplateSettingsPane);
+
         appFitBrowserPane = new AppFitBrowserPane();
         appFitBrowserPane.setAppFitPreviewPane(appFitPreviewPane);
         jPanel.add(appFitBrowserPane);
@@ -46,13 +49,14 @@ public class ReportMobileAttrPane extends BasicBeanPane<ElementCaseMobileAttr>{
         }
         appFitBrowserPane.populateBean(ob);
         mobileToolBarPane.populateBean(ob);
-
+        reportMobileTemplateSettingsPane.populateBean(ob);
     }
 
     @Override
     public ElementCaseMobileAttr updateBean() {
         ElementCaseMobileAttr caseMobileAttr = appFitBrowserPane.updateBean();
         mobileToolBarPane.updateBean(caseMobileAttr);
+        reportMobileTemplateSettingsPane.updateBean(caseMobileAttr);
 
         return caseMobileAttr;
     }
