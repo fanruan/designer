@@ -133,12 +133,9 @@ public class ConnectionListPane extends JListControlPane implements ConnectionSh
      * @param connectionConfig the new datasourceManager.
      */
     public void populate(ConnectionConfig connectionConfig) {
-        Iterator<String> nameIt = connectionConfig.getConnectionNameIterator();
-
         List<NameObject> nameObjectList = new ArrayList<NameObject>();
-        while (nameIt.hasNext()) {
-            String name = nameIt.next();
-            nameObjectList.add(new NameObject(name, connectionConfig.getConnection(name)));
+        for (Map.Entry<String, Connection> entry : connectionConfig.getConnections().entrySet()) {
+            nameObjectList.add(new NameObject(entry.getKey(), entry.getValue()));
         }
         this.populate(nameObjectList.toArray(new NameObject[nameObjectList.size()]));
 
@@ -153,11 +150,11 @@ public class ConnectionListPane extends JListControlPane implements ConnectionSh
         NameObject[] res_array = new NameObject[res.length];
         java.util.Arrays.asList(res).toArray(res_array);
 
-        connectionConfig.clearAllConnection();
+        connectionConfig.removeAllConnection();
 
         for (int i = 0; i < res_array.length; i++) {
             NameObject nameObject = res_array[i];
-            connectionConfig.putConnection(nameObject.getName(), (Connection) nameObject.getObject());
+            connectionConfig.addConnection(nameObject.getName(), (Connection) nameObject.getObject());
         }
     }
 }

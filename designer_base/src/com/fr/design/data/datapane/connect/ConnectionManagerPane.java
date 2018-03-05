@@ -1,17 +1,14 @@
 package com.fr.design.data.datapane.connect;
 
-import com.fr.base.FRContext;
 import com.fr.design.gui.frpane.LoadingBasicPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.file.ConnectionConfig;
 import com.fr.general.Inter;
-import com.fr.stable.project.ProjectConstants;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 import java.util.HashMap;
 
 public class ConnectionManagerPane extends LoadingBasicPane implements ConnectionShowPane {
@@ -49,8 +46,8 @@ public class ConnectionManagerPane extends LoadingBasicPane implements Connectio
     }
 
     public void populate(ConnectionConfig datasourceManager) {
-        this.connectionTextField.setText(FRContext.getCurrentEnv().getPath() + File.separator + ProjectConstants.RESOURCES_NAME
-                + File.separator + datasourceManager.fileName());
+//        this.connectionTextField.setText(FRContext.getCurrentEnv().getPath() + File.separator + ProjectConstants.RESOURCES_NAME
+//                + File.separator + datasourceManager.fileName());
         this.connectionListPane.populate(datasourceManager);
     }
 
