@@ -2,6 +2,15 @@ package com.fr.design.formula;
 
 import com.fr.base.FRContext;
 import com.fr.file.FunctionConfig;
+import com.fr.function.AVERAGE;
+import com.fr.function.CHAR;
+import com.fr.function.COUNT;
+import com.fr.function.DATE;
+import com.fr.function.MAX;
+import com.fr.function.MIN;
+import com.fr.function.RANGE;
+import com.fr.function.SUM;
+import com.fr.function.TIME;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.plugin.ExtraClassManager;
