@@ -4,6 +4,7 @@
 package com.fr.design.actions.server;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.TableData;
 import com.fr.config.Configuration;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.actions.UpdateAction;
@@ -20,7 +21,6 @@ import com.fr.file.ProcedureConfig;
 import com.fr.file.TableDataConfig;
 import com.fr.general.Inter;
 import com.fr.locale.InterProviderFactory;
-import com.fr.stable.ListMap;
 import com.fr.transaction.Configurations;
 import com.fr.transaction.Worker;
 
@@ -184,10 +184,10 @@ public class GlobalTableDataAction extends UpdateAction implements ResponseDataS
      * @return 包含则返回序列 ,若返回-1则说明不包含重命名key
      */
     public int isTableDataMapContainsRename(TableDataConfig datasourceManager) {
-        ListMap tableDataMap = (ListMap) datasourceManager.getTableDatas();
+        Map<String, TableData> tableDataMap = datasourceManager.getTableDatas();
         String rename = InterProviderFactory.getProvider().getLocText("FR-Engine_Please_Rename") + "!";
         if (tableDataMap.containsKey(rename)) {
-            return tableDataMap.indexOf(rename);
+            return datasourceManager.getTableDataIndex(rename);
         }
         //todo  这边同上面和远程修改数据集属性有关先屏蔽
 //        for (int i = tableDataRenameIndex; i >= 1; i--) {
