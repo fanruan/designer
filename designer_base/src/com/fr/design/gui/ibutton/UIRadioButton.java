@@ -69,7 +69,7 @@ public class UIRadioButton extends JRadioButton implements UIObserver, GlobalNam
 
                 @Override
                 public void itemStateChanged(ItemEvent e) {
-                    if (uiObserverListener == null) {
+                    if (uiObserverListener == null || e.getStateChange() != ItemEvent.SELECTED) {
                         return;
                     }
                     if (globalNameListener != null && shouldResponseNameListener()) {
