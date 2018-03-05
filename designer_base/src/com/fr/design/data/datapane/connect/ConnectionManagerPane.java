@@ -46,7 +46,6 @@ public class ConnectionManagerPane extends LoadingBasicPane implements Connectio
     }
 
     public void populate(ConnectionConfig datasourceManager) {
-        //todo 原来界面上显示的xml路径
 //        this.connectionTextField.setText(FRContext.getCurrentEnv().getPath() + File.separator + ProjectConstants.RESOURCES_NAME
 //                + File.separator + datasourceManager.fileName());
         this.connectionListPane.populate(datasourceManager);

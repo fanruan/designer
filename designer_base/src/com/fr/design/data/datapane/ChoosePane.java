@@ -7,6 +7,7 @@ import com.fr.data.core.DataCoreUtils;
 import com.fr.data.core.db.DBUtils;
 import com.fr.data.core.db.TableProcedure;
 import com.fr.data.core.db.dialect.DialectFactory;
+import com.fr.data.impl.Connection;
 import com.fr.data.impl.DBTableData;
 import com.fr.dav.LocalEnv;
 import com.fr.design.DesignerEnvManager;
@@ -17,7 +18,11 @@ import com.fr.design.data.datapane.preview.PreviewLabel;
 import com.fr.design.data.datapane.preview.PreviewLabel.Previewable;
 import com.fr.design.data.datapane.preview.PreviewTablePane;
 import com.fr.design.data.tabledata.Prepare4DataSourceChange;
-import com.fr.design.gui.icombobox.*;
+import com.fr.design.gui.icombobox.FRTreeComboBox;
+import com.fr.design.gui.icombobox.FilterableComboBoxModel;
+import com.fr.design.gui.icombobox.UIComboBox;
+import com.fr.design.gui.icombobox.UIComboBoxEditor;
+import com.fr.design.gui.icombobox.UIComboBoxRenderer;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itree.refreshabletree.ExpandMutableTreeNode;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -37,7 +42,12 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
-import javax.swing.tree.*;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeCellRenderer;
+import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -45,8 +55,8 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author zhou
@@ -179,12 +189,8 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
     protected void initDsNameComboBox() {
         dsNameComboBox.setRefreshingModel(true);
         ConnectionConfig connectionConfig = ConnectionConfig.getInstance();
-        @SuppressWarnings("unchecked")
-        Iterator<String> datasourceNameIterator = connectionConfig.getConnections().keySet().iterator();
-        List<String> dsList = new ArrayList<String>();
-        while (datasourceNameIterator.hasNext()) {
-            dsList.add((String) datasourceNameIterator.next());
-        }
+        List<String> dsList = new ArrayList<>();
+        dsList.addAll(connectionConfig.getConnections().keySet());
         FilterableComboBoxModel dsNameComboBoxModel = new FilterableComboBoxModel(dsList);
         dsNameComboBox.setModel(dsNameComboBoxModel);
         dsNameComboBox.setRefreshingModel(false);
@@ -286,12 +292,9 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
             return null; // peter:选中了当前的零长度的节点,直接返回.
         }
         ConnectionConfig connectionConfig = ConnectionConfig.getInstance();
-        @SuppressWarnings("unchecked")
-        Iterator<String> datasourceNameIterator = connectionConfig.getConnections().keySet().iterator();
-        while (datasourceNameIterator.hasNext()) {
-            String datasourceName = datasourceNameIterator.next();
-            if (ComparatorUtils.equals(selectedDSName, datasourceName)) {
-                return connectionConfig.getConnection(datasourceName);
+        for (Map.Entry<String, Connection> entry: connectionConfig.getConnections().entrySet()) {
+            if (ComparatorUtils.equals(selectedDSName, entry.getKey())) {
+                return entry.getValue();
             }
         }
         return null;
