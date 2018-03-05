@@ -3,6 +3,7 @@
  */
 package com.fr.design.webattr;
 
+import com.fr.base.ConfigManager;
 import com.fr.base.FRContext;
 import com.fr.config.ServerConfig;
 import com.fr.design.gui.frpane.LoadingBasicPane;
@@ -12,7 +13,7 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
-import com.fr.web.attr.ReportWebConfig;
+import com.fr.web.attr.ReportWebAttr;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,7 +31,7 @@ public class EditReportServerParameterPane extends LoadingBasicPane {
     //TODO 表单
 //    private FormToolBarPane formPane;
     private WriteToolBarPane writePane;
-    private ReportWebConfig webAttr;
+    private ReportWebAttr webAttr;
     
     private WebCssPane cssPane;
     
@@ -78,7 +79,7 @@ public class EditReportServerParameterPane extends LoadingBasicPane {
 //                ProjectConstants.RESOURCES_NAME +
 //                File.separator + reportServerConfig.fileName());
 
-        webAttr = (ReportWebConfig) ReportWebConfig.getInstance().clone();
+        webAttr = ((ReportWebAttr) ConfigManager.getProviderInstance().getGlobalAttribute(ReportWebAttr.class));
         if (webAttr != null) {
         	pagePane.populateBean(webAttr.getWebPage());
         	viewPane.populateBean(webAttr.getWebView());
@@ -95,7 +96,11 @@ public class EditReportServerParameterPane extends LoadingBasicPane {
      * Update.
      */
     public void update(ServerConfig reportServerConfig) {
-        ReportWebConfig webAttr = ReportWebConfig.getInstance();
+        ReportWebAttr webAttr = ((ReportWebAttr)ConfigManager.getProviderInstance().getGlobalAttribute(ReportWebAttr.class));
+        if (webAttr == null) {
+            webAttr = new ReportWebAttr();
+            ConfigManager.getProviderInstance().putGlobalAttribute(ReportWebAttr.class, webAttr);
+        }
         webAttr.setWebPage(pagePane.updateBean());
         webAttr.setWebView(viewPane.updateBean());
         webAttr.setWebWrite(writePane.updateBean());

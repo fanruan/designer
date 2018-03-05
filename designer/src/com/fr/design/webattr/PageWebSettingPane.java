@@ -21,7 +21,7 @@ import com.fr.design.gui.core.WidgetOption;
 import com.fr.general.Inter;
 import com.fr.report.web.ToolBarManager;
 import com.fr.report.web.WebPage;
-import com.fr.web.attr.ReportWebConfig;
+import com.fr.web.attr.ReportWebAttr;
 
 public class PageWebSettingPane extends WebSettingPane<WebPage> {
 	private UIRadioButton centerRadioButton;
@@ -119,7 +119,7 @@ public class PageWebSettingPane extends WebSettingPane<WebPage> {
 	}
 
 	@Override
-	protected WebPage getWebContent(ReportWebConfig reportWebAttr) {
+	protected WebPage getWebContent(ReportWebAttr reportWebAttr) {
 		return reportWebAttr == null ? null :reportWebAttr.getWebPage();
 	}
 
@@ -129,7 +129,7 @@ public class PageWebSettingPane extends WebSettingPane<WebPage> {
 	}
 
 	@Override
-	protected void setWebContent(ReportWebConfig reportWebAttr,WebPage webContent) {
+	protected void setWebContent(ReportWebAttr reportWebAttr,WebPage webContent) {
 		reportWebAttr.setWebPage(webContent);
 	}
 }

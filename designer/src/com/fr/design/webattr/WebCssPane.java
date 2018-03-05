@@ -24,7 +24,7 @@ import com.fr.file.filter.ChooseFileFilter;
 import com.fr.general.Inter;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.StringUtils;
-import com.fr.web.attr.ReportWebConfig;
+import com.fr.web.attr.ReportWebAttr;
 
 public class WebCssPane extends BasicPane {
 	private UITextField localText;
@@ -98,7 +98,7 @@ public class WebCssPane extends BasicPane {
 		return Inter.getLocText("ReportServerP-Import_Css");
 	}
 
-	public void populate(ReportWebConfig reportWebAttr) {
+	public void populate(ReportWebAttr reportWebAttr) {
 		if (reportWebAttr == null) {
 			centerPane.populateBean(new ArrayList<String>());
 			return;
@@ -113,7 +113,7 @@ public class WebCssPane extends BasicPane {
 		centerPane.populateBean(list);
 	}
 
-	public void update(ReportWebConfig reportWebAttr) {
+	public void update(ReportWebAttr reportWebAttr) {
 		List<String> valueList = centerPane.updateBean();
 		reportWebAttr.clearCSSImportList();
 		for (int i = 0; i < valueList.size(); i++) {
