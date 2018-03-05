@@ -21,13 +21,14 @@ import java.awt.event.ActionEvent;
 public class WidgetManagerAction extends UpdateAction {
     public WidgetManagerAction() {
         this.setMenuKeySet(WIDGET_MANAGER);
-        this.setName(getMenuKeySet().getMenuKeySetName()+ "...");
+        this.setName(getMenuKeySet().getMenuKeySetName() + "...");
         this.setMnemonic(getMenuKeySet().getMnemonic());
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_format/modified.png"));
     }
 
     /**
      * 动作
+     *
      * @param e 事件
      */
     public void actionPerformed(ActionEvent e) {
@@ -35,14 +36,14 @@ public class WidgetManagerAction extends UpdateAction {
         final WidgetInfoConfig widgetManager = WidgetInfoConfig.getInstance();
         final WidgetManagerPane widgetManagerPane = new WidgetManagerPane() {
             @Override
-			public void complete() {
-                populate((WidgetInfoConfig)widgetManager.clone());
+            public void complete() {
+                populate(widgetManager.copy());
             }
         };
 
-        BasicDialog widgetConfigDialog = widgetManagerPane.showLargeWindow(designerFrame,new DialogActionAdapter() {
+        BasicDialog widgetConfigDialog = widgetManagerPane.showLargeWindow(designerFrame, new DialogActionAdapter() {
             @Override
-			public void doOk() {
+            public void doOk() {
                 Configurations.update(new Worker() {
                     @Override
                     public void run() {
@@ -66,7 +67,7 @@ public class WidgetManagerAction extends UpdateAction {
     }
 
     @Override
-	public void update() {
+    public void update() {
         this.setEnabled(true);
     }
 

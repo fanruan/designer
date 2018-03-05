@@ -26,7 +26,7 @@ import java.awt.event.ActionEvent;
 public class ServerConfigManagerAction extends UpdateAction {
     public ServerConfigManagerAction() {
         this.setMenuKeySet(SERVER_CONFIG_MANAGER);
-        this.setName(getMenuKeySet().getMenuKeySetName()+ "...");
+        this.setName(getMenuKeySet().getMenuKeySetName() + "...");
         this.setMnemonic(getMenuKeySet().getMnemonic());
         this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/m_web/edit.png"));
         this.setSearchText(new EditReportServerParameterPane().getAllComponents());
@@ -34,24 +34,25 @@ public class ServerConfigManagerAction extends UpdateAction {
 
     /**
      * 动作
+     *
      * @param e 事件
      */
     public void actionPerformed(ActionEvent e) {
         final ServerConfig config = ServerConfig.getInstance();
         final EditReportServerParameterPane editReportServerParameterPane = new EditReportServerParameterPane() {
             @Override
-			public void complete() {
-                populate((ServerConfig)config.clone());
+            public void complete() {
+                populate(config.copy());
             }
         };
 
         final BasicDialog editReportServerParameterDialog = editReportServerParameterPane.showWindow(
-        	DesignerContext.getDesignerFrame()
+                DesignerContext.getDesignerFrame()
         );
 
         editReportServerParameterDialog.addDialogActionListener(new DialogActionAdapter() {
             @Override
-			public void doOk() {
+            public void doOk() {
                 Configurations.update(new Worker() {
                     @Override
                     public void run() {
@@ -70,7 +71,7 @@ public class ServerConfigManagerAction extends UpdateAction {
     }
 
     @Override
-	public void update() {
+    public void update() {
         this.setEnabled(true);
     }
 

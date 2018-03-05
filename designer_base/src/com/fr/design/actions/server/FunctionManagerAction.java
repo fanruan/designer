@@ -59,7 +59,7 @@ public class FunctionManagerAction extends UpdateAction {
 
 			}
         });
-        functionManagerPane.populate((FunctionConfig) functionManager.clone());
+        functionManagerPane.populate(functionManager.copy());
         functionManagerDialog.setVisible(true);
     }
     
