@@ -26,8 +26,8 @@ import com.fr.design.fun.DesignerEnvProcessor;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrameFileDealerPane;
 import com.fr.file.CacheManager;
-import com.fr.file.DatasourceManager;
-import com.fr.file.DatasourceManagerProvider;
+import com.fr.file.ConnectionConfig;
+import com.fr.file.TableDataConfig;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.*;
 import com.fr.general.http.HttpClient;
@@ -1060,7 +1060,7 @@ public class RemoteEnv extends AbstractEnv {
      * DataSource中去除当前角色没有权限访问的数据源
      */
     public void removeNoPrivilegeConnection() {
-        DatasourceManagerProvider dm = DatasourceManager.getProviderInstance();
+        TableDataConfig dm = TableDataConfig.getInstance();
 
         try {
             HashMap<String, String> para = new HashMap<String, String>();
@@ -1075,8 +1075,8 @@ public class RemoteEnv extends AbstractEnv {
             ArrayList<String> toBeRemoveTDName = new ArrayList<String>();
             for (int i = 0; i < ja.length(); i++) {
                 String toBeRemoveConnName = (String) ((JSONObject) ja.get(i)).get("name");
-                dm.removeConnection(toBeRemoveConnName);
-                Iterator it = dm.getTableDataNameIterator();
+                ConnectionConfig.getInstance().removeConnection(toBeRemoveConnName);
+                Iterator it = dm.getTableDatas().keySet().iterator();
                 while (it.hasNext()) {
                     String tdName = (String) it.next();
                     TableData td = dm.getTableData(tdName);

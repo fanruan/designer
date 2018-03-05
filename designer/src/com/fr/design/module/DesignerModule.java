@@ -2,7 +2,6 @@ package com.fr.design.module;
 
 import com.fr.base.BaseFormula;
 import com.fr.base.BaseUtils;
-import com.fr.base.ConfigManager;
 import com.fr.base.FRContext;
 import com.fr.base.Formula;
 import com.fr.base.MultiFieldParameter;
@@ -11,6 +10,7 @@ import com.fr.base.TempNameStyle;
 import com.fr.base.io.XMLEncryptUtils;
 import com.fr.base.process.ProcessOperator;
 import com.fr.base.remote.RemoteDeziConstants;
+import com.fr.config.ServerConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.core.ActionFactory;
@@ -395,8 +395,7 @@ public class DesignerModule extends DesignModule {
             public void actionPerformed(ActionEvent e) {
                 try {
                     for (int i = 0; i < namelist.size(); i++) {
-                        ConfigManager.getProviderInstance().putStyle(namelist.get(i), Style.DEFAULT_STYLE);
-                        FRContext.getCurrentEnv().writeResource(ConfigManager.getProviderInstance());
+                        ServerConfig.getInstance().putStyle(namelist.get(i), Style.DEFAULT_STYLE);
                     }
                 } catch (Exception ex) {
                     FRLogger.getLogger().error(ex.getMessage());

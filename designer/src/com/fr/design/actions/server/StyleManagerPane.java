@@ -1,18 +1,15 @@
 package com.fr.design.actions.server;
 
-import com.fr.base.FRContext;
-import com.fr.base.ConfigManagerProvider;
+import com.fr.config.ServerConfig;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.present.StyleArrayPane;
 import com.fr.general.Inter;
-import com.fr.stable.project.ProjectConstants;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 
 public class StyleManagerPane extends BasicPane {
 	private UITextField StyleTextField;
@@ -38,14 +35,15 @@ public class StyleManagerPane extends BasicPane {
 		return Inter.getLocText("ServerM-Predefined_Styles");
 	}
 	
-	public void populate(ConfigManagerProvider configManager) {
-		this.StyleTextField.setText(FRContext.getCurrentEnv().getPath() + File.separator +
-				ProjectConstants.RESOURCES_NAME +
-				File.separator + configManager.fileName());
+	public void populate(ServerConfig configManager) {
+		//todo 原来界面上显示的xml路径
+//		this.StyleTextField.setText(FRContext.getCurrentEnv().getPath() + File.separator +
+//				ProjectConstants.RESOURCES_NAME +
+//				File.separator + configManager.fileName());
 		this.styleArrayPane.populate(configManager);
 	}
 	
-	public void update(ConfigManagerProvider configManager) {
+	public void update(ServerConfig configManager) {
 		this.styleArrayPane.update(configManager);
 	}
 }

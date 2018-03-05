@@ -1,6 +1,5 @@
 package com.fr.design.webattr;
 
-import com.fr.base.ConfigManager;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.core.WidgetOption;
 import com.fr.design.gui.icombobox.UIComboBox;
@@ -13,9 +12,8 @@ import com.fr.form.event.Listener;
 import com.fr.general.Inter;
 import com.fr.report.web.ToolBarManager;
 import com.fr.report.web.WebContent;
-import com.fr.base.ConfigManagerProvider;
 import com.fr.stable.StringUtils;
-import com.fr.web.attr.ReportWebAttr;
+import com.fr.web.attr.ReportWebConfig;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,7 +22,7 @@ import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class WebSettingPane<T extends WebContent> extends BasicBeanPane<ReportWebAttr> {
+public abstract class WebSettingPane<T extends WebContent> extends BasicBeanPane<ReportWebConfig> {
 	private static final String[] CHOOSEITEM = new String[] {
             Inter.getLocText("FR-Designer_I_Want_To_Set_Single"),
             Inter.getLocText("FR-Designer_Using_Server_Report_View_Settings")
@@ -119,7 +117,7 @@ public abstract class WebSettingPane<T extends WebContent> extends BasicBeanPane
 	protected abstract String[] getEventNames();
 
 	@Override
-	public void populateBean(ReportWebAttr reportWebAttr) {
+	public void populateBean(ReportWebConfig reportWebAttr) {
 		if (reportWebAttr == null || this.getWebContent(reportWebAttr) == null) {// 如果是空值就说明采用服务器配置了
 			choseComboBox.removeItemListener(itemListener);
 			choseComboBox.setSelectedIndex(SERVER_SET);
@@ -147,7 +145,7 @@ public abstract class WebSettingPane<T extends WebContent> extends BasicBeanPane
 
 	}
 
-	public void update(ReportWebAttr reportWebAttr) {
+	public void update(ReportWebConfig reportWebAttr) {
 		if (this.choseComboBox.getSelectedIndex() == SERVER_SET) {
 			setWebContent(reportWebAttr, null);
 			reportWebAttr =  is_Null_ReportWebAttr(reportWebAttr) ? null : reportWebAttr;
@@ -157,11 +155,11 @@ public abstract class WebSettingPane<T extends WebContent> extends BasicBeanPane
 	}
 
 	@Override
-	public ReportWebAttr updateBean() {
+	public ReportWebConfig updateBean() {
 		return null;
 	}
 
-	private ReportWebAttr TemplateupdateBean(ReportWebAttr reportWebAttr) {
+	private ReportWebConfig TemplateupdateBean(ReportWebConfig reportWebAttr) {
 		T webContent = updateSubWebSettingBean();
 		ToolBarManager[] toolBarManagers = dragToolBarPane.updateBean();
 		webContent.setToolBarManagers(toolBarManagers);
@@ -173,13 +171,13 @@ public abstract class WebSettingPane<T extends WebContent> extends BasicBeanPane
 		return reportWebAttr;
 	}
 
-	protected abstract T getWebContent(ReportWebAttr reportWebAttr);
+	protected abstract T getWebContent(ReportWebConfig reportWebAttr);
 
 	protected abstract void populateSubWebSettingrBean(T ob);
 
 	protected abstract T updateSubWebSettingBean();
 
-	protected abstract void setWebContent(ReportWebAttr reportWebAttr, T ob);
+	protected abstract void setWebContent(ReportWebConfig reportWebAttr, T ob);
 
 	protected abstract WidgetOption[] getToolBarInstance();
 
@@ -191,8 +189,7 @@ public abstract class WebSettingPane<T extends WebContent> extends BasicBeanPane
 	}
 
 	private void populateServerSettings() {
-        ConfigManagerProvider configManager = ConfigManager.getProviderInstance();
-		ReportWebAttr reportWebAttr = ((ReportWebAttr)configManager.getGlobalAttribute(ReportWebAttr.class));
+		ReportWebConfig reportWebAttr = ReportWebConfig.getInstance();
 		T webContent = this.getWebContent(reportWebAttr);
 		if(webContent == null){
 			return;
@@ -217,7 +214,7 @@ public abstract class WebSettingPane<T extends WebContent> extends BasicBeanPane
      *
      * @return 模板web属性书否为空
      */
-	public static boolean is_Null_ReportWebAttr(ReportWebAttr reportWebAttr) {
+	public static boolean is_Null_ReportWebAttr(ReportWebConfig reportWebAttr) {
 		if (reportWebAttr == null) {
 			return true;
 		}

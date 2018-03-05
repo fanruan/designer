@@ -40,7 +40,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.menu.SeparatorDef;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.file.DatasourceManager;
+import com.fr.file.ConnectionConfig;
 import com.fr.general.Inter;
 import com.fr.script.Calculator;
 import com.fr.stable.ArrayUtils;
@@ -167,7 +167,7 @@ public class ProcedureDataPane extends AbstractTableDataPane<StoreProcedure> imp
     }
 
     private boolean isAutoParameterDatabase() {
-        Connection connection = DatasourceManager.getProviderInstance().getConnection(connectionTableProcedurePane.getSelectedDatabaseConnnectonName());
+        Connection connection = ConnectionConfig.getInstance().getConnection(connectionTableProcedurePane.getSelectedDatabaseConnnectonName());
         return connection == null ? false : ArrayUtils.contains(DRIVERS, connection.getDriver());
     }
 

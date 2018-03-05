@@ -26,8 +26,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.file.DatasourceManager;
-import com.fr.file.DatasourceManagerProvider;
+import com.fr.file.ConnectionConfig;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
@@ -179,9 +178,9 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
 
     protected void initDsNameComboBox() {
         dsNameComboBox.setRefreshingModel(true);
-        DatasourceManagerProvider datasourceManager = DatasourceManager.getProviderInstance();
+        ConnectionConfig connectionConfig = ConnectionConfig.getInstance();
         @SuppressWarnings("unchecked")
-        Iterator<String> datasourceNameIterator = datasourceManager.getConnectionNameIterator();
+        Iterator<String> datasourceNameIterator = connectionConfig.getConnectionNameIterator();
         List<String> dsList = new ArrayList<String>();
         while (datasourceNameIterator.hasNext()) {
             dsList.add((String) datasourceNameIterator.next());
@@ -286,13 +285,13 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
         if (StringUtils.isEmpty(selectedDSName)) {
             return null; // peter:选中了当前的零长度的节点,直接返回.
         }
-        DatasourceManagerProvider datasourceManager = DatasourceManager.getProviderInstance();
+        ConnectionConfig connectionConfig = ConnectionConfig.getInstance();
         @SuppressWarnings("unchecked")
-        Iterator<String> datasourceNameIterator = datasourceManager.getConnectionNameIterator();
+        Iterator<String> datasourceNameIterator = connectionConfig.getConnectionNameIterator();
         while (datasourceNameIterator.hasNext()) {
             String datasourceName = datasourceNameIterator.next();
             if (ComparatorUtils.equals(selectedDSName, datasourceName)) {
-                return datasourceManager.getConnection(datasourceName);
+                return connectionConfig.getConnection(datasourceName);
             }
         }
         return null;

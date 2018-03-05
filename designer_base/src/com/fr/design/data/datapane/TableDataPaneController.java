@@ -1,7 +1,7 @@
 package com.fr.design.data.datapane;
 
 import com.fr.data.TableDataSource;
-import com.fr.file.DatasourceManagerProvider;
+import com.fr.file.TableDataConfig;
 
 import javax.swing.*;
 import java.util.Map;
@@ -39,9 +39,9 @@ public interface TableDataPaneController {
      */
     boolean isNamePermitted();
 
-    void populate(DatasourceManagerProvider datasourceManagerProvider);
+    void populate(TableDataConfig tableDataConfig);
 
-    void update(DatasourceManagerProvider datasourceManagerProvider);
+    void update(TableDataConfig tableDataConfig);
 
     void populate(TableDataSource datasourceManagerProvider);
 

@@ -1,6 +1,7 @@
 package com.fr.design.data.datapane.connect;
 
 import com.fr.base.FRContext;
+import com.fr.config.Configuration;
 import com.fr.data.impl.AbstractDatabaseConnection;
 import com.fr.data.impl.Connection;
 import com.fr.data.impl.NameDatabaseConnection;
@@ -8,10 +9,12 @@ import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.server.ConnectionListAction;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
-import com.fr.file.DatasourceManager;
-import com.fr.file.DatasourceManagerProvider;
+import com.fr.design.mainframe.DesignerContext;
+import com.fr.file.ConnectionConfig;
 import com.fr.general.ComparatorUtils;
 import com.fr.stable.StringUtils;
+import com.fr.transaction.Configurations;
+import com.fr.transaction.Worker;
 
 import javax.swing.*;
 import java.awt.event.ItemEvent;
@@ -57,8 +60,8 @@ public class ConnectionComboBoxPanel extends ItemEditableComboBoxPanel {
     protected Iterator<String> items() {
         nameList = new ArrayList<String>();
 
-        DatasourceManagerProvider mgr = DatasourceManager.getProviderInstance();
-        Iterator<String> nameIt = mgr.getConnectionNameIterator();
+        ConnectionConfig mgr = ConnectionConfig.getInstance();
+        Iterator<String> nameIt = mgr.getConnections().keySet().iterator();
         while (nameIt.hasNext()) {
             String conName = nameIt.next();
             Connection connection = mgr.getConnection(conName);
@@ -85,9 +88,8 @@ public class ConnectionComboBoxPanel extends ItemEditableComboBoxPanel {
      */
     protected void editItems() {
         final ConnectionListPane connectionListPane = new ConnectionListPane();
-        final DatasourceManagerProvider datasourceManager = DatasourceManager.getProviderInstance();
-        final DatasourceManager backupManager = datasourceManager.getBackUpManager();
-        connectionListPane.populate(datasourceManager);
+        final ConnectionConfig connectionConfig = ConnectionConfig.getInstance();
+        connectionListPane.populate((ConnectionConfig) connectionConfig.clone());
         final BasicDialog connectionListDialog = connectionListPane.showLargeWindow(
                 SwingUtilities.getWindowAncestor(ConnectionComboBoxPanel.this), null);
         connectionListDialog.addDialogActionListener(new DialogActionAdapter() {
@@ -96,17 +98,24 @@ public class ConnectionComboBoxPanel extends ItemEditableComboBoxPanel {
                     connectionListDialog.setDoOKSucceed(false);
                     return;
                 }
-                if (!ConnectionListAction.doWithDatasourceManager(datasourceManager, backupManager, connectionListPane,
-                        connectionListDialog)) {
-                    //如果更新失败，则不关闭对话框，也不写xml文件，并且将对话框定位在请重命名的那个对象页面
-                    return;
-                }
-                // marks:保存数据
-                ConnectionListAction.writeFile(datasourceManager);
-            }
+                Configurations.update(new Worker() {
+                    @Override
+                    public void run() {
+                        if (!ConnectionListAction.doWithDatasourceManager(connectionConfig, connectionListPane,
+                                connectionListDialog)) {
+                            //如果更新失败，则不关闭对话框，也不写xml文件，并且将对话框定位在请重命名的那个对象页面
+                            return;
+                        }
+                        connectionListPane.update(connectionConfig);
+                        DesignerContext.getDesignerBean("databasename").refreshBeanElement();
+                    }
 
-            public void doCancel() {
-                datasourceManager.synchronizedWithServer();
+                    @Override
+                    public Class<? extends Configuration>[] targets() {
+                        return new Class[]{ConnectionConfig.class};
+                    }
+                });
+
             }
         });
         connectionListDialog.setVisible(true);

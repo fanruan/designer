@@ -2,10 +2,10 @@ package com.fr.grid.selection;
 
 import com.fr.base.BaseFormula;
 import com.fr.base.BaseUtils;
-import com.fr.base.ConfigManager;
 import com.fr.base.NameStyle;
 import com.fr.base.Utils;
 import com.fr.cache.list.IntList;
+import com.fr.config.ServerConfig;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.actions.cell.CellAttributeAction;
 import com.fr.design.actions.cell.CellExpandAttrAction;
@@ -456,10 +456,10 @@ public class CellSelection extends Selection {
         popup.add(DeprecatedActionManager.getCellMenu(ePane).createJMenu());
         // richer:add global style menu
         popup.add(new CellExpandAttrAction().createMenuItem());
-        if (!ConfigManager.getProviderInstance().hasStyle()) {
+        if (!ServerConfig.getInstance().hasStyle()) {
             UIMenu styleMenu = new UIMenu(KeySetUtils.GLOBAL_STYLE.getMenuName());
             styleMenu.setIcon(BaseUtils.readIcon("/com/fr/design/images/m_format/cell.png"));
-            Iterator iterato = ConfigManager.getProviderInstance().getStyleNameIterator();
+            Iterator iterato = ServerConfig.getInstance().getStyleNameIterator();
             while (iterato.hasNext()) {
                 String name = (String) iterato.next();
                 name = GlobalStyleMenuDef.judgeChina(name);

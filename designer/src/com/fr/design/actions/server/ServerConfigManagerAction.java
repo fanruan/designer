@@ -3,10 +3,8 @@
  */
 package com.fr.design.actions.server;
 
-import com.fr.base.ConfigManager;
-import com.fr.base.ConfigManagerProvider;
-import com.fr.base.Env;
-import com.fr.base.FRContext;
+import com.fr.config.Configuration;
+import com.fr.config.ServerConfig;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
@@ -15,6 +13,9 @@ import com.fr.design.menu.MenuKeySet;
 import com.fr.design.webattr.EditReportServerParameterPane;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
+import com.fr.transaction.Configurations;
+import com.fr.transaction.Worker;
+import com.fr.web.attr.ReportWebConfig;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -36,11 +37,11 @@ public class ServerConfigManagerAction extends UpdateAction {
      * @param e 事件
      */
     public void actionPerformed(ActionEvent e) {
-        final ConfigManagerProvider configManager = ConfigManager.getProviderInstance();
+        final ServerConfig config = ServerConfig.getInstance();
         final EditReportServerParameterPane editReportServerParameterPane = new EditReportServerParameterPane() {
             @Override
 			public void complete() {
-                populate(configManager);
+                populate((ServerConfig)config.clone());
             }
         };
 
@@ -51,13 +52,18 @@ public class ServerConfigManagerAction extends UpdateAction {
         editReportServerParameterDialog.addDialogActionListener(new DialogActionAdapter() {
             @Override
 			public void doOk() {
-                editReportServerParameterPane.update(configManager);
-                Env currentEnv = FRContext.getCurrentEnv();
-                try {
-                    currentEnv.writeResource(configManager);
-                } catch (Exception ex) {
-                    FRContext.getLogger().error(ex.getMessage(), ex);
-                }
+                Configurations.update(new Worker() {
+                    @Override
+                    public void run() {
+                        editReportServerParameterPane.update(config);
+                    }
+
+                    @Override
+                    public Class<? extends Configuration>[] targets() {
+                        return new Class[]{ReportWebConfig.class, ServerConfig.class};
+                    }
+                });
+
             }
         });
         editReportServerParameterDialog.setVisible(true);

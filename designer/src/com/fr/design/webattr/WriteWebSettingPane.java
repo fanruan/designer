@@ -13,7 +13,7 @@ import com.fr.general.Inter;
 import com.fr.report.web.ToolBarManager;
 import com.fr.report.web.WebWrite;
 import com.fr.stable.Constants;
-import com.fr.web.attr.ReportWebAttr;
+import com.fr.web.attr.ReportWebConfig;
 
 import javax.swing.*;
 import java.awt.*;
@@ -180,7 +180,7 @@ public class WriteWebSettingPane extends WebSettingPane<WebWrite> {
     }
 
     @Override
-    protected WebWrite getWebContent(ReportWebAttr reportWebAttr) {
+    protected WebWrite getWebContent(ReportWebConfig reportWebAttr) {
         return reportWebAttr == null ? null : reportWebAttr.getWebWrite();
     }
 
@@ -190,7 +190,7 @@ public class WriteWebSettingPane extends WebSettingPane<WebWrite> {
     }
 
     @Override
-    protected void setWebContent(ReportWebAttr reportWebAttr, WebWrite webContent) {
+    protected void setWebContent(ReportWebConfig reportWebAttr, WebWrite webContent) {
         reportWebAttr.setWebWrite(webContent);
     }
 

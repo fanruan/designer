@@ -1,9 +1,7 @@
 package com.fr.design.formula;
 
 import com.fr.base.FRContext;
-import com.fr.file.FunctionManager;
-import com.fr.file.FunctionManagerProvider;
-import com.fr.function.*;
+import com.fr.file.FunctionConfig;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.plugin.ExtraClassManager;
@@ -94,7 +92,7 @@ public abstract class FunctionConstants {
 		
 		@Override
 		public NameAndDescription[] getDescriptions() {
-            FunctionManagerProvider funtionManager = FunctionManager.getProviderInstance();
+            FunctionConfig funtionManager = FunctionConfig.getInstance();
 			if (funtionManager != null) {
 				int functionDefCount = funtionManager.getFunctionDefCount();
 

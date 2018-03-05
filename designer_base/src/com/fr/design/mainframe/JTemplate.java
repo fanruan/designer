@@ -618,15 +618,6 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
                 return false;
             }
 
-            if (BaseUtils.isAuthorityEditing()) {
-                //触发保存服务器工具栏
-                try {
-                    FRContext.getCurrentEnv().writeResource(ConfigManager.getProviderInstance());
-                } catch (Exception e1) {
-                    FRContext.getLogger().error(e1.getMessage());
-                }
-            }
-
         } catch (Exception e) {
             FRContext.getLogger().error(e.getMessage(), e);
             JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), e.getMessage(), "Save Error", JOptionPane.ERROR_MESSAGE);

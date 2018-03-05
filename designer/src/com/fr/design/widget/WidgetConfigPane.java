@@ -6,7 +6,7 @@ import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.core.WidgetConstants;
 import com.fr.form.ui.UserDefinedWidgetConfig;
 import com.fr.form.ui.WidgetConfig;
-import com.fr.form.ui.WidgetManagerProvider;
+import com.fr.form.ui.WidgetInfoConfig;
 import com.fr.general.NameObject;
 import com.fr.stable.Nameable;
 
@@ -36,7 +36,7 @@ public class WidgetConfigPane extends JListControlPane {
 		return "config";
 	}
 	
-	public void populate(WidgetManagerProvider widgetManager){
+	public void populate(WidgetInfoConfig widgetManager){
 		Iterator<String> nameIt = widgetManager.getWidgetConfigNameIterator();
 		List<NameObject> nameObjectList = new ArrayList<NameObject>();
 		while (nameIt.hasNext()) {
@@ -46,7 +46,7 @@ public class WidgetConfigPane extends JListControlPane {
 		this.populate(nameObjectList.toArray(new NameObject[nameObjectList.size()]));	
 	}
 	
-	public void update(WidgetManagerProvider widgetManager){
+	public void update(WidgetInfoConfig widgetManager){
 		Nameable[] res = this.update();
 		NameObject[] res_array = new NameObject[res.length];
 		java.util.Arrays.asList(res).toArray(res_array);

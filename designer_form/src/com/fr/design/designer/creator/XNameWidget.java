@@ -62,7 +62,7 @@ public class XNameWidget extends XWidgetCreator {
 	
 	protected JComponent initEditor() {
 		if (editor == null) {
-			WidgetManagerProvider widgetManager = WidgetManager.getProviderInstance();
+			WidgetInfoConfig widgetManager = WidgetInfoConfig.getInstance();
 			WidgetConfig wc = widgetManager.getWidgetConfig(toData().getName());
 			Widget widget;
 			if (wc != null && (widget= wc.toWidget()) != null) {

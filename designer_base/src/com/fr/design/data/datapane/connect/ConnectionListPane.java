@@ -8,7 +8,7 @@ import com.fr.design.fun.ConnectionProvider;
 import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
-import com.fr.file.DatasourceManagerProvider;
+import com.fr.file.ConnectionConfig;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.general.NameObject;
@@ -130,15 +130,15 @@ public class ConnectionListPane extends JListControlPane implements ConnectionSh
     /**
      * Populate.
      *
-     * @param datasourceManager the new datasourceManager.
+     * @param connectionConfig the new datasourceManager.
      */
-    public void populate(DatasourceManagerProvider datasourceManager) {
-        Iterator<String> nameIt = datasourceManager.getConnectionNameIterator();
+    public void populate(ConnectionConfig connectionConfig) {
+        Iterator<String> nameIt = connectionConfig.getConnectionNameIterator();
 
         List<NameObject> nameObjectList = new ArrayList<NameObject>();
         while (nameIt.hasNext()) {
             String name = nameIt.next();
-            nameObjectList.add(new NameObject(name, datasourceManager.getConnection(name)));
+            nameObjectList.add(new NameObject(name, connectionConfig.getConnection(name)));
         }
         this.populate(nameObjectList.toArray(new NameObject[nameObjectList.size()]));
 
@@ -147,17 +147,17 @@ public class ConnectionListPane extends JListControlPane implements ConnectionSh
     /**
      * Update.
      */
-    public void update(DatasourceManagerProvider datasourceManager) {
+    public void update(ConnectionConfig connectionConfig) {
         // Nameable[]居然不能强转成NameObject[],一定要这么写...
         Nameable[] res = this.update();
         NameObject[] res_array = new NameObject[res.length];
         java.util.Arrays.asList(res).toArray(res_array);
 
-        datasourceManager.clearAllConnection();
+        connectionConfig.clearAllConnection();
 
         for (int i = 0; i < res_array.length; i++) {
             NameObject nameObject = res_array[i];
-            datasourceManager.putConnection(nameObject.getName(), (Connection) nameObject.getObject());
+            connectionConfig.putConnection(nameObject.getName(), (Connection) nameObject.getObject());
         }
     }
 }

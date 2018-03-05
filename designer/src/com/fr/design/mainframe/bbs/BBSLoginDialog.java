@@ -1,7 +1,5 @@
 package com.fr.design.mainframe.bbs;
 
-import com.fr.base.ConfigManager;
-import com.fr.base.FRContext;
 import com.fr.design.bbs.BBSLoginUtils;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.gui.ibutton.UIButton;

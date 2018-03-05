@@ -1,12 +1,12 @@
 package com.fr.design.parameter;
 
 import com.fr.base.FRContext;
+import com.fr.config.ServerConfig;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.Inter;
-import com.fr.base.ConfigManagerProvider;
 import com.fr.stable.project.ProjectConstants;
 
 import javax.swing.*;
@@ -39,15 +39,16 @@ public class ParameterManagerPane extends BasicPane {
         return Inter.getLocText("M_Server-Global_Parameters");
     }
 
-    public void populate(ConfigManagerProvider configManager) {
-        this.parameterTextField.setText(FRContext.getCurrentEnv().getPath() + File.separator +
-                ProjectConstants.RESOURCES_NAME +
-                File.separator + configManager.fileName());
-        this.parameterArrayPane.populate(configManager.getGlobal_Parameters());
+    public void populate(ServerConfig configManager) {
+        //todo 原来界面上显示的xml路径
+//        this.parameterTextField.setText(FRContext.getCurrentEnv().getPath() + File.separator +
+//                ProjectConstants.RESOURCES_NAME +
+//                File.separator + configManager.fileName());
+        this.parameterArrayPane.populate(configManager.getGlobeParameters());
     }
 
-    public void update(ConfigManagerProvider configManager) {
-        configManager.setGlobal_Parameters(parameterArrayPane.updateParameters());
+    public void update(ServerConfig configManager) {
+        configManager.setGlobeParameters(parameterArrayPane.updateParameters());
     }
 
     /**

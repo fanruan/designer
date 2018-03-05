@@ -1,8 +1,8 @@
 package com.fr.design.mainframe.alphafine.component;
 
 import com.bulenkov.iconloader.IconLoader;
-import com.fr.base.ConfigManager;
 import com.fr.base.FRContext;
+import com.fr.config.ServerConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.help.alphafine.AlphaFineConfigManager;
 import com.fr.design.dialog.UIDialog;
@@ -775,7 +775,7 @@ public class AlphaFineDialog extends UIDialog {
      */
     private void sendDataToServer(String searchKey, AlphaCellModel cellModel) {
         if (cellModel.isNeedToSendToServer()) {
-            String username = ConfigManager.getProviderInstance().getBbsUsername();
+            String username = ServerConfig.getInstance().getBbsUsername();
             String uuid = DesignerEnvManager.getEnvManager().getUUID();
             String activityKey = DesignerEnvManager.getEnvManager().getActivationKey();
             String createTime = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(Calendar.getInstance().getTime());

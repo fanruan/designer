@@ -27,7 +27,7 @@ import com.fr.design.widget.IconDefinePane;
 import com.fr.form.ui.Button;
 import com.fr.form.ui.CustomToolBarButton;
 import com.fr.form.ui.Widget;
-import com.fr.form.ui.WidgetManager;
+import com.fr.form.ui.WidgetInfoConfig;
 import com.fr.general.Background;
 import com.fr.general.Inter;
 import com.fr.report.web.button.Export;
@@ -201,7 +201,7 @@ public class EditToolBar extends BasicPane {
 				if (widget instanceof Button) {
 					String iconname = ((Button) widget).getIconName();
 					if (StringUtils.isNotBlank(iconname)) {
-						Image iimage = WidgetManager.getProviderInstance().getIconManager().getIconImage(iconname);
+						Image iimage = WidgetInfoConfig.getInstance().getIconManager().getIconImage(iconname);
 						toolBarButton.setIcon(new ImageIcon(iimage));
 					}
 				}

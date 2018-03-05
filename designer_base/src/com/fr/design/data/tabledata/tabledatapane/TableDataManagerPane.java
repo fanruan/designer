@@ -1,6 +1,5 @@
 package com.fr.design.data.tabledata.tabledatapane;
 
-import com.fr.base.FRContext;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.data.datapane.TableDataPaneController;
@@ -10,13 +9,11 @@ import com.fr.design.gui.frpane.LoadingBasicPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.file.DatasourceManagerProvider;
+import com.fr.file.TableDataConfig;
 import com.fr.general.Inter;
-import com.fr.stable.project.ProjectConstants;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 import java.util.Map;
 
 public class TableDataManagerPane extends LoadingBasicPane {
@@ -77,14 +74,15 @@ public class TableDataManagerPane extends LoadingBasicPane {
 		return Inter.getLocText("DS-Server_TableData");
 	}
 
-	public void populate(DatasourceManagerProvider datasourceManager) {
-		this.tableDataTextField.setText(FRContext.getCurrentEnv().getPath() + File.separator + ProjectConstants.RESOURCES_NAME
-				+ File.separator + datasourceManager.fileName());
-		this.tableDataPane.populate(datasourceManager);
+	public void populate(TableDataConfig tableDataConfig) {
+		//todo 原来界面上显示的xml路径
+//		this.tableDataTextField.setText(FRContext.getCurrentEnv().getPath() + File.separator + ProjectConstants.RESOURCES_NAME
+//				+ File.separator + datasourceManager.fileName());
+		this.tableDataPane.populate(tableDataConfig);
 	}
 
-	public void update(DatasourceManagerProvider datasourceManager) {
-		this.tableDataPane.update(datasourceManager);
+	public void update(TableDataConfig tableDataConfig) {
+		this.tableDataPane.update(tableDataConfig);
 	}
 
     public Map<String, String> getDsChangedNameMap () {

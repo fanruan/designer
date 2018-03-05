@@ -5,25 +5,18 @@ package com.fr.design.actions.cell;
  */
 
 import com.fr.base.BaseUtils;
-import com.fr.base.ConfigManager;
 import com.fr.base.NameStyle;
-import com.fr.design.actions.ElementCaseAction;
+import com.fr.config.ServerConfig;
 import com.fr.design.actions.SelectionListenerAction;
-import com.fr.design.actions.TemplateComponentAction;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.gui.imenu.UIMenu;
 import com.fr.design.mainframe.CellElementPropertyPane;
-import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.menu.MenuDef;
-import com.fr.design.selection.SelectionEvent;
 import com.fr.design.selection.SelectionListener;
 import com.fr.design.style.StylePane;
 import com.fr.general.Inter;
-import com.fr.base.ConfigManagerProvider;
-import com.fr.grid.selection.CellSelection;
-import com.fr.grid.selection.Selection;
 import com.fr.stable.StringUtils;
 import com.fr.stable.pinyin.PinyinHelper;
 
@@ -79,8 +72,7 @@ public class GlobalStyleMenuDef extends MenuDef {
     public void updateMenu() {
         UIMenu createdMenu = this.createJMenu();
         createdMenu.removeAll();
-        ConfigManagerProvider configManager = ConfigManager.getProviderInstance();
-        Iterator iterator = configManager.getStyleNameIterator();
+        Iterator iterator = ServerConfig.getInstance().getStyleNameIterator();
         while (iterator.hasNext()) {
             String name = (String) iterator.next();
             NameStyle nameStyle = NameStyle.getInstance(name);

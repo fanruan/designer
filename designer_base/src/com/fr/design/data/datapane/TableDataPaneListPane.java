@@ -7,7 +7,8 @@ import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.ilist.ListModelElement;
-import com.fr.file.DatasourceManagerProvider;
+import com.fr.file.ProcedureConfig;
+import com.fr.file.TableDataConfig;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.general.NameObject;
@@ -191,30 +192,30 @@ public class TableDataPaneListPane extends JListControlPane implements TableData
      * Populate.
      */
     @Override
-    public void populate(DatasourceManagerProvider datasourceManager) {
-        Iterator<String> nameIt = datasourceManager.getTableDataNameIterator();
-        Iterator<String> procedurenameIt = datasourceManager.getProcedureNameIterator();
+    public void populate(TableDataConfig tableDataConfig) {
+        Iterator<String> nameIt = tableDataConfig.getTableDatas().keySet().iterator();
+        Iterator<String> procedurenameIt = ProcedureConfig.getInstance().getProcedures().keySet().iterator();
         List<NameObject> nameObjectList = new ArrayList<NameObject>();
         while (nameIt.hasNext()) {
             String name = nameIt.next();
-            nameObjectList.add(new NameObject(name, datasourceManager.getTableData(name)));
+            nameObjectList.add(new NameObject(name, tableDataConfig.getTableData(name)));
         }
         while (procedurenameIt.hasNext()) {
             String name = procedurenameIt.next();
-            nameObjectList.add(new NameObject(name, datasourceManager.getProcedureByName(name)));
+            nameObjectList.add(new NameObject(name,  ProcedureConfig.getInstance().getProcedure(name)));
         }
 
         populate(nameObjectList.toArray(new NameObject[nameObjectList.size()]));
     }
 
     @Override
-    public void update(DatasourceManagerProvider datasourceManager) {
-        datasourceManager.clearAllTableData();
-        datasourceManager.clearAllProcedure();
+    public void update(TableDataConfig tableDataConfig) {
+        tableDataConfig.removeAllTableData();
+        ProcedureConfig.getInstance().removeAllProcedure();
         Nameable[] tableDataArray = this.update();
         for (int i = 0; i < tableDataArray.length; i++) {
             NameObject nameObject = (NameObject) tableDataArray[i];
-            datasourceManager.putTableData(nameObject.getName(), (TableData) nameObject.getObject());
+            tableDataConfig.addTableData(nameObject.getName(), (TableData) nameObject.getObject());
         }
     }
 

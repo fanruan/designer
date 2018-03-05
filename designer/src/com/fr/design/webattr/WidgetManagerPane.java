@@ -6,7 +6,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.widget.WidgetConfigPane;
-import com.fr.form.ui.WidgetManagerProvider;
+import com.fr.form.ui.WidgetInfoConfig;
 import com.fr.general.Inter;
 import com.fr.stable.project.ProjectConstants;
 
@@ -40,14 +40,15 @@ public class WidgetManagerPane extends LoadingBasicPane {
     	return Inter.getLocText("ServerM-Widget_Manager");
     }
 
-	public void populate(WidgetManagerProvider widgetManager) {
-		this.widgetTextField.setText(FRContext.getCurrentEnv().getPath() + File.separator +
-                ProjectConstants.RESOURCES_NAME +
-                File.separator + widgetManager.fileName());
+	public void populate(WidgetInfoConfig widgetManager) {
+    	//todo  原来界面上显示的xml路径
+//		this.widgetTextField.setText(FRContext.getCurrentEnv().getPath() + File.separator +
+//                ProjectConstants.RESOURCES_NAME +
+//                File.separator + widgetManager.fileName());
 		this.widgetConfigPane.populate(widgetManager);
 	}
 	
-	public void update(WidgetManagerProvider widgetManager) {
+	public void update(WidgetInfoConfig widgetManager) {
 		this.widgetConfigPane.update(widgetManager);
 	}
 }

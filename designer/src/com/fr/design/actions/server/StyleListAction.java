@@ -1,9 +1,7 @@
 package com.fr.design.actions.server;
 
-import com.fr.base.BaseUtils;
-import com.fr.base.ConfigManager;
-import com.fr.base.Env;
-import com.fr.base.FRContext;
+import com.fr.config.Configuration;
+import com.fr.config.ServerConfig;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
@@ -12,6 +10,8 @@ import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
+import com.fr.transaction.Configurations;
+import com.fr.transaction.Worker;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -40,18 +40,22 @@ public class StyleListAction extends UpdateAction {
 		styleListDialog.addDialogActionListener(new DialogActionAdapter() {
 			@Override
 			public void doOk() {
-				styleListPane.update(ConfigManager.getProviderInstance());
-				//marks:保存数据
-				Env currentEnv = FRContext.getCurrentEnv();
-				try {
-					currentEnv.writeResource(ConfigManager.getProviderInstance());
-				} catch (Exception e) {
-					FRContext.getLogger().error(e.getMessage(), e);
-				}	
+				Configurations.update(new Worker() {
+					@Override
+					public void run() {
+						styleListPane.update(ServerConfig.getInstance());
+					}
+
+					@Override
+					public Class<? extends Configuration>[] targets() {
+						return new Class[]{ServerConfig.class};
+					}
+				});
+
 			}                
         });
 
-        styleListPane.populate(ConfigManager.getProviderInstance());
+        styleListPane.populate((ServerConfig) ServerConfig.getInstance().clone());
 		styleListDialog.setVisible(true);
 	
 	}

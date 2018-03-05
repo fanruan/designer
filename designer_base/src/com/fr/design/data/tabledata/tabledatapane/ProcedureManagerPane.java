@@ -1,17 +1,14 @@
 package com.fr.design.data.tabledata.tabledatapane;
 
-import com.fr.base.FRContext;
 import com.fr.design.gui.frpane.LoadingBasicPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.file.DatasourceManagerProvider;
+import com.fr.file.ProcedureConfig;
 import com.fr.general.Inter;
-import com.fr.stable.project.ProjectConstants;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 
 public class ProcedureManagerPane extends LoadingBasicPane {
 	private UITextField connectionTextField;
@@ -38,14 +35,15 @@ public class ProcedureManagerPane extends LoadingBasicPane {
 		return Inter.getLocText("Datasource-Stored_Procedure");
 	}
 
-	public void populate(DatasourceManagerProvider datasourceManager) {
-		this.connectionTextField.setText(FRContext.getCurrentEnv().getPath() + File.separator + ProjectConstants.RESOURCES_NAME
-				+ File.separator + datasourceManager.fileName());
-		this.procedureListPane.populate(datasourceManager);
+	public void populate(ProcedureConfig procedureConfig) {
+		//todo 原来界面上显示的xml路径
+//		this.connectionTextField.setText(FRContext.getCurrentEnv().getPath() + File.separator + ProjectConstants.RESOURCES_NAME
+//				+ File.separator + datasourceManager.fileName());
+		this.procedureListPane.populate(procedureConfig);
 	}
 
-	public void update(DatasourceManagerProvider datasourceManager) {
-		this.procedureListPane.update(datasourceManager);
+	public void update(ProcedureConfig procedureConfig) {
+		this.procedureListPane.update(procedureConfig);
 	}
 
 }

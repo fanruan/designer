@@ -3,8 +3,8 @@
  */
 package com.fr.design.mainframe.bbs;
 
-import com.fr.base.ConfigManager;
 import com.fr.base.FRContext;
+import com.fr.config.ServerConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.dialog.BasicPane;
@@ -78,7 +78,7 @@ public class UserInfoPane extends BasicPane{
 		GeneralContext.addEnvChangedListener(new EnvChangedListener() {
 			@Override
 			public void envChanged() {
-				String username = ConfigManager.getProviderInstance().getBbsUsername();
+				String username = ServerConfig.getInstance().getBbsUsername();
 				if (StringUtils.isEmpty(username)){
 					markUnSignIn();
 				} else {
@@ -133,7 +133,7 @@ public class UserInfoPane extends BasicPane{
 					FRContext.getLogger().error(e.getMessage());
 				}
 				
-				String userName = ConfigManager.getProviderInstance().getBbsUsername();
+				String userName = ServerConfig.getInstance().getBbsUsername();
 				if(StringUtils.isNotEmpty(userName)){
 					return;
 				}

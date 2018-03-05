@@ -1,7 +1,5 @@
 package com.fr.design.mainframe.widget.accessibles;
 
-import com.fr.base.Env;
-import com.fr.base.FRContext;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.widget.editors.ITextComponent;
 import com.fr.design.mainframe.widget.renderer.IconCellRenderer;
@@ -9,10 +7,7 @@ import com.fr.design.mainframe.widget.wrappers.IconWrapper;
 import com.fr.design.web.CustomIconPane;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
-import com.fr.form.ui.WidgetManager;
 
-import javax.swing.*;
-import java.awt.*;
 
 public class AccessibleIconEditor extends UneditableAccessibleEditor {
 
@@ -39,13 +34,6 @@ public class AccessibleIconEditor extends UneditableAccessibleEditor {
             public void doOk() {
                 setValue(customIconPane.update());
                 fireStateChanged();
-
-				Env currentEnv = FRContext.getCurrentEnv();
-				try {
-					currentEnv.writeResource(WidgetManager.getProviderInstance());
-				} catch (Exception ex) {
-					FRContext.getLogger().error(ex.getMessage(), ex);
-				}
             }
         });
         customIconPane.populate((String) this.getValue());

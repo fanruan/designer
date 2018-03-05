@@ -225,7 +225,7 @@ public class WidgetPane extends AbstractAttrNoScrollPane implements ItemListener
             for (int i = 0, l = reportWidgetInstance.length; i < l; i++) {
                 items.add(new Item(reportWidgetInstance[i].optionName(), i));
             }
-            WidgetManagerProvider manager = WidgetManager.getProviderInstance();
+            WidgetInfoConfig manager = WidgetInfoConfig.getInstance();
             java.util.Iterator<String> nameIt = manager.getWidgetConfigNameIterator();
             if (userDefined && nameIt.hasNext()) {
                 items.add(item);

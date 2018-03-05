@@ -2,8 +2,8 @@ package com.fr.design.report;
 
 
 import com.fr.base.BaseUtils;
-import com.fr.base.ConfigManager;
 import com.fr.base.FRContext;
+import com.fr.config.ServerConfig;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -29,7 +29,7 @@ public class WriteShortCutsPane extends JPanel{
 		this.add(getFeatureNamePane());
 		this.add(getHintsPane());
 		
-		if(!ConfigManager.getProviderInstance().isWriteShortCuts()){
+		if(!ServerConfig.getInstance().isWriteShortCuts()){
 			nextColString = "Enter";
 			nextRowString = "Tab";
 			switchColRow();
@@ -104,13 +104,8 @@ public class WriteShortCutsPane extends JPanel{
 				nextColString = nextRowString;
 				nextRowString = temp;
 				switchColRow();
-				
-				ConfigManager.getProviderInstance().setWriteShortCuts(ComparatorUtils.equals(nextColString, "Tab"));
-				try {
-					FRContext.getCurrentEnv().writeResource(ConfigManager.getProviderInstance());
-				} catch (Exception e1) {
-					FRContext.getLogger().error(e1.getMessage());
-				}
+
+				ServerConfig.getInstance().setWriteShortCuts(ComparatorUtils.equals(nextColString, "Tab"));
 			}
 		};
 		
