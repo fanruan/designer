@@ -15,7 +15,6 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.report.UnitFieldPane;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
@@ -24,9 +23,7 @@ import com.fr.print.NoClientPrintAttr;
 import com.fr.print.PrintAttr;
 import com.fr.print.nativeprint.core.NativePrintConfigManager;
 import com.fr.report.stable.ReportConstants;
-import com.fr.report.web.button.Print;
 import com.fr.stable.Constants;
-import com.fr.web.attr.ReportWebAttr;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -47,11 +44,11 @@ import java.awt.event.ItemListener;
  * Created by plough on 2018/3/1.
  */
 public class PrintSettingPane extends BasicPane {
-    private UIRadioButton noClientPrintRadioButton = new UIRadioButton("零客户端打印");
-    private UIRadioButton nativePrintRadioButton = new UIRadioButton("本地软件打印");
+    private UIRadioButton noClientPrintRadioButton = new UIRadioButton(Inter.getLocText("FR-Designer_No_Client_Print"));
+    private UIRadioButton nativePrintRadioButton = new UIRadioButton(Inter.getLocText("FR-Designer_Native_Print"));
     private UIRadioButton topBottomRadioButton;
     private UIRadioButton leftRightRadioButton;
-    private UICheckBox setMarginOnPrintCheck;
+    private UICheckBox setMarginWhenPrintCheck;
     private CardLayout printCard;
     private JPanel printPane;
 
@@ -108,18 +105,18 @@ public class PrintSettingPane extends BasicPane {
     private JPanel getNoClientPrintPane() {
         JPanel printPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 
-        setMarginOnPrintCheck = new UICheckBox("打印时可设置打印边距");
-        setMarginOnPrintCheck.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
-        UILabel tipLabel = getTipLabel("提示：若不勾选，则使用如下默认设置中的打印边距。");
+        setMarginWhenPrintCheck = new UICheckBox(Inter.getLocText("FR-Designer_Set_Margin_When_Printing"));
+        setMarginWhenPrintCheck.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
+        UILabel tipLabel = getTipLabel(Inter.getLocText("FR-Designer_Tip_Use_Default_Print_Margin"));
         JPanel northPane = GUICoreUtils.createFlowPane(new Component[] {
-                setMarginOnPrintCheck, tipLabel}, FlowLayout.LEFT);
+                setMarginWhenPrintCheck, tipLabel}, FlowLayout.LEFT);
         northPane.setBorder(BorderFactory.createEmptyBorder(8, 10, 10, 0));
 
         printPane.add(northPane, BorderLayout.NORTH);
 
-        JPanel centerPane = FRGUIPaneFactory.createTitledBorderPane("默认配置");
+        JPanel centerPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Default_Settings"));
 
-        UICheckBox inheritPageMarginSettingCheck = getNoBorderCheckBox("继承页面边距设置");
+        UICheckBox inheritPageMarginSettingCheck = getNoBorderCheckBox(Inter.getLocText("FR-Designer_Inherit_Page_Margin_Setting"));
         JPanel pageMarginSettingPane = getPageMarginSettingPane();
         pageMarginSettingPane.setBorder(BorderFactory.createEmptyBorder(10, -10, 0, 0));
         JPanel pageMarginCheckPane = getCheckboxAndDynamicPane(inheritPageMarginSettingCheck, pageMarginSettingPane);
@@ -128,8 +125,8 @@ public class PrintSettingPane extends BasicPane {
         double[] rowSize = {p, p};
         double[] columnSize = {60, p};
         Component[][] components = {
-                {getTopAlignLabelPane("边距："), pageMarginCheckPane},
-                {getTopAlignLabelPane("顺序："), getPageOrderPane()}
+                {getTopAlignLabelPane(Inter.getLocText("FR-Designer_Margin") + ":"), pageMarginCheckPane},
+                {getTopAlignLabelPane(Inter.getLocText("FR-Designer_Order") + ":"), getPageOrderPane()}
         };
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 0, 15);
 
@@ -144,11 +141,11 @@ public class PrintSettingPane extends BasicPane {
         JPanel printPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 
         JPanel northPane = FRGUIPaneFactory.createNColumnGridInnerContainer_Pane(1, 0, 15);
-        UILabel tipDownload = getTipLabel("提示：本地软件打印需要终端下载客户端，但能支持更多、更强大的功能。");
+        UILabel tipDownload = getTipLabel(Inter.getLocText("FR-Designer_Tip_Native_Print_Need_Client"));
         northPane.add(tipDownload);
-        UICheckBox marginSettingCheck = new UICheckBox("打印时需要打印设置窗口");
+        UICheckBox marginSettingCheck = new UICheckBox(Inter.getLocText("FR-Designer_Show_Print_Setting_Window_When_Printing"));
         marginSettingCheck.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
-        UILabel tipCheck = getTipLabel("提示：若不勾选，则使用如下默认设置。");
+        UILabel tipCheck = getTipLabel(Inter.getLocText("FR-Designer_Tip_Use_Default_Settings"));
         JPanel checkPane =  GUICoreUtils.createFlowPane(new Component[] {
                 marginSettingCheck, tipCheck}, FlowLayout.LEFT);
         northPane.add(checkPane);
@@ -156,7 +153,7 @@ public class PrintSettingPane extends BasicPane {
 
         printPane.add(northPane, BorderLayout.NORTH);
 
-        JPanel centerPane = FRGUIPaneFactory.createTitledBorderPane("默认配置");
+        JPanel centerPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Default_Settings"));
 
 
 //        JPanel centerContentPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
@@ -189,24 +186,24 @@ public class PrintSettingPane extends BasicPane {
         JPanel copyPane = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
         copyPane.add(copySpinner);
 
-        UICheckBox inheritPagePaperSettingCheck = getNoBorderCheckBox("继承页面纸张设置");
+        UICheckBox inheritPagePaperSettingCheck = getNoBorderCheckBox(Inter.getLocText("FR-Designer_Inherit_Page_Paper_Setting"));
         JPanel paperSettingPane = getPaperSettingPane();
         JPanel paperSettingCheckPane = getCheckboxAndDynamicPane(inheritPagePaperSettingCheck, paperSettingPane);
 
-        UICheckBox inheritPageLayoutSettingCheck = getNoBorderCheckBox("继承页面布局设置");
+        UICheckBox inheritPageLayoutSettingCheck = getNoBorderCheckBox(Inter.getLocText("FR-Designer_Inherit_Page_Layout_Setting"));
         JPanel layoutSettingPane = getLayoutSettingPane();
         JPanel layoutSettingCheckPane = getCheckboxAndDynamicPane(inheritPageLayoutSettingCheck, layoutSettingPane);
 
-        UICheckBox zoomCheck = getNoBorderCheckBox("根据纸张大小缩放打印");
+        UICheckBox zoomCheck = getNoBorderCheckBox(Inter.getLocText("FR-Designer_Print_To_Fit_Paper_Size"));
 
         // 页码标签
-        UILabel printAreaLabel = new UILabel("页码：");
+        UILabel printAreaLabel = new UILabel(Inter.getLocText("FR-Engine-Page_Number") + ":");
         JPanel printAreaLabelPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         printAreaLabelPane.add(printAreaLabel, BorderLayout.NORTH);
         printAreaLabel.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
 
         // 边距
-        UICheckBox inheritPageMarginSettingCheck = getNoBorderCheckBox("继承页面边距设置");
+        UICheckBox inheritPageMarginSettingCheck = getNoBorderCheckBox(Inter.getLocText("FR-Designer_Inherit_Page_Margin_Setting"));
         JPanel pageMarginSettingPane = getPageMarginSettingPane();
         pageMarginSettingPane.setBorder(BorderFactory.createEmptyBorder(10, -10, 0, 0));
         JPanel pageMarginCheckPane = getCheckboxAndDynamicPane(inheritPageMarginSettingCheck, pageMarginSettingPane);
@@ -216,14 +213,14 @@ public class PrintSettingPane extends BasicPane {
         double[] rowSize = {p, p, p, p, p, p, p, p};
         double[] columnSize = {60, p};
         Component[][] components = {
-                {new UILabel("打印机："), printerPane},
-                {new UILabel("份数："), copyPane},
+                {new UILabel(Inter.getLocText("FR-Designer_Printer") + ":"), printerPane},
+                {new UILabel(Inter.getLocText("FR-Designer_Copy_Number") + ":"), copyPane},
                 {printAreaLabelPane, getPrintAreaPane()},
-                {getTopAlignLabelPane("纸张："), paperSettingCheckPane},
-                {getTopAlignLabelPane("布局："), layoutSettingCheckPane},
-                {getTopAlignLabelPane("边距："), pageMarginCheckPane},
-                {new UILabel("缩放："), zoomCheck},
-                {getTopAlignLabelPane("顺序："), getPageOrderPane()}
+                {getTopAlignLabelPane(Inter.getLocText("FR-Designer_Paper") + ":"), paperSettingCheckPane},
+                {getTopAlignLabelPane(Inter.getLocText("FR-Designer_Layout") + ":"), layoutSettingCheckPane},
+                {getTopAlignLabelPane(Inter.getLocText("FR-Designer_Margin") + ":"), pageMarginCheckPane},
+                {new UILabel(Inter.getLocText("FR-Designer_Scale_EnlargeOrReduce") + ":"), zoomCheck},
+                {getTopAlignLabelPane(Inter.getLocText("FR-Designer_Order") + ":"), getPageOrderPane()}
         };
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 0, 15);
         return panel;
@@ -288,9 +285,9 @@ public class PrintSettingPane extends BasicPane {
 
     // 页码范围
     private JPanel getPrintAreaPane() {
-        UIRadioButton allPageRadioButton = new UIRadioButton("所有页");
-        UIRadioButton currentPageRadioButton = new UIRadioButton("当前页");
-        UIRadioButton customPageRadioButton = new UIRadioButton("指定页");
+        UIRadioButton allPageRadioButton = new UIRadioButton(Inter.getLocText("FR-Designer_All_Pages"));
+        UIRadioButton currentPageRadioButton = new UIRadioButton(Inter.getLocText("FR-Designer_Current_Page"));
+        UIRadioButton customPageRadioButton = new UIRadioButton(Inter.getLocText("FR-Engine_HJS-Specified_Pages"));
         ButtonGroup group = new ButtonGroup();
         group.add(allPageRadioButton);
         group.add(currentPageRadioButton);
@@ -298,7 +295,7 @@ public class PrintSettingPane extends BasicPane {
         allPageRadioButton.setSelected(true);
 
         UITextField areaField = new UITextField(20);
-        UILabel areaFieldTip = getTipLabel("格式(1, 4-9, 6, 8)");
+        UILabel areaFieldTip = getTipLabel(Inter.getLocText("FR-Designer_Print_Area_Tip"));
 
         // TableLayout
         double p = TableLayout.PREFERRED;
@@ -409,7 +406,7 @@ public class PrintSettingPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("ReportServerP-Import_JavaScript");
+        return Inter.getLocText("FR-Designer_Print_Setting");
     }
 
     public void populate(PrintAttr printAttr) {
@@ -425,7 +422,7 @@ public class PrintSettingPane extends BasicPane {
 
 
         NoClientPrintAttr noClientPrintAttr = printAttr.getNoClientPrintAttr();
-        setMarginOnPrintCheck.setSelected(noClientPrintAttr.isSetMarginOnPrint());
+        setMarginWhenPrintCheck.setSelected(noClientPrintAttr.isSetMarginOnPrint());
     }
 
     public PrintAttr updateBean() {
@@ -437,7 +434,7 @@ public class PrintSettingPane extends BasicPane {
 
         NoClientPrintAttr noClientPrintAttr = new NoClientPrintAttr();
 //        NoClientPrintAttr noClientPrintAttr = reportWebAttr.getNoClientPrintAttr();
-        noClientPrintAttr.setSetMarginOnPrint(setMarginOnPrintCheck.isSelected());
+        noClientPrintAttr.setSetMarginOnPrint(setMarginWhenPrintCheck.isSelected());
         printAttr.setNoClientPrintAttr(noClientPrintAttr);
 
 
