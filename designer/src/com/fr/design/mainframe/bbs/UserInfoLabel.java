@@ -95,10 +95,8 @@ public class UserInfoLabel extends UILabel {
     private void init(UserInfoPane userInfoPane) {
         this.userInfoPane = userInfoPane;
 
-        String userName = ServerConfig.getInstance().getBbsUsername();
         this.addMouseListener(userInfoAdapter);
         this.setHorizontalAlignment(SwingConstants.CENTER);
-        this.setText(userName);
 
         if (StableUtils.getMajorJavaVersion() == VERSION_8) {
             LoginWebBridge.getHelper().setUILabel(UserInfoLabel.this);
