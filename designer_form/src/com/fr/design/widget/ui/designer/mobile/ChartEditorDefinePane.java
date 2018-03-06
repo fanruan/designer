@@ -157,6 +157,7 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane{
         BaseChartEditor chartEditor = (BaseChartEditor)xCreator.toData();
         ChartMobileFitAttrStateProvider zoomOutAttr = chartEditor.getMobileAttr().getZoomOutAttr();
         this.zoomOutComboBox.setSelectedItem(new Item(zoomOutAttr.description(), zoomOutAttr));
+        updateTipLabel();
 
         // 数据 populate 完成后，再设置监听
         this.bindListeners2Widgets();
