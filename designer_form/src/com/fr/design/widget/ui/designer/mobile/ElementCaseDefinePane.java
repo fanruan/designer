@@ -18,9 +18,14 @@ import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.form.ui.ElementCaseEditor;
 import com.fr.general.Inter;
+import com.fr.stable.StringUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
+import java.awt.Component;
 
 /**
  * 报表块-移动端属性面板
@@ -59,10 +64,17 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane{
         this.maxHeightLabel = new UILabel(Inter.getLocText("FR-Designer_Mobile-Height-Percent"), SwingConstants.LEFT);
         this.maxHeightSpinner = new UISpinner(0, MAX_HEIGHT_LIMIT, 0.01, 0.75) {
             public void setValue(double value) {
+                String warningText = StringUtils.EMPTY;
                 if (value > MAX_HEIGHT_LIMIT) {
-                    //弹窗提示
+                    warningText = Inter.getLocText("FR-Designer_Mobile-Warning");
+                } else if (value < 0) {
+                    // 弹窗提示
+                    warningText = Inter.getLocText("FR-Designer_Max_Height_Cannot_Be_Negative");
+                }
+                if (StringUtils.isNotEmpty(warningText)) {
+                    // 弹窗提示
                     JOptionPane.showMessageDialog(null,
-                            Inter.getLocText("FR-Designer_Mobile-Warning"),
+                            warningText,
                             Inter.getLocText("FR-Designer_Tooltips"),
                             JOptionPane.PLAIN_MESSAGE);
                 }
