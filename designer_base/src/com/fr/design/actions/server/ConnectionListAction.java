@@ -109,39 +109,7 @@ public class ConnectionListAction extends UpdateAction {
      */
     public static boolean doWithDatasourceManager(ConnectionConfig datasourceManager, ConnectionShowPane connectionShowPane, BasicDialog databaseListDialog) {
         connectionShowPane.update(datasourceManager);
-//        HashMap<String, Connection> modifyDetails = datasourceManager.getConnectionModifyDetails();
-//        modifyDetails.clear();
-//        Env currentEnv = FRContext.getCurrentEnv();
-//        ModifiedTable localModifiedTable = datasourceManager.checkConnectionModifyTable(backupManager, currentEnv.getUserID());
         boolean isFailed = false;
-//        if (currentEnv.isSupportLocalFileOperate() && !((LocalEnv) currentEnv).isNoRemoteUser()) {
-//            //如果是本地，并且有远程用户时则更新自己的修改表
-//            datasourceManager.updateSelfConnectionTotalModifiedTable(localModifiedTable, ModifiedTable.LOCAL_MODIFIER);
-//        } else {
-//            if (!currentEnv.isSupportLocalFileOperate()) {
-//                //如果是远程，则去取服务器的最新的修改表,检查有没有冲突
-//                ModifiedTable currentServerModifyTable = currentEnv.getDataSourceModifiedTables(DatasourceManager.CONNECTION);
-//                if (localModifiedTable.checkModifiedTableConflictWithServer(currentServerModifyTable, currentEnv.getUserID())) {
-//                    //有冲突，进行提示
-//                    String title = Inter.getLocText(new String[]{"Select", "Single", "Setting"});
-//                    int returnVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), localModifiedTable.getWaringMessage(), title, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-//                    if (returnVal == JOptionPane.YES_OPTION) {
-//                        //点击是，进行相应刷新去冲突
-//                        datasourceManager.synchronizedWithServer(backupManager, DatasourceManager.CONNECTION);
-//                        //要是有重命名冲突的，则对详细的修改表先进行修改
-//                        datasourceManager.doWithConnectionConflict(localModifiedTable);
-//                        localModifiedTable.removeConfilct();
-//                        modifyDetails.clear();
-//                        //更新面板
-//                        connectionShowPane.populate(datasourceManager);
-//                    } else {
-//                        //更新失败，继续停留页面
-//                        isFailed = true;
-//                    }
-//
-//                }
-//            }
-//        }
         //存在请重命名则不能更新
         int index = isConnectionMapContainsRename(datasourceManager);
         if (index != -1) {
@@ -149,12 +117,7 @@ public class ConnectionListAction extends UpdateAction {
             connectionShowPane.setSelectedIndex(index);
         }
         databaseListDialog.setDoOKSucceed(!isFailed);
-//        //如果修改成功，则去远程端增量修改修改表
-//        if (!isFailed && !currentEnv.isSupportLocalFileOperate()) {
-//            currentEnv.writeDataSourceModifiedTables(localModifiedTable, DatasourceManager.CONNECTION);
-//            localModifiedTable.clear();
-//            modifyDetails.clear();
-//        }
+
         return !isFailed;
     }
 
