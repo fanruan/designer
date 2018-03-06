@@ -69,7 +69,7 @@ public class GlobalTableDataAction extends UpdateAction implements ResponseDataS
         final TableDataConfig tableDataConfig = TableDataConfig.getInstance();
         final TableDataManagerPane globalTableDataPane = new TableDataManagerPane() {
             public void complete() {
-                populate(tableDataConfig.copy());
+                populate(tableDataConfig.mirror());
             }
 
             protected void renameConnection(final String oldName, final String newName) {

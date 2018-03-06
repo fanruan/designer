@@ -36,7 +36,7 @@ public class ProcedureListAction extends UpdateAction {
         final ProcedureConfig procedureConfig = ProcedureConfig.getInstance();
         final ProcedureManagerPane databaseManagerPane = new ProcedureManagerPane() {
             public void complete() {
-                populate(procedureConfig.copy());
+                populate(procedureConfig.mirror());
             }
         };
         BasicDialog databaseListDialog = databaseManagerPane.showLargeWindow(designerFrame, null);

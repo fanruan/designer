@@ -59,7 +59,7 @@ public class FunctionManagerAction extends UpdateAction {
 
 			}
         });
-        functionManagerPane.populate(functionManager.copy());
+        functionManagerPane.populate(functionManager.mirror());
         functionManagerDialog.setVisible(true);
     }
     
