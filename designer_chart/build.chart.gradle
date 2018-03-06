@@ -25,7 +25,7 @@ project.ext {
 apply plugin: 'aspectj'
 
 //指定构建的jdk版本
-sourceCompatibility=1.7
+sourceCompatibility=1.8
 //指定生成jar包版本
 version='10.0'
 //生成jar包重命名

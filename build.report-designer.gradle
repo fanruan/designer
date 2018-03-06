@@ -4,7 +4,7 @@ tasks.withType(JavaCompile){
 		options.encoding = 'UTF-8'
 }
 //指定构建的jdk版本
-sourceCompatibility=1.6
+sourceCompatibility=1.8
 
 //jar包版本
 version='10.0'
