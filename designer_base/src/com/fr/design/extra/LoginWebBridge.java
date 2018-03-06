@@ -1,7 +1,7 @@
 package com.fr.design.extra;
 
 import com.fr.base.FRContext;
-import com.fr.config.ServerConfig;
+import com.fr.config.MarketConfig;
 import com.fr.design.bbs.BBSLoginUtils;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.extra.exe.PluginLoginExecutor;
@@ -18,8 +18,7 @@ import javafx.concurrent.Task;
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
 
-import javax.swing.JDialog;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import java.awt.*;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
@@ -38,8 +37,6 @@ public class LoginWebBridge {
     private static final String SUCCESS_MESSAGE_STATUS = "ok";
     //数据通讯失败
     private static final String FAILED_MESSAGE_STATUS = "error";
-    //消息条数
-    private int messageCount;
     //最低消息的条数
     private static final int MIN_MESSAGE_COUNT = 0;
     //登录成功
@@ -58,8 +55,9 @@ public class LoginWebBridge {
     private static final String LOGIN_SUCCESS = "ok";
     private static final String LOGIN_FAILED = "failed";
     private static final Color LOGIN_BACKGROUND = new Color(184, 220, 242);
-
     private static LoginWebBridge helper;
+    //消息条数
+    private int messageCount;
     private UIDialog uiDialog;
     private UIDialog qqDialog;
     private UILabel uiLabel;
@@ -94,6 +92,26 @@ public class LoginWebBridge {
         return messageCount;
     }
 
+    /**
+     * 设置获取的消息长度，并设置显示
+     *
+     * @param count
+     */
+    public void setMessageCount(int count) {
+        if (count == MIN_MESSAGE_COUNT) {
+            uiLabel.setText(MarketConfig.getInstance().getBbsUsername());
+            MarketConfig.getInstance().setInShowBBsName(MarketConfig.getInstance().getBbsUsername());
+            return;
+        }
+        this.messageCount = count;
+        StringBuilder sb = new StringBuilder();
+        sb.append(StringUtils.BLANK).append(MarketConfig.getInstance().getBbsUsername())
+                .append("(").append(this.messageCount)
+                .append(")").append(StringUtils.BLANK);
+        MarketConfig.getInstance().setInShowBBsName(sb.toString());
+        uiLabel.setText(sb.toString());
+    }
+
     public void setQQDialog(UIDialog qqDialog) {
         closeQQWindow();
         this.qqDialog = qqDialog;
@@ -116,26 +134,6 @@ public class LoginWebBridge {
     private boolean testConnection() {
         HttpClient client = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("bbs.test"));
         return client.isServerAlive();
-    }
-
-    /**
-     * 设置获取的消息长度，并设置显示
-     *
-     * @param count
-     */
-    public void setMessageCount(int count) {
-        if (count == MIN_MESSAGE_COUNT) {
-            uiLabel.setText(ServerConfig.getInstance().getBbsUsername());
-            ServerConfig.getInstance().setInShowBBsName(ServerConfig.getInstance().getBbsUsername());
-            return;
-        }
-        this.messageCount = count;
-        StringBuilder sb = new StringBuilder();
-        sb.append(StringUtils.BLANK).append(ServerConfig.getInstance().getBbsUsername())
-                .append("(").append(this.messageCount)
-                .append(")").append(StringUtils.BLANK);
-        ServerConfig.getInstance().setInShowBBsName(sb.toString());
-        uiLabel.setText(sb.toString());
     }
 
     private String encode(String str) {

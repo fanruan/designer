@@ -1,7 +1,7 @@
 package com.fr.design.extra;
 
 import com.fr.base.FRContext;
-import com.fr.config.ServerConfig;
+import com.fr.config.MarketConfig;
 import com.fr.design.extra.exe.callback.InstallFromDiskCallback;
 import com.fr.design.extra.exe.callback.InstallOnlineCallback;
 import com.fr.design.extra.exe.callback.JSCallback;
@@ -26,8 +26,7 @@ import com.fr.plugin.manage.control.PluginTaskResult;
 import com.fr.plugin.view.PluginView;
 import com.fr.stable.StringUtils;
 
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import java.io.File;
 import java.util.List;
 
@@ -167,7 +166,7 @@ public class PluginOperateUtils {
     }
 
     public static void getLoginInfo(JSCallback jsCallback, UILabel uiLabel) {
-        String username = ServerConfig.getInstance().getBbsUsername();
+        String username = MarketConfig.getInstance().getBbsUsername();
         if (StringUtils.isEmpty(username)) {
             jsCallback.execute(StringUtils.EMPTY);
             uiLabel.setText(Inter.getLocText("FR-Base_UnSignIn"));

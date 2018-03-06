@@ -1,7 +1,7 @@
 package com.fr.design.extra;
 
 import com.fr.base.FRContext;
-import com.fr.config.ServerConfig;
+import com.fr.config.MarketConfig;
 import com.fr.design.RestartHelper;
 import com.fr.design.bbs.BBSLoginUtils;
 import com.fr.design.dialog.UIDialog;
@@ -30,10 +30,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import netscape.javascript.JSObject;
 
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-import java.awt.Desktop;
+import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -422,7 +420,7 @@ public class PluginWebBridge {
      */
     public String getLoginInfo(final JSObject callback) {
         registerLoginInfo(callback);
-        return ServerConfig.getInstance().getBbsUsername();
+        return MarketConfig.getInstance().getBbsUsername();
     }
 
     /**
@@ -557,7 +555,7 @@ public class PluginWebBridge {
      * 清除用户信息
      */
     public void clearUserInfo() {
-        ServerConfig.getInstance().setInShowBBsName(StringUtils.EMPTY);
+        MarketConfig.getInstance().setInShowBBsName(StringUtils.EMPTY);
         BBSLoginUtils.bbsLogout();
         uiLabel.setText(Inter.getLocText("FR-Base_UnSignIn"));
     }

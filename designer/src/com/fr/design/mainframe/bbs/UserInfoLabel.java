@@ -4,7 +4,7 @@
 package com.fr.design.mainframe.bbs;
 
 import com.fr.base.FRContext;
-import com.fr.config.ServerConfig;
+import com.fr.config.MarketConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.bbs.BBSLoginUtils;
 import com.fr.design.extra.LoginContextListener;
@@ -28,10 +28,8 @@ import com.fr.stable.OperatingSystem;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 
-import javax.swing.SwingConstants;
-import java.awt.Cursor;
-import java.awt.Desktop;
-import java.awt.Frame;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.UnsupportedEncodingException;
@@ -71,54 +69,57 @@ public class UserInfoLabel extends UILabel {
 
     private UserInfoPane userInfoPane;
     private BBSLoginDialog bbsLoginDialog;
+    private MouseAdapter userInfoAdapter = new MouseAdapter() {
 
-    public UserInfoPane getUserInfoPane() {
-        return userInfoPane;
-    }
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            UserInfoLabel.this.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        }
 
-    public void setUserInfoPane(UserInfoPane userInfoPane) {
-        this.userInfoPane = userInfoPane;
-    }
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            userName = MarketConfig.getInstance().getBbsUsername();
+            if (StringUtils.isNotEmpty(userName)) {
+                UIPopupMenu menu = new UIPopupMenu();
+                menu.setOnlyText(true);
+                menu.setPopupSize(userInfoPane.getWidth(), userInfoPane.getHeight() * 3);
 
-    public BBSLoginDialog getBbsLoginDialog() {
-        return bbsLoginDialog;
-    }
+                //私人消息
+                UIMenuItem priviteMessage = new UIMenuItem(Inter.getLocText("FR-Designer-BBSLogin_Privite-Message"));
+                priviteMessage.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+                        if (StringUtils.isNotEmpty(userName)) {
+                            try {
+                                String loginUrl = SiteCenter.getInstance().acquireUrlByKind("bbs.default");
+                                Desktop.getDesktop().browse(new URI(loginUrl));
+                            } catch (Exception exp) {
+                                FRContext.getLogger().info(exp.getMessage());
+                            }
+                        }
+                    }
 
-    public void setBbsLoginDialog(BBSLoginDialog bbsLoginDialog) {
-        this.bbsLoginDialog = bbsLoginDialog;
-    }
+                });
+                //切换账号
+                UIMenuItem closeOther = new UIMenuItem(Inter.getLocText("FR-Designer-BBSLogin_Switch-Account"));
+                closeOther.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+                        BBSLoginUtils.bbsLogout();
+                        UserLoginContext.fireLoginContextListener();
+                    }
+                });
+                menu.add(priviteMessage);
+                menu.add(closeOther);
+                GUICoreUtils.showPopupMenu(menu, UserInfoLabel.this, 0, MENU_HEIGHT);
+            } else {
+                UserLoginContext.fireLoginContextListener();
+            }
+        }
+    };
 
     public UserInfoLabel(UserInfoPane userInfoPane) {
         init(userInfoPane);
-    }
-
-    private void init(UserInfoPane userInfoPane) {
-        this.userInfoPane = userInfoPane;
-
-        this.addMouseListener(userInfoAdapter);
-        this.setHorizontalAlignment(SwingConstants.CENTER);
-
-        if (StableUtils.getMajorJavaVersion() == VERSION_8) {
-            LoginWebBridge.getHelper().setUILabel(UserInfoLabel.this);
-            PluginWebBridge.getHelper().setUILabel(UserInfoLabel.this);
-        }
-
-        UserLoginContext.addLoginContextListener(new LoginContextListener() {
-            @Override
-            public void showLoginContext() {
-                WebViewDlgHelper.createLoginDialog();
-                clearLoginInformation();
-                updateInfoPane();
-            }
-        });
-    }
-
-    private void clearLoginInformation() {
-        BBSLoginUtils.bbsLogout();
-    }
-
-    private void updateInfoPane() {
-        userInfoPane.markUnSignIn();
     }
 
     /**
@@ -170,6 +171,51 @@ public class UserInfoLabel extends UILabel {
         });
     }
 
+    public UserInfoPane getUserInfoPane() {
+        return userInfoPane;
+    }
+
+    public void setUserInfoPane(UserInfoPane userInfoPane) {
+        this.userInfoPane = userInfoPane;
+    }
+
+    public BBSLoginDialog getBbsLoginDialog() {
+        return bbsLoginDialog;
+    }
+
+    public void setBbsLoginDialog(BBSLoginDialog bbsLoginDialog) {
+        this.bbsLoginDialog = bbsLoginDialog;
+    }
+
+    private void init(UserInfoPane userInfoPane) {
+        this.userInfoPane = userInfoPane;
+
+        this.addMouseListener(userInfoAdapter);
+        this.setHorizontalAlignment(SwingConstants.CENTER);
+
+        if (StableUtils.getMajorJavaVersion() == VERSION_8) {
+            LoginWebBridge.getHelper().setUILabel(UserInfoLabel.this);
+            PluginWebBridge.getHelper().setUILabel(UserInfoLabel.this);
+        }
+
+        UserLoginContext.addLoginContextListener(new LoginContextListener() {
+            @Override
+            public void showLoginContext() {
+                WebViewDlgHelper.createLoginDialog();
+                clearLoginInformation();
+                updateInfoPane();
+            }
+        });
+    }
+
+    private void clearLoginInformation() {
+        BBSLoginUtils.bbsLogout();
+    }
+
+    private void updateInfoPane() {
+        userInfoPane.markUnSignIn();
+    }
+
     private void sleep(long millis) {
         try {
             Thread.sleep(millis);
@@ -182,19 +228,19 @@ public class UserInfoLabel extends UILabel {
         return userName;
     }
 
-    /**
-     * 重置当前用户名
-     */
-    public void resetUserName() {
-        this.userName = StringUtils.EMPTY;
-    }
-
     public void setUserName(String userName) {
         if (StringUtils.isEmpty(userName)) {
             return;
         }
 
         this.userName = userName;
+    }
+
+    /**
+     * 重置当前用户名
+     */
+    public void resetUserName() {
+        this.userName = StringUtils.EMPTY;
     }
 
     private String encode(String str) {
@@ -228,53 +274,4 @@ public class UserInfoLabel extends UILabel {
         //更新面板Text
         this.setText(sb);
     }
-
-    private MouseAdapter userInfoAdapter = new MouseAdapter() {
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-            UserInfoLabel.this.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        }
-
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            userName = ServerConfig.getInstance().getBbsUsername();
-            if (StringUtils.isNotEmpty(userName)) {
-                UIPopupMenu menu = new UIPopupMenu();
-                menu.setOnlyText(true);
-                menu.setPopupSize(userInfoPane.getWidth(), userInfoPane.getHeight() * 3);
-
-                //私人消息
-                UIMenuItem priviteMessage = new UIMenuItem(Inter.getLocText("FR-Designer-BBSLogin_Privite-Message"));
-                priviteMessage.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mousePressed(MouseEvent e) {
-                        if (StringUtils.isNotEmpty(userName)) {
-                            try {
-                                String loginUrl = SiteCenter.getInstance().acquireUrlByKind("bbs.default");
-                                Desktop.getDesktop().browse(new URI(loginUrl));
-                            } catch (Exception exp) {
-                                FRContext.getLogger().info(exp.getMessage());
-                            }
-                        }
-                    }
-
-                });
-                //切换账号
-                UIMenuItem closeOther = new UIMenuItem(Inter.getLocText("FR-Designer-BBSLogin_Switch-Account"));
-                closeOther.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mousePressed(MouseEvent e) {
-                        BBSLoginUtils.bbsLogout();
-                        UserLoginContext.fireLoginContextListener();
-                    }
-                });
-                menu.add(priviteMessage);
-                menu.add(closeOther);
-                GUICoreUtils.showPopupMenu(menu, UserInfoLabel.this, 0, MENU_HEIGHT);
-            } else {
-                UserLoginContext.fireLoginContextListener();
-            }
-        }
-    };
 }
