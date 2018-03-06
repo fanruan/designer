@@ -4,6 +4,7 @@
 package com.fr.design.mainframe.bbs;
 
 import com.fr.base.FRContext;
+import com.fr.config.DBEnv;
 import com.fr.config.ServerConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.constants.UIConstants;
@@ -78,11 +79,13 @@ public class UserInfoPane extends BasicPane{
 		GeneralContext.addEnvChangedListener(new EnvChangedListener() {
 			@Override
 			public void envChanged() {
-				String username = ServerConfig.getInstance().getBbsUsername();
-				if (StringUtils.isEmpty(username)){
-					markUnSignIn();
-				} else {
-					markSignIn(username);
+				if (DBEnv.isDBEnvAvailable()) {
+					String username = ServerConfig.getInstance().getBbsUsername();
+					if (StringUtils.isEmpty(username)){
+						markUnSignIn();
+					} else {
+						markSignIn(username);
+					}
 				}
 			}
 		});
