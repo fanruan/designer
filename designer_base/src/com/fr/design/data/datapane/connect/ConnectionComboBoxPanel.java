@@ -89,7 +89,7 @@ public class ConnectionComboBoxPanel extends ItemEditableComboBoxPanel {
     protected void editItems() {
         final ConnectionListPane connectionListPane = new ConnectionListPane();
         final ConnectionConfig connectionConfig = ConnectionConfig.getInstance();
-        ConnectionConfig cloned = connectionConfig.copy();
+        ConnectionConfig cloned = connectionConfig.mirror();
         connectionListPane.populate(cloned);
         final BasicDialog connectionListDialog = connectionListPane.showLargeWindow(
                 SwingUtilities.getWindowAncestor(ConnectionComboBoxPanel.this), null);

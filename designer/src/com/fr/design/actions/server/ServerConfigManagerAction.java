@@ -42,7 +42,7 @@ public class ServerConfigManagerAction extends UpdateAction {
         final EditReportServerParameterPane editReportServerParameterPane = new EditReportServerParameterPane() {
             @Override
             public void complete() {
-                populate(config.copy());
+                populate(config.mirror());
             }
         };
 
