@@ -29,8 +29,6 @@ public class PrintSettingPane extends BasicPane {
     private CardLayout printCard;
     private JPanel printPane;
 
-    private PrintAttr printAttr;
-
     public PrintSettingPane() {
         initComponents();
         initListener();
@@ -91,7 +89,6 @@ public class PrintSettingPane extends BasicPane {
         if (printAttr == null) {
             return;
         }
-        this.printAttr = printAttr;
         if (printAttr.getPrintType() == PrintAttr.NO_CLIENT_PRINT) {
             noClientPrintRadioButton.setSelected(true);
         } else {
@@ -102,6 +99,7 @@ public class PrintSettingPane extends BasicPane {
     }
 
     public PrintAttr updateBean() {
+        PrintAttr printAttr = new PrintAttr();
         printAttr.setPrintType(noClientPrintRadioButton.isSelected() ?
                 PrintAttr.NO_CLIENT_PRINT : PrintAttr.NATIVE_PRINT);
         if (noClientPrintRadioButton.isSelected()) {

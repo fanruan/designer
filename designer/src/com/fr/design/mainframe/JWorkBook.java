@@ -23,6 +23,7 @@ import com.fr.design.actions.file.export.WordExportAction;
 import com.fr.design.actions.report.ReportExportAttrAction;
 import com.fr.design.actions.report.ReportMobileAttrAction;
 import com.fr.design.actions.report.ReportParameterAction;
+import com.fr.design.actions.report.ReportPrintSettingAction;
 import com.fr.design.actions.report.ReportWebAttrAction;
 import com.fr.design.cell.bar.DynamicScrollBar;
 import com.fr.design.constants.UIConstants;
@@ -650,6 +651,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
                 new ReportExportAttrAction(this),
                 new ReportParameterAction(this),
                 new ReportMobileAttrAction(this),
+                new ReportPrintSettingAction(this),
                 new NameSeparator(Inter.getLocText("Utils-Current_Sheet")),
         }, this.reportComposite.getEditingReportComponent().shortcut4TemplateMenu());
     }
