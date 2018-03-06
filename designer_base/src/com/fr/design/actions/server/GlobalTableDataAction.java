@@ -140,12 +140,6 @@ public class GlobalTableDataAction extends UpdateAction implements ResponseDataS
             tableDataManagerPane.setSelectedIndex(index);
         }
         databaseListDialog.setDoOKSucceed(!isFailed);
-        //如果修改成功，则去远程端增量修改修改表
-//        if (!isFailed && !currentEnv.isSupportLocalFileOperate()) {
-//            currentEnv.writeDataSourceModifiedTables(localModifiedTable, DatasourceManager.TABLEDATA);
-//            localModifiedTable.clear();
-//            modifyDetails.clear();
-//        }
         return !isFailed;
     }
 
