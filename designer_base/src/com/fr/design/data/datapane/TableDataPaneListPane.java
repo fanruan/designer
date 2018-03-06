@@ -213,10 +213,12 @@ public class TableDataPaneListPane extends JListControlPane implements TableData
         tableDataConfig.removeAllTableData();
         ProcedureConfig.getInstance().removeAllProcedure();
         Nameable[] tableDataArray = this.update();
+        Map<String,TableData> tableDataMap = new LinkedHashMap<String,TableData>();
         for (int i = 0; i < tableDataArray.length; i++) {
             NameObject nameObject = (NameObject) tableDataArray[i];
-            tableDataConfig.addTableData(nameObject.getName(), (TableData) nameObject.getObject());
+            tableDataMap.put(nameObject.getName(), (TableData) nameObject.getObject());
         }
+        tableDataConfig.setTableDatas(tableDataMap);
     }
 
     @Override
