@@ -108,6 +108,7 @@ public class ConnectionListAction extends UpdateAction {
      * @return boolean 是否更新成功
      */
     public static boolean doWithDatasourceManager(ConnectionConfig datasourceManager, ConnectionShowPane connectionShowPane, BasicDialog databaseListDialog) {
+        connectionShowPane.update(datasourceManager);
 //        HashMap<String, Connection> modifyDetails = datasourceManager.getConnectionModifyDetails();
 //        modifyDetails.clear();
 //        Env currentEnv = FRContext.getCurrentEnv();
