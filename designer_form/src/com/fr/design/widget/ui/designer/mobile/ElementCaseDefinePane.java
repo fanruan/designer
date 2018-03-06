@@ -19,11 +19,13 @@ import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.form.ui.ElementCaseEditor;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
-import com.sun.codemodel.internal.JOp;
-import jdk.nashorn.internal.scripts.JO;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
+import java.awt.Component;
 
 /**
  * 报表块-移动端属性面板
