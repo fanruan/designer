@@ -37,7 +37,7 @@ public class WidgetManagerAction extends UpdateAction {
         final WidgetManagerPane widgetManagerPane = new WidgetManagerPane() {
             @Override
             public void complete() {
-                populate(widgetManager.copy());
+                populate(widgetManager.mirror());
             }
         };
 
