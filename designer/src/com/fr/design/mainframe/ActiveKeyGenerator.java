@@ -1,6 +1,5 @@
 package com.fr.design.mainframe;
 import com.fr.config.MarketConfig;
-import com.fr.config.ServerConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
