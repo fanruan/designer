@@ -2,7 +2,7 @@ package com.fr.design.mainframe.alphafine.component;
 
 import com.bulenkov.iconloader.IconLoader;
 import com.fr.base.FRContext;
-import com.fr.config.ServerConfig;
+import com.fr.config.MarketConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.help.alphafine.AlphaFineConfigManager;
 import com.fr.design.dialog.UIDialog;
@@ -26,8 +26,8 @@ import com.fr.design.mainframe.alphafine.preview.PluginPreviewPane;
 import com.fr.design.mainframe.alphafine.search.manager.impl.ActionSearchManager;
 import com.fr.design.mainframe.alphafine.search.manager.impl.DocumentSearchManager;
 import com.fr.design.mainframe.alphafine.search.manager.impl.FileSearchManager;
-import com.fr.design.mainframe.alphafine.search.manager.impl.RecentSearchManager;
 import com.fr.design.mainframe.alphafine.search.manager.impl.PluginSearchManager;
+import com.fr.design.mainframe.alphafine.search.manager.impl.RecentSearchManager;
 import com.fr.design.mainframe.alphafine.search.manager.impl.RecommendSearchManager;
 import com.fr.form.main.Form;
 import com.fr.form.main.FormIO;
@@ -402,6 +402,7 @@ public class AlphaFineDialog extends UIDialog {
 
     /**
      * 处理搜索字符串
+     *
      * @param searchText
      */
     private void dealWithSearchText(String searchText) {
@@ -422,6 +423,7 @@ public class AlphaFineDialog extends UIDialog {
 
     /**
      * 截取字符串中关键词
+     *
      * @param searchText
      * @return
      */
@@ -775,7 +777,7 @@ public class AlphaFineDialog extends UIDialog {
      */
     private void sendDataToServer(String searchKey, AlphaCellModel cellModel) {
         if (cellModel.isNeedToSendToServer()) {
-            String username = ServerConfig.getInstance().getBbsUsername();
+            String username = MarketConfig.getInstance().getBbsUsername();
             String uuid = DesignerEnvManager.getEnvManager().getUUID();
             String activityKey = DesignerEnvManager.getEnvManager().getActivationKey();
             String createTime = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(Calendar.getInstance().getTime());

@@ -1,7 +1,7 @@
 package com.fr.design.extra;
 
 import com.fr.base.FRContext;
-import com.fr.config.ServerConfig;
+import com.fr.config.MarketConfig;
 import com.fr.design.extra.tradition.callback.UpdateOnlineCallback;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.gui.ilable.UILabel;
@@ -14,7 +14,12 @@ import com.fr.plugin.manage.control.PluginTaskResult;
 import com.fr.plugin.manage.control.ProgressCallback;
 import com.fr.plugin.view.PluginView;
 import com.fr.stable.StringUtils;
-import javax.swing.*;
+
+import javax.swing.JComponent;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 import java.util.List;
@@ -25,12 +30,11 @@ import java.util.List;
  * @since 8.0
  */
 public class PluginFromStorePane extends PluginAbstractLoadingViewPane<List<PluginView>, Void> {
+    private static final int LISTNUM1 = 1;
+    private static final int LISTNUM100 = 100;
     private UILabel errorMsgLabel;
     private UITabbedPane tabbedPane;
     private PluginControlPane controlPane;
-
-    private static final int LISTNUM1 = 1;
-    private static final int LISTNUM100 = 100;
 
 
     public PluginFromStorePane(final UITabbedPane tabbedPane) {
@@ -180,7 +184,8 @@ public class PluginFromStorePane extends PluginAbstractLoadingViewPane<List<Plug
                         JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Install_Successful"));
                     } else {
                         JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
-                    }                }
+                    }
+                }
             });
         } catch (Exception e1) {
             JOptionPane.showMessageDialog(PluginFromStorePane.this, e1.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
@@ -188,10 +193,10 @@ public class PluginFromStorePane extends PluginAbstractLoadingViewPane<List<Plug
     }
 
     private void doUpdateOnline(final PluginStatusCheckCompletePane pane) {
-        if (!StringUtils.isNotEmpty(ServerConfig.getInstance().getBbsUsername())) {
+        if (!StringUtils.isNotEmpty(MarketConfig.getInstance().getBbsUsername())) {
             LoginCheckContext.fireLoginCheckListener();
         }
-        if (StringUtils.isNotEmpty(ServerConfig.getInstance().getBbsUsername())) {
+        if (StringUtils.isNotEmpty(MarketConfig.getInstance().getBbsUsername())) {
             PluginView plugin = controlPane.getSelectedPlugin();
             String id = null;
             if (plugin != null) {
@@ -201,7 +206,7 @@ public class PluginFromStorePane extends PluginAbstractLoadingViewPane<List<Plug
             try {
                 PluginMarker pluginMarker = PluginMarker.create(id, plugin.getVersion());
                 JSONObject latestPluginInfo = PluginUtils.getLatestPluginInfo(id);
-                String latestPluginVersion = (String)latestPluginInfo.get("version");
+                String latestPluginVersion = (String) latestPluginInfo.get("version");
                 PluginMarker toPluginMarker = PluginMarker.create(id, latestPluginVersion);
                 PluginManager.getController().download(pluginMarker, new UpdateOnlineCallback(pluginMarker, toPluginMarker, pane));
             } catch (Exception e) {
