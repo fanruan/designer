@@ -1,5 +1,5 @@
 package com.fr.design.mainframe;
-import com.fr.config.ServerConfig;
+import com.fr.config.MarketConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
@@ -101,7 +101,7 @@ public class ActiveKeyGenerator {
 		HashMap<String, String> para = new HashMap<String, String>();
 		para.put("uuid", envManager.getUUID());
 		para.put("key", key);
-		para.put("username", ServerConfig.getInstance().getBbsUsername());
+		para.put("username", MarketConfig.getInstance().getBbsUsername());
 		HttpClient hc = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("verify.code"), para);
 		if (timeout != -1) {
 			hc.setTimeout(timeout);

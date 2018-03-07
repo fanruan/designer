@@ -1,6 +1,6 @@
 package com.fr.design.extra;
 
-import com.fr.config.ServerConfig;
+import com.fr.config.MarketConfig;
 import com.fr.design.extra.tradition.callback.UpdateOnlineCallback;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.gui.ilable.UILabel;
@@ -14,7 +14,12 @@ import com.fr.plugin.manage.control.ProgressCallback;
 import com.fr.plugin.view.PluginView;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 import java.util.List;
@@ -26,11 +31,10 @@ import java.util.List;
  */
 public class PluginUpdatePane extends PluginAbstractLoadingViewPane<List<PluginView>, Void> {
 
+    private static final int PERSENT = 100;
     private PluginControlPane controlPane;
     private JLabel errorMsgLabel;
     private UITabbedPane tabbedPane;
-
-    private static final int PERSENT = 100;
 
     public PluginUpdatePane(UITabbedPane tabbedPane) {
         super(tabbedPane);
@@ -171,18 +175,19 @@ public class PluginUpdatePane extends PluginAbstractLoadingViewPane<List<PluginV
     }
 
     private void doUpdateOnline(final PluginStatusCheckCompletePane pane) {
-        if (!StringUtils.isNotEmpty(ServerConfig.getInstance().getBbsUsername())) {
+        if (!StringUtils.isNotEmpty(MarketConfig.getInstance().getBbsUsername())) {
             LoginCheckContext.fireLoginCheckListener();
         }
-        if (StringUtils.isNotEmpty(ServerConfig.getInstance().getBbsUsername())) {
-            try{
+        if (StringUtils.isNotEmpty(MarketConfig.getInstance().getBbsUsername())) {
+            try {
                 PluginView plugin = controlPane.getSelectedPlugin();
                 PluginMarker pluginMarker = PluginMarker.create(plugin.getID(), plugin.getVersion());
                 JSONObject latestPluginInfo = PluginUtils.getLatestPluginInfo(pluginMarker.getPluginID());
                 String latestPluginVersion = (String) latestPluginInfo.get("version");
                 PluginMarker toPluginMarker = PluginMarker.create(pluginMarker.getPluginID(), latestPluginVersion);
                 PluginManager.getController().download(pluginMarker, new UpdateOnlineCallback(pluginMarker, toPluginMarker, pane));
-            }catch (Exception e){}
+            } catch (Exception e) {
+            }
 
         }
 
