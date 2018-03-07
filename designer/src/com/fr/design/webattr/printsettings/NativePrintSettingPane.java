@@ -65,7 +65,7 @@ public class NativePrintSettingPane extends JPanel {
         JPanel northPane = FRGUIPaneFactory.createNColumnGridInnerContainer_Pane(1, 0, 15);
         UILabel tipDownload = GUICoreUtils.createTipLabel(Inter.getLocText("FR-Designer_Tip_Native_Print_Need_Client"));
         northPane.add(tipDownload);
-        isShowDialogCheck = new UICheckBox(Inter.getLocText("FR-Designer_Show_Print_Setting_Window_When_Printing"));
+        isShowDialogCheck = new UICheckBox(Inter.getLocText("FR-Engine_Show_Print_Setting_Window_When_Printing"));
         isShowDialogCheck.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
         UILabel tipCheck = GUICoreUtils.createTipLabel(Inter.getLocText("FR-Designer_Tip_Use_Default_Settings"));
         JPanel checkPane =  GUICoreUtils.createFlowPane(new Component[] {

@@ -21,15 +21,13 @@ import java.awt.event.ItemListener;
  * Created by plough on 2018/3/1.
  */
 public class PrintSettingPane extends BasicPane {
-    private UIRadioButton noClientPrintRadioButton = new UIRadioButton(Inter.getLocText("FR-Designer_No_Client_Print"));
-    private UIRadioButton nativePrintRadioButton = new UIRadioButton(Inter.getLocText("FR-Designer_Native_Print"));
+    private UIRadioButton noClientPrintRadioButton = new UIRadioButton(Inter.getLocText("FR-Engine_No_Client_Print"));
+    private UIRadioButton nativePrintRadioButton = new UIRadioButton(Inter.getLocText("FR-Engine_Native_Print"));
 
     private NoClientPrintSettingPane noClientPrintSettingPane;
     private NativePrintSettingPane nativePrintSettingPane;
     private CardLayout printCard;
     private JPanel printPane;
-
-    private PrintAttr printAttr;
 
     public PrintSettingPane() {
         initComponents();
@@ -91,7 +89,6 @@ public class PrintSettingPane extends BasicPane {
         if (printAttr == null) {
             return;
         }
-        this.printAttr = printAttr;
         if (printAttr.getPrintType() == PrintAttr.NO_CLIENT_PRINT) {
             noClientPrintRadioButton.setSelected(true);
         } else {
@@ -102,6 +99,7 @@ public class PrintSettingPane extends BasicPane {
     }
 
     public PrintAttr updateBean() {
+        PrintAttr printAttr = new PrintAttr();
         printAttr.setPrintType(noClientPrintRadioButton.isSelected() ?
                 PrintAttr.NO_CLIENT_PRINT : PrintAttr.NATIVE_PRINT);
         if (noClientPrintRadioButton.isSelected()) {
