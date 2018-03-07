@@ -26,7 +26,8 @@ import com.fr.plugin.manage.control.PluginTaskResult;
 import com.fr.plugin.view.PluginView;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import java.io.File;
 import java.util.List;
 

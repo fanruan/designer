@@ -17,7 +17,9 @@ import com.fr.general.Inter;
 import com.fr.stable.EnvChangedListener;
 import com.fr.stable.StringUtils;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

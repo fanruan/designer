@@ -18,8 +18,10 @@ import javafx.concurrent.Task;
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JDialog;
+import javax.swing.SwingUtilities;
+import java.awt.Color;
+import java.awt.Desktop;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLEncoder;

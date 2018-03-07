@@ -28,8 +28,10 @@ import com.fr.stable.OperatingSystem;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.SwingConstants;
+import java.awt.Cursor;
+import java.awt.Desktop;
+import java.awt.Frame;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.UnsupportedEncodingException;

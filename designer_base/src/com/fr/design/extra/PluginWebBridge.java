@@ -30,8 +30,10 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import netscape.javascript.JSObject;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;

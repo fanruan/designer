@@ -15,7 +15,11 @@ import com.fr.plugin.manage.control.ProgressCallback;
 import com.fr.plugin.view.PluginView;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 import java.util.List;
