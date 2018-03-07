@@ -31,7 +31,6 @@ import com.fr.form.ui.WidgetManager;
 import com.fr.general.Background;
 import com.fr.general.Inter;
 import com.fr.report.web.button.Export;
-import com.fr.report.web.button.PDFPrint;
 import com.fr.report.web.button.Print;
 import com.fr.report.web.button.write.AppendColumnRow;
 import com.fr.report.web.button.write.ExcelImport;
@@ -320,8 +319,8 @@ public class EditToolBar extends BasicPane {
         private CardLayout card;
         private JPanel centerPane;
         private UICheckBox icon, text, pdf, excelP, excelO, excelS, image, word,
-                flashPrint, pdfPrint, appletPrint, serverPrint, isPopup, isVerify, failSubmit,
-                isCurSheet, excelImClean, excelImCover, excelImAppend, excelImCust;
+                    isPopup, isVerify, failSubmit, isCurSheet, excelImClean,
+                    excelImCover, excelImAppend, excelImCust;
         private UIBasicSpinner count;
         private Widget widget;
         private UITextField nameField;
@@ -383,9 +382,7 @@ public class EditToolBar extends BasicPane {
             centerPane.add("custom", getCustomPane());
             centerPane.add("export", getExport());
             centerPane.add("import", getImport());
-            centerPane.add("print", getPrint());
             centerPane.add("none", none);
-            centerPane.add("pdfprint", getPdfPrintSetting());
             // centerPane.add("editexcel", editExcel);
             centerPane.add(getCpane(), "appendcount");
             centerPane.add(getSubmitPane(), "submit");
@@ -455,22 +452,6 @@ public class EditToolBar extends BasicPane {
             return excelImport;
         }
 
-        private JPanel getPrint() {
-            JPanel print = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
-            // print.setLayout(new BoxLayout(print, BoxLayout.Y_AXIS));
-            flashPrint = new UICheckBox(Inter.getLocText("FR-Designer_Flash_Print"));
-            pdfPrint = new UICheckBox(Inter.getLocText("FR-Designer_PDF_Print"));
-            appletPrint = new UICheckBox(Inter.getLocText("FR-Designer_Applet_Print"));
-            serverPrint = new UICheckBox(Inter.getLocText("FR-Designer_Server_Print"));
-            print.add(flashPrint);
-            print.add(pdfPrint);
-            print.add(appletPrint);
-            print.add(serverPrint);
-            print.setBorder(BorderFactory.createTitledBorder(Inter.getLocText(new String[]{"Form-Button", "Property", "Set"})));
-            return print;
-        }
-
-
         private JPanel getCpane() {
             JPanel appendCountPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_S_Pane();
             count = new UIBasicSpinner(new SpinnerNumberModel(1, 0, Integer.MAX_VALUE, 1));
@@ -481,17 +462,6 @@ public class EditToolBar extends BasicPane {
             appendCountPane.add(cpane);
             return cpane;
         }
-
-
-        private JPanel getPdfPrintSetting() {
-            // richer:pdf打印按钮设置
-            JPanel pdfPrintSetting = FRGUIPaneFactory.createY_AXISBoxInnerContainer_S_Pane();
-            isPopup = new UICheckBox(Inter.getLocText("PDF-Print_isPopup"));
-            pdfPrintSetting.add(isPopup);
-            pdfPrintSetting.setBorder(BorderFactory.createTitledBorder(Inter.getLocText("PDF-Print_Setting")));
-            return pdfPrintSetting;
-        }
-
 
         private JPanel getSubmitPane() {
             isVerify = new UICheckBox(Inter.getLocText("Verify-Data_Verify"));
@@ -544,10 +514,6 @@ public class EditToolBar extends BasicPane {
             }
             if (widget instanceof Export) {
                 populateExport();
-            } else if (widget instanceof Print) {
-                populatePrint();
-            } else if (widget instanceof PDFPrint) {
-                populatePDFPrint();
             } else if (widget instanceof AppendColumnRow) {
                 populateAppendColumnRow();
             } else if (widget instanceof Submit) {
@@ -614,21 +580,6 @@ public class EditToolBar extends BasicPane {
             this.isCurSheet.setSelected(submit.isOnlySubmitSelect());
         }
 
-        private void populatePDFPrint() {
-            card.show(centerPane, "pdfprint");
-            PDFPrint pdfPrint = (PDFPrint) widget;
-            this.isPopup.setSelected(pdfPrint.isPopup());
-        }
-
-        private void populatePrint() {
-            card.show(centerPane, "print");
-            Print print = (Print) widget;
-            this.pdfPrint.setSelected(print.isPDFPrint());
-            this.appletPrint.setSelected(print.isAppletPrint());
-            this.flashPrint.setSelected(print.isFlashPrint());
-            this.serverPrint.setSelected(print.isServerPrint());
-        }
-
         private void populateDefault() {
             Button button = (Button) widget;
             this.icon.setSelected(button.isShowIcon());
@@ -645,11 +596,6 @@ public class EditToolBar extends BasicPane {
         public Widget update() {
             if (widget instanceof Export) {
                 updateExport();
-            } else if (widget instanceof Print) {
-                updatePrint();
-            } else if (widget instanceof PDFPrint) {
-                PDFPrint pdfPrint = (PDFPrint) widget;
-                pdfPrint.setPopup(this.isPopup.isSelected());
             } else if (widget instanceof AppendColumnRow) {
                 ((AppendColumnRow) widget).setCount(((Integer) count.getValue()).intValue());
             } else if (widget instanceof Submit) {
@@ -683,14 +629,6 @@ public class EditToolBar extends BasicPane {
             submit.setVerify(this.isVerify.isSelected());
             submit.setFailVerifySubmit(this.failSubmit.isSelected());
             submit.setOnlySubmitSelect(this.isCurSheet.isSelected());
-        }
-
-        private void updatePrint() {
-            Print print = (Print) widget;
-            print.setAppletPrint(this.appletPrint.isSelected());
-            print.setFlashPrint(this.flashPrint.isSelected());
-            print.setPDFPrint(this.pdfPrint.isSelected());
-            print.setServerPrint(this.serverPrint.isSelected());
         }
 
         private void updateExport() {
