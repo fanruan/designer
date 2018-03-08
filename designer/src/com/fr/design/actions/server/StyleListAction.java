@@ -1,7 +1,7 @@
 package com.fr.design.actions.server;
 
 import com.fr.config.Configuration;
-import com.fr.config.ServerConfig;
+import com.fr.config.ServerPreferenceConfig;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
@@ -43,19 +43,19 @@ public class StyleListAction extends UpdateAction {
 				Configurations.update(new Worker() {
 					@Override
 					public void run() {
-						styleListPane.update(ServerConfig.getInstance());
+						styleListPane.update(ServerPreferenceConfig.getInstance());
 					}
 
 					@Override
 					public Class<? extends Configuration>[] targets() {
-						return new Class[]{ServerConfig.class};
+						return new Class[]{ServerPreferenceConfig.class};
 					}
 				});
 
 			}                
         });
 
-        styleListPane.populate(ServerConfig.getInstance().mirror());
+        styleListPane.populate(ServerPreferenceConfig.getInstance().mirror());
 		styleListDialog.setVisible(true);
 	
 	}

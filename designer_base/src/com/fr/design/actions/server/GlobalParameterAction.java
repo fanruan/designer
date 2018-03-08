@@ -6,7 +6,7 @@ package com.fr.design.actions.server;
 import com.fr.base.BaseUtils;
 import com.fr.base.ParameterConfig;
 import com.fr.config.Configuration;
-import com.fr.config.ServerConfig;
+import com.fr.config.ServerPreferenceConfig;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.dialog.BasicDialog;
@@ -63,7 +63,7 @@ public class GlobalParameterAction extends UpdateAction {
 
                     @Override
                     public Class<? extends Configuration>[] targets() {
-                        return new Class[]{ServerConfig.class};
+                        return new Class[]{ServerPreferenceConfig.class};
                     }
                 });
 

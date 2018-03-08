@@ -1,8 +1,7 @@
 package com.fr.design.actions.file;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
-import com.fr.config.ServerConfig;
+import com.fr.base.ServerConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.RestartHelper;
 import com.fr.design.dialog.BasicDialog;
@@ -27,16 +26,8 @@ import com.fr.general.FRFont;
 import com.fr.general.FRLevel;
 import com.fr.general.Inter;
 
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Window;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -371,6 +362,7 @@ public class PreferencePane extends BasicPane {
         logLevelPane.add(logLevelComboBox);
         logLevelComboBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+    
                 ServerConfig.getInstance().setServerLogLevel(((FRLevel) logLevelComboBox.getSelectedItem()).getLevel());
             }
         });
@@ -550,7 +542,7 @@ public class PreferencePane extends BasicPane {
         paginationLineColorTBButton.setColor(designerEnvManager.getPaginationLineColor());
 
         this.logExportDirectoryField.setText(designerEnvManager.getLogLocation());
-
+    
         this.logLevelComboBox.setSelectedItem(FRLevel.getByLevel(ServerConfig.getInstance().getServerLogLevel()));
 
         this.languageComboBox.setSelectedItem(LANGUAGE.get(designerEnvManager.getLanguage()));
@@ -630,7 +622,7 @@ public class PreferencePane extends BasicPane {
         if (maxUndoLimit.getSelectedIndex() == SELECTED_INDEX_5) {
             designerEnvManager.setUndoLimit(MAX_UNDO_LIMIT_50);
         }
-
+    
         ServerConfig.getInstance().setServerLogLevel(((FRLevel) logLevelComboBox.getSelectedItem()).getLevel());
 
     }

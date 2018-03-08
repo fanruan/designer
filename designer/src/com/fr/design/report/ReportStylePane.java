@@ -1,6 +1,6 @@
 package com.fr.design.report;
 
-import com.fr.config.ServerConfig;
+import com.fr.config.ServerPreferenceConfig;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.style.StylePane;
 import com.fr.design.utils.gui.GUICoreUtils;
@@ -35,8 +35,8 @@ public class ReportStylePane extends StylePane {
 						if (ComparatorUtils.equals(name, "")) {
 							return;
 						}
-						if (ServerConfig.getInstance().getStyle(name) == null) {
-							ServerConfig.getInstance().putStyle(name, ReportStylePane.this.updateBean());
+						if (ServerPreferenceConfig.getInstance().getStyle(name) == null) {
+							ServerPreferenceConfig.getInstance().putStyle(name, ReportStylePane.this.updateBean());
 						} else {
 							JOptionPane.showMessageDialog(getParent(), Inter.getLocText("FR-Designer_This_Name_Has_Exsit") + "!", Inter.getLocText("FR-Designer_Warning"), JOptionPane.WARNING_MESSAGE);
 						}

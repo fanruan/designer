@@ -1,7 +1,7 @@
 package com.fr.design.present;
 
 import com.fr.base.Style;
-import com.fr.config.ServerConfig;
+import com.fr.config.ServerPreferenceConfig;
 import com.fr.design.gui.controlpane.AbstractNameableCreator;
 import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameableCreator;
@@ -64,7 +64,7 @@ public class StyleArrayPane extends JListControlPane {
 	/**
 	 * Populate
 	 */
-	public void populate(ServerConfig configManager) {
+	public void populate(ServerPreferenceConfig configManager) {
 		if (configManager == null) {
 			return;
 		}
@@ -90,7 +90,7 @@ public class StyleArrayPane extends JListControlPane {
 	/**
 	 * Update.
 	 */
-	public void update(ServerConfig configManager) {
+	public void update(ServerPreferenceConfig configManager) {
 		configManager.clearAllStyle();
 
 		// Nameable[]居然不能强转成Parameter[],一定要这么写...
