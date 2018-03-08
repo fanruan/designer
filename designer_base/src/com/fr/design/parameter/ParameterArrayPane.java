@@ -31,7 +31,7 @@ public class ParameterArrayPane extends JListControlPane {
 		});
 		this.addEditingListner( new PropertyChangeAdapter() {
 			public void propertyChange() {
-				Parameter[] parameters = ServerConfig.getInstance().getGlobal_Parameters();
+				Parameter[] parameters = ServerConfig.getInstance().getGlobalParameters();
 				String[] allListNames = nameableList.getAllNames();
 				allListNames[nameableList.getSelectedIndex()] = StringUtils.EMPTY;
 				String tempName = getEditingName();

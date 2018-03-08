@@ -41,7 +41,7 @@ public class ParameterManagerPane extends BasicPane {
 //        this.parameterTextField.setText(FRContext.getCurrentEnv().getPath() + File.separator +
 //                ProjectConstants.RESOURCES_NAME +
 //                File.separator + configManager.fileName());
-        this.parameterArrayPane.populate(configManager.getGlobal_Parameters());
+        this.parameterArrayPane.populate(configManager.getGlobalParameters());
     }
 
     public void update(ServerConfig configManager) {
