@@ -1,7 +1,7 @@
 package com.fr.design.formula;
 
 import com.fr.base.Parameter;
-import com.fr.config.ServerConfig;
+import com.fr.base.ParameterConfig;
 import com.fr.design.DesignModelAdapter;
 import com.fr.plugin.ExtraClassManager;
 import com.fr.script.ScriptConstants;
@@ -93,8 +93,7 @@ public abstract class VariableResolverAdapter implements VariableResolver {
 	 */
 	public String[] resolveGlobalParameterVariables() {
 		// 加上全局的参数
-        ServerConfig reportServerManager = ServerConfig.getInstance();
-		Parameter[] globalParameters = reportServerManager.getGlobal_Parameters();
+		Parameter[] globalParameters = ParameterConfig.getInstance().getGlobalParameters();
 
 		List<String> variablesList = new ArrayList<String>();
 		for (int i = 0; i < (globalParameters == null ? 0 : globalParameters.length); i++) {

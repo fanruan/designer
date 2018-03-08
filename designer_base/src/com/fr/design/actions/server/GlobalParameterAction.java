@@ -4,6 +4,7 @@
 package com.fr.design.actions.server;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.ParameterConfig;
 import com.fr.config.Configuration;
 import com.fr.config.ServerConfig;
 import com.fr.design.DesignModelAdapter;
@@ -46,8 +47,8 @@ public class GlobalParameterAction extends UpdateAction {
 
         //marks:读取服务器配置信息
         final ServerConfig configManager = ServerConfig.getInstance();
-
-        parameterManagerPane.populate(configManager.mirror());
+    
+        parameterManagerPane.populate(ParameterConfig.getInstance().getGlobalParameters());
         parameterManagerDialog.addDialogActionListener(new DialogActionAdapter() {
             public void doOk() {
                 Configurations.update(new Worker() {

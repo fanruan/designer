@@ -2,8 +2,8 @@ package com.fr.design.widget.ui;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.Parameter;
+import com.fr.base.ParameterConfig;
 import com.fr.base.TableData;
-import com.fr.config.ServerConfig;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.gui.icombobox.FRTreeComboBox;
 import com.fr.design.gui.itree.refreshabletree.ExpandMutableTreeNode;
@@ -154,7 +154,7 @@ public class ParameterTreeComboBox extends FRTreeComboBox {
 		}
 		
 		// 全局参数
-		parameters = ServerConfig.getInstance().getGlobal_Parameters();
+		parameters = ParameterConfig.getInstance().getGlobalParameters();
 		if (!ArrayUtils.isEmpty(parameters)) {
 			groupList.add(new ParameterGroup(Inter.getLocText("M_Server-Global_Parameters"), parameters));
 		}
