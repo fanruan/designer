@@ -1,6 +1,6 @@
 package com.fr.design.javascript;
 
-import com.fr.config.EmailConfig;
+import com.fr.config.EmailServerConfig;
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.icheckbox.UICheckBox;
@@ -51,7 +51,7 @@ public class EmailPane extends FurtherBasicBeanPane<EmailJavaScript> {
 		initCenterPane(mainTextLabel, scrollPane, fill, preferred);
 		this.add(centerPane, BorderLayout.CENTER);
 		mainTextEditor.setAutoscrolls(true);
-		checkEmailConfig(EmailConfig.getInstance().isEmailConfigValid());
+		checkEmailConfig(EmailServerConfig.getInstance().isEmailConfigValid());
 	}
     
     /**
@@ -113,7 +113,7 @@ public class EmailPane extends FurtherBasicBeanPane<EmailJavaScript> {
 		if (showTplContent != null) {
 			showTplContent.setSelected(ob ==null ? false: ob.isShowTplContent());
 		}
-		checkEmailConfig(EmailConfig.getInstance().isEmailConfigValid());
+		checkEmailConfig(EmailServerConfig.getInstance().isEmailConfigValid());
 	}
 
 	@Override
