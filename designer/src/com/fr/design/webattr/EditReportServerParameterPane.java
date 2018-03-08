@@ -97,10 +97,6 @@ public class EditReportServerParameterPane extends LoadingBasicPane {
      */
     public void update(ServerConfig reportServerConfig) {
         ReportWebAttr webAttr = ((ReportWebAttr)ConfigManager.getProviderInstance().getGlobalAttribute(ReportWebAttr.class));
-        if (webAttr == null) {
-            webAttr = new ReportWebAttr();
-            ConfigManager.getProviderInstance().putGlobalAttribute(ReportWebAttr.class, webAttr);
-        }
         webAttr.setWebPage(pagePane.updateBean());
         webAttr.setWebView(viewPane.updateBean());
         webAttr.setWebWrite(writePane.updateBean());

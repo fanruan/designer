@@ -180,10 +180,6 @@ public class PageToolBarPane extends AbstractEditToolBarPane {
 					@Override
 					public void run() {
 						ReportWebAttr reportWebAttr = ((ReportWebAttr)ConfigManager.getProviderInstance().getGlobalAttribute(ReportWebAttr.class));
-						if (reportWebAttr == null) {
-							reportWebAttr = new ReportWebAttr();
-							ConfigManager.getProviderInstance().putGlobalAttribute(ReportWebAttr.class, reportWebAttr);
-						}
 						reportWebAttr.setWebPage(serverPageToolBarPane.updateBean());
 					}
 

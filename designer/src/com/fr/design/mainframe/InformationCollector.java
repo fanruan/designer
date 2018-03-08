@@ -3,8 +3,8 @@
  */
 package com.fr.design.mainframe;
 
-import com.fr.base.ConfigManagerFactory;
 import com.fr.base.FRContext;
+import com.fr.config.MarketConfig;
 import com.fr.data.core.db.DBUtils;
 import com.fr.data.core.db.dialect.DialectFactory;
 import com.fr.data.core.db.dml.Delete;
@@ -163,7 +163,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 				content.put(XML_UUID, envManager.getUUID());
 				content.put(XML_JAR, GeneralUtils.readBuildNO());
 				content.put(XML_VERSION, ProductConstants.RELEASE_VERSION);
-				content.put(XML_USERNAME, ConfigManagerFactory.getProviderInstance().getBbsUsername());
+				content.put(XML_USERNAME, MarketConfig.getInstance().getBbsUsername());
 				content.put(XML_KEY, envManager.getActivationKey());
 				content.put(XML_OS, System.getProperty("os.name"));
 			} catch (JSONException e) {
@@ -297,7 +297,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
         }
 
         DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
-        content.put("username", ConfigManagerFactory.getProviderInstance().getBbsUsername());
+        content.put("username", MarketConfig.getInstance().getBbsUsername());
         content.put("uuid", envManager.getUUID());
         content.put("functions", functionArray);
 
