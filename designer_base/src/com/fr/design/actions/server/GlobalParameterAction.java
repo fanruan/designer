@@ -6,7 +6,7 @@ package com.fr.design.actions.server;
 import com.fr.base.BaseUtils;
 import com.fr.base.ParameterConfig;
 import com.fr.config.Configuration;
-import com.fr.config.ServerConfig;
+import com.fr.config.ServerPreferenceConfig;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.dialog.BasicDialog;
@@ -46,8 +46,6 @@ public class GlobalParameterAction extends UpdateAction {
         final BasicDialog parameterManagerDialog = parameterManagerPane.showWindow(designerFrame);
 
         //marks:读取服务器配置信息
-        final ServerConfig configManager = ServerConfig.getInstance();
-    
         parameterManagerPane.populate(ParameterConfig.getInstance().getGlobalParameters());
         parameterManagerDialog.addDialogActionListener(new DialogActionAdapter() {
             public void doOk() {
@@ -55,7 +53,7 @@ public class GlobalParameterAction extends UpdateAction {
                     @Override
                     public void run() {
                         //apply new parameter list.
-                        parameterManagerPane.update(configManager);
+                        parameterManagerPane.update();
                         DesignModelAdapter<?, ?> model = DesignModelAdapter.getCurrentModelAdapter();
                         if (model != null) {
                             model.parameterChanged();
@@ -65,7 +63,7 @@ public class GlobalParameterAction extends UpdateAction {
 
                     @Override
                     public Class<? extends Configuration>[] targets() {
-                        return new Class[]{ServerConfig.class};
+                        return new Class[]{ServerPreferenceConfig.class};
                     }
                 });
 

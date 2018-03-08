@@ -1,13 +1,13 @@
 package com.fr.design.utils;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.ServerConfig;
 import com.fr.base.Env;
 import com.fr.base.EnvException;
 import com.fr.base.FRContext;
 import com.fr.base.FeedBackInfo;
 import com.fr.base.Utils;
 import com.fr.base.remote.RemoteDeziConstants;
-import com.fr.config.ServerConfig;
 import com.fr.dav.DavXMLUtils;
 import com.fr.dav.LocalEnv;
 import com.fr.design.DesignerEnvManager;

@@ -1,6 +1,6 @@
 package com.fr.design.hyperlink;
 
-import com.fr.config.ServerConfig;
+import com.fr.config.ServerPreferenceConfig;
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -80,7 +80,7 @@ public class WebHyperNorthPane extends AbstractHyperNorthPane<WebHyperlink> {
     protected void populateSubHyperlinkBean(WebHyperlink link) {
         String url = link.getURL();
         if (StringUtils.isBlank(url)) {
-            url = ServerConfig.getInstance().getHyperlinkAddress();
+            url = ServerPreferenceConfig.getInstance().getHyperlinkAddress();
         }
         this.urlTextField.setText(url);
         if (itemNameTextField != null) {

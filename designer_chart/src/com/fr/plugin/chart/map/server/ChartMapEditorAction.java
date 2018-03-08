@@ -1,8 +1,8 @@
 package com.fr.plugin.chart.map.server;
 
+import com.fr.base.ServerConfig;
 import com.fr.base.Env;
 import com.fr.base.FRContext;
-import com.fr.config.ServerConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.UpdateAction;
 import com.fr.general.GeneralContext;

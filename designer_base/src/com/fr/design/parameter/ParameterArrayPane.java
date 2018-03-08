@@ -2,7 +2,6 @@ package com.fr.design.parameter;
 
 import com.fr.base.Parameter;
 import com.fr.base.ParameterConfig;
-import com.fr.config.ServerConfig;
 import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.controlpane.NameableSelfCreator;

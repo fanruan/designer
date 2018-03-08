@@ -4,7 +4,7 @@
 package com.fr.design.actions.server;
 
 import com.fr.config.Configuration;
-import com.fr.config.ServerConfig;
+import com.fr.config.ServerPreferenceConfig;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
@@ -38,7 +38,7 @@ public class ServerConfigManagerAction extends UpdateAction {
      * @param e 事件
      */
     public void actionPerformed(ActionEvent e) {
-        final ServerConfig config = ServerConfig.getInstance();
+        final ServerPreferenceConfig config = ServerPreferenceConfig.getInstance();
         final EditReportServerParameterPane editReportServerParameterPane = new EditReportServerParameterPane() {
             @Override
             public void complete() {
@@ -61,7 +61,7 @@ public class ServerConfigManagerAction extends UpdateAction {
 
                     @Override
                     public Class<? extends Configuration>[] targets() {
-                        return new Class[]{ReportWebAttr.class, ServerConfig.class};
+                        return new Class[]{ReportWebAttr.class, ServerPreferenceConfig.class};
                     }
                 });
 

@@ -4,8 +4,7 @@
 package com.fr.design.webattr;
 
 import com.fr.base.ConfigManager;
-import com.fr.base.FRContext;
-import com.fr.config.ServerConfig;
+import com.fr.config.ServerPreferenceConfig;
 import com.fr.design.gui.frpane.LoadingBasicPane;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.gui.ilable.UILabel;
@@ -73,11 +72,11 @@ public class EditReportServerParameterPane extends LoadingBasicPane {
     	return Inter.getLocText("ReportServerP-Report_server_parameter");
     }
 
-    public void populate(ServerConfig reportServerConfig) {
+    public void populate(ServerPreferenceConfig reportServerPreferenceConfig) {
         //todo 原来界面上显示的xml路径
 //        this.configFileTextField.setText(FRContext.getCurrentEnv().getPath() + File.separator +
 //                ProjectConstants.RESOURCES_NAME +
-//                File.separator + reportServerConfig.fileName());
+//                File.separator + reportServerPreferenceConfig.fileName());
 
         webAttr = ((ReportWebAttr) ConfigManager.getProviderInstance().getGlobalAttribute(ReportWebAttr.class));
         if (webAttr != null) {
@@ -89,13 +88,13 @@ public class EditReportServerParameterPane extends LoadingBasicPane {
         	jsPane.populate(webAttr);
         }
         
-        this.errorTemplatePane.populateBean(reportServerConfig.getErrorTemplate());
+        this.errorTemplatePane.populateBean(reportServerPreferenceConfig.getErrorTemplate());
     }
 
     /**
      * Update.
      */
-    public void update(ServerConfig reportServerConfig) {
+    public void update(ServerPreferenceConfig reportServerPreferenceConfig) {
         ReportWebAttr webAttr = ((ReportWebAttr)ConfigManager.getProviderInstance().getGlobalAttribute(ReportWebAttr.class));
         webAttr.setWebPage(pagePane.updateBean());
         webAttr.setWebView(viewPane.updateBean());
@@ -105,6 +104,6 @@ public class EditReportServerParameterPane extends LoadingBasicPane {
         
         jsPane.update(webAttr);
 
-        reportServerConfig.setErrorTemplate(this.errorTemplatePane.updateBean());
+        reportServerPreferenceConfig.setErrorTemplate(this.errorTemplatePane.updateBean());
     }
 }

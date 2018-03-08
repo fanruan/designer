@@ -6,7 +6,7 @@ package com.fr.design.actions.cell;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.NameStyle;
-import com.fr.config.ServerConfig;
+import com.fr.config.ServerPreferenceConfig;
 import com.fr.design.actions.SelectionListenerAction;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.gui.imenu.UIMenu;
@@ -72,7 +72,7 @@ public class GlobalStyleMenuDef extends MenuDef {
     public void updateMenu() {
         UIMenu createdMenu = this.createJMenu();
         createdMenu.removeAll();
-        Iterator iterator = ServerConfig.getInstance().getStyleNameIterator();
+        Iterator iterator = ServerPreferenceConfig.getInstance().getStyleNameIterator();
         while (iterator.hasNext()) {
             String name = (String) iterator.next();
             NameStyle nameStyle = NameStyle.getInstance(name);
