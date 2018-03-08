@@ -46,8 +46,6 @@ public class GlobalParameterAction extends UpdateAction {
         final BasicDialog parameterManagerDialog = parameterManagerPane.showWindow(designerFrame);
 
         //marks:读取服务器配置信息
-        final ServerConfig configManager = ServerConfig.getInstance();
-    
         parameterManagerPane.populate(ParameterConfig.getInstance().getGlobalParameters());
         parameterManagerDialog.addDialogActionListener(new DialogActionAdapter() {
             public void doOk() {
@@ -55,7 +53,7 @@ public class GlobalParameterAction extends UpdateAction {
                     @Override
                     public void run() {
                         //apply new parameter list.
-                        parameterManagerPane.update(configManager);
+                        parameterManagerPane.update();
                         DesignModelAdapter<?, ?> model = DesignModelAdapter.getCurrentModelAdapter();
                         if (model != null) {
                             model.parameterChanged();
