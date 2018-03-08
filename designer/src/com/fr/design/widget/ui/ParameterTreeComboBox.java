@@ -154,7 +154,7 @@ public class ParameterTreeComboBox extends FRTreeComboBox {
 		}
 		
 		// 全局参数
-		parameters = ServerConfig.getInstance().getGlobeParameters();
+		parameters = ServerConfig.getInstance().getGlobal_Parameters();
 		if (!ArrayUtils.isEmpty(parameters)) {
 			groupList.add(new ParameterGroup(Inter.getLocText("M_Server-Global_Parameters"), parameters));
 		}

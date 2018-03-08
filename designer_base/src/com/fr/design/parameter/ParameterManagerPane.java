@@ -1,17 +1,14 @@
 package com.fr.design.parameter;
 
-import com.fr.base.FRContext;
 import com.fr.config.ServerConfig;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.Inter;
-import com.fr.stable.project.ProjectConstants;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 
 
 public class ParameterManagerPane extends BasicPane {
@@ -44,7 +41,7 @@ public class ParameterManagerPane extends BasicPane {
 //        this.parameterTextField.setText(FRContext.getCurrentEnv().getPath() + File.separator +
 //                ProjectConstants.RESOURCES_NAME +
 //                File.separator + configManager.fileName());
-        this.parameterArrayPane.populate(configManager.getGlobeParameters());
+        this.parameterArrayPane.populate(configManager.getGlobal_Parameters());
     }
 
     public void update(ServerConfig configManager) {
