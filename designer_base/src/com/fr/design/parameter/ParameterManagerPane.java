@@ -1,6 +1,7 @@
 package com.fr.design.parameter;
 
-import com.fr.config.ServerConfig;
+import com.fr.base.Parameter;
+import com.fr.base.ParameterConfig;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
@@ -35,17 +36,18 @@ public class ParameterManagerPane extends BasicPane {
     protected String title4PopupWindow() {
         return Inter.getLocText("M_Server-Global_Parameters");
     }
-
-    public void populate(ServerConfig configManager) {
+    
+    public void populate(Parameter[] parameters) {
         //todo 原来界面上显示的xml路径
 //        this.parameterTextField.setText(FRContext.getCurrentEnv().getPath() + File.separator +
 //                ProjectConstants.RESOURCES_NAME +
 //                File.separator + configManager.fileName());
-        this.parameterArrayPane.populate(configManager.getGlobalParameters());
+        this.parameterArrayPane.populate(parameters);
     }
-
-    public void update(ServerConfig configManager) {
-        configManager.setGlobeParameters(parameterArrayPane.updateParameters());
+    
+    public void update() {
+        
+        ParameterConfig.getInstance().setGlobeParameters(parameterArrayPane.updateParameters());
     }
 
     /**

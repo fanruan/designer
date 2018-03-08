@@ -1,6 +1,7 @@
 package com.fr.design.parameter;
 
 import com.fr.base.Parameter;
+import com.fr.base.ParameterConfig;
 import com.fr.config.ServerConfig;
 import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameableCreator;
@@ -31,7 +32,7 @@ public class ParameterArrayPane extends JListControlPane {
 		});
 		this.addEditingListner( new PropertyChangeAdapter() {
 			public void propertyChange() {
-				Parameter[] parameters = ServerConfig.getInstance().getGlobalParameters();
+				Parameter[] parameters = ParameterConfig.getInstance().getGlobalParameters();
 				String[] allListNames = nameableList.getAllNames();
 				allListNames[nameableList.getSelectedIndex()] = StringUtils.EMPTY;
 				String tempName = getEditingName();
