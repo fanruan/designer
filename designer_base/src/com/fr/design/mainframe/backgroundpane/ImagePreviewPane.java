@@ -4,6 +4,24 @@ package com.fr.design.mainframe.backgroundpane;
  * Copyright(c) 2001-2010, FineReport Inc, All Rights Reserved.
  */
 
+import com.fr.base.BaseUtils;
+import com.fr.base.GraphHelper;
+import com.fr.base.Style;
+import com.fr.design.constants.UIConstants;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.iscrollbar.UIScrollBar;
+import com.fr.general.Inter;
+import com.fr.stable.Constants;
+import com.fr.stable.CoreGraphHelper;
+
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JViewport;
+import javax.swing.Scrollable;
+import javax.swing.SwingConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
@@ -12,25 +30,6 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
-
-import com.fr.design.constants.UIConstants;
-import com.fr.design.gui.ilable.UILabel;
-import javax.swing.JPanel;
-import javax.swing.JViewport;
-import javax.swing.Scrollable;
-import javax.swing.SwingConstants;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-import com.fr.base.BaseUtils;
-import com.fr.base.GraphHelper;
-import com.fr.base.Style;
-import com.fr.design.gui.iscrollbar.UIScrollBar;
-import com.fr.stable.Constants;
-import com.fr.stable.CoreGraphHelper;
 
 /**
  * The pane use to preview image
@@ -48,6 +47,7 @@ public class ImagePreviewPane extends JComponent implements Scrollable {
 
 	private List<ChangeListener> changeListenerList = new ArrayList<ChangeListener>();
 	private UILabel sizeLabel;
+	private boolean isLoading = false;
 
 	public ImagePreviewPane() {
 		sizeLabel = new UILabel();
@@ -57,7 +57,10 @@ public class ImagePreviewPane extends JComponent implements Scrollable {
 		this.add(new JPanel() {
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-
+				if (isLoading) {
+					g.drawString(Inter.getLocText("FR-Designer_Image_Loading"), getWidth() / 2 - 25, getHeight() / 2);
+					return;
+				}
 				// draw image.
 				if (getImage() != null) {
 					// carl:让imagePreviewPane能预览样式
@@ -107,6 +110,7 @@ public class ImagePreviewPane extends JComponent implements Scrollable {
 			}
 			sizeLabel.setText(null);
 		} else {
+			isLoading = false;
 			// wait for the size of image.
 			CoreGraphHelper.waitForImage(image);
 
@@ -122,6 +126,13 @@ public class ImagePreviewPane extends JComponent implements Scrollable {
 		}
 		fireChangeListener();
 		this.revalidate();
+	}
+	public void showLoading() {
+		isLoading = true;
+		setImage(null);
+		fireChangeListener();
+		validate();
+		repaint();
 	}
 
 	/**

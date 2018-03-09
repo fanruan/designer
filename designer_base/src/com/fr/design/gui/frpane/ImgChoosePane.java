@@ -8,12 +8,19 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.style.background.image.ImageFileChooser;
 import com.fr.design.style.background.image.ImagePreviewPane;
+import com.fr.design.utils.ImageUtils;
 import com.fr.general.Inter;
+import com.fr.stable.CoreGraphHelper;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JFileChooser;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.SwingWorker;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -25,6 +32,7 @@ public class ImgChoosePane extends BasicPane {
 	private UIButton clearButton;
 	private UILabel imgSizeLabel;
 	private ImageFileChooser imageFileChooser;
+	private SwingWorker<Void, Void> imageWorker;
 
 	public ImgChoosePane() {
 		this.initComponents();
@@ -83,9 +91,22 @@ public class ImgChoosePane extends BasicPane {
 				if (returnVal != JFileChooser.CANCEL_OPTION) {
 					File selectedFile = imageFileChooser.getSelectedFile();
 					if (selectedFile != null && selectedFile.isFile()) {
-						Image image = BaseUtils.readImage(selectedFile.getPath());
-						previewPane.setImage(image);
-						previewPane.repaint();
+						previewPane.showLoading();
+						if (imageWorker != null && !imageWorker.isDone()) {
+							imageWorker = null;
+						}
+						imageWorker = new SwingWorker<Void, Void>() {
+							@Override
+							protected Void doInBackground() throws Exception {
+								Image image = imageFileChooser.isCompressSelected() ? ImageUtils.defaultImageCompress(selectedFile) : BaseUtils.readImage(selectedFile.getPath());
+								CoreGraphHelper.waitForImage(image);
+
+								previewPane.setImage(image);
+								previewPane.repaint();
+								return null;
+							}
+						};
+						imageWorker.execute();
 					} else {
 						previewPane.setImage(null);
 					}

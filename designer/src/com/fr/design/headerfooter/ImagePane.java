@@ -3,25 +3,26 @@
  */
 package com.fr.design.headerfooter;
 
-import java.awt.BorderLayout;
-import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
+import com.fr.base.BaseUtils;
+import com.fr.design.dialog.BasicPane;
+import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.style.background.image.ImageFileChooser;
+import com.fr.design.style.background.image.ImagePreviewPane;
+import com.fr.design.utils.ImageUtils;
+import com.fr.general.Inter;
+import com.fr.stable.CoreGraphHelper;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-
-import com.fr.base.BaseUtils;
-import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.dialog.BasicPane;
-import com.fr.general.Inter;
-import com.fr.stable.CoreGraphHelper;
-import com.fr.design.style.background.image.ImageFileChooser;
-import com.fr.design.style.background.image.ImagePreviewPane;
+import javax.swing.SwingWorker;
+import java.awt.BorderLayout;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 
 /**
  * Image Pane.
@@ -29,6 +30,7 @@ import com.fr.design.style.background.image.ImagePreviewPane;
 public class ImagePane extends BasicPane {
     private ImagePreviewPane imagePreviewPane;
     private ImageFileChooser imageFileChooser = null;
+    private SwingWorker<Void, Void> imageWorker;
 
     public ImagePane() {
         this(true);
@@ -95,10 +97,21 @@ public class ImagePane extends BasicPane {
                 File selectedFile = imageFileChooser.getSelectedFile();
 
                 if (selectedFile != null && selectedFile.isFile()) {
-                    Image image = BaseUtils.readImage(selectedFile.getPath());
-                    CoreGraphHelper.waitForImage(image);
+                    imagePreviewPane.showLoading();
+                    if (imageWorker != null && !imageWorker.isDone()) {
+                        imageWorker = null;
+                    }
+                    imageWorker = new SwingWorker<Void, Void>() {
+                        @Override
+                        protected Void doInBackground() throws Exception {
+                            Image image = imageFileChooser.isCompressSelected() ? ImageUtils.defaultImageCompress(selectedFile) : BaseUtils.readImage(selectedFile.getPath());
+                            CoreGraphHelper.waitForImage(image);
 
-                    imagePreviewPane.setImage(image);
+                            imagePreviewPane.setImage(image);
+                            return null;
+                        }
+                    };
+                    imageWorker.execute();
                 } else {
                     imagePreviewPane.setImage(null);
                 }

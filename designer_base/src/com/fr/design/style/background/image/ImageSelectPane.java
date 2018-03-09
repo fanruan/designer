@@ -1,28 +1,28 @@
 package com.fr.design.style.background.image;
 
+import com.fr.base.BaseUtils;
+import com.fr.base.background.ImageBackground;
+import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.icombobox.UIComboBox;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.style.AlphaPane;
+import com.fr.design.style.background.BackgroundPane4BoxChange;
+import com.fr.design.utils.ImageUtils;
+import com.fr.general.Background;
+import com.fr.general.Inter;
+import com.fr.stable.Constants;
+import com.fr.stable.CoreGraphHelper;
+
+import javax.swing.JFileChooser;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-
-import javax.swing.JFileChooser;
-import com.fr.design.gui.ilable.UILabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-
-import com.fr.base.BaseUtils;
-import com.fr.base.background.ImageBackground;
-import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.gui.icombobox.UIComboBox;
-import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Background;
-import com.fr.general.Inter;
-import com.fr.stable.Constants;
-import com.fr.stable.CoreGraphHelper;
-import com.fr.design.style.AlphaPane;
-import com.fr.design.style.background.BackgroundPane4BoxChange;
 
 
 /**
@@ -101,7 +101,7 @@ public class ImageSelectPane extends BackgroundPane4BoxChange {
             if (returnVal != JFileChooser.CANCEL_OPTION) {
                 File selectedFile = imageFileChooser.getSelectedFile();
                 if (selectedFile != null && selectedFile.isFile()) {
-                    Image image = BaseUtils.readImage(selectedFile.getPath());
+                    Image image = imageFileChooser.isCompressSelected() ? ImageUtils.defaultImageCompress(selectedFile) : BaseUtils.readImage(selectedFile.getPath());
                     CoreGraphHelper.waitForImage(image);
                     selectImage = image;
                 } 
