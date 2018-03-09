@@ -50,8 +50,6 @@ public class ImagePreviewPane extends JComponent implements Scrollable {
     public void showLoading() {
         isLoading = true;
         setImage(null);
-        fireChangeListener();
-        validate();
         repaint();
     }
 
