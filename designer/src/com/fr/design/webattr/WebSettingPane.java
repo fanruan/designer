@@ -13,7 +13,6 @@ import com.fr.form.event.Listener;
 import com.fr.general.Inter;
 import com.fr.report.web.ToolBarManager;
 import com.fr.report.web.WebContent;
-import com.fr.base.ConfigManagerProvider;
 import com.fr.stable.StringUtils;
 import com.fr.web.attr.ReportWebAttr;
 
@@ -191,8 +190,7 @@ public abstract class WebSettingPane<T extends WebContent> extends BasicBeanPane
 	}
 
 	private void populateServerSettings() {
-        ConfigManagerProvider configManager = ConfigManager.getProviderInstance();
-		ReportWebAttr reportWebAttr = ((ReportWebAttr)configManager.getGlobalAttribute(ReportWebAttr.class));
+		ReportWebAttr reportWebAttr = ReportWebAttr.getInstance();
 		T webContent = this.getWebContent(reportWebAttr);
 		if(webContent == null){
 			return;

@@ -1,7 +1,5 @@
 package com.fr.design.mainframe;
 
-import com.fr.base.ConfigManager;
-import com.fr.base.ConfigManagerProvider;
 import com.fr.base.FRContext;
 import com.fr.common.inputevent.InputEventBaseOnOS;
 import com.fr.design.beans.BasicBeanPane;
@@ -28,7 +26,11 @@ import com.fr.web.attr.ReportWebAttr;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.List;
 
 /**
@@ -216,8 +218,8 @@ public class AuthorityToolBarPane<T extends WebContent> extends BasicBeanPane<Re
         TemplateWorkBook wbTpl = editingWorkBook.getTarget();
 
         ReportWebAttr rw = wbTpl.getReportWebAttr();
-        ConfigManagerProvider cm = ConfigManager.getProviderInstance();
-        ReportWebAttr webAttr = ((ReportWebAttr) cm.getGlobalAttribute(ReportWebAttr.class));
+
+        ReportWebAttr webAttr = ReportWebAttr.getInstance();
 
         //wbTpl.clear先清空
         //再将所有的保存进去
@@ -318,8 +320,7 @@ public class AuthorityToolBarPane<T extends WebContent> extends BasicBeanPane<Re
 
 
     private void populateServerSettings() {
-        ConfigManagerProvider cm = ConfigManager.getProviderInstance();
-        ReportWebAttr webAttr = ((ReportWebAttr) cm.getGlobalAttribute(ReportWebAttr.class));
+        ReportWebAttr webAttr = ReportWebAttr.getInstance();
         if (this.getWebContent(webAttr) != null) {
             populate(this.getWebContent(webAttr).getToolBarManagers());
         }
