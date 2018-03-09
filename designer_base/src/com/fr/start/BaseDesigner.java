@@ -67,7 +67,9 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
     }
     
     private void init(String[] args) {
-        
+    
+        prepare();
+    
         RestartHelper.deleteRecordFilesWhenStart();
         ConfigManagerFactory.registerConfigManagerProxy(new ConfigManagerCreatorProxy());
         //启动core
@@ -106,6 +108,12 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
             }
         }
         initLookAndFeel(args, splashWindow);
+    }
+    
+    private void prepare() {
+        
+        //屏蔽IBM对私钥公钥的检查
+        System.getProperties().setProperty("com.ibm.crypto.provider.DoRSATypeChecking","false");
     }
     
     private void initLookAndFeel(String[] args, SplashWindow splashWindow) {
