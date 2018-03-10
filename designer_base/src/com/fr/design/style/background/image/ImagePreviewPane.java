@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * The pane use to preview image
  */
-public class ImagePreviewPane extends JComponent implements Scrollable {
+public class ImagePreviewPane extends JComponent implements Scrollable, ImagePreviewer {
     private Image image = null;
     // carl:image style
     private Style imageStyle = null;

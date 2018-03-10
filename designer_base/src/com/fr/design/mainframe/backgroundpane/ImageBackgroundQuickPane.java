@@ -1,33 +1,28 @@
 package com.fr.design.mainframe.backgroundpane;
 
-import com.fr.base.BaseUtils;
 import com.fr.base.Style;
 import com.fr.base.background.ImageBackground;
 import com.fr.design.border.UIRoundedBorder;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.event.UIObserverListener;
+import com.fr.design.gui.frpane.ImgChooseWrapper;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.style.background.image.ImageFileChooser;
-import com.fr.design.utils.ImageUtils;
 import com.fr.general.Background;
 import com.fr.general.Inter;
 import com.fr.stable.Constants;
-import com.fr.stable.CoreGraphHelper;
 
-import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 
 /**
  * @author zhou
@@ -98,36 +93,14 @@ public class ImageBackgroundQuickPane extends BackgroundQuickPane {
 				imageFileChooser.setMultiSelectionEnabled(false);
 			}
 			int returnVal = imageFileChooser.showOpenDialog(DesignerContext.getDesignerFrame());
-			if (returnVal != JFileChooser.CANCEL_OPTION) {
-				File selectedFile = imageFileChooser.getSelectedFile();
-
-				if (selectedFile != null && selectedFile.isFile()) {
-					previewPane.showLoading();
-					if (imageWorker != null && !imageWorker.isDone()) {
-						imageWorker = null;
-					}
-					imageWorker = new SwingWorker<Void, Void>() {
-						@Override
-						protected Void doInBackground() throws Exception {
-							Image image = imageFileChooser.isCompressSelected() ? ImageUtils.defaultImageCompress(selectedFile) : BaseUtils.readImage(selectedFile.getPath());
-							CoreGraphHelper.waitForImage(image);
-
-							previewPane.setImage(image);
-							imageStyle = Style.DEFAULT_STYLE.deriveImageLayout(imageLayoutPane.getSelectedItem());
-							previewPane.setImageStyle(imageStyle);
-							previewPane.repaint();
-							return null;
-						}
-					};
-					imageWorker.execute();
-				} else {
-					previewPane.setImage(null);
-				}
-				fireChagneListener();
-			}
-
+			imageStyle = Style.DEFAULT_STYLE.deriveImageLayout(imageLayoutPane.getSelectedItem());
+			ImgChooseWrapper.getInstance(previewPane, imageFileChooser, imageStyle).dealWithImageFile(returnVal);
+			fireChagneListener();
 		}
 	};
+
+
+
 
 	public void populateBean(Background background) {
 

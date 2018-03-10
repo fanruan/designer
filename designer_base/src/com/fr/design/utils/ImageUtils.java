@@ -21,10 +21,17 @@ import java.io.IOException;
 import java.util.Iterator;
 
 /**
+ * 设计器部分的图片处理工具类
  * Created by zack on 2018/3/8.
  */
 public class ImageUtils {
 
+    /**
+     * 默认压缩算法,采用75%质量压缩
+     *
+     * @param imageFile 原文件
+     * @return 压缩后的BufferedImage对象
+     */
     public static BufferedImage defaultImageCompress(File imageFile) {
         try {
             return imageCompress(imageFile, 0.75f);//默认75%质量
@@ -35,6 +42,14 @@ public class ImageUtils {
         return BaseUtils.readImage(imageFile.getPath());
     }
 
+    /**
+     * 图片压缩
+     *
+     * @param imageFile 原文件
+     * @param quality   质量系数(0-1)
+     * @return 压缩后的图片
+     * @throws IOException
+     */
     public static BufferedImage imageCompress(File imageFile, float quality) throws IOException {
         if (imageFile == null) {
             return null;
@@ -92,17 +107,12 @@ public class ImageUtils {
                 throw new IOException("The image file cannot be compressed");
             }
             return ImageIO.read(in);
-        } catch (IOException e) {
-            FRLogger.getLogger().error(e.getMessage(), e);
         } finally {
             writer.dispose();
-
             ios.close();
             byteArrayOutputStream.close();
             in.close();
         }
-
-        return null;
     }
 
     /**

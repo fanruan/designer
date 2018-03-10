@@ -1,8 +1,8 @@
 package com.fr.design.style.background.impl;
 
-import com.fr.base.BaseUtils;
 import com.fr.base.Style;
 import com.fr.base.background.ImageBackground;
+import com.fr.design.gui.frpane.ImgChooseWrapper;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.gui.ilable.UILabel;
@@ -10,18 +10,14 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.style.background.BackgroundDetailPane;
 import com.fr.design.style.background.image.ImageFileChooser;
 import com.fr.design.style.background.image.ImagePreviewPane;
-import com.fr.design.utils.ImageUtils;
 import com.fr.general.Background;
 import com.fr.general.Inter;
 import com.fr.stable.Constants;
-import com.fr.stable.CoreGraphHelper;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
-import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.SwingWorker;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.BorderLayout;
@@ -29,7 +25,6 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 
 /**
  * Image background pane.
@@ -46,7 +41,6 @@ public class ImageBackgroundPane extends BackgroundDetailPane {
     protected UIRadioButton tiledRadioButton = null;
     private UIRadioButton extendRadioButton = null;
     private UIRadioButton adjustRadioButton = null;
-    private SwingWorker<Void, Void> imageWorker;
 
     public ImageBackgroundPane() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
@@ -125,40 +119,11 @@ public class ImageBackgroundPane extends BackgroundDetailPane {
 
         public void actionPerformed(ActionEvent evt) {
             int returnVal = imageFileChooser.showOpenDialog(ImageBackgroundPane.this);
-            if (returnVal != JFileChooser.CANCEL_OPTION) {
-                File selectedFile = imageFileChooser.getSelectedFile();
-
-                if (selectedFile != null && selectedFile.isFile()) {
-                    previewPane.showLoading();
-                    if (imageWorker != null && !imageWorker.isDone()) {
-                        imageWorker = null;
-                    }
-                    imageWorker = new SwingWorker<Void, Void>() {
-                        @Override
-                        protected Void doInBackground() throws Exception {
-                            Image image = imageFileChooser.isCompressSelected() ? ImageUtils.defaultImageCompress(selectedFile) : BaseUtils.readImage(selectedFile.getPath());
-                            CoreGraphHelper.waitForImage(image);
-
-                            previewPane.setImage(image);
-                            imageStyleRepaint();
-                            previewPane.repaint();
-                            return null;
-                        }
-                    };
-                    imageWorker.execute();
-                } else {
-                    previewPane.setImage(null);
-                }
-            }
-
+            setImageStyle();
+            ImgChooseWrapper.getInstance(previewPane, imageFileChooser, imageStyle).dealWithImageFile(returnVal);
             fireChagneListener();
         }
     };
-
-    public void imageStyleRepaint(){
-        setImageStyle();
-        previewPane.setImageStyle(imageStyle);
-    }
 
     private void setImageStyle() {
         if (tiledRadioButton.isSelected()) {

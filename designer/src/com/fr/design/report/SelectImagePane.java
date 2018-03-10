@@ -1,9 +1,8 @@
 package com.fr.design.report;
 
-import com.fr.base.BaseUtils;
 import com.fr.base.Style;
-import com.fr.design.utils.ImageUtils;
 import com.fr.design.dialog.BasicPane;
+import com.fr.design.gui.frpane.ImgChooseWrapper;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -14,11 +13,9 @@ import com.fr.general.Inter;
 import com.fr.report.cell.Elem;
 import com.fr.report.cell.cellattr.CellImage;
 import com.fr.stable.Constants;
-import com.fr.stable.CoreGraphHelper;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
-import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingWorker;
@@ -27,7 +24,6 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 
 /**
  * 这个类主要用于插入图片时的设置
@@ -42,9 +38,7 @@ public class SelectImagePane extends BasicPane {
     private UIRadioButton adjustRadioButton = null;
 
     private Style imageStyle = null;
-    private Image previewImage = null;
 
-    private File imageFile;
     private SwingWorker<Void, Void> imageWorker;
 
     public SelectImagePane() {
@@ -111,38 +105,11 @@ public class SelectImagePane extends BasicPane {
      * Select picture.
      */
     ActionListener selectPictureActionListener = new ActionListener() {
+        @Override
         public void actionPerformed(ActionEvent evt) {
             int returnVal = imageFileChooser
                     .showOpenDialog(SelectImagePane.this);
-            if (returnVal != JFileChooser.CANCEL_OPTION) {
-                File selectedFile = imageFileChooser.getSelectedFile();
-
-                if (selectedFile != null && selectedFile.isFile()) {
-                    previewPane.showLoading();
-                    if (imageWorker != null && !imageWorker.isDone()) {
-                        imageWorker = null;
-                    }
-                    imageWorker = new SwingWorker<Void, Void>() {
-                        @Override
-                        protected Void doInBackground() throws Exception {
-                            Image image = imageFileChooser.isCompressSelected() ? ImageUtils.defaultImageCompress(selectedFile) : BaseUtils.readImage(selectedFile.getPath());
-                            CoreGraphHelper.waitForImage(image);
-
-                            imageFile = selectedFile;
-                            setImageStyle();
-                            previewPane.setImage(image);
-                            previewPane.setImageStyle(imageStyle);
-                            previewImage = image;
-                            previewPane.repaint();
-                            return null;
-                        }
-                    };
-                    imageWorker.execute();
-                } else {
-                    previewPane.setImage(null);
-                }
-                previewPane.repaint();
-            }
+            ImgChooseWrapper.getInstance(previewPane, imageFileChooser, imageStyle).dealWithImageFile(returnVal);
         }
     };
 
@@ -166,6 +133,7 @@ public class SelectImagePane extends BasicPane {
 
     ActionListener layoutActionListener = new ActionListener() {
 
+        @Override
         public void actionPerformed(ActionEvent evt) {
             setImageStyle();
             changeImageStyle();
@@ -184,7 +152,6 @@ public class SelectImagePane extends BasicPane {
             if (value != null && value instanceof Image) {
                 Image image = (Image) value;
                 previewPane.setImage(image);
-                this.previewImage = image;
             }
 
             style = cell.getStyle();
@@ -211,7 +178,7 @@ public class SelectImagePane extends BasicPane {
         return cellImage;
     }
 
-    public File getSelectedImage() {
-        return imageFile;
+    public Image getSelectedImage() {
+        return previewPane.getImage();
     }
 }
