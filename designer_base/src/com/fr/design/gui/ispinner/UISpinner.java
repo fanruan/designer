@@ -23,7 +23,7 @@ import java.awt.event.*;
 
 public class UISpinner extends JPanel implements UIObserver, GlobalNameObserver {
 
-    protected double value = -1;
+    protected double value;
     private static final int SIZE = 20;
     private static final int LEN = 13;
     private static final int WIDTH = 13;

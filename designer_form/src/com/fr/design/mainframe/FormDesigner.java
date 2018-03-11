@@ -1,8 +1,8 @@
 package com.fr.design.mainframe;
 
-import com.fr.base.BaseUtils;
 import com.fr.base.Parameter;
 import com.fr.base.ScreenResolution;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignState;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.designer.TargetComponent;
@@ -21,6 +21,7 @@ import com.fr.design.designer.beans.models.SelectionModel;
 import com.fr.design.designer.beans.models.StateModel;
 import com.fr.design.designer.creator.*;
 import com.fr.design.designer.properties.FormWidgetAuthorityEditPane;
+import com.fr.design.event.DesignerOpenedListener;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
@@ -349,11 +350,11 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
         }
 
         parameterArray = null;
-        refreshParameter();
+
         //parameter多的时候，不刷新会出现控件边界交叉
         refreshRoot();
-        //不知道为什么添加完参数后控件树只有一个label，这儿刷新一下控件树好了
-        EastRegionContainerPane.getInstance().refreshDownPane();
+        // 最后刷新"添加参数面板"和控件树
+        refreshParameter();
     }
 
     private void addParaPaneTooltips() {
@@ -677,6 +678,13 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
                 }
             }
 
+        });
+
+        DesignerContext.getDesignerFrame().addDesignerOpenedListener(new DesignerOpenedListener() {
+            @Override
+            public void designerOpened() {
+                setToolbarButtons();
+            }
         });
     }
 
@@ -1027,7 +1035,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
                 selected.add((XCreator) path.getLastPathComponent());
             }
 
-            if (!BaseUtils.isAuthorityEditing()) {
+            if (!DesignerMode.isAuthorityEditing()) {
                 selectionModel.setSelectedCreators(selected);
 
                 if (formArea != null) {
@@ -1039,8 +1047,21 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
                 showAuthorityEditPane();
             }
             //先选中再检查
-            setToolbarButtons(paths.length == 1 && tree.getSelectionPath().getParentPath() == null);
+            setToolbarButtons();
         }
+    }
+
+    /**
+     * 是否选中了自适应布局或底层form
+     */
+    public boolean isRootSelected() {
+        ComponentTree tree = FormHierarchyTreePane.getInstance().getComponentTree();
+        TreePath[] paths = tree.getSelectionPaths();
+        if (paths == null) {
+            return true;
+        }
+        boolean isForm = paths.length == 1 && tree.getSelectionPath().getParentPath() == null;
+        return isForm || isRoot(getSelectionModel().getSelection().getSelectedCreator());
     }
 
     /**
@@ -1073,9 +1094,9 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     }
 
 
-    protected void setToolbarButtons(boolean flag) {
+    protected void setToolbarButtons() {
         //自适应布局和底层都不能删除
-        DesignerContext.getDesignerFrame().checkCombineUp(!(isRoot(getSelectionModel().getSelection().getSelectedCreator()) || flag), NAME_ARRAY_LIST);
+        DesignerContext.getDesignerFrame().checkCombineUp(!isRootSelected(), NAME_ARRAY_LIST);
     }
 
     private void invalidateLayout() {
@@ -1412,7 +1433,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
 
         @Override
         public void fireCreatorModified(DesignerEvent evt) {
-            if (!BaseUtils.isAuthorityEditing()) {
+            if (!DesignerMode.isAuthorityEditing()) {
                 return;
             }
             if (evt.getCreatorEventID() == DesignerEvent.CREATOR_EDITED
@@ -1424,7 +1445,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
                 if (paths == null) {
                     return;
                 }
-                if (BaseUtils.isAuthorityEditing()) {
+                if (DesignerMode.isAuthorityEditing()) {
                     showAuthorityEditPane();
                 }
 

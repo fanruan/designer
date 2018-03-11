@@ -239,4 +239,9 @@ public class XWParameterLayout extends XWAbsoluteLayout {
         return false;
     }
 
+    @Override
+    public boolean supportInnerOrderChangeActions() {
+        return false;
+    }
+
 }

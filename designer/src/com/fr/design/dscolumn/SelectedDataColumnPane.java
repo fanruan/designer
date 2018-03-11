@@ -37,8 +37,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 /**
@@ -50,29 +49,83 @@ import java.util.regex.Pattern;
  * @since 8.0
  */
 public class SelectedDataColumnPane extends BasicPane {
-    private UITableEditorPane<ParameterProvider> editorPane;
-    private Parameter[] ps;
 
+    /**
+     * 参数编辑器面板
+     */
+    private UITableEditorPane<ParameterProvider> editorPane;
+    /**
+     * 参数
+     */
+    private Parameter[] ps;
+    /**
+     * 数据集下拉框
+     */
     TableDataComboBox tableNameComboBox;
+    /**
+     * 动态参数注入按钮
+     */
+    private UIButton paramButton;
+    /**
+     * 数据列下拉框
+     */
     LazyComboBox columnNameComboBox;
+
+    /**
+     * 数据集下拉框和数据列下拉框监听器
+     */
     private ItemListener itemListener;
 
-    private UIButton paramButton;
+
+    /**
+     * 当前编辑的模板面板，用于触发保存操作
+     */
     private ElementCasePane casePane;
-    private CellElement cellElement;  // 保存当前选中的 CE
+    /**
+     * 保存当前选中的 CE
+     */
+    private CellElement cellElement;
 
-    public SelectedDataColumnPane() {
-        this(true, false, null);
+    private static final Pattern COLUMN_NAME_PATTERN = Pattern.compile("[^\\d]");
+
+    /**
+     * 数据集下拉框变动后修改数据列下拉框加载状态的监听器
+     */
+    private ItemListener isNeedReloadListener = new ItemListener() {
+        @Override
+        public void itemStateChanged(ItemEvent e) {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                columnNameComboBox.setLoaded(false);
+            }
+        }
+    };
+
+    /**
+     * 创建横向布局附带显示动态参数注入按钮的数据集数据列选择面板
+     */
+    SelectedDataColumnPane() {
+        this(true, false);
     }
 
 
-    public SelectedDataColumnPane(boolean showParameterButton) {
-        this(showParameterButton, false, null);
+    /**
+     * 创建横向布局的数据集数据列选择面板
+     *
+     * @param showParameterButton 是否显示动态参数注入按钮
+     */
+    SelectedDataColumnPane(boolean showParameterButton) {
+        this(showParameterButton, false);
     }
 
-    public SelectedDataColumnPane(boolean showParameterButton, boolean verticalLayout, TemplateCellElement cellElement) {
+    /**
+     * 创建数据集数据列选择面板
+     *
+     * @param showParameterButton 是否显示动态参数注入按钮
+     * @param verticalLayout      是否是垂直布局
+     */
+    public SelectedDataColumnPane(boolean showParameterButton, boolean verticalLayout) {
         if (verticalLayout) {
-            initComponentVerticalLayout(cellElement);
+            initComponentVerticalLayout();
         } else {
             initComponent(showParameterButton);
         }
@@ -86,7 +139,7 @@ public class SelectedDataColumnPane extends BasicPane {
     public void initComponent(boolean showParameterButton) {
         initTableNameComboBox();
         if (showParameterButton) {
-            initWithParameterButton();
+            initParameterButton();
         }
         columnNameComboBox = new LazyComboBox() {
 
@@ -126,9 +179,9 @@ public class SelectedDataColumnPane extends BasicPane {
     /**
      * 初始化竖直布局的组件
      */
-    private void initComponentVerticalLayout(TemplateCellElement cellElement) {
+    private void initComponentVerticalLayout() {
         initTableNameComboBox();
-        initWithParameterButton(cellElement);
+        initVerticalParameterButton();
         columnNameComboBox = new LazyComboBox() {
             @Override
             public Object[] load() {
@@ -156,6 +209,13 @@ public class SelectedDataColumnPane extends BasicPane {
     }
 
 
+    /**
+     * 更新面板数据
+     *
+     * @param source      数据源
+     * @param cellElement 单元格
+     * @param casePane    当前编辑的模板面板
+     */
     public void populate(TableDataSource source, TemplateCellElement cellElement, ElementCasePane casePane) {
         tableNameComboBox.refresh(source);
         this.casePane = casePane;
@@ -163,9 +223,8 @@ public class SelectedDataColumnPane extends BasicPane {
             return;
         }
         this.cellElement = cellElement;
-        if (itemListener != null) {
-            removeListener(itemListener);
-        }
+        removeListener();
+
         Object value = cellElement.getValue();
         if (!(value instanceof DSColumn)) {
             return;
@@ -176,9 +235,14 @@ public class SelectedDataColumnPane extends BasicPane {
         columnNameComboBox.setSelectedItem(TableDataColumn.getColumnName(dsColumn.getColumn()));
         ps = dsColumn.getParameters();
 
-        addListener(itemListener);
+        addListener();
     }
 
+    /**
+     * 保存数据到单元格对象中
+     *
+     * @param cellElement 单元格
+     */
     public void update(CellElement cellElement) {
         if (cellElement == null) {
             return;
@@ -187,7 +251,7 @@ public class SelectedDataColumnPane extends BasicPane {
         if (this.tableNameComboBox.getSelectedItem() == null && this.columnNameComboBox.getSelectedItem() == null) {
             return;
         }
-        DSColumn dsColumn = null;
+        DSColumn dsColumn;
         if (value == null || !(value instanceof DSColumn)) {
             dsColumn = new DSColumn();
             cellElement.setValue(dsColumn);
@@ -195,7 +259,7 @@ public class SelectedDataColumnPane extends BasicPane {
         dsColumn = (DSColumn) cellElement.getValue();
 
         SimpleDSColumn simpleDSColumn = updateColumnPane();
-        dsColumn.setDSName(simpleDSColumn.getDsName());
+        dsColumn.setDSName(Objects.requireNonNull(simpleDSColumn).getDsName());
         dsColumn.setColumn(simpleDSColumn.getColumn());
 
         dsColumn.setParameters((ps != null && ps.length > 0) ? ps : null);
@@ -205,6 +269,7 @@ public class SelectedDataColumnPane extends BasicPane {
      * 释放模板对象
      */
     public void release() {
+        this.cellElement = null;
         this.casePane = null;
         this.tableNameComboBox.setModel(new DefaultComboBoxModel());
     }
@@ -214,7 +279,7 @@ public class SelectedDataColumnPane extends BasicPane {
      *
      * @return 更新后的值
      */
-    public SimpleDSColumn updateColumnPane() {
+    private SimpleDSColumn updateColumnPane() {
         SimpleDSColumn dsColumn = new SimpleDSColumn();
         TableDataWrapper tableDataWrappe = this.tableNameComboBox.getSelectedItem();
         if (tableDataWrappe == null) {
@@ -224,9 +289,8 @@ public class SelectedDataColumnPane extends BasicPane {
         TableDataColumn column;
         String columnExp = (String) this.columnNameComboBox.getSelectedItem();
         if (isColumnName(columnExp)) {
-            String number = columnExp.substring(1);
-            Pattern pattern = Pattern.compile("[^\\d]");
-            if (pattern.matcher(number).find()) {
+            String number = Objects.requireNonNull(columnExp).substring(1);
+            if (COLUMN_NAME_PATTERN.matcher(number).find()) {
                 column = TableDataColumn.createColumn(columnExp);
             } else {
                 int serialNumber = Integer.parseInt(columnExp.substring(1));
@@ -239,46 +303,31 @@ public class SelectedDataColumnPane extends BasicPane {
         return dsColumn;
     }
 
+    public void setListener(ItemListener i) {
+        this.itemListener = i;
+    }
+
     /**
      * 添加监听事件
-     *
-     * @param i 监听事件
      */
-    public void addListener(ItemListener i) {
-        itemListener = i;
-        tableNameComboBox.addItemListener(i);
-        columnNameComboBox.addItemListener(i);
+    private void addListener() {
+        tableNameComboBox.addItemListener(this.itemListener);
+        columnNameComboBox.addItemListener(this.itemListener);
+        tableNameComboBox.addItemListener(this.isNeedReloadListener);
     }
 
     /**
      * 移除监听事件
-     *
-     * @param i 监听事件
      */
-    public void removeListener(ItemListener i) {
-        tableNameComboBox.removeItemListener(i);
-        columnNameComboBox.removeItemListener(i);
+    private void removeListener() {
+        tableNameComboBox.removeItemListener(this.itemListener);
+        columnNameComboBox.removeItemListener(this.itemListener);
+        tableNameComboBox.removeItemListener(this.isNeedReloadListener);
     }
 
 
     protected void initTableNameComboBox() {
         tableNameComboBox = new TableDataComboBox(DesignTableDataManager.getEditingTableDataSource());
-        final ExecutorService executorService = Executors.newSingleThreadExecutor();
-        tableNameComboBox.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                if (e.getStateChange() == ItemEvent.SELECTED) {
-                    executorService.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            synchronized (columnNameComboBox) {
-                                columnNameComboBox.loadInstant();
-                            }
-                        }
-                    });
-                }
-            }
-        });
         tableNameComboBox.setPreferredSize(new Dimension(100, 20));
     }
 
@@ -288,8 +337,8 @@ public class SelectedDataColumnPane extends BasicPane {
     }
 
 
-    private void initWithParameterButton() {
-        editorPane = new UITableEditorPane<ParameterProvider>(new ParameterTableModel());
+    private void initParameterButton() {
+        editorPane = new UITableEditorPane<>(new ParameterTableModel());
         paramButton = new UIButton(Inter.getLocText("TableData_Dynamic_Parameter_Setting"));
         paramButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -307,10 +356,11 @@ public class SelectedDataColumnPane extends BasicPane {
         });
     }
 
-    private void initWithParameterButton(final TemplateCellElement cellElement) {
-        editorPane = new UITableEditorPane<ParameterProvider>(new ParameterTableModel());
+    private void initVerticalParameterButton() {
+        editorPane = new UITableEditorPane<>(new ParameterTableModel());
         paramButton = new UIButton(Inter.getLocText("FR-Designer-Basic_Dynamic_Parameter_Injection"));
         paramButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 BasicDialog paramDialog = editorPane.showSmallWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
                     @Override
@@ -337,6 +387,6 @@ public class SelectedDataColumnPane extends BasicPane {
         if (this.tableNameComboBox.getSelectedItem() != null) {
             return this.tableNameComboBox.getSelectedItem().calculateColumnNameList();
         }
-        return new ArrayList<String>();
+        return new ArrayList<>();
     }
 }

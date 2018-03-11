@@ -11,6 +11,7 @@ import com.fr.design.constants.LayoutConstants;
 import com.fr.design.event.GlobalNameListener;
 import com.fr.design.event.GlobalNameObserver;
 import com.fr.design.foldablepane.UIExpandablePane;
+import com.fr.design.fun.BackgroundQuickUIProvider;
 import com.fr.design.gui.ibutton.UIToggleButton;
 import com.fr.design.gui.icombobox.LineComboBox;
 import com.fr.design.gui.ilable.UILabel;
@@ -20,7 +21,12 @@ import com.fr.design.mainframe.backgroundpane.ColorBackgroundQuickPane;
 import com.fr.design.style.color.NewColorSelectBox;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
+import com.fr.plugin.context.PluginContext;
+import com.fr.plugin.manage.PluginFilter;
+import com.fr.plugin.observer.PluginEvent;
+import com.fr.plugin.observer.PluginEventListener;
 import com.fr.stable.Constants;
 import com.fr.stable.CoreConstants;
 
@@ -62,8 +68,9 @@ public class BorderPane extends AbstractBasicStylePane implements GlobalNameObse
     public BorderPane() {
         this.initComponents();
     }
-
+    
     protected void initComponents() {
+        
         initButtonsWithIcon();
         this.setLayout(new BorderLayout(0, 0));
         JPanel externalPane = new JPanel(new GridLayout(0, 4));
@@ -77,17 +84,17 @@ public class BorderPane extends AbstractBasicStylePane implements GlobalNameObse
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
-                new Component[]{null, null},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Style") + "    ", SwingConstants.LEFT), currentLineCombo},
-                new Component[]{null, null},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Color") + "    ", SwingConstants.LEFT), currentLineColorPane},
-                new Component[]{null, null},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_outBorder") + "    ", SwingConstants.LEFT), outerToggleButton = new UIToggleButton(new Icon[]{BaseUtils.readIcon("com/fr/design/images/m_format/out.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/out_white.png")}, false)},
-                new Component[]{null, externalPane},
-                new Component[]{null, null},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_inBorder") + "    ", SwingConstants.LEFT), innerToggleButton = new UIToggleButton(new Icon[]{BaseUtils.readIcon("com/fr/design/images/m_format/in.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/in_white.png")}, false)},
-                new Component[]{null, insidePane},
-                new Component[]{null, null}
+            new Component[]{null, null},
+            new Component[]{new UILabel(Inter.getLocText("FR-Designer_Style") + "    ", SwingConstants.LEFT), currentLineCombo},
+            new Component[]{null, null},
+            new Component[]{new UILabel(Inter.getLocText("FR-Designer_Color") + "    ", SwingConstants.LEFT), currentLineColorPane},
+            new Component[]{null, null},
+            new Component[]{new UILabel(Inter.getLocText("FR-Designer_outBorder") + "    ", SwingConstants.LEFT), outerToggleButton = new UIToggleButton(new Icon[]{BaseUtils.readIcon("com/fr/design/images/m_format/out.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/out_white.png")}, false)},
+            new Component[]{null, externalPane},
+            new Component[]{null, null},
+            new Component[]{new UILabel(Inter.getLocText("FR-Designer_inBorder") + "    ", SwingConstants.LEFT), innerToggleButton = new UIToggleButton(new Icon[]{BaseUtils.readIcon("com/fr/design/images/m_format/in.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/in_white.png")}, false)},
+            new Component[]{null, insidePane},
+            new Component[]{null, null}
         };
         double[] rowSize = {p, p, p, p, p, p, p, p, p, p, p};
         double[] columnSize = {p, f};
@@ -95,15 +102,35 @@ public class BorderPane extends AbstractBasicStylePane implements GlobalNameObse
         panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_SMALL, LayoutConstants.VGAP_MEDIUM);
         borderPanel = new UIExpandablePane(Inter.getLocText("FR-Designer_Border"), 280, 24, panel);
         this.add(borderPanel, BorderLayout.NORTH);
-
-        backgroundPane = new BackgroundPane();
+        
+        initBackgroundPane();
         backgroundPanel = new UIExpandablePane(Inter.getLocText("FR-Designer_Background"), 280, 24, backgroundPane);
         this.add(backgroundPanel, BorderLayout.CENTER);
         initAllNames();
         outerToggleButton.addChangeListener(outerToggleButtonChangeListener);
         innerToggleButton.addChangeListener(innerToggleButtonChangeListener);
     }
-
+    
+    private void initBackgroundPane() {
+        //初始化背景pane并监听插件
+        backgroundPane = new BackgroundPane();
+        GeneralContext.listenPluginRunningChanged(new PluginEventListener() {
+        
+            @Override
+            public void on(PluginEvent event) {
+            
+                backgroundPane = new BackgroundPane();
+            }
+        }, new PluginFilter() {
+        
+            @Override
+            public boolean accept(PluginContext context) {
+            
+                return context.contain(BackgroundQuickUIProvider.MARK_STRING);
+            }
+        });
+    }
+    
     ChangeListener outerToggleButtonChangeListener = new ChangeListener() {
         @Override
         public void stateChanged(ChangeEvent e) {

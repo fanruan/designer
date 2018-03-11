@@ -1,6 +1,7 @@
 package com.fr.design.designer.beans.actions;
 
 import com.fr.base.BaseUtils;
+import com.fr.design.designer.beans.actions.behavior.MovableDownEnable;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XLayoutContainer;
@@ -27,7 +28,14 @@ public class MoveToBottomAction extends FormWidgetEditAction {
         this.setName(Inter.getLocText("FR-Designer_Move_To_Bottom"));
         this.setMnemonic('K');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/to_bottom.png"));
-        this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_OPEN_BRACKET, DEFAULT_MODIFIER + InputEvent.ALT_MASK));
+        this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_OPEN_BRACKET, DEFAULT_MODIFIER + InputEvent.SHIFT_MASK));
+        this.setUpdateBehavior(new MovableDownEnable());
+    }
+
+    @Override
+    protected String getToolTipText() {
+        String originText = super.getToolTipText();
+        return originText.replace(KeyEvent.getKeyText(KeyEvent.VK_OPEN_BRACKET), "[");
     }
 
     @Override
@@ -46,16 +54,5 @@ public class MoveToBottomAction extends FormWidgetEditAction {
         container.setComponentZOrder(creator, targetIndex);
         designer.getEditListenerTable().fireCreatorModified(creator, DesignerEvent.CREATOR_SELECTED);
         return true;
-    }
-
-
-    @Override
-    public void update() {
-        FormDesigner designer = getEditingComponent();
-        if (designer == null) {
-            this.setEnabled(false);
-            return;
-        }
-        this.setEnabled(designer.isCurrentComponentMovableDown());
     }
 }

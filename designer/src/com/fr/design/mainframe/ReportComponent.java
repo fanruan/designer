@@ -5,7 +5,7 @@ package com.fr.design.mainframe;
 
 import javax.swing.JScrollBar;
 
-import com.fr.base.BaseUtils;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.actions.AllowAuthorityEditAction;
 import com.fr.design.actions.ExitAuthorityEditAction;
 import com.fr.design.actions.report.ReportBackgroundAction;
@@ -68,7 +68,7 @@ public abstract class ReportComponent<T extends TemplateReport, E extends Elemen
 	public ShortCut[] shortCuts4Authority() {
 		return new ShortCut[]{
 				new NameSeparator(Inter.getLocText(new String[]{"DashBoard-Potence", "Edit"})),
-				BaseUtils.isAuthorityEditing() ? new ExitAuthorityEditAction(this) : new AllowAuthorityEditAction(this),
+				DesignerMode.isAuthorityEditing() ? new ExitAuthorityEditAction(this) : new AllowAuthorityEditAction(this),
 		};
 
 	}
