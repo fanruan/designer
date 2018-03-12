@@ -1,6 +1,7 @@
 package com.fr.design.parameter;
 
 import com.fr.design.constants.UIConstants;
+import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XWParameterLayout;
 import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.gui.ibutton.UIButton;
@@ -72,7 +73,7 @@ public class ParameterPropertyPane extends JPanel{
             }
         };
         JPanel scrollPaneWrapperInner = new JPanel(new BorderLayout());
-        scrollPaneWrapperInner.setBorder(BorderFactory.createEmptyBorder(0, PADDING_MIDDLE, PADDING_MIDDLE, PADDING_SMALL));
+        scrollPaneWrapperInner.setBorder(BorderFactory.createEmptyBorder(PADDING_MIDDLE, PADDING_MIDDLE, PADDING_MIDDLE, PADDING_SMALL));
         scrollPaneWrapperInner.add(basicScrollPane, BorderLayout.CENTER);
         addParaPane = new JPanel(new BorderLayout());
         addParaPane.add(scrollPaneWrapperInner, BorderLayout.CENTER);
@@ -80,8 +81,8 @@ public class ParameterPropertyPane extends JPanel{
 
         initParameterListener();
         this.setLayout(new BorderLayout(0, 6));
-        this.setBorder(BorderFactory.createEmptyBorder(PADDING_MIDDLE, 0, PADDING_MIDDLE, 0));
-        this.add(addParaPane, BorderLayout.CENTER);
+        this.setBorder(BorderFactory.createEmptyBorder(0, 0, PADDING_MIDDLE, 0));
+        this.add(addParaPane, BorderLayout.NORTH);
     }
 
     // 显示或隐藏添加参数面板
@@ -106,14 +107,15 @@ public class ParameterPropertyPane extends JPanel{
     }
 
     public void setAddParaPaneVisible(boolean isVisible, JTemplate jt) {
-        if (isVisible == addParaPane.isVisible() || formHierarchyTreePaneWrapper == null) {
+        if (formHierarchyTreePaneWrapper == null) {
             return;
         }
         // 表单中，只有添加并选中参数面板时，才显示
 		boolean hideInJForm;
         try {
+			XCreator creator = (XCreator) FormHierarchyTreePane.getInstance().getComponentTree().getSelectionPath().getLastPathComponent();
             hideInJForm = jt instanceof JForm &&
-                    !(FormHierarchyTreePane.getInstance().getComponentTree().getSelectionPath().getLastPathComponent() instanceof XWParameterLayout);
+                    !(creator instanceof XWParameterLayout || creator.getParent() instanceof XWParameterLayout);
         } catch (NullPointerException ex) {
             hideInJForm = true;
         }
@@ -122,7 +124,9 @@ public class ParameterPropertyPane extends JPanel{
             this.setPreferredSize(null);
         } else {
             addParaPane.setVisible(false);
-            this.setPreferredSize(new Dimension(getWidth(), formHierarchyTreePaneWrapper.getPreferredSize().height + UIConstants.GAP_NORMAL));
+			if (formHierarchyTreePaneWrapper.getPreferredSize().height > 0) {
+            	this.setPreferredSize(new Dimension(getWidth(), formHierarchyTreePaneWrapper.getPreferredSize().height + UIConstants.GAP_NORMAL));
+			}
         }
     }
 	
@@ -130,7 +134,7 @@ public class ParameterPropertyPane extends JPanel{
 		if (formHierarchyTreePaneWrapper == null) {
 			formHierarchyTreePaneWrapper = new JPanel(new BorderLayout());
 			formHierarchyTreePaneWrapper.setBorder(BorderFactory.createEmptyBorder(0, PADDING_MIDDLE, 0, 0));
-			this.add(formHierarchyTreePaneWrapper, BorderLayout.SOUTH);
+			this.add(formHierarchyTreePaneWrapper, BorderLayout.CENTER);
 		}
 		formHierarchyTreePaneWrapper.remove(FormHierarchyTreePane.getInstance());
 		formHierarchyTreePaneWrapper.add(FormHierarchyTreePane.getInstance(editor), BorderLayout.CENTER);

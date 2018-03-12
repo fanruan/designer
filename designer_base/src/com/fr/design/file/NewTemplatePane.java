@@ -1,6 +1,7 @@
 package com.fr.design.file;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.mainframe.DesignerContext;
 
@@ -20,7 +21,7 @@ import java.awt.geom.Rectangle2D;
 public abstract class NewTemplatePane extends JComponent implements MouseListener, MouseMotionListener {
 
 	private static final Icon GRAY_NEW_CPT = BaseUtils.readIcon("/com/fr/design/images/buttonicon/additicon_grey.png");
-	private static final int PRE_GAP = 0;
+	private static final int PRE_GAP = 5;
 	private static final int HEIGHT = 26;
 	private Graphics2D g2d;
 	private Icon newWorkBookIconMode = null;
@@ -65,7 +66,7 @@ public abstract class NewTemplatePane extends JComponent implements MouseListene
      * @param e 事件
      */
 	public void mouseClicked(MouseEvent e) {
-		if (BaseUtils.isAuthorityEditing()) {
+		if (needGrayNewCpt()) {
 			newWorkBookIconMode = GRAY_NEW_CPT;
 		}
 	}
@@ -76,7 +77,7 @@ public abstract class NewTemplatePane extends JComponent implements MouseListene
      */
 	public void mousePressed(MouseEvent e) {
 		int evtX = e.getX();
-		if (BaseUtils.isAuthorityEditing()) {
+		if (needGrayNewCpt()) {
 			newWorkBookIconMode = GRAY_NEW_CPT;
 		}
 		if (isOverNewIcon(evtX) && newWorkBookIconMode != GRAY_NEW_CPT) {
@@ -92,7 +93,7 @@ public abstract class NewTemplatePane extends JComponent implements MouseListene
      * @param e 事件
      */
 	public void mouseReleased(MouseEvent e) {
-		if (BaseUtils.isAuthorityEditing()) {
+		if (needGrayNewCpt()) {
 			newWorkBookIconMode = GRAY_NEW_CPT;
 		}
 	}
@@ -102,7 +103,7 @@ public abstract class NewTemplatePane extends JComponent implements MouseListene
      * @param e 事件
      */
 	public void mouseEntered(MouseEvent e) {
-		if (BaseUtils.isAuthorityEditing()) {
+		if (needGrayNewCpt()) {
 			newWorkBookIconMode = GRAY_NEW_CPT;
 		}
 	}
@@ -113,7 +114,7 @@ public abstract class NewTemplatePane extends JComponent implements MouseListene
      */
 	public void mouseExited(MouseEvent e) {
 		newIconStartX = PRE_GAP;
-		if (BaseUtils.isAuthorityEditing()) {
+		if (needGrayNewCpt()) {
 			newWorkBookIconMode = GRAY_NEW_CPT;
 		} else {
 			newWorkBookIconMode = getNew();
@@ -135,7 +136,7 @@ public abstract class NewTemplatePane extends JComponent implements MouseListene
      */
 	public void mouseMoved(MouseEvent e) {
 		int evtX = e.getX();
-		if (BaseUtils.isAuthorityEditing()) {
+		if (needGrayNewCpt()) {
 			newWorkBookIconMode = GRAY_NEW_CPT;
 		} else if (isOverNewIcon(evtX)) {
 			newIconStartX = 0;
@@ -144,6 +145,10 @@ public abstract class NewTemplatePane extends JComponent implements MouseListene
 
 		this.repaint();
 
+	}
+
+	private boolean needGrayNewCpt() {
+		return DesignerMode.isAuthorityEditing() || DesignerMode.isVcsMode();
 	}
 
 

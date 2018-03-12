@@ -234,7 +234,6 @@ public class SelectionModel {
      */
     public void deleteSelection() {
         XCreator[] roots = selection.getSelectedCreators();
-
         if (roots.length > 0) {
             boolean isInPara = true;  // 在参数面板内删除控件
             for (XCreator creator : roots) {
@@ -245,10 +244,12 @@ public class SelectionModel {
                     designer.removeParaComponent();
                 }
                 removeCreatorFromContainer(creator, creator.getWidth(), creator.getHeight());
+                creator.deleteRelatedComponent(creator, designer);
                 creator.removeAll();
                 // 清除被选中的组件
                 selection.reset();
             }
+
             setSelectedCreator(isInPara ? designer.getParaComponent() : designer.getRootComponent());
             // 触发事件
             designer.getEditListenerTable().fireCreatorModified(DesignerEvent.CREATOR_DELETED);

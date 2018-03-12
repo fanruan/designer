@@ -19,14 +19,18 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.mainframe.EditingMouseListener;
 import com.fr.design.mainframe.FormDesigner;
+import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.form.ui.CardSwitchButton;
+import com.fr.form.ui.LayoutBorderStyle;
 import com.fr.form.ui.Widget;
+import com.fr.form.ui.WidgetTitle;
 import com.fr.form.ui.container.WCardLayout;
 import com.fr.form.ui.container.WTabDisplayPosition;
 import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.form.ui.container.cardlayout.WTabFitLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
+import com.fr.general.cardtag.DefaultTemplateStyle;
 
 import javax.swing.border.Border;
 import java.awt.*;
@@ -54,7 +58,9 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
 
     private static final int HEIGHT_SIDE_OFFSET = 20;
 
-    private static final int DEFAULT_BUTTON_HEIGHT = 40;
+    private static final int DEFAULT_VERTICAL_SPACING = 3;
+
+    public static final String DEFAULT_NAME = "tabpane";
 
     public CardSwitchButton getCurrentCard() {
         return currentCard;
@@ -127,13 +133,25 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
         WTabFitLayout fitLayout = new WTabFitLayout(widgetName, tabFitIndex, currentCard);
         fitLayout.setTabNameIndex(getTabNameIndex());
         XWTabFitLayout tabFitLayout = new XWTabFitLayout(fitLayout, new Dimension());
+        WCardTagLayout layout = (WCardTagLayout) this.toData();
+
+        if(!ComparatorUtils.equals(layout.getTemplateStyle().getStyle(), DefaultTemplateStyle.DEFAULT_TEMPLATE_STYLE)){
+            fitLayout.setInitialBackground(layout.getTemplateStyle().getTabDefaultBackground());
+            fitLayout.setCustomStyle(true);
+        }
         tabFitLayout.setxCardSwitchButton((XCardSwitchButton)this.getComponent(0));
+        tabFitLayout.checkButonType();
         tabFitLayout.setBackupParent(cardLayout);
         cardLayout.add(tabFitLayout, widgetName);
         this.cardLayout.toData().setShowIndex(index);
         cardLayout.showCard();
     }
 
+
+    @Override
+    protected String getIconName() {
+        return "tabpane.png";
+    }
 
     private void initCardLayout() {
         XWCardTitleLayout titleLayout = (XWCardTitleLayout) this.getBackupParent();
@@ -163,7 +181,7 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
 
     @Override
     public String createDefaultName() {
-        return "tabpane";
+        return DEFAULT_NAME;
     }
 
     /**
@@ -320,48 +338,55 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
     }
 
     public void setTabsAndAdjust() {
-        WCardTagLayout wCardTagLayout = (WCardTagLayout)this.toData();
+        WCardTagLayout wCardTagLayout = (WCardTagLayout) this.toData();
         int tabLength = this.getComponentCount();
         Map<Integer, Integer> cardWidth = new HashMap<Integer, Integer>();
         Map<Integer, Integer> cardHeight = new HashMap<Integer, Integer>();
+        XLayoutContainer parent = this.getBackupParent();
+
         for (int i = 0; i < tabLength; i++) {
             XCardSwitchButton temp = (XCardSwitchButton) this.getComponent(i);
             CardSwitchButton tempCard = (CardSwitchButton) temp.toData();
             String tempText = tempCard.getText();
-            Font f = tempCard.getFont();
+            if (this.cardLayout == null) {
+                initCardLayout();
+            }
+            LayoutBorderStyle borderStyle = this.cardLayout.toData().getBorderStyle();
+            WidgetTitle title = borderStyle.getTitle();
+            FRFont f = title.getFrFont();
             FontMetrics fm = GraphHelper.getFontMetrics(f);
 
-            switch (wCardTagLayout.getTextDirection()){
+            switch (wCardTagLayout.getTextDirection()) {
                 case TEXT_HORI_DERECTION:
-                    cardWidth.put(i,fm.stringWidth(tempText));
-                    cardHeight.put(i,fm.getHeight());
+                    cardWidth.put(i, fm.stringWidth(tempText));
+                    cardHeight.put(i, fm.getHeight());
                     break;
                 case TEXT_VER_DIRECTION:
                     int perHeight = fm.getHeight();
                     int wordCount = tempText.length();
-                    if(tempText.length() !=0 ){
-                        cardWidth.put(i,fm.stringWidth(tempText)/tempText.length());
-                    }else {
+                    if (tempText.length() != 0) {
+                        cardWidth.put(i, fm.stringWidth(tempText) / tempText.length());
+                    } else {
                         cardWidth.put(i, 0);
                     }
-                    cardHeight.put(i,(perHeight+3)*wordCount);
+                    cardHeight.put(i, (perHeight + DEFAULT_VERTICAL_SPACING) * wordCount);
                     break;
                 default:
                     break;
             }
         }
-        if(isHori()){
-            adjustTabsH(tabLength, cardWidth, cardHeight);
-        }else {
-            adjustTabsV(tabLength, cardWidth, cardHeight);
+        if (isHori()) {
+            adjustTabsH(parent, tabLength, cardWidth, cardHeight);
+        } else {
+            adjustTabsV(parent, tabLength, cardWidth, cardHeight);
         }
+        fixTitleLayout(parent);
     }
 
-    public void adjustTabsH(int tabLength, Map<Integer, Integer> width, Map<Integer, Integer> height) {
+    public void adjustTabsH(XLayoutContainer parent, int tabLength, Map<Integer, Integer> width, Map<Integer, Integer> height) {
         if (width == null) {
             return;
         }
-        XLayoutContainer parent = this.getBackupParent();
         int tabPaneSize = parent.getHeight();
         //调整XWCardTagLayout的高度
         int tempX = 0;
@@ -369,9 +394,6 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
             Rectangle rectangle = this.getComponent(i).getBounds();
             Integer cardWidth = width.get(i) + WIDTH_SIDE_OFFSET;
             Integer cardHeight = tabPaneSize;
-            if(cardHeight < DEFAULT_BUTTON_HEIGHT){
-                cardHeight = DEFAULT_BUTTON_HEIGHT;
-            }
             rectangle.setBounds(tempX, 0, cardWidth, cardHeight);
             tempX += cardWidth;
             XCardSwitchButton temp = (XCardSwitchButton) this.getComponent(i);
@@ -394,11 +416,10 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
     }
 
 
-    public void adjustTabsV(int tabLength, Map<Integer, Integer> width, Map<Integer, Integer> height) {
+    public void adjustTabsV(XLayoutContainer parent, int tabLength, Map<Integer, Integer> width, Map<Integer, Integer> height) {
         if (width == null) {
             return;
         }
-        XLayoutContainer parent = this.getBackupParent();
         int tabPaneSize = parent.getWidth();
         int tempY = 0;
         for (int i = 0; i < tabLength; i++) {
@@ -406,19 +427,21 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
             Integer cardWidth = tabPaneSize;
             //先用这边的固定高度
             Integer cardHeight = height.get(i) + HEIGHT_SIDE_OFFSET;
-
-            if(cardWidth < DEFAULT_BUTTON_HEIGHT){
-                cardWidth = DEFAULT_BUTTON_HEIGHT;
-            }
-            if(cardHeight < DEFAULT_BUTTON_HEIGHT){
-                cardHeight = DEFAULT_BUTTON_HEIGHT;
-            }
             rectangle.setBounds(0, tempY, cardWidth, cardHeight);
             tempY += cardHeight;
             XCardSwitchButton temp = (XCardSwitchButton) this.getComponent(i);
             setTabBtnSize(cardWidth, cardHeight, temp);
         }
 
+    }
+
+    private void fixTitleLayout(XLayoutContainer parent){
+        FormDesigner formDesigner = WidgetPropertyPane.getInstance().getEditingFormDesigner();
+        LayoutAdapter layoutAdapter = AdapterBus.searchLayoutAdapter(formDesigner, parent);
+        if (layoutAdapter != null) {
+            parent.setBackupBound(parent.getBounds());
+            layoutAdapter.fix(parent);
+        }
     }
 
 }

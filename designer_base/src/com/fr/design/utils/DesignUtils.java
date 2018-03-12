@@ -9,6 +9,7 @@ import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.fun.DesignerEnvProcessor;
 import com.fr.design.gui.UILookAndFeel;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.mainframe.DesignerFrame;
 import com.fr.env.RemoteEnv;
 import com.fr.file.FileFILE;
 import com.fr.general.*;
@@ -181,7 +182,7 @@ public class DesignUtils {
 
         // 更新CurrentEnv于FRContext & DesignerEnvManager
         FRContext.setCurrentEnv(env);
-    
+        DesignerFrame.refreshNorthEastPane();
         refreshDesignerFrame(env);
         // 当换了运行环境,重置服务器，让它下次预览时重启
         if (env instanceof LocalEnv && !ComparatorUtils.equals(env.getPath(), oldEnvPath)) {

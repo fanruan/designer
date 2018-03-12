@@ -21,6 +21,7 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.UUID;
 
 /**
  * Created by ibm on 2017/8/2.
@@ -38,7 +39,7 @@ public class WCardMainLayoutDefinePane  extends AbstractDataModify<WCardMainBord
 
     public void initComponent() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        carouselInterval = new UISpinner(0, 20, 1, 0);
+        carouselInterval = new UISpinner(0, Integer.MAX_VALUE, 1, 0);
         accessibleCardTagWLayoutBorderStyleEditor = new AccessibleCardTagWLayoutBorderStyleEditor();
         JPanel accessibleCardlayout = FRGUIPaneFactory.createBorderLayout_S_Pane();
         JPanel stylePane =  TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
@@ -51,7 +52,7 @@ public class WCardMainLayoutDefinePane  extends AbstractDataModify<WCardMainBord
         setCarousel = new UICheckBox(Inter.getLocText("FR-Designer_setCarousel"));
         IntervalPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{
                 new UILabel(Inter.getLocText("FR-Designer_carouselInterval")), carouselInterval}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
-        IntervalPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        IntervalPane.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L6, IntervalConstants.INTERVAL_L5, IntervalConstants.INTERVAL_L6, IntervalConstants.INTERVAL_L6));
         jPanel.add(setCarousel, BorderLayout.NORTH);
         jPanel.add(IntervalPane, BorderLayout.CENTER);
         setCarousel.addActionListener(new ActionListener() {
@@ -73,9 +74,9 @@ public class WCardMainLayoutDefinePane  extends AbstractDataModify<WCardMainBord
     @Override
     public void populateBean(WCardMainBorderLayout ob) {
         WCardLayout cardLayout = ob.getCardPart();
-        accessibleCardTagWLayoutBorderStyleEditor.setValue(ob.getBorderStyle());
+        accessibleCardTagWLayoutBorderStyleEditor.setValue(cardLayout.getBorderStyle());
         setCarousel.setSelected(cardLayout.isCarousel());
-        IntervalPane.setVisible(ob.isCarousel());
+        IntervalPane.setVisible(cardLayout.isCarousel());
         carouselInterval.setValue(cardLayout.getCarouselInterval());
     }
 
@@ -83,10 +84,10 @@ public class WCardMainLayoutDefinePane  extends AbstractDataModify<WCardMainBord
     @Override
     public WCardMainBorderLayout updateBean() {
         WCardMainBorderLayout layout = (WCardMainBorderLayout) creator.toData();
-        layout.setBorderStyle((LayoutBorderStyle) accessibleCardTagWLayoutBorderStyleEditor.getValue());
         WCardLayout wCardLayout = layout.getCardPart();
+        wCardLayout.setBorderStyle((LayoutBorderStyle) accessibleCardTagWLayoutBorderStyleEditor.getValue());
         wCardLayout.setCarousel(setCarousel.isSelected());
-        wCardLayout.setCarouselInterval((int)carouselInterval.getValue());
+        wCardLayout.setCarouselInterval(carouselInterval.getValue());
         return layout;
     }
 }

@@ -46,6 +46,7 @@ import java.awt.event.KeyEvent;
 public class CellFormulaQuickEditor extends CellQuickEditor {
     //文本域
     private UITextField formulaTextField;
+    private BaseFormula formula;
     //编辑状态
     private boolean isEditing = false;
 
@@ -104,11 +105,15 @@ public class CellFormulaQuickEditor extends CellQuickEditor {
             public void actionPerformed(ActionEvent evt) {
                 String text = formulaTextField.getText();
                 final UIFormula formulaPane = FormulaFactory.createFormulaPane();
-                formulaPane.populate(BaseFormula.createFormulaBuilder().build(text));
+                if (formula != null) {
+                    formula.setContent(text);
+                }
+                formulaPane.populate(formula);
                 formulaPane.showLargeWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
                     @Override
                     public void doOk() {
                         BaseFormula fm = formulaPane.update();
+                        formula = fm;
                         if (fm.getContent().length() <= 1) {
                             formulaTextField.setText(DEFAULT_FORMULA);
                         } else {
@@ -181,7 +186,7 @@ public class CellFormulaQuickEditor extends CellQuickEditor {
             if (value == null) {
                 str = StringUtils.EMPTY;
             } else if (value instanceof BaseFormula) {
-                BaseFormula formula = (BaseFormula) value;
+                formula = (BaseFormula) value;
                 str = formula.getContent();
                 reserveInResult = formula.isReserveInResult();
                 reserveOnWriteOrAnaly = formula.isReserveOnWriteOrAnaly();

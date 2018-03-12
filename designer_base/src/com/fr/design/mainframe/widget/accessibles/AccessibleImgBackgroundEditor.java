@@ -18,7 +18,7 @@ public class AccessibleImgBackgroundEditor extends UneditableAccessibleEditor {
 	
 	@Override
 	protected void showEditorPane() {
-		choosePane = new BackgroundButtonPane();
+		choosePane = initBackgroundPane();
 		choosePane.setPreferredSize(new Dimension(600, 400));
 		BasicDialog dlg = choosePane.showWindow(SwingUtilities.getWindowAncestor(this));
 		dlg.addDialogActionListener(new DialogActionAdapter() {
@@ -32,4 +32,9 @@ public class AccessibleImgBackgroundEditor extends UneditableAccessibleEditor {
 		choosePane.populate(getValue() instanceof Background ? (Background) getValue() : new ColorBackground());
 		dlg.setVisible(true);
 	}
+
+	protected BackgroundButtonPane initBackgroundPane(){
+		return new BackgroundButtonPane();
+	}
+
 }

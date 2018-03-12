@@ -30,6 +30,13 @@ public abstract class ShortCut extends AbstractProvider implements Mutable {
     private MenuKeySet menuKeySet = null;
 
     /**
+     * 权限编辑模式变更时候会调用这个方法
+     * @param isAuhtority
+     */
+    public void notifyFromAuhtorityChange(boolean isAuhtority) {
+    }
+
+    /**
      * 将改菜单添加到menul里面去
      * @param menu 添加到的menu
      */

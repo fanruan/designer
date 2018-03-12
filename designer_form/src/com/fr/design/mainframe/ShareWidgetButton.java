@@ -1,6 +1,6 @@
 package com.fr.design.mainframe;
 
-import com.fr.base.*;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XCreatorUtils;
 import com.fr.design.gui.ilable.UILabel;
@@ -178,7 +178,7 @@ public class ShareWidgetButton extends JPanel implements MouseListener, MouseMot
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             return;
         }
         if (lastPressEvent == null) {
