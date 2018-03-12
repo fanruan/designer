@@ -13,6 +13,7 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.style.background.image.ImageFileChooser;
 import com.fr.design.style.background.image.ImagePreviewPane;
+import com.fr.design.utils.ImageUtils;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.GeneralContext;
@@ -21,20 +22,21 @@ import com.fr.general.Inter;
 import com.fr.stable.CoreGraphHelper;
 import com.fr.stable.StringUtils;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.ButtonGroup;
-import java.awt.Image;
-import java.awt.Dimension;
+import javax.swing.SwingWorker;
+import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 
 /**
  * Created by mengao on 2017/11/23.
@@ -57,11 +59,12 @@ public class ChartEmptyDataStylePane extends AbstractAttrNoScrollPane {
     private ImageFileChooser imageFileChooser;
 
     private Image emptyDataImage = DEFAULT_EMPTY_DATA_IMAGE;
+    private SwingWorker<Void, Void> imageWorker;
 
 
     static {
         DEFAULT_EMPTY_DATA_IMAGE = GeneralContext.isChineseEnv() ? IOUtils.readImage("com/fr/design/images/zh_emptydata.png")
-                                                                : IOUtils.readImage("com/fr/design/images/us_emptydata.png");
+                : IOUtils.readImage("com/fr/design/images/us_emptydata.png");
     }
 
     @Override
@@ -164,10 +167,20 @@ public class ChartEmptyDataStylePane extends AbstractAttrNoScrollPane {
                     File selectedFile = imageFileChooser.getSelectedFile();
 
                     if (selectedFile != null && selectedFile.isFile()) {
-                        emptyDataImage = BaseUtils.readImage(selectedFile.getPath());
-                        CoreGraphHelper.waitForImage(emptyDataImage);
-                        repaintPreviewPane();
-
+                        previewPane.showLoading();
+                        if (imageWorker != null && !imageWorker.isDone()) {
+                            imageWorker = null;
+                        }
+                        imageWorker = new SwingWorker<Void, Void>() {
+                            @Override
+                            protected Void doInBackground() throws Exception {
+                                emptyDataImage = imageFileChooser.isCompressSelected() ? ImageUtils.defaultImageCompress(selectedFile) : BaseUtils.readImage(selectedFile.getPath());
+                                CoreGraphHelper.waitForImage(emptyDataImage);
+                                repaintPreviewPane();
+                                return null;
+                            }
+                        };
+                        imageWorker.execute();
                     } else {
                         previewPane.setImage(null);
                     }
