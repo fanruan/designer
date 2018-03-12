@@ -16,7 +16,7 @@ import com.fr.design.utils.ComponentUtils;
 import com.fr.form.share.AbstractSharableWidget;
 import com.fr.form.share.SharableEditorProvider;
 import com.fr.form.share.ShareLoader;
-import com.fr.form.ui.ShareableWidgetBindInfo;
+import com.fr.form.ui.SharableWidgetBindInfo;
 import com.fr.form.ui.Widget;
 import com.fr.general.Inter;
 import com.fr.stable.Constants;
@@ -85,13 +85,13 @@ public class FormCreatorDropTarget extends DropTarget {
             if (addingXCreator.isShared()) {
                 String shareId = addingXCreator.getShareId();
                 SharableEditorProvider sharableEditor = ShareLoader.getLoader().getSharedElCaseEditorById(shareId);
-                ShareableWidgetBindInfo bindInfo = ShareLoader.getLoader().getElCaseBindInfoById(shareId);
+                SharableWidgetBindInfo bindInfo = ShareLoader.getLoader().getElCaseBindInfoById(shareId);
                 if (sharableEditor != null && bindInfo != null) {
                     Map<String, String> tdNameMap = TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter()).addTableData(bindInfo.getName(), ((AbstractSharableWidget)sharableEditor.getEditor()).getTableDataSource());
                     //合并数据集之后,可能会有数据集名称变化，做一下联动
                     //共享的组件拿的时候都是克隆的,这边改拖拽中克隆的对象而非新克隆对象,上面这个新克隆的对象只是为了拿数据集
                     for (Map.Entry<String, String> entry : tdNameMap.entrySet()) {
-                        designer.getTarget()._renameTableData(widget, entry.getKey(), entry.getValue());
+                        designer.getTarget().renameTableData(widget, entry.getKey(), entry.getValue());
                     }
                 }
             }

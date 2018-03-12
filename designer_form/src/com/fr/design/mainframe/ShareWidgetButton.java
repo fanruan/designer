@@ -7,7 +7,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.form.share.SharableEditorProvider;
 import com.fr.share.ShareConstants;
 import com.fr.form.share.ShareLoader;
-import com.fr.form.ui.ShareableWidgetBindInfo;
+import com.fr.form.ui.SharableWidgetBindInfo;
 import com.fr.form.ui.Widget;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.IOUtils;
@@ -32,7 +32,7 @@ import java.io.Serializable;
  * Time: 16:14
  */
 public class ShareWidgetButton extends JPanel implements MouseListener, MouseMotionListener, Serializable {
-    private ShareableWidgetBindInfo bindInfo;
+    private SharableWidgetBindInfo bindInfo;
     private MouseEvent lastPressEvent;
     private JPanel reportPane;
     private boolean isEdit;
@@ -51,7 +51,7 @@ public class ShareWidgetButton extends JPanel implements MouseListener, MouseMot
         }
     };
 
-    public ShareWidgetButton(ShareableWidgetBindInfo bindInfo) {
+    public ShareWidgetButton(SharableWidgetBindInfo bindInfo) {
         this.bindInfo = bindInfo;
         this.setPreferredSize(new Dimension(108, 68));
         initUI();
@@ -128,11 +128,11 @@ public class ShareWidgetButton extends JPanel implements MouseListener, MouseMot
         };
     }
 
-    public ShareableWidgetBindInfo getBindInfo() {
+    public SharableWidgetBindInfo getBindInfo() {
         return bindInfo;
     }
 
-    public void setBindInfo(ShareableWidgetBindInfo bindInfo) {
+    public void setBindInfo(SharableWidgetBindInfo bindInfo) {
         this.bindInfo = bindInfo;
     }
 

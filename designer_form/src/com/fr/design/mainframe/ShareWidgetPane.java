@@ -1,7 +1,7 @@
 package com.fr.design.mainframe;
 
 
-import com.fr.form.ui.ShareableWidgetBindInfo;
+import com.fr.form.ui.SharableWidgetBindInfo;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,12 +12,12 @@ import java.awt.*;
  */
 public class ShareWidgetPane extends JPanel {
 
-    public ShareWidgetPane(ShareableWidgetBindInfo[] elCaseBindInfoList, boolean isEdit) {
+    public ShareWidgetPane(SharableWidgetBindInfo[] elCaseBindInfoList, boolean isEdit) {
         this.setBorder(BorderFactory.createEmptyBorder(10, 3, 0, 0));// 设置面板的边框 ，距离上、左、下、右 的距离
         if (elCaseBindInfoList != null) {
             int rowCount = (elCaseBindInfoList.length + 1) / 2;
             this.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 10));
-            for (ShareableWidgetBindInfo rbModuleInfo : elCaseBindInfoList) {
+            for (SharableWidgetBindInfo rbModuleInfo : elCaseBindInfoList) {
                 ShareWidgetButton widgetButton = new ShareWidgetButton(rbModuleInfo);
                 widgetButton.setElementCaseEdit(isEdit);
                 this.add(widgetButton);
