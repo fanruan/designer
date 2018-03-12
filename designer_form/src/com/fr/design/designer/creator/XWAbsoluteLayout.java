@@ -87,20 +87,6 @@ public class XWAbsoluteLayout extends XLayoutContainer {
         return new Dimension(500, 300);
     }
 
-    /**
-     * 是否展现覆盖的pane
-     * @param display     是否
-     */
-    public void displayCoverPane(boolean display){
-//        if (isMouseEnter && !this.editable) {
-//            isHovering = display;
-//            coverPanel.setVisible(display);
-//            coverPanel.setPreferredSize(coverPanel.getPreferredSize());
-//            coverPanel.setBounds(1, 1, 500, 300);
-//            coverPanel.repaint();
-//        }
-    }
-
     //根据屏幕大小来确定显示的百分比, 1440*900默认100%, 1366*768缩放90%
     private void initPercent(WAbsoluteLayout widget) {
         Toolkit toolkit = Toolkit.getDefaultToolkit();

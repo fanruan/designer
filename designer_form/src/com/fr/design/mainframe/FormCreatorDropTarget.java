@@ -14,8 +14,9 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.icon.IconPathConstants;
 import com.fr.design.utils.ComponentUtils;
 import com.fr.form.share.AbstractSharableWidget;
+import com.fr.form.share.SharableEditorProvider;
 import com.fr.form.share.ShareLoader;
-import com.fr.form.ui.ElCaseBindInfo;
+import com.fr.form.ui.ShareableWidgetBindInfo;
 import com.fr.form.ui.Widget;
 import com.fr.general.Inter;
 import com.fr.stable.Constants;
@@ -83,8 +84,8 @@ public class FormCreatorDropTarget extends DropTarget {
             Widget widget = (addingXCreator.getTopLayout() != null) ? (addingXCreator.getTopLayout().toData()) : addingXCreator.toData();
             if (addingXCreator.isShared()) {
                 String shareId = addingXCreator.getShareId();
-                AbstractSharableWidget sharableEditor = ShareLoader.getLoader().getSharedElCaseEditorById(shareId);
-                ElCaseBindInfo bindInfo = ShareLoader.getLoader().getElCaseBindInfoById(shareId);
+                SharableEditorProvider sharableEditor = ShareLoader.getLoader().getSharedElCaseEditorById(shareId);
+                ShareableWidgetBindInfo bindInfo = ShareLoader.getLoader().getElCaseBindInfoById(shareId);
                 if (sharableEditor != null && bindInfo != null) {
                     Map<String, String> tdNameMap = TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter()).addTableData(bindInfo.getName(), ((AbstractSharableWidget)sharableEditor.getEditor()).getTableDataSource());
                     //合并数据集之后,可能会有数据集名称变化，做一下联动
