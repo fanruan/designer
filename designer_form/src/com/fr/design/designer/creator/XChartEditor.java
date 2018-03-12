@@ -300,6 +300,10 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 		editor.repaint();
 	}
 
+	public JComponent getCoverPane(){
+		return coverPanel;
+	}
+
 	/**
 	 * 是否支持设置可用
 	 * return boolean
