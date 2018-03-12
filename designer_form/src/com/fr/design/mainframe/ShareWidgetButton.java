@@ -4,9 +4,10 @@ import com.fr.base.vcs.DesignerMode;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XCreatorUtils;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.form.share.SharableEditorProvider;
 import com.fr.share.ShareConstants;
 import com.fr.form.share.ShareLoader;
-import com.fr.form.ui.ElCaseBindInfo;
+import com.fr.form.ui.SharableWidgetBindInfo;
 import com.fr.form.ui.Widget;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.IOUtils;
@@ -31,7 +32,7 @@ import java.io.Serializable;
  * Time: 16:14
  */
 public class ShareWidgetButton extends JPanel implements MouseListener, MouseMotionListener, Serializable {
-    private ElCaseBindInfo bindInfo;
+    private SharableWidgetBindInfo bindInfo;
     private MouseEvent lastPressEvent;
     private JPanel reportPane;
     private boolean isEdit;
@@ -50,7 +51,7 @@ public class ShareWidgetButton extends JPanel implements MouseListener, MouseMot
         }
     };
 
-    public ShareWidgetButton(ElCaseBindInfo bindInfo) {
+    public ShareWidgetButton(SharableWidgetBindInfo bindInfo) {
         this.bindInfo = bindInfo;
         this.setPreferredSize(new Dimension(108, 68));
         initUI();
@@ -127,11 +128,11 @@ public class ShareWidgetButton extends JPanel implements MouseListener, MouseMot
         };
     }
 
-    public ElCaseBindInfo getBindInfo() {
+    public SharableWidgetBindInfo getBindInfo() {
         return bindInfo;
     }
 
-    public void setBindInfo(ElCaseBindInfo bindInfo) {
+    public void setBindInfo(SharableWidgetBindInfo bindInfo) {
         this.bindInfo = bindInfo;
     }
 
@@ -196,7 +197,7 @@ public class ShareWidgetButton extends JPanel implements MouseListener, MouseMot
             creatorSource = ShareLoader.getLoader().getElCaseEditorById(shareId);
         }
         if (creatorSource != null) {
-            XCreator xCreator = XCreatorUtils.createXCreator(creatorSource);
+            XCreator xCreator = XCreatorUtils.createXCreator(((SharableEditorProvider)creatorSource).getEditor());
             xCreator.setShareId(shareId);
             WidgetToolBarPane.getTarget().startDraggingBean(xCreator);
             lastPressEvent = null;

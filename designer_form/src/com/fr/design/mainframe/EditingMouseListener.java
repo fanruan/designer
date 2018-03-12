@@ -260,7 +260,7 @@ public class EditingMouseListener extends MouseInputAdapter {
     public void mouseMoved(MouseEvent e) {
         XCreator component = designer.getComponentAt(e);
 
-        setCoverPaneNotDisplay(e, false);
+        setCoverPaneNotDisplay(component, e, false);
 
         if (processTopLayoutMouseMove(component, e)) {
             return;
@@ -313,23 +313,27 @@ public class EditingMouseListener extends MouseInputAdapter {
                 designer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             }
         }
-        xElementCase.setHelpBtnOnFocus(false);
-        if (xElementCase.getCoverPane().getComponentCount() > 1) {
-            JComponent button1 = (JComponent) xElementCase.getCoverPane().getComponent(1);
+        setHelpBtnFocus(e, xElementCase);
+    }
+
+    private void setHelpBtnFocus(MouseEvent e, XCreator component) {
+        component.setHelpBtnOnFocus(false);
+        if (component.getCoverPane().getComponentCount() > 1) {
+            JComponent button1 = (JComponent) component.getCoverPane().getComponent(1);
             int minX1 = button1.getX() + getParentPositionX(component, 0) - designer.getArea().getHorizontalValue();
             int minY1 = button1.getY() + getParentPositionY(component, 0) - designer.getArea().getVerticalValue();
-            if (e.getX() + GAP - xElementCase.getInsets().left > minX1 && e.getX() - GAP - xElementCase.getInsets().left < minX1 + button1.getWidth()) {
-                if (e.getY() + GAP - xElementCase.getInsets().top > minY1 && e.getY() - GAP - xElementCase.getInsets().top < minY1 + button1.getHeight()) {
+            if (e.getX() + GAP - component.getInsets().left > minX1 && e.getX() - GAP - component.getInsets().left < minX1 + button1.getWidth()) {
+                if (e.getY() + GAP - component.getInsets().top > minY1 && e.getY() - GAP - component.getInsets().top < minY1 + button1.getHeight()) {
                     designer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                    xElementCase.setHelpBtnOnFocus(true);
+                    component.setHelpBtnOnFocus(true);
                 }
             }
         }
-        xElementCase.displayCoverPane(true);
-        xElementCase.setDirections(Direction.TOP_BOTTOM_LEFT_RIGHT);
+        component.displayCoverPane(true);
+        component.setDirections(Direction.TOP_BOTTOM_LEFT_RIGHT);
     }
 
-    private void setCoverPaneNotDisplay(MouseEvent e, boolean isLinkedHelpDialog) {
+    private void setCoverPaneNotDisplay(XCreator component, MouseEvent e, boolean isLinkedHelpDialog) {
         if (xElementCase != null) {
             int x = getParentPositionX(xElementCase, 0) - designer.getArea().getHorizontalValue();
             int y = getParentPositionY(xElementCase, 0) - designer.getArea().getVerticalValue();
@@ -337,15 +341,16 @@ public class EditingMouseListener extends MouseInputAdapter {
             if (rect.contains(e.getPoint())) {
                 return;
             }
-            if (isLinkedHelpDialog) {
-                xElementCase.destroyHelpDialog();
-            }
+
             xElementCase.displayCoverPane(false);
         }
         if (xChartEditor != null) {
             xChartEditor.displayCoverPane(false);
         }
-
+        if (isLinkedHelpDialog) {
+            component.destroyHelpDialog();
+        }
+        component.displayCoverPane(false);
         if (xTopLayoutContainer != null) {
             xTopLayoutContainer.setMouseEnter(false);
         }
@@ -391,8 +396,7 @@ public class EditingMouseListener extends MouseInputAdapter {
                     designer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                 }
             }
-            xChartEditor.displayCoverPane(true);
-            xChartEditor.setDirections(Direction.TOP_BOTTOM_LEFT_RIGHT);
+            setHelpBtnFocus(e, xChartEditor);
             designer.repaint();
         }
     }
@@ -562,9 +566,6 @@ public class EditingMouseListener extends MouseInputAdapter {
         if (designer.getCursor().getType() != Cursor.DEFAULT_CURSOR) {
             designer.setCursor(Cursor.getDefaultCursor());
         }
-
-        setCoverPaneNotDisplay(e, true);
-
         cancelPromptWidgetForbidEnter();
     }
 
