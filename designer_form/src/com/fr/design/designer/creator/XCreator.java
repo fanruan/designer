@@ -15,6 +15,7 @@ import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.AuthorityPropertyPane;
 import com.fr.design.mainframe.BaseJForm;
+import com.fr.design.mainframe.CoverReportPane;
 import com.fr.design.mainframe.EditingMouseListener;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.NoSupportAuthorityEdit;
@@ -58,6 +59,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 
 	protected Widget data;
 	protected JComponent editor;
+	protected CoverReportPane coverPanel;
 	// XCreator加入到某些XLayoutContainer中时，能调整宽度或者高度
 	private int[] directions;
 	private Rectangle backupBound;
@@ -635,7 +637,31 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	 * 设置描述信息
 	 * @param msg 帮助信息
      */
-	public void setXDescrption(String msg){}
+	public void setXDescrption(String msg){
+		if (coverPanel != null) {
+			coverPanel.setHelpMsg(msg);
+		}
+	}
+
+	public JComponent getCoverPane(){
+		return coverPanel;
+	}
+
+	/**
+	 * 销毁帮助提示框
+	 */
+	public void destroyHelpDialog(){
+		if (coverPanel != null) {
+			coverPanel.destroyHelpDialog();
+		}
+	}
+
+	/**
+	 * 是否展现覆盖的pane
+	 * @param display     是否
+	 */
+	public void displayCoverPane(boolean display){
+	}
 
 	/**
 	 * 根据widget设置Xcreator描述信息
@@ -645,7 +671,6 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 		if (widget != null) {
 			setXDescrption(widget.getDescription());
 		}
-
 	}
 
 	/**

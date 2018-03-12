@@ -118,21 +118,7 @@ public class FormWidgetDetailPane extends FormDockView{
         initReuWidgetPanel();
         initMenuPanel();
 
-        card = new CardLayout();
-        tabbedPane = new JPanel();
-        tabbedPane.setLayout(card);
-        tabbedPane.add(REPORT_TAB, reuWidgetPanel);
-        tabbedPane.add(CHART_TAB, new JPanel());
-        UIHeadGroup tabsHeaderIconPane = new UIHeadGroup(new String[] {REPORT_TAB, CHART_TAB}) {
-            @Override
-            public void tabChanged(int index) {
-                card.show(tabbedPane, labelButtonList.get(index).getText());
-            }
-        };
-        tabsHeaderIconPane.setNeedLeftRightOutLine(false);
-
-        add(tabsHeaderIconPane, BorderLayout.NORTH);
-        add(tabbedPane, BorderLayout.CENTER);
+        add(reuWidgetPanel, BorderLayout.CENTER);
 
     }
 

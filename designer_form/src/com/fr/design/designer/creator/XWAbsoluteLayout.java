@@ -17,6 +17,7 @@ import com.fr.design.icon.IconPathConstants;
 import com.fr.design.mainframe.EditingMouseListener;
 import com.fr.design.mainframe.FormArea;
 import com.fr.design.mainframe.FormDesigner;
+import com.fr.design.mainframe.HelpDialogManager;
 import com.fr.form.ui.Connector;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WAbsoluteLayout;
@@ -52,6 +53,8 @@ public class XWAbsoluteLayout extends XLayoutContainer {
     //由于屏幕分辨率不同，界面上的容器大小可能不是默认的100%，此时拖入组件时，保存的大小按照100%时的计算
     protected double containerPercent = 1.0;
 
+    private boolean isHovering = false;
+
     private HashMap<Connector, XConnector> xConnectorMap;
 
     public XWAbsoluteLayout() {
@@ -82,6 +85,20 @@ public class XWAbsoluteLayout extends XLayoutContainer {
     @Override
     public Dimension initEditorSize() {
         return new Dimension(500, 300);
+    }
+
+    /**
+     * 是否展现覆盖的pane
+     * @param display     是否
+     */
+    public void displayCoverPane(boolean display){
+//        if (isMouseEnter && !this.editable) {
+//            isHovering = display;
+//            coverPanel.setVisible(display);
+//            coverPanel.setPreferredSize(coverPanel.getPreferredSize());
+//            coverPanel.setBounds(1, 1, 500, 300);
+//            coverPanel.repaint();
+//        }
     }
 
     //根据屏幕大小来确定显示的百分比, 1440*900默认100%, 1366*768缩放90%
@@ -497,6 +514,10 @@ public class XWAbsoluteLayout extends XLayoutContainer {
                 ComponentAdapter adapter = AdapterBus.getComponentAdapter(designer, this);
                 editingMouseListener.startEditing(this, isEditing ? adapter.getDesignerEditor() : null, adapter);
             }
+        }
+        HelpDialogManager.getInstance().setPane(coverPanel);
+        if (this.isHelpBtnOnFocus()) {
+            coverPanel.setMsgDisplay(e);
         }
     }
 

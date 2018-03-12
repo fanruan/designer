@@ -4,6 +4,7 @@ import com.fr.base.vcs.DesignerMode;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XCreatorUtils;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.form.share.AbstractSharableWidget;
 import com.fr.share.ShareConstants;
 import com.fr.form.share.ShareLoader;
 import com.fr.form.ui.ElCaseBindInfo;
@@ -196,7 +197,7 @@ public class ShareWidgetButton extends JPanel implements MouseListener, MouseMot
             creatorSource = ShareLoader.getLoader().getElCaseEditorById(shareId);
         }
         if (creatorSource != null) {
-            XCreator xCreator = XCreatorUtils.createXCreator(creatorSource);
+            XCreator xCreator = XCreatorUtils.createXCreator(((AbstractSharableWidget)creatorSource).getEditor());
             xCreator.setShareId(shareId);
             WidgetToolBarPane.getTarget().startDraggingBean(xCreator);
             lastPressEvent = null;
