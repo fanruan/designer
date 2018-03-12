@@ -125,7 +125,7 @@ public class GridUI extends ComponentUI {
         // richer;聚合报表设计中，最初的ElementCase还没有加到Report中,所以elementCase.getReport()可能为空
         ReportSettingsProvider reportSettings = getReportSettings(elementCase);
         PaperSettingProvider psetting = reportSettings.getPaperSetting();
-        if (grid.isShowPaginateLine()) {// paint paper margin line.
+        if (grid.getPaginateLineShowType() != Grid.NO_PAGINATE_LINE) {// paint paper margin line.
             PaperSize paperSize = psetting.getPaperSize();
             Margin margin = psetting.getMargin();
 
@@ -171,7 +171,7 @@ public class GridUI extends ComponentUI {
     private void paintScrollBackground(Graphics2D g2d, Grid grid, Background background, PaperSettingProvider psetting, ReportSettingsProvider reportSettings) {
         boolean isCanDrawImage = grid.isEditable() || isAuthority;
         if (isCanDrawImage && (background instanceof ImageBackground)) {
-            if (!grid.isShowPaginateLine()) {
+            if (grid.getPaginateLineShowType() == Grid.NO_PAGINATE_LINE) {
                 calculatePaper(psetting, reportSettings);
             }
 
@@ -237,14 +237,15 @@ public class GridUI extends ComponentUI {
         // 分页线
         paginateLineList.clear();
 
-        boolean isShowVerticalPaginateLine = grid.isShowPaginateLine() && grid.getPaginateLineShowType() == Grid.MULTIPLE_PAGINATE_LINE;
+        boolean isShowVerticalPaginateLine = grid.getPaginateLineShowType() == Grid.MULTIPLE_PAGINATE_LINE;
+        boolean isShowHorizontalPaginateLine = grid.getPaginateLineShowType() != Grid.NO_PAGINATE_LINE;
 
         new DrawVerticalLineHelper(grid.getVerticalBeginValue(), verticalEndValue,
                 grid.isShowGridLine(), isShowVerticalPaginateLine, rowHeightList, paperPaintHeight,
                 paginateLineList, realWidth, resolution).iterateStart2End(g2d);
 
         new DrawHorizontalLineHelper(grid.getHorizontalBeginValue(), horizontalEndValue,
-                grid.isShowGridLine(), grid.isShowPaginateLine(), columnWidthList, paperPaintWidth,
+                grid.isShowGridLine(), isShowHorizontalPaginateLine, columnWidthList, paperPaintWidth,
                 paginateLineList, realHeight, resolution).iterateStart2End(g2d);
     }
 

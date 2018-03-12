@@ -35,12 +35,10 @@ public class FormElementCasePaneDelegate extends ElementCasePane<FormElementCase
 
 	public FormElementCasePaneDelegate(FormElementCase sheet, Form form) {
         super(sheet);
-        if (form.getFormMobileAttr().isMobileOnly()) {
-            this.getGrid().setShowPaginateLine(true);
-            this.getGrid().setPaginateLineShowType(Grid.SINGLE_HORIZONTAL_PAGINATE_LINE);
-        } else {
-            this.getGrid().setShowPaginateLine(false);
-        }
+
+        this.getGrid().setPaginateLineShowType(form.getFormMobileAttr().isMobileOnly()
+                ? Grid.SINGLE_HORIZONTAL_PAGINATE_LINE
+                : Grid.NO_PAGINATE_LINE);
 
         this.addSelectionChangeListener(new SelectionListener() {
             @Override
