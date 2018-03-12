@@ -364,7 +364,7 @@ public class Designer extends BaseDesigner {
     @Override
     public Component createBBSLoginPane() {
         if (userInfoPane == null) {
-            userInfoPane = new UserInfoPane();
+            userInfoPane = UserInfoPane.getInstance();
         }
         return userInfoPane;
     }
