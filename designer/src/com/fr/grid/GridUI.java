@@ -237,8 +237,10 @@ public class GridUI extends ComponentUI {
         // 分页线
         paginateLineList.clear();
 
+        boolean isShowVerticalPaginateLine = grid.isShowPaginateLine() && grid.getPaginateLineShowType() == Grid.MULTIPLE_PAGINATE_LINE;
+
         new DrawVerticalLineHelper(grid.getVerticalBeginValue(), verticalEndValue,
-                grid.isShowGridLine(), grid.isShowPaginateLine(), rowHeightList, paperPaintHeight,
+                grid.isShowGridLine(), isShowVerticalPaginateLine, rowHeightList, paperPaintHeight,
                 paginateLineList, realWidth, resolution).iterateStart2End(g2d);
 
         new DrawHorizontalLineHelper(grid.getHorizontalBeginValue(), horizontalEndValue,
@@ -607,8 +609,12 @@ public class GridUI extends ComponentUI {
 
             //g2d.setXORMode(Utils.getXORColor(grid.getPaginationLineColor()));
             GraphHelper.setStroke(g2d, GraphHelper.getStroke(Constants.LINE_DASH_DOT));
-            for (int i = 0, len = paginateLineList.size(); i < len; i++) {
-                g2d.draw((Shape) paginateLineList.get(i));
+            if (grid.getPaginateLineShowType() == Grid.SINGLE_HORIZONTAL_PAGINATE_LINE) {
+                g2d.draw((Shape) paginateLineList.get(0));
+            } else {
+                for (int i = 0, len = paginateLineList.size(); i < len; i++) {
+                    g2d.draw((Shape) paginateLineList.get(i));
+                }
             }
 
             g2d.setPaintMode();

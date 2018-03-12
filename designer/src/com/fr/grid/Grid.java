@@ -48,6 +48,8 @@ public class Grid extends BaseGridComponent {
     /**
      * If editing, the <code>Component</code> that is handling the editing.
      */
+    public static final int MULTIPLE_PAGINATE_LINE = 1;  // 绘制多条分页线
+    public static final int SINGLE_HORIZONTAL_PAGINATE_LINE = 2;  // 仅绘制一条水平分页线
     private static final int VERTICAL_EXTENT_INITIAL_VALUE = 50;
     private static final int HORIZONTAL_EXTENT_INITIAL_VALUE = 40;
     transient protected Component editorComponent;
@@ -58,6 +60,7 @@ public class Grid extends BaseGridComponent {
     private Color gridLineColor = UIConstants.RULER_LINE_COLOR; // line color.
 
     private boolean isShowPaginateLine = true;
+    private int paginateLineShowType = MULTIPLE_PAGINATE_LINE;  // 如何绘制分页线
     private Color paginationLineColor = Color.RED; // line color of paper
 
     private boolean isShowVerticalFrozenLine = true;
@@ -1432,8 +1435,11 @@ public class Grid extends BaseGridComponent {
         this.tooltipLocation.setLocation(x, y);
     }
 
-//	@Override
-//	public void requestFocus() {
-//		super.requestFocus();
-//	}
+    public int getPaginateLineShowType() {
+        return paginateLineShowType;
+    }
+
+    public void setPaginateLineShowType(int paginateLineShowType) {
+        this.paginateLineShowType = paginateLineShowType;
+    }
 }
