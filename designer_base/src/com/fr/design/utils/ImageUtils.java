@@ -51,10 +51,10 @@ public class ImageUtils {
      * @throws IOException
      */
     public static BufferedImage imageCompress(File imageFile, float quality) throws IOException {
+        BufferedImage result = BaseUtils.readImage(imageFile.getPath());
         if (imageFile == null) {
             return null;
         }
-        BufferedImage result = BaseUtils.readImage(imageFile.getPath());
         if (canbeCompressedToJPEG(imageFile)) {
             return jpegCompress(result, quality);
         }
@@ -62,10 +62,10 @@ public class ImageUtils {
     }
 
     public static boolean canbeCompressedToJPEG(File imageFile) {
-        if (ComparatorUtils.equals(getImageType(imageFile), "jpeg")) {
+        if (ComparatorUtils.equals(getImageType(imageFile), "JPEG")) {//JPEG大写
             return true;
         }
-        if (ComparatorUtils.equals(getImageType(imageFile), "png")) {
+        if (ComparatorUtils.equals(getImageType(imageFile), "png")) {//png小写
             return !isAlphaAreaOverload(imageFile);//少量透明度系数的png直接压缩jpg
         }
         return false;
