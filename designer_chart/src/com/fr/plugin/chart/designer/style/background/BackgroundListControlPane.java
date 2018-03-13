@@ -102,7 +102,7 @@ public class BackgroundListControlPane extends VanChartUIListControlPane {
             if (!isDefaultIntervalBackground) {
                 for (int i = 0; i < nameables.length; i++) {
                     VanChartCustomIntervalBackground value = (VanChartCustomIntervalBackground) ((NameObject) nameables[i]).getObject();
-                    if (ComparatorUtils.equals(value.getAxisName(), axis.getAxisName())) {
+                    if (ComparatorUtils.equals(value.getAxisName(), rectanglePlot.getXAxisName(axis))) {
                         value.setCustomIntervalBackgroundSelectName(nameables[i].getName());
                         axisCustomBackground.add(value);
                     }
@@ -115,7 +115,7 @@ public class BackgroundListControlPane extends VanChartUIListControlPane {
             if (!isDefaultIntervalBackground) {
                 for (int i = 0; i < nameables.length; i++) {
                     VanChartCustomIntervalBackground value = (VanChartCustomIntervalBackground) ((NameObject) nameables[i]).getObject();
-                    if (ComparatorUtils.equals(value.getAxisName(), axis.getAxisName())) {
+                    if (ComparatorUtils.equals(value.getAxisName(), rectanglePlot.getYAxisName(axis))) {
                         value.setCustomIntervalBackgroundSelectName(nameables[i].getName());
                         axisCustomBackground.add(value);
                     }

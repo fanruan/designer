@@ -93,7 +93,7 @@ public class AlertLineListControlPane extends VanChartUIListControlPane {
             List<VanChartAlertValue> axisAlerts = new ArrayList<VanChartAlertValue>();
             for (int i = 0; i < nameables.length; i++) {
                 VanChartAlertValue value = (VanChartAlertValue) ((NameObject) nameables[i]).getObject();
-                if (ComparatorUtils.equals(value.getAxisName(), axis.getAxisName())) {
+                if (ComparatorUtils.equals(value.getAxisName(), rectanglePlot.getXAxisName(axis))) {
                     value.setAlertPaneSelectName(nameables[i].getName());
                     axisAlerts.add(value);
                 }
@@ -104,7 +104,7 @@ public class AlertLineListControlPane extends VanChartUIListControlPane {
             List<VanChartAlertValue> axisAlerts = new ArrayList<VanChartAlertValue>();
             for (int i = 0; i < nameables.length; i++) {
                 VanChartAlertValue value = (VanChartAlertValue) ((NameObject) nameables[i]).getObject();
-                if (ComparatorUtils.equals(value.getAxisName(), axis.getAxisName())) {
+                if (ComparatorUtils.equals(value.getAxisName(), rectanglePlot.getYAxisName(axis))) {
                     value.setAlertPaneSelectName(nameables[i].getName());
                     axisAlerts.add(value);
                 }
