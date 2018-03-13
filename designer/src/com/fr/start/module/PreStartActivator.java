@@ -8,7 +8,6 @@ import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
 import com.fr.module.Activator;
-import com.fr.stable.BuildContext;
 
 /**
  * Created by juhaoyu on 2018/1/8.
@@ -19,7 +18,6 @@ public class PreStartActivator extends Activator {
     public void start() {
         
         RestartHelper.deleteRecordFilesWhenStart();
-        BuildContext.setBuildFilePath(buildPropertiesPath());
         SiteCenter.getInstance();
         initLanguage();
         
@@ -31,15 +29,6 @@ public class PreStartActivator extends Activator {
         //这两句的位置不能随便调换，因为会影响语言切换的问题
         FRContext.setLanguage(DesignerEnvManager.getEnvManager(false).getLanguage());
         DesignerEnvManager.checkNameEnvMap();
-    }
-    
-    
-    /**
-     * build得路径
-     */
-    private String buildPropertiesPath() {
-        
-        return "/com/fr/stable/build.properties";
     }
     
     @Override
