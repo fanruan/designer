@@ -9,13 +9,11 @@ import com.fr.design.gui.controlpane.ShortCut4JControlPane;
 import com.fr.general.Inter;
 import com.fr.general.NameObject;
 import com.fr.plugin.chart.attr.DefaultAxisHelper;
-import com.fr.plugin.chart.attr.axis.VanChartAxis;
 import com.fr.plugin.chart.attr.plot.VanChartRectanglePlot;
 import com.fr.plugin.chart.base.AttrSeriesStackAndAxis;
 import com.fr.plugin.chart.column.VanChartCustomStackAndAxisConditionPane;
 import com.fr.plugin.chart.designer.component.VanChartUIListControlPane;
 import com.fr.stable.Nameable;
-
 import java.util.ArrayList;
 
 /**
@@ -49,10 +47,8 @@ public class VanChartStackedAndAxisListControlPane extends VanChartUIListControl
 
     public void populate(VanChartRectanglePlot plot) {
         this.plot = plot;
-        java.util.List<VanChartAxis> xAxisList = plot.getXAxisList();
-        java.util.List<VanChartAxis> yAxisList = plot.getYAxisList();
-        String[] axisXNames = DefaultAxisHelper.getAxisNames(xAxisList);
-        String[] axisYNames = DefaultAxisHelper.getAxisNames(yAxisList);
+        String[] axisXNames = DefaultAxisHelper.getXAxisNames(plot);
+        String[] axisYNames = DefaultAxisHelper.getYAxisNames(plot);
 
         java.util.List<StackedAndAxisNameObjectCreator> menuList = new ArrayList<StackedAndAxisNameObjectCreator>();
         AttrSeriesStackAndAxis seriesStackAndAxis = new AttrSeriesStackAndAxis();
