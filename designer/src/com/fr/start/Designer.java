@@ -3,6 +3,7 @@ package com.fr.start;
 import com.fr.base.BaseUtils;
 import com.fr.base.Env;
 import com.fr.base.FRContext;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.actions.file.WebPreviewUtils;
@@ -122,7 +123,7 @@ public class Designer extends BaseDesigner {
             return menuDef;
         }
 
-        if (!BaseUtils.isAuthorityEditing()) {
+        if (!DesignerMode.isAuthorityEditing()) {
             menuDef.addShortCut(SeparatorDef.DEFAULT);
 
             if (FRContext.getCurrentEnv().isRoot()) {
@@ -294,7 +295,7 @@ public class Designer extends BaseDesigner {
         if (jt == null) {
             return;
         }
-        saveButton.setEnabled(!jt.isSaved());
+        saveButton.setEnabled(!jt.isSaved() && !DesignerMode.isVcsMode());
         MutilTempalteTabPane.getInstance().refreshOpenedTemplate(HistoryTemplateListPane.getInstance().getHistoryList());
         MutilTempalteTabPane.getInstance().repaint();
         if (DesignerEnvManager.getEnvManager().isSupportUndo()) {
@@ -319,7 +320,7 @@ public class Designer extends BaseDesigner {
     @Override
     public JComponent resetToolBar(JComponent toolbarComponent, ToolBarMenuDockPlus plus) {
         //如果是处于权限编辑状态
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             if (plus instanceof JWorkBook && plus.toolbars4Target() == null) {
                 //聚合块编辑
                 return super.polyToolBar(Inter.getLocText(new String[]{"Polybolck", "DashBoard-Potence", "Edit"}));

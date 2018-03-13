@@ -4,7 +4,7 @@ import java.awt.CardLayout;
 
 import javax.swing.JComponent;
 
-import com.fr.base.BaseUtils;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
 import com.fr.design.file.HistoryTemplateListPane;
@@ -125,7 +125,7 @@ public class ReportComponentCardPane extends JComponent implements TargetModifie
         } else if (tpl instanceof PolyWorkSheet) {
             showPoly((PolyWorkSheet) tpl);
         }
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             JTemplate editingTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
             String selectedRoles = ReportAndFSManagePane.getInstance().getRoleTree().getSelectedRoleName();
             editingTemplate.setSheetCovered(tpl.getWorkSheetPrivilegeControl().checkInvisible(selectedRoles));

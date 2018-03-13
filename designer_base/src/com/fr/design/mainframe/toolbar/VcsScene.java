@@ -1,6 +1,6 @@
 package com.fr.design.mainframe.toolbar;
 
-import com.fr.base.BaseUtils;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.actions.edit.RedoAction;
 import com.fr.design.actions.edit.UndoAction;
 import com.fr.design.actions.file.ExitDesignerAction;
@@ -32,7 +32,7 @@ public class VcsScene {
             menuDef.addShortCut(SeparatorDef.DEFAULT);
         }
 
-        if (!BaseUtils.isAuthorityEditing()) {
+        if (!DesignerMode.isAuthorityEditing()) {
             menuDef.addShortCut(new PreferenceAction());
         }
 

@@ -67,7 +67,9 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
     }
     
     private void init(String[] args) {
-        
+    
+        prepare();
+    
         RestartHelper.deleteRecordFilesWhenStart();
         ConfigManagerFactory.registerConfigManagerProxy(new ConfigManagerCreatorProxy());
         //启动core
@@ -83,7 +85,7 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
             DesignUtils.clientSend(args);
             return;
         }
-        
+
         Register.load();
         //标记一下是设计器启动
         PluginConversionModule.getInstance().markDesignerStart();
@@ -106,6 +108,12 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
             }
         }
         initLookAndFeel(args, splashWindow);
+    }
+    
+    private void prepare() {
+        
+        //屏蔽IBM对私钥公钥的检查
+        System.getProperties().setProperty("com.ibm.crypto.provider.DoRSATypeChecking","false");
     }
     
     private void initLookAndFeel(String[] args, SplashWindow splashWindow) {
@@ -137,7 +145,9 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
         for (int i = 0; !TemplateTreePane.getInstance().getTemplateFileTree().isTemplateShowing() && i < LOAD_TREE_MAXNUM; i++) {
             TemplateTreePane.getInstance().getTemplateFileTree().refresh();
         }
-        
+
+        df.fireDesignerOpened();
+
         splashWindow.setVisible(false);
         splashWindow.dispose();
         

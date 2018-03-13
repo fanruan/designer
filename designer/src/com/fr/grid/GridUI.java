@@ -1,7 +1,6 @@
 package com.fr.grid;
 
 import com.fr.base.BaseFormula;
-import com.fr.base.BaseUtils;
 import com.fr.base.DynamicUnitList;
 import com.fr.base.FRContext;
 import com.fr.base.GraphHelper;
@@ -10,6 +9,7 @@ import com.fr.base.PaperSize;
 import com.fr.base.Utils;
 import com.fr.base.background.ColorBackground;
 import com.fr.base.background.ImageBackground;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.mainframe.DesignerContext;
@@ -41,9 +41,7 @@ import com.fr.report.worksheet.FormElementCase;
 import com.fr.report.worksheet.WorkSheet;
 import com.fr.stable.ColumnRow;
 import com.fr.stable.Constants;
-import com.fr.stable.script.CalculatorUtils;
 import com.fr.stable.unit.FU;
-import com.fr.third.antlr.ANTLRException;
 
 import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
@@ -774,17 +772,10 @@ public class GridUI extends ComponentUI {
 
     private void paintGridSelectionForFormula(Graphics2D g2d, ElementCase report, CellSelection cs) {
         // denny: 标记公式用到的单元格
-        if (report.getCellValue(cs.getColumn(), cs.getRow()) instanceof BaseFormula) {
-            BaseFormula tmpFormula = (BaseFormula) report
-                    .getCellValue(cs.getColumn(), cs.getRow());
-            String statement = tmpFormula.getContent();
-            // denny: 获得公式中包含的所有单元格
-            ColumnRow[] columnRowArray = new ColumnRow[0];
-            try {
-                columnRowArray = CalculatorUtils.relatedColumnRowArray(statement.substring(1));
-            } catch (ANTLRException ae) {
-                // do nothing.
-            }
+        Object cellValue = report.getCellValue(cs.getColumn(), cs.getRow());
+        if (cellValue instanceof BaseFormula) {
+            BaseFormula tmpFormula = (BaseFormula) cellValue;
+            ColumnRow[] columnRowArray = tmpFormula.getRelatedColumnRows();
             Area formulaCellArea = null;
             for (int i = 0; i < columnRowArray.length; i++) {
                 ColumnRow columnRow = columnRowArray[i];
@@ -1039,7 +1030,7 @@ public class GridUI extends ComponentUI {
             throw new IllegalArgumentException("The component c to paint must be a Grid!");
         }
 
-        isAuthority = BaseUtils.isAuthorityEditing();
+        isAuthority = DesignerMode.isAuthorityEditing();
 
         Graphics2D g2d = (Graphics2D) g;
 

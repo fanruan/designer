@@ -5,6 +5,7 @@ import com.fr.base.FRContext;
 import com.fr.base.chart.BaseChart;
 import com.fr.base.chart.BaseChartGetter;
 import com.fr.base.chart.BaseChartNameID;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.itooltip.MultiLineToolTip;
@@ -53,7 +54,7 @@ public class PolyComponetsBar extends JToolBar {
 	 */
 	public void checkEnable() {
 		for (SerIcon serIcon : serIcons) {
-			serIcon.setEnabled(!BaseUtils.isAuthorityEditing());
+			serIcon.setEnabled(!DesignerMode.isAuthorityEditing());
 		}
 	}
 

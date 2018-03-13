@@ -3,8 +3,8 @@
  */
 package com.fr.design.designer.creator;
 
-import com.fr.base.BaseUtils;
 import com.fr.base.GraphHelper;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
@@ -13,7 +13,13 @@ import com.fr.design.designer.beans.models.SelectionModel;
 import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.mainframe.*;
+import com.fr.design.mainframe.AuthorityPropertyPane;
+import com.fr.design.mainframe.BaseJForm;
+import com.fr.design.mainframe.CoverReportPane;
+import com.fr.design.mainframe.EditingMouseListener;
+import com.fr.design.mainframe.FormDesigner;
+import com.fr.design.mainframe.NoSupportAuthorityEdit;
+import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WTitleLayout;
@@ -21,9 +27,16 @@ import com.fr.stable.Constants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.border.Border;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.beans.IntrospectionException;
 import java.util.ArrayList;
@@ -46,6 +59,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 
 	protected Widget data;
 	protected JComponent editor;
+	protected CoverReportPane coverPanel;
 	// XCreator加入到某些XLayoutContainer中时，能调整宽度或者高度
 	private int[] directions;
 	private Rectangle backupBound;
@@ -281,7 +295,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	 */
 	@Override
 	public JComponent createToolPane(BaseJForm jform, FormDesigner formEditor) {
-		if (!BaseUtils.isAuthorityEditing()) {
+		if (!DesignerMode.isAuthorityEditing()) {
 			if (isDedicateContainer()) {
 				// 图表块和报表块由于控件树处不显示，但对应的属性表要显示，此处处理下
 				XCreator child = ((XLayoutContainer) this).getXCreator(0);
@@ -623,7 +637,31 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	 * 设置描述信息
 	 * @param msg 帮助信息
      */
-	public void setXDescrption(String msg){}
+	public void setXDescrption(String msg){
+		if (coverPanel != null) {
+			coverPanel.setHelpMsg(msg);
+		}
+	}
+
+	public JComponent getCoverPane(){
+		return coverPanel;
+	}
+
+	/**
+	 * 销毁帮助提示框
+	 */
+	public void destroyHelpDialog(){
+		if (coverPanel != null) {
+			coverPanel.destroyHelpDialog();
+		}
+	}
+
+	/**
+	 * 是否展现覆盖的pane
+	 * @param display     是否
+	 */
+	public void displayCoverPane(boolean display){
+	}
 
 	/**
 	 * 根据widget设置Xcreator描述信息
@@ -633,7 +671,6 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 		if (widget != null) {
 			setXDescrption(widget.getDescription());
 		}
-
 	}
 
 	/**

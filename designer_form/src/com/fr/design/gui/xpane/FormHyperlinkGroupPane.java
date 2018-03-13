@@ -29,7 +29,8 @@ public class FormHyperlinkGroupPane extends HyperlinkGroupPane{
      *
      * @return 返回Nameable按钮数组.
      */
-	 public NameableCreator[] createNameableCreators() {
+	 @Override
+     public NameableCreator[] createNameableCreators() {
 		 NameableCreator[] creators = super.createNameableCreators();
 		 for (int i=0; i<creators.length; i++) {
 			 if (ComparatorUtils.equals(creators[i].menuName(), Inter.getLocText("FR-Designer_Email"))) {

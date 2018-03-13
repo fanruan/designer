@@ -18,7 +18,6 @@ import com.fr.design.gui.chart.BaseChartPropertyPane;
 import com.fr.design.gui.chart.MiddleChartComponent;
 import com.fr.design.mainframe.*;
 import com.fr.design.mainframe.widget.editors.WLayoutBorderStyleEditor;
-import com.fr.design.mainframe.widget.renderer.LayoutBorderStyleRenderer;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.designer.beans.events.DesignerEditor;
 import com.fr.form.ui.BaseChartEditor;
@@ -48,7 +47,6 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 	private boolean isEditing = false;
 
 	private boolean isHovering = false;
-	private JPanel coverPanel;
 	private static final Color OUTER_BORDER_COLOR = new Color(65, 155, 249, 30);
 	private static final Color INNER_BORDER_COLOR = new Color(65, 155, 249);
 
@@ -248,6 +246,10 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 				editingMouseListener.startEditing(this, isEditing ? adapter.getDesignerEditor() : null, adapter);
 			}
 		}
+		HelpDialogManager.getInstance().setPane(coverPanel);
+		if (this.isHelpBtnOnFocus()) {
+			coverPanel.setMsgDisplay(e);
+		}
 	}
 
 	@Override
@@ -276,7 +278,7 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 			editor.setLayout(null);
 			editor.setOpaque(false);
 
-			coverPanel = new CoverPane();
+			coverPanel = new CoverReportPane();
 			coverPanel.setPreferredSize(this.getPreferredSize());
 			coverPanel.setBounds(this.getBounds());
 
@@ -300,6 +302,14 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 
 	public JComponent getCoverPane(){
 		return coverPanel;
+	}
+
+	/**
+	 * 是否支持设置可用
+	 * return boolean
+	 */
+	public boolean supportSetEnable(){
+		return false;
 	}
 
 	/**
