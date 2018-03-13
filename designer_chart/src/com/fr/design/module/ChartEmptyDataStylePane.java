@@ -164,7 +164,7 @@ public class ChartEmptyDataStylePane extends AbstractAttrNoScrollPane {
             public void actionPerformed(ActionEvent evt) {
                 int returnVal = imageFileChooser.showOpenDialog(ChartEmptyDataStylePane.this);
                 if (returnVal != JFileChooser.CANCEL_OPTION) {
-                    File selectedFile = imageFileChooser.getSelectedFile();
+                   final File selectedFile = imageFileChooser.getSelectedFile();
 
                     if (selectedFile != null && selectedFile.isFile()) {
                         previewPane.showLoading();
