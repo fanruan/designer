@@ -66,7 +66,7 @@ public class ImgChooseWrapper {
 
     public void dealWithImageFile(int returnVal) {
         if (returnVal != JFileChooser.CANCEL_OPTION) {
-            File selectedFile = imageFileChooser.getSelectedFile();
+            final File selectedFile = imageFileChooser.getSelectedFile();
 
             if (selectedFile != null && selectedFile.isFile()) {
                 if (previewPane != null) {
