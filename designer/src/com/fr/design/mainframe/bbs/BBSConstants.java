@@ -23,24 +23,35 @@ public class BBSConstants {
     private static final String GUEST_KEY_ONLINE = "guest.user";
     private static final String LINK_KEY = "LINK";
     private static final String LINK_KEY_ONLINE = "guest.link";
+    private static final String JOIN_LINK_KEY = "JOIN";
+    private static final String JOIN_LINK_KEY_ONLINE = "guest.join";
 
     private static Properties PROP = null;
 
     public static String[] getAllGuest() {
-        return loadAllGuestsInfoOnline(GUEST_KEY_ONLINE, loadAllGuestsInfo(GUEST_KEY));
+        return loadArrayOnline(GUEST_KEY_ONLINE, loadAttribute(GUEST_KEY));
     }
 
     public static String[] getAllLink() {
-        return loadAllGuestsInfoOnline(LINK_KEY_ONLINE, loadAllGuestsInfo(LINK_KEY));
+        return loadArrayOnline(LINK_KEY_ONLINE, loadAttribute(LINK_KEY));
     }
 
-    //加载所有用户的信息, 用户名, 论坛连接
-    private static String loadAllGuestsInfo(String key) {
+    public static String getHowToJoinLink() {
+        return loadAttributeOnline(JOIN_LINK_KEY_ONLINE, loadAttribute(JOIN_LINK_KEY));
+    }
+
+    private static String loadAttribute(String key) {
         return loadAttribute(key, StringUtils.EMPTY);
     }
 
-    //加载所有用户的信息, 用户名, 论坛连接
-    private static String[] loadAllGuestsInfoOnline(String key, String defaultValue) {
+    /**
+     * 在线加载数组形式的键值，值使用|分割
+     *
+     * @param key          键
+     * @param defaultValue 默认值
+     * @return 值
+     */
+    private static String[] loadArrayOnline(String key, String defaultValue) {
         String[] allGuests = new String[0];
         String guest = SiteCenter.getInstance().acquireUrlByKind(key, defaultValue);
         if (StringUtils.isNotEmpty(guest)) {
@@ -48,7 +59,22 @@ public class BBSConstants {
         }
         return allGuests;
     }
-    
+
+    /**
+     * 在线加载键值
+     *
+     * @param key          键
+     * @param defaultValue 默认值
+     * @return 值
+     */
+    private static String loadAttributeOnline(String key, String defaultValue) {
+        String value = SiteCenter.getInstance().acquireUrlByKind(key, defaultValue);
+        if (StringUtils.isEmpty(value)) {
+            return StringUtils.EMPTY;
+        }
+        return value;
+    }
+
     //如果要定制, 直接改bbs.properties就行了
     private static String loadAttribute(String key, String defaultValue) {
         if (PROP == null) {
