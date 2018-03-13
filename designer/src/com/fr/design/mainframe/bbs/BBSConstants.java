@@ -61,7 +61,7 @@ public class BBSConstants {
     }
 
     /**
-     * 在线加载建制
+     * 在线加载键值
      *
      * @param key          键
      * @param defaultValue 默认值
