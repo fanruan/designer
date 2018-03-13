@@ -84,7 +84,7 @@ public class ImageUtils {
         }
         // 得到指定Format图片的writer
         Iterator<ImageWriter> iter = ImageIO
-                .getImageWritersByFormatName("JPEG");// 得到迭代器
+                .getImageWritersByFormatName("jpeg");// 得到迭代器
         ImageWriter writer = iter.next();
 
         // 得到指定writer的输出参数设置(ImageWriteParam )
