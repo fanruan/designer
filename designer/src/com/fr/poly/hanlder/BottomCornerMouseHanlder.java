@@ -9,8 +9,8 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.event.MouseInputAdapter;
 
-import com.fr.base.BaseUtils;
 import com.fr.base.ScreenResolution;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.beans.location.Absorptionline;
 import com.fr.design.beans.location.MoveUtils;
 import com.fr.design.beans.location.MoveUtils.RectangleDesigner;
@@ -49,7 +49,7 @@ public class BottomCornerMouseHanlder extends MouseInputAdapter {
 	 * 
 	 */
 	public void mousePressed(MouseEvent e) {
-		if (BaseUtils.isAuthorityEditing()) {
+		if (DesignerMode.isAuthorityEditing()) {
 			designer.noAuthorityEdit();
 		}
 		pressed = e.getPoint();
@@ -66,7 +66,7 @@ public class BottomCornerMouseHanlder extends MouseInputAdapter {
 	 * 
 	 */
 	public void mouseReleased(MouseEvent e) {
-		if (BaseUtils.isAuthorityEditing()) {
+		if (DesignerMode.isAuthorityEditing()) {
 			designer.noAuthorityEdit();
 		}
 		editor.setDragging(false);
@@ -92,7 +92,7 @@ public class BottomCornerMouseHanlder extends MouseInputAdapter {
 	 * 
 	 */
 	public void mouseDragged(MouseEvent e) {
-		if (BaseUtils.isAuthorityEditing()) {
+		if (DesignerMode.isAuthorityEditing()) {
 			designer.noAuthorityEdit();
 			return;
 		}

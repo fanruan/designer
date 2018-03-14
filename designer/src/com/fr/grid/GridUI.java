@@ -1,7 +1,6 @@
 package com.fr.grid;
 
 import com.fr.base.BaseFormula;
-import com.fr.base.BaseUtils;
 import com.fr.base.DynamicUnitList;
 import com.fr.base.FRContext;
 import com.fr.base.GraphHelper;
@@ -10,6 +9,7 @@ import com.fr.base.PaperSize;
 import com.fr.base.Utils;
 import com.fr.base.background.ColorBackground;
 import com.fr.base.background.ImageBackground;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.mainframe.DesignerContext;
@@ -41,9 +41,7 @@ import com.fr.report.worksheet.FormElementCase;
 import com.fr.report.worksheet.WorkSheet;
 import com.fr.stable.ColumnRow;
 import com.fr.stable.Constants;
-import com.fr.stable.script.CalculatorUtils;
 import com.fr.stable.unit.FU;
-import com.fr.third.antlr.ANTLRException;
 
 import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
@@ -127,7 +125,7 @@ public class GridUI extends ComponentUI {
         // richer;聚合报表设计中，最初的ElementCase还没有加到Report中,所以elementCase.getReport()可能为空
         ReportSettingsProvider reportSettings = getReportSettings(elementCase);
         PaperSettingProvider psetting = reportSettings.getPaperSetting();
-        if (grid.isShowPaginateLine()) {// paint paper margin line.
+        if (grid.getPaginateLineShowType() != Grid.NO_PAGINATE_LINE) {// paint paper margin line.
             PaperSize paperSize = psetting.getPaperSize();
             Margin margin = psetting.getMargin();
 
@@ -173,7 +171,7 @@ public class GridUI extends ComponentUI {
     private void paintScrollBackground(Graphics2D g2d, Grid grid, Background background, PaperSettingProvider psetting, ReportSettingsProvider reportSettings) {
         boolean isCanDrawImage = grid.isEditable() || isAuthority;
         if (isCanDrawImage && (background instanceof ImageBackground)) {
-            if (!grid.isShowPaginateLine()) {
+            if (grid.getPaginateLineShowType() == Grid.NO_PAGINATE_LINE) {
                 calculatePaper(psetting, reportSettings);
             }
 
@@ -239,12 +237,15 @@ public class GridUI extends ComponentUI {
         // 分页线
         paginateLineList.clear();
 
+        boolean isShowVerticalPaginateLine = grid.getPaginateLineShowType() == Grid.MULTIPLE_PAGINATE_LINE;
+        boolean isShowHorizontalPaginateLine = grid.getPaginateLineShowType() != Grid.NO_PAGINATE_LINE;
+
         new DrawVerticalLineHelper(grid.getVerticalBeginValue(), verticalEndValue,
-                grid.isShowGridLine(), grid.isShowPaginateLine(), rowHeightList, paperPaintHeight,
+                grid.isShowGridLine(), isShowVerticalPaginateLine, rowHeightList, paperPaintHeight,
                 paginateLineList, realWidth, resolution).iterateStart2End(g2d);
 
         new DrawHorizontalLineHelper(grid.getHorizontalBeginValue(), horizontalEndValue,
-                grid.isShowGridLine(), grid.isShowPaginateLine(), columnWidthList, paperPaintWidth,
+                grid.isShowGridLine(), isShowHorizontalPaginateLine, columnWidthList, paperPaintWidth,
                 paginateLineList, realHeight, resolution).iterateStart2End(g2d);
     }
 
@@ -583,11 +584,6 @@ public class GridUI extends ComponentUI {
     }
 
     private void paintPaginateLines(Graphics g, Grid grid) {
-        JTemplate jTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
-        if(!jTemplate.isJWorkBook()){
-            //报表块无分页之说
-            return;
-        }
         Graphics2D g2d = (Graphics2D) g;
 
         // james 画分页线
@@ -614,8 +610,12 @@ public class GridUI extends ComponentUI {
 
             //g2d.setXORMode(Utils.getXORColor(grid.getPaginationLineColor()));
             GraphHelper.setStroke(g2d, GraphHelper.getStroke(Constants.LINE_DASH_DOT));
-            for (int i = 0, len = paginateLineList.size(); i < len; i++) {
-                g2d.draw((Shape) paginateLineList.get(i));
+            if (grid.getPaginateLineShowType() == Grid.SINGLE_HORIZONTAL_PAGINATE_LINE) {
+                g2d.draw((Shape) paginateLineList.get(0));
+            } else {
+                for (int i = 0, len = paginateLineList.size(); i < len; i++) {
+                    g2d.draw((Shape) paginateLineList.get(i));
+                }
             }
 
             g2d.setPaintMode();
@@ -1037,7 +1037,7 @@ public class GridUI extends ComponentUI {
             throw new IllegalArgumentException("The component c to paint must be a Grid!");
         }
 
-        isAuthority = BaseUtils.isAuthorityEditing();
+        isAuthority = DesignerMode.isAuthorityEditing();
 
         Graphics2D g2d = (Graphics2D) g;
 

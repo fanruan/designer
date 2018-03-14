@@ -5,6 +5,7 @@ import com.fr.design.event.GlobalNameListener;
 import com.fr.design.event.GlobalNameObserver;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
+import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -132,13 +133,19 @@ public abstract class AbstractAttrNoScrollPane extends BasicPane {
 	/**
 	 * 返回图标的路径
 	 */
-	public abstract String getIconPath();
+	public String getIconPath() {
+		// 默认为空，子类有需要再重写
+		return StringUtils.EMPTY;
+	}
 
     /**
      * 界面标题
      * @return 标题
      */
-	public abstract String title4PopupWindow();
+	public String title4PopupWindow() {
+		// 默认为空，子类有需要再重写
+		return StringUtils.EMPTY;
+	}
 
 	/**
 	 * 设置选中的ID, 用于双击展示界面.

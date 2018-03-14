@@ -12,8 +12,8 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 
-import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignState;
 import com.fr.design.actions.AllowAuthorityEditAction;
 import com.fr.design.actions.ExitAuthorityEditAction;
@@ -30,6 +30,7 @@ import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.design.present.ConditionAttributesGroupPane;
 import com.fr.form.FormElementCaseProvider;
+import com.fr.form.main.Form;
 import com.fr.general.Inter;
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.Selection;
@@ -50,11 +51,11 @@ public class FormElementCaseDesigner<T extends FormElementCaseProvider, E extend
 		return elementCasePane;
 	}
 	
-    public FormElementCaseDesigner(T sheet) {
+    public FormElementCaseDesigner(T sheet, Form form) {
         super(sheet);
 
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        elementCasePane = new FormElementCasePaneDelegate((FormElementCase) sheet);
+        elementCasePane = new FormElementCasePaneDelegate((FormElementCase) sheet, form);
         elementCasePane.setSelection(getDefaultSelectElement());
         this.add(elementCasePane, BorderLayout.CENTER);
         elementCasePane.addTargetModifiedListener(new TargetModifiedListener() {
@@ -86,7 +87,7 @@ public class FormElementCaseDesigner<T extends FormElementCaseProvider, E extend
 	public ShortCut[] shortCuts4Authority() {
 		return new ShortCut[]{
 				new NameSeparator(Inter.getLocText(new String[]{"DashBoard-Potence", "Edit"})),
-				BaseUtils.isAuthorityEditing() ? new ExitAuthorityEditAction(this) : new AllowAuthorityEditAction(this),
+				DesignerMode.isAuthorityEditing() ? new ExitAuthorityEditAction(this) : new AllowAuthorityEditAction(this),
 		};
 
 	}

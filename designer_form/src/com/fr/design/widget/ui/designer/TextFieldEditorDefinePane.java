@@ -27,7 +27,6 @@ public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor>
         super(xCreator);
     }
 
-
     @Override
     protected JPanel setFirstContentPane() {
         regPane = createRegPane();

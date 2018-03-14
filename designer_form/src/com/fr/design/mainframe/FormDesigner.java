@@ -1,8 +1,8 @@
 package com.fr.design.mainframe;
 
-import com.fr.base.BaseUtils;
 import com.fr.base.Parameter;
 import com.fr.base.ScreenResolution;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignState;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.designer.TargetComponent;
@@ -1035,7 +1035,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
                 selected.add((XCreator) path.getLastPathComponent());
             }
 
-            if (!BaseUtils.isAuthorityEditing()) {
+            if (!DesignerMode.isAuthorityEditing()) {
                 selectionModel.setSelectedCreators(selected);
 
                 if (formArea != null) {
@@ -1433,7 +1433,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
 
         @Override
         public void fireCreatorModified(DesignerEvent evt) {
-            if (!BaseUtils.isAuthorityEditing()) {
+            if (!DesignerMode.isAuthorityEditing()) {
                 return;
             }
             if (evt.getCreatorEventID() == DesignerEvent.CREATOR_EDITED
@@ -1445,7 +1445,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
                 if (paths == null) {
                     return;
                 }
-                if (BaseUtils.isAuthorityEditing()) {
+                if (DesignerMode.isAuthorityEditing()) {
                     showAuthorityEditPane();
                 }
 

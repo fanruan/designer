@@ -588,15 +588,10 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
 
     private String[] getParams() {
         JTemplate jTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
-        if (jTemplate == null){
+        if (jTemplate == null) {
             return new String[0];
         }
-        String[] params = new String[0];
-        if(jTemplate.getTarget() instanceof ParameterHolder){
-            params = getParamsName(((ParameterHolder)jTemplate.getTarget()).getParameters());
-        }
-
-        return params;
+        return getParamsName((jTemplate.getJTemplateParameters()));
     }
 
     private String[] getParamsName(Parameter[] parameters) {

@@ -3,7 +3,7 @@
  */
 package com.fr.poly.creator;
 
-import com.fr.base.BaseUtils;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.actions.edit.HyperlinkAction;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.general.Inter;
@@ -55,7 +55,7 @@ public class ECBlockPane extends PolyElementCasePane {
                 if (!isEditable()) {
                     return;
                 }
-                if (BaseUtils.isAuthorityEditing()) {
+                if (DesignerMode.isAuthorityEditing()) {
                     if (designer.getSelection().getEditingElementCasePane() == null) {
                         EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.AUTHORITY_EDITION_DISABLED);
                         EastRegionContainerPane.getInstance().replaceAuthorityEditionPane(new NoSupportAuthorityEdit());
@@ -106,7 +106,7 @@ public class ECBlockPane extends PolyElementCasePane {
      * @return 返回MenuDef数组.
      */
     public MenuDef[] menus4Target() {
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             return super.menus4Target();
         }
         return (MenuDef[]) ArrayUtils.addAll(super.menus4Target(), new MenuDef[]{createInsertMenuDef(), createCellMenuDef()});

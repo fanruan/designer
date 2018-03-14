@@ -613,4 +613,26 @@ public class XWTabFitLayout extends XWFitLayout {
 		xCardSwitchButton.setPreferredSize(new Dimension(width, xCardSwitchButton.getHeight()));
 	}
 
+	private void checkVisible(){
+		WTabFitLayout wTabFitLayout = (WTabFitLayout)this.data;
+		CardSwitchButton cardSwitchButton = wTabFitLayout.getCurrentCard();
+		cardSwitchButton.setVisible(wTabFitLayout.isVisible());
+	}
+
+
+	/**
+	 * 是否支持设置可见
+	 * return boolean
+	 */
+	@Override
+	public boolean supportSetVisible(){
+		return true;
+	}
+
+
+	@Override
+	public void resetVisible(boolean visible){
+		checkVisible();
+	}
+
 }

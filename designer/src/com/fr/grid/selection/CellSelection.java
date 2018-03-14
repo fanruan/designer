@@ -5,6 +5,7 @@ import com.fr.base.BaseUtils;
 import com.fr.base.ConfigManager;
 import com.fr.base.NameStyle;
 import com.fr.base.Utils;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.cache.list.IntList;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.actions.cell.CellAttributeAction;
@@ -463,7 +464,7 @@ public class CellSelection extends Selection {
      */
     public UIPopupMenu createPopupMenu(ElementCasePane ePane) {
         UIPopupMenu popup = new UIPopupMenu();
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             popup.add(new CleanAuthorityAction(ePane).createMenuItem());
             return popup;
         }
