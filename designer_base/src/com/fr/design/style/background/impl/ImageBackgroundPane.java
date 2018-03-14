@@ -63,7 +63,7 @@ public class ImageBackgroundPane extends BackgroundDetailPane {
         imageFileChooser.setMultiSelectionEnabled(false);
     }
 
-    public JPanel initSelectFilePane(){
+    public JPanel initSelectFilePane() {
         JPanel selectFilePane = FRGUIPaneFactory.createBorderLayout_L_Pane();
 
         selectFilePane.setBorder(BorderFactory.createEmptyBorder(8, 2, 4, 0));
@@ -120,8 +120,7 @@ public class ImageBackgroundPane extends BackgroundDetailPane {
         public void actionPerformed(ActionEvent evt) {
             int returnVal = imageFileChooser.showOpenDialog(ImageBackgroundPane.this);
             setImageStyle();
-            ImgChooseWrapper.getInstance(previewPane, imageFileChooser, imageStyle).dealWithImageFile(returnVal);
-            fireChagneListener();
+            ImgChooseWrapper.getInstance(previewPane, imageFileChooser, imageStyle, changeListener).dealWithImageFile(returnVal);
         }
     };
 
