@@ -222,15 +222,15 @@ public class RemoteEnv extends AbstractEnv {
     private HttpClient createHttpMethod(HashMap<String, String> para, boolean isSignIn) throws EnvException, UnsupportedEncodingException {
         String methodPath = this.path;
         if (!isSignIn) {
-            methodPath = methodPath + "?id=" + createUserID();
+            return createHttpClient(para);
         }
-        return new HttpClient(methodPath, para);
+        return new HttpClient(methodPath, para, true);
     }
 
     /**
      * 根据nameValuePairs,也就是参数对,生成PostMethod,不同之处在于,参数拼在path后面,不是method.addParameters
      */
-    private HttpClient createHttpMethod2(HashMap<String, String> para) throws EnvException {
+    private HttpClient createHttpClient(HashMap<String, String> para) throws EnvException {
         StringBuilder sb = new StringBuilder(path);
 
         sb.append('?');
@@ -314,7 +314,7 @@ public class RemoteEnv extends AbstractEnv {
      * @throws Exception 异常
      */
     private boolean postBytes2Server(byte[] bytes, HashMap<String, String> para) throws Exception {
-        HttpClient client = createHttpMethod2(para);
+        HttpClient client = createHttpClient(para);
         client.setContent(bytes);
         execute4InputStream(client);
 
@@ -1331,7 +1331,7 @@ public class RemoteEnv extends AbstractEnv {
      * @throws Exception 异常
      */
     public InputStream postBytes2ServerB(byte[] bytes, HashMap<String, String> para) throws Exception {
-        HttpClient client = createHttpMethod2(para);
+        HttpClient client = createHttpClient(para);
         client.setContent(bytes);
         return execute4InputStream(client);
     }
@@ -1577,7 +1577,7 @@ public class RemoteEnv extends AbstractEnv {
         }
 
         try {
-            HttpClient client = createHttpMethod2(out.getNameValuePairs());
+            HttpClient client = createHttpClient(out.getNameValuePairs());
             client.setContent(out.getOut().toByteArray());
             String res = stream2String(execute4InputStream(client));
             if (StringUtils.isNotEmpty(res)) {
@@ -1616,7 +1616,7 @@ public class RemoteEnv extends AbstractEnv {
         XMLTools.writeOutputStreamXML(mgr, out);
 
         try {
-            HttpClient client = createHttpMethod2(out.getNameValuePairs());
+            HttpClient client = createHttpClient(out.getNameValuePairs());
             client.setContent(out.getOut().toByteArray());
             String res = stream2String(execute4InputStream(client));
             if (StringUtils.isNotEmpty(res)) {
@@ -1686,7 +1686,7 @@ public class RemoteEnv extends AbstractEnv {
         para.put("schema", schema);
         para.put("tableName", tableName);
 
-        HttpClient client = createHttpMethod2(para);
+        HttpClient client = createHttpClient(para);
         InputStream input = execute4InputStream(client);
 
         if (input == null) {
