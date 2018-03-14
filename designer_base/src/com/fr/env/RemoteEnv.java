@@ -84,6 +84,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
@@ -2118,15 +2119,13 @@ public class RemoteEnv extends AbstractEnv {
             ResourceIOUtils.write(zipFilePath, input);
             ResourceIOUtils.unzip(zipFilePath, cacheDir, EncodeConstants.ENCODING_GBK);
 
-            List<String> files = ResourceIOUtils.listWithFullPath(cacheDir, new Filter<String>() {
+
+            return ResourceIOUtils.listWithFullPath(cacheDir, new Filter<String>() {
                 @Override
                 public boolean accept(String s) {
                     return s.endsWith(ProjectConstants.REU);
                 }
             });
-
-
-            return files.toArray(new String[files.size()]);
 
         } catch (Exception e) {
             FRContext.getLogger().error(e.getMessage());
