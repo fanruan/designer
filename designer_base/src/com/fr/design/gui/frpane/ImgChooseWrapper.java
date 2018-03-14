@@ -2,13 +2,18 @@ package com.fr.design.gui.frpane;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.Style;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.style.background.image.ImageFileChooser;
 import com.fr.design.style.background.image.ImagePreviewer;
 import com.fr.design.utils.ImageUtils;
+import com.fr.general.Inter;
 import com.fr.stable.CoreGraphHelper;
+import com.fr.stable.StringUtils;
 
 import javax.swing.JFileChooser;
 import javax.swing.SwingWorker;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.Image;
 import java.io.File;
 
@@ -24,15 +29,30 @@ public class ImgChooseWrapper {
     private Style imageStyle = null;
 
     private SwingWorker<Void, Void> imageWorker;
+    private ChangeListener changeListener;
+
+    private transient Image selectImage;
+    private UILabel imageSizeLabel;
 
     public static ImgChooseWrapper getInstance(ImagePreviewer previewPane, ImageFileChooser imageFileChooser, Style imageStyle) {
-        return new ImgChooseWrapper(previewPane, imageFileChooser, imageStyle);
+        return getInstance(previewPane, imageFileChooser, imageStyle, null);
     }
 
-    private ImgChooseWrapper(ImagePreviewer previewPane, ImageFileChooser imageFileChooser, Style imageStyle) {
+    public static ImgChooseWrapper getInstance(ImagePreviewer previewPane, ImageFileChooser imageFileChooser, Style imageStyle, ChangeListener changeListener) {
+        return new ImgChooseWrapper(previewPane, imageFileChooser, imageStyle, changeListener, null, null);
+    }
+
+    public static ImgChooseWrapper getInstance(Image selectImage, UILabel imageSizeLabel, ImageFileChooser imageFileChooser) {
+        return new ImgChooseWrapper(null, imageFileChooser, null, null, selectImage, imageSizeLabel);
+    }
+
+    private ImgChooseWrapper(ImagePreviewer previewPane, ImageFileChooser imageFileChooser, Style imageStyle, ChangeListener changeListener, Image selectImage, UILabel imageSizeLabel) {
         this.previewPane = previewPane;
         this.imageFileChooser = imageFileChooser;
         this.imageStyle = imageStyle;
+        this.changeListener = changeListener;
+        this.selectImage = selectImage;
+        this.imageSizeLabel = imageSizeLabel;
     }
 
 
@@ -86,6 +106,8 @@ public class ImgChooseWrapper {
                             previewPane.setImage(image);
                             previewPane.repaint();
                         }
+                        checkLabelText();
+                        fireChangeListener();
                         return null;
                     }
                 };
@@ -99,6 +121,25 @@ public class ImgChooseWrapper {
             if (previewPane != null) {
                 previewPane.repaint();
             }
+        }
+    }
+
+    private void fireChangeListener() {
+        if (this.changeListener != null) {
+            ChangeEvent evt = new ChangeEvent(this);
+            this.changeListener.stateChanged(evt);
+        }
+    }
+
+    private void checkLabelText() {
+        if (imageSizeLabel == null) {
+            return;
+        }
+        if (selectImage == null) {
+            imageSizeLabel.setText(StringUtils.EMPTY);
+        } else {
+            imageSizeLabel.setText(selectImage.getWidth(null) + "x"
+                    + selectImage.getHeight(null) + Inter.getLocText("px"));
         }
     }
 }

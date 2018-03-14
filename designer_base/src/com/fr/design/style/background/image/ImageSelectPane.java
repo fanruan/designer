@@ -96,13 +96,12 @@ public class ImageSelectPane extends BackgroundPane4BoxChange {
         public void actionPerformed(ActionEvent evt) {
             int returnVal = imageFileChooser.showOpenDialog(ImageSelectPane.this);
             if (returnVal != JFileChooser.CANCEL_OPTION) {
-                ImgChooseWrapper.getInstance(null, imageFileChooser, null).dealWithImageFile(returnVal);
-                chechLabelText();
+                ImgChooseWrapper.getInstance(selectImage,imageSizeLabel,imageFileChooser).dealWithImageFile(returnVal);
             }
         }
     };
     
-    private void chechLabelText() {
+    private void checkLabelText() {
       if (selectImage == null) {
           imageSizeLabel.setText("");
       } else {
@@ -125,7 +124,7 @@ public class ImageSelectPane extends BackgroundPane4BoxChange {
             
         }
         
-        chechLabelText();
+        checkLabelText();
     }
     
     public void populateAlpha(int alpha) {
