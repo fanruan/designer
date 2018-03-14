@@ -7,21 +7,18 @@ import com.fr.design.designer.beans.events.DesignerEditListener;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.*;
 import com.fr.design.designer.properties.EventPropertyTable;
-import com.fr.design.dialog.BasicPane;
 import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.design.gui.ibutton.UIHeadGroup;
 import com.fr.design.gui.icontainer.UIScrollPane;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itable.AbstractPropertyTable;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.widget.ui.FormWidgetCardPane;
 import com.fr.design.widget.ui.designer.mobile.MobileWidgetDefinePane;
-import com.fr.form.ui.Widget;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
-import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,22 +30,15 @@ import java.util.Set;
  */
 public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPropertyPane {
 
-    private static final String PARA = "para";
-    private static final String BODY = "body";
+    private static final int PADDING = 10;
+    private static final int PADDING_M = 12;
     private FormWidgetCardPane formWidgetCardPane; // 控件的属性表
     private EventPropertyTable eventTable; // 控件的事件表
     private List<AbstractPropertyTable> widgetPropertyTables; // 这个变量应该是保存控件拓展的属性tab
     private List<MobileWidgetDefinePane> mobileExtraPropertyPanes; // 保存9.0设计器下移动端拓展的属性tab，舍弃JTable
     private FormDesigner designer; // 当前designer
     private UIScrollPane psp; // 用来装载属性表table的容器
-    private UIScrollPane esp; //用来装载事件table的容器
     private JPanel wsp; // 装载移动端tab的容器，包括移动端属性表和控件拓展的移动端属性表
-    private MobileParaWidgetTable mobileParaWidgetTable; // 参数面板的移动端属性tab（和body的移动端属性tab区别是没有标签名column）
-    private MobileWidgetTable mobileWidgetTable; // body的移动端属性tab
-    private UIScrollPane downPanel; // 这个滚动容器是用于装载centerPane的
-    private JPanel centerPane; // 此centerPane采用的是cardLayout布局，装载着mobileWidgetTable和mobileBodyWidgetTable
-    private CardLayout cardLayout; // 卡片布局，选中参数面板时显示mobileWidgetTable，选中body时显示mobileBodyWidgetTable
-    private JTableHeader header;//把表头单独get出来作为一个组件
     private UIHeadGroup tabsHeaderIconPane;
     private XComponent lastAffectedCreator;
 
@@ -122,6 +112,7 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
         if (mobileExtraPropertyPanes != null) {
             for (MobileWidgetDefinePane extraPane : mobileExtraPropertyPanes) {
                 extraPane.initPropertyGroups(designer);
+                extraPane.populate(designer);
             }
         }
         if (widgetPropertyTables != null) {
@@ -156,33 +147,10 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
         //加上表头后，这里不再使用borderLayout布局，而采用BoxLayout布局
         wsp = FRGUIPaneFactory.createY_AXISBoxInnerContainer_S_Pane();
         wsp.setBorder(null);
-        mobileParaWidgetTable = new MobileParaWidgetTable(designer);
-        mobileWidgetTable = new MobileWidgetTable(designer);
         designer.addDesignerEditListener(new MobileWidgetDesignerAdapter());
-        centerPane = FRGUIPaneFactory.createCardLayout_S_Pane();
-        cardLayout = (CardLayout) centerPane.getLayout();
-        centerPane.add(mobileParaWidgetTable, PARA);
-        // 采用卡片布局的容器必须指定卡片名字，如果没有卡片名字
-        // 就会出现：Exception in thread "main" java.lang.IllegalArgumentException:
-        // cannot add to layout: constraint must be a string
-        // 第二个参数代表卡片的名字。后来show方法调用时通过名字找到要显示的卡片
-        centerPane.add(mobileWidgetTable, BODY); //这两句代码，是把JTable放到一个JPanel中去了，表头不会显示，
-        //只有放到JScrollPanel中去表头才能正常显示，这就是MobileWidgetTable中定义了表头却没有显示的原因！
-        //解决方案：MobileWidgetTable实在无法直接放到JScrollPanel中去的时候，应该把表头get出来单独作为一个组件显示
-
-        if (hasSelectParaPane(designer)) {
-            cardLayout.show(centerPane, PARA);
-            header = mobileParaWidgetTable.getTableHeader();
-        } else {
-            cardLayout.show(centerPane, BODY);
-            header = mobileWidgetTable.getTableHeader();
-        }
-        downPanel = new UIScrollPane(centerPane);
-        downPanel.setBorder(new LineBorder(Color.GRAY));
 
         //获取拓展移动端属性tab
         WidgetPropertyUIProvider[] widgetAttrProviders = getExtraPropertyUIProviders();
-
         addWidgetAttr(widgetAttrProviders);
     }
 
@@ -217,13 +185,13 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
      * @param widgetAttrProviders 拓展的tab
      */
     private void addWidgetAttr(WidgetPropertyUIProvider[] widgetAttrProviders) {
-        if (widgetAttrProviders.length == 0) { // 判断有没有拓展的tab，没有就使用原来的
-            wsp.add(header);
-            wsp.add(downPanel);
+        if (widgetAttrProviders.length == 0) { // 判断有没有拓展的tab，提示"无可用配置项"
+            wsp.add(getUnavailablePane());
         } else {
             for (WidgetPropertyUIProvider widgetAttrProvider : widgetAttrProviders) {
                 MobileWidgetDefinePane extraPane = (MobileWidgetDefinePane) widgetAttrProvider.createWidgetAttrPane();
                 if (extraPane != null) {
+                    extraPane.setBorder(BorderFactory.createEmptyBorder(PADDING, PADDING, PADDING, PADDING_M));
                     mobileExtraPropertyPanes.add(extraPane);
                     wsp.add(extraPane);
                 }
@@ -232,29 +200,20 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
                     widgetPropertyTables.add(propertyTable);
                     designer.addDesignerEditListener(new WidgetPropertyDesignerAdapter(formWidgetCardPane));
 
-                    UIScrollPane uiScrollPane = new UIScrollPane(getExtraBodyTable(propertyTable));
+                    UIScrollPane uiScrollPane = new UIScrollPane(propertyTable);
                     wsp.add(uiScrollPane);
                 }
             }
         }
     }
 
-    /**
-     * 如果是body的拓展属性表，那么要额外加上一张控件顺序表
-     *
-     * @return
-     */
-    private Component getExtraBodyTable(AbstractPropertyTable abstractPropertyTable) {
-        Widget selection = designer.getSelectionModel().getSelection().getSelectedCreator().toData();
-        if ("body".equals(selection.getWidgetName())) {
-            JPanel jPanel = FRGUIPaneFactory.createY_AXISBoxInnerContainer_S_Pane();
-            jPanel.add(abstractPropertyTable);
-            MobileWidgetTable mobileWidgetTable = new MobileWidgetTable(designer);
-            jPanel.add(mobileWidgetTable.getTableHeader());
-            jPanel.add(mobileWidgetTable);
-            return jPanel;
-        }
-        return abstractPropertyTable;
+    // "无可用配置项"面板
+    private JPanel getUnavailablePane() {
+        JPanel panel = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        UILabel label = new UILabel(Inter.getLocText("FR-Designer_No_Settings_Available"));
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        panel.add(label);
+        return panel;
     }
 
     private void initTabPane() {

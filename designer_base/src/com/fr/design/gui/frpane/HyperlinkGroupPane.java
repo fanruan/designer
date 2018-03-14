@@ -44,15 +44,12 @@ public abstract class HyperlinkGroupPane extends UIListControlPane {
 
             @Override
             public void on(PluginEvent event) {
-
-               refreshNameableCreator(createNameableCreators());
-
+                refreshNameableCreator(createNameableCreators());
             }
         }, new PluginFilter() {
 
             @Override
             public boolean accept(PluginContext context) {
-
                 return context.contain(HyperlinkProvider.XML_TAG);
             }
         });
@@ -63,6 +60,7 @@ public abstract class HyperlinkGroupPane extends UIListControlPane {
      *
      * @return 返回Nameable按钮数组.
      */
+    @Override
     public NameableCreator[] createNameableCreators() {
         Map<String, NameableCreator> nameCreators = new ListMap<>();
         NameableCreator[] creators = DesignModuleFactory.getHyperlinkGroupType().getHyperlinkCreators();
@@ -82,6 +80,7 @@ public abstract class HyperlinkGroupPane extends UIListControlPane {
      *
      * @return 返回标题字符串.
      */
+    @Override
     public String title4PopupWindow() {
         return Inter.getLocText("FR-Designer_Hyperlink");
     }
@@ -91,11 +90,11 @@ public abstract class HyperlinkGroupPane extends UIListControlPane {
         return Inter.getLocText("FR-Designer_Add_Hyperlink");
     }
 
-    public void populate(NameJavaScriptGroup nameHyperlink_array) {
-        java.util.List<NameObject> list = new ArrayList<NameObject>();
-        if (nameHyperlink_array != null) {
-            for (int i = 0; i < nameHyperlink_array.size(); i++) {
-                list.add(new NameObject(nameHyperlink_array.getNameHyperlink(i).getName(), nameHyperlink_array.getNameHyperlink(i).getJavaScript()));
+    public void populate(NameJavaScriptGroup hyperlinkArray) {
+        java.util.List<NameObject> list = new ArrayList<>();
+        if (hyperlinkArray != null) {
+            for (int i = 0; i < hyperlinkArray.size(); i++) {
+                list.add(new NameObject(hyperlinkArray.getNameHyperlink(i).getName(), hyperlinkArray.getNameHyperlink(i).getJavaScript()));
             }
         }
 
@@ -113,20 +112,29 @@ public abstract class HyperlinkGroupPane extends UIListControlPane {
      */
     public NameJavaScriptGroup updateJSGroup() {
         Nameable[] res = this.update();
-        NameJavaScript[] res_array = new NameJavaScript[res.length];
+        NameJavaScript[] resArray = new NameJavaScript[res.length];
         for (int i = 0; i < res.length; i++) {
             NameObject no = (NameObject) res[i];
-            res_array[i] = new NameJavaScript(no.getName(), (JavaScript) no.getObject());
+            resArray[i] = new NameJavaScript(no.getName(), (JavaScript) no.getObject());
         }
 
-        return new NameJavaScriptGroup(res_array);
+        return new NameJavaScriptGroup(resArray);
     }
 
     @Override
     public void saveSettings() {
-        if (isPopulating) {
+        if (isPopulating || !needAutoSave()) {
             return;
         }
         hyperlinkGroupPaneActionProvider.saveSettings(this);
+    }
+
+    /**
+     * 是否需要自动保存到超级链接属性中
+     *
+     * @return 是否需要自动保存
+     */
+    public boolean needAutoSave() {
+        return true;
     }
 }

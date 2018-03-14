@@ -1,6 +1,7 @@
 package com.fr.design.roleAuthority;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.data.DesignTableDataManager;
@@ -265,7 +266,7 @@ public class ReportAndFSManagePane extends DockingView implements Prepare4DataSo
         DesignTableDataManager.addDsChangeListener(new ChangeListener() {
 
             public void stateChanged(ChangeEvent e) {
-                if (BaseUtils.isAuthorityEditing()) {
+                if (DesignerMode.isAuthorityEditing()) {
                     roleTree.refreshTreeNode();
                     expandTree(roleTree, true);
                     roleTree.updateUI();

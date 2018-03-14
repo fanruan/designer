@@ -6,7 +6,9 @@ package com.fr.design.designer.creator;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.FRParameterLayoutAdapter;
+import com.fr.design.designer.properties.mobile.ParaMobilePropertyUI;
 import com.fr.design.form.util.XCreatorConstants;
+import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.design.mainframe.widget.editors.BackgroundEditor;
 import com.fr.design.mainframe.widget.editors.BooleanEditor;
 import com.fr.design.mainframe.widget.editors.WidgetDisplayPosition;
@@ -212,6 +214,11 @@ public class XWParameterLayout extends XWAbsoluteLayout {
      */
     @Override
     public void updateBoundsWidget() {
+    }
+
+    @Override
+    public WidgetPropertyUIProvider[] getWidgetPropertyUIProviders() {
+        return new WidgetPropertyUIProvider[]{ new ParaMobilePropertyUI(this)};
     }
 
     @Override

@@ -281,7 +281,7 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
      * @return 是则返回true
      */
     public boolean isSaved() {
-        return BaseUtils.isAuthorityEditing() ? this.authoritySaved : this.saved;
+        return DesignerMode.isAuthorityEditing() ? this.authoritySaved : this.saved;
     }
 
     /**
@@ -304,7 +304,7 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
     }
 
     public void setSaved(boolean isSaved) {
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             authoritySaved = isSaved;
         } else {
             saved = isSaved;
@@ -315,7 +315,7 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
      * @return
      */
     public UndoManager getUndoManager() {
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             if (this.authorityUndoManager == null) {
                 this.authorityUndoManager = new UndoManager();
                 int limit = DesignerEnvManager.getEnvManager().getUndoLimit();
@@ -389,7 +389,7 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
             return;
         }
         //如果是在不同的模式下产生的
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             this.getUndoManager().addEdit(new UndoStateEdit(authorityUndoState, newState));
             authorityUndoState = newState;
         } else {
@@ -418,7 +418,7 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
     }
 
     private void fireSuperTargetModified() {
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             this.authoritySaved = false;
         } else {
             this.saved = false;
@@ -621,7 +621,7 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
                 return false;
             }
 
-            if (BaseUtils.isAuthorityEditing()) {
+            if (DesignerMode.isAuthorityEditing()) {
                 //触发保存服务器工具栏
                 try {
                     FRContext.getCurrentEnv().writeResource(ConfigManager.getProviderInstance());
@@ -687,7 +687,7 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
     public ShortCut[] shortcut4FileMenu() {
         if (DesignerMode.isVcsMode()) {
             return VcsScene.shortcut4FileMenu(this);
-        } else if (BaseUtils.isAuthorityEditing()) {
+        } else if (DesignerMode.isAuthorityEditing()) {
             return new ShortCut[]{new SaveTemplateAction(this), new UndoAction(this), new RedoAction(this)};
         } else {
             return new ShortCut[]{new SaveTemplateAction(this), new SaveAsTemplateAction(this), new UndoAction(this), new RedoAction(this)};
@@ -703,7 +703,7 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
     public MenuDef[] menus4Target() {
         MenuDef tplMenu = new MenuDef(Inter.getLocText("FR-Designer_M-Template"), 'T');
         tplMenu.setAnchor(MenuHandler.TEMPLATE);
-        if (!BaseUtils.isAuthorityEditing()) {
+        if (!DesignerMode.isAuthorityEditing()) {
             tplMenu.addShortCut(new NameSeparator(Inter.getLocText("FR-Designer_WorkBook")));
             tplMenu.addShortCut(new TableDataSourceAction(this));
             tplMenu.addShortCut(shortcut4TemplateMenu());
@@ -908,7 +908,7 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
      */
     public void activeJTemplate(int index, JTemplate jt) {
         DesignerContext.getDesignerFrame().activateJTemplate(this);
-    };
+    }
 
     /**
      * 激活已存在的模板
@@ -992,7 +992,21 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
         return UIConstants.RUN_BIG_ICON;
     }
 
+    /**
+     * 获取所有参数
+     *
+     * @return
+     */
     public Parameter[] getParameters() {
+        return new Parameter[0];
+    }
+
+    /**
+     * 获取模板参数
+     *
+     * @return
+     */
+    public Parameter[] getJTemplateParameters() {
         return new Parameter[0];
     }
 

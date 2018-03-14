@@ -10,6 +10,7 @@ import com.fr.base.chart.BaseChart;
 import com.fr.base.chart.BaseChartCollection;
 import com.fr.base.chart.BaseChartGetter;
 import com.fr.base.chart.BaseChartNameID;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.border.UIRoundedBorder;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.chart.MiddleChartComponent;
@@ -27,7 +28,6 @@ import com.fr.poly.PolyDesigner.SelectionType;
 import com.fr.poly.hanlder.ColumnOperationMouseHandler;
 import com.fr.poly.hanlder.RowOperationMouseHandler;
 import com.fr.report.poly.PolyChartBlock;
-import com.fr.stable.CoreGraphHelper;
 import com.fr.stable.core.PropertyChangeAdapter;
 
 import javax.swing.*;
@@ -35,7 +35,6 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 
 /**
  * @author richer
@@ -211,7 +210,7 @@ public class ChartBlockEditor extends BlockEditor<MiddleChartComponent, PolyChar
 
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					if (BaseUtils.isAuthorityEditing()) {
+					if (DesignerMode.isAuthorityEditing()) {
 						return;
 					}
 					BaseChart chart = null;
@@ -274,7 +273,7 @@ public class ChartBlockEditor extends BlockEditor<MiddleChartComponent, PolyChar
 	public void resetSelectionAndChooseState() {
 		designer.setChooseType(SelectionType.CHART_INNER);
 //		refreshChartComponent();// 选中之后 刷新下图表编辑层
-		if (BaseUtils.isAuthorityEditing()) {
+		if (DesignerMode.isAuthorityEditing()) {
 			JTemplate jTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
 			if (jTemplate.isJWorkBook()) {
 				//清参数面板

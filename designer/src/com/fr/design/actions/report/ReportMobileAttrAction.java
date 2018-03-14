@@ -11,7 +11,10 @@ import com.fr.design.report.mobile.ReportMobileAttrPane;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.main.TemplateWorkBook;
+import com.fr.plugin.ExtraClassManager;
 import com.fr.report.mobile.ElementCaseMobileAttr;
+import com.fr.stable.ReportFunctionProcessor;
+import com.fr.stable.fun.FunctionProcessor;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -50,8 +53,15 @@ public class ReportMobileAttrAction extends JWorkBookAction{
         BasicDialog dialog = mobileAttrPane.showWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
             @Override
             public void doOk() {
-                wbTpl.setReportMobileAttr(mobileAttrPane.updateBean());
+                ElementCaseMobileAttr elementCaseMobileAttr = mobileAttrPane.updateBean();
+                wbTpl.setReportMobileAttr(elementCaseMobileAttr);
                 jwb.fireTargetModified();
+                if (elementCaseMobileAttr.isMobileCanvasSize()) {
+                    FunctionProcessor processor = ExtraClassManager.getInstance().getFunctionProcessor();
+                    if (processor != null) {
+                        processor.recordFunction(ReportFunctionProcessor.MOBILE_TEMPLATE_CPT);
+                    }
+                }
             }
         });
         dialog.setVisible(true);
