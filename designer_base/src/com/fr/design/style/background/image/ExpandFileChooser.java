@@ -33,28 +33,31 @@ public class ExpandFileChooser extends JFileChooser {
     private static final int DEFAULT_WIDTH = 520;
 
     public ExpandFileChooser() {
-        this(StringUtils.EMPTY);
+        this(StringUtils.EMPTY, StringUtils.EMPTY);
     }
 
-    public ExpandFileChooser(String checkBoxText) {
+    public ExpandFileChooser(String checkBoxText, String approveButtonText) {
         JPanel previewContainerPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         MetalFileChooserUI chooserUI = (MetalFileChooserUI) getUI();
+        String approveText = StringUtils.isEmpty(approveButtonText) ? chooserUI.getApproveButtonText(this) : approveButtonText;
         dialog = new JDialog();
 
         dialog.setSize(new Dimension(DEFAULT_WIDTH, 362));
         dialog.add(previewContainerPane);
         dialog.setIconImage(BaseUtils.readImage("/com/fr/base/images/oem/logo.png"));
-        dialog.setTitle(chooserUI.getApproveButtonText(this));
+        dialog.setTitle(approveText);
         previewContainerPane.add(this, BorderLayout.CENTER);
 
 
         JPanel bottomControlPanel = new JPanel();
         bottomControlPanel.setLayout(new ImageAreaLayout());
         bottomControlPanel.setPreferredSize(new Dimension(DEFAULT_WIDTH, 40));
-        approve = new UIButton(chooserUI.getApproveButtonText(this));
+
+        approve = new UIButton(approveText);
         cancel = new UIButton(Inter.getLocText("FR-Designer_Button-Cancel"));
         if (StringUtils.isNotEmpty(checkBoxText)) {
             compressCheckBox = new UICheckBox(checkBoxText);
+            compressCheckBox.setSelected(true);
             bottomControlPanel.add(compressCheckBox);
         }
         bottomControlPanel.add(approve);
