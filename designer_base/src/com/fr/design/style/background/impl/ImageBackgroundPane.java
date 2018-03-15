@@ -124,7 +124,7 @@ public class ImageBackgroundPane extends BackgroundDetailPane {
         }
     };
 
-    private void setImageStyle() {
+    protected void setImageStyle() {
         if (tiledRadioButton.isSelected()) {
             imageStyle = Style.DEFAULT_STYLE.deriveImageLayout(Constants.IMAGE_TILED);
         } else if (adjustRadioButton.isSelected()) {
