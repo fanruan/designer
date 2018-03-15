@@ -59,7 +59,7 @@ public class ImageButtonBackgroundPane extends ImageBackgroundPane {
     }
 
     @Override
-    public void setImageStyle() {
+    protected void setImageStyle() {
     }
 
     public void populate(Background background) {
