@@ -58,6 +58,9 @@ public class ImageButtonBackgroundPane extends ImageBackgroundPane {
         });
     }
 
+    @Override
+    public void setImageStyle() {
+    }
 
     public void populate(Background background) {
         if (background != null && background instanceof ImageBackground) {
