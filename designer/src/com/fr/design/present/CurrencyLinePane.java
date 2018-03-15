@@ -1,11 +1,11 @@
 package com.fr.design.present;
 
+import com.fr.code.bar.BarcodeException;
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.border.UIRoundedBorder;
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.ispinner.UIBasicSpinner;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -15,7 +15,6 @@ import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
 import com.fr.report.cell.cellattr.CurrencyLineAttr;
 import com.fr.report.cell.cellattr.CurrencyLinePresent;
-import com.fr.report.cell.painter.barcode.BarcodeException;
 import com.fr.report.core.CurrencyLineImpl;
 
 import javax.swing.*;

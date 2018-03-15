@@ -1,5 +1,8 @@
 package com.fr.design.present;
 
+import com.fr.code.bar.core.BarcodeAttr;
+import com.fr.code.BarcodeImpl;
+import com.fr.code.bar.core.BarCodeUtils;
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.border.UIRoundedBorder;
 import com.fr.design.constants.LayoutConstants;
@@ -8,7 +11,6 @@ import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.icombobox.UIComboBoxRenderer;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.ispinner.UIBasicSpinner;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.gui.itextfield.UINumberField;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -16,10 +18,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
-import com.fr.report.cell.cellattr.BarcodeAttr;
 import com.fr.report.cell.cellattr.BarcodePresent;
-import com.fr.report.cell.painter.barcode.BarcodeImpl;
-import com.fr.report.cell.painter.barcode.core.BarCodeUtils;
 import com.fr.stable.pinyin.ChineseHelper;
 
 import javax.swing.*;
