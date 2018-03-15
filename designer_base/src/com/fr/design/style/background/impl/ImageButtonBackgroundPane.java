@@ -6,8 +6,11 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.general.Background;
 import com.fr.general.Inter;
 import com.fr.stable.Constants;
-import javax.swing.*;
-import java.awt.*;
+
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -18,13 +21,13 @@ public class ImageButtonBackgroundPane extends ImageBackgroundPane {
     private UIButton chooseButton;
     private UIButton clearButton;
 
-    public ImageButtonBackgroundPane(){
+    public ImageButtonBackgroundPane() {
         super();
         Style imageStyle = Style.DEFAULT_STYLE.deriveImageLayout(Constants.IMAGE_CENTER);
         previewPane.setImageStyle(imageStyle);
     }
 
-    public JPanel initSelectFilePane(){
+    public JPanel initSelectFilePane() {
 
         JPanel choosePane = new JPanel(new BorderLayout(0, 10));
         choosePane.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
@@ -33,12 +36,12 @@ public class ImageButtonBackgroundPane extends ImageBackgroundPane {
 
         choosePane.add(chooseButton, BorderLayout.NORTH);
 
-        choosePane1.add(clearButton,BorderLayout.NORTH);
-        choosePane.add(choosePane1,BorderLayout.CENTER);
+        choosePane1.add(clearButton, BorderLayout.NORTH);
+        choosePane.add(choosePane1, BorderLayout.CENTER);
 
         imageSizeLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        choosePane1.add(imageSizeLabel,BorderLayout.CENTER);
-        this.add(choosePane,BorderLayout.EAST);
+        choosePane1.add(imageSizeLabel, BorderLayout.CENTER);
+        this.add(choosePane, BorderLayout.EAST);
 
         return choosePane;
     }
@@ -55,15 +58,14 @@ public class ImageButtonBackgroundPane extends ImageBackgroundPane {
         });
     }
 
-    public void imageStyleRepaint(){
-
+    @Override
+    protected void setImageStyle() {
     }
 
-
     public void populate(Background background) {
-        if(background != null && background instanceof ImageBackground){
+        if (background != null && background instanceof ImageBackground) {
             ImageBackground imageBackground = (ImageBackground) background;
-            if(imageBackground.getImage() != null) {
+            if (imageBackground.getImage() != null) {
                 previewPane.setImage(imageBackground.getImage());
             }
         }
@@ -71,7 +73,7 @@ public class ImageButtonBackgroundPane extends ImageBackgroundPane {
     }
 
     public Background update() {
-        if(previewPane.getImage() == null) {
+        if (previewPane.getImage() == null) {
             return null;
         }
         return new ImageBackground(previewPane.getImage());

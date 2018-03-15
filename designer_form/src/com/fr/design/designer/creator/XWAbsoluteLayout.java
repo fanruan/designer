@@ -17,6 +17,7 @@ import com.fr.design.icon.IconPathConstants;
 import com.fr.design.mainframe.EditingMouseListener;
 import com.fr.design.mainframe.FormArea;
 import com.fr.design.mainframe.FormDesigner;
+import com.fr.design.mainframe.HelpDialogManager;
 import com.fr.form.ui.Connector;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WAbsoluteLayout;
@@ -51,6 +52,8 @@ public class XWAbsoluteLayout extends XLayoutContainer {
 
     //由于屏幕分辨率不同，界面上的容器大小可能不是默认的100%，此时拖入组件时，保存的大小按照100%时的计算
     protected double containerPercent = 1.0;
+
+    private boolean isHovering = false;
 
     private HashMap<Connector, XConnector> xConnectorMap;
 
@@ -497,6 +500,10 @@ public class XWAbsoluteLayout extends XLayoutContainer {
                 ComponentAdapter adapter = AdapterBus.getComponentAdapter(designer, this);
                 editingMouseListener.startEditing(this, isEditing ? adapter.getDesignerEditor() : null, adapter);
             }
+        }
+        HelpDialogManager.getInstance().setPane(coverPanel);
+        if (this.isHelpBtnOnFocus()) {
+            coverPanel.setMsgDisplay(e);
         }
     }
 

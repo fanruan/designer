@@ -3,12 +3,12 @@
  */
 package com.fr.design.style.background.image;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Rectangle;
-import java.util.ArrayList;
-import java.util.List;
+import com.fr.base.BaseUtils;
+import com.fr.base.GraphHelper;
+import com.fr.base.Style;
+import com.fr.design.gui.iscrollbar.UIScrollBar;
+import com.fr.general.Inter;
+import com.fr.stable.CoreGraphHelper;
 
 import javax.swing.JComponent;
 import javax.swing.JViewport;
@@ -16,27 +16,28 @@ import javax.swing.Scrollable;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
-import com.fr.base.BaseUtils;
-import com.fr.base.GraphHelper;
-import com.fr.base.Style;
-import com.fr.design.gui.iscrollbar.UIScrollBar;
-import com.fr.stable.CoreGraphHelper;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The pane use to preview image
  */
-public class ImagePreviewPane extends JComponent implements Scrollable {
+public class ImagePreviewPane extends JComponent implements Scrollable, ImagePreviewer {
     private Image image = null;
     // carl:image style
     private Style imageStyle = null;
-    private int imageWidth = 0 ;
-    private int imageHeight = 0 ;
+    private int imageWidth = 0;
+    private int imageHeight = 0;
+    private boolean isLoading = false;
 
     private List<ChangeListener> changeListenerList = new ArrayList<ChangeListener>();
 
     public ImagePreviewPane() {
-    	this.setToolTipText("View Image");
+        this.setToolTipText("View Image");
     }
 
     /**
@@ -44,6 +45,12 @@ public class ImagePreviewPane extends JComponent implements Scrollable {
      */
     public Image getImage() {
         return this.image;
+    }
+
+    public void showLoading() {
+        isLoading = true;
+        setImage(null);
+        repaint();
     }
 
     /**
@@ -55,7 +62,7 @@ public class ImagePreviewPane extends JComponent implements Scrollable {
         this.image = image;
         //need to reset the size of JViewPort.
         if (this.image == null) {
-            if(this.getParent() instanceof JViewport) {
+            if (this.getParent() instanceof JViewport) {
                 UIScrollBar tmpJScrollBar = new UIScrollBar(UIScrollBar.HORIZONTAL);
                 Dimension newDimension = new Dimension(
                         this.getSize().width - tmpJScrollBar.getPreferredSize().height,
@@ -67,6 +74,7 @@ public class ImagePreviewPane extends JComponent implements Scrollable {
             }
         } else {
             //wait for the size of image.
+            isLoading = false;
             CoreGraphHelper.waitForImage(image);
 
             imageWidth = image.getWidth(null);
@@ -83,20 +91,22 @@ public class ImagePreviewPane extends JComponent implements Scrollable {
      */
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
-        //draw image.
-        if (this.getImage() != null) {
-        	// carl:让imagePreviewPane能预览样式
-        	if (this.getImageStyle() == null) {
-        		g.drawImage(this.getImage(), 0, 0, this);
-        	} else {
-        		GraphHelper.paintImage(
-        				g, this.getWidth(), this.getHeight(), this.getImage(),
-        				this.getImageStyle().getImageLayout(), 
-        				BaseUtils.getAlignment4Horizontal(this.getImageStyle()), 
-        				this.getImageStyle().getVerticalAlignment(), -1, -1		
-        		);
-        	}
+        if (isLoading) {
+            g.drawString(Inter.getLocText("FR-Designer_Image_Loading"), getWidth() / 2 - 25, getHeight() / 2);
+            return;
+        }
+        if (this.getImage() != null) { //draw image.
+            // carl:让imagePreviewPane能预览样式
+            if (this.getImageStyle() == null) {
+                g.drawImage(this.getImage(), 0, 0, this);
+            } else {
+                GraphHelper.paintImage(
+                        g, this.getWidth(), this.getHeight(), this.getImage(),
+                        this.getImageStyle().getImageLayout(),
+                        BaseUtils.getAlignment4Horizontal(this.getImageStyle()),
+                        this.getImageStyle().getVerticalAlignment(), -1, -1
+                );
+            }
         }
     }
 
@@ -123,7 +133,7 @@ public class ImagePreviewPane extends JComponent implements Scrollable {
             ChangeEvent evt = new ChangeEvent(this);
 
             for (int i = 0; i < changeListenerList.size(); i++) {
-                 changeListenerList.get(i).stateChanged(evt);
+                changeListenerList.get(i).stateChanged(evt);
             }
         }
     }
@@ -136,7 +146,7 @@ public class ImagePreviewPane extends JComponent implements Scrollable {
      * the preferred size of the component.
      *
      * @return the <code>preferredSize</code> of a <code>JViewport</code>
-     *         whose view is this <code>Scrollable</code>
+     * whose view is this <code>Scrollable</code>
      */
     public Dimension getPreferredScrollableViewportSize() {
         return getPreferredSize();
@@ -218,7 +228,7 @@ public class ImagePreviewPane extends JComponent implements Scrollable {
      * will use this method each time they are validated.
      *
      * @return true if a viewport should force the <code>Scrollable</code>s
-     *         width to match its own
+     * width to match its own
      */
     public boolean getScrollableTracksViewportWidth() {
         if (getParent() instanceof JViewport) {
@@ -238,7 +248,7 @@ public class ImagePreviewPane extends JComponent implements Scrollable {
      * will use this method each time they are validated.
      *
      * @return true if a viewport should force the Scrollables height
-     *         to match its own
+     * to match its own
      */
     public boolean getScrollableTracksViewportHeight() {
         if (getParent() instanceof JViewport) {
@@ -247,11 +257,11 @@ public class ImagePreviewPane extends JComponent implements Scrollable {
         return false;
     }
 
-	public void setImageStyle(Style imageStyle) {
-		this.imageStyle = imageStyle;
-	}
+    public void setImageStyle(Style imageStyle) {
+        this.imageStyle = imageStyle;
+    }
 
-	public Style getImageStyle() {
-		return imageStyle;
-	}
+    public Style getImageStyle() {
+        return imageStyle;
+    }
 }
