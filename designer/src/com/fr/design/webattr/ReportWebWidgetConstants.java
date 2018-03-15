@@ -17,27 +17,27 @@ public class ReportWebWidgetConstants {
     }
 
     public static WidgetOption[] getPageToolBarInstance() {
-        return new WidgetOption[]{FIRST, PREVIOUS, PAGENAVI, NEXT, LAST, SCALE, EMAIL, EXPORT, PDF, EXCELP, EXCELO, EXCELS, WORD, PRINT, FLASHPRINT, APPLETPRINT, PDFPRINT,
+        return new WidgetOption[]{FIRST, PREVIOUS, PAGENAVI, NEXT, LAST, SCALE, EMAIL, EXPORT, PDF, EXCELP, EXCELO, EXCELS, WORD, PRINT,
                 SETPRINTEROFFSET, CUSTOM_BUTTON};
     }
 
     public static WidgetOption[] getViewToolBarInstance() {
-        return new WidgetOption[]{PAGESETUP, EMAIL, EXPORT, PDF, EXCELP, EXCELO, EXCELS, WORD, PRINT, FLASHPRINT, APPLETPRINT, PDFPRINT, SETPRINTEROFFSET, PRINTPREVIEW, CUSTOM_BUTTON};
+        return new WidgetOption[]{PAGESETUP, EMAIL, EXPORT, PDF, EXCELP, EXCELO, EXCELS, WORD, PRINT, SETPRINTEROFFSET, PRINTPREVIEW, CUSTOM_BUTTON};
     }
 
     public static WidgetOption[] getPreviewToolBarInstance() {
-        return new WidgetOption[]{FIRST, PREVIOUS, PAGENAVI, NEXT, LAST, SCALE, EXPORT, PDF, EXCELP, EXCELO, EXCELS, WORD, PRINT, FLASHPRINT, APPLETPRINT, PDFPRINT,
+        return new WidgetOption[]{FIRST, PREVIOUS, PAGENAVI, NEXT, LAST, SCALE, EXPORT, PDF, EXCELP, EXCELO, EXCELS, WORD, PRINT,
                 SETPRINTEROFFSET, CUSTOM_BUTTON};
     }
 
     public static WidgetOption[] getWriteToolBarInstance() {
-        return new WidgetOption[]{SUBMIT, VERIFY, EMAIL, EXPORT, PDF, EXCELP, EXCELO, EXCELS, WORD, PRINT, FLASHPRINT, APPLETPRINT, PDFPRINT, IMPORTEXCELDATA, SHOWCELLVALUE,
-                APPENDCOLUMNROW, DELETECOLUMNROW, SETPRINTEROFFSET, CUSTOM_BUTTON, WRITESTASH, WRITESTASHCLEAR, IMPORTEXCELDATA_CUSTOMIZED,
+        return new WidgetOption[]{SUBMIT, VERIFY, EMAIL, EXPORT, PDF, EXCELP, EXCELO, EXCELS, WORD, PRINT, IMPORTEXCELDATA, SHOWCELLVALUE,
+                APPENDCOLUMNROW, DELETECOLUMNROW, SETPRINTEROFFSET, WRITEOFFLINEHTML, CUSTOM_BUTTON, WRITESTASH, WRITESTASHCLEAR, IMPORTEXCELDATA_CUSTOMIZED,
                 IMPORTEXCEL, IMPORTEXCEL_COVER, IMPORTEXCEL_CLEAN, IMPORTEXCEL_APPEND};
     }
 
     public static WidgetOption[] getFormToolBarInstance() {
-        return new WidgetOption[]{EMAIL, EXPORT, PDF, EXCELP, EXCELO, EXCELS, WORD, PRINT, FLASHPRINT, APPLETPRINT, PDFPRINT, SETPRINTEROFFSET, CUSTOM_BUTTON};
+        return new WidgetOption[]{EMAIL, EXPORT, PDF, EXCELP, EXCELO, EXCELS, WORD, PRINT, SETPRINTEROFFSET, CUSTOM_BUTTON};
     }
 
     // 查询
@@ -48,14 +48,6 @@ public class ReportWebWidgetConstants {
     public static final WidgetOption SUBMIT = WidgetOptionFactory.createByWidgetClass(Inter.getLocText("FR-Engine_Utils-Submit"), BaseUtils.readIcon("/com/fr/web/images/save.png"),
             Submit.class);
 
-    // flash打印按钮
-    public static final WidgetOption FLASHPRINT = WidgetOptionFactory.createByWidgetClass(Inter.getLocText("FR-Engine_Utils-Print[Client]"),
-            BaseUtils.readIcon("/com/fr/web/images/flashPrint.png"), FlashPrint.class);
-
-    // appletprint
-    public static final WidgetOption APPLETPRINT = WidgetOptionFactory.createByWidgetClass(Inter.getLocText("FR-Engine_Applet_Print"),
-            BaseUtils.readIcon("/com/fr/web/images/appletPrint.png"), AppletPrint.class);
-
     // PDF导出
     public static final WidgetOption PDF = WidgetOptionFactory.createByWidgetClass(Inter.getLocText("FR-Engine_ReportServerP-PDF"), BaseUtils.readIcon("/com/fr/web/images/pdf.png"),
             PDF.class);
@@ -63,10 +55,6 @@ public class ReportWebWidgetConstants {
     // PDF导出，解决linux下无中文字体的导出字体混乱
     public static final WidgetOption PDF2 = WidgetOptionFactory.createByWidgetClass(
             Inter.getLocText(new String[]{"ReportServerP-PDF", "ReportServerP-PDF2-INFO"}, new String[]{"(", ")"}), BaseUtils.readIcon("/com/fr/web/images/pdf.png"), PDF2.class);
-
-    // 客户端PDF打印
-    public static final WidgetOption PDFPRINT = WidgetOptionFactory.createByWidgetClass(Inter.getLocText("FR-Engine_Utils-Print[Client]"),
-            BaseUtils.readIcon("/com/fr/web/images/pdfPrint.png"), PDFPrint.class);
 
     // 服务器端打印
     public static final WidgetOption SERVERPRINT = WidgetOptionFactory.createByWidgetClass(Inter.getLocText("FR-Engine_ReportServerP-Print[Server]"),
