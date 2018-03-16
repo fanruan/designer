@@ -194,13 +194,13 @@ public class ShareWidgetButton extends JPanel implements MouseListener, MouseMot
             }
             shareId = no.getBindInfo().getId();
             creatorSource = ShareLoader.getLoader().getElCaseEditorById(shareId);
-        }
-        if (creatorSource != null) {
-            XCreator xCreator = XCreatorUtils.createXCreator(creatorSource);
-            xCreator.setShareId(shareId);
-            WidgetToolBarPane.getTarget().startDraggingBean(xCreator);
-            lastPressEvent = null;
-            this.setBorder(null);
+            if (creatorSource != null) {
+                XCreator xCreator = XCreatorUtils.createXCreator(creatorSource, new Dimension(no.getBindInfo().getWidth(), no.getBindInfo().getHeight()));
+                xCreator.setShareId(shareId);
+                WidgetToolBarPane.getTarget().startDraggingBean(xCreator);
+                lastPressEvent = null;
+                this.setBorder(null);
+            }
         }
     }
 
