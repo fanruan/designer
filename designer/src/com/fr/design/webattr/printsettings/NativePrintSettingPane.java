@@ -146,7 +146,7 @@ public class NativePrintSettingPane extends JPanel {
 
         // TableLayout
         double p = TableLayout.PREFERRED;
-        double[] rowSize = {p, p, p, p, p, p, p, p};
+        double[] rowSize = {p, p, p, p, p, p, p};
         double[] columnSize = {60, p};
         Component[][] components = {
                 {new UILabel(Inter.getLocText("FR-Designer_Printer") + ":"), printerPane},
@@ -155,7 +155,8 @@ public class NativePrintSettingPane extends JPanel {
                 {getTopAlignLabelPane(Inter.getLocText("FR-Designer_Paper") + ":"), paperSettingCheckPane},
                 {getTopAlignLabelPane(Inter.getLocText("FR-Designer_Layout") + ":"), layoutSettingCheckPane},
                 {getTopAlignLabelPane(Inter.getLocText("FR-Designer_Margin") + ":"), pageMarginCheckPane},
-                {new UILabel(Inter.getLocText("FR-Designer_Scale_EnlargeOrReduce") + ":"), fitPaperSizeCheck},
+                // 此功能暂时不做，在界面上隐藏缩放选项
+//                {new UILabel(Inter.getLocText("FR-Designer_Scale_EnlargeOrReduce") + ":"), fitPaperSizeCheck},
                 {getTopAlignLabelPane(Inter.getLocText("FR-Designer_Order") + ":"), pageOrderSettingPane}
         };
         return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 0, 15);
