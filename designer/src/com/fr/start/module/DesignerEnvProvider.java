@@ -15,7 +15,7 @@ public class DesignerEnvProvider extends Activator {
     @Override
     public void start() {
         
-        String[] args = getModule().findSingleton(StartupArgs.class).get();
+        String[] args = getModule().upFindSingleton(StartupArgs.class).get();
         if (args != null) {
             for (String arg : args) {
                 if (ComparatorUtils.equals(arg, "demo")) {

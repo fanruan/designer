@@ -15,7 +15,7 @@ public class DesignerModuleActivator extends Activator {
     @Override
     public void start() {
         
-        ModuleContext.registerModuleListener(getModule().findSingleton(ModuleListener.class));
+        ModuleContext.registerModuleListener(getModule().upFindSingleton(ModuleListener.class));
         ModuleContext.startModule(DesignerModule.class.getName());
         ModuleContext.clearModuleListener();
     }
