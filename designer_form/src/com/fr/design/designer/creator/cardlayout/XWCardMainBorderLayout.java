@@ -18,6 +18,7 @@ import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.icon.IconPathConstants;
 import com.fr.design.mainframe.EditingMouseListener;
 import com.fr.design.mainframe.FormDesigner;
+import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.form.event.Listener;
 import com.fr.form.ui.LayoutBorderStyle;
 import com.fr.form.ui.Widget;
@@ -61,8 +62,8 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 	private static final int NORTH = 0;
 	private static final int TITLE_STYLE = 2;
 
-	private static final int EDIT_BTN_WIDTH = 60;
-	private static final int EDIT_BTN_HEIGHT = 24;
+	private static final int EDIT_BTN_WIDTH = 75;
+	private static final int EDIT_BTN_HEIGHT = 20;
 	private static final int BORDER_WIDTH = 1;
 
 	private final int CARDMAINLAYOUT_CHILD_COUNT = 1;
@@ -337,9 +338,13 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 			g2d.setColor(XCreatorConstants.COVER_COLOR);
 			g2d.fillRect(x, y, w, h);
 			//画编辑按钮所在框
+			FormDesigner formDesigner = WidgetPropertyPane.getInstance().getEditingFormDesigner();
+			AlphaComposite alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, formDesigner.getCursor().getType() != Cursor.DEFAULT_CURSOR ? 0.9f : 0.7f);
+			g2d.setColor(XCreatorConstants.EDIT_COLOR);
+			g2d.setComposite(alphaComposite);
+			g2d.fillRoundRect((x + w / 2 - EDIT_BTN_WIDTH / 2), (y + h / 2 - EDIT_BTN_HEIGHT / 2), EDIT_BTN_WIDTH, EDIT_BTN_HEIGHT, 4, 4);
 			g2d.setComposite(oldComposite);
-			g2d.setColor(new Color(176, 196, 222));
-			g2d.fillRect((x + w / 2 - EDIT_BTN_WIDTH / 2), (y + h / 2 - EDIT_BTN_HEIGHT / 2), EDIT_BTN_WIDTH, EDIT_BTN_HEIGHT);
+
 			//画编辑按钮图标
 			BufferedImage image = IOUtils.readImage(IconPathConstants.EDIT_ICON_PATH);
 			g2d.drawImage(
@@ -351,7 +356,7 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 					null,
 					this
 			);
-			g2d.setColor(Color.BLACK);
+			g2d.setColor(new Color(255, 255, 255));
 			//画编辑文字
 			g2d.drawString(Inter.getLocText("FR-Designer_Edit"), x + w / 2 - 2, y + h / 2 + 5);
 			g.setColor(XCreatorConstants.FORM_BORDER_COLOR);

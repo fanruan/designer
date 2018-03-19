@@ -811,7 +811,7 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
         if (ry != y) {
             calculateNoRelatedWhileRightTop(rec, rightComp);
         } else {
-            calculateNoRelatedWhileRightBott(rec, rightComp);
+            calculateNoRelatedWhileRightBott(rec);
         }
 
     }
@@ -856,8 +856,11 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
         recalculateChildrenSize(bound.x, bound.y, bound.width, bound.height, true);
     }
 
-    private void calculateNoRelatedWhileRightBott(Rectangle bound, Component rcomp) {
-        rcomp = container.getBottomRightComp(bound.x, bound.y, bound.height, bound.width);
+    private void calculateNoRelatedWhileRightBott(Rectangle bound) {
+        Component rcomp = container.getBottomRightComp(bound.x, bound.y, bound.height, bound.width);
+        if(rcomp == null){
+            return;
+        }
         int ry = rcomp.getY();
         int rh = rcomp.getHeight();
         int rw = rcomp.getWidth();

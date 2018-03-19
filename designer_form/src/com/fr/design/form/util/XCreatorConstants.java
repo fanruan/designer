@@ -45,6 +45,8 @@ public class XCreatorConstants {
     public static final Color LAYOUT_SEP_COLOR = new Color(210, 210, 210);
     // 组件覆盖层颜色
     public static final Color COVER_COLOR = new Color(216, 242, 253);
+    //组件编辑按钮颜色
+    public static final Color EDIT_COLOR = new Color(51, 51, 52);
     
     // 伸缩表单操作条的颜色
     public static final Color OP_COLOR = new Color(157,228,245);
