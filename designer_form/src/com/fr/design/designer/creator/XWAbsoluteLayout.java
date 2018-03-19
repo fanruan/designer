@@ -18,6 +18,7 @@ import com.fr.design.mainframe.EditingMouseListener;
 import com.fr.design.mainframe.FormArea;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.HelpDialogManager;
+import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.form.ui.Connector;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WAbsoluteLayout;
@@ -42,8 +43,8 @@ import java.util.HashMap;
  */
 public class XWAbsoluteLayout extends XLayoutContainer {
 
-    private static final int EDIT_BTN_WIDTH = 60;
-    private static final int EDIT_BTN_HEIGHT = 24;
+    private static final int EDIT_BTN_WIDTH = 75;
+    private static final int EDIT_BTN_HEIGHT = 20;
     private int minWidth = WLayout.MIN_WIDTH;
     private int minHeight = WLayout.MIN_HEIGHT;
     private static final Color OUTER_BORDER_COLOR = new Color(65, 155, 249, 30);
@@ -445,9 +446,12 @@ public class XWAbsoluteLayout extends XLayoutContainer {
             g2d.setColor(XCreatorConstants.COVER_COLOR);
             g2d.fillRect(x, y, w, h);
             //画编辑按钮所在框
+            FormDesigner formDesigner = WidgetPropertyPane.getInstance().getEditingFormDesigner();
+            AlphaComposite alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, formDesigner.getCursor().getType() != Cursor.DEFAULT_CURSOR ? 0.9f : 0.7f);
+            g2d.setColor(XCreatorConstants.EDIT_COLOR);
+            g2d.setComposite(alphaComposite);
+            g2d.fillRoundRect((x + w / 2 - EDIT_BTN_WIDTH / 2), (y + h / 2 - EDIT_BTN_HEIGHT / 2), EDIT_BTN_WIDTH, EDIT_BTN_HEIGHT, 4, 4);
             g2d.setComposite(oldComposite);
-            g2d.setColor(new Color(176, 196, 222));
-            g2d.fillRect((x + w / 2 - EDIT_BTN_WIDTH / 2), (y + h / 2 - EDIT_BTN_HEIGHT / 2), EDIT_BTN_WIDTH, EDIT_BTN_HEIGHT);
             //画编辑按钮图标
             BufferedImage image = IOUtils.readImage(IconPathConstants.EDIT_ICON_PATH);
             g2d.drawImage(
@@ -459,7 +463,7 @@ public class XWAbsoluteLayout extends XLayoutContainer {
                     null,
                     this
             );
-            g2d.setColor(Color.BLACK);
+            g2d.setColor(Color.WHITE);
             //画编辑文字
             g2d.drawString(Inter.getLocText("FR-Designer_Edit"), x + w / 2 - 2, y + h / 2 + 5);
             g.setColor(XCreatorConstants.FORM_BORDER_COLOR);
