@@ -463,7 +463,7 @@ public class XWAbsoluteLayout extends XLayoutContainer {
                     null,
                     this
             );
-            g2d.setColor(new Color(255, 255, 255));
+            g2d.setColor(Color.WHITE);
             //画编辑文字
             g2d.drawString(Inter.getLocText("FR-Designer_Edit"), x + w / 2 - 2, y + h / 2 + 5);
             g.setColor(XCreatorConstants.FORM_BORDER_COLOR);

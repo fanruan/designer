@@ -50,7 +50,7 @@ public class CoverPane extends JPanel {
         };
         editButton.setBorderPainted(false);
         editButton.setExtraPainted(false);
-        editButton.setForeground(new Color(255, 255, 255));
+        editButton.setForeground(Color.WHITE);
         add(editButton);
     }
 
