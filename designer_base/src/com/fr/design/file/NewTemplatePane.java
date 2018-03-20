@@ -139,7 +139,7 @@ public abstract class NewTemplatePane extends JComponent implements MouseListene
 		if (needGrayNewCpt()) {
 			newWorkBookIconMode = GRAY_NEW_CPT;
 		} else if (isOverNewIcon(evtX)) {
-			newIconStartX = 0;
+			newIconStartX = PRE_GAP;
 			newWorkBookIconMode = getMouseOverNew();
 		}
 
