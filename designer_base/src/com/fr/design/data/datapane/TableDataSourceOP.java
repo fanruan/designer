@@ -186,7 +186,7 @@ public class TableDataSourceOP implements UserObjectOP<TableDataWrapper> {
         StoreProcedure storeProcedure = (StoreProcedure) tableData;
         String name = ((NameObject) tmpNode.getUserObject()).getName();
         StoreProcedureParameter[] parameters = StoreProcedure.getSortPara(storeProcedure.getParameters());
-        ArrayList<String> resultNames = storeProcedure.getResultNames();
+        List<String> resultNames = storeProcedure.getResultNames();
         boolean hasChild = false;
         tmpNode.remove(0);
         TableDataWrapper tdw = new StoreProcedureNameWrapper(name + "_Table1", storeProcedure);
