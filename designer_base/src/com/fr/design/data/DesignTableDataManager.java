@@ -241,7 +241,7 @@ public abstract class DesignTableDataManager {
                 boolean hasSchemaOrResult = false;
                 StoreProcedureParameter[] parameters = StoreProcedure.getSortPara(storeProcedure.getParameters());
                 String name = tableDataWrapper.getTableDataName();
-                ArrayList<String> resultNames = storeProcedure.getResultNames();
+                List<String> resultNames = storeProcedure.getResultNames();
                 TableDataWrapper tdw = new StoreProcedureNameWrapper(name + "_Table", storeProcedure);
 
                 for (StoreProcedureParameter parameter : parameters) {
