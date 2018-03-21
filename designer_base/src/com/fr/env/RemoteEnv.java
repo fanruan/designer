@@ -159,15 +159,6 @@ public class RemoteEnv extends AbstractEnv {
         return password;
     }
 
-    // 修复密码中包含特殊字符，无法登录的问题
-    private String getEncodedPassword() {
-        try {
-            return URLEncoder.encode(password, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            return password;
-        }
-    }
-
     public void setPassword(String password) {
         this.password = password;
         clearUserID();
@@ -393,7 +384,7 @@ public class RemoteEnv extends AbstractEnv {
         para.put("op", "fr_remote_design");
         para.put("cmd", "test_server_connection");
         para.put("user", user);
-        para.put("password", getEncodedPassword());
+        para.put("password", password);
 
         if (path.startsWith("https") && (!DesignerEnvManager.getEnvManager().isHttps())) {
             return false;
@@ -516,7 +507,7 @@ public class RemoteEnv extends AbstractEnv {
         para.put("op", "fr_remote_design");
         para.put("cmd", "r_sign_in");
         para.put("user", user);
-        para.put("password", getEncodedPassword());
+        para.put("password", password);
 
         simulaRPC(para, true);
 
@@ -2011,7 +2002,7 @@ public class RemoteEnv extends AbstractEnv {
         para.put("op", "fr_remote_design");
         para.put("cmd", "design_get_designer_version");
         para.put("user", user);
-        para.put("password", getEncodedPassword());
+        para.put("password", password);
 
         HttpClient client = createHttpMethod(para, true);
         try {
