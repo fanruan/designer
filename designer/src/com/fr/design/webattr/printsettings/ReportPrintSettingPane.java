@@ -74,7 +74,7 @@ public class ReportPrintSettingPane extends BasicPane {
     }
 
     public void populate(PrintSettingsAttrMark printSettings) {
-        if (printSettings == null || !printSettings.isValid()) {  // 采用服务器配置
+        if (!printSettings.isValid()) {  // 采用服务器配置
             chooseComboBox.setSelectedIndex(SERVER_SET);
             populateServerSettings();
             return;

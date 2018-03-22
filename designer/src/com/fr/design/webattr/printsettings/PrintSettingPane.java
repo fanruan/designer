@@ -86,9 +86,6 @@ public class PrintSettingPane extends BasicPane {
     }
 
     public void populate(PrintSettingsAttrMark printSettings) {
-        if (printSettings == null) {
-            return;
-        }
         if (printSettings.getPrintType() == PrintSettingsAttrMark.NO_CLIENT_PRINT) {
             noClientPrintRadioButton.setSelected(true);
         } else {
