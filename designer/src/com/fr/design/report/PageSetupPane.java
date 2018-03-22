@@ -858,10 +858,6 @@ public class PageSetupPane extends BasicPane {
     }
 
     private class OtherPane extends BasicPane {
-
-        private UIRadioButton topBottomRadioButton;
-        private UIRadioButton leftRightRadioButton;
-
         private UICheckBox horizonalCenterCheckBox;
         private UICheckBox verticalCenterCheckBox;
 
@@ -876,29 +872,6 @@ public class PageSetupPane extends BasicPane {
 
             JPanel defaultPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
             this.add(defaultPane, BorderLayout.NORTH);
-
-            // page order
-            JPanel outpageOrderPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("PageSetup-Page_Order"));
-            JPanel pageOrderPane = FRGUIPaneFactory.createNColumnGridInnerContainer_S_Pane(2);
-            outpageOrderPane.add(pageOrderPane);
-            defaultPane.add(outpageOrderPane);
-
-
-            Icon topBottomIcon = BaseUtils.readIcon("/com/fr/base/images/dialog/pagesetup/down.png");
-            topBottomRadioButton = new UIRadioButton(Inter.getLocText("PageSetup-Top_to_bottom"));
-            pageOrderPane.add(FRGUIPaneFactory.createIconRadio_S_Pane(topBottomIcon, topBottomRadioButton));
-            topBottomRadioButton.setMnemonic('B');
-
-            Icon leftRightIcon = BaseUtils.readIcon("/com/fr/base/images/dialog/pagesetup/over.png");
-            leftRightRadioButton = new UIRadioButton(Inter.getLocText("PageSetup-Left_to_right"));
-            pageOrderPane.add(FRGUIPaneFactory.createIconRadio_S_Pane(leftRightIcon, leftRightRadioButton));
-            leftRightRadioButton.setMnemonic('R');
-
-            ButtonGroup pageOrderButtonGroup = new ButtonGroup();
-            pageOrderButtonGroup.add(topBottomRadioButton);
-            pageOrderButtonGroup.add(leftRightRadioButton);
-
-            topBottomRadioButton.setSelected(true);
 
             // center on page
             JPanel outcenterOnPagePane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("PageSetup-Placement_Center_on_Page"));
@@ -976,13 +949,6 @@ public class PageSetupPane extends BasicPane {
                 reportSettings = new ReportSettings();
             }
 
-            // page order.
-            if (reportSettings.getPageOrder() == Constants.LEFT_TO_RIGHT) {
-                this.leftRightRadioButton.setSelected(true);
-            } else {
-                this.topBottomRadioButton.setSelected(true);
-            }
-
             // placement
             this.horizonalCenterCheckBox.setSelected(reportSettings.isHorizontalCenterOnPage());
             this.verticalCenterCheckBox.setSelected(reportSettings.isVerticalCenterOnPage());
@@ -1009,13 +975,6 @@ public class PageSetupPane extends BasicPane {
                 report.setReportSettings(new ReportSettings());
             }
             reportSettings = report.getReportSettings();
-
-            // page order.
-            if (this.leftRightRadioButton.isSelected()) {
-                reportSettings.setPageOrder(Constants.LEFT_TO_RIGHT);
-            } else {
-                reportSettings.setPageOrder(Constants.TOP_TO_BOTTOM);
-            }
 
             // placement
             reportSettings.setHorizontalCenterOnPage(this.horizonalCenterCheckBox.isSelected());

@@ -3,6 +3,7 @@ package com.fr.design.gui.ilable;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.stable.StringUtils;
 
+import com.fr.stable.StringUtils;
 import javax.swing.Icon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -62,6 +63,7 @@ public class UILabel extends JLabel {
 		}
 		return preferredSize;
 	}
+
 
 	public static void main(String[] args) {
 //        UILabel label =  new UILabel("shishi",SwingConstants.LEFT);

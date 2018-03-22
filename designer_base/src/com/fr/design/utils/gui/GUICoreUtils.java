@@ -12,6 +12,7 @@ import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.border.UITitledBorder;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIToggleButton;
+import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.EditTextField;
@@ -37,6 +38,7 @@ import javax.swing.tree.TreePath;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
@@ -844,4 +846,50 @@ public abstract class GUICoreUtils{
 				&& oneRect.getWidth() == otherRect.getWidth()
 				&& oneRect.getHeight() == otherRect.getHeight();
 	}
+
+	/**
+	 * 生成提示标签
+	 * @param tipText 提示文字
+	 * @return UILabel 标签对象
+	 */
+	public static UILabel createTipLabel(String tipText) {
+		UILabel tipLabel = new UILabel("<html>" + tipText + "</html>");
+		tipLabel.setForeground(Color.gray);
+		return tipLabel;
+	}
+
+	/**
+	 * 生成没有边框的 UICheckBox
+	 * @param text 说明文字
+	 * @return UICheckBox
+	 */
+	public static UICheckBox createNoBorderCheckBox(String text) {
+		UICheckBox checkBox = new UICheckBox(text);
+		checkBox.setBorder(BorderFactory.createEmptyBorder());
+		return checkBox;
+	}
+
+	/**
+	 * 创建包含选择框和一个动态面板的联动面板。根据选择框的状态，动态面板会动态地显示或隐藏
+	 * @param checkBox 选择框
+	 * @param dynamicPane 包含任意内容的动态面板
+	 * @param hideOnSelected 选中时隐藏动态面板（若为false，则在"去掉勾选"时隐藏动态面板）
+	 * @return 联动面板
+	 */
+	public static JPanel createCheckboxAndDynamicPane(UICheckBox checkBox, final JPanel dynamicPane, final boolean hideOnSelected) {
+		checkBox.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				int visibleState = hideOnSelected ? ItemEvent.DESELECTED : ItemEvent.SELECTED;
+				dynamicPane.setVisible(e.getStateChange() == visibleState);
+			}
+		});
+		JPanel panel = FRGUIPaneFactory.createBorderLayout_S_Pane();
+		panel.add(checkBox, BorderLayout.NORTH);
+		JPanel dynamicPaneWrapper = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
+		dynamicPaneWrapper.add(dynamicPane);
+		panel.add(dynamicPaneWrapper, BorderLayout.CENTER);
+		return panel;
+	}
+
 }

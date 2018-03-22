@@ -5,7 +5,6 @@ package com.fr.design.actions.insert.flot;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.DynamicUnitList;
-import com.fr.base.ScreenResolution;
 import com.fr.design.actions.ElementCaseAction;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
@@ -24,9 +23,8 @@ import com.fr.report.elementcase.TemplateElementCase;
 import com.fr.stable.CoreGraphHelper;
 import com.fr.stable.unit.FU;
 
-import javax.swing.*;
-import java.awt.*;
-import java.io.File;
+import javax.swing.KeyStroke;
+import java.awt.Image;
 
 /**
  * Insert image.
@@ -83,10 +81,9 @@ public class ImageFloatAction extends ElementCaseAction {
 
             @Override
             public void doOk() {
-                File selectedFile = selectImagePane.getSelectedImage();
+                Image image = selectImagePane.getSelectedImage();
 
-                if (selectedFile != null && selectedFile.isFile()) {
-                    Image image = BaseUtils.readImage(selectedFile.getPath());
+                if (image != null ) {
                     CellImage cellImage = selectImagePane.update();
                     CoreGraphHelper.waitForImage(image);
 
