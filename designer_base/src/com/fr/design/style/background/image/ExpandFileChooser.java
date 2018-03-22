@@ -27,7 +27,6 @@ public class ExpandFileChooser extends JFileChooser {
     private JDialog dialog;
     private UICheckBox compressCheckBox;//选择框底部的复选按钮
     private int retVal = ERROR_OPTION;
-    private boolean isCompressSelected = false; //复选的选中状态
     private UIButton approve;
     private UIButton cancel;
     private static final int DEFAULT_WIDTH = 520;
@@ -69,7 +68,10 @@ public class ExpandFileChooser extends JFileChooser {
     }
 
     public boolean isCompressSelected() {
-        return isCompressSelected;
+        if (compressCheckBox != null) {
+            return compressCheckBox.isSelected();
+        }
+        return false;
     }
 
 
@@ -86,9 +88,6 @@ public class ExpandFileChooser extends JFileChooser {
         if (dialog != null) {
             dialog.setVisible(false);
         }
-        if (compressCheckBox != null) {
-            isCompressSelected = compressCheckBox.isSelected();
-        }
         fireActionPerformed(APPROVE_SELECTION);
     }
 
@@ -98,10 +97,6 @@ public class ExpandFileChooser extends JFileChooser {
         if (dialog != null) {
             dialog.setVisible(false);
         }
-        if (compressCheckBox != null) {
-            compressCheckBox.setSelected(false);
-        }
-        isCompressSelected = false;
         fireActionPerformed(CANCEL_SELECTION);
     }
 
