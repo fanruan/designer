@@ -257,13 +257,13 @@ public class NativePrintSettingPane extends JPanel {
         printerComboBox.setSelectedItem(nativePrintAttr.getPrinterName());
         copySpinner.setValue(nativePrintAttr.getCopy());
 
-        if (nativePrintAttr.isPrintCurrentPage()) {
+        if (nativePrintAttr.getPageType().equals(NativePrintAttr.PageType.ALL_PAGES)) {
+            allPageRadioButton.setSelected(true);
+        } else if (nativePrintAttr.getPageType().equals(NativePrintAttr.PageType.CURRENT_PAGE)) {
             currentPageRadioButton.setSelected(true);
-        } else if (StringUtils.isNotEmpty(nativePrintAttr.getArea())) {
+        } else {
             customPageRadioButton.setSelected(true);
             specifiedAreaField.setText(nativePrintAttr.getArea());
-        } else {
-            allPageRadioButton.setSelected(true);
         }
         specifiedAreaField.setEnabled(customPageRadioButton.isSelected());
 
@@ -289,10 +289,13 @@ public class NativePrintSettingPane extends JPanel {
         nativePrintAttr.setCopy((int)copySpinner.getValue());
 
         // 页码
-        if (customPageRadioButton.isSelected()) {
-            nativePrintAttr.setArea(specifiedAreaField.getText());
+        if (allPageRadioButton.isSelected()) {
+            nativePrintAttr.setPageType(NativePrintAttr.PageType.ALL_PAGES);
+        } else if (currentPageRadioButton.isSelected()) {
+            nativePrintAttr.setPageType(NativePrintAttr.PageType.CURRENT_PAGE);
         } else {
-            nativePrintAttr.setPrintCurrentPage(currentPageRadioButton.isSelected());
+            nativePrintAttr.setPageType(NativePrintAttr.PageType.SPECIFIED_PAGES);
+            nativePrintAttr.setArea(specifiedAreaField.getText());
         }
 
         nativePrintAttr.setInheritPagePaperSetting(inheritPagePaperSettingCheck.isSelected());
