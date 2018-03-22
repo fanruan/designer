@@ -17,11 +17,13 @@ import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.design.mainframe.chart.gui.item.FlexibleComboBox;
 import com.fr.design.mainframe.chart.gui.item.ItemEventType;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
+import com.fr.extended.chart.AbstractChart;
 import com.fr.general.ComparatorUtils;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
@@ -315,6 +317,8 @@ public class ChartTypePane extends AbstractChartAttrPane{
 
 		buttonPane.populateBean(collection);
 		chartTypeComBox.populateBean(chart);
+
+		buttonPane.setVisible(ChartTypeInterfaceManager.getInstance().needChartChangePane(chart));
 
 		this.initAllListeners();
 	}

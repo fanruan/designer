@@ -31,8 +31,12 @@ import com.fr.general.Inter;
 import com.fr.js.NameJavaScriptGroup;
 import com.fr.stable.Constants;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +52,8 @@ public abstract class AbstractChartTypePane extends FurtherBasicBeanPane<Chart>{
 
     protected static final int BAIDU = 0;
     protected static final int GOOGLE = 1;
+
+    private String plotID;
 
     protected List<ChartImagePane> typeDemo;
     protected List<ChartImagePane> styleList;
@@ -356,10 +362,22 @@ public abstract class AbstractChartTypePane extends FurtherBasicBeanPane<Chart>{
     }
 
     /**
+     * 此接口已删除，不用实现了
+     *
      * 获取各图表类型界面ID, 本质是plotID
+     * 使用getPlotID
      * @return 图表类型界面ID
      */
+    @Deprecated
     protected abstract String getPlotTypeID();
+
+    public String getPlotID() {
+        return plotID;
+    }
+
+    public void setPlotID(String plotID) {
+        this.plotID = plotID;
+    }
 
     /**
      *
@@ -370,7 +388,7 @@ public abstract class AbstractChartTypePane extends FurtherBasicBeanPane<Chart>{
         if(ob instanceof Chart){
             Chart chart = (Chart)ob;
             Plot plot = chart.getPlot();
-            if(plot != null && ComparatorUtils.equals(plot.getPlotID(), getPlotTypeID())){
+            if(plot != null && ComparatorUtils.equals(plot.getPlotID(), getPlotID())){
                 return true;
             }
         }

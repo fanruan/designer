@@ -27,6 +27,8 @@ public interface IndependentChartUIProvider extends Level {
 
     int CURRENT_API_LEVEL = 3;
 
+    boolean needChartChangePane();
+
     /**
      * 图表的类型定义界面类型，就是属性表的第一个界面
      *

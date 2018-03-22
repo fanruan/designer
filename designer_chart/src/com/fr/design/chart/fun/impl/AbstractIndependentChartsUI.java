@@ -34,6 +34,11 @@ public abstract class AbstractIndependentChartsUI extends AbstractProvider imple
 
 
     @Override
+    public boolean needChartChangePane() {
+        return true;
+    }
+
+    @Override
     public AbstractChartTypePane getPlotTypePane() {
         return new PiePlotPane();
     }

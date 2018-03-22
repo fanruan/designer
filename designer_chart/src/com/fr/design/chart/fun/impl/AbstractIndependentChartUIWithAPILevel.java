@@ -57,6 +57,11 @@ public abstract class AbstractIndependentChartUIWithAPILevel implements Independ
         return obj != null && ComparatorUtils.equals(obj.getClass(), this.getClass());
     }
 
+    @Override
+    public boolean needChartChangePane() {
+        return true;
+    }
+
     public ConditionAttributesPane getPlotConditionPane(Plot plot){
         return new DataSeriesConditionPane();
     }

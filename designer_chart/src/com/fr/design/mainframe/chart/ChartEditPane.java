@@ -22,10 +22,11 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -52,7 +53,7 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
     private TitleChangeListener titleChangeListener = null;
     private Calendar lastTime;
 
-    protected ChartEditPane() {
+    public ChartEditPane() {
         this.setLayout(new BorderLayout());
 
         paneList = new ArrayList<AbstractChartAttrPane>();

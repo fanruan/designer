@@ -1,5 +1,6 @@
 package com.fr.plugin.chart.custom.component;
 
+import com.fr.base.BaseFormula;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.web.ChartHyperPoplink;
 import com.fr.chart.web.ChartHyperRelateCellLink;
@@ -77,7 +78,7 @@ public class VanChartHyperLinkPane extends VanChartUIListControlPane {
         Constructor<? extends BasicBeanPane> constructor = null;
         try {
             constructor = creator.getUpdatePane().getConstructor(HashMap.class, boolean.class);
-            return constructor.newInstance(plot.getHyperLinkEditorMap(), false);
+            return constructor.newInstance(getHyperLinkEditorMap(), false);
 
         } catch (InstantiationException e) {
             FRLogger.getLogger().error(e.getMessage(), e);
@@ -91,6 +92,9 @@ public class VanChartHyperLinkPane extends VanChartUIListControlPane {
         return null;
     }
 
+    protected Map<String, BaseFormula> getHyperLinkEditorMap() {
+        return plot.getHyperLinkEditorMap();
+    }
 
     /**
      * 弹出列表的标题.
