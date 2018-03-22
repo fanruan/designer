@@ -41,7 +41,7 @@ public class ReportPrintSettingAction extends JWorkBookAction {
             return;
         }
         final TemplateWorkBook wbTpl = jwb.getTarget();
-        PrintSettingsAttrMark printSettings = PrintSettingsAttrMark.loadFromFinebook(wbTpl, false);
+        PrintSettingsAttrMark printSettings = PrintSettingsAttrMark.loadFromFinebook(wbTpl);
 
         final ReportPrintSettingPane reportPrintSettingPane = new ReportPrintSettingPane();
         reportPrintSettingPane.populate(printSettings);
