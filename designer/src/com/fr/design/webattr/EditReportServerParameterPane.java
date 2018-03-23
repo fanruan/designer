@@ -117,7 +117,7 @@ public class EditReportServerParameterPane extends LoadingBasicPane {
         jsPane.update(webAttr);
 
         printSettings = printSettingPane.updateBean();
-        reportServerConfigManager.putGlobalAttribute(PrintSettingsAttrMark.class, printSettings);
+        ((ConfigManager)reportServerConfigManager).getPrintAttr().setPrintSettings(printSettings);
         
         reportServerConfigManager.setErrorTemplate(this.errorTemplatePane.updateBean());
     }
