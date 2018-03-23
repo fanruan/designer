@@ -1,6 +1,7 @@
 package com.fr.design.style.background.image;
 
 import com.fr.base.BaseUtils;
+import com.fr.design.DesignerEnvManager;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -18,6 +19,7 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.LayoutManager;
+import java.awt.event.ActionListener;
 
 /**
  * 扩展的文件选择框(底部控制区域扩展一个复选框)
@@ -25,7 +27,7 @@ import java.awt.LayoutManager;
  */
 public class ExpandFileChooser extends JFileChooser {
     private JDialog dialog;
-    private UICheckBox compressCheckBox;//选择框底部的复选按钮
+    private UICheckBox checkBox;//选择框底部的复选按钮
     private int retVal = ERROR_OPTION;
     private UIButton approve;
     private UIButton cancel;
@@ -55,9 +57,10 @@ public class ExpandFileChooser extends JFileChooser {
         approve = new UIButton(approveText);
         cancel = new UIButton(Inter.getLocText("FR-Designer_Button-Cancel"));
         if (StringUtils.isNotEmpty(checkBoxText)) {
-            compressCheckBox = new UICheckBox(checkBoxText);
-            compressCheckBox.setSelected(true);
-            bottomControlPanel.add(compressCheckBox);
+            checkBox = new UICheckBox(checkBoxText);
+            checkBox.setSelected(DesignerEnvManager.getEnvManager().isImageCompress());
+            bottomControlPanel.add(checkBox);
+            checkBox.addActionListener(checkAction());
         }
         bottomControlPanel.add(approve);
         approve.addActionListener(chooserUI.getApproveSelectionAction());
@@ -67,9 +70,13 @@ public class ExpandFileChooser extends JFileChooser {
         GUICoreUtils.centerWindow(dialog);
     }
 
-    public boolean isCompressSelected() {
-        if (compressCheckBox != null) {
-            return compressCheckBox.isSelected();
+    public ActionListener checkAction() {
+        return null;
+    }
+
+    public boolean isCheckSelected() {
+        if (checkBox != null) {
+            return checkBox.isSelected();
         }
         return false;
     }

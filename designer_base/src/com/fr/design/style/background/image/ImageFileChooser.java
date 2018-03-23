@@ -4,11 +4,14 @@
 package com.fr.design.style.background.image;
 
 import com.fr.base.BaseUtils;
+import com.fr.design.DesignerEnvManager;
 import com.fr.design.style.ChooseFileView;
 import com.fr.general.Inter;
 
 import javax.swing.filechooser.FileFilter;
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -42,6 +45,17 @@ public class ImageFileChooser extends ExpandFileChooser {
         return super.showDialog(parent, approveButtonText);
     }
 
+    @Override
+    public ActionListener checkAction() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                DesignerEnvManager.getEnvManager().setImageCompress(isCheckSelected());
+                DesignerEnvManager.getEnvManager().saveXMLFile();
+            }
+        };
+
+    }
 
     /**
      * A convenience implementation of FileFilter that filters out
