@@ -5,6 +5,7 @@ import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.itextarea.UITextArea;
 import com.fr.general.Inter;
 
+import java.awt.event.MouseEvent;
 import javax.swing.*;
 import java.awt.*;
 
@@ -13,17 +14,19 @@ import java.awt.*;
  * @date 2016-10-14
  * @since 8.0
  */
-public class ElementCaseHelpDialog extends UIDialog {
+public class WidgetHelpDialog extends UIDialog {
 
     private static final int OUTER_WIDTH = 190;
     private static final int OUTER_HEIGHT = 280;
+    private static final int DIALOG_X = 227;
+    private static final int DIALOG_Y = 165;
 
 
     private String helpMsg;
     private UIScrollPane helpArea;
 
 
-    public ElementCaseHelpDialog(Frame parent, String helpMsg) {
+    public WidgetHelpDialog(Frame parent, String helpMsg) {
         super(parent);
         this.helpMsg = helpMsg;
         initHelpArea();
@@ -52,6 +55,17 @@ public class ElementCaseHelpDialog extends UIDialog {
      * 打开帮助框
      */
     public void showWindow() {
+        this.setResizable(false);
+        setVisible(true);
+    }
+
+    /**
+     * 打开帮助框-e
+     */
+    public void showWindow(MouseEvent e) {
+        int rX = WestRegionContainerPane.getInstance().getWidth() + e.getX() - DIALOG_X;//弹出框宽度190加上图标的宽度27加上10的偏移
+        int rY = DIALOG_Y + e.getY();//165是设计器最上面几个面板的高度
+        this.setLocationRelativeTo(DesignerContext.getDesignerFrame(), rX, rY);
         this.setResizable(false);
         setVisible(true);
     }
