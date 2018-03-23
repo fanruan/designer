@@ -366,15 +366,6 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
         }
 
         private void hideDialog() {
-            // 要隐藏 先检查有没有非法输入
-            try {
-                checkValid();
-            } catch (Exception exp) {
-                // 存在非法输入 拒绝隐藏
-                JOptionPane.showMessageDialog(UIControlPane.this, exp.getMessage());
-                this.requestFocus();
-                return;
-            }
             // 检查是否有子弹窗，如果有，则不隐藏
             for (Window window : getOwnedWindows()) {
                 if (window.isVisible()) {
@@ -386,6 +377,17 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
                 if (window instanceof JDialog && window.isVisible() && ((JDialog) window).isModal()) {
                     return;
                 }
+            }
+
+            // 要隐藏 先检查有没有非法输入
+            // 非法输入检查放在最后，因为可能出现面板弹出新弹框而失去焦点的情况，比如 输入公式时，弹出公式编辑对话框
+            try {
+                checkValid();
+            } catch (Exception exp) {
+                // 存在非法输入 拒绝隐藏
+                JOptionPane.showMessageDialog(UIControlPane.this, exp.getMessage());
+                this.requestFocus();
+                return;
             }
             saveSettings();
             setVisible(false);
