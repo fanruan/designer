@@ -17,10 +17,34 @@ import com.fr.stable.ArrayUtils;
 import com.fr.stable.Nameable;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 import javax.swing.border.EmptyBorder;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.Window;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  * Created by plough on 2017/7/21.
@@ -47,7 +71,7 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
     }
 
     public UIControlPane(BasePlot plot) {
-        this.plot =plot;
+        this.plot = plot;
         this.initComponentPane();
     }
 
@@ -145,8 +169,8 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
         this.checkButtonEnabled();
     }
 
-    protected void getPopupEditDialog (JPanel cardPane) {
-        popupEditDialog =  new PopupEditDialog(cardPane);
+    protected void getPopupEditDialog(JPanel cardPane) {
+        popupEditDialog = new PopupEditDialog(cardPane);
     }
 
     protected abstract JPanel createControlUpdatePane();
@@ -169,7 +193,7 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
             toolbarDef.addShortCut(sj.getShortCut());
         }
         toolBar = ToolBarDef.createJToolBar();
-        toolBar.setUI(new UIToolBarUI(){
+        toolBar.setUI(new UIToolBarUI() {
             @Override
             public void paint(Graphics g, JComponent c) {
                 Graphics2D g2 = (Graphics2D) g;
@@ -186,7 +210,7 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
         leftContentPane.add(toolBarPane, BorderLayout.NORTH);
 
         //  顶部标签及add按钮
-        topToolBar = new UIToolbar(FlowLayout.LEFT, new UIToolBarUI(){
+        topToolBar = new UIToolbar(FlowLayout.LEFT, new UIToolBarUI() {
             @Override
             public void paint(Graphics g, JComponent c) {
                 Graphics2D g2 = (Graphics2D) g;
@@ -207,15 +231,15 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
         return leftPane;
     }
 
-    protected JPanel getLeftTopPane (UIToolbar topToolBar) {
+    protected JPanel getLeftTopPane(UIToolbar topToolBar) {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = { p, f, isNewStyle() ? TOP_TOOLBAR_WIDTH : TOP_TOOLBAR_WIDTH_SHORT};
+        double[] columnSize = {p, f, isNewStyle() ? TOP_TOOLBAR_WIDTH : TOP_TOOLBAR_WIDTH_SHORT};
         double[] rowSize = {TOP_TOOLBAR_HEIGHT};
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(getAddItemText()), new JPanel(), topToolBar},
         };
-       return TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
+        return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
     }
 
     /**
@@ -336,6 +360,7 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
             initListener();
         }
 
+        @Override
         public void setTitle(String title) {
             popupToolPane.setTitle(title);
         }
@@ -349,9 +374,20 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
             }
             // 如果有可见模态对话框，则不隐藏
             for (Window window : DesignerContext.getDesignerFrame().getOwnedWindows()) {
-                if (window instanceof JDialog && window.isVisible() && ((JDialog)window).isModal()) {
+                if (window instanceof JDialog && window.isVisible() && ((JDialog) window).isModal()) {
                     return;
                 }
+            }
+
+            // 要隐藏 先检查有没有非法输入
+            // 非法输入检查放在最后，因为可能出现面板弹出新弹框而失去焦点的情况，比如 输入公式时，弹出公式编辑对话框
+            try {
+                checkValid();
+            } catch (Exception exp) {
+                // 存在非法输入 拒绝隐藏
+                JOptionPane.showMessageDialog(UIControlPane.this, exp.getMessage());
+                this.requestFocus();
+                return;
             }
             saveSettings();
             setVisible(false);
@@ -361,7 +397,6 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
             addWindowFocusListener(new WindowAdapter() {
                 @Override
                 public void windowLostFocus(WindowEvent e) {
-                    super.windowLostFocus(e);
                     hideDialog();
                 }
             });
@@ -389,6 +424,7 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
                 }
                 repaint();
             }
+
             @Override
             public void mouseReleased(MouseEvent e) {
                 mouseDownCompCoords = null;
@@ -396,6 +432,7 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
                     contentPane.setBackground(originColor);
                 }
             }
+
             @Override
             public void mousePressed(MouseEvent e) {
                 mouseDownCompCoords = e.getPoint();
@@ -409,6 +446,7 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
                 contentPane.setBackground(UIConstants.POPUP_TITLE_BACKGROUND);
                 repaint();
             }
+
             @Override
             public void mouseDragged(MouseEvent e) {
                 if (mouseDownCompCoords != null) {

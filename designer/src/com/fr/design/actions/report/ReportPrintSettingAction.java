@@ -11,7 +11,7 @@ import com.fr.design.webattr.printsettings.ReportPrintSettingPane;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.main.TemplateWorkBook;
-import com.fr.print.PrintAttr;
+import com.fr.print.PrintSettingsAttrMark;
 
 import javax.swing.KeyStroke;
 import java.awt.event.ActionEvent;
@@ -41,15 +41,15 @@ public class ReportPrintSettingAction extends JWorkBookAction {
             return;
         }
         final TemplateWorkBook wbTpl = jwb.getTarget();
-        PrintAttr printAttr = wbTpl.getReportWebAttr().getPrintAttr();
+        PrintSettingsAttrMark printSettings = PrintSettingsAttrMark.loadFromFinebook(wbTpl);
 
         final ReportPrintSettingPane reportPrintSettingPane = new ReportPrintSettingPane();
-        reportPrintSettingPane.populate(printAttr);
+        reportPrintSettingPane.populate(printSettings);
         BasicDialog dialog = reportPrintSettingPane.showWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
             @Override
             public void doOk() {
-                PrintAttr newPrintAttr = reportPrintSettingPane.updateBean();
-                wbTpl.getReportWebAttr().setPrintAttr(newPrintAttr);
+                PrintSettingsAttrMark newPrintSettings = reportPrintSettingPane.updateBean();
+                wbTpl.addAttrMark(newPrintSettings);
                 jwb.fireTargetModified();
             }
         });
