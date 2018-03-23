@@ -22,6 +22,7 @@ import com.fr.design.utils.ComponentUtils;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.general.Inter;
+import com.fr.share.ShareConstants;
 import com.fr.stable.Constants;
 
 import javax.swing.*;
@@ -317,13 +318,27 @@ public class EditingMouseListener extends MouseInputAdapter {
     }
 
     private void setHelpBtnFocus(MouseEvent e, XCreator component) {
+        if (!component.isShared()) {
+            return;
+        }
         component.setHelpBtnOnFocus(false);
-        if (component.getCoverPane().getComponentCount() > 1) {
-            JComponent button1 = (JComponent) component.getCoverPane().getComponent(1);
-            int minX1 = button1.getX() + getParentPositionX(component, 0) - designer.getArea().getHorizontalValue();
-            int minY1 = button1.getY() + getParentPositionY(component, 0) - designer.getArea().getVerticalValue();
-            if (e.getX() + GAP - component.getInsets().left > minX1 && e.getX() - GAP - component.getInsets().left < minX1 + button1.getWidth()) {
-                if (e.getY() + GAP - component.getInsets().top > minY1 && e.getY() - GAP - component.getInsets().top < minY1 + button1.getHeight()) {
+        if (component.getCoverPane() != null) {
+            if (component.getCoverPane().getComponentCount() > 1) {
+                JComponent button1 = (JComponent) component.getCoverPane().getComponent(1);
+                int minX1 = button1.getX() + getParentPositionX(component, 0) - designer.getArea().getHorizontalValue();
+                int minY1 = button1.getY() + getParentPositionY(component, 0) - designer.getArea().getVerticalValue();
+                if (e.getX() + GAP - component.getInsets().left > minX1 && e.getX() - GAP - component.getInsets().left < minX1 + button1.getWidth()) {
+                    if (e.getY() + GAP - component.getInsets().top > minY1 && e.getY() - GAP - component.getInsets().top < minY1 + button1.getHeight()) {
+                        designer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                        component.setHelpBtnOnFocus(true);
+                    }
+                }
+            }
+        } else {
+            int minX1 = component.getX() + component.getWidth() - ShareConstants.SHARE_EL_CONTROL_BUTTON_HW - designer.getArea().getHorizontalValue();
+            int minY1 = component.getY() - designer.getArea().getVerticalValue();
+            if (e.getX() + GAP - component.getInsets().left > minX1 && e.getX() - GAP - component.getInsets().left < minX1 + ShareConstants.SHARE_EL_CONTROL_BUTTON_HW) {
+                if (e.getY() + GAP - component.getInsets().top > minY1 && e.getY() - GAP - component.getInsets().top < minY1 + ShareConstants.SHARE_EL_CONTROL_BUTTON_HW) {
                     designer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                     component.setHelpBtnOnFocus(true);
                 }
@@ -376,6 +391,7 @@ public class EditingMouseListener extends MouseInputAdapter {
                         designer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                     }
                 }
+                setHelpBtnFocus(e, xTopLayoutContainer);
                 return true;
             }
         }
