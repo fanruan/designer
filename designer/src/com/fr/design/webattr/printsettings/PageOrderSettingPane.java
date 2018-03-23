@@ -4,10 +4,8 @@ import com.fr.base.BaseUtils;
 import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.Inter;
-import com.fr.print.NoClientPrintAttr;
 import com.fr.stable.Constants;
 
-import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.Icon;
 import javax.swing.JPanel;

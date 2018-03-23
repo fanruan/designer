@@ -14,8 +14,8 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.design.webattr.printsettings.PrintSettingPane;
 import com.fr.general.Inter;
-import com.fr.print.PrintSettingsAttrMark;
-import com.fr.report.web.button.Print;
+import com.fr.base.print.PrintSettingsAttrMark;
+import com.fr.report.core.ReportUtils;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.web.attr.ReportWebAttr;
 
@@ -95,7 +95,7 @@ public class EditReportServerParameterPane extends LoadingBasicPane {
         	cssPane.populate(webAttr);
         	jsPane.populate(webAttr);
         }
-        printSettings = PrintSettingsAttrMark.loadFromServerConfig();
+        printSettings = ReportUtils.getPrintSettingsFromServerConfig();
         printSettingPane.populate(printSettings);
 
         this.errorTemplatePane.populateBean(reportServerConfigManager.getErrorTemplate());

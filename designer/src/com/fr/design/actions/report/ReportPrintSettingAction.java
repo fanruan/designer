@@ -11,7 +11,8 @@ import com.fr.design.webattr.printsettings.ReportPrintSettingPane;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.main.TemplateWorkBook;
-import com.fr.print.PrintSettingsAttrMark;
+import com.fr.base.print.PrintSettingsAttrMark;
+import com.fr.report.core.ReportUtils;
 
 import javax.swing.KeyStroke;
 import java.awt.event.ActionEvent;
@@ -41,7 +42,7 @@ public class ReportPrintSettingAction extends JWorkBookAction {
             return;
         }
         final TemplateWorkBook wbTpl = jwb.getTarget();
-        PrintSettingsAttrMark printSettings = PrintSettingsAttrMark.loadFromFinebook(wbTpl);
+        PrintSettingsAttrMark printSettings = ReportUtils.getPrintSettingsFromWorkbook(wbTpl);
 
         final ReportPrintSettingPane reportPrintSettingPane = new ReportPrintSettingPane();
         reportPrintSettingPane.populate(printSettings);
