@@ -174,7 +174,7 @@ public class ChartEmptyDataStylePane extends AbstractAttrNoScrollPane {
                         imageWorker = new SwingWorker<Void, Void>() {
                             @Override
                             protected Void doInBackground() throws Exception {
-                                emptyDataImage = imageFileChooser.isCompressSelected() ? ImageUtils.defaultImageCompress(selectedFile) : BaseUtils.readImage(selectedFile.getPath());
+                                emptyDataImage = imageFileChooser.isCheckSelected() ? ImageUtils.defaultImageCompress(selectedFile) : BaseUtils.readImage(selectedFile.getPath());
                                 CoreGraphHelper.waitForImage(emptyDataImage);
                                 repaintPreviewPane();
                                 return null;
