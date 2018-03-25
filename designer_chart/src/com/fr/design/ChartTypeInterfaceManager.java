@@ -289,21 +289,28 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
             }
         }
     }
+
+    private static String getChartName(String plotID, IndependentChartUIProvider provider) {
+        String name = provider.getPlotTypeTitle4PopupWindow();
+        if (StringUtils.isEmpty(name)) {
+            name = ChartTypeManager.getInstance().getChartName(plotID);
+        }
+        return name;
+    }
     
     public String[] getTitle4PopupWindow(String priority) {
         
-        if (priority.isEmpty()) {
+        if (StringUtils.isEmpty(priority)) {
             return getTitle4PopupWindow();
         }
         String[] names = new String[getChartSize(priority)];
         if (chartTypeInterfaces != null && chartTypeInterfaces.containsKey(priority)) {
             Map<String, IndependentChartUIProvider> chartUIList = chartTypeInterfaces.get(priority);
-            Iterator iterator = chartUIList.entrySet().iterator();
+            Iterator<Map.Entry<String, IndependentChartUIProvider>> iterator = chartUIList.entrySet().iterator();
             int i = 0;
             while (iterator.hasNext()) {
-                Map.Entry entry = (Map.Entry) iterator.next();
-                IndependentChartUIProvider provider = (IndependentChartUIProvider) entry.getValue();
-                names[i++] = provider.getPlotTypeTitle4PopupWindow();
+                Map.Entry<String, IndependentChartUIProvider> entry = iterator.next();
+                names[i++] = getChartName(entry.getKey(), entry.getValue());
             }
             return names;
         }
@@ -317,7 +324,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
         
         if (chartTypeInterfaces != null && chartTypeInterfaces.containsKey(priority) && chartTypeInterfaces.get(priority).containsKey(plotID)) {
             IndependentChartUIProvider provider = chartTypeInterfaces.get(priority).get(plotID);
-            return provider.getPlotTypeTitle4PopupWindow();
+            return getChartName(plotID, provider);
         }
         
         //兼容老的插件
@@ -327,7 +334,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
                 Map.Entry entry = (Map.Entry) iterator.next();
                 String defaultPriority = (String) entry.getKey();
                 if (chartTypeInterfaces.get(defaultPriority).containsKey(plotID)) {
-                    return chartTypeInterfaces.get(defaultPriority).get(plotID).getPlotTypeTitle4PopupWindow();
+                    return getChartName(plotID, chartTypeInterfaces.get(defaultPriority).get(plotID));
                 }
             }
         }
@@ -352,8 +359,12 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
         int index = 0;
         for (Integer aPriorityList : priorityList) {
             String priority = String.valueOf(aPriorityList);
-            Iterator chartUI = chartTypeInterfaces.get(priority).entrySet().iterator();
-            index = fetchNames(chartUI, names, index);
+            Iterator<Map.Entry<String, IndependentChartUIProvider>> chartUI = chartTypeInterfaces.get(priority).entrySet().iterator();
+            while (chartUI.hasNext()) {
+                Map.Entry<String, IndependentChartUIProvider> chartUIEntry = chartUI.next();
+
+                names[index++] = getChartName(chartUIEntry.getKey(), chartUIEntry.getValue());
+            }
         }
         
         return names;
@@ -371,16 +382,6 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
             }
         }
         return ChartTypeManager.orderInPriority(priorityList);
-    }
-    
-    private int fetchNames(Iterator chartUI, String[] names, int index) {
-        
-        while (chartUI.hasNext()) {
-            Map.Entry chartUIEntry = (Map.Entry) chartUI.next();
-            IndependentChartUIProvider provider = (IndependentChartUIProvider) chartUIEntry.getValue();
-            names[index++] = provider.getPlotTypeTitle4PopupWindow();
-        }
-        return index;
     }
 
     public String getIconPath(String plotID) {

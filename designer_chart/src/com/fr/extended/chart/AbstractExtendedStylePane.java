@@ -3,12 +3,10 @@ package com.fr.extended.chart;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.gui.ibutton.UITabGroup;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
-import com.fr.design.mainframe.chart.gui.ChartStylePane;
 
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
@@ -27,7 +25,7 @@ public abstract class AbstractExtendedStylePane<T extends AbstractChart> extends
     private JPanel centerPane;
     private CardLayout cardLayout;
 
-    private List<BasicScrollPane<T>> paneList;
+    private List<ExtendedScrollPane<T>> paneList;
 
     private AttributeChangeListener listener;
 
@@ -82,13 +80,15 @@ public abstract class AbstractExtendedStylePane<T extends AbstractChart> extends
     }
 
     private void dealWithTabChanged() {
-        AbstractExtendedStylePane.this.removeAttributeChangeListener();
-        paneList.get(tabPane.getSelectedIndex()).populateBean(chart);
-        AbstractExtendedStylePane.this.addAttributeChangeListener(listener);
+        if (chart != null) {
+            AbstractExtendedStylePane.this.removeAttributeChangeListener();
+            paneList.get(tabPane.getSelectedIndex()).populateBean(chart);
+            AbstractExtendedStylePane.this.addAttributeChangeListener(listener);
+        }
 
     }
 
-    protected abstract List<BasicScrollPane<T>> initPaneList();
+    protected abstract List<ExtendedScrollPane<T>> initPaneList();
 
     @Override
     public void populate(ChartCollection collection) {
