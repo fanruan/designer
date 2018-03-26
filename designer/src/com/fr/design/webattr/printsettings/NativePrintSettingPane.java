@@ -2,6 +2,7 @@ package com.fr.design.webattr.printsettings;
 
 import com.fr.base.PaperSize;
 import com.fr.base.Utils;
+import com.fr.base.print.NativePrintAttr;
 import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icombobox.UIComboBox;
@@ -16,10 +17,11 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
-import com.fr.base.print.NativePrintAttr;
-import com.fr.base.print.NativePrintConfigManager;
 import com.fr.report.stable.ReportConstants;
 
+import javax.print.DocFlavor;
+import javax.print.PrintService;
+import javax.print.PrintServiceLookup;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JList;
@@ -31,6 +33,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by plough on 2018/3/5.
@@ -103,7 +107,7 @@ public class NativePrintSettingPane extends JPanel {
 
     private JPanel getNativePrintMainSettingPane() {
         // 打印机
-        String[] printerArray = NativePrintConfigManager.getInstance().getAllPrinterNames();
+        String[] printerArray = getAllPrinterNames();
         printerComboBox = new UIComboBox(printerArray);
         printerComboBox.setPreferredSize(new Dimension(200, printerComboBox.getPreferredSize().height));
         JPanel printerPane = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
@@ -155,6 +159,18 @@ public class NativePrintSettingPane extends JPanel {
 //                {new UILabel(Inter.getLocText("FR-Designer_Scale_EnlargeOrReduce") + ":"), fitPaperSizeCheck},
         };
         return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 0, 15);
+    }
+
+    private String[] getAllPrinterNames() {
+        PrintService[] printServices = PrintServiceLookup.lookupPrintServices(
+                DocFlavor.INPUT_STREAM.AUTOSENSE, null);
+        Set<String> allPrinterName = new HashSet<String>();
+
+        for (int i = 0, len = printServices.length; i < len; i++) {
+            allPrinterName.add(printServices[i].getName());
+        }
+
+        return allPrinterName.toArray(new String[allPrinterName.size()]);
     }
 
     private JPanel getPaperSettingPane() {
