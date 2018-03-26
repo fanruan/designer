@@ -17,27 +17,27 @@ public class ReportWebWidgetConstants {
     }
 
     public static WidgetOption[] getPageToolBarInstance() {
-        return new WidgetOption[]{FIRST, PREVIOUS, PAGENAVI, NEXT, LAST, SCALE, EMAIL, EXPORT, PDF, EXCELP, EXCELO, EXCELS, WORD, PRINT,
+        return new WidgetOption[]{FIRST, PREVIOUS, PAGENAVI, NEXT, LAST, SCALE, EMAIL, EXPORT, PDF, EXCELP, EXCELO, EXCELS, WORD, NEW_PRINT,
                 SETPRINTEROFFSET, CUSTOM_BUTTON};
     }
 
     public static WidgetOption[] getViewToolBarInstance() {
-        return new WidgetOption[]{PAGESETUP, EMAIL, EXPORT, PDF, EXCELP, EXCELO, EXCELS, WORD, PRINT, SETPRINTEROFFSET, PRINTPREVIEW, CUSTOM_BUTTON};
+        return new WidgetOption[]{PAGESETUP, EMAIL, EXPORT, PDF, EXCELP, EXCELO, EXCELS, WORD, NEW_PRINT, SETPRINTEROFFSET, PRINTPREVIEW, CUSTOM_BUTTON};
     }
 
     public static WidgetOption[] getPreviewToolBarInstance() {
-        return new WidgetOption[]{FIRST, PREVIOUS, PAGENAVI, NEXT, LAST, SCALE, EXPORT, PDF, EXCELP, EXCELO, EXCELS, WORD, PRINT,
+        return new WidgetOption[]{FIRST, PREVIOUS, PAGENAVI, NEXT, LAST, SCALE, EXPORT, PDF, EXCELP, EXCELO, EXCELS, WORD, NEW_PRINT,
                 SETPRINTEROFFSET, CUSTOM_BUTTON};
     }
 
     public static WidgetOption[] getWriteToolBarInstance() {
-        return new WidgetOption[]{SUBMIT, VERIFY, EMAIL, EXPORT, PDF, EXCELP, EXCELO, EXCELS, WORD, PRINT, IMPORTEXCELDATA, SHOWCELLVALUE,
+        return new WidgetOption[]{SUBMIT, VERIFY, EMAIL, EXPORT, PDF, EXCELP, EXCELO, EXCELS, WORD, NEW_PRINT, IMPORTEXCELDATA, SHOWCELLVALUE,
                 APPENDCOLUMNROW, DELETECOLUMNROW, SETPRINTEROFFSET, WRITEOFFLINEHTML, CUSTOM_BUTTON, WRITESTASH, WRITESTASHCLEAR, IMPORTEXCELDATA_CUSTOMIZED,
                 IMPORTEXCEL, IMPORTEXCEL_COVER, IMPORTEXCEL_CLEAN, IMPORTEXCEL_APPEND};
     }
 
     public static WidgetOption[] getFormToolBarInstance() {
-        return new WidgetOption[]{EMAIL, EXPORT, PDF, EXCELP, EXCELO, EXCELS, WORD, PRINT, SETPRINTEROFFSET, CUSTOM_BUTTON};
+        return new WidgetOption[]{EMAIL, EXPORT, PDF, EXCELP, EXCELO, EXCELS, WORD, NEW_PRINT, SETPRINTEROFFSET, CUSTOM_BUTTON};
     }
 
     // 查询
@@ -102,7 +102,7 @@ public class ReportWebWidgetConstants {
     public static final WidgetOption SCALE = WidgetOptionFactory.createByWidgetClass(Inter.getLocText("FR-Engine_Enlarge_Or_Reduce"), BaseUtils.readIcon("/com/fr/web/images/scale.png"),
             Scale.class);
 
-    public static final WidgetOption PRINT = WidgetOptionFactory.createByWidgetClass(Inter.getLocText("FR-Engine_Print"), BaseUtils.readIcon("/com/fr/web/images/print.png"), Print.class);
+    public static final WidgetOption NEW_PRINT = WidgetOptionFactory.createByWidgetClass(Inter.getLocText("FR-Engine_Print"), BaseUtils.readIcon("/com/fr/web/images/print.png"), NewPrint.class);
     public static final WidgetOption APPENDCOLUMNROW = WidgetOptionFactory.createByWidgetClass(Inter.getLocText("Utils-Insert_Record"),
             BaseUtils.readIcon("/com/fr/web/images/appendRow.png"), AppendColumnRow.class);
     public static final WidgetOption DELETECOLUMNROW = WidgetOptionFactory.createByWidgetClass(Inter.getLocText("Utils-Delete_Record"),
