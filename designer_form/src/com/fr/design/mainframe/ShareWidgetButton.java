@@ -4,8 +4,8 @@ import com.fr.base.vcs.DesignerMode;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XCreatorUtils;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.base.iofileattr.SharableAttrMark;
 import com.fr.form.ui.AbstractBorderStyleWidget;
-import com.fr.plugin.injectable.PluginModule;
 import com.fr.share.ShareConstants;
 import com.fr.form.share.ShareLoader;
 import com.fr.form.ui.SharableWidgetBindInfo;
@@ -14,9 +14,6 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.IOUtils;
 import com.fr.stable.StringUtils;
 
-import com.fr.stable.fun.IOFileAttrMark;
-import com.fr.stable.plugin.ExtraClassManagerProvider;
-import java.util.Set;
 import javax.swing.*;
 import javax.swing.Icon;
 import java.awt.*;
@@ -200,13 +197,7 @@ public class ShareWidgetButton extends JPanel implements MouseListener, MouseMot
             shareId = no.getBindInfo().getId();
             creatorSource = ShareLoader.getLoader().getElCaseEditorById(shareId);
             if (creatorSource != null) {
-                ExtraClassManagerProvider pluginProvider = PluginModule.getAgent(PluginModule.ExtraCore);
-                if(pluginProvider != null) {
-                    Set<IOFileAttrMark> extraAttrs = pluginProvider.getArray(IOFileAttrMark.MARK_STRING);
-                    for (IOFileAttrMark mark : extraAttrs) {
-                        ((AbstractBorderStyleWidget)creatorSource).addWidgetAttrMark(mark);
-                    }
-                }
+                ((AbstractBorderStyleWidget)creatorSource).addWidgetAttrMark(new SharableAttrMark(true));
                 XCreator xCreator = XCreatorUtils.createXCreator(creatorSource, new Dimension(no.getBindInfo().getWidth(), no.getBindInfo().getHeight()));
                 xCreator.setShareId(shareId);
                 WidgetToolBarPane.getTarget().startDraggingBean(xCreator);
