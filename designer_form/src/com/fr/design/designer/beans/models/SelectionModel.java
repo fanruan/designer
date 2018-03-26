@@ -62,12 +62,20 @@ public class SelectionModel {
      * @param e 鼠标事件
      */
     public void selectACreatorAtMouseEvent(MouseEvent e) {
+        // 获取e所在的组件
+        XCreator comp = designer.getComponentAt(e);
         if (e.getButton() == MouseEvent.BUTTON3 || (!InputEventBaseOnOS.isControlDown(e) && !e.isShiftDown())) {
             // 如果Ctrl或者Shift键盘没有按下，则清除已经选择的组件
             selection.reset();
+        } else {
+            //按下Ctrl或者shift键时鼠标可以进行多选,两次点击同一控件就取消选中
+            XLayoutContainer container = XCreatorUtils.getParentXLayoutContainer(comp);
+            for (XCreator selected : selection.getSelectedCreators()) {
+                if (selected == comp || XCreatorUtils.getParentXLayoutContainer(selected) != container) {
+                    selection.removeCreator(selected);
+                }
+            }
         }
-        // 获取e所在的组件
-        XCreator comp = designer.getComponentAt(e);
         selectACreator(comp);
     }
 

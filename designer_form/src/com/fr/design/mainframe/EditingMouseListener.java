@@ -318,9 +318,6 @@ public class EditingMouseListener extends MouseInputAdapter {
     }
 
     private void setHelpBtnFocus(MouseEvent e, XCreator component) {
-        if (!component.isShared()) {
-            return;
-        }
         component.setHelpBtnOnFocus(false);
         if (component.getCoverPane() != null) {
             if (component.getCoverPane().getComponentCount() > 1) {
@@ -334,6 +331,8 @@ public class EditingMouseListener extends MouseInputAdapter {
                     }
                 }
             }
+            component.displayCoverPane(true);
+            component.setDirections(Direction.TOP_BOTTOM_LEFT_RIGHT);
         } else {
             int minX1 = component.getX() + component.getWidth() - ShareConstants.SHARE_EL_CONTROL_BUTTON_HW - designer.getArea().getHorizontalValue();
             int minY1 = component.getY() - designer.getArea().getVerticalValue();
@@ -344,8 +343,6 @@ public class EditingMouseListener extends MouseInputAdapter {
                 }
             }
         }
-        component.displayCoverPane(true);
-        component.setDirections(Direction.TOP_BOTTOM_LEFT_RIGHT);
     }
 
     private void setCoverPaneNotDisplay(XCreator component, MouseEvent e, boolean isLinkedHelpDialog) {
