@@ -1,13 +1,12 @@
 package com.fr.design.webattr.printsettings;
 
-import com.fr.base.ConfigManager;
-import com.fr.base.ConfigManagerProvider;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
-import com.fr.print.PrintSettingsAttrMark;
+import com.fr.base.print.PrintSettingsAttrMark;
+import com.fr.report.core.ReportUtils;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -69,7 +68,7 @@ public class ReportPrintSettingPane extends BasicPane {
     }
 
     private void populateServerSettings() {
-        PrintSettingsAttrMark printSettings = PrintSettingsAttrMark.loadFromServerConfig();
+        PrintSettingsAttrMark printSettings = ReportUtils.getPrintSettingsFromServerConfig();
         printSettingPane.populate(printSettings);
     }
 

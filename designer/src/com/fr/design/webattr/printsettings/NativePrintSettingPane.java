@@ -16,10 +16,9 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
-import com.fr.print.nativeprint.core.NativePrintAttr;
-import com.fr.print.nativeprint.core.NativePrintConfigManager;
+import com.fr.base.print.NativePrintAttr;
+import com.fr.base.print.NativePrintConfigManager;
 import com.fr.report.stable.ReportConstants;
-import com.fr.stable.StringUtils;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;

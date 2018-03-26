@@ -1,6 +1,5 @@
 package com.fr.design.webattr.printsettings;
 
-import com.fr.base.Margin;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -8,8 +7,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
-import com.fr.print.NoClientPrintAttr;
-import com.fr.stable.Constants;
+import com.fr.base.print.NoClientPrintAttr;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
