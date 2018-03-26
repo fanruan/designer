@@ -318,9 +318,6 @@ public class EditingMouseListener extends MouseInputAdapter {
     }
 
     private void setHelpBtnFocus(MouseEvent e, XCreator component) {
-        if (!component.isShared()) {
-            return;
-        }
         component.setHelpBtnOnFocus(false);
         if (component.getCoverPane() != null) {
             if (component.getCoverPane().getComponentCount() > 1) {
