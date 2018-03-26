@@ -479,7 +479,7 @@ public class XWAbsoluteLayout extends XLayoutContainer {
     }
 
     public void paintExtro(Graphics g) {
-        if (isShared()) {
+        if (this.toData().getWidgetAttrMark("SharableAttrMark") != null) {
             int width = getWidth() - ShareConstants.SHARE_EL_CONTROL_BUTTON_HW;
             g.setColor(UIConstants.NORMAL_BACKGROUND);
             g.fillArc(width, 0, ShareConstants.SHARE_EL_CONTROL_BUTTON_HW, ShareConstants.SHARE_EL_CONTROL_BUTTON_HW,
