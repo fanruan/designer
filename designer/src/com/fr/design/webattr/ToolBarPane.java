@@ -7,6 +7,7 @@ import com.fr.design.gui.core.WidgetOption;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.form.ui.ToolBar;
 import com.fr.form.ui.Widget;
+import com.fr.general.Inter;
 import com.fr.report.web.annotation.OldPrintMethod;
 
 import javax.swing.BorderFactory;
@@ -85,7 +86,7 @@ public class ToolBarPane extends BasicBeanPane<ToolBar> {
 	public Component add(Component comp) {
 		if (comp instanceof ToolBarButton) {
 			if (isPopulateFinished() && ((ToolBarButton) comp).getWidget().getClass().isAnnotationPresent(OldPrintMethod.class)) {
-				JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this), "该功能只做兼容显示，请使用新版打印");
+				JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this), Inter.getLocText("FR-Designer_Use_New_Print_Tip"));
 				return comp;
 			}
 			this.ftoolbar.addButton((ToolBarButton) comp);
