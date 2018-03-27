@@ -7,9 +7,13 @@ import com.fr.design.gui.core.WidgetOption;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.form.ui.ToolBar;
 import com.fr.form.ui.Widget;
+import com.fr.report.web.annotation.OldPrintMethod;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.TransferHandler;
+import java.awt.Component;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.MouseAdapter;
@@ -19,6 +23,7 @@ import java.util.List;
 
 public class ToolBarPane extends BasicBeanPane<ToolBar> {
 	private FToolBar ftoolbar = new FToolBar();
+	private boolean populateFinished = false;  // 正在 populate 数据
 
 	public ToolBarPane() {
 		super();
@@ -79,6 +84,10 @@ public class ToolBarPane extends BasicBeanPane<ToolBar> {
      */
 	public Component add(Component comp) {
 		if (comp instanceof ToolBarButton) {
+			if (isPopulateFinished() && ((ToolBarButton) comp).getWidget().getClass().isAnnotationPresent(OldPrintMethod.class)) {
+				JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this), "该功能只做兼容显示，请使用新版打印");
+				return comp;
+			}
 			this.ftoolbar.addButton((ToolBarButton) comp);
 		}
 		return super.add(comp);
@@ -128,6 +137,7 @@ public class ToolBarPane extends BasicBeanPane<ToolBar> {
 
 	@Override
 	public void populateBean(ToolBar toolbar) {
+		setPopulateFinished(false);
 		this.removeAll();
 		this.getFToolBar().clearButton();
 		for (int j = 0; j < toolbar.getWidgetSize(); j++) {
@@ -146,6 +156,7 @@ public class ToolBarPane extends BasicBeanPane<ToolBar> {
 		}
 		this.getFToolBar().setBackground(toolbar.getBackground());
 		this.getFToolBar().setDefault(toolbar.isDefault());
+		setPopulateFinished(true);
 	}
 
 	@Override
@@ -170,6 +181,14 @@ public class ToolBarPane extends BasicBeanPane<ToolBar> {
 			}
 		}
 	};
+
+	private boolean isPopulateFinished() {
+		return populateFinished;
+	}
+
+	private void setPopulateFinished(boolean populateFinished) {
+		this.populateFinished = populateFinished;
+	}
 
 
 	/*
