@@ -5,7 +5,7 @@ import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
-import com.fr.print.PrintSettingsAttrMark;
+import com.fr.base.print.PrintSettingsAttrMark;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;

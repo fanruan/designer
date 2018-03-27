@@ -1,6 +1,5 @@
 package com.fr.design.webattr.printsettings;
 
-import com.fr.base.Margin;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -8,8 +7,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
-import com.fr.print.NoClientPrintAttr;
-import com.fr.stable.Constants;
+import com.fr.base.print.NoClientPrintAttr;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -26,7 +24,6 @@ public class NoClientPrintSettingPane extends JPanel {
     private UICheckBox inheritPageMarginSettingCheck;  // 继承页面边距设置
 
     private PageMarginSettingPane pageMarginSettingPane;
-    private PageOrderSettingPane pageOrderSettingPane;
 
     public NoClientPrintSettingPane() {
         initComponents();
@@ -51,14 +48,12 @@ public class NoClientPrintSettingPane extends JPanel {
         pageMarginSettingPane.setBorder(BorderFactory.createEmptyBorder(10, -10, 0, 0));
         JPanel pageMarginCheckPane = GUICoreUtils.createCheckboxAndDynamicPane(inheritPageMarginSettingCheck, pageMarginSettingPane, true);
 
-        pageOrderSettingPane = new PageOrderSettingPane();
         // TableLayout
         double p = TableLayout.PREFERRED;
-        double[] rowSize = {p, p};
+        double[] rowSize = {p};
         double[] columnSize = {60, p};
         Component[][] components = {
-                {getTopAlignLabelPane(Inter.getLocText("FR-Designer_Margin") + ":"), pageMarginCheckPane},
-                {getTopAlignLabelPane(Inter.getLocText("FR-Designer_Order") + ":"), pageOrderSettingPane}
+                {getTopAlignLabelPane(Inter.getLocText("FR-Designer_Margin") + ":"), pageMarginCheckPane}
         };
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 0, 15);
 
@@ -81,13 +76,11 @@ public class NoClientPrintSettingPane extends JPanel {
         setMarginWhenPrintCheck.setSelected(noClientPrintAttr.isSetMarginOnPrint());
         inheritPageMarginSettingCheck.setSelected(noClientPrintAttr.isInheritPageMarginSetting());
         pageMarginSettingPane.populate(noClientPrintAttr.getMargin());
-        pageOrderSettingPane.populate(noClientPrintAttr.getPageOrder());
     }
 
     public void update(NoClientPrintAttr noClientPrintAttr) {
         noClientPrintAttr.setSetMarginOnPrint(setMarginWhenPrintCheck.isSelected());
         noClientPrintAttr.setInheritPageMarginSetting(inheritPageMarginSettingCheck.isSelected());
         noClientPrintAttr.setMargin(pageMarginSettingPane.updateBean());
-        noClientPrintAttr.setPageOrder(pageOrderSettingPane.updateBean());
     }
 }
