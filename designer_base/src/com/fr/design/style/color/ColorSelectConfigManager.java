@@ -1,23 +1,19 @@
 package com.fr.design.style.color;
 
-import com.fr.file.XMLFileManager;
-
-
 import com.fr.base.FRContext;
-import com.fr.cluster.rpc.RPC;
-import com.fr.file.BaseClusterHelper;
+import com.fr.file.XMLFileManager;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.FRLogger;
 import com.fr.general.GeneralContext;
 import com.fr.stable.EnvChangedListener;
 import com.fr.stable.xml.XMLPrintWriter;
 import com.fr.stable.xml.XMLTools;
 import com.fr.stable.xml.XMLableReader;
-import com.fr.general.FRLogger;
 
-import java.awt.Color;
+import java.awt.*;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.InputStream;
 
 /**
  * 最近使用颜色
@@ -130,31 +126,13 @@ public class ColorSelectConfigManager extends XMLFileManager implements ColorSel
      */
     public synchronized static ColorSelectConfigManagerProvider getProviderInstance() {
         if (configManager == null) {
-            if (isClusterMember()) {
-                return configManager;
-            }
+            configManager = new ColorSelectConfigManager();
             configManager.readXMLFile();
         }
         return configManager;
     }
-
-    private synchronized static boolean isClusterMember() {
-        switch (BaseClusterHelper.getClusterState()) {
-            case LEADER:
-                configManager = new ColorSelectConfigManager();
-                RPC.registerSkeleton(configManager);
-                return false;
-            case MEMBER:
-                String ip = BaseClusterHelper.getMainServiceIP();
-                configManager = (ColorSelectConfigManagerProvider) RPC.getProxy(ColorSelectConfigManager.class, ip);
-                return true;
-            default:
-                configManager = new ColorSelectConfigManager();
-                break;
-        }
-        return false;
-    }
-
+    
+    
     public boolean writeResource() throws Exception {
         return FRContext.getCurrentEnv().writeResource(ColorSelectConfigManager.getProviderInstance());
     }
