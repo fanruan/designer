@@ -25,6 +25,7 @@ import com.fr.general.Inter;
 import com.fr.share.ShareConstants;
 import com.fr.stable.Constants;
 
+import com.fr.stable.StringUtils;
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
@@ -334,6 +335,10 @@ public class EditingMouseListener extends MouseInputAdapter {
             component.displayCoverPane(true);
             component.setDirections(Direction.TOP_BOTTOM_LEFT_RIGHT);
         } else {
+            //没有帮助信息时，不显示帮助图标
+            if (StringUtils.isEmpty(component.toData().getDescription())) {
+                return;
+            }
             int minX1 = component.getX() + component.getWidth() - ShareConstants.SHARE_EL_CONTROL_BUTTON_HW - designer.getArea().getHorizontalValue();
             int minY1 = component.getY() - designer.getArea().getVerticalValue();
             if (e.getX() + GAP - component.getInsets().left > minX1 && e.getX() - GAP - component.getInsets().left < minX1 + ShareConstants.SHARE_EL_CONTROL_BUTTON_HW) {
