@@ -4,7 +4,6 @@ import com.fr.design.fun.impl.GlobalListenerProviderManager;
 import com.fr.design.utils.DesignUtils;
 import com.fr.general.ModuleContext;
 import com.fr.module.Activator;
-import com.fr.register.Register;
 
 /**
  * Created by juhaoyu on 2018/1/8.
