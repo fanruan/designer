@@ -4,6 +4,7 @@
 package com.fr.design.designer.creator.cardlayout;
 
 import com.fr.base.GraphHelper;
+import com.fr.base.iofileattr.SharableAttrMark;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
@@ -373,7 +374,7 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 	}
 
 	public void paintExtro(Graphics g) {
-		if (this.toData().getWidgetAttrMark("SharableAttrMark") != null) {
+		if (this.toData().getWidgetAttrMark(SharableAttrMark.XML_TAG) != null) {
 			int width = getWidth() - ShareConstants.SHARE_EL_CONTROL_BUTTON_HW;
 			g.setColor(UIConstants.NORMAL_BACKGROUND);
 			g.fillArc(width, 0, ShareConstants.SHARE_EL_CONTROL_BUTTON_HW, ShareConstants.SHARE_EL_CONTROL_BUTTON_HW,
