@@ -6,9 +6,45 @@ import com.fr.design.gui.core.WidgetOptionFactory;
 import com.fr.form.ui.CustomToolBarButton;
 import com.fr.form.ui.Widget;
 import com.fr.general.Inter;
-import com.fr.report.web.button.*;
-import com.fr.report.web.button.page.*;
-import com.fr.report.web.button.write.*;
+import com.fr.report.web.button.AppletPrint;
+import com.fr.report.web.button.Edit;
+import com.fr.report.web.button.Email;
+import com.fr.report.web.button.ExcelO;
+import com.fr.report.web.button.ExcelP;
+import com.fr.report.web.button.ExcelS;
+import com.fr.report.web.button.Export;
+import com.fr.report.web.button.FlashPrint;
+import com.fr.report.web.button.NewPrint;
+import com.fr.report.web.button.PDF;
+import com.fr.report.web.button.PDF2;
+import com.fr.report.web.button.PDFPrint;
+import com.fr.report.web.button.PageSetup;
+import com.fr.report.web.button.Print;
+import com.fr.report.web.button.PrintPreview;
+import com.fr.report.web.button.Scale;
+import com.fr.report.web.button.ServerPrint;
+import com.fr.report.web.button.Word;
+import com.fr.report.web.button.page.First;
+import com.fr.report.web.button.page.Last;
+import com.fr.report.web.button.page.Next;
+import com.fr.report.web.button.page.PageNavi;
+import com.fr.report.web.button.page.Previous;
+import com.fr.report.web.button.page.SetPrinterOffset;
+import com.fr.report.web.button.write.AppendColumnRow;
+import com.fr.report.web.button.write.ClearStashedButton;
+import com.fr.report.web.button.write.CustomizeImportExcelData;
+import com.fr.report.web.button.write.DeleteColumnRow;
+import com.fr.report.web.button.write.ExcelImport;
+import com.fr.report.web.button.write.ImExcelAppend;
+import com.fr.report.web.button.write.ImExcelClean;
+import com.fr.report.web.button.write.ImExcelCover;
+import com.fr.report.web.button.write.ImportExcelData;
+import com.fr.report.web.button.write.ShowCellValue;
+import com.fr.report.web.button.write.StashButton;
+import com.fr.report.web.button.write.Submit;
+import com.fr.report.web.button.write.SubmitForcibly;
+import com.fr.report.web.button.write.Verify;
+import com.fr.report.web.button.write.WriteOfflineHTML;
 import com.fr.stable.bridge.BridgeMark;
 import com.fr.stable.bridge.StableFactory;
 
@@ -17,27 +53,27 @@ public class ReportWebWidgetConstants {
     }
 
     public static WidgetOption[] getPageToolBarInstance() {
-        return new WidgetOption[]{FIRST, PREVIOUS, PAGENAVI, NEXT, LAST, SCALE, EMAIL, EXPORT, PDF, EXCELP, EXCELO, EXCELS, WORD, NEW_PRINT,
+        return new WidgetOption[]{FIRST, PREVIOUS, PAGENAVI, NEXT, LAST, SCALE, EMAIL, EXPORT, PDF, EXCELP, EXCELO, EXCELS, WORD, NEW_PRINT, PRINT, FLASHPRINT, APPLETPRINT, PDFPRINT,
                 SETPRINTEROFFSET, CUSTOM_BUTTON};
     }
 
     public static WidgetOption[] getViewToolBarInstance() {
-        return new WidgetOption[]{PAGESETUP, EMAIL, EXPORT, PDF, EXCELP, EXCELO, EXCELS, WORD, NEW_PRINT, SETPRINTEROFFSET, PRINTPREVIEW, CUSTOM_BUTTON};
+        return new WidgetOption[]{PAGESETUP, EMAIL, EXPORT, PDF, EXCELP, EXCELO, EXCELS, WORD, NEW_PRINT, PRINT, FLASHPRINT, APPLETPRINT, PDFPRINT, SETPRINTEROFFSET, PRINTPREVIEW, CUSTOM_BUTTON};
     }
 
     public static WidgetOption[] getPreviewToolBarInstance() {
-        return new WidgetOption[]{FIRST, PREVIOUS, PAGENAVI, NEXT, LAST, SCALE, EXPORT, PDF, EXCELP, EXCELO, EXCELS, WORD, NEW_PRINT,
+        return new WidgetOption[]{FIRST, PREVIOUS, PAGENAVI, NEXT, LAST, SCALE, EXPORT, PDF, EXCELP, EXCELO, EXCELS, WORD, NEW_PRINT, PRINT, FLASHPRINT, APPLETPRINT, PDFPRINT,
                 SETPRINTEROFFSET, CUSTOM_BUTTON};
     }
 
     public static WidgetOption[] getWriteToolBarInstance() {
-        return new WidgetOption[]{SUBMIT, VERIFY, EMAIL, EXPORT, PDF, EXCELP, EXCELO, EXCELS, WORD, NEW_PRINT, IMPORTEXCELDATA, SHOWCELLVALUE,
+        return new WidgetOption[]{SUBMIT, VERIFY, EMAIL, EXPORT, PDF, EXCELP, EXCELO, EXCELS, WORD, NEW_PRINT, PRINT, FLASHPRINT, APPLETPRINT, PDFPRINT, IMPORTEXCELDATA, SHOWCELLVALUE,
                 APPENDCOLUMNROW, DELETECOLUMNROW, SETPRINTEROFFSET, WRITEOFFLINEHTML, CUSTOM_BUTTON, WRITESTASH, WRITESTASHCLEAR, IMPORTEXCELDATA_CUSTOMIZED,
                 IMPORTEXCEL, IMPORTEXCEL_COVER, IMPORTEXCEL_CLEAN, IMPORTEXCEL_APPEND};
     }
 
     public static WidgetOption[] getFormToolBarInstance() {
-        return new WidgetOption[]{EMAIL, EXPORT, PDF, EXCELP, EXCELO, EXCELS, WORD, NEW_PRINT, SETPRINTEROFFSET, CUSTOM_BUTTON};
+        return new WidgetOption[]{EMAIL, EXPORT, PDF, EXCELP, EXCELO, EXCELS, WORD, NEW_PRINT, PRINT, FLASHPRINT, APPLETPRINT, PDFPRINT, SETPRINTEROFFSET, CUSTOM_BUTTON};
     }
 
     // 查询
@@ -48,6 +84,14 @@ public class ReportWebWidgetConstants {
     public static final WidgetOption SUBMIT = WidgetOptionFactory.createByWidgetClass(Inter.getLocText("FR-Engine_Utils-Submit"), BaseUtils.readIcon("/com/fr/web/images/save.png"),
             Submit.class);
 
+    // flash打印按钮
+    public static final WidgetOption FLASHPRINT = WidgetOptionFactory.createByWidgetClass(Inter.getLocText("FR-Engine_Utils-Print[Client]"),
+            BaseUtils.readIcon("/com/fr/web/images/flashPrint.png"), FlashPrint.class);
+
+    // appletprint
+    public static final WidgetOption APPLETPRINT = WidgetOptionFactory.createByWidgetClass(Inter.getLocText("FR-Engine_Applet_Print"),
+            BaseUtils.readIcon("/com/fr/web/images/appletPrint.png"), AppletPrint.class);
+
     // PDF导出
     public static final WidgetOption PDF = WidgetOptionFactory.createByWidgetClass(Inter.getLocText("FR-Engine_ReportServerP-PDF"), BaseUtils.readIcon("/com/fr/web/images/pdf.png"),
             PDF.class);
@@ -55,6 +99,10 @@ public class ReportWebWidgetConstants {
     // PDF导出，解决linux下无中文字体的导出字体混乱
     public static final WidgetOption PDF2 = WidgetOptionFactory.createByWidgetClass(
             Inter.getLocText(new String[]{"ReportServerP-PDF", "ReportServerP-PDF2-INFO"}, new String[]{"(", ")"}), BaseUtils.readIcon("/com/fr/web/images/pdf.png"), PDF2.class);
+
+    // 客户端PDF打印
+    public static final WidgetOption PDFPRINT = WidgetOptionFactory.createByWidgetClass(Inter.getLocText("FR-Engine_Utils-Print[Client]"),
+            BaseUtils.readIcon("/com/fr/web/images/pdfPrint.png"), PDFPrint.class);
 
     // 服务器端打印
     public static final WidgetOption SERVERPRINT = WidgetOptionFactory.createByWidgetClass(Inter.getLocText("FR-Engine_ReportServerP-Print[Server]"),
@@ -103,6 +151,7 @@ public class ReportWebWidgetConstants {
             Scale.class);
 
     public static final WidgetOption NEW_PRINT = WidgetOptionFactory.createByWidgetClass(Inter.getLocText("FR-Engine_Print"), BaseUtils.readIcon("/com/fr/web/images/print.png"), NewPrint.class);
+    public static final WidgetOption PRINT = WidgetOptionFactory.createByWidgetClass(Inter.getLocText("FR-Engine_Print_Compatible"), BaseUtils.readIcon("/com/fr/web/images/print.png"), Print.class);
     public static final WidgetOption APPENDCOLUMNROW = WidgetOptionFactory.createByWidgetClass(Inter.getLocText("Utils-Insert_Record"),
             BaseUtils.readIcon("/com/fr/web/images/appendRow.png"), AppendColumnRow.class);
     public static final WidgetOption DELETECOLUMNROW = WidgetOptionFactory.createByWidgetClass(Inter.getLocText("Utils-Delete_Record"),
