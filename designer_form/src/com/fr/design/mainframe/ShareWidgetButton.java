@@ -199,6 +199,7 @@ public class ShareWidgetButton extends JPanel implements MouseListener, MouseMot
             if (creatorSource != null) {
                 ((AbstractBorderStyleWidget)creatorSource).addWidgetAttrMark(new SharableAttrMark(true));
                 XCreator xCreator = XCreatorUtils.createXCreator(creatorSource, new Dimension(no.getBindInfo().getWidth(), no.getBindInfo().getHeight()));
+                xCreator.setBackupBound(xCreator.getBounds());
                 xCreator.setShareId(shareId);
                 WidgetToolBarPane.getTarget().startDraggingBean(xCreator);
                 lastPressEvent = null;
