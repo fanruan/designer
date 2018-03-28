@@ -339,8 +339,8 @@ public class EditingMouseListener extends MouseInputAdapter {
             if (StringUtils.isEmpty(component.toData().getDescription())) {
                 return;
             }
-            int minX1 = component.getX() + component.getWidth() - ShareConstants.SHARE_EL_CONTROL_BUTTON_HW - designer.getArea().getHorizontalValue();
-            int minY1 = component.getY() - designer.getArea().getVerticalValue();
+            int minX1 = getParentPositionX(component, component.getX()) + component.getWidth() - ShareConstants.SHARE_EL_CONTROL_BUTTON_HW - designer.getArea().getHorizontalValue();
+            int minY1 = getParentPositionY(component, component.getY()) - designer.getArea().getVerticalValue();
             if (e.getX() + GAP - component.getInsets().left > minX1 && e.getX() - GAP - component.getInsets().left < minX1 + ShareConstants.SHARE_EL_CONTROL_BUTTON_HW) {
                 if (e.getY() + GAP - component.getInsets().top > minY1 && e.getY() - GAP - component.getInsets().top < minY1 + ShareConstants.SHARE_EL_CONTROL_BUTTON_HW) {
                     designer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
