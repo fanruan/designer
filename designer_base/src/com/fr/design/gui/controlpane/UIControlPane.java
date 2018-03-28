@@ -385,7 +385,7 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
                 checkValid();
             } catch (Exception exp) {
                 // 存在非法输入 拒绝隐藏
-                JOptionPane.showMessageDialog(UIControlPane.this, exp.getMessage());
+                JOptionPane.showMessageDialog(UIControlPane.this.controlUpdatePane, exp.getMessage());
                 this.requestFocus();
                 return;
             }
