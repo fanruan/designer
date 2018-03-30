@@ -100,7 +100,7 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
         defaultAutoRadioButton = new UIRadioButton(Inter.getLocText("FR-Designer_Follow_Paper_Settings"));
         noAutoRadioButton = new UIRadioButton(Inter.getLocText("FR-Designer_No_Auto_Adjust"));
         autoHeightRadioButton = new UIRadioButton(Inter.getLocText("FR-Designer_Auto_Adjust_Height"));
-        autoWidthRadioButton = new UIRadioButton(Inter.getLocText("FR-Designer_Auto_Adjust_Wdith"));
+        autoWidthRadioButton = new UIRadioButton(Inter.getLocText("FR-Designer_Auto_Adjust_Width"));
         adjustRadioButtons = new UIRadioButton[]{
                 defaultAutoRadioButton, noAutoRadioButton, autoHeightRadioButton, autoWidthRadioButton
         };
@@ -290,10 +290,10 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
         defaultAutoRadioButton.setGlobalName(Inter.getLocText("FR-Designer_Follow_Paper_Settings"));
         noAutoRadioButton.setGlobalName(Inter.getLocText("FR-Designer_No_Auto_Adjust"));
         autoHeightRadioButton.setGlobalName(Inter.getLocText("FR-Designer_Auto_Adjust_Height"));
-        autoWidthRadioButton.setGlobalName(Inter.getLocText("FR-Designer_Auto_Adjust_Height"));
+        autoWidthRadioButton.setGlobalName(Inter.getLocText("FR-Designer_Auto_Adjust_Width"));
         previewCellContent.setGlobalName(Inter.getLocText("FR-Designer_Preview"));
-        printAndExportContent.setGlobalName(Inter.getLocText("CellWrite-Preview_Cell_Content"));
-        printAndExportBackground.setGlobalName(Inter.getLocText("CellWrite-Print_Background"));
+        printAndExportContent.setGlobalName(Inter.getLocText("FR-Designer_CellWrite_Print_Content"));
+        printAndExportBackground.setGlobalName(Inter.getLocText("FR-Designer_CellWrite_Print_Background"));
         showContent.setGlobalName(Inter.getLocText("FR-Designer_Show_Content"));
         fileNameTextField.setGlobalName(Inter.getLocText("FR-Designer_Show_Content"));
         tooltipTextField.setGlobalName(Inter.getLocText("FR-Designer_CellWrite_ToolTip"));
@@ -431,7 +431,7 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
             cellGUIAttr.setPreviewContent(previewCellContent.isSelected());
         }
 
-        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_CellWrite_Preview_Cell_Content"))) {
+        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_CellWrite_Print_Content"))) {
             cellGUIAttr.setPrintContent(printAndExportContent.isSelected());
         }
 
