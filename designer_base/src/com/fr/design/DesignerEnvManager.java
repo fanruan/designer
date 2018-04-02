@@ -148,7 +148,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     private boolean isHttps = false;
 
     private static List<SwingWorker> mapWorkerList = new ArrayList<SwingWorker>();
-    private boolean imageCompress = true;//图片压缩
+    private boolean imageCompress = false;//图片压缩
 
     /**
      * DesignerEnvManager.
