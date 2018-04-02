@@ -13,10 +13,9 @@ import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.icon.IconPathConstants;
 import com.fr.design.utils.ComponentUtils;
+import com.fr.form.share.SharableEditorProvider;
 import com.fr.form.share.ShareLoader;
-import com.fr.form.ui.ElCaseBindInfo;
-import com.fr.form.ui.ElementCaseEditor;
-import com.fr.form.ui.SharableElementCaseEditor;
+import com.fr.form.ui.SharableWidgetBindInfo;
 import com.fr.form.ui.Widget;
 import com.fr.general.Inter;
 import com.fr.stable.Constants;
@@ -84,14 +83,15 @@ public class FormCreatorDropTarget extends DropTarget {
             Widget widget = (addingXCreator.getTopLayout() != null) ? (addingXCreator.getTopLayout().toData()) : addingXCreator.toData();
             if (addingXCreator.isShared()) {
                 String shareId = addingXCreator.getShareId();
-                SharableElementCaseEditor sharableEditor = ShareLoader.getLoader().getSharedElCaseEditorById(shareId);
-                ElCaseBindInfo bindInfo = ShareLoader.getLoader().getElCaseBindInfoById(shareId);
+                SharableEditorProvider sharableEditor = ShareLoader.getLoader().getSharedElCaseEditorById(shareId);
+                SharableWidgetBindInfo bindInfo = ShareLoader.getLoader().getElCaseBindInfoById(shareId);
                 if (sharableEditor != null && bindInfo != null) {
                     Map<String, String> tdNameMap = TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter()).addTableData(bindInfo.getName(), sharableEditor.getTableDataSource());
                     //合并数据集之后,可能会有数据集名称变化，做一下联动
                     //共享的组件拿的时候都是克隆的,这边改拖拽中克隆的对象而非新克隆对象,上面这个新克隆的对象只是为了拿数据集
-                    ElementCaseEditor elementCaseEditor = (ElementCaseEditor) widget;
-                    elementCaseEditor.batchRenameTdName(tdNameMap);
+                    for (Map.Entry<String, String> entry : tdNameMap.entrySet()) {
+                        designer.getTarget().renameTableData(widget, entry.getKey(), entry.getValue());
+                    }
                 }
             }
             designer.getSelectionModel().setSelectedCreators(

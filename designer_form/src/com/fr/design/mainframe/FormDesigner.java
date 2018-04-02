@@ -475,7 +475,6 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
         paraHeight = 0;
         paraComponent = null;
         formLayoutContainer.setSize(rootComponent.getWidth(), rootComponent.getHeight());
-        EastRegionContainerPane.getInstance().replaceConfiguredRolesPane(this.getEastDownPane());
         //atat
         //EastRegionContainerPane.getInstance().addTitlePane(ParameterPropertyPane.getInstance(FormDesigner.this));
         //删除后重绘下
