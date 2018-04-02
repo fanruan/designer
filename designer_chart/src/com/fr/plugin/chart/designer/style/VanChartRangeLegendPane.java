@@ -12,8 +12,11 @@ import com.fr.plugin.chart.range.component.GradualLegendPane;
 import com.fr.plugin.chart.range.component.SectionLegendPane;
 import com.fr.plugin.chart.type.LegendType;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import java.awt.CardLayout;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -76,7 +79,7 @@ public class VanChartRangeLegendPane extends VanChartPlotLegendPane {
     }
 
     protected SectionLegendPane createSectionLegendPane() {
-        return new SectionLegendPane();
+        return new SectionLegendPane(this.parent);
     }
 
     private JPanel createTableLayoutPaneWithTitle(String title, Component component) {

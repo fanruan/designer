@@ -13,6 +13,7 @@ import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
+import com.fr.stable.StringUtils;
 import com.fr.stable.fun.impl.AbstractProvider;
 
 /**
@@ -85,7 +86,7 @@ public abstract class AbstractExtendedChartUIProvider extends AbstractProvider i
     }
 
     public String getPlotTypeTitle4PopupWindow(){
-        return null;
+        return StringUtils.EMPTY;
     }
 
     @Override

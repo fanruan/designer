@@ -1,5 +1,6 @@
 package com.fr.plugin.chart.range.component;
 
+import com.fr.design.gui.frpane.AbstractAttrNoScrollPane;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.style.series.MapColorPickerPaneWithFormula;
@@ -7,21 +8,24 @@ import com.fr.general.Inter;
 import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.range.SectionLegend;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Component;
 
 public class SectionLegendPane extends JPanel{
     private static final long serialVersionUID = 1614283200308877353L;
 
     private MapColorPickerPaneWithFormula intervalConfigPane;
     private LegendLabelFormatPane labelFormPane;
+    private AbstractAttrNoScrollPane parent;
 
-    public SectionLegendPane(){
+    public SectionLegendPane(AbstractAttrNoScrollPane parent) {
+        this.parent = parent;
         initComponents();
     }
 
     private void initComponents() {
-        intervalConfigPane = createSectionIntervalConfigPane();
+        intervalConfigPane = createSectionIntervalConfigPane(this.parent);
         JPanel intervalConfigPaneWithTitle = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Section_Config"), intervalConfigPane);
         labelFormPane = new LegendLabelFormatPane(){
             @Override
@@ -46,8 +50,8 @@ public class SectionLegendPane extends JPanel{
         this.add(panel, BorderLayout.CENTER);
     }
 
-    protected MapColorPickerPaneWithFormula createSectionIntervalConfigPane() {
-        return new SectionIntervalConfigPane();
+    protected MapColorPickerPaneWithFormula createSectionIntervalConfigPane(AbstractAttrNoScrollPane parent) {
+        return new SectionIntervalConfigPane(parent);
     }
 
     public void populate(SectionLegend sectionLegend){

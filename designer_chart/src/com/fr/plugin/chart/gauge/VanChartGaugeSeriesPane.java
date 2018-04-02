@@ -19,10 +19,11 @@ import com.fr.plugin.chart.designer.style.series.VanChartAbstractPlotSeriesPane;
 import com.fr.plugin.chart.type.GaugeStyle;
 import com.fr.stable.Constants;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
 
 /**
  * Created by Mitisky on 15/11/27.
@@ -180,7 +181,7 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
     }
 
     private JPanel createGaugeBandsPane() {
-        colorPickerPane = new ColorPickerPaneWithFormula("meterString");
+        colorPickerPane = new ColorPickerPaneWithFormula(parentPane, "meterString");
         return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Range"), colorPickerPane);
     }
 

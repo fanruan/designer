@@ -15,7 +15,6 @@ import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.gui.ipoppane.PopupHider;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.style.color.ColorControlWindow;
 import com.fr.design.style.color.ColorSelectBox;
 import com.fr.design.utils.gui.GUICoreUtils;
@@ -71,8 +70,10 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
 	private ChangeListener changeListener;
 
     private boolean moveOnColorOrTextPane;
+	private AbstractAttrNoScrollPane container;
 
-	public UIColorPickerPane() {
+	public UIColorPickerPane(AbstractAttrNoScrollPane container) {
+		this.container = container;
 		fillStyleCombox = this.getColorSelectBox();
 		fillStyleCombox.setSelectObject(Color.BLUE);
 		fillStyleCombox.addSelectChangeListener(new ChangeListener() {
@@ -159,7 +160,8 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
         };
     }
 
-	public UIColorPickerPane(String meterString){
+	public UIColorPickerPane(AbstractAttrNoScrollPane container, String meterString) {
+		this.container = container;
 
 		fillStyleCombox = this.getColorSelectBox();
 		fillStyleCombox.setSelectObject(Color.BLUE);
@@ -678,17 +680,8 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
 	}
 
 	private void initContainerLister(){
-		Container container = UIColorPickerPane.this;
-        while (!(container instanceof ChartStylePane)) {
-            if (container.getParent() == null) {
-                break;
-            }
-            container = container.getParent();
-        }
-        if (container instanceof AbstractAttrNoScrollPane) {
-            ((AbstractAttrNoScrollPane) container).initAllListeners();
-        }
-    }
+		this.container.initAllListeners();
+	}
 
 	public void updateBean(MapHotAreaColor hotAreaColor) {
 		hotAreaColor.setMainColor(fillStyleCombox.getSelectObject());
@@ -776,7 +769,7 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JPanel content = (JPanel) jf.getContentPane();
 		content.setLayout(new BorderLayout());
-		UIColorPickerPane pp = new UIColorPickerPane();
+		UIColorPickerPane pp = new UIColorPickerPane(null);
 		content.add(pp, BorderLayout.CENTER);
 		GUICoreUtils.centerWindow(jf);
 		jf.setSize(400, 400);

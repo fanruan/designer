@@ -17,11 +17,13 @@ import com.fr.design.mainframe.chart.gui.style.ChartFillStylePane;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
+import java.util.ArrayList;
 
 /**
  * 图表属性表, 图表样式- 地图系列.
@@ -40,7 +42,7 @@ public class MapSeriesPane extends AbstractPlotSeriesPane{
 	}
 
 	protected UIColorPickerPane4Map createColorPickerPane(){
-		return  new MapColorPickerPaneWithFormula();
+		return new MapColorPickerPaneWithFormula(parentPane);
 	}
 	
 	@Override

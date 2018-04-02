@@ -1,14 +1,16 @@
 package com.fr.plugin.chart.range.component;
 
+import com.fr.design.gui.frpane.AbstractAttrNoScrollPane;
 import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.mainframe.chart.gui.style.series.MapColorPickerPaneWithFormula;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Dimension;
 
 /**
  * Created by Mitisky on 16/10/20.
@@ -16,8 +18,9 @@ import java.awt.*;
  */
 public class SectionIntervalConfigPaneWithOutNum extends MapColorPickerPaneWithFormula{
     private BoldFontTextLabel numLabel;
-    public SectionIntervalConfigPaneWithOutNum() {
-        super();
+
+    public SectionIntervalConfigPaneWithOutNum(AbstractAttrNoScrollPane container) {
+        super(container);
         getDesignTypeButtonGroup().addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {

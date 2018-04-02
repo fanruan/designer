@@ -1,11 +1,12 @@
 package com.fr.plugin.chart.range.component;
 
+import com.fr.design.gui.frpane.AbstractAttrNoScrollPane;
 import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.mainframe.chart.gui.style.series.MapColorPickerPaneWithFormula;
 import com.fr.general.Inter;
 
-import java.awt.*;
+import java.awt.Component;
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,6 +14,10 @@ import java.awt.*;
  * Version: 7.1.1
  */
 public class SectionIntervalConfigPane extends MapColorPickerPaneWithFormula {
+
+    public SectionIntervalConfigPane(AbstractAttrNoScrollPane container) {
+        super(container);
+    }
 
     protected double[] getRowSIze () {
         double p = TableLayout.PREFERRED;

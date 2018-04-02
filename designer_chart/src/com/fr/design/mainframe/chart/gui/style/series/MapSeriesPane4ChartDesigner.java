@@ -16,6 +16,6 @@ public class MapSeriesPane4ChartDesigner extends MapSeriesPane {
 
 
     protected UIColorPickerPane4Map createColorPickerPane(){
-   		return  new UIColorPickerPane4Map();
-   	}
+        return new UIColorPickerPane4Map(parentPane);
+    }
 }

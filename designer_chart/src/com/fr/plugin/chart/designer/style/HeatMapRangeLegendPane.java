@@ -1,16 +1,17 @@
 package com.fr.plugin.chart.designer.style;
 
+import com.fr.design.gui.frpane.AbstractAttrNoScrollPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.mainframe.chart.gui.style.series.MapColorPickerPaneWithFormula;
 import com.fr.general.Inter;
-import com.fr.plugin.chart.type.LegendType;
 import com.fr.plugin.chart.range.component.GradualIntervalConfigPane;
 import com.fr.plugin.chart.range.component.GradualLegendPane;
 import com.fr.plugin.chart.range.component.SectionIntervalConfigPaneWithOutNum;
 import com.fr.plugin.chart.range.component.SectionLegendPane;
+import com.fr.plugin.chart.type.LegendType;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import java.awt.Component;
 
 /**
  * Created by Mitisky on 16/10/20.
@@ -55,10 +56,10 @@ public class HeatMapRangeLegendPane extends VanChartRangeLegendPane {
 
     @Override
     protected SectionLegendPane createSectionLegendPane() {
-        return new SectionLegendPane(){
+        return new SectionLegendPane(this.parent) {
             @Override
-            protected MapColorPickerPaneWithFormula createSectionIntervalConfigPane() {
-                return new SectionIntervalConfigPaneWithOutNum();
+            protected MapColorPickerPaneWithFormula createSectionIntervalConfigPane(AbstractAttrNoScrollPane parent) {
+                return new SectionIntervalConfigPaneWithOutNum(parent);
             }
         };
     }

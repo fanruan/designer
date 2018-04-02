@@ -1,12 +1,16 @@
 package com.fr.design.mainframe.chart.gui.style.series;
 
 import com.fr.chart.base.ChartConstants;
+import com.fr.design.gui.frpane.AbstractAttrNoScrollPane;
 import com.fr.design.style.color.ColorCell;
 import com.fr.design.style.color.ColorSelectBox;
 import com.fr.design.style.color.ColorSelectPane;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.Box;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import java.awt.Color;
+import java.awt.GridLayout;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,7 +19,11 @@ import java.awt.*;
  */
 public class UIColorPickerPane4Map extends UIColorPickerPane {
 
-    protected ColorSelectBox getColorSelectBox(){
+	public UIColorPickerPane4Map(AbstractAttrNoScrollPane container) {
+		super(container);
+	}
+
+	protected ColorSelectBox getColorSelectBox() {
   			return new ColorSelectBox4Map(100);
   	}
 
