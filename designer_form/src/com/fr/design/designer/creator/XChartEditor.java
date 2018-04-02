@@ -47,7 +47,6 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 	private boolean isEditing = false;
 
 	private boolean isHovering = false;
-	private JPanel coverPanel;
 	private static final Color OUTER_BORDER_COLOR = new Color(65, 155, 249, 30);
 	private static final Color INNER_BORDER_COLOR = new Color(65, 155, 249);
 
@@ -247,6 +246,10 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 				editingMouseListener.startEditing(this, isEditing ? adapter.getDesignerEditor() : null, adapter);
 			}
 		}
+		HelpDialogManager.getInstance().setPane(coverPanel);
+		if (this.isHelpBtnOnFocus()) {
+			coverPanel.setMsgDisplay(e);
+		}
 	}
 
 	@Override
@@ -275,7 +278,7 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 			editor.setLayout(null);
 			editor.setOpaque(false);
 
-			coverPanel = new CoverPane();
+			coverPanel = new CoverReportPane();
 			coverPanel.setPreferredSize(this.getPreferredSize());
 			coverPanel.setBounds(this.getBounds());
 

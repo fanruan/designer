@@ -1,8 +1,8 @@
 package com.fr.design.style.background.impl;
 
-import com.fr.base.BaseUtils;
 import com.fr.base.Style;
 import com.fr.base.background.ImageBackground;
+import com.fr.design.gui.frpane.ImgChooseWrapper;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.gui.ilable.UILabel;
@@ -13,15 +13,18 @@ import com.fr.design.style.background.image.ImagePreviewPane;
 import com.fr.general.Background;
 import com.fr.general.Inter;
 import com.fr.stable.Constants;
-import com.fr.stable.CoreGraphHelper;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 
 /**
  * Image background pane.
@@ -60,7 +63,7 @@ public class ImageBackgroundPane extends BackgroundDetailPane {
         imageFileChooser.setMultiSelectionEnabled(false);
     }
 
-    public JPanel initSelectFilePane(){
+    public JPanel initSelectFilePane() {
         JPanel selectFilePane = FRGUIPaneFactory.createBorderLayout_L_Pane();
 
         selectFilePane.setBorder(BorderFactory.createEmptyBorder(8, 2, 4, 0));
@@ -116,31 +119,12 @@ public class ImageBackgroundPane extends BackgroundDetailPane {
 
         public void actionPerformed(ActionEvent evt) {
             int returnVal = imageFileChooser.showOpenDialog(ImageBackgroundPane.this);
-            if (returnVal != JFileChooser.CANCEL_OPTION) {
-                File selectedFile = imageFileChooser.getSelectedFile();
-
-                if (selectedFile != null && selectedFile.isFile()) {
-                    Image image = BaseUtils.readImage(selectedFile.getPath());
-                    CoreGraphHelper.waitForImage(image);
-
-                    previewPane.setImage(image);
-                    imageStyleRepaint();
-                    previewPane.repaint();
-                } else {
-                    previewPane.setImage(null);
-                }
-            }
-
-            fireChagneListener();
+            setImageStyle();
+            ImgChooseWrapper.getInstance(previewPane, imageFileChooser, imageStyle, changeListener).dealWithImageFile(returnVal);
         }
     };
 
-    public void imageStyleRepaint(){
-        setImageStyle();
-        previewPane.setImageStyle(imageStyle);
-    }
-
-    private void setImageStyle() {
+    protected void setImageStyle() {
         if (tiledRadioButton.isSelected()) {
             imageStyle = Style.DEFAULT_STYLE.deriveImageLayout(Constants.IMAGE_TILED);
         } else if (adjustRadioButton.isSelected()) {

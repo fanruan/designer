@@ -3,25 +3,27 @@
  */
 package com.fr.design.style.background.image;
 
+import com.fr.base.BaseUtils;
+import com.fr.design.DesignerEnvManager;
+import com.fr.design.style.ChooseFileView;
+import com.fr.general.Inter;
+
+import javax.swing.filechooser.FileFilter;
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.Enumeration;
 import java.util.Hashtable;
-
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileFilter;
-
-import com.fr.base.BaseUtils;
-import com.fr.general.Inter;
-import com.fr.design.style.ChooseFileView;
 
 
 /**
  * This class used to choose image files.
  */
-public class ImageFileChooser extends JFileChooser {
+public class ImageFileChooser extends ExpandFileChooser {
 
     public ImageFileChooser() {
+        super(Inter.getLocText("FR-Designer_Image_Compress"),Inter.getLocText("FR-Designer_Open"));
         ExampleFileFilter bothFilter = new ExampleFileFilter(
                 new String[]{"jpg", "gif", "png", "bmp"},
                 Inter.getLocText("Image-Image_Files"));
@@ -43,12 +45,23 @@ public class ImageFileChooser extends JFileChooser {
         return super.showDialog(parent, approveButtonText);
     }
 
+    @Override
+    public ActionListener checkAction() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                DesignerEnvManager.getEnvManager().setImageCompress(isCheckSelected());
+                DesignerEnvManager.getEnvManager().saveXMLFile();
+            }
+        };
+
+    }
 
     /**
      * A convenience implementation of FileFilter that filters out
      * all files except for those type extensions that it knows about.
      * <p/>D:\finereport\develop\code\test\TestCase\WEB-INF\reportlets\TestCase\01903.cpt
-
+     * <p>
      * Extensions are of the type ".foo", which is typically found on
      * Windows and Unix boxes, but not on Macinthosh. Case is ignored.
      * <p/>

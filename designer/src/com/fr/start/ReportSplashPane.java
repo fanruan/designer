@@ -15,8 +15,13 @@ import com.fr.stable.StringUtils;
 import com.fr.stable.module.ModuleAdapter;
 import com.fr.stable.module.ModuleListener;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.util.Locale;
 import java.util.Random;
 import java.util.TimerTask;
@@ -68,6 +73,7 @@ public class ReportSplashPane extends SplashPane {
         this.setBackground(null);
 
         timer.schedule(new TimerTask() {
+            @Override
             public void run() {
                 loadingIndex++;
                 ReportSplashPane.this.setShowText(moduleID.isEmpty() ? StringUtils.EMPTY : moduleID + loading[loadingIndex % 3]);
@@ -87,6 +93,7 @@ public class ReportSplashPane extends SplashPane {
         ModuleContext.registerModuleListener(moduleListener);
     }
 
+    @Override
     protected void paintComponent(Graphics g) {
         Icon icon = IconLoader.getIcon(StableUtils.pathJoin(OEM_PATH, getImageName()));
         icon.paintIcon(null, g, 0, 0);
@@ -94,16 +101,18 @@ public class ReportSplashPane extends SplashPane {
         g.dispose();
     }
 
+    @Override
     public void setShowText(String text) {
         this.showText = text;
     }
 
+    @Override
     public Image getSplashImage() {
         Icon icon = IconLoader.getIcon(StableUtils.pathJoin(OEM_PATH, getImageName()));
         return ((ImageIcon) IconLoader.getIconSnapshot(icon)).getImage();
     }
 
-    private void paintShowText(Graphics2D splashG2d) {
+    protected void paintShowText(Graphics2D splashG2d) {
         GraphHelper.applyRenderingHints(splashG2d);
 
         splashG2d.setPaint(MODULE_COLOR);
@@ -160,6 +169,7 @@ public class ReportSplashPane extends SplashPane {
     /**
      * 窗口关闭后取消定时获取模块信息的timer
      */
+    @Override
     public void releaseTimer() {
         timer.cancel();
     }
@@ -169,6 +179,7 @@ public class ReportSplashPane extends SplashPane {
      *
      * @return 背景图片
      */
+    @Override
     public Image createSplashBackground() {
         String fileName = getImageName();
         return BaseUtils.readImage(StableUtils.pathJoin(OEM_PATH, fileName));

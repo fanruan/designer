@@ -4,6 +4,8 @@
 package com.fr.design.designer.creator.cardlayout;
 
 import com.fr.base.GraphHelper;
+import com.fr.base.iofileattr.SharableAttrMark;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
 import com.fr.design.designer.beans.LayoutAdapter;
@@ -16,8 +18,11 @@ import com.fr.design.designer.creator.XWBorderLayout;
 import com.fr.design.designer.creator.XWidgetCreator;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.icon.IconPathConstants;
+import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.EditingMouseListener;
 import com.fr.design.mainframe.FormDesigner;
+import com.fr.design.mainframe.WidgetHelpDialog;
+import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.form.event.Listener;
 import com.fr.form.ui.LayoutBorderStyle;
 import com.fr.form.ui.Widget;
@@ -32,6 +37,7 @@ import com.fr.form.ui.container.cardlayout.WCardTitleLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
+import com.fr.share.ShareConstants;
 import com.fr.stable.Constants;
 
 import java.awt.AlphaComposite;
@@ -43,10 +49,12 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.Icon;
 
 /**
  * card布局主体框架
@@ -57,12 +65,13 @@ import java.util.List;
  */
 public class XWCardMainBorderLayout extends XWBorderLayout{
 
+	private Icon controlMode = IOUtils.readIcon(IconPathConstants.TD_EL_SHARE_HELP_ICON_PATH);
 	private static final int CENTER = 1;
 	private static final int NORTH = 0;
 	private static final int TITLE_STYLE = 2;
 
-	private static final int EDIT_BTN_WIDTH = 60;
-	private static final int EDIT_BTN_HEIGHT = 24;
+	private static final int EDIT_BTN_WIDTH = 75;
+	private static final int EDIT_BTN_HEIGHT = 20;
 	private static final int BORDER_WIDTH = 1;
 
 	private final int CARDMAINLAYOUT_CHILD_COUNT = 1;
@@ -337,9 +346,12 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 			g2d.setColor(XCreatorConstants.COVER_COLOR);
 			g2d.fillRect(x, y, w, h);
 			//画编辑按钮所在框
+			FormDesigner formDesigner = WidgetPropertyPane.getInstance().getEditingFormDesigner();
+			AlphaComposite alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, formDesigner.getCursor().getType() != Cursor.DEFAULT_CURSOR ? 0.9f : 0.7f);
+			g2d.setColor(XCreatorConstants.EDIT_COLOR);
+			g2d.setComposite(alphaComposite);
+			g2d.fillRoundRect((x + w / 2 - EDIT_BTN_WIDTH / 2), (y + h / 2 - EDIT_BTN_HEIGHT / 2), EDIT_BTN_WIDTH, EDIT_BTN_HEIGHT, 4, 4);
 			g2d.setComposite(oldComposite);
-			g2d.setColor(new Color(176, 196, 222));
-			g2d.fillRect((x + w / 2 - EDIT_BTN_WIDTH / 2), (y + h / 2 - EDIT_BTN_HEIGHT / 2), EDIT_BTN_WIDTH, EDIT_BTN_HEIGHT);
 			//画编辑按钮图标
 			BufferedImage image = IOUtils.readImage(IconPathConstants.EDIT_ICON_PATH);
 			g2d.drawImage(
@@ -351,11 +363,23 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 					null,
 					this
 			);
-			g2d.setColor(Color.BLACK);
+			g2d.setColor(Color.WHITE);
 			//画编辑文字
+			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			g2d.drawString(Inter.getLocText("FR-Designer_Edit"), x + w / 2 - 2, y + h / 2 + 5);
 			g.setColor(XCreatorConstants.FORM_BORDER_COLOR);
 			GraphHelper.draw(g, new Rectangle(BORDER_WIDTH, BORDER_WIDTH, getWidth() - BORDER_WIDTH * 2, getHeight() - BORDER_WIDTH * 2), Constants.LINE_MEDIUM);
+			paintExtro(g);
+		}
+	}
+
+	public void paintExtro(Graphics g) {
+		if (this.toData().getWidgetAttrMark(SharableAttrMark.XML_TAG) != null) {
+			int width = getWidth() - ShareConstants.SHARE_EL_CONTROL_BUTTON_HW;
+			g.setColor(UIConstants.NORMAL_BACKGROUND);
+			g.fillArc(width, 0, ShareConstants.SHARE_EL_CONTROL_BUTTON_HW, ShareConstants.SHARE_EL_CONTROL_BUTTON_HW,
+					0, 360);
+			controlMode.paintIcon(this, g, width, 0);
 		}
 	}
 
@@ -374,6 +398,11 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 	 */
 	@Override
 	public void respondClick(EditingMouseListener editingMouseListener, MouseEvent e){
+		//帮助弹窗
+		if (this.isHelpBtnOnFocus()) {
+			new WidgetHelpDialog(DesignerContext.getDesignerFrame(), this.toData().getDescription()).showWindow(e);
+			return;
+		}
 		FormDesigner designer = editingMouseListener.getDesigner();
 		SelectionModel selectionModel = editingMouseListener.getSelectionModel();
 		boolean isEditing = e.getButton() == MouseEvent.BUTTON1 &&

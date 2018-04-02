@@ -89,4 +89,5 @@ public interface FormECDesignerProvider {
      */
 	BufferedImage getElementCaseImage(Dimension elementCaseContainerSize);
 
+    void refreshPropertyPane();
 }

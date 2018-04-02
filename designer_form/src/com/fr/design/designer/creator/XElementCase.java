@@ -1,7 +1,6 @@
 package com.fr.design.designer.creator;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.GraphHelper;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.designer.properties.mobile.ElementCasePropertyUI;
 import com.fr.design.form.util.XCreatorConstants;
@@ -21,7 +20,6 @@ import com.fr.form.ui.ElementCaseEditor;
 import com.fr.form.ui.ElementCaseEditorProvider;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
-import com.fr.stable.Constants;
 import com.fr.stable.CoreGraphHelper;
 import com.fr.stable.core.PropertyChangeAdapter;
 import com.fr.stable.fun.FitProvider;
@@ -37,7 +35,6 @@ import java.util.Set;
 
 public class XElementCase extends XBorderStyleWidgetCreator implements FormElementCaseContainerProvider{
 	private UILabel imageLable;
-	private CoverReportPane coverPanel;
 	private FormDesigner designer;
 	private static BufferedImage DEFAULT_BACKGROUND;
 	private boolean isHovering = false;
@@ -232,18 +229,6 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 		}
 	}
 
-
-	/**
-	 * 销毁帮助提示框
-	 */
-	public void destroyHelpDialog(){
-		coverPanel.destroyHelpDialog();
-	}
-
-	public JComponent getCoverPane(){
-		return coverPanel;
-	}
-
 	/**
 	 * 初始化大小
 	 * @return  尺寸
@@ -330,11 +315,6 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 	@Override
 	public WidgetPropertyUIProvider[] getWidgetPropertyUIProviders() {
 		return new WidgetPropertyUIProvider[]{ new ElementCasePropertyUI(this)};
-	}
-
-	@Override
-	public void setXDescrption(String msg) {
-		coverPanel.setHelpMsg(msg);
 	}
 
 	/**

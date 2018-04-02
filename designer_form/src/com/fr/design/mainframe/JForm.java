@@ -576,6 +576,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
                 this.reportComposite.setSelectedWidget(dataTable);
                 //下面这句话是防止撤销之后直接退出编辑再编辑撤销的东西会回来,因为撤销不会保存EC
                 formDesign.setElementCase(dataTable);
+                elementCaseDesign.refreshPropertyPane();
             }
         } catch (CloneNotSupportedException e) {
             throw new RuntimeException(e);

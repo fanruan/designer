@@ -5,6 +5,7 @@ package com.fr.design.designer.creator.cardlayout;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.GraphHelper;
+import com.fr.base.background.ColorBackground;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
 import com.fr.design.designer.beans.models.SelectionModel;
@@ -322,7 +323,7 @@ public class XCardSwitchButton extends XButton {
 	
 	//画背景
 	private void drawBackground(CardSwitchButton button, WidgetTitle widgetTitle){
-		Background background = widgetTitle.getBackground();
+		Background background = widgetTitle.getBackground() == null ? ColorBackground.getInstance(NORMAL_GRAL) : widgetTitle.getBackground();
 		TemplateStyle templateStyle = ((WCardTagLayout) tagLayout.toData()).getTemplateStyle();
 		//获取当前tab的index
 		CardSwitchButton currentButton = (CardSwitchButton) this.toData();
