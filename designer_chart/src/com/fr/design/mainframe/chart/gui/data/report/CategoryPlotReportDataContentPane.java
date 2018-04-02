@@ -11,13 +11,15 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.ChartDataFilterPane;
 import com.fr.general.Inter;
-import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.stable.StringUtils;
+import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.util.List;
 
 public class CategoryPlotReportDataContentPane extends AbstractReportDataContentPane {

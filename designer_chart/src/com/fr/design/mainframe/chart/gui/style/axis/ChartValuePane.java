@@ -25,12 +25,16 @@ import com.fr.design.mainframe.chart.gui.style.ChartAxisTitleNoFormulaPane;
 import com.fr.design.mainframe.chart.gui.style.ChartAxisTitlePane;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
-import com.fr.plugin.chart.designer.component.format.FormatPaneWithOutFont;
 import com.fr.stable.Constants;
 import com.fr.stable.StringUtils;
+import com.fr.van.chart.designer.component.format.FormatPaneWithOutFont;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 

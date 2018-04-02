@@ -19,8 +19,8 @@ import com.fr.design.style.color.ColorControlWindow;
 import com.fr.design.style.color.ColorSelectBox;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
-import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.stable.StringUtils;
+import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;

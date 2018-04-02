@@ -10,7 +10,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.general.Inter;
-import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
+import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;

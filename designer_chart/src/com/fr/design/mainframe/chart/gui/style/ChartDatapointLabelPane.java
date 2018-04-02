@@ -21,12 +21,14 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.general.FRFont;
 import com.fr.general.Inter;
-import com.fr.plugin.chart.designer.component.format.FormatPaneWithOutFont;
 import com.fr.stable.Constants;
 import com.fr.stable.StringUtils;
+import com.fr.van.chart.designer.component.format.FormatPaneWithOutFont;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;

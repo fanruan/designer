@@ -13,12 +13,15 @@ import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.ChartDataFilterPane;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
-import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
+import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.util.List;
 
 public class BubblePlotTableDataContentPane extends AbstractTableDataContentPane {

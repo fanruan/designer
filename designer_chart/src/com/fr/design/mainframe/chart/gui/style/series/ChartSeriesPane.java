@@ -5,10 +5,10 @@ import com.fr.chart.chartattr.Chart;
 import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
-import com.fr.plugin.chart.designer.AbstractVanChartScrollPane;
+import com.fr.van.chart.designer.AbstractVanChartScrollPane;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
 
 /**
  * 属性表, 图表样式 -- 系列 界面. 通过initDiffer 加载不同Plot 不同的Pane.

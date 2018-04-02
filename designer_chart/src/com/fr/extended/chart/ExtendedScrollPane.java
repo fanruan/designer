@@ -1,6 +1,6 @@
 package com.fr.extended.chart;
 
-import com.fr.plugin.chart.designer.AbstractVanChartScrollPane;
+import com.fr.van.chart.designer.AbstractVanChartScrollPane;
 
 /**
  * Created by shine on 2018/3/24.

@@ -3,7 +3,7 @@ package com.fr.extended.chart;
 import com.fr.base.BaseFormula;
 import com.fr.chart.chartattr.Plot;
 import com.fr.js.NameJavaScriptGroup;
-import com.fr.plugin.chart.custom.component.VanChartHyperLinkPane;
+import com.fr.van.chart.custom.component.VanChartHyperLinkPane;
 
 import java.util.Map;
 

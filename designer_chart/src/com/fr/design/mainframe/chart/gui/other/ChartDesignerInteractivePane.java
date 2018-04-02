@@ -11,8 +11,8 @@ import com.fr.design.mainframe.chart.gui.ChartOtherPane;
 import com.fr.general.Inter;
 import com.fr.js.JavaScriptImpl;
 import com.fr.js.WebHyperlink;
-import com.fr.plugin.chart.designer.component.ChartUIMenuNameableCreator;
 import com.fr.third.org.hsqldb.lib.HashMap;
+import com.fr.van.chart.designer.component.ChartUIMenuNameableCreator;
 
 import java.util.ArrayList;
 import java.util.List;

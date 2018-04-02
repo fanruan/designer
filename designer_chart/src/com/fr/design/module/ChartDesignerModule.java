@@ -15,12 +15,12 @@ import com.fr.design.mainframe.ChartPropertyPane;
 import com.fr.form.ui.ChartEditor;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
-import com.fr.plugin.chart.map.server.ChartMapEditorAction;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.bridge.StableFactory;
 import com.fr.stable.plugin.ExtraChartDesignClassManagerProvider;
+import com.fr.van.chart.map.server.ChartMapEditorAction;
 
-import javax.swing.*;
+import javax.swing.Icon;
 
 /**
  * Created by IntelliJ IDEA.
