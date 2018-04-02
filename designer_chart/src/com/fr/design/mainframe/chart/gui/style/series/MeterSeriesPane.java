@@ -16,8 +16,10 @@ import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.style.ChartFillStylePane;
 import com.fr.general.Inter;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.SwingUtilities;
+import java.awt.Component;
 import java.util.List;
 
 /**
@@ -54,7 +56,7 @@ public class MeterSeriesPane extends AbstractPlotSeriesPane {
     }
 
     protected UIColorPickerPane createColorPickerPane(){
-        return new ColorPickerPaneWithFormula("meterString"){
+        return new ColorPickerPaneWithFormula(parentPane, "meterString") {
             protected double getEditAreaWidth () {
                 return 120;
             }

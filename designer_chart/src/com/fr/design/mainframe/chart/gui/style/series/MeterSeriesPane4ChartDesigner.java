@@ -15,6 +15,6 @@ public class MeterSeriesPane4ChartDesigner extends MeterSeriesPane {
     }
 
     protected UIColorPickerPane createColorPickerPane(){
-        return new UIColorPickerPane("meterString");
+        return new UIColorPickerPane(parentPane, "meterString");
     }
 }

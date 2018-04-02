@@ -1,9 +1,10 @@
 package com.fr.design.mainframe.chart.gui.style.series;
 
 import com.fr.design.formula.TinyFormulaPane;
+import com.fr.design.gui.frpane.AbstractAttrNoScrollPane;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JComponent;
+import java.awt.Color;
 import java.util.ArrayList;
 
 /**
@@ -13,7 +14,11 @@ import java.util.ArrayList;
  */
 public class MapColorPickerPaneWithFormula extends UIColorPickerPane4Map {
 
-    protected ArrayList getTextFieldList(){
+	public MapColorPickerPaneWithFormula(AbstractAttrNoScrollPane container) {
+		super(container);
+	}
+
+	protected ArrayList getTextFieldList() {
    		return new ArrayList<TinyFormulaPane>();
    	}
 

@@ -3,13 +3,14 @@ package com.fr.design.mainframe.backgroundpane;
 import com.fr.base.background.ColorBackground;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.style.color.NewColorSelectPane;
 import com.fr.general.Background;
 import com.fr.general.Inter;
-import com.fr.design.style.color.NewColorSelectPane;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
 
 /**
  * @author zhou
@@ -29,14 +30,22 @@ public class ColorBackgroundQuickPane extends BackgroundQuickPane {
 
 	public void populateBean(Background background) {
 		ColorBackground colorBackgroud = (ColorBackground) background;
-		this.detailColorSelectPane.setColor(colorBackgroud.getColor());
-		isBackGroundColor = false;
-	}
+        populateColor(colorBackgroud.getColor());
+    }
 
-	public Background updateBean() {
-		this.detailColorSelectPane.updateUsedColor();
-		return ColorBackground.getInstance(this.detailColorSelectPane.getNotNoneColor());
-	}
+    public Background updateBean() {
+        return ColorBackground.getInstance(updateColor());
+    }
+
+    public void populateColor(Color color) {
+        this.detailColorSelectPane.setColor(color);
+        isBackGroundColor = false;
+    }
+
+    public Color updateColor() {
+        this.detailColorSelectPane.updateUsedColor();
+        return this.detailColorSelectPane.getNotNoneColor();
+    }
 
 	public boolean isBackGroundColor(){
 		return isBackGroundColor;

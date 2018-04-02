@@ -1,9 +1,10 @@
 package com.fr.design.mainframe.chart.gui.style.series;
 
 import com.fr.design.formula.TinyFormulaPane;
+import com.fr.design.gui.frpane.AbstractAttrNoScrollPane;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JComponent;
+import java.awt.Color;
 import java.util.ArrayList;
 
 /**
@@ -13,12 +14,12 @@ import java.util.ArrayList;
  */
 public class ColorPickerPaneWithFormula extends UIColorPickerPane{
 
-	public ColorPickerPaneWithFormula(){
-		super();
+	public ColorPickerPaneWithFormula(AbstractAttrNoScrollPane container) {
+		super(container);
 	}
 
-	public ColorPickerPaneWithFormula(String meterString){
-		super(meterString);
+	public ColorPickerPaneWithFormula(AbstractAttrNoScrollPane container, String meterString) {
+		super(container, meterString);
 	}
 
     protected ArrayList getTextFieldList(){

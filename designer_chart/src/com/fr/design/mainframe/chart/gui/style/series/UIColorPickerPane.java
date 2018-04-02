@@ -8,24 +8,36 @@ import com.fr.design.constants.UIConstants;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
+import com.fr.design.gui.frpane.AbstractAttrNoScrollPane;
 import com.fr.design.gui.frpane.UINumberDragPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.gui.ipoppane.PopupHider;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.style.color.ColorControlWindow;
 import com.fr.design.style.color.ColorSelectBox;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
-import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.stable.StringUtils;
+import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.LayoutManager;
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -58,8 +70,10 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
 	private ChangeListener changeListener;
 
     private boolean moveOnColorOrTextPane;
+	private AbstractAttrNoScrollPane container;
 
-	public UIColorPickerPane() {
+	public UIColorPickerPane(AbstractAttrNoScrollPane container) {
+		this.container = container;
 		fillStyleCombox = this.getColorSelectBox();
 		fillStyleCombox.setSelectObject(Color.BLUE);
 		fillStyleCombox.addSelectChangeListener(new ChangeListener() {
@@ -146,7 +160,8 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
         };
     }
 
-	public UIColorPickerPane(String meterString){
+	public UIColorPickerPane(AbstractAttrNoScrollPane container, String meterString) {
+		this.container = container;
 
 		fillStyleCombox = this.getColorSelectBox();
 		fillStyleCombox.setSelectObject(Color.BLUE);
@@ -665,14 +680,7 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
 	}
 
 	private void initContainerLister(){
-		Container container = UIColorPickerPane.this;
-        while (!(container instanceof ChartStylePane)) {
-            if (container.getParent() == null) {
-                break;
-            }
-            container = container.getParent();
-        }
-        ((ChartStylePane)container).initAllListeners();
+		this.container.initAllListeners();
 	}
 
 	public void updateBean(MapHotAreaColor hotAreaColor) {
@@ -761,7 +769,7 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JPanel content = (JPanel) jf.getContentPane();
 		content.setLayout(new BorderLayout());
-		UIColorPickerPane pp = new UIColorPickerPane();
+		UIColorPickerPane pp = new UIColorPickerPane(null);
 		content.add(pp, BorderLayout.CENTER);
 		GUICoreUtils.centerWindow(jf);
 		jf.setSize(400, 400);

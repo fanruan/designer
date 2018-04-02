@@ -8,9 +8,9 @@ import com.fr.chart.chartdata.BubbleSeriesValue;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.ChartDataFilterPane;
 import com.fr.general.Inter;
-import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
+import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 import java.util.ArrayList;
 import java.util.List;
 

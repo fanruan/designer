@@ -10,13 +10,20 @@ import com.fr.design.mainframe.chart.ChartEditPane;
 import com.fr.design.mainframe.chart.ChartsConfigPane;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
+import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
+import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
+import com.fr.stable.StringUtils;
 import com.fr.stable.fun.impl.AbstractProvider;
 
 /**
  * Created by shine on 2018/3/2.
  */
 public abstract class AbstractExtendedChartUIProvider extends AbstractProvider implements IndependentChartUIProvider {
+
+    protected abstract AbstractExtendedChartTableDataPane getTableDataSourcePane();
+
+    protected abstract AbstractReportDataContentPane getReportDataSourcePane();
 
     @Override
     public boolean needChartChangePane() {
@@ -31,6 +38,16 @@ public abstract class AbstractExtendedChartUIProvider extends AbstractProvider i
     @Override
     public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
         return new ChartDataPane(listener);
+    }
+
+    @Override
+    public AbstractTableDataContentPane getTableDataSourcePane(Plot plot, ChartDataPane parent) {
+        return getTableDataSourcePane();
+    }
+
+    @Override
+    public AbstractReportDataContentPane getReportDataSourcePane(Plot plot, ChartDataPane parent) {
+        return getReportDataSourcePane();
     }
 
     @Override
@@ -68,9 +85,8 @@ public abstract class AbstractExtendedChartUIProvider extends AbstractProvider i
         return null;
     }
 
-    @Override
-    public String getIconPath() {
-        return null;
+    public String getPlotTypeTitle4PopupWindow(){
+        return StringUtils.EMPTY;
     }
 
     @Override
