@@ -1,17 +1,18 @@
 package com.fr.plugin.chart.designer.component.format;
 
 import com.fr.base.Style;
+import com.fr.design.gui.frpane.AbstractAttrNoScrollPane;
 import com.fr.design.gui.frpane.UIBubbleFloatPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.style.FormatPane;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.base.format.AttrTooltipFormat;
-import com.fr.plugin.chart.designer.style.VanChartStylePane;
 import com.fr.stable.Constants;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -28,12 +29,12 @@ public abstract class VanChartFormatPaneWithCheckBox extends JPanel{
     private FormatPane formatPane;
     private Format format;
 
-    private VanChartStylePane parent;
+    private AbstractAttrNoScrollPane parent;
     private JPanel showOnPane;
 
     private boolean isDirty;
 
-    public VanChartFormatPaneWithCheckBox(VanChartStylePane parent, JPanel showOnPane) {
+    public VanChartFormatPaneWithCheckBox(AbstractAttrNoScrollPane parent, JPanel showOnPane) {
         this.parent = parent;
         this.showOnPane = showOnPane;
         this.isDirty = true;

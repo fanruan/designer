@@ -8,6 +8,7 @@ import com.fr.design.constants.UIConstants;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
+import com.fr.design.gui.frpane.AbstractAttrNoScrollPane;
 import com.fr.design.gui.frpane.UINumberDragPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.ilable.BoldFontTextLabel;
@@ -22,10 +23,22 @@ import com.fr.general.Inter;
 import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.LayoutManager;
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -672,8 +685,10 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
             }
             container = container.getParent();
         }
-        ((ChartStylePane)container).initAllListeners();
-	}
+        if (container instanceof AbstractAttrNoScrollPane) {
+            ((AbstractAttrNoScrollPane) container).initAllListeners();
+        }
+    }
 
 	public void updateBean(MapHotAreaColor hotAreaColor) {
 		hotAreaColor.setMainColor(fillStyleCombox.getSelectObject());

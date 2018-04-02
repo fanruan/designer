@@ -6,9 +6,12 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.Border;
-import java.awt.*;
+import java.awt.Component;
+import java.util.Arrays;
 
 /**
  * 布局 标题+组件
@@ -24,7 +27,18 @@ public class TableLayout4VanChartHelper {
     public static final int COMPONENT_INTERVAL =12;
     public static final Border SECOND_EDIT_AREA_BORDER = BorderFactory.createEmptyBorder(0,12,0,0);
 
+    public static JPanel createExpandablePaneWithTitleTopGap(String title, JPanel panel) {
+        return new UIExpandablePane(title, EXPANDABLE_PANE_WIDTH, EXPANDABLE_PANE_HIGHT, panel) {
+            protected void setcontentPanelontentPanelBorder() {
+                getContentPanel().setBorder(BorderFactory.createEmptyBorder(5, 5, 0, 0));
+            }
+        };
+    }
 
+    public static JPanel createExpandablePaneWithTitle(String title, Component[][] components) {
+        JPanel panel = createGapTableLayoutPane(components);
+        return createExpandablePaneWithTitle(title, panel);
+    }
 
     public static JPanel createExpandablePaneWithTitle(String title, JPanel panel) {
         return new UIExpandablePane(title, EXPANDABLE_PANE_WIDTH, EXPANDABLE_PANE_HIGHT, panel){
@@ -50,6 +64,16 @@ public class TableLayout4VanChartHelper {
                 new Component[]{label, component},
         };
         return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, COMPONENT_INTERVAL, LayoutConstants.VGAP_LARGE);
+    }
+
+    public static JPanel createGapTableLayoutPane(Component[][] components) {
+        double p = TableLayout.PREFERRED;
+        double f = TableLayout.FILL;
+        double[] columnSize = {f, EDIT_AREA_WIDTH};
+        double[] rowSize = new double[components.length];
+        Arrays.fill(rowSize, p);
+
+        return createGapTableLayoutPane(components, rowSize, columnSize);
     }
 
     public static JPanel createGapTableLayoutPane(Component[][] components,
@@ -122,6 +146,16 @@ public class TableLayout4VanChartHelper {
                 new Component[]{label,null},
                 new Component[]{null,component},
         };
+        return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+    }
+
+    public static JPanel createTableLayoutPane(Component[][] components) {
+        double p = TableLayout.PREFERRED;
+        double f = TableLayout.FILL;
+        double[] columnSize = {p, f};
+        double[] rowSize = new double[components.length];
+        Arrays.fill(rowSize, p);
+
         return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
     }
 
