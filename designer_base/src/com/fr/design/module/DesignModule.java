@@ -36,7 +36,7 @@ import java.util.Set;
  * 所有设计器模块的父类
  */
 public abstract class DesignModule extends TopModule {
-    public static final String LOCALE_FILE_PATH = "com/fr/design/locale/designer";
+    public static final String LOCALE_FILE_PATH = "com/fr/design/i18n/main";
 
     public void start() {
         super.start();
