@@ -103,12 +103,7 @@ public class StartServer {
         }
     }
 
-    /**
-     * 本地环境浏览url
-     *
-     * @param url 指定路径
-     */
-    public static void browserURLWithLocalEnv(String url) {
+    public static void start() {
         try {
             if (tomcatHost != null) {
                 if (NEED_LOAD_ENV) {
@@ -131,8 +126,17 @@ public class StartServer {
             FRContext.getLogger().errorWithServerLevel(e.getMessage());
         } finally {
             NEED_LOAD_ENV = false;
-            browser(url);
         }
+    }
+
+    /**
+     * 本地环境浏览url
+     *
+     * @param url 指定路径
+     */
+    public static void browserURLWithLocalEnv(String url) {
+        start();
+        browser(url);
     }
 
     public static TomcatHost getInstance() {

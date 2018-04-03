@@ -87,6 +87,8 @@ public class Designer extends BaseDesigner {
         //传递启动参数
         designerRoot.setSingleton(StartupArgs.class, new StartupArgs(args));
         designerRoot.start();
+        // 预启动一下
+        StartServer.start();
     }
 
     public Designer(String[] args) {
