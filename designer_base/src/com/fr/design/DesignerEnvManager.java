@@ -1415,7 +1415,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         this.setOracleSystemSpace(reader.getAttrAsBoolean("useOracleSystemSpace", true));
         this.setCachingTemplateLimit(reader.getAttrAsInt("cachingTemplateLimit", CACHINGTEMPLATE_LIMIT));
         this.setJoinProductImprove(reader.getAttrAsBoolean("joinProductImprove", true));
-        this.setImageCompress(reader.getAttrAsBoolean("imageCompress", true));
+        this.setImageCompress(reader.getAttrAsBoolean("imageCompress", false));
         this.setAutoBackUp(reader.getAttrAsBoolean("autoBackUp", true));
         this.setTemplateTreePaneExpanded(reader.getAttrAsBoolean("templateTreePaneExpanded", false));
         // peter:读取webinfLocation
