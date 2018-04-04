@@ -55,6 +55,7 @@ public class NativePrintSettingPane extends JPanel {
     private UIRadioButton portraitRadioButton;
     private UIRadioButton landscapeRadioButton;
     private PageMarginSettingPane pageMarginSettingPane;
+    private JPanel centerPane;
 
     public NativePrintSettingPane() {
         initComponents();
@@ -77,7 +78,7 @@ public class NativePrintSettingPane extends JPanel {
 
         printPane.add(northPane, BorderLayout.NORTH);
 
-        JPanel centerPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Default_Settings"));
+        centerPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Default_Settings"));
 
         UIScrollPane scrollPane = new UIScrollPane(getNativePrintMainSettingPane());
         scrollPane.setBorder(null);
@@ -94,6 +95,12 @@ public class NativePrintSettingPane extends JPanel {
         allPageRadioButton.addItemListener(getPageRaidoListener());
         currentPageRadioButton.addItemListener(getPageRaidoListener());
         customPageRadioButton.addItemListener(getPageRaidoListener());
+        isShowDialogCheck.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                GUICoreUtils.setEnabled(centerPane, !isShowDialogCheck.isSelected());
+            }
+        });
     }
 
     private ItemListener getPageRaidoListener() {
