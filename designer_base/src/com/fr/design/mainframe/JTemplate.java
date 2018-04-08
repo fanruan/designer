@@ -542,29 +542,24 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
     }
 
     public boolean saveAsTemplate(boolean isShowLoc) {
-        return saveAsTemplate(isShowLoc, false);
+        FILE editingFILE = this.getEditingFILE();
+        if (editingFILE == null) {
+            return false;
+        }
+        return saveAsTemplate(isShowLoc, editingFILE.getName());
     }
 
     /**
      * 保存
      * @param isShowLoc 是否显示“报表运行环境”外的路径(C盘D盘等)
-     * @param mobileOnly 是否手机端专属
+     * @param fileName 保存文件名
      * @return
      */
-    public boolean saveAsTemplate(boolean isShowLoc, boolean mobileOnly) {
-        FILE editingFILE = this.getEditingFILE();
-        if (editingFILE == null) {
-            return false;
-        }
+    public boolean saveAsTemplate(boolean isShowLoc, String fileName) {
         String oldName = this.getFullPathName();
         // alex:如果是SaveAs的话需要让用户来选择路径了
         FILEChooserPane fileChooser = getFILEChooserPane(isShowLoc);
-        //移动端专属模板需要在文件名后面增加_mobile
-        if (mobileOnly) {
-            fileChooser.setFileNameTextField(editingFILE.getName().substring(0, editingFILE.getName().length() - this.suffix().length()) + "_mobile", this.suffix());
-        } else {
-            fileChooser.setFileNameTextField(editingFILE.getName(), this.suffix());
-        }
+        fileChooser.setFileNameTextField(fileName, this.suffix());
         int chooseResult = fileChooser.showSaveDialog(DesignerContext.getDesignerFrame(), this.suffix());
 
         if (isCancelOperation(chooseResult)) {

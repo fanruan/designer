@@ -11,6 +11,7 @@ import com.fr.design.mainframe.FormArea;
 import com.fr.design.mainframe.JForm;
 import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.design.menu.MenuKeySet;
+import com.fr.file.FILE;
 import com.fr.form.main.Form;
 import com.fr.form.main.mobile.FormMobileAttr;
 import com.fr.general.Inter;
@@ -65,8 +66,14 @@ public class FormMobileAttrAction extends JTemplateAction<JForm> {
 
                     MobileOnlyTemplateAttrMark mobileOnlyTemplateAttrMark = jf.getTarget().getAttrMark(MobileOnlyTemplateAttrMark.XML_TAG);
                     if (mobileOnlyTemplateAttrMark == null) {
-                        jf.getTarget().addAttrMark(new MobileOnlyTemplateAttrMark(true));
-                        jf.saveAsTemplate(true, true);
+                        //如果是新建的模板，选择手机专属之后不需要另存为
+                        jf.getTarget().addAttrMark(new MobileOnlyTemplateAttrMark());
+                        FILE editingFILE = jf.getEditingFILE();
+                        if (editingFILE == null || !editingFILE.exists()) {
+                            return;
+                        }
+                        String fileName = editingFILE.getName().substring(0, editingFILE.getName().length() - jf.suffix().length()) + "_mobile";
+                        jf.saveAsTemplate(true, fileName);
                     }
                 }
             }
