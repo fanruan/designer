@@ -103,7 +103,7 @@ public class NativePrintSettingPane extends JPanel {
         isShowDialogCheck.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                GUICoreUtils.setEnabled(centerPane, !isShowDialogCheck.isSelected());
+                checkEnabled();
             }
         });
         specifiedAreaField.addFocusListener(new FocusAdapter() {
@@ -272,7 +272,16 @@ public class NativePrintSettingPane extends JPanel {
         group.add(customPageRadioButton);
         allPageRadioButton.setSelected(true);
 
-        specifiedAreaField = new UITextField(20);
+        specifiedAreaField = new UITextField(20) {
+            @Override
+            public void setEnabled(boolean enabled) {
+                // 如果未选中"指定页"，此输入框始终不可用
+                if (enabled && !customPageRadioButton.isSelected()) {
+                    return;
+                }
+                super.setEnabled(enabled);
+            }
+        };
         UILabel areaFieldTip = GUICoreUtils.createTipLabel(Inter.getLocText("FR-Designer_Print_Area_Tip"));
 
         // TableLayout
@@ -347,5 +356,10 @@ public class NativePrintSettingPane extends JPanel {
         nativePrintAttr.setInheritPageMarginSetting(inheritPageMarginSettingCheck.isSelected());
         nativePrintAttr.setMargin(pageMarginSettingPane.updateBean());
         nativePrintAttr.setFitPaperSize(fitPaperSizeCheck.isSelected());
+    }
+
+    // 刷新面板可用状态
+    public void checkEnabled() {
+        GUICoreUtils.setEnabled(centerPane, !isShowDialogCheck.isSelected());
     }
 }

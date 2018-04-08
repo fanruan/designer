@@ -72,7 +72,7 @@ public class NoClientPrintSettingPane extends JPanel {
         setMarginWhenPrintCheck.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                GUICoreUtils.setEnabled(centerPane, !setMarginWhenPrintCheck.isSelected());
+                checkEnabled();
             }
         });
     }
@@ -94,5 +94,10 @@ public class NoClientPrintSettingPane extends JPanel {
         noClientPrintAttr.setSetMarginOnPrint(setMarginWhenPrintCheck.isSelected());
         noClientPrintAttr.setInheritPageMarginSetting(inheritPageMarginSettingCheck.isSelected());
         noClientPrintAttr.setMargin(pageMarginSettingPane.updateBean());
+    }
+
+    // 刷新面板可用状态
+    public void checkEnabled() {
+        GUICoreUtils.setEnabled(centerPane, !setMarginWhenPrintCheck.isSelected());
     }
 }

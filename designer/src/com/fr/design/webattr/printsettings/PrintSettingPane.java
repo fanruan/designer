@@ -80,6 +80,12 @@ public class PrintSettingPane extends BasicPane {
         });
     }
 
+    // 刷新面板可用状态
+    public void checkEnabled() {
+        noClientPrintSettingPane.checkEnabled();
+        nativePrintSettingPane.checkEnabled();
+    }
+
     @Override
     protected String title4PopupWindow() {
         return Inter.getLocText("FR-Designer_Print_Setting");
