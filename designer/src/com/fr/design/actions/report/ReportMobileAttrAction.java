@@ -66,8 +66,6 @@ public class ReportMobileAttrAction extends JWorkBookAction{
                     if (mobileOnlyTemplateAttrMark == null) {
                         wbTpl.addAttrMark(new MobileOnlyTemplateAttrMark(true));
                         jwb.saveAsTemplate(true, true);
-                    } else if (!mobileOnlyTemplateAttrMark.isMobileOnly()){
-                        jwb.saveAsTemplate(true, true);
                     }
                 }
             }

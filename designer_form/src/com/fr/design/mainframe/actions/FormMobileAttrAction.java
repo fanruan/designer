@@ -67,8 +67,6 @@ public class FormMobileAttrAction extends JTemplateAction<JForm> {
                     if (mobileOnlyTemplateAttrMark == null) {
                         jf.getTarget().addAttrMark(new MobileOnlyTemplateAttrMark(true));
                         jf.saveAsTemplate(true, true);
-                    } else if (!mobileOnlyTemplateAttrMark.isMobileOnly()){
-                        jf.saveAsTemplate(true, true);
                     }
                 }
             }
