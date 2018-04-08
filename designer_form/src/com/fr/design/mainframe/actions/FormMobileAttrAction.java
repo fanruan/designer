@@ -1,6 +1,7 @@
 package com.fr.design.mainframe.actions;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.iofileattr.MobileOnlyTemplateAttrMark;
 import com.fr.design.actions.JTemplateAction;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
@@ -60,6 +61,14 @@ public class FormMobileAttrAction extends JTemplateAction<JForm> {
                     FunctionProcessor processor = ExtraClassManager.getInstance().getFunctionProcessor();
                     if (processor != null) {
                         processor.recordFunction(ReportFunctionProcessor.MOBILE_TEMPLATE_FRM);
+                    }
+
+                    MobileOnlyTemplateAttrMark mobileOnlyTemplateAttrMark = jf.getTarget().getAttrMark(MobileOnlyTemplateAttrMark.XML_TAG);
+                    if (mobileOnlyTemplateAttrMark == null) {
+                        jf.getTarget().addAttrMark(new MobileOnlyTemplateAttrMark(true));
+                        jf.saveAsTemplate(true, true);
+                    } else if (!mobileOnlyTemplateAttrMark.isMobileOnly()){
+                        jf.saveAsTemplate(true, true);
                     }
                 }
             }

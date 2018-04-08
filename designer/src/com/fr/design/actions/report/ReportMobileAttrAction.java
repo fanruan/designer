@@ -1,6 +1,7 @@
 package com.fr.design.actions.report;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.iofileattr.MobileOnlyTemplateAttrMark;
 import com.fr.design.actions.JWorkBookAction;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
@@ -60,6 +61,13 @@ public class ReportMobileAttrAction extends JWorkBookAction{
                     FunctionProcessor processor = ExtraClassManager.getInstance().getFunctionProcessor();
                     if (processor != null) {
                         processor.recordFunction(ReportFunctionProcessor.MOBILE_TEMPLATE_CPT);
+                    }
+                    MobileOnlyTemplateAttrMark mobileOnlyTemplateAttrMark = wbTpl.getAttrMark(MobileOnlyTemplateAttrMark.XML_TAG);
+                    if (mobileOnlyTemplateAttrMark == null) {
+                        wbTpl.addAttrMark(new MobileOnlyTemplateAttrMark(true));
+                        jwb.saveAsTemplate(true, true);
+                    } else if (!mobileOnlyTemplateAttrMark.isMobileOnly()){
+                        jwb.saveAsTemplate(true, true);
                     }
                 }
             }

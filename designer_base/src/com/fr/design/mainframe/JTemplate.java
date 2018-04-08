@@ -518,10 +518,6 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
             FRLogger.getLogger().error(e.getMessage());
         }
 
-        //判断文件是否已存在，并且需要保存为移动端专属模板
-        if (editingFILE.exists() && needSaveMobileOnlyTemplate()) {
-            return saveAsTemplate(isShowLoc);
-        }
 
         // 检查一下editingFILE是不是已存在的文件,如果不存在则用saveAs
         if (!editingFILE.exists()) {
@@ -545,7 +541,17 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
                 operation == FILEChooserPane.OK_OPTION;
     }
 
-    private boolean saveAsTemplate(boolean isShowLoc) {
+    public boolean saveAsTemplate(boolean isShowLoc) {
+        return saveAsTemplate(isShowLoc, false);
+    }
+
+    /**
+     * 保存
+     * @param isShowLoc 是否显示“报表运行环境”外的路径(C盘D盘等)
+     * @param mobileOnly 是否手机端专属
+     * @return
+     */
+    public boolean saveAsTemplate(boolean isShowLoc, boolean mobileOnly) {
         FILE editingFILE = this.getEditingFILE();
         if (editingFILE == null) {
             return false;
@@ -553,7 +559,12 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
         String oldName = this.getFullPathName();
         // alex:如果是SaveAs的话需要让用户来选择路径了
         FILEChooserPane fileChooser = getFILEChooserPane(isShowLoc);
-        setFILEChooserName(fileChooser, editingFILE);
+        //移动端专属模板需要在文件名后面增加_mobile
+        if (mobileOnly) {
+            fileChooser.setFileNameTextField(editingFILE.getName().substring(0, editingFILE.getName().length() - this.suffix().length()) + "_mobile", this.suffix());
+        } else {
+            fileChooser.setFileNameTextField(editingFILE.getName(), this.suffix());
+        }
         int chooseResult = fileChooser.showSaveDialog(DesignerContext.getDesignerFrame(), this.suffix());
 
         if (isCancelOperation(chooseResult)) {
@@ -1142,20 +1153,5 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
         if (isUseParamTemplate && template.getAttrMark(TemplateIdAttrMark.XML_TAG) == null) {
             template.addAttrMark(new TemplateIdAttrMark(UUID.randomUUID().toString()));
         }
-    }
-
-    /**
-     * 是否需要保持为移动专属模板
-     * @return false
-     */
-    protected boolean needSaveMobileOnlyTemplate() {
-        return false;
-    }
-
-    /**
-     * 设置保存文件的默认名
-     */
-    protected void setFILEChooserName(FILEChooserPane fileChooser, FILE editingFILE) {
-        fileChooser.setFileNameTextField(editingFILE.getName(), this.suffix());
     }
 }
