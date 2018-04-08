@@ -518,6 +518,10 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
             FRLogger.getLogger().error(e.getMessage());
         }
 
+        //判断文件是否已存在，并且需要保存为移动端专属模板
+        if (editingFILE.exists() && needSaveMobileOnlyTemplate()) {
+            return saveAsTemplate(isShowLoc);
+        }
 
         // 检查一下editingFILE是不是已存在的文件,如果不存在则用saveAs
         if (!editingFILE.exists()) {
@@ -549,7 +553,7 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
         String oldName = this.getFullPathName();
         // alex:如果是SaveAs的话需要让用户来选择路径了
         FILEChooserPane fileChooser = getFILEChooserPane(isShowLoc);
-        fileChooser.setFileNameTextField(editingFILE.getName(), this.suffix());
+        setFILEChooserName(fileChooser, editingFILE);
         int chooseResult = fileChooser.showSaveDialog(DesignerContext.getDesignerFrame(), this.suffix());
 
         if (isCancelOperation(chooseResult)) {
@@ -1138,5 +1142,20 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
         if (isUseParamTemplate && template.getAttrMark(TemplateIdAttrMark.XML_TAG) == null) {
             template.addAttrMark(new TemplateIdAttrMark(UUID.randomUUID().toString()));
         }
+    }
+
+    /**
+     * 是否需要保持为移动专属模板
+     * @return false
+     */
+    protected boolean needSaveMobileOnlyTemplate() {
+        return false;
+    }
+
+    /**
+     * 设置保存文件的默认名
+     */
+    protected void setFILEChooserName(FILEChooserPane fileChooser, FILE editingFILE) {
+        fileChooser.setFileNameTextField(editingFILE.getName(), this.suffix());
     }
 }

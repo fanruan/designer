@@ -49,9 +49,11 @@ import com.fr.design.parameter.ParameterPropertyPane;
 import com.fr.design.roleAuthority.RolesAlreadyEditedPane;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.file.FILE;
+import com.fr.file.FILEChooserPane;
 import com.fr.form.FormElementCaseContainerProvider;
 import com.fr.form.FormElementCaseProvider;
 import com.fr.form.main.Form;
+import com.fr.form.main.mobile.FormMobileAttr;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WBorderLayout;
 import com.fr.form.ui.container.WLayout;
@@ -918,5 +920,32 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         FormSelection selection = formDesign.getSelectionModel().getSelection();
         XCreator creator = selection.getSelectedCreator();
         return creator.toData();
+    }
+
+    /**
+     * 是否需要保持为移动专属模板，并把isSaveAsMobileOnly设为true
+     * @return
+     */
+    public boolean needSaveMobileOnlyTemplate() {
+        FormMobileAttr formMobileAttr = this.getTarget().getFormMobileAttr();
+        if (formMobileAttr.isMobileOnly() && !formMobileAttr.isSaveAsMobileOnly()) {
+            formMobileAttr.setSaveAsMobileOnly(true);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 设置保存文件的默认名，移动端专属模板需要在文件名后面增加_mobile
+     */
+    public void setFILEChooserName(FILEChooserPane fileChooser, FILE editingFILE) {
+        FormMobileAttr formMobileAttr = this.getTarget().getFormMobileAttr();
+        //判断一下是否保存为移动专属模板
+        if (formMobileAttr.isMobileOnly() && formMobileAttr.isSaveAsMobileOnly()) {
+            fileChooser.setFileNameTextField(editingFILE.getName().substring(0, editingFILE.getName().length() - this.suffix().length()) + "_mobile", this.suffix());
+        } else {
+            super.setFILEChooserName(fileChooser, editingFILE);
+        }
     }
 }
