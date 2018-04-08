@@ -18,6 +18,7 @@ import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.report.stable.ReportConstants;
+import com.fr.stable.StringUtils;
 
 import javax.print.DocFlavor;
 import javax.print.PrintService;
@@ -31,10 +32,14 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by plough on 2018/3/5.
@@ -99,6 +104,25 @@ public class NativePrintSettingPane extends JPanel {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 GUICoreUtils.setEnabled(centerPane, !isShowDialogCheck.isSelected());
+            }
+        });
+        specifiedAreaField.addFocusListener(new FocusAdapter() {
+            String lastValidText = StringUtils.EMPTY;
+
+            @Override
+            public void focusGained(FocusEvent e) {
+                lastValidText = specifiedAreaField.getText();
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                String text = specifiedAreaField.getText();
+                Pattern r = Pattern.compile("^(\\d+-)?\\d+$");
+                Matcher m = r.matcher(text);
+                if (!m.matches()) {
+                    specifiedAreaField.setText(lastValidText);
+                }
+                super.focusLost(e);
             }
         });
     }
