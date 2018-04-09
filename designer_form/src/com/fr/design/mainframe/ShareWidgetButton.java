@@ -6,6 +6,7 @@ import com.fr.design.designer.creator.XCreatorUtils;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.base.iofileattr.SharableAttrMark;
 import com.fr.form.ui.AbstractBorderStyleWidget;
+import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
 import com.fr.share.ShareConstants;
 import com.fr.form.share.ShareLoader;
 import com.fr.form.ui.SharableWidgetBindInfo;
@@ -33,6 +34,7 @@ import java.io.Serializable;
  * Time: 16:14
  */
 public class ShareWidgetButton extends JPanel implements MouseListener, MouseMotionListener, Serializable {
+    private static final Dimension TAB_DEFAULT_SIZE = new Dimension(500, 300);
     private SharableWidgetBindInfo bindInfo;
     private MouseEvent lastPressEvent;
     private JPanel reportPane;
@@ -198,8 +200,14 @@ public class ShareWidgetButton extends JPanel implements MouseListener, MouseMot
             creatorSource = ShareLoader.getLoader().getElCaseEditorById(shareId);
             if (creatorSource != null) {
                 ((AbstractBorderStyleWidget)creatorSource).addWidgetAttrMark(new SharableAttrMark(true));
-                XCreator xCreator = XCreatorUtils.createXCreator(creatorSource, new Dimension(no.getBindInfo().getWidth(), no.getBindInfo().getHeight()));
-                xCreator.setBackupBound(xCreator.getBounds());
+                //tab布局WCardMainBorderLayout通过反射出来的大小是960*480
+                XCreator xCreator = null;
+                if (creatorSource instanceof WCardMainBorderLayout) {
+                    xCreator = XCreatorUtils.createXCreator(creatorSource, TAB_DEFAULT_SIZE);
+                } else {
+                    xCreator = XCreatorUtils.createXCreator(creatorSource);
+                }
+                xCreator.setBackupBound(new Rectangle(no.getBindInfo().getWidth(), no.getBindInfo().getHeight()));
                 xCreator.setShareId(shareId);
                 WidgetToolBarPane.getTarget().startDraggingBean(xCreator);
                 lastPressEvent = null;

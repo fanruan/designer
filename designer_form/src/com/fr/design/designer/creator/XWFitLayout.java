@@ -761,6 +761,10 @@ public class XWFitLayout extends XLayoutContainer {
     		}
 			//如果子组件是绝对布局，则内部的widget也要更新
 			if (creator.acceptType(XWAbsoluteLayout.class)){
+    			//更新的时候一定要带上backupBound
+    			if (creator.getBackupBound() == null) {
+					creator.setBackupBound(wgt.getBackupBounds());
+				}
 				((XWAbsoluteLayout) creator).updateBoundsWidget();
 				creator.setBackupBound(creator.getBounds());
 			}
