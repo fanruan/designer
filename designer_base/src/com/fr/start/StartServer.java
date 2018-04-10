@@ -34,6 +34,7 @@ public class StartServer {
     // 原先的tomcatHost放在类TomcatHost里面，很不方便操作，而且因为存在多个进程的原因，
     // 原先的getInstance()方法无多大意义
     private static TomcatHost tomcatHost = null;
+    private static Object lock = new Object();
 
     static {
         GeneralContext.addEnvChangedListener(new EnvChangedListener() {
@@ -80,15 +81,17 @@ public class StartServer {
     }
 
     private static void initDemoServerAndBrowser() {
-        if (tomcatHost != null) {
-            if (!tomcatHost.isDemoAppLoaded()) {
-                tomcatHost.exit();
+        synchronized (lock) {
+            if (tomcatHost != null) {
+                if (!tomcatHost.isDemoAppLoaded()) {
+                    tomcatHost.exit();
+                    tomcatHost = new TomcatHost(DesignerEnvManager.getEnvManager().getJettyServerPort());
+                    tomcatHost.addAndStartInstallHomeWebApp();
+                }
+            } else {
                 tomcatHost = new TomcatHost(DesignerEnvManager.getEnvManager().getJettyServerPort());
                 tomcatHost.addAndStartInstallHomeWebApp();
             }
-        } else {
-            tomcatHost = new TomcatHost(DesignerEnvManager.getEnvManager().getJettyServerPort());
-            tomcatHost.addAndStartInstallHomeWebApp();
         }
         try {
             if (!tomcatHost.isStarted()) {
@@ -103,24 +106,21 @@ public class StartServer {
         }
     }
 
-    /**
-     * 本地环境浏览url
-     *
-     * @param url 指定路径
-     */
-    public static void browserURLWithLocalEnv(String url) {
+    public static void start() {
         try {
-            if (tomcatHost != null) {
-                if (NEED_LOAD_ENV) {
-                    tomcatHost.exit();
+            synchronized (lock) {
+                if (tomcatHost != null) {
+                    if (NEED_LOAD_ENV) {
+                        tomcatHost.exit();
+                        tomcatHost = new TomcatHost(DesignerEnvManager.getEnvManager().getJettyServerPort());
+                        tomcatHost.addAndStartLocalEnvHomeWebApp();
+
+                    }
+                } else {
                     tomcatHost = new TomcatHost(DesignerEnvManager.getEnvManager().getJettyServerPort());
                     tomcatHost.addAndStartLocalEnvHomeWebApp();
 
                 }
-            } else {
-                tomcatHost = new TomcatHost(DesignerEnvManager.getEnvManager().getJettyServerPort());
-                tomcatHost.addAndStartLocalEnvHomeWebApp();
-
             }
             if (!tomcatHost.isStarted()) {
                 tomcatHost.start();
@@ -131,8 +131,17 @@ public class StartServer {
             FRContext.getLogger().errorWithServerLevel(e.getMessage());
         } finally {
             NEED_LOAD_ENV = false;
-            browser(url);
         }
+    }
+
+    /**
+     * 本地环境浏览url
+     *
+     * @param url 指定路径
+     */
+    public static void browserURLWithLocalEnv(String url) {
+        start();
+        browser(url);
     }
 
     public static TomcatHost getInstance() {

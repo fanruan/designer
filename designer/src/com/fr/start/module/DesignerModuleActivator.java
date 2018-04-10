@@ -30,6 +30,6 @@ public class DesignerModuleActivator extends Activator implements Prepare {
     @Override
     public void prepare() {
         
-        addMutable(InterMutableKey.Path, "com/fr/design/i18n/designer");
+        addMutable(InterMutableKey.Path, "com/fr/design/i18n/main", "com/fr/design/i18n/chart");
     }
 }
