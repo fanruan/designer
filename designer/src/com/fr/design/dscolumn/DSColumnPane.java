@@ -81,7 +81,7 @@ public class DSColumnPane extends BasicPane {
         this(SETTING_ALL);
     }
 
-    private DSColumnPane(int setting) {
+    public DSColumnPane(int setting) {
         this.initComponents(setting);
     }
 
