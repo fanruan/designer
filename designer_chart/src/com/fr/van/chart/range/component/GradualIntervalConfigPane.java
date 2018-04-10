@@ -50,7 +50,7 @@ public class GradualIntervalConfigPane extends JPanel{
             }
         };
 
-        legendGradientBar = new LegendGradientBar();
+        legendGradientBar = createLegendGradientBar();
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
@@ -64,6 +64,10 @@ public class GradualIntervalConfigPane extends JPanel{
         JPanel contentPane = TableLayout4VanChartHelper.createGapTableLayoutPane(components,row,col);
         this.setLayout(new BorderLayout());
         this.add(contentPane,BorderLayout.CENTER);
+    }
+
+    protected LegendGradientBar createLegendGradientBar() {
+        return new LegendGradientBar();
     }
 
     protected Component[][] getPaneComponents(){

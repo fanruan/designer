@@ -21,9 +21,9 @@ public class TableLayout4VanChartHelper {
     private static final int SMALL_GAP = 20;
     public static final int EXPANDABLE_PANE_WIDTH =290;
     public static final int EXPANDABLE_PANE_HIGHT =24;
-    public static final double DESCRIPTION_AREA_WIDTH =60;
+    public static final int DESCRIPTION_AREA_WIDTH = 60;
     public static final int EDIT_AREA_WIDTH =155;
-    public static final double SECOND_EDIT_AREA_WIDTH =143;
+    public static final int SECOND_EDIT_AREA_WIDTH = 143;
     public static final int COMPONENT_INTERVAL =12;
     public static final Border SECOND_EDIT_AREA_BORDER = BorderFactory.createEmptyBorder(0,12,0,0);
 

@@ -126,8 +126,14 @@ public class LegendGradientBar extends JComponent implements ColorSelectable, UI
         addMouseEnteredListener();
         addMouseClickListener();
         addMouseReleasedListener();
-        addMouseDragListener();
+        if (supportDrag()) {
+            addMouseDragListener();
+        }
         addMouseExitedListener();
+    }
+
+    protected boolean supportDrag() {
+        return true;
     }
 
     private Color[] initColors(Color subColor, int colorSelectionBtnNum) {
