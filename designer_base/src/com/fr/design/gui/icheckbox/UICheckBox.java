@@ -140,7 +140,8 @@ public class UICheckBox extends JCheckBox implements UIObserver, GlobalNameObser
 				Graphics2D g2d = (Graphics2D) g;
 				g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 				if ( model.isSelected()) {
-					GUIPaintUtils.fillPaint(g2d, iconRect.x, iconRect.y, iconRect.width, iconRect.height,false, Constants.NULL,UIConstants.CHECKBOX_HOVER_SELECTED, 0);
+					GUIPaintUtils.fillPaint(g2d, iconRect.x, iconRect.y, iconRect.width, iconRect.height,false, Constants.NULL,
+							model.isEnabled() ? UIConstants.CHECKBOX_HOVER_SELECTED : UIConstants.DISABLED_ICON_COLOR, 0);
 				} else if (model.isRollover() && ! model.isSelected()) {
                     g.setColor(UIConstants.CHECKBOX_HOVER_SELECTED);
                     g2d.drawRoundRect(iconRect.x, iconRect.y, iconRect.width - 1, iconRect.height - 1, UIConstants.ARC, UIConstants.ARC);

@@ -14,6 +14,8 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 /**
  * 零客户端打印设置面板
@@ -22,11 +24,12 @@ import java.awt.FlowLayout;
 public class NoClientPrintSettingPane extends JPanel {
     private UICheckBox setMarginWhenPrintCheck;
     private UICheckBox inheritPageMarginSettingCheck;  // 继承页面边距设置
-
     private PageMarginSettingPane pageMarginSettingPane;
+    private JPanel centerPane;
 
     public NoClientPrintSettingPane() {
         initComponents();
+        initListeners();
     }
 
     private void initComponents() {
@@ -41,7 +44,7 @@ public class NoClientPrintSettingPane extends JPanel {
 
         printPane.add(northPane, BorderLayout.NORTH);
 
-        JPanel centerPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Default_Settings"));
+        centerPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Default_Settings"));
 
         inheritPageMarginSettingCheck = GUICoreUtils.createNoBorderCheckBox(Inter.getLocText("FR-Designer_Inherit_Page_Margin_Setting"));
         pageMarginSettingPane = new PageMarginSettingPane();
@@ -65,6 +68,15 @@ public class NoClientPrintSettingPane extends JPanel {
         this.add(printPane, BorderLayout.CENTER);
     }
 
+    private void initListeners() {
+        setMarginWhenPrintCheck.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                checkEnabled();
+            }
+        });
+    }
+
     // 返回包含一个标签的 panel，标签始终位于 panel 顶部
     private JPanel getTopAlignLabelPane(String labelText) {
         JPanel labelPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
@@ -82,5 +94,10 @@ public class NoClientPrintSettingPane extends JPanel {
         noClientPrintAttr.setSetMarginOnPrint(setMarginWhenPrintCheck.isSelected());
         noClientPrintAttr.setInheritPageMarginSetting(inheritPageMarginSettingCheck.isSelected());
         noClientPrintAttr.setMargin(pageMarginSettingPane.updateBean());
+    }
+
+    // 刷新面板可用状态
+    public void checkEnabled() {
+        GUICoreUtils.setEnabled(centerPane, !setMarginWhenPrintCheck.isSelected());
     }
 }

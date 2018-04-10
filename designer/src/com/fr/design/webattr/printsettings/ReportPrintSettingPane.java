@@ -64,7 +64,9 @@ public class ReportPrintSettingPane extends BasicPane {
     };
 
     private void checkEnabled(boolean isSelected) {
+        // GUICoreUtils.setEnabled 会遍历所有 Component。所以要先设置外层，再设置内层
         GUICoreUtils.setEnabled(printSettingPane, isSelected);
+        printSettingPane.checkEnabled();
     }
 
     private void populateServerSettings() {
