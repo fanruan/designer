@@ -5,7 +5,7 @@ import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
-import com.fr.print.PrintAttr;
+import com.fr.base.print.PrintSettingsAttrMark;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -80,35 +80,38 @@ public class PrintSettingPane extends BasicPane {
         });
     }
 
+    // 刷新面板可用状态
+    public void checkEnabled() {
+        noClientPrintSettingPane.checkEnabled();
+        nativePrintSettingPane.checkEnabled();
+    }
+
     @Override
     protected String title4PopupWindow() {
         return Inter.getLocText("FR-Designer_Print_Setting");
     }
 
-    public void populate(PrintAttr printAttr) {
-        if (printAttr == null) {
-            return;
-        }
-        if (printAttr.getPrintType() == PrintAttr.NO_CLIENT_PRINT) {
+    public void populate(PrintSettingsAttrMark printSettings) {
+        if (printSettings.getPrintType() == PrintSettingsAttrMark.NO_CLIENT_PRINT) {
             noClientPrintRadioButton.setSelected(true);
         } else {
             nativePrintRadioButton.setSelected(true);
         }
-        noClientPrintSettingPane.populate(printAttr.getNoClientPrintAttr());
-        nativePrintSettingPane.populate(printAttr.getNativePrintAttr());
+        noClientPrintSettingPane.populate(printSettings.getNoClientPrintAttr());
+        nativePrintSettingPane.populate(printSettings.getNativePrintAttr());
     }
 
-    public PrintAttr updateBean() {
-        PrintAttr printAttr = new PrintAttr();
-        printAttr.setPrintType(noClientPrintRadioButton.isSelected() ?
-                PrintAttr.NO_CLIENT_PRINT : PrintAttr.NATIVE_PRINT);
+    public PrintSettingsAttrMark updateBean() {
+        PrintSettingsAttrMark printSettings = new PrintSettingsAttrMark();
+        printSettings.setPrintType(noClientPrintRadioButton.isSelected() ?
+                PrintSettingsAttrMark.NO_CLIENT_PRINT : PrintSettingsAttrMark.NATIVE_PRINT);
         if (noClientPrintRadioButton.isSelected()) {
-            printAttr.setPrintType(PrintAttr.NO_CLIENT_PRINT);
-            noClientPrintSettingPane.update(printAttr.getNoClientPrintAttr());
+            printSettings.setPrintType(PrintSettingsAttrMark.NO_CLIENT_PRINT);
+            noClientPrintSettingPane.update(printSettings.getNoClientPrintAttr());
         } else {
-            printAttr.setPrintType(PrintAttr.NATIVE_PRINT);
-            nativePrintSettingPane.update(printAttr.getNativePrintAttr());
+            printSettings.setPrintType(PrintSettingsAttrMark.NATIVE_PRINT);
+            nativePrintSettingPane.update(printSettings.getNativePrintAttr());
         }
-        return printAttr;
+        return printSettings;
     }
 }

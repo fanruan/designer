@@ -1,6 +1,5 @@
 package com.fr.design.webattr.printsettings;
 
-import com.fr.base.Margin;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -8,14 +7,15 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
-import com.fr.print.NoClientPrintAttr;
-import com.fr.stable.Constants;
+import com.fr.base.print.NoClientPrintAttr;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 /**
  * 零客户端打印设置面板
@@ -24,12 +24,12 @@ import java.awt.FlowLayout;
 public class NoClientPrintSettingPane extends JPanel {
     private UICheckBox setMarginWhenPrintCheck;
     private UICheckBox inheritPageMarginSettingCheck;  // 继承页面边距设置
-
     private PageMarginSettingPane pageMarginSettingPane;
-    private PageOrderSettingPane pageOrderSettingPane;
+    private JPanel centerPane;
 
     public NoClientPrintSettingPane() {
         initComponents();
+        initListeners();
     }
 
     private void initComponents() {
@@ -44,21 +44,19 @@ public class NoClientPrintSettingPane extends JPanel {
 
         printPane.add(northPane, BorderLayout.NORTH);
 
-        JPanel centerPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Default_Settings"));
+        centerPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Default_Settings"));
 
         inheritPageMarginSettingCheck = GUICoreUtils.createNoBorderCheckBox(Inter.getLocText("FR-Designer_Inherit_Page_Margin_Setting"));
         pageMarginSettingPane = new PageMarginSettingPane();
         pageMarginSettingPane.setBorder(BorderFactory.createEmptyBorder(10, -10, 0, 0));
         JPanel pageMarginCheckPane = GUICoreUtils.createCheckboxAndDynamicPane(inheritPageMarginSettingCheck, pageMarginSettingPane, true);
 
-        pageOrderSettingPane = new PageOrderSettingPane();
         // TableLayout
         double p = TableLayout.PREFERRED;
-        double[] rowSize = {p, p};
+        double[] rowSize = {p};
         double[] columnSize = {60, p};
         Component[][] components = {
-                {getTopAlignLabelPane(Inter.getLocText("FR-Designer_Margin") + ":"), pageMarginCheckPane},
-                {getTopAlignLabelPane(Inter.getLocText("FR-Designer_Order") + ":"), pageOrderSettingPane}
+                {getTopAlignLabelPane(Inter.getLocText("FR-Designer_Margin") + ":"), pageMarginCheckPane}
         };
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 0, 15);
 
@@ -68,6 +66,15 @@ public class NoClientPrintSettingPane extends JPanel {
 
         this.setLayout(new BorderLayout());
         this.add(printPane, BorderLayout.CENTER);
+    }
+
+    private void initListeners() {
+        setMarginWhenPrintCheck.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                checkEnabled();
+            }
+        });
     }
 
     // 返回包含一个标签的 panel，标签始终位于 panel 顶部
@@ -81,13 +88,16 @@ public class NoClientPrintSettingPane extends JPanel {
         setMarginWhenPrintCheck.setSelected(noClientPrintAttr.isSetMarginOnPrint());
         inheritPageMarginSettingCheck.setSelected(noClientPrintAttr.isInheritPageMarginSetting());
         pageMarginSettingPane.populate(noClientPrintAttr.getMargin());
-        pageOrderSettingPane.populate(noClientPrintAttr.getPageOrder());
     }
 
     public void update(NoClientPrintAttr noClientPrintAttr) {
         noClientPrintAttr.setSetMarginOnPrint(setMarginWhenPrintCheck.isSelected());
         noClientPrintAttr.setInheritPageMarginSetting(inheritPageMarginSettingCheck.isSelected());
         noClientPrintAttr.setMargin(pageMarginSettingPane.updateBean());
-        noClientPrintAttr.setPageOrder(pageOrderSettingPane.updateBean());
+    }
+
+    // 刷新面板可用状态
+    public void checkEnabled() {
+        GUICoreUtils.setEnabled(centerPane, !setMarginWhenPrintCheck.isSelected());
     }
 }

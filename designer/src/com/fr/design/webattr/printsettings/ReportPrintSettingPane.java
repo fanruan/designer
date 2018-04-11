@@ -1,14 +1,12 @@
 package com.fr.design.webattr.printsettings;
 
-import com.fr.base.ConfigManager;
-import com.fr.base.ConfigManagerProvider;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
-import com.fr.print.PrintAttr;
-import com.fr.web.attr.ReportWebAttr;
+import com.fr.base.print.PrintSettingsAttrMark;
+import com.fr.report.core.ReportUtils;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -66,30 +64,32 @@ public class ReportPrintSettingPane extends BasicPane {
     };
 
     private void checkEnabled(boolean isSelected) {
+        // GUICoreUtils.setEnabled 会遍历所有 Component。所以要先设置外层，再设置内层
         GUICoreUtils.setEnabled(printSettingPane, isSelected);
+        printSettingPane.checkEnabled();
     }
 
     private void populateServerSettings() {
-        ConfigManagerProvider configManager = ConfigManager.getProviderInstance();
-        ReportWebAttr reportWebAttr = ((ReportWebAttr)configManager.getGlobalAttribute(ReportWebAttr.class));
-        printSettingPane.populate(reportWebAttr.getPrintAttr());
+        PrintSettingsAttrMark printSettings = ReportUtils.getPrintSettingsFromServerConfig();
+        printSettingPane.populate(printSettings);
     }
 
-    public void populate(PrintAttr printAttr) {
-        if (printAttr == null) {  // 如果是空值就说明采用服务器配置了
+    public void populate(PrintSettingsAttrMark printSettings) {
+        if (!printSettings.isValid()) {  // 采用服务器配置
             chooseComboBox.setSelectedIndex(SERVER_SET);
             populateServerSettings();
             return;
         }
         chooseComboBox.setSelectedIndex(SINGLE_SET);
-        printSettingPane.populate(printAttr);
+        printSettingPane.populate(printSettings);
     }
 
-    public PrintAttr updateBean() {
+    public PrintSettingsAttrMark updateBean() {
+        PrintSettingsAttrMark printSettings = printSettingPane.updateBean();
         if (chooseComboBox.getSelectedIndex() == SERVER_SET) {
-            return null;
+            printSettings.setValid(false);
         }
-        return printSettingPane.updateBean();
+        return printSettings;
     }
 
     @Override

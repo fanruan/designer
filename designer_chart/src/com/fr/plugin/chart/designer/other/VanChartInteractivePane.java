@@ -28,6 +28,8 @@ import com.fr.plugin.chart.vanchart.VanChart;
 import com.fr.stable.StableUtils;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -163,12 +165,26 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
         }
         axisRotation = new UIButtonGroup<Integer>(new String[]{Inter.getLocText("Plugin-ChartF_Open"),
                 Inter.getLocText("Plugin-ChartF_Close")});
+        axisRotation.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                checkZoomEnabled();
+            }
+        });
         Component[][] components = new Component[][]{
                 new Component[]{null,null},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Reversal")),axisRotation}
         };
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
         return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Axis"), panel);
+    }
+
+    private void checkZoomEnabled() {
+        if (zoomWidget != null && axisRotation != null) {
+            zoomWidget.setSelectedIndex(1);
+            checkZoomPane();
+            zoomWidget.setEnabled(axisRotation.getSelectedIndex() == 1);
+        }
     }
 
     protected String[] getNameArray() {
@@ -273,6 +289,8 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
         populateAutoRefresh((VanChart)chart);
 
         populateHyperlink(plot);
+
+        checkZoomEnabled();
     }
 
 

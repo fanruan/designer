@@ -4,6 +4,8 @@
 package com.fr.design.designer.creator;
 
 import com.fr.base.GraphHelper;
+import com.fr.base.iofileattr.SharableAttrMark;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
 import com.fr.design.designer.beans.LayoutAdapter;
@@ -14,10 +16,12 @@ import com.fr.design.designer.creator.cardlayout.XWTabFitLayout;
 import com.fr.design.form.layout.FRAbsoluteLayout;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.icon.IconPathConstants;
+import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.EditingMouseListener;
 import com.fr.design.mainframe.FormArea;
 import com.fr.design.mainframe.FormDesigner;
-import com.fr.design.mainframe.HelpDialogManager;
+import com.fr.design.mainframe.WidgetHelpDialog;
+import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.form.ui.Connector;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WAbsoluteLayout;
@@ -26,6 +30,7 @@ import com.fr.form.ui.container.WLayout;
 import com.fr.general.FRScreen;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
+import com.fr.share.ShareConstants;
 import com.fr.stable.Constants;
 
 import java.awt.*;
@@ -35,6 +40,7 @@ import java.awt.image.BufferedImage;
 import java.beans.IntrospectionException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import javax.swing.Icon;
 
 /**
  * @author richer
@@ -42,13 +48,14 @@ import java.util.HashMap;
  */
 public class XWAbsoluteLayout extends XLayoutContainer {
 
-    private static final int EDIT_BTN_WIDTH = 60;
-    private static final int EDIT_BTN_HEIGHT = 24;
+    private static final int EDIT_BTN_WIDTH = 75;
+    private static final int EDIT_BTN_HEIGHT = 20;
     private int minWidth = WLayout.MIN_WIDTH;
     private int minHeight = WLayout.MIN_HEIGHT;
     private static final Color OUTER_BORDER_COLOR = new Color(65, 155, 249, 30);
     private static final Color INNER_BORDER_COLOR = new Color(65, 155, 249);
     private static final int BORDER_WIDTH = 1;
+    private Icon controlMode = IOUtils.readIcon(IconPathConstants.TD_EL_SHARE_HELP_ICON_PATH);
 
     //由于屏幕分辨率不同，界面上的容器大小可能不是默认的100%，此时拖入组件时，保存的大小按照100%时的计算
     protected double containerPercent = 1.0;
@@ -445,9 +452,12 @@ public class XWAbsoluteLayout extends XLayoutContainer {
             g2d.setColor(XCreatorConstants.COVER_COLOR);
             g2d.fillRect(x, y, w, h);
             //画编辑按钮所在框
+            FormDesigner formDesigner = WidgetPropertyPane.getInstance().getEditingFormDesigner();
+            AlphaComposite alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, formDesigner.getCursor().getType() != Cursor.DEFAULT_CURSOR ? 0.9f : 0.7f);
+            g2d.setColor(XCreatorConstants.EDIT_COLOR);
+            g2d.setComposite(alphaComposite);
+            g2d.fillRoundRect((x + w / 2 - EDIT_BTN_WIDTH / 2), (y + h / 2 - EDIT_BTN_HEIGHT / 2), EDIT_BTN_WIDTH, EDIT_BTN_HEIGHT, 4, 4);
             g2d.setComposite(oldComposite);
-            g2d.setColor(new Color(176, 196, 222));
-            g2d.fillRect((x + w / 2 - EDIT_BTN_WIDTH / 2), (y + h / 2 - EDIT_BTN_HEIGHT / 2), EDIT_BTN_WIDTH, EDIT_BTN_HEIGHT);
             //画编辑按钮图标
             BufferedImage image = IOUtils.readImage(IconPathConstants.EDIT_ICON_PATH);
             g2d.drawImage(
@@ -459,13 +469,24 @@ public class XWAbsoluteLayout extends XLayoutContainer {
                     null,
                     this
             );
-            g2d.setColor(Color.BLACK);
+            g2d.setColor(Color.WHITE);
             //画编辑文字
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g2d.drawString(Inter.getLocText("FR-Designer_Edit"), x + w / 2 - 2, y + h / 2 + 5);
             g.setColor(XCreatorConstants.FORM_BORDER_COLOR);
             GraphHelper.draw(g, new Rectangle(BORDER_WIDTH, BORDER_WIDTH, getWidth() - BORDER_WIDTH * 2, getHeight() - BORDER_WIDTH * 2), Constants.LINE_MEDIUM);
+            paintExtro(g);
         }
+    }
 
+    public void paintExtro(Graphics g) {
+        if (this.toData().getWidgetAttrMark(SharableAttrMark.XML_TAG) != null) {
+            int width = getWidth() - ShareConstants.SHARE_EL_CONTROL_BUTTON_HW;
+            g.setColor(UIConstants.NORMAL_BACKGROUND);
+            g.fillArc(width, 0, ShareConstants.SHARE_EL_CONTROL_BUTTON_HW, ShareConstants.SHARE_EL_CONTROL_BUTTON_HW,
+                    0, 360);
+            controlMode.paintIcon(this, g, width, 0);
+        }
     }
 
     @Override
@@ -486,6 +507,11 @@ public class XWAbsoluteLayout extends XLayoutContainer {
      * @param e                    鼠标点击事件
      */
     public void respondClick(EditingMouseListener editingMouseListener, MouseEvent e) {
+        //帮助弹窗
+        if (this.isHelpBtnOnFocus()) {
+            new WidgetHelpDialog(DesignerContext.getDesignerFrame(), this.toData().getDescription()).showWindow(e);
+            return;
+        }
         FormDesigner designer = editingMouseListener.getDesigner();
         SelectionModel selectionModel = editingMouseListener.getSelectionModel();
         boolean isEditing = isEditable() ||
@@ -500,10 +526,6 @@ public class XWAbsoluteLayout extends XLayoutContainer {
                 ComponentAdapter adapter = AdapterBus.getComponentAdapter(designer, this);
                 editingMouseListener.startEditing(this, isEditing ? adapter.getDesignerEditor() : null, adapter);
             }
-        }
-        HelpDialogManager.getInstance().setPane(coverPanel);
-        if (this.isHelpBtnOnFocus()) {
-            coverPanel.setMsgDisplay(e);
         }
     }
 

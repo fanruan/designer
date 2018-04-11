@@ -80,7 +80,7 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
     protected U undoState;
     protected U authorityUndoState = null;
     protected T template; // 当前模板
-    protected TemplateProcessInfo processInfo; // 模板过程的相关信息
+    protected TemplateProcessInfo<T> processInfo; // 模板过程的相关信息
     private static short currentIndex = 0;// 此变量用于多次新建模板时，让名字不重复
     private DesignModelAdapter<T, ?> designModel;
     private PreviewProvider previewType;
@@ -143,7 +143,7 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
         openTime = saveTime;  // 更新 openTime，准备下一次计算
     }
 
-    public abstract TemplateProcessInfo getProcessInfo();
+    public abstract TemplateProcessInfo<T> getProcessInfo();
 
     // 追加过程记录
     public void appendProcess(String s) {
@@ -541,15 +541,25 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
                 operation == FILEChooserPane.OK_OPTION;
     }
 
-    private boolean saveAsTemplate(boolean isShowLoc) {
+    public boolean saveAsTemplate(boolean isShowLoc) {
         FILE editingFILE = this.getEditingFILE();
         if (editingFILE == null) {
             return false;
         }
+        return saveAsTemplate(isShowLoc, editingFILE.getName());
+    }
+
+    /**
+     * 保存
+     * @param isShowLoc 是否显示“报表运行环境”外的路径(C盘D盘等)
+     * @param fileName 保存文件名
+     * @return
+     */
+    public boolean saveAsTemplate(boolean isShowLoc, String fileName) {
         String oldName = this.getFullPathName();
         // alex:如果是SaveAs的话需要让用户来选择路径了
         FILEChooserPane fileChooser = getFILEChooserPane(isShowLoc);
-        fileChooser.setFileNameTextField(editingFILE.getName(), this.suffix());
+        fileChooser.setFileNameTextField(fileName, this.suffix());
         int chooseResult = fileChooser.showSaveDialog(DesignerContext.getDesignerFrame(), this.suffix());
 
         if (isCancelOperation(chooseResult)) {

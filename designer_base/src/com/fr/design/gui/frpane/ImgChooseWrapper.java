@@ -98,7 +98,7 @@ public class ImgChooseWrapper {
                 imageWorker = new SwingWorker<Void, Void>() {
                     @Override
                     protected Void doInBackground() throws Exception {
-                        Image image = imageFileChooser.isCompressSelected() ? ImageUtils.defaultImageCompress(selectedFile) : BaseUtils.readImage(selectedFile.getPath());
+                        Image image = imageFileChooser.isCheckSelected() ? ImageUtils.defaultImageCompress(selectedFile) : BaseUtils.readImage(selectedFile.getPath());
                         CoreGraphHelper.waitForImage(image);
 
                         if (previewPane != null) {

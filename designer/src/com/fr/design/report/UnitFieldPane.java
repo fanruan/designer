@@ -17,6 +17,7 @@ import com.fr.design.gui.ispinner.UIBasicSpinner;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.Inter;
 import com.fr.stable.Constants;
+import com.fr.stable.OperatingSystem;
 import com.fr.stable.unit.CM;
 import com.fr.stable.unit.INCH;
 import com.fr.stable.unit.MM;
@@ -26,6 +27,9 @@ import com.fr.stable.unit.UNIT;
  * UnitFieldPane
  */
 public class UnitFieldPane extends JPanel {
+    private static final int TEXT_FIELD_COLUMNS = 4;
+    private static final int TEXT_FIELD_COLUMNS_WINDOWS = 6;
+
     private UIBasicSpinner valueSpinner;
     private JFormattedTextField textField;
     
@@ -68,7 +72,7 @@ public class UnitFieldPane extends JPanel {
 
         valueSpinner = new UIBasicSpinner(new SpinnerNumberModel(0.0, 0.0, Double.MAX_VALUE, 1.0));
         textField = ((JSpinner.DefaultEditor) valueSpinner.getEditor()).getTextField();
-        textField.setColumns(4);
+        textField.setColumns(OperatingSystem.isWindows() ? TEXT_FIELD_COLUMNS_WINDOWS : TEXT_FIELD_COLUMNS);
         InputEventBaseOnOS.addBasicEditInputMap(textField);
         this.add(valueSpinner);
         unitLable = new UnitLabel(unitType, valueSpinner.getPreferredSize().height);
