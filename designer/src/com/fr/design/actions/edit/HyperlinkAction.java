@@ -8,6 +8,7 @@ import java.awt.Color;
 import javax.swing.SwingUtilities;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.FRContext;
 import com.fr.base.Style;
 import com.fr.design.actions.ElementCaseAction;
 import com.fr.design.actions.utils.ReportActionUtils;
@@ -80,7 +81,12 @@ public class HyperlinkAction extends ElementCaseAction {
                                 frFont = frFont.applyUnderline(Constants.LINE_NONE);
                             }
                             editCellElement.setStyle(elementStyle.deriveFRFont(frFont));
-                            editCellElement.setNameHyperlinkGroup(updateNameHyperlinks);
+                            try {
+                                editCellElement.setNameHyperlinkGroup((NameJavaScriptGroup) updateNameHyperlinks.clone());
+                            } catch (CloneNotSupportedException e) {
+                                // this shouldn't happen, since NameJavaScriptGroup are FCloneable
+                                FRContext.getLogger().error("InternalError: " + e.getMessage());
+                            }
                         }
                     });
                 }
