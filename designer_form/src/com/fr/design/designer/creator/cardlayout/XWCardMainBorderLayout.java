@@ -479,4 +479,12 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 		return new FRCardMainBorderLayoutAdapter(this);
 	}
 
+	/**
+	 * 是否支持共享-现只支持报表块、图表、tab块、绝对布局
+	 * @return
+	 */
+	public boolean isSupportShared() {
+		return true;
+	}
+
 }
