@@ -20,6 +20,11 @@ import com.fr.design.mainframe.chart.gui.type.BubblePlotPane;
  */
 public class BubbleIndependentChartInterface extends AbstractIndependentChartUIWithAPILevel {
 
+    @Override
+    public boolean needChartChangePane() {
+        return false;
+    }
+
     public AbstractChartTypePane getPlotTypePane(){
         return new BubblePlotPane();
     }

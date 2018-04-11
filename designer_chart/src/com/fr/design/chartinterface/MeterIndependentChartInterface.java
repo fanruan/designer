@@ -18,6 +18,11 @@ import com.fr.design.mainframe.chart.gui.type.MeterPlotPane;
  */
 public class MeterIndependentChartInterface extends AbstractIndependentChartUIWithAPILevel {
 
+    @Override
+    public boolean needChartChangePane() {
+        return false;
+    }
+
     public AbstractChartTypePane getPlotTypePane(){
         return new MeterPlotPane();
     }

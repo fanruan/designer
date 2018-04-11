@@ -21,6 +21,11 @@ import com.fr.design.mainframe.chart.gui.type.LinePlotPane;
  */
 public class LineIndependentChartInterface extends AbstractIndependentChartUIWithAPILevel {
 
+    @Override
+    public boolean needChartChangePane() {
+        return false;
+    }
+
     public AbstractChartTypePane getPlotTypePane(){
         return new LinePlotPane();
     }

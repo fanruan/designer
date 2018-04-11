@@ -100,13 +100,14 @@ import java.util.Map;
 
 import static com.fr.chart.charttypes.ChartTypeManager.CHART_PRIORITY;
 import static com.fr.chart.charttypes.ChartTypeManager.VAN_CHART_PRIORITY;
+import static com.fr.chart.charttypes.ChartTypeManager.enabledChart;
 
 /**
  * Created by eason on 14/12/29.
  */
 public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerProvider {
-    
-    
+
+
     private static ChartTypeInterfaceManager classManager = new ChartTypeInterfaceManager();
     
     private static LinkedHashMap<String, CloseableContainedMap<String, IndependentChartUIProvider, LinkedHashMap>> chartTypeInterfaces =
@@ -139,7 +140,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
     }
     
     private static WidgetOption[] initWidgetOption() {
-        
+
         ChartInternationalNameContentBean[] typeName = ChartTypeManager.getInstance().getAllChartBaseNames();
         ChartWidgetOption[] child = new ChartWidgetOption[typeName.length];
         final Chart[][] allCharts = new Chart[typeName.length][];
@@ -297,24 +298,42 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
         }
         return name;
     }
-    
-    public String[] getTitle4PopupWindow(String priority) {
-        
-        if (StringUtils.isEmpty(priority)) {
-            return getTitle4PopupWindow();
-        }
-        String[] names = new String[getChartSize(priority)];
+
+    private void addTitles(String priority, List<String> list) {
         if (chartTypeInterfaces != null && chartTypeInterfaces.containsKey(priority)) {
+
             Map<String, IndependentChartUIProvider> chartUIList = chartTypeInterfaces.get(priority);
+
             Iterator<Map.Entry<String, IndependentChartUIProvider>> iterator = chartUIList.entrySet().iterator();
-            int i = 0;
             while (iterator.hasNext()) {
                 Map.Entry<String, IndependentChartUIProvider> entry = iterator.next();
-                names[i++] = getChartName(entry.getKey(), entry.getValue());
+                String plotID = entry.getKey();
+
+                if (enabledChart(plotID)) {
+                    list.add(getChartName(plotID, entry.getValue()));
+                }
             }
-            return names;
         }
-        return new String[0];
+    }
+
+    public String[] getTitle4PopupWindow() {
+        List<Integer> priorityList = getPriorityInOrder();
+
+        List<String> result = new ArrayList<String>();
+
+        for (Integer priority : priorityList) {
+            addTitles(String.valueOf(priority), result);
+        }
+
+        return result.toArray(new String[result.size()]);
+    }
+
+    public String[] getTitle4PopupWindow(String priority) {
+        List<String> list = new ArrayList<String>();
+
+        addTitles(priority, list);
+
+        return list.toArray(new String[list.size()]);
     }
     
     /**
@@ -339,35 +358,6 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
             }
         }
         return StringUtils.EMPTY;
-    }
-    
-    private String[] getTitle4PopupWindow() {
-        
-        List<Integer> priorityList = getPriorityInOrder();
-        
-        if (priorityList.size() == 0) {
-            return new String[0];
-        }
-        
-        int size = 0;
-        //获取总得图表格式
-        for (Integer aPriorityList : priorityList) {
-            size += getChartSize(String.valueOf(aPriorityList));
-        }
-        String[] names = new String[size];
-        
-        int index = 0;
-        for (Integer aPriorityList : priorityList) {
-            String priority = String.valueOf(aPriorityList);
-            Iterator<Map.Entry<String, IndependentChartUIProvider>> chartUI = chartTypeInterfaces.get(priority).entrySet().iterator();
-            while (chartUI.hasNext()) {
-                Map.Entry<String, IndependentChartUIProvider> chartUIEntry = chartUI.next();
-
-                names[index++] = getChartName(chartUIEntry.getKey(), chartUIEntry.getValue());
-            }
-        }
-        
-        return names;
     }
     
     private List<Integer> getPriorityInOrder() {

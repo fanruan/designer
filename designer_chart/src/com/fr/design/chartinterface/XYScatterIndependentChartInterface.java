@@ -21,6 +21,11 @@ import com.fr.design.mainframe.chart.gui.type.XYScatterPlotPane;
  */
 public class XYScatterIndependentChartInterface extends AbstractIndependentChartUIWithAPILevel {
 
+    @Override
+    public boolean needChartChangePane() {
+        return false;
+    }
+
     public AbstractChartTypePane getPlotTypePane(){
         return new XYScatterPlotPane();
     }
