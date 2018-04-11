@@ -353,7 +353,7 @@ public class DesignUtils {
         } else {
             try {
                 String web = GeneralContext.getCurrentAppNameOfEnv();
-                String url = "http://localhost:" + DesignerEnvManager.getEnvManager().getJettyServerPort() + "/" + web + "/" + ServerConfig.getInstance().getReportServletName()
+                String url = "http://localhost:" + DesignerEnvManager.getEnvManager().getJettyServerPort() + "/" + web + "/" + ServerConfig.getInstance().getServletName()
                         + postfixOfUri;
                 StartServer.browserURLWithLocalEnv(url);
             } catch (Throwable e) {
