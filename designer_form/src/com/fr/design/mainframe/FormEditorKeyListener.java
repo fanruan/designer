@@ -1,5 +1,10 @@
 package com.fr.design.mainframe;
 
+import com.fr.base.BaseUtils;
+import com.fr.common.inputevent.InputEventBaseOnOS;
+import java.awt.Cursor;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -10,6 +15,9 @@ import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.designer.creator.XWAbsoluteLayout;
 
 public class FormEditorKeyListener extends KeyAdapter{
+	private static final Cursor ADDCURSOR = Toolkit.getDefaultToolkit().createCustomCursor(
+			BaseUtils.readImage("/com/fr/design/images/form/designer/cursor/add.png"), new Point(0, 0),
+			"addCursor");
 	private FormDesigner designer;
 	private boolean moved;
 
@@ -19,6 +27,9 @@ public class FormEditorKeyListener extends KeyAdapter{
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		if(e.isShiftDown() || InputEventBaseOnOS.isControlDown(e)) {
+			designer.setCursor(ADDCURSOR);
+		}
 		int code = e.getKeyCode();
 		XCreator creator = designer.getSelectionModel().getSelection().getSelectedCreator();
 		XLayoutContainer container;
@@ -46,6 +57,9 @@ public class FormEditorKeyListener extends KeyAdapter{
 	}
 	
 	public void keyReleased(KeyEvent e) {
+		if(!(e.isShiftDown() || InputEventBaseOnOS.isControlDown(e))) {
+			designer.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		}
 		if (moved) {
 			designer.getEditListenerTable().fireCreatorModified(
 					designer.getSelectionModel().getSelection().getSelectedCreator(), DesignerEvent.CREATOR_RESIZED);

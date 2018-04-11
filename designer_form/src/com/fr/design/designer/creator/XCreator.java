@@ -761,4 +761,12 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
         return true;
     }
 
+	/**
+	 * 是否支持共享-现只支持报表块、图表、tab块、绝对布局
+	 * @return
+	 */
+	public boolean isSupportShared() {
+		return false;
+	}
+
 }
