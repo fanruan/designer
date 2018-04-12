@@ -22,10 +22,6 @@ import com.fr.design.mainframe.chart.gui.type.ColumnPlotPane;
  * Created by eason on 15/4/21.
  */
 public class ColumnIndependentChartInterface extends AbstractIndependentChartUIWithAPILevel {
-    @Override
-    public boolean needChartChangePane() {
-        return false;
-    }
 
     public AbstractChartTypePane getPlotTypePane(){
         return new ColumnPlotPane();

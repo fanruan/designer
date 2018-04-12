@@ -5,6 +5,7 @@ import com.fr.chart.base.AttrChangeConfig;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartattr.SwitchState;
+import com.fr.chart.charttypes.ChartTypeManager;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.dialog.DialogActionListener;
 import com.fr.design.dialog.UIDialog;
@@ -21,8 +22,17 @@ import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -302,7 +312,7 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
     }
 
     private void checkConfigButtonVisible() {
-        addButton.setVisible(true);
+        addButton.setVisible(ChartTypeManager.enabledChart(editingCollection.getSelectedChart().getPlot().getPlotID()));
         //新建一个collection
         if(editingCollection.getState() == SwitchState.DEFAULT && editingCollection.getSelectedChart() != null){
             //Chart 不支持图表切换

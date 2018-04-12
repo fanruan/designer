@@ -21,10 +21,6 @@ import com.fr.design.mainframe.chart.gui.type.StockPlotPane;
  */
 public class StockIndependentChartInterface extends AbstractIndependentChartUIWithAPILevel {
 
-    @Override
-    public boolean needChartChangePane() {
-        return false;
-    }
 
     public AbstractChartTypePane getPlotTypePane(){
         return new StockPlotPane();

@@ -21,10 +21,6 @@ import com.fr.design.mainframe.chart.gui.type.AreaPlotPane;
  * Created by eason on 15/4/21.
  */
 public class AreaIndependentChartInterface extends AbstractIndependentChartUIWithAPILevel {
-    @Override
-    public boolean needChartChangePane() {
-        return false;
-    }
 
     public AbstractChartTypePane getPlotTypePane(){
         return new AreaPlotPane();

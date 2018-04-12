@@ -22,10 +22,6 @@ import com.fr.design.mainframe.chart.gui.type.DonutPlotPane;
  */
 public class DonutIndependentChartInterface extends AbstractIndependentChartUIWithAPILevel {
 
-    @Override
-    public boolean needChartChangePane() {
-        return false;
-    }
 
     public AbstractChartTypePane getPlotTypePane(){
         return new DonutPlotPane();
