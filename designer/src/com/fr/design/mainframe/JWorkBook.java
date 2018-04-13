@@ -51,7 +51,7 @@ import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.general.ModuleContext;
-import com.fr.general.web.ParameterConsts;
+import com.fr.general.web.ParameterConstants;
 import com.fr.grid.Grid;
 import com.fr.grid.GridUtils;
 import com.fr.io.exporter.EmbeddedTableDataExporter;
@@ -62,7 +62,6 @@ import com.fr.poly.PolyDesigner;
 import com.fr.poly.creator.BlockCreator;
 import com.fr.privilege.finegrain.WorkSheetPrivilegeControl;
 import com.fr.report.ReportHelper;
-import com.fr.report.elementcase.ElementCase;
 import com.fr.report.elementcase.TemplateElementCase;
 import com.fr.report.poly.PolyWorkSheet;
 import com.fr.report.worksheet.WorkSheet;
@@ -844,7 +843,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      */
     public void previewMenuActionPerformed(PreviewProvider provider) {
         setPreviewType(provider);
-        WebPreviewUtils.actionPerformed(this, provider.parametersForPreview(), ParameterConsts.REPORTLET);
+        WebPreviewUtils.actionPerformed(this, provider.parametersForPreview(), ParameterConstants.REPORTLET);
     }
 
     /**
