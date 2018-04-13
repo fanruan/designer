@@ -20,7 +20,7 @@ public class LogDetailPane extends JPanel{
 		fr.setSize(600, 400);
 		GUICoreUtils.centerWindow(fr);
 		fr.setResizable(false);
-		fr.setTitle("日志");
+		fr.setTitle(Inter.getLocText("FR-Designer_Log"));
 		fr.setIconImage(BaseUtils.readImageWithCache("com/fr/design/images/buttonicon/history.png"));
 		fr.getContentPane().setLayout(new BorderLayout());
 		fr.getContentPane().add(this, BorderLayout.CENTER);
