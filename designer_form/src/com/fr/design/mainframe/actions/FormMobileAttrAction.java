@@ -1,6 +1,7 @@
 package com.fr.design.mainframe.actions;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.FRContext;
 import com.fr.base.iofileattr.MobileOnlyTemplateAttrMark;
 import com.fr.design.actions.JTemplateAction;
 import com.fr.design.dialog.BasicDialog;
@@ -55,26 +56,35 @@ public class FormMobileAttrAction extends JTemplateAction<JForm> {
             @Override
             public void doOk() {
                 FormMobileAttr formMobileAttr = mobileAttrPane.updateBean();
-                formTpl.setFormMobileAttr(formMobileAttr);
-                ((FormArea)jf.getFormDesign().getParent()).onMobileAttrModified();
-                WidgetPropertyPane.getInstance().refreshDockingView();
-                if (formMobileAttr.isMobileOnly()) {
-                    FunctionProcessor processor = ExtraClassManager.getInstance().getFunctionProcessor();
-                    if (processor != null) {
-                        processor.recordFunction(ReportFunctionProcessor.MOBILE_TEMPLATE_FRM);
-                    }
 
-                    MobileOnlyTemplateAttrMark mobileOnlyTemplateAttrMark = jf.getTarget().getAttrMark(MobileOnlyTemplateAttrMark.XML_TAG);
-                    if (mobileOnlyTemplateAttrMark == null) {
-                        //如果是新建的模板，选择手机专属之后不需要另存为
-                        jf.getTarget().addAttrMark(new MobileOnlyTemplateAttrMark());
-                        FILE editingFILE = jf.getEditingFILE();
-                        if (editingFILE == null || !editingFILE.exists()) {
-                            return;
+                try {
+                    final Form form = (Form) formTpl.clone();
+                    formTpl.setFormMobileAttr(formMobileAttr);
+                    if (formMobileAttr.isMobileOnly()) {
+                        FunctionProcessor processor = ExtraClassManager.getInstance().getFunctionProcessor();
+                        if (processor != null) {
+                            processor.recordFunction(ReportFunctionProcessor.MOBILE_TEMPLATE_FRM);
                         }
-                        String fileName = editingFILE.getName().substring(0, editingFILE.getName().length() - jf.suffix().length()) + "_mobile";
-                        jf.saveAsTemplate(true, fileName);
+
+                        MobileOnlyTemplateAttrMark mobileOnlyTemplateAttrMark = jf.getTarget().getAttrMark(MobileOnlyTemplateAttrMark.XML_TAG);
+                        if (mobileOnlyTemplateAttrMark == null) {
+                            //如果是新建的模板，选择手机专属之后不需要另存为
+
+                            jf.getTarget().addAttrMark(new MobileOnlyTemplateAttrMark());
+                            FILE editingFILE = jf.getEditingFILE();
+                            if (editingFILE == null || !editingFILE.exists()) {
+                                return;
+                            }
+                            String fileName = editingFILE.getName().substring(0, editingFILE.getName().length() - jf.suffix().length()) + "_mobile";
+                            if (!jf.saveAsTemplate(true, fileName)) {
+                                jf.setTarget(form);
+                            }
+                        }
                     }
+                    ((FormArea)jf.getFormDesign().getParent()).onMobileAttrModified();
+                    WidgetPropertyPane.getInstance().refreshDockingView();
+                } catch (CloneNotSupportedException e) {
+                    FRContext.getLogger().error(e.getMessage(), e);
                 }
             }
         });
