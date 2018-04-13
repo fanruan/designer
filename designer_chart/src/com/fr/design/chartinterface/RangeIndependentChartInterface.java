@@ -18,6 +18,7 @@ import com.fr.design.mainframe.chart.gui.type.RangePlotPane;
  */
 public class RangeIndependentChartInterface extends AbstractIndependentChartUIWithAPILevel {
 
+
     public AbstractChartTypePane getPlotTypePane(){
         return new RangePlotPane();
     }

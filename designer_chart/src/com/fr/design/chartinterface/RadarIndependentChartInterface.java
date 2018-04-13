@@ -20,6 +20,7 @@ import com.fr.design.mainframe.chart.gui.type.RadarPlotPane;
  */
 public class RadarIndependentChartInterface extends AbstractIndependentChartUIWithAPILevel {
 
+
     public AbstractChartTypePane getPlotTypePane(){
         return new RadarPlotPane();
     }

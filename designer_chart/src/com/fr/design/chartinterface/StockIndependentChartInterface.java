@@ -21,6 +21,7 @@ import com.fr.design.mainframe.chart.gui.type.StockPlotPane;
  */
 public class StockIndependentChartInterface extends AbstractIndependentChartUIWithAPILevel {
 
+
     public AbstractChartTypePane getPlotTypePane(){
         return new StockPlotPane();
     }

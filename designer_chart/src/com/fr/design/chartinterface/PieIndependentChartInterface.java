@@ -22,6 +22,7 @@ import com.fr.design.mainframe.chart.gui.type.PiePlotPane;
  */
 public class PieIndependentChartInterface extends AbstractIndependentChartUIWithAPILevel {
 
+
     public AbstractChartTypePane getPlotTypePane(){
         return new PiePlotPane();
     }

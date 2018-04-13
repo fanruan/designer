@@ -17,7 +17,6 @@ import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.design.mainframe.chart.gui.item.FlexibleComboBox;
 import com.fr.design.mainframe.chart.gui.item.ItemEventType;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
-import com.fr.extended.chart.AbstractChart;
 import com.fr.general.ComparatorUtils;
 import com.fr.stable.StringUtils;
 
@@ -202,21 +201,27 @@ public class ChartTypePane extends AbstractChartAttrPane{
 		public void relayout(ChartCollection collection){
 			//重构需要重构下拉框选项和cardNames
 			Chart chart = collection.getSelectedChart();
-			String chartID = chart.getPriority();
-			if (collection.getState() == SwitchState.DEFAULT){
-				chartID = StringUtils.EMPTY;
-			}
+			String priority = chart.getPriority();
+			String plotID = chart.getPlot().getPlotID();
+			boolean enabledChart = ChartTypeManager.enabledChart(plotID);
+			String item = ChartTypeInterfaceManager.getInstance().getTitle4PopupWindow(priority, plotID);
+
 			//第一步就是重构cardNames
-			cardNames = ChartTypeInterfaceManager.getInstance().getTitle4PopupWindow(chartID);
+			if (enabledChart) {
+				cardNames = collection.getState() == SwitchState.DEFAULT
+						? ChartTypeInterfaceManager.getInstance().getTitle4PopupWindow()
+						: ChartTypeInterfaceManager.getInstance().getTitle4PopupWindow(priority);
+			} else {
+				cardNames = new String[]{item};
+			}
+
 			//下拉框重构开始。为了防止重构是触发update
 			((FlexibleComboBox)jcb).setItemEvenType(ItemEventType.REACTOR);
 			//重构下拉框选项
 			reactorComboBox();
 			//重新选择选中的下拉项
-			chartID = chart.getPriority();
-			String plotID = chart.getPlot().getPlotID();
-			Object item = ChartTypeInterfaceManager.getInstance().getTitle4PopupWindow(chartID, plotID);
 			jcb.setSelectedItem(item);
+			jcb.setEnabled(enabledChart);
 			//下拉框重构结束
 			((FlexibleComboBox)jcb).setItemEvenType(ItemEventType.DEFAULT);
 			//重新选中
