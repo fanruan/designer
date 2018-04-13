@@ -5,7 +5,6 @@ import com.fr.design.actions.UpdateAction;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.design.utils.DesignUtils;
 import com.fr.general.Inter;
-import com.fr.general.web.ParameterConsts;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
