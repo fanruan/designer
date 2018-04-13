@@ -20,6 +20,7 @@ import com.fr.design.mainframe.chart.gui.type.FunnelPlotPane;
  */
 public class FunnelIndependentChartInterface extends AbstractIndependentChartUIWithAPILevel {
 
+
     public AbstractChartTypePane getPlotTypePane(){
         return new FunnelPlotPane();
     }

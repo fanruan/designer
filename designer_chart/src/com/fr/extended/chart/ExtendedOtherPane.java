@@ -105,7 +105,7 @@ public class ExtendedOtherPane extends AbstractChartAttrPane {
         panel.add(refreshEnabled, BorderLayout.NORTH);
         panel.add(contentPane, BorderLayout.CENTER);
 
-        JPanel gapPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("FR-Designer_Auto_Refresh"), panel);
+        JPanel gapPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("FR-Design-Chart_Auto_Refresh"), panel);
 
         return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Chart-Use_Refresh"), gapPane);
     }

@@ -20,6 +20,7 @@ import com.fr.design.mainframe.chart.gui.type.CustomPlotPane;
  */
 public class CustomIndependentChartInterface extends AbstractIndependentChartUIWithAPILevel {
 
+
     public AbstractChartTypePane getPlotTypePane(){
         return new CustomPlotPane();
     }

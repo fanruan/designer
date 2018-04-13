@@ -1,6 +1,7 @@
 package com.fr.van.chart;
 
 import com.fr.base.FRContext;
+import com.fr.chart.base.ChartConstants;
 import com.fr.design.RestartHelper;
 import com.fr.design.extra.PluginConstants;
 import com.fr.design.gui.ilable.UILabel;
@@ -59,17 +60,17 @@ public class DownloadOnlineSourcesHelper implements DownloadSourcesEvent {
     private static final double PHANTOM_MB = 96.1 * 1024 * 1024;
 
     public void addPhantomSiteInfo() {
-        this.addSiteInfo("plugin.phantomjs", "/assist/phantomjs", PHANTOM_MB);
+        this.addSiteInfo("plugin.phantomjs", ChartConstants.PHANTOMJS_URL, PHANTOM_MB);
     }
 
     private static final double MAP_JSON_MB = 3.8 * 1024 * 1024;
 
     public void addMapJSONSiteInfo() {
-        this.addSiteInfo("map.json", "/assets/map", MAP_JSON_MB);
+        this.addSiteInfo("map.json", ChartConstants.MAP_JSON_URL, MAP_JSON_MB);
     }
 
     public void addSiteInfo(String siteKind, String localDir, double megaBits) {
-        if (new File(FRContext.getCurrentEnv().getPath() + localDir).exists()) {
+        if (new File(StableUtils.pathJoin(FRContext.getCurrentEnv().getPath(), localDir)).exists()) {
             //本地有这个资源，不下载
             return;
         }

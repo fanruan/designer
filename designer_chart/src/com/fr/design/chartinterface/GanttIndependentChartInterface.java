@@ -17,6 +17,7 @@ import com.fr.design.mainframe.chart.gui.type.GanttPlotPane;
  */
 public class GanttIndependentChartInterface extends AbstractIndependentChartUIWithAPILevel {
 
+
     public AbstractChartTypePane getPlotTypePane(){
         return new GanttPlotPane();
     }

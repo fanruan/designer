@@ -13,6 +13,7 @@ import com.fr.design.mainframe.chart.gui.type.GisMapPlotPane;
  */
 public class GisMapIndependentChartInterface extends AbstractIndependentChartUIWithAPILevel {
 
+
     public AbstractChartTypePane getPlotTypePane(){
         return new GisMapPlotPane();
     }
