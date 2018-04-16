@@ -720,6 +720,20 @@ public class XWFitLayout extends XLayoutContainer {
     	rec.height = (int) (rec.height/containerPercent);
     	return rec;
     }
+
+	/**
+	 * 界面容器大小不是默认的时，恢复组件实际大小
+	 */
+	private Rectangle dealWgtBound(Rectangle rec) {
+		if (containerPercent == 1.0) {
+			return rec;
+		}
+		rec.x = (int) (rec.x * containerPercent);
+		rec.y = (int) (rec.y * containerPercent);
+		rec.width = (int) (rec.width * containerPercent);
+		rec.height = (int) (rec.height * containerPercent);
+		return rec;
+	}
     
     /**
      * 新增删除拉伸后更新每个组件的BoundsWidget
@@ -761,6 +775,10 @@ public class XWFitLayout extends XLayoutContainer {
     		}
 			//如果子组件是绝对布局，则内部的widget也要更新
 			if (creator.acceptType(XWAbsoluteLayout.class)){
+    			//更新的时候一定要带上backupBound
+    			if (creator.getBackupBound() == null && wgt.getBeforeScaleBounds() != null) {
+					creator.setBackupBound(dealWgtBound(wgt.getBeforeScaleBounds()));
+				}
 				((XWAbsoluteLayout) creator).updateBoundsWidget();
 				creator.setBackupBound(creator.getBounds());
 			}
