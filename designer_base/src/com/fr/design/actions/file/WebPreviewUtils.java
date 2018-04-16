@@ -7,7 +7,7 @@ import com.fr.file.FILE;
 import com.fr.file.FileNodeFILE;
 import com.fr.general.GeneralUtils;
 import com.fr.general.Inter;
-import com.fr.general.web.ParameterConsts;
+import com.fr.general.web.ParameterConstants;
 import com.fr.stable.project.ProjectConstants;
 
 import javax.swing.*;
@@ -16,11 +16,11 @@ import java.util.Map;
 public final class WebPreviewUtils {
 
     public static void onWorkbookPreview(JTemplate<?, ?> jt) {
-        actionPerformed(jt, jt.getPreviewType().parametersForPreview(), ParameterConsts.REPORTLET);
+        actionPerformed(jt, jt.getPreviewType().parametersForPreview(), ParameterConstants.REPORTLET);
     }
 
     public static void onFormPreview(JTemplate<?, ?> jt) {
-        actionPerformed(jt, null, ParameterConsts.FORMLET);
+        actionPerformed(jt, null, ParameterConstants.FORMLET);
     }
 
     public static void actionPerformed(JTemplate<?, ?> jt, Map<String, Object> map, String actionType) {
