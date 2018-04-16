@@ -26,12 +26,13 @@ public class DesignerStartup extends Activator {
     
     @Override
     public void start() {
-        
-        startSub(PreStartActivator.class);
-        
+    
         if (checkMultiStart()) {
             return;
         }
+    
+        startSub(PreStartActivator.class);
+        
         //启动基础部分
         startSub(BasicActivator.class);
         //启动画面
