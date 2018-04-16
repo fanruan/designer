@@ -147,7 +147,7 @@ public class ReportSplashPane extends SplashPane {
     }
 
     // 是否显示鸣谢文字
-    private boolean shouldShowThanks() {
+    protected boolean shouldShowThanks() {
         Locale[] hideLocales = {Locale.US, Locale.KOREA, Locale.JAPAN};
         for (Locale loc : hideLocales) {
             if (FRContext.getLocale().equals(loc)) {

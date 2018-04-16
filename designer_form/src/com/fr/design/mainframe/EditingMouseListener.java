@@ -2,6 +2,7 @@ package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.vcs.DesignerMode;
+import com.fr.common.inputevent.InputEventBaseOnOS;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
 import com.fr.design.designer.beans.events.DesignerEditor;
@@ -438,6 +439,9 @@ public class EditingMouseListener extends MouseInputAdapter {
         if (DesignerMode.isAuthorityEditing()) {
             return;
         }
+        if ((e.isShiftDown() || InputEventBaseOnOS.isControlDown(e)) && !stateModel.isSelecting()) {
+            stateModel.startSelecting(e);
+        }
         // 如果当前是左键拖拽状态，拖拽组件
         if (stateModel.dragable()) {
             if (SwingUtilities.isRightMouseButton(e)) {
@@ -581,7 +585,7 @@ public class EditingMouseListener extends MouseInputAdapter {
      * @param e 鼠标事件
      */
     public void mouseExited(MouseEvent e) {
-        if (designer.getCursor().getType() != Cursor.DEFAULT_CURSOR) {
+        if (designer.getCursor().getType() != Cursor.DEFAULT_CURSOR && !(e.isShiftDown() || InputEventBaseOnOS.isControlDown(e))) {
             designer.setCursor(Cursor.getDefaultCursor());
         }
         cancelPromptWidgetForbidEnter();
