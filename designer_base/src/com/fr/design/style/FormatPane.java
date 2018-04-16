@@ -3,15 +3,20 @@
  */
 package com.fr.design.style;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
-import java.text.Format;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.fr.base.FRContext;
+import com.fr.base.TextFormat;
+import com.fr.data.core.FormatField;
+import com.fr.data.core.FormatField.FormatContents;
+import com.fr.design.dialog.BasicPane;
+import com.fr.design.gui.ibutton.UIRadioButton;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.general.ComparatorUtils;
+import com.fr.general.Inter;
+import com.fr.stable.ArrayUtils;
+import com.fr.stable.StringUtils;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -25,21 +30,15 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
-import com.fr.base.FRContext;
-import com.fr.base.TextFormat;
-import com.fr.data.core.FormatField;
-import com.fr.data.core.FormatField.FormatContents;
-import com.fr.design.gui.ibutton.UIRadioButton;
-import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.itextfield.UITextField;
-import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.dialog.BasicPane;
-import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
-import com.fr.stable.ArrayUtils;
-import com.fr.stable.StringUtils;
-import com.fr.design.utils.gui.GUICoreUtils;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * 属性界面中的格式面板
@@ -316,6 +315,9 @@ public class FormatPane extends BasicPane {
      */
     public Format update() {
     	String text = patternTextField.getText();
+        if (getFormatContents() == FormatContents.TEXT) {
+            return FormatField.getInstance().getFormat(getFormatContents(), text);
+        }
     	if(StringUtils.isEmpty(text)) {
     		return null;
     	}
