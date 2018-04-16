@@ -1,12 +1,12 @@
 package com.fr.design.mainframe.loghandler;
 
-import java.awt.BorderLayout;
+import com.fr.base.BaseUtils;
+import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.general.Inter;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-import com.fr.base.BaseUtils;
-import com.fr.design.utils.gui.GUICoreUtils;
+import java.awt.BorderLayout;
 
 public class LogDetailPane extends JPanel{
 	public LogDetailPane() {
