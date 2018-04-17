@@ -29,7 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * richer:调用该类并且对事件名字国际化时需要严格按照"Event-事件名"来进行命名
+ * richer:调用该类并且对事件名字国际化时需要严格按照"FR-Engine_Event_事件名"来进行命名
  */
 public class EventPane extends BasicPane {
 	private DefaultListModel listModel;
