@@ -36,11 +36,11 @@ public class EventCreator extends NameableSelfCreator {
 	}
 
 	/*
-	 * richer:国际化事件名称，所有需要国际化的事件都应按格式Event-eventName来进行国际化
+	 * richer:国际化事件名称，所有需要国际化的事件都应按格式FR-Engine_Event_eventName来进行国际化
 	 */
 	public static final String switchLang(String eventName) {
 		try {
-			return Inter.getLocText("Event-" + eventName);
+			return Inter.getLocText("FR-Engine_Event_" + eventName);
 		} catch (Exception e) {
 			FRContext.getLogger().error(e.getMessage(), e);
 			return eventName;
