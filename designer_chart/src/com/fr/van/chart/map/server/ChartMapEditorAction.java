@@ -25,7 +25,7 @@ public class ChartMapEditorAction extends UpdateAction {
     public void actionPerformed(ActionEvent evt) {
         int port = DesignerEnvManager.getEnvManager().getJettyServerPort();
         String web = GeneralContext.getCurrentAppNameOfEnv();
-        String serverlet = ServerConfig.getInstance().getServletMapping();
+        String serverlet = ServerConfig.getInstance().getReportServletName();
         Env env = FRContext.getCurrentEnv();
         StartServer.browserURLWithLocalEnv(env.isLocalEnv() ? String.format("http://localhost:%d/%s/%s?op=map", port, web, serverlet) : env.getPath() + "?op=map");
     }
