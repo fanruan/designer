@@ -134,8 +134,10 @@ public class DSColumnPane extends BasicPane {
             this.cellElement = (TemplateCellElement) cellElement.clone();
         } catch (CloneNotSupportedException ignored) {
         }
-        // 只更新基本设置的面板信息即可，因为从基本信息切换到其他设置的时候也还是会更新其他面板的
+        //REPORT-7744 9.0里面过滤条件和高级设置可以通过其他地方设置，populate的时候需要更新所有面板的信息,防止设置丢失
         this.basicPane.populate(tds, this.cellElement);
+        this.conditionPane.populate(tds, this.cellElement);
+        this.advancedPane.populate(this.cellElement);
     }
 
     /**
