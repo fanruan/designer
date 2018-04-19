@@ -16,7 +16,10 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.utils.gui.LayoutUtils;
-import com.fr.form.ui.*;
+import com.fr.form.ui.UserDefinedWidgetConfig;
+import com.fr.form.ui.Widget;
+import com.fr.form.ui.WidgetConfig;
+import com.fr.form.ui.WidgetInfoConfig;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
@@ -27,16 +30,26 @@ import com.fr.plugin.observer.PluginEvent;
 import com.fr.plugin.observer.PluginEventListener;
 import com.fr.stable.ArrayUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * @author null
+ */
 public class FormParaWidgetPane extends JPanel {
     private static FormParaWidgetPane THIS;
     private final static int BORDER = 5;
@@ -69,28 +82,28 @@ public class FormParaWidgetPane extends JPanel {
     private UILabel paraLabel;
 
     private FormDesigner designer;
-    
+
     static {
         GeneralContext.listenPluginRunningChanged(new PluginEventListener() {
-            
+
             @Override
             public void on(PluginEvent event) {
-                
+
                 synchronized (FormParaWidgetPane.class) {
                     THIS = null;
                 }
             }
         }, new PluginFilter() {
-            
+
             @Override
             public boolean accept(PluginContext context) {
-                
+
                 return context.contain(PluginModule.ExtraDesign, FormWidgetOptionProvider.XML_TAG);
             }
         });
     }
-    
-    public static synchronized final FormParaWidgetPane getInstance(FormDesigner designer) {
+
+    public static synchronized FormParaWidgetPane getInstance(FormDesigner designer) {
         if (THIS == null) {
             THIS = new FormParaWidgetPane();
         }
@@ -102,21 +115,22 @@ public class FormParaWidgetPane extends JPanel {
     public FormParaWidgetPane() {
         setLayout(new FlowLayout(FlowLayout.LEFT));
         DesignerContext.getDesignerFrame().getCenterTemplateCardPane().addComponentListener(new ComponentAdapter() {
+            @Override
             public void componentResized(ComponentEvent e) {
                 if (FormParaWidgetPane.this.getParent() != null) {
-                    JPanel fother = (JPanel) FormParaWidgetPane.this.getParent();
-                    int delta_wdith = 0;
-                    for (int i = 0; i < fother.getComponentCount() - 1; i++) {
-                        delta_wdith += fother.getComponent(i).getWidth();
+                    JPanel parent = (JPanel) FormParaWidgetPane.this.getParent();
+                    int deltaWidth = 0;
+                    for (int i = 0; i < parent.getComponentCount() - 1; i++) {
+                        deltaWidth += parent.getComponent(i).getWidth();
                     }
 
-                    if (delta_wdith == 0) {
+                    if (deltaWidth == 0) {
                         return;
                     }
 
-                    Dimension d = fother.getSize();
-                    setPreferredSize(new Dimension(d.width - delta_wdith, d.height));
-                    LayoutUtils.layoutContainer(fother);
+                    Dimension d = parent.getSize();
+                    setPreferredSize(new Dimension(d.width - deltaWidth, d.height));
+                    LayoutUtils.layoutContainer(parent);
                 }
             }
         });
@@ -158,7 +172,7 @@ public class FormParaWidgetPane extends JPanel {
     }
 
     private void initChartTypePopUp() {
-        if (chartTypePopupMenu == null){
+        if (chartTypePopupMenu == null) {
             JPanel componentsPara = new JPanel(new FlowLayout(FlowLayout.LEFT));
             WidgetOption[] chartOptions = loadChartOptions();
             for (WidgetOption chartOption : chartOptions) {
@@ -223,9 +237,7 @@ public class FormParaWidgetPane extends JPanel {
         predifinedwidgeList.clear();
         if (designer != null) {
             WidgetOption[] designerPre = designer.getDesignerMode().getPredefinedWidgetOptions();
-            for (int i = 0; i < designerPre.length; i++) {
-                predifinedwidgeList.add(designerPre[i]);
-            }
+            predifinedwidgeList.addAll(Arrays.asList(designerPre));
         }
         WidgetInfoConfig mgr = WidgetInfoConfig.getInstance();
         Iterator<String> nameIt = mgr.getWidgetConfigNameIterator();
@@ -360,6 +372,7 @@ public class FormParaWidgetPane extends JPanel {
             }
         }
 
+        @Override
         public void mouseDragged(MouseEvent e) {
             if (designer.getParaComponent() != null) {
                 return;
@@ -367,7 +380,7 @@ public class FormParaWidgetPane extends JPanel {
 
             designer.addParaComponent();
             JPanel pane = FormWidgetDetailPane.getInstance(designer);
-            EastRegionContainerPane.getInstance().replaceDownPane(pane);
+            EastRegionContainerPane.getInstance().replaceWidgetLibPane(pane);
             this.setEnabled(false);
 
             designer.addDesignerEditListener(new paraButtonDesignerAdapter(this));
@@ -378,6 +391,7 @@ public class FormParaWidgetPane extends JPanel {
             }
         }
 
+        @Override
         public void setEnabled(boolean b) {
             super.setEnabled(b);
             paraLabel.setForeground(b ? Color.BLACK : new Color(198, 198, 198));
@@ -397,6 +411,7 @@ public class FormParaWidgetPane extends JPanel {
          *
          * @param evt 事件
          */
+        @Override
         public void fireCreatorModified(DesignerEvent evt) {
             button.setEnabled(designer.getParaComponent() == null);
         }
@@ -404,14 +419,14 @@ public class FormParaWidgetPane extends JPanel {
 
     private WidgetOption[] loadWidgetOptions() {
         if (widgetOptions == null) {
-            widgetOptions = (WidgetOption[]) ArrayUtils.addAll(WidgetOption.getFormWidgetIntance(), ExtraDesignClassManager.getInstance().getFormWidgetOptions());
+            widgetOptions = ArrayUtils.addAll(WidgetOption.getFormWidgetIntance(), ExtraDesignClassManager.getInstance().getFormWidgetOptions());
         }
         return widgetOptions;
     }
 
     private WidgetOption[] loadLayoutOptions() {
         if (layoutOptions == null) {
-            layoutOptions = (WidgetOption[]) ArrayUtils.addAll(FormWidgetOption.getFormLayoutInstance(), ExtraDesignClassManager.getInstance().getFormWidgetContainerOptions());
+            layoutOptions = ArrayUtils.addAll(FormWidgetOption.getFormLayoutInstance(), ExtraDesignClassManager.getInstance().getFormWidgetContainerOptions());
         }
         return layoutOptions;
     }
