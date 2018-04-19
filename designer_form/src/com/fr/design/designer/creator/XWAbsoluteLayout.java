@@ -567,4 +567,12 @@ public class XWAbsoluteLayout extends XLayoutContainer {
     public boolean supportInnerOrderChangeActions() {
         return true;
     }
+
+    /**
+     * 是否支持共享-现只支持报表块、图表、tab块、绝对布局
+     * @return
+     */
+    public boolean isSupportShared() {
+        return true;
+    }
 }

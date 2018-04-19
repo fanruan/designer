@@ -122,4 +122,11 @@ public class XWAbsoluteBodyLayout extends XWAbsoluteLayout {
         return false;
     }
 
+    /**
+     * 是否支持共享-body不支持共享
+     * @return
+     */
+    public boolean isSupportShared() {
+        return false;
+    }
 }
