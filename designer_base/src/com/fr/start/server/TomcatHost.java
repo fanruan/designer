@@ -71,6 +71,7 @@ public class TomcatHost {
             this.listener = new AprLifecycleListener();
             this.server.addLifecycleListener(listener);
             this.tomcat.getHost().setAppBase(StableUtils.getInstallHome() + File.separator + ".");
+            this.tomcat.getConnector().setURIEncoding("UTF-8");
         } catch (Exception e) {
             //todo 最好加一个用server.xml
             FRContext.getLogger().error(e.getMessage(), e);
