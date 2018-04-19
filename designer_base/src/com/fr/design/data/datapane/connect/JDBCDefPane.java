@@ -56,6 +56,7 @@ public class JDBCDefPane extends JPanel {
 		jdbcMap.put("Postgre", new DriverURLName[]{new DriverURLName("org.postgresql.Driver", "jdbc:postgresql://localhost:5432/")});
 		jdbcMap.put("SQLite", new DriverURLName[]{new DriverURLName("org.sqlite.JDBC", "jdbc:sqlite://${ENV_HOME}/../FRDemo.db")});
 		jdbcMap.put("Odps", new DriverURLName[]{new DriverURLName("com.aliyun.odps.jdbc.OdpsDriver", "jdbc:odps:http://service.odps.aliyun.com/api?project=")});
+
 	}
 
 	private UIButton dbtypeButton;
