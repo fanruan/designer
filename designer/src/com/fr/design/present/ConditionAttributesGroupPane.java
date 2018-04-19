@@ -55,10 +55,15 @@ public class ConditionAttributesGroupPane extends UIListControlPane {
             return;
         }
 		final TemplateElementCase tplEC = ePane.getEditingElementCase();
+		final HighlightGroup highlightGroup = updateHighlightGroup();
         ReportActionUtils.actionIterateWithCellSelection((CellSelection) editSelection, tplEC, new ReportActionUtils.IterAction() {
             public void dealWith(CellElement editCellElement) {
-                ((TemplateCellElement)editCellElement).setHighlightGroup(updateHighlightGroup());
-            }
+				try {
+					((TemplateCellElement)editCellElement).setHighlightGroup((HighlightGroup) highlightGroup.clone());
+				} catch (CloneNotSupportedException e) {
+					FRContext.getLogger().error("InternalError: " + e.getMessage());
+				}
+			}
         });
         DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified();
 	}

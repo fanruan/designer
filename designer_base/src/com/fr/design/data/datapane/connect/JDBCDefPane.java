@@ -55,6 +55,8 @@ public class JDBCDefPane extends JPanel {
 		jdbcMap.put("Derby", new DriverURLName[]{new DriverURLName("org.apache.derby.jdbc.ClientDriver", "jdbc:derby://localhost:1527/")});
 		jdbcMap.put("Postgre", new DriverURLName[]{new DriverURLName("org.postgresql.Driver", "jdbc:postgresql://localhost:5432/")});
 		jdbcMap.put("SQLite", new DriverURLName[]{new DriverURLName("org.sqlite.JDBC", "jdbc:sqlite://${ENV_HOME}/../FRDemo.db")});
+		jdbcMap.put("Odps", new DriverURLName[]{new DriverURLName("com.aliyun.odps.jdbc.OdpsDriver", "jdbc:odps:http://service.odps.aliyun.com/api?project=")});
+
 	}
 
 	private UIButton dbtypeButton;
@@ -64,7 +66,7 @@ public class JDBCDefPane extends JPanel {
 	private UITextField userNameTextField;
 	private JPasswordField passwordTextField;
 	// 请不要改动dbtype,只应该最后添加
-	private final String[] dbtype = {"", "Oracle", "DB2", "SQL Server", "MySQL", "Sybase", "Access", "Derby", "Postgre","SQLite","Inceptor", "Others"};
+	private final String[] dbtype = {"", "Oracle", "DB2", "SQL Server", "MySQL", "Sybase", "Access", "Derby", "Postgre", "SQLite", "Inceptor", "Others", "Odps"};
 
 	// carl:DBCP的一些属性
 	private IntegerEditor DBCP_INITIAL_SIZE = new IntegerEditor();

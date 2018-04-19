@@ -72,7 +72,7 @@ public class EventPropertyTable extends UIListControlPane {
 	}
 	
 	private String switchLang(String eventName)	{
-		return Inter.getLocText("Event-" + eventName);
+		return Inter.getLocText("FR-Engine_Event_" + eventName);
 	}
 
 	/**
