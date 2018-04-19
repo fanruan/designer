@@ -3,22 +3,23 @@
  */
 package com.fr.design.designer.creator;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.beans.IntrospectionException;
-
-import javax.swing.JComponent;
-import com.fr.design.gui.ilable.UILabel;
-import javax.swing.JPanel;
-
 import com.fr.base.BaseUtils;
+import com.fr.design.designer.properties.mobile.MultiFileUploaderPropertyUI;
+import com.fr.design.form.util.XCreatorConstants;
+import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.form.ui.MultiFileEditor;
-import com.fr.design.form.util.XCreatorConstants;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
+
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.beans.IntrospectionException;
 
 /**
  * @author richer
@@ -92,5 +93,10 @@ public class XMultiFileUploader extends XFieldEditor {
     @Override
     protected String getIconName() {
         return "files_up.png";
+    }
+
+    @Override
+    public WidgetPropertyUIProvider[] getWidgetPropertyUIProviders() {
+        return new WidgetPropertyUIProvider[]{ new MultiFileUploaderPropertyUI(this)};
     }
 }
