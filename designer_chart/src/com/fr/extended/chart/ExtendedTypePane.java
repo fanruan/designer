@@ -3,11 +3,12 @@ package com.fr.extended.chart;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.charttypes.ChartTypeManager;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
+import com.fr.design.mainframe.chart.gui.type.ChartImagePane;
 
 /**
  * Created by shine on 2018/3/5.
  */
-public class ExtendedTypePane extends AbstractChartTypePane {
+public class ExtendedTypePane<T extends AbstractChart> extends AbstractChartTypePane {
 
     @Override
     protected String[] getTypeIconPath() {
@@ -19,12 +20,34 @@ public class ExtendedTypePane extends AbstractChartTypePane {
         return new String[0];
     }
 
+    protected int getTypeIndex(T chart) {
+        return 0;
+    }
+
+    protected void setType(T chart, int index) {
+    }
+
     @Override
     public void populateBean(Chart chart) {
+        if (getTypeIconPath().length > 0) {
+            for (ChartImagePane imagePane : typeDemo) {
+                imagePane.isPressing = false;
+            }
+            typeDemo.get(getTypeIndex((T) chart)).isPressing = true;
+            checkDemosBackground();
+        }
     }
 
     @Override
     public void updateBean(Chart chart) {
+        if (getTypeIconPath().length > 0) {
+            for (int index = 0, len = typeDemo.size(); index < len; index++) {
+                if (typeDemo.get(index).isPressing) {
+                    setType((T) chart, index);
+                    return;
+                }
+            }
+        }
     }
 
     @Override
