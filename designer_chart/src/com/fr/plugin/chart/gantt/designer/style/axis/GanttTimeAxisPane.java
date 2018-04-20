@@ -22,7 +22,9 @@ import java.awt.*;
 public class GanttTimeAxisPane extends AbstractVanChartScrollPane<VanChart> {
     private static final ZoomLevel[] ZOOM_LEVELS = new ZoomLevel[]{ZoomLevel.AUTO, ZoomLevel.ZERO, ZoomLevel.ONE,
             ZoomLevel.TWO, ZoomLevel.THREE, ZoomLevel.FOUR, ZoomLevel.FIVE, ZoomLevel.SIX, ZoomLevel.SEVEN,
-            ZoomLevel.EIGHT, ZoomLevel.NINE, ZoomLevel.TEN, ZoomLevel.ELEVEN, ZoomLevel.TWELVE};
+            ZoomLevel.EIGHT, ZoomLevel.NINE, ZoomLevel.TEN, ZoomLevel.ELEVEN, ZoomLevel.TWELVE, ZoomLevel.THIRTEEN,
+            ZoomLevel.FOURTEEN, ZoomLevel.FIFTEEN, ZoomLevel.SIXTEEN, ZoomLevel.SEVENTEEN, ZoomLevel.EIGHTEEN,
+            ZoomLevel.NINETEEN, ZoomLevel.TWENTY, ZoomLevel.TWENTY_ONE};
 
     private UIButtonGroup timeZoom;
     private UIComboBox initialLevel;
