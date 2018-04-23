@@ -59,7 +59,8 @@ public class FunctionManagerAction extends UpdateAction {
 
 			}
         });
-        functionManagerPane.populate(functionManager.mirror());
+        FunctionConfig mirror = functionManager.mirror();
+        functionManagerPane.populate(mirror);
         functionManagerDialog.setVisible(true);
     }
     

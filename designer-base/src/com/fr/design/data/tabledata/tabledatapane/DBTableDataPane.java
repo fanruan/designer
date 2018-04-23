@@ -5,7 +5,6 @@ import com.fr.base.FRContext;
 import com.fr.base.Parameter;
 import com.fr.base.ParameterHelper;
 import com.fr.data.core.db.TableProcedure;
-import com.fr.data.impl.AbstractDatabaseConnection;
 import com.fr.data.impl.Connection;
 import com.fr.data.impl.DBTableData;
 import com.fr.data.impl.JDBCDatabaseConnection;
@@ -42,7 +41,6 @@ import com.fr.script.Calculator;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.ParameterProvider;
 import com.fr.stable.StringUtils;
-import org.sqlite.JDBC;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
