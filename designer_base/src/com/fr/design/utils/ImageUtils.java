@@ -65,6 +65,11 @@ public class ImageUtils {
         return false;
     }
 
+    /**
+     * 判断图片是否是png类型
+     * @param imageFile
+     * @return
+     */
     public static boolean isPNGType(File imageFile) {
         if (ComparatorUtils.equals(getImageType(imageFile), "png")) {
             return true;
