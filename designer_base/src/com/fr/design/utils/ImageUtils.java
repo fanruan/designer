@@ -13,11 +13,15 @@ import javax.imageio.ImageWriter;
 import javax.imageio.stream.ImageInputStream;
 import javax.imageio.stream.ImageOutputStream;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Iterator;
 
 /**
@@ -27,38 +31,28 @@ import java.util.Iterator;
 public class ImageUtils {
 
     /**
-     * 默认压缩算法,采用75%质量压缩
+     * 默认压缩算法,采用75%质量压缩,带透明度的png默认使用缩放的方式实现压缩尺寸压缩50%,大小大约为1/4
      *
      * @param imageFile 原文件
      * @return 压缩后的BufferedImage对象
      */
-    public static BufferedImage defaultImageCompress(File imageFile) {
+    public static Image defaultImageCompress(File imageFile) {
+        if (imageFile == null || !imageFile.exists()) {
+            return null;
+        }
         try {
-            return imageCompress(imageFile, 0.75f);//默认75%质量
+            BufferedImage srcImg = BaseUtils.readImage(imageFile.getPath());
+            if (canbeCompressedToJPEG(imageFile)) {
+                return jpegCompress(srcImg, 0.75f);
+            } else if (withOpacity(imageFile)) {
+                //带透明度的采用缩放的方式
+                return scale(srcImg, 0.5f, true);
+            }
         } catch (IOException e) {
             FRLogger.getLogger().info("image compress failed!");
 
         }
         return BaseUtils.readImage(imageFile.getPath());
-    }
-
-    /**
-     * 图片压缩
-     *
-     * @param imageFile 原文件
-     * @param quality   质量系数(0-1)
-     * @return 压缩后的图片
-     * @throws IOException
-     */
-    public static BufferedImage imageCompress(File imageFile, float quality) throws IOException {
-        BufferedImage result = BaseUtils.readImage(imageFile.getPath());
-        if (imageFile == null) {
-            return null;
-        }
-        if (canbeCompressedToJPEG(imageFile)) {
-            return jpegCompress(result, quality);
-        }
-        return result;
     }
 
     public static boolean canbeCompressedToJPEG(File imageFile) {
@@ -67,6 +61,13 @@ public class ImageUtils {
         }
         if (ComparatorUtils.equals(getImageType(imageFile), "png")) {//png小写
             return !isAlphaAreaOverload(imageFile);//少量透明度系数的png直接压缩jpg
+        }
+        return false;
+    }
+
+    public static boolean withOpacity(File imageFile) {
+        if (ComparatorUtils.equals(getImageType(imageFile), "png")) {
+            return true;
         }
         return false;
     }
@@ -174,5 +175,70 @@ public class ImageUtils {
         g.dispose();
 
         return newImage;
+    }
+
+    /**
+     * 缩放图像（按比例缩放）
+     *
+     * @param srcImg            源图像来源流
+     * @param scale             缩放比例。比例大于1时为放大，小于1大于0为缩小
+     * @param opacityCompatible 是否处理背景透明
+     */
+    public static Image scale(BufferedImage srcImg, float scale, boolean opacityCompatible) {
+        if (scale < 0) {
+            // 自动修正负数
+            scale = -scale;
+        }
+
+        int width = mul(Integer.toString(srcImg.getWidth(null)), Float.toString(scale)).intValue(); // 得到源图宽
+        int height = mul(Integer.toString(srcImg.getHeight(null)), Float.toString(scale)).intValue(); // 得到源图长
+        return scale(srcImg, width, height, opacityCompatible);
+    }
+
+    private static BigDecimal mul(String v1, String v2) {
+        return mul(new BigDecimal(v1), new BigDecimal(v2));
+    }
+
+    private static BigDecimal mul(BigDecimal v1, BigDecimal v2) {
+        return v1.multiply(v2);
+    }
+
+    /**
+     * 缩放图像（按长宽缩放）
+     * 目标长宽与原图不成比例会变形
+     *
+     * @param srcImg            源图像来源流
+     * @param width             目标宽度
+     * @param height            目标高度
+     * @param opacityCompatible 是否处理背景透明
+     * @return {@link Image}
+     */
+    private static Image scale(BufferedImage srcImg, int width, int height, boolean opacityCompatible) {
+        int srcHeight = srcImg.getHeight(null);
+        int srcWidth = srcImg.getWidth(null);
+        int scaleType;
+        if (srcHeight == height && srcWidth == width) {
+            // 源与目标长宽一致返回原图
+            return srcImg;
+        } else if (srcHeight < height || srcWidth < width) {
+            // 放大图片使用平滑模式
+            scaleType = Image.SCALE_SMOOTH;
+        } else {
+            scaleType = Image.SCALE_DEFAULT;
+        }
+        if (opacityCompatible) {//需要保留透明度背景
+            BufferedImage toImg = new BufferedImage(width, height, srcImg.getType());
+            Graphics2D g2d = toImg.createGraphics();
+            toImg = g2d.getDeviceConfiguration().createCompatibleImage(width, height, Transparency.TRANSLUCENT);
+            g2d.dispose();
+
+            g2d = toImg.createGraphics();
+            Image from = srcImg.getScaledInstance(width, height, scaleType);
+            g2d.drawImage(from, 0, 0, null);
+            g2d.dispose();
+            return toImg;
+        }
+        return srcImg.getScaledInstance(width, height, scaleType);
+
     }
 }
