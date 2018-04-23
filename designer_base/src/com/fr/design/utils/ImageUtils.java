@@ -3,6 +3,7 @@ package com.fr.design.utils;
 import com.fr.base.BaseUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
+import com.fr.stable.CoreGraphHelper;
 import com.fr.stable.StringUtils;
 
 import javax.imageio.IIOImage;
@@ -175,7 +176,7 @@ public class ImageUtils {
         int width = img.getWidth();
         int height = img.getHeight();
 
-        BufferedImage newImage = new BufferedImage(width, height, imageType);
+        BufferedImage newImage = CoreGraphHelper.createBufferedImage(width, height, imageType);
         Graphics g = newImage.createGraphics();
 
         g.drawImage(img, 0, 0, null);
@@ -235,7 +236,7 @@ public class ImageUtils {
             scaleType = Image.SCALE_DEFAULT;
         }
         if (opacityCompatible) {//需要保留透明度背景
-            BufferedImage toImg = new BufferedImage(width, height, srcImg.getType());
+            BufferedImage toImg = CoreGraphHelper.createBufferedImage(width, height, srcImg.getType());
             Graphics2D g2d = toImg.createGraphics();
             toImg = g2d.getDeviceConfiguration().createCompatibleImage(width, height, Transparency.TRANSLUCENT);
             g2d.dispose();
