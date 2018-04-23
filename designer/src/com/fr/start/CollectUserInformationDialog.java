@@ -17,9 +17,15 @@ import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
 import com.fr.stable.OperatingSystem;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 import javax.swing.border.TitledBorder;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Desktop;
+import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -27,6 +33,9 @@ import java.awt.event.WindowEvent;
 import java.net.URI;
 import java.util.Locale;
 
+/**
+ * @author null
+ */
 public class CollectUserInformationDialog extends UIDialog {
 
     private static final int ONLINE_VERIFY_TIMEOUT = 30 * 1000;
@@ -37,7 +46,30 @@ public class CollectUserInformationDialog extends UIDialog {
     private static final String JP_LOGIN_HTML = SiteCenter.getInstance().acquireUrlByKind("frlogin.jp");
 
     private UITextField keyTextField;
-    private DescriptionTextArea descriptionTextArea;
+
+    private ActionListener actionListener = new ActionListener() {
+        @Override
+        public void actionPerformed(final ActionEvent e) {
+            getKeyAction();
+        }
+    };
+
+    private ActionListener verifyActionListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            String keyValue = CollectUserInformationDialog.this.getKey();
+            String message;
+            if (ActiveKeyGenerator.verify(keyValue, ONLINE_VERIFY_TIMEOUT)) {
+                message = Inter.getLocText("FR-Designer_Activate_Activated_Successfully");
+                JOptionPane.showMessageDialog(CollectUserInformationDialog.this, message);
+                DesignerEnvManager.getEnvManager().setActivationKey(keyValue);
+                doOK();
+            } else {
+                message = Inter.getLocText("FR-Designer_Activate_Activation_Code_Invalid");
+                JOptionPane.showMessageDialog(CollectUserInformationDialog.this, message);
+            }
+        }
+    };
 
 
     public CollectUserInformationDialog(Frame parent) {
@@ -51,7 +83,6 @@ public class CollectUserInformationDialog extends UIDialog {
         defaultPane.setLayout(FRGUIPaneFactory.createM_BorderLayout());
         defaultPane.setBorder(BorderFactory.createEmptyBorder(2, 4, 4, 4));
         this.applyClosingAction();
-        //this.applyEscapeAction();
         JPanel centPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         defaultPane.add(centPane, BorderLayout.CENTER);
 
@@ -59,44 +90,44 @@ public class CollectUserInformationDialog extends UIDialog {
         JPanel topPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         centPane.add(topPane, BorderLayout.NORTH);
         topPane.setBorder(BorderFactory.createTitledBorder(null,
-                Inter.getLocText("Collect-Enter_your_user_information_code(It's_free_to_get_from_product's_official_website)"),
+                Inter.getLocText("FR-Designer_Activate_Enter_Your_FR_Activation_Code"),
                 TitledBorder.LEADING, TitledBorder.TOP));
         JPanel keyPane = new JPanel(new BorderLayout(4, 4));
         keyPane.setBorder(BorderFactory.createEmptyBorder(32, 2, 32, 2));
         topPane.add(keyPane);
 
-        UILabel avctivenumberLabel = new UILabel();
-        avctivenumberLabel.setText(Inter.getLocText("FR-Designer-Collect_Information_free") + ":");
-        keyPane.add(avctivenumberLabel, BorderLayout.WEST);
+        UILabel activateCodeLabel = new UILabel();
+        activateCodeLabel.setText(Inter.getLocText("FR-Designer_Activate_FR_Activation_Code") + ":");
+        keyPane.add(activateCodeLabel, BorderLayout.WEST);
         keyTextField = new UITextField();
         keyPane.add(keyTextField, BorderLayout.CENTER);
         keyTextField.setMaximumSize(new Dimension(keyTextField.getPreferredSize().width, 25));
         macSystemHit(keyPane);
 
         UIButton getKeyButton = new UIButton(
-                Inter.getLocText("Collect-Click!_Get_user_information_code"));
+                Inter.getLocText("FR-Designer_Activate_Get_FR_Activation_Code"));
         getKeyButton.setMnemonic('F');
         keyPane.add(getKeyButton, BorderLayout.EAST);
         getKeyButton.addActionListener(actionListener);
 
-        descriptionTextArea = new DescriptionTextArea();
+        DescriptionTextArea descriptionTextArea = new DescriptionTextArea();
         descriptionTextArea.setRows(5);
         descriptionTextArea.setBorder(
                 BorderFactory.createTitledBorder(Inter.getLocText("FR-Designer-Collect_Information_Description")));
-        descriptionTextArea.setText(Inter.getLocText("Collect-User_Information_DES"));
+        descriptionTextArea.setText(Inter.getLocText("FR-Designer_Activate_FR_Activation_Code_Description"));
         UIScrollPane scrollPane = new UIScrollPane(descriptionTextArea);
         scrollPane.setBorder(null);
         centPane.add(scrollPane, BorderLayout.CENTER);
         defaultPane.add(this.createControlButtonPane(), BorderLayout.SOUTH);
 
-        this.setTitle(Inter.getLocText("Collect-Collect_User_Information"));
+        this.setTitle(Inter.getLocText("FR-Designer_Activate_Register_Product_For_Free"));
         this.setSize(480, 300);
         this.setModal(true);
         GUICoreUtils.centerWindow(this);
     }
 
     private void macSystemHit(JPanel keyPane) {
-        if(OperatingSystem.isMacOS()) {
+        if (OperatingSystem.isMacOS()) {
             UITextArea macHit = new UITextArea();
             macHit.setText(Inter.getLocText("FR-Designer-Collect_OSXTips"));
             macHit.setEditable(false);
@@ -104,41 +135,35 @@ public class CollectUserInformationDialog extends UIDialog {
         }
     }
 
+    @Override
     protected void applyClosingAction() {
         addWindowListener(new WindowAdapter() {
+            @Override
             public void windowClosing(WindowEvent e) {
                 getKeyAction();
             }
         });
     }
 
-    ActionListener actionListener = new ActionListener() {
-        public void actionPerformed(final ActionEvent e) {
-            getKeyAction();
-        }
-    };
 
-    private void getKeyAction(){
+    private void getKeyAction() {
         Locale locale = FRContext.getLocale();
         String url = EN_LOGIN_HTML;
-        if (ComparatorUtils.equals(locale, Locale.TAIWAN))
-        {
+        if (ComparatorUtils.equals(locale, Locale.TAIWAN)) {
             url = TW_LOGIN_HTML;
         }
-        if (ComparatorUtils.equals(locale, Locale.CHINA))
-        {
+        if (ComparatorUtils.equals(locale, Locale.CHINA)) {
             url = CN_LOGIN_HTML;
         }
-        if (ComparatorUtils.equals(locale, Locale.JAPAN))
-        {
+        if (ComparatorUtils.equals(locale, Locale.JAPAN)) {
             url = JP_LOGIN_HTML;
         }
         try {
             Desktop.getDesktop().browse(new URI(url));
-        } catch (Exception ioe) {
+        } catch (Exception ignored) {
 
         }
-    };
+    }
 
     public String getKey() {
         return this.keyTextField.getText().trim();
@@ -158,6 +183,7 @@ public class CollectUserInformationDialog extends UIDialog {
         exitButton.setMnemonic('E');
         buttonsPane.add(exitButton);
         exitButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent evt) {
                 System.exit(0);
             }
@@ -168,28 +194,11 @@ public class CollectUserInformationDialog extends UIDialog {
         return controlPane;
     }
 
-    private ActionListener verifyActionListener = new ActionListener() {
-        public void actionPerformed(ActionEvent evt) {
-            String keyValue = CollectUserInformationDialog.this.getKey();
-            String message;
-            if (ActiveKeyGenerator.verify(keyValue, ONLINE_VERIFY_TIMEOUT)) {
-                message = Inter.getLocText("FR-Designer-Collect_Information_Successfully");
-                JOptionPane.showMessageDialog(CollectUserInformationDialog.this, message);
-                DesignerEnvManager.getEnvManager().setActivationKey(keyValue);
-                doOK();
-            } else {
-                message = Inter.getLocText("Collect-The_user_information_code_is_invalid");
-                JOptionPane.showMessageDialog(CollectUserInformationDialog.this, message);
-            }
-        }
-    };
 
     /**
      * 检测是否合法输入
-     *
-     * @throws Exception 抛出异常
-     *
      */
-    public void checkValid() throws Exception {
+    @Override
+    public void checkValid() {
     }
 }
