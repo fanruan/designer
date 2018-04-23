@@ -54,8 +54,8 @@ public class StyleListAction extends UpdateAction {
 
 			}                
         });
-
-        styleListPane.populate(ServerPreferenceConfig.getInstance().mirror());
+		ServerPreferenceConfig mirror = ServerPreferenceConfig.getInstance().mirror();
+		styleListPane.populate(mirror);
 		styleListDialog.setVisible(true);
 	
 	}
