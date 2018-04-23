@@ -18,7 +18,7 @@
         <module>designer-realize</module>
     </modules>
     <groupId>com.fr.report</groupId>
-    <artifactId>designer</artifactId>
+    <artifactId>design</artifactId>
     <version>10.0-FEATURE-SNAPSHOT</version>
     <packaging>pom</packaging>
 </project>
