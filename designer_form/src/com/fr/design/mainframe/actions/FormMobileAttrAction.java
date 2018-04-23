@@ -60,6 +60,8 @@ public class FormMobileAttrAction extends JTemplateAction<JForm> {
                 try {
                     final Form form = (Form) formTpl.clone();
                     formTpl.setFormMobileAttr(formMobileAttr);
+                    ((FormArea)jf.getFormDesign().getParent()).onMobileAttrModified();
+                    WidgetPropertyPane.getInstance().refreshDockingView();
                     if (formMobileAttr.isMobileOnly()) {
                         FunctionProcessor processor = ExtraClassManager.getInstance().getFunctionProcessor();
                         if (processor != null) {
@@ -81,8 +83,7 @@ public class FormMobileAttrAction extends JTemplateAction<JForm> {
                             }
                         }
                     }
-                    ((FormArea)jf.getFormDesign().getParent()).onMobileAttrModified();
-                    WidgetPropertyPane.getInstance().refreshDockingView();
+                    
                 } catch (CloneNotSupportedException e) {
                     FRContext.getLogger().error(e.getMessage(), e);
                 }
