@@ -44,7 +44,7 @@ public class ImageUtils {
             BufferedImage srcImg = BaseUtils.readImage(imageFile.getPath());
             if (canbeCompressedToJPEG(imageFile)) {
                 return jpegCompress(srcImg, 0.75f);
-            } else if (withOpacity(imageFile)) {
+            } else if (isPNGType(imageFile)) {
                 //带透明度的采用缩放的方式
                 return scale(srcImg, 0.5f, true);
             }
@@ -65,7 +65,7 @@ public class ImageUtils {
         return false;
     }
 
-    public static boolean withOpacity(File imageFile) {
+    public static boolean isPNGType(File imageFile) {
         if (ComparatorUtils.equals(getImageType(imageFile), "png")) {
             return true;
         }
