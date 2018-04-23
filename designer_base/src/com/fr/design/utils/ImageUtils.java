@@ -59,7 +59,7 @@ public class ImageUtils {
         if (ComparatorUtils.equals(getImageType(imageFile), "JPEG")) {//JPEG大写
             return true;
         }
-        if (ComparatorUtils.equals(getImageType(imageFile), "png")) {//png小写
+        if (isPNGType(imageFile)) {//png小写
             return !isAlphaAreaOverload(imageFile);//少量透明度系数的png直接压缩jpg
         }
         return false;
