@@ -60,8 +60,8 @@ public class ReportMobileAttrAction extends JWorkBookAction{
                 ElementCaseMobileAttr elementCaseMobileAttr = mobileAttrPane.updateBean();
                 try {
                     final TemplateWorkBook workBook = (TemplateWorkBook) wbTpl.clone();
-
                     wbTpl.setReportMobileAttr(elementCaseMobileAttr);
+                    jwb.fireTargetModified();
 
                     if (elementCaseMobileAttr.isMobileCanvasSize()) {
                         FunctionProcessor processor = ExtraClassManager.getInstance().getFunctionProcessor();
@@ -82,7 +82,6 @@ public class ReportMobileAttrAction extends JWorkBookAction{
                             }
                         }
                     }
-                    jwb.fireTargetModified();
                 } catch (CloneNotSupportedException e) {
                     FRContext.getLogger().error(e.getMessage(), e);
                 }
