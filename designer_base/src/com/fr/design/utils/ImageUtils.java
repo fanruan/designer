@@ -29,6 +29,8 @@ import java.util.Iterator;
  * Created by zack on 2018/3/8.
  */
 public class ImageUtils {
+    public static final String TYPE_JPEG = "JPEG";
+    public static final String TYPE_PNG = "png";
 
     /**
      * 默认压缩算法,采用75%质量压缩,带透明度的png默认使用缩放的方式实现压缩尺寸压缩50%,大小大约为1/4
@@ -57,10 +59,10 @@ public class ImageUtils {
 
     public static boolean canbeCompressedToJPEG(File imageFile) {
         String imageType = getImageType(imageFile);
-        if (ComparatorUtils.equals(imageType, "JPEG")) {//JPEG大写
+        if (ComparatorUtils.equals(imageType, TYPE_JPEG)) {//JPEG大写
             return true;
         }
-        if (ComparatorUtils.equals(imageType, "png")) {//png小写
+        if (ComparatorUtils.equals(imageType, TYPE_PNG)) {//png小写
             return !isAlphaAreaOverload(imageFile);//少量透明度系数的png直接压缩jpg
         }
         return false;
@@ -72,7 +74,7 @@ public class ImageUtils {
      * @return
      */
     public static boolean isPNGType(File imageFile) {
-        if (ComparatorUtils.equals(getImageType(imageFile), "png")) {
+        if (ComparatorUtils.equals(getImageType(imageFile), TYPE_PNG)) {
             return true;
         }
         return false;
