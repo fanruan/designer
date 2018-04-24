@@ -1,19 +1,15 @@
 package com.fr.design.scrollruler;
 
+import com.fr.design.constants.UIConstants;
+
+import javax.swing.border.AbstractBorder;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Insets;
 
-import javax.swing.border.AbstractBorder;
-
-import com.fr.design.constants.UIConstants;
-import com.fr.design.utils.gui.GUICoreUtils;
-
 /**
- * ModLineBorder, 显示某几个边框
- * august：写这个类的人，还是对swing的api不熟悉，不是已经有一个：
- * BorderFactory.createMatteBorder(top, left, bottom, right, color)方法了吗？
+ * @author null
  */
 public class ModLineBorder extends AbstractBorder {
     public static final int TOP = 0x00000001;
@@ -71,6 +67,7 @@ public class ModLineBorder extends AbstractBorder {
      * @param width  the width of the painted border
      * @param height the height of the painted border
      */
+    @Override
     public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
         Color oldColor = g.getColor();
 
@@ -89,7 +86,7 @@ public class ModLineBorder extends AbstractBorder {
                 g.drawLine(x + width - i - 1, y + i, x + width - i - 1, height - i - i - 1);
             }
         }
-        
+
         g.setColor(oldColor);
     }
 
@@ -98,9 +95,10 @@ public class ModLineBorder extends AbstractBorder {
      *
      * @param c the component for which this border insets value applies
      */
-    public Insets getBorderInsets(Component c) {    	
-    	return getBorderInsets(c, new Insets(
-    			thickness, thickness, thickness, thickness));
+    @Override
+    public Insets getBorderInsets(Component c) {
+        return getBorderInsets(c, new Insets(
+                thickness, thickness, thickness, thickness));
     }
 
     /**
@@ -109,22 +107,23 @@ public class ModLineBorder extends AbstractBorder {
      * @param c      the component for which this border insets value applies
      * @param insets the object to be reinitialized
      */
+    @Override
     public Insets getBorderInsets(Component c, Insets insets) {
         insets.left = insets.top = insets.right = insets.bottom = thickness;
 
-    	if ((this.modifiers & TOP) != 0 && (this.modifiers & BOTTOM) == 0) {
+        if ((this.modifiers & TOP) != 0 && (this.modifiers & BOTTOM) == 0) {
             insets.bottom = 0;
         }
         if ((this.modifiers & LEFT) != 0 && (this.modifiers & RIGHT) == 0) {
-        	insets.right = 0;
+            insets.right = 0;
         }
         if ((this.modifiers & BOTTOM) != 0 && (this.modifiers & TOP) == 0) {
-        	insets.top = 0;
+            insets.top = 0;
         }
         if ((this.modifiers & RIGHT) != 0 && (this.modifiers & LEFT) == 0) {
-        	insets.left = 0;
+            insets.left = 0;
         }
-        
+
         return insets;
     }
 
