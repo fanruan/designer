@@ -60,8 +60,7 @@ public class FormMobileAttrAction extends JTemplateAction<JForm> {
                 try {
                     final Form form = (Form) formTpl.clone();
                     formTpl.setFormMobileAttr(formMobileAttr);
-                    ((FormArea)jf.getFormDesign().getParent()).onMobileAttrModified();
-                    WidgetPropertyPane.getInstance().refreshDockingView();
+
                     if (formMobileAttr.isMobileOnly()) {
                         FunctionProcessor processor = ExtraClassManager.getInstance().getFunctionProcessor();
                         if (processor != null) {
@@ -75,6 +74,8 @@ public class FormMobileAttrAction extends JTemplateAction<JForm> {
                             jf.getTarget().addAttrMark(new MobileOnlyTemplateAttrMark());
                             FILE editingFILE = jf.getEditingFILE();
                             if (editingFILE == null || !editingFILE.exists()) {
+                                ((FormArea)jf.getFormDesign().getParent()).onMobileAttrModified();
+                                WidgetPropertyPane.getInstance().refreshDockingView();
                                 return;
                             }
                             String fileName = editingFILE.getName().substring(0, editingFILE.getName().length() - jf.suffix().length()) + "_mobile";
@@ -83,7 +84,8 @@ public class FormMobileAttrAction extends JTemplateAction<JForm> {
                             }
                         }
                     }
-                    
+                    ((FormArea)jf.getFormDesign().getParent()).onMobileAttrModified();
+                    WidgetPropertyPane.getInstance().refreshDockingView();
                 } catch (CloneNotSupportedException e) {
                     FRContext.getLogger().error(e.getMessage(), e);
                 }
