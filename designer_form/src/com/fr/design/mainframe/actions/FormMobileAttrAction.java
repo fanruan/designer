@@ -60,8 +60,6 @@ public class FormMobileAttrAction extends JTemplateAction<JForm> {
                 try {
                     final Form form = (Form) formTpl.clone();
                     formTpl.setFormMobileAttr(formMobileAttr);
-                    ((FormArea)jf.getFormDesign().getParent()).onMobileAttrModified();
-                    WidgetPropertyPane.getInstance().refreshDockingView();
 
                     if (formMobileAttr.isMobileOnly()) {
                         FunctionProcessor processor = ExtraClassManager.getInstance().getFunctionProcessor();
@@ -72,10 +70,11 @@ public class FormMobileAttrAction extends JTemplateAction<JForm> {
                         MobileOnlyTemplateAttrMark mobileOnlyTemplateAttrMark = jf.getTarget().getAttrMark(MobileOnlyTemplateAttrMark.XML_TAG);
                         if (mobileOnlyTemplateAttrMark == null) {
                             //如果是新建的模板，选择手机专属之后不需要另存为
-
                             jf.getTarget().addAttrMark(new MobileOnlyTemplateAttrMark());
                             FILE editingFILE = jf.getEditingFILE();
                             if (editingFILE == null || !editingFILE.exists()) {
+                                ((FormArea)jf.getFormDesign().getParent()).onMobileAttrModified();
+                                WidgetPropertyPane.getInstance().refreshDockingView();
                                 return;
                             }
                             String fileName = editingFILE.getName().substring(0, editingFILE.getName().length() - jf.suffix().length()) + "_mobile";
@@ -84,7 +83,8 @@ public class FormMobileAttrAction extends JTemplateAction<JForm> {
                             }
                         }
                     }
-
+                    ((FormArea)jf.getFormDesign().getParent()).onMobileAttrModified();
+                    WidgetPropertyPane.getInstance().refreshDockingView();
                 } catch (CloneNotSupportedException e) {
                     FRContext.getLogger().error(e.getMessage(), e);
                 }
