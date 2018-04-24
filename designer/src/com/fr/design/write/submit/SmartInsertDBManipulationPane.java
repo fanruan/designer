@@ -239,6 +239,7 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
 		}
 	}
 
+
 	private void showDialogAfterAddCellAction() {
 		Container dialog = this;
 		if (parentPane != null && parentPane.getContentDBManiPane() instanceof SmartInsertDBManipulationPane && parentPane.getContentDBManiPane() != this) {
@@ -246,10 +247,15 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
 		}
 		while (dialog.getParent() != null) {
 			dialog = dialog.getParent();
-			if (dialog instanceof SmartInsertSubmitJobListPane) {
-				((SmartInsertSubmitJobListPane)dialog).showParentDialog();
-			} else if (dialog instanceof Dialog) {
-                dialog.setVisible(true);
+			if (dialog instanceof Dialog) {
+				//这边需要另起一个线程设置可见，防止阻塞
+				final Container finalDialog = dialog;
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						finalDialog.setVisible(true);
+					}
+				}).start();
 			}
 		}
 	}
@@ -261,15 +267,13 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
 		}
 		while (dialog.getParent() != null) {
 			dialog = dialog.getParent();
-			if (dialog instanceof SmartInsertSubmitJobListPane) {
-				((SmartInsertSubmitJobListPane)dialog).hideParentDialog();
-			} else if (dialog instanceof Dialog) {
+			if (dialog instanceof Dialog) {
 				// 条件属性中添加的控件的话有两层dialog，需要都隐藏
 				dialog.setVisible(false);
 			}
+
 		}
 	}
-
 	/**
 	 * 检测是否合法
 	 * @throws Exception
