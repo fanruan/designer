@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JRootPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
@@ -250,12 +251,14 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
 			if (dialog instanceof Dialog) {
 				//这边需要另起一个线程设置可见，防止阻塞
 				final Container finalDialog = dialog;
-				new Thread(new Runnable() {
+				SwingWorker worker = new SwingWorker() {
 					@Override
-					public void run() {
+					protected Object doInBackground() throws Exception {
 						finalDialog.setVisible(true);
+						return null;
 					}
-				}).start();
+				};
+				worker.execute();
 			}
 		}
 	}
