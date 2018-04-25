@@ -60,7 +60,6 @@ public class ReportMobileAttrAction extends JWorkBookAction{
                 ElementCaseMobileAttr elementCaseMobileAttr = mobileAttrPane.updateBean();
                 try {
                     final TemplateWorkBook workBook = (TemplateWorkBook) wbTpl.clone();
-
                     wbTpl.setReportMobileAttr(elementCaseMobileAttr);
 
                     if (elementCaseMobileAttr.isMobileCanvasSize()) {
@@ -70,18 +69,21 @@ public class ReportMobileAttrAction extends JWorkBookAction{
                         }
                         MobileOnlyTemplateAttrMark mobileOnlyTemplateAttrMark = wbTpl.getAttrMark(MobileOnlyTemplateAttrMark.XML_TAG);
                         if (mobileOnlyTemplateAttrMark == null) {
-                            //如果是新建的模板，选择手机专属之后不需要另存为
+                            // 如果是新建的模板，选择手机专属之后不需要另存为
                             wbTpl.addAttrMark(new MobileOnlyTemplateAttrMark());
                             FILE editingFILE = jwb.getEditingFILE();
                             if (editingFILE == null || !editingFILE.exists()) {
+                                jwb.fireTargetModified();
                                 return;
                             }
                             String fileName = editingFILE.getName().substring(0, editingFILE.getName().length() - jwb.suffix().length()) + "_mobile";
                             if (!jwb.saveAsTemplate(true, fileName)) {
                                 jwb.setTarget((WorkBook) workBook);
+                                return;  // 不激活保存按钮
                             }
                         }
                     }
+
                     jwb.fireTargetModified();
                 } catch (CloneNotSupportedException e) {
                     FRContext.getLogger().error(e.getMessage(), e);
