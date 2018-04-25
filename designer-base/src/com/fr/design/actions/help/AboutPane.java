@@ -33,7 +33,7 @@ public class AboutPane extends JPanel {
     private static final String FINEREPORT = "FineReport";
     private static final int DEFAULT_GAP = 12;
     private static final String COPYRIGHT_LABEL = "\u00A9 ";
-    private static final String BUILD_PREFIX = "  Build #";
+    private static final String BUILD_PREFIX = "   ";
 
     public AboutPane() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
