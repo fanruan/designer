@@ -5,6 +5,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.form.ui.Widget;
 import com.fr.general.Inter;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
@@ -16,10 +17,11 @@ public class WidgetMobilePane extends JPanel {
     public static WidgetMobilePane DEFAULT_PANE = new WidgetMobilePane();
 
     public WidgetMobilePane() {
+        this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         init();
     }
 
-    public void init() {
+    protected void init() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         UILabel label = new UILabel(Inter.getLocText("FR-Designer_No_Settings_Available"));
         label.setHorizontalAlignment(SwingConstants.CENTER);
