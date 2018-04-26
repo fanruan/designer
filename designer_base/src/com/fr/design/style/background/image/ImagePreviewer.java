@@ -1,6 +1,7 @@
 package com.fr.design.style.background.image;
 
 import com.fr.base.Style;
+import com.fr.general.ImageWithSuffix;
 
 import java.awt.Image;
 
@@ -20,6 +21,12 @@ public interface ImagePreviewer {
      * @param image 图片
      */
     void setImage(Image image);
+
+    /**
+     * 设置图片(带格式)
+     * @param image 图片
+     */
+    void setImageWithSuffix(ImageWithSuffix image);
 
     /**
      * 显示正在加载

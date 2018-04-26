@@ -104,7 +104,7 @@ public class ImageBackgroundQuickPane extends BackgroundQuickPane {
         Style.DEFAULT_STYLE.deriveImageLayout(imageBackground.getLayout());
 
         previewPane.setImageStyle(ImageBackgroundQuickPane.this.imageStyle);
-        previewPane.setImage(imageBackground.getImage());
+        previewPane.setImageWithSuffix(imageBackground.getImageWithSuffix());
         previewPane.repaint();
     }
 
