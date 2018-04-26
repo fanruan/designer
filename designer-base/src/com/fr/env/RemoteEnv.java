@@ -29,7 +29,12 @@ import com.fr.file.CacheManager;
 import com.fr.file.ConnectionConfig;
 import com.fr.file.TableDataConfig;
 import com.fr.file.filetree.FileNode;
-import com.fr.general.*;
+import com.fr.general.ComparatorUtils;
+import com.fr.general.FRLogger;
+import com.fr.general.IOUtils;
+import com.fr.general.Inter;
+import com.fr.general.LogRecordTime;
+import com.fr.general.LogUtils;
 import com.fr.general.http.HttpClient;
 import com.fr.io.utils.ResourceIOUtils;
 import com.fr.json.JSONArray;
@@ -53,7 +58,8 @@ import com.fr.stable.xml.XMLTools;
 import com.fr.stable.xml.XMLableReader;
 import com.fr.web.ResourceConstants;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
@@ -61,14 +67,12 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.awt.*;
+import java.awt.Component;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -84,7 +88,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
@@ -100,7 +103,7 @@ public class RemoteEnv extends AbstractEnv {
     private static final String CERT_KEY = "javax.net.ssl.trustStore";
     private static final String PWD_KEY = "javax.net.ssl.trustStorePassword";
     private static final String HTTPS_PREFIX = "https:";
-    private final static String[] FILE_TYPE = {"cpt", "frm", "form", "cht", "chart"};
+    private final static String[] FILE_TYPE = {"cptx", "cpt", "frm", "form", "cht", "chart"};
     private String path;
     private String user;
     private String password;
@@ -230,14 +233,14 @@ public class RemoteEnv extends AbstractEnv {
     }
 
 
-     /*
-      * Read the response body.
-	  * 拿出InputStream中所有的Byte,转换成ByteArrayInputStream的形式返回
-      *
-	  * 这样做的目的是确保method.releaseConnection
-	  *
-	  * TODO 但如果不做method.releaseConnection,有多大危害呢?不确定...
-	  */
+    /*
+     * Read the response body.
+     * 拿出InputStream中所有的Byte,转换成ByteArrayInputStream的形式返回
+     *
+     * 这样做的目的是确保method.releaseConnection
+     *
+     * TODO 但如果不做method.releaseConnection,有多大危害呢?不确定...
+     */
 
     /**
      * execute method之后,取返回的inputstream
@@ -552,7 +555,7 @@ public class RemoteEnv extends AbstractEnv {
     }
 
     private void stopLogTimer() {
-        if(logTimer != null) {
+        if (logTimer != null) {
             logTimer.cancel();
             logTimer = null;
         }
@@ -2073,8 +2076,7 @@ public class RemoteEnv extends AbstractEnv {
         info.parseJSON(jo);
         return info;
     }
-    
-    
+
 
     @Override
     public String pluginServiceAction(String serviceID, String req) throws Exception {
@@ -2090,11 +2092,13 @@ public class RemoteEnv extends AbstractEnv {
 
     /**
      * 远程不启动，使用虚拟服务
+     *
      * @param serviceID
      */
     @Override
-    public void pluginServiceStart(String serviceID){
+    public void pluginServiceStart(String serviceID) {
     }
+
     @Override
     public String[] loadREUFile() throws Exception {
         ResourceIOUtils.delete(StableUtils.pathJoin(
@@ -2211,29 +2215,29 @@ public class RemoteEnv extends AbstractEnv {
     public void doWhenServerShutDown() {
 
     }
-    
+
     @Override
     public boolean isLocalEnv() {
-        
+
         return false;
     }
-    
+
     @Override
     public boolean hasPluginServiceStarted(String key) {
 
         return true;
     }
-    
+
     @Override
     public JSONArray getPluginStatus() {
-        
+
         try {
             HashMap<String, String> para = new HashMap<String, String>();
             para.put("op", "plugin");
             para.put("cmd", "get_status");
             para.put("current_uid", this.createUserID());
             para.put("currentUsername", this.getUser());
-            
+
             HttpClient client = createHttpMethod(para);
             InputStream input = execute4InputStream(client);
             return new JSONArray(stream2String(input));

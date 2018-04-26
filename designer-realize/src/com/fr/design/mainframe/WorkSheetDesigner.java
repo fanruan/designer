@@ -1,25 +1,32 @@
 package com.fr.design.mainframe;
 
-import java.awt.BorderLayout;
-
-import javax.swing.*;
-
 import com.fr.base.ScreenResolution;
 import com.fr.design.DesignState;
-import com.fr.design.actions.report.*;
+import com.fr.design.actions.report.ReportColumnsAction;
+import com.fr.design.actions.report.ReportEngineAttrAction;
+import com.fr.design.actions.report.ReportPageAttrAction;
+import com.fr.design.actions.report.ReportWriteAttrAction;
 import com.fr.design.designer.EditingState;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.menu.*;
+import com.fr.design.menu.DottedSeparator;
+import com.fr.design.menu.MenuDef;
+import com.fr.design.menu.ShortCut;
+import com.fr.design.menu.ToolBarDef;
+import com.fr.design.selection.SelectionListener;
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.Selection;
 import com.fr.report.cell.CellElement;
 import com.fr.report.elementcase.TemplateElementCase;
 import com.fr.report.worksheet.WorkSheet;
-import com.fr.design.selection.SelectionListener;
 import com.fr.stable.ArrayUtils;
+
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import java.awt.BorderLayout;
 
 public class WorkSheetDesigner extends ReportComponent<WorkSheet, ElementCasePaneDelegate, Selection> {
 
@@ -68,7 +75,7 @@ public class WorkSheetDesigner extends ReportComponent<WorkSheet, ElementCasePan
     }
 
 //////////////////////////////////////////////////////////////////////
-//////////////////for toolbarMenuAdapter//////////////////////////////  
+//////////////////for toolbarMenuAdapter//////////////////////////////
 //////////////////////////////////////////////////////////////////////
 
     @Override

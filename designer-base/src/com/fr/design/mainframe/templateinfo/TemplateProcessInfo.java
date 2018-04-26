@@ -1,11 +1,11 @@
 package com.fr.design.mainframe.templateinfo;
 
-import com.fr.base.io.IOFile;
+import com.fr.base.io.BaseBook;
 
 /**
  * Created by plough on 2017/3/17.
  */
-public abstract class TemplateProcessInfo<T extends IOFile> {
+public abstract class TemplateProcessInfo<T extends BaseBook> {
 
     protected T template;
 

@@ -5,13 +5,13 @@ package com.fr.design.actions.insert.flot;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.DynamicUnitList;
-import com.fr.base.ScreenResolution;
 import com.fr.design.actions.ElementCaseAction;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.ElementCasePane;
+import com.fr.design.mainframe.JTemplate;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.design.report.SelectImagePane;
 import com.fr.general.Inter;
@@ -21,11 +21,10 @@ import com.fr.report.ReportHelper;
 import com.fr.report.cell.FloatElement;
 import com.fr.report.cell.cellattr.CellImage;
 import com.fr.report.elementcase.TemplateElementCase;
-import com.fr.stable.CoreGraphHelper;
 import com.fr.stable.unit.FU;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.KeyStroke;
+import java.awt.Image;
 import java.io.File;
 
 /**
@@ -65,6 +64,7 @@ public class ImageFloatAction extends ElementCaseAction {
      *
      * @return 成功返回true
      */
+    @Override
     public boolean executeActionReturnUndoRecordNeeded() {
         final ElementCasePane reportPane = (ElementCasePane) HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getCurrentElementCasePane();
         if (reportPane == null) {
@@ -86,11 +86,11 @@ public class ImageFloatAction extends ElementCaseAction {
                 File selectedFile = selectImagePane.getSelectedImage();
 
                 if (selectedFile != null && selectedFile.isFile()) {
-                    Image image = BaseUtils.readImage(selectedFile.getPath());
                     CellImage cellImage = selectImagePane.update();
-                    CoreGraphHelper.waitForImage(image);
+                    Image image = cellImage.getImage();
+                    JTemplate<?, ?> currentEditingTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+                    currentEditingTemplate.setPictureElem(floatElement, cellImage);
 
-                    floatElement.setValue(image);
                     Grid grid = reportPane.getGrid();
                     int resolution = grid.getResolution();
                     floatElement.setWidth(FU.valueOfPix(image.getWidth(null), resolution));

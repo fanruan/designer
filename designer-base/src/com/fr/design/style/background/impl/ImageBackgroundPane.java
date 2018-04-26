@@ -2,7 +2,9 @@ package com.fr.design.style.background.impl;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.Style;
-import com.fr.base.background.ImageBackground;
+import com.fr.base.background.ImageFileBackground;
+import com.fr.base.frpx.pack.PictureCollection;
+import com.fr.base.frpx.util.ImageIOHelper;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.gui.ilable.UILabel;
@@ -15,10 +17,16 @@ import com.fr.general.Inter;
 import com.fr.stable.Constants;
 import com.fr.stable.CoreGraphHelper;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.JFileChooser;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -38,6 +46,8 @@ public class ImageBackgroundPane extends BackgroundDetailPane {
     protected UIRadioButton tiledRadioButton = null;
     private UIRadioButton extendRadioButton = null;
     private UIRadioButton adjustRadioButton = null;
+
+    private String suffix = PictureCollection.DEFAULT_SUFFIX;
 
     public ImageBackgroundPane() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
@@ -60,7 +70,7 @@ public class ImageBackgroundPane extends BackgroundDetailPane {
         imageFileChooser.setMultiSelectionEnabled(false);
     }
 
-    public JPanel initSelectFilePane(){
+    public JPanel initSelectFilePane() {
         JPanel selectFilePane = FRGUIPaneFactory.createBorderLayout_L_Pane();
 
         selectFilePane.setBorder(BorderFactory.createEmptyBorder(8, 2, 4, 0));
@@ -114,13 +124,16 @@ public class ImageBackgroundPane extends BackgroundDetailPane {
      */
     ActionListener selectPictureActionListener = new ActionListener() {
 
+        @Override
         public void actionPerformed(ActionEvent evt) {
             int returnVal = imageFileChooser.showOpenDialog(ImageBackgroundPane.this);
             if (returnVal != JFileChooser.CANCEL_OPTION) {
                 File selectedFile = imageFileChooser.getSelectedFile();
 
                 if (selectedFile != null && selectedFile.isFile()) {
-                    Image image = BaseUtils.readImage(selectedFile.getPath());
+                    String path = selectedFile.getPath();
+                    suffix = ImageIOHelper.getSuffix(path);
+                    Image image = BaseUtils.readImage(path);
                     CoreGraphHelper.waitForImage(image);
 
                     previewPane.setImage(image);
@@ -135,7 +148,7 @@ public class ImageBackgroundPane extends BackgroundDetailPane {
         }
     };
 
-    public void imageStyleRepaint(){
+    public void imageStyleRepaint() {
         setImageStyle();
         previewPane.setImageStyle(imageStyle);
     }
@@ -154,6 +167,7 @@ public class ImageBackgroundPane extends BackgroundDetailPane {
 
     ActionListener layoutActionListener = new ActionListener() {
 
+        @Override
         public void actionPerformed(ActionEvent evt) {
             setImageStyle();
             changeImageStyle();
@@ -165,10 +179,12 @@ public class ImageBackgroundPane extends BackgroundDetailPane {
         }
     };
 
+    @Override
     public void populate(Background background) {
 
-        if (background instanceof ImageBackground) {
-            ImageBackground imageBackground = (ImageBackground) background;
+        if (background instanceof ImageFileBackground) {
+            ImageFileBackground imageBackground = (ImageFileBackground) background;
+            suffix = imageBackground.getSuffix();
 
             if (imageBackground.getLayout() == Constants.IMAGE_CENTER) {
                 defaultRadioButton.setSelected(true);
@@ -204,13 +220,15 @@ public class ImageBackgroundPane extends BackgroundDetailPane {
         fireChagneListener();
     }
 
+    @Override
     public Background update() throws Exception {
-        ImageBackground imageBackground = new ImageBackground(previewPane.getImage());
+        ImageFileBackground imageBackground = new ImageFileBackground(previewPane.getImage(), suffix);
         setImageStyle();
         imageBackground.setLayout(imageStyle.getImageLayout());
         return imageBackground;
     }
 
+    @Override
     public void addChangeListener(ChangeListener changeListener) {
         this.changeListener = changeListener;
     }
@@ -224,6 +242,7 @@ public class ImageBackgroundPane extends BackgroundDetailPane {
 
     ChangeListener imageSizeChangeListener = new ChangeListener() {
 
+        @Override
         public void stateChanged(ChangeEvent evt) {
             Image image = ((ImagePreviewPane) evt.getSource()).getImage();
 
@@ -234,4 +253,12 @@ public class ImageBackgroundPane extends BackgroundDetailPane {
             }
         }
     };
+
+    public String getSuffix() {
+        return suffix;
+    }
+
+    public void setSuffix(String suffix) {
+        this.suffix = suffix;
+    }
 }

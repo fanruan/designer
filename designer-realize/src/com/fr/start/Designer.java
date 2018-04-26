@@ -8,6 +8,7 @@ import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.actions.file.WebPreviewUtils;
 import com.fr.design.actions.file.newReport.NewPolyReportAction;
 import com.fr.design.actions.file.newReport.NewWorkBookAction;
+import com.fr.design.actions.file.newReport.NewWorkBookXAction;
 import com.fr.design.actions.server.ServerConfigManagerAction;
 import com.fr.design.actions.server.StyleListAction;
 import com.fr.design.actions.server.WidgetManagerAction;
@@ -40,17 +41,23 @@ import com.fr.design.utils.concurrent.ThreadFactoryBuilder;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
+import com.fr.main.impl.WorkBookX;
 import com.fr.module.Module;
 import com.fr.module.ModuleContext;
+import com.fr.report.worksheet.WorkSheet;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.xml.XMLTools;
 import com.fr.start.module.StartupArgs;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.border.MatteBorder;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -61,20 +68,18 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 public class Designer extends BaseDesigner {
+
     private static final int TOOLBARPANEVGAP = -4;
     private static final int PREVIEW_DOWN_X_GAP = 92;
     private static final int GAP = 7;
-
     private static final String OLD_ENV_FOLDER_71 = ".FineReport71";
     private static final String OLD_ENV_FOLDER_70 = ".FineReport70";
 
     private UserInfoPane userInfoPane;
-
     private UIButton saveButton;
     private UIButton undo;
     private UIButton redo;
     private UIPreviewButton run;
-
 
     /**
      * 设计器启动的Main方法
@@ -82,7 +87,7 @@ public class Designer extends BaseDesigner {
      * @param args 参数
      */
     public static void main(String[] args) {
-    
+
         Module designerRoot = ModuleContext.parseRoot("designer-startup.xml");
         //传递启动参数
         designerRoot.setSingleton(StartupArgs.class, new StartupArgs(args));
@@ -100,13 +105,16 @@ public class Designer extends BaseDesigner {
         return DesignerModule.class.getName();
     }
 
-    @Override
+
     /**
      * 创建新建文件的快捷方式数组。
+     *
      * @return 返回快捷方式的数组
      */
+    @Override
     public ShortCut[] createNewFileShortCuts() {
         ArrayList<ShortCut> shortCuts = new ArrayList<ShortCut>();
+        shortCuts.add(new NewWorkBookXAction());
         shortCuts.add(new NewWorkBookAction());
         shortCuts.add(new NewPolyReportAction());
         try {
@@ -146,11 +154,13 @@ public class Designer extends BaseDesigner {
         return menuDef;
     }
 
-    @Override
+
     /**
      * 创建设计器上几个比较大的图标：新建cpt，保存，前进，后退，运行。
+     *
      * @return 返回大图标对应的工具栏
      */
+    @Override
     public UILargeToolbar createLargeToolbar() {
         UILargeToolbar largeToolbar = super.createLargeToolbar();
         largeToolbar.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 4));
@@ -348,13 +358,14 @@ public class Designer extends BaseDesigner {
     }
 
 
-    @Override
     /**
      * 生成报表设计和表单设计的编辑区域
+     *
      * @return 返回编辑区域
      */
+    @Override
     public JTemplate<?, ?> createNewTemplate() {
-        return new JWorkBook();
+        return new JWorkBook(new WorkBookX(new WorkSheet()));
     }
 
     /**
