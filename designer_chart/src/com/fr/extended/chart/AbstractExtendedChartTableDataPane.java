@@ -2,10 +2,12 @@ package com.fr.extended.chart;
 
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
+import com.fr.data.util.function.AbstractDataFunction;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.mainframe.chart.gui.data.CalculateComboBox;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.general.GeneralUtils;
 
@@ -22,37 +24,57 @@ import java.util.List;
  */
 public abstract class AbstractExtendedChartTableDataPane<T extends AbstractDataConfig> extends AbstractTableDataContentPane {
 
+    private CalculateComboBox function;
+
     public AbstractExtendedChartTableDataPane() {
         initComponents();
     }
 
     protected void initComponents() {
 
-        String[] labels = fieldLabel();
-        UIComboBox[] comboBoxes = filedComboBoxes();
+        String[] labels = fieldLabels();
+        Component[] fieldComponents = fieldComponents();
 
-        int len = Math.min(labels.length, comboBoxes.length);
+        int len = Math.min(labels.length, fieldComponents.length);
 
-        Component[][] components = new Component[len][2];
+        Component[][] components = new Component[len + (hasFunction() ? 1 : 0)][2];
         for (int i = 0; i < len; i++) {
-            UIComboBox comboBox = comboBoxes[i];
-            comboBox.setPreferredSize(new Dimension(100, 20));
+            Component fieldComponent = fieldComponents[i];
+            fieldComponent.setPreferredSize(new Dimension(100, 20));
 
-            components[i] = new Component[]{new UILabel(labels[i], SwingConstants.LEFT), comboBox};
+            components[i] = new Component[]{new UILabel(labels[i], SwingConstants.LEFT), fieldComponent};
+        }
+
+        if (hasFunction()) {
+            function = new CalculateComboBox();
+            components[len] = new Component[]{new UILabel("function", SwingConstants.LEFT), function};
         }
 
         double p = TableLayout.PREFERRED;
         double[] columnSize = {p, p};
-        double[] rowSize = new double[len];
+        double[] rowSize = new double[len + (hasFunction() ? 1 : 0)];
         Arrays.fill(rowSize, p);
 
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
 
         this.setLayout(new BorderLayout());
         this.add(panel, BorderLayout.CENTER);
+        this.add(addSouthPane(), BorderLayout.SOUTH);
     }
 
-    protected abstract String[] fieldLabel();
+    protected JPanel addSouthPane() {
+        return new JPanel();
+    }
+
+    protected boolean hasFunction() {
+        return false;
+    }
+
+    protected Component[] fieldComponents() {
+        return filedComboBoxes();
+    }
+
+    protected abstract String[] fieldLabels();
 
     protected abstract UIComboBox[] filedComboBoxes();
 
@@ -70,6 +92,10 @@ public abstract class AbstractExtendedChartTableDataPane<T extends AbstractDataC
                 if (dataConfig != null) {
                     populate((T) dataConfig);
                 }
+                if (hasFunction() && chart.getFilterDefinition() instanceof ExtendedTableDataSet) {
+                    ExtendedTableDataSet dataSet = (ExtendedTableDataSet) chart.getFilterDefinition();
+                    function.populateBean((AbstractDataFunction) dataSet.getDataFunction());
+                }
             }
         }
     }
@@ -83,6 +109,10 @@ public abstract class AbstractExtendedChartTableDataPane<T extends AbstractDataC
 
                 ExtendedTableDataSet dataSet = new ExtendedTableDataSet();
                 dataSet.setDataConfig(update());
+
+                if (hasFunction()) {
+                    dataSet.setDataFunction(function.updateBean());
+                }
 
                 chart.setFilterDefinition(dataSet);
             }
