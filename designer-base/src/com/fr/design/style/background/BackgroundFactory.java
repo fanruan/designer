@@ -46,19 +46,19 @@ public class BackgroundFactory {
     }
 
     private static void registerImageBackground(Map<Class<? extends Background>, BackgroundUIWrapper> map) {
-        map.put(ImageBackground.class, BackgroundUIWrapper.create()
+        map.put(ImageFileBackground.class, BackgroundUIWrapper.create()
                 .setType(ImageBackgroundPane.class).setTitle(Inter.getLocText("FR-Designer_Background_Image")));
     }
 
     private static void registerBrowserImageBackground(Map<Class<? extends Background>, BackgroundUIWrapper> map) {
-        map.put(ImageBackground.class, BackgroundUIWrapper.create()
+        map.put(ImageFileBackground.class, BackgroundUIWrapper.create()
                 .setType(ImageBackgroundPane4Browser.class).setTitle(Inter.getLocText("FR-Designer_Background_Image")));
     }
 
-    private static void registerButtonBackground(Map<Class<? extends Background>, BackgroundUIWrapper> map){
+    private static void registerButtonBackground(Map<Class<? extends Background>, BackgroundUIWrapper> map) {
         map.put(ColorBackground.class, BackgroundUIWrapper.create()
                 .setType(ColorBackgroundPane.class).setTitle(Inter.getLocText("FR-Designer_Background_Color")));
-        map.put(ImageBackground.class, BackgroundUIWrapper.create()
+        map.put(ImageFileBackground.class, BackgroundUIWrapper.create()
                 .setType(ImageButtonBackgroundPane.class).setTitle(Inter.getLocText("FR-Designer_Background_Image")));
 
     }

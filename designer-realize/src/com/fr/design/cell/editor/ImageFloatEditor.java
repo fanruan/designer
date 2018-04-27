@@ -3,15 +3,15 @@
  */
 package com.fr.design.cell.editor;
 
-import java.awt.Component;
-import java.awt.Image;
-
-import javax.swing.SwingUtilities;
-
-import com.fr.design.report.SelectImagePane;
 import com.fr.design.dialog.DialogActionListener;
+import com.fr.design.report.SelectImagePane;
 import com.fr.grid.Grid;
 import com.fr.report.cell.FloatElement;
+import com.fr.report.cell.painter.CellImagePainter;
+
+import javax.swing.SwingUtilities;
+import java.awt.Component;
+import java.awt.Image;
 
 /**
  * FloatEditor used to edit Image object.
@@ -54,25 +54,25 @@ public class ImageFloatEditor extends AbstractFloatEditor implements DialogActio
     public Component getFloatEditorComponent(Grid grid, FloatElement floatElement, int resolution) {
         //populate data to UI
         Object value = floatElement.getValue();
-        if (value == null || !(value instanceof Image)) {
+        if (!(value instanceof Image || value instanceof CellImagePainter)) {
             value = null;
         }
 
         this.imageEditorPane = new SelectImagePane();
         this.imageEditorPane.populate(floatElement);
-        
+
         return this.imageEditorPane.showWindow(SwingUtilities.getWindowAncestor(grid), this);
     }
 
     @Override
-	public void doOk() {
-		stopFloatEditing();
-		
-	}
+    public void doOk() {
+        stopFloatEditing();
 
-	@Override
-	public void doCancel() {
-		cancelFloatEditing();
-		
-	}
+    }
+
+    @Override
+    public void doCancel() {
+        cancelFloatEditing();
+
+    }
 }

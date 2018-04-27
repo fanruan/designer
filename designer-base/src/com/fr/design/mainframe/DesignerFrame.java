@@ -859,12 +859,9 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
             boolean opened = false;
             for (int j = 0; j < defaultAppExtentions.length; j++) {
                 if (defaultAppExtentions[j].equalsIgnoreCase(fileExtention)) {
-                    JTemplate jt = null;
-                    try {
-                        jt = app.openTemplate(tplFile);
-                    } catch (Exception e) {
-                        FRLogger.getLogger().error(e.getMessage(), e);
-                    }
+                    // 不要catch
+                    JTemplate jt = app.openTemplate(tplFile);
+
                     if (jt == null) {
                         return;
                     }

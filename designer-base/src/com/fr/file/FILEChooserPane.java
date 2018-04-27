@@ -520,7 +520,7 @@ public class FILEChooserPane extends BasicPane {
         }
         if (editing == null || !editing.isChartBook()) {
             String[] fileSuffix_local = LocalEnv.FILE_TYPE;
-            String[] fileSuffix = {"cpt", "frm", "form", "cht", "chart"};
+            String[] fileSuffix = {"cpt", "cptx", "frm", "form", "cht", "chart"};
             if (type == JFileChooser.OPEN_DIALOG) {
                 if (FRContext.getCurrentEnv().isSupportLocalFileOperate()) { //本地连接
                     this.addChooseFILEFilter(new ChooseFileFilter(fileSuffix_local, appName + Inter.getLocText(new String[]{"FR-App-Report_Template", "FR-App-All_File"})));
@@ -531,6 +531,7 @@ public class FILEChooserPane extends BasicPane {
 
             // ben:filefilter设置初值为cpt过滤
             this.addChooseFILEFilter(new ChooseFileFilter("cpt", appName + Inter.getLocText(new String[]{"FR-App-Report_Template", "FR-App-All_File"})));
+            this.addChooseFILEFilter(new ChooseFileFilter("cptx", appName + Inter.getLocText(new String[]{"FR-App-Report_Template", "FR-App-All_File"})));
 
             // richer:form文件 daniel 改成三个字
             this.addChooseFILEFilter(new ChooseFileFilter("frm", appName + Inter.getLocText(new String[]{"FR-App-Template_Form", "FR-App-All_File"})));
@@ -577,9 +578,13 @@ public class FILEChooserPane extends BasicPane {
             defaultComboBoxModel.setSelectedItem(filterList.get(0));
         }
         // richer:根据不同的文件类型显示不同的后缀名
-        // daniel 改成三个字保证兼容
-        if (ComparatorUtils.equals(suffix, ".frm") || ComparatorUtils.equals(suffix, ".form")) {
+        if (ComparatorUtils.equals(suffix, ".cpt")) {
+            postfixComboBox.setSelectedIndex(suffixIndex("cpt"));
+        } else if (ComparatorUtils.equals(suffix, ".cptx")) {
+            postfixComboBox.setSelectedIndex(suffixIndex("cptx"));
+        } else if (ComparatorUtils.equals(suffix, ".frm") || ComparatorUtils.equals(suffix, ".form")) {
 //            postfixComboBox.setSelectedIndex(2);
+            // daniel 改成三个字保证兼容
             // 现在默认用的是".frm"
             postfixComboBox.setSelectedIndex(suffixIndex("frm"));
         } else if (ComparatorUtils.equals(suffix, ".xls")) {
@@ -600,11 +605,11 @@ public class FILEChooserPane extends BasicPane {
             postfixComboBox.setSelectedIndex(suffixIndex("png"));
         }
         //jerry 26216 只保留.cpt .frm有用的格式，并且不可编辑
-        if (type == JFileChooser.OPEN_DIALOG) {
-            postfixComboBox.setEnabled(true);
-        } else {
-            postfixComboBox.setEnabled(false);
-        }
+//        if (type == JFileChooser.OPEN_DIALOG) {
+//            postfixComboBox.setEnabled(true);
+//        } else {
+//            postfixComboBox.setEnabled(false);
+//        }
 
         //只有一个类型时不可下拉
         if (filterList.size() == 1) {
@@ -659,8 +664,13 @@ public class FILEChooserPane extends BasicPane {
 
     private void saveDialog() {
         String filename = fileNameTextField.getText();
-        if (!filename.endsWith(suffix)) {
-            fileNameTextField.setText(filename + this.suffix);
+        if (!filename.endsWith(suffix) && !filename.contains(CoreConstants.DOT)) {
+            ChooseFileFilter chooseFileFilter = (ChooseFileFilter) (postfixComboBox.getSelectedItem());
+            if (chooseFileFilter != null && StringUtils.isNotEmpty(chooseFileFilter.getExtensionString())) {
+                fileNameTextField.setText(filename + chooseFileFilter.getExtensionString());
+            } else {
+                fileNameTextField.setText(filename + this.suffix);
+            }
         }
         returnValue = OK_OPTION;
         FILE selectedFile = this.getSelectedFILE();

@@ -8,16 +8,15 @@ import com.fr.design.gui.frpane.HyperlinkGroupPane;
 import com.fr.design.gui.frpane.HyperlinkGroupPaneActionProvider;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.mainframe.templateinfo.TemplateProcessInfo;
-import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.file.FILE;
-import com.fr.file.FileFILE;
 import com.fr.file.FileNodeFILE;
-import com.fr.stable.StableUtils;
 import com.fr.stable.project.ProjectConstants;
 
-import javax.swing.*;
+import javax.swing.Icon;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 import java.io.File;
 import java.util.List;
 
@@ -35,6 +34,7 @@ public class JVirtualTemplate extends JTemplate {
         setEditingFILE(editingFILE);
     }
 
+    @Override
     public String getFullPathName() {
         String editingFileName = getEditingFILE().getPath();
         if (editingFileName.startsWith(ProjectConstants.REPORTLETS_NAME)) {
@@ -48,6 +48,7 @@ public class JVirtualTemplate extends JTemplate {
      *
      * @return
      */
+    @Override
     public FILE getEditingFILE() {
         return this.editingFILE;
     }
@@ -71,6 +72,7 @@ public class JVirtualTemplate extends JTemplate {
         return null;
     }
 
+    @Override
     public JComponent getCurrentReportComponentPane() {
         return null;
     }
@@ -166,11 +168,6 @@ public class JVirtualTemplate extends JTemplate {
     }
 
     @Override
-    public ToolBarMenuDockPlus getToolBarMenuDockPlus() {
-        return null;
-    }
-
-    @Override
     public JPanel getEastUpPane() {
         return null;
     }
@@ -246,6 +243,7 @@ public class JVirtualTemplate extends JTemplate {
         return null;
     }
 
+    @Override
     public HyperlinkGroupPane getHyperLinkPaneNoPop(HyperlinkGroupPaneActionProvider hyperlinkGroupPaneActionProvider) {
         return null;
     }

@@ -3,17 +3,17 @@
  */
 package com.fr.design.cell.editor;
 
-import java.awt.Component;
-import java.awt.Image;
-
-import javax.swing.SwingUtilities;
-
-import com.fr.design.report.SelectImagePane;
 import com.fr.design.dialog.DialogActionListener;
 import com.fr.design.mainframe.ElementCasePane;
+import com.fr.design.report.SelectImagePane;
 import com.fr.grid.Grid;
 import com.fr.report.cell.TemplateCellElement;
+import com.fr.report.cell.painter.CellImagePainter;
 import com.fr.report.elementcase.TemplateElementCase;
+
+import javax.swing.SwingUtilities;
+import java.awt.Component;
+import java.awt.Image;
 
 /**
  * CellEditor used to edit Image object.
@@ -26,7 +26,7 @@ public class ImageCellEditor extends AbstractCellEditor implements DialogActionL
      * Constructor.
      */
     public ImageCellEditor(ElementCasePane<? extends TemplateElementCase> ePane) {
-    	super(ePane);
+        super(ePane);
     }
 
     /**
@@ -59,25 +59,25 @@ public class ImageCellEditor extends AbstractCellEditor implements DialogActionL
         if (cellElement != null) {
             value = cellElement.getValue();
         }
-        if (value == null || !(value instanceof Image)) {
+        if (!(value instanceof Image || value instanceof CellImagePainter)) {
             value = null;
         }
 
         this.imageEditorPane = new SelectImagePane();
         this.imageEditorPane.populate(cellElement);
-        
+
         return this.imageEditorPane.showWindow(SwingUtilities.getWindowAncestor(grid), this);
     }
 
-	@Override
-	public void doOk() {
-		stopCellEditing();
-		
-	}
+    @Override
+    public void doOk() {
+        stopCellEditing();
 
-	@Override
-	public void doCancel() {
-		cancelCellEditing();
-		
-	}
+    }
+
+    @Override
+    public void doCancel() {
+        cancelCellEditing();
+
+    }
 }

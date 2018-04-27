@@ -1,7 +1,7 @@
 package com.fr.design.mainframe.templateinfo;
 
 import com.fr.base.FRContext;
-import com.fr.base.io.IOFile;
+import com.fr.base.io.BaseBook;
 import com.fr.config.MarketConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.DesignerContext;
@@ -47,7 +47,7 @@ import java.util.Map;
  * 做模板的过程和耗时收集，辅助类
  * Created by plough on 2017/2/21.
  */
-public class TemplateInfoCollector<T extends IOFile> implements Serializable, XMLReadable, XMLWriter {
+public class TemplateInfoCollector<T extends BaseBook> implements Serializable, XMLReadable, XMLWriter {
     static final long serialVersionUID = 2007L;
     private static final String FILE_NAME = "tpl.info";
     private static final String OBJECT_FILE_NAME = "tplInfo.ser";
@@ -241,7 +241,7 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable, XM
         String templateID = t.getTemplateID();
 
         if (inList(t)) { // 已有记录
-            templateInfo = templateInfoList.get(t.getTemplateID());
+            templateInfo = templateInfoList.get(templateID);
             // 更新 conusmingMap
             HashMap<String, Object> consumingMap = (HashMap<String, Object>) templateInfo.get(XML_CONSUMING_MAP);
             timeConsume += (long) consumingMap.get(ATTR_TIME_CONSUME);  // 加上之前的累计编辑时间

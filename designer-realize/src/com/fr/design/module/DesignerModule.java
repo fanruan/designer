@@ -7,6 +7,8 @@ import com.fr.base.Formula;
 import com.fr.base.MultiFieldParameter;
 import com.fr.base.Style;
 import com.fr.base.TempNameStyle;
+import com.fr.base.frpx.exception.FRPackageRunTimeException;
+import com.fr.base.frpx.exception.InvalidWorkBookException;
 import com.fr.base.io.XMLEncryptUtils;
 import com.fr.base.process.ProcessOperator;
 import com.fr.base.remote.RemoteDeziConstants;
@@ -54,6 +56,8 @@ import com.fr.io.importer.Excel2007ReportImporter;
 import com.fr.io.importer.ExcelReportImporter;
 import com.fr.io.utils.ResourceIOUtils;
 import com.fr.main.impl.WorkBook;
+import com.fr.main.impl.WorkBookAdapter;
+import com.fr.main.impl.WorkBookX;
 import com.fr.quickeditor.cellquick.CellBiasTextPainterEditor;
 import com.fr.quickeditor.cellquick.CellDSColumnEditor;
 import com.fr.quickeditor.cellquick.CellFormulaQuickEditor;
@@ -70,6 +74,7 @@ import com.fr.report.cell.cellattr.core.RichText;
 import com.fr.report.cell.cellattr.core.SubReport;
 import com.fr.report.cell.cellattr.core.group.DSColumn;
 import com.fr.report.cell.painter.BiasTextPainter;
+import com.fr.report.cell.painter.CellImagePainter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.ParameterProvider;
 import com.fr.stable.StringUtils;
@@ -92,6 +97,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
@@ -101,6 +107,7 @@ public class DesignerModule extends DesignModule {
     static {
         ServletContext.addServletContextListener(new ServletContextAdapter() {
 
+            @Override
             public void onServletStart() {
                 ModuleContext.startModule(DesignerModule.class.getName());
             }
@@ -110,6 +117,7 @@ public class DesignerModule extends DesignModule {
     /**
      * 启动设计器模块
      */
+    @Override
     public void start() {
         super.start();
 
@@ -150,6 +158,7 @@ public class DesignerModule extends DesignModule {
         ActionFactory.registerCellEditorClass(Image.class, CellImageQuickEditor.class);
         ActionFactory.registerCellEditorClass(BiasTextPainter.class, CellBiasTextPainterEditor.class);
         ActionFactory.registerCellEditorClass(BufferedImage.class, CellImageQuickEditor.class);
+        ActionFactory.registerCellEditor(CellImagePainter.class, new CellImageQuickEditor());
 
         ActionFactory.registerChartCellEditorInEditor(BasicChartQuickEditor.class);
 
@@ -164,6 +173,7 @@ public class DesignerModule extends DesignModule {
     }
 
 
+    @Override
     public String getInterNationalName() {
         return Inter.getLocText("FR-Module_Designer");
     }
@@ -178,6 +188,7 @@ public class DesignerModule extends DesignModule {
         ActionFactory.registerFloatEditorClass(Formula.class, FloatStringQuickEditor.class);
         ActionFactory.registerFloatEditorClass(Image.class, FloatImageQuickEditor.class);
         ActionFactory.registerFloatEditorClass(BufferedImage.class, FloatImageQuickEditor.class);
+        ActionFactory.registerFloatEditor(CellImagePainter.class, new FloatImageQuickEditor());
 
         ActionFactory.registerChartFloatEditorInEditor(FloatChartQuickEditor.class);
     }
@@ -200,6 +211,7 @@ public class DesignerModule extends DesignModule {
      *
      * @return 返回处理格子值的转换器
      */
+    @Override
     public ValueConverter valueConverter() {
         return new CellElementValueConverter();
     }
@@ -243,6 +255,7 @@ public class DesignerModule extends DesignModule {
                 return StableFactory.getMarkedObject(ProcessOperator.MARK_STRING, ProcessOperator.class, ProcessOperator.EMPTY).getParas(book);
             }
 
+            @Override
             protected MultiFieldParameter[] getAllMultiFieldParas(String book) {
                 return StableFactory.getMarkedObject(ProcessOperator.MARK_STRING, ProcessOperator.class, ProcessOperator.EMPTY).getAllMultiFieldParas(book);
             }
@@ -283,7 +296,7 @@ public class DesignerModule extends DesignModule {
      * @return 可以打开的模板类型的数组
      */
     public App[] apps4TemplateOpener() {
-        return new App[]{getCptApp(), getXlsApp(), getXlsxApp()};
+        return new App[]{getCptxApp(), getCptApp(), getXlsApp(), getXlsxApp()};
     }
 
     private AbstractWorkBookApp getXlsxApp() {
@@ -328,10 +341,12 @@ public class DesignerModule extends DesignModule {
 
     private AbstractWorkBookApp getCptApp() {
         return new AbstractWorkBookApp() {
+            @Override
             public String[] defaultExtentions() {
                 return new String[]{"cpt"};
             }
 
+            @Override
             public WorkBook asIOFile(FILE file) {
                 if (XMLEncryptUtils.isCptEncoded() &&
                         !XMLEncryptUtils.checkVaild(DesignerEnvManager.getEnvManager().getEncryptionKey())) {
@@ -358,6 +373,37 @@ public class DesignerModule extends DesignModule {
                 }
                 checkNameStyle(namestyle);
                 return tpl;
+            }
+        };
+    }
+
+    private AbstractWorkBookApp getCptxApp() {
+        return new AbstractWorkBookApp() {
+
+            @Override
+            public String[] defaultExtentions() {
+                return new String[]{"cptx"};
+            }
+
+            @Override
+            public WorkBook asIOFile(FILE file) {
+                FRContext.getLogger().info(Inter.getLocText(new String[]{"LOG-Is_Being_Openned", "LOG-Please_Wait"}, new String[]{"\"" + file.getName() + "\"" + ",", "..."}));
+                WorkBookX tpl;
+                InputStream inputStream;
+                try {
+                    inputStream = file.asInputStream();
+                    long time = System.currentTimeMillis();
+                    tpl = new WorkBookX(inputStream);
+                    FRContext.getLogger().error("cost: " + (System.currentTimeMillis() - time) + " ms");
+                } catch (Exception exp) {
+                    if (exp instanceof FRPackageRunTimeException) {
+                        throw (FRPackageRunTimeException) exp;
+                    }
+                    throw new InvalidWorkBookException(file + ":" + exp.getMessage(), exp);
+                }
+
+
+                return new WorkBookAdapter(tpl);
             }
         };
     }
@@ -391,6 +437,7 @@ public class DesignerModule extends DesignModule {
         // ”是“按钮，点击之后将生成一个全局样式，并写入xml
         UIButton confirmButton = new UIButton(Inter.getLocText("FR-Designer_Yes"));
         confirmButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 try {
                     for (int i = 0; i < namelist.size(); i++) {
@@ -406,6 +453,7 @@ public class DesignerModule extends DesignModule {
 
         UIButton noButton = new UIButton(Inter.getLocText("FR-Designer_No"));
         noButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 jd.dispose();
             }
@@ -419,6 +467,7 @@ public class DesignerModule extends DesignModule {
         jd.setVisible(true);
     }
 
+    @Override
     public Class<?>[] actionsForInsertCellElement() {
         return (Class<?>[]) ArrayUtils.addAll(new Class<?>[]{
                 DSColumnCellAction.class,
@@ -432,6 +481,7 @@ public class DesignerModule extends DesignModule {
         }, super.actionsForInsertCellElement());
     }
 
+    @Override
     public Class<?>[] actionsForInsertFloatElement() {
         return (Class<?>[]) ArrayUtils.addAll(new Class<?>[]{
                 TextBoxFloatAction.class,
