@@ -1,6 +1,10 @@
 package com.fr.design.gui;
 
-import com.fr.design.gui.borders.*;
+import com.fr.design.gui.borders.UIFrameBorder;
+import com.fr.design.gui.borders.UIInternalFrameBorder;
+import com.fr.design.gui.borders.UITableHeaderBorder;
+import com.fr.design.gui.borders.UITableHeaderRolloverBorder;
+import com.fr.design.gui.borders.UITextFieldBorder;
 import com.fr.design.gui.frpane.UIBasicOptionPaneUI;
 import com.fr.design.gui.ibutton.UIBasicButtonUI;
 import com.fr.design.gui.ibutton.UIButtonBorder;
@@ -28,14 +32,15 @@ import com.fr.design.gui.itree.UITreeUI;
 import com.fr.general.FRLogger;
 import com.fr.general.IOUtils;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.UIDefaults;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.BorderUIResource;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.basic.BasicBorders;
 import javax.swing.plaf.metal.MetalLookAndFeel;
-import java.awt.*;
+import java.awt.Insets;
 import java.net.URL;
 
 /**
@@ -84,7 +89,7 @@ public class UILookAndFeel extends MetalLookAndFeel {
                 "MenuUI", UIBasicMenuUI.class.getName(),
                 "MenuItemUI", UIBasicMenuItemUI.class.getName(),
                 "RadioButtonMenuItemUI", UIRadioButtonMenuItemUI.class.getName(),
-                "OptionPaneUI",UIBasicOptionPaneUI.class.getName(),
+                "OptionPaneUI", UIBasicOptionPaneUI.class.getName(),
         });
     }
 
@@ -158,8 +163,8 @@ public class UILookAndFeel extends MetalLookAndFeel {
         table.put("FileChooser.listViewIcon", loadIcon("FileListIcon.png", this));
         table.put("FileChooser.newFolderIcon", loadIcon("NewFolderIcon.png", this));
         table.put("FileChooser.upFolderIcon", loadIcon("ParentDirectoryIcon.png", this));
-        table.put("OptionPane.errorIcon", loadIcon("ErrorIcon.png", this));
-        table.put("OptionPane.informationIcon", loadIcon("InformationIcon.png", this));
+        table.put("OptionPane.errorIcon", loadIcon("Information_Icon_Error_32x32.png", this));
+        table.put("OptionPane.informationIcon", loadIcon("Information_Icon_OK_32x32.png", this));
         table.put("OptionPane.warningIcon", loadIcon("WarningIcon.png", this));
         table.put("OptionPane.questionIcon", loadIcon("QuestionIcon.png", this));
         table.put("ScrollPane.border", new UIScrollPaneBorder());
@@ -187,7 +192,7 @@ public class UILookAndFeel extends MetalLookAndFeel {
         if (url == null) {
             // Another try
             url = IOUtils.getResource(
-                "com/fr/design/images/lookandfeel/" + fileName, UILookAndFeel.class);
+                    "com/fr/design/images/lookandfeel/" + fileName, UILookAndFeel.class);
 
             if (url == null) {
                 FRLogger.getLogger().error("Icon directory could not be resolved.");

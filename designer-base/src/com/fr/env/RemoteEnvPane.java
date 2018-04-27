@@ -26,6 +26,7 @@ import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -478,7 +479,12 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteEnv> {
                 connect = env.testConnectionWithOutRegisteServer(this);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, Inter.getLocText("Datasource-Connection_failed"));
+            JOptionPane.showMessageDialog(
+                    this,
+                    Inter.getLocText("Datasource-Connection_failed"),
+                    UIManager.getString("OptionPane.messageDialogTitle", this.getLocale()),
+                    JOptionPane.ERROR_MESSAGE
+            );
             FRContext.getLogger().error(e.getMessage(), e);
         }
         if (connect) {
