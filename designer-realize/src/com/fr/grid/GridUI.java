@@ -9,7 +9,7 @@ import com.fr.base.Margin;
 import com.fr.base.PaperSize;
 import com.fr.base.Utils;
 import com.fr.base.background.ColorBackground;
-import com.fr.base.background.ImageBackground;
+import com.fr.base.background.ImageFileBackground;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.mainframe.DesignerContext;
@@ -105,7 +105,7 @@ public class GridUI extends ComponentUI {
         if (elementCase instanceof Report) {
             return ReportUtils.getReportSettings((Report) elementCase);
         } else if(elementCase instanceof FormElementCase){
-        	return ((FormElementCase) elementCase).getReportSettings();
+            return ((FormElementCase) elementCase).getReportSettings();
         } else {
             return new ReportSettings();
         }
@@ -152,7 +152,7 @@ public class GridUI extends ComponentUI {
 
         if (background != null) {
             // denny: except the ColorBackground and ImageBackground
-            if (grid.isEnabled() && !(background instanceof ImageBackground)) {
+            if (grid.isEnabled() && !(background instanceof ImageFileBackground)) {
                 background.paint(g2d, this.back_or_selection_rect);
             }
 
@@ -172,12 +172,12 @@ public class GridUI extends ComponentUI {
 
     private void paintScrollBackground(Graphics2D g2d, Grid grid, Background background, PaperSettingProvider psetting, ReportSettingsProvider reportSettings) {
         boolean isCanDrawImage = grid.isEditable() || isAuthority;
-        if (isCanDrawImage && (background instanceof ImageBackground)) {
+        if (isCanDrawImage && (background instanceof ImageFileBackground)) {
             if (!grid.isShowPaginateLine()) {
                 calculatePaper(psetting, reportSettings);
             }
 
-            ImageBackground imageBackground = (ImageBackground) background;
+            ImageFileBackground imageBackground = (ImageFileBackground) background;
 
             int hideWidth = columnWidthList.getRangeValue(0, horizontalValue)
                     .toPixI(resolution);
@@ -448,8 +448,8 @@ public class GridUI extends ComponentUI {
             // peter:保留clip.
             oldClip = g2d.getClip();            /*
              * alex:此处的tmpRectangle_1被GridUtils.validate判断必定为true,
-			 * 因为这些tmpCellElement是intersect的结果 所以,不必判断了
-			 */
+             * 因为这些tmpCellElement是intersect的结果 所以,不必判断了
+             */
             g2d.clip(this.tmpRectangle);
 
             // 这边为什么要加1? 因为单元格的左边和上面有线，宽度为一，属于此单元格，画单元格的内容不应该把那条线给遮住了
@@ -485,7 +485,7 @@ public class GridUI extends ComponentUI {
         String selectedRole = ReportAndFSManagePane.getInstance().getRoleTree().getSelectedRoleName();
         boolean isWidgetAuthority = false;
         if (tmpCellElement.getWidget() != null) {
-        	isWidgetAuthority = tmpCellElement.getWidget().isDirtyWidget(selectedRole);
+            isWidgetAuthority = tmpCellElement.getWidget().isDirtyWidget(selectedRole);
         }
         boolean isCellDoneAuthority = tmpCellElement.isDoneAuthority(selectedRole) || tmpCellElement.isDoneNewValueAuthority(selectedRole);
         boolean isDoneAuthority = isWidgetAuthority || isCellDoneAuthority;
@@ -508,10 +508,10 @@ public class GridUI extends ComponentUI {
 //			cellGUIAttr = CellGUIAttr.DEFAULT_CELLGUIATTR;
 //		}
 
-		/*
+        /*
          * 记录当前选中的单元格的左父与上父的位置于leftColumnRowRectangle2D &
-		 * topColumnRowRectangle2D
-		 */
+         * topColumnRowRectangle2D
+         */
         if (selectedCellElement == tmpCellElement) {
             CellExpandAttr cellExpandAttr = tmpCellElement.getCellExpandAttr();
             if (cellExpandAttr != null) {

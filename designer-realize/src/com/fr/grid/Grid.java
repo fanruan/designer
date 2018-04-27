@@ -5,11 +5,18 @@ package com.fr.grid;
 
 import com.fr.base.DynamicUnitList;
 import com.fr.design.ExtraDesignClassManager;
-import com.fr.design.cell.editor.*;
+import com.fr.design.cell.editor.CellEditor;
+import com.fr.design.cell.editor.FloatEditor;
+import com.fr.design.cell.editor.FormulaCellEditor;
+import com.fr.design.cell.editor.GeneralCellEditor;
+import com.fr.design.cell.editor.GeneralFloatEditor;
+import com.fr.design.cell.editor.TextCellEditor;
 import com.fr.design.constants.UIConstants;
+import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.fun.GridUIProcessor;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.mainframe.ElementCasePane;
+import com.fr.design.mainframe.JTemplate;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.grid.event.CellEditorEvent;
@@ -32,7 +39,13 @@ import com.fr.report.elementcase.TemplateElementCase;
 import com.fr.stable.StringUtils;
 
 import javax.swing.plaf.ComponentUI;
-import java.awt.*;
+import java.awt.AWTEvent;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Window;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.util.Hashtable;
@@ -148,6 +161,7 @@ public class Grid extends BaseGridComponent {
      *
      * @date 2014-12-21-下午6:32:43
      */
+    @Override
     public void updateUI() {
         GridUIProcessor localGridUIProcessor = ExtraDesignClassManager.getInstance().getSingle(GridUIProcessor.MARK_STRING, new DefaultGridUIProcessor());
         ComponentUI localComponentUI = localGridUIProcessor.appearanceForGrid(this.resolution);
@@ -964,11 +978,15 @@ public class Grid extends BaseGridComponent {
                 if (newValue instanceof CellImage) {
                     CellImage cellImage = (CellImage) newValue;
                     newValue = cellImage.getImage();
+                    JTemplate<?, ?> currentEditingTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+                    currentEditingTemplate.setPictureElem(selectedFloatElement, cellImage);
+
                     if (cellImage.getStyle() != null) {
                         selectedFloatElement.setStyle(cellImage.getStyle());
                     }
+                } else {
+                    selectedFloatElement.setValue(newValue);
                 }
-                selectedFloatElement.setValue(newValue);
                 reportPane.fireTargetModified();
                 //加这句话是为了在编辑完悬浮元素公式的时候，点击确定，右上角面板会立即刷新
                 reportPane.getCurrentEditor();
@@ -1069,7 +1087,8 @@ public class Grid extends BaseGridComponent {
             Object oldValue = this.editingCellElement.getValue();
             boolean imageChange = false;
             if (!ComparatorUtils.equals_exactly(oldValue, newValue)) {
-                editingCellElement.setValue(newValue);
+                JTemplate<?, ?> currentEditingTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+                currentEditingTemplate.setPictureElem(editingCellElement, cellImage);
                 imageChange = true;
             }
             if (styleChange || imageChange) {
@@ -1283,6 +1302,7 @@ public class Grid extends BaseGridComponent {
      * @param event
      * @return
      */
+    @Override
     public Point getToolTipLocation(MouseEvent event) {
         if (StringUtils.isEmpty(this.getToolTipText())) {
             return null;
@@ -1363,6 +1383,7 @@ public class Grid extends BaseGridComponent {
         /**
          * This tells the listeners the editor has stopped editing
          */
+        @Override
         public void editingStopped(CellEditorEvent evt) {
             Grid.this.stopCellEditingInner(false);
             // if(Grid.this.)
@@ -1371,6 +1392,7 @@ public class Grid extends BaseGridComponent {
         /**
          * This tells the listeners the editor has canceled editing
          */
+        @Override
         public void editingCanceled(CellEditorEvent evt) {
             Grid.this.cancelEditing();
         }
@@ -1381,6 +1403,7 @@ public class Grid extends BaseGridComponent {
         /**
          * This tells the listeners the editor has stopped editing
          */
+        @Override
         public void editingStopped(FloatEditorEvent evt) {
             Grid.this.stopFloatEditingInner(false);
         }
@@ -1388,6 +1411,7 @@ public class Grid extends BaseGridComponent {
         /**
          * This tells the listeners the editor has canceled editing
          */
+        @Override
         public void editingCanceled(FloatEditorEvent evt) {
             Grid.this.cancelEditing();
         }

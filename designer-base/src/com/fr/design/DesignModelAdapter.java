@@ -1,7 +1,7 @@
 package com.fr.design;
 
 import com.fr.base.Parameter;
-import com.fr.base.io.IOFile;
+import com.fr.base.io.BaseBook;
 import com.fr.data.TableDataSource;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.mainframe.JTemplateProvider;
@@ -19,7 +19,7 @@ import java.util.Map;
  * @author zhou
  * @since 2012-7-26上午11:24:54
  */
-public abstract class DesignModelAdapter<T extends IOFile, S extends JTemplateProvider> {
+public abstract class DesignModelAdapter<T extends BaseBook, S extends JTemplateProvider> {
 
     private static DesignModelAdapter<?, ?> currentModelAdapter;
     protected S jTemplate;

@@ -2,10 +2,12 @@ package com.fr.quickeditor.floatquick;
 
 import com.fr.base.Style;
 import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.mainframe.JTemplate;
 import com.fr.design.report.SelectImagePane;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
@@ -59,8 +61,9 @@ public class FloatImageQuickEditor extends FloatQuickEditor {
             public void doOk() {
                 CellImage cellImage = imageEditorPane.update();
                 if (!ComparatorUtils.equals(cellImage.getImage(), oldValue) || !ComparatorUtils.equals(cellImage.getStyle(), oldStyle)) {
-                    floatElement.setValue(cellImage.getImage());
                     floatElement.setStyle(cellImage.getStyle());
+                    JTemplate<?, ?> currentEditingTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+                    currentEditingTemplate.setPictureElem(floatElement, cellImage);
                     fireTargetModified();
                 }
             }

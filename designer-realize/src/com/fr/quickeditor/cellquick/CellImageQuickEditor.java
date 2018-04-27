@@ -4,11 +4,12 @@ import com.fr.base.Style;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.actions.insert.cell.ImageCellAction;
 import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.mainframe.JTemplate;
 import com.fr.design.report.SelectImagePane;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
@@ -19,7 +20,6 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -65,6 +65,8 @@ public class CellImageQuickEditor extends CellQuickEditor {
                 if (!ComparatorUtils.equals(cellImage.getImage(), oldValue) || !ComparatorUtils.equals(cellImage.getStyle(), oldStyle)) {
                     cellElement.setValue(cellImage.getImage());
                     cellElement.setStyle(cellImage.getStyle());
+                    JTemplate<?, ?> currentEditingTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+                    currentEditingTemplate.setPictureElem(cellElement, cellImage);
                     fireTargetModified();
                 }
             }

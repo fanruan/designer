@@ -6,7 +6,7 @@ package com.fr.design.mainframe.widget.wrappers;
 import com.fr.general.Inter;
 import com.fr.base.background.ColorBackground;
 import com.fr.base.background.GradientBackground;
-import com.fr.base.background.ImageBackground;
+import com.fr.base.background.ImageFileBackground;
 import com.fr.base.background.PatternBackground;
 import com.fr.base.background.TextureBackground;
 import com.fr.design.Exception.ValidationException;
@@ -30,7 +30,7 @@ public class BackgroundWrapper implements Encoder, Decoder {
             return Inter.getLocText("Background-Texture");
         } else if (v instanceof PatternBackground) {
             return Inter.getLocText("Background-Pattern");
-        } else if (v instanceof ImageBackground) {
+        } else if (v instanceof ImageFileBackground) {
             return Inter.getLocText("Image");
         } else if (v instanceof GradientBackground) {
             return Inter.getLocText("Gradient-Color");

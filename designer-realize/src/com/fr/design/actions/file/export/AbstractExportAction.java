@@ -5,22 +5,28 @@ package com.fr.design.actions.file.export;
 
 import com.fr.base.FRContext;
 import com.fr.base.Parameter;
-import com.fr.page.PageSetProvider;
 import com.fr.design.actions.JWorkBookAction;
+import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.gui.iprogressbar.FRProgressBar;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.mainframe.JWorkBook;
 import com.fr.design.parameter.ParameterInputPane;
-import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.file.FILE;
 import com.fr.file.FILEChooserPane;
 import com.fr.file.filter.ChooseFileFilter;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
-import com.fr.io.exporter.*;
+import com.fr.io.exporter.AppExporter;
+import com.fr.io.exporter.CSVExporter;
+import com.fr.io.exporter.EmbeddedTableDataExporter;
+import com.fr.io.exporter.ExcelExporter;
+import com.fr.io.exporter.Exporter;
+import com.fr.io.exporter.PDFExporterProcessor;
+import com.fr.io.exporter.WordExporter;
 import com.fr.main.TemplateWorkBook;
 import com.fr.main.impl.WorkBook;
+import com.fr.page.PageSetProvider;
 import com.fr.report.ReportHelper;
 import com.fr.report.core.ReportUtils;
 import com.fr.report.report.Report;
@@ -28,9 +34,10 @@ import com.fr.report.worksheet.WorkSheet;
 import com.fr.stable.ActorConstants;
 import com.fr.stable.ActorFactory;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
 import java.awt.event.ActionEvent;
-import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.Map;
 
 /**
@@ -72,7 +79,7 @@ public abstract class AbstractExportAction extends JWorkBookAction {
         }
 
         // Choose a file name....
-        FILEChooserPane fileChooserPane = FILEChooserPane.getInstance(false, true);
+        FILEChooserPane fileChooserPane = FILEChooserPane.getInstance(true, true);
         fileChooserPane.setFILEFilter(this.getChooseFileFilter());
 
         // 打开文件后输出文件名修改，eg：w.cpt.doc / w.svg.doc，去掉中间的后缀名~~ w.doc
@@ -100,20 +107,23 @@ public abstract class AbstractExportAction extends JWorkBookAction {
         }
     }
 
-    private SwingWorker createExportWork(FILE file, final TemplateWorkBook tpl, final Map parameterMap) {
+    private SwingWorker createExportWork(final FILE file, final TemplateWorkBook tpl, final Map parameterMap) {
         final String filePath = file.getPath();
         final String fileGetName = file.getName();
 
         SwingWorker exportWorker = new SwingWorker<Void, Void>() {
+
+            @Override
             protected Void doInBackground() throws Exception {
                 Thread.sleep(100); //bug 10516
                 try {
-                    final FileOutputStream fileOutputStream = new FileOutputStream(filePath);
+                    OutputStream outputStream = file.asOutputStream();
 
                     this.setProgress(10);
-                    dealExporter(fileOutputStream, tpl, parameterMap);
+                    dealExporter(outputStream, tpl, parameterMap);
                     this.setProgress(80);
-                    fileOutputStream.close();
+                    outputStream.flush();
+                    outputStream.close();
                     this.setProgress(100);
 
                     FRContext.getLogger().info("\"" + fileGetName + "\"" + Inter.getLocText("FR-Designer_Finish_Export") + "!");
@@ -127,6 +137,7 @@ public abstract class AbstractExportAction extends JWorkBookAction {
                 return null;
             }
 
+            @Override
             public void done() {
                 progressbar.close();
             }
@@ -134,7 +145,7 @@ public abstract class AbstractExportAction extends JWorkBookAction {
         return exportWorker;
     }
 
-    private void dealExporter(FileOutputStream fileOutputStream, final TemplateWorkBook tpl, final Map parameterMap) throws Exception {
+    private void dealExporter(OutputStream outputStream, final TemplateWorkBook tpl, final Map parameterMap) throws Exception {
         final Exporter exporter = AbstractExportAction.this.getExporter();
         if (exporter instanceof AppExporter) {
             AppExporter appExporter = (AppExporter) exporter;
@@ -142,18 +153,18 @@ public abstract class AbstractExportAction extends JWorkBookAction {
                     || exporter instanceof PDFExporterProcessor || exporter instanceof WordExporter) {
                 ReportHelper.clearFormulaResult(tpl);// 清空rpt中的公式计算结果
 
-                appExporter.export(fileOutputStream, tpl.execute(parameterMap, ActorFactory.getActor(ActorConstants.TYPE_PAGE)
+                appExporter.export(outputStream, tpl.execute(parameterMap, ActorFactory.getActor(ActorConstants.TYPE_PAGE)
                 ));
             } else {
                 ReportHelper.clearFormulaResult(tpl);// 清空currentReport中的公式计算结果
 
                 PageSetProvider pageSet = tpl.execute(parameterMap, ActorFactory.getActor(ActorConstants.TYPE_PAGE)).generateReportPageSet(
                         ReportUtils.getPaperSettingListFromWorkBook(tpl)).traverse4Export();
-                appExporter.export(fileOutputStream, pageSet);
+                appExporter.export(outputStream, pageSet);
                 pageSet.release();
             }
         } else if (exporter instanceof EmbeddedTableDataExporter) {
-            ((EmbeddedTableDataExporter) exporter).export(fileOutputStream, (WorkBook) tpl, parameterMap);
+            ((EmbeddedTableDataExporter) exporter).export(outputStream, (WorkBook) tpl, parameterMap);
         }
     }
 

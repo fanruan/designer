@@ -57,11 +57,16 @@ import com.fr.grid.GridUtils;
 import com.fr.io.exporter.EmbeddedTableDataExporter;
 import com.fr.main.TemplateWorkBook;
 import com.fr.main.impl.WorkBook;
+import com.fr.main.impl.WorkBookAdapter;
+import com.fr.main.impl.WorkBookX;
 import com.fr.main.parameter.ReportParameterAttr;
 import com.fr.poly.PolyDesigner;
 import com.fr.poly.creator.BlockCreator;
 import com.fr.privilege.finegrain.WorkSheetPrivilegeControl;
 import com.fr.report.ReportHelper;
+import com.fr.report.cell.Elem;
+import com.fr.report.cell.cellattr.CellImage;
+import com.fr.report.cell.painter.CellImagePainter;
 import com.fr.report.elementcase.TemplateElementCase;
 import com.fr.report.poly.PolyWorkSheet;
 import com.fr.report.worksheet.WorkSheet;
@@ -85,6 +90,9 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
 
     private static final String SHARE_SUFFIX = "_share";
     private static final String SHARE_FOLDER = "share";
+    private static final String DEFAULT_WBX_FILE_PREFIX = "WorkBookX";
+    private static final String DEFAULT_WB_FILE_PREFIX = "WorkBook";
+
     private static final int TOOLBARPANEDIMHEIGHT = 26;
     private static final double MIN_TIME = 0.4;
 
@@ -94,7 +102,12 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     private int resolution = ScreenResolution.getScreenResolution();
 
     public JWorkBook() {
-        super(new WorkBook(new WorkSheet()), "WorkBook");
+        super(new WorkBook(new WorkSheet()), DEFAULT_WB_FILE_PREFIX);
+        populateReportParameterAttr();
+    }
+
+    public JWorkBook(WorkBookX workBookX) {
+        super(new WorkBookAdapter(workBookX), DEFAULT_WBX_FILE_PREFIX);
         populateReportParameterAttr();
     }
 
@@ -166,6 +179,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
         return centerPane;
     }
 
+    @Override
     public TemplateProcessInfo getProcessInfo() {
         if (processInfo == null) {
             processInfo = new JWorkBookProcessInfo(template);
@@ -188,6 +202,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      *
      * @param rolsName 角色
      */
+    @Override
     public void judgeSheetAuthority(String rolsName) {
         boolean isCovered = reportComposite.getEditingTemplateReport().getWorkSheetPrivilegeControl().checkInvisible(rolsName);
         centerPane.setSheeetCovered(isCovered);
@@ -197,6 +212,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     /**
      * 在编辑的面板是被参考的面板时，取消格式刷
      */
+    @Override
     public void doConditionCancelFormat() {
         if (ComparatorUtils.equals(reportComposite.centerCardPane.editingComponet.elementCasePane, DesignerContext.getReferencedElementCasePane())) {
             cancelFormat();
@@ -207,6 +223,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     /**
      * 无条件取消格式刷
      */
+    @Override
     public void cancelFormat() {
         DesignerContext.setFormatState(DesignerContext.FORMAT_STATE_NULL);
         reportComposite.centerCardPane.editingComponet.elementCasePane.getGrid().setCursor(UIConstants.CELL_DEFAULT_CURSOR);
@@ -217,6 +234,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
         this.repaint();
     }
 
+    @Override
     public int getEditingReportIndex() {
         return reportComposite.getEditingIndex();
     }
@@ -226,6 +244,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      *
      * @return 返回权限细粒度面板
      */
+    @Override
     public AuthorityEditPane createAuthorityEditPane() {
         if (centerPane.isUpEditMode()) {
             return parameterPane.getParaDesigner().getAuthorityEditPane();
@@ -241,6 +260,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
 
     }
 
+    @Override
     public ToolBarMenuDockPlus getToolBarMenuDockPlus() {
         if (this.getEditingElementCasePane() == null) {
             return JWorkBook.this;
@@ -274,6 +294,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
         reportComposite.setComponents();
     }
 
+    @Override
     public JPanel getEastUpPane() {
         if (BaseUtils.isAuthorityEditing()) {
             return allowAuthorityUpPane();
@@ -318,6 +339,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
         return new JPanel();
     }
 
+    @Override
     public JPanel getEastDownPane() {
         if (centerPane.isUpEditMode()) {
             return parameterPane.getParaDesigner().getEastDownPane();
@@ -340,10 +362,12 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     /**
      * 移除选择
      */
+    @Override
     public void removeTemplateSelection() {
         this.reportComposite.removeSelection();
     }
 
+    @Override
     public void setSheetCovered(boolean isCovered) {
         centerPane.setSheeetCovered(isCovered);
     }
@@ -351,6 +375,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     /**
      * 刷新容器
      */
+    @Override
     public void refreshContainer() {
         centerPane.refreshContainer();
     }
@@ -358,6 +383,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     /**
      * 移除参数面板选择
      */
+    @Override
     public void removeParameterPaneSelection() {
         parameterPane.getParaDesigner().removeSelection();
     }
@@ -456,6 +482,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
         return this.resolution;
     }
 
+    @Override
     public int getToolBarHeight() {
         return TOOLBARPANEDIMHEIGHT;
     }
@@ -516,6 +543,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     /**
      * 复制
      */
+    @Override
     public void copy() {
         this.delegate4ToolbarMenuAdapter().copy();
     }
@@ -525,6 +553,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      *
      * @return 剪切成功返回true
      */
+    @Override
     public boolean cut() {
         return this.delegate4ToolbarMenuAdapter().cut();
     }
@@ -534,6 +563,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      *
      * @return 黏贴成功返回true
      */
+    @Override
     public boolean paste() {
         return this.delegate4ToolbarMenuAdapter().paste();
     }
@@ -541,6 +571,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     /**
      * 停止编辑
      */
+    @Override
     public void stopEditing() {
         reportComposite.stopEditing();
         if (!this.isSaved()) {
@@ -550,12 +581,23 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     }
 
     /**
-     * 后缀
+     * 保存文件的后缀名
      *
      * @return 后缀的字符串
      */
+    @Override
     public String suffix() {
-        return ".cpt";
+        return template.suffix();
+    }
+
+    @Override
+    public void setPictureElem(Elem elem, CellImage cellImage) {
+        WorkBook workBook = this.getTarget();
+        if (workBook instanceof WorkBookAdapter) {
+            elem.setValue(new CellImagePainter(cellImage));
+        } else {
+            elem.setValue(cellImage.getImage());
+        }
     }
 
 
@@ -568,6 +610,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      *
      * @return 子菜单
      */
+    @Override
     public ShortCut[] shortcut4FileMenu() {
         return (ShortCut[]) ArrayUtils.addAll(
                 super.shortcut4FileMenu(),
@@ -580,12 +623,14 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      *
      * @return 菜单
      */
+    @Override
     public MenuDef[] menus4Target() {
         return (MenuDef[]) ArrayUtils.addAll(
                 super.menus4Target(), this.delegate4ToolbarMenuAdapter().menus4Target()
         );
     }
 
+    @Override
     public int getMenuState() {
         return this.delegate4ToolbarMenuAdapter().getMenuState();
     }
@@ -610,6 +655,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      *
      * @return 子菜单
      */
+    @Override
     public ShortCut[] shortCuts4Authority() {
         return new ShortCut[]{
                 new NameSeparator(Inter.getLocText("FR-Designer_Permissions_Edition")),
@@ -623,6 +669,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      *
      * @return 子菜单
      */
+    @Override
     public ShortCut[] shortcut4TemplateMenu() {
         return (ShortCut[]) ArrayUtils.addAll(new ShortCut[]{
                 new ReportWebAttrAction(this),
@@ -638,6 +685,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      *
      * @return 工具
      */
+    @Override
     public ToolBarDef[] toolbars4Target() {
         return this.delegate4ToolbarMenuAdapter().toolbars4Target();
     }
@@ -699,6 +747,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     /**
      * 请求焦点
      */
+    @Override
     public void requestFocus() {
         super.requestFocus();
         ReportComponent reportComponent = reportComposite.getEditingReportComponent();
@@ -745,6 +794,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     /**
      * 恢复
      */
+    @Override
     public void revert() {
         ElementCasePane epane = reportComposite.getEditingReportComponent().elementCasePane;
         if (epane == null) {
@@ -773,6 +823,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      *
      * @return 表单工具栏
      */
+    @Override
     public JPanel[] toolbarPanes4Form() {
         if (centerPane.isUpEditMode() && hasParameterPane()) {
             return parameterPane.toolbarPanes4Form();
@@ -785,6 +836,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      *
      * @return 工具按钮
      */
+    @Override
     public JComponent[] toolBarButton4Form() {
         centerPane.needToShowCoverAndHidPane();
         if (centerPane.isUpEditMode() && hasParameterPane()) {
@@ -799,6 +851,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      *
      * @return 工具面板
      */
+    @Override
     public JComponent toolBar4Authority() {
         return new AuthorityToolBarPane();
     }
@@ -808,6 +861,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      *
      * @return 预览接口
      */
+    @Override
     public PreviewProvider[] supportPreview() {
         Set<PreviewProvider> set = ExtraDesignClassManager.getInstance().getArray(PreviewProvider.MARK_STRING);
         return ArrayUtils.addAll(new PreviewProvider[]{
@@ -820,6 +874,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      *
      * @return 预览菜单项
      */
+    @Override
     public UIMenuItem[] createMenuItem4Preview() {
         List<UIMenuItem> menuItems = new ArrayList<UIMenuItem>();
         PreviewProvider[] previewProviders = supportPreview();
@@ -841,6 +896,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      *
      * @param provider 预览接口
      */
+    @Override
     public void previewMenuActionPerformed(PreviewProvider provider) {
         setPreviewType(provider);
         WebPreviewUtils.actionPerformed(this, provider.parametersForPreview(), ParameterConstants.REPORTLET);
@@ -851,6 +907,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      *
      * @return 是则返回true
      */
+    @Override
     public boolean isJWorkBook() {
         return true;
     }
@@ -865,6 +922,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
         return ReportHyperlinkGroupPaneNoPop.getInstance(hyperlinkGroupPaneActionProvider);
     }
 
+    @Override
     public void setAuthorityMode(boolean isUpMode) {
         centerPane.setAuthorityMode(isUpMode);
     }
@@ -874,6 +932,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      *
      * @return 是则返回true
      */
+    @Override
     public boolean isUpMode() {
         return centerPane.isUpEditMode();
     }
@@ -881,6 +940,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     /**
      * 刷新参数和工具区域
      */
+    @Override
     public void refreshToolArea() {
         populateReportParameterAttr();
         if (centerPane.isUpEditMode()) {
@@ -933,6 +993,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      *
      * @return
      */
+    @Override
     public Parameter[] getParameters() {
         Parameter[] ps = this.parameterPane.getParameterArray();
         Parameter[] curPs = this.parameterPane.getAllParameters();
@@ -949,6 +1010,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     /**
      * 请求单元格区域的焦点
      */
+    @Override
     public void requestGridFocus() {
         reportComposite.centerCardPane.requestGrifFocus();
     }
@@ -960,6 +1022,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      * @return 内置sql提交的pane
      * @date 2014-10-14-下午7:39:27
      */
+    @Override
     public DBManipulationPane createDBManipulationPane() {
         ElementCasePane<TemplateElementCase> epane = this.getEditingElementCasePane();
         return new SmartInsertDBManipulationPane(epane);
@@ -971,11 +1034,13 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      * @return 内置sql提交的pane
      * @date 2014-10-14-下午7:39:27
      */
+    @Override
     public DBManipulationPane createDBManipulationPaneInWidget() {
         ElementCasePane<TemplateElementCase> epane = this.getEditingElementCasePane();
         return new SmartInsertDBManipulationInWidgetEventPane(epane);
     }
 
+    @Override
     public Icon getIcon() {
         return BaseUtils.readIcon("/com/fr/design/images/buttonicon/newcpts.png");
     }
@@ -996,6 +1061,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      *
      * @return 是否另存成功
      */
+    @Override
     public boolean saveShareFile() {
         FILE newFile = createNewEmptyFile();
         //如果文件已经打开, 那么就覆盖关闭掉他
@@ -1057,6 +1123,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      *
      * @return 分享模板按钮
      */
+    @Override
     public UIButton[] createShareButton() {
         return new UIButton[0];
         //产品想要重新设计下, 1现在的分享多列数据集很麻烦, 2想做成自动上传附件.

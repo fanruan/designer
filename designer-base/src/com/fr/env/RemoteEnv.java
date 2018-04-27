@@ -105,7 +105,7 @@ public class RemoteEnv extends AbstractEnv {
     private static final String CERT_KEY = "javax.net.ssl.trustStore";
     private static final String PWD_KEY = "javax.net.ssl.trustStorePassword";
     private static final String HTTPS_PREFIX = "https:";
-    private final static String[] FILE_TYPE = {"cpt", "frm", "form", "cht", "chart"};
+    private final static String[] FILE_TYPE = {"cptx", "cpt", "frm", "form", "cht", "chart"};
     private String path;
     private String user;
     private String password;
@@ -2153,6 +2153,7 @@ public class RemoteEnv extends AbstractEnv {
 
     /**
      * 远程不启动，使用虚拟服务
+     * <p>
      *
      * @param serviceID serviceID
      */

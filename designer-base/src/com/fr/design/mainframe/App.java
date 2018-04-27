@@ -1,14 +1,14 @@
 package com.fr.design.mainframe;
 
-import com.fr.base.io.IOFile;
+import com.fr.base.io.BaseBook;
 import com.fr.file.FILE;
-import com.fr.stable.fun.mark.Mutable;
 import com.fr.stable.fun.mark.Aftermath;
+import com.fr.stable.fun.mark.Mutable;
 
 /**
  * Created by Administrator on 2016/3/17/0017.
  */
-public interface App<T extends IOFile> extends Mutable, Aftermath {
+public interface App<T extends BaseBook> extends Mutable, Aftermath {
 
     String MARK_STRING = "DesignerApp";
 
