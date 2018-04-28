@@ -57,6 +57,7 @@ public abstract class AbstractExportAction extends JWorkBookAction {
     /**
      * 执行方法
      */
+    @Override
     public void actionPerformed(ActionEvent e) {
         JWorkBook jwb = this.getEditingComponent();
         FILE editingFILE = jwb.getEditingFILE();
@@ -80,7 +81,7 @@ public abstract class AbstractExportAction extends JWorkBookAction {
 
         // Choose a file name....
         FILEChooserPane fileChooserPane = FILEChooserPane.getInstance(true, true);
-        fileChooserPane.setFILEFilter(this.getChooseFileFilter());
+        fileChooserPane.addChooseFILEFilter(this.getChooseFileFilter());
 
         // 打开文件后输出文件名修改，eg：w.cpt.doc / w.svg.doc，去掉中间的后缀名~~ w.doc
         String filenName = editingFILE.getName();

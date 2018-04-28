@@ -4,6 +4,7 @@
 package com.fr.design.actions.file.export;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.extension.FileExtension;
 import com.fr.design.mainframe.JWorkBook;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.file.filter.ChooseFileFilter;
@@ -18,26 +19,26 @@ public class TextExportAction extends AbstractExportAction {
     /**
      * Constructor
      */
-	public TextExportAction(JWorkBook jwb) {
-		super(jwb);
+    public TextExportAction(JWorkBook jwb) {
+        super(jwb);
         this.setMenuKeySet(KeySetUtils.TEXT_EXPORT);
-        this.setName(getMenuKeySet().getMenuKeySetName()+ "...");
+        this.setName(getMenuKeySet().getMenuKeySetName() + "...");
         this.setMnemonic(getMenuKeySet().getMnemonic());
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_file/text.png"));
     }
-	
+
     @Override
-	protected Exporter getExporter() {
+    protected Exporter getExporter() {
         return new TextExporter();
     }
 
     @Override
-	protected ChooseFileFilter getChooseFileFilter() {
-        return new ChooseFileFilter(new String[]{"txt"}, Inter.getLocText("Export-Text"));
+    protected ChooseFileFilter getChooseFileFilter() {
+        return new ChooseFileFilter(FileExtension.TXT, Inter.getLocText("Export-Text"));
     }
 
     @Override
-	protected String getDefaultExtension() {
-        return "txt";
+    protected String getDefaultExtension() {
+        return FileExtension.TXT.getExtension();
     }
 }
