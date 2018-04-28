@@ -1,13 +1,5 @@
 package com.fr.design.mainframe.actions;
 
-import java.awt.event.ActionEvent;
-import java.io.FileOutputStream;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.swing.JOptionPane;
-import javax.swing.SwingWorker;
-
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.base.Parameter;
@@ -29,6 +21,13 @@ import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.project.ProjectConstants;
+
+import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
+import java.awt.event.ActionEvent;
+import java.io.FileOutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Export Embedded.
@@ -102,7 +101,7 @@ public class EmbeddedFormExportExportAction extends JTemplateAction<JForm>{
 	}
 	
 	private void inputParameter(final Map<String, Object> parameterMap, final Form tpl, DesignerFrame designerFrame){
-        Parameter[] parameters = tpl.getParameters();
+        Parameter[] parameters = tpl.refreshParas();
         if (ArrayUtils.isNotEmpty(parameters)) {// 检查Parameter.
             final ParameterInputPane pPane = new ParameterInputPane(parameters);
             pPane.showSmallWindow(designerFrame, new DialogActionAdapter() {

@@ -99,6 +99,6 @@ public class FormModelAdapter extends DesignModelAdapter<Form, BaseJForm> {
 
 	@Override
 	public Parameter[] getParameters() {
-		return this.getBook().getParameters();
+		return this.getBook().refreshParas();
 	}
 }

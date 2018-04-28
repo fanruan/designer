@@ -158,7 +158,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
      */
     public void populateParameterPropertyPane() {
         //参数
-        setParameterArray(getNoRepeatParas(getTarget().getParameters()));
+        setParameterArray(getNoRepeatParas(getTarget().refreshParas()));
         refreshParameter();
         //容器
         ParameterPropertyPane.getInstance().populateBean(this);
@@ -667,7 +667,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
                 if (evt.getCreatorEventID() != DesignerEvent.CREATOR_SELECTED) {
                     FormDesigner.this.fireTargetModified();
                     if (evt.getCreatorEventID() == DesignerEvent.CREATOR_DELETED) {
-                        setParameterArray(getNoRepeatParas(getTarget().getParameters()));
+                        setParameterArray(getNoRepeatParas(getTarget().refreshParas()));
                         refreshParameter();
                     }
                 } else {
