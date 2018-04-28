@@ -1,6 +1,7 @@
 package com.fr.file;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.extension.FileExtension;
 import com.fr.base.FRContext;
 import com.fr.dav.LocalEnv;
 import com.fr.design.DesignerEnvManager;
@@ -25,19 +26,60 @@ import com.fr.file.filter.FILEFilter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
-import com.fr.stable.*;
+import com.fr.stable.CoreConstants;
+import com.fr.stable.OperatingSystem;
+import com.fr.stable.ProductConstants;
+import com.fr.stable.StableUtils;
+import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
 
-import javax.swing.*;
+import javax.swing.AbstractAction;
+import javax.swing.AbstractListModel;
+import javax.swing.ActionMap;
+import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
+import javax.swing.Icon;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
+import javax.swing.JFileChooser;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.KeyStroke;
+import javax.swing.ListCellRenderer;
+import javax.swing.ListModel;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.plaf.basic.BasicButtonUI;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Insets;
+import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -46,6 +88,7 @@ import java.util.regex.Pattern;
  * FileChooserPane要高亮显示某Button,以显示当前路径
  * 边距要调整
  * postfix还没有处理
+ * 该文件选择器，整理行为如下：
  */
 public class FILEChooserPane extends BasicPane {
     /**
@@ -180,6 +223,7 @@ public class FILEChooserPane extends BasicPane {
         // transfer focus to CurrentEditor
         inputMapAncestor.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "dialogExit");
         actionMap.put("dialogExit", new AbstractAction() {
+            @Override
             public void actionPerformed(ActionEvent evt) {
                 returnValue = CANCEL_OPTION;
                 dialogExit();
@@ -240,17 +284,20 @@ public class FILEChooserPane extends BasicPane {
                 new double[]{TableLayout.PREFERRED, TableLayout.FILL});
         this.add(contentPane, BorderLayout.CENTER);
         okButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent evt) {
                 doOK();
             }
         });
         cancelButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent evt) {
                 returnValue = CANCEL_OPTION;
                 doCancel();
             }
         });
         fileNameTextField.addKeyListener(new KeyAdapter() {
+            @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     returnValue = CANCEL_OPTION;
@@ -356,6 +403,7 @@ public class FILEChooserPane extends BasicPane {
 
     /**
      * 删除文件过滤器
+     * 这命名太乱了，完全是误导
      *
      * @param filter 过滤
      */
@@ -392,7 +440,7 @@ public class FILEChooserPane extends BasicPane {
      */
     public void setFileNameTextField(String text, String suffix) {
         if (StringUtils.isEmpty(suffix)) {
-            suffix = ".cpt";
+            suffix = FileExtension.CPT.getSuffix();
         }
         this.suffix = suffix;
 
@@ -428,7 +476,7 @@ public class FILEChooserPane extends BasicPane {
      * @return 类型
      */
     public int showOpenDialog(Component parent) {
-        return showOpenDialog(parent, ".cpt");
+        return showOpenDialog(parent, FileExtension.CPT.getSuffix());
     }
 
     /**
@@ -449,7 +497,7 @@ public class FILEChooserPane extends BasicPane {
      * @return 类型
      */
     public int showSaveDialog(Component parent) {
-        return showSaveDialog(parent, ".cpt");
+        return showSaveDialog(parent, FileExtension.CPT.getSuffix());
     }
 
     /**
@@ -482,10 +530,12 @@ public class FILEChooserPane extends BasicPane {
         okButton.setText(dialogName());
         // kel:打开界面的时候让文本域获得焦点，支持enter打开或保存。
         dialog.addWindowListener(new WindowAdapter() {
+            @Override
             public void windowActivated(WindowEvent e) {
                 fileNameTextField.requestFocusInWindow();
             }
 
+            @Override
             public void windowClosing(WindowEvent e) {
                 returnValue = CANCEL_OPTION;
                 dialogExit();
@@ -494,7 +544,7 @@ public class FILEChooserPane extends BasicPane {
 
         // neil:默认打开pane里显示所有支持的格式
         // daniel 从templateFileTree中取
-        if (!showWebReport) {
+        if (!showWebReport && filterList.isEmpty()) {
             fileType();
         }
         chooseType();
@@ -514,49 +564,48 @@ public class FILEChooserPane extends BasicPane {
     protected void fileType() {
         String appName = ProductConstants.APP_NAME;
         JTemplate editing = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
-        if (ComparatorUtils.equals(suffix, ".crt")) {
-            this.addChooseFILEFilter(new ChooseFileFilter("crt", appName + Inter.getLocText(new String[]{"Utils-The-Chart", "FR-App-All_File"})));
+        if (FileExtension.CRT.matchExtension(suffix)) {
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.CRT, appName + Inter.getLocText(new String[]{"Utils-The-Chart", "FR-App-All_File"})));
             return;
         }
         if (editing == null || !editing.isChartBook()) {
             String[] fileSuffix_local = LocalEnv.FILE_TYPE;
-            String[] fileSuffix = {"cpt", "cptx", "frm", "form", "cht", "chart"};
+            EnumSet<FileExtension> fileExtensions = EnumSet.of(FileExtension.CPT, FileExtension.CPTX, FileExtension.FRM, FileExtension.FRMX, FileExtension.CHT);
             if (type == JFileChooser.OPEN_DIALOG) {
                 if (FRContext.getCurrentEnv().isSupportLocalFileOperate()) { //本地连接
                     this.addChooseFILEFilter(new ChooseFileFilter(fileSuffix_local, appName + Inter.getLocText(new String[]{"FR-App-Report_Template", "FR-App-All_File"})));
                 } else {
-                    this.addChooseFILEFilter(new ChooseFileFilter(fileSuffix, appName + Inter.getLocText(new String[]{"FR-App-Report_Template", "FR-App-All_File"})));
+                    this.addChooseFILEFilter(new ChooseFileFilter(fileExtensions, appName + Inter.getLocText(new String[]{"FR-App-Report_Template", "FR-App-All_File"})));
                 }
             }
 
             // ben:filefilter设置初值为cpt过滤
-            this.addChooseFILEFilter(new ChooseFileFilter("cpt", appName + Inter.getLocText(new String[]{"FR-App-Report_Template", "FR-App-All_File"})));
-            this.addChooseFILEFilter(new ChooseFileFilter("cptx", appName + Inter.getLocText(new String[]{"FR-App-Report_Template", "FR-App-All_File"})));
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.CPT, appName + Inter.getLocText(new String[]{"FR-App-Report_Template", "FR-App-All_File"})));
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.CPTX, appName + Inter.getLocText(new String[]{"FR-App-Report_Template", "FR-App-All_File"})));
 
             // richer:form文件 daniel 改成三个字
-            this.addChooseFILEFilter(new ChooseFileFilter("frm", appName + Inter.getLocText(new String[]{"FR-App-Template_Form", "FR-App-All_File"})));
-            this.addChooseFILEFilter(new ChooseFileFilter("form", appName + Inter.getLocText(new String[]{"FR-App-Template_Form", "FR-App-All_File"})));
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.FRM, appName + Inter.getLocText(new String[]{"FR-App-Template_Form", "FR-App-All_File"})));
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.FRMX, appName + Inter.getLocText(new String[]{"FR-App-Template_Form", "FR-App-All_File"})));
         } else {
-            String[] fileSuffix_local = {"xls", "xlsx"};
             if (type == JFileChooser.OPEN_DIALOG) {
-                this.addChooseFILEFilter(new ChooseFileFilter(fileSuffix_local, Inter.getLocText("Import-Excel_Source")));
+                this.addChooseFILEFilter(new ChooseFileFilter(EnumSet.of(FileExtension.XLS, FileExtension.XLSX), Inter.getLocText("Import-Excel_Source")));
             }
         }
 
         // 添加 xls 文件类型过滤 kt
         if (FRContext.getCurrentEnv().isSupportLocalFileOperate()) {  //本地连接
-            this.addChooseFILEFilter(new ChooseFileFilter("xls", Inter.getLocText("Import-Excel_Source")));
-            this.addChooseFILEFilter(new ChooseFileFilter("xlsx", Inter.getLocText("Import-Excel2007_Source")));
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.XLS, Inter.getLocText("Import-Excel_Source")));
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.XLSX, Inter.getLocText("Import-Excel2007_Source")));
         }
-        if (ComparatorUtils.equals(suffix, ".png")) {
-            this.addChooseFILEFilter(new ChooseFileFilter("png", Inter.getLocText("FR-App-Export_png")));
+        if (FileExtension.PNG.matchExtension(suffix)) {
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.PNG, Inter.getLocText("FR-App-Export_png")));
         }
         if (type == JFileChooser.SAVE_DIALOG) {
-            this.addChooseFILEFilter(new ChooseFileFilter("pdf", Inter.getLocText("FR-Import-Export_PDF")));
-            this.addChooseFILEFilter(new ChooseFileFilter("svg", Inter.getLocText("FR-Import-Export_SVG")));
-            this.addChooseFILEFilter(new ChooseFileFilter("csv", Inter.getLocText("FR-Import-Export_CSV")));
-            this.addChooseFILEFilter(new ChooseFileFilter("doc", Inter.getLocText("FR-Import-Export_Word")));
-            this.addChooseFILEFilter(new ChooseFileFilter("txt", Inter.getLocText("FR-Import-Export_Text")));
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.PDF, Inter.getLocText("FR-Import-Export_PDF")));
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.SVG, Inter.getLocText("FR-Import-Export_SVG")));
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.CSV, Inter.getLocText("FR-Import-Export_CSV")));
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.DOC, Inter.getLocText("FR-Import-Export_Word")));
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.TXT, Inter.getLocText("FR-Import-Export_Text")));
         }
 
     }
@@ -564,8 +613,8 @@ public class FILEChooserPane extends BasicPane {
     private void chooseType() {
         DefaultComboBoxModel defaultComboBoxModel = (DefaultComboBoxModel) postfixComboBox.getModel();
         defaultComboBoxModel.removeAllElements();
-        for (int i = 0; i < filterList.size(); i++) {
-            defaultComboBoxModel.addElement(filterList.get(i));
+        for (FILEFilter aFilterList : filterList) {
+            defaultComboBoxModel.addElement(aFilterList);
         }
         if (FRContext.getCurrentEnv().isSupportLocalFileOperate()) {  //本地连接
             if (!showWebReport) {
@@ -578,38 +627,22 @@ public class FILEChooserPane extends BasicPane {
             defaultComboBoxModel.setSelectedItem(filterList.get(0));
         }
         // richer:根据不同的文件类型显示不同的后缀名
-        if (ComparatorUtils.equals(suffix, ".cpt")) {
-            postfixComboBox.setSelectedIndex(suffixIndex("cpt"));
-        } else if (ComparatorUtils.equals(suffix, ".cptx")) {
-            postfixComboBox.setSelectedIndex(suffixIndex("cptx"));
-        } else if (ComparatorUtils.equals(suffix, ".frm") || ComparatorUtils.equals(suffix, ".form")) {
-//            postfixComboBox.setSelectedIndex(2);
-            // daniel 改成三个字保证兼容
-            // 现在默认用的是".frm"
-            postfixComboBox.setSelectedIndex(suffixIndex("frm"));
-        } else if (ComparatorUtils.equals(suffix, ".xls")) {
-            postfixComboBox.setSelectedIndex(suffixIndex("xls"));
-        } else if (ComparatorUtils.equals(suffix, ".xlsx")) {
-            postfixComboBox.setSelectedIndex(suffixIndex("xlsx"));
-        } else if (ComparatorUtils.equals(suffix, ".pdf")) {
-            postfixComboBox.setSelectedIndex(suffixIndex("pdf"));
-        } else if (ComparatorUtils.equals(suffix, ".svg")) {
-            postfixComboBox.setSelectedIndex(suffixIndex("svg"));
-        } else if (ComparatorUtils.equals(suffix, ".csv")) {
-            postfixComboBox.setSelectedIndex(suffixIndex("csv"));
-        } else if (ComparatorUtils.equals(suffix, ".doc")) {
-            postfixComboBox.setSelectedIndex(suffixIndex("doc"));
-        } else if (ComparatorUtils.equals(suffix, ".txt")) {
-            postfixComboBox.setSelectedIndex(suffixIndex("txt"));
-        } else if (ComparatorUtils.equals(suffix, ".png")) {
-            postfixComboBox.setSelectedIndex(suffixIndex("png"));
+        EnumSet<FileExtension> fileExtensions = EnumSet.of(
+                FileExtension.CPT, FileExtension.CPTX, FileExtension.FRM, FileExtension.FRMX,
+                FileExtension.XLS, FileExtension.XLSX, FileExtension.PDF, FileExtension.SVG,
+                FileExtension.CSV, FileExtension.DOC, FileExtension.TXT, FileExtension.PNG);
+        for (FileExtension fileExtension : fileExtensions) {
+            if (fileExtension.matchExtension(suffix)) {
+                postfixComboBox.setSelectedIndex(suffixIndex(fileExtension.getExtension()));
+                break;
+            }
         }
         //jerry 26216 只保留.cpt .frm有用的格式，并且不可编辑
-//        if (type == JFileChooser.OPEN_DIALOG) {
-//            postfixComboBox.setEnabled(true);
-//        } else {
-//            postfixComboBox.setEnabled(false);
-//        }
+        if (type == JFileChooser.OPEN_DIALOG) {
+            postfixComboBox.setEnabled(true);
+        } else {
+            postfixComboBox.setEnabled(false);
+        }
 
         //只有一个类型时不可下拉
         if (filterList.size() == 1) {
@@ -749,6 +782,7 @@ public class FILEChooserPane extends BasicPane {
         }
     }
 
+    @Override
     protected String title4PopupWindow() {
         return dialogName();
     }
@@ -761,6 +795,7 @@ public class FILEChooserPane extends BasicPane {
         PlaceListModel() {
             if (FILEChooserPane.this.showEnv) {
                 envFILE = new FileNodeFILE(new FileNode(ProjectConstants.REPORTLETS_NAME, true)) {
+                    @Override
                     public String getName() {
                         return getEnvProjectName();
                     }
@@ -871,6 +906,7 @@ public class FILEChooserPane extends BasicPane {
 
     private ListCellRenderer placelistRenderer = new DefaultListCellRenderer() {
 
+        @Override
         public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
@@ -898,6 +934,7 @@ public class FILEChooserPane extends BasicPane {
      */
     private ListCellRenderer listRenderer = new DefaultListCellRenderer() {
 
+        @Override
         public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
@@ -920,6 +957,7 @@ public class FILEChooserPane extends BasicPane {
     };
     // placeList listener
     ListSelectionListener placeListener = new ListSelectionListener() {
+        @Override
         public void valueChanged(ListSelectionEvent e) {
             Object selValue = placesList.getSelectedValue();
             if (selValue instanceof FILE) {
@@ -932,6 +970,7 @@ public class FILEChooserPane extends BasicPane {
      * placeList mouseListener
      */
     private MouseListener placeMouseListener = new MouseAdapter() {
+        @Override
         public void mousePressed(MouseEvent e) {
             Object selValue = placesList.getSelectedValue();
             if (selValue instanceof FILE) {
@@ -944,6 +983,7 @@ public class FILEChooserPane extends BasicPane {
      * right list.
      */
     private KeyListener subFileListKeyListener = new KeyAdapter() {
+        @Override
         public void keyReleased(KeyEvent e) {
             Object source = e.getSource();
             if (!(source instanceof JList)) {
@@ -973,6 +1013,7 @@ public class FILEChooserPane extends BasicPane {
      * 鼠标点击JList时的listener
      */
     private MouseListener subFileListMouseListener = new MouseAdapter() {
+        @Override
         public void mousePressed(MouseEvent e) {
             Object source = e.getSource();
             if (!(source instanceof JList)) {
@@ -1114,11 +1155,13 @@ public class FILEChooserPane extends BasicPane {
             this.setLayout(FRGUIPaneFactory.createBoxFlowLayout());
 
             leftArrowButton = new BasicArrowButton(BasicArrowButton.WEST) {
+                @Override
                 public Dimension getPreferredSize() {
                     return new Dimension(21, 21);
                 }
             };
             leftArrowButton.addActionListener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     if (pathIndex > 0) {
                         pathIndex--;
@@ -1129,11 +1172,13 @@ public class FILEChooserPane extends BasicPane {
             });
 
             rightArrowButton = new BasicArrowButton(BasicArrowButton.EAST) {
+                @Override
                 public Dimension getPreferredSize() {
                     return new Dimension(21, 21);
                 }
             };
             rightArrowButton.addActionListener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     if (pathIndex < maxPathIndex) {
                         pathIndex++;
@@ -1212,6 +1257,7 @@ public class FILEChooserPane extends BasicPane {
         }
 
         // doLayout
+        @Override
         public void doLayout() {
             this.removeAll();
 
@@ -1310,6 +1356,7 @@ public class FILEChooserPane extends BasicPane {
             this.dir = file;
         }
 
+        @Override
         public void actionPerformed(ActionEvent evt) {
             if (dir != null) {
                 setSelectedDirectory(dir);
@@ -1338,18 +1385,21 @@ public class FILEChooserPane extends BasicPane {
                 repaint();
             }
 
+            @Override
             public void mouseExited(MouseEvent e) {
                 blankButton.setBackground(FILEChooserPane.this.getBackground().darker());
                 blankButton.setBorderPainted(false);
                 repaint();
             }
 
+            @Override
             public void mousePressed(MouseEvent e) {
                 blankButton.setBackground(FILEChooserPane.this.getBackground().brighter());
                 blankButton.setBorderPainted(false);
                 repaint();
             }
 
+            @Override
             public void mouseReleased(MouseEvent e) {
                 blankButton.setBackground(FILEChooserPane.this.getBackground().brighter());
                 blankButton.setBorderPainted(true);
@@ -1363,6 +1413,7 @@ public class FILEChooserPane extends BasicPane {
 
 
     private ActionListener createFolderActionListener = new ActionListener() {
+        @Override
         public void actionPerformed(ActionEvent evt) {
             if (currentDirectory == null) {
                 return;

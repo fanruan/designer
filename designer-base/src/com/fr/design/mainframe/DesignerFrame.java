@@ -855,7 +855,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         String fileExtention = fileName.substring(indexOfLastDot + 1);
         for (int i = 0, len = appList.size(); i < len; i++) {
             App<?> app = appList.get(i);
-            String[] defaultAppExtentions = app.defaultExtentions();
+            String[] defaultAppExtentions = app.defaultExtensions();
             boolean opened = false;
             for (int j = 0; j < defaultAppExtentions.length; j++) {
                 if (defaultAppExtentions[j].equalsIgnoreCase(fileExtention)) {

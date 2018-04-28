@@ -1,7 +1,7 @@
 package com.fr.file;
 
+import com.fr.base.extension.FileExtension;
 import com.fr.file.filter.ChooseFileFilter;
-import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.stable.ProductConstants;
 
@@ -12,7 +12,7 @@ import com.fr.stable.ProductConstants;
  */
 public class FILEChooserPane4Chart extends FILEChooserPane {
 
-    private static final FILEChooserPane4Chart INSTANCE = new FILEChooserPane4Chart(true,true);
+    private static final FILEChooserPane4Chart INSTANCE = new FILEChooserPane4Chart(true, true);
 
     /**
      * @param showEnv
@@ -36,15 +36,17 @@ public class FILEChooserPane4Chart extends FILEChooserPane {
         super(showEnv, showLoc);
     }
 
+    @Override
     protected void fileType() {
         String appName = ProductConstants.APP_NAME;
-        if(ComparatorUtils.equals(suffix, ".crt")){
-            this.addChooseFILEFilter(new ChooseFileFilter("crt", appName + Inter.getLocText(new String[]{"Utils-The-Chart", "FR-App-All_File"})));
+        if (FileExtension.CRT.matchExtension(suffix)) {
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.CRT, appName + Inter.getLocText(new String[]{"Utils-The-Chart", "FR-App-All_File"})));
             return;
         }
     }
 
-    protected String getEnvProjectName(){
+    @Override
+    protected String getEnvProjectName() {
         return Inter.getLocText("FR-Chart-Env_Directory");
     }
 

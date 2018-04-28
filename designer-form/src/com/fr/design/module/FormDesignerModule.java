@@ -57,7 +57,7 @@ public class FormDesignerModule extends DesignModule {
         return new App[]{new AbstractAppProvider<Form>() {
 
             @Override
-            public String[] defaultExtentions() {
+            public String[] defaultExtensions() {
                 return new String[]{"frm", "form"};
             }
 

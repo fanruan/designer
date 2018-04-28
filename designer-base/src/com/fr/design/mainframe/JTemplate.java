@@ -626,7 +626,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
     }
 
     protected FILEChooserPane getFILEChooserPane(boolean isShowLoc) {
-        return new FILEChooserPane(true, isShowLoc);
+        return FILEChooserPane.getInstance(true, isShowLoc);
     }
 
     protected boolean saveFile() {

@@ -1,25 +1,26 @@
 package com.fr.file.filter;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.filechooser.FileFilter;
-
+import com.fr.base.extension.FileExtension;
 import com.fr.file.FILE;
 import com.fr.file.FileFILE;
 import com.fr.general.ComparatorUtils;
 
-public class ChooseFileFilter extends FileFilter implements FILEFilter , java.io.FileFilter {
+import javax.swing.filechooser.FileFilter;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.List;
+
+public class ChooseFileFilter extends FileFilter implements FILEFilter, java.io.FileFilter {
     private List<String> filters = null;
     private String description = null;
     private String fullDescription = null;
     private boolean useExtensionsInDescription = true;
 
     private boolean isExtend = false;
-    
+
     public ChooseFileFilter() {
-    	if (filters==null) {
+        if (filters == null) {
             this.filters = new ArrayList<String>();
         }
     }
@@ -51,9 +52,51 @@ public class ChooseFileFilter extends FileFilter implements FILEFilter , java.io
 
     public ChooseFileFilter(String[] filters, String description) {
         this();
-        for (int i = 0; i < filters.length; i++) {
+        for (String filter : filters) {
             // add filters one by one
-            addExtension(filters[i]);
+            addExtension(filter);
+        }
+
+        if (description != null) {
+            setDescription(description);
+        }
+
+    }
+
+    public ChooseFileFilter(FileExtension extension) {
+        this(extension, null);
+    }
+
+    public ChooseFileFilter(FileExtension extension, String description) {
+        this();
+        if (extension != null) {
+            addExtension(extension.getExtension());
+        }
+
+        if (description != null) {
+            setDescription(description);
+        }
+    }
+
+    /**
+     * 使用指定枚举类集合构建文件过滤器
+     *
+     * @param filters 文件扩展名枚举类集合
+     */
+    public ChooseFileFilter(EnumSet<FileExtension> filters) {
+        this(filters, null);
+    }
+
+    /**
+     * 使用指定枚举类集合构建文件过滤器
+     *
+     * @param filters     文件扩展名枚举类集合
+     * @param description 描述
+     */
+    public ChooseFileFilter(EnumSet<FileExtension> filters, String description) {
+        this();
+        for (FileExtension filter : filters) {
+            addExtension(filter.getExtension());
         }
 
         if (description != null) {
@@ -64,9 +107,11 @@ public class ChooseFileFilter extends FileFilter implements FILEFilter , java.io
 
     /**
      * 是否支持改文档
+     *
      * @param f 文件
      * @return 支持返回true
      */
+    @Override
     public boolean accept(File f) {
         if (f != null) {
             if (this.filters == null) { //all file types.
@@ -89,9 +134,11 @@ public class ChooseFileFilter extends FileFilter implements FILEFilter , java.io
 
     /**
      * 是否支持
+     *
      * @param f 文件
      * @return 支持返回 true
      */
+    @Override
     public boolean accept(FILE f) {
         if (f != null) {
             if (this.filters == null) { //all file types.
@@ -103,7 +150,7 @@ public class ChooseFileFilter extends FileFilter implements FILEFilter , java.io
             }
 
             String extension = getExtension(f);
-            
+
 
             if (extension != null && filters.contains(extension)) {
                 return !isExtend;
@@ -112,7 +159,7 @@ public class ChooseFileFilter extends FileFilter implements FILEFilter , java.io
 
         return isExtend;
     }
-    
+
     public String getExtension(File f) {
         if (f != null) {
             String filename = f.getName();
@@ -125,12 +172,12 @@ public class ChooseFileFilter extends FileFilter implements FILEFilter , java.io
 
         return null;
     }
-    
+
     public String getExtension(FILE f) {
         if (f != null) {
             String filename = f.getName();
             if (f instanceof FileFILE) {
-            	filename = ((FileFILE)f).getTotalName();
+                filename = ((FileFILE) f).getTotalName();
             }
             int i = filename.lastIndexOf('.');
 
@@ -144,13 +191,14 @@ public class ChooseFileFilter extends FileFilter implements FILEFilter , java.io
 
     /**
      * 加扩展
+     *
      * @param extension 扩展
      */
     public void addExtension(String extension) {
         if (filters == null) {
             filters = new ArrayList<String>();
         }
-        
+
         if (!filters.contains(extension.toLowerCase())) {
             filters.add(extension.toLowerCase());
         }
@@ -160,13 +208,16 @@ public class ChooseFileFilter extends FileFilter implements FILEFilter , java.io
 
     /**
      * 是否包含该扩展
-     * @param extension  扩展
+     *
+     * @param extension 扩展
      * @return 是则返回true
      */
-    public boolean containsExtension(String extension){
-         return filters.contains(extension.toLowerCase());
+    @Override
+    public boolean containsExtension(String extension) {
+        return filters.contains(extension.toLowerCase());
     }
 
+    @Override
     public String getDescription() {
         if (this.filters == null) { //all file types.
             return fullDescription;
@@ -187,13 +238,13 @@ public class ChooseFileFilter extends FileFilter implements FILEFilter , java.io
 //                    }
 //                }
 
-                if (!filters.isEmpty()){
-                	fullDescription += "." + filters.get(0);
-                	for (int i=1;i<filters.size();i++){
-                		fullDescription += ", ." + filters.get(i);
-                	}
+                if (!filters.isEmpty()) {
+                    fullDescription += "." + filters.get(0);
+                    for (int i = 1; i < filters.size(); i++) {
+                        fullDescription += ", ." + filters.get(i);
+                    }
                 }
-                
+
                 fullDescription += ")";
 
             } else {
@@ -216,6 +267,7 @@ public class ChooseFileFilter extends FileFilter implements FILEFilter , java.io
 
     /**
      * 扩展是否列在描述之内了
+     *
      * @return 是则返回true
      */
     public boolean isExtensionListInDescription() {
@@ -237,24 +289,27 @@ public class ChooseFileFilter extends FileFilter implements FILEFilter , java.io
 //            extsb.append((String) keys.nextElement());
 //        }
 
-        for(int i=0;i<filters.size();i++){
-        	extsb.append(filters.get(i));
+        for (int i = 0; i < filters.size(); i++) {
+            extsb.append(filters.get(i));
         }
-        
+
         return extsb.toString();
     }
 
     /**
      * toString方便重写
+     *
      * @return 重写
      */
+    @Override
     public String toString() {
-    	return getDescription();
+        return getDescription();
     }
-    
-    
+
+
+    @Override
     public boolean equals(Object o) {
-    	return (o instanceof ChooseFileFilter)
-    		&& ComparatorUtils.equals(((ChooseFileFilter)o).getDescription(),getDescription());
+        return (o instanceof ChooseFileFilter)
+                && ComparatorUtils.equals(((ChooseFileFilter) o).getDescription(), getDescription());
     }
 }

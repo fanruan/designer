@@ -18,7 +18,7 @@ public interface App<T extends BaseBook> extends Mutable, Aftermath {
      *
      * @return 类型
      */
-    String[] defaultExtentions();
+    String[] defaultExtensions();
 
     /**
      * 打开模板

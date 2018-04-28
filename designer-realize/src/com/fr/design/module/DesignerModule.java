@@ -7,6 +7,7 @@ import com.fr.base.Formula;
 import com.fr.base.MultiFieldParameter;
 import com.fr.base.Style;
 import com.fr.base.TempNameStyle;
+import com.fr.base.extension.FileExtension;
 import com.fr.base.frpx.exception.FRPackageRunTimeException;
 import com.fr.base.frpx.exception.InvalidWorkBookException;
 import com.fr.base.io.XMLEncryptUtils;
@@ -302,8 +303,8 @@ public class DesignerModule extends DesignModule {
     private AbstractWorkBookApp getXlsxApp() {
         return new AbstractWorkBookApp() {
             @Override
-            public String[] defaultExtentions() {
-                return new String[]{"xlsx"};
+            public String[] defaultExtensions() {
+                return new String[]{FileExtension.XLSX.getExtension()};
             }
 
             @Override
@@ -322,8 +323,8 @@ public class DesignerModule extends DesignModule {
     private AbstractWorkBookApp getXlsApp() {
         return new AbstractWorkBookApp() {
             @Override
-            public String[] defaultExtentions() {
-                return new String[]{"xls"};
+            public String[] defaultExtensions() {
+                return new String[]{FileExtension.XLS.getExtension()};
             }
 
             @Override
@@ -342,8 +343,8 @@ public class DesignerModule extends DesignModule {
     private AbstractWorkBookApp getCptApp() {
         return new AbstractWorkBookApp() {
             @Override
-            public String[] defaultExtentions() {
-                return new String[]{"cpt"};
+            public String[] defaultExtensions() {
+                return new String[]{FileExtension.CPT.getExtension()};
             }
 
             @Override
@@ -381,8 +382,8 @@ public class DesignerModule extends DesignModule {
         return new AbstractWorkBookApp() {
 
             @Override
-            public String[] defaultExtentions() {
-                return new String[]{"cptx"};
+            public String[] defaultExtensions() {
+                return new String[]{FileExtension.CPTX.getExtension()};
             }
 
             @Override

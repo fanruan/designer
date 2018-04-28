@@ -4,6 +4,7 @@
 package com.fr.design.actions.file.export;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.extension.FileExtension;
 import com.fr.design.mainframe.JWorkBook;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.file.filter.ChooseFileFilter;
@@ -40,16 +41,16 @@ public class CSVExportAction extends AbstractExportAction {
 
     @Override
 	protected ChooseFileFilter getChooseFileFilter() {
-        return new ChooseFileFilter(new String[]{"csv"}, Inter.getLocText("Export-CSV"));
+        return new ChooseFileFilter(FileExtension.CSV, Inter.getLocText("Export-CSV"));
     }
 
     @Override
 	protected String getDefaultExtension() {
         TemplateWorkBook tpl = this.getTemplateWorkBook();
         if (hasLayerReport(tpl)) {
-            return "zip";
+            return FileExtension.ZIP.getExtension();
         } else {
-            return "csv";
+            return FileExtension.CSV.getExtension();
         }
     }
 }
