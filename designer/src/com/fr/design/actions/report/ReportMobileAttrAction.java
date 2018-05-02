@@ -1,7 +1,5 @@
 package com.fr.design.actions.report;
 
-import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.base.iofileattr.MobileOnlyTemplateAttrMark;
 import com.fr.design.actions.JWorkBookAction;
 import com.fr.design.dialog.BasicDialog;
@@ -14,13 +12,12 @@ import com.fr.file.FILE;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.main.TemplateWorkBook;
-import com.fr.main.impl.WorkBook;
 import com.fr.plugin.ExtraClassManager;
 import com.fr.report.mobile.ElementCaseMobileAttr;
 import com.fr.stable.ReportFunctionProcessor;
 import com.fr.stable.fun.FunctionProcessor;
 
-import javax.swing.*;
+import javax.swing.KeyStroke;
 import java.awt.event.ActionEvent;
 
 /**
@@ -58,35 +55,26 @@ public class ReportMobileAttrAction extends JWorkBookAction{
             @Override
             public void doOk() {
                 ElementCaseMobileAttr elementCaseMobileAttr = mobileAttrPane.updateBean();
-                try {
-                    final TemplateWorkBook workBook = (TemplateWorkBook) wbTpl.clone();
-                    wbTpl.setReportMobileAttr(elementCaseMobileAttr);
-
-                    if (elementCaseMobileAttr.isMobileCanvasSize()) {
-                        FunctionProcessor processor = ExtraClassManager.getInstance().getFunctionProcessor();
-                        if (processor != null) {
-                            processor.recordFunction(ReportFunctionProcessor.MOBILE_TEMPLATE_CPT);
-                        }
-                        MobileOnlyTemplateAttrMark mobileOnlyTemplateAttrMark = wbTpl.getAttrMark(MobileOnlyTemplateAttrMark.XML_TAG);
-                        if (mobileOnlyTemplateAttrMark == null) {
-                            // 如果是新建的模板，选择手机专属之后不需要另存为
-                            wbTpl.addAttrMark(new MobileOnlyTemplateAttrMark());
-                            FILE editingFILE = jwb.getEditingFILE();
-                            if (editingFILE == null || !editingFILE.exists()) {
-                                jwb.fireTargetModified();
-                                return;
-                            }
-                            String fileName = editingFILE.getName().substring(0, editingFILE.getName().length() - jwb.suffix().length()) + "_mobile";
-                            if (!jwb.saveAsTemplate(true, fileName)) {
-                                jwb.setTarget((WorkBook) workBook);
-                                return;  // 不激活保存按钮
-                            }
+                if (elementCaseMobileAttr.isMobileCanvasSize() && wbTpl.getAttrMark(MobileOnlyTemplateAttrMark.XML_TAG) == null) {
+                    // 如果是老模板，选择手机专属之后需要另存为
+                    FILE editingFILE = jwb.getEditingFILE();
+                    if (editingFILE != null && editingFILE.exists()) {
+                        String fileName = editingFILE.getName().substring(0, editingFILE.getName().length() - jwb.suffix().length()) + "_mobile";
+                        if (!jwb.saveAsTemplate(true, fileName)) {
+                            return;  // 不激活保存按钮
                         }
                     }
-                    jwb.fireTargetModified();
-                } catch (CloneNotSupportedException e) {
-                    FRContext.getLogger().error(e.getMessage(), e);
+                    // 放到后面。如果提前 return 了，则仍然处于未设置状态，不要添加
+                    wbTpl.addAttrMark(new MobileOnlyTemplateAttrMark());
                 }
+                // 记录功能点
+                FunctionProcessor processor = ExtraClassManager.getInstance().getFunctionProcessor();
+                if (processor != null) {
+                    processor.recordFunction(ReportFunctionProcessor.MOBILE_TEMPLATE_CPT);
+                }
+                // 设置移动端属性并刷新界面
+                wbTpl.setReportMobileAttr(elementCaseMobileAttr);  // 会同时修改页面设置，放到最后
+                jwb.fireTargetModified();
             }
         });
         dialog.setVisible(true);
