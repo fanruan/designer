@@ -54,19 +54,19 @@ public class ReportPrintSettingPane extends BasicPane {
         public void itemStateChanged(ItemEvent e) {
             if (e.getStateChange() == ItemEvent.SELECTED) {
                 if (chooseComboBox.getSelectedIndex() == 0) {
-                    checkEnabled(true);
+                    setSettingPaneEnabled(true);
                 } else {
                     populateServerSettings();
-                    checkEnabled(false);
+                    setSettingPaneEnabled(false);
                 }
             }
         }
     };
 
-    private void checkEnabled(boolean isSelected) {
+    private void setSettingPaneEnabled(boolean enabled) {
         // GUICoreUtils.setEnabled 会遍历所有 Component。所以要先设置外层，如果是生效的，再设置内层
-        GUICoreUtils.setEnabled(printSettingPane, isSelected);
-        if (isSelected) {
+        GUICoreUtils.setEnabled(printSettingPane, enabled);
+        if (enabled) {
             printSettingPane.checkEnabled();
         }
     }
