@@ -105,13 +105,8 @@ public class PrintSettingPane extends BasicPane {
         PrintSettingsAttrMark printSettings = new PrintSettingsAttrMark();
         printSettings.setPrintType(noClientPrintRadioButton.isSelected() ?
                 PrintSettingsAttrMark.NO_CLIENT_PRINT : PrintSettingsAttrMark.NATIVE_PRINT);
-        if (noClientPrintRadioButton.isSelected()) {
-            printSettings.setPrintType(PrintSettingsAttrMark.NO_CLIENT_PRINT);
-            noClientPrintSettingPane.update(printSettings.getNoClientPrintAttr());
-        } else {
-            printSettings.setPrintType(PrintSettingsAttrMark.NATIVE_PRINT);
-            nativePrintSettingPane.update(printSettings.getNativePrintAttr());
-        }
+        noClientPrintSettingPane.update(printSettings.getNoClientPrintAttr());
+        nativePrintSettingPane.update(printSettings.getNativePrintAttr());
         return printSettings;
     }
 }
