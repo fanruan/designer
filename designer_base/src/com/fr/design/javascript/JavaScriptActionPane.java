@@ -5,18 +5,17 @@ import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.fun.JavaScriptActionProvider;
 import com.fr.design.gui.frpane.UIComboBoxPane;
 import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.write.submit.DBManipulationPane;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
-import com.fr.design.editor.ValueEditorPaneFactory;
-import com.fr.design.editor.editor.Editor;
 import com.fr.form.ui.WebContentUtils;
 import com.fr.general.Inter;
 import com.fr.js.JavaScript;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -105,7 +104,7 @@ public abstract class JavaScriptActionPane extends UIComboBoxPane<JavaScript> {
 
                 callPane.populateBean(getCall());
 
-                BasicDialog dialog = callPane.showWindow(DesignerContext.getDesignerFrame());
+                BasicDialog dialog = callPane.showWindow(SwingUtilities.getWindowAncestor(JavaScriptActionPane.this));
                 dialog.addDialogActionListener(new DialogActionAdapter() {
 
                     @Override
