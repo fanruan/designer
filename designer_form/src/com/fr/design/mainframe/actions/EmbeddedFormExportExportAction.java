@@ -101,7 +101,7 @@ public class EmbeddedFormExportExportAction extends JTemplateAction<JForm>{
 	}
 	
 	private void inputParameter(final Map<String, Object> parameterMap, final Form tpl, DesignerFrame designerFrame){
-        Parameter[] parameters = tpl.refreshParas();
+        Parameter[] parameters = tpl.getParameters();
         if (ArrayUtils.isNotEmpty(parameters)) {// 检查Parameter.
             final ParameterInputPane pPane = new ParameterInputPane(parameters);
             pPane.showSmallWindow(designerFrame, new DialogActionAdapter() {
