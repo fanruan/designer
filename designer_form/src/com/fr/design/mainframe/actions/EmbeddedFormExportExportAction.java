@@ -1,4 +1,12 @@
-﻿package com.fr.design.mainframe.actions;
+package com.fr.design.mainframe.actions;
+
+import java.awt.event.ActionEvent;
+import java.io.FileOutputStream;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
@@ -22,37 +30,30 @@ import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.project.ProjectConstants;
 
-import javax.swing.JOptionPane;
-import javax.swing.SwingWorker;
-import java.awt.event.ActionEvent;
-import java.io.FileOutputStream;
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Export Embedded.
  */
 public class EmbeddedFormExportExportAction extends JTemplateAction<JForm>{
-
+	
     private FRProgressBar progressbar;
     /**
      * Constructor
      */
     public EmbeddedFormExportExportAction(JForm jwb) {
-        super(jwb);
+    	super(jwb);
         this.setMenuKeySet(KeySetUtils.EMBEDDED_EXPORT);
         this.setName(getMenuKeySet().getMenuKeySetName() + "...");
         this.setMnemonic(getMenuKeySet().getMnemonic());
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/base/images/oem/logo.png"));
     }
-
+    
     /**
-     * Action触发事件
-     *
-     * @param e 触发事件
-     *
-     */
-    public void actionPerformed(ActionEvent e) {
+	 * Action触发事件
+	 * 
+	 * @param e 触发事件
+	 * 
+	 */
+	public void actionPerformed(ActionEvent e) {
         JTemplate jwb = this.getEditingComponent();
         FILE editingFILE = jwb.getEditingFILE();
         DesignerFrame designerFrame = DesignerContext.getDesignerFrame();
@@ -60,7 +61,7 @@ public class EmbeddedFormExportExportAction extends JTemplateAction<JForm>{
         final Map<String, Object> parameterMap = new HashMap<String, Object>();
         final Form tpl = this.getEditingComponent().getTarget();
         inputParameter(parameterMap, tpl, designerFrame);
-
+        
         FILEChooserPane fileChooserPane = FILEChooserPane.getInstance(false, true);
         fileChooserPane.setFILEFilter(this.getChooseFileFilter());
 
@@ -71,14 +72,14 @@ public class EmbeddedFormExportExportAction extends JTemplateAction<JForm>{
             fileChooserPane = null;
             return;
         }
-
+        
         if (isOk(saveValue)) {
-            startExport(parameterMap, tpl, designerFrame, fileChooserPane);
+        	startExport(parameterMap, tpl, designerFrame, fileChooserPane);
         }
-    }
-
-    private void startExport(Map<String, Object> parameterMap, Form tpl, DesignerFrame designerFrame,
-                             FILEChooserPane fileChooserPane){
+	}
+	
+	private void startExport(Map<String, Object> parameterMap, Form tpl, DesignerFrame designerFrame, 
+			FILEChooserPane fileChooserPane){
         FILE file = fileChooserPane.getSelectedFILE();
         try {
             file.mkfile();
@@ -90,17 +91,17 @@ public class EmbeddedFormExportExportAction extends JTemplateAction<JForm>{
 
         (progressbar = new FRProgressBar(createExportWork(file, tpl, parameterMap), designerFrame,
                 Inter.getLocText("FR-Designer_Exporting"), "", 0, 100)).start();
-    }
-
-    private boolean isOk(int saveValue){
-        return saveValue == FILEChooserPane.JOPTIONPANE_OK_OPTION || saveValue == FILEChooserPane.OK_OPTION;
-    }
-
-    private boolean isCancel(int saveValue){
-        return saveValue == FILEChooserPane.CANCEL_OPTION || saveValue == FILEChooserPane.JOPTIONPANE_CANCEL_OPTION;
-    }
-
-    private void inputParameter(final Map<String, Object> parameterMap, final Form tpl, DesignerFrame designerFrame){
+	}
+	
+	private boolean isOk(int saveValue){
+		return saveValue == FILEChooserPane.JOPTIONPANE_OK_OPTION || saveValue == FILEChooserPane.OK_OPTION;
+	}
+	
+	private boolean isCancel(int saveValue){
+		return saveValue == FILEChooserPane.CANCEL_OPTION || saveValue == FILEChooserPane.JOPTIONPANE_CANCEL_OPTION;
+	}
+	
+	private void inputParameter(final Map<String, Object> parameterMap, final Form tpl, DesignerFrame designerFrame){
         Parameter[] parameters = tpl.getParameters();
         if (ArrayUtils.isNotEmpty(parameters)) {// 检查Parameter.
             final ParameterInputPane pPane = new ParameterInputPane(parameters);
@@ -112,12 +113,12 @@ public class EmbeddedFormExportExportAction extends JTemplateAction<JForm>{
                 }
             }).setVisible(true);
         }
-    }
-
+	}
+	
     protected ChooseFileFilter getChooseFileFilter() {
         return new ChooseFileFilter(new String[]{"frm"}, Inter.getLocText("FR-Designer_Form_EmbeddedTD"));
     }
-
+	
     private SwingWorker createExportWork(FILE file, final Form tpl, final Map parameterMap) {
         final String filePath = file.getPath();
         final String fileGetName = file.getName();
