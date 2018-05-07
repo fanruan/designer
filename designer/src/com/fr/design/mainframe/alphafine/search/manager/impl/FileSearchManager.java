@@ -12,7 +12,6 @@ import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.search.manager.fun.AlphaFineSearchProvider;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.json.JSONObject;
 import com.fr.stable.StringUtils;
@@ -20,6 +19,7 @@ import com.fr.stable.project.ProjectConstants;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -119,8 +119,11 @@ public class FileSearchManager implements AlphaFineSearchProvider {
         for (FileNode node : fileNodes) {
             boolean isAlreadyContain = false;
             isAlreadyContain = searchFile(searchText, node, isAlreadyContain, needMore);
-            if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainFileContent() && node.getLock() == null) {
+            if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainFileContent()) {
+                String lockName = node.getLock();
+                node.setLock(null);
                 searchFileContent(env, searchText, node, isAlreadyContain, needMore);
+                node.setLock(lockName);
             }
             if (filterModelList.size() > AlphaFineConstants.SHOW_SIZE && stopSearch) {
                 return;
@@ -148,8 +151,14 @@ public class FileSearchManager implements AlphaFineSearchProvider {
      * @param isAlreadyContain
      */
     private void searchFileContent(Env env, String searchText, FileNode node, boolean isAlreadyContain, boolean needMore) {
+        InputStream inputStream = null;
         try {
-            InputStream inputStream = env.readBean(node.getEnvPath().substring(ProjectConstants.REPORTLETS_NAME.length() + 1), ProjectConstants.REPORTLETS_NAME);
+            inputStream = env.readBean(node.getEnvPath().substring(ProjectConstants.REPORTLETS_NAME.length() + 1), ProjectConstants.REPORTLETS_NAME);
+        } catch (Exception e) {
+            FRContext.getLogger().error("file read error: " + e.getMessage());
+        }
+        try {
+            AlphaFineHelper.checkCancel();
             InputStreamReader isr = new InputStreamReader(inputStream, "UTF-8");
             BufferedReader reader = new BufferedReader(isr);
             String line;
@@ -174,8 +183,8 @@ public class FileSearchManager implements AlphaFineSearchProvider {
             }
             isr.close();
             reader.close();
-        } catch (Exception e) {
-            FRLogger.getLogger().error("file read error: " + e.getMessage());
+        } catch (IOException e) {
+            FRContext.getLogger().error("file search error: " + e.getMessage());
         }
     }
 
