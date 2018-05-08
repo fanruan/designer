@@ -151,11 +151,12 @@ public class FileSearchManager implements AlphaFineSearchProvider {
      * @param isAlreadyContain
      */
     private void searchFileContent(Env env, String searchText, FileNode node, boolean isAlreadyContain, boolean needMore) {
-        InputStream inputStream = null;
+        InputStream inputStream;
         try {
             inputStream = env.readBean(node.getEnvPath().substring(ProjectConstants.REPORTLETS_NAME.length() + 1), ProjectConstants.REPORTLETS_NAME);
         } catch (Exception e) {
             FRContext.getLogger().error("file read error: " + e.getMessage());
+            return;
         }
         try {
             AlphaFineHelper.checkCancel();
