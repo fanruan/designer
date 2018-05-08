@@ -313,7 +313,7 @@ public class DesignUtils {
      * 访问服务器环境-空参数
      */
     public static void visitEnvServer() {
-        visitEnvServerByParameters(new String[] {}, new String[] {});
+        visitEnvServerByParameters(StringUtils.EMPTY, new String[] {}, new String[] {});
     }
 
     /**
@@ -322,7 +322,7 @@ public class DesignUtils {
      * @param names  参数名字
      * @param values 参数值
      */
-    public static void visitEnvServerByParameters(String[] names, String[] values) {
+    public static void visitEnvServerByParameters(String baseRoute, String[] names, String[] values) {
         int len = Math.min(ArrayUtils.getLength(names), ArrayUtils.getLength(values));
         String[] segs = new String[len];
         for (int i = 0; i < len; i++) {
@@ -353,7 +353,8 @@ public class DesignUtils {
         } else {
             try {
                 String web = GeneralContext.getCurrentAppNameOfEnv();
-                String url = "http://localhost:" + DesignerEnvManager.getEnvManager().getJettyServerPort() + "/" + web + "/" + ServerConfig.getInstance().getReportServletName()
+                String url = "http://localhost:" + DesignerEnvManager.getEnvManager().getJettyServerPort()
+                        + "/" + web + "/" + ServerConfig.getInstance().getServletName() + baseRoute
                         + postfixOfUri;
                 StartServer.browserURLWithLocalEnv(url);
             } catch (Throwable e) {

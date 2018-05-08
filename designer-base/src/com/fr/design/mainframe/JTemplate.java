@@ -56,13 +56,10 @@ import com.fr.stable.StringUtils;
 import com.fr.stable.core.UUID;
 import com.fr.stable.project.ProjectConstants;
 
-import javax.swing.BorderFactory;
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.undo.UndoManager;
-import java.awt.BorderLayout;
+import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -1146,4 +1143,6 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         template.addAttrMark(new TemplateIdAttrMark(templateId));
         template.setTemplateID(templateId);
     }
+
+    public abstract String route();
 }

@@ -22,7 +22,6 @@ import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.gui.itoolbar.UILargeToolbar;
 import com.fr.design.mainframe.ActiveKeyGenerator;
-import com.fr.design.mainframe.BaseJForm;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.InformationCollector;
 import com.fr.design.mainframe.JTemplate;
@@ -51,13 +50,9 @@ import com.fr.stable.StringUtils;
 import com.fr.stable.xml.XMLTools;
 import com.fr.start.module.StartupArgs;
 
-import javax.swing.JComponent;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.MatteBorder;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -265,11 +260,7 @@ public class Designer extends BaseDesigner {
                 if (jt == null) {
                     return;
                 }
-                if (jt instanceof JWorkBook) {
-                    WebPreviewUtils.onWorkbookPreview(jt);
-                } else if (jt instanceof BaseJForm) {
-                    WebPreviewUtils.onFormPreview(jt);
-                }
+                WebPreviewUtils.preview(jt);
             }
 
             @Override
