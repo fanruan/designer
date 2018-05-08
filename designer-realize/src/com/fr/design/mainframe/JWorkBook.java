@@ -1,12 +1,24 @@
 package com.fr.design.mainframe;
 
-import com.fr.base.*;
+import com.fr.base.BaseUtils;
+import com.fr.base.DynamicUnitList;
+import com.fr.base.FRContext;
+import com.fr.base.Parameter;
+import com.fr.base.ScreenResolution;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.AllowAuthorityEditAction;
 import com.fr.design.actions.ExitAuthorityEditAction;
 import com.fr.design.actions.file.WebPreviewUtils;
-import com.fr.design.actions.file.export.*;
+import com.fr.design.actions.file.export.CSVExportAction;
+import com.fr.design.actions.file.export.EmbeddedExportExportAction;
+import com.fr.design.actions.file.export.ExcelExportAction;
+import com.fr.design.actions.file.export.PDFExportAction;
+import com.fr.design.actions.file.export.PageExcelExportAction;
+import com.fr.design.actions.file.export.PageToSheetExcelExportAction;
+import com.fr.design.actions.file.export.SVGExportAction;
+import com.fr.design.actions.file.export.TextExportAction;
+import com.fr.design.actions.file.export.WordExportAction;
 import com.fr.design.actions.report.ReportExportAttrAction;
 import com.fr.design.actions.report.ReportMobileAttrAction;
 import com.fr.design.actions.report.ReportParameterAction;
@@ -30,7 +42,11 @@ import com.fr.design.mainframe.cell.QuickEditorRegion;
 import com.fr.design.mainframe.templateinfo.JWorkBookProcessInfo;
 import com.fr.design.mainframe.templateinfo.TemplateProcessInfo;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
-import com.fr.design.menu.*;
+import com.fr.design.menu.KeySetUtils;
+import com.fr.design.menu.MenuDef;
+import com.fr.design.menu.NameSeparator;
+import com.fr.design.menu.ShortCut;
+import com.fr.design.menu.ToolBarDef;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.parameter.ParameterDefinitePane;
 import com.fr.design.parameter.ParameterInputPane;
@@ -51,7 +67,6 @@ import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.general.ModuleContext;
-import com.fr.general.web.ParameterConstants;
 import com.fr.grid.Grid;
 import com.fr.grid.GridUtils;
 import com.fr.io.exporter.EmbeddedTableDataExporter;
@@ -75,13 +90,16 @@ import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.module.Module;
 import com.fr.stable.project.ProjectConstants;
+import com.fr.web.controller.ViewRequestConstants;
 
 import javax.swing.*;
-import javax.swing.Icon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileOutputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * JWorkBook used to edit WorkBook.
@@ -899,7 +917,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     @Override
     public void previewMenuActionPerformed(PreviewProvider provider) {
         setPreviewType(provider);
-        WebPreviewUtils.actionPerformed(this, provider.parametersForPreview(), ParameterConstants.REPORTLET);
+        WebPreviewUtils.preview(this, provider);
     }
 
     /**
@@ -1128,5 +1146,10 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
         return new UIButton[0];
         //产品想要重新设计下, 1现在的分享多列数据集很麻烦, 2想做成自动上传附件.
 //        return new UIButton[]{new ShareButton()};
+    }
+
+    @Override
+    public String route() {
+        return ViewRequestConstants.REPORT_VIEW_PATH;
     }
 }

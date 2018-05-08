@@ -1,5 +1,6 @@
 package com.fr.design.actions.file;
 
+import com.fr.design.fun.PreviewProvider;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.utils.DesignUtils;
@@ -11,19 +12,22 @@ import com.fr.general.web.ParameterConstants;
 import com.fr.stable.project.ProjectConstants;
 
 import javax.swing.*;
+import java.util.Collections;
 import java.util.Map;
 
 public final class WebPreviewUtils {
 
-    public static void onWorkbookPreview(JTemplate<?, ?> jt) {
-        actionPerformed(jt, jt.getPreviewType().parametersForPreview(), ParameterConstants.REPORTLET);
+    public static void preview(JTemplate<?, ?> jt) {
+        preview(jt, null);
     }
 
-    public static void onFormPreview(JTemplate<?, ?> jt) {
-        actionPerformed(jt, null, ParameterConstants.FORMLET);
+    @SuppressWarnings("unchecked")
+    public static void preview(JTemplate<?, ?> jt, PreviewProvider provider) {
+        String baseRoute = jt.route();
+        actionPerformed(jt, baseRoute, provider == null ? Collections.EMPTY_MAP : provider.parametersForPreview(), ParameterConstants.VIEWLET);
     }
 
-    public static void actionPerformed(JTemplate<?, ?> jt, Map<String, Object> map, String actionType) {
+    private static void actionPerformed(JTemplate<?, ?> jt, String baseRoute, Map<String, Object> map, String actionType) {
         if (jt == null) {
             return;
         }
@@ -43,7 +47,7 @@ public final class WebPreviewUtils {
         FILE currentTemplate = jt.getEditingFILE();
         // carl:是否是保存在运行环境下的模板，不是就不能被预览
         if (currentTemplate instanceof FileNodeFILE) {
-            browseUrl(currentTemplate, map, actionType, jt);
+            browseUrl(currentTemplate, baseRoute, map, actionType, jt);
         } else {
             // 说明模板没有保存在报表运行环境下面,提示用户
             int selVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("Web_Preview_Message"),
@@ -54,12 +58,12 @@ public final class WebPreviewUtils {
                     return;
                 }
                 currentTemplate = jt.getEditingFILE();
-                browseUrl(currentTemplate, map, actionType, jt);
+                browseUrl(currentTemplate, baseRoute, map, actionType, jt);
             }
         }
     }
 
-    private static void browseUrl(FILE currentTemplate, Map<String, Object> map, String actionType, JTemplate<?, ?> jt) {
+    private static void browseUrl(FILE currentTemplate, String baseRoute, Map<String, Object> map, String actionType, JTemplate<?, ?> jt) {
         if (!(currentTemplate instanceof FileNodeFILE)) {
             return;
         }
@@ -80,7 +84,7 @@ public final class WebPreviewUtils {
                         parameterValueList.add(GeneralUtils.objectToString(map.get(key)));
                     }
                 }
-                DesignUtils.visitEnvServerByParameters(parameterNameList.toArray(new String[parameterNameList.size()]), parameterValueList.toArray(new String[parameterValueList.size()]));
+                DesignUtils.visitEnvServerByParameters(baseRoute, parameterNameList.toArray(new String[parameterNameList.size()]), parameterValueList.toArray(new String[parameterValueList.size()]));
             }
         } else {
             int selVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("Web_Preview_Message"),

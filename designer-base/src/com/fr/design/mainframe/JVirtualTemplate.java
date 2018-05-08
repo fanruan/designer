@@ -12,6 +12,7 @@ import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.file.FILE;
 import com.fr.file.FileNodeFILE;
+import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
 
 import javax.swing.Icon;
@@ -265,5 +266,10 @@ public class JVirtualTemplate extends JTemplate {
     @Override
     protected void applyUndoState(BaseUndoState baseUndoState) {
 
+    }
+
+    @Override
+    public String route() {
+        return StringUtils.EMPTY;
     }
 }

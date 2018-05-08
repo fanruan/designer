@@ -22,7 +22,6 @@ import com.fr.design.designer.creator.XWParameterLayout;
 import com.fr.design.designer.properties.FormWidgetAuthorityEditPane;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
-import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.frpane.HyperlinkGroupPane;
 import com.fr.design.gui.frpane.HyperlinkGroupPaneActionProvider;
 import com.fr.design.gui.ilable.UILabel;
@@ -59,18 +58,10 @@ import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Constants;
 import com.fr.stable.bridge.StableFactory;
+import com.fr.web.controller.ViewRequestConstants;
 
-import javax.swing.BorderFactory;
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -683,7 +674,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         form.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                WebPreviewUtils.onFormPreview(JForm.this);
+                WebPreviewUtils.preview(JForm.this);
             }
         });
         return new UIMenuItem[]{form};
@@ -897,5 +888,10 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         FormSelection selection = formDesign.getSelectionModel().getSelection();
         XCreator creator = selection.getSelectedCreator();
         return creator.toData();
+    }
+
+    @Override
+    public String route() {
+        return ViewRequestConstants.FORM_VIEW_PATH;
     }
 }
