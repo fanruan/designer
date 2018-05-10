@@ -149,7 +149,7 @@ public class FRTreeComboBox extends UIComboBox {
             for (Enumeration e2 = pathnode.children(); e2.hasMoreElements(); ) {
                 TreeNode n2 = (TreeNode) e2.nextElement();
                 TreePath path2 = path.pathByAddingChild(n2);
-                if (pathToString(path2).toUpperCase().startsWith(textField.getText().toUpperCase())) {
+                if (pathToString(path2).toUpperCase().contains(textField.getText().toUpperCase())) {
                     tree.scrollPathToVisible(path2);
                     tree.setSelectionPath(path2);
                     isBreak = true;
