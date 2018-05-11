@@ -306,6 +306,11 @@ public class XWAbsoluteLayout extends XLayoutContainer {
         this.setLayout(new FRAbsoluteLayout());
     }
 
+    @Override
+    protected void initStyle() {
+        // do nothing
+    }
+
     /**
      * 是否支持标题样式
      *
