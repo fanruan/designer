@@ -524,7 +524,7 @@ public class RSyntaxTextAreaEditorKit extends RTextAreaEditorKit {
 
 		public CollapseAllCommentFoldsAction() {
 			super(rstaCollapseAllCommentFoldsAction);
-			setProperties(msg, "Action.CollapseCommentFolds");
+			setProperties("Action.CollapseCommentFolds");
 		}
 
 		public CollapseAllCommentFoldsAction(String name, Icon icon,
@@ -567,7 +567,7 @@ public class RSyntaxTextAreaEditorKit extends RTextAreaEditorKit {
 		public CollapseAllFoldsAction(boolean localizedName) {
 			super(rstaCollapseAllFoldsAction);
 			if (localizedName) {
-				setProperties(msg, "Action.CollapseAllFolds");
+				setProperties("Action.CollapseAllFolds");
 			}
 		}
 
@@ -1023,7 +1023,7 @@ public class RSyntaxTextAreaEditorKit extends RTextAreaEditorKit {
 		public ExpandAllFoldsAction(boolean localizedName) {
 			super(rstaExpandAllFoldsAction);
 			if (localizedName) {
-				setProperties(msg, "Action.ExpandAllFolds");
+				setProperties("Action.ExpandAllFolds");
 			}
 		}
 
@@ -1909,7 +1909,7 @@ public class RSyntaxTextAreaEditorKit extends RTextAreaEditorKit {
 
 		public ToggleCurrentFoldAction() {
 			super(rstaToggleCurrentFoldAction);
-			setProperties(msg, "Action.ToggleCurrentFold");
+			setProperties("Action.ToggleCurrentFold");
 		}
 
 		public ToggleCurrentFoldAction(String name, Icon icon, String desc,
