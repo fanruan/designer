@@ -9,6 +9,8 @@
  */
 package com.fr.design.gui.syntax.ui.rtextarea;
 
+import com.fr.general.Inter;
+
 import java.awt.event.ActionEvent;
 import java.util.ResourceBundle;
 import javax.swing.Icon;
@@ -250,16 +252,15 @@ public abstract class RecordableTextAction extends TextAction {
 	/**
 	 * Sets the name, mnemonic, and description of this action.
 	 *
-	 * @param msg The resource bundle.
 	 * @param keyRoot The root of the keys for the properties.
 	 *        "<code>.Name</code>", "<code>.Mnemonic</code>", and
 	 *        "<code>.Desc</code>" will be appended to create the key for each
 	 *        property.
 	 */
-	public void setProperties(ResourceBundle msg, String keyRoot) {
-		setName(msg.getString(keyRoot + ".Name"));
-		setMnemonic(msg.getString(keyRoot + ".Mnemonic").charAt(0));
-		setShortDescription(msg.getString(keyRoot + ".Desc"));
+	public void setProperties(String keyRoot) {
+		setName(Inter.getLocText(keyRoot + ".Name"));
+		setMnemonic(Inter.getLocText(keyRoot + ".Mnemonic").charAt(0));
+		setShortDescription(Inter.getLocText(keyRoot + ".Desc"));
 	}
 
 

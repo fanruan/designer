@@ -36,6 +36,7 @@ import com.fr.design.gui.syntax.ui.rsyntaxtextarea.parser.Parser;
 import com.fr.design.gui.syntax.ui.rsyntaxtextarea.parser.ParserNotice;
 import com.fr.design.gui.syntax.ui.rsyntaxtextarea.parser.TaskTagParser.TaskNotice;
 import com.fr.design.gui.syntax.ui.rtextarea.RTextArea;
+import com.fr.general.Inter;
 
 
 /**
@@ -132,9 +133,6 @@ public class ErrorStrip extends JComponent {
 	 * The preferred width of this component.
 	 */
 	private static final int PREFERRED_WIDTH = 14;
-
-	private static final String MSG = "com.fr.design.gui.syntax.ui.rsyntaxtextarea.ErrorStrip";
-	private static final ResourceBundle msg = ResourceBundle.getBundle(MSG);
 
 	private static final Color MARKED_OCCURRENCE_COLOR = new Color(220, 220, 220);
 
@@ -290,7 +288,7 @@ public class ErrorStrip extends JComponent {
 		String text = null;
 		int line = yToLine(e.getY());
 		if (line>-1) {
-			text = msg.getString("Line");
+			text = Inter.getLocText("Line");
 			text = MessageFormat.format(text, Integer.valueOf(line+1));
 		}
 		return text;
@@ -676,7 +674,7 @@ public class ErrorStrip extends JComponent {
 			try {
 				String word = textArea.getText(range.getStartOffset(),
 												getLength());
-				text = msg.getString("OccurrenceOf");
+				text = Inter.getLocText("OccurrenceOf");
 				text = MessageFormat.format(text, word);
 			} catch (BadLocationException ble) {
 				UIManager.getLookAndFeel().provideErrorFeedback(textArea);
@@ -767,7 +765,7 @@ public class ErrorStrip extends JComponent {
 			}
 			else { // > 1
 				StringBuilder sb = new StringBuilder("<html>");
-				sb.append(msg.getString("MultipleMarkers"));
+				sb.append(Inter.getLocText("MultipleMarkers"));
 				sb.append("<br>");
 				for (int i=0; i<notices.size(); i++) {
 					ParserNotice pn = notices.get(i);

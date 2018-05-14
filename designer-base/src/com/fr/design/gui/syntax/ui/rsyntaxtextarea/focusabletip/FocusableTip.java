@@ -29,6 +29,7 @@ import javax.swing.event.HyperlinkListener;
 import javax.swing.event.MouseInputAdapter;
 
 import com.fr.design.gui.syntax.ui.rsyntaxtextarea.PopupWindowDecorator;
+import com.fr.general.Inter;
 
 
 /**
@@ -62,10 +63,6 @@ public class FocusableTip {
 	 * Margin from mouse cursor at which to draw focusable tip.
 	 */
 	private static final int Y_MARGIN = 12;
-
-	private static final String MSG =
-		"com.fr.design.gui.syntax.ui.rsyntaxtextarea.focusabletip.FocusableTip";
-	private static final ResourceBundle msg = ResourceBundle.getBundle(MSG);
 
 
 	public FocusableTip(JTextArea textArea, HyperlinkListener listener) {
@@ -185,7 +182,7 @@ public class FocusableTip {
 	 * @return The localized text.
 	 */
 	static String getString(String key) {
-		return msg.getString(key);
+		return Inter.getLocText(key);
 	}
 
 

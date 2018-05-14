@@ -60,6 +60,7 @@ import com.fr.design.gui.syntax.ui.rtextarea.RTextArea;
 import com.fr.design.gui.syntax.ui.rtextarea.RTextAreaUI;
 import com.fr.design.gui.syntax.ui.rtextarea.RTextScrollPane;
 import com.fr.design.gui.syntax.ui.rtextarea.RecordableTextAction;
+import com.fr.general.Inter;
 
 
 /**
@@ -161,8 +162,6 @@ public class RSyntaxTextArea extends RTextArea implements SyntaxConstants {
 	private static final Color DEFAULT_BRACKET_MATCH_BG_COLOR		= new Color(234,234,255);
 	private static final Color DEFAULT_BRACKET_MATCH_BORDER_COLOR	= new Color(0,0,128);
 	private static final Color DEFAULT_SELECTION_COLOR			= new Color(200,200,255);
-
-	private static final String MSG	= "com.fr.design.gui.syntax.ui.rsyntaxtextarea.RSyntaxTextArea";
 
 	private JMenu foldingMenu;
 	private static RecordableTextAction toggleCurrentFoldAction;
@@ -475,8 +474,7 @@ private boolean fractionalFontMetricsEnabled;
 	 */
 	protected void appendFoldingMenu(JPopupMenu popup) {
 		popup.addSeparator();
-		ResourceBundle bundle = ResourceBundle.getBundle(MSG);
-		foldingMenu = new JMenu(bundle.getString("ContextMenu.Folding"));
+		foldingMenu = new JMenu(Inter.getLocText("ContextMenu.Folding"));
 		foldingMenu.add(createPopupMenuItem(toggleCurrentFoldAction));
 		foldingMenu.add(createPopupMenuItem(collapseAllCommentFoldsAction));
 		foldingMenu.add(createPopupMenuItem(collapseAllFoldsAction));
@@ -697,15 +695,13 @@ private boolean fractionalFontMetricsEnabled;
 	 */
 	private static void createRstaPopupMenuActions() {
 
-		ResourceBundle msg = ResourceBundle.getBundle(MSG);
-
 		toggleCurrentFoldAction = new RSyntaxTextAreaEditorKit.
 				ToggleCurrentFoldAction();
-		toggleCurrentFoldAction.setProperties(msg, "Action.ToggleCurrentFold");
+		toggleCurrentFoldAction.setProperties("Action.ToggleCurrentFold");
 
 		collapseAllCommentFoldsAction = new RSyntaxTextAreaEditorKit.
 				CollapseAllCommentFoldsAction();
-		collapseAllCommentFoldsAction.setProperties(msg, "Action.CollapseCommentFolds");
+		collapseAllCommentFoldsAction.setProperties("Action.CollapseCommentFolds");
 
 		collapseAllFoldsAction = new RSyntaxTextAreaEditorKit.CollapseAllFoldsAction(true);
 		expandAllFoldsAction = new RSyntaxTextAreaEditorKit.ExpandAllFoldsAction(true);

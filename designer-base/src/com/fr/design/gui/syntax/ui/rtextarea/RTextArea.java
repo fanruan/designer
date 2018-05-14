@@ -173,8 +173,6 @@ public class RTextArea extends RTextAreaBase implements Printable {
 
 	private int[] carets;		// Index 0=>insert caret, 1=>overwrite.
 
-	private static final String MSG	= "com.fr.design.gui.syntax.ui.rtextarea.RTextArea";
-
 
 	/**
 	 * Constructor.
@@ -462,28 +460,27 @@ public class RTextArea extends RTextAreaBase implements Printable {
 		// Create actions for right-click popup menu.
 		// 1.5.2004/pwy: Replaced the CTRL_MASK with the cross-platform version...
 		int mod = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
-		ResourceBundle msg = ResourceBundle.getBundle(MSG);
 
 		cutAction = new RTextAreaEditorKit.CutAction();
-		cutAction.setProperties(msg, "Action.Cut");
+		cutAction.setProperties("Action.Cut");
 		cutAction.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, mod));
 		copyAction = new RTextAreaEditorKit.CopyAction();
-		copyAction.setProperties(msg, "Action.Copy");
+		copyAction.setProperties("Action.Copy");
 		copyAction.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, mod));
 		pasteAction = new RTextAreaEditorKit.PasteAction();
-		pasteAction.setProperties(msg, "Action.Paste");
+		pasteAction.setProperties("Action.Paste");
 		pasteAction.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, mod));
 		deleteAction = new RTextAreaEditorKit.DeleteNextCharAction();
-		deleteAction.setProperties(msg, "Action.Delete");
+		deleteAction.setProperties("Action.Delete");
 		deleteAction.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0));
 		undoAction = new RTextAreaEditorKit.UndoAction();
-		undoAction.setProperties(msg, "Action.Undo");
+		undoAction.setProperties("Action.Undo");
 		undoAction.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, mod));
 		redoAction = new RTextAreaEditorKit.RedoAction();
-		redoAction.setProperties(msg, "Action.Redo");
+		redoAction.setProperties("Action.Redo");
 		redoAction.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, mod));
 		selectAllAction = new RTextAreaEditorKit.SelectAllAction();
-		selectAllAction.setProperties(msg, "Action.SelectAll");
+		selectAllAction.setProperties("Action.SelectAll");
 		selectAllAction.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, mod));
 
 	}
