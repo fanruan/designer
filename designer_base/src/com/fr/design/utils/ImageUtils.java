@@ -148,9 +148,13 @@ public class ImageUtils {
             return ImageIO.read(in);
         } finally {
             writer.dispose();
-            ios.close();
             byteArrayOutputStream.close();
-            in.close();
+            if (ios != null) {
+                ios.close();
+            }
+            if (in != null) {
+                in.close();
+            }
         }
     }
 
