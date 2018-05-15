@@ -8,6 +8,8 @@
  */
 package com.fr.design.gui.syntax.ui.rtextarea;
 
+import com.fr.general.Inter;
+
 import java.util.ResourceBundle;
 import javax.swing.Action;
 import javax.swing.UIManager;
@@ -40,9 +42,6 @@ public class RUndoManager extends UndoManager {
 
 	private int internalAtomicEditDepth;
 
-	private static final String MSG	= "com.fr.design.gui.syntax.ui.rtextarea.RTextArea";
-
-
 	/**
 	 * Constructor.
 	 *
@@ -50,9 +49,8 @@ public class RUndoManager extends UndoManager {
 	 */
 	public RUndoManager(RTextArea textArea) {
 		this.textArea = textArea;
-		ResourceBundle msg = ResourceBundle.getBundle(MSG);
-		cantUndoText = msg.getString("Action.CantUndo.Name");
-		cantRedoText = msg.getString("Action.CantRedo.Name");
+		cantUndoText = Inter.getLocText("Action.CantUndo.Name");
+		cantRedoText = Inter.getLocText("Action.CantRedo.Name");
 	}
 
 

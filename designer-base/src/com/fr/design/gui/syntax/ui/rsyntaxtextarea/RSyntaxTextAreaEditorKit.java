@@ -24,6 +24,7 @@ import com.fr.design.gui.syntax.ui.rtextarea.IconRowHeader;
 import com.fr.design.gui.syntax.ui.rtextarea.RecordableTextAction;
 import com.fr.design.gui.syntax.ui.rtextarea.RTextArea;
 import com.fr.design.gui.syntax.ui.rtextarea.RTextAreaEditorKit;
+import com.fr.general.Inter;
 
 
 /**
@@ -71,10 +72,6 @@ public class RSyntaxTextAreaEditorKit extends RTextAreaEditorKit {
 	public static final String rstaPossiblyInsertTemplateAction = "RSTA.TemplateAction";
 	public static final String rstaToggleCommentAction 		= "RSTA.ToggleCommentAction";
 	public static final String rstaToggleCurrentFoldAction	= "RSTA.ToggleCurrentFoldAction";
-
-	private static final String MSG	= "com.fr.design.gui.syntax.ui.rsyntaxtextarea.RSyntaxTextArea";
-	private static final ResourceBundle msg = ResourceBundle.getBundle(MSG);
-
 
 	/**
 	 * The actions that <code>RSyntaxTextAreaEditorKit</code> adds to those of
@@ -163,7 +160,7 @@ public class RSyntaxTextAreaEditorKit extends RTextAreaEditorKit {
 	 * @return The localized text.
 	 */
 	public static String getString(String key) {
-		return msg.getString(key);
+		return Inter.getLocText(key);
 	}
 
 
