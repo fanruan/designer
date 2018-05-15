@@ -40,19 +40,21 @@ import com.fr.design.utils.concurrent.ThreadFactoryBuilder;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
-import com.fr.main.impl.WorkBookX;
 import com.fr.module.Module;
 import com.fr.module.ModuleContext;
-import com.fr.report.worksheet.WorkSheet;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.xml.XMLTools;
 import com.fr.start.module.StartupArgs;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.border.MatteBorder;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -356,7 +358,7 @@ public class Designer extends BaseDesigner {
      */
     @Override
     public JTemplate<?, ?> createNewTemplate() {
-        return new JWorkBook(new WorkBookX(new WorkSheet()));
+        return new JWorkBook();
     }
 
     /**
