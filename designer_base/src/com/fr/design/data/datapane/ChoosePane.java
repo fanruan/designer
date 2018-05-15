@@ -17,7 +17,11 @@ import com.fr.design.data.datapane.preview.PreviewLabel;
 import com.fr.design.data.datapane.preview.PreviewLabel.Previewable;
 import com.fr.design.data.datapane.preview.PreviewTablePane;
 import com.fr.design.data.tabledata.Prepare4DataSourceChange;
-import com.fr.design.gui.icombobox.*;
+import com.fr.design.gui.icombobox.FRTreeComboBox;
+import com.fr.design.gui.icombobox.FilterableComboBoxModel;
+import com.fr.design.gui.icombobox.UIComboBox;
+import com.fr.design.gui.icombobox.UIComboBoxEditor;
+import com.fr.design.gui.icombobox.UIComboBoxRenderer;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itree.refreshabletree.ExpandMutableTreeNode;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -33,13 +37,24 @@ import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTree;
+import javax.swing.SwingWorker;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
-import javax.swing.tree.*;
-import java.awt.*;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeCellRenderer;
+import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.ItemEvent;
@@ -76,6 +91,7 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
 
     private PopupMenuListener popupMenuListener = new PopupMenuListener() {
 
+        @Override
         public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
             new Thread() {
                 @Override
@@ -85,23 +101,38 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
             }.start();
         }
 
+        @Override
         public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
         }
 
+        @Override
         public void popupMenuCanceled(PopupMenuEvent e) {
         }
     };
 
 
     private PopupMenuListener listener = new PopupMenuListener() {
+        @Override
         public void popupMenuCanceled(PopupMenuEvent e) {
         }
 
+        @Override
         public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
         }
 
+        @Override
         public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
             executePopulateWorker();
+        }
+    };
+
+    private FocusAdapter focusAdapter = new FocusAdapter() {
+        @Override
+        public void focusGained(FocusEvent e) {
+            if (schemaBox.getSelectedIndex() == -1) {
+                schemaBox.updateUI();
+                schemaBox.showPopup();
+            }
         }
     };
 
@@ -137,6 +168,7 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
     private void initBoxListener() {
         addDSBoxListener();
         schemaBox.addItemListener(new ItemListener() {
+            @Override
             public void itemStateChanged(ItemEvent evt) {
                 tableNameComboBox.setSelectedItem("");
             }
@@ -167,24 +199,16 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
     }
 
     protected void addFocusListener() {
-        schemaBox.addFocusListener(new FocusAdapter() {
-            public void focusGained(FocusEvent e) {
-                if (schemaBox.getSelectedIndex() == -1) {
-                    schemaBox.updateUI();
-                    schemaBox.showPopup();
-                }
-            }
-        });
     }
 
+    @SuppressWarnings("unchecked")
     protected void initDsNameComboBox() {
         dsNameComboBox.setRefreshingModel(true);
         DatasourceManagerProvider datasourceManager = DatasourceManager.getProviderInstance();
-        @SuppressWarnings("unchecked")
         Iterator<String> datasourceNameIterator = datasourceManager.getConnectionNameIterator();
-        List<String> dsList = new ArrayList<String>();
+        List<String> dsList = new ArrayList<>();
         while (datasourceNameIterator.hasNext()) {
-            dsList.add((String) datasourceNameIterator.next());
+            dsList.add(datasourceNameIterator.next());
         }
         FilterableComboBoxModel dsNameComboBoxModel = new FilterableComboBoxModel(dsList);
         dsNameComboBox.setModel(dsNameComboBoxModel);
@@ -228,12 +252,18 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
         }
         populateWorker = new SwingWorker<com.fr.data.impl.Connection, Void>() {
 
-            protected com.fr.data.impl.Connection doInBackground() throws Exception {
+            @SuppressWarnings("unchecked")
+            @Override
+            protected com.fr.data.impl.Connection doInBackground() {
+                schemaBox.setRefreshingModel(true);
                 schemaBox.addItem(Inter.getLocText("FR-Designer_Loading") + "...");
                 schemaBox.setSelectedItem(null);
+                schemaBox.setRefreshingModel(false);
                 return getConnection();
             }
 
+            @SuppressWarnings("unchecked")
+            @Override
             public void done() {
                 try {
                     com.fr.data.impl.Connection selectedDatabase = get();
@@ -262,6 +292,8 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
                 schemaBox.removePopupMenuListener(listener);
                 schemaBox.setPopupVisible(true);
                 schemaBox.addPopupMenuListener(listener);
+                schemaBox.removeFocusListener(focusAdapter);
+                schemaBox.addFocusListener(focusAdapter);
             }
         };
         populateWorker.execute();
@@ -301,6 +333,7 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
     /**
      * 刷新没多大用。而且要刷新也不是这儿刷新。
      */
+    @Override
     public void refresh() {
         DBUtils.refreshDatabase();
         String schema = StringUtils.isEmpty(schemaBox.getSelectedItem()) ? null : schemaBox.getSelectedItem();
@@ -310,6 +343,7 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
     }
 
     TreeCellRenderer tableNameTreeRenderer = new DefaultTreeCellRenderer() {
+        @Override
         public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf, int row, boolean hasFocus) {
             super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
             if (value instanceof DefaultMutableTreeNode) {
@@ -326,6 +360,7 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
     };
 
     public static UIComboBoxRenderer listCellRenderer = new UIComboBoxRenderer() {
+        @Override
         public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
             if (value instanceof TreePath) {
@@ -342,16 +377,18 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
 
 
     /**
-     *  添加项目监听事件
-     * @param aListener   事件监听器
+     * 添加项目监听事件
+     *
+     * @param aListener 事件监听器
      */
     public void addItemListener(ItemListener aListener) {
         this.tableNameComboBox.addItemListener(aListener);
     }
 
     /**
-     *  删除项目监听事件
-     * @param aListener   事件监听器
+     * 删除项目监听事件
+     *
+     * @param aListener 事件监听器
      */
     public void removeItemListener(ItemListener aListener) {
         this.tableNameComboBox.removeItemListener(aListener);
@@ -396,9 +433,7 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
                 }
             }
             ((DefaultTreeModel) tree.getModel()).reload();
-            /**
-             * daniel 展开所有tree
-             */
+            // daniel 展开所有tree
             TreeNode root = (TreeNode) tree.getModel().getRoot();
             TreePath parent = new TreePath(root);
             TreeNode node = (TreeNode) parent.getLastPathComponent();
@@ -414,42 +449,41 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
 
     /**
      * 创建选中的数据集数据
-     * @return    数据集数据
+     *
+     * @return 数据集数据
      */
     public TableData createSelectTableData() {
         DataBaseItems paras = this.updateBean();
         boolean connect = false;
         com.fr.data.impl.Connection database = DBUtils.checkDBConnection(paras.getDatabaseName());
         if (database == null) {
-			failedToFindTable();
+            failedToFindTable();
             return TableData.EMPTY_TABLEDATA;
         }
         try {
             connect = FRContext.getCurrentEnv().testConnection(database);
-        } catch (Exception e1) {
-            connect = false;
+        } catch (Exception ignored) {
         }
         if (!connect) {
             DesignerFrame designerFrame = DesignerContext.getDesignerFrame();
             JOptionPane.showMessageDialog(designerFrame, Inter.getLocText("Datasource-Connection_failed"),
-					Inter.getLocText("FR-Designer_Failed"), JOptionPane.INFORMATION_MESSAGE);
-			failedToFindTable();
+                    Inter.getLocText("FR-Designer_Failed"), JOptionPane.INFORMATION_MESSAGE);
+            failedToFindTable();
             return null;
         }
         // 显示Table数据.
 
         TableData tableData = null;
         if (FRContext.getCurrentEnv() instanceof LocalEnv) {
-            TableData tableDataLocal = new DBTableData(database, DataCoreUtils.createSelectSQL(paras.getSchemaName(), paras.getTableName(),
+            tableData = new DBTableData(database, DataCoreUtils.createSelectSQL(paras.getSchemaName(), paras.getTableName(),
                     DialectFactory.getDialectByName(paras.getDatabaseName())));
-            tableData = tableDataLocal;
         } else {
             try {
                 TableData tableDataLocal = new DBTableData(database, DataCoreUtils.createSelectSQL(paras.getSchemaName(), paras.getTableName(), DialectFactory.getDialectByName(paras.getDatabaseName())));
                 tableData = FRContext.getCurrentEnv().previewTableData(tableDataLocal, java.util.Collections.EMPTY_MAP,
                         DesignerEnvManager.getEnvManager().getMaxNumberOrPreviewRow());
             } catch (Exception e) {
-				failedToFindTable();
+                failedToFindTable();
                 FRContext.getLogger().error(e.getMessage(), e);
             }
         }
@@ -461,8 +495,8 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
         return this.dsNameComboBox.getSelectedItem();
     }
 
-	protected void failedToFindTable() {
-	}
+    protected void failedToFindTable() {
+    }
 
     protected String getTableName() {
         String tableName = "";
@@ -486,7 +520,8 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
 
     /**
      * 得到当前的ColumnName[]
-     * @return   返回当前的ColumnName[]
+     *
+     * @return 返回当前的ColumnName[]
      */
     public String[] currentColumnNames() {
         String[] colNames = null;
@@ -494,21 +529,19 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
         DataBaseItems paras = this.updateBean();
         String selectedDSName = paras.getDatabaseName();
         if (StringUtils.isBlank(selectedDSName)) {
-            return colNames = new String[0]; // peter:选中了当前的零长度的节点,直接返回.
+            // peter:选中了当前的零长度的节点,直接返回.
+            return new String[0];
         }
 
         String selectedTableObject = paras.getTableName();
         if (StringUtils.isEmpty(selectedTableObject)) {
-            return colNames = new String[0];
+            return new String[0];
         }
-        java.sql.Connection conn = null;
         try {
             // daniel:增加参数
             colNames = FRContext.getCurrentEnv().getColumns(selectedDSName, paras.getSchemaName(), selectedTableObject);
         } catch (Exception e2) {
             FRContext.getLogger().error(e2.getMessage(), e2);
-        } finally {
-            DBUtils.closeConnection(conn);
         }
 
         if (colNames == null) {
@@ -518,9 +551,10 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
     }
 
     /**
-     *  预览key value对应的数据
+     * 预览key value对应的数据
+     *
      * @param key   键
-     * @param value    值
+     * @param value 值
      */
     public void preview(int key, int value) {
         PreviewTablePane.previewTableData(createSelectTableData(), key, value);
@@ -529,6 +563,7 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
     /**
      * 默认预览
      */
+    @Override
     public void preview() {
         preview(-1, -1);
     }
@@ -541,10 +576,12 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
     }
 
     /**
-     *注册listener,相应数据集改变
+     * 注册listener,相应数据集改变
      */
+    @Override
     public void registerDSChangeListener() {
         DesignTableDataManager.addDsChangeListener(new ChangeListener() {
+            @Override
             public void stateChanged(ChangeEvent e) {
                 initDsNameComboBox();
             }
@@ -579,6 +616,7 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
             this.refreshingModel = refreshingModel;
         }
 
+        @Override
         public void setSelectedItem(Object ob) {
             this.getModel().setSelectedItem(ob);
             if (ob != null && StringUtils.isEmpty(ob.toString())) {
@@ -592,11 +630,13 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
     private class ComboBoxEditor extends UIComboBoxEditor {
         private Object item;
 
+        @Override
         public void setItem(Object item) {
             this.item = item;
             textField.setText((item == null) ? "" : item.toString());
         }
 
+        @Override
         public Object getItem() {
             return this.item;
         }
