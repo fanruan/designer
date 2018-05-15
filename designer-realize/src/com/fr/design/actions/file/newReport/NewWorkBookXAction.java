@@ -12,9 +12,7 @@ import com.fr.report.worksheet.WorkSheet;
 import javax.swing.Icon;
 import javax.swing.KeyStroke;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 
-import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
 
 /**
  * 新建cptx格式模板
@@ -51,7 +49,7 @@ public class NewWorkBookXAction extends UpdateAction {
     public static final MenuKeySet NEW_WORK_BOOK_X = new MenuKeySet() {
         @Override
         public char getMnemonic() {
-            return 'N';
+            return 'L';
         }
 
         @Override
@@ -61,7 +59,7 @@ public class NewWorkBookXAction extends UpdateAction {
 
         @Override
         public KeyStroke getKeyStroke() {
-            return KeyStroke.getKeyStroke(KeyEvent.VK_N, DEFAULT_MODIFIER);
+            return null;
         }
     };
 }

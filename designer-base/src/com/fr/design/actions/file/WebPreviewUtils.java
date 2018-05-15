@@ -1,5 +1,6 @@
 package com.fr.design.actions.file;
 
+import com.fr.base.extension.FileExtension;
 import com.fr.design.fun.PreviewProvider;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
@@ -10,8 +11,9 @@ import com.fr.general.GeneralUtils;
 import com.fr.general.Inter;
 import com.fr.general.web.ParameterConstants;
 import com.fr.stable.project.ProjectConstants;
+import com.fr.stable.web.AbstractWebletCreator;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
 import java.util.Collections;
 import java.util.Map;
 
@@ -36,10 +38,10 @@ public final class WebPreviewUtils {
 
         jt.stopEditing();
         /*
-		 * alex:如果没有保存,先保存到Env
-		 * 
-		 * 如果保存失败,不执行下面的WebPreview
-		 */
+         * alex:如果没有保存,先保存到Env
+         *
+         * 如果保存失败,不执行下面的WebPreview
+         */
         if (!jt.isSaved() && !jt.saveTemplate2Env()) {
             return;
         }
@@ -75,6 +77,13 @@ public final class WebPreviewUtils {
 
                 java.util.List<String> parameterNameList = new java.util.ArrayList<String>();
                 java.util.List<String> parameterValueList = new java.util.ArrayList<String>();
+
+                // 暂时屏蔽cptx直接访问
+                if (path.endsWith(FileExtension.CPTX.getSuffix())) {
+                    path = path.substring(0, path.length() - 1);
+                    parameterNameList.add(AbstractWebletCreator.FORMAT);
+                    parameterValueList.add(AbstractWebletCreator.X);
+                }
 
                 parameterNameList.add(actionType);
                 parameterValueList.add(path);

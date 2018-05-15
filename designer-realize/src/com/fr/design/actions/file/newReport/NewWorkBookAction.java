@@ -10,6 +10,9 @@ import com.fr.general.Inter;
 import javax.swing.Icon;
 import javax.swing.KeyStroke;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+
+import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
 
 public class NewWorkBookAction extends UpdateAction {
 
@@ -47,7 +50,7 @@ public class NewWorkBookAction extends UpdateAction {
 
         @Override
         public KeyStroke getKeyStroke() {
-            return null;
+            return KeyStroke.getKeyStroke(KeyEvent.VK_N, DEFAULT_MODIFIER);
         }
     };
 
