@@ -1,7 +1,7 @@
 package com.fr.design.remote.ui.list;
 
 import com.fr.base.BaseUtils;
-import com.fr.design.gui.icheckbox.UICheckBox;
+import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.remote.RemoteMember;
 
@@ -12,31 +12,29 @@ import javax.swing.ListCellRenderer;
 import java.awt.Component;
 import java.awt.FlowLayout;
 
-public class MemberListCellRender extends JPanel implements ListCellRenderer<RemoteMember> {
+public class AddedMemberListCellRender extends JPanel implements ListCellRenderer<RemoteMember> {
+
 
     private UILabel label;
-    private UICheckBox check;
 
+    private UIButton uiButton;
 
-    public MemberListCellRender() {
+    public AddedMemberListCellRender() {
         this.setBorder(BorderFactory.createEmptyBorder());
         this.setLayout(new FlowLayout(FlowLayout.LEFT));
 
         label = new UILabel();
         label.setIcon(BaseUtils.readIcon("com/fr/design/remote/images/icon_Member_normal@1x.png"));
 
-        check = new UICheckBox();
-        check.setSelected(false);
+        uiButton.setIcon(BaseUtils.readIcon("com/fr/design/remote/images/icon_Remove_x.png"));
 
         this.add(label);
-        this.add(check);
+        this.add(uiButton);
     }
 
-
     @Override
-    public Component getListCellRendererComponent(JList list, RemoteMember member, int index, boolean isSelected, boolean cellHasFocus) {
+    public Component getListCellRendererComponent(JList<? extends RemoteMember> list, RemoteMember member, int index, boolean isSelected, boolean cellHasFocus) {
         this.setLabelText(member.getName());
-        check.setSelected(member.isSelected());
         return this;
     }
 

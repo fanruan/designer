@@ -217,7 +217,7 @@ public class AuthorityListControlPane extends BasicPane {
      * 获取选中的名字
      */
     public String getSelectedName() {
-        RemoteDesignAuthority authority = (RemoteDesignAuthority) this.authorityList.getSelectedValue();
+        RemoteDesignAuthority authority = this.authorityList.getSelectedValue();
         return authority == null ? null : authority.getName();
     }
 
@@ -412,7 +412,7 @@ public class AuthorityListControlPane extends BasicPane {
         }
 
         public void populate() {
-            authority = (RemoteDesignAuthority) AuthorityListControlPane.this.authorityList.getSelectedValue();
+            authority = AuthorityListControlPane.this.authorityList.getSelectedValue();
 
             if (authority == null) {
                 return;
