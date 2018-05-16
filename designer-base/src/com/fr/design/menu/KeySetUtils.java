@@ -601,6 +601,21 @@ public class KeySetUtils {
         }
     };
 
+    public static final MenuKeySet REPORT_WATERMARK = new MenuKeySet() {
+        @Override
+        public char getMnemonic() { return 'M'; }
+
+        @Override
+        public String getMenuName() {
+            return "水印";
+        }
+
+        @Override
+        public KeyStroke getKeyStroke() {
+            return null;
+        }
+    };
+
 
     public static final MenuKeySet REPORT_WRITE = new MenuKeySet() {
         @Override

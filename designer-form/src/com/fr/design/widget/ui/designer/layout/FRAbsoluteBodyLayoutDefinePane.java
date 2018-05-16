@@ -1,8 +1,11 @@
 package com.fr.design.widget.ui.designer.layout;
 
+import com.fr.base.Watermark;
 import com.fr.design.data.DataCreatorUI;
 import com.fr.design.designer.IntervalConstants;
-import com.fr.design.designer.creator.*;
+import com.fr.design.designer.creator.XCreator;
+import com.fr.design.designer.creator.XLayoutContainer;
+import com.fr.design.designer.creator.XWFitLayout;
 import com.fr.design.designer.creator.cardlayout.XWCardMainBorderLayout;
 import com.fr.design.designer.properties.items.FRLayoutTypeItems;
 import com.fr.design.designer.properties.items.Item;
@@ -10,12 +13,11 @@ import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.WidgetPropertyPane;
+import com.fr.design.mainframe.widget.accessibles.AccessibleBodyWatermarkEditor;
 import com.fr.design.mainframe.widget.accessibles.AccessibleWLayoutBorderStyleEditor;
-import com.fr.design.widget.ui.designer.component.WidgetBoundPane;
 import com.fr.form.ui.LayoutBorderStyle;
 import com.fr.form.ui.container.WAbsoluteBodyLayout;
 import com.fr.form.ui.container.WAbsoluteLayout;
@@ -23,8 +25,11 @@ import com.fr.form.ui.container.WBodyLayoutType;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Component;
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -32,11 +37,13 @@ import java.util.Comparator;
  * Created by ibm on 2017/8/2.
  */
 public class FRAbsoluteBodyLayoutDefinePane extends FRAbsoluteLayoutDefinePane {
+    private static final int EACH_ROW_COUNT = 4;
+
     private AccessibleWLayoutBorderStyleEditor borderStyleEditor;
+    private AccessibleBodyWatermarkEditor watermarkEditor;
 
     private UIComboBox layoutCombox;
     private WBodyLayoutType layoutType = WBodyLayoutType.ABSOLUTE;
-    private static final int EACH_ROW_COUNT = 4;
 
     public FRAbsoluteBodyLayoutDefinePane(XCreator xCreator) {
         super(xCreator);
@@ -46,8 +53,12 @@ public class FRAbsoluteBodyLayoutDefinePane extends FRAbsoluteLayoutDefinePane {
     public void initComponent() {
         super.initComponent();
         borderStyleEditor = new AccessibleWLayoutBorderStyleEditor();
-        JPanel jPanel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer-Widget_Style")), borderStyleEditor}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W3, IntervalConstants.INTERVAL_L1);
+        watermarkEditor = new AccessibleBodyWatermarkEditor();
+        JPanel jPanel = TableLayoutHelper.createGapTableLayoutPane(
+                new Component[][]{
+                    new Component[]{new UILabel(Inter.getLocText("FR-Designer-Widget_Style")), borderStyleEditor},
+                    new Component[]{new UILabel("水印"), watermarkEditor}
+                }, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W3, IntervalConstants.INTERVAL_L1);
         JPanel borderPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         jPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         borderPane.add(jPanel, BorderLayout.CENTER);
@@ -88,6 +99,7 @@ public class FRAbsoluteBodyLayoutDefinePane extends FRAbsoluteLayoutDefinePane {
     public void populateSubPane(WAbsoluteLayout ob) {
         layoutCombox.setSelectedIndex(1);
         borderStyleEditor.setValue(ob.getBorderStyle());
+        watermarkEditor.setValue(ob.getWatermark());
     }
 
     public WAbsoluteBodyLayout updateSubPane() {
@@ -105,6 +117,7 @@ public class FRAbsoluteBodyLayoutDefinePane extends FRAbsoluteLayoutDefinePane {
             }
         }
         layout.setBorderStyle((LayoutBorderStyle) borderStyleEditor.getValue());
+        layout.setWatermark((Watermark) watermarkEditor.getValue());
         return layout;
     }
 
