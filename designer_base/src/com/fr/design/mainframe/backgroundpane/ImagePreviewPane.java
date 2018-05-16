@@ -88,6 +88,13 @@ public class ImagePreviewPane extends JComponent implements Scrollable, ImagePre
      * Return image
      */
     public Image getImage() {
+        return image == null ? null : this.image.getImage();
+    }
+
+    /**
+     * Return ImageWithSuffix
+     */
+    public ImageWithSuffix getImageWithSuffix() {
         return this.image;
     }
 
