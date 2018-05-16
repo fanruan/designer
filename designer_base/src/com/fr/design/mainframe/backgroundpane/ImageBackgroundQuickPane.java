@@ -109,7 +109,7 @@ public class ImageBackgroundQuickPane extends BackgroundQuickPane {
     }
 
     public Background updateBean() {
-        ImageBackground imageBackground = new ImageBackground(previewPane.getImage());
+        ImageBackground imageBackground = new ImageBackground(previewPane.getImageWithSuffix());
         imageStyle = Style.DEFAULT_STYLE.deriveImageLayout(imageLayoutPane.getSelectedItem());
         imageBackground.setLayout(imageStyle.getImageLayout());
         return imageBackground;
