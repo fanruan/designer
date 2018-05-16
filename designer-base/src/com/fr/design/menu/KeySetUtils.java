@@ -607,7 +607,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return "水印";
+            return Inter.getLocText("FR-Designer_WaterMark");
         }
 
         @Override

@@ -42,7 +42,7 @@ public class WatermarkPreviewPane extends JPanel {
     }
 
     private void updateGap(FontMetrics fontMetrics) {
-        horizontalGap = fontMetrics.stringWidth("帆");
+        horizontalGap = fontMetrics.stringWidth("帆");  // 任意一个中文字符
         verticalGap = horizontalGap * 2;
     }
 

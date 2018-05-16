@@ -75,7 +75,7 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
         JPanel jp2 = TableLayoutHelper.createGapTableLayoutPane(
                 new Component[][]{
                     new Component[]{new UILabel(Inter.getLocText("FR-Designer-Widget_Style")), stylePane},
-                    new Component[]{new UILabel("水印"), watermarkEditor}
+                    new Component[]{new UILabel(Inter.getLocText("FR-Designer_WaterMark")), watermarkEditor}
                 }, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W3, IntervalConstants.INTERVAL_L1);
         jp2.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         jPanel.add(paddingBound, BorderLayout.CENTER);

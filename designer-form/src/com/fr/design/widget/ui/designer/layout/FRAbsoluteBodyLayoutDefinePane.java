@@ -57,7 +57,7 @@ public class FRAbsoluteBodyLayoutDefinePane extends FRAbsoluteLayoutDefinePane {
         JPanel jPanel = TableLayoutHelper.createGapTableLayoutPane(
                 new Component[][]{
                     new Component[]{new UILabel(Inter.getLocText("FR-Designer-Widget_Style")), borderStyleEditor},
-                    new Component[]{new UILabel("水印"), watermarkEditor}
+                    new Component[]{new UILabel(Inter.getLocText("FR-Designer_WaterMark")), watermarkEditor}
                 }, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W3, IntervalConstants.INTERVAL_L1);
         JPanel borderPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         jPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));

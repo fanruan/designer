@@ -42,8 +42,6 @@ public class WatermarkPane extends BasicPane {
     // 文字颜色
     private NewColorSelectPane colorPane;
 
-    private UIScrollPane titlePane;
-
     public WatermarkPane() {
         initComponents();
     }
@@ -75,6 +73,7 @@ public class WatermarkPane extends BasicPane {
         populateFourmula(watermark.getText());
         populateFontSize(watermark.getFontSize());
         populateColor(watermark.getColor());
+        paintPreviewPane();
     }
 
     public Watermark update() {
@@ -101,21 +100,22 @@ public class WatermarkPane extends BasicPane {
 
         colorPane = new NewColorSelectPane();
         JPanel colorLabelPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        colorLabelPane.add(new UILabel("文字颜色"), BorderLayout.NORTH);
+        colorLabelPane.add(new UILabel(Inter.getLocText("FR-Designer_Text_Color")), BorderLayout.NORTH);
 
         double p = TableLayout.PREFERRED;
         double[] rowSize = {p,p,p};
         double[] columnSize = { p, MAX_WIDTH};
 
         JPanel rightContentPane = TableLayoutHelper.createCommonTableLayoutPane( new JComponent[][]{
-                {new UILabel("文字"), formulaPane},
-                {new UILabel("字号"), fontSizeTypePane},
+                {new UILabel(Inter.getLocText("FR-Designer_Watermark_Text")), formulaPane},
+                {new UILabel(Inter.getLocText("FR-Designer_Font_Size")), fontSizeTypePane},
                 {colorLabelPane, colorPane},
         }, rowSize, columnSize, 10);
         rightContentPane.setBorder(BorderFactory.createEmptyBorder(15, 12, 10, 12));
-        titlePane =new UIScrollPane(rightContentPane);
-        titlePane.setBorder(GUICoreUtils.createTitledBorder("配置",null));
-        return titlePane;
+
+        UIScrollPane configPane = new UIScrollPane(rightContentPane);
+        configPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("FR-Designer_Config"),null));
+        return configPane;
     }
 
     protected void populateFontSize(int fontSize){
@@ -165,6 +165,6 @@ public class WatermarkPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return "水印";
+        return Inter.getLocText("FR-Designer_WaterMark");
     }
 }
