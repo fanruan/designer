@@ -1,9 +1,10 @@
 package com.fr.design.mainframe.widget.wrappers;
 
-import com.fr.base.Watermark;
+import com.fr.base.iofileattr.WatermarkAttrMark;
 import com.fr.design.Exception.ValidationException;
 import com.fr.design.designer.properties.Decoder;
 import com.fr.design.designer.properties.Encoder;
+import com.fr.stable.StringUtils;
 
 /**
  * Created by plough on 2018/5/15.
@@ -11,7 +12,7 @@ import com.fr.design.designer.properties.Encoder;
 public class WatermarkWrapper implements Encoder, Decoder {
     @Override
     public Object decode(String txt) {
-        return new Watermark();
+        return new WatermarkAttrMark();
     }
 
     @Override
@@ -21,6 +22,9 @@ public class WatermarkWrapper implements Encoder, Decoder {
 
     @Override
     public String encode(Object v) {
-        return ((Watermark)v).getText();
+        if (v == null) {
+            return StringUtils.EMPTY;
+        }
+        return ((WatermarkAttrMark)v).getText();
     }
 }

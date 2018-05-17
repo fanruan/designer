@@ -1,6 +1,6 @@
 package com.fr.design.report;
 
-import com.fr.base.Watermark;
+import com.fr.base.iofileattr.WatermarkAttrMark;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.formula.TinyFormulaPane;
 import com.fr.design.gui.icombobox.UIComboBox;
@@ -69,15 +69,18 @@ public class WatermarkPane extends BasicPane {
         rightPane.add(initRightPane(), BorderLayout.CENTER);
     }
 
-    public void populate(Watermark watermark) {
+    public void populate(WatermarkAttrMark watermark) {
+        if (watermark == null) {
+            watermark = new WatermarkAttrMark();
+        }
         populateFourmula(watermark.getText());
         populateFontSize(watermark.getFontSize());
         populateColor(watermark.getColor());
         paintPreviewPane();
     }
 
-    public Watermark update() {
-        Watermark watermark = new Watermark();
+    public WatermarkAttrMark update() {
+        WatermarkAttrMark watermark = new WatermarkAttrMark();
         watermark.setText(formulaPane.getUITextField().getText());
         watermark.setFontSize((int)fontSizeComboBox.getSelectedItem());
         watermark.setColor(colorPane.getColor());

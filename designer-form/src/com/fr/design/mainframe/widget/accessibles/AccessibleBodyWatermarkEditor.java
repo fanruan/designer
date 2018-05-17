@@ -1,6 +1,6 @@
 package com.fr.design.mainframe.widget.accessibles;
 
-import com.fr.base.Watermark;
+import com.fr.base.iofileattr.WatermarkAttrMark;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.mainframe.widget.editors.ITextComponent;
@@ -42,7 +42,7 @@ public class AccessibleBodyWatermarkEditor extends UneditableAccessibleEditor {
                 fireStateChanged();
             }
         });
-        watermarkPane.populate((Watermark) getValue());
+        watermarkPane.populate((WatermarkAttrMark) getValue());
         dlg.setVisible(true);
     }
 }

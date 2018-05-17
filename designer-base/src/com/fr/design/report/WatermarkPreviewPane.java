@@ -1,16 +1,13 @@
 package com.fr.design.report;
 
-import com.fr.base.Watermark;
+import com.fr.base.iofileattr.WatermarkAttrMark;
 import com.fr.design.constants.UIConstants;
 import com.fr.general.FRFont;
-import com.fr.stable.StringUtils;
 
 import javax.swing.JPanel;
-import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 
 /**
@@ -25,18 +22,18 @@ public class WatermarkPreviewPane extends JPanel {
 
     private int horizontalGap = 20;  // 水平间隔（一个中文字符宽度）
     private int verticalGap = 40;  // 垂直间隔（两个中文字符宽度）
-    private Watermark watermark;
+    private WatermarkAttrMark watermark;
 
 
     public WatermarkPreviewPane() {
-        this.watermark = new Watermark();
+        this.watermark = new WatermarkAttrMark();
         repaint();
     }
 
     /**
      * 重新画
      */
-    public void repaint(Watermark watermark){
+    public void repaint(WatermarkAttrMark watermark){
         this.watermark = watermark;
         super.repaint();
     }

@@ -1,6 +1,7 @@
 package com.fr.design.widget.ui.designer.layout;
 
-import com.fr.base.Watermark;
+import com.fr.base.io.IOFile;
+import com.fr.base.iofileattr.WatermarkAttrMark;
 import com.fr.design.data.DataCreatorUI;
 import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.XCreator;
@@ -18,8 +19,11 @@ import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.FormSelectionUtils;
+import com.fr.design.mainframe.JForm;
+import com.fr.design.mainframe.JTemplate;
 import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.design.mainframe.widget.accessibles.AccessibleBodyWatermarkEditor;
 import com.fr.design.mainframe.widget.accessibles.AccessibleWLayoutBorderStyleEditor;
@@ -33,9 +37,15 @@ import com.fr.form.ui.container.WBodyLayoutType;
 import com.fr.form.ui.container.WFitLayout;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
+import com.fr.main.FineBook;
+import com.fr.report.core.ReportUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
 
 /**
  * Created by ibm on 2017/8/2.
@@ -137,7 +147,7 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
         adaptComboBox.setSelectedIndex(ob.getCompState());
         componentIntervel.setValue(ob.getCompInterval());
         stylePane.setValue(ob.getBorderStyle());
-        watermarkEditor.setValue(ob.getWatermark());
+        watermarkEditor.setValue(ReportUtils.getWatermarkFromIOFile(getCurrentIOFile()));
     }
 
     private XLayoutContainer selectedBodyLayout(FormDesigner formDesigner) {
@@ -157,10 +167,7 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
         if(borderStyle != null){
             layout.setBorderStyle(borderStyle);
         }
-        Watermark watermark = (Watermark) watermarkEditor.getValue();
-        if (watermark != null) {
-            layout.setWatermark(watermark);
-        }
+        updateWatermark();
         Item item = (Item) layoutComboBox.getSelectedItem();
         Object value = item.getValue();
         int state = 0;
@@ -205,6 +212,18 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
         }
 
         return layout;
+    }
+
+    private void updateWatermark() {
+        WatermarkAttrMark watermark = (WatermarkAttrMark) watermarkEditor.getValue();
+        if (watermark != null) {
+            IOFile ioFile = getCurrentIOFile();
+            ioFile.addAttrMark(watermark);
+        }
+    }
+
+    private IOFile getCurrentIOFile() {
+        return WidgetPropertyPane.getInstance().getEditingFormDesigner().getTarget();
     }
 
     private void setLayoutGap(int value) {

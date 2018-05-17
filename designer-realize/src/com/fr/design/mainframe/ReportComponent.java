@@ -57,7 +57,6 @@ public abstract class ReportComponent<T extends TemplateReport, E extends Elemen
                 new ReportHeaderAction(this),
                 new ReportFooterAction(this),
                 new ReportBackgroundAction(this),
-                new ReportWatermarkAction(this),
         };
     }
 
