@@ -164,6 +164,7 @@ public interface UIConstants {
     public static final BufferedImage POP_BUTTON_UP = BaseUtils.readImage("com/fr/design/images/buttonicon/popuparrow.png");
     public static final BufferedImage DRAG_DOWN_SELECTED_SMALL = BaseUtils.readImage("com/fr/design/images/buttonicon/downSelected.png");
     public static final BufferedImage DRAG_LEFT_NORMAL_SMALL = BaseUtils.readImage("com/fr/design/images/buttonicon/leftNormal.png");
+    public static final BufferedImage WATERMARK_BACKGROUND = BaseUtils.readImage("/com/fr/design/images/dialog/watermark/watermark_background.png");
     public static final int MODEL_NORMAL = 0;
     public static final int MODEL_PRESS = 1;
     public static final Icon ARROW_DOWN_ICON = BaseUtils.readIcon("com/fr/design/images/buttonicon/arrowdown.png");

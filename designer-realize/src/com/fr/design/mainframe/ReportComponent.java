@@ -10,6 +10,7 @@ import com.fr.design.actions.report.ReportBackgroundAction;
 import com.fr.design.actions.report.ReportFooterAction;
 import com.fr.design.actions.report.ReportHeaderAction;
 import com.fr.design.actions.report.ReportPageSetupAction;
+import com.fr.design.actions.report.ReportWatermarkAction;
 import com.fr.design.designer.TargetComponent;
 import com.fr.design.menu.NameSeparator;
 import com.fr.design.menu.ShortCut;
@@ -56,6 +57,7 @@ public abstract class ReportComponent<T extends TemplateReport, E extends Elemen
                 new ReportHeaderAction(this),
                 new ReportFooterAction(this),
                 new ReportBackgroundAction(this),
+                new ReportWatermarkAction(this),
         };
     }
 
