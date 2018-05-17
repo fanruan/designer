@@ -205,7 +205,7 @@ public class RemoteEnvURL implements FCloneable {
             return cloned;
         } catch (CloneNotSupportedException e) {
             // this shouldn't happen, since we are Cloneable
-            throw new InternalError(e);
+            throw new InternalError(e.getMessage());
         }
     }
 
