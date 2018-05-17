@@ -1,6 +1,7 @@
 package com.fr.design.widget.ui.designer.layout;
 
-import com.fr.base.Watermark;
+import com.fr.base.io.IOFile;
+import com.fr.base.iofileattr.WatermarkAttrMark;
 import com.fr.design.data.DataCreatorUI;
 import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.XCreator;
@@ -24,6 +25,7 @@ import com.fr.form.ui.container.WAbsoluteLayout;
 import com.fr.form.ui.container.WBodyLayoutType;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
+import com.fr.report.core.ReportUtils;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
@@ -99,7 +101,8 @@ public class FRAbsoluteBodyLayoutDefinePane extends FRAbsoluteLayoutDefinePane {
     public void populateSubPane(WAbsoluteLayout ob) {
         layoutCombox.setSelectedIndex(1);
         borderStyleEditor.setValue(ob.getBorderStyle());
-        watermarkEditor.setValue(ob.getWatermark());
+        watermarkEditor.setValue(ReportUtils.getWatermarkFromIOFile(getCurrentIOFile()));
+
     }
 
     public WAbsoluteBodyLayout updateSubPane() {
@@ -117,8 +120,20 @@ public class FRAbsoluteBodyLayoutDefinePane extends FRAbsoluteLayoutDefinePane {
             }
         }
         layout.setBorderStyle((LayoutBorderStyle) borderStyleEditor.getValue());
-        layout.setWatermark((Watermark) watermarkEditor.getValue());
+        updateWatermark();
         return layout;
+    }
+
+    private void updateWatermark() {
+        WatermarkAttrMark watermark = (WatermarkAttrMark) watermarkEditor.getValue();
+        if (watermark != null) {
+            IOFile ioFile = getCurrentIOFile();
+            ioFile.addAttrMark(watermark);
+        }
+    }
+
+    private IOFile getCurrentIOFile() {
+        return WidgetPropertyPane.getInstance().getEditingFormDesigner().getTarget();
     }
 
     @Override
