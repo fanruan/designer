@@ -11,8 +11,9 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.remote.RemoteMember;
 import com.fr.design.remote.Utils;
 import com.fr.design.remote.ui.list.AddedMemberList;
-import com.fr.design.remote.ui.list.MemberList;
-import com.fr.design.remote.ui.list.MemberListCellRender;
+import com.fr.design.remote.ui.list.AddingMemberList;
+import com.fr.design.remote.ui.list.AddingMemberListCellRender;
+import com.fr.design.remote.ui.list.MemberListSelectedChangeListener;
 import com.fr.general.Inter;
 
 import javax.swing.BorderFactory;
@@ -89,7 +90,19 @@ public class UserManagerPane extends BasicPane {
     /**
      * 添加到设计的决策成员计数标签
      */
-    private DefaultListModel<Object> addedListModel;
+    private DefaultListModel<RemoteMember> addedListModel;
+
+
+    private MemberListSelectedChangeListener memberListSelectedChangeListener = new MemberListSelectedChangeListener() {
+        @Override
+        public void selectedChange() {
+            resetAddedMembers();
+            addedMembers.addAll(getNeedAddMember());
+            addToAddedMemberList();
+        }
+    };
+    private AddedMemberList addedList;
+    private AddingMemberList list;
 
 
     public UserManagerPane() {
@@ -134,9 +147,9 @@ public class UserManagerPane extends BasicPane {
 
         // 内容列表
         listModel = new DefaultListModel<>();
-        final MemberList list = new MemberList(listModel);
-        list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        list.setCellRenderer(new MemberListCellRender());
+        list = new AddingMemberList(listModel);
+        list.setCellRenderer(new AddingMemberListCellRender());
+        list.addSelectedChangeListener(memberListSelectedChangeListener);
         resetMembers();
         addToMemberList();
         UIScrollPane listPane = new UIScrollPane(list);
@@ -161,9 +174,9 @@ public class UserManagerPane extends BasicPane {
         countLabel.setText(Inter.getLocText("已选择{R1}人", "0"));
 
         addedListModel = new DefaultListModel<>();
-        final AddedMemberList addedList = new AddedMemberList(listModel);
+        addedList = new AddedMemberList(addedListModel);
         addedList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        addedList.setCellRenderer(new MemberListCellRender());
+        addedList.setCellRenderer(new AddingMemberListCellRender());
         resetAddedMembers();
         addToAddedMemberList();
         UIScrollPane listPane = new UIScrollPane(addedList);
@@ -181,6 +194,8 @@ public class UserManagerPane extends BasicPane {
         for (RemoteMember member : members) {
             listModel.addElement(member);
         }
+        list.revalidate();
+        list.repaint();
     }
 
     private void addToAddedMemberList() {
@@ -188,6 +203,8 @@ public class UserManagerPane extends BasicPane {
         for (RemoteMember member : addedMembers) {
             addedListModel.addElement(member);
         }
+        addedList.revalidate();
+        addedList.repaint();
     }
 
     private void resetMembers() {
@@ -216,5 +233,17 @@ public class UserManagerPane extends BasicPane {
             }
         };
         getMemberWorker.execute();
+    }
+
+    private List<RemoteMember> getNeedAddMember() {
+        List<RemoteMember> res = new ArrayList<>();
+        RemoteMember[] members = new RemoteMember[listModel.getSize()];
+        listModel.copyInto(members);
+        for (RemoteMember member : members) {
+            if (member.isSelected()) {
+                res.add(member);
+            }
+        }
+        return res;
     }
 }

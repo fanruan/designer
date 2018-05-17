@@ -12,13 +12,13 @@ import javax.swing.ListCellRenderer;
 import java.awt.Component;
 import java.awt.FlowLayout;
 
-public class MemberListCellRender extends JPanel implements ListCellRenderer<RemoteMember> {
+public class AddingMemberListCellRender extends JPanel implements ListCellRenderer<RemoteMember> {
 
     private UILabel label;
     private UICheckBox check;
 
 
-    public MemberListCellRender() {
+    public AddingMemberListCellRender() {
         this.setBorder(BorderFactory.createEmptyBorder());
         this.setLayout(new FlowLayout(FlowLayout.LEFT));
 
@@ -27,6 +27,7 @@ public class MemberListCellRender extends JPanel implements ListCellRenderer<Rem
 
         check = new UICheckBox();
         check.setSelected(false);
+        check.setEnabled(true);
 
         this.add(label);
         this.add(check);

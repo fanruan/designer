@@ -11,24 +11,25 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Vector;
 
-public class AddedMemberList extends MemberList {
+public class AddingMemberList extends MemberList {
 
-    public AddedMemberList() {
+
+    public AddingMemberList() {
         super();
         init();
     }
 
-    public AddedMemberList(ListModel<RemoteMember> dataModel) {
+    public AddingMemberList(ListModel<RemoteMember> dataModel) {
         super(dataModel);
         init();
     }
 
-    public AddedMemberList(RemoteMember[] listData) {
+    public AddingMemberList(RemoteMember[] listData) {
         super(listData);
         init();
     }
 
-    public AddedMemberList(Vector<? extends RemoteMember> listData) {
+    public AddingMemberList(Vector<? extends RemoteMember> listData) {
         super(listData);
         init();
     }
@@ -58,3 +59,5 @@ public class AddedMemberList extends MemberList {
         });
     }
 }
+
+
