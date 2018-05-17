@@ -1,6 +1,6 @@
 package com.fr.design.report;
 
-import com.fr.base.iofileattr.WatermarkAttrMark;
+import com.fr.base.iofileattr.WatermarkAttr;
 import com.fr.design.constants.UIConstants;
 import com.fr.general.FRFont;
 
@@ -22,18 +22,18 @@ public class WatermarkPreviewPane extends JPanel {
 
     private int horizontalGap = 20;  // 水平间隔（一个中文字符宽度）
     private int verticalGap = 40;  // 垂直间隔（两个中文字符宽度）
-    private WatermarkAttrMark watermark;
+    private WatermarkAttr watermark;
 
 
     public WatermarkPreviewPane() {
-        this.watermark = new WatermarkAttrMark();
+        this.watermark = new WatermarkAttr();
         repaint();
     }
 
     /**
      * 重新画
      */
-    public void repaint(WatermarkAttrMark watermark){
+    public void repaint(WatermarkAttr watermark){
         this.watermark = watermark;
         super.repaint();
     }
