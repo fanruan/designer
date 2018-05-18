@@ -26,6 +26,7 @@ public class AddedMemberListCellRender extends JPanel implements ListCellRendere
         label = new UILabel();
         label.setIcon(BaseUtils.readIcon("com/fr/design/remote/images/icon_Member_normal@1x.png"));
 
+        uiButton = new UIButton();
         uiButton.setIcon(BaseUtils.readIcon("com/fr/design/remote/images/icon_Remove_x.png"));
 
         this.add(label);

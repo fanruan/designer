@@ -2,12 +2,7 @@ package com.fr.design.remote.ui.list;
 
 import com.fr.design.remote.RemoteMember;
 
-import javax.swing.ListModel;
-import javax.swing.ListSelectionModel;
-import java.awt.Color;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
+import javax.swing.DefaultListModel;
 import java.awt.event.MouseEvent;
 import java.util.Vector;
 
@@ -15,46 +10,33 @@ public class AddedMemberList extends MemberList {
 
     public AddedMemberList() {
         super();
-        init();
     }
 
-    public AddedMemberList(ListModel<RemoteMember> dataModel) {
+    public AddedMemberList(DefaultListModel<RemoteMember> dataModel) {
         super(dataModel);
-        init();
     }
 
     public AddedMemberList(RemoteMember[] listData) {
         super(listData);
-        init();
     }
 
     public AddedMemberList(Vector<? extends RemoteMember> listData) {
         super(listData);
-        init();
     }
 
 
-    private void init() {
-        setBackground(new Color(0xF5F5F7));
+    @Override
+    protected boolean shouldDisplaySelected(MouseEvent e) {
+        return true;
+    }
 
-        this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-        this.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                super.mouseReleased(e);
-                System.out.println(e.getX() + " " + e.getY());
-                displaySelected();
-            }
-        });
-        this.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                super.keyReleased(e);
-                if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-                    displaySelected();
-                }
-            }
-        });
+    @Override
+    protected void displaySelected() {
+        RemoteMember member = getSelectedValue();
+        member.setSelected(!member.isSelected());
+        ((DefaultListModel<RemoteMember>) getModel()).removeElement(member);
+        revalidate();
+        repaint();
+        fireSelectedChange();
     }
 }

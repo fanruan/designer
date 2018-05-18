@@ -11,10 +11,12 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.remote.RemoteMember;
 import com.fr.design.remote.Utils;
 import com.fr.design.remote.ui.list.AddedMemberList;
+import com.fr.design.remote.ui.list.AddedMemberListCellRender;
 import com.fr.design.remote.ui.list.AddingMemberList;
 import com.fr.design.remote.ui.list.AddingMemberListCellRender;
 import com.fr.design.remote.ui.list.MemberListSelectedChangeListener;
 import com.fr.general.Inter;
+import com.fr.stable.StringUtils;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
@@ -31,6 +33,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -42,7 +45,7 @@ public class UserManagerPane extends BasicPane {
     /**
      * 获取的决策平台成员
      */
-    private List<RemoteMember> members = new ArrayList<>();
+    private List<RemoteMember> addingMembers = new ArrayList<>();
     /**
      * 添加到设计的决策平台成员
      */
@@ -51,7 +54,7 @@ public class UserManagerPane extends BasicPane {
     /**
      * 决策平台成员列表model
      */
-    private DefaultListModel<RemoteMember> listModel = new DefaultListModel<>();
+    private DefaultListModel<RemoteMember> addingListModel = new DefaultListModel<>();
     /**
      * 搜索输入框
      */
@@ -67,7 +70,7 @@ public class UserManagerPane extends BasicPane {
     private ActionListener keyButtonActionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            searchMembers(keyField.getText());
+            searchAddingMembers(keyField.getText());
         }
     };
 
@@ -77,9 +80,10 @@ public class UserManagerPane extends BasicPane {
     private KeyAdapter keyFieldKeyListener = new KeyAdapter() {
         @Override
         public void keyReleased(KeyEvent e) {
-            //判断按下的键是否是回车键
+            // 判断按下的键是否是回车键
+            // todo 对话款回车键绑定的是对话框的确定按钮
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                searchMembers(keyField.getText());
+                searchAddingMembers(keyField.getText());
             }
         }
     };
@@ -93,16 +97,28 @@ public class UserManagerPane extends BasicPane {
     private DefaultListModel<RemoteMember> addedListModel;
 
 
-    private MemberListSelectedChangeListener memberListSelectedChangeListener = new MemberListSelectedChangeListener() {
+    private MemberListSelectedChangeListener addingListChangeListener = new MemberListSelectedChangeListener() {
         @Override
         public void selectedChange() {
             resetAddedMembers();
-            addedMembers.addAll(getNeedAddMember());
+            sync2AddedMembersFromAdding();
             addToAddedMemberList();
         }
     };
+
+    private MemberListSelectedChangeListener addedListChangeListener = new MemberListSelectedChangeListener() {
+        @Override
+        public void selectedChange() {
+            addingList.revalidate();
+            addingList.repaint();
+            resetAddedMembers();
+            sync2AddedMembersFormAdded();
+            // 不需要重复更新右侧列表显示
+
+        }
+    };
     private AddedMemberList addedList;
-    private AddingMemberList list;
+    private AddingMemberList addingList;
 
 
     public UserManagerPane() {
@@ -146,13 +162,14 @@ public class UserManagerPane extends BasicPane {
         searchPanel.add(keyButton);
 
         // 内容列表
-        listModel = new DefaultListModel<>();
-        list = new AddingMemberList(listModel);
-        list.setCellRenderer(new AddingMemberListCellRender());
-        list.addSelectedChangeListener(memberListSelectedChangeListener);
+        addingListModel = new DefaultListModel<>();
+        addingList = new AddingMemberList(addingListModel);
+        addingList.setCellRenderer(new AddingMemberListCellRender());
+        addingList.addSelectedChangeListener(addingListChangeListener);
         resetMembers();
         addToMemberList();
-        UIScrollPane listPane = new UIScrollPane(list);
+        searchAddingMembers(StringUtils.EMPTY);
+        UIScrollPane listPane = new UIScrollPane(addingList);
         listPane.setBorder(BorderFactory.createEmptyBorder());
 
         content.add(searchPanel, BorderLayout.NORTH);
@@ -171,12 +188,13 @@ public class UserManagerPane extends BasicPane {
         );
 
         // 计数
-        countLabel.setText(Inter.getLocText("已选择{R1}人", "0"));
+        countLabel.setText(Inter.getLocText("已选择{R1}人", String.valueOf(addedMembers.size())));
 
         addedListModel = new DefaultListModel<>();
         addedList = new AddedMemberList(addedListModel);
         addedList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        addedList.setCellRenderer(new AddingMemberListCellRender());
+        addedList.setCellRenderer(new AddedMemberListCellRender());
+        addedList.addSelectedChangeListener(addedListChangeListener);
         resetAddedMembers();
         addToAddedMemberList();
         UIScrollPane listPane = new UIScrollPane(addedList);
@@ -190,12 +208,12 @@ public class UserManagerPane extends BasicPane {
 
 
     private void addToMemberList() {
-        listModel.clear();
-        for (RemoteMember member : members) {
-            listModel.addElement(member);
+        addingListModel.clear();
+        for (RemoteMember member : addingMembers) {
+            addingListModel.addElement(member);
         }
-        list.revalidate();
-        list.repaint();
+        addingList.revalidate();
+        addingList.repaint();
     }
 
     private void addToAddedMemberList() {
@@ -205,11 +223,12 @@ public class UserManagerPane extends BasicPane {
         }
         addedList.revalidate();
         addedList.repaint();
+        countLabel.setText(Inter.getLocText("已选择{R1}人", String.valueOf(addedMembers.size())));
     }
 
     private void resetMembers() {
-        members.clear();
-        members.add(RemoteMember.DEFAULT_MEMBER);
+        addingMembers.clear();
+        addingMembers.add(RemoteMember.DEFAULT_MEMBER);
     }
 
     private void resetAddedMembers() {
@@ -217,14 +236,19 @@ public class UserManagerPane extends BasicPane {
     }
 
 
-    private void searchMembers(final String keyword) {
+    private void searchAddingMembers(final String keyword) {
 
         final SwingWorker getMemberWorker = new SwingWorker<List<RemoteMember>, Void>() {
             @Override
             protected List<RemoteMember> doInBackground() {
-                members.clear();
-                members.addAll(Utils.getRemoteMember(keyword));
-                return members;
+                addingMembers.clear();
+                addingMembers.addAll(Utils.getRemoteMember(keyword));
+                try {
+                    Thread.sleep(2000L);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                return addingMembers;
             }
 
             @Override
@@ -235,15 +259,22 @@ public class UserManagerPane extends BasicPane {
         getMemberWorker.execute();
     }
 
-    private List<RemoteMember> getNeedAddMember() {
-        List<RemoteMember> res = new ArrayList<>();
-        RemoteMember[] members = new RemoteMember[listModel.getSize()];
-        listModel.copyInto(members);
+
+    private void sync2AddedMembersFromAdding() {
+        RemoteMember[] members = new RemoteMember[addingListModel.getSize()];
+        // shallow copy
+        addingListModel.copyInto(members);
         for (RemoteMember member : members) {
             if (member.isSelected()) {
-                res.add(member);
+                addedMembers.add(member);
             }
         }
-        return res;
+    }
+
+    private void sync2AddedMembersFormAdded() {
+        RemoteMember[] members = new RemoteMember[addedListModel.getSize()];
+        // shallow copy
+        addedListModel.copyInto(members);
+        addedMembers.addAll(Arrays.asList(members));
     }
 }
