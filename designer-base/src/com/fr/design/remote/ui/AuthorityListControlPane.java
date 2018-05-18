@@ -16,6 +16,7 @@ import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.design.remote.RemoteDesignAuthority;
 import com.fr.design.remote.RemoteDesignAuthorityCreator;
+import com.fr.design.remote.RemoteMember;
 import com.fr.design.remote.ui.list.AuthorityList;
 import com.fr.design.remote.ui.list.AuthorityListCellRenderer;
 import com.fr.design.utils.gui.GUICoreUtils;
@@ -476,12 +477,13 @@ public class AuthorityListControlPane extends BasicPane {
             dialog.addDialogActionListener(new DialogActionAdapter() {
                 @Override
                 public void doOk() {
-                    // todo 获取 UserManagerPane 添加的用户
-                    userManagerPane.title4PopupWindow();
-
-                    RemoteDesignAuthority authority = new RemoteDesignAuthority();
-                    authority.setName("new User");
-                    AuthorityListControlPane.this.addAuthority(authority, getModel().getSize());
+                    // 获取添加的用户到权限编辑面板
+                    List<RemoteMember> members = userManagerPane.update();
+                    for (RemoteMember member : members) {
+                        RemoteDesignAuthority authority = new RemoteDesignAuthority();
+                        authority.setName(member.getName());
+                        AuthorityListControlPane.this.addAuthority(authority, getModel().getSize());
+                    }
                 }
 
                 @Override

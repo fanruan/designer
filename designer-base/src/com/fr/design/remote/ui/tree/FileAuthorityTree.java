@@ -1,6 +1,6 @@
 package com.fr.design.remote.ui.tree;
 
-import javax.swing.JTree;
+import com.fr.design.gui.itree.filetree.TemplateFileTree;
 
-public class FileAuthorityTree extends JTree {
+public class FileAuthorityTree extends TemplateFileTree {
 }

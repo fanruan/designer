@@ -17,6 +17,7 @@ import com.fr.design.remote.ui.list.AddingMemberListCellRender;
 import com.fr.design.remote.ui.list.MemberListSelectedChangeListener;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
+import com.fr.third.guava.collect.ImmutableList;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
@@ -276,5 +277,10 @@ public class UserManagerPane extends BasicPane {
         // shallow copy
         addedListModel.copyInto(members);
         addedMembers.addAll(Arrays.asList(members));
+    }
+
+
+    public ImmutableList<RemoteMember> update() {
+        return ImmutableList.copyOf(addedMembers);
     }
 }
