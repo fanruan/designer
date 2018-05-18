@@ -170,13 +170,9 @@ public class ImageBackgroundPane extends BackgroundDetailPane {
 
             previewPane.setImageStyle(ImageBackgroundPane.this.imageStyle);
             if (imageBackground.getImage() != null) {
-                previewPane.setImage(imageBackground.getImage());
+                previewPane.setImageWithSuffix(imageBackground.getImageWithSuffix());
                 imageSizeLabel.setText(previewPane.getImage().getWidth(null)
                         + " X " + previewPane.getImage().getHeight(null));
-            }
-
-            if (imageBackground.getImage() != null) {
-                previewPane.setImage(imageBackground.getImage());
             }
         } else {
             previewPane.setImage(null);
@@ -189,7 +185,7 @@ public class ImageBackgroundPane extends BackgroundDetailPane {
     }
 
     public Background update() throws Exception {
-        ImageBackground imageBackground = new ImageBackground(previewPane.getImage());
+        ImageBackground imageBackground = new ImageBackground(previewPane.getImageWithSuffix());
         setImageStyle();
         imageBackground.setLayout(imageStyle.getImageLayout());
         return imageBackground;
