@@ -48,10 +48,12 @@ public class FileAuthorityTreeNode extends DefaultMutableTreeNode {
         setStatus(selected ? Status.SELECTED : Status.UNSELECTED);
     }
 
+
     public void setStatus(Status status) {
         this.status = status;
         switch (status) {
             case SELECTED:
+                // 标记为选中
                 // 向下
                 // 如果选中，则所有的子结点都要选中
                 if (children != null) {
@@ -88,6 +90,7 @@ public class FileAuthorityTreeNode extends DefaultMutableTreeNode {
                 }
                 break;
             case UNSELECTED:
+                //标记为未被选中
                 // 向下
                 // 子结点都要取消选中
                 if (children != null) {
@@ -125,17 +128,21 @@ public class FileAuthorityTreeNode extends DefaultMutableTreeNode {
                 }
                 break;
             case INDETERMINATE:
-                // todo 标记为未知
+                // 标记为未知
+                // 向下
+                // 不做改动
 
-
-
+                // 向上
+                // 需要将父结点标记为未知
+                if (parent != null) {
+                    FileAuthorityTreeNode pNode = (FileAuthorityTreeNode) parent;
+                    if (!pNode.isIndeterminate()) {
+                        pNode.setStatus(Status.INDETERMINATE);
+                    }
+                }
                 break;
-
-
             default:
                 break;
         }
     }
 }
-
-
