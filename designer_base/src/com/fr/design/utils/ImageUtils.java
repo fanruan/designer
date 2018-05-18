@@ -3,6 +3,7 @@ package com.fr.design.utils;
 import com.fr.base.BaseUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
+import com.fr.general.ImageWithSuffix;
 import com.fr.stable.CoreGraphHelper;
 import com.fr.stable.StringUtils;
 
@@ -58,6 +59,33 @@ public class ImageUtils {
         return BaseUtils.readImage(imageFile.getPath());
     }
 
+    /**
+     * 默认压缩算法,返回带格式的image
+     *
+     * @param imageFile 原文件
+     * @return 压缩后的BufferedImage对象
+     */
+    public static ImageWithSuffix defaultImageCompWithSuff(File imageFile) {
+        if (imageFile == null || !imageFile.exists()) {
+            return null;
+        }
+        BufferedImage srcImg = BaseUtils.readImage(imageFile.getPath());
+        Image desImg = srcImg;
+        try {
+
+            if (canbeCompressedToJPEG(imageFile)) {
+                return new ImageWithSuffix(jpegCompress(srcImg, 0.75f), TYPE_JPEG);
+            } else if (isPNGType(imageFile)) {
+                //带透明度的采用缩放的方式
+                desImg = scale(srcImg, 0.5f, true);
+            }
+        } catch (IOException e) {
+            FRLogger.getLogger().info("image compress failed!");
+
+        }
+        return new ImageWithSuffix(desImg, TYPE_PNG);
+    }
+
     public static boolean canbeCompressedToJPEG(File imageFile) {
         String imageType = getImageType(imageFile);
         if (ComparatorUtils.equals(imageType, TYPE_JPEG)) {//JPEG大写
@@ -71,6 +99,7 @@ public class ImageUtils {
 
     /**
      * 判断图片是否是png类型
+     *
      * @param imageFile
      * @return
      */
@@ -252,6 +281,5 @@ public class ImageUtils {
             return toImg;
         }
         return srcImg.getScaledInstance(width, height, scaleType);
-
     }
 }

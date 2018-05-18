@@ -11,6 +11,7 @@ import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.iscrollbar.UIScrollBar;
 import com.fr.design.style.background.image.ImagePreviewer;
+import com.fr.general.ImageWithSuffix;
 import com.fr.general.Inter;
 import com.fr.stable.Constants;
 import com.fr.stable.CoreGraphHelper;
@@ -40,7 +41,7 @@ public class ImagePreviewPane extends JComponent implements Scrollable, ImagePre
     private static final int LABEL_DELTA_Y = 20;
     private static final int LABEL_HEIGHT = 20;
     private static final int INCRE_DELTA = 10;
-    private Image image = null;
+    private ImageWithSuffix image = null;
     // carl:image style
     private Style imageStyle = null;
     private int imageWidth = 0;
@@ -87,6 +88,13 @@ public class ImagePreviewPane extends JComponent implements Scrollable, ImagePre
      * Return image
      */
     public Image getImage() {
+        return image == null ? null : this.image.getImage();
+    }
+
+    /**
+     * Return ImageWithSuffix
+     */
+    public ImageWithSuffix getImageWithSuffix() {
         return this.image;
     }
 
@@ -95,7 +103,8 @@ public class ImagePreviewPane extends JComponent implements Scrollable, ImagePre
      *
      * @param image the new image.
      */
-    public void setImage(Image image) {
+    @Override
+    public void setImageWithSuffix(ImageWithSuffix image) {
         this.image = image;
         // need to reset the size of JViewPort.
         if (this.image == null) {
@@ -128,6 +137,7 @@ public class ImagePreviewPane extends JComponent implements Scrollable, ImagePre
         this.revalidate();
     }
 
+    @Override
     public void showLoading() {
         isLoading = true;
         setImage(null);
@@ -138,6 +148,7 @@ public class ImagePreviewPane extends JComponent implements Scrollable, ImagePre
      * Paint component.
      */
 
+    @Override
     public Dimension getPreferredSize() {
         if (this.image == null) {
             return super.getPreferredSize();
@@ -176,6 +187,7 @@ public class ImagePreviewPane extends JComponent implements Scrollable, ImagePre
      * @return the <code>preferredSize</code> of a <code>JViewport</code> whose
      * view is this <code>Scrollable</code>
      */
+    @Override
     public Dimension getPreferredScrollableViewportSize() {
         return getPreferredSize();
     }
@@ -200,6 +212,7 @@ public class ImagePreviewPane extends JComponent implements Scrollable, ImagePre
      * @throws IllegalArgumentException for an invalid orientation
      * @see javax.swing.JScrollBar#setUnitIncrement
      */
+    @Override
     public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
         switch (orientation) {
             case SwingConstants.VERTICAL:
@@ -228,6 +241,7 @@ public class ImagePreviewPane extends JComponent implements Scrollable, ImagePre
      * @throws IllegalArgumentException for an invalid orientation
      * @see javax.swing.JScrollBar#setBlockIncrement
      */
+    @Override
     public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
         switch (orientation) {
             case SwingConstants.VERTICAL:
@@ -254,6 +268,7 @@ public class ImagePreviewPane extends JComponent implements Scrollable, ImagePre
      * @return true if a viewport should force the <code>Scrollable</code>s
      * width to match its own
      */
+    @Override
     public boolean getScrollableTracksViewportWidth() {
         if (getParent() instanceof JViewport) {
             return (getParent().getWidth() > getPreferredSize().width);
@@ -273,6 +288,7 @@ public class ImagePreviewPane extends JComponent implements Scrollable, ImagePre
      * @return true if a viewport should force the Scrollables height to match
      * its own
      */
+    @Override
     public boolean getScrollableTracksViewportHeight() {
         if (getParent() instanceof JViewport) {
             return (getParent().getHeight() > getPreferredSize().height);
@@ -280,8 +296,16 @@ public class ImagePreviewPane extends JComponent implements Scrollable, ImagePre
         return false;
     }
 
+    @Override
     public void setImageStyle(Style imageStyle) {
         this.imageStyle = imageStyle;
+    }
+
+    @Override
+    public void setImage(Image image) {
+
+        setImageWithSuffix(image == null ? null : new ImageWithSuffix(image));
+
     }
 
     public Style getImageStyle() {

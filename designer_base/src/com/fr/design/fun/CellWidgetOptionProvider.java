@@ -1,6 +1,7 @@
 package com.fr.design.fun;
 
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.widget.mobile.WidgetMobilePane;
 import com.fr.form.ui.Widget;
 import com.fr.stable.fun.Level;
 
@@ -19,5 +20,11 @@ public interface CellWidgetOptionProvider extends ParameterWidgetOptionProvider 
      * @return 控件设计界面类
      */
     Class<? extends BasicBeanPane<? extends Widget>> appearanceForWidget();
+
+    /**
+     * 自定义格子控件的移动端界面类
+     * @return 控件移动端界面类
+     */
+    Class<? extends WidgetMobilePane> classForMobilePane();
 
 }
