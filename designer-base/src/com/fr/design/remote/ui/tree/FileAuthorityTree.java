@@ -8,7 +8,6 @@ public class FileAuthorityTree extends TemplateFileTree {
 
     @Override
     public boolean isCheckBoxVisible(TreePath path) {
-//        return super.isCheckBoxVisible(path);
         return true;
     }
 
