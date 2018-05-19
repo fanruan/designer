@@ -48,7 +48,7 @@ public class EnvFileTree extends RefreshableJTree {
 		this.setFileNodeFilter(filter);
 		this.setSubPathes(subPathes);
 
-		this.init();
+		this.initi();
 	}
 
 	private void setTreeRootPath(String path) {
@@ -63,7 +63,7 @@ public class EnvFileTree extends RefreshableJTree {
 		this.filter = filter;
 	}
 
-	protected void init() {
+	protected void initi() {
 		this.putClientProperty("JTree.lineStyle", "Angled");
 
 		this.setCellRenderer(fileTreeCellRenderer);

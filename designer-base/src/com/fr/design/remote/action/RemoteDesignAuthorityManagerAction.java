@@ -24,7 +24,7 @@ public class RemoteDesignAuthorityManagerAction extends UpdateAction {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        AuthorityManagerPane managerPane = new AuthorityManagerPane();
+        final AuthorityManagerPane managerPane = new AuthorityManagerPane();
 
         BasicDialog dialog = managerPane.showWindow(DesignerContext.getDesignerFrame());
 
@@ -34,7 +34,7 @@ public class RemoteDesignAuthorityManagerAction extends UpdateAction {
         dialog.addDialogActionListener(new DialogActionAdapter() {
             @Override
             public void doOk() {
-                //todo save contents into database by hibernate
+                managerPane.update();
             }
 
             @Override

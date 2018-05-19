@@ -30,7 +30,7 @@ public class AuthorityManagerPane extends BasicPane {
         list.populate(authorities);
     }
 
-    private RemoteDesignAuthority[] update() {
+    public RemoteDesignAuthority[] update() {
 
         return list.update();
     }
