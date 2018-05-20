@@ -228,7 +228,9 @@ public class RemoteEnv extends AbstractEnv {
         if (!isSignIn) {
             methodPath = methodPath + "?id=" + createUserID();
         }
-        return new HttpClient(methodPath, para);
+        HttpClient client = new HttpClient(methodPath,para);
+        client.asGet();
+        return client;
     }
 
     /**
