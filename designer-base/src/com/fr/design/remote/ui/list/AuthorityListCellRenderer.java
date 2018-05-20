@@ -4,17 +4,11 @@ import com.fr.base.BaseUtils;
 import com.fr.design.remote.RemoteDesignAuthority;
 import sun.swing.DefaultLookup;
 
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.ListCellRenderer;
+import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-import java.awt.Color;
-import java.awt.Component;
+import java.awt.*;
 
-/*
- * NameableListCellRenderer
- */
 public class AuthorityListCellRenderer extends
         JLabel implements ListCellRenderer<RemoteDesignAuthority> {
 

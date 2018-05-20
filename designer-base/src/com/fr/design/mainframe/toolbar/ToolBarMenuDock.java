@@ -8,31 +8,14 @@ import com.fr.base.FRContext;
 import com.fr.design.DesignState;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.UpdateAction;
-import com.fr.design.actions.community.BBSAction;
-import com.fr.design.actions.community.BugAction;
-import com.fr.design.actions.community.NeedAction;
-import com.fr.design.actions.community.QuestionAction;
-import com.fr.design.actions.community.SignAction;
-import com.fr.design.actions.community.UpAction;
-import com.fr.design.actions.community.VideoAction;
-import com.fr.design.actions.file.CloseCurrentTemplateAction;
-import com.fr.design.actions.file.ExitDesignerAction;
-import com.fr.design.actions.file.OpenRecentReportMenuDef;
-import com.fr.design.actions.file.OpenTemplateAction;
-import com.fr.design.actions.file.PreferenceAction;
-import com.fr.design.actions.file.SwitchExistEnv;
+import com.fr.design.actions.community.*;
+import com.fr.design.actions.file.*;
 import com.fr.design.actions.help.AboutAction;
 import com.fr.design.actions.help.TutorialAction;
 import com.fr.design.actions.help.WebDemoAction;
 import com.fr.design.actions.help.alphafine.AlphaFineAction;
 import com.fr.design.actions.help.alphafine.AlphaFineConfigManager;
-import com.fr.design.actions.server.ConnectionListAction;
-import com.fr.design.actions.server.FunctionManagerAction;
-import com.fr.design.actions.server.GlobalParameterAction;
-import com.fr.design.actions.server.GlobalTableDataAction;
-import com.fr.design.actions.server.PlatformManagerAction;
-import com.fr.design.actions.server.PluginManagerAction;
-import com.fr.design.remote.action.RemoteDesignAuthorityManagerAction;
+import com.fr.design.actions.server.*;
 import com.fr.design.file.NewTemplatePane;
 import com.fr.design.fun.MenuHandler;
 import com.fr.design.fun.TableDataPaneProcessor;
@@ -47,6 +30,7 @@ import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
+import com.fr.design.remote.action.RemoteDesignAuthorityManagerAction;
 import com.fr.design.utils.ThemeUtils;
 import com.fr.env.RemoteEnv;
 import com.fr.general.ComparatorUtils;
@@ -61,23 +45,10 @@ import com.fr.plugin.observer.PluginEventType;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
 
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.JMenuBar;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.util.ArrayList;
-import java.util.Arrays;
+import javax.swing.*;
+import java.awt.*;
+import java.util.*;
 import java.util.List;
-import java.util.Locale;
-import java.util.Set;
 
 /**
  * @author richer
@@ -443,9 +414,8 @@ public abstract class ToolBarMenuDock {
         return processor == null ? new GlobalTableDataAction() : processor.createServerTDAction();
     }
 
-    protected boolean shouldShowRemotePermission() {
-        // todo 依据是否是远程设计 并且当前登录的用户是否是管理员 进行判断 是否展示远程设计权限管理
-        return true;
+    private boolean shouldShowRemotePermission() {
+        return FRContext.getCurrentEnv() != null && FRContext.getCurrentEnv().isRoot();
     }
 
     protected boolean shouldShowPlugin() {

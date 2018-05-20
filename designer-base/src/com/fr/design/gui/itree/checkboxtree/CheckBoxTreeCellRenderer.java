@@ -6,24 +6,18 @@
 
 package com.fr.design.gui.itree.checkboxtree;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Point;
-import java.awt.event.MouseEvent;
-import java.io.Serializable;
-
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
+import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
-import javax.swing.JTree;
+import com.fr.design.layout.FRGUIPaneFactory;
+
+import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreePath;
-
-import com.fr.design.gui.icheckbox.UICheckBox;
-import com.fr.design.layout.FRGUIPaneFactory;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.io.Serializable;
 
 
 /**
@@ -52,7 +46,7 @@ public class CheckBoxTreeCellRenderer extends NullPanel implements TreeCellRende
     public CheckBoxTreeCellRenderer() {
         this(null);
     }
-    
+
     public CheckBoxTreeCellRenderer(TreeCellRenderer renderer) {
         if (noFocusBorder == null) {
             noFocusBorder = new EmptyBorder(1, 1, 1, 1);
@@ -84,8 +78,7 @@ public class CheckBoxTreeCellRenderer extends NullPanel implements TreeCellRende
                 if (selectionModel.isPathSelected(path, selectionModel.isDigIn())) {
                     _checkBox.setState(TristateCheckBox.SELECTED);
                     _checkBox.setSelected(true);
-                }
-                else {
+                } else {
                     _checkBox.setState(selectionModel.isDigIn() && selectionModel.isPartiallySelected(path) ? null : TristateCheckBox.NOT_SELECTED);
                     _checkBox.setSelected(false);
                 }
@@ -102,6 +95,7 @@ public class CheckBoxTreeCellRenderer extends NullPanel implements TreeCellRende
             Border border = treeCellRendererComponent.getBorder();
             setBorder(border);
             treeCellRendererComponent.setBorder(BorderFactory.createEmptyBorder());
+            //todo 可能会发生数组越界，需要处理一下
             if (getComponentCount() == 2) {
                 remove(1);
             }

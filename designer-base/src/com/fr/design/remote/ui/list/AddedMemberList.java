@@ -2,7 +2,7 @@ package com.fr.design.remote.ui.list;
 
 import com.fr.design.remote.RemoteMember;
 
-import javax.swing.DefaultListModel;
+import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.util.Vector;
 
@@ -33,8 +33,10 @@ public class AddedMemberList extends MemberList {
     @Override
     protected void displaySelected() {
         RemoteMember member = getSelectedValue();
-        member.setSelected(!member.isSelected());
-        ((DefaultListModel<RemoteMember>) getModel()).removeElement(member);
+        if (member != null) {
+            member.setSelected(!member.isSelected());
+            ((DefaultListModel<RemoteMember>) getModel()).removeElement(member);
+        }
         revalidate();
         repaint();
         fireSelectedChange();

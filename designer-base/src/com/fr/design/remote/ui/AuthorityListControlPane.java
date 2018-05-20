@@ -49,7 +49,7 @@ public class AuthorityListControlPane extends BasicPane {
 
     private AuthorityList authorityList;
 
-    private static final int SHORT_WIDTH = 30;
+    private static final int SHORT_WIDTH = 90;
 
     private ListEditorControlPane editorCtrl;
 
