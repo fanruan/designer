@@ -481,7 +481,7 @@ public class AuthorityListControlPane extends BasicPane {
                     List<RemoteMember> members = userManagerPane.update();
                     for (RemoteMember member : members) {
                         RemoteDesignAuthority authority = new RemoteDesignAuthority();
-                        authority.setName(member.getName());
+                        authority.setName(member.getUsername());
                         AuthorityListControlPane.this.addAuthority(authority, getModel().getSize());
                     }
                 }

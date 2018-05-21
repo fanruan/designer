@@ -402,7 +402,6 @@ public class RemoteEnv extends AbstractEnv {
         }
 
         HttpClient client = createHttpMethod(para, true);
-        client.asGet();
 
         String res = stream2String(execute4InputStream(client));
         if (res == null) {

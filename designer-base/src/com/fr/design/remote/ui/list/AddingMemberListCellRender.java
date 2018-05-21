@@ -36,7 +36,7 @@ public class AddingMemberListCellRender extends JPanel implements ListCellRender
 
     @Override
     public Component getListCellRendererComponent(JList list, RemoteMember member, int index, boolean isSelected, boolean cellHasFocus) {
-        this.setLabelText(member.getName());
+        this.setLabelText(member.getUsername());
         check.setSelected(member.isSelected());
         return this;
     }
