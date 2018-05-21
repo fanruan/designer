@@ -4,7 +4,7 @@
 package com.fr.design.mainframe.bbs;
 
 import com.fr.base.FRContext;
-import com.fr.config.DBEnv;
+import com.fr.config.BaseDBEnv;
 import com.fr.config.MarketConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.constants.UIConstants;
@@ -77,7 +77,7 @@ public class UserInfoPane extends BasicPane {
         GeneralContext.addEnvChangedListener(new EnvChangedListener() {
             @Override
             public void envChanged() {
-                if (DBEnv.isDBEnvAvailable()) {
+                if (BaseDBEnv.isDBEnvAvailable()) {
                     String username = MarketConfig.getInstance().getBbsUsername();
                     if (StringUtils.isEmpty(username)) {
                         markUnSignIn();
