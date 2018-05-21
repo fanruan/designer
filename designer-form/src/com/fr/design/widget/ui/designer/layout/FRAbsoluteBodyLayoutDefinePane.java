@@ -1,7 +1,7 @@
 package com.fr.design.widget.ui.designer.layout;
 
 import com.fr.base.io.IOFile;
-import com.fr.base.iofileattr.WatermarkAttrMark;
+import com.fr.base.iofileattr.WatermarkAttr;
 import com.fr.design.data.DataCreatorUI;
 import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.XCreator;
@@ -101,7 +101,7 @@ public class FRAbsoluteBodyLayoutDefinePane extends FRAbsoluteLayoutDefinePane {
     public void populateSubPane(WAbsoluteLayout ob) {
         layoutCombox.setSelectedIndex(1);
         borderStyleEditor.setValue(ob.getBorderStyle());
-        watermarkEditor.setValue(ReportUtils.getWatermarkFromIOFile(getCurrentIOFile()));
+        watermarkEditor.setValue(ReportUtils.getWatermarkFromAttrMarkFile(getCurrentIOFile()));
 
     }
 
@@ -125,7 +125,7 @@ public class FRAbsoluteBodyLayoutDefinePane extends FRAbsoluteLayoutDefinePane {
     }
 
     private void updateWatermark() {
-        WatermarkAttrMark watermark = (WatermarkAttrMark) watermarkEditor.getValue();
+        WatermarkAttr watermark = (WatermarkAttr) watermarkEditor.getValue();
         if (watermark != null) {
             IOFile ioFile = getCurrentIOFile();
             ioFile.addAttrMark(watermark);
