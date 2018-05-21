@@ -33,7 +33,7 @@ public class ReportWatermarkAction extends JWorkBookAction {
             return;
         }
         final WorkBook wbTpl = jwb.getTarget();
-        WatermarkAttr watermark = ReportUtils.getWatermarkFromIOFile(wbTpl);
+        WatermarkAttr watermark = ReportUtils.getWatermarkFromAttrMarkFile(wbTpl);
 
         final WatermarkPane watermarkPane = new WatermarkPane();
         watermarkPane.populate(watermark);

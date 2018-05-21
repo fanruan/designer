@@ -101,7 +101,7 @@ public class FRAbsoluteBodyLayoutDefinePane extends FRAbsoluteLayoutDefinePane {
     public void populateSubPane(WAbsoluteLayout ob) {
         layoutCombox.setSelectedIndex(1);
         borderStyleEditor.setValue(ob.getBorderStyle());
-        watermarkEditor.setValue(ReportUtils.getWatermarkFromIOFile(getCurrentIOFile()));
+        watermarkEditor.setValue(ReportUtils.getWatermarkFromAttrMarkFile(getCurrentIOFile()));
 
     }
 

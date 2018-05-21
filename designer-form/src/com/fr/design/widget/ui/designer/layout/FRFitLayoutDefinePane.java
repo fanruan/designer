@@ -143,7 +143,7 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
         adaptComboBox.setSelectedIndex(ob.getCompState());
         componentIntervel.setValue(ob.getCompInterval());
         stylePane.setValue(ob.getBorderStyle());
-        watermarkEditor.setValue(ReportUtils.getWatermarkFromIOFile(getCurrentIOFile()));
+        watermarkEditor.setValue(ReportUtils.getWatermarkFromAttrMarkFile(getCurrentIOFile()));
     }
 
     private XLayoutContainer selectedBodyLayout(FormDesigner formDesigner) {
