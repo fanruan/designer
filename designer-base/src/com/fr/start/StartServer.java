@@ -50,7 +50,7 @@ public class StartServer {
      */
     public static void browserDemoURL() {
         if (FRContext.getCurrentEnv() instanceof RemoteEnv) {
-            browser(FRContext.getCurrentEnv().getPath() + "?op=fs");
+            browser(FRContext.getCurrentEnv().getPath());
             return;
         }
         if (ComparatorUtils.equals(StableUtils.getInstallHome(), ".")) {//august:供代码使用
@@ -102,7 +102,7 @@ public class StartServer {
         } finally {
             //先访问Demo, 后访问报表, 不需要重置服务器.
             NEED_LOAD_ENV = false;
-            browser("http://localhost:" + DesignerEnvManager.getEnvManager().getJettyServerPort() + "/" + ProjectConstants.WEBAPP_NAME + "/" + ServerConfig.getInstance().getServletName());
+            browser("http://localhost:" + DesignerEnvManager.getEnvManager().getJettyServerPort() + "/" + GeneralContext.getCurrentAppNameOfEnv() + "/" + ServerConfig.getInstance().getServletName());
         }
     }
 
