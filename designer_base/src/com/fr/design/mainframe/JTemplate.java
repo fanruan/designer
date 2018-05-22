@@ -13,7 +13,6 @@ import com.fr.design.actions.edit.RedoAction;
 import com.fr.design.actions.edit.UndoAction;
 import com.fr.design.actions.file.SaveAsTemplateAction;
 import com.fr.design.actions.file.SaveTemplateAction;
-import com.fr.design.actions.file.WebPreviewUtils;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.designer.TargetComponent;
 import com.fr.design.dialog.InformationWarnPane;
@@ -1000,9 +999,7 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
      * @return
      */
     public Icon getPreviewLargeIcon() {
-        PreviewProvider provider = getPreviewType();
-        String iconPath = provider.iconPathForLarge();
-        return BaseUtils.readIcon(iconPath);
+        return UIConstants.RUN_BIG_ICON;
     }
 
     /**
@@ -1095,8 +1092,7 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
      * @param provider 预览模式
      */
     public void previewMenuActionPerformed(PreviewProvider provider) {
-        setPreviewType(provider);
-        WebPreviewUtils.actionPerformed(this, provider.parametersForPreview(), provider.getActionType());
+
     }
 
     /**

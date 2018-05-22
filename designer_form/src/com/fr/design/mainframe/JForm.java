@@ -25,7 +25,6 @@ import com.fr.design.designer.creator.XWParameterLayout;
 import com.fr.design.designer.properties.FormWidgetAuthorityEditPane;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
-import com.fr.design.fun.PreviewProvider;
 import com.fr.design.gui.frpane.HyperlinkGroupPane;
 import com.fr.design.gui.frpane.HyperlinkGroupPaneActionProvider;
 import com.fr.design.gui.ilable.UILabel;
@@ -47,8 +46,6 @@ import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.design.parameter.ParameterPropertyPane;
-import com.fr.design.preview.FormPreview;
-import com.fr.design.preview.MobilePreview;
 import com.fr.design.roleAuthority.RolesAlreadyEditedPane;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.file.FILE;
@@ -81,9 +78,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     private static final String FORM_CARD = "FORM";
@@ -686,7 +681,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
      *
      */
     public Icon getPreviewLargeIcon() {
-        return super.getPreviewLargeIcon();
+        return UIConstants.RUN_BIG_ICON;
     }
 
     @Override
@@ -701,19 +696,14 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
      * @return 菜单
      */
     public UIMenuItem[] createMenuItem4Preview() {
-        List<UIMenuItem> menuItems = new ArrayList<UIMenuItem>();
-        PreviewProvider[] previewProviders = supportPreview();
-        for (final PreviewProvider provider : previewProviders) {
-            UIMenuItem item = new UIMenuItem(provider.nameForPopupItem(), BaseUtils.readIcon(provider.iconPathForPopupItem()));
-            item.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    provider.onClick(JForm.this);
-                }
-            });
-            menuItems.add(item);
-        }
-        return menuItems.toArray(new UIMenuItem[menuItems.size()]);
+        UIMenuItem form = new UIMenuItem(Inter.getLocText("M-Form_Preview"), UIConstants.RUN_SMALL_ICON);
+        form.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                WebPreviewUtils.onFormPreview(JForm.this);
+            }
+        });
+        return new UIMenuItem[]{form};
     }
 
     /**
@@ -928,24 +918,5 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         FormSelection selection = formDesign.getSelectionModel().getSelection();
         XCreator creator = selection.getSelectedCreator();
         return creator.toData();
-    }
-
-    /**
-     * 支持的预览模式
-     * @return 预览模式
-     */
-    @Override
-    public PreviewProvider[] supportPreview() {
-        return new PreviewProvider[]{new FormPreview(), new MobilePreview()};
-    }
-
-    /**
-     * 预览按钮点击事件
-     *
-     * @param provider 预览接口
-     */
-    @Override
-    public void previewMenuActionPerformed(PreviewProvider provider) {
-       super.previewMenuActionPerformed(provider);
     }
 }

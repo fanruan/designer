@@ -3,7 +3,6 @@ package com.fr.design.fun.impl;
 import com.fr.design.fun.PreviewProvider;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.web.ParameterConsts;
 import com.fr.stable.fun.impl.AbstractProvider;
 import com.fr.stable.fun.mark.API;
 
@@ -45,10 +44,5 @@ public abstract class AbstractPreviewProvider extends AbstractProvider implement
     @Override
     public int hashCode() {
         return nameForPopupItem().hashCode();
-    }
-
-    @Override
-    public String getActionType() {
-        return ParameterConsts.REPORTLET;
     }
 }
