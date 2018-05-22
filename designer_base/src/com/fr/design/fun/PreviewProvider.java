@@ -54,4 +54,10 @@ public interface PreviewProvider extends Mutable{
      */
     Map<String, Object> parametersForPreview();
 
+    /**
+     * 该种预览方式所处理方式
+     * @return 处理方式
+     */
+    String getActionType();
+
 }

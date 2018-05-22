@@ -19,7 +19,7 @@ import java.util.Map;
 public final class WebPreviewUtils {
 
     public static void onWorkbookPreview(JTemplate<?, ?> jt) {
-        actionPerformed(jt, jt.getPreviewType().parametersForPreview(), ParameterConsts.REPORTLET);
+        actionPerformed(jt, jt.getPreviewType().parametersForPreview(), jt.getPreviewType().getActionType());
     }
 
     public static void onFormPreview(JTemplate<?, ?> jt) {
