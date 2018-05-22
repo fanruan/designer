@@ -284,7 +284,7 @@ public class EnvFileTree extends RefreshableJTree {
 	/**
 	 * currentTreeNode下面如果是PENDING的节点,加载之...
 	 */
-	private void loadPendingChildTreeNode(ExpandMutableTreeNode currentTreeNode) {
+	protected void loadPendingChildTreeNode(ExpandMutableTreeNode currentTreeNode) {
 		if (currentTreeNode.isLeaf()) {
 			return;
 		}
@@ -342,7 +342,7 @@ public class EnvFileTree extends RefreshableJTree {
 	/*
 	 * 是否是父子关系的文件.
 	 */
-	private static boolean isParentFile(String parentFilePath, String childFilePath) {
+	protected static boolean isParentFile(String parentFilePath, String childFilePath) {
 		File parentFile = new File(parentFilePath);
 		File childFile = new File(childFilePath);
 

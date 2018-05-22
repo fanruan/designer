@@ -28,9 +28,11 @@ public class Utils {
         List<RemoteMember> res = new ArrayList<>();
 
         for (UserAdditionBean userBean : userBeans) {
-            res.add(new RemoteMember(userBean.getUsername())
-                    .realName(userBean.getRealName())
-                    .userId(userBean.getId())
+            res.add(
+                    new RemoteMember()
+                            .username(userBean.getUsername())
+                            .realName(userBean.getRealName())
+                            .userId(userBean.getId())
             );
         }
         return res;

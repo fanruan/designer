@@ -11,8 +11,17 @@ public class RemoteMember {
 
     private boolean selected;
 
+    public RemoteMember() {
+
+    }
+
     public RemoteMember(String username) {
         this.username = username;
+    }
+
+    public RemoteMember username(String username) {
+        this.username = username;
+        return this;
     }
 
     public RemoteMember realName(String realName) {

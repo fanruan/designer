@@ -1,16 +1,19 @@
 package com.fr.design.remote.ui.list;
 
 import com.fr.base.BaseUtils;
-import com.fr.design.remote.RemoteDesignAuthority;
+import com.fr.report.DesignAuthority;
 import sun.swing.DefaultLookup;
 
-import javax.swing.*;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.ListCellRenderer;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
 
 public class AuthorityListCellRenderer extends
-        JLabel implements ListCellRenderer<RemoteDesignAuthority> {
+        JLabel implements ListCellRenderer<DesignAuthority> {
 
     /**
      * An empty <code>Border</code>. This field might not be used. To change the
@@ -35,7 +38,7 @@ public class AuthorityListCellRenderer extends
     }
 
     @Override
-    public Component getListCellRendererComponent(JList list, RemoteDesignAuthority authority,
+    public Component getListCellRendererComponent(JList list, DesignAuthority authority,
                                                   int index, boolean isSelected, boolean cellHasFocus) {
         setComponentOrientation(list.getComponentOrientation());
 
@@ -79,7 +82,7 @@ public class AuthorityListCellRenderer extends
         setBorder(border);
 
         this.setIcon(BaseUtils.readIcon("com/fr/design/remote/images/icon_Member_normal@1x.png"));
-        this.setText(authority.getName());
+        this.setText(authority.getUsername());
         return this;
     }
 

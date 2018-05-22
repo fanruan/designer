@@ -41,6 +41,7 @@ import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.license.function.VT4FR;
 import com.fr.regist.License;
+import com.fr.report.DesignAuthority;
 import com.fr.share.ShareConstants;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.EncodeConstants;
@@ -56,6 +57,7 @@ import com.fr.stable.xml.XMLPrintWriter;
 import com.fr.stable.xml.XMLTools;
 import com.fr.stable.xml.XMLableReader;
 import com.fr.web.ResourceConstants;
+import com.fr.web.utils.AuthorityXMLUtils;
 
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -95,7 +97,7 @@ import java.util.regex.Pattern;
 /**
  * @author null
  */
-public class RemoteEnv extends AbstractEnv {
+public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurable {
     private static final int TIME_OUT = 30 * 1000;
     private static final int PLAIN_SOCKET_PORT = 80;
     private static final int SSL_PORT = 443;
@@ -228,7 +230,13 @@ public class RemoteEnv extends AbstractEnv {
         if (!isSignIn) {
             methodPath = methodPath + "?id=" + createUserID();
         }
-        HttpClient client = new HttpClient(methodPath,para);
+        HttpClient client = new HttpClient(methodPath, para);
+         /*
+         todo post 方法好象过去不了
+         但是get方法也会有一些url参数问题，尤其是图表部分
+         比如:
+         op=fr_remote_design&cmd=design_get_plugin_service_data&serviceID=plugin.phantomjs&req=
+         */
         client.asGet();
         return client;
     }
@@ -236,9 +244,20 @@ public class RemoteEnv extends AbstractEnv {
     /**
      * 根据nameValuePairs,也就是参数对,生成PostMethod,不同之处在于,参数拼在path后面,不是method.addParameters
      */
-    private HttpClient createHttpMethod2(HashMap<String, String> para) throws EnvException {
+    private HttpClient createHttpMethod2(HashMap<String, String> para) throws EnvException, UnsupportedEncodingException {
         String methodPath = path + '?' + "id=" + createUserID();
-        return new HttpClient(methodPath, para, true);
+        StringBuilder pathBuilder = new StringBuilder();
+        pathBuilder.append(methodPath);
+        pathBuilder.append('&');
+        for (Object o : para.entrySet()) {
+            Map.Entry entry = (Map.Entry) o;
+            pathBuilder.append('&');
+            pathBuilder.append(URLEncoder.encode((String) entry.getKey(), "UTF-8"));
+            pathBuilder.append('=');
+            pathBuilder.append(URLEncoder.encode((String) entry.getValue(), "UTF-8"));
+        }
+        methodPath = pathBuilder.toString();
+        return new HttpClient(methodPath);
     }
 
 
@@ -826,6 +845,27 @@ public class RemoteEnv extends AbstractEnv {
         return Boolean.valueOf(IOUtils.inputStream2String(input, EncodeConstants.ENCODING_UTF_8));
     }
 
+    @Override
+    public boolean updateAuthorities(DesignAuthority[] authorities) throws Exception {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+        // 序列化到输出流
+        AuthorityXMLUtils.writeDesignAuthoritiesXML(authorities, out);
+
+        HashMap<String, String> para = new HashMap<>();
+        para.put("op", "remote_design_authority");
+        para.put("cmd", "update_authorities");
+
+        InputStream input = postBytes2ServerB(out.toByteArray(), para);
+
+        return input != null && Boolean.valueOf(IOUtils.inputStream2String(input, EncodeConstants.ENCODING_UTF_8));
+    }
+
+    @Override
+    public DesignAuthority[] getAuthorities() {
+        return new DesignAuthority[0];
+    }
+
     /**
      * ben:取schema
      */
@@ -1366,6 +1406,13 @@ public class RemoteEnv extends AbstractEnv {
      */
     public InputStream postBytes2ServerB(byte[] bytes, HashMap<String, String> para) throws Exception {
         HttpClient client = createHttpMethod2(para);
+        /*
+         todo post 方法好象过去不了
+         但是get方法也会有一些url参数问题，尤其是图表部分
+         比如:
+         op=fr_remote_design&cmd=design_get_plugin_service_data&serviceID=plugin.phantomjs&req=
+         */
+//        client.asGet();
         client.setContent(bytes);
         return execute4InputStream(client);
     }
@@ -1899,8 +1946,6 @@ public class RemoteEnv extends AbstractEnv {
         return userID;
     }
 
-
-    //TODO:
 
     /**
      * 预览存储过程

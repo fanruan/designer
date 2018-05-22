@@ -10,14 +10,25 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.remote.RemoteMember;
 import com.fr.design.remote.Utils;
-import com.fr.design.remote.ui.list.*;
+import com.fr.design.remote.ui.list.AddedMemberList;
+import com.fr.design.remote.ui.list.AddedMemberListCellRender;
+import com.fr.design.remote.ui.list.AddingMemberList;
+import com.fr.design.remote.ui.list.AddingMemberListCellRender;
+import com.fr.design.remote.ui.list.MemberListSelectedChangeListener;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 import com.fr.third.guava.collect.ImmutableList;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
+import javax.swing.JPanel;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingWorker;
 import javax.swing.border.EmptyBorder;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -234,11 +245,6 @@ public class UserManagerPane extends BasicPane {
             protected List<RemoteMember> doInBackground() {
                 addingMembers.clear();
                 addingMembers.addAll(Utils.getRemoteMember(keyword));
-                try {
-                    Thread.sleep(2000L);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
                 return addingMembers;
             }
 

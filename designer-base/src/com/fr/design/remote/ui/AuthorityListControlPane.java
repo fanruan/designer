@@ -14,7 +14,6 @@ import com.fr.design.icon.IconPathConstants;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
-import com.fr.design.remote.RemoteDesignAuthority;
 import com.fr.design.remote.RemoteDesignAuthorityCreator;
 import com.fr.design.remote.RemoteMember;
 import com.fr.design.remote.ui.list.AuthorityList;
@@ -22,6 +21,7 @@ import com.fr.design.remote.ui.list.AuthorityListCellRenderer;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
+import com.fr.report.DesignAuthority;
 import com.fr.stable.ArrayUtils;
 
 import javax.swing.BorderFactory;
@@ -79,7 +79,7 @@ public class AuthorityListControlPane extends BasicPane {
                 new RemoteDesignAuthorityCreator(
                         "远程设计用户",
                         BaseUtils.readIcon("com/fr/design/remote/images/icon_Member_normal@1x.png"),
-                        RemoteDesignAuthority.class,
+                        DesignAuthority.class,
                         AuthorityEditorPane.class)
         };
         editorCtrl = new ListEditorControlPane();
@@ -147,7 +147,7 @@ public class AuthorityListControlPane extends BasicPane {
     }
 
     private AuthorityList createList() {
-        AuthorityList list = new AuthorityList(new DefaultListModel<RemoteDesignAuthority>());
+        AuthorityList list = new AuthorityList(new DefaultListModel<DesignAuthority>());
         list.setCellRenderer(new AuthorityListCellRenderer());
         return list;
     }
@@ -162,24 +162,24 @@ public class AuthorityListControlPane extends BasicPane {
     }
 
 
-    public RemoteDesignAuthority[] update() {
-        List<RemoteDesignAuthority> res = new ArrayList<>();
+    public DesignAuthority[] update() {
+        List<DesignAuthority> res = new ArrayList<>();
         this.editorCtrl.update();
         DefaultListModel listModel = (DefaultListModel) this.authorityList.getModel();
         for (int i = 0, len = listModel.getSize(); i < len; i++) {
-            res.add((RemoteDesignAuthority) listModel.getElementAt(i));
+            res.add((DesignAuthority) listModel.getElementAt(i));
         }
-        return res.toArray(new RemoteDesignAuthority[0]);
+        return res.toArray(new DesignAuthority[0]);
     }
 
-    public void populate(RemoteDesignAuthority[] authorities) {
-        DefaultListModel<RemoteDesignAuthority> listModel = (DefaultListModel<RemoteDesignAuthority>) this.authorityList.getModel();
+    public void populate(DesignAuthority[] authorities) {
+        DefaultListModel<DesignAuthority> listModel = (DefaultListModel<DesignAuthority>) this.authorityList.getModel();
         listModel.removeAllElements();
         if (ArrayUtils.isEmpty(authorities)) {
             return;
         }
 
-        for (RemoteDesignAuthority authority : authorities) {
+        for (DesignAuthority authority : authorities) {
             listModel.addElement(authority);
         }
 
@@ -205,8 +205,8 @@ public class AuthorityListControlPane extends BasicPane {
     public void setSelectedName(String name) {
         DefaultListModel listModel = (DefaultListModel) this.authorityList.getModel();
         for (int i = 0, len = listModel.getSize(); i < len; i++) {
-            RemoteDesignAuthority authority = (RemoteDesignAuthority) listModel.getElementAt(i);
-            if (ComparatorUtils.equals(name, authority.getName())) {
+            DesignAuthority authority = (DesignAuthority) listModel.getElementAt(i);
+            if (ComparatorUtils.equals(name, authority.getUsername())) {
                 this.authorityList.setSelectedIndex(i);
                 break;
             }
@@ -218,8 +218,8 @@ public class AuthorityListControlPane extends BasicPane {
      * 获取选中的名字
      */
     public String getSelectedName() {
-        RemoteDesignAuthority authority = this.authorityList.getSelectedValue();
-        return authority == null ? null : authority.getName();
+        DesignAuthority authority = this.authorityList.getSelectedValue();
+        return authority == null ? null : authority.getUsername();
     }
 
     /**
@@ -228,8 +228,8 @@ public class AuthorityListControlPane extends BasicPane {
      * @param authority authority
      * @param index     序号
      */
-    public void addAuthority(RemoteDesignAuthority authority, int index) {
-        DefaultListModel<RemoteDesignAuthority> model = (DefaultListModel<RemoteDesignAuthority>) authorityList.getModel();
+    public void addAuthority(DesignAuthority authority, int index) {
+        DefaultListModel<DesignAuthority> model = (DefaultListModel<DesignAuthority>) authorityList.getModel();
 
         model.add(index, authority);
         authorityList.setSelectedIndex(index);
@@ -240,8 +240,8 @@ public class AuthorityListControlPane extends BasicPane {
     }
 
 
-    protected DefaultListModel<RemoteDesignAuthority> getModel() {
-        return (DefaultListModel<RemoteDesignAuthority>) this.authorityList.getModel();
+    protected DefaultListModel<DesignAuthority> getModel() {
+        return (DefaultListModel<DesignAuthority>) this.authorityList.getModel();
     }
 
 
@@ -353,7 +353,7 @@ public class AuthorityListControlPane extends BasicPane {
 
     private ShortCut4JControlPane[] createShortcuts() {
         return new ShortCut4JControlPane[]{
-                new AbsoluteEnableShortCut(new AddItemUpdateAction(authorityCreators)),
+                new AbsoluteEnableShortCut(new AddItemUpdateAction()),
                 new NormalEnableShortCut(new RemoveItemAction())
         };
     }
@@ -397,7 +397,7 @@ public class AuthorityListControlPane extends BasicPane {
         private JPanel cardPane;
         private BasicBeanPane[] editorPanes;
 
-        private RemoteDesignAuthority authority;
+        private DesignAuthority authority;
 
         ListEditorControlPane() {
             initUpdatePane();
@@ -460,10 +460,8 @@ public class AuthorityListControlPane extends BasicPane {
      * 添加按钮
      */
     private class AddItemUpdateAction extends UpdateAction {
-        private RemoteDesignAuthorityCreator creator;
 
-        AddItemUpdateAction(RemoteDesignAuthorityCreator[] creators) {
-            this.creator = creators[0];
+        AddItemUpdateAction() {
             this.setName(Inter.getLocText("FR-Action_Add"));
             this.setMnemonic('A');
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/buttonicon/add.png"));
@@ -480,8 +478,10 @@ public class AuthorityListControlPane extends BasicPane {
                     // 获取添加的用户到权限编辑面板
                     List<RemoteMember> members = userManagerPane.update();
                     for (RemoteMember member : members) {
-                        RemoteDesignAuthority authority = new RemoteDesignAuthority();
-                        authority.setName(member.getUsername());
+                        DesignAuthority authority = new DesignAuthority();
+                        authority.setUsername(member.getUsername());
+                        authority.setUserId(member.getUserId());
+                        authority.setRealName(member.getRealName());
                         AuthorityListControlPane.this.addAuthority(authority, getModel().getSize());
                     }
                 }

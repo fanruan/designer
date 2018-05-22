@@ -1,11 +1,14 @@
 package com.fr.design.remote.action;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.FRContext;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.remote.ui.AuthorityManagerPane;
+import com.fr.env.RemoteEnv;
+import com.fr.report.DesignAuthority;
 
 import java.awt.event.ActionEvent;
 
@@ -34,7 +37,14 @@ public class RemoteDesignAuthorityManagerAction extends UpdateAction {
         dialog.addDialogActionListener(new DialogActionAdapter() {
             @Override
             public void doOk() {
-                managerPane.update();
+                DesignAuthority[] authorities = managerPane.update();
+                if (!FRContext.getCurrentEnv().isLocalEnv()) {
+                    try {
+                        ((RemoteEnv) FRContext.getCurrentEnv()).updateAuthorities(authorities);
+                    } catch (Exception exception) {
+                        FRContext.getLogger().error(exception.getMessage());
+                    }
+                }
             }
 
             @Override
