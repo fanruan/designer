@@ -1,13 +1,6 @@
 package com.fr.env;
 
-import com.fr.base.AbstractEnv;
-import com.fr.base.EnvException;
-import com.fr.base.FRContext;
-import com.fr.base.ModifiedTable;
-import com.fr.base.Parameter;
-import com.fr.base.StoreProcedureParameter;
-import com.fr.base.TableData;
-import com.fr.base.Utils;
+import com.fr.base.*;
 import com.fr.base.remote.RemoteDeziConstants;
 import com.fr.data.TableDataSource;
 import com.fr.data.core.DataCoreUtils;
@@ -29,11 +22,7 @@ import com.fr.file.CacheManager;
 import com.fr.file.ConnectionConfig;
 import com.fr.file.TableDataConfig;
 import com.fr.file.filetree.FileNode;
-import com.fr.general.ComparatorUtils;
-import com.fr.general.IOUtils;
-import com.fr.general.Inter;
-import com.fr.general.LogRecordTime;
-import com.fr.general.LogUtils;
+import com.fr.general.*;
 import com.fr.general.http.HttpClient;
 import com.fr.io.utils.ResourceIOUtils;
 import com.fr.json.JSONArray;
@@ -43,54 +32,27 @@ import com.fr.license.function.VT4FR;
 import com.fr.regist.License;
 import com.fr.report.DesignAuthority;
 import com.fr.share.ShareConstants;
-import com.fr.stable.ArrayUtils;
-import com.fr.stable.EncodeConstants;
-import com.fr.stable.Filter;
-import com.fr.stable.JavaCompileInfo;
-import com.fr.stable.ProductConstants;
-import com.fr.stable.StableUtils;
-import com.fr.stable.StringUtils;
-import com.fr.stable.SvgProvider;
+import com.fr.stable.*;
 import com.fr.stable.file.XMLFileManagerProvider;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.stable.xml.XMLPrintWriter;
 import com.fr.stable.xml.XMLTools;
 import com.fr.stable.xml.XMLableReader;
 import com.fr.web.ResourceConstants;
-import com.fr.web.utils.AuthorityXMLUtils;
 
-import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
+import javax.swing.*;
+import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.awt.Component;
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
+import java.awt.*;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.NoRouteToHostException;
 import java.net.Socket;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 import java.util.Timer;
-import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
@@ -246,17 +208,6 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
      */
     private HttpClient createHttpMethod2(HashMap<String, String> para) throws EnvException, UnsupportedEncodingException {
         String methodPath = path + '?' + "id=" + createUserID();
-        StringBuilder pathBuilder = new StringBuilder();
-        pathBuilder.append(methodPath);
-        pathBuilder.append('&');
-        for (Object o : para.entrySet()) {
-            Map.Entry entry = (Map.Entry) o;
-            pathBuilder.append('&');
-            pathBuilder.append(URLEncoder.encode((String) entry.getKey(), "UTF-8"));
-            pathBuilder.append('=');
-            pathBuilder.append(URLEncoder.encode((String) entry.getValue(), "UTF-8"));
-        }
-        methodPath = pathBuilder.toString();
         return new HttpClient(methodPath);
     }
 
@@ -847,23 +798,14 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
 
     @Override
     public boolean updateAuthorities(DesignAuthority[] authorities) throws Exception {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-
-        // 序列化到输出流
-        AuthorityXMLUtils.writeDesignAuthoritiesXML(authorities, out);
-
-        HashMap<String, String> para = new HashMap<>();
-        para.put("op", "remote_design_authority");
-        para.put("cmd", "update_authorities");
-
-        InputStream input = postBytes2ServerB(out.toByteArray(), para);
-
-        return input != null && Boolean.valueOf(IOUtils.inputStream2String(input, EncodeConstants.ENCODING_UTF_8));
+        return RemoteEnvUtils.updateAuthorities(authorities, this);
     }
 
     @Override
     public DesignAuthority[] getAuthorities() {
-        return new DesignAuthority[0];
+
+        return RemoteEnvUtils.getAuthorities(this);
+
     }
 
     /**

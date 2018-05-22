@@ -31,8 +31,16 @@ public class RemoteDesignAuthorityManagerAction extends UpdateAction {
 
         BasicDialog dialog = managerPane.showWindow(DesignerContext.getDesignerFrame());
 
-
-        //todo read contents from database by hibernate to show
+        if (!FRContext.getCurrentEnv().isLocalEnv()) {
+            try {
+                DesignAuthority[] authorities = ((RemoteEnv) FRContext.getCurrentEnv()).getAuthorities();
+                if (authorities != null && authorities.length != 0) {
+                    managerPane.populate(authorities);
+                }
+            } catch (Exception exception) {
+                FRContext.getLogger().error(exception.getMessage());
+            }
+        }
 
         dialog.addDialogActionListener(new DialogActionAdapter() {
             @Override

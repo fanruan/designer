@@ -3,7 +3,7 @@ package com.fr.design.remote;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.report.DesignAuthority;
 
-import javax.swing.Icon;
+import javax.swing.*;
 
 public class RemoteDesignAuthorityCreator {
 
@@ -41,6 +41,9 @@ public class RemoteDesignAuthorityCreator {
     }
 
     public void saveUpdatedBean(DesignAuthority authority, Object bean) {
+        if (authority == null) {
+            return;
+        }
         authority.setItems(((DesignAuthority) bean).getItems());
     }
 }
