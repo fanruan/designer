@@ -1,12 +1,14 @@
 package com.fr.design.formula;
 
-import com.fr.general.Inter;
+import com.fr.base.FRContext;
+import com.fr.script.CalculatorEmbeddedFunction;
 import com.fr.stable.StringUtils;
 import com.fr.stable.script.Function;
 
+import java.util.Locale;
+
 public class FunctionNAD extends AbstractNameAndDescription {
 
-	private static final String LOCALE_PREFIX = "Fine-Core_Formula_";
 
 	private Function fn;
 	
@@ -22,9 +24,14 @@ public class FunctionNAD extends AbstractNameAndDescription {
 		if (fn == null) {
 			return StringUtils.EMPTY;
 		}
-		// 统一用Fine-Core_Formula_+公式小写名作为国际化的key
-		String localeKey = LOCALE_PREFIX + fn.getClass().getSimpleName().toLowerCase();
-		return Inter.getLocText(localeKey);
+		Locale locale = FRContext.getLocale();
+		String describtion = fn.getDescribtion(locale);
+		if (describtion.startsWith(CalculatorEmbeddedFunction.LOCALE_PREFIX)) {
+			// 老的自定义函数兼容, 没有重写getDescribtion
+			return Locale.CHINA.equals(FRContext.getLocale()) ? fn.getCN() : fn.getEN();
+		}
+
+		return describtion;
 	}
 
     @Override
