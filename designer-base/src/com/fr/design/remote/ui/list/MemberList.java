@@ -60,7 +60,6 @@ public abstract class MemberList extends JList<RemoteMember> {
             @Override
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
-                System.out.println("click location: x:" + e.getX() + " y:" + e.getY());
                 if (shouldDisplaySelected(e)) {
                     displaySelected();
                 }

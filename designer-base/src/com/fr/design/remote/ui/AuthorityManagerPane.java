@@ -32,8 +32,6 @@ public class AuthorityManagerPane extends BasicPane {
     }
 
     public DesignAuthority[] update() {
-        DesignAuthority[] authorities = list.update();
-        System.out.println(Arrays.toString(authorities));
-        return authorities;
+        return list.update();
     }
 }

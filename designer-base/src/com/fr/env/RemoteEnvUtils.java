@@ -50,7 +50,6 @@ public class RemoteEnvUtils {
             HttpEntity entity = response.getEntity();
             res = IOUtils.inputStream2String(entity.getContent(), EncodeConstants.ENCODING_UTF_8);
             EntityUtils.consume(entity);
-            System.out.println(res);
         } catch (IOException e) {
             FRContext.getLogger().error(e.getMessage());
         }

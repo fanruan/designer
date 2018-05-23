@@ -83,7 +83,6 @@ public class AuthorityEditorPane extends BasicBeanPane<DesignAuthority> {
             items.add(new DesignAuthority.Item(tempSpot.toString(), type));
         }
         da.setItems(items.toArray(new DesignAuthority.Item[0]));
-        System.out.println(Arrays.toString(da.getItems()));
         return da;
     }
 }
