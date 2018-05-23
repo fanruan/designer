@@ -1,12 +1,13 @@
 package com.fr.design.formula;
 
-import java.util.Locale;
-
-import com.fr.base.FRContext;
+import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 import com.fr.stable.script.Function;
 
 public class FunctionNAD extends AbstractNameAndDescription {
+
+	private static final String LOCALE_PREFIX = "Fine-Core_Formula_";
+
 	private Function fn;
 	
 	FunctionNAD(Function fn) {
@@ -20,13 +21,10 @@ public class FunctionNAD extends AbstractNameAndDescription {
 	public String getDesc() {
 		if (fn == null) {
 			return StringUtils.EMPTY;
-		} else {
-			if (Locale.CHINA.equals(FRContext.getLocale())) {
-				return fn.getCN();
-			} else {
-				return fn.getEN();
-			}
 		}
+		// 统一用Fine-Core_Formula_+公式小写名作为国际化的key
+		String localeKey = LOCALE_PREFIX + fn.getClass().getSimpleName().toLowerCase();
+		return Inter.getLocText(localeKey);
 	}
 
     @Override
