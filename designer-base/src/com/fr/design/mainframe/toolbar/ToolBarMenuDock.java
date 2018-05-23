@@ -46,6 +46,7 @@ import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
+import com.fr.design.remote.action.RemoteDesignAuthorityManagerAction;
 import com.fr.design.utils.ThemeUtils;
 import com.fr.env.RemoteEnv;
 import com.fr.general.ComparatorUtils;
@@ -58,11 +59,20 @@ import com.fr.plugin.observer.PluginEvent;
 import com.fr.plugin.observer.PluginEventListener;
 import com.fr.plugin.observer.PluginEventType;
 import com.fr.stable.ArrayUtils;
-import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.Icon;
+import javax.swing.JComponent;
+import javax.swing.JMenuBar;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -103,10 +113,12 @@ public abstract class ToolBarMenuDock {
             return new JPanel[0];
         }
 
+        @Override
         public JComponent[] toolBarButton4Form() {
             return new JComponent[0];
         }
 
+        @Override
         public JComponent toolBar4Authority() {
             return new JPanel();
         }
@@ -116,6 +128,7 @@ public abstract class ToolBarMenuDock {
             return DesignState.WORK_SHEET;
         }
 
+        @Override
         public int getToolBarHeight() {
             return PANLE_HEIGNT;
         }
@@ -125,6 +138,7 @@ public abstract class ToolBarMenuDock {
          *
          * @return 子菜单
          */
+        @Override
         public ShortCut[] shortcut4ExportMenu() {
             return new ShortCut[0];
         }
@@ -404,6 +418,10 @@ public abstract class ToolBarMenuDock {
                 new PlatformManagerAction()
         );
 
+        if (shouldShowRemotePermission()) {
+            menuDef.addShortCut(new RemoteDesignAuthorityManagerAction());
+        }
+
         if (!BaseUtils.isAuthorityEditing()) {
             if (shouldShowPlugin()) {
                 menuDef.addShortCut(
@@ -423,6 +441,10 @@ public abstract class ToolBarMenuDock {
     private ShortCut createGlobalTDAction() {
         TableDataPaneProcessor processor = ExtraDesignClassManager.getInstance().getSingle(TableDataPaneProcessor.XML_TAG);
         return processor == null ? new GlobalTableDataAction() : processor.createServerTDAction();
+    }
+
+    private boolean shouldShowRemotePermission() {
+        return FRContext.getCurrentEnv() != null && !FRContext.getCurrentEnv().isLocalEnv() && FRContext.getCurrentEnv().isRoot();
     }
 
     protected boolean shouldShowPlugin() {
@@ -527,6 +549,7 @@ public abstract class ToolBarMenuDock {
 
     protected JPanel polyToolBar(String text) {
         JPanel panel = new JPanel(new BorderLayout()) {
+            @Override
             public Dimension getPreferredSize() {
                 Dimension dim = super.getPreferredSize();
                 dim.height = PANLE_HEIGNT;
@@ -711,6 +734,7 @@ public abstract class ToolBarMenuDock {
 
     private abstract class AbstractShortCutMethodAction implements ShortCutMethodAction {
 
+        @Override
         public ShortCut methodAction(MenuHandler handler) {
             return handler.shortcut();
         }
@@ -731,6 +755,7 @@ public abstract class ToolBarMenuDock {
             this.plus = plus;
         }
 
+        @Override
         public ShortCut methodAction(MenuHandler handler) {
             return handler.shortcut(plus);
         }
