@@ -48,6 +48,7 @@ public class EnvFileTree extends RefreshableJTree {
 		this.setFileNodeFilter(filter);
 		this.setSubPathes(subPathes);
 
+		/*一些自己的 init 放在这里，防止直接错误重写了父类的 init 方法导致子类不能使用 CheckBoxTree 的一些特性。*/
 		this.putClientProperty("JTree.lineStyle", "Angled");
 
 		this.setCellRenderer(fileTreeCellRenderer);
