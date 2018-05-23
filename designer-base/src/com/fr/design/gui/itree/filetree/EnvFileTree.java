@@ -48,7 +48,13 @@ public class EnvFileTree extends RefreshableJTree {
 		this.setFileNodeFilter(filter);
 		this.setSubPathes(subPathes);
 
-		this.initi();
+		this.putClientProperty("JTree.lineStyle", "Angled");
+
+		this.setCellRenderer(fileTreeCellRenderer);
+
+		this.setRootVisible(false);
+		this.setShowsRootHandles(true);
+		this.setEditable(false);
 	}
 
 	private void setTreeRootPath(String path) {
@@ -61,16 +67,6 @@ public class EnvFileTree extends RefreshableJTree {
 
 	public void setFileNodeFilter(FileNodeFilter filter) {
 		this.filter = filter;
-	}
-
-	protected void initi() {
-		this.putClientProperty("JTree.lineStyle", "Angled");
-
-		this.setCellRenderer(fileTreeCellRenderer);
-
-		this.setRootVisible(false);
-		this.setShowsRootHandles(true);
-		this.setEditable(false);
 	}
 
 	// CellRenderer

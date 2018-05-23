@@ -82,7 +82,7 @@ public class UserManagerPane extends BasicPane {
         @Override
         public void keyReleased(KeyEvent e) {
             // 判断按下的键是否是回车键
-            // todo 对话款回车键绑定的是对话框的确定按钮
+            // todo 对话框回车键绑定的是对话框的确定按钮
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                 searchAddingMembers(keyField.getText());
             }
@@ -115,7 +115,11 @@ public class UserManagerPane extends BasicPane {
             resetAddedMembers();
             sync2AddedMembersFormAdded();
             // 不需要重复更新右侧列表显示 但是更新一下计数显示
-            countLabel.setText(Inter.getLocText("已选择{R1}人", String.valueOf(addedMembers.size())));
+            countLabel.setText(
+                    Inter.getLocText("FR-Designer_Remote_Design_Selected_Member_Count",
+                            String.valueOf(addedMembers.size())
+                    )
+            );
 
         }
     };
@@ -140,7 +144,7 @@ public class UserManagerPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return "添加设计成员";
+        return Inter.getLocText("FR-Designer_Remote_Design_Add_Member");
     }
 
     private JPanel createLeftPanel() {
@@ -149,7 +153,10 @@ public class UserManagerPane extends BasicPane {
         content.setBorder(
                 BorderFactory.createCompoundBorder(
                         new EmptyBorder(6, 0, 0, 0),
-                        UITitledBorder.createBorderWithTitle(Inter.getLocText("决策系统成员")))
+                        UITitledBorder.createBorderWithTitle(
+                                Inter.getLocText("FR-Designer_Remote_Design_Decision_Member")
+                        )
+                )
         );
 
         // 搜索
@@ -158,7 +165,7 @@ public class UserManagerPane extends BasicPane {
         keyField.setPreferredSize(new Dimension(200, 20));
         keyField.requestFocus();
         keyField.addKeyListener(keyFieldKeyListener);
-        keyButton.setText("搜索");
+        keyButton.setText(Inter.getLocText("FR-Designer_Remote_Design_Search"));
         keyButton.addActionListener(keyButtonActionListener);
         searchPanel.add(keyField);
         searchPanel.add(keyButton);
@@ -186,11 +193,17 @@ public class UserManagerPane extends BasicPane {
         content.setBorder(
                 BorderFactory.createCompoundBorder(
                         new EmptyBorder(6, 0, 0, 0),
-                        UITitledBorder.createBorderWithTitle(Inter.getLocText("已选择的设计成员")))
+                        UITitledBorder.createBorderWithTitle(
+                                Inter.getLocText("FR-Designer_Remote_Design_Selected_Member")
+                        )
+                )
         );
 
         // 计数
-        countLabel.setText(Inter.getLocText("已选择{R1}人", String.valueOf(addedMembers.size())));
+        countLabel.setText(
+                Inter.getLocText("FR-Designer_Remote_Design_Selected_Member_Count",
+                        String.valueOf(addedMembers.size()))
+        );
 
         addedListModel = new DefaultListModel<>();
         addedList = new AddedMemberList(addedListModel);
@@ -225,7 +238,10 @@ public class UserManagerPane extends BasicPane {
         }
         addedList.revalidate();
         addedList.repaint();
-        countLabel.setText(Inter.getLocText("已选择{R1}人", String.valueOf(addedMembers.size())));
+        countLabel.setText(
+                Inter.getLocText("FR-Designer_Remote_Design_Selected_Member_Count",
+                        String.valueOf(addedMembers.size())
+                ));
     }
 
     private void resetMembers() {

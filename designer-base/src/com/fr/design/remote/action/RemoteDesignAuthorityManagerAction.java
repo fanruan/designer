@@ -8,6 +8,7 @@ import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.remote.ui.AuthorityManagerPane;
 import com.fr.env.RemoteEnv;
+import com.fr.general.Inter;
 import com.fr.report.DesignAuthority;
 
 import java.awt.event.ActionEvent;
@@ -19,7 +20,7 @@ public class RemoteDesignAuthorityManagerAction extends UpdateAction {
 
 
     public RemoteDesignAuthorityManagerAction() {
-        this.setName("远程设计权限管理");
+        this.setName(Inter.getLocText("FR-Designer_Remote_Design_Authority_Manager"));
         this.setSmallIcon(BaseUtils.readIcon("com/fr/design/remote/images/icon_Remote_Design_Permission_Manager_normal@1x.png"));
     }
 

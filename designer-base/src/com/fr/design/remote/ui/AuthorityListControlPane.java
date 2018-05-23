@@ -77,7 +77,7 @@ public class AuthorityListControlPane extends BasicPane {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.authorityCreators = new RemoteDesignAuthorityCreator[]{
                 new RemoteDesignAuthorityCreator(
-                        "远程设计用户",
+                        Inter.getLocText("FR-Designer_Remote_Design_User"),
                         BaseUtils.readIcon("com/fr/design/remote/images/icon_Member_normal@1x.png"),
                         DesignAuthority.class,
                         AuthorityEditorPane.class)

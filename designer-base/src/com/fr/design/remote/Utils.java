@@ -19,10 +19,17 @@ public class Utils {
 
         List<UserAdditionBean> userBeans = new ArrayList<>();
         try {
-            Map<String, Object> result = UserService.getInstance().getAllUsers(FRContext.getCurrentEnv().getUser(), 1, 10, keyword, "", true);
+            Map<String, Object> result =
+                    UserService.getInstance().getAllUsers(
+                            FRContext.getCurrentEnv().getUser(),
+                            1,
+                            10,
+                            keyword,
+                            "",
+                            true);
             userBeans = (List<UserAdditionBean>) result.get("items");
         } catch (Exception e) {
-            e.printStackTrace();
+            FRContext.getLogger().error(e.getMessage());
         }
 
         List<RemoteMember> res = new ArrayList<>();

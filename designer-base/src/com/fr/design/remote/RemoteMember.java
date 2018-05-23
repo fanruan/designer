@@ -1,8 +1,11 @@
 package com.fr.design.remote;
 
+import com.fr.general.Inter;
+
 public class RemoteMember {
 
-    public static final RemoteMember DEFAULT_MEMBER = new RemoteMember("查询中...");
+    public static final RemoteMember DEFAULT_MEMBER =
+            new RemoteMember(Inter.getLocText("FR-Designer_Remote_Design_Loading"));
 
 
     private String username;

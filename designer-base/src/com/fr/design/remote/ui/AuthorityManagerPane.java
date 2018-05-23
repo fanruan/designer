@@ -24,7 +24,7 @@ public class AuthorityManagerPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("远程设计权限管理");
+        return Inter.getLocText("FR-Designer_Remote_Design_Authority_Manager");
     }
 
     public void populate(DesignAuthority[] authorities) {

@@ -9,6 +9,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.remote.ui.tree.FileAuthorityTree;
 import com.fr.file.filetree.FileNode;
 import com.fr.file.filetree.IOFileNodeFilter;
+import com.fr.general.Inter;
 import com.fr.report.DesignAuthority;
 import com.fr.stable.CoreConstants;
 
@@ -40,7 +41,7 @@ public class AuthorityEditorPane extends BasicBeanPane<DesignAuthority> {
 
     @Override
     protected String title4PopupWindow() {
-        return "编辑文件权限";
+        return Inter.getLocText("FR-Designer_Remote_Design_Configure_Authority");
     }
 
     @Override
