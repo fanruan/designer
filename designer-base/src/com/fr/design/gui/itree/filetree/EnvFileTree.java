@@ -48,7 +48,14 @@ public class EnvFileTree extends RefreshableJTree {
 		this.setFileNodeFilter(filter);
 		this.setSubPathes(subPathes);
 
-		this.init();
+		/*一些自己的 init 放在这里，防止直接错误重写了父类的 init 方法导致子类不能使用 CheckBoxTree 的一些特性。*/
+		this.putClientProperty("JTree.lineStyle", "Angled");
+
+		this.setCellRenderer(fileTreeCellRenderer);
+
+		this.setRootVisible(false);
+		this.setShowsRootHandles(true);
+		this.setEditable(false);
 	}
 
 	private void setTreeRootPath(String path) {
@@ -61,16 +68,6 @@ public class EnvFileTree extends RefreshableJTree {
 
 	public void setFileNodeFilter(FileNodeFilter filter) {
 		this.filter = filter;
-	}
-
-	protected void init() {
-		this.putClientProperty("JTree.lineStyle", "Angled");
-
-		this.setCellRenderer(fileTreeCellRenderer);
-
-		this.setRootVisible(false);
-		this.setShowsRootHandles(true);
-		this.setEditable(false);
 	}
 
 	// CellRenderer
@@ -284,7 +281,7 @@ public class EnvFileTree extends RefreshableJTree {
 	/**
 	 * currentTreeNode下面如果是PENDING的节点,加载之...
 	 */
-	private void loadPendingChildTreeNode(ExpandMutableTreeNode currentTreeNode) {
+	protected void loadPendingChildTreeNode(ExpandMutableTreeNode currentTreeNode) {
 		if (currentTreeNode.isLeaf()) {
 			return;
 		}
@@ -342,7 +339,7 @@ public class EnvFileTree extends RefreshableJTree {
 	/*
 	 * 是否是父子关系的文件.
 	 */
-	private static boolean isParentFile(String parentFilePath, String childFilePath) {
+	protected static boolean isParentFile(String parentFilePath, String childFilePath) {
 		File parentFile = new File(parentFilePath);
 		File childFile = new File(childFilePath);
 

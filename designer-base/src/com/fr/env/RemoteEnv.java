@@ -1,13 +1,6 @@
 package com.fr.env;
 
-import com.fr.base.AbstractEnv;
-import com.fr.base.EnvException;
-import com.fr.base.FRContext;
-import com.fr.base.ModifiedTable;
-import com.fr.base.Parameter;
-import com.fr.base.StoreProcedureParameter;
-import com.fr.base.TableData;
-import com.fr.base.Utils;
+import com.fr.base.*;
 import com.fr.base.remote.RemoteDeziConstants;
 import com.fr.data.TableDataSource;
 import com.fr.data.core.DataCoreUtils;
@@ -29,11 +22,7 @@ import com.fr.file.CacheManager;
 import com.fr.file.ConnectionConfig;
 import com.fr.file.TableDataConfig;
 import com.fr.file.filetree.FileNode;
-import com.fr.general.ComparatorUtils;
-import com.fr.general.IOUtils;
-import com.fr.general.Inter;
-import com.fr.general.LogRecordTime;
-import com.fr.general.LogUtils;
+import com.fr.general.*;
 import com.fr.general.http.HttpClient;
 import com.fr.io.utils.ResourceIOUtils;
 import com.fr.json.JSONArray;
@@ -41,15 +30,9 @@ import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.license.function.VT4FR;
 import com.fr.regist.License;
+import com.fr.report.DesignAuthority;
 import com.fr.share.ShareConstants;
-import com.fr.stable.ArrayUtils;
-import com.fr.stable.EncodeConstants;
-import com.fr.stable.Filter;
-import com.fr.stable.JavaCompileInfo;
-import com.fr.stable.ProductConstants;
-import com.fr.stable.StableUtils;
-import com.fr.stable.StringUtils;
-import com.fr.stable.SvgProvider;
+import com.fr.stable.*;
 import com.fr.stable.file.XMLFileManagerProvider;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.stable.xml.XMLPrintWriter;
@@ -57,45 +40,26 @@ import com.fr.stable.xml.XMLTools;
 import com.fr.stable.xml.XMLableReader;
 import com.fr.web.ResourceConstants;
 
-import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
+import javax.swing.*;
+import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.awt.Component;
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
+import java.awt.*;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.NoRouteToHostException;
 import java.net.Socket;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 import java.util.Timer;
-import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
 /**
  * @author null
  */
-public class RemoteEnv extends AbstractEnv {
+public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurable {
     private static final int TIME_OUT = 30 * 1000;
     private static final int PLAIN_SOCKET_PORT = 80;
     private static final int SSL_PORT = 443;
@@ -228,15 +192,23 @@ public class RemoteEnv extends AbstractEnv {
         if (!isSignIn) {
             methodPath = methodPath + "?id=" + createUserID();
         }
-        return new HttpClient(methodPath, para);
+        HttpClient client = new HttpClient(methodPath, para);
+         /*
+         todo post 方法好象过去不了
+         但是get方法也会有一些url参数问题，尤其是图表部分
+         比如:
+         op=fr_remote_design&cmd=design_get_plugin_service_data&serviceID=plugin.phantomjs&req=
+         */
+        client.asGet();
+        return client;
     }
 
     /**
      * 根据nameValuePairs,也就是参数对,生成PostMethod,不同之处在于,参数拼在path后面,不是method.addParameters
      */
-    private HttpClient createHttpMethod2(HashMap<String, String> para) throws EnvException {
+    private HttpClient createHttpMethod2(HashMap<String, String> para) throws EnvException, UnsupportedEncodingException {
         String methodPath = path + '?' + "id=" + createUserID();
-        return new HttpClient(methodPath, para, true);
+        return new HttpClient(methodPath);
     }
 
 
@@ -824,6 +796,18 @@ public class RemoteEnv extends AbstractEnv {
         return Boolean.valueOf(IOUtils.inputStream2String(input, EncodeConstants.ENCODING_UTF_8));
     }
 
+    @Override
+    public boolean updateAuthorities(DesignAuthority[] authorities) throws Exception {
+        return RemoteEnvUtils.updateAuthorities(authorities, this);
+    }
+
+    @Override
+    public DesignAuthority[] getAuthorities() {
+
+        return RemoteEnvUtils.getAuthorities(this);
+
+    }
+
     /**
      * ben:取schema
      */
@@ -1364,6 +1348,13 @@ public class RemoteEnv extends AbstractEnv {
      */
     public InputStream postBytes2ServerB(byte[] bytes, HashMap<String, String> para) throws Exception {
         HttpClient client = createHttpMethod2(para);
+        /*
+         todo post 方法好象过去不了
+         但是get方法也会有一些url参数问题，尤其是图表部分
+         比如:
+         op=fr_remote_design&cmd=design_get_plugin_service_data&serviceID=plugin.phantomjs&req=
+         */
+//        client.asGet();
         client.setContent(bytes);
         return execute4InputStream(client);
     }
@@ -1897,8 +1888,6 @@ public class RemoteEnv extends AbstractEnv {
         return userID;
     }
 
-
-    //TODO:
 
     /**
      * 预览存储过程
