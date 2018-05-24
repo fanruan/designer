@@ -1,6 +1,13 @@
 package com.fr.env;
 
-import com.fr.base.*;
+import com.fr.base.AbstractEnv;
+import com.fr.base.EnvException;
+import com.fr.base.FRContext;
+import com.fr.base.ModifiedTable;
+import com.fr.base.Parameter;
+import com.fr.base.StoreProcedureParameter;
+import com.fr.base.TableData;
+import com.fr.base.Utils;
 import com.fr.base.remote.RemoteDeziConstants;
 import com.fr.data.TableDataSource;
 import com.fr.data.core.DataCoreUtils;
@@ -22,7 +29,11 @@ import com.fr.file.CacheManager;
 import com.fr.file.ConnectionConfig;
 import com.fr.file.TableDataConfig;
 import com.fr.file.filetree.FileNode;
-import com.fr.general.*;
+import com.fr.general.ComparatorUtils;
+import com.fr.general.IOUtils;
+import com.fr.general.Inter;
+import com.fr.general.LogRecordTime;
+import com.fr.general.LogUtils;
 import com.fr.general.http.HttpClient;
 import com.fr.io.utils.ResourceIOUtils;
 import com.fr.json.JSONArray;
@@ -32,7 +43,14 @@ import com.fr.license.function.VT4FR;
 import com.fr.regist.License;
 import com.fr.report.DesignAuthority;
 import com.fr.share.ShareConstants;
-import com.fr.stable.*;
+import com.fr.stable.ArrayUtils;
+import com.fr.stable.EncodeConstants;
+import com.fr.stable.Filter;
+import com.fr.stable.JavaCompileInfo;
+import com.fr.stable.ProductConstants;
+import com.fr.stable.StableUtils;
+import com.fr.stable.StringUtils;
+import com.fr.stable.SvgProvider;
 import com.fr.stable.file.XMLFileManagerProvider;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.stable.xml.XMLPrintWriter;
@@ -40,19 +58,38 @@ import com.fr.stable.xml.XMLTools;
 import com.fr.stable.xml.XMLableReader;
 import com.fr.web.ResourceConstants;
 
-import javax.swing.*;
-import javax.xml.transform.*;
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.awt.*;
-import java.io.*;
+import java.awt.Component;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.NoRouteToHostException;
 import java.net.Socket;
 import java.net.URLEncoder;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
@@ -1141,36 +1178,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
     }
 
     private FileNode[] listFile(String rootFilePath, boolean isWebReport) throws Exception {
-        FileNode[] fileNodes;
-
-        HashMap<String, String> para = new HashMap<>();
-        para.put("op", "fs_remote_design");
-        para.put("cmd", "design_list_file");
-        para.put("file_path", rootFilePath);
-        para.put("currentUserName", this.getUser());
-        para.put("currentUserId", this.createUserID());
-        para.put("isWebReport", isWebReport ? "true" : "false");
-
-        HttpClient client = createHttpMethod(para);
-        InputStream input = execute4InputStream(client);
-
-        if (input == null) {
-            return new FileNode[0];
-        }
-
-        // 远程环境下左侧目录树暂不需要打开xlsx，xls文件
-        fileNodes = DavXMLUtils.readXMLFileNodes(input);
-        ArrayList<FileNode> al = new ArrayList<>();
-        for (int i = 0; i < fileNodes.length; i++) {
-            al.add(fileNodes[i]);
-        }
-
-        FileNode[] fileNodes2 = new FileNode[al.size()];
-        for (int i = 0; i < al.size(); i++) {
-            fileNodes2[i] = al.get(i);
-        }
-
-        return fileNodes2;
+        return RemoteEnvUtils.listFile(rootFilePath, isWebReport, this);
     }
 
 
