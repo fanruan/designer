@@ -25,9 +25,9 @@ public class FunctionNAD extends AbstractNameAndDescription {
 			return StringUtils.EMPTY;
 		}
 		Locale locale = FRContext.getLocale();
-		String describtion = fn.getDescribtion(locale);
+		String describtion = fn.getDescription(locale);
 		if (describtion.startsWith(CalculatorEmbeddedFunction.LOCALE_PREFIX)) {
-			// 老的自定义函数兼容, 没有重写getDescribtion
+			// 老的自定义函数兼容, 没有重写getDescription
 			return Locale.CHINA.equals(locale) ? fn.getCN() : fn.getEN();
 		}
 
