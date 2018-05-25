@@ -1,6 +1,13 @@
 package com.fr.env;
 
-import com.fr.base.*;
+import com.fr.base.AbstractEnv;
+import com.fr.base.EnvException;
+import com.fr.base.FRContext;
+import com.fr.base.ModifiedTable;
+import com.fr.base.Parameter;
+import com.fr.base.StoreProcedureParameter;
+import com.fr.base.TableData;
+import com.fr.base.Utils;
 import com.fr.base.remote.RemoteDeziConstants;
 import com.fr.data.TableDataSource;
 import com.fr.data.core.DataCoreUtils;
@@ -18,21 +25,31 @@ import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.fun.DesignerEnvProcessor;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrameFileDealerPane;
+import com.fr.design.mainframe.loghandler.DesignerLogHandler;
 import com.fr.file.CacheManager;
-import com.fr.file.ConnectionConfig;
-import com.fr.file.TableDataConfig;
+import com.fr.file.DatasourceManager;
+import com.fr.file.DatasourceManagerProvider;
 import com.fr.file.filetree.FileNode;
-import com.fr.general.*;
+import com.fr.general.ComparatorUtils;
+import com.fr.general.FRLogger;
+import com.fr.general.IOUtils;
+import com.fr.general.Inter;
+import com.fr.general.LogRecordTime;
+import com.fr.general.LogUtils;
 import com.fr.general.http.HttpClient;
-import com.fr.io.utils.ResourceIOUtils;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.license.function.VT4FR;
 import com.fr.regist.License;
-import com.fr.report.DesignAuthority;
 import com.fr.share.ShareConstants;
-import com.fr.stable.*;
+import com.fr.stable.ArrayUtils;
+import com.fr.stable.EncodeConstants;
+import com.fr.stable.JavaCompileInfo;
+import com.fr.stable.ProductConstants;
+import com.fr.stable.StableUtils;
+import com.fr.stable.StringUtils;
+import com.fr.stable.SvgProvider;
 import com.fr.stable.file.XMLFileManagerProvider;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.stable.xml.XMLPrintWriter;
@@ -41,25 +58,42 @@ import com.fr.stable.xml.XMLableReader;
 import com.fr.web.ResourceConstants;
 
 import javax.swing.*;
-import javax.xml.transform.*;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.awt.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.NoRouteToHostException;
 import java.net.Socket;
 import java.net.URLEncoder;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
-/**
- * @author null
- */
-public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurable {
+public class RemoteEnv extends AbstractEnv {
     private static final int TIME_OUT = 30 * 1000;
     private static final int PLAIN_SOCKET_PORT = 80;
     private static final int SSL_PORT = 443;
@@ -69,7 +103,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
     private static final String CERT_KEY = "javax.net.ssl.trustStore";
     private static final String PWD_KEY = "javax.net.ssl.trustStorePassword";
     private static final String HTTPS_PREFIX = "https:";
-    private final static String[] FILE_TYPE = {"cptx", "cpt", "frm", "form", "cht", "chart"};
+    private final static String[] FILE_TYPE = {"cpt", "frm", "form", "cht", "chart"};
     private String path;
     private String user;
     private String password;
@@ -79,7 +113,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
     private int licNotSupport = 0;
     private boolean isRoot = false;
     private Timer logTimer = null;
-    private static ThreadLocal<String> threadLocal = new ThreadLocal<>();
+    private static ThreadLocal<String> threadLocal = new ThreadLocal<String>();
     private boolean isReadTimeOut = false;
     private String buildFilePath;
 
@@ -109,7 +143,6 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
     /**
      * 当前设计环境的用户名，用于远程设计
      */
-    @Override
     public String getUser() {
         return user;
     }
@@ -123,11 +156,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
         return password;
     }
 
-    /**
-     * 修复密码中包含特殊字符，无法登录的问题
-     *
-     * @return
-     */
+    // 修复密码中包含特殊字符，无法登录的问题
     private String getEncodedPassword() {
         try {
             return URLEncoder.encode(password, "UTF-8");
@@ -187,39 +216,31 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
     /**
      * 根据nameValuePairs,也就是参数对,生成PostMethod
      */
-    private HttpClient createHttpMethod(HashMap<String, String> para, boolean isSignIn) throws EnvException {
+    private HttpClient createHttpMethod(HashMap<String, String> para, boolean isSignIn) throws EnvException, UnsupportedEncodingException {
         String methodPath = this.path;
         if (!isSignIn) {
             methodPath = methodPath + "?id=" + createUserID();
         }
-        HttpClient client = new HttpClient(methodPath, para);
-         /*
-         todo post 方法好象过去不了
-         但是get方法也会有一些url参数问题，尤其是图表部分
-         比如:
-         op=fr_remote_design&cmd=design_get_plugin_service_data&serviceID=plugin.phantomjs&req=
-         */
-        client.asGet();
-        return client;
+        return new HttpClient(methodPath, para);
     }
 
     /**
      * 根据nameValuePairs,也就是参数对,生成PostMethod,不同之处在于,参数拼在path后面,不是method.addParameters
      */
-    private HttpClient createHttpMethod2(HashMap<String, String> para) throws EnvException, UnsupportedEncodingException {
+    private HttpClient createHttpMethod2(HashMap<String, String> para) throws EnvException {
         String methodPath = path + '?' + "id=" + createUserID();
-        return new HttpClient(methodPath);
+        return new HttpClient(methodPath, para, true);
     }
 
 
-    /*
-     * Read the response body.
-     * 拿出InputStream中所有的Byte,转换成ByteArrayInputStream的形式返回
-     *
-     * 这样做的目的是确保method.releaseConnection
-     *
-     * TODO 但如果不做method.releaseConnection,有多大危害呢?不确定...
-     */
+     /*
+      * Read the response body.
+      * 拿出InputStream中所有的Byte,转换成ByteArrayInputStream的形式返回
+      *
+      * 这样做的目的是确保method.releaseConnection
+      *
+      * TODO 但如果不做method.releaseConnection,有多大危害呢?不确定...
+      */
 
     /**
      * execute method之后,取返回的inputstream
@@ -255,6 +276,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
             } else if (ComparatorUtils.equals(message, RemoteDeziConstants.FILE_LOCKED)) {
                 JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Remote_File_is_Locked"));
                 return null;
+            } else if (message.startsWith(RemoteDeziConstants.RUNTIME_ERROR_PREFIX)) {
             }
             return new ByteArrayInputStream(bytes);
         } finally {
@@ -341,7 +363,6 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
      * @return 链接是否成功
      * @throws Exception 异常
      */
-    @Override
     public boolean testServerConnectionWithOutShowMessagePane() throws Exception {
         return testConnection(false, true, DesignerContext.getDesignerFrame());
     }
@@ -361,7 +382,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
     private boolean testConnection(boolean needMessage, boolean isRegisteServer, Component parentComponent) throws Exception {
         extraChangeEnvPara();
 
-        HashMap<String, String> para = new HashMap<>();
+        HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "test_server_connection");
         para.put("user", user);
@@ -376,11 +397,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
         String res = stream2String(execute4InputStream(client));
         if (res == null) {
             if (needMessage) {
-                JOptionPane.showMessageDialog(
-                        parentComponent,
-                        Inter.getLocText("Datasource-Connection_failed"),
-                        UIManager.getString("OptionPane.messageDialogTitle", parentComponent.getLocale()),
-                        JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(parentComponent, Inter.getLocText("Datasource-Connection_failed"));
             }
             return false;
         } else if (ComparatorUtils.equals(res, "true")) {
@@ -390,33 +407,22 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
             }
             return true;
         } else if (ComparatorUtils.equals(res, "invalid username or password.")) {
-            JOptionPane.showMessageDialog(
-                    parentComponent,
-                    Inter.getLocText(new String[]{"Datasource-Connection_failed", "Registration-User_Name", "Password", "Error"}, new String[]{",", "", "", "!"}),
-                    Inter.getLocText("FR-Server-All_Error"),
-                    JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(parentComponent,
+                    Inter.getLocText(new String[]{"Datasource-Connection_failed", "Registration-User_Name", "Password", "Error"}, new String[]{",", "", "", "!"})
+                    , Inter.getLocText("FR-Server-All_Error"), JOptionPane.ERROR_MESSAGE);
             return false;
         } else if (res.contains("RegistEditionException")) {
             if (needMessage) {
-                JOptionPane.showMessageDialog(
-                        parentComponent,
-                        Inter.getLocText(new String[]{"Datasource-Connection_failed", "Version-does-not-support"}, new String[]{",", "!"}),
-                        UIManager.getString("OptionPane.messageDialogTitle", parentComponent.getLocale()),
-                        JOptionPane.ERROR_MESSAGE
-                );
+                JOptionPane.showMessageDialog(parentComponent, Inter.getLocText(new String[]{"Datasource-Connection_failed", "Version-does-not-support"}, new String[]{",", "!"}));
             } else {
-                FRContext.getLogger().info(Inter.getLocText(new String[]{"Datasource-Connection_failed", "Version-does-not-support"}, new String[]{",", "!"}));
+                FRLogger.getLogger().info(Inter.getLocText(new String[]{"Datasource-Connection_failed", "Version-does-not-support"}, new String[]{",", "!"}));
             }
             return false;
         } else if (ComparatorUtils.equals(res, "war not support remote design.")) {
             if (needMessage) {
-                JOptionPane.showMessageDialog(
-                        parentComponent,
-                        Inter.getLocText(new String[]{"Datasource-Connection_failed", "NS-war-remote"}, new String[]{",", "!"}),
-                        UIManager.getString("OptionPane.messageDialogTitle", parentComponent.getLocale()),
-                        JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(parentComponent, Inter.getLocText(new String[]{"Datasource-Connection_failed", "NS-war-remote"}, new String[]{",", "!"}));
             } else {
-                FRContext.getLogger().info(Inter.getLocText(new String[]{"Datasource-Connection_failed", "NS-war-remote"}, new String[]{",", "!"}));
+                FRLogger.getLogger().info(Inter.getLocText(new String[]{"Datasource-Connection_failed", "NS-war-remote"}, new String[]{",", "!"}));
             }
             return false;
         } else {
@@ -444,17 +450,17 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
         try {
             SignIn.signIn(this);
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage());
+            FRLogger.getLogger().error(e.getMessage());
         }
     }
 
     /**
      * 心跳访问，用来更新当前用户的访问时间
      *
-     * @throws Exception e
+     * @throws Exception
      */
     public void heartBeatConnection() throws Exception {
-        HashMap<String, String> para = new HashMap<>();
+        HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "heart_beat");
         para.put("user", user);
@@ -471,7 +477,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
 //                DesignerFrameFileDealerPane.getInstance().refresh();
 //            }
 //        } catch (Exception e) {
-//            FRContext.getLogger().error(e.getMessage());
+//            FRLogger.getLogger().error(e.getMessage());
 //        }
     }
 
@@ -480,7 +486,6 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
      *
      * @return 描述环境名字的字符串
      */
-    @Override
     public String getEnvDescription() {
         return Inter.getLocText("Env-Remote_Server");
     }
@@ -488,7 +493,6 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
     /**
      * 登录,返回userID
      */
-    @Override
     public void signIn() throws Exception {
         if (clock != null && clock.connected) {
             return;
@@ -499,7 +503,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
         }
         clearUserID();
         startLogTimer();
-        HashMap<String, String> para = new HashMap<>();
+        HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "r_sign_in");
         para.put("user", user);
@@ -520,7 +524,6 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
         }
         timer = new Timer();
         timer.schedule(new TimerTask() {
-            @Override
             public void run() {
                 try {
                     RemoteEnv.this.setThreadLocal("HEART_BEAT");
@@ -540,13 +543,12 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
 
         logTimer = new Timer();
         logTimer.schedule(new TimerTask() {
-            @Override
             public void run() {
                 try {
                     RemoteEnv.this.setThreadLocal("LOG_MESSAGE");
                     FRContext.getCurrentEnv().printLogMessage();
                 } catch (Exception e) {
-                    FRContext.getLogger().info(e.getMessage());
+                    FRLogger.getLogger().info(e.getMessage());
                 }
             }
         }, 10000, 10000);
@@ -563,9 +565,8 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
      * 根据userID sign out
      *
      * @return 成功签出返回true
-     * @throws Exception e
+     * @throws Exception
      */
-    @Override
     public boolean signOut() throws Exception {
         if (userID == null) {
             return true;
@@ -576,7 +577,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
         // richer:把轮训使用的定时器也去掉
         timer.cancel();
 
-        HashMap<String, String> para = new HashMap<>();
+        HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "r_sign_out");
         para.put("id", userID);
@@ -593,7 +594,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
         try {
             resJSON = stream2String(execute4InputStream(client));
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage());
+            FRLogger.getLogger().error(e.getMessage());
         }
 
         if (resJSON == null) {
@@ -640,7 +641,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
         }
 
         JSONArray ja = new JSONArray(filePathes);
-        HashMap<String, String> para = new HashMap<>();
+        HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", cmd);
         para.put("pathes", ja.toString());
@@ -662,7 +663,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
      *
      * @param filePathes 文件路径
      * @return 成功解锁返回true
-     * @throws Exception e
+     * @throws Exception
      */
     public boolean releaseLock(String[] filePathes) throws Exception {
         return doLockOperation(filePathes, "design_release_lock");
@@ -680,7 +681,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
             return false;
         }
 
-        HashMap<String, String> para = new HashMap<>();
+        HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "design_report_exist");
         para.put("report_path", reportPath);
@@ -695,11 +696,11 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
      * 解锁当前模板，用于远程设计。当远程设计某张模板 时，在解锁之前改模板处于锁定状态
      *
      * @param tplPath 路径
-     * @throws Exception e
+     * @throws Exception
      */
     @Override
     public void unlockTemplate(String tplPath) throws Exception {
-        HashMap<String, String> para = new HashMap<>();
+        HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "design_close_report");
         para.put(RemoteDeziConstants.TEMPLATE_PATH, tplPath);
@@ -748,9 +749,8 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
         /**
          * 刷新数出流，并提交
          *
-         * @throws IOException e
+         * @throws IOException
          */
-        @Override
         public void flush() throws IOException {
             super.flush();
             post2Server();
@@ -760,9 +760,10 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
          * 将指定字节写入输入流数组
          *
          * @param b 写入的字节
+         * @throws IOException
          */
         @Override
-        public void write(int b) {
+        public void write(int b) throws IOException {
             out.write(b);
 
         }
@@ -783,7 +784,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
         // 把database写成xml文件到out
         DavXMLUtils.writeXMLFileDatabaseConnection(database, out);
 
-        HashMap<String, String> para = new HashMap<>();
+        HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "design_test_con");
 
@@ -796,18 +797,6 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
         return Boolean.valueOf(IOUtils.inputStream2String(input, EncodeConstants.ENCODING_UTF_8));
     }
 
-    @Override
-    public boolean updateAuthorities(DesignAuthority[] authorities) throws Exception {
-        return RemoteEnvUtils.updateAuthorities(authorities, this);
-    }
-
-    @Override
-    public DesignAuthority[] getAuthorities() {
-
-        return RemoteEnvUtils.getAuthorities(this);
-
-    }
-
     /**
      * ben:取schema
      */
@@ -816,7 +805,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
         DavXMLUtils.writeXMLFileDatabaseConnection(database, out);
-        HashMap<String, String> para = new HashMap<>();
+        HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "design_get_schema");
         InputStream input = postBytes2ServerB(out.toByteArray(), para);
@@ -833,7 +822,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
     public TableProcedure[] getTableProcedure(com.fr.data.impl.Connection database, String type, String schema) throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         DavXMLUtils.writeXMLFileDatabaseConnection(database, out);
-        HashMap<String, String> para = new HashMap<>();
+        HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "design_get_tables");
         para.put("__type__", type);
@@ -845,7 +834,6 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
         return DavXMLUtils.readXMLSQLTables(input);
     }
 
-    @Override
     public List getProcedures(com.fr.data.impl.Connection datasource, String[] schemas, boolean isOracle, boolean isOracleSysSpace) throws Exception {
         HashMap schemaTableProcedureMap = new HashMap();
         List sqlTableObjs = new ArrayList();
@@ -878,11 +866,11 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
      *
      * @param folderPath 文件名
      * @return 成功创建返回true
-     * @throws Exception e
+     * @throws Exception
      */
     @Override
     public boolean createFolder(String folderPath) throws Exception {
-        HashMap<String, String> para = new HashMap<>();
+        HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "design_create_folder");
         para.put("folder_path", folderPath);
@@ -902,11 +890,10 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
      *
      * @param filePath ：目标文件相对路径
      * @return 成功新建返回true
-     * @throws Exception e
+     * @throws Exception
      */
-    @Override
     public boolean createFile(String filePath) throws Exception {
-        HashMap<String, String> para = new HashMap<>();
+        HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "design_create_file");
         para.put("file_path", filePath);
@@ -921,9 +908,8 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
         return Boolean.valueOf(IOUtils.inputStream2String(input, EncodeConstants.ENCODING_UTF_8));
     }
 
-    @Override
     public boolean renameFile(String newPath, String oldPath) throws Exception {
-        HashMap<String, String> para = new HashMap<>();
+        HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "design_rename_file");
         para.put("newPath", newPath);
@@ -944,7 +930,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
      *
      * @param filePath ：目标文件相对路径
      * @return 文件是否存在
-     * @throws Exception e
+     * @throws Exception
      */
     @Override
     public boolean fileExists(String filePath) throws Exception {
@@ -952,7 +938,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
             return false;
         }
 
-        HashMap<String, String> para = new HashMap<>();
+        HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "design_file_exists");
         para.put("file_path", filePath);
@@ -972,15 +958,14 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
      *
      * @param filePath 文件路径
      * @return 文件被锁住了，返回true
-     * @throws Exception e
+     * @throws Exception
      */
-    @Override
     public boolean fileLocked(String filePath) throws Exception {
         if (filePath == null) {
             return false;
         }
 
-        HashMap<String, String> para = new HashMap<>();
+        HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "design_file_locked");
         para.put("file_path", filePath);
@@ -1001,7 +986,6 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
      *
      * @param env 用户环境
      */
-    @Override
     public void registerUserEnv(UserBaseEnv env) {
     }
 
@@ -1009,7 +993,6 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
      * 用于检测用户环境
      * ，启动定时器
      */
-    @Override
     public void startUserCheckTimer() {
     }
 
@@ -1026,13 +1009,12 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
      * @param filePath 文件地址
      * @return 删除成功返回true
      */
-    @Override
     public boolean deleteFile(String filePath) {
         if (filePath == null) {
             return false;
         }
         try {
-            HashMap<String, String> para = new HashMap<>();
+            HashMap<String, String> para = new HashMap<String, String>();
             para.put("op", "fr_remote_design");
             para.put("cmd", "delete_file");
             para.put("file_path", filePath);
@@ -1046,7 +1028,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
 
             return Boolean.valueOf(IOUtils.inputStream2String(input, EncodeConstants.ENCODING_UTF_8));
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage());
+            FRLogger.getLogger().error(e.getMessage());
         }
         return false;
     }
@@ -1057,10 +1039,10 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
      * @param key   键值
      * @param value 值
      * @return 如果写入成功，返回true
-     * @throws Exception e
+     * @throws Exception
      */
     public boolean writePrivilegeMap(String key, String value) throws Exception {
-        HashMap<String, String> para = new HashMap<>();
+        HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "write_privilege_map");
         para.put("current_user", this.user);
@@ -1068,8 +1050,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
         para.put("key", key);
         para.put("value", value);
 
-        //jim ：加上user，远程设计点击预览时传递用户角色信息
-        HttpClient client = createHttpMethod(para);
+        HttpClient client = createHttpMethod(para); //jim ：加上user，远程设计点击预览时传递用户角色信息
         InputStream input = execute4InputStream(client);
 
         if (input == null) {
@@ -1082,12 +1063,11 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
     /**
      * DataSource中去除当前角色没有权限访问的数据源
      */
-    @Override
     public void removeNoPrivilegeConnection() {
-        TableDataConfig dm = TableDataConfig.getInstance();
+        DatasourceManagerProvider dm = DatasourceManager.getProviderInstance();
 
         try {
-            HashMap<String, String> para = new HashMap<>();
+            HashMap<String, String> para = new HashMap<String, String>();
             para.put("op", "fs_remote_design");
             para.put("cmd", "env_get_role");
             para.put("currentUsername", this.getUser());
@@ -1096,11 +1076,11 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
             HttpClient client = createHttpMethod(para);
             InputStream input = execute4InputStream(client);
             JSONArray ja = new JSONArray(stream2String(input));
-            ArrayList<String> toBeRemoveTDName = new ArrayList<>();
+            ArrayList<String> toBeRemoveTDName = new ArrayList<String>();
             for (int i = 0; i < ja.length(); i++) {
                 String toBeRemoveConnName = (String) ((JSONObject) ja.get(i)).get("name");
-                ConnectionConfig.getInstance().removeConnection(toBeRemoveConnName);
-                Iterator it = dm.getTableDatas().keySet().iterator();
+                dm.removeConnection(toBeRemoveConnName);
+                Iterator it = dm.getTableDataNameIterator();
                 while (it.hasNext()) {
                     String tdName = (String) it.next();
                     TableData td = dm.getTableData(tdName);
@@ -1121,7 +1101,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
      *
      * @param rootFilePath 指定目录
      * @return WEB-INF目录下指定路径的文件夹与文件
-     * @throws Exception e
+     * @throws Exception
      */
     @Override
     public FileNode[] listFile(String rootFilePath) throws Exception {
@@ -1133,7 +1113,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
      *
      * @param rootFilePath 指定目录
      * @return WEB-INF上层目录下指定路径的文件夹与文件
-     * @throws Exception e
+     * @throws Exception
      */
     @Override
     public FileNode[] listReportPathFile(String rootFilePath) throws Exception {
@@ -1143,7 +1123,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
     private FileNode[] listFile(String rootFilePath, boolean isWebReport) throws Exception {
         FileNode[] fileNodes;
 
-        HashMap<String, String> para = new HashMap<>();
+        HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fs_remote_design");
         para.put("cmd", "design_list_file");
         para.put("file_path", rootFilePath);
@@ -1160,7 +1140,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
 
         // 远程环境下左侧目录树暂不需要打开xlsx，xls文件
         fileNodes = DavXMLUtils.readXMLFileNodes(input);
-        ArrayList<FileNode> al = new ArrayList<>();
+        ArrayList<FileNode> al = new ArrayList<FileNode>();
         for (int i = 0; i < fileNodes.length; i++) {
             al.add(fileNodes[i]);
         }
@@ -1179,9 +1159,9 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
      *
      * @param rootFilePath 指定目录
      * @return 列出目标目录下所有cpt文件或文件夹
+     * @throws Exception
      */
-    @Override
-    public FileNode[] listCpt(String rootFilePath) {
+    public FileNode[] listCpt(String rootFilePath) throws Exception {
         return listCpt(rootFilePath, false);
     }
 
@@ -1191,11 +1171,10 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
      * @param rootFilePath 指定目录
      * @param recurse      是否递归查找其子目录
      * @return 列出目标目录下所有cpt文件或文件夹
-     * @throws Exception e
+     * @throws Exception
      */
-    @Override
     public FileNode[] listCpt(String rootFilePath, boolean recurse) {
-        List<FileNode> fileNodeList = new ArrayList<>();
+        List<FileNode> fileNodeList = new ArrayList<FileNode>();
         try {
             listAll(rootFilePath, fileNodeList, new String[]{"cpt"}, recurse);
         } catch (Exception e) {
@@ -1235,14 +1214,13 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
      * @return 数据集的参数
      * @throws Exception 获取参数失败则抛出此异常
      */
-    @Override
     public Parameter[] getTableDataParameters(TableData tableData) throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
-        //把tableData写成xml文件到out
+//        把tableData写成xml文件到out
         DavXMLUtils.writeXMLFileTableData(tableData, out);
 
-        HashMap<String, String> para = new HashMap<>();
+        HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "design_td_pars");
         InputStream input = postBytes2ServerB(out.toByteArray(), para);
@@ -1261,13 +1239,12 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
      * @return 返回存储过程中的所有参数组成的数组
      * @throws Exception 如果获取参数失败则抛出此异常
      */
-    @Override
     public Parameter[] getStoreProcedureParameters(StoreProcedure storeProcedure) throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
         // 把tableData写成xml文件到out
         DavXMLUtils.writeXMLFileStoreProcedureAndSource(storeProcedure, out);
-        HashMap<String, String> para = new HashMap<>();
+        HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "design_sp_pars");
         InputStream input = postBytes2ServerB(out.toByteArray(), para);
@@ -1292,7 +1269,6 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
      * @return 实际的二维数据集
      * @throws Exception 如果生成数据失败则抛出此异常
      */
-    @Override
     public EmbeddedTableData previewTableData(TableDataSource dataSource, Object tableData, java.util.Map parameterMap, int rowCount) throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
@@ -1302,7 +1278,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
         // 把parameterMap转成JSON格式的字符串
         JSONObject jo = new JSONObject(parameterMap);
         String jsonParameter = jo.toString();
-        HashMap<String, String> para = new HashMap<>();
+        HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "design_preview_td");
         para.put("pars", jsonParameter);
@@ -1328,7 +1304,6 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
      * @return 实际的二位数据条
      * @throws Exception 异常
      */
-    @Override
     public Object previewTableData(Object tableData, java.util.Map parameterMap, int start, int end, String[] cols, int[] colIdx) throws Exception {
         return previewTableData(tableData, parameterMap, -1);
     }
@@ -1348,13 +1323,6 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
      */
     public InputStream postBytes2ServerB(byte[] bytes, HashMap<String, String> para) throws Exception {
         HttpClient client = createHttpMethod2(para);
-        /*
-         todo post 方法好象过去不了
-         但是get方法也会有一些url参数问题，尤其是图表部分
-         比如:
-         op=fr_remote_design&cmd=design_get_plugin_service_data&serviceID=plugin.phantomjs&req=
-         */
-//        client.asGet();
         client.setContent(bytes);
         return execute4InputStream(client);
     }
@@ -1364,7 +1332,6 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
      * The method will be invoked when read data from XML file.<br>
      * May override the method to read the data that you saved.
      */
-    @Override
     public void readXML(XMLableReader reader) {
         if (reader.isChildNode()) {
             String tmpVal;
@@ -1389,7 +1356,6 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
      *
      * @param writer the PrintWriter.
      */
-    @Override
     public void writeXML(XMLPrintWriter writer) {
         writer.startTAG("DIR").attr("path", this.path).attr("user", this.user).attr("password", this.password).end();
     }
@@ -1468,7 +1434,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
                 if (StringUtils.isBlank(remoteVersion) || ComparatorUtils.compare(remoteVersion, ProductConstants.DESIGNER_VERSION) < 0) {
                     String infor = Inter.getLocText("FR-Server_Version_Tip");
                     String moreInfo = Inter.getLocText("FR-Server_Version_Tip_MoreInfo");
-                    FRContext.getLogger().log(Level.WARNING, infor);
+                    FRLogger.getLogger().log(Level.WARNING, infor);
                     new InformationWarnPane(infor, moreInfo, Inter.getLocText("FR-Designer_Tooltips")).show();
                     return;
                 }
@@ -1491,10 +1457,8 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
             Pattern pattern = Pattern.compile("[/:]+");
             String[] strs = pattern.split(remoteEnv.path);
 
-            //host,如：192.168.100.195
-            String shost = strs[1];
-            //端口,如：8080
-            int sport = Integer.parseInt(strs[2]);
+            String shost = strs[1];//host,如：192.168.100.195
+            int sport = Integer.parseInt(strs[2]);//端口,如：8080
 
             Socket socket = new Socket(shost, sport);
             //OOBBINLINE：是否支持发送一个字节的TCP紧急数据,false表示服务器不用处理这个数据
@@ -1509,7 +1473,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
      *
      * @param resourceName 配置文件的名字，如datasource.xml
      * @return 输入流
-     * @throws Exception e
+     * @throws Exception
      */
     @Override
     public InputStream readResource(String resourceName) throws Exception {
@@ -1523,14 +1487,18 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
      * @param path 制定路径,是基于报表目录下resource文件夹路径
      * @return 读到的文件
      */
-    @Override
-    public String[] readPathSvgFiles(String path) {
-        String cataloguePath = StableUtils.pathJoin(CacheManager.getProviderInstance().getCacheDirectory().getPath(), SvgProvider.SERVER, path);
+    public File[] readPathSvgFiles(String path) {
+        String cataloguePath = StableUtils.pathJoin(new String[]{CacheManager.getProviderInstance().getCacheDirectory().getPath(), SvgProvider.SERVER, path});
 
+        //检查缓存文件保存的目录下serversvgs文件夹是否存在 ，先用来暂存服务器读过来的svg文件
+        File catalogue = new File(cataloguePath);
+        if (!catalogue.exists()) {
+            catalogue.mkdirs();
+        }
 
-        ArrayList<String> fileArray = new ArrayList<>();
+        ArrayList<File> fileArray = new ArrayList<>();
         try {
-            HashMap<String, String> para = new HashMap<>();
+            HashMap<String, String> para = new HashMap<String, String>();
             para.put("op", "fr_remote_design");
             para.put("cmd", "design_read_svgfile");
             para.put("resourcePath", path);
@@ -1544,17 +1512,17 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
                 JSONObject jsonObject = (JSONObject) ja.get(i);
                 String svgFileName = (String) jsonObject.get("svgfileName");
                 String svgfileContent = (String) jsonObject.get("svgfileContent");
-
-                String file = StableUtils.pathJoin(cataloguePath, svgFileName);
+                File file = new File(StableUtils.pathJoin(new String[]{cataloguePath, svgFileName}));
                 InputStream in = new ByteArrayInputStream(svgfileContent.getBytes(EncodeConstants.ENCODING_UTF_8));
-                ResourceIOUtils.write(file, in);
+                FileOutputStream out = new FileOutputStream(file);
+                IOUtils.copyBinaryTo(in, out);
                 fileArray.add(file);
             }
         } catch (Exception e) {
             FRContext.getLogger().error(e.getMessage());
         }
 
-        return fileArray.toArray(new String[fileArray.size()]);
+        return fileArray.toArray(new File[fileArray.size()]);
     }
 
 
@@ -1565,12 +1533,11 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
      * @return 是否写入成功
      * @throws Exception 异常
      */
-    @Override
     public boolean writeSvgFile(SvgProvider svgFile) throws Exception {
         testServerConnection();
 
-        HashMap<String, String> para = new HashMap<>();
-        para.put("op", "svgrelate");
+        HashMap<String, String> para = new HashMap<String, String>();
+        para.put("op", "svginit");
         para.put("cmd", "design_save_svg");
         para.put("filePath", svgFile.getFilePath());
         para.put("current_uid", this.createUserID());
@@ -1622,7 +1589,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
     public boolean writeResource(XMLFileManagerProvider mgr) throws Exception {
         testServerConnection();
 
-        HashMap<String, String> para = new HashMap<>();
+        HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "design_save_resource");
         para.put("resource", mgr.fileName());
@@ -1657,10 +1624,9 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
      * @param prefix   当前Env下得工程分类，如reportlets，lib等
      * @return InputStream  输入流
      */
-    @Override
     public InputStream readBean(String beanPath, String prefix)
             throws Exception {
-        HashMap<String, String> para = new HashMap<>();
+        HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fs_remote_design");
         para.put("cmd", "design_open");
         para.put(RemoteDeziConstants.PREFXI, prefix);
@@ -1679,9 +1645,9 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
      * @param prefix   当前Env下得工程分类，如reportlets，lib等
      * @return OutputStream  输出流
      */
-    @Override
-    public OutputStream writeBean(String beanPath, String prefix) {
-        HashMap<String, String> para = new HashMap<>();
+    public OutputStream writeBean(String beanPath, String prefix)
+            throws Exception {
+        HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fs_remote_design");
         para.put("cmd", "design_save_report");
         para.put(RemoteDeziConstants.PREFXI, prefix);
@@ -1699,7 +1665,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
      */
     @Override
     public String[] getColumns(String selectedName, String schema, String tableName) throws Exception {
-        HashMap<String, String> para = new HashMap<>();
+        HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "design_columns");
         para.put("dsName", selectedName);
@@ -1730,7 +1696,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
 
     @Override
     public String getProcedureText(String connectionName, String databaseName) throws Exception {
-        HashMap<String, String> para = new HashMap<>();
+        HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "design_get_procedure_text");
         para.put("procedure_name", databaseName);
@@ -1747,7 +1713,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
     @Override
     public StoreProcedureParameter[] getStoreProcedureDeclarationParameters(String connectionName, String databaseName, String parameterDefaultValue) throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        HashMap<String, String> para = new HashMap<>();
+        HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "design_get_sp_parameters");
         para.put("__name__", databaseName);
@@ -1764,10 +1730,9 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
     /**
      * 获取datasource.xml文件的修改表
      */
-    @Override
     public ModifiedTable getDataSourceModifiedTables(String type) {
         try {
-            HashMap<String, String> para = new HashMap<>();
+            HashMap<String, String> para = new HashMap<String, String>();
             para.put("op", "fr_remote_design");
             para.put("cmd", "get_datasource_modified_tables");
             para.put("type", type);
@@ -1792,7 +1757,6 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
      * @param type          操作类型，是数据连接还是服务器数据集
      * @return 写入成功返回true
      */
-    @Override
     public boolean writeDataSourceModifiedTables(ModifiedTable modifiedTable, String type) {
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -1800,7 +1764,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
         // 把tableData写成xml文件到out
         DavXMLUtils.writeXMLModifiedTables(modifiedTable, out);
         try {
-            HashMap<String, String> para = new HashMap<>();
+            HashMap<String, String> para = new HashMap<String, String>();
             para.put("op", "fr_remote_design");
             para.put("cmd", "update_modifytable_to_server");
             para.put("type", type);
@@ -1820,7 +1784,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
 
     public String[] getProcedureColumns(StoreProcedure storeProcedure, java.util.Map parameterMap) throws Exception {
         String[] columns;
-        HashMap<String, String> para = new HashMap<>();
+        HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "list_sp");
         HttpClient client = createHttpMethod(para);
@@ -1834,15 +1798,17 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
             columns = DavXMLUtils.readXMLSPColumns(input);
             return columns;
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage());
+            FRLogger.getLogger().error(e.getMessage());
         }
 
         return new String[0];
     }
 
+    ;
+
     public String[] getProcedureColumns(String name) throws Exception {
         String[] columns;
-        HashMap<String, String> para = new HashMap<>();
+        HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "list_sp_columns_name");
         para.put("name", name);
@@ -1855,7 +1821,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
             columns = DavXMLUtils.readXMLSPColumns(input);
             return columns;
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage());
+            FRLogger.getLogger().error(e.getMessage());
         }
         return new String[0];
 
@@ -1866,10 +1832,9 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
      *
      * @throws Exception
      */
-    @Override
     public void printLogMessage() throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        HashMap<String, String> para = new HashMap<>();
+        HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "get_log_message");
 
@@ -1879,15 +1844,16 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
         }
         LogRecordTime[] records = LogUtils.readXMLLogRecords(input);
         for (LogRecordTime logRecordTime : records) {
-            //TODO
+            DesignerLogHandler.getInstance().printRemoteLog(logRecordTime);
         }
     }
 
-    @Override
     public String getUserID() {
         return userID;
     }
 
+
+    //TODO:
 
     /**
      * 预览存储过程
@@ -1909,7 +1875,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
         String jsonParameter = jo.toString();
 
         try {
-            HashMap<String, String> para = new HashMap<>();
+            HashMap<String, String> para = new HashMap<String, String>();
             para.put("op", "fr_remote_design");
             para.put("cmd", "list_sp");
             para.put("pars", jsonParameter);
@@ -1933,13 +1899,12 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
 
 
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage());
+            FRLogger.getLogger().error(e.getMessage());
         }
         return new ProcedureDataModel[0];
     }
 
 
-    @Override
     public String getAppName() {
         return "WebReport";
     }
@@ -1951,11 +1916,10 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
      * @return 是返回true
      * @throws Exception
      */
-    @Override
     public boolean isOracle(Connection database) throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         DavXMLUtils.writeXMLFileDatabaseConnection(database, out);
-        HashMap<String, String> para = new HashMap<>();
+        HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "design_get_isOracle");
         InputStream input = postBytes2ServerB(out.toByteArray(), para);
@@ -1965,7 +1929,6 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
         return DavXMLUtils.readXMLBoolean(input);
     }
 
-    @Override
     public String[] getSupportedTypes() {
         return FILE_TYPE;
     }
@@ -1975,7 +1938,6 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
      *
      * @return 不支持返回false
      */
-    @Override
     public boolean isSupportLocalFileOperate() {
         return false;
     }
@@ -1986,11 +1948,10 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
      * @param path 路径
      * @return 有权限则返回true
      */
-    @Override
     public boolean hasFileFolderAllow(String path) {
         HttpClient client = null;
         try {
-            HashMap<String, String> para = new HashMap<>();
+            HashMap<String, String> para = new HashMap<String, String>();
             para.put("op", "fs_remote_design");
             para.put("cmd", "design_filefolder_allow");
             para.put("current_uid", this.createUserID());
@@ -2004,7 +1965,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
             }
             return Boolean.valueOf(IOUtils.inputStream2String(input, EncodeConstants.ENCODING_UTF_8));
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage());
+            FRLogger.getLogger().error(e.getMessage());
             return false;
         }
 
@@ -2015,7 +1976,6 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
      *
      * @return 是则返回true
      */
-    @Override
     public boolean isRoot() {
         return isRoot;
     }
@@ -2032,7 +1992,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
 
     @Override
     public String getDesignerVersion() throws Exception {
-        HashMap<String, String> para = new HashMap<>();
+        HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "design_get_designer_version");
         para.put("user", user);
@@ -2042,12 +2002,11 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
         try {
             return stream2String(execute4InputStream(client));
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage());
+            FRLogger.getLogger().error(e.getMessage());
         }
         return null;
     }
 
-    @Override
     public InputStream getDataSourceInputStream(String filePath) throws Exception {
         return readBean(filePath, "datasource");
     }
@@ -2057,7 +2016,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
     public ArrayList getAllRole4Privilege(boolean isFS) {
         ArrayList allRoleList = new ArrayList();
         try {
-            HashMap<String, String> para = new HashMap<>();
+            HashMap<String, String> para = new HashMap<String, String>();
             para.put("op", "fr_remote_design");
             para.put("cmd", "get_all_role");
             para.put("isFS", String.valueOf(isFS));
@@ -2089,7 +2048,6 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
     /**
      * 获取当前env的build文件路径
      */
-    @Override
     public String getBuildFilePath() {
         return StringUtils.isEmpty(buildFilePath) ? ResourceConstants.BUILD_PATH : buildFilePath;
     }
@@ -2097,7 +2055,6 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
     /**
      * 设置当前env的build文件路径
      */
-    @Override
     public void setBuildFilePath(String buildFilePath) {
         this.buildFilePath = buildFilePath;
     }
@@ -2108,9 +2065,8 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
      * @param sourceText 源代码
      * @return 编译信息，有可能是成功信息，也有可能是出错或者警告信息
      */
-    @Override
     public JavaCompileInfo compilerSourceCode(String sourceText) throws Exception {
-        HashMap<String, String> para = new HashMap<>();
+        HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "design_compile_source_code");
         InputStream in = postBytes2ServerB(sourceText.getBytes(EncodeConstants.ENCODING_UTF_8), para);
@@ -2129,69 +2085,70 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
 
     @Override
     public String pluginServiceAction(String serviceID, String req) throws Exception {
-        HashMap<String, String> para = new HashMap<>();
+        HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "design_get_plugin_service_data");
         para.put("serviceID", serviceID);
         para.put("req", req);
-        //jim ：加上user，远程设计点击预览时传递用户角色信息
-        HttpClient client = createHttpMethod(para);
+        HttpClient client = createHttpMethod(para); //jim ：加上user，远程设计点击预览时传递用户角色信息
         InputStream inputStream = execute4InputStream(client);
         return IOUtils.inputStream2String(inputStream);
     }
 
     /**
      * 远程不启动，使用虚拟服务
-     * <p>
      *
-     * @param serviceID serviceID
+     * @param serviceID
      */
     @Override
     public void pluginServiceStart(String serviceID) {
     }
 
     @Override
-    public String[] loadREUFile() {
-        ResourceIOUtils.delete(StableUtils.pathJoin(
-                CacheManager.getProviderInstance().getCacheDirectory().getAbsolutePath(),
-                ShareConstants.DIR_SHARE_CACHE));
-
-        String zipFilePath = null;
+    public File[] loadREUFile() throws Exception {
+        File target = new File(CacheManager.getProviderInstance().getCacheDirectory(),
+                ShareConstants.DIR_SHARE_CACHE);
+        StableUtils.deleteFile(target);
+        StableUtils.mkdirs(target);
+        File cacheDir = null;
+        File zip = null;
+        OutputStream out = null;
         try {
-            HashMap<String, String> para = new HashMap<>();
+            HashMap<String, String> para = new HashMap<String, String>();
             para.put("op", "fr_remote_design");
             para.put("cmd", "design_read_reufile");
             para.put("current_uid", this.createUserID());
             para.put("currentUsername", this.getUser());
 
             HttpClient client = createHttpMethod(para);
-            //拿到服务端传过来的整个共享文件夹的压缩文件的文件流
-            InputStream input = client.getResponseStream();
+            InputStream input = client.getResponseStream();//拿到服务端传过来的整个共享文件夹的压缩文件的文件流
+            zip = new File(StableUtils.pathJoin(CacheManager.getProviderInstance().getCacheDirectory().getAbsolutePath()), "share.zip");
+            cacheDir = new File(StableUtils.pathJoin(CacheManager.getProviderInstance().getCacheDirectory().getAbsolutePath()), ShareConstants.DIR_SHARE_CACHE);
+            StableUtils.deleteFile(cacheDir);
+            StableUtils.mkdirs(cacheDir);
+            StableUtils.makesureFileExist(zip);
+            out = new FileOutputStream(zip);
+            IOUtils.copyBinaryTo(input, out);//放到本地缓存目录下
 
-            zipFilePath = StableUtils.pathJoin(CacheManager.getProviderInstance().getCacheDirectory().getAbsolutePath(), "share.zip");
-            String cacheDir = StableUtils.pathJoin(CacheManager.getProviderInstance().getCacheDirectory().getAbsolutePath(), ShareConstants.DIR_SHARE_CACHE);
-
-            ResourceIOUtils.write(zipFilePath, input);
-            ResourceIOUtils.unzip(zipFilePath, cacheDir, EncodeConstants.ENCODING_GBK);
-
-
-            return ResourceIOUtils.listWithFullPath(cacheDir, new Filter<String>() {
-                @Override
-                public boolean accept(String s) {
-                    return s.endsWith(ProjectConstants.REU);
-                }
-            });
+            IOUtils.unzip(zip, cacheDir.getAbsolutePath(), EncodeConstants.ENCODING_GBK);//先解压到临时目录
+            if (cacheDir.exists() && cacheDir.isDirectory()) {
+                return cacheDir.listFiles(new FilenameFilter() {
+                    public boolean accept(File file, String s) {
+                        return s.endsWith("reu");
+                    }
+                });
+            }
 
         } catch (Exception e) {
             FRContext.getLogger().error(e.getMessage());
         } finally {
-
-            if (zipFilePath != null) {
-                ResourceIOUtils.delete(zipFilePath);
+            if (out != null) {
+                out.flush();
+                out.close();
             }
+            StableUtils.deleteFile(zip);
         }
-
-        return new String[0];
+        return new File[0];
     }
 
     @Override
@@ -2204,7 +2161,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
         String shareXMLName = StableUtils.pathJoin(tempFile.getAbsolutePath(), ShareConstants.NAME_XML_MODULE);
         String helpXMLName = StableUtils.pathJoin(tempFile.getAbsolutePath(), ShareConstants.NAME_XML_HELP);
         try {
-            HashMap<String, String> para = new HashMap<>();
+            HashMap<String, String> para = new HashMap<String, String>();
             para.put("op", "fr_remote_design");
             para.put("cmd", "design_install_reufile");
             para.put("current_uid", this.createUserID());
@@ -2231,7 +2188,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
             return true;
         }
         try {
-            HashMap<String, String> para = new HashMap<>();
+            HashMap<String, String> para = new HashMap<String, String>();
             para.put("op", "fr_remote_design");
             para.put("cmd", "design_remove_reufile");
             para.put("current_uid", this.createUserID());
@@ -2248,22 +2205,9 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
 
     @Override
     public String getSharePath() {
-        try {
-            HashMap<String, String> para = new HashMap<>();
-            para.put("op", "fr_remote_design");
-            para.put("cmd", "design_get_share_path");
-            para.put("current_uid", this.createUserID());
-            para.put("currentUsername", this.getUser());
-
-            HttpClient client = createHttpMethod(para);
-            InputStream input = execute4InputStream(client);
-            return stream2String(input);
-        } catch (Exception e) {
-            return StringUtils.EMPTY;
-        }
+        return StringUtils.EMPTY;
     }
 
-    @Override
     public void doWhenServerShutDown() {
 
     }
@@ -2284,7 +2228,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
     public JSONArray getPluginStatus() {
 
         try {
-            HashMap<String, String> para = new HashMap<>();
+            HashMap<String, String> para = new HashMap<String, String>();
             para.put("op", "plugin");
             para.put("cmd", "get_status");
             para.put("current_uid", this.createUserID());
@@ -2295,6 +2239,16 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
             return new JSONArray(stream2String(input));
         } catch (Exception e) {
             return JSONArray.create();
+        }
+    }
+
+    public String post(HashMap<String, String> para, boolean isSignIn) {
+        try {
+            HttpClient client = createHttpMethod(para, isSignIn);
+            return stream2String(execute4InputStream(client));
+        } catch (Exception e) {
+            FRContext.getLogger().error(e.getMessage());
+            return StringUtils.EMPTY;
         }
     }
 }

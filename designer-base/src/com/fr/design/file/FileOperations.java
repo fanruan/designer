@@ -5,34 +5,34 @@ public interface FileOperations {
     /**
      *打开选中的报表文件
      */
-	public void openSelectedReport();
+    public void openSelectedReport();
 
     /**
      *打开文件夹
      */
-	public void openContainerFolder();
+    public void openContainerFolder();
 
     /**
      *刷新
      */
-	public void refresh();
+    public void refresh();
 
     /**
      *删除文件
      */
-	public void deleteFile();
+    public void deleteFile();
 
     /**
      *加上文件锁
      */
-	public void lockFile();
+    public void lockFile();
 
     /**
      *文件解锁
      */
-	public void unLockFile();
+    public void unLockFile();
 
-	public String getSelectedTemplatePath();
+    public String getSelectedTemplatePath();
 
     /**
      *文件名是否存在
@@ -41,5 +41,5 @@ public interface FileOperations {
      * @param suffix 后缀名
      * @return 是否存在
      */
-	public boolean isNameAlreadyExist(String newName, String oldName, String suffix);
+    public boolean isNameAlreadyExist(String newName, String oldName, String suffix);
 }

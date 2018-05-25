@@ -2,6 +2,7 @@ package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
@@ -10,7 +11,11 @@ import com.fr.design.constants.UIConstants;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.datapane.TableDataTreePane;
 import com.fr.design.data.tabledata.ResponseDataSourceChange;
-import com.fr.design.file.*;
+import com.fr.design.file.FileOperations;
+import com.fr.design.file.FileToolbarStateChangeListener;
+import com.fr.design.file.HistoryTemplateListPane;
+import com.fr.design.file.MutilTempalteTabPane;
+import com.fr.design.file.TemplateTreePane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.imenu.UIMenuHighLight;
@@ -28,7 +33,6 @@ import com.fr.file.FileNodeFILE;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
-import com.fr.io.utils.ResourceIOUtils;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.project.ProjectConstants;
@@ -42,6 +46,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -52,6 +57,11 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
 
     private CardLayout card;
     private JPanel cardPane;
+    private java.util.List<FileToolbarStateChangeListener> otherToobarStateChangeListeners= new ArrayList<>();
+
+    public FileOperations getSelectedOperation() {
+        return selectedOperation;
+    }
 
     private FileOperations selectedOperation;
     private UIToolbar toolBar;
@@ -110,7 +120,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         HistoryTemplateListPane.getInstance().setCurrentEditingTemplate(jt);
         //处理自动新建的模板
         MutilTempalteTabPane.getInstance().doWithtemTemplate();
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             RolesAlreadyEditedPane.getInstance().refreshDockingView();
         }
 
@@ -134,7 +144,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         }
         toolbarDef.addShortCut(delFileAction);
         Set<ShortCut> extraShortCuts = ExtraDesignClassManager.getInstance().getExtraShortCuts();
-        for (ShortCut shortCut : extraShortCuts){
+        for (ShortCut shortCut : extraShortCuts) {
             toolbarDef.addShortCut(shortCut);
         }
 
@@ -160,8 +170,9 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
     }
 
     /**
-     *  响应数据集改变
-     * @param map     改变名字的数据集
+     * 响应数据集改变
+     *
+     * @param map 改变名字的数据集
      */
     public void fireDSChanged(Map<String, String> map) {
         DesignTableDataManager.fireDSChanged(map);
@@ -212,6 +223,21 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         public void actionPerformed(ActionEvent evt) {
             selectedOperation.refresh();
             stateChange();
+
+        }
+    }
+
+    public void addToobarStateChangeListener(FileToolbarStateChangeListener toobarStateChangeListener) {
+        this.otherToobarStateChangeListeners.add(toobarStateChangeListener);
+    }
+
+    public void removeToobarStateChangeListener(FileToolbarStateChangeListener toobarStateChangeListener) {
+        this.otherToobarStateChangeListeners.remove(toobarStateChangeListener);
+    }
+
+    private void otherStateChange() {
+        for (FileToolbarStateChangeListener toobarStateChangeListener : otherToobarStateChangeListeners) {
+            toobarStateChangeListener.stateChange();
         }
     }
 
@@ -295,8 +321,8 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
                     openReportAction.setEnabled(false);
                 }
                 FileNode node = TemplateTreePane.getInstance().getTemplateFileTree().getSelectedFileNode();
-                if (selectedOperation.getSelectedTemplatePath() != null){
-                    if (node.getLock() != null && !ComparatorUtils.equals(node.getUserID(),node.getLock())){
+                if (selectedOperation.getSelectedTemplatePath() != null) {
+                    if (node.getLock() != null && !ComparatorUtils.equals(node.getUserID(), node.getLock())) {
                         delFileAction.setEnabled(false);
                     } else {
                         delFileAction.setEnabled(true);
@@ -329,6 +355,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             delFileAction.setEnabled(true);
         }
 
+        otherStateChange();
     }
 
     /**
@@ -383,8 +410,8 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
                 return;
             }
 
-            final FileNodeFILE nodeFile = new FileNodeFILE(new FileNode(StableUtils.pathJoin(ProjectConstants.REPORTLETS_NAME, reportPath), false));
-            final String path = nodeFile.getPath();
+            final FileNodeFILE nodeFile = new FileNodeFILE(new FileNode(StableUtils.pathJoin(new String[]{ProjectConstants.REPORTLETS_NAME, reportPath}), false));
+            final String path = StableUtils.pathJoin(new String[]{nodeFile.getEnvPath(), nodeFile.getPath()});
             oldName = nodeFile.getName();
             suffix = oldName.substring(oldName.lastIndexOf(CoreConstants.DOT), oldName.length());
             oldName = oldName.replaceAll(suffix, "");
@@ -477,9 +504,8 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             String newPath = path.replace(nodeFile.getName(), userInput + suffix);
             renameTemplateInMemory(nodeFile, userInput + suffix, oldName + suffix);
             DesignerEnvManager.getEnvManager().replaceRecentOpenedFilePath(oldPath, newPath.replaceAll("/", "\\\\"));
-
-            //模版重命名
-            ResourceIOUtils.renameTo(path, newPath);
+            File newFile = new File(newPath);
+            new File(path).renameTo(newFile);
             selectedOperation.refresh();
             DesignerContext.getDesignerFrame().setTitle();
             jd.dispose();

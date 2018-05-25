@@ -1,12 +1,6 @@
 package com.fr.design.utils;
 
-import com.fr.base.BaseUtils;
-import com.fr.base.ServerConfig;
-import com.fr.base.Env;
-import com.fr.base.EnvException;
-import com.fr.base.FRContext;
-import com.fr.base.FeedBackInfo;
-import com.fr.base.Utils;
+import com.fr.base.*;
 import com.fr.base.remote.RemoteDeziConstants;
 import com.fr.dav.DavXMLUtils;
 import com.fr.dav.LocalEnv;
@@ -15,39 +9,18 @@ import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.fun.DesignerEnvProcessor;
 import com.fr.design.gui.UILookAndFeel;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.mainframe.DesignerFrame;
 import com.fr.env.RemoteEnv;
 import com.fr.file.FileFILE;
-import com.fr.general.ComparatorUtils;
-import com.fr.general.FRFont;
-import com.fr.general.FRLogger;
-import com.fr.general.GeneralContext;
-import com.fr.general.Inter;
+import com.fr.general.*;
 import com.fr.general.http.HttpClient;
-import com.fr.stable.ArrayUtils;
-import com.fr.stable.CodeUtils;
-import com.fr.stable.EncodeConstants;
-import com.fr.stable.StableUtils;
-import com.fr.stable.StringUtils;
+import com.fr.stable.*;
 import com.fr.start.StartServer;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.URI;
-import java.net.URLEncoder;
+import java.io.*;
+import java.net.*;
 import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.Locale;
@@ -209,18 +182,18 @@ public class DesignUtils {
 
         // 更新CurrentEnv于FRContext & DesignerEnvManager
         FRContext.setCurrentEnv(env);
-    
+        DesignerFrame.refreshNorthEastPane();
         refreshDesignerFrame(env);
         // 当换了运行环境,重置服务器，让它下次预览时重启
         if (env instanceof LocalEnv && !ComparatorUtils.equals(env.getPath(), oldEnvPath)) {
             StartServer.currentEnvChanged();
         }
     }
-    
+
     public static void refreshDesignerFrame(Env env) {
-        
+
         final Env run_env = env;
-        
+
         // 刷新DesignerFrame里面的面板
         SwingUtilities.invokeLater(new Runnable() {
 
@@ -233,7 +206,7 @@ public class DesignUtils {
             }
         });
     }
-    
+
     /**
      * p:初始化look and feel, 把一切放到这个里面.可以让多个地方调用.
      */
@@ -256,15 +229,15 @@ public class DesignUtils {
             }
         }
     }
-    
+
     private static boolean isTextField(String key){
-    	return key.startsWith("TextField.") || key.startsWith("PasswordField.");
+        return key.startsWith("TextField.") || key.startsWith("PasswordField.");
     }
-    
+
     private static FRFont getCurrentLocaleFont(){
         FRFont guiFRFont;
         Locale defaultLocale = Locale.getDefault();
-        
+
         if (isDisplaySimSun(defaultLocale)) {
             guiFRFont = getNamedFont("SimSun");
         } else if(isDisplayDialog(defaultLocale)) {
@@ -272,48 +245,41 @@ public class DesignUtils {
         } else {
             guiFRFont = getNamedFont("Tahoma");
         }
-        
+
         //先初始化的设计器locale, 后初始化lookandfeel.如果顺序改了, 这边也要调整.
         Locale designerLocale = FRContext.getLocale();
         String file = Inter.getLocText("FR-Designer_File");
         char displayChar = file.charAt(0);
         if (!guiFRFont.canDisplay(displayChar)) {
-			//如果不能用默认的语言显示字体, 比如想在英文系统里用中文设计器
-        	//默认语言(中文:宋体, 英文:Tahoma, 其他:Dialog)
-        	guiFRFont = getNamedFont("SimSun");
-        	if (!guiFRFont.canDisplay(displayChar)) {
+            //如果不能用默认的语言显示字体, 比如想在英文系统里用中文设计器
+            //默认语言(中文:宋体, 英文:Tahoma, 其他:Dialog)
+            guiFRFont = getNamedFont("SimSun");
+            if (!guiFRFont.canDisplay(displayChar)) {
                 //比如想在中文或英文系统里用韩文设计器
                 guiFRFont = getNamedFont("Dialog");
                 if(!guiFRFont.canDisplay(displayChar)) {
                     FRContext.getLogger().error(Inter.getLocText("FR-Base_SimSun_Not_Found"));
                 }
-			}
-		}
-        
+            }
+        }
+
         return guiFRFont;
     }
-    
+
     private static FRFont getNamedFont(String name){
-    	return FRFont.getInstance(name, Font.PLAIN, 12);
-    }
-    
-    private static boolean isDisplaySimSun(Locale defaultLocale){
-    	return ComparatorUtils.equals(defaultLocale, Locale.SIMPLIFIED_CHINESE);
-    }
-    
-    private static boolean isDisplayDialog(Locale defaultLocale){
-    	return ComparatorUtils.equals(defaultLocale, Locale.TRADITIONAL_CHINESE) 
-    			|| ComparatorUtils.equals(defaultLocale, Locale.JAPANESE)
-                || ComparatorUtils.equals(defaultLocale, Locale.JAPAN) 
-                || ComparatorUtils.equals(defaultLocale, Locale.KOREAN)
-                || ComparatorUtils.equals(defaultLocale, Locale.KOREA);
+        return FRFont.getInstance(name, Font.PLAIN, 12);
     }
 
-    /**
-     * 访问服务器环境-空参数
-     */
-    public static void visitEnvServer() {
-        visitEnvServerByParameters(StringUtils.EMPTY, new String[] {}, new String[] {});
+    private static boolean isDisplaySimSun(Locale defaultLocale){
+        return ComparatorUtils.equals(defaultLocale, Locale.SIMPLIFIED_CHINESE);
+    }
+
+    private static boolean isDisplayDialog(Locale defaultLocale){
+        return ComparatorUtils.equals(defaultLocale, Locale.TRADITIONAL_CHINESE)
+                || ComparatorUtils.equals(defaultLocale, Locale.JAPANESE)
+                || ComparatorUtils.equals(defaultLocale, Locale.JAPAN)
+                || ComparatorUtils.equals(defaultLocale, Locale.KOREAN)
+                || ComparatorUtils.equals(defaultLocale, Locale.KOREA);
     }
 
     /**
@@ -322,7 +288,7 @@ public class DesignUtils {
      * @param names  参数名字
      * @param values 参数值
      */
-    public static void visitEnvServerByParameters(String baseRoute, String[] names, String[] values) {
+    public static void visitEnvServerByParameters(String[] names, String[] values) {
         int len = Math.min(ArrayUtils.getLength(names), ArrayUtils.getLength(values));
         String[] segs = new String[len];
         for (int i = 0; i < len; i++) {
@@ -353,8 +319,7 @@ public class DesignUtils {
         } else {
             try {
                 String web = GeneralContext.getCurrentAppNameOfEnv();
-                String url = "http://localhost:" + DesignerEnvManager.getEnvManager().getJettyServerPort()
-                        + "/" + web + "/" + ServerConfig.getInstance().getServletName() + baseRoute
+                String url = "http://localhost:" + DesignerEnvManager.getEnvManager().getJettyServerPort() + "/" + web + "/" + ConfigManager.getProviderInstance().getServletMapping()
                         + postfixOfUri;
                 StartServer.browserURLWithLocalEnv(url);
             } catch (Throwable e) {
@@ -474,10 +439,10 @@ public class DesignUtils {
 
 
     private static InputStream postBytes2ServerB(byte[] bytes) throws Exception {
-    	HttpClient client = new HttpClient("http://114.215.175.35:8080/WebReport/product_advice.jsp");
+        HttpClient client = new HttpClient("http://114.215.175.35:8080/WebReport/product_advice.jsp");
         client.asGet();
-    	client.setContent(bytes);
-    	return execute4InputStream(client);
+        client.setContent(bytes);
+        return execute4InputStream(client);
     }
 
 
@@ -487,7 +452,7 @@ public class DesignUtils {
     private static ByteArrayInputStream execute4InputStream(HttpClient client) throws Exception {
         int statusCode = client.getResponseCode();
         if(statusCode != HttpURLConnection.HTTP_OK){
-        	throw new EnvException("Method failed: " + statusCode);
+            throw new EnvException("Method failed: " + statusCode);
         }
         InputStream in = client.getResponseStream();
         if (in == null) {

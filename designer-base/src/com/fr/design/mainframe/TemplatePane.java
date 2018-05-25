@@ -1,278 +1,598 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.Env;
-import com.fr.dav.LocalEnv;
+import com.fr.base.FRContext;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignerEnvManager;
-import com.fr.design.dialog.BasicDialog;
-import com.fr.design.dialog.DialogActionAdapter;
-import com.fr.design.dialog.InformationWarnPane;
+import com.fr.design.ExtraDesignClassManager;
+import com.fr.design.actions.UpdateAction;
+import com.fr.design.constants.UIConstants;
+import com.fr.design.data.DesignTableDataManager;
+import com.fr.design.data.datapane.TableDataTreePane;
+import com.fr.design.data.tabledata.ResponseDataSourceChange;
+import com.fr.design.file.FileOperations;
+import com.fr.design.file.FileToolbarStateChangeListener;
 import com.fr.design.file.HistoryTemplateListPane;
+import com.fr.design.file.MutilTempalteTabPane;
 import com.fr.design.file.TemplateTreePane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.env.EnvListPane;
-import com.fr.env.RemoteEnv;
-import com.fr.env.SignIn;
+import com.fr.design.gui.imenu.UIMenuHighLight;
+import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.gui.itoolbar.UIToolbar;
+import com.fr.design.gui.itree.filetree.TemplateFileTree;
+import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.menu.KeySetUtils;
+import com.fr.design.menu.ShortCut;
+import com.fr.design.menu.ToolBarDef;
+import com.fr.design.roleAuthority.RolesAlreadyEditedPane;
+import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.file.FILE;
+import com.fr.file.FileNodeFILE;
+import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
-import com.fr.stable.EnvChangedListener;
-import com.fr.stable.ProductConstants;
-import com.fr.stable.StringUtils;
+import com.fr.stable.CoreConstants;
+import com.fr.stable.StableUtils;
+import com.fr.stable.project.ProjectConstants;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
-//TODO: august TemplatePane和TemplateTreePane最好合并成一个类
-public class TemplatePane extends JPanel implements MouseListener {
-    private static final long NUM = 1L;
-    private static int NUM200 = 200;
+public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarStateChangeListener, ResponseDataSourceChange {
+    private static final String FILE = "file";
+    private static DesignerFrameFileDealerPane THIS;
 
-    public static TemplatePane getInstance() {
-        return HOLDER.singleton;
+    private CardLayout card;
+    private JPanel cardPane;
+    private java.util.List<FileToolbarStateChangeListener> otherToobarStateChangeListeners= new ArrayList<>();
+
+    public FileOperations getSelectedOperation() {
+        return selectedOperation;
     }
 
-    private static class HOLDER {
-        private static TemplatePane singleton = new TemplatePane();
+    private FileOperations selectedOperation;
+    private UIToolbar toolBar;
+
+    private OpenReportAction openReportAction = new OpenReportAction();
+    private RefreshTreeAction refreshTreeAction = new RefreshTreeAction();
+    private OpenFolderAction openFolderAction = new OpenFolderAction();
+    private RenameAction renameAction = new RenameAction();
+    private DelFileAction delFileAction = new DelFileAction();
+
+
+    /**
+     * 刷新
+     */
+    public void refresh() {
+        selectedOperation.refresh();
     }
 
-    private static final long serialVersionUID = 2108412478281713143L;
-    public static final int HEIGHT = 23;// 最好和日志的高度统一 用同一个变量
-    private static javax.swing.Icon leftIcon = BaseUtils.readIcon("/com/fr/design/images/docking/left.png");
-    ;
-    private static javax.swing.Icon rightIcon = BaseUtils.readIcon("/com/fr/design/images/docking/right.png");
-    ;
-    private boolean isExpanded = false;
-    private UIButton editButton;
-    private UILabel envLabel;
-
-    private TemplatePane() {
-        super();
-        this.initComponents();
-        this.setFocusable(true);
-        this.addMouseListener(this);
-        isExpanded = DesignerEnvManager.getEnvManager().isTemplateTreePaneExpanded();
-        //		TemplateTreePane.getInstance().setVisible(isExpanded);
-        TemplateTreePane.getInstance().setVisible(true);
+    public static final DesignerFrameFileDealerPane getInstance() {
+        if (THIS == null) {
+            THIS = new DesignerFrameFileDealerPane();
+        }
+        return THIS;
     }
 
-    private void initComponents() {
-        GeneralContext.addEnvChangedListener(new EnvChangedListener() {
-            public void envChanged() {
-                setJLabel(DesignerEnvManager.getEnvManager().getCurEnvName());
-            }
-        });
-        this.setLayout(new BorderLayout(25, 0));
-        editButton = new UIButton(BaseUtils.readIcon("/com/fr/design/images/control/control-center2.png")) {
-            private static final long serialVersionUID = NUM;
+    private DesignerFrameFileDealerPane() {
+        setLayout(new BorderLayout());
+        toolBar = ToolBarDef.createJToolBar();
+        toolBar.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, UIConstants.TOOLBAR_BORDER_COLOR));
+        toolBar.setBorderPainted(true);
+        JPanel tooBarPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        JPanel parent = new JPanel(new BorderLayout());
+        parent.add(toolBar, BorderLayout.CENTER);
+        parent.setBorder(BorderFactory.createEmptyBorder(3, 0, 4, 0));
+        tooBarPane.add(parent, BorderLayout.CENTER);
+        tooBarPane.add(new UIMenuHighLight(), BorderLayout.SOUTH);
 
-            @Override
-            public Point getToolTipLocation(MouseEvent event) {
-                return new Point(25, 2);
-            }
-        };
-        editButton.setOpaque(false);
-        editButton.setBorder(BorderFactory.createEmptyBorder(2, 0, 0, 10));
-        editButton.setMargin(null);
-        editButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        editButton.setToolTipText(Inter.getLocText("Env-Configure_Workspace"));
-        this.add(new UILabel("   "), BorderLayout.WEST);
-        this.add(editButton, BorderLayout.EAST);
-        editButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                editItems();
-            }
-        });
-        envLabel = new UILabel();
-        envLabel.setForeground(new Color(102, 102, 102));
-        setJLabel(DesignerEnvManager.getEnvManager().getCurEnvName());
-        this.add(envLabel, BorderLayout.CENTER);
+        add(tooBarPane, BorderLayout.NORTH);
+        cardPane = new JPanel(card = new CardLayout());
+        cardPane.add(TemplateTreePane.getInstance(), FILE);
+
+        selectedOperation = TemplateTreePane.getInstance();
+        card.show(cardPane, FILE);
+
+        TemplateTreePane.getInstance().setToobarStateChangeListener(this);
+
+        add(cardPane, BorderLayout.CENTER);
+        stateChange();
+    }
+
+
+    public final void setCurrentEditingTemplate(JTemplate<?, ?> jt) {
+        DesignModelAdapter.setCurrentModelAdapter(jt == null ? null : jt.getModel());
+        fireDSChanged();
+        TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter());
+        HistoryTemplateListPane.getInstance().setCurrentEditingTemplate(jt);
+        //处理自动新建的模板
+        MutilTempalteTabPane.getInstance().doWithtemTemplate();
+        if (DesignerMode.isAuthorityEditing()) {
+            RolesAlreadyEditedPane.getInstance().refreshDockingView();
+        }
+
+        jt.setComposite();
+        jt.refreshToolArea();
+        jt.fireJTemplateOpened();
+        jt.requestFocus();
+        jt.revert();
+
+        FRContext.getLogger().info("\"" + jt.getEditingFILE().getName() + "\"" + Inter.getLocText("LOG-Has_Been_Openned") + "!");
     }
 
     /**
-     * 是否可扩展
-     * @return 同上
+     * 刷新菜单
      */
-    public boolean IsExpanded() {
-        return this.isExpanded;
+    public void refreshDockingView() {
+        ToolBarDef toolbarDef = new ToolBarDef();
+        toolbarDef.addShortCut(openReportAction, refreshTreeAction);
+        if (FRContext.getCurrentEnv().isSupportLocalFileOperate()) {
+            toolbarDef.addShortCut(openFolderAction, renameAction);
+        }
+        toolbarDef.addShortCut(delFileAction);
+        Set<ShortCut> extraShortCuts = ExtraDesignClassManager.getInstance().getExtraShortCuts();
+        for (ShortCut shortCut : extraShortCuts) {
+            toolbarDef.addShortCut(shortCut);
+        }
+
+        toolbarDef.updateToolBar(toolBar);
+        refreshActions();
     }
 
-    public void setExpand(boolean b) {
-        this.isExpanded = b;
+
+    private void refreshActions() {
+        openReportAction.setEnabled(false);
+        refreshTreeAction.setEnabled(true);
+        openFolderAction.setEnabled(false);
+        renameAction.setEnabled(false);
+        delFileAction.setEnabled(false);
         this.repaint();
     }
 
-    private boolean envListOkAction(EnvListPane envListPane) {
-        String selectedName = envListPane.updateEnvManager();
-        DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
-        Env selectedEnv = envManager.getEnv(selectedName);
-        GeneralContext.fireEnvWillChangeListener();
-        try {
-            //如果是远程的还要先测试下，如果失败就不切换
-            if (selectedEnv instanceof RemoteEnv) {
-                if (!((RemoteEnv) selectedEnv).testServerConnection()) {
-                    JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText(new String[]{"M-SwitchWorkspace", "Failed"}));
-                    return false;
+    /**
+     * 响应数据集改变
+     */
+    public void fireDSChanged() {
+        fireDSChanged(new HashMap<String, String>());
+    }
+
+    /**
+     * 响应数据集改变
+     *
+     * @param map 改变名字的数据集
+     */
+    public void fireDSChanged(Map<String, String> map) {
+        DesignTableDataManager.fireDSChanged(map);
+    }
+
+
+    /*
+     * Open Report Action
+     */
+    private class OpenReportAction extends UpdateAction {
+
+        public OpenReportAction() {
+            this.setName(KeySetUtils.OPEN_TEMPLATE.getMenuKeySetName());
+            this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/buttonicon/open.png"));
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            selectedOperation.openSelectedReport();
+        }
+
+    }
+
+    private class OpenFolderAction extends UpdateAction {
+
+        public OpenFolderAction() {
+            this.setName(Inter.getLocText("FR-Designer_Show_in_Containing_Folder"));
+            this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_file/view_folder.png"));
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            selectedOperation.openContainerFolder();
+        }
+    }
+
+    /*
+     * 刷新ReportletsTree
+     */
+    private class RefreshTreeAction extends UpdateAction {
+
+        public RefreshTreeAction() {
+            this.setName(Inter.getLocText("FR-Designer_Refresh"));
+            this.setSmallIcon(UIConstants.REFRESH_ICON);
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            selectedOperation.refresh();
+            stateChange();
+
+        }
+    }
+
+    public void addToobarStateChangeListener(FileToolbarStateChangeListener toobarStateChangeListener) {
+        this.otherToobarStateChangeListeners.add(toobarStateChangeListener);
+    }
+
+    public void removeToobarStateChangeListener(FileToolbarStateChangeListener toobarStateChangeListener) {
+        this.otherToobarStateChangeListeners.remove(toobarStateChangeListener);
+    }
+
+    private void otherStateChange() {
+        for (FileToolbarStateChangeListener toobarStateChangeListener : otherToobarStateChangeListeners) {
+            toobarStateChangeListener.stateChange();
+        }
+    }
+
+    /*
+     * 重命名文件
+     */
+    private class RenameAction extends UpdateAction {
+
+        public RenameAction() {
+            this.setName(Inter.getLocText("FR-Designer_Rename"));
+            this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/data/source/rename.png"));
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            new RenameDialog();
+            MutilTempalteTabPane.getInstance().repaint();
+        }
+
+    }
+
+    /*
+     * 删除指定文件
+     */
+    private class DelFileAction extends UpdateAction {
+
+        public DelFileAction() {
+            this.setName(Inter.getLocText("FR-Designer_Remove"));
+            this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/data/source/delete.png"));
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            selectedOperation.deleteFile();
+        }
+    }
+
+    /*
+     * 加锁
+     */
+    private class GetLockAction extends UpdateAction {
+
+        public GetLockAction() {
+            this.setName(Inter.getLocText("FR-Designer_Get_Lock"));
+            this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/lock.png"));
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            selectedOperation.lockFile();
+        }
+    }
+
+    /*
+     * 解锁
+     */
+    private class ReleaseLockAction extends UpdateAction {
+
+        public ReleaseLockAction() {
+            this.setName(Inter.getLocText("FR-Designer_Release_Lock"));
+            this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/unlock.png"));
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            selectedOperation.unLockFile();
+        }
+    }
+
+    /**
+     * 按钮状态改变
+     */
+    @Override
+    public void stateChange() {
+        //当前环境为远程环境时
+        if (FRContext.getCurrentEnv() != null) {
+            if (!FRContext.getCurrentEnv().isSupportLocalFileOperate()) {
+                if (selectedOperation.getSelectedTemplatePath() != null) {
+                    openReportAction.setEnabled(true);
                 } else {
-                    String remoteVersion = selectedEnv.getDesignerVersion();
-                    if (StringUtils.isBlank(remoteVersion) || ComparatorUtils.compare(remoteVersion, ProductConstants.DESIGNER_VERSION) < 0) {
-                        String infor = Inter.getLocText("Server-version-tip");
-                        String moreInfo = Inter.getLocText("Server-version-tip-moreInfo");
-                        new InformationWarnPane(infor, moreInfo, Inter.getLocText("Tooltips")).show();
-                        return false;
+                    openReportAction.setEnabled(false);
+                }
+                FileNode node = TemplateTreePane.getInstance().getTemplateFileTree().getSelectedFileNode();
+                if (selectedOperation.getSelectedTemplatePath() != null) {
+                    if (node.getLock() != null && !ComparatorUtils.equals(node.getUserID(), node.getLock())) {
+                        delFileAction.setEnabled(false);
+                    } else {
+                        delFileAction.setEnabled(true);
+                    }
+                } else {
+                    delFileAction.setEnabled(false);
+                }
+            } else {
+                //当前环境为本地环境时
+                if (selectedOperation.getSelectedTemplatePath() != null) {
+                    openReportAction.setEnabled(true);
+                    renameAction.setEnabled(true);
+                    delFileAction.setEnabled(true);
+                } else {
+                    openReportAction.setEnabled(false);
+                    renameAction.setEnabled(false);
+                    delFileAction.setEnabled(false);
+                }
+                openFolderAction.setEnabled(containsFolderNums() + seletedTemplateNums() != 0);
+            }
+            refreshTreeAction.setEnabled(true);
+        }
+        if (containsFolderNums() > 0 && (containsFolderNums() + seletedTemplateNums() > 1)) {
+            refreshActions();
+        } else if (containsFolderNums() == 0 && seletedTemplateNums() > 1) {
+            openReportAction.setEnabled(false);
+            refreshTreeAction.setEnabled(true);
+            openFolderAction.setEnabled(false);
+            renameAction.setEnabled(false);
+            delFileAction.setEnabled(true);
+        }
+
+        otherStateChange();
+    }
+
+    /**
+     * 是否包含文件夹
+     *
+     * @return
+     */
+
+    private int containsFolderNums() {
+        TemplateFileTree fileTree = TemplateTreePane.getInstance().getTemplateFileTree();
+        if (fileTree.getSelectionPaths() == null) {
+            return 0;
+        }
+
+        //选择的包含文件和文件夹的数目
+        if (fileTree.getSelectionPaths().length == 0) {
+            return 0;
+        }
+        //所有的num减去模板的num，得到文件夹的num
+        return fileTree.getSelectionPaths().length - fileTree.getSelectedTemplatePaths().length;
+    }
+
+    /**
+     * 是否选择了多个模板
+     *
+     * @return
+     */
+    private int seletedTemplateNums() {
+        TemplateFileTree fileTree = TemplateTreePane.getInstance().getTemplateFileTree();
+        if (fileTree.getSelectionPaths() == null) {
+            return 0;
+        }
+
+        return fileTree.getSelectedTemplatePaths().length;
+    }
+
+
+    // js: 重命名对话框，模仿Eclipse的重命名，支持快捷键F2，Enter，ESC
+    private class RenameDialog {
+
+        private UITextField jt;
+        private String userInput;
+        private String oldName;
+        private UILabel hintsLabel;
+        private UIButton confirmButton;
+        private JDialog jd;
+        private String suffix;
+
+        public RenameDialog() {
+            final String reportPath = selectedOperation.getSelectedTemplatePath();
+            if (reportPath == null) {
+                return;
+            }
+
+            final FileNodeFILE nodeFile = new FileNodeFILE(new FileNode(StableUtils.pathJoin(new String[]{ProjectConstants.REPORTLETS_NAME, reportPath}), false));
+            final String path = StableUtils.pathJoin(new String[]{nodeFile.getEnvPath(), nodeFile.getPath()});
+            oldName = nodeFile.getName();
+            suffix = oldName.substring(oldName.lastIndexOf(CoreConstants.DOT), oldName.length());
+            oldName = oldName.replaceAll(suffix, "");
+
+            jd = new JDialog();
+            jd.setLayout(new GridLayout(2, 2));
+            jd.setModal(true);
+            UILabel newNameLabel = new UILabel(Inter.getLocText("FR-Designer_Enter-New-FileName"));
+            newNameLabel.setMinimumSize(new Dimension(150, 27));
+            newNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+            jt = new UITextField(oldName);
+            jt.getDocument().addDocumentListener(getdoDocumentListener());
+            jt.selectAll();
+            jt.setPreferredSize(new Dimension(150, 20));
+
+            JPanel newNamePanel = new JPanel();
+            newNamePanel.setLayout(new BoxLayout(newNamePanel, BoxLayout.X_AXIS));
+            newNamePanel.add(Box.createHorizontalGlue());
+            newNamePanel.add(newNameLabel);
+            newNamePanel.add(Box.createHorizontalStrut(5));
+            jd.add(newNamePanel);
+
+            JPanel jtPanel = new JPanel();
+            jtPanel.setLayout(new BoxLayout(jtPanel, BoxLayout.Y_AXIS));
+            JPanel containJt = new JPanel(new BorderLayout());
+            containJt.add(jt, BorderLayout.WEST);
+            containJt.setMaximumSize(new Dimension(200, 20));
+            jtPanel.add(Box.createVerticalGlue());
+            jtPanel.add(containJt);
+            jtPanel.add(Box.createVerticalGlue());
+            jd.add(jtPanel);
+
+            addUITextFieldListener(nodeFile, path);
+
+            hintsLabel = new UILabel();
+            hintsLabel.setBounds(20, 50, 250, 30);
+            hintsLabel.setMaximumSize(new Dimension(200, 30));
+            hintsLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+            hintsLabel.setForeground(Color.RED);
+            hintsLabel.setVisible(false);
+
+            confirmButton = new UIButton(Inter.getLocText("FR-Designer_Confirm"));
+            confirmButton.setPreferredSize(new Dimension(80, 25));
+            confirmButton.setMinimumSize(new Dimension(80, 25));
+            confirmButton.setMaximumSize(new Dimension(80, 25));
+            confirmButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    confirmClose(nodeFile, path);
+                }
+            });
+
+            UIButton cancelButton = new UIButton(Inter.getLocText("FR-Designer_Cancel"));
+            cancelButton.setPreferredSize(new Dimension(80, 25));
+            cancelButton.setMinimumSize(new Dimension(80, 25));
+            cancelButton.setMaximumSize(new Dimension(80, 25));
+
+            cancelButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    jd.dispose();
+                }
+            });
+
+            JPanel hintsPanel = new JPanel();
+            hintsPanel.setLayout(new BorderLayout());
+            hintsPanel.add(hintsLabel, BorderLayout.EAST);
+            jd.add(hintsLabel);
+
+            JPanel btPanel = new JPanel(new BorderLayout());
+            btPanel.setLayout(new BoxLayout(btPanel, BoxLayout.X_AXIS));
+            btPanel.add(Box.createHorizontalGlue());
+            btPanel.add(confirmButton);
+            btPanel.add(Box.createHorizontalStrut(5));
+            btPanel.add(cancelButton);
+            btPanel.add(Box.createHorizontalStrut(20));
+            jd.add(btPanel);
+
+            jd.setSize(380, 200);
+            jd.setTitle(Inter.getLocText("FR-Designer_Rename"));
+            jd.setResizable(false);
+            jd.setAlwaysOnTop(true);
+            jd.setIconImage(BaseUtils.readImage("/com/fr/base/images/oem/logo.png"));
+            jd.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+            GUICoreUtils.centerWindow(jd);
+            jd.setVisible(true);
+        }
+
+        public void confirmClose(FileNodeFILE nodeFile, String path) {
+            userInput = userInput == null ? oldName : userInput;
+            String oldPath = path.replaceAll("/", "\\\\");
+            String newPath = path.replace(nodeFile.getName(), userInput + suffix);
+            renameTemplateInMemory(nodeFile, userInput + suffix, oldName + suffix);
+            DesignerEnvManager.getEnvManager().replaceRecentOpenedFilePath(oldPath, newPath.replaceAll("/", "\\\\"));
+            File newFile = new File(newPath);
+            new File(path).renameTo(newFile);
+            selectedOperation.refresh();
+            DesignerContext.getDesignerFrame().setTitle();
+            jd.dispose();
+        }
+
+        private void renameTemplateInMemory(FILE tplFile, String newName, String oldName) {
+            JTemplate<?, ?> dPane = getSpecialTemplateByFILE(tplFile);
+            if (dPane == null) {
+                return;
+            }
+            FILE renameFile = dPane.getEditingFILE();
+            renameFile.setPath(renameFile.getPath().replace(oldName, newName));
+        }
+
+        // 增加enter以及esc快捷键的支持
+        public void addUITextFieldListener(final FileNodeFILE nodeFile, final String path) {
+
+            jt.addKeyListener(new KeyAdapter() {
+                public void keyPressed(KeyEvent e) {
+                    if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                        jd.dispose();
                     }
                 }
-            }
-            SignIn.signIn(selectedEnv);
-            JTemplate template = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
-            if (template != null) {
-                template.refreshToolArea();
-            }
-            setJLabel(selectedName);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText(new String[]{"M-SwitchWorkspace", "Failed"}));
-            return false;
+            });
+
+            jt.addKeyListener(new KeyAdapter() {
+                public void keyPressed(KeyEvent e) {
+                    if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                        if (confirmButton.isEnabled()) {
+                            confirmClose(nodeFile, path);
+                        }
+                    }
+                }
+            });
+
         }
-        TemplateTreePane.getInstance().refreshDockingView();
-        DesignModelAdapter<?, ?> model = DesignModelAdapter.getCurrentModelAdapter();
-        if (model != null) {
-            model.envChanged();
-        }
-        return true;
-    }
 
-    /**
-     * 编辑items
-     */
-    public void editItems() {
-        final EnvListPane envListPane = new EnvListPane();
-        final BasicDialog envListDialog = envListPane.showWindow(SwingUtilities.getWindowAncestor(DesignerContext.getDesignerFrame()));
+        // UITextField的输入监听
+        public DocumentListener getdoDocumentListener() {
+            DocumentListener dl = new DocumentListener() {
 
-        envListPane.populateEnvManager(envLabel.getText());
-        envListDialog.addDialogActionListener(new DialogActionAdapter() {
-            public void doOk() {
-                envListOkAction(envListPane);
-            }
-
-            public void doCancel() {
-            	envListDialog.setVisible(false);
-            }
-        });
-        envListDialog.setVisible(true);
-    }
-
-    private void setJLabel(String name) {
-        if (DesignerEnvManager.getEnvManager().getEnv(name) instanceof LocalEnv) {
-            envLabel.setIcon(BaseUtils.readIcon("com/fr/design/images/data/bind/localconnect.png"));
-
-        } else if (DesignerEnvManager.getEnvManager().getEnv(name) instanceof RemoteEnv) {
-            envLabel.setIcon(BaseUtils.readIcon("com/fr/design/images/data/bind/distanceconnect.png"));
-        }
-        envLabel.setText(name);
-        envLabel.repaint();
-    }
-
-    @Override
-    public Dimension getPreferredSize() {
-        return new Dimension(250, HEIGHT);
-    }
-
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        paintBackgroundIcon(g);
-    }
-
-    private void paintBackgroundIcon(Graphics g) {
-        int w = this.getWidth();
-        int h = this.getHeight();
-        Graphics2D g2d = (Graphics2D) g;
-        Color lightColor = new Color(226, 230, 234);
-        Color darkColor = new Color(183, 188, 195);
-        GradientPaint gp = new GradientPaint(1, 1, lightColor, 1, h - 1, darkColor);
-        g2d.setPaint(gp);
-        g2d.fillRect(1, 1, w - 2, h - 1);
-        g2d.setColor(lightColor);
-        g2d.drawLine(0, 2, 0, h - 1);
-        g2d.setColor(darkColor);
-        g2d.drawLine(w - 1, 2, w - 1, h - 1);
-        Icon icon = !isExpanded ? leftIcon : rightIcon;
-        icon.paintIcon(this, g2d, 4, 4);
-
-    }
-
-    /**
-     * 鼠标点击
-     * @param e 事件
-     */
-    @Override
-    public void mouseClicked(MouseEvent e) {
-    }
-
-    /**
-     * 鼠标按下
-     * @param e 事件
-     */
-    @Override
-    public void mousePressed(MouseEvent e) {
-        if (e.getX() < NUM200) {
-            isExpanded = !isExpanded;
-            TemplateTreePane.getInstance().setVisible(isExpanded);
-            this.setExpand(isExpanded);
-            DesignerEnvManager.getEnvManager().setTemplateTreePaneExpanded(isExpanded);
-        }
-    }
-
-    /**
-     * 鼠标放开
-     * @param e 事件
-     */
-    @Override
-    public void mouseReleased(MouseEvent e) {
-    }
-
-    /**
-     * 鼠标进入
-     * @param e 事件
-     */
-    @Override
-    public void mouseEntered(MouseEvent e) {
-    }
-
-    /**
-     * 鼠标离开
-     * @param e 事件
-     */
-    @Override
-    public void mouseExited(MouseEvent e) {
-    }
-
-    /**
-     * 处理异常
-     */
-    public void dealEvnExceptionWhenStartDesigner() {
-        final EnvListPane envListPane = new EnvListPane();
-        envListPane.populateEnvManager(envLabel.getText());
-        BasicDialog envListDialog = envListPane.showWindow(SwingUtilities.getWindowAncestor(DesignerContext.getDesignerFrame()));
-        envListDialog.addDialogActionListener(new DialogActionAdapter() {
-            public void doOk() {
-                if (!envListOkAction(envListPane)) {
-                    System.exit(0);
+                public void changedUpdate(DocumentEvent e) {
+                    isNameAlreadyExist();
                 }
 
-            }
+                public void insertUpdate(DocumentEvent e) {
+                    isNameAlreadyExist();
+                }
 
-            public void doCancel() {
-                System.exit(0);
+                public void removeUpdate(DocumentEvent e) {
+                    isNameAlreadyExist();
+                }
+            };
+
+            return dl;
+        }
+
+        private void isNameAlreadyExist() {
+            userInput = jt.getText().trim();
+            if (selectedOperation.isNameAlreadyExist(userInput, oldName, suffix)) {
+                jt.selectAll();
+                // 如果文件名已存在，则灰掉确认按钮
+                hintsLabel.setText(Inter.getLocText(new String[]{"Utils-File_name", "Already_exists"}, new String[]{userInput}));
+                hintsLabel.setVisible(true);
+                confirmButton.setEnabled(false);
+            } else {
+                hintsLabel.setVisible(false);
+                confirmButton.setEnabled(true);
             }
-        });
-        envListDialog.setVisible(true);
+        }
+    }
+
+    /**
+     * @param tplFile
+     * @return 内存中的template重命名一下
+     */
+    private JTemplate<?, ?> getSpecialTemplateByFILE(FILE tplFile) {
+        HistoryTemplateListPane historyHandle = HistoryTemplateListPane.getInstance();
+        if (ComparatorUtils.equals(historyHandle.getCurrentEditingTemplate().getEditingFILE(), tplFile)) {
+            return historyHandle.getCurrentEditingTemplate();
+        }
+        for (int i = 0; i < historyHandle.getHistoryCount(); i++) {
+            if (ComparatorUtils.equals(historyHandle.get(i).getEditingFILE(), tplFile)) {
+                return historyHandle.get(i);
+            }
+        }
+        return null;
     }
 
 }
