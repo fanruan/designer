@@ -1,5 +1,6 @@
 package com.fr.env;
 
+import com.fr.base.env.resource.LocalEnvConfig;
 import com.fr.dav.LocalEnv;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.ilable.UILabel;
@@ -21,7 +22,7 @@ import java.io.File;
 /**
  * @author yaohwu
  */
-public class LocalEnvPane extends BasicBeanPane<LocalEnv> {
+public class LocalEnvPane extends BasicBeanPane<LocalEnvConfig> {
 
     private UITextField pathTextField;
     private JFileTree localEnvTree;
@@ -70,9 +71,9 @@ public class LocalEnvPane extends BasicBeanPane<LocalEnv> {
     }
 
     @Override
-    public LocalEnv updateBean() {
+    public LocalEnvConfig updateBean() {
         String path = pathTextField.getText();
-        return LocalEnv.createEnv(path);
+        return new LocalEnvConfig(path);
     }
 
     public String getPath() {
@@ -80,7 +81,7 @@ public class LocalEnvPane extends BasicBeanPane<LocalEnv> {
     }
 
     @Override
-    public void populateBean(LocalEnv ob) {
+    public void populateBean(LocalEnvConfig ob) {
         if (StringUtils.isBlank(ob.getPath())) {
             return;
         }

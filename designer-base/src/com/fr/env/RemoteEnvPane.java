@@ -465,11 +465,8 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteEnv> {
     }
 
     private boolean testConnection() {
-        RemoteEnv env = new RemoteEnv();
         String url = remoteEnvURL.getURL();
-        env.setPath(url);
-        env.setUser(usernameInput.getText());
-        env.setPassword(new String(passwordInput.getPassword()));
+        RemoteEnv env = new RemoteEnv(url, usernameInput.getText(), new String(passwordInput.getPassword()));
         boolean connect = false;
         try {
             if (StringUtils.isNotEmpty(url)) {

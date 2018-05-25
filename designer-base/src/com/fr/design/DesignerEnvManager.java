@@ -4,9 +4,12 @@
 package com.fr.design;
 
 import com.fr.base.BaseXMLUtils;
-import com.fr.base.Env;
 import com.fr.base.FRContext;
 import com.fr.base.Utils;
+import com.fr.base.env.resource.EnvConfigUtils;
+import com.fr.base.env.resource.LocalEnvConfig;
+import com.fr.base.env.resource.RemoteEnvConfig;
+import com.fr.core.env.EnvConfig;
 import com.fr.dav.LocalEnv;
 import com.fr.design.actions.help.alphafine.AlphaFineConfigManager;
 import com.fr.design.constants.UIConstants;
@@ -61,7 +64,6 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
 
     private static final int MAX_SHOW_NUM = 10;
     private static final String VERSION_80 = "80";
-    private static final int CACHINGTEMPLATE_LIMIT = 5;
 
     private static DesignerEnvManager designerEnvManager; // gui.
     private String activationKey = null;
@@ -73,7 +75,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     private boolean showPaintToolBar = true;
     private int maxNumberOrPreviewRow = 200;
     // name和Env的键值对
-    private Map<String, Env> nameEnvMap = new ListMap();
+    private Map<String, EnvConfig> nameEnvMap = new ListMap();
     // marks: 当前报表服务器名字
     private String curEnvName = null;
     private boolean showProjectPane = true;
@@ -100,7 +102,6 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     private int language;
     //2014-8-26默认显示全部, 因为以前的版本, 虽然是false, 实际上是显示所有表, 因此这边要兼容
     private boolean useOracleSystemSpace = true;
-    private int cachingTemplateLimit = CACHINGTEMPLATE_LIMIT;
     private boolean autoBackUp = true;
     private int undoLimit = 5;
     private short pageLengthUnit = Constants.UNIT_MM;
@@ -148,7 +149,6 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     private boolean isHttps = false;
 
     private static List<SwingWorker> mapWorkerList = new ArrayList<SwingWorker>();
-    private boolean imageCompress = false;//图片压缩
 
     /**
      * DesignerEnvManager.
@@ -194,7 +194,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         if (installHome != null) {
             String name = Inter.getLocText("FR-Engine_DEFAULT");
             String envPath = StableUtils.pathJoin(new String[]{installHome, ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBINF_NAME});
-            designerEnvManager.putEnv(name, LocalEnv.createEnv(envPath));
+            designerEnvManager.putEnv(name, new LocalEnvConfig(envPath));
             designerEnvManager.setCurEnvName(name);
         }
     }
@@ -247,8 +247,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
 
         // 写文件的LogLocation
         String logLocation = DesignerEnvManager.getEnvManager().getLogLocation();
-        //Mac下8.0,9.0 选项-日志设置为空时在根目录下检测文件存在会抛无权限，这里应该设个默认值比较好吧
-        if (StringUtils.isNotEmpty(logLocation)) {
+        if (logLocation != null) {
             try {
                 Calendar calender = GregorianCalendar.getInstance();
                 calender.setTimeInMillis(System.currentTimeMillis());
@@ -327,7 +326,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
             FRContext.getLogger().error(e.getMessage(), e);
         }
         // 清空前一个版本中的工作目录和最近打开
-        nameEnvMap = new ListMap<String, Env>();
+        nameEnvMap = new ListMap<String, EnvConfig>();
         recentOpenedFilePathList = new ArrayList<String>();
         curEnvName = null;
         designerEnvManager.saveXMLFile();
@@ -474,7 +473,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
      * @return 是默认则返回true
      */
     public boolean isCurrentEnvDefault() {
-        Env currentEnv = this.getEnv(curEnvName);
+        EnvConfig currentEnv = this.getEnv(curEnvName);
         String defaultEnvPath = StableUtils.pathJoin(new String[]{StableUtils.getInstallHome(), ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBINF_NAME});
         return ComparatorUtils.equals(new File(defaultEnvPath).getPath(), currentEnv.getPath());
     }
@@ -482,21 +481,19 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     /**
      * 返回默认环境
      */
-    public Env getDefaultEnv() {
+    public EnvConfig getDefaultEnv() {
         String installHome = StableUtils.getInstallHome();
-        String defaultenvPath = StableUtils.pathJoin(new String[]{installHome, ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBINF_NAME});
+        String defaultenvPath = StableUtils.pathJoin(installHome, ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBINF_NAME);
         defaultenvPath = new File(defaultenvPath).getPath();
-        if (nameEnvMap.size() >= 0) {
-            Iterator<Entry<String, Env>> entryIt = nameEnvMap.entrySet().iterator();
-            while (entryIt.hasNext()) {
-                Entry<String, Env> entry = entryIt.next();
-                Env env = entry.getValue();
-                if (ComparatorUtils.equals(defaultenvPath, env.getPath())) {
-                    return env;
-                }
+        Iterator<Entry<String, EnvConfig>> entryIt = nameEnvMap.entrySet().iterator();
+        while (entryIt.hasNext()) {
+            Entry<String, EnvConfig> entry = entryIt.next();
+            EnvConfig env = entry.getValue();
+            if (ComparatorUtils.equals(defaultenvPath, env.getPath())) {
+                return env;
             }
         }
-        Env newDefaultEnv = LocalEnv.createEnv(defaultenvPath);
+        EnvConfig newDefaultEnv = new LocalEnvConfig(defaultenvPath);
         this.putEnv(Inter.getLocText(new String[]{"Default", "Utils-Report_Runtime_Env"}), newDefaultEnv);
         return newDefaultEnv;
     }
@@ -509,10 +506,10 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         String defaultenvPath = StableUtils.pathJoin(new String[]{installHome, ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBINF_NAME});
         defaultenvPath = new File(defaultenvPath).getPath();
         if (nameEnvMap.size() >= 0) {
-            Iterator<Entry<String, Env>> entryIt = nameEnvMap.entrySet().iterator();
+            Iterator<Entry<String, EnvConfig>> entryIt = nameEnvMap.entrySet().iterator();
             while (entryIt.hasNext()) {
-                Entry<String, Env> entry = entryIt.next();
-                Env env = entry.getValue();
+                Entry<String, EnvConfig> entry = entryIt.next();
+                EnvConfig env = entry.getValue();
                 if (ComparatorUtils.equals(defaultenvPath, env.getPath())) {
                     return entry.getKey();
                 }
@@ -636,21 +633,6 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     }
 
     /**
-     * 配置最大缓存模板个数
-     */
-    public void setCachingTemplateLimit(int cachingTemplateLimit) {
-        this.cachingTemplateLimit = cachingTemplateLimit;
-    }
-
-
-    /**
-     * 获取最大缓存模板个数
-     */
-    public int getCachingTemplateLimit() {
-        return this.cachingTemplateLimit;
-    }
-
-    /**
      * 是否加入产品改良
      *
      * @return 是否加入产品改良
@@ -699,7 +681,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     /**
      * 根据名称返回环境
      */
-    public Env getEnv(String name) {
+    public EnvConfig getEnv(String name) {
         return this.nameEnvMap.get(name);
     }
 
@@ -709,7 +691,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
      * @param name 名称
      * @param env  对应的环境
      */
-    public void putEnv(String name, Env env) {
+    public void putEnv(String name, EnvConfig env) {
         this.nameEnvMap.put(name, env);
     }
 
@@ -1413,16 +1395,14 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         this.setMaxNumberOrPreviewRow(reader.getAttrAsInt("maxNumberOrPreviewRow", 200));
 
         this.setOracleSystemSpace(reader.getAttrAsBoolean("useOracleSystemSpace", true));
-        this.setCachingTemplateLimit(reader.getAttrAsInt("cachingTemplateLimit", CACHINGTEMPLATE_LIMIT));
         this.setJoinProductImprove(reader.getAttrAsBoolean("joinProductImprove", true));
-        this.setImageCompress(reader.getAttrAsBoolean("imageCompress", true));
         this.setAutoBackUp(reader.getAttrAsBoolean("autoBackUp", true));
         this.setTemplateTreePaneExpanded(reader.getAttrAsBoolean("templateTreePaneExpanded", false));
         // peter:读取webinfLocation
         if ((tmpVal = reader.getAttrAsString("webinfLocation", null)) != null) {
             // marks:兼容6.1的
             // marks:设置默认的目录.
-            Env reportServer = LocalEnv.createEnv(tmpVal);
+            EnvConfig reportServer = new LocalEnvConfig(tmpVal);
 
             String curReportServerName = Inter.getLocText("Server-Embedded_Server");
             this.putEnv(curReportServerName, reportServer);
@@ -1479,7 +1459,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                         // marks:获取名字
                         String reportServerName = reader.getAttrAsString("name", null);
 
-                        Env env = readEnv(reader);
+                        EnvConfig env = readEnv(reader);
                         if (env == null) {
                             return;
                         }
@@ -1605,7 +1585,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         Iterator<String> nameIt = this.getEnvNameIterator();
         while (nameIt.hasNext()) {
             String envName = nameIt.next();
-            Env env = this.getEnv(envName);
+            EnvConfig env = this.getEnv(envName);
 
             writeEnv(writer, envName, env);
         }
@@ -1635,14 +1615,8 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         if (!this.isOracleSystemSpace()) {
             writer.attr("useOracleSystemSpace", this.isOracleSystemSpace());
         }
-        if (this.getCachingTemplateLimit() >= 0) {
-            writer.attr("cachingTemplateLimit", this.getCachingTemplateLimit());
-        }
         if (!this.isJoinProductImprove()) {
             writer.attr("joinProductImprove", this.isJoinProductImprove());
-        }
-        if (!this.isImageCompress()) {
-            writer.attr("imageCompress", this.isImageCompress());
         }
         if (!this.isAutoBackUp()) {
             writer.attr("autoBackUp", this.isAutoBackUp());
@@ -1770,44 +1744,44 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     }
 
     /*
-         * 写Env为xml
-         */
-    private static void writeEnv(XMLPrintWriter writer, String name, Env env) {
+     * 写Env为xml
+     */
+    private static void writeEnv(XMLPrintWriter writer, String name, EnvConfig env) {
         if (env == null) {
             return;
         }
 
-        writer.startTAG("Env");
+        writer.startTAG("EnvConfig");
         writer.classAttr(env.getClass());
         writer.attr("name", name);
 
-        env.writeXML(writer);
-
+        EnvConfigXMLAdapter xmlAdapter = env instanceof RemoteEnvConfig
+                ? new RemoteEnvConfigXMLAdapter()
+                : new LocalEnvConfigXMLAdapter();
+        xmlAdapter.fromEnvConfig(env).writeXML(writer);
         writer.end();
     }
 
     /*
-         * 从xml读Env
-         */
-    private static Env readEnv(XMLableReader reader) {
-        Env env = null;
-
+     * 从xml读Env
+     */
+    private static EnvConfig readEnv(XMLableReader reader) {
+        EnvConfigXMLAdapter xmlAdapter = null;
         String tmpVal; //temp value
         if ((tmpVal = reader.getAttrAsString("class", null)) != null) {
-            if (tmpVal.endsWith(".LocalEnv")) {
-                env = LocalEnv.createEnv();
-            } else if (tmpVal.endsWith(".RemoteEnv")) {
-                env = new RemoteEnv();
+            if (tmpVal.contains(".LocalEnv")) {
+                xmlAdapter = new LocalEnvConfigXMLAdapter();
+            } else if (tmpVal.contains(".RemoteEnv")) {
+                xmlAdapter = new RemoteEnvConfigXMLAdapter();
             }
         }
 
-        if (env == null) {
-            return env;
+        if (xmlAdapter == null) {
+            return null;
         }
 
-        reader.readXMLObject(env);
-
-        return env;
+        reader.readXMLObject(xmlAdapter);
+        return xmlAdapter.toEnvConfig();
     }
 
     public AlphaFineConfigManager getAlphaFineConfigManager() {
@@ -1818,11 +1792,77 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         this.alphaFineConfigManager = alphaFineConfigManager;
     }
 
-    public boolean isImageCompress() {
-        return imageCompress;
+    private interface EnvConfigXMLAdapter extends XMLReadable, XMLWriter {
+        EnvConfig toEnvConfig();
+
+        EnvConfigXMLAdapter fromEnvConfig(EnvConfig envConfig);
     }
 
-    public void setImageCompress(boolean imageCompress) {
-        this.imageCompress = imageCompress;
+    private static class LocalEnvConfigXMLAdapter implements EnvConfigXMLAdapter {
+        private String path;
+
+        public void readXML(XMLableReader reader) {
+            if (reader.isChildNode()) {
+                if ("DIR".equals(reader.getTagName())) {
+                    this.path = reader.getElementValue();
+                }
+            }
+        }
+
+        public void writeXML(XMLPrintWriter writer) {
+            writer.startTAG("DIR").textNode(this.path).end();
+        }
+
+        public EnvConfig toEnvConfig() {
+            return new LocalEnvConfig(path);
+        }
+
+        public EnvConfigXMLAdapter fromEnvConfig(EnvConfig envConfig) {
+            this.path = envConfig.getPath();
+            return this;
+        }
+
+    }
+
+    private static class RemoteEnvConfigXMLAdapter implements EnvConfigXMLAdapter {
+        private String path;
+        private String username;
+        private String password;
+
+        public void readXML(XMLableReader reader) {
+            if (reader.isChildNode()) {
+                String tmpVal;
+                if ("DIR".equals(reader.getTagName())) {
+                    if ((tmpVal = reader.getAttrAsString("path", null)) != null) {
+                        this.path = tmpVal;
+                    }
+                    if ((tmpVal = reader.getAttrAsString("user", null)) != null) {
+                        this.username = tmpVal;
+                    }
+                    if ((tmpVal = reader.getAttrAsString("password", null)) != null) {
+                        this.password = tmpVal;
+                    }
+                }
+            }
+        }
+
+        public void writeXML(XMLPrintWriter writer) {
+            writer.startTAG("DIR")
+                    .attr("path", this.path)
+                    .attr("user", this.username)
+                    .attr("password", this.password)
+                    .end();
+        }
+
+        public EnvConfig toEnvConfig() {
+            return new RemoteEnvConfig(path, username, password);
+        }
+
+        public EnvConfigXMLAdapter fromEnvConfig(EnvConfig envConfig) {
+            this.path = envConfig.getPath();
+            this.username = EnvConfigUtils.getUsername(envConfig);
+            this.password = EnvConfigUtils.getPassword(envConfig);
+            return this;
+        }
     }
 }

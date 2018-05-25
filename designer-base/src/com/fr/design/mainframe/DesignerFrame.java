@@ -6,26 +6,19 @@ package com.fr.design.mainframe;
 import com.fr.base.BaseUtils;
 import com.fr.base.Env;
 import com.fr.base.FRContext;
-import com.fr.base.vcs.DesignerMode;
+import com.fr.base.env.resource.EnvConfigUtils;
+import com.fr.core.env.EnvConfig;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignState;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
-import com.fr.design.actions.core.ActionFactory;
-import com.fr.design.actions.file.SwitchExistEnv;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.datapane.TableDataTreePane;
-import com.fr.design.event.DesignerOpenedListener;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
-import com.fr.design.file.HistoryTemplateListPane;
-import com.fr.design.file.MutilTempalteTabPane;
-import com.fr.design.file.NewTemplatePane;
-import com.fr.design.file.SaveSomeTemplatePane;
-import com.fr.design.file.TemplateTreePane;
+import com.fr.design.file.*;
 import com.fr.design.fun.TitlePlaceProcessor;
-import com.fr.design.fun.impl.AbstractTemplateTreeShortCutProvider;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.imenu.UIMenuHighLight;
 import com.fr.design.gui.iscrollbar.UIScrollBar;
@@ -35,7 +28,6 @@ import com.fr.design.mainframe.loghandler.LogMessageBar;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDock;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.menu.MenuManager;
-import com.fr.design.menu.ShortCut;
 import com.fr.design.utils.DesignUtils;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.file.FILE;
@@ -64,27 +56,14 @@ import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
-import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DropTarget;
-import java.awt.dnd.DropTargetDragEvent;
-import java.awt.dnd.DropTargetDropEvent;
-import java.awt.dnd.DropTargetEvent;
-import java.awt.dnd.DropTargetListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.dnd.*;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 
 public class DesignerFrame extends JFrame implements JTemplateActionListener, TargetModifiedListener {
@@ -97,12 +76,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
     private static final Integer TOP_LAYER = new Integer((200));
     private static java.util.List<App<?>> appList = new java.util.ArrayList<App<?>>();
 
-    private List<DesignerOpenedListener> designerOpenedListenerList = new ArrayList<>();
-
-    //顶部日志+登陆按钮
-    private static final JPanel northEastPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-
-    private static ToolBarMenuDock ad;
+    private ToolBarMenuDock ad;
 
     private DesktopCardPane centerTemplateCardPane;
 
@@ -186,8 +160,8 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         }
 
         public void mouseReleased(MouseEvent e) {
-            if (DesignerMode.isAuthorityEditing()) {
-                DesignerMode.setMode(DesignerMode.NORMARL);
+            if (BaseUtils.isAuthorityEditing()) {
+                BaseUtils.setAuthorityEditing(false);
                 WestRegionContainerPane.getInstance().replaceDownPane(
                         TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter()));
                 HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().refreshEastPropertiesPane();
@@ -263,7 +237,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         this.addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
                 reCalculateFrameSize();
-                if (DesignerMode.isAuthorityEditing()) {
+                if (BaseUtils.isAuthorityEditing()) {
                     doResize();
                 }
             }
@@ -294,22 +268,6 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         }
     }
 
-    /**
-     * 注册"设计器初始化完成"的监听
-     */
-    public void addDesignerOpenedListener(DesignerOpenedListener listener) {
-        designerOpenedListenerList.add(listener);
-    }
-
-    /**
-     * 触发"设计器初始化完成"事件
-     */
-    public void fireDesignerOpened() {
-        for (DesignerOpenedListener listener : designerOpenedListenerList) {
-            listener.designerOpened();
-        }
-    }
-
     protected DesktopCardPane getCenterTemplateCardPane() {
         return centerTemplateCardPane;
     }
@@ -320,39 +278,41 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
     protected void initMenuPane() {
         menuPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         menuPane.add(new UIMenuHighLight(), BorderLayout.SOUTH);
-        menuPane.add(initNorthEastPane(), BorderLayout.EAST);
+        menuPane.add(initNorthEastPane(ad), BorderLayout.EAST);
         basePane.add(menuPane, BorderLayout.NORTH);
         this.resetToolkitByPlus(null);
     }
 
     /**
+     * @param ad
      * @return
      */
-    protected JPanel initNorthEastPane() {
+    protected JPanel initNorthEastPane(final ToolBarMenuDock ad) {
         //hugh: private修改为protected方便oem的时候修改右上的组件构成
-
+        //顶部日志+登陆按钮
+        final JPanel northEastPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         //优先级为-1，保证最后全面刷新一次
         GeneralContext.listenPluginRunningChanged(new PluginEventListener(-1) {
 
             @Override
             public void on(PluginEvent event) {
 
-                refreshNorthEastPane();
+                refreshNorthEastPane(northEastPane, ad);
                 DesignUtils.refreshDesignerFrame(FRContext.getCurrentEnv());
             }
         }, new PluginFilter() {
 
             @Override
             public boolean accept(PluginContext context) {
-                return !SwitchExistEnv.isSwitching()
-                        && context.contain(PluginModule.ExtraDesign);
+
+                return context.contain(PluginModule.ExtraDesign);
             }
         });
-        refreshNorthEastPane();
+        refreshNorthEastPane(northEastPane, ad);
         return northEastPane;
     }
 
-    public static void refreshNorthEastPane() {
+    private void refreshNorthEastPane(JPanel northEastPane, ToolBarMenuDock ad) {
         northEastPane.removeAll();
         northEastPane.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 0));
         northEastPane.add(LogMessageBar.getInstance());
@@ -457,7 +417,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
      * 刷新
      */
     public void refreshDottedLine() {
-        if (DesignerMode.isAuthorityEditing()) {
+        if (BaseUtils.isAuthorityEditing()) {
             populateAuthorityArea();
             populateCloseButton();
             addDottedLine();
@@ -516,7 +476,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         for (int i = 0; i < fixButtons.length; i++) {
             combineUp.add(fixButtons[i]);
         }
-        if (!DesignerMode.isAuthorityEditing()) {
+        if (!BaseUtils.isAuthorityEditing()) {
             combineUp.addSeparator(new Dimension(2, 16));
             if (toolbar4Form != null) {
                 for (int i = 0; i < toolbar4Form.length; i++) {
@@ -627,16 +587,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
      */
     public void needToAddAuhtorityPaint() {
 
-        newWorkBookPane.setButtonGray(DesignerMode.isAuthorityEditing());
-
-        // 进入或退出权限编辑模式，通知插件
-        Set<ShortCut> extraShortCuts = ExtraDesignClassManager.getInstance().getExtraShortCuts();
-        for (ShortCut shortCut : extraShortCuts) {
-            if (shortCut instanceof AbstractTemplateTreeShortCutProvider) {
-                ((AbstractTemplateTreeShortCutProvider) shortCut).notifyFromAuhtorityChange(DesignerMode.isAuthorityEditing());
-            }
-        }
-
+        newWorkBookPane.setButtonGray(BaseUtils.isAuthorityEditing());
     }
 
     /**
@@ -660,10 +611,10 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         defaultTitleSB.append(ProductConstants.BRANCH);
         // james：标识登录的用户和登录的ENV
         String envName = DesignerEnvManager.getEnvManager().getCurEnvName();
-        Env env = DesignerEnvManager.getEnvManager().getEnv(envName);
+        EnvConfig env = DesignerEnvManager.getEnvManager().getEnv(envName);
         if (env != null) {
-            defaultTitleSB.append(env.getUser()).append('@').append(envName).append('[');
-            defaultTitleSB.append(env.getEnvDescription());
+            defaultTitleSB.append(EnvConfigUtils.getUsername(env)).append('@').append(envName).append('[');
+            defaultTitleSB.append(Inter.getLocText("Env-Remote_Server"));
             defaultTitleSB.append(']');
             if (editingTemplate != null) {
                 String path = editingTemplate.getEditingFILE().getPath();
@@ -716,16 +667,13 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
      * @param env 环境
      */
     public void refreshEnv(Env env) {
+
         this.setTitle();
         DesignerFrameFileDealerPane.getInstance().refreshDockingView();
         TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter());
         TemplateTreePane.getInstance().refreshDockingView();
         DesignTableDataManager.clearGlobalDs();
         EastRegionContainerPane.getInstance().refreshDownPane();
-        JTemplate template = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
-        if (template != null) {
-            template.refreshToolArea();
-        }
     }
 
     /**
@@ -788,8 +736,6 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
      * @param jt 添加的模板.
      */
     public void addAndActivateJTemplate(JTemplate<?, ?> jt) {
-        //释放模板对象
-        ActionFactory.editorRelease();
         if (jt == null || jt.getEditingFILE() == null) {
             return;
         }
@@ -806,8 +752,6 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
      * @param jt 模板
      */
     public void activateJTemplate(JTemplate<?, ?> jt) {
-        //释放模板对象
-        ActionFactory.editorRelease();
         if (jt == null || jt.getEditingFILE() == null) {
             return;
         }
@@ -913,16 +857,13 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         String fileExtention = fileName.substring(indexOfLastDot + 1);
         for (int i = 0, len = appList.size(); i < len; i++) {
             App<?> app = appList.get(i);
-            String[] defaultAppExtentions = app.defaultExtentions();
+            String[] defaultAppExtentions = app.defaultExtensions();
             boolean opened = false;
             for (int j = 0; j < defaultAppExtentions.length; j++) {
                 if (defaultAppExtentions[j].equalsIgnoreCase(fileExtention)) {
-                    JTemplate jt = null;
-                    try {
-                        jt = app.openTemplate(tplFile);
-                    } catch (Exception e) {
-                        FRLogger.getLogger().error(e.getMessage(), e);
-                    }
+                    // 不要catch
+                    JTemplate jt = app.openTemplate(tplFile);
+
                     if (jt == null) {
                         return;
                     }
@@ -969,6 +910,8 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         } else {
             this.addAndActivateJTemplate(jt);
         }
+        //REPORT-5084：激活后刷新一下右側面板
+        jt.refreshEastPropertiesPane();
     }
 
     /**

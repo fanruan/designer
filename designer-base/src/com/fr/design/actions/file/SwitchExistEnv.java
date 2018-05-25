@@ -3,6 +3,9 @@ package com.fr.design.actions.file;
 import com.fr.base.BaseUtils;
 import com.fr.base.Env;
 import com.fr.base.FRContext;
+import com.fr.base.env.resource.LocalEnvConfig;
+import com.fr.base.env.resource.RemoteEnvConfig;
+import com.fr.core.env.EnvConfig;
 import com.fr.dav.LocalEnv;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.UpdateAction;
@@ -35,9 +38,6 @@ import java.util.logging.Level;
 
 
 public class SwitchExistEnv extends MenuDef {
-
-     // 标志开始切换环境
-    private static boolean isSwitching = false;
 
     public SwitchExistEnv() {
         this.setMenuKeySet(KeySetUtils.SWITCH_ENV);
@@ -74,10 +74,10 @@ public class SwitchExistEnv extends MenuDef {
 
         public GetExistEnvAction(String envName) {
             this.setName(envName);
-            Env env = DesignerEnvManager.getEnvManager().getEnv(envName);
-            if (env instanceof LocalEnv) {
+            EnvConfig env = DesignerEnvManager.getEnvManager().getEnv(envName);
+            if (env instanceof LocalEnvConfig) {
                 this.setSmallIcon(BaseUtils.readIcon("com/fr/design/images/data/bind/localconnect.png"));
-            } else if (env instanceof RemoteEnv) {
+            } else if (env instanceof RemoteEnvConfig) {
                 this.setSmallIcon(BaseUtils.readIcon("com/fr/design/images/data/bind/distanceconnect.png"));
             }
         }
@@ -104,35 +104,29 @@ public class SwitchExistEnv extends MenuDef {
          * @param e 事件
          */
         public void actionPerformed(ActionEvent e) {
-            isSwitching = true;
             DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
-            Env selectedEnv = envManager.getEnv(this.getName());
+            EnvConfig selectedEnv = envManager.getEnv(this.getName());
             try {
                 if (selectedEnv instanceof RemoteEnv && !((RemoteEnv) selectedEnv).testServerConnection()) {
                     JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText(new String[]{"M-SwitchWorkspace", "Failed"}));
                     return;
                 }
-                String remoteVersion = selectedEnv.getDesignerVersion();
-                if (StringUtils.isBlank(remoteVersion) || ComparatorUtils.compare(remoteVersion, ProductConstants.DESIGNER_VERSION) < 0) {
-                    String infor = Inter.getLocText("Server-version-tip");
-                    String moreInfo = Inter.getLocText("Server-version-tip-moreInfo");
-                    FRLogger.getLogger().log(Level.WARNING, infor);
-                    new InformationWarnPane(infor, moreInfo, Inter.getLocText("Tooltips")).show();
-                    return;
-                }
+//                String remoteVersion = selectedEnv.getDesignerVersion();
+//                if (StringUtils.isBlank(remoteVersion) || ComparatorUtils.compare(remoteVersion, ProductConstants.DESIGNER_VERSION) < 0) {
+//                    String infor = Inter.getLocText("Server-version-tip");
+//                    String moreInfo = Inter.getLocText("Server-version-tip-moreInfo");
+//                    FRLogger.getLogger().log(Level.WARNING, infor);
+//                    new InformationWarnPane(infor, moreInfo, Inter.getLocText("Tooltips")).show();
+//                    return;
+//                }
                 SignIn.signIn(selectedEnv);
+                HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().refreshToolArea();
                 fireDSChanged();
             } catch (Exception em) {
                 FRContext.getLogger().error(em.getMessage(), em);
                 JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText(new String[]{"M-SwitchWorkspace", "Failed"}));
                 TemplatePane.getInstance().editItems();
-            } finally {
-                isSwitching = false;
             }
         }
-    }
-
-    public static boolean isSwitching() {
-        return isSwitching;
     }
 }
