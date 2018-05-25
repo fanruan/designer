@@ -6,5 +6,5 @@ public interface DesignAuthorityConfigurable {
 
     DesignAuthority[] getAuthorities();
 
-    boolean updateAuthorities(DesignAuthority[] authorities) throws Exception;
+    boolean updateAuthorities(DesignAuthority[] authorities);
 }

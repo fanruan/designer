@@ -1,117 +1,238 @@
 package com.fr.env;
 
+import com.fr.base.EnvException;
 import com.fr.base.FRContext;
-import com.fr.dav.DavXMLUtils;
-import com.fr.file.filetree.FileNode;
-import com.fr.general.IOUtils;
 import com.fr.report.DesignAuthority;
+import com.fr.report.util.AuthorityXMLUtils;
 import com.fr.stable.EncodeConstants;
-import com.fr.third.org.apache.http.HttpEntity;
-import com.fr.third.org.apache.http.client.methods.CloseableHttpResponse;
+import com.fr.third.org.apache.commons.io.IOUtils;
+import com.fr.third.org.apache.http.HttpResponse;
+import com.fr.third.org.apache.http.HttpStatus;
+import com.fr.third.org.apache.http.client.ClientProtocolException;
+import com.fr.third.org.apache.http.client.ResponseHandler;
 import com.fr.third.org.apache.http.client.methods.HttpUriRequest;
 import com.fr.third.org.apache.http.client.methods.RequestBuilder;
 import com.fr.third.org.apache.http.entity.ContentType;
 import com.fr.third.org.apache.http.entity.InputStreamEntity;
 import com.fr.third.org.apache.http.impl.client.CloseableHttpClient;
 import com.fr.third.org.apache.http.impl.client.HttpClients;
-import com.fr.third.org.apache.http.util.EntityUtils;
-import com.fr.web.utils.AuthorityXMLUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLEncoder;
+import java.util.Map;
 
 public class RemoteEnvUtils {
 
     private RemoteEnvUtils() {
     }
 
-    public static boolean updateAuthorities(DesignAuthority[] authorities, RemoteEnv env) {
+    private static ResponseHandler<InputStream> responseHandler = new ResponseHandler<InputStream>() {
+        @Override
+        public InputStream handleResponse(HttpResponse response) throws IOException {
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode != HttpStatus.SC_OK) {
+                throw new ClientProtocolException("Method failed: " + response.getStatusLine().toString());
+            }
+            InputStream in = response.getEntity().getContent();
+            if (in == null) {
+                return null;
+            }
+            // 读取并返回
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            IOUtils.copy(in, out);
+            return new ByteArrayInputStream(out.toByteArray());
+        }
+    };
+
+    public static InputStream simulateRPCByHttpPost(byte[] bytes, Map<String, String> parameters, boolean isSignIn, RemoteEnv env) throws EnvException {
+        String path = env.getPath();
+        RequestBuilder builder = RequestBuilder.post(path);
+
+        InputStream inputStream = null;
+
+        for (Map.Entry<String, String> entry : parameters.entrySet()) {
+            builder.addParameter(entry.getKey(), entry.getValue());
+        }
+        if (!isSignIn) {
+            builder.addParameter("id", env.getValidUserID());
+        }
+        InputStreamEntity reqEntity = new InputStreamEntity(new ByteArrayInputStream(bytes));
+
+        try (CloseableHttpClient httpClient = HttpClients.createSystem()) {
+            HttpUriRequest request = builder
+                    .setEntity(reqEntity)
+                    .build();
+            inputStream = httpClient.execute(request, responseHandler);
+        } catch (IOException e) {
+            FRContext.getLogger().error(e.getMessage());
+        }
+        return inputStream;
+    }
+
+    public static InputStream simulateRPCByHttpPost(Map<String, String> parameters, boolean isSignIn, RemoteEnv env) throws EnvException {
+        String path = env.getPath();
+        RequestBuilder builder = RequestBuilder.post(path);
+
+        InputStream inputStream = null;
+
+        for (Map.Entry<String, String> entry : parameters.entrySet()) {
+            builder.addParameter(entry.getKey(), entry.getValue());
+        }
+        if (!isSignIn) {
+            builder.addParameter("id", env.getValidUserID());
+        }
+
+        try (CloseableHttpClient httpClient = HttpClients.createSystem()) {
+            HttpUriRequest request = builder
+                    .build();
+            inputStream = httpClient.execute(request, responseHandler);
+        } catch (IOException e) {
+            FRContext.getLogger().error(e.getMessage());
+        }
+        return inputStream;
+    }
+
+    public static InputStream simulateRPCByHttpGet(Map<String, String> parameters, boolean isSignIn, RemoteEnv env) throws EnvException {
+        String path = env.getPath();
+        RequestBuilder builder = RequestBuilder.get(path);
+
+        InputStream inputStream = null;
+
+        for (Map.Entry<String, String> entry : parameters.entrySet()) {
+            builder.addParameter(entry.getKey(), entry.getValue());
+        }
+        if (!isSignIn) {
+            builder.addParameter("id", env.getValidUserID());
+        }
+        try (CloseableHttpClient httpClient = HttpClients.createSystem()) {
+            HttpUriRequest request = builder.build();
+            inputStream = httpClient.execute(request, responseHandler);
+
+        } catch (IOException e) {
+            FRContext.getLogger().error(e.getMessage());
+        }
+        return inputStream;
+    }
+
+
+    public static InputStream headBeatConnection(RemoteEnv env) {
+        String path = env.getPath();
+        String username = env.getUser();
+
+        InputStream inputStream = null;
+        try (CloseableHttpClient httpClient = HttpClients.createSystem()) {
+            HttpUriRequest request = RequestBuilder.get(path)
+                    .addParameter("op", "fr_remote_design")
+                    .addParameter("cmd", "heart_beat")
+                    .addParameter("user", username)
+                    .addParameter("id", env.getValidUserID())
+                    .build();
+
+            inputStream = httpClient.execute(request, responseHandler);
+        } catch (IOException | EnvException e) {
+            FRContext.getLogger().error(e.getMessage());
+        }
+        return inputStream;
+    }
+
+
+    public static InputStream testConnection(boolean isSignIn, RemoteEnv env) throws EnvException {
+        String username = env.getUser();
+        String path = env.getPath();
+        String password = env.getPassword();
+
+        InputStream inputStream = null;
+
+        try (CloseableHttpClient httpClient = HttpClients.createSystem()) {
+            RequestBuilder builder = RequestBuilder.get(path);
+            if (!isSignIn) {
+                builder.addParameter("id", env.getValidUserID());
+            }
+            HttpUriRequest request = builder
+                    .addParameter("op", "fr_remote_design")
+                    .addParameter("cmd", "test_server_connection")
+                    .addParameter("user", username)
+                    .addParameter("password", URLEncoder.encode(password, EncodeConstants.ENCODING_UTF_8))
+                    .build();
+            inputStream = httpClient.execute(request, responseHandler);
+        } catch (IOException e) {
+            FRContext.getLogger().error(e.getMessage());
+        }
+        return inputStream;
+    }
+
+
+    public static InputStream updateAuthorities(DesignAuthority[] authorities, RemoteEnv env) throws EnvException {
         String path = env.getPath();
         // 远程设计临时用户id
-        String userID = env.getUserID();
-        String res = null;
+        String userID = env.getValidUserID();
+        InputStream inputStream = null;
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         AuthorityXMLUtils.writeDesignAuthoritiesXML(authorities, outputStream);
         InputStreamEntity reqEntity = new InputStreamEntity(new ByteArrayInputStream(outputStream.toByteArray()), ContentType.TEXT_XML);
 
-        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
+        try (CloseableHttpClient httpClient = HttpClients.createSystem()) {
             HttpUriRequest request = RequestBuilder.post(path)
                     .addParameter("id", userID)
                     .addParameter("op", "remote_design_authority")
                     .addParameter("cmd", "update_authorities")
                     .setEntity(reqEntity)
                     .build();
-            try (CloseableHttpResponse response = httpClient.execute(request)) {
-                HttpEntity entity = response.getEntity();
-                res = IOUtils.inputStream2String(entity.getContent(), EncodeConstants.ENCODING_UTF_8);
-                EntityUtils.consume(entity);
-            }
+            inputStream = httpClient.execute(request, responseHandler);
         } catch (IOException e) {
             FRContext.getLogger().error(e.getMessage());
         }
 
-        return res != null && Boolean.valueOf(res);
+        return inputStream;
 
     }
 
-    public static DesignAuthority[] getAuthorities(RemoteEnv env) {
+    public static InputStream getAuthorities(RemoteEnv env) throws EnvException {
         String path = env.getPath();
         // 远程设计临时用户id
-        String userID = env.getUserID();
-        DesignAuthority[] authorities = null;
+        String userID = env.getValidUserID();
+        InputStream inputStream = null;
 
-        try (CloseableHttpClient httpClient = HttpClients.createDefault();) {
+        try (CloseableHttpClient httpClient = HttpClients.createSystem();) {
             HttpUriRequest request = RequestBuilder.get(path)
                     .addParameter("id", userID)
                     .addParameter("op", "remote_design_authority")
                     .addParameter("cmd", "get_authorities")
                     .build();
-
-            try (CloseableHttpResponse response = httpClient.execute(request)) {
-                HttpEntity entity = response.getEntity();
-                authorities = AuthorityXMLUtils.readDesignAuthoritiesXML(entity.getContent());
-                EntityUtils.consume(entity);
-            } catch (Exception e) {
-                FRContext.getLogger().error(e.getMessage());
-            }
+            inputStream = httpClient.execute(request, responseHandler);
         } catch (IOException e) {
             FRContext.getLogger().error(e.getMessage());
         }
-        return authorities;
+        return inputStream;
     }
 
 
-    public static FileNode[] listFile(String pFilePath, boolean isWebReport, RemoteEnv env) {
+    public static InputStream listFile(String pFilePath, boolean isWebReport, RemoteEnv env) throws EnvException {
         String path = env.getPath();
         // 远程设计临时用户id
-        String userID = env.getUserID();
+        String userID = env.getValidUserID();
         String username = env.getUser();
 
-        FileNode[] fileNodes = null;
-
-        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
+        InputStream inputStream = null;
+        try (CloseableHttpClient httpClient = HttpClients.createSystem()) {
             HttpUriRequest request = RequestBuilder.get(path)
                     .addParameter("op", "fs_remote_design")
                     .addParameter("cmd", "design_list_file")
                     .addParameter("file_path", pFilePath)
                     .addParameter("currentUserName", username)
                     .addParameter("currentUserId", userID)
+                    .addParameter("id", userID)
                     .addParameter("isWebReport", Boolean.toString(isWebReport))
                     .build();
-
-            try (CloseableHttpResponse response = httpClient.execute(request)) {
-                HttpEntity entity = response.getEntity();
-                fileNodes = DavXMLUtils.readXMLFileNodes((entity.getContent()));
-                EntityUtils.consume(entity);
-            } catch (Exception e) {
-                FRContext.getLogger().error(e.getMessage());
-            }
+            inputStream = httpClient.execute(request, responseHandler);
         } catch (IOException e) {
             FRContext.getLogger().error(e.getMessage());
         }
-        return fileNodes != null ? fileNodes : new FileNode[0];
+        return inputStream;
     }
 
 }
