@@ -82,7 +82,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
      *
      * @return
      */
-    public static final EastRegionContainerPane getInstance() {
+    public static EastRegionContainerPane getInstance() {
         if (THIS == null) {
             THIS = new EastRegionContainerPane();
             THIS.setLastContainerWidth(DesignerEnvManager.getEnvManager().getLastEastRegionContainerWidth());
@@ -363,10 +363,6 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
 
     public void addParameterPane(JComponent paraPane) {
         propertyItemMap.get(KEY_WIDGET_SETTINGS).replaceHeaderPane(paraPane);
-    }
-
-    public void setParameterHeight(int height) {
-        // stub
     }
 
     public static void main(String[] args){
