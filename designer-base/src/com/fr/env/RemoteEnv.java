@@ -81,9 +81,6 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
     private static final String PWD_KEY = "javax.net.ssl.trustStorePassword";
     private static final String HTTPS_PREFIX = "https:";
     private final static String[] FILE_TYPE = {"cptx", "cpt", "frm", "form", "cht", "chart"};
-    private String path;
-    private String userID;
-    private boolean isReadTimeOut = false;
     private String buildFilePath;
     private RemoteEnvConfig env;
 
@@ -125,7 +122,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
      * 根据nameValuePairs,也就是参数对,生成PostMethod
      */
     private HttpClient createHttpMethod(HashMap<String, String> para, boolean isSignIn) throws EnvException {
-        String methodPath = this.path;
+        String methodPath = getPath();
         if (!isSignIn) {
             methodPath = methodPath + "?id=" + createUserID();
         }
@@ -144,7 +141,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
      * 根据nameValuePairs,也就是参数对,生成PostMethod,不同之处在于,参数拼在path后面,不是method.addParameters
      */
     private HttpClient createHttpMethod2(HashMap<String, String> para) throws EnvException, UnsupportedEncodingException {
-        String methodPath = path + '?' + "id=" + createUserID();
+        String methodPath = getPath() + '?' + "id=" + createUserID();
         return new HttpClient(methodPath);
     }
 
@@ -333,7 +330,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
 
 
     private void setHttpsParas() {
-        if (path.startsWith(HTTPS_PREFIX) && System.getProperty(CERT_KEY) == null) {
+        if (getPath().startsWith(HTTPS_PREFIX) && System.getProperty(CERT_KEY) == null) {
             DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
             System.setProperty(CERT_KEY, envManager.getCertificatePath());
             System.setProperty(PWD_KEY, envManager.getCertificatePass());
@@ -775,7 +772,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
 
     @Override
     public String getUserID() {
-        return userID;
+        return EnvContext.currentToken();
     }
 
 
