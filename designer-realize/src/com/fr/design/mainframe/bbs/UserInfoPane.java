@@ -11,7 +11,6 @@ import com.fr.design.constants.UIConstants;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.general.DateUtils;
-import com.fr.general.FRLogger;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
 import com.fr.stable.EnvChangedListener;
@@ -32,27 +31,42 @@ import java.util.Date;
  */
 public class UserInfoPane extends BasicPane {
 
-    //默认未登录颜色
+    /**
+     * 默认未登录颜色
+     */
     private static final Color UN_LOGIN_BACKGROUND = UIConstants.TEMPLATE_TAB_PANE_BACKGROUND;
     private static final Color LOGIN_BACKGROUND = new Color(184, 220, 242);
     private static final int WIDTH = 104;
     private static final int HEIGHT = 24;
 
-    //登录成功
+    /**
+     * 登录成功
+     */
     private static final String LOGININ = "0";
 
-    // 登录框弹出间隔时间
+    /**
+     * 登录框弹出间隔时间
+     */
     private static final int LOGIN_DIFF_DAY = 7;
-    // 等待国际化等相关初始化工作完成之后再弹出登录框
+    /**
+     * 等待国际化等相关初始化工作完成之后再弹出登录框
+     */
     private static final int WAIT_TIME = 10000;
 
     private UserInfoLabel userInfoLabel;
 
 
+    private static UserInfoPane instance = new UserInfoPane();
+
+
+    public static UserInfoPane getInstance() {
+        return instance;
+    }
+
     /**
      * 构造函数
      */
-    public UserInfoPane() {
+    private UserInfoPane() {
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setLayout(new BorderLayout());
 
@@ -73,6 +87,34 @@ public class UserInfoPane extends BasicPane {
         this.userInfoLabel = userInfoLabel;
     }
 
+
+    /**
+     * 标志未登录状态, 面板设置为灰色
+     */
+    public void markUnSignIn() {
+        this.userInfoLabel.setText(Inter.getLocText("FR-Base_UnSignIn"));
+        this.userInfoLabel.setOpaque(true);
+        this.userInfoLabel.setBackground(UN_LOGIN_BACKGROUND);
+        this.userInfoLabel.resetUserName();
+    }
+
+    /**
+     * 标志登陆状态, 面包设置为蓝色
+     *
+     * @param userName 用户名
+     */
+    public void markSignIn(String userName) {
+        this.userInfoLabel.setText(userName);
+        this.userInfoLabel.setUserName(userName);
+        this.userInfoLabel.setOpaque(true);
+        this.userInfoLabel.setBackground(LOGIN_BACKGROUND);
+    }
+
+    @Override
+    protected String title4PopupWindow() {
+        return StringUtils.EMPTY;
+    }
+
     private void addEnvChangedListener() {
         GeneralContext.addEnvChangedListener(new EnvChangedListener() {
             @Override
@@ -90,11 +132,15 @@ public class UserInfoPane extends BasicPane {
     }
 
 
-    // 计算xml保存的上次弹框时间和当前时间的时间差
+    /**
+     * 计算xml保存的上次弹框时间和当前时间的时间差
+     *
+     * @return 时间差
+     */
     private int getDiffFromLastLogin() {
         String lastBBSTime = DesignerEnvManager.getEnvManager().getLastShowBBSTime();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date lastBBSDate = null;
+        Date lastBBSDate;
         try {
             if (lastBBSTime != null) {
                 synchronized (this) {
@@ -108,7 +154,7 @@ public class UserInfoPane extends BasicPane {
                 return dayNew - dayOld;
             }
         } catch (ParseException e) {
-            FRLogger.getLogger().error(e.getMessage());
+            FRContext.getLogger().error(e.getMessage());
         }
         return 1;
     }
@@ -153,31 +199,5 @@ public class UserInfoPane extends BasicPane {
         showBBSThread.start();
     }
 
-    /**
-     * 标志未登录状态, 面板设置为灰色
-     */
-    public void markUnSignIn() {
-        this.userInfoLabel.setText(Inter.getLocText("FR-Base_UnSignIn"));
-        this.userInfoLabel.setOpaque(true);
-        this.userInfoLabel.setBackground(UN_LOGIN_BACKGROUND);
-        this.userInfoLabel.resetUserName();
-    }
-
-    /**
-     * 标志登陆状态, 面包设置为蓝色
-     *
-     * @param userName 用户名
-     */
-    public void markSignIn(String userName) {
-        this.userInfoLabel.setText(userName);
-        this.userInfoLabel.setUserName(userName);
-        this.userInfoLabel.setOpaque(true);
-        this.userInfoLabel.setBackground(LOGIN_BACKGROUND);
-    }
-
-    @Override
-    protected String title4PopupWindow() {
-        return StringUtils.EMPTY;
-    }
 
 }

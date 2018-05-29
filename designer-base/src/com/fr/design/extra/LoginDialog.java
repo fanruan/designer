@@ -4,8 +4,12 @@ import com.fr.design.dialog.UIDialog;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.stable.StableUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dialog;
+import java.awt.Dimension;
+import java.awt.Frame;
 
 /**
  * Created by vito on 2017/5/5.
@@ -15,6 +19,15 @@ public class LoginDialog extends UIDialog {
 
     public LoginDialog(Frame frame, Component pane) {
         super(frame);
+        init(pane);
+    }
+
+    public LoginDialog(Dialog dialog, Component pane) {
+        super(dialog);
+        init(pane);
+    }
+
+    private void init(Component pane) {
         if (StableUtils.getMajorJavaVersion() == 8) {
             setUndecorated(true);
         }
