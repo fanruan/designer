@@ -48,11 +48,8 @@ public class RemoteDesignAuthorityManagerAction extends UpdateAction {
             public void doOk() {
                 DesignAuthority[] authorities = managerPane.update();
                 if (!FRContext.getCurrentEnv().isLocalEnv()) {
-                    try {
-                        ((RemoteEnv) FRContext.getCurrentEnv()).updateAuthorities(authorities);
-                    } catch (Exception exception) {
-                        FRContext.getLogger().error(exception.getMessage());
-                    }
+                    boolean success = ((RemoteEnv) FRContext.getCurrentEnv()).updateAuthorities(authorities);
+                    FRContext.getLogger().info("update remote design authority: " + success);
                 }
             }
 
