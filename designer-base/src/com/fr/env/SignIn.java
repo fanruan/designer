@@ -25,7 +25,7 @@ public class SignIn {
     static {
         EventDispatcher.listen(EnvEvents.CONNECTION_ERROR, new Listener<Null>() {
             @Override
-            public void on(Event<Null> event, Null param) {
+            public void on(Event event, Null param) {
                 if (JOptionPane.showConfirmDialog(null, Inter.getLocText("FR-Remote_Connect2Server_Again"), UIManager.getString("OptionPane.titleText"), JOptionPane.YES_NO_OPTION)
                         == JOptionPane.OK_OPTION) {
                     try {

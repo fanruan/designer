@@ -3,6 +3,7 @@ package com.fr.env;
 import com.fr.base.FRContext;
 import com.fr.general.IOUtils;
 import com.fr.report.DesignAuthority;
+import com.fr.report.util.AuthorityXMLUtils;
 import com.fr.stable.EncodeConstants;
 import com.fr.third.org.apache.http.HttpEntity;
 import com.fr.third.org.apache.http.client.methods.CloseableHttpResponse;
@@ -13,7 +14,6 @@ import com.fr.third.org.apache.http.entity.InputStreamEntity;
 import com.fr.third.org.apache.http.impl.client.CloseableHttpClient;
 import com.fr.third.org.apache.http.impl.client.HttpClients;
 import com.fr.third.org.apache.http.util.EntityUtils;
-import com.fr.web.utils.AuthorityXMLUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

@@ -47,7 +47,7 @@ public class DesignerSocketIO {
     static {
         EventDispatcher.listen(EnvEvents.AFTER_SIGN_OUT, new Listener<Null>() {
             @Override
-            public void on(Event<Null> event, Null param) {
+            public void on(Event event, Null param) {
                 if (socketIO.isPresent()) {
                     socketIO.get().close();
                     socketIO = Optional.absent();
@@ -56,7 +56,7 @@ public class DesignerSocketIO {
         });
         EventDispatcher.listen(EnvEvents.AFTER_SIGN_IN, new Listener<Null>() {
             @Override
-            public void on(Event<Null> event, Null param) {
+            public void on(Event event, Null param) {
                 updateSocket();
             }
         });

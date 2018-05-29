@@ -7,6 +7,9 @@ import com.fr.design.mainframe.widget.editors.ITextComponent;
 import com.fr.design.mainframe.widget.renderer.WatermarkRenderer;
 import com.fr.design.mainframe.widget.wrappers.WatermarkWrapper;
 import com.fr.design.report.WatermarkPane;
+import com.fr.plugin.ExtraClassManager;
+import com.fr.stable.ReportFunctionProcessor;
+import com.fr.stable.fun.FunctionProcessor;
 
 import javax.swing.SwingUtilities;
 import java.awt.Dimension;
@@ -40,6 +43,11 @@ public class AccessibleBodyWatermarkEditor extends UneditableAccessibleEditor {
             public void doOk() {
                 setValue(watermarkPane.update());
                 fireStateChanged();
+                // 功能点
+                FunctionProcessor processor = ExtraClassManager.getInstance().getFunctionProcessor();
+                if (processor != null) {
+                    processor.recordFunction(ReportFunctionProcessor.WATERMARK);
+                }
             }
         });
         watermarkPane.populate((WatermarkAttr) getValue());
