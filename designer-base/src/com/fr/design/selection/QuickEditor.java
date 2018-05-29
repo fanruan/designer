@@ -2,7 +2,7 @@ package com.fr.design.selection;
 
 import com.fr.design.designer.TargetComponent;
 
-import javax.swing.*;
+import javax.swing.JComponent;
 
 /**
  * 快速编辑区域
@@ -39,11 +39,15 @@ public abstract class QuickEditor<T extends TargetComponent> extends JComponent 
         tc.fireTargetModified();
     }
 
+    /**
+     * 刷新面板
+     */
     protected abstract void refresh();
 
 
     /**
-     * for 关闭时候释放
+     * 关闭模板时释放模板对象
+     * 所有持有tc的对象也必须置空或者丢弃对于tc的引用
      */
     public void release() {
         tc = null;
@@ -53,7 +57,6 @@ public abstract class QuickEditor<T extends TargetComponent> extends JComponent 
 
         @Override
         protected void refresh() {
-
         }
 
     };

@@ -14,8 +14,10 @@ import com.fr.general.Inter;
 import com.fr.quickeditor.FloatQuickEditor;
 import com.fr.report.cell.cellattr.CellImage;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -73,8 +75,6 @@ public class FloatImageQuickEditor extends FloatQuickEditor {
 
     @Override
     protected void refreshDetails() {
-        // TODO Auto-generated method stub
-
     }
 
 }
