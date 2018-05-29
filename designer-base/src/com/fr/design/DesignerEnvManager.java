@@ -1455,7 +1455,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 }
 
                 if (reader.isChildNode()) {
-                    if (reader.getTagName().equals("Env")) { // description.
+                    if (reader.getTagName().contains("Env")) { // description.
                         // marks:获取名字
                         String reportServerName = reader.getAttrAsString("name", null);
 
