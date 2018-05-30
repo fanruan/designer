@@ -12,10 +12,16 @@ import com.fr.quickeditor.FloatQuickEditor;
 import com.fr.report.ReportHelper;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -27,6 +33,25 @@ public class FloatStringQuickEditor extends FloatQuickEditor {
     private boolean reserveInResult = false;
     private boolean reserveOnWriteOrAnaly = true;
 
+    private DocumentListener documentListener = new DocumentListener() {
+
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            changeReportPaneCell(stringTextField.getText().trim());
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            changeReportPaneCell(stringTextField.getText().trim());
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+            changeReportPaneCell(stringTextField.getText().trim());
+        }
+
+    };
+
     public FloatStringQuickEditor() {
         super();
         stringTextField = new JTextArea();
@@ -34,11 +59,17 @@ public class FloatStringQuickEditor extends FloatQuickEditor {
         formulaButton = new UIButton();
         formulaButton.setPreferredSize(new Dimension(25, 23));
         formulaButton.setIcon(BaseUtils.readIcon("/com/fr/design/images/m_insert/formula.png"));
+        ActionListener getFormulaActionListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ((ElementCasePane) HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getCurrentElementCasePane()).getGrid().startEditing();
+            }
+        };
         formulaButton.addActionListener(getFormulaActionListener);
         JPanel pane = new JPanel(new BorderLayout(5, 0));
         pane.add(stringTextField, BorderLayout.CENTER);
         pane.add(formulaButton, BorderLayout.EAST);
-        pane.setBorder(BorderFactory.createEmptyBorder(0,0,0,5));
+        pane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
         formulaButton.setVisible(false);
         this.setLayout(new BorderLayout());
         this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -55,16 +86,10 @@ public class FloatStringQuickEditor extends FloatQuickEditor {
         stringTextField.setBackground(Color.WHITE);
     }
 
-    ActionListener getFormulaActionListener = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            ((ElementCasePane) HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getCurrentElementCasePane()).getGrid().startEditing();
-        }
-    };
 
     @Override
     protected void refreshDetails() {
-        String str = null;
+        String str;
         Object value = floatElement.getValue();
         if (value == null) {
             str = StringUtils.EMPTY;
@@ -89,26 +114,8 @@ public class FloatStringQuickEditor extends FloatQuickEditor {
         stringTextField.getDocument().addDocumentListener(documentListener);
     }
 
-    DocumentListener documentListener = new DocumentListener() {
 
-        @Override
-        public void insertUpdate(DocumentEvent e) {
-            changeReportPaneCell(stringTextField.getText().trim());
-        }
-
-        @Override
-        public void removeUpdate(DocumentEvent e) {
-            changeReportPaneCell(stringTextField.getText().trim());
-        }
-
-        @Override
-        public void changedUpdate(DocumentEvent e) {
-            changeReportPaneCell(stringTextField.getText().trim());
-        }
-
-    };
-
-    protected void changeReportPaneCell(String tmpText) {
+    private void changeReportPaneCell(String tmpText) {
         if (tmpText != null && (tmpText.length() > 0 && tmpText.charAt(0) == '=')) {
             BaseFormula textFormula = BaseFormula.createFormulaBuilder().build(tmpText);
             textFormula.setReserveInResult(reserveInResult);
@@ -125,5 +132,4 @@ public class FloatStringQuickEditor extends FloatQuickEditor {
         fireTargetModified();
         stringTextField.requestFocus();
     }
-
 }

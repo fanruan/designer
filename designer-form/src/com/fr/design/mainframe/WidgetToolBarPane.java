@@ -10,8 +10,20 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.general.Inter;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import java.awt.BasicStroke;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Insets;
+import java.awt.LayoutManager;
+import java.awt.Stroke;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.ImageObserver;
@@ -47,7 +59,7 @@ public class WidgetToolBarPane extends BasicPane implements DesignToolbarProvide
     }
 
     public void refreshToolbar() {
-        reset();
+        singleton.reset();
     }
 
     public static void refresh() {

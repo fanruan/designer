@@ -3,26 +3,31 @@
  */
 package com.fr.design.editor.editor;
 
-import java.awt.BorderLayout;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 
+import java.awt.BorderLayout;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 /**
  * CellEditor used to edit String object.
  *
- * @editor zhou
+ * @author zhou
  * @since 2012-3-29下午6:00:43
  */
 public class TextEditor extends Editor<String> {
 
-    private UITextField textField; // text field.
-    // the old value of text field.
+    /**
+     * text field.
+     */
+    private UITextField textField;
+    /**
+     * the old value of text field.
+     */
     private String oldValue = StringUtils.EMPTY;
 
     /**
@@ -93,7 +98,7 @@ public class TextEditor extends Editor<String> {
             value = StringUtils.EMPTY;
         }
 
-        oldValue = value.toString();
+        oldValue = value;
         this.textField.setText(oldValue);
     }
 
@@ -110,6 +115,7 @@ public class TextEditor extends Editor<String> {
     /**
      * 请求焦点
      */
+    @Override
     public void requestFocus() {
         this.textField.requestFocus();
     }
@@ -133,10 +139,12 @@ public class TextEditor extends Editor<String> {
     /**
      * 被选中时文本输入框请求焦点
      */
+    @Override
     public void selected() {
         this.textField.requestFocus();
     }
 
+    @Override
     public String getIconName() {
         return "type_string";
     }
@@ -147,7 +155,15 @@ public class TextEditor extends Editor<String> {
      * @param object 需要判断的object
      * @return 是字符类型则返回true
      */
+    @Override
     public boolean accept(Object object) {
         return object instanceof String;
+    }
+
+    @Override
+    public void clearData() {
+        super.clearData();
+        this.textField.setText(StringUtils.EMPTY);
+        this.oldValue = StringUtils.EMPTY;
     }
 }

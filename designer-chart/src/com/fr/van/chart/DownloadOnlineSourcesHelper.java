@@ -145,7 +145,7 @@ public class DownloadOnlineSourcesHelper implements DownloadSourcesEvent {
 
                     if (result) {
                         //安装文件
-                        IOUtils.unZipFilesGBK(temp, FRContext.getCurrentEnv().getPath() + siteInfo.localDir);
+                        IOUtils.unZipFilesGBK(temp, StableUtils.pathJoin(FRContext.getCurrentEnv().getPath(), siteInfo.localDir));
                     }
                 } else {
                     result = false;

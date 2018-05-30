@@ -24,4 +24,9 @@ public class ReportHyperlinkGroupPaneNoPop extends ReportHyperlinkGroupPane{
     protected boolean isNewStyle() {
         return false;
     }
+
+    @Override
+    public boolean needAutoSave() {
+        return false;
+    }
 }
