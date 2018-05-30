@@ -20,9 +20,9 @@ public class FRTomcat extends Tomcat{
 
 
     public Context addWebapp(String contextPath, String docBase) throws ServletException {
-        silence(getHost(), contextPath);
+        silence(host, contextPath);
 
-        Context ctx = createContext(getHost(), contextPath);
+        Context ctx = createContext(host, contextPath);
         if (ctx instanceof StandardContext) {
             ((StandardContext)ctx).setDelegate(true);
         }
@@ -37,10 +37,10 @@ public class FRTomcat extends Tomcat{
 
         ctxCfg.setDefaultWebXml(noDefaultWebXmlPath());
 
-        if (getHost() == null) {
+        if (host == null) {
             getHost().addChild(ctx);
         } else {
-            getHost().addChild(ctx);
+            host.addChild(ctx);
         }
 
         return ctx;

@@ -1,7 +1,6 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.Env;
 import com.fr.core.env.EnvConfig;
 import com.fr.dav.LocalEnv;
 import com.fr.design.DesignModelAdapter;
@@ -23,8 +22,19 @@ import com.fr.stable.EnvChangedListener;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -98,6 +108,7 @@ public class TemplatePane extends JPanel implements MouseListener {
 
     /**
      * 是否可扩展
+     *
      * @return 同上
      */
     public boolean IsExpanded() {
@@ -121,13 +132,13 @@ public class TemplatePane extends JPanel implements MouseListener {
                     JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText(new String[]{"M-SwitchWorkspace", "Failed"}));
                     return false;
                 } else {
-//                    String remoteVersion = selectedEnv.getDesignerVersion();
-//                    if (StringUtils.isBlank(remoteVersion) || ComparatorUtils.compare(remoteVersion, ProductConstants.DESIGNER_VERSION) < 0) {
-//                        String infor = Inter.getLocText("Server-version-tip");
-//                        String moreInfo = Inter.getLocText("Server-version-tip-moreInfo");
-//                        new InformationWarnPane(infor, moreInfo, Inter.getLocText("Tooltips")).show();
-//                        return false;
-//                    }
+                    String remoteVersion = getDesignerVersion(selectedEnv);
+                    if (StringUtils.isBlank(remoteVersion) || ComparatorUtils.compare(remoteVersion, ProductConstants.DESIGNER_VERSION) < 0) {
+                        String infor = Inter.getLocText("Server-version-tip");
+                        String moreInfo = Inter.getLocText("Server-version-tip-moreInfo");
+                        new InformationWarnPane(infor, moreInfo, Inter.getLocText("Tooltips")).show();
+                        return false;
+                    }
                 }
             }
             SignIn.signIn(selectedEnv);
@@ -148,6 +159,11 @@ public class TemplatePane extends JPanel implements MouseListener {
         return true;
     }
 
+    private String getDesignerVersion(EnvConfig selectedEnv) {
+//        return selectedEnv.getDesignerVersion();
+        throw new UnsupportedOperationException("unsupport now");
+    }
+
     /**
      * 编辑items
      */
@@ -162,7 +178,7 @@ public class TemplatePane extends JPanel implements MouseListener {
             }
 
             public void doCancel() {
-            	envListDialog.setVisible(false);
+                envListDialog.setVisible(false);
             }
         });
         envListDialog.setVisible(true);
@@ -210,6 +226,7 @@ public class TemplatePane extends JPanel implements MouseListener {
 
     /**
      * 鼠标点击
+     *
      * @param e 事件
      */
     @Override
@@ -218,6 +235,7 @@ public class TemplatePane extends JPanel implements MouseListener {
 
     /**
      * 鼠标按下
+     *
      * @param e 事件
      */
     @Override
@@ -232,6 +250,7 @@ public class TemplatePane extends JPanel implements MouseListener {
 
     /**
      * 鼠标放开
+     *
      * @param e 事件
      */
     @Override
@@ -240,6 +259,7 @@ public class TemplatePane extends JPanel implements MouseListener {
 
     /**
      * 鼠标进入
+     *
      * @param e 事件
      */
     @Override
@@ -248,6 +268,7 @@ public class TemplatePane extends JPanel implements MouseListener {
 
     /**
      * 鼠标离开
+     *
      * @param e 事件
      */
     @Override
