@@ -55,6 +55,20 @@ public class ActionFactory {
     private ActionFactory() {
     }
 
+
+    /**
+     * 元素编辑器释放模板对象
+     */
+    public static void editorRelease() {
+        for (Map.Entry<Class, QuickEditor> entry : cellEditor.entrySet()) {
+            entry.getValue().release();
+        }
+        for (Map.Entry<Class, QuickEditor> entry : floatEditor.entrySet()) {
+            entry.getValue().release();
+        }
+    }
+
+
     /**
      * 注册无需每次实例化的单元格元素编辑器
      *

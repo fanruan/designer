@@ -711,21 +711,10 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
             if (returnVal == JOptionPane.YES_OPTION && specifiedTemplate.saveTemplate()) {
                 specifiedTemplate.saveTemplate();
                 FRLogger.getLogger().log(Level.INFO, Inter.getLocText(new String[]{"Template", "already-saved"}, new String[]{specifiedTemplate.getEditingFILE().getName(), "."}));
-                HistoryTemplateListPane.getInstance().closeSelectedReport(specifiedTemplate);
-                activeTemplate(filename);
-            } else if (returnVal == JOptionPane.NO_OPTION) {
-                //不保存
-                HistoryTemplateListPane.getInstance().closeSelectedReport(specifiedTemplate);
-                activeTemplate(filename);
             }
-            //若是点击取消关闭，则什么都不做
-        } else {
-            //若是已经保存过了，则关闭即可
-            HistoryTemplateListPane.getInstance().closeSelectedReport(specifiedTemplate);
-            activeTemplate(filename);
         }
-
-
+        HistoryTemplateListPane.getInstance().closeSelectedReport(specifiedTemplate);
+        activeTemplate(filename);
     }
 
     /**
