@@ -6,6 +6,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.style.background.image.ImageFileChooser;
 import com.fr.design.style.background.image.ImagePreviewer;
 import com.fr.design.utils.ImageUtils;
+import com.fr.general.ImageWithSuffix;
 import com.fr.general.Inter;
 import com.fr.stable.CoreGraphHelper;
 import com.fr.stable.StringUtils;
@@ -98,12 +99,20 @@ public class ImgChooseWrapper {
                 imageWorker = new SwingWorker<Void, Void>() {
                     @Override
                     protected Void doInBackground() throws Exception {
-                        Image image = imageFileChooser.isCheckSelected() ? ImageUtils.defaultImageCompress(selectedFile) : BaseUtils.readImage(selectedFile.getPath());
-                        CoreGraphHelper.waitForImage(image);
+                        ImageWithSuffix imageWithSuffix = null;
+                        if (imageFileChooser.isCheckSelected()) {
+                            imageWithSuffix = ImageUtils.defaultImageCompWithSuff(selectedFile);
+                        } else {
+                            Image image = BaseUtils.readImage(selectedFile.getPath());
+                            String type = ImageUtils.getImageType(selectedFile);
+                            imageWithSuffix = new ImageWithSuffix(image, type);
+                        }
+
+                        CoreGraphHelper.waitForImage(imageWithSuffix);
 
                         if (previewPane != null) {
                             previewPane.setImageStyle(imageStyle);
-                            previewPane.setImage(image);
+                            previewPane.setImageWithSuffix(imageWithSuffix);
                             previewPane.repaint();
                         }
                         checkLabelText();

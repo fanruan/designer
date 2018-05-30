@@ -108,10 +108,9 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
         EastRegionContainerPane.getInstance().replaceWidgetLibPane(
                 FormWidgetDetailPane.getInstance(this));
         if (!DesignerMode.isAuthorityEditing()) {
-            ParameterPropertyPane parameterPropertyPane = ParameterPropertyPane.getInstance(this);
+            ParameterPropertyPane parameterPropertyPane = ParameterPropertyPane.getInstance(this);  // 传入this的同时会更新参数面板高度
             parameterPropertyPane.refreshState();
             EastRegionContainerPane.getInstance().addParameterPane(parameterPropertyPane);
-            EastRegionContainerPane.getInstance().setParameterHeight(parameterPropertyPane.getPreferredSize().height);
             EastRegionContainerPane.getInstance().replaceWidgetSettingsPane(
                     WidgetPropertyPane.getInstance(this));
         } else {

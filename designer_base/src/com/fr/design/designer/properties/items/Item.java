@@ -24,7 +24,7 @@ public class Item {
     }
 
     @Override
-	public boolean equals(Object o) {
+    public boolean equals(Object o) {
         if (o == null) {
             return false;
         }
@@ -32,7 +32,7 @@ public class Item {
             Item a = (Item) o;
             Object av = a.getValue();
             if (value == null) {
-            	return av == null;
+                return av == null;
             } else {
                 if (av == null) {
                     return false;

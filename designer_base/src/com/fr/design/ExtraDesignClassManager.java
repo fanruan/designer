@@ -17,6 +17,7 @@ import com.fr.design.gui.core.WidgetOption;
 import com.fr.design.gui.core.WidgetOptionFactory;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.widget.Appearance;
+import com.fr.design.widget.mobile.WidgetMobilePane;
 import com.fr.form.ui.Widget;
 import com.fr.general.FRLogger;
 import com.fr.general.GeneralUtils;
@@ -196,6 +197,15 @@ public class ExtraDesignClassManager extends AbstractExtraClassManager implement
         Map<Class<? extends Widget>, Appearance> map = new HashMap<>();
         for (CellWidgetOptionProvider provider : set) {
             map.put(provider.classForWidget(), new Appearance(provider.appearanceForWidget(), Appearance.P_MARK + map.size()));
+        }
+        return map;
+    }
+
+    public Map<Class<? extends Widget>, Class<? extends WidgetMobilePane>> getCellWidgetMobileOptionsMap() {
+        Set<CellWidgetOptionProvider> set = getArray(CellWidgetOptionProvider.XML_TAG);
+        Map<Class<? extends Widget>, Class<? extends WidgetMobilePane>> map = new HashMap<>();
+        for (CellWidgetOptionProvider provider : set) {
+            map.put(provider.classForWidget(), provider.classForMobilePane());
         }
         return map;
     }
