@@ -11,7 +11,11 @@ import com.fr.design.mainframe.alphafine.search.manager.impl.RecentSearchManager
 import com.fr.design.mainframe.alphafine.search.manager.impl.RecommendSearchManager;
 import com.fr.general.Inter;
 import com.fr.general.ProcessCanceledException;
+import com.fr.plugin.ExtraClassManager;
 import com.fr.stable.StringUtils;
+import com.fr.stable.fun.FunctionHelper;
+import com.fr.stable.fun.FunctionProcessor;
+import com.fr.stable.fun.impl.AbstractFunctionProcessor;
 
 import java.util.List;
 
@@ -20,7 +24,30 @@ import java.util.List;
  */
 public class AlphaFineHelper {
     public static final NoResultModel NO_CONNECTION_MODEL = new NoResultModel(Inter.getLocText("FR-Designer_ConnectionFailed"));
+    private static final String FUNC_ID = "com.fr.design.alphafine";
+    private static final FunctionProcessor FUNCTION_RECORD = new AbstractFunctionProcessor() {
+        @Override
+        public int getId() {
+            return FunctionHelper.generateFunctionID(FUNC_ID);
+        }
+
+        @Override
+        public String getLocaleKey() {
+            return "AlphaFine";
+        }
+    };
     private static AlphaFineDialog alphaFineDialog;
+
+    /**
+     * 记录功能点
+     */
+    private static void recordFunc() {
+        FunctionProcessor processor = ExtraClassManager.getInstance().getFunctionProcessor();
+        if (processor != null) {
+            processor.recordFunction(FUNCTION_RECORD);
+        }
+    }
+
 
     /**
      * 弹出alphafine搜索面板
@@ -37,6 +64,7 @@ public class AlphaFineHelper {
         } else {
             alphaFineDialog.setVisible(!alphaFineDialog.isVisible());
         }
+        recordFunc();
 
 
     }

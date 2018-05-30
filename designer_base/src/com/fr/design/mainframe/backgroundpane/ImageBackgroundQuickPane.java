@@ -42,7 +42,7 @@ public class ImageBackgroundQuickPane extends BackgroundQuickPane {
 
     public ImageBackgroundQuickPane(boolean hasImageLayout) {
         this.setLayout(new BorderLayout(0, 4));
-        String[] nameArray = {Inter.getLocText("FR-Background_Image_Default"), Inter.getLocText("FR-Background_Image_Titled"), Inter.getLocText("FR-Background_Image_Adjust"), Inter.getLocText("FR-Background_Image_Extend")};
+        String[] nameArray = {Inter.getLocText("FR-Background_Image_Default"), Inter.getLocText("FR-Background_Image_Titled"), Inter.getLocText("FR-Background_Image_Extend"), Inter.getLocText("FR-Background_Image_Adjust")};
         Byte[] valueArray = {Constants.IMAGE_CENTER, Constants.IMAGE_TILED, Constants.IMAGE_EXTEND, Constants.IMAGE_ADJUST};
         imageLayoutPane = new UIButtonGroup<Byte>(nameArray, valueArray);
         imageLayoutPane.setSelectedIndex(0);
@@ -104,12 +104,12 @@ public class ImageBackgroundQuickPane extends BackgroundQuickPane {
         Style.DEFAULT_STYLE.deriveImageLayout(imageBackground.getLayout());
 
         previewPane.setImageStyle(ImageBackgroundQuickPane.this.imageStyle);
-        previewPane.setImage(imageBackground.getImage());
+        previewPane.setImageWithSuffix(imageBackground.getImageWithSuffix());
         previewPane.repaint();
     }
 
     public Background updateBean() {
-        ImageBackground imageBackground = new ImageBackground(previewPane.getImage());
+        ImageBackground imageBackground = new ImageBackground(previewPane.getImageWithSuffix());
         imageStyle = Style.DEFAULT_STYLE.deriveImageLayout(imageLayoutPane.getSelectedItem());
         imageBackground.setLayout(imageStyle.getImageLayout());
         return imageBackground;

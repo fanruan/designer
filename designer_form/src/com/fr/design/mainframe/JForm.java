@@ -342,7 +342,6 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         }
         ParameterPropertyPane.getInstance().setAddParaPaneVisible(isAddParaPaneVisible(comp), this);
         editingComponent = comp.createToolPane(this, formDesign);
-        EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.FORM);
         if (DesignerMode.isAuthorityEditing()) {
             EastRegionContainerPane.getInstance().replaceWidgetSettingsPane(
                     ComparatorUtils.equals(editingComponent.getClass(), NoSupportAuthorityEdit.class) ? editingComponent : createAuthorityEditPane());

@@ -66,7 +66,7 @@ public class ImageButtonBackgroundPane extends ImageBackgroundPane {
         if (background != null && background instanceof ImageBackground) {
             ImageBackground imageBackground = (ImageBackground) background;
             if (imageBackground.getImage() != null) {
-                previewPane.setImage(imageBackground.getImage());
+                previewPane.setImageWithSuffix(imageBackground.getImageWithSuffix());
             }
         }
 
@@ -76,6 +76,6 @@ public class ImageButtonBackgroundPane extends ImageBackgroundPane {
         if (previewPane.getImage() == null) {
             return null;
         }
-        return new ImageBackground(previewPane.getImage());
+        return new ImageBackground(previewPane.getImageWithSuffix());
     }
 }
