@@ -35,6 +35,7 @@ import com.fr.report.cell.cellattr.CellExpandAttr;
 import com.fr.report.cell.cellattr.core.group.DSColumn;
 import com.fr.report.cell.cellattr.core.group.FilterTypeEnum;
 import com.fr.report.cell.cellattr.core.group.SelectCount;
+import com.fr.stable.StringUtils;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -73,9 +74,6 @@ public class CellDSColumnEditor extends CellQuickEditor {
     private static final double P = TableLayout.PREFERRED, F = TableLayout.FILL;
     private static final Color TIP_FONT_COLOR = new Color(0x7F333334, true);
 
-
-    private JPanel dsColumnRegion;
-    private JPanel centerPane;
 
     /**
      * 基本和高级设置
@@ -117,10 +115,10 @@ public class CellDSColumnEditor extends CellQuickEditor {
     public JComponent createCenterBody() {
         this.createPanes();
         this.createSwitchTab();
-        dsColumnRegion = new JPanel(new BorderLayout());
+        JPanel dsColumnRegion = new JPanel(new BorderLayout());
         dsColumnRegion.add(tabsHeaderIconPane, BorderLayout.NORTH);
         dsColumnRegion.add(cardContainer, BorderLayout.CENTER);
-        centerPane = new JPanel(new BorderLayout());
+        JPanel centerPane = new JPanel(new BorderLayout());
         centerPane.add(dsColumnRegion, BorderLayout.CENTER);
         return centerPane;
     }
@@ -138,17 +136,6 @@ public class CellDSColumnEditor extends CellQuickEditor {
         cellDSColumnBasicPane.populate();
         cellDSColumnAdvancedPane.populate();
         this.validate();
-    }
-
-
-    /**
-     * 关闭时候释放
-     */
-    @Override
-    public void release() {
-        super.release();
-        dsColumnRegion = null;
-        centerPane = null;
     }
 
 
@@ -187,6 +174,12 @@ public class CellDSColumnEditor extends CellQuickEditor {
         paneList.add(cellDSColumnAdvancedPane);
     }
 
+    @Override
+    public void release() {
+        super.release();
+        cellDSColumnBasicPane.release();
+        cellDSColumnAdvancedPane.release();
+    }
 
     /**
      * 单元格元素 数据列 高级设置内容面板
@@ -252,9 +245,9 @@ public class CellDSColumnEditor extends CellQuickEditor {
         };
 
         DSColumnBasicEditorPane() {
-            dataPane = new SelectedDataColumnPane(true, true, tc, cellElement);
+            dataPane = new SelectedDataColumnPane(true, true);
             groupPane = new ResultSetGroupDockingPane();
-            dataPane.addListener(dataListener);
+            dataPane.setListener(dataListener);
             groupPane.setListener(groupListener);
 
             double[] rowSize = {P}, columnSize = {P, F};
@@ -297,11 +290,17 @@ public class CellDSColumnEditor extends CellQuickEditor {
 
         @Override
         public void populate() {
-            dataPane.populate(null, cellElement);
+            dataPane.populate(DesignTableDataManager.getEditingTableDataSource(), cellElement, tc);
             groupPane.populate(cellElement);
             if (tc != null) {
                 condition.setEditingComponent(tc);
             }
+        }
+
+        @Override
+        protected void release() {
+            condition.setEditingComponent(null);
+            dataPane.release();
         }
 
 
@@ -330,6 +329,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
 
     class DSColumnAdvancedEditorPane extends AbstractDSCellEditorPane {
 
+        /*pane begin*/
         /**
          * 排列顺序
          */
@@ -353,7 +353,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
         /**
          * 补充空白数据
          */
-        private UICheckBox useMultiplyNumCheckBox;
+        private UICheckBox useMultiNumCheckBox;
         /**
          * 补充空白数据数目输入框
          */
@@ -362,6 +362,75 @@ public class CellDSColumnEditor extends CellQuickEditor {
          * 补充空白数据数目面板 可隐藏
          */
         private JPanel multiPane;
+        /*pane end*/
+
+
+        /*listeners begin*/
+        private UIObserverListener sortPaneFormulaChangeListener = new UIObserverListener() {
+            @Override
+            public void doChange() {
+                sortPane.update(cellElement);
+                fireTargetModified();
+            }
+        };
+
+        private ChangeListener sortTypeBtnGroupChangeListener = new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                sortPane.update(cellElement);
+                fireTargetModified();
+            }
+        };
+
+        private UIObserverListener filterPaneChangeListener = new UIObserverListener() {
+            @Override
+            public void doChange() {
+                filterPane.update(cellElement);
+                fireTargetModified();
+            }
+        };
+
+        private UIObserverListener customValuePaneChangeListener = new UIObserverListener() {
+            @Override
+            public void doChange() {
+                valuePane.update(cellElement);
+                fireTargetModified();
+            }
+        };
+
+        private ChangeListener heCheckBoxChangeListener = new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                cellDSColumnAdvancedPane.updateExtendConfig();
+                fireTargetModified();
+            }
+        };
+
+        private ChangeListener veCheckBoxChangeListener = new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                cellDSColumnAdvancedPane.updateExtendConfig();
+                fireTargetModified();
+            }
+        };
+
+        private ActionListener useMultiNumCheckBoxChangeListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                checkButtonEnabled();
+                cellDSColumnAdvancedPane.updateMultipleConfig();
+                fireTargetModified();
+            }
+        };
+
+        private ChangeListener multiNumSpinnerChangeListener = new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                cellDSColumnAdvancedPane.updateMultipleConfig();
+                fireTargetModified();
+            }
+        };
+        /*listeners end*/
 
 
         public DSColumnAdvancedEditorPane() {
@@ -397,6 +466,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
         @Override
         public void populate() {
             if (cellElement != null) {
+                disableListener();
                 sortPane.populate(cellElement);
                 valuePane.populate(cellElement);
                 filterPane.populate(cellElement);
@@ -406,6 +476,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
                     cellElement.setCellExpandAttr(cellExpandAttr);
                 }
                 // extendable
+                //noinspection Duplicates
                 switch (cellExpandAttr.getExtendable()) {
                     case CellExpandAttr.Both_EXTENDABLE:
                         heCheckBox.setSelected(true);
@@ -425,13 +496,21 @@ public class CellDSColumnEditor extends CellQuickEditor {
                     }
                 }
                 if (cellExpandAttr.getMultipleNumber() == -1) {
-                    useMultiplyNumCheckBox.setSelected(false);
+                    useMultiNumCheckBox.setSelected(false);
+                    // 默认值
+                    multiNumSpinner.setValue(1);
                 } else {
-                    useMultiplyNumCheckBox.setSelected(true);
+                    useMultiNumCheckBox.setSelected(true);
                     multiNumSpinner.setValue(cellExpandAttr.getMultipleNumber());
                 }
                 this.checkButtonEnabled();
+                enableListener();
             }
+        }
+
+        @Override
+        protected void release() {
+
         }
 
         /**
@@ -443,6 +522,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
                 cellExpandAttr = new CellExpandAttr();
                 cellElement.setCellExpandAttr(cellExpandAttr);
             }
+            //noinspection Duplicates
             if (heCheckBox.isSelected()) {
                 if (veCheckBox.isSelected()) {
                     cellExpandAttr.setExtendable(CellExpandAttr.Both_EXTENDABLE);
@@ -463,12 +543,11 @@ public class CellDSColumnEditor extends CellQuickEditor {
          */
         private void updateMultipleConfig() {
             CellExpandAttr cellExpandAttr = cellElement.getCellExpandAttr();
-            if (this.useMultiplyNumCheckBox.isSelected()) {
+            if (this.useMultiNumCheckBox.isSelected()) {
                 cellExpandAttr.setMultipleNumber((int) multiNumSpinner.getValue());
             } else {
                 cellExpandAttr.setMultipleNumber(-1);
             }
-
         }
 
         /**
@@ -479,68 +558,29 @@ public class CellDSColumnEditor extends CellQuickEditor {
         @Override
         protected JPanel createContentPane() {
             this.setLayout(FRGUIPaneFactory.createBorderLayout());
+
             //结果集排序
             sortPane = new ResultSetSortConfigPane();
-            sortPane.addListener(new UIObserverListener() {
-                                     @Override
-                                     public void doChange() {
-                                         sortPane.update(cellElement);
-                                         fireTargetModified();
-                                     }
-                                 }, new ChangeListener() {
-                                     @Override
-                                     public void stateChanged(ChangeEvent e) {
-                                         sortPane.update(cellElement);
-                                         fireTargetModified();
-                                     }
-                                 }
-            );
+
             //结果筛选
             filterPane = new ResultSetFilterConfigPane();
-            filterPane.addListener(new UIObserverListener() {
-                                       @Override
-                                       public void doChange() {
-                                           filterPane.update(cellElement);
-                                           fireTargetModified();
-                                       }
-                                   }
-            );
+
             //自定义值显示
             valuePane = new CustomValuePane();
-            valuePane.addListener(new UIObserverListener() {
-                @Override
-                public void doChange() {
-                    valuePane.update(cellElement);
-                    fireTargetModified();
-                }
-            });
 
             //可扩展性
             JPanel extendableDirectionPane = FRGUIPaneFactory.createYBoxEmptyBorderPane();
             extendableDirectionPane.add(heCheckBox = new UICheckBox(Inter.getLocText("ExpandD-Horizontal_Extendable")));
             extendableDirectionPane.add(veCheckBox = new UICheckBox(Inter.getLocText("ExpandD-Vertical_Extendable")));
-            heCheckBox.addChangeListener(new ChangeListener() {
-                @Override
-                public void stateChanged(ChangeEvent e) {
-                    cellDSColumnAdvancedPane.updateExtendConfig();
-                    fireTargetModified();
-                }
-            });
-            veCheckBox.addChangeListener(new ChangeListener() {
-                @Override
-                public void stateChanged(ChangeEvent e) {
-                    cellDSColumnAdvancedPane.updateExtendConfig();
-                    fireTargetModified();
-                }
-            });
 
-            JPanel multiNumPane = FRGUIPaneFactory.createYBoxEmptyBorderPane();
             //补充空白数据
-            useMultiplyNumCheckBox = new UICheckBox(Inter.getLocText("Fill_blank_Data"));
+            JPanel multiNumPane = FRGUIPaneFactory.createYBoxEmptyBorderPane();
+            useMultiNumCheckBox = new UICheckBox(Inter.getLocText("Fill_blank_Data"));
             JPanel checkBoxPane = new JPanel(new BorderLayout());
-            checkBoxPane.add(useMultiplyNumCheckBox, BorderLayout.WEST);
+            checkBoxPane.add(useMultiNumCheckBox, BorderLayout.WEST);
             multiNumPane.add(checkBoxPane);
             multiNumSpinner = new UISpinner(1, 10000, 1, 1);
+
             //数据倍数
             UILabel multipleLabel = new UILabel(Inter.getLocText("Column_Multiple"));
             multiPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
@@ -551,25 +591,11 @@ public class CellDSColumnEditor extends CellQuickEditor {
             );
             multiPane.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
             multiNumPane.add(multiPane);
-            useMultiplyNumCheckBox.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    checkButtonEnabled();
-                    cellDSColumnAdvancedPane.updateMultipleConfig();
-                    fireTargetModified();
-                }
-            });
-            multiNumSpinner.addChangeListener(new ChangeListener() {
-                @Override
-                public void stateChanged(ChangeEvent e) {
-                    cellDSColumnAdvancedPane.updateMultipleConfig();
-                    fireTargetModified();
-                }
-            });
+
+            enableListener();
 
             double[] rowSize = {P, P, P, P, P, P};
             double[] columnSize = {F};
-
             Component[][] components = new Component[][]{
                     {sortPane},
                     {filterPane},
@@ -580,9 +606,29 @@ public class CellDSColumnEditor extends CellQuickEditor {
             return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, HGAP, VGAP);
         }
 
+        public void enableListener() {
+            sortPane.addListener(sortPaneFormulaChangeListener, sortTypeBtnGroupChangeListener);
+            filterPane.addListener(filterPaneChangeListener);
+            valuePane.addListener(customValuePaneChangeListener);
+            heCheckBox.addChangeListener(heCheckBoxChangeListener);
+            veCheckBox.addChangeListener(veCheckBoxChangeListener);
+            useMultiNumCheckBox.addActionListener(useMultiNumCheckBoxChangeListener);
+            multiNumSpinner.addChangeListener(multiNumSpinnerChangeListener);
+        }
+
+        public void disableListener() {
+            sortPane.removeListener(sortTypeBtnGroupChangeListener);
+            filterPane.removeListener();
+            valuePane.removeListener();
+            heCheckBox.removeChangeListener(heCheckBoxChangeListener);
+            veCheckBox.removeChangeListener(veCheckBoxChangeListener);
+            useMultiNumCheckBox.removeActionListener(useMultiNumCheckBoxChangeListener);
+            multiNumSpinner.removeChangeListener(multiNumSpinnerChangeListener);
+        }
+
 
         private void checkButtonEnabled() {
-            if (useMultiplyNumCheckBox.isSelected()) {
+            if (useMultiNumCheckBox.isSelected()) {
                 multiNumSpinner.setEnabled(true);
                 multiPane.setVisible(true);
             } else {
@@ -659,7 +705,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
             public void populate(TemplateCellElement cellElement) {
                 if (cellElement != null) {
                     Object value = cellElement.getValue();
-                    if (value != null && value instanceof DSColumn) {
+                    if (value instanceof DSColumn) {
                         this.formulaField.populateElement(cellElement);
                         DSColumn dSColumn = (DSColumn) value;
                         int sort = dSColumn.getOrder();
@@ -676,6 +722,8 @@ public class CellDSColumnEditor extends CellQuickEditor {
                         String sortFormula = dSColumn.getSortFormula();
                         if (sortFormula != null && sortFormula.length() >= 1) {
                             this.formulaField.populate(sortFormula);
+                        } else {
+                            this.formulaField.populate(DEFAULT_VALUE);
                         }
                     }
                 }
@@ -689,8 +737,8 @@ public class CellDSColumnEditor extends CellQuickEditor {
             public void update(CellElement cellElement) {
                 if (cellElement != null) {
                     Object value = cellElement.getValue();
-                    if (value != null && value instanceof DSColumn) {
-                        DSColumn dSColumn = (DSColumn) (cellElement.getValue());
+                    if (value instanceof DSColumn) {
+                        DSColumn dSColumn = (DSColumn) value;
                         dSColumn.setOrder(this.sortTypePane.getSelectedIndex());
                         dSColumn.setSortFormula(this.formulaField.getFormulaText());
                     }
@@ -706,6 +754,16 @@ public class CellDSColumnEditor extends CellQuickEditor {
             public void addListener(UIObserverListener formulaChangeListener, ChangeListener changeListener) {
                 formulaField.addListener(formulaChangeListener);
                 sortTypePane.addChangeListener(changeListener);
+            }
+
+            /**
+             * 去除事件监听器
+             *
+             * @param changeListener 排序类型下拉框改动事件监听器
+             */
+            public void removeListener(ChangeListener changeListener) {
+                formulaField.removeListener();
+                sortTypePane.removeChangeListener(changeListener);
             }
         }
 
@@ -852,13 +910,18 @@ public class CellDSColumnEditor extends CellQuickEditor {
                 rsComboBox.removeActionListener(actionListener);
                 if (cellElement != null) {
                     Object value = cellElement.getValue();
-                    if (value != null && value instanceof DSColumn) {
+                    if (value instanceof DSColumn) {
                         DSColumn dSColumn = (DSColumn) (cellElement.getValue());
                         SelectCount selectCount = dSColumn.getSelectCount();
                         this.topFormulaPane.populateElement(cellElement);
                         this.bottomFormulaPane.populateElement(cellElement);
                         CardLayout setCardPaneLayout = (CardLayout) setCardPane.getLayout();
                         CardLayout tipCardPaneLayout = (CardLayout) tipCardPane.getLayout();
+                        // 重置默认值
+                        this.topFormulaPane.populate(DEFAULT_VALUE);
+                        this.bottomFormulaPane.populate(DEFAULT_VALUE);
+                        this.serialTextField.setText(StringUtils.EMPTY);
+
                         if (selectCount != null) {
                             int selectCountType = selectCount.getType();
                             this.rsComboBox.setSelectedIndex(selectCountType);
@@ -927,6 +990,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
                                     TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 4, 0);
                             }
                         } else {
+                            this.rsComboBox.setSelectedIndex(0);
                             //未定义
                             setCardPaneLayout.show(setCardPane, UNDEFINE.name());
                             tipCardPaneLayout.show(tipCardPane, UNDEFINE.name());
@@ -944,8 +1008,8 @@ public class CellDSColumnEditor extends CellQuickEditor {
             public void update(CellElement cellElement) {
                 if (cellElement != null) {
                     Object value = cellElement.getValue();
-                    if (value != null && value instanceof DSColumn) {
-                        DSColumn dSColumn = (DSColumn) (cellElement.getValue());
+                    if (value instanceof DSColumn) {
+                        DSColumn dSColumn = (DSColumn) value;
                         int selectedFilterIndex = this.rsComboBox.getSelectedIndex();
                         if (selectedFilterIndex == 0) {
                             dSColumn.setSelectCount(null);
@@ -953,6 +1017,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
                             SelectCount selectCount = new SelectCount();
                             selectCount.setType(selectedFilterIndex);
                             dSColumn.setSelectCount(selectCount);
+                            //noinspection Duplicates
                             if (selectedFilterIndex == TOP.getValue()) {
                                 selectCount.setFormulaCount(this.topFormulaPane.getFormulaText());
                             } else if (selectedFilterIndex == BOTTOM.getValue()) {
@@ -975,6 +1040,16 @@ public class CellDSColumnEditor extends CellQuickEditor {
                 bottomFormulaPane.addListener(formulaListener);
                 rsComboBox.registerChangeListener(formulaListener);
                 serialTextField.registerChangeListener(formulaListener);
+            }
+
+            /**
+             * 去除事件监听器
+             */
+            public void removeListener() {
+                topFormulaPane.removeListener();
+                bottomFormulaPane.removeListener();
+                rsComboBox.removeChangeListener();
+                serialTextField.registerChangeListener(null);
             }
         }
 
@@ -1029,6 +1104,13 @@ public class CellDSColumnEditor extends CellQuickEditor {
                 this.formulaTextField.registerChangeListener(listener);
             }
 
+            /**
+             * 取消事件监听器
+             */
+            public void removeListener() {
+                this.formulaTextField.registerChangeListener(null);
+            }
+
             private ActionListener formulaButtonActionListener = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent evt) {
@@ -1042,7 +1124,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
                     final UIFormula formulaPane = FormulaFactory.createFormulaPaneWhenReserveFormula();
                     if (cellElement != null) {
                         Object value = cellElement.getValue();
-                        if (value != null && value instanceof DSColumn) {
+                        if (value instanceof DSColumn) {
                             DSColumn dsColumn = (DSColumn) value;
                             String[] displayNames = DesignTableDataManager.getSelectedColumnNames(DesignTableDataManager.getEditingTableDataSource(), dsColumn.getDSName());
                             formulaPane.populate(valueFormula, new CustomVariableResolver(displayNames, true));
@@ -1086,12 +1168,14 @@ public class CellDSColumnEditor extends CellQuickEditor {
             public void populate(CellElement cellElement) {
                 if (cellElement != null) {
                     Object value = cellElement.getValue();
-                    if (value != null && value instanceof DSColumn) {
+                    if (value instanceof DSColumn) {
                         DSColumn dSColumn = (DSColumn) value;
                         //formula
                         String valueFormula = dSColumn.getResult();
                         if (valueFormula != null) {
                             formulaField.populate(valueFormula);
+                        } else {
+                            formulaField.populate(DEFAULT_VALUE);
                         }
                         formulaField.populateElement(cellElement);
 
@@ -1102,7 +1186,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
             public void update(CellElement cellElement) {
                 if (cellElement != null) {
                     Object value = cellElement.getValue();
-                    if (value != null && value instanceof DSColumn) {
+                    if (value instanceof DSColumn) {
                         DSColumn dSColumn = (DSColumn) (cellElement.getValue());
                         dSColumn.setResult(this.formulaField.getFormulaText());
                     }
@@ -1116,6 +1200,13 @@ public class CellDSColumnEditor extends CellQuickEditor {
              */
             public void addListener(UIObserverListener formulaListener) {
                 this.formulaField.addListener(formulaListener);
+            }
+
+            /**
+             * 移除事件监听器
+             */
+            public void removeListener() {
+                this.formulaField.removeListener();
             }
         }
     }

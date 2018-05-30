@@ -3,7 +3,6 @@ package com.fr.quickeditor.cellquick;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.actions.insert.cell.RichTextCellAction;
 import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.Inter;
@@ -13,7 +12,6 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Dimension;
 
 /**
  * 单元格元素富文本编辑器
@@ -58,4 +56,9 @@ public class CellRichTextEditor extends CellQuickEditor {
         return true;
     }
 
+    @Override
+    public void release() {
+        super.release();
+        richTextButton.setAction(null);
+    }
 }

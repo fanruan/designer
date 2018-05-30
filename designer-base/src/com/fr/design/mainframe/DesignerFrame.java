@@ -12,12 +12,17 @@ import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignState;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
+import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.datapane.TableDataTreePane;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
-import com.fr.design.file.*;
+import com.fr.design.file.HistoryTemplateListPane;
+import com.fr.design.file.MutilTempalteTabPane;
+import com.fr.design.file.NewTemplatePane;
+import com.fr.design.file.SaveSomeTemplatePane;
+import com.fr.design.file.TemplateTreePane;
 import com.fr.design.fun.TitlePlaceProcessor;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.imenu.UIMenuHighLight;
@@ -51,13 +56,39 @@ import com.fr.stable.StableUtils;
 import com.fr.stable.image4j.codec.ico.ICODecoder;
 import com.fr.stable.project.ProjectConstants;
 
-import javax.swing.*;
+import javax.swing.Icon;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
+import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 import javax.swing.border.MatteBorder;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
-import java.awt.dnd.*;
-import java.awt.event.*;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetDragEvent;
+import java.awt.dnd.DropTargetDropEvent;
+import java.awt.dnd.DropTargetEvent;
+import java.awt.dnd.DropTargetListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -736,6 +767,8 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
      * @param jt 添加的模板.
      */
     public void addAndActivateJTemplate(JTemplate<?, ?> jt) {
+        //释放模板对象
+        ActionFactory.editorRelease();
         if (jt == null || jt.getEditingFILE() == null) {
             return;
         }
@@ -752,6 +785,8 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
      * @param jt 模板
      */
     public void activateJTemplate(JTemplate<?, ?> jt) {
+        //释放模板对象
+        ActionFactory.editorRelease();
         if (jt == null || jt.getEditingFILE() == null) {
             return;
         }
