@@ -31,10 +31,8 @@ public class DesignerSocketIO {
     private static final Emitter.Listener printLog = new Emitter.Listener() {
         @Override
         public void call(Object... objects) {
-            //TODO 这里要测试一下类型
-            String object = (String) objects[0];
             try {
-                LogRecordTime[] logRecordTimes = LogUtils.readXMLLogRecords(new ByteArrayInputStream(object.getBytes()));
+                LogRecordTime[] logRecordTimes = LogUtils.readXMLLogRecords(new ByteArrayInputStream((byte[]) objects[0]));
                 for (LogRecordTime logRecordTime : logRecordTimes) {
                     DesignerLogHandler.getInstance().printRemoteLog(logRecordTime);
                 }
@@ -73,7 +71,7 @@ public class DesignerSocketIO {
         }
 
         try {
-            String uri = String.format("http://%s:%s/%s?%s=%s",
+            String uri = String.format("http://%s:%s%s?%s=%s",
                     new URL(env.getPath()).getHost(),
                     WebSocketConfig.getInstance().getPort(),
                     EnvConstants.WS_NAMESPACE,
