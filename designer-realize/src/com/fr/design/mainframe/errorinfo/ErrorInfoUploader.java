@@ -3,7 +3,6 @@ package com.fr.design.mainframe.errorinfo;
 import com.fr.base.FRContext;
 import com.fr.design.mainframe.SiteCenterToken;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
 import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
 import com.fr.general.SiteCenter;
@@ -11,8 +10,8 @@ import com.fr.general.http.HttpClient;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.license.function.VT4FR;
+import com.fr.log.FineLoggerFactory;
 import com.fr.log.LogHandler;
-import com.fr.stable.CodeUtils;
 import com.fr.stable.EnvChangedListener;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
@@ -21,8 +20,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.HashMap;
 
 /**
@@ -41,7 +38,7 @@ public class ErrorInfoUploader {
         GeneralContext.addEnvChangedListener(new EnvChangedListener() {
             @Override
             public void envChanged() {
-                FRLogger.getLogger().addLogAppender(new LogHandler<ErrorInfoLogAppender>() {
+                FineLoggerFactory.getLogger().addLogAppender(new LogHandler<ErrorInfoLogAppender>() {
                     @Override
                     public ErrorInfoLogAppender getHandler() {
                         return new ErrorInfoLogAppender();
@@ -53,7 +50,7 @@ public class ErrorInfoUploader {
     }
 
     private ErrorInfoUploader() {
-        FRLogger.getLogger().addLogAppender(new LogHandler<ErrorInfoLogAppender>() {
+        FineLoggerFactory.getLogger().addLogAppender(new LogHandler<ErrorInfoLogAppender>() {
             @Override
             public ErrorInfoLogAppender getHandler() {
                 return new ErrorInfoLogAppender();

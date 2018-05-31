@@ -22,7 +22,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.style.FormatBox;
 import com.fr.general.DateUtils;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 
@@ -358,7 +358,7 @@ public class DateAxisValuePane extends FurtherBasicBeanPane<CategoryAxis>{
 			String tmp = DateUtils.getDate2LStr(toDate);
 			toDate = DateUtils.DATETIMEFORMAT2.parse(tmp);
 		} catch (ParseException e) {
-			FRLogger.getLogger().error(Inter.getLocText("Cannot_Get_Date"));
+			FineLoggerFactory.getLogger().error(Inter.getLocText("Cannot_Get_Date"));
 		}
 		return toDate;
 	}

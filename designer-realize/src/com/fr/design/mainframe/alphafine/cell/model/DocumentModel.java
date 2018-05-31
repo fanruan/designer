@@ -2,7 +2,7 @@ package com.fr.design.mainframe.alphafine.cell.model;
 
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.CellType;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 
@@ -47,7 +47,7 @@ public class DocumentModel extends AlphaCellModel {
             modelObject.put("title", getName()).put("summary", getContent()).put("did", getDocumentId()).put("searchCount", getSearchCount());
             object.put("result", modelObject).put("cellType", getType().getTypeValue());
         } catch (JSONException e) {
-            FRLogger.getLogger().error("DocumentModel: " + e.getMessage());
+            FineLoggerFactory.getLogger().error("DocumentModel: " + e.getMessage());
         }
         return object;
     }
@@ -62,9 +62,9 @@ public class DocumentModel extends AlphaCellModel {
         try {
             Desktop.getDesktop().browse(new URI(getDocumentUrl()));
         } catch (IOException e) {
-            FRLogger.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage());
         } catch (URISyntaxException e) {
-            FRLogger.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage());
         }
     }
 

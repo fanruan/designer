@@ -7,7 +7,7 @@ import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.mainframe.FormDesigner;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 
 import java.awt.*;
 
@@ -64,12 +64,12 @@ public class FRAbsoluteLayoutPainter extends AbstractPainter {
         if (XCreatorUtils.getHotspotContainer((XCreator) currentComp) != null) {
             currentComp = XCreatorUtils.getHotspotContainer((XCreator) currentComp).getTopLayout();
             if (currentComp == null) {
-                FRLogger.getLogger().info("FRAbsoluteLayoutPainter get currentComp null!");
+                FineLoggerFactory.getLogger().info("FRAbsoluteLayoutPainter get currentComp null!");
                 return;
             }
         }
         else{
-            FRLogger.getLogger().info("FRAbsoluteLayoutPainter getHotspotContainer currentComp null!");
+            FineLoggerFactory.getLogger().info("FRAbsoluteLayoutPainter getHotspotContainer currentComp null!");
             return;
         }
         Color bColor = XCreatorConstants.FIT_LAYOUT_HOTSPOT_COLOR;

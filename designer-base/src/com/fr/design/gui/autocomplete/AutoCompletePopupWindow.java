@@ -10,7 +10,7 @@
 package com.fr.design.gui.autocomplete;
 
 import com.fr.design.gui.syntax.ui.rsyntaxtextarea.PopupWindowDecorator;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 
 import javax.swing.*;
 import javax.swing.event.CaretEvent;
@@ -303,7 +303,7 @@ class AutoCompletePopupWindow extends JWindow implements CaretListener,
     private void installKeyBindings() {
 
         if (AutoCompletion.isDebug()) {
-            FRLogger.getLogger().debug("PopupWindow: Installing keybindings");
+            FineLoggerFactory.getLogger().debug("PopupWindow: Installing keybindings");
         }
 
         if (escapeKap == null) { // Lazily create actions.
@@ -711,7 +711,7 @@ class AutoCompletePopupWindow extends JWindow implements CaretListener,
     private void uninstallKeyBindings() {
 
         if (AutoCompletion.isDebug()) {
-            FRLogger.getLogger().debug("PopupWindow: Removing keybindings");
+            FineLoggerFactory.getLogger().debug("PopupWindow: Removing keybindings");
         }
 
         JTextComponent comp = ac.getTextComponent();

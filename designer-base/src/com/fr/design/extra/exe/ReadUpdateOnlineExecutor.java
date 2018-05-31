@@ -2,9 +2,9 @@ package com.fr.design.extra.exe;
 
 import com.fr.design.extra.PluginsReaderFromStore;
 import com.fr.design.extra.Process;
-import com.fr.general.FRLogger;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONObject;
+import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.view.PluginView;
 import com.fr.stable.StringUtils;
 
@@ -42,7 +42,7 @@ public class ReadUpdateOnlineExecutor implements Executor {
                             }
                             result = jsonArray.toString();
                         } catch (Exception e) {
-                            FRLogger.getLogger().error(e.getMessage());
+                            FineLoggerFactory.getLogger().error(e.getMessage());
                         }
                     }
                 }

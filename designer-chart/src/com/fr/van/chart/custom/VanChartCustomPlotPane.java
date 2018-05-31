@@ -9,7 +9,7 @@ import com.fr.chart.chartglyph.ConditionCollection;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.type.ChartImagePane;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.base.VanChartAttrLine;
 import com.fr.plugin.chart.base.VanChartTools;
@@ -263,7 +263,7 @@ public class VanChartCustomPlotPane extends AbstractVanChartTypePane {
         try {
             cloned = (Plot) newPlot.clone();
         } catch (CloneNotSupportedException e) {
-            FRLogger.getLogger().error("Error In ScatterChart");
+            FineLoggerFactory.getLogger().error("Error In ScatterChart");
         }
         return cloned;
     }

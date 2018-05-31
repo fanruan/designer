@@ -10,7 +10,7 @@ import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.widget.WidgetPane;
 import com.fr.form.ui.NoneWidget;
 import com.fr.form.ui.Widget;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.Selection;
@@ -111,7 +111,7 @@ public class CellWriteAttrPane extends BasicPane {
                 newWidget.setWidgetPrivilegeControl((WidgetPrivilegeControl) oldWidget.getWidgetPrivilegeControl().clone());
             }
         } catch (Exception e) {
-            FRLogger.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage());
         }
         return newWidget;
     }

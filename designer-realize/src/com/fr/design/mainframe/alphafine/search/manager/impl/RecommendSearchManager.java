@@ -10,7 +10,7 @@ import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.search.manager.fun.AlphaFineSearchProvider;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
@@ -67,7 +67,7 @@ public class RecommendSearchManager implements AlphaFineSearchProvider {
                     }
                 }
             } catch (JSONException e) {
-                FRLogger.getLogger().error("recommend search error! :" + e.getMessage());
+                FineLoggerFactory.getLogger().error("recommend search error! :" + e.getMessage());
             }
             Iterator<AlphaCellModel> modelIterator = recommendModelList.iterator();
             while (modelIterator.hasNext()) {

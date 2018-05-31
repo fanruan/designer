@@ -2,7 +2,7 @@ package com.fr.van.chart.designer.component;
 
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.imenutable.UIMenuNameableCreator;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
@@ -23,9 +23,9 @@ public class ChartUIMenuNameableCreator extends UIMenuNameableCreator {
         try {
             cloneObj = obj.getClass().newInstance();
         } catch (InstantiationException e) {
-            FRLogger.getLogger().error("UIMenuNameableCreator InstantiationException");
+            FineLoggerFactory.getLogger().error("UIMenuNameableCreator InstantiationException");
         } catch (IllegalAccessException e) {
-            FRLogger.getLogger().error("UIMenuNameableCreator IllegalAccessException");
+            FineLoggerFactory.getLogger().error("UIMenuNameableCreator IllegalAccessException");
         }
         return new ChartUIMenuNameableCreator(hyperLinkEditorMap, name, cloneObj, (Class<? extends BasicBeanPane>) this.paneClazz);
 

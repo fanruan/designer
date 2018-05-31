@@ -13,7 +13,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.chart.ChartHyperEditPane;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 
 import java.awt.*;
@@ -71,7 +71,7 @@ public class ChartHyperPoplinkPane extends AbstractHyperLinkPane<ChartHyperPopli
             try {
                 cc.addChart((Chart) chart.clone());
             } catch (CloneNotSupportedException e) {
-                FRLogger.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
 
         } else {

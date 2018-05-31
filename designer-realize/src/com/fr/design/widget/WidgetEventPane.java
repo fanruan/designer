@@ -18,7 +18,7 @@ import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.form.event.Listener;
 import com.fr.form.ui.Widget;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.general.NameObject;
 import com.fr.grid.GridUtils;

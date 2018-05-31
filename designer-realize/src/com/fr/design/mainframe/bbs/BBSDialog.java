@@ -4,7 +4,7 @@ import com.fr.design.dialog.UIDialog;
 import com.fr.design.extra.PluginWebBridge;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 
 import com.fr.general.SiteCenter;
 import javafx.application.Platform;
@@ -63,7 +63,7 @@ public class BBSDialog extends UIDialog {
                 }
             });
         } catch (Exception e) {
-            FRLogger.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage());
         }
     }
 

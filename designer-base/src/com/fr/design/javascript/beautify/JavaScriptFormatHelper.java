@@ -1,7 +1,7 @@
 package com.fr.design.javascript.beautify;
 
 
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.IOUtils;
 import com.fr.script.ScriptFactory;
 
@@ -42,7 +42,7 @@ public class JavaScriptFormatHelper {
             Invocable invocable = (Invocable) scriptEngine;
             result = (String) invocable.invokeFunction("js_beautify", jsCode, option.toFormatArgument());
         } catch (ScriptException | NoSuchMethodException e) {
-            FRLogger.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         return result;
     }

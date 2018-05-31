@@ -6,7 +6,7 @@ import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionAttr;
 import com.fr.chart.chartglyph.ConditionCollection;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.base.VanChartTools;
 import com.fr.plugin.chart.base.VanChartZoom;
@@ -82,7 +82,7 @@ public class VanChartBubblePlotPane extends AbstractVanChartTypePane {
         try {
             cloned = (Plot)newPlot.clone();
         } catch (CloneNotSupportedException e) {
-            FRLogger.getLogger().error("Error In BubbleChart");
+            FineLoggerFactory.getLogger().error("Error In BubbleChart");
         }
         return cloned;
     }

@@ -2,7 +2,7 @@ package com.fr.van.chart.wordcloud.designer.type;
 
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.base.VanChartTools;
 import com.fr.plugin.chart.wordcloud.VanChartWordCloudPlot;
@@ -56,7 +56,7 @@ public class VanChartWordCloudTypePane extends AbstractVanChartTypePane {
         try {
             cloned = (Plot)newPlot.clone();
         } catch (CloneNotSupportedException e) {
-            FRLogger.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         return cloned;
     }

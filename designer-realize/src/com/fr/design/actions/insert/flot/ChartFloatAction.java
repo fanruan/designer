@@ -15,7 +15,7 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.design.module.DesignModuleFactory;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.grid.Grid;
 import com.fr.grid.selection.FloatSelection;
@@ -123,7 +123,7 @@ public class ChartFloatAction extends ElementCaseAction {
                     reportPane.setSelection(new FloatSelection(newFloatElement.getName()));
                     reportPane.fireSelectionChangeListener();
                 } catch (CloneNotSupportedException e) {
-                    FRLogger.getLogger().error("Error in Float");
+                    FineLoggerFactory.getLogger().error("Error in Float");
                 }
             }
         });

@@ -5,7 +5,7 @@ import com.fr.chart.chartattr.BarPlot;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.charttypes.ColumnIndependentChart;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 
 /**
@@ -95,7 +95,7 @@ public class ColumnPlotPane extends AbstractBarPane{
         try {
             cloned = (Plot)newPlot.clone();
         } catch (CloneNotSupportedException e) {
-            FRLogger.getLogger().error("Error In ColumnChart");
+            FineLoggerFactory.getLogger().error("Error In ColumnChart");
         }
         return cloned;
     }

@@ -6,7 +6,7 @@ import com.fr.data.core.FormatField;
 import com.fr.design.gui.icombobox.UIComboBoxRenderer;
 import com.fr.design.gui.style.FormatPane;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.area.VanChartAreaPlot;
 import com.fr.plugin.chart.bubble.VanChartBubblePlot;
@@ -198,7 +198,7 @@ public class PlotFactory {
                 Constructor<? extends VanChartPlotLabelPane > constructor = cl.getConstructor(Plot.class, VanChartStylePane.class);
                 return constructor.newInstance(plot, stylePane);
             } catch (Exception e){
-                FRLogger.getLogger().error(e.getMessage());
+                FineLoggerFactory.getLogger().error(e.getMessage());
             }
         }
         return new VanChartPlotLabelPane(plot, stylePane);
@@ -218,7 +218,7 @@ public class PlotFactory {
                 Constructor<? extends VanChartPlotLegendPane > constructor = cl.getConstructor(VanChartStylePane.class);
                 return constructor.newInstance(stylePane);
             } catch (Exception e){
-                FRLogger.getLogger().error(e.getMessage());
+                FineLoggerFactory.getLogger().error(e.getMessage());
             }
         }
         return new VanChartPlotLegendPane(stylePane);
@@ -238,7 +238,7 @@ public class PlotFactory {
                 Constructor<? extends VanChartPlotTooltipPane > constructor = cl.getConstructor(Plot.class, VanChartStylePane.class);
                 return constructor.newInstance(plot, stylePane);
             } catch (Exception e){
-                FRLogger.getLogger().error(e.getMessage());
+                FineLoggerFactory.getLogger().error(e.getMessage());
             }
         }
         return new VanChartPlotTooltipPane(plot, stylePane);
@@ -259,7 +259,7 @@ public class PlotFactory {
                 Constructor<? extends VanChartTooltipContentPane > constructor = cl.getConstructor(VanChartStylePane.class, JPanel.class);
                 return constructor.newInstance(parent, showOnPane);
             } catch (Exception e){
-                FRLogger.getLogger().error(e.getMessage());
+                FineLoggerFactory.getLogger().error(e.getMessage());
             }
         }
         return new VanChartLabelContentPane(parent, showOnPane);
@@ -280,7 +280,7 @@ public class PlotFactory {
                 Constructor<? extends VanChartTooltipContentPane > constructor = cl.getConstructor(VanChartStylePane.class, JPanel.class);
                 return constructor.newInstance(parent, showOnPane);
             } catch (Exception e){
-                FRLogger.getLogger().error(e.getMessage());
+                FineLoggerFactory.getLogger().error(e.getMessage());
             }
         }
         return new VanChartTooltipContentPane(parent, showOnPane);
@@ -301,7 +301,7 @@ public class PlotFactory {
                 Constructor<? extends VanChartPlotTooltipPane > constructor = cl.getConstructor(Plot.class);
                 return constructor.newInstance(plot);
             } catch (Exception e){
-                FRLogger.getLogger().error(e.getMessage());
+                FineLoggerFactory.getLogger().error(e.getMessage());
             }
         }
         return new VanChartPlotRefreshTooltipPane(plot);
@@ -321,7 +321,7 @@ public class PlotFactory {
                 Constructor<? extends VanChartTooltipContentPane > constructor = cl.getConstructor(VanChartStylePane.class, JPanel.class);
                 return constructor.newInstance(parent, showOnPane);
             } catch (Exception e){
-                FRLogger.getLogger().error(e.getMessage());
+                FineLoggerFactory.getLogger().error(e.getMessage());
             }
         }
         return new VanChartRefreshTooltipContentPane(parent, showOnPane);

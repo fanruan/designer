@@ -1,8 +1,8 @@
 package com.fr.design.extra;
 
 import com.fr.design.dialog.BasicPane;
-import com.fr.general.FRLogger;
 import com.fr.general.Inter;
+import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.view.PluginView;
 import com.fr.stable.StringUtils;
 
@@ -44,7 +44,7 @@ public class PluginDetailPane extends BasicPane {
                     try {
                         Desktop.getDesktop().browse(linkUrl.toURI());
                     } catch (IOException | URISyntaxException e1) {
-                        FRLogger.getLogger().error(e1.getMessage());
+                        FineLoggerFactory.getLogger().error(e1.getMessage());
                     }
                 }
             }

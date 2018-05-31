@@ -18,9 +18,9 @@ import com.fr.design.gui.core.WidgetOptionFactory;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.widget.Appearance;
 import com.fr.form.ui.Widget;
-import com.fr.general.FRLogger;
 import com.fr.general.GeneralUtils;
 import com.fr.general.IOUtils;
+import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.AbstractExtraClassManager;
 import com.fr.plugin.injectable.PluginModule;
 import com.fr.plugin.injectable.PluginSingleInjection;
@@ -208,7 +208,7 @@ public class ExtraDesignClassManager extends AbstractExtraClassManager implement
                 return (Feedback) clazz.newInstance();
             }
         } catch (Exception e) {
-            FRLogger.getLogger().info("no feed back support");
+            FineLoggerFactory.getLogger().info("no feed back support");
         }
         return Feedback.EMPTY;
     }

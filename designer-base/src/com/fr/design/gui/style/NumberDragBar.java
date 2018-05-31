@@ -1,7 +1,7 @@
 package com.fr.design.gui.style;
 
 import com.fr.design.constants.UIConstants;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -126,7 +126,7 @@ public class NumberDragBar extends JComponent {
 					repaint();
 					revalidate();
 				} catch (InterruptedException e) {
-                    FRLogger.getLogger().error(e.toString());
+                    FineLoggerFactory.getLogger().error(e.toString());
 				}
 			}
 		});

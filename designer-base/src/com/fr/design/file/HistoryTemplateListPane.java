@@ -1,40 +1,37 @@
 package com.fr.design.file;
 
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.*;
-import java.util.List;
-import java.util.logging.Level;
-
-import javax.swing.*;
-
-import com.fr.base.chart.chartdata.CallbackEvent;
-import com.fr.design.constants.UIConstants;
-import com.fr.design.DesignerEnvManager;
-import com.fr.design.data.DesignTableDataManager;
-import com.fr.design.gui.ilable.UILabel;
-
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-
 import com.fr.base.FRContext;
-import com.fr.design.data.datapane.TableDataTreePane;
+import com.fr.base.chart.chartdata.CallbackEvent;
 import com.fr.dav.LocalEnv;
 import com.fr.design.DesignModelAdapter;
+import com.fr.design.DesignerEnvManager;
+import com.fr.design.constants.UIConstants;
+import com.fr.design.data.DesignTableDataManager;
+import com.fr.design.data.datapane.TableDataTreePane;
 import com.fr.design.gui.icontainer.UIScrollPane;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ilist.UIList;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.module.DesignModuleFactory;
+import com.fr.design.utils.gui.GUIPaintUtils;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.Constants;
 import com.fr.stable.project.ProjectConstants;
-import com.fr.design.utils.gui.GUIPaintUtils;
+
+import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class HistoryTemplateListPane extends JPanel implements FileOperations, CallbackEvent {
     //最大保存内存中面板数,为0时关闭优化内存
@@ -120,7 +117,7 @@ public class HistoryTemplateListPane extends JPanel implements FileOperations, C
         try {
             historyList.remove(contains(selected));
             selected.getEditingFILE().closeTemplate();
-            FRLogger.getLogger().log(Level.INFO, Inter.getLocText(new String[]{"Template", "alraedy_close"}, new String[]{selected.getEditingFILE().getName(), "."}));
+            FineLoggerFactory.getLogger().info(Inter.getLocText(new String[]{"Template", "alraedy_close"}, new String[]{selected.getEditingFILE().getName(), "."}));
             MutilTempalteTabPane.getInstance().refreshOpenedTemplate(historyList);
         } catch (Exception e) {
             FRContext.getLogger().error(e.getMessage(), e);

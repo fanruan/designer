@@ -8,7 +8,7 @@ import com.fr.design.mainframe.alphafine.cell.model.DocumentModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.search.manager.fun.AlphaFineSearchProvider;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
@@ -88,7 +88,7 @@ public class DocumentSearchManager implements AlphaFineSearchProvider {
                     }
                 }
             } catch (JSONException e) {
-                FRLogger.getLogger().error("document search error: " + e.getMessage());
+                FineLoggerFactory.getLogger().error("document search error: " + e.getMessage());
             }
         }
         return lessModelList;

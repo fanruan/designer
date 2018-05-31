@@ -11,6 +11,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.*;
 import com.fr.general.http.HttpClient;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.StringUtils;
 
@@ -280,7 +281,7 @@ public class BBSLoginDialog extends UIDialog {
                 username = URLEncoder.encode(username, EncodeConstants.ENCODING_GBK);
                 password = URLEncoder.encode(password, EncodeConstants.ENCODING_GBK);
             } catch (UnsupportedEncodingException e) {
-                FRLogger.getLogger().error(e.getMessage());
+                FineLoggerFactory.getLogger().error(e.getMessage());
             }
             String url = SiteCenter.getInstance().acquireUrlByKind("bbs.login") + "&username=" + username + "&password=" + password;
             String loginSuccessFlag = SiteCenter.getInstance().acquireUrlByKind("bbs");
@@ -293,7 +294,7 @@ public class BBSLoginDialog extends UIDialog {
                         return true;
                     }
                 } catch (Exception e) {
-                    FRLogger.getLogger().error(e.getMessage());
+                    FineLoggerFactory.getLogger().error(e.getMessage());
                 }
             }
         }

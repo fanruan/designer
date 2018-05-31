@@ -22,7 +22,7 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrame;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.StableUtils;
@@ -367,7 +367,7 @@ public class MapGroupExtensionPane extends BasicPane implements UIObserver {
 								StableUtils.pathJoin(new String[]{MapSvgXMLHelper.relativeCustomMapPath(),oldName+SvgProvider.EXTENSION}));
 						refresh();
 					}catch (Exception exp){
-						FRLogger.getLogger().error(exp.getMessage());
+						FineLoggerFactory.getLogger().error(exp.getMessage());
 					}
 				}
 			}
@@ -399,7 +399,7 @@ public class MapGroupExtensionPane extends BasicPane implements UIObserver {
 
 			@Override
 			protected void done() {
-				FRLogger.getLogger().info(Inter.getLocText("FR-Chart-Map_Saved")); // 地图已经保存.
+				FineLoggerFactory.getLogger().info(Inter.getLocText("FR-Chart-Map_Saved")); // 地图已经保存.
 			}
 
 		};

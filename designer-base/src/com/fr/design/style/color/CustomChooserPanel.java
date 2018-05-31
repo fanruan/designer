@@ -28,7 +28,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.islider.UISlider;
 import com.fr.design.gui.ispinner.UIBasicSpinner;
 import com.fr.design.gui.itextfield.UITextField;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 
 /**
@@ -241,7 +241,7 @@ class CustomChooserPanel extends AbstractColorChooserPanel implements ColorSelec
                 }
 
             } catch (BadLocationException e1) {
-                FRLogger.getLogger().error(e1.getMessage());
+                FineLoggerFactory.getLogger().error(e1.getMessage());
             }
         }
     }

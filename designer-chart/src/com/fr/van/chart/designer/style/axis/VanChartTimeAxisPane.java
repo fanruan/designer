@@ -16,7 +16,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.DateUtils;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.attr.axis.VanChartAxis;
 import com.fr.plugin.chart.attr.axis.VanChartTimeAxis;
@@ -379,7 +379,7 @@ public class VanChartTimeAxisPane extends VanChartBaseAxisPane {
                 String tmp = DateUtils.getDate2LStr(toDate);
                 toDate = DateUtils.DATETIMEFORMAT2.parse(tmp);
             } catch (ParseException e) {
-                FRLogger.getLogger().error("cannot get date");
+                FineLoggerFactory.getLogger().error("cannot get date");
             }
             return toDate;
         }

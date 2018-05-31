@@ -11,7 +11,7 @@ import com.fr.design.utils.ComponentUtils;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.form.ui.container.WAbsoluteLayout;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 
 import java.awt.*;
 
@@ -82,7 +82,7 @@ public class FRAbsoluteLayoutAdapter extends FRBodyLayoutAdapter {
                 return acceptWidget(x, y);
 			}
         } else {
-			FRLogger.getLogger().error("top layout is null!");
+			FineLoggerFactory.getLogger().error("top layout is null!");
 		}
 
 		return false;

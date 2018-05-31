@@ -26,7 +26,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.js.NameJavaScriptGroup;
 import com.fr.stable.Constants;
@@ -351,7 +351,7 @@ public abstract class AbstractChartTypePane extends FurtherBasicBeanPane<Chart>{
         try {
             chart.switchPlot((Plot)plot.clone());
         } catch (CloneNotSupportedException e) {
-            FRLogger.getLogger().error("Error in change plot");
+            FineLoggerFactory.getLogger().error("Error in change plot");
         }
     }
 

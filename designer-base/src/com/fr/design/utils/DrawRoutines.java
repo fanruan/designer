@@ -1,7 +1,7 @@
 package com.fr.design.utils;
 
 import com.fr.design.utils.ColorRoutines;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -205,11 +205,11 @@ public class DrawRoutines {
         try {
             grabber.grabPixels();
         } catch (InterruptedException e) {
-            FRLogger.getLogger().error("PixelGrabber interrupted waiting for pixels");
+            FineLoggerFactory.getLogger().error("PixelGrabber interrupted waiting for pixels");
         }
 
         if ((grabber.getStatus() & ImageObserver.ABORT) != 0) {
-            FRLogger.getLogger().info("Image fetch aborted or errored.");
+            FineLoggerFactory.getLogger().info("Image fetch aborted or errored.");
         } else {
             for (int y = 0; y < h; y++) {
                 for (int x = 0; x < w; x++) {

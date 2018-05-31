@@ -23,7 +23,7 @@ import com.fr.design.hyperlink.WebHyperlinkPane;
 import com.fr.design.javascript.JavaScriptImplPane;
 import com.fr.design.javascript.ParameterJavaScriptPane;
 import com.fr.design.module.DesignModuleFactory;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.general.NameObject;
 import com.fr.js.EmailJavaScript;
@@ -81,13 +81,13 @@ public class VanChartHyperLinkPane extends VanChartUIListControlPane {
             return constructor.newInstance(getHyperLinkEditorMap(), false);
 
         } catch (InstantiationException e) {
-            FRLogger.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         } catch (IllegalAccessException e) {
-            FRLogger.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         } catch (NoSuchMethodException e) {
             return super.createPaneByCreators(creator);
         } catch (InvocationTargetException e) {
-            FRLogger.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         return null;
     }

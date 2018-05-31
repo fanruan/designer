@@ -15,8 +15,8 @@ import com.fr.file.FileNodeFILE;
 import com.fr.file.filetree.FileNode;
 import com.fr.file.filetree.IOFileNodeFilter;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
 import com.fr.general.Inter;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
@@ -34,7 +34,6 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
 
 public class TemplateTreePane extends JPanel implements FileOperations {
 
@@ -157,7 +156,7 @@ public class TemplateTreePane extends JPanel implements FileOperations {
      */
     public void refresh() {
         reportletsTree.refresh();
-        FRLogger.getLogger().log(Level.INFO, Inter.getLocText(new String[]{"File-tree", "Refresh_Successfully"}) + "!");
+        FineLoggerFactory.getLogger().info(Inter.getLocText(new String[]{"File-tree", "Refresh_Successfully"}) + "!");
     }
 
     /**
@@ -297,11 +296,11 @@ public class TemplateTreePane extends JPanel implements FileOperations {
                 //todo 走下这个流程，否则集群下其它节点无法同步删除
                 FRContext.getCurrentEnv().deleteFile(nodeFile.getPath());
             } catch (IOException e) {
-                FRLogger.getLogger().info(e.getMessage());
+                FineLoggerFactory.getLogger().info(e.getMessage());
                 FRContext.getCurrentEnv().deleteFile(nodeFile.getPath());
             }
         } else {
-            FRLogger.getLogger().info("No Trash Available");
+            FineLoggerFactory.getLogger().info("No Trash Available");
             FRContext.getCurrentEnv().deleteFile(nodeFile.getPath());
         }
     }

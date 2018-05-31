@@ -2,7 +2,7 @@ package com.fr.design.gui.frpane;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.constants.UIConstants;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.GeneralUtils;
 
 import javax.swing.*;
@@ -129,7 +129,7 @@ public class UITabbedPaneUI extends BasicTabbedPaneUI {
                     tabPane.addTab(tabName,
                             (Component) GeneralUtils.classForName(classpath).newInstance());
                 } catch (Exception ex) {
-                    FRLogger.getLogger().error(ex.getMessage(), ex);
+                    FineLoggerFactory.getLogger().error(ex.getMessage(), ex);
                 }
             }
         }

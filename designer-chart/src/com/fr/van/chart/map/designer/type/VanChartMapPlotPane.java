@@ -5,7 +5,7 @@ import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.mainframe.chart.gui.type.ChartImagePane;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.base.VanChartTools;
 import com.fr.plugin.chart.map.MapIndependentVanChart;
@@ -104,7 +104,7 @@ public class VanChartMapPlotPane extends AbstractVanChartTypePane {
             VanChartMapPlot mapPlot = (VanChartMapPlot)plot.clone();
             sourceChoosePane.populateBean(mapPlot);
         } catch (CloneNotSupportedException e) {
-            FRLogger.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
 
@@ -145,7 +145,7 @@ public class VanChartMapPlotPane extends AbstractVanChartTypePane {
         try {
             cloned = (Plot)newPlot.clone();
         } catch (CloneNotSupportedException e) {
-            FRLogger.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         return cloned;
     }

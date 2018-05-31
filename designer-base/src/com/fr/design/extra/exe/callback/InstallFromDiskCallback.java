@@ -2,8 +2,8 @@ package com.fr.design.extra.exe.callback;
 
 import com.fr.design.extra.PluginOperateUtils;
 import com.fr.design.extra.PluginUtils;
-import com.fr.general.FRLogger;
 import com.fr.general.Inter;
+import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.context.PluginMarker;
 import com.fr.plugin.error.PluginErrorCode;
 import com.fr.plugin.manage.PluginManager;
@@ -37,7 +37,7 @@ public class InstallFromDiskCallback extends AbstractPluginTaskCallback {
     public void done(PluginTaskResult result) {
         if (result.isSuccess()) {
             jsCallback.execute("success");
-            FRLogger.getLogger().info(Inter.getLocText("FR-Plugin_Install_Success"));
+            FineLoggerFactory.getLogger().info(Inter.getLocText("FR-Plugin_Install_Success"));
             JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Plugin_Install_Success"));
         } else if (result.errorCode() == PluginErrorCode.NeedDealWithPluginDependency) {
             int rv = JOptionPane.showOptionDialog(
@@ -76,7 +76,7 @@ public class InstallFromDiskCallback extends AbstractPluginTaskCallback {
             PluginOperateUtils.updatePluginFromDisk(zipFile, jsCallback);
         }else {
             jsCallback.execute("failed");
-            FRLogger.getLogger().info(Inter.getLocText("FR-Plugin_Install_Failed"));
+            FineLoggerFactory.getLogger().info(Inter.getLocText("FR-Plugin_Install_Failed"));
             JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), Inter.getLocText("FR-Plugin_Install_Failed"), JOptionPane.ERROR_MESSAGE);
         }
     }

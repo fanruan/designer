@@ -16,10 +16,10 @@ import com.fr.env.SignIn;
 import com.fr.file.FILEFactory;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogFormatter;
-import com.fr.general.FRLogger;
 import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.Constants;
 import com.fr.stable.EnvChangedListener;
 import com.fr.stable.ListMap;
@@ -34,10 +34,9 @@ import com.fr.stable.xml.XMLTools;
 import com.fr.stable.xml.XMLWriter;
 import com.fr.stable.xml.XMLableReader;
 
-import javax.swing.SwingWorker;
+import javax.swing.*;
 import javax.swing.SwingWorker.StateValue;
-import java.awt.Color;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -228,7 +227,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 try {
                     Thread.sleep(5000);
                 } catch (InterruptedException e) {
-                    FRLogger.getLogger().error("Map Save Error");
+                    FineLoggerFactory.getLogger().error("Map Save Error");
                 }
             }
         }

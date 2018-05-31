@@ -49,7 +49,7 @@ import com.fr.design.parameter.WorkBookParameterReader;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.file.FILE;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.general.ModuleContext;
 import com.fr.general.xml.GeneralXMLTools;
@@ -168,7 +168,7 @@ public class DesignerModule extends DesignModule {
             try {
                 ActionFactory.registerCellEditor(provider.targetObjectClass(), provider.quickEditor().newInstance());
             } catch (Exception e) {
-                FRLogger.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
     }
@@ -445,7 +445,7 @@ public class DesignerModule extends DesignModule {
                         ServerPreferenceConfig.getInstance().putStyle(namelist.get(i), Style.DEFAULT_STYLE);
                     }
                 } catch (Exception ex) {
-                    FRLogger.getLogger().error(ex.getMessage());
+                    FineLoggerFactory.getLogger().error(ex.getMessage());
                 }
                 jd.dispose();
                 new StyleListAction().actionPerformed(e);// 弹窗

@@ -1,7 +1,7 @@
 package com.fr.design.gui.imenutable;
 
 import com.fr.design.beans.BasicBeanPane;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.Nameable;
 
 public class UIMenuNameableCreator implements Nameable{
@@ -46,9 +46,9 @@ public class UIMenuNameableCreator implements Nameable{
 		try {
 			cloneObj = obj.getClass().newInstance();
 		} catch (InstantiationException e) {
-			FRLogger.getLogger().error("UIMenuNameableCreator InstantiationException");
+			FineLoggerFactory.getLogger().error("UIMenuNameableCreator InstantiationException");
 		} catch (IllegalAccessException e) {
-			FRLogger.getLogger().error("UIMenuNameableCreator IllegalAccessException");
+			FineLoggerFactory.getLogger().error("UIMenuNameableCreator IllegalAccessException");
 		}
 		return new UIMenuNameableCreator(name, cloneObj, this.paneClazz);
 		
