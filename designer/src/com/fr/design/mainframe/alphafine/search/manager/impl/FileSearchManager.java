@@ -79,7 +79,12 @@ public class FileSearchManager implements AlphaFineSearchProvider {
             return lessModelList;
         }
         AlphaFineHelper.checkCancel();
-        doSearch(this.searchText);
+        Env env = FRContext.getCurrentEnv();
+        fileNodes = new ArrayList<>();
+        fileNodes = listTpl(env, ProjectConstants.REPORTLETS_NAME, true);
+        isContainCpt = true;
+        isContainFrm = true;
+        doSearch(env, this.searchText);
         if (filterModelList.isEmpty()) {
             return new SearchResult();
         } else if (filterModelList.size() < AlphaFineConstants.SHOW_SIZE + 1) {
@@ -99,10 +104,7 @@ public class FileSearchManager implements AlphaFineSearchProvider {
         return moreModelList;
     }
 
-    private void doSearch(String searchText) {
-        Env env = FRContext.getCurrentEnv();
-        fileNodes = new ArrayList<>();
-        fileNodes = listTpl(env, ProjectConstants.REPORTLETS_NAME, true);
+    private void doSearch(Env env, String searchText) {
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainTemplate()) {
             for (FileNode node : fileNodes) {
                 if (node.getName().toLowerCase().contains(searchText)) {
