@@ -1160,7 +1160,6 @@ public class RemoteEnv extends AbstractEnv {
             HashMap<String, String> para = new HashMap<>();
             para.put("op", "fr_remote_design");
             para.put("cmd", "search_file");
-            para.put("currentUserName", this.getUser());
             para.put("searchKey", searchKey);
             HttpClient client = createHttpMethod(para);
             InputStream input = null;
