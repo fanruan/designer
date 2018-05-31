@@ -78,57 +78,54 @@ public class FileSearchManager implements AlphaFineSearchProvider {
             lessModelList.add(new MoreModel(Inter.getLocText("FR-Designer_Templates")));
             return lessModelList;
         }
+        AlphaFineHelper.checkCancel();
         Env env = FRContext.getCurrentEnv();
         fileNodes = new ArrayList<>();
         fileNodes = listTpl(env, ProjectConstants.REPORTLETS_NAME, true);
-        AlphaFineHelper.checkCancel();
         isContainCpt = true;
         isContainFrm = true;
-        doSearch(this.searchText, true, env);
-        if (stopSearch) {
-            lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Templates"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"), true, CellType.FILE));
-            lessModelList.addAll(filterModelList.subList(0, AlphaFineConstants.SHOW_SIZE));
-            stopSearch = false;
-            return this.lessModelList;
-        }
+        doSearch(env, this.searchText);
         if (filterModelList.isEmpty()) {
             return new SearchResult();
+        } else if (filterModelList.size() < AlphaFineConstants.SHOW_SIZE + 1) {
+            lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Templates")));
+            lessModelList.addAll(filterModelList);
+        } else {
+            lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Templates"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"), true, CellType.FILE));
+            lessModelList.addAll(filterModelList.subList(0, AlphaFineConstants.SHOW_SIZE));
+            moreModelList.addAll(filterModelList.subList(AlphaFineConstants.SHOW_SIZE, filterModelList.size()));
+
         }
-        lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Templates"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"), false, CellType.FILE));
-        lessModelList.addAll(filterModelList);
         return lessModelList;
     }
 
     @Override
     public SearchResult getMoreSearchResult(String searchText) {
-        if (moreModelList != null && !moreModelList.isEmpty()) {
-            return moreModelList;
-        }
-        this.filterModelList = new SearchResult();
-        this.moreModelList = new SearchResult();
-        Env env = FRContext.getCurrentEnv();
-        AlphaFineHelper.checkCancel();
-        isContainCpt = true;
-        isContainFrm = true;
-        doSearch(this.searchText, false, env);
-        moreModelList.addAll(filterModelList.subList(AlphaFineConstants.SHOW_SIZE, filterModelList.size()));
         return moreModelList;
     }
 
-    private void doSearch(String searchText, boolean needMore, Env env) {
-        for (FileNode node : fileNodes) {
-            boolean isAlreadyContain = false;
-            isAlreadyContain = searchFile(searchText, node, isAlreadyContain, needMore);
-            if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainFileContent()) {
-                String lockName = node.getLock();
-                node.setLock(null);
-                searchFileContent(env, searchText, node, isAlreadyContain, needMore);
-                node.setLock(lockName);
-            }
-            if (filterModelList.size() > AlphaFineConstants.SHOW_SIZE && stopSearch) {
-                return;
-            }
+    private void doSearch(Env env, String searchText) {
+        if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainTemplate()) {
+            for (FileNode node : fileNodes) {
+                if (node.getName().toLowerCase().contains(searchText)) {
+                    FileModel model = new FileModel(node.getName(), node.getEnvPath());
+                    if (!AlphaFineHelper.getFilterResult().contains(model)) {
+                        AlphaFineHelper.checkCancel();
+                        filterModelList.add(model);
+                    }
+                }
 
+            }
+        }
+        if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainFileContent()) {
+            FileNode[] fileNodes = env.filterFilesByKeywords(searchText);
+            for (FileNode node: fileNodes) {
+                FileModel model = new FileModel(node.getName(), node.getEnvPath());
+                if (!AlphaFineHelper.getFilterResult().contains(model) && !filterModelList.contains(model)) {
+                    AlphaFineHelper.checkCancel();
+                    filterModelList.add(model);
+                }
+            }
         }
     }
 
@@ -143,76 +140,7 @@ public class FileSearchManager implements AlphaFineSearchProvider {
         return searchText;
     }
 
-    /**
-     * 搜索文件内容
-     *
-     * @param searchText
-     * @param node
-     * @param isAlreadyContain
-     */
-    private void searchFileContent(Env env, String searchText, FileNode node, boolean isAlreadyContain, boolean needMore) {
-        InputStream inputStream;
-        try {
-            inputStream = env.readBean(node.getEnvPath().substring(ProjectConstants.REPORTLETS_NAME.length() + 1), ProjectConstants.REPORTLETS_NAME);
-        } catch (Exception e) {
-            FRContext.getLogger().error("file read error: " + e.getMessage());
-            return;
-        }
-        try {
-            AlphaFineHelper.checkCancel();
-            InputStreamReader isr = new InputStreamReader(inputStream, "UTF-8");
-            BufferedReader reader = new BufferedReader(isr);
-            String line;
-            int columnNumber;
-            boolean isFoundInContent = false;
-            while ((line = reader.readLine()) != null) {
-                columnNumber = line.toLowerCase().indexOf(searchText);
-                if (columnNumber != -1) {
-                    isFoundInContent = true;
-                    break;
-                }
-            }
-            if (isFoundInContent && !isAlreadyContain) {
-                FileModel model = new FileModel(node.getName(), node.getEnvPath());
-                if (!AlphaFineHelper.getFilterResult().contains(model)) {
-                    AlphaFineHelper.checkCancel();
-                    filterModelList.add(model);
-                }
-                if (this.filterModelList.size() > AlphaFineConstants.SHOW_SIZE && needMore) {
-                    stopSearch = true;
-                }
-            }
-            isr.close();
-            reader.close();
-        } catch (IOException e) {
-            FRContext.getLogger().error("file search error: " + e.getMessage());
-        }
-    }
 
-    /**
-     * 搜索模板
-     *
-     * @param searchText
-     * @param node
-     * @param isAlreadyContain
-     * @return
-     */
-    private boolean searchFile(String searchText, FileNode node, boolean isAlreadyContain, boolean needMore) {
-        if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainTemplate()) {
-            if (node.getName().toLowerCase().contains(searchText)) {
-                FileModel model = new FileModel(node.getName(), node.getEnvPath());
-                if (!AlphaFineHelper.getFilterResult().contains(model)) {
-                    AlphaFineHelper.checkCancel();
-                    filterModelList.add(model);
-                }
-                if (filterModelList.size() > AlphaFineConstants.SHOW_SIZE && needMore) {
-                    stopSearch = true;
-                }
-                isAlreadyContain = true;
-            }
-        }
-        return isAlreadyContain;
-    }
 
     /**
      * 获取工作目录下所有符合要求的模板

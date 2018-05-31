@@ -485,71 +485,75 @@ public class AlphaFineDialog extends UIDialog {
             case FILE:
                 final String fileName = ((FileModel) selectedValue).getFilePath().substring(ProjectConstants.REPORTLETS_NAME.length() + 1);
                 showDefaultPreviewPane();
-                if (fileName.endsWith(ProjectConstants.FRM_SUFFIX)) {
-                    checkWorker();
-                    this.showWorker = new SwingWorker<BufferedImage, Void>() {
-                        @Override
-                        protected BufferedImage doInBackground() {
-                            Form form = null;
-                            try {
-                                form = FormIO.readForm(FRContext.getCurrentEnv(), fileName);
-                            } catch (Exception e) {
-                                FRLogger.getLogger().error(e.getMessage());
-                            }
-                            return FormIO.exportFormAsImage(form);
-                        }
-
-                        @Override
-                        protected void done() {
-                            if (!isCancelled()) {
-                                rightSearchResultPane.removeAll();
+                if (FRContext.getCurrentEnv().isLocalEnv()) {
+                    if (fileName.endsWith(ProjectConstants.FRM_SUFFIX)) {
+                        checkWorker();
+                        this.showWorker = new SwingWorker<BufferedImage, Void>() {
+                            @Override
+                            protected BufferedImage doInBackground() {
+                                Form form = null;
                                 try {
-                                    rightSearchResultPane.add(new FilePreviewPane(get()));
-                                } catch (InterruptedException e) {
-                                    FRLogger.getLogger().error(e.getMessage());
-                                } catch (ExecutionException e) {
+                                    form = FormIO.readForm(FRContext.getCurrentEnv(), fileName);
+                                } catch (Exception e) {
                                     FRLogger.getLogger().error(e.getMessage());
                                 }
-                                validate();
-                                repaint();
+                                return FormIO.exportFormAsImage(form);
                             }
 
-                        }
-                    };
-                    this.showWorker.execute();
-                } else if (fileName.endsWith(ProjectConstants.CPT_SUFFIX)) {
-                    checkWorker();
-                    this.showWorker = new SwingWorker<BufferedImage, Void>() {
-                        @Override
-                        protected BufferedImage doInBackground() {
-                            WorkBook workBook = null;
-                            try {
-                                workBook = (WorkBook) TemplateWorkBookIO.readTemplateWorkBook(FRContext.getCurrentEnv(), fileName);
-                            } catch (Exception e) {
-                                FRLogger.getLogger().error(e.getMessage());
-                            }
-                            BufferedImage bufferedImage = new ImageExporter().exportToImage(workBook);
-                            return bufferedImage;
-                        }
-
-                        @Override
-                        protected void done() {
-                            if (!isCancelled()) {
-                                rightSearchResultPane.removeAll();
-                                try {
-                                    rightSearchResultPane.add(new FilePreviewPane(get()));
+                            @Override
+                            protected void done() {
+                                if (!isCancelled()) {
+                                    rightSearchResultPane.removeAll();
+                                    try {
+                                        rightSearchResultPane.add(new FilePreviewPane(get()));
+                                    } catch (Exception e) {
+                                        FRLogger.getLogger().error(e.getMessage());
+                                    }
                                     validate();
                                     repaint();
-                                } catch (InterruptedException e) {
-                                    FRLogger.getLogger().error(e.getMessage());
-                                } catch (ExecutionException e) {
+
+                                }
+
+                            }
+                        };
+                        this.showWorker.execute();
+                    } else if (fileName.endsWith(ProjectConstants.CPT_SUFFIX)) {
+                        checkWorker();
+                        this.showWorker = new SwingWorker<BufferedImage, Void>() {
+                            @Override
+                            protected BufferedImage doInBackground() {
+                                WorkBook workBook = null;
+                                try {
+                                    workBook = (WorkBook) TemplateWorkBookIO.readTemplateWorkBook(FRContext.getCurrentEnv(), fileName);
+                                } catch (Exception e) {
                                     FRLogger.getLogger().error(e.getMessage());
                                 }
+                                BufferedImage bufferedImage = new ImageExporter().exportToImage(workBook);
+                                return bufferedImage;
                             }
 
-                        }
-                    };
-                    this.showWorker.execute();
+                            @Override
+                            protected void done() {
+                                if (!isCancelled()) {
+                                    rightSearchResultPane.removeAll();
+                                    try {
+                                        rightSearchResultPane.add(new FilePreviewPane(get()));
+                                        validate();
+                                        repaint();
+                                    } catch (Exception e) {
+                                        FRLogger.getLogger().error(e.getMessage());
+                                    }
+                                }
+
+                            }
+                        };
+                        this.showWorker.execute();
+                    }
+                } else {
+                    rightSearchResultPane.removeAll();
+                    rightSearchResultPane.add(new NoResultPane(Inter.getLocText("FR-Designer_NoResult"), AlphaFineConstants.IMAGE_URL + "noresult.png"));
+                    validate();
+                    repaint();
                 }
                 break;
             case ACTION:
