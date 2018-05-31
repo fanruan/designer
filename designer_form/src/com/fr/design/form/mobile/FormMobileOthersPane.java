@@ -17,6 +17,7 @@ import java.awt.BorderLayout;
 public class FormMobileOthersPane extends BasicBeanPane<FormMobileAttr> {
 
     private MobileRadioCheckPane appearRefreshCheckPane;  // 页面再现时刷新
+    private MobileRadioCheckPane promptWhenLeaveWithoutSubmitCheckPane;  // 数据未提交离开提示
 
     public FormMobileOthersPane() {
         this.initComponents();
@@ -29,6 +30,8 @@ public class FormMobileOthersPane extends BasicBeanPane<FormMobileAttr> {
         contentPane.setBorder(BorderFactory.createEmptyBorder(0, IntervalConstants.INTERVAL_L1, 0, 0));
         appearRefreshCheckPane = new MobileRadioCheckPane(Inter.getLocText("FR-Designer_Appear_Refresh"));
         contentPane.add(appearRefreshCheckPane, BorderLayout.WEST);
+        promptWhenLeaveWithoutSubmitCheckPane = new MobileRadioCheckPane(Inter.getLocText("FR-Designer_Prompt_When_Leave_Without_Submit"));
+        contentPane.add(promptWhenLeaveWithoutSubmitCheckPane, BorderLayout.CENTER);
         borderPane.add(contentPane);
         this.add(borderPane);
     }
@@ -39,6 +42,7 @@ public class FormMobileOthersPane extends BasicBeanPane<FormMobileAttr> {
             ob = new FormMobileAttr();
         }
         this.appearRefreshCheckPane.populateBean(ob.isAppearRefresh());
+        this.promptWhenLeaveWithoutSubmitCheckPane.populateBean(ob.isPromptWhenLeaveWithoutSubmit());
     }
 
     @Override
@@ -50,6 +54,7 @@ public class FormMobileOthersPane extends BasicBeanPane<FormMobileAttr> {
     public void updateBean(FormMobileAttr mobileAttr) {
         if(mobileAttr != null) {
             mobileAttr.setAppearRefresh(this.appearRefreshCheckPane.updateBean());
+            mobileAttr.setPromptWhenLeaveWithoutSubmit(this.promptWhenLeaveWithoutSubmitCheckPane.updateBean());
         }
     }
 
