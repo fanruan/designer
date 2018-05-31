@@ -79,8 +79,6 @@ public class FileSearchManager implements AlphaFineSearchProvider {
             return lessModelList;
         }
         AlphaFineHelper.checkCancel();
-        isContainCpt = true;
-        isContainFrm = true;
         doSearch(this.searchText);
         if (filterModelList.isEmpty()) {
             return new SearchResult();
