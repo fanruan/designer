@@ -81,7 +81,7 @@ public class FileSearchManager implements AlphaFineSearchProvider {
         AlphaFineHelper.checkCancel();
         isContainCpt = true;
         isContainFrm = true;
-        doSearch(this.searchText, new String[]{"cpt", "frm"});
+        doSearch(this.searchText);
         if (filterModelList.isEmpty()) {
             return new SearchResult();
         } else if (filterModelList.size() < AlphaFineConstants.SHOW_SIZE + 1) {
@@ -101,7 +101,7 @@ public class FileSearchManager implements AlphaFineSearchProvider {
         return moreModelList;
     }
 
-    private void doSearch(String searchText, String[] fileTypes) {
+    private void doSearch(String searchText) {
         Env env = FRContext.getCurrentEnv();
         fileNodes = new ArrayList<>();
         fileNodes = listTpl(env, ProjectConstants.REPORTLETS_NAME, true);
