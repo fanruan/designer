@@ -35,6 +35,7 @@ import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.menu.MenuManager;
 import com.fr.design.utils.DesignUtils;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.event.EventDispatcher;
 import com.fr.file.FILE;
 import com.fr.file.FILEFactory;
 import com.fr.file.FileFILE;
@@ -43,8 +44,6 @@ import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
-import com.fr.general.env.EnvContext;
-import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.injectable.PluginModule;
 import com.fr.plugin.manage.PluginFilter;
@@ -82,6 +81,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import static com.fr.core.env.EnvEvents.AFTER_SIGN_OUT;
+import static com.fr.core.env.EnvEvents.BEFORE_SIGN_OUT;
 
 public class DesignerFrame extends JFrame implements JTemplateActionListener, TargetModifiedListener {
     public static final String DESIGNER_FRAME_NAME = "designer_frame";
@@ -351,7 +353,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
                     .getResourceAsStream("/com/fr/base/images/oem/logo.ico"));
             this.setIconImages(image);
         } catch (IOException e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
             this.setIconImage(BaseUtils.readImage("/com/fr/base/images/oem/logo.png"));
         }
     }
@@ -965,11 +967,11 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
         Env currentEnv = FRContext.getCurrentEnv();
         try {
-            EnvContext.fireBeforeSignOut();
+            EventDispatcher.fire(BEFORE_SIGN_OUT);
             currentEnv.signOut();
-            EnvContext.fireAfterSignOut();
+            EventDispatcher.fire(AFTER_SIGN_OUT);
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         this.setVisible(false);
         this.dispose();
@@ -1025,7 +1027,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
                         }
                     }
                 } catch (Exception e) {
-                    FRContext.getLogger().error(e.getMessage(), e);
+                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
                 }
             }
             event.dropComplete(true);
