@@ -1,5 +1,6 @@
 package com.fr.start.module;
 
+import com.fr.design.mainframe.loghandler.socketio.DesignerSocketIO;
 import com.fr.design.module.DesignerModule;
 import com.fr.general.ModuleContext;
 import com.fr.locale.InterMutableKey;
@@ -20,6 +21,8 @@ public class DesignerModuleActivator extends Activator implements Prepare {
         ModuleContext.registerModuleListener(getModule().upFindSingleton(ModuleListener.class));
         ModuleContext.startModule(DesignerModule.class.getName());
         ModuleContext.clearModuleListener();
+
+        DesignerSocketIO.init();
     }
     
     @Override

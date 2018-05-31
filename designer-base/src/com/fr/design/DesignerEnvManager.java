@@ -4,13 +4,14 @@
 package com.fr.design;
 
 import com.fr.base.BaseXMLUtils;
-import com.fr.base.Env;
 import com.fr.base.FRContext;
 import com.fr.base.Utils;
-import com.fr.dav.LocalEnv;
+import com.fr.base.env.resource.EnvConfigUtils;
+import com.fr.base.env.resource.LocalEnvConfig;
+import com.fr.base.env.resource.RemoteEnvConfig;
+import com.fr.core.env.EnvConfig;
 import com.fr.design.actions.help.alphafine.AlphaFineConfigManager;
 import com.fr.design.constants.UIConstants;
-import com.fr.env.RemoteEnv;
 import com.fr.env.SignIn;
 import com.fr.file.FILEFactory;
 import com.fr.general.ComparatorUtils;
@@ -72,7 +73,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     private boolean showPaintToolBar = true;
     private int maxNumberOrPreviewRow = 200;
     // name和Env的键值对
-    private Map<String, Env> nameEnvMap = new ListMap();
+    private Map<String, EnvConfig> nameEnvMap = new ListMap();
     // marks: 当前报表服务器名字
     private String curEnvName = null;
     private boolean showProjectPane = true;
@@ -191,7 +192,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         if (installHome != null) {
             String name = Inter.getLocText("FR-Engine_DEFAULT");
             String envPath = StableUtils.pathJoin(new String[]{installHome, ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBINF_NAME});
-            designerEnvManager.putEnv(name, LocalEnv.createEnv(envPath));
+            designerEnvManager.putEnv(name, new LocalEnvConfig(envPath));
             designerEnvManager.setCurEnvName(name);
         }
     }
@@ -323,7 +324,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
             FRContext.getLogger().error(e.getMessage(), e);
         }
         // 清空前一个版本中的工作目录和最近打开
-        nameEnvMap = new ListMap<String, Env>();
+        nameEnvMap = new ListMap<String, EnvConfig>();
         recentOpenedFilePathList = new ArrayList<String>();
         curEnvName = null;
         designerEnvManager.saveXMLFile();
@@ -470,7 +471,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
      * @return 是默认则返回true
      */
     public boolean isCurrentEnvDefault() {
-        Env currentEnv = this.getEnv(curEnvName);
+        EnvConfig currentEnv = this.getEnv(curEnvName);
         String defaultEnvPath = StableUtils.pathJoin(new String[]{StableUtils.getInstallHome(), ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBINF_NAME});
         return ComparatorUtils.equals(new File(defaultEnvPath).getPath(), currentEnv.getPath());
     }
@@ -478,21 +479,19 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     /**
      * 返回默认环境
      */
-    public Env getDefaultEnv() {
+    public EnvConfig getDefaultEnv() {
         String installHome = StableUtils.getInstallHome();
-        String defaultenvPath = StableUtils.pathJoin(new String[]{installHome, ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBINF_NAME});
+        String defaultenvPath = StableUtils.pathJoin(installHome, ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBINF_NAME);
         defaultenvPath = new File(defaultenvPath).getPath();
-        if (nameEnvMap.size() >= 0) {
-            Iterator<Entry<String, Env>> entryIt = nameEnvMap.entrySet().iterator();
-            while (entryIt.hasNext()) {
-                Entry<String, Env> entry = entryIt.next();
-                Env env = entry.getValue();
-                if (ComparatorUtils.equals(defaultenvPath, env.getPath())) {
-                    return env;
-                }
+        Iterator<Entry<String, EnvConfig>> entryIt = nameEnvMap.entrySet().iterator();
+        while (entryIt.hasNext()) {
+            Entry<String, EnvConfig> entry = entryIt.next();
+            EnvConfig env = entry.getValue();
+            if (ComparatorUtils.equals(defaultenvPath, env.getPath())) {
+                return env;
             }
         }
-        Env newDefaultEnv = LocalEnv.createEnv(defaultenvPath);
+        EnvConfig newDefaultEnv = new LocalEnvConfig(defaultenvPath);
         this.putEnv(Inter.getLocText(new String[]{"Default", "Utils-Report_Runtime_Env"}), newDefaultEnv);
         return newDefaultEnv;
     }
@@ -505,10 +504,10 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         String defaultenvPath = StableUtils.pathJoin(new String[]{installHome, ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBINF_NAME});
         defaultenvPath = new File(defaultenvPath).getPath();
         if (nameEnvMap.size() >= 0) {
-            Iterator<Entry<String, Env>> entryIt = nameEnvMap.entrySet().iterator();
+            Iterator<Entry<String, EnvConfig>> entryIt = nameEnvMap.entrySet().iterator();
             while (entryIt.hasNext()) {
-                Entry<String, Env> entry = entryIt.next();
-                Env env = entry.getValue();
+                Entry<String, EnvConfig> entry = entryIt.next();
+                EnvConfig env = entry.getValue();
                 if (ComparatorUtils.equals(defaultenvPath, env.getPath())) {
                     return entry.getKey();
                 }
@@ -680,7 +679,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     /**
      * 根据名称返回环境
      */
-    public Env getEnv(String name) {
+    public EnvConfig getEnv(String name) {
         return this.nameEnvMap.get(name);
     }
 
@@ -690,7 +689,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
      * @param name 名称
      * @param env  对应的环境
      */
-    public void putEnv(String name, Env env) {
+    public void putEnv(String name, EnvConfig env) {
         this.nameEnvMap.put(name, env);
     }
 
@@ -1401,7 +1400,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         if ((tmpVal = reader.getAttrAsString("webinfLocation", null)) != null) {
             // marks:兼容6.1的
             // marks:设置默认的目录.
-            Env reportServer = LocalEnv.createEnv(tmpVal);
+            EnvConfig reportServer = new LocalEnvConfig(tmpVal);
 
             String curReportServerName = Inter.getLocText("Server-Embedded_Server");
             this.putEnv(curReportServerName, reportServer);
@@ -1454,11 +1453,11 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 }
 
                 if (reader.isChildNode()) {
-                    if (reader.getTagName().equals("Env")) { // description.
+                    if (reader.getTagName().contains("Env")) { // description.
                         // marks:获取名字
                         String reportServerName = reader.getAttrAsString("name", null);
 
-                        Env env = readEnv(reader);
+                        EnvConfig env = readEnv(reader);
                         if (env == null) {
                             return;
                         }
@@ -1584,7 +1583,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         Iterator<String> nameIt = this.getEnvNameIterator();
         while (nameIt.hasNext()) {
             String envName = nameIt.next();
-            Env env = this.getEnv(envName);
+            EnvConfig env = this.getEnv(envName);
 
             writeEnv(writer, envName, env);
         }
@@ -1743,44 +1742,44 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     }
 
     /*
-         * 写Env为xml
-         */
-    private static void writeEnv(XMLPrintWriter writer, String name, Env env) {
+     * 写Env为xml
+     */
+    private static void writeEnv(XMLPrintWriter writer, String name, EnvConfig env) {
         if (env == null) {
             return;
         }
 
-        writer.startTAG("Env");
+        writer.startTAG("EnvConfig");
         writer.classAttr(env.getClass());
         writer.attr("name", name);
 
-        env.writeXML(writer);
-
+        EnvConfigXMLAdapter xmlAdapter = env instanceof RemoteEnvConfig
+                ? new RemoteEnvConfigXMLAdapter()
+                : new LocalEnvConfigXMLAdapter();
+        xmlAdapter.fromEnvConfig(env).writeXML(writer);
         writer.end();
     }
 
     /*
-         * 从xml读Env
-         */
-    private static Env readEnv(XMLableReader reader) {
-        Env env = null;
-
+     * 从xml读Env
+     */
+    private static EnvConfig readEnv(XMLableReader reader) {
+        EnvConfigXMLAdapter xmlAdapter = null;
         String tmpVal; //temp value
         if ((tmpVal = reader.getAttrAsString("class", null)) != null) {
-            if (tmpVal.endsWith(".LocalEnv")) {
-                env = LocalEnv.createEnv();
-            } else if (tmpVal.endsWith(".RemoteEnv")) {
-                env = new RemoteEnv();
+            if (tmpVal.contains(".LocalEnv")) {
+                xmlAdapter = new LocalEnvConfigXMLAdapter();
+            } else if (tmpVal.contains(".RemoteEnv")) {
+                xmlAdapter = new RemoteEnvConfigXMLAdapter();
             }
         }
 
-        if (env == null) {
-            return env;
+        if (xmlAdapter == null) {
+            return null;
         }
 
-        reader.readXMLObject(env);
-
-        return env;
+        reader.readXMLObject(xmlAdapter);
+        return xmlAdapter.toEnvConfig();
     }
 
     public AlphaFineConfigManager getAlphaFineConfigManager() {
@@ -1789,5 +1788,79 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
 
     public void setAlphaFineConfigManager(AlphaFineConfigManager alphaFineConfigManager) {
         this.alphaFineConfigManager = alphaFineConfigManager;
+    }
+
+    private interface EnvConfigXMLAdapter extends XMLReadable, XMLWriter {
+        EnvConfig toEnvConfig();
+
+        EnvConfigXMLAdapter fromEnvConfig(EnvConfig envConfig);
+    }
+
+    private static class LocalEnvConfigXMLAdapter implements EnvConfigXMLAdapter {
+        private String path;
+
+        public void readXML(XMLableReader reader) {
+            if (reader.isChildNode()) {
+                if ("DIR".equals(reader.getTagName())) {
+                    this.path = reader.getElementValue();
+                }
+            }
+        }
+
+        public void writeXML(XMLPrintWriter writer) {
+            writer.startTAG("DIR").textNode(this.path).end();
+        }
+
+        public EnvConfig toEnvConfig() {
+            return new LocalEnvConfig(path);
+        }
+
+        public EnvConfigXMLAdapter fromEnvConfig(EnvConfig envConfig) {
+            this.path = envConfig.getPath();
+            return this;
+        }
+
+    }
+
+    private static class RemoteEnvConfigXMLAdapter implements EnvConfigXMLAdapter {
+        private String path;
+        private String username;
+        private String password;
+
+        public void readXML(XMLableReader reader) {
+            if (reader.isChildNode()) {
+                String tmpVal;
+                if ("DIR".equals(reader.getTagName())) {
+                    if ((tmpVal = reader.getAttrAsString("path", null)) != null) {
+                        this.path = tmpVal;
+                    }
+                    if ((tmpVal = reader.getAttrAsString("user", null)) != null) {
+                        this.username = tmpVal;
+                    }
+                    if ((tmpVal = reader.getAttrAsString("password", null)) != null) {
+                        this.password = tmpVal;
+                    }
+                }
+            }
+        }
+
+        public void writeXML(XMLPrintWriter writer) {
+            writer.startTAG("DIR")
+                    .attr("path", this.path)
+                    .attr("user", this.username)
+                    .attr("password", this.password)
+                    .end();
+        }
+
+        public EnvConfig toEnvConfig() {
+            return new RemoteEnvConfig(path, username, password);
+        }
+
+        public EnvConfigXMLAdapter fromEnvConfig(EnvConfig envConfig) {
+            this.path = envConfig.getPath();
+            this.username = EnvConfigUtils.getUsername(envConfig);
+            this.password = EnvConfigUtils.getPassword(envConfig);
+            return this;
+        }
     }
 }

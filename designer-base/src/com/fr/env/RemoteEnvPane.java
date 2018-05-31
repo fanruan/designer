@@ -1,6 +1,8 @@
 package com.fr.env;
 
 import com.fr.base.FRContext;
+import com.fr.base.env.resource.EnvConfigUtils;
+import com.fr.base.env.resource.RemoteEnvConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.border.UITitledBorder;
@@ -49,7 +51,7 @@ import static com.fr.design.layout.TableLayout.PREFERRED;
 /**
  * @author yaohwu
  */
-public class RemoteEnvPane extends BasicBeanPane<RemoteEnv> {
+public class RemoteEnvPane extends BasicBeanPane<RemoteEnvConfig> {
 
     private static final Color TIPS_FONT_COLOR = new Color(0x8f8f92);
 
@@ -100,7 +102,7 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteEnv> {
     /**
      * 主机位置
      */
-    private RemoteEnvURL remoteEnvURL;
+    private RemoteEnvURL remoteEnvURL = new RemoteEnvURL("");
     /**
      * https 配置面板
      */
@@ -151,6 +153,7 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteEnv> {
 
         @Override
         public void removeUpdate(DocumentEvent e) {
+
             actionURLInputChange();
         }
 
@@ -250,7 +253,7 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteEnv> {
     }
 
     @Override
-    public void populateBean(RemoteEnv ob) {
+    public void populateBean(RemoteEnvConfig ob) {
 
         if (StringUtils.isEmpty(ob.getPath())) {
             remoteEnvURL = RemoteEnvURL.createDefaultURL();
@@ -265,18 +268,20 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteEnv> {
         fileChooserButton.setEnabled(remoteEnvURL.getHttps());
         updateHttpsConfigPanel();
 
-        this.usernameInput.setText(ob.getUser() == null ? StringUtils.EMPTY : ob.getUser());
+        String username = EnvConfigUtils.getUsername(ob);
+        String pwd = EnvConfigUtils.getPassword(ob);
+        this.usernameInput.setText(username == null ? StringUtils.EMPTY : pwd);
         this.passwordInput.setText(ob.getPassword() == null ? StringUtils.EMPTY : ob.getPassword());
     }
 
     @Override
-    public RemoteEnv updateBean() {
+    public RemoteEnvConfig updateBean() {
 
         String path = remoteEnvURL.getURL();
         String user = this.usernameInput.getText();
         String password = new String(this.passwordInput.getPassword());
 
-        return new RemoteEnv(path, user, password);
+        return new RemoteEnvConfig(path, user, password);
     }
 
     @Override
@@ -465,11 +470,8 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteEnv> {
     }
 
     private boolean testConnection() {
-        RemoteEnv env = new RemoteEnv();
         String url = remoteEnvURL.getURL();
-        env.setPath(url);
-        env.setUser(usernameInput.getText());
-        env.setPassword(new String(passwordInput.getPassword()));
+        RemoteEnv env = new RemoteEnv(url, usernameInput.getText(), new String(passwordInput.getPassword()));
         boolean connect = false;
         try {
             if (StringUtils.isNotEmpty(url)) {

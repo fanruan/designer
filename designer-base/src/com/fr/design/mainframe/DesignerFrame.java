@@ -6,6 +6,8 @@ package com.fr.design.mainframe;
 import com.fr.base.BaseUtils;
 import com.fr.base.Env;
 import com.fr.base.FRContext;
+import com.fr.base.env.resource.EnvConfigUtils;
+import com.fr.core.env.EnvConfig;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignState;
 import com.fr.design.DesignerEnvManager;
@@ -640,10 +642,10 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         defaultTitleSB.append(ProductConstants.BRANCH);
         // james：标识登录的用户和登录的ENV
         String envName = DesignerEnvManager.getEnvManager().getCurEnvName();
-        Env env = DesignerEnvManager.getEnvManager().getEnv(envName);
+        EnvConfig env = DesignerEnvManager.getEnvManager().getEnv(envName);
         if (env != null) {
-            defaultTitleSB.append(env.getUser()).append('@').append(envName).append('[');
-            defaultTitleSB.append(env.getEnvDescription());
+            defaultTitleSB.append(EnvConfigUtils.getUsername(env)).append('@').append(envName).append('[');
+            defaultTitleSB.append(Inter.getLocText("Env-Remote_Server"));
             defaultTitleSB.append(']');
             if (editingTemplate != null) {
                 String path = editingTemplate.getEditingFILE().getPath();

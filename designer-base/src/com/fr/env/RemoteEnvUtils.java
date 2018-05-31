@@ -57,7 +57,7 @@ public class RemoteEnvUtils {
             builder.addParameter(entry.getKey(), entry.getValue());
         }
         if (!isSignIn) {
-            builder.addParameter("id", env.getValidUserID());
+            builder.addParameter("id", env.getUserID());
         }
         InputStreamEntity reqEntity = new InputStreamEntity(new ByteArrayInputStream(bytes));
 
@@ -82,7 +82,7 @@ public class RemoteEnvUtils {
             builder.addParameter(entry.getKey(), entry.getValue());
         }
         if (!isSignIn) {
-            builder.addParameter("id", env.getValidUserID());
+            builder.addParameter("id", env.getUserID());
         }
 
         try (CloseableHttpClient httpClient = HttpClients.createSystem()) {
@@ -105,7 +105,7 @@ public class RemoteEnvUtils {
             builder.addParameter(entry.getKey(), entry.getValue());
         }
         if (!isSignIn) {
-            builder.addParameter("id", env.getValidUserID());
+            builder.addParameter("id", env.getUserID());
         }
         try (CloseableHttpClient httpClient = HttpClients.createSystem()) {
             HttpUriRequest request = builder.build();
@@ -118,57 +118,10 @@ public class RemoteEnvUtils {
     }
 
 
-    public static InputStream headBeatConnection(RemoteEnv env) {
-        String path = env.getPath();
-        String username = env.getUser();
-
-        InputStream inputStream = null;
-        try (CloseableHttpClient httpClient = HttpClients.createSystem()) {
-            HttpUriRequest request = RequestBuilder.get(path)
-                    .addParameter("op", "fr_remote_design")
-                    .addParameter("cmd", "heart_beat")
-                    .addParameter("user", username)
-                    .addParameter("id", env.getValidUserID())
-                    .build();
-
-            inputStream = httpClient.execute(request, responseHandler);
-        } catch (IOException | EnvException e) {
-            FRContext.getLogger().error(e.getMessage());
-        }
-        return inputStream;
-    }
-
-
-    public static InputStream testConnection(boolean isSignIn, RemoteEnv env) throws EnvException {
-        String username = env.getUser();
-        String path = env.getPath();
-        String password = env.getPassword();
-
-        InputStream inputStream = null;
-
-        try (CloseableHttpClient httpClient = HttpClients.createSystem()) {
-            RequestBuilder builder = RequestBuilder.get(path);
-            if (!isSignIn) {
-                builder.addParameter("id", env.getValidUserID());
-            }
-            HttpUriRequest request = builder
-                    .addParameter("op", "fr_remote_design")
-                    .addParameter("cmd", "test_server_connection")
-                    .addParameter("user", username)
-                    .addParameter("password", URLEncoder.encode(password, EncodeConstants.ENCODING_UTF_8))
-                    .build();
-            inputStream = httpClient.execute(request, responseHandler);
-        } catch (IOException e) {
-            FRContext.getLogger().error(e.getMessage());
-        }
-        return inputStream;
-    }
-
-
-    public static InputStream updateAuthorities(DesignAuthority[] authorities, RemoteEnv env) throws EnvException {
+    public static InputStream updateAuthorities(DesignAuthority[] authorities, RemoteEnv env) {
         String path = env.getPath();
         // 远程设计临时用户id
-        String userID = env.getValidUserID();
+        String userID = env.getUserID();
         InputStream inputStream = null;
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -194,7 +147,7 @@ public class RemoteEnvUtils {
     public static InputStream getAuthorities(RemoteEnv env) throws EnvException {
         String path = env.getPath();
         // 远程设计临时用户id
-        String userID = env.getValidUserID();
+        String userID = env.getUserID();
         InputStream inputStream = null;
 
         try (CloseableHttpClient httpClient = HttpClients.createSystem();) {
@@ -210,29 +163,5 @@ public class RemoteEnvUtils {
         return inputStream;
     }
 
-
-    public static InputStream listFile(String pFilePath, boolean isWebReport, RemoteEnv env) throws EnvException {
-        String path = env.getPath();
-        // 远程设计临时用户id
-        String userID = env.getValidUserID();
-        String username = env.getUser();
-
-        InputStream inputStream = null;
-        try (CloseableHttpClient httpClient = HttpClients.createSystem()) {
-            HttpUriRequest request = RequestBuilder.get(path)
-                    .addParameter("op", "fs_remote_design")
-                    .addParameter("cmd", "design_list_file")
-                    .addParameter("file_path", pFilePath)
-                    .addParameter("currentUserName", username)
-                    .addParameter("currentUserId", userID)
-                    .addParameter("id", userID)
-                    .addParameter("isWebReport", Boolean.toString(isWebReport))
-                    .build();
-            inputStream = httpClient.execute(request, responseHandler);
-        } catch (IOException e) {
-            FRContext.getLogger().error(e.getMessage());
-        }
-        return inputStream;
-    }
 
 }

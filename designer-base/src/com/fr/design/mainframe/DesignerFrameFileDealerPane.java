@@ -249,38 +249,6 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         }
     }
 
-    /*
-     * 加锁
-     */
-    private class GetLockAction extends UpdateAction {
-
-        public GetLockAction() {
-            this.setName(Inter.getLocText("FR-Designer_Get_Lock"));
-            this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/lock.png"));
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent evt) {
-            selectedOperation.lockFile();
-        }
-    }
-
-    /*
-     * 解锁
-     */
-    private class ReleaseLockAction extends UpdateAction {
-
-        public ReleaseLockAction() {
-            this.setName(Inter.getLocText("FR-Designer_Release_Lock"));
-            this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/unlock.png"));
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent evt) {
-            selectedOperation.unLockFile();
-        }
-    }
-
     /**
      * 按钮状态改变
      */

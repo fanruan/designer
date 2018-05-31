@@ -1,7 +1,8 @@
 package com.fr.env;
 
-import com.fr.base.Env;
-import com.fr.dav.LocalEnv;
+import com.fr.base.env.resource.LocalEnvConfig;
+import com.fr.base.env.resource.RemoteEnvConfig;
+import com.fr.core.env.EnvConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameObjectCreator;
@@ -59,9 +60,9 @@ public class EnvListPane extends JListControlPane {
     @Override
     public NameableCreator[] createNameableCreators() {
         NameableCreator local = new NameObjectCreator(Inter.getLocText("Env-Local_Directory"), "com/fr/design/images/data/bind/localconnect.png",
-                LocalEnv.class, LocalEnvPane.class);
+                LocalEnvConfig.class, LocalEnvPane.class);
         NameableCreator remote = new NameObjectCreator(Inter.getLocText("Env-Remote_Server"), "com/fr/design/images/data/bind/distanceconnect.png",
-                RemoteEnv.class, RemoteEnvPane.class);
+                RemoteEnvConfig.class, RemoteEnvPane.class);
         return new NameableCreator[]{local, remote};
     }
 
@@ -104,7 +105,7 @@ public class EnvListPane extends JListControlPane {
         Nameable[] res = this.update();
         for (Nameable re : res) {
             NameObject nameObject = (NameObject) re;
-            mgr.putEnv(nameObject.getName(), (Env) nameObject.getObject());
+            mgr.putEnv(nameObject.getName(), (EnvConfig) nameObject.getObject());
         }
         return this.getSelectedName();
     }

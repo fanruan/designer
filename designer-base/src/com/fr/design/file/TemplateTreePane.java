@@ -143,7 +143,7 @@ public class TemplateTreePane extends JPanel implements FileOperations {
     public void openContainerFolder() {
         FileNode fn = TemplateTreePane.this.reportletsTree.getSelectedFileNode();
         LocalEnv localEnv = (LocalEnv) FRContext.getCurrentEnv();
-        String filePath = StableUtils.pathJoin(localEnv.path, fn.getEnvPath());
+        String filePath = StableUtils.pathJoin(localEnv.getPath(), fn.getEnvPath());
         filePath = filePath.substring(0, filePath.lastIndexOf(CoreConstants.SEPARATOR));
         try {
             Desktop.getDesktop().open(new File(filePath));
@@ -193,6 +193,16 @@ public class TemplateTreePane extends JPanel implements FileOperations {
         reportletsTree.refresh();
     }
 
+    @Override
+    public void lockFile() {
+        throw new UnsupportedOperationException("unsupport now");
+    }
+
+    @Override
+    public void unLockFile() {
+        throw new UnsupportedOperationException("unsupport now");
+    }
+
     private void deleteHistory(String fileName) {
         int index = HistoryTemplateListPane.getInstance().contains(fileName);
         int size = HistoryTemplateListPane.getInstance().getHistoryCount();
@@ -218,41 +228,6 @@ public class TemplateTreePane extends JPanel implements FileOperations {
         MutilTempalteTabPane.getInstance().repaint();
     }
 
-    /**
-     * 加上文件锁
-     */
-    public void lockFile() {
-        FileNode fn = reportletsTree.getSelectedFileNode();
-        RemoteEnv remoteEnv = (RemoteEnv) FRContext.getCurrentEnv();
-        if (fn == null) {
-            return;
-        }
-        try {
-            remoteEnv.getLock(new String[]{fn.getEnvPath()});
-        } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
-            JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), e.getMessage());
-        }
-        reportletsTree.refresh();
-    }
-
-    /**
-     * 文件解锁
-     */
-    public void unLockFile() {
-        FileNode fn = reportletsTree.getSelectedFileNode();
-        if (fn == null) {
-            return;
-        }
-        RemoteEnv remoteEnv = (RemoteEnv) FRContext.getCurrentEnv();
-        try {
-            remoteEnv.releaseLock(new String[]{fn.getEnvPath()});
-        } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
-            JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), e.getMessage());
-        }
-        reportletsTree.refresh();
-    }
 
     public String getSelectedTemplatePath() {
         return reportletsTree.getSelectedTemplatePath();
