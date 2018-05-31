@@ -9,6 +9,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
+import com.fr.general.LogRecordTime;
 import com.fr.general.log.Log4jConfig;
 import com.fr.log.FineLoggerFactory;
 import com.fr.log.LogHandler;
@@ -340,5 +341,9 @@ public class DesignerLogHandler {
             }
         };
 
+    }
+
+    public void printRemoteLog(LogRecordTime logRecordTime) {
+        logHandlerArea.printStackTrace(logRecordTime);
     }
 }
