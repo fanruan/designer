@@ -33,15 +33,11 @@ import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.file.ConnectionConfig;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
 import com.fr.general.Inter;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
 
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTree;
-import javax.swing.SwingWorker;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.PopupMenuEvent;
@@ -52,9 +48,7 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.ItemEvent;
@@ -283,7 +277,7 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
                         schemaBox.setSelectedIndex(index);
                     }
                 } catch (Exception e) {
-                    FRLogger.getLogger().error(e.getMessage());
+                    FineLoggerFactory.getLogger().error(e.getMessage());
                 }
                 schemaBox.setRefreshingModel(false);
                 schemaBox.removePopupMenuListener(listener);

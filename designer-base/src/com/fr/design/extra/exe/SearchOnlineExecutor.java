@@ -3,11 +3,11 @@ package com.fr.design.extra.exe;
 import com.fr.design.extra.PluginOperateUtils;
 import com.fr.design.extra.PluginUtils;
 import com.fr.design.extra.Process;
-import com.fr.general.FRLogger;
 import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONObject;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
 
 /**
@@ -50,7 +50,7 @@ public class SearchOnlineExecutor implements Executor {
                             JSONArray resultJSONArray = PluginUtils.filterPluginsFromVersion(jsonArray);
                             result = resultJSONArray.toString();
                         } catch (Exception e) {
-                            FRLogger.getLogger().error(e.getMessage());
+                            FineLoggerFactory.getLogger().error(e.getMessage());
                         }
                     }
                 }

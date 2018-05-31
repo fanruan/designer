@@ -53,7 +53,7 @@ import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WBorderLayout;
 import com.fr.form.ui.container.WLayout;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Constants;
@@ -735,7 +735,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
                     try {
                         Thread.sleep(1500);
                     } catch (InterruptedException e) {
-                        FRLogger.getLogger().error(e.getMessage(), e);
+                        FineLoggerFactory.getLogger().error(e.getMessage(), e);
                     }
                     JPanel pane = new JPanel();
                     pane.setLayout(new BorderLayout());

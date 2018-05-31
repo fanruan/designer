@@ -19,7 +19,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.data.CalculateComboBox;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 
@@ -265,9 +265,9 @@ public class SeriesNameUseFieldNamePane extends FurtherBasicBeanPane<ChartCollec
         try {
             return (DataFunction) CalculateComboBox.CLASS_ARRAY[index].newInstance();
         } catch (InstantiationException e) {
-            FRLogger.getLogger().error("Function Error");
+            FineLoggerFactory.getLogger().error("Function Error");
         } catch (IllegalAccessException e) {
-            FRLogger.getLogger().error("Function Error");
+            FineLoggerFactory.getLogger().error("Function Error");
         }
         return new NoneFunction();
     }

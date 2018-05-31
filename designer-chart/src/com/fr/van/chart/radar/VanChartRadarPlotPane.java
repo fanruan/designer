@@ -2,7 +2,7 @@ package com.fr.van.chart.radar;
 
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.radar.RadarIndependentVanChart;
 import com.fr.plugin.chart.radar.VanChartRadarPlot;
@@ -62,7 +62,7 @@ public class VanChartRadarPlotPane  extends AbstractVanChartTypePane {
         try {
             cloned = (Plot)newPlot.clone();
         } catch (CloneNotSupportedException e) {
-            FRLogger.getLogger().error("Error In RadarChart");
+            FineLoggerFactory.getLogger().error("Error In RadarChart");
         }
         return cloned;
     }

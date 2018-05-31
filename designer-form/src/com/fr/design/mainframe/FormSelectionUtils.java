@@ -17,7 +17,7 @@ import com.fr.design.utils.ComponentUtils;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WTitleLayout;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 
 import java.awt.Component;
@@ -199,7 +199,7 @@ public class FormSelectionUtils {
                 designer.getSelectionModel().getSelection().addSelectedCreator(copiedXCreator);
             }
         } catch (CloneNotSupportedException e) {
-            FRLogger.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
 

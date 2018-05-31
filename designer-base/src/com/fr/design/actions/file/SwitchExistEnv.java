@@ -1,14 +1,14 @@
 package com.fr.design.actions.file;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.Env;
 import com.fr.base.FRContext;
-import com.fr.base.env.resource.LocalEnvConfig;
-import com.fr.base.env.resource.RemoteEnvConfig;
-import com.fr.core.env.EnvConfig;
+import com.fr.dav.LocalEnv;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.tabledata.ResponseDataSourceChange;
+import com.fr.design.dialog.InformationWarnPane;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
@@ -18,11 +18,15 @@ import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
 import com.fr.env.RemoteEnv;
 import com.fr.env.SignIn;
+import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.EnvChangedListener;
+import com.fr.stable.ProductConstants;
+import com.fr.stable.StringUtils;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -66,10 +70,10 @@ public class SwitchExistEnv extends MenuDef {
 
         public GetExistEnvAction(String envName) {
             this.setName(envName);
-            EnvConfig env = DesignerEnvManager.getEnvManager().getEnv(envName);
-            if (env instanceof LocalEnvConfig) {
+            Env env = DesignerEnvManager.getEnvManager().getEnv(envName);
+            if (env instanceof LocalEnv) {
                 this.setSmallIcon(BaseUtils.readIcon("com/fr/design/images/data/bind/localconnect.png"));
-            } else if (env instanceof RemoteEnvConfig) {
+            } else if (env instanceof RemoteEnv) {
                 this.setSmallIcon(BaseUtils.readIcon("com/fr/design/images/data/bind/distanceconnect.png"));
             }
         }
@@ -97,10 +101,18 @@ public class SwitchExistEnv extends MenuDef {
          */
         public void actionPerformed(ActionEvent e) {
             DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
-            EnvConfig selectedEnv = envManager.getEnv(this.getName());
+            Env selectedEnv = envManager.getEnv(this.getName());
             try {
                 if (selectedEnv instanceof RemoteEnv && !((RemoteEnv) selectedEnv).testServerConnection()) {
                     JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText(new String[]{"M-SwitchWorkspace", "Failed"}));
+                    return;
+                }
+                String remoteVersion = selectedEnv.getDesignerVersion();
+                if (StringUtils.isBlank(remoteVersion) || ComparatorUtils.compare(remoteVersion, ProductConstants.DESIGNER_VERSION) < 0) {
+                    String infor = Inter.getLocText("Server-version-tip");
+                    String moreInfo = Inter.getLocText("Server-version-tip-moreInfo");
+                    FineLoggerFactory.getLogger().error(infor);
+                    new InformationWarnPane(infor, moreInfo, Inter.getLocText("Tooltips")).show();
                     return;
                 }
                 SignIn.signIn(selectedEnv);

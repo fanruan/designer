@@ -45,7 +45,7 @@ import com.fr.file.MemFILE;
 import com.fr.form.ui.NoneWidget;
 import com.fr.form.ui.Widget;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.report.cell.Elem;
 import com.fr.report.cell.cellattr.CellImage;
@@ -531,7 +531,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
                 return false;
             }
         } catch (Exception e) {
-            FRLogger.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage());
         }
 
 

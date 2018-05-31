@@ -26,6 +26,7 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.function.TIME;
 import com.fr.general.FRFont;
 import com.fr.general.Inter;
+import com.fr.log.FineLoggerFactory;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -298,7 +299,7 @@ public class PreviewTablePane extends BasicPane {
             FRContext.getLogger().error(e.getMessage(), e);
             return;
         }
-        FRContext.getLogger().errorWithServerLevel(exp.getMessage(), exp);
+        FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
         JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), columnErrMessage, Inter.getLocText("FR-Designer_Error"), JOptionPane.ERROR_MESSAGE);
     }
 

@@ -8,12 +8,17 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.FRLogger;
 import com.fr.general.Inter;
+import com.fr.log.FineLoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * Created by XiaXiang on 2017/4/6.
@@ -202,7 +207,7 @@ public class AlphaFineConfigPane extends BasicPane {
             DesignerEnvManager.loadLogSetting();
             DesignerEnvManager.getEnvManager().saveXMLFile();
         } catch (Exception e) {
-            FRLogger.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage());
         }
 
 

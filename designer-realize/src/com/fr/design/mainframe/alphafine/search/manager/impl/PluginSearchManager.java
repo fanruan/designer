@@ -9,7 +9,7 @@ import com.fr.design.mainframe.alphafine.cell.model.PluginModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.search.manager.fun.AlphaFineSearchProvider;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
@@ -57,7 +57,7 @@ public class PluginSearchManager implements AlphaFineSearchProvider {
         try {
             imageUrl = isFromCloud ? AlphaFineConstants.PLUGIN_IMAGE_URL + URLEncoder.encode(object.optString("pic").toString().substring(AlphaFineConstants.PLUGIN_IMAGE_URL.length()), "utf8") : object.optString("pic");
         } catch (UnsupportedEncodingException e) {
-            FRLogger.getLogger().error("plugin icon error: " + e.getMessage());
+            FineLoggerFactory.getLogger().error("plugin icon error: " + e.getMessage());
         }
         String version = null;
         String jartime = null;
@@ -133,9 +133,9 @@ public class PluginSearchManager implements AlphaFineSearchProvider {
                     }
                 }
             } catch (JSONException e) {
-                FRLogger.getLogger().error("plugin search json error :" + e.getMessage());
+                FineLoggerFactory.getLogger().error("plugin search json error :" + e.getMessage());
             } catch (UnsupportedEncodingException e) {
-                FRLogger.getLogger().error("plugin search encode error :" + e.getMessage());
+                FineLoggerFactory.getLogger().error("plugin search encode error :" + e.getMessage());
             }
         }
         return this.lessModelList;

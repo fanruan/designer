@@ -40,10 +40,11 @@ import com.fr.file.FILEFactory;
 import com.fr.file.FileFILE;
 import com.fr.file.FileNodeFILE;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
 import com.fr.general.env.EnvContext;
+import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.injectable.PluginModule;
 import com.fr.plugin.manage.PluginFilter;
@@ -56,23 +57,9 @@ import com.fr.stable.StableUtils;
 import com.fr.stable.image4j.codec.ico.ICODecoder;
 import com.fr.stable.project.ProjectConstants;
 
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JLayeredPane;
-import javax.swing.JMenuBar;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 import javax.swing.border.MatteBorder;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;
@@ -95,7 +82,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
 
 public class DesignerFrame extends JFrame implements JTemplateActionListener, TargetModifiedListener {
     public static final String DESIGNER_FRAME_NAME = "designer_frame";
@@ -736,18 +722,14 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
                         JOptionPane.QUESTION_MESSAGE);
                 if (returnVal == JOptionPane.YES_OPTION && editingTemplate.saveTemplate()) {
                     editingTemplate.saveTemplate();
-                    FRLogger.getLogger().log(
-                            Level.INFO,
-                            Inter.getLocText(new String[]{"Template", "already-saved"}, new String[]{
-                                    editingTemplate.getEditingFILE().getName(), "."}));
+                    FineLoggerFactory.getLogger().info(Inter.getLocText(new String[]{"Template", "already-saved"}, new String[]{
+                            editingTemplate.getEditingFILE().getName(), "."}));
                 }
             } else {
                 if (editingTemplate.saveTemplate()) {
                     editingTemplate.saveTemplate();
-                    FRLogger.getLogger().log(
-                            Level.INFO,
-                            Inter.getLocText(new String[]{"Template", "already-saved"}, new String[]{
-                                    editingTemplate.getEditingFILE().getName(), "."}));
+                    FineLoggerFactory.getLogger().info(Inter.getLocText(new String[]{"Template", "already-saved"}, new String[]{
+                            editingTemplate.getEditingFILE().getName(), "."}));
                 }
             }
         }
@@ -846,7 +828,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
                 return;
             }
         } catch (Exception e) {
-            FRLogger.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage());
         }
 
         // p:判断一下，如何文件为空或者文件不存在，直接返回.
@@ -860,7 +842,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         try {
             openFile(tplFile);
         } catch (Throwable t) {
-            FRLogger.getLogger().error(t.getMessage(), t);
+            FineLoggerFactory.getLogger().error(t.getMessage(), t);
             addAndActivateJTemplate();
         }
 
@@ -964,7 +946,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         try {
             thread.join();
         } catch (InterruptedException e) {
-            FRLogger.getLogger().error("Map Thread Error");
+            FineLoggerFactory.getLogger().error("Map Thread Error");
         }
 
         DesignerEnvManager.getEnvManager().setLastOpenFile(

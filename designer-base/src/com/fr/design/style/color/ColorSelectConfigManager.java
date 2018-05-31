@@ -3,7 +3,7 @@ package com.fr.design.style.color;
 import com.fr.base.FRContext;
 import com.fr.file.XMLFileManager;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.GeneralContext;
 import com.fr.stable.EnvChangedListener;
 import com.fr.stable.xml.XMLPrintWriter;
@@ -99,7 +99,7 @@ public class ColorSelectConfigManager extends XMLFileManager implements ColorSel
         try {
             FRContext.getCurrentEnv().writeResource(manager);
         } catch (Exception e) {
-            FRLogger.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage());
         }
     }
 

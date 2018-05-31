@@ -1,7 +1,7 @@
 package com.fr.start;
 
-import com.fr.base.ServerConfig;
 import com.fr.base.FRContext;
+import com.fr.base.ServerConfig;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.data.datapane.TableDataTreePane;
@@ -15,12 +15,12 @@ import com.fr.env.SignIn;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.EnvChangedListener;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
-import com.fr.stable.project.ProjectConstants;
 import com.fr.start.server.TomcatHost;
 
 import javax.swing.*;
@@ -69,7 +69,7 @@ public class StartServer {
                         TemplateTreePane.getInstance().refreshDockingView();
                         TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter());
                     } catch (Exception e) {
-                        FRContext.getLogger().errorWithServerLevel(e.getMessage());
+                        FineLoggerFactory.getLogger().error(e.getMessage());
                     }
                     initDemoServerAndBrowser();
                 }
@@ -98,7 +98,7 @@ public class StartServer {
                 tomcatHost.start();
             }
         } catch (Exception e) {
-            FRContext.getLogger().errorWithServerLevel(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage());
         } finally {
             //先访问Demo, 后访问报表, 不需要重置服务器.
             NEED_LOAD_ENV = false;
@@ -126,9 +126,9 @@ public class StartServer {
                 tomcatHost.start();
             }
         } catch (InterruptedException e) {
-            FRContext.getLogger().errorWithServerLevel(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage());
         } catch (Exception e) {
-            FRContext.getLogger().errorWithServerLevel(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage());
         } finally {
             NEED_LOAD_ENV = false;
         }
@@ -169,10 +169,10 @@ public class StartServer {
         } catch (IOException e) {
             startBrowserFromCommand(uri, e);
         } catch (URISyntaxException e) {
-            FRContext.getLogger().errorWithServerLevel(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         } catch (Exception e) {
-            FRContext.getLogger().errorWithServerLevel(e.getMessage(), e);
-            FRContext.getLogger().error("Can not open the browser for URL:  " + uri);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error("Can not open the browser for URL:  " + uri);
         }
     }
 
@@ -183,10 +183,10 @@ public class StartServer {
                 Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + uri);
             } catch (IOException ee) {
                 JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer_Set_default_browser"));
-                FRContext.getLogger().errorWithServerLevel(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         } else {
-            FRContext.getLogger().errorWithServerLevel(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
 

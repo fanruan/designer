@@ -19,10 +19,10 @@ import com.fr.env.RemoteEnv;
 import com.fr.file.FileFILE;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
-import com.fr.general.FRLogger;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
 import com.fr.general.http.HttpClient;
+import com.fr.log.FineLoggerFactory;
 import com.fr.security.JwtUtils;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.CodeUtils;
@@ -31,11 +31,8 @@ import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.start.StartServer;
 
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import java.awt.Desktop;
-import java.awt.Font;
+import javax.swing.*;
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
@@ -55,7 +52,6 @@ import java.net.URLEncoder;
 import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.Locale;
-import java.util.logging.Level;
 
 
 /**
@@ -137,7 +133,7 @@ public class DesignUtils {
                 try {
                     serverSocket = new ServerSocket(startPort);
                 } catch (IOException e1) {
-                    FRLogger.getLogger().log(Level.WARNING, "Cannot create server socket on" + port);
+                    FineLoggerFactory.getLogger().error("Cannot create server socket on" + port);
                 }
                 while (true) {
                     try {
@@ -248,7 +244,7 @@ public class DesignUtils {
         try {
             UIManager.setLookAndFeel(UILookAndFeel.class.getName());
         } catch (Exception e) {
-            FRLogger.getLogger().log(Level.WARNING, "Substance Raven Graphite failed to initialize");
+            FineLoggerFactory.getLogger().error("Substance Raven Graphite failed to initialize");
         }
         //获取当前系统语言下设计器用的默认字体
         FRFont guiFRFont = getCurrentLocaleFont();

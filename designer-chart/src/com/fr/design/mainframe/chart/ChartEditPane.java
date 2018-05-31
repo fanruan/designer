@@ -19,7 +19,7 @@ import com.fr.design.mainframe.chart.gui.ChartOtherPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.ChartTypePane;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 
 import javax.swing.JPanel;
@@ -117,7 +117,7 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
                 try {
                     lastCollection = (ChartCollection) collection.clone();
                 } catch (CloneNotSupportedException e) {
-                    FRLogger.getLogger().error("error in clone ChartEditPane");
+                    FineLoggerFactory.getLogger().error("error in clone ChartEditPane");
                 }
                 if(ComparatorUtils.equals(selectedPane.title4PopupWindow(),PaneTitleConstants.CHART_STYLE_TITLE)){
                     dealWithStyleChange();

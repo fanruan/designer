@@ -17,7 +17,7 @@ import javax.swing.event.EventListenerList;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.dialog.BasicPane;
 import com.fr.general.Background;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 
 public class BackgroundPane extends BasicPane {
@@ -139,7 +139,7 @@ public class BackgroundPane extends BasicPane {
         try {
             return quickPane.update();
         } catch (Exception e) {
-            FRLogger.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         return null;
     }

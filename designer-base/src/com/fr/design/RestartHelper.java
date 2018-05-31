@@ -2,11 +2,18 @@ package com.fr.design;
 
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
 import com.fr.general.GeneralUtils;
-import com.fr.stable.*;
+import com.fr.log.FineLoggerFactory;
+import com.fr.stable.ArrayUtils;
+import com.fr.stable.OperatingSystem;
+import com.fr.stable.StableUtils;
+import com.fr.stable.StringUtils;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.util.ArrayList;
@@ -39,7 +46,7 @@ public class RestartHelper {
                 properties.load(file2DeleteInputStream);
                 file2DeleteInputStream.close();
             } catch (IOException e) {
-                FRLogger.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
         if (ArrayUtils.getLength(files) != 0) {
@@ -53,7 +60,7 @@ public class RestartHelper {
             properties.store(file2DeleteOutputStream, "save");
             file2DeleteOutputStream.close();
         } catch (IOException e) {
-            FRLogger.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
 
@@ -71,7 +78,7 @@ public class RestartHelper {
                 properties.load(file2MoveInputStream);
                 file2MoveInputStream.close();
             } catch (IOException e) {
-                FRLogger.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
         if (!map.isEmpty()) {
@@ -84,7 +91,7 @@ public class RestartHelper {
             properties.store(file2MoveOutputStream, "save");
             file2MoveOutputStream.close();
         } catch (IOException e) {
-            FRLogger.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
 
@@ -156,10 +163,10 @@ public class RestartHelper {
                 FileChannel restartLockFC = randomAccessFile.getChannel();
                 FileLock restartLock = restartLockFC.tryLock();
                 if(restartLock == null) {
-                    FRLogger.getLogger().error("restart lock null!");
+                    FineLoggerFactory.getLogger().error("restart lock null!");
                 }
             }catch (Exception e){
-                FRLogger.getLogger().error(e.getMessage());
+                FineLoggerFactory.getLogger().error(e.getMessage());
             }
             if (OperatingSystem.isMacOS()) {
                 restartInMacOS(installHome, filesToBeDelete);
@@ -167,7 +174,7 @@ public class RestartHelper {
                 restartInWindows(installHome, filesToBeDelete);
             }
         } catch (Exception e) {
-            FRLogger.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage());
         } finally {
             DesignerContext.getDesignerFrame().exit();
         }

@@ -3,7 +3,11 @@ package com.fr.design.condition;
 import com.fr.base.BaseFormula;
 import com.fr.base.BaseUtils;
 import com.fr.data.DataConstants;
-import com.fr.data.condition.*;
+import com.fr.data.condition.CommonCondition;
+import com.fr.data.condition.FormulaCondition;
+import com.fr.data.condition.JoinCondition;
+import com.fr.data.condition.ListCondition;
+import com.fr.data.condition.ObjectCondition;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.formula.FormulaFactory;
@@ -18,9 +22,9 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.scrollruler.ModLineBorder;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.general.data.Condition;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
@@ -960,7 +964,7 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
             try{
                 newCondition = (Condition)joinCondition.getCondition().clone();
             }catch (CloneNotSupportedException e){
-                FRLogger.getLogger().error(e.getMessage());
+                FineLoggerFactory.getLogger().error(e.getMessage());
             }
             return newCondition;
         }

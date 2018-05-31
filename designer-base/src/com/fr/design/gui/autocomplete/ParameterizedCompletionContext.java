@@ -14,7 +14,7 @@ import com.fr.design.gui.autocomplete.ParameterizedCompletionInsertionInfo.Repla
 import com.fr.design.gui.syntax.ui.rsyntaxtextarea.DocumentRange;
 import com.fr.design.gui.syntax.ui.rsyntaxtextarea.RSyntaxTextArea;
 import com.fr.design.gui.syntax.ui.rtextarea.ChangeableHighlightPainter;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 
 import javax.swing.*;
 import javax.swing.event.CaretEvent;
@@ -440,7 +440,7 @@ class ParameterizedCompletionContext {
      */
     private void installKeyBindings() {
         if (AutoCompletion.isDebug()) {
-            FRLogger.getLogger().debug("CompletionContext: Installing keybindings");
+            FineLoggerFactory.getLogger().debug("CompletionContext: Installing keybindings");
         }
         JTextComponent tc = ac.getTextComponent();
         InputMap im = tc.getInputMap();
@@ -739,7 +739,7 @@ class ParameterizedCompletionContext {
     private void uninstallKeyBindings() {
 
         if (AutoCompletion.isDebug()) {
-            FRLogger.getLogger().debug("CompletionContext Uninstalling keybindings");
+            FineLoggerFactory.getLogger().debug("CompletionContext Uninstalling keybindings");
         }
 
         JTextComponent tc = ac.getTextComponent();

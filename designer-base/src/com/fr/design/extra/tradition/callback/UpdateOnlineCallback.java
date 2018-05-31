@@ -2,8 +2,8 @@ package com.fr.design.extra.tradition.callback;
 
 import com.fr.design.extra.PluginStatusCheckCompletePane;
 import com.fr.design.extra.PluginUtils;
-import com.fr.general.FRLogger;
 import com.fr.general.Inter;
+import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.context.PluginMarker;
 import com.fr.plugin.error.PluginErrorCode;
 import com.fr.plugin.manage.PluginManager;
@@ -31,7 +31,7 @@ public class UpdateOnlineCallback implements ProgressCallback {
 
     public void done(PluginTaskResult result){
         if (result.isSuccess()) {
-            FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Update_Success"));
+            FineLoggerFactory.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Update_Success"));
             JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Install_Successful"));
         } else if (result.errorCode() == PluginErrorCode.OperationNotSupport) {
             int rv = JOptionPane.showOptionDialog(
@@ -49,7 +49,7 @@ public class UpdateOnlineCallback implements ProgressCallback {
             }
             PluginManager.getController().update(pluginMarker, toPluginMarker, new UpdateOnlineCallback(pluginMarker, toPluginMarker, pane));
         } else {
-            FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Delete_Failed"));
+            FineLoggerFactory.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Delete_Failed"));
             JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
         }
     }

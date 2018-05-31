@@ -4,7 +4,7 @@ import com.fr.chart.chartattr.Chart;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.attr.plot.VanChartRectanglePlot;
@@ -250,7 +250,7 @@ public class VanChartCustomPlotSelectPane extends BasicBeanPane<Chart> {
                 }
             }
         } catch (CloneNotSupportedException e) {
-            FRLogger.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage());
         }
 
 

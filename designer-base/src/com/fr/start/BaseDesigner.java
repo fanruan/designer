@@ -17,7 +17,7 @@ import com.fr.file.FILE;
 import com.fr.file.FILEFactory;
 import com.fr.file.FileFILE;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.OperatingSystem;
 
 import java.awt.*;
@@ -94,7 +94,7 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
             }
             isException = openFile(df, isException, file);
         } catch (Exception e) {
-            FRLogger.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
             if (!isException) {
                 showDesignerFrame(args, df, true);
             } else {
@@ -147,7 +147,7 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
                     Window.class, boolean.class});
             method.invoke(null, window, true);
         } catch (Throwable t) {
-            FRLogger.getLogger().error("Full screen mode is not supported");
+            FineLoggerFactory.getLogger().error("Full screen mode is not supported");
         }
     }
 

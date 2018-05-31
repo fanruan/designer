@@ -12,9 +12,10 @@ import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.scrollruler.ModLineBorder;
-import com.fr.general.Inter;
-import com.fr.stable.EncodeConstants;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.general.Inter;
+import com.fr.log.FineLoggerFactory;
+import com.fr.stable.EncodeConstants;
 
 import javax.swing.*;
 import java.awt.*;
@@ -121,7 +122,7 @@ public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connecti
                         okButton.setEnabled(true);
                         message.setText(database.connectMessage(connect));
                     } catch (Exception exp) {
-                        FRContext.getLogger().errorWithServerLevel(exp.getMessage(), exp);
+                        FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
                     }
                     return null;
                 }

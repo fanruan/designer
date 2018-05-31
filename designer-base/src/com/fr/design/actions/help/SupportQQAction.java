@@ -5,10 +5,10 @@
 package com.fr.design.actions.help;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.general.Inter;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ProductConstants;
 
 import javax.swing.*;
@@ -38,9 +38,9 @@ public class SupportQQAction extends UpdateAction {
             Desktop.getDesktop().browse(new URI(ProductConstants.SUPPORT_QQ));
         } catch (IOException exp) {
             JOptionPane.showMessageDialog(null, Inter.getLocText("Set_default_browser"));
-            FRContext.getLogger().errorWithServerLevel(exp.getMessage(), exp);
+            FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
         } catch (URISyntaxException exp) {
-            FRContext.getLogger().errorWithServerLevel(exp.getMessage(), exp);
+            FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
         }
     }
 

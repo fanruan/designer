@@ -3,7 +3,7 @@
  */
 package com.fr.design.gui.icombobox;
 
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 
 import javax.swing.DefaultComboBoxModel;
@@ -83,7 +83,7 @@ public abstract class LazyComboBox extends UIComboBox implements PopupMenuListen
                 try {
                     LazyComboBox.this.loadList(get());
                 } catch (InterruptedException | ExecutionException exception) {
-                    FRLogger.getLogger().debug(exception.getMessage());
+                    FineLoggerFactory.getLogger().debug(exception.getMessage());
                 }
                 LazyComboBox.this.showPopup();
             }

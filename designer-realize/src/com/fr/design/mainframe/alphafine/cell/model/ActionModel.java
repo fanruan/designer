@@ -2,7 +2,7 @@ package com.fr.design.mainframe.alphafine.cell.model;
 
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.mainframe.alphafine.CellType;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 
@@ -58,7 +58,7 @@ public class ActionModel extends AlphaCellModel {
             modelObject.put("className", getAction().getClass().getName()).put("searchCount", getSearchCount());
             object.put("result", modelObject).put("cellType", getType().getTypeValue());
         } catch (JSONException e) {
-            FRLogger.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage());
         }
         return object;
     }

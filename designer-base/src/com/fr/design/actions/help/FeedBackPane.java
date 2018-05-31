@@ -7,6 +7,8 @@ package com.fr.design.actions.help;
 import com.fr.base.FRContext;
 import com.fr.base.FeedBackInfo;
 import com.fr.design.constants.LayoutConstants;
+import com.fr.design.dialog.BasicDialog;
+import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
@@ -16,13 +18,11 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.dialog.BasicDialog;
-import com.fr.design.dialog.BasicPane;
-import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
-import com.fr.general.Inter;
-import com.fr.stable.StringUtils;
 import com.fr.design.utils.DesignUtils;
+import com.fr.general.ComparatorUtils;
+import com.fr.general.Inter;
+import com.fr.log.FineLoggerFactory;
+import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -33,7 +33,12 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Date;
 import java.util.concurrent.CancellationException;
 
@@ -275,7 +280,7 @@ public class FeedBackPane extends BasicPane {
                 try {
                     return DesignUtils.sendFeedBack(feedBackInfo);
                 } catch (Exception e) {
-                    FRLogger.getLogger().error(e.getMessage());
+                    FineLoggerFactory.getLogger().error(e.getMessage());
                     return false;
                 }
             }

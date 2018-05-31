@@ -9,7 +9,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.syntax.ui.rsyntaxtextarea.RSyntaxTextArea;
 import com.fr.design.gui.syntax.ui.rsyntaxtextarea.SyntaxConstants;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.JavaCompileInfo;
@@ -65,7 +65,7 @@ public class JavaEditorPane extends BasicPane {
                             javaText.setText("//Didn't find java source match the class");
                         }
                     } catch (Exception e) {
-                        FRLogger.getLogger().error(e.getMessage(), e);
+                        FineLoggerFactory.getLogger().error(e.getMessage(), e);
                         javaText.setText("//Loading source code from server error");
                     }
                 }
@@ -162,7 +162,7 @@ public class JavaEditorPane extends BasicPane {
             JOptionPane.showMessageDialog(null, Inter.getLocText(new String[]{"Save", "Successfully"}) + "！");
             fireSaveActionListener();
         } catch (Exception e) {
-            FRLogger.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
             JOptionPane.showMessageDialog(null, Inter.getLocText(new String[]{"Save", "Failed"}) + "！");
         }
 
@@ -191,9 +191,9 @@ public class JavaEditorPane extends BasicPane {
                         }
                         JOptionPane.showMessageDialog(null, message);
                     } catch (InterruptedException e1) {
-                        FRLogger.getLogger().error(e1.getMessage(), e1);
+                        FineLoggerFactory.getLogger().error(e1.getMessage(), e1);
                     } catch (ExecutionException e1) {
-                        FRLogger.getLogger().error(e1.getMessage(), e1);
+                        FineLoggerFactory.getLogger().error(e1.getMessage(), e1);
                     }
                 }
             }.execute();

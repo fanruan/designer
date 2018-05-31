@@ -4,7 +4,7 @@ import com.fr.design.designer.beans.actions.FormUndoableAction;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.form.ui.CardSwitchButton;
 import com.fr.form.ui.container.cardlayout.WTabFitLayout;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 
 /**
  * Created by zhouping on 2017/2/17.
@@ -37,7 +37,7 @@ public class TabMoveAction extends FormUndoableAction {
             xwCardTagLayout.setSwitchingTab(false);
         }catch (Exception e){
             xwCardTagLayout.setSwitchingTab(false);
-            FRLogger.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage());
             return false;
         }
         return true;

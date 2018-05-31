@@ -5,7 +5,7 @@ import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.alphafine.CellType;
 import com.fr.file.FileNodeFILE;
 import com.fr.file.filetree.FileNode;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 
@@ -42,7 +42,7 @@ public class FileModel extends AlphaCellModel {
             modelObject.put("filePath", getFilePath()).put("searchCount", getSearchCount());
             object.put("result", modelObject).put("cellType", getType().getTypeValue());
         } catch (JSONException e) {
-            FRLogger.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage());
         }
         return object;
     }

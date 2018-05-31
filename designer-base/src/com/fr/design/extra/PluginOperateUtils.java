@@ -10,12 +10,12 @@ import com.fr.design.extra.exe.callback.UninstallPluginCallback;
 import com.fr.design.extra.exe.callback.UpdateFromDiskCallback;
 import com.fr.design.extra.exe.callback.UpdateOnlineCallback;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONObject;
+import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.context.PluginMarker;
 import com.fr.plugin.manage.PluginManager;
@@ -26,8 +26,7 @@ import com.fr.plugin.manage.control.PluginTaskResult;
 import com.fr.plugin.view.PluginView;
 import com.fr.stable.StringUtils;
 
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import java.io.File;
 import java.util.List;
 
@@ -117,7 +116,7 @@ public class PluginOperateUtils {
             JSONArray jsonArray = new JSONArray(result);
             resultArray = PluginUtils.filterPluginsFromVersion(jsonArray);
         } catch (Exception e) {
-            FRLogger.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage());
         }
         return resultArray.toString();
     }

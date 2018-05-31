@@ -2,6 +2,7 @@ package com.fr.design.extra;
 
 import com.fr.base.FRContext;
 import com.fr.general.*;
+import com.fr.log.FineLoggerFactory;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -148,7 +149,7 @@ public class QQLoginWebPane extends JFXPanel {
                 }
             });
         } catch (Exception e) {
-            FRLogger.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage());
         }
     }
 

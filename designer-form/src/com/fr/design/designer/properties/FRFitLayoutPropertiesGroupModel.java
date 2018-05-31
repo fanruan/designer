@@ -17,7 +17,7 @@ import com.fr.form.ui.container.WAbsoluteBodyLayout;
 import com.fr.form.ui.container.WAbsoluteLayout;
 import com.fr.form.ui.container.WBodyLayoutType;
 import com.fr.form.ui.container.WFitLayout;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 
 import javax.swing.table.DefaultTableCellRenderer;
@@ -175,7 +175,7 @@ public class FRFitLayoutPropertiesGroupModel implements GroupModel {
 								FormSelectionUtils.rebuildSelection(xfl, new Widget[]{xfl.toData()}));
 					}
 				}catch (Exception e){
-					FRLogger.getLogger().error(e.getMessage());
+					FineLoggerFactory.getLogger().error(e.getMessage());
 					return false;
 				}
 				layout.setLayoutType(WBodyLayoutType.parse(state));

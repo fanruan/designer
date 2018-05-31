@@ -5,7 +5,7 @@ import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.LinePlot;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.charttypes.LineIndependentChart;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 
 public class LinePlotPane extends AbstractChartTypePane{
@@ -68,7 +68,7 @@ public class LinePlotPane extends AbstractChartTypePane{
 		try {
 			chart.switchPlot((Plot)plot.clone());
 		} catch (CloneNotSupportedException e) {
-			FRLogger.getLogger().error("Error In LineChart");
+			FineLoggerFactory.getLogger().error("Error In LineChart");
 			chart.switchPlot(new LinePlot());
 		}
 	}

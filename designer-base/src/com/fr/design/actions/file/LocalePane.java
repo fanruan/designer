@@ -4,32 +4,39 @@
 
 package com.fr.design.actions.file;
 
-import java.awt.BorderLayout;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.*;
+import com.fr.base.Env;
+import com.fr.base.FRContext;
+import com.fr.design.dialog.BasicPane;
+import com.fr.design.gui.frpane.UITabbedPane;
+import com.fr.design.gui.icontainer.UIScrollPane;
+import com.fr.design.gui.itextfield.UITextField;
+import com.fr.file.filetree.FileNode;
+import com.fr.general.GeneralUtils;
+import com.fr.general.Inter;
+import com.fr.log.FineLoggerFactory;
+import com.fr.stable.ArrayUtils;
+import com.fr.stable.bridge.StableFactory;
+import com.fr.stable.project.ProjectConstants;
 
-import javax.swing.JTable;
-import javax.swing.RowFilter;
-import javax.swing.SwingWorker;
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-
-import com.fr.base.Env;
-import com.fr.base.FRContext;
-import com.fr.design.gui.frpane.UITabbedPane;
-import com.fr.design.gui.icontainer.UIScrollPane;
-import com.fr.design.gui.itextfield.UITextField;
-import com.fr.design.dialog.BasicPane;
-import com.fr.file.filetree.FileNode;
-import com.fr.general.*;
-import com.fr.stable.ArrayUtils;
-import com.fr.stable.StringUtils;
-import com.fr.stable.bridge.StableFactory;
-import com.fr.stable.project.ProjectConstants;
+import java.awt.*;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Properties;
+import java.util.ResourceBundle;
+import java.util.Set;
+import java.util.Vector;
 
 /**
  * @author : richie
@@ -235,7 +242,7 @@ public class LocalePane extends BasicPane {
                 out.flush();
                 out.close();
             } catch (Exception e) {
-                FRLogger.getLogger().info(e.getMessage());
+                FineLoggerFactory.getLogger().info(e.getMessage());
             }
         }
     }
