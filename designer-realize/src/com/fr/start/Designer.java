@@ -3,6 +3,7 @@ package com.fr.start;
 import com.fr.base.BaseUtils;
 import com.fr.base.Env;
 import com.fr.base.FRContext;
+import com.fr.dav.LocalEnv;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.actions.file.WebPreviewUtils;
@@ -89,8 +90,10 @@ public class Designer extends BaseDesigner {
         //传递启动参数
         designerRoot.setSingleton(StartupArgs.class, new StartupArgs(args));
         designerRoot.start();
-        // 预启动一下
-        StartServer.start();
+        if (FRContext.getCurrentEnv() instanceof LocalEnv) {
+            // 预启动一下
+            StartServer.start();
+        }
     }
 
     public Designer(String[] args) {
