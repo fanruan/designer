@@ -5,6 +5,7 @@ import com.fr.config.MarketConfig;
 import com.fr.design.RestartHelper;
 import com.fr.design.bbs.BBSLoginUtils;
 import com.fr.design.dialog.UIDialog;
+import com.fr.design.extra.exe.GetInstalledPluginsExecutor;
 import com.fr.design.extra.exe.GetPluginCategoriesExecutor;
 import com.fr.design.extra.exe.GetPluginFromStoreExecutor;
 import com.fr.design.extra.exe.GetPluginPrefixExecutor;
@@ -303,9 +304,9 @@ public class PluginWebBridge {
      *
      * @return 已安装的插件组成的数组
      */
-    public PluginContext[] getInstalledPlugins() {
-        List<PluginContext> plugins = PluginManager.getContexts();
-        return plugins.toArray(new PluginContext[plugins.size()]);
+    public void getInstalledPlugins(final JSObject callback) {
+        Task<Void> task = new PluginTask<>(webEngine, callback, new GetInstalledPluginsExecutor());
+        threadPoolExecutor.submit(task);
     }
 
     private String[] jsObjectToStringArray(JSObject obj) {

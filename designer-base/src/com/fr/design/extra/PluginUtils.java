@@ -25,6 +25,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URLDecoder;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -206,4 +208,49 @@ public class PluginUtils {
     private static boolean isCompatibleCurrentEnv(String envVersion){
         return VersionIntervalFactory.create(envVersion).contain(Version.currentEnvVersion());
     }
+
+
+    public static JSONArray transferPluginToJson(PluginContext [] pluginContexts){
+        JSONArray ja = JSONArray.create();
+        try {
+            for(PluginContext pluginContext : pluginContexts){
+                JSONObject jo = JSONObject.create();
+                jo.put("id", pluginContext.getID());
+                jo.put("name", pluginContext.getName());
+                jo.put("version", pluginContext.getVersion());
+                jo.put("envVersion", pluginContext.getEnvVersion());
+                jo.put("description", pluginContext.getDescription());
+                jo.put("changeNotes", pluginContext.getChangeNotes());
+                jo.put("vendor", pluginContext.getVendor());
+                jo.put("price", pluginContext.getPrice());
+                jo.put("jarTime", pluginContext.getRequiredJarTime());
+                jo.put("isActive", pluginContext.isActive());
+                jo.put("isHidden", pluginContext.isHidden());
+                jo.put("isFree", pluginContext.isFree());
+                jo.put("isLicDamage", pluginContext.isLicDamaged());
+                jo.put("isAvailable", pluginContext.isAvailable());
+                jo.put("leftTime", String.valueOf(pluginContext.getLeftDays()));
+                jo.put("isTrial", pluginContext.isOnTrial());
+                jo.put("deadline", getDeadline(pluginContext));
+                jo.put("isRegisterFailed", pluginContext.isRegisterFailed());
+                ja.put(jo);
+            }
+        }catch (Exception e){
+
+        }
+        return ja;
+    }
+
+    private static String getDeadline(PluginContext plugin) {
+
+        int leftDays = plugin.getLeftDays();
+        if (leftDays == Integer.MAX_VALUE) {
+            return Inter.getLocText("FR-Plugin-Store_Permanent");
+        }
+        Calendar deadline = Calendar.getInstance();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        deadline.add(Calendar.DATE, leftDays);
+        return format.format(deadline.getTime());
+    }
+
 }

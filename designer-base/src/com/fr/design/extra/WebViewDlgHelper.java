@@ -70,7 +70,7 @@ public class WebViewDlgHelper {
                 String indexPath = "plugin.html";
                 String mainIndexPath = StableUtils.pathJoin(installHome, indexPath);
                 checkAndCopyMainFile(mainIndexPath, mainJsPath);
-                showPluginDlg(mainIndexPath);
+                showPluginDlg(indexPath);
                 updateShopScripts(SHOP_SCRIPTS);
             }
         } else {
@@ -167,8 +167,8 @@ public class WebViewDlgHelper {
     private static void showPluginDlg(String mainJsPath) {
         try {
             Class<?> clazz = Class.forName("com.fr.design.extra.PluginWebPane");
-            Constructor constructor = clazz.getConstructor(String.class);
-            Component webPane = (Component) constructor.newInstance(mainJsPath);
+            Constructor constructor = clazz.getConstructor(String.class, String.class);
+            Component webPane = (Component) constructor.newInstance(installHome, mainJsPath);
 
             BasicPane managerPane = new ShopManagerPane(webPane);
             UIDialog dlg = new ShopDialog(DesignerContext.getDesignerFrame(), managerPane);
