@@ -23,8 +23,11 @@ import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.start.server.TomcatHost;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
+import java.awt.BorderLayout;
+import java.awt.Desktop;
+import java.awt.Font;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -121,9 +124,9 @@ public class StartServer {
                     tomcatHost.addAndStartLocalEnvHomeWebApp();
 
                 }
-            }
-            if (!tomcatHost.isStarted()) {
-                tomcatHost.start();
+                if (!tomcatHost.isStarted()) {
+                    tomcatHost.start();
+                }
             }
         } catch (InterruptedException e) {
             FineLoggerFactory.getLogger().error(e.getMessage());
