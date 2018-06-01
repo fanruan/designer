@@ -82,8 +82,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import static com.fr.core.env.EnvEvents.AFTER_SIGN_OUT;
-import static com.fr.core.env.EnvEvents.BEFORE_SIGN_OUT;
+import static com.fr.core.env.EnvEvent.AFTER_SIGN_OUT;
+import static com.fr.core.env.EnvEvent.BEFORE_SIGN_OUT;
 
 public class DesignerFrame extends JFrame implements JTemplateActionListener, TargetModifiedListener {
     public static final String DESIGNER_FRAME_NAME = "designer_frame";
