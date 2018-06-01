@@ -59,11 +59,12 @@ def branchName=buildDir.substring(buildDir.lastIndexOf ('\\')+1)
 
 //声明外部依赖
 dependencies{
-	compile fileTree(dir:"../${baseDir}/lib-other",include:'**/*.jar')
-	compile fileTree(dir:"../${baseDir}/lib-core",include:'**/*.jar')
-	compile fileTree(dir:"../${baseDir}/lib-design",include:'**/*.jar')
-	compile fileTree(dir:"../${baseDir}",include:"**/build/libs/*.jar",exclude:"bi/**/*.jar")
- 	testCompile 'junit:junit:4.12'
+    compile fileTree(dir:"../${baseDir}/lib-other",include:'**/*.jar')
+    compile fileTree(dir:"../${baseDir}/lib-core",include:'**/*.jar')
+    compile fileTree(dir:"../${baseDir}/lib-design",include:'**/*.jar')
+    compile fileTree(dir:"../${baseDir}",include:"**/build/libs/*.jar",exclude:"bi/**/*.jar")
+    compile group: 'io.socket', name: 'socket.io-client', version: '0.7.0'
+    testCompile 'junit:junit:4.12'
 }
 
 //输出依赖报
