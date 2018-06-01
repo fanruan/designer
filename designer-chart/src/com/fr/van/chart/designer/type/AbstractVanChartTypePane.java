@@ -12,7 +12,7 @@ import com.fr.design.gui.ilable.MultilineLabel;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.design.mainframe.chart.gui.type.ChartImagePane;
 import com.fr.general.Background;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.js.NameJavaScriptGroup;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
@@ -168,7 +168,7 @@ public abstract class AbstractVanChartTypePane extends AbstractChartTypePane{
             ((VanChartPlot)newPlot).setCategoryNum( ((VanChartPlot)oldPlot).getCategoryNum());
 
         } catch (CloneNotSupportedException e) {
-            FRLogger.getLogger().error("Error in change plot");
+            FineLoggerFactory.getLogger().error("Error in change plot");
         }
     }
 

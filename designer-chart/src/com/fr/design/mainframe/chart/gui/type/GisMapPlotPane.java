@@ -11,7 +11,7 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 
 import javax.swing.*;
@@ -118,7 +118,7 @@ public class GisMapPlotPane extends AbstractChartTypePane{
 		try {
 			chart.switchPlot((Plot)plot.clone());
 		} catch (CloneNotSupportedException e) {
-			FRLogger.getLogger().error("Error In LineChart");
+			FineLoggerFactory.getLogger().error("Error In LineChart");
 			chart.switchPlot(new GisMapPlot());
 		}
 		

@@ -12,7 +12,7 @@ import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.search.manager.fun.AlphaFineSearchProvider;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.json.JSONObject;
 import com.fr.stable.StringUtils;
@@ -175,7 +175,7 @@ public class FileSearchManager implements AlphaFineSearchProvider {
             isr.close();
             reader.close();
         } catch (Exception e) {
-            FRLogger.getLogger().error("file read error: " + e.getMessage());
+            FineLoggerFactory.getLogger().error("file read error: " + e.getMessage());
         }
     }
 

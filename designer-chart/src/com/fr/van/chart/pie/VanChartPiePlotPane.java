@@ -3,7 +3,7 @@ package com.fr.van.chart.pie;
 
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.PiePlot4VanChart;
 import com.fr.plugin.chart.pie.PieIndependentVanChart;
@@ -65,7 +65,7 @@ public class VanChartPiePlotPane extends AbstractVanChartTypePane {
         try {
             cloned = (Plot)newPlot.clone();
         } catch (CloneNotSupportedException e) {
-            FRLogger.getLogger().error("Error In PieChart");
+            FineLoggerFactory.getLogger().error("Error In PieChart");
         }
         return cloned;
     }

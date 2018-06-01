@@ -3,7 +3,7 @@ package com.fr.van.chart.designer.style.background;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.UnrepeatedNameHelper;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.NameObject;
 import com.fr.plugin.chart.attr.axis.VanChartAlertValue;
 import com.fr.stable.Nameable;
@@ -40,13 +40,13 @@ public class ChartNameObjectCreator extends NameObjectCreator {
             return new NameObject(helper.createUnrepeatedName(this.menuName()), vanChartAlertValue);
 
         } catch (NoSuchMethodException e) {
-            FRLogger.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         } catch (IllegalAccessException e) {
-            FRLogger.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         } catch (InstantiationException e) {
-            FRLogger.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         } catch (InvocationTargetException e) {
-            FRLogger.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         return null;
     }

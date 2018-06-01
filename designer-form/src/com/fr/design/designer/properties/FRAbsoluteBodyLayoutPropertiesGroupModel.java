@@ -10,7 +10,7 @@ import com.fr.design.mainframe.widget.editors.LayoutTypeEditor;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WBodyLayoutType;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.FRScreen;
 import com.fr.general.Inter;
 
@@ -181,7 +181,7 @@ public class FRAbsoluteBodyLayoutPropertiesGroupModel extends FRAbsoluteLayoutPr
             return true;
         }
         catch (Exception e){
-            FRLogger.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage());
             return false;
         }
     }

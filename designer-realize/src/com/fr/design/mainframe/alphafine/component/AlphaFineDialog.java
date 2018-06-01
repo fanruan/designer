@@ -32,7 +32,7 @@ import com.fr.design.mainframe.alphafine.search.manager.impl.RecommendSearchMana
 import com.fr.form.main.Form;
 import com.fr.form.main.FormIO;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.general.http.HttpClient;
 import com.fr.io.TemplateWorkBookIO;
@@ -509,7 +509,7 @@ public class AlphaFineDialog extends UIDialog {
                             try {
                                 form = FormIO.readForm(FRContext.getCurrentEnv(), fileName);
                             } catch (Exception e) {
-                                FRLogger.getLogger().error(e.getMessage());
+                                FineLoggerFactory.getLogger().error(e.getMessage());
                             }
                             return FormIO.exportFormAsImage(form);
                         }
@@ -521,9 +521,9 @@ public class AlphaFineDialog extends UIDialog {
                                 try {
                                     rightSearchResultPane.add(new FilePreviewPane(get()));
                                 } catch (InterruptedException e) {
-                                    FRLogger.getLogger().error(e.getMessage());
+                                    FineLoggerFactory.getLogger().error(e.getMessage());
                                 } catch (ExecutionException e) {
-                                    FRLogger.getLogger().error(e.getMessage());
+                                    FineLoggerFactory.getLogger().error(e.getMessage());
                                 }
                                 validate();
                                 repaint();
@@ -541,7 +541,7 @@ public class AlphaFineDialog extends UIDialog {
                             try {
                                 workBook = (WorkBook) TemplateWorkBookIO.readTemplateWorkBook(FRContext.getCurrentEnv(), fileName);
                             } catch (Exception e) {
-                                FRLogger.getLogger().error(e.getMessage());
+                                FineLoggerFactory.getLogger().error(e.getMessage());
                             }
                             BufferedImage bufferedImage = new ImageExporter().exportToImage(workBook);
                             return bufferedImage;
@@ -556,9 +556,9 @@ public class AlphaFineDialog extends UIDialog {
                                     validate();
                                     repaint();
                                 } catch (InterruptedException e) {
-                                    FRLogger.getLogger().error(e.getMessage());
+                                    FineLoggerFactory.getLogger().error(e.getMessage());
                                 } catch (ExecutionException e) {
-                                    FRLogger.getLogger().error(e.getMessage());
+                                    FineLoggerFactory.getLogger().error(e.getMessage());
                                 }
                             }
 
@@ -593,7 +593,7 @@ public class AlphaFineDialog extends UIDialog {
                             try {
                                 bufferedImage = ImageIO.read(getClass().getResource("/com/fr/design/mainframe/alphafine/images/default_product.png"));
                             } catch (IOException e1) {
-                                FRLogger.getLogger().error(e.getMessage());
+                                FineLoggerFactory.getLogger().error(e.getMessage());
                             }
                         }
                         return bufferedImage;
@@ -609,9 +609,9 @@ public class AlphaFineDialog extends UIDialog {
                                 repaint();
                             }
                         } catch (InterruptedException e) {
-                            FRLogger.getLogger().error(e.getMessage());
+                            FineLoggerFactory.getLogger().error(e.getMessage());
                         } catch (ExecutionException e) {
-                            FRLogger.getLogger().error(e.getMessage());
+                            FineLoggerFactory.getLogger().error(e.getMessage());
                         }
 
                     }
@@ -695,7 +695,7 @@ public class AlphaFineDialog extends UIDialog {
                         Thread.sleep(10);
                         doSearch(searchTextField.getText().toLowerCase());
                     } catch (InterruptedException e1) {
-                        FRLogger.getLogger().error(e1.getMessage());
+                        FineLoggerFactory.getLogger().error(e1.getMessage());
                     }
 
                 }
@@ -788,7 +788,7 @@ public class AlphaFineDialog extends UIDialog {
             try {
                 object.put("uuid", uuid).put("activityKey", activityKey).put("username", username).put("createTime", createTime).put("key", key).put("resultKind", resultKind).put("resultValue", resultValue);
             } catch (JSONException e) {
-                FRLogger.getLogger().error(e.getMessage());
+                FineLoggerFactory.getLogger().error(e.getMessage());
             }
             final HashMap<String, String> para = new HashMap<>();
             String date = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
@@ -797,7 +797,7 @@ public class AlphaFineDialog extends UIDialog {
             HttpClient httpClient = new HttpClient(AlphaFineConstants.CLOUD_SERVER_URL, para, true);
             httpClient.asGet();
             if (!httpClient.isServerAlive()) {
-                FRLogger.getLogger().error("Failed to sent data to server!");
+                FineLoggerFactory.getLogger().error("Failed to sent data to server!");
             }
         }
 

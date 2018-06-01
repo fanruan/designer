@@ -9,7 +9,7 @@ import com.fr.data.util.function.NoneFunction;
 import com.fr.data.util.function.SumFunction;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 
 /**
@@ -56,10 +56,10 @@ public class CalculateComboBox extends UIComboBox{
 				return (AbstractDataFunction)CLASS_ARRAY[selectIndex].newInstance();
 			}
 		} catch (InstantiationException e) {
-			FRLogger.getLogger().error("Function Error");
+			FineLoggerFactory.getLogger().error("Function Error");
 			return null;
 		} catch (IllegalAccessException e) {
-			FRLogger.getLogger().error("Function Error");
+			FineLoggerFactory.getLogger().error("Function Error");
 			return null;
 		}
 		

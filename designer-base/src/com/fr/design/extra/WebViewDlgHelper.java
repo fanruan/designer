@@ -22,6 +22,9 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dialog;
+import java.awt.Frame;
+import java.awt.Window;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -133,18 +136,22 @@ public class WebViewDlgHelper {
         if (StableUtils.getMajorJavaVersion() == VERSION_8) {
             File file = new File(StableUtils.pathJoin(installHome, "scripts"));
             if (!file.exists()) {
-                int rv = JOptionPane.showConfirmDialog(
-                        null,
-                        Inter.getLocText("FR-Designer-Plugin_Shop_Need_Install"),
-                        Inter.getLocText("FR-Designer-Plugin_Warning"),
-                        JOptionPane.OK_CANCEL_OPTION,
-                        JOptionPane.INFORMATION_MESSAGE
-                );
-                if (rv == JOptionPane.OK_OPTION) {
-                    downloadShopScripts(SHOP_SCRIPTS);
-                }
+                confirmDownLoadShopJS();
             } else {
-                showLoginDlg();
+                showLoginDlg(DesignerContext.getDesignerFrame());
+                updateShopScripts(SHOP_SCRIPTS);
+            }
+        }
+    }
+
+
+    public static void createLoginDialog(Window parent) {
+        if (StableUtils.getMajorJavaVersion() == VERSION_8) {
+            File file = new File(StableUtils.pathJoin(installHome, "scripts"));
+            if (!file.exists()) {
+                confirmDownLoadShopJS();
+            } else {
+                showLoginDlg(parent);
                 updateShopScripts(SHOP_SCRIPTS);
             }
         }
@@ -164,6 +171,20 @@ public class WebViewDlgHelper {
         }
     }
 
+
+    private static void confirmDownLoadShopJS() {
+        int rv = JOptionPane.showConfirmDialog(
+                null,
+                Inter.getLocText("FR-Designer-Plugin_Shop_Need_Install"),
+                Inter.getLocText("FR-Designer-Plugin_Warning"),
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.INFORMATION_MESSAGE
+        );
+        if (rv == JOptionPane.OK_OPTION) {
+            downloadShopScripts(SHOP_SCRIPTS);
+        }
+    }
+
     private static void showPluginDlg(String mainJsPath) {
         try {
             Class<?> clazz = Class.forName("com.fr.design.extra.PluginWebPane");
@@ -179,13 +200,17 @@ public class WebViewDlgHelper {
         }
     }
 
-    private static void showLoginDlg() {
+    private static void showLoginDlg(Window window) {
         try {
             Class<?> clazz = Class.forName("com.fr.design.extra.LoginWebPane");
             Constructor constructor = clazz.getConstructor(String.class);
             Component webPane = (Component) constructor.newInstance(installHome);
-
-            UIDialog qqdlg = new LoginDialog(DesignerContext.getDesignerFrame(), webPane);
+            UIDialog qqdlg;
+            if (window instanceof Dialog) {
+                qqdlg = new LoginDialog((Dialog) window, webPane);
+            } else {
+                qqdlg = new LoginDialog((Frame) window, webPane);
+            }
             LoginWebBridge.getHelper().setDialogHandle(qqdlg);
             qqdlg.setVisible(true);
         } catch (Throwable ignored) {

@@ -12,11 +12,12 @@ import com.fr.design.designer.creator.XWAbsoluteLayout;
 import com.fr.design.designer.creator.XWFitLayout;
 import com.fr.design.designer.creator.XWScaleLayout;
 import com.fr.design.designer.creator.XWTitleLayout;
+import com.fr.design.designer.creator.cardlayout.XWTabFitLayout;
 import com.fr.design.utils.ComponentUtils;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WTitleLayout;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 
 import java.awt.Component;
@@ -107,6 +108,7 @@ public class FormSelectionUtils {
                     designer.showMessageDialog(Inter.getLocText("FR-Designer_Too_Large_To_Paste"));
                     return;
                 }
+                resetTabSub2RealSize(copiedCreator);
                 boolean addSuccess = adapter.addBean(copiedCreator, point.x, point.y);
                 if (addSuccess) {
                     designer.getSelectionModel().getSelection().addSelectedCreator(copiedCreator);
@@ -119,6 +121,34 @@ public class FormSelectionUtils {
         designer.getEditListenerTable().fireCreatorModified(
                 designer.getSelectionModel().getSelection().getSelectedCreator(), DesignerEvent.CREATOR_PASTED);
 
+    }
+
+    /**
+     * REPORT-6096 复制得到的是显示的大小，如果因屏幕分辨率问题存在缩放的话，显示大小和实际大小会有区别，粘贴后tab内部调整大小时会再次缩放导致问题。
+     * 因此在粘贴之前将tab内部的组件调整成实际的大小。
+     *
+     * @param copiedCreator 复制的组件
+     */
+    private static void resetTabSub2RealSize(XCreator copiedCreator) {
+        ArrayList<?> childrenList = copiedCreator.getTargetChildrenList();
+        if (!childrenList.isEmpty()) {
+            for (Object aChildrenList : childrenList) {
+                XWTabFitLayout tabLayout = (XWTabFitLayout) aChildrenList;
+                double percent = tabLayout.getContainerPercent();
+                Component[] components = tabLayout.getComponents();
+                for (Component component : components) {
+                    Rectangle show = component.getBounds();
+                    component.setBounds(new Rectangle((int) (show.x * percent), (int) (show.y * percent), (int) (show.width * percent), (int) (show.height * percent)));
+                }
+            }
+        }
+        Component[] components = copiedCreator.getComponents();
+        for (Component component : components) {
+            try {
+                resetTabSub2RealSize((XCreator) component);
+            } catch (ClassCastException ignored) {
+            }
+        }
     }
 
     /**
@@ -169,7 +199,7 @@ public class FormSelectionUtils {
                 designer.getSelectionModel().getSelection().addSelectedCreator(copiedXCreator);
             }
         } catch (CloneNotSupportedException e) {
-            FRLogger.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
 
@@ -178,9 +208,9 @@ public class FormSelectionUtils {
      */
     private static Point getPasteLocation(AbstractLayoutAdapter layoutAdapter, XCreator copiedCreator, int x, int y) {
         //当宽度为奇数时 设置偏移
-        int xoffset = (copiedCreator.getWidth() & 1) == 1 ? 1 : 0;
+        int xoffset = copiedCreator.getWidth() & 1;
         //当高度为奇数时 设置偏移
-        int yoffset = (copiedCreator.getHeight() & 1) == 1 ? 1 : 0;
+        int yoffset = copiedCreator.getHeight() & 1;
 
         if (!layoutAdapter.accept(copiedCreator, x, y)) {
             XLayoutContainer container = layoutAdapter.getContainer();

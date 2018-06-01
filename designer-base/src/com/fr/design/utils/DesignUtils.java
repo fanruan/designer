@@ -1,11 +1,11 @@
 package com.fr.design.utils;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.ServerConfig;
 import com.fr.base.Env;
 import com.fr.base.EnvException;
 import com.fr.base.FRContext;
 import com.fr.base.FeedBackInfo;
+import com.fr.base.ServerConfig;
 import com.fr.base.Utils;
 import com.fr.base.remote.RemoteDeziConstants;
 import com.fr.dav.DavXMLUtils;
@@ -19,10 +19,11 @@ import com.fr.env.RemoteEnv;
 import com.fr.file.FileFILE;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
-import com.fr.general.FRLogger;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
 import com.fr.general.http.HttpClient;
+import com.fr.log.FineLoggerFactory;
+import com.fr.security.JwtUtils;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.CodeUtils;
 import com.fr.stable.EncodeConstants;
@@ -51,7 +52,6 @@ import java.net.URLEncoder;
 import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.Locale;
-import java.util.logging.Level;
 
 
 /**
@@ -74,7 +74,8 @@ public class DesignUtils {
 
     /**
      * 通过端口是否被占用判断设计器有没有启动
-     *            s
+     * s
+     *
      * @return 启动了返回true
      */
     public static boolean isStarted() {
@@ -120,18 +121,19 @@ public class DesignUtils {
     }
 
     /**
-     *建立监听端口
-     * @param startPort  端口
-     * @param suffixs 文件后缀
+     * 建立监听端口
+     *
+     * @param startPort 端口
+     * @param suffixs   文件后缀
      */
-    public static void creatListeningServer(final int startPort,final String[] suffixs) {
+    public static void creatListeningServer(final int startPort, final String[] suffixs) {
         Thread serverSocketThread = new Thread() {
             public void run() {
                 ServerSocket serverSocket = null;
                 try {
                     serverSocket = new ServerSocket(startPort);
                 } catch (IOException e1) {
-                    FRLogger.getLogger().log(Level.WARNING, "Cannot create server socket on" + port);
+                    FineLoggerFactory.getLogger().error("Cannot create server socket on" + port);
                 }
                 while (true) {
                     try {
@@ -146,7 +148,7 @@ public class DesignUtils {
                                 String path = f.getAbsolutePath();
 
                                 boolean isMatch = false;
-                                for(int i= 0; i<suffixs.length;i++){
+                                for (int i = 0; i < suffixs.length; i++) {
                                     isMatch = isMatch || path.endsWith(suffixs[i]);
                                 }
                                 if (isMatch) {
@@ -209,18 +211,18 @@ public class DesignUtils {
 
         // 更新CurrentEnv于FRContext & DesignerEnvManager
         FRContext.setCurrentEnv(env);
-    
+
         refreshDesignerFrame(env);
         // 当换了运行环境,重置服务器，让它下次预览时重启
         if (env instanceof LocalEnv && !ComparatorUtils.equals(env.getPath(), oldEnvPath)) {
             StartServer.currentEnvChanged();
         }
     }
-    
+
     public static void refreshDesignerFrame(Env env) {
-        
+
         final Env run_env = env;
-        
+
         // 刷新DesignerFrame里面的面板
         SwingUtilities.invokeLater(new Runnable() {
 
@@ -233,7 +235,7 @@ public class DesignUtils {
             }
         });
     }
-    
+
     /**
      * p:初始化look and feel, 把一切放到这个里面.可以让多个地方调用.
      */
@@ -242,7 +244,7 @@ public class DesignUtils {
         try {
             UIManager.setLookAndFeel(UILookAndFeel.class.getName());
         } catch (Exception e) {
-            FRLogger.getLogger().log(Level.WARNING, "Substance Raven Graphite failed to initialize");
+            FineLoggerFactory.getLogger().error("Substance Raven Graphite failed to initialize");
         }
         //获取当前系统语言下设计器用的默认字体
         FRFont guiFRFont = getCurrentLocaleFont();
@@ -256,55 +258,55 @@ public class DesignUtils {
             }
         }
     }
-    
-    private static boolean isTextField(String key){
-    	return key.startsWith("TextField.") || key.startsWith("PasswordField.");
+
+    private static boolean isTextField(String key) {
+        return key.startsWith("TextField.") || key.startsWith("PasswordField.");
     }
-    
-    private static FRFont getCurrentLocaleFont(){
+
+    private static FRFont getCurrentLocaleFont() {
         FRFont guiFRFont;
         Locale defaultLocale = Locale.getDefault();
-        
+
         if (isDisplaySimSun(defaultLocale)) {
             guiFRFont = getNamedFont("SimSun");
-        } else if(isDisplayDialog(defaultLocale)) {
+        } else if (isDisplayDialog(defaultLocale)) {
             guiFRFont = getNamedFont("Dialog");
         } else {
             guiFRFont = getNamedFont("Tahoma");
         }
-        
+
         //先初始化的设计器locale, 后初始化lookandfeel.如果顺序改了, 这边也要调整.
         Locale designerLocale = FRContext.getLocale();
         String file = Inter.getLocText("FR-Designer_File");
         char displayChar = file.charAt(0);
         if (!guiFRFont.canDisplay(displayChar)) {
-			//如果不能用默认的语言显示字体, 比如想在英文系统里用中文设计器
-        	//默认语言(中文:宋体, 英文:Tahoma, 其他:Dialog)
-        	guiFRFont = getNamedFont("SimSun");
-        	if (!guiFRFont.canDisplay(displayChar)) {
+            //如果不能用默认的语言显示字体, 比如想在英文系统里用中文设计器
+            //默认语言(中文:宋体, 英文:Tahoma, 其他:Dialog)
+            guiFRFont = getNamedFont("SimSun");
+            if (!guiFRFont.canDisplay(displayChar)) {
                 //比如想在中文或英文系统里用韩文设计器
                 guiFRFont = getNamedFont("Dialog");
-                if(!guiFRFont.canDisplay(displayChar)) {
+                if (!guiFRFont.canDisplay(displayChar)) {
                     FRContext.getLogger().error(Inter.getLocText("FR-Base_SimSun_Not_Found"));
                 }
-			}
-		}
-        
+            }
+        }
+
         return guiFRFont;
     }
-    
-    private static FRFont getNamedFont(String name){
-    	return FRFont.getInstance(name, Font.PLAIN, 12);
+
+    private static FRFont getNamedFont(String name) {
+        return FRFont.getInstance(name, Font.PLAIN, 12);
     }
-    
-    private static boolean isDisplaySimSun(Locale defaultLocale){
-    	return ComparatorUtils.equals(defaultLocale, Locale.SIMPLIFIED_CHINESE);
+
+    private static boolean isDisplaySimSun(Locale defaultLocale) {
+        return ComparatorUtils.equals(defaultLocale, Locale.SIMPLIFIED_CHINESE);
     }
-    
-    private static boolean isDisplayDialog(Locale defaultLocale){
-    	return ComparatorUtils.equals(defaultLocale, Locale.TRADITIONAL_CHINESE) 
-    			|| ComparatorUtils.equals(defaultLocale, Locale.JAPANESE)
-                || ComparatorUtils.equals(defaultLocale, Locale.JAPAN) 
+
+    private static boolean isDisplayDialog(Locale defaultLocale) {
+        return ComparatorUtils.equals(defaultLocale, Locale.TRADITIONAL_CHINESE)
+                || ComparatorUtils.equals(defaultLocale, Locale.JAPANESE)
+                || ComparatorUtils.equals(defaultLocale, Locale.JAPAN)
                 || ComparatorUtils.equals(defaultLocale, Locale.KOREAN)
                 || ComparatorUtils.equals(defaultLocale, Locale.KOREA);
     }
@@ -313,7 +315,7 @@ public class DesignUtils {
      * 访问服务器环境-空参数
      */
     public static void visitEnvServer() {
-        visitEnvServerByParameters(StringUtils.EMPTY, new String[] {}, new String[] {});
+        visitEnvServerByParameters(StringUtils.EMPTY, new String[]{}, new String[]{});
     }
 
     /**
@@ -342,8 +344,11 @@ public class DesignUtils {
                 if (Utils.isEmbeddedParameter(postfixOfUri)) {
                     String time = Calendar.getInstance().getTime().toString().replaceAll(" ", "");
                     boolean isUserPrivilege = ((RemoteEnv) FRContext.getCurrentEnv()).writePrivilegeMap(time, postfixOfUri);
-                    postfixOfUri = isUserPrivilege ? postfixOfUri + "&fr_check_url=" + time + "&id=" + FRContext.getCurrentEnv().getUserID(): postfixOfUri ;
+                    postfixOfUri = isUserPrivilege ? postfixOfUri + "&fr_check_url=" + time + "&id=" + FRContext.getCurrentEnv().getUserID() : postfixOfUri;
                 }
+                // 加参数给远程设计校验权限。
+                String design = JwtUtils.createDefaultJWT(FRContext.getCurrentEnv().getUser());
+                postfixOfUri = postfixOfUri + "&design=" + design;
 
                 String urlPath = getWebBrowserPath();
                 Desktop.getDesktop().browse(new URI(urlPath + postfixOfUri));
@@ -474,10 +479,10 @@ public class DesignUtils {
 
 
     private static InputStream postBytes2ServerB(byte[] bytes) throws Exception {
-    	HttpClient client = new HttpClient("http://114.215.175.35:8080/WebReport/product_advice.jsp");
+        HttpClient client = new HttpClient("http://114.215.175.35:8080/WebReport/product_advice.jsp");
         client.asGet();
-    	client.setContent(bytes);
-    	return execute4InputStream(client);
+        client.setContent(bytes);
+        return execute4InputStream(client);
     }
 
 
@@ -486,8 +491,8 @@ public class DesignUtils {
      */
     private static ByteArrayInputStream execute4InputStream(HttpClient client) throws Exception {
         int statusCode = client.getResponseCode();
-        if(statusCode != HttpURLConnection.HTTP_OK){
-        	throw new EnvException("Method failed: " + statusCode);
+        if (statusCode != HttpURLConnection.HTTP_OK) {
+            throw new EnvException("Method failed: " + statusCode);
         }
         InputStream in = client.getResponseStream();
         if (in == null) {

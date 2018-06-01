@@ -49,7 +49,7 @@ import com.fr.design.parameter.WorkBookParameterReader;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.file.FILE;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.general.ModuleContext;
 import com.fr.general.xml.GeneralXMLTools;
@@ -150,25 +150,25 @@ public class DesignerModule extends DesignModule {
      */
     private void registerCellEditor() {
 
-        ActionFactory.registerCellEditorClass(String.class, CellStringQuickEditor.class);
-        ActionFactory.registerCellEditorClass(Number.class, CellStringQuickEditor.class);
-        ActionFactory.registerCellEditorClass(BaseFormula.class, CellFormulaQuickEditor.class);
-        ActionFactory.registerCellEditorClass(SubReport.class, CellSubReportEditor.class);
-        ActionFactory.registerCellEditorClass(RichText.class, CellRichTextEditor.class);
-        ActionFactory.registerCellEditorClass(DSColumn.class, CellDSColumnEditor.class);
-        ActionFactory.registerCellEditorClass(Image.class, CellImageQuickEditor.class);
-        ActionFactory.registerCellEditorClass(BiasTextPainter.class, CellBiasTextPainterEditor.class);
-        ActionFactory.registerCellEditorClass(BufferedImage.class, CellImageQuickEditor.class);
+        ActionFactory.registerCellEditor(String.class, new CellStringQuickEditor());
+        ActionFactory.registerCellEditor(Number.class, new CellStringQuickEditor());
+        ActionFactory.registerCellEditor(BaseFormula.class, new CellFormulaQuickEditor());
+        ActionFactory.registerCellEditor(SubReport.class, new CellSubReportEditor());
+        ActionFactory.registerCellEditor(RichText.class, new CellRichTextEditor());
+        ActionFactory.registerCellEditor(DSColumn.class, new CellDSColumnEditor());
+        ActionFactory.registerCellEditor(Image.class, new CellImageQuickEditor());
+        ActionFactory.registerCellEditor(BiasTextPainter.class, new CellBiasTextPainterEditor());
+        ActionFactory.registerCellEditor(BufferedImage.class, new CellImageQuickEditor());
         ActionFactory.registerCellEditor(CellImagePainter.class, new CellImageQuickEditor());
-
+        //todo 图表编辑器populate没能实现刷新面板显示
         ActionFactory.registerChartCellEditorInEditor(BasicChartQuickEditor.class);
 
         Set<ElementUIProvider> providers = ExtraDesignClassManager.getInstance().getArray(ElementUIProvider.MARK_STRING);
         for (ElementUIProvider provider : providers) {
             try {
-                ActionFactory.registerCellEditorClass(provider.targetObjectClass(), provider.quickEditor());
+                ActionFactory.registerCellEditor(provider.targetObjectClass(), provider.quickEditor().newInstance());
             } catch (Exception e) {
-                FRLogger.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
     }
@@ -185,12 +185,12 @@ public class DesignerModule extends DesignModule {
      */
     private void registerFloatEditor() {
 
-        ActionFactory.registerFloatEditorClass(String.class, FloatStringQuickEditor.class);
-        ActionFactory.registerFloatEditorClass(Formula.class, FloatStringQuickEditor.class);
-        ActionFactory.registerFloatEditorClass(Image.class, FloatImageQuickEditor.class);
-        ActionFactory.registerFloatEditorClass(BufferedImage.class, FloatImageQuickEditor.class);
+        ActionFactory.registerFloatEditor(String.class, new FloatStringQuickEditor());
+        ActionFactory.registerFloatEditor(Formula.class, new FloatStringQuickEditor());
+        ActionFactory.registerFloatEditor(Image.class, new FloatImageQuickEditor());
+        ActionFactory.registerFloatEditor(BufferedImage.class, new FloatImageQuickEditor());
         ActionFactory.registerFloatEditor(CellImagePainter.class, new FloatImageQuickEditor());
-
+        //todo 图表编辑器populate没能实现刷新面板显示
         ActionFactory.registerChartFloatEditorInEditor(FloatChartQuickEditor.class);
     }
 
@@ -445,7 +445,7 @@ public class DesignerModule extends DesignModule {
                         ServerPreferenceConfig.getInstance().putStyle(namelist.get(i), Style.DEFAULT_STYLE);
                     }
                 } catch (Exception ex) {
-                    FRLogger.getLogger().error(ex.getMessage());
+                    FineLoggerFactory.getLogger().error(ex.getMessage());
                 }
                 jd.dispose();
                 new StyleListAction().actionPerformed(e);// 弹窗

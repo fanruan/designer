@@ -1,8 +1,8 @@
 package com.fr.design.extra.exe.callback;
 
 import com.fr.design.extra.PluginUtils;
-import com.fr.general.FRLogger;
 import com.fr.general.Inter;
+import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.context.PluginMarker;
 import com.fr.plugin.error.PluginErrorCode;
 import com.fr.plugin.manage.PluginManager;
@@ -25,7 +25,7 @@ public class UninstallPluginCallback extends AbstractPluginTaskCallback {
     public void done(PluginTaskResult result) {
         if (result.isSuccess()) {
             jsCallback.execute("success");
-            FRLogger.getLogger().info(Inter.getLocText("FR-Plugin_Delete_Success"));
+            FineLoggerFactory.getLogger().info(Inter.getLocText("FR-Plugin_Delete_Success"));
             JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Plugin_Delete_Success"));
         }else if (result.errorCode() == PluginErrorCode.NeedUninstallDependingPluginFirst) {
             int rv = JOptionPane.showOptionDialog(
@@ -44,7 +44,7 @@ public class UninstallPluginCallback extends AbstractPluginTaskCallback {
             PluginManager.getController().uninstall(pluginMarker, true, new UninstallPluginCallback(pluginMarker, jsCallback));
         } else {
             jsCallback.execute("failed");
-            FRLogger.getLogger().info(Inter.getLocText("FR-Plugin_Delete_Failed"));
+            FineLoggerFactory.getLogger().info(Inter.getLocText("FR-Plugin_Delete_Failed"));
             JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
         }
     }

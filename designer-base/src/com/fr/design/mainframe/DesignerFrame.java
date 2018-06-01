@@ -6,16 +6,23 @@ package com.fr.design.mainframe;
 import com.fr.base.BaseUtils;
 import com.fr.base.Env;
 import com.fr.base.FRContext;
+import com.fr.base.env.resource.EnvConfigUtils;
+import com.fr.core.env.EnvConfig;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignState;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
+import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.datapane.TableDataTreePane;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
-import com.fr.design.file.*;
+import com.fr.design.file.HistoryTemplateListPane;
+import com.fr.design.file.MutilTempalteTabPane;
+import com.fr.design.file.NewTemplatePane;
+import com.fr.design.file.SaveSomeTemplatePane;
+import com.fr.design.file.TemplateTreePane;
 import com.fr.design.fun.TitlePlaceProcessor;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.imenu.UIMenuHighLight;
@@ -28,15 +35,15 @@ import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.menu.MenuManager;
 import com.fr.design.utils.DesignUtils;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.event.EventDispatcher;
 import com.fr.file.FILE;
 import com.fr.file.FILEFactory;
 import com.fr.file.FileFILE;
 import com.fr.file.FileNodeFILE;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
-import com.fr.general.env.EnvContext;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.injectable.PluginModule;
 import com.fr.plugin.manage.PluginFilter;
@@ -54,15 +61,29 @@ import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
-import java.awt.dnd.*;
-import java.awt.event.*;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetDragEvent;
+import java.awt.dnd.DropTargetDropEvent;
+import java.awt.dnd.DropTargetEvent;
+import java.awt.dnd.DropTargetListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
+
+import static com.fr.core.env.EnvEvents.AFTER_SIGN_OUT;
+import static com.fr.core.env.EnvEvents.BEFORE_SIGN_OUT;
 
 public class DesignerFrame extends JFrame implements JTemplateActionListener, TargetModifiedListener {
     public static final String DESIGNER_FRAME_NAME = "designer_frame";
@@ -332,7 +353,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
                     .getResourceAsStream("/com/fr/base/images/oem/logo.ico"));
             this.setIconImages(image);
         } catch (IOException e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
             this.setIconImage(BaseUtils.readImage("/com/fr/base/images/oem/logo.png"));
         }
     }
@@ -609,10 +630,10 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         defaultTitleSB.append(ProductConstants.BRANCH);
         // james：标识登录的用户和登录的ENV
         String envName = DesignerEnvManager.getEnvManager().getCurEnvName();
-        Env env = DesignerEnvManager.getEnvManager().getEnv(envName);
+        EnvConfig env = DesignerEnvManager.getEnvManager().getEnv(envName);
         if (env != null) {
-            defaultTitleSB.append(env.getUser()).append('@').append(envName).append('[');
-            defaultTitleSB.append(env.getEnvDescription());
+            defaultTitleSB.append(EnvConfigUtils.getUsername(env)).append('@').append(envName).append('[');
+            defaultTitleSB.append(Inter.getLocText("Env-Remote_Server"));
             defaultTitleSB.append(']');
             if (editingTemplate != null) {
                 String path = editingTemplate.getEditingFILE().getPath();
@@ -703,18 +724,14 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
                         JOptionPane.QUESTION_MESSAGE);
                 if (returnVal == JOptionPane.YES_OPTION && editingTemplate.saveTemplate()) {
                     editingTemplate.saveTemplate();
-                    FRLogger.getLogger().log(
-                            Level.INFO,
-                            Inter.getLocText(new String[]{"Template", "already-saved"}, new String[]{
-                                    editingTemplate.getEditingFILE().getName(), "."}));
+                    FineLoggerFactory.getLogger().info(Inter.getLocText(new String[]{"Template", "already-saved"}, new String[]{
+                            editingTemplate.getEditingFILE().getName(), "."}));
                 }
             } else {
                 if (editingTemplate.saveTemplate()) {
                     editingTemplate.saveTemplate();
-                    FRLogger.getLogger().log(
-                            Level.INFO,
-                            Inter.getLocText(new String[]{"Template", "already-saved"}, new String[]{
-                                    editingTemplate.getEditingFILE().getName(), "."}));
+                    FineLoggerFactory.getLogger().info(Inter.getLocText(new String[]{"Template", "already-saved"}, new String[]{
+                            editingTemplate.getEditingFILE().getName(), "."}));
                 }
             }
         }
@@ -734,6 +751,8 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
      * @param jt 添加的模板.
      */
     public void addAndActivateJTemplate(JTemplate<?, ?> jt) {
+        //释放模板对象
+        ActionFactory.editorRelease();
         if (jt == null || jt.getEditingFILE() == null) {
             return;
         }
@@ -750,6 +769,8 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
      * @param jt 模板
      */
     public void activateJTemplate(JTemplate<?, ?> jt) {
+        //释放模板对象
+        ActionFactory.editorRelease();
         if (jt == null || jt.getEditingFILE() == null) {
             return;
         }
@@ -809,7 +830,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
                 return;
             }
         } catch (Exception e) {
-            FRLogger.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage());
         }
 
         // p:判断一下，如何文件为空或者文件不存在，直接返回.
@@ -823,7 +844,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         try {
             openFile(tplFile);
         } catch (Throwable t) {
-            FRLogger.getLogger().error(t.getMessage(), t);
+            FineLoggerFactory.getLogger().error(t.getMessage(), t);
             addAndActivateJTemplate();
         }
 
@@ -927,7 +948,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         try {
             thread.join();
         } catch (InterruptedException e) {
-            FRLogger.getLogger().error("Map Thread Error");
+            FineLoggerFactory.getLogger().error("Map Thread Error");
         }
 
         DesignerEnvManager.getEnvManager().setLastOpenFile(
@@ -946,11 +967,11 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
         Env currentEnv = FRContext.getCurrentEnv();
         try {
-            EnvContext.fireBeforeSignOut();
+            EventDispatcher.fire(BEFORE_SIGN_OUT);
             currentEnv.signOut();
-            EnvContext.fireAfterSignOut();
+            EventDispatcher.fire(AFTER_SIGN_OUT);
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         this.setVisible(false);
         this.dispose();
@@ -1006,7 +1027,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
                         }
                     }
                 } catch (Exception e) {
-                    FRContext.getLogger().error(e.getMessage(), e);
+                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
                 }
             }
             event.dropComplete(true);

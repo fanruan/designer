@@ -15,7 +15,7 @@ import com.fr.design.parameter.ParameterInputPane;
 import com.fr.file.FILE;
 import com.fr.file.FILEChooserPane;
 import com.fr.file.filter.ChooseFileFilter;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.io.exporter.AppExporter;
 import com.fr.io.exporter.CSVExporter;
@@ -24,6 +24,7 @@ import com.fr.io.exporter.ExcelExporter;
 import com.fr.io.exporter.Exporter;
 import com.fr.io.exporter.PDFExporterProcessor;
 import com.fr.io.exporter.WordExporter;
+import com.fr.log.FineLoggerFactory;
 import com.fr.main.TemplateWorkBook;
 import com.fr.main.impl.WorkBook;
 import com.fr.page.PageSetProvider;
@@ -34,8 +35,7 @@ import com.fr.report.worksheet.WorkSheet;
 import com.fr.stable.ActorConstants;
 import com.fr.stable.ActorFactory;
 
-import javax.swing.JOptionPane;
-import javax.swing.SwingWorker;
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.io.OutputStream;
 import java.util.Map;
@@ -98,7 +98,7 @@ public abstract class AbstractExportAction extends JWorkBookAction {
             try {
                 file.mkfile();
             } catch (Exception e1) {
-                FRLogger.getLogger().error("Error In Make New File");
+                FineLoggerFactory.getLogger().error("Error In Make New File");
             }
             fileChooserPane = null;
             FRContext.getLogger().info("\"" + file.getName() + "\"" + Inter.getLocText("FR-Designer_Prepare_Export") + "!");
@@ -132,7 +132,7 @@ public abstract class AbstractExportAction extends JWorkBookAction {
                             Inter.getLocText("FR-Designer_Exported_successfully") + "\n" + filePath);
                 } catch (Exception exp) {
                     this.setProgress(100);
-                    FRContext.getLogger().errorWithServerLevel(exp.getMessage(), exp);
+                    FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
                     JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("FR-Designer_Export_failed") + "\n" + filePath);
                 }
                 return null;

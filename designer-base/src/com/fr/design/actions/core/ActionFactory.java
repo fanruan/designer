@@ -7,10 +7,9 @@ import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.design.selection.QuickEditor;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 
-import javax.swing.Action;
-import javax.swing.KeyStroke;
+import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
@@ -54,6 +53,20 @@ public class ActionFactory {
 
     private ActionFactory() {
     }
+
+
+    /**
+     * 元素编辑器释放模板对象
+     */
+    public static void editorRelease() {
+        for (Map.Entry<Class, QuickEditor> entry : cellEditor.entrySet()) {
+            entry.getValue().release();
+        }
+        for (Map.Entry<Class, QuickEditor> entry : floatEditor.entrySet()) {
+            entry.getValue().release();
+        }
+    }
+
 
     /**
      * 注册无需每次实例化的单元格元素编辑器
@@ -336,7 +349,7 @@ public class ActionFactory {
         if (c == null) {
             Class<? extends QuickEditor> cClazz = findQuickEditorClass(clazz, editorClassMap);
             if (cClazz == null) {
-                FRLogger.getLogger().error("No Such Editor");
+                FineLoggerFactory.getLogger().error("No Such Editor");
                 return null;
             }
             try {

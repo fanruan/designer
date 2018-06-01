@@ -29,7 +29,7 @@ import com.fr.design.gui.itoolbar.UIToolBarBorder;
 import com.fr.design.gui.itoolbar.UIToolBarSeparatorUI;
 import com.fr.design.gui.itooltip.UIToolTipBorder;
 import com.fr.design.gui.itree.UITreeUI;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.IOUtils;
 
 import javax.swing.ImageIcon;
@@ -195,7 +195,7 @@ public class UILookAndFeel extends MetalLookAndFeel {
                     "com/fr/design/images/lookandfeel/" + fileName, UILookAndFeel.class);
 
             if (url == null) {
-                FRLogger.getLogger().error("Icon directory could not be resolved.");
+                FineLoggerFactory.getLogger().error("Icon directory could not be resolved.");
                 return null;
             }
         }

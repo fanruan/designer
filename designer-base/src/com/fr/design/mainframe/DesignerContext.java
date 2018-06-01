@@ -6,7 +6,7 @@ package com.fr.design.mainframe;
 import com.fr.base.Style;
 import com.fr.design.designer.TargetComponent;
 import com.fr.design.dialog.BasicDialog;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StableUtils;
 
 import javax.swing.*;
@@ -73,14 +73,14 @@ public class DesignerContext {
 
 				return (Clipboard) clipMethod.invoke(transferAction, new Object[]{comp});
 			} catch (Exception securityException) {
-				FRLogger.getLogger().error(securityException.getMessage(), securityException);
+				FineLoggerFactory.getLogger().error(securityException.getMessage(), securityException);
 				//用反射机制，获得TransferHandler的getClipboard
 				//这样可以保证和TextField直接的copy paste
 				try {
 					//控件的Clipboard.
 					DesignerContext.clipboard = comp.getToolkit().getSystemClipboard();
 				} catch (Exception exp) {
-					FRLogger.getLogger().error(exp.getMessage(), exp);
+					FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
 					DesignerContext.clipboard = new Clipboard("FR");
 				}
 			}

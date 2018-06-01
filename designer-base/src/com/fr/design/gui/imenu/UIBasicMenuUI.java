@@ -6,7 +6,7 @@ package com.fr.design.gui.imenu;
 
 
 import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -504,7 +504,7 @@ public class UIBasicMenuUI extends UIBasicMenuItemUI {
             }
 
             if (DEBUG) {
-                FRLogger.getLogger().info("in TinyMenuUI.menuKeyTyped for " + menuItem.getText());
+                FineLoggerFactory.getLogger().info("in TinyMenuUI.menuKeyTyped for " + menuItem.getText());
             }
 
             if (!crossMenuMnemonic) {
@@ -544,7 +544,7 @@ public class UIBasicMenuUI extends UIBasicMenuItemUI {
                 return;
             }
             if (DEBUG) {
-                FRLogger.getLogger().info("in TinyMenuUI.menuKeyPressed for " + menuItem.getText());
+                FineLoggerFactory.getLogger().info("in TinyMenuUI.menuKeyPressed for " + menuItem.getText());
             }
             char keyChar = e.getKeyChar();
             if (!Character.isLetterOrDigit(keyChar)){

@@ -19,7 +19,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.GeneralUtils;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
@@ -477,7 +477,7 @@ public class UIGroupExtensionPane extends BasicPane {
                 try {
                     list.setSelectedIndices(null);
                 } catch (Exception e) {
-                    FRLogger.getLogger().error(e.getMessage());
+                    FineLoggerFactory.getLogger().error(e.getMessage());
                 }
             }
         }

@@ -11,7 +11,7 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
@@ -275,7 +275,7 @@ public class MapCubeLayerPane extends BasicBeanPane<String>{
 
             @Override
 			protected void done() {
-				FRLogger.getLogger().info("Map Save End");
+				FineLoggerFactory.getLogger().info("Map Save End");
 			}
 			
 		};

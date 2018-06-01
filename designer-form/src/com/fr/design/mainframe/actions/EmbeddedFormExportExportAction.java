@@ -1,13 +1,5 @@
 package com.fr.design.mainframe.actions;
 
-import java.awt.event.ActionEvent;
-import java.io.FileOutputStream;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.swing.JOptionPane;
-import javax.swing.SwingWorker;
-
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.base.Parameter;
@@ -25,10 +17,17 @@ import com.fr.file.FILEChooserPane;
 import com.fr.file.filter.ChooseFileFilter;
 import com.fr.form.main.Form;
 import com.fr.form.main.FormEmbeddedTableDataExporter;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.project.ProjectConstants;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.io.FileOutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Export Embedded.
@@ -84,7 +83,7 @@ public class EmbeddedFormExportExportAction extends JTemplateAction<JForm>{
         try {
             file.mkfile();
         } catch (Exception e1) {
-            FRLogger.getLogger().error("Error In Make New File");
+            FineLoggerFactory.getLogger().error("Error In Make New File");
         }
         fileChooserPane = null;
         FRContext.getLogger().info("\"" + file.getName() + "\"" + Inter.getLocText("FR-Designer_Prepare_Export") + "!");
@@ -141,7 +140,7 @@ public class EmbeddedFormExportExportAction extends JTemplateAction<JForm>{
                             Inter.getLocText("FR-Designer_Exported_successfully") + "\n" + filePath);
                 } catch (Exception exp) {
                     this.setProgress(100);
-                    FRContext.getLogger().errorWithServerLevel(exp.getMessage(), exp);
+                    FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
                     JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("FR-Designer_Export_failed") + "\n" + filePath);
                 }
                 return null;

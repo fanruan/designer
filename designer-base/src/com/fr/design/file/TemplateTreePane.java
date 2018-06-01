@@ -15,8 +15,8 @@ import com.fr.file.FileNodeFILE;
 import com.fr.file.filetree.FileNode;
 import com.fr.file.filetree.IOFileNodeFilter;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
 import com.fr.general.Inter;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
@@ -34,7 +34,6 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
 
 public class TemplateTreePane extends JPanel implements FileOperations {
 
@@ -143,7 +142,7 @@ public class TemplateTreePane extends JPanel implements FileOperations {
     public void openContainerFolder() {
         FileNode fn = TemplateTreePane.this.reportletsTree.getSelectedFileNode();
         LocalEnv localEnv = (LocalEnv) FRContext.getCurrentEnv();
-        String filePath = StableUtils.pathJoin(localEnv.path, fn.getEnvPath());
+        String filePath = StableUtils.pathJoin(localEnv.getPath(), fn.getEnvPath());
         filePath = filePath.substring(0, filePath.lastIndexOf(CoreConstants.SEPARATOR));
         try {
             Desktop.getDesktop().open(new File(filePath));
@@ -157,7 +156,7 @@ public class TemplateTreePane extends JPanel implements FileOperations {
      */
     public void refresh() {
         reportletsTree.refresh();
-        FRLogger.getLogger().log(Level.INFO, Inter.getLocText(new String[]{"File-tree", "Refresh_Successfully"}) + "!");
+        FineLoggerFactory.getLogger().info(Inter.getLocText(new String[]{"File-tree", "Refresh_Successfully"}) + "!");
     }
 
     /**
@@ -193,6 +192,16 @@ public class TemplateTreePane extends JPanel implements FileOperations {
         reportletsTree.refresh();
     }
 
+    @Override
+    public void lockFile() {
+        throw new UnsupportedOperationException("unsupport now");
+    }
+
+    @Override
+    public void unLockFile() {
+        throw new UnsupportedOperationException("unsupport now");
+    }
+
     private void deleteHistory(String fileName) {
         int index = HistoryTemplateListPane.getInstance().contains(fileName);
         int size = HistoryTemplateListPane.getInstance().getHistoryCount();
@@ -218,41 +227,6 @@ public class TemplateTreePane extends JPanel implements FileOperations {
         MutilTempalteTabPane.getInstance().repaint();
     }
 
-    /**
-     * 加上文件锁
-     */
-    public void lockFile() {
-        FileNode fn = reportletsTree.getSelectedFileNode();
-        RemoteEnv remoteEnv = (RemoteEnv) FRContext.getCurrentEnv();
-        if (fn == null) {
-            return;
-        }
-        try {
-            remoteEnv.getLock(new String[]{fn.getEnvPath()});
-        } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
-            JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), e.getMessage());
-        }
-        reportletsTree.refresh();
-    }
-
-    /**
-     * 文件解锁
-     */
-    public void unLockFile() {
-        FileNode fn = reportletsTree.getSelectedFileNode();
-        if (fn == null) {
-            return;
-        }
-        RemoteEnv remoteEnv = (RemoteEnv) FRContext.getCurrentEnv();
-        try {
-            remoteEnv.releaseLock(new String[]{fn.getEnvPath()});
-        } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
-            JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), e.getMessage());
-        }
-        reportletsTree.refresh();
-    }
 
     public String getSelectedTemplatePath() {
         return reportletsTree.getSelectedTemplatePath();
@@ -322,11 +296,11 @@ public class TemplateTreePane extends JPanel implements FileOperations {
                 //todo 走下这个流程，否则集群下其它节点无法同步删除
                 FRContext.getCurrentEnv().deleteFile(nodeFile.getPath());
             } catch (IOException e) {
-                FRLogger.getLogger().info(e.getMessage());
+                FineLoggerFactory.getLogger().info(e.getMessage());
                 FRContext.getCurrentEnv().deleteFile(nodeFile.getPath());
             }
         } else {
-            FRLogger.getLogger().info("No Trash Available");
+            FineLoggerFactory.getLogger().info("No Trash Available");
             FRContext.getCurrentEnv().deleteFile(nodeFile.getPath());
         }
     }

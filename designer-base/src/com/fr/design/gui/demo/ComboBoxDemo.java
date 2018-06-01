@@ -1,11 +1,25 @@
 package com.fr.design.gui.demo;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.util.ArrayList;
+import com.fr.base.FRContext;
+import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.gui.icombobox.ComboCheckBox;
+import com.fr.design.gui.icombobox.DictionaryComboBox;
+import com.fr.design.gui.icombobox.ExtendedComboBox;
+import com.fr.design.gui.icombobox.FRTreeComboBox;
+import com.fr.design.gui.icombobox.FilterComboBox;
+import com.fr.design.gui.icombobox.LazyComboBox;
+import com.fr.design.gui.icombobox.filter.Filter;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.parameter.ParameterInputPane;
+import com.fr.general.Inter;
+import com.fr.stable.ParameterProvider;
+import com.fr.stable.StringUtils;
 
 import javax.swing.DefaultListCellRenderer;
-import com.fr.design.gui.ilable.UILabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTree;
@@ -14,20 +28,9 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreePath;
-
-import com.fr.base.FRContext;
-import com.fr.design.gui.icombobox.filter.Filter;
-import com.fr.design.gui.icombobox.ComboCheckBox;
-import com.fr.design.gui.icombobox.DictionaryComboBox;
-import com.fr.design.gui.icombobox.ExtendedComboBox;
-import com.fr.design.gui.icombobox.FRTreeComboBox;
-import com.fr.design.gui.icombobox.FilterComboBox;
-import com.fr.design.gui.icombobox.LazyComboBox;
-import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.layout.TableLayout;
-import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.Inter;
-import com.fr.stable.StringUtils;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.util.ArrayList;
 
 /**
  * Created by IntelliJ IDEA.
@@ -42,12 +45,12 @@ public class ComboBoxDemo extends JPanel {
         double f = TableLayout.FILL;
 
         Component[][] coms = new Component[][]{
-                {new UILabel(Inter.getLocText("Form-ComboCheckBox")+":"), createComboCheckBox()},
-                {new UILabel(Inter.getLocText(new String[]{"DS-Dictionary", "Form-ComboBox"})+":"), createDictComboBox()},
-                {new UILabel(Inter.getLocText("long_data_can_not_show_fully")+":"), createExtendedComboBox()},
-                {new UILabel(Inter.getLocText(new String[]{"Filter", "Form-ComboBox"})+":"), createFilterComboBox()},
-                {new UILabel(Inter.getLocText("Form-ComboBox")+":"), createTreeComboBox()},
-                {new UILabel(Inter.getLocText(new String[]{"Delay", "Load", "Form-ComboBox"})+":"), createLazyComboBox()}
+                {new UILabel(Inter.getLocText("Form-ComboCheckBox") + ":"), createComboCheckBox()},
+                {new UILabel(Inter.getLocText(new String[]{"DS-Dictionary", "Form-ComboBox"}) + ":"), createDictComboBox()},
+                {new UILabel(Inter.getLocText("long_data_can_not_show_fully") + ":"), createExtendedComboBox()},
+                {new UILabel(Inter.getLocText(new String[]{"Filter", "Form-ComboBox"}) + ":"), createFilterComboBox()},
+                {new UILabel(Inter.getLocText("Form-ComboBox") + ":"), createTreeComboBox()},
+                {new UILabel(Inter.getLocText(new String[]{"Delay", "Load", "Form-ComboBox"}) + ":"), createLazyComboBox()}
         };
         double[] rowSize = new double[coms.length];
         double[] columnSize = {p, f};
@@ -165,6 +168,7 @@ public class ComboBoxDemo extends JPanel {
                 // 睡5秒
                 try {
                     Thread.sleep(5000);
+
                 } catch (InterruptedException e) {
                     FRContext.getLogger().error(e.getMessage(), e);
                 }

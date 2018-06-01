@@ -18,7 +18,7 @@ import com.fr.design.gui.imenutable.UIMenuNameableCreator;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.mainframe.chart.gui.ChartTypePane.ComboBoxPane;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 
@@ -142,7 +142,7 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
                     editingCollection.addNamedChart(name, newChart);
                     editingCollection.addFunctionRecord(newChart);
                 } catch (CloneNotSupportedException e1) {
-                    FRLogger.getLogger().error("Error in Clone");
+                    FineLoggerFactory.getLogger().error("Error in Clone");
                 }
                 checkoutChange();
             }

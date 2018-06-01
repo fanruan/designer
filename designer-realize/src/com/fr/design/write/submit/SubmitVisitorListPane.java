@@ -14,7 +14,7 @@ import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.scrollruler.ModLineBorder;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.general.NameObject;
 import com.fr.report.write.BuiltInSQLSubmiter;
@@ -137,7 +137,7 @@ public class SubmitVisitorListPane extends ObjectJControlPane {
             try {
                 editing = (BuiltInSQLSubmiterProvider) editing.clone();
             } catch (Exception e) {
-                FRLogger.getLogger().error(e.getMessage());
+                FineLoggerFactory.getLogger().error(e.getMessage());
             }
             editing.setDBManipulation(dbManipulation);
 

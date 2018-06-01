@@ -3,7 +3,7 @@ package com.fr.van.chart.heatmap.designer.type;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.base.VanChartTools;
 import com.fr.plugin.chart.heatmap.HeatMapIndependentVanChart;
@@ -87,7 +87,7 @@ public class VanChartHeatMapTypePane extends VanChartMapPlotPane {
         try {
             cloned = (Plot)newPlot.clone();
         } catch (CloneNotSupportedException e) {
-            FRLogger.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         return cloned;
     }

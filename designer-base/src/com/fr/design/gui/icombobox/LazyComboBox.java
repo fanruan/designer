@@ -3,212 +3,190 @@
  */
 package com.fr.design.gui.icombobox;
 
-import java.awt.Dimension;
-import java.util.ArrayList;
-import java.util.List;
+import com.fr.log.FineLoggerFactory;
+import com.fr.general.Inter;
 
-import javax.swing.*;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.SwingWorker;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
-import javax.swing.plaf.basic.BasicComboPopup;
-
-import com.fr.general.Inter;
+import java.awt.Dimension;
+import java.util.concurrent.ExecutionException;
 
 /**
  * @author richer
+ * @version 2018年2月6日14点43分 by @yaoh.wu
  * @since 6.5.5 创建于2011-6-15 延迟加载的下拉框
  */
 public abstract class LazyComboBox extends UIComboBox implements PopupMenuListener {
-	protected boolean loaded = false;
-	private List<EventListener> ls = new ArrayList<EventListener>();
-	private Object initialSelected = null;
-	private static final int NUM=80;
 
-	public static final Object PENDING = new Object() {
+    private static final int NUM = 80;
+    private static final String[] PENDING_CONTENT = new String[]{"", Inter.getLocText("Loading") + "..."};
 
-		@Override
-		public String toString() {
-			return Inter.getLocText("Loading") + "...";
-		}
-	};
+    /**
+     * 是否加载完成
+     */
+    protected boolean loaded = false;
 
-	public LazyComboBox() {
-		super();
-		this.setEditor(new FilterComboBoxEditor());
-		addPopupMenuListener(this);
-//		updateUI();
-	}
+    /**
+     * 初始化选项
+     */
+    private Object initialSelected = null;
 
-	public void setLoaded(boolean loaded) {
-		this.loaded = loaded;
-	}
 
-	public abstract Object[] load();
+    protected LazyComboBox() {
+        super();
+        this.setEditor(new FilterComboBoxEditor());
+        addPopupMenuListener(this);
+    }
 
-	public void setSelectedItem(Object anObject) {
-		initialSelected = anObject;
-		if (loaded) {
-			super.setSelectedItem(anObject);
-		} else {
+    public void setLoaded(boolean loaded) {
+        this.loaded = loaded;
+    }
 
-			setModel(new DefaultComboBoxModel(new Object[] { anObject }));
-			super.setSelectedItem(anObject);
-		}
-	}
+    /**
+     * 加载下拉框中的选项
+     *
+     * @return 下拉框中的选项
+     */
+    public abstract Object[] load();
 
-	/**
-	 * 通过调用该方法，在点击下拉框按钮之前就加载好数据
-	 */
-	public void loadInstant() {
-		if (loaded) {
-			return;
-		}
-		setModel(new DefaultComboBoxModel(load()));
-		loaded = true;
-	}
+    @Override
+    public void setSelectedItem(Object anObject) {
+        initialSelected = anObject;
+        if (loaded) {
+            super.setSelectedItem(anObject);
+        } else {
+            this.setModel(new DefaultComboBoxModel<>(new Object[]{anObject}));
+            super.setSelectedItem(anObject);
+        }
+    }
 
-	@Override
-	public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+    @Override
+    public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
         if (loaded) {
             return;
         }
-        DefaultComboBoxModel loadingModel = new DefaultComboBoxModel(new String[]{"", Inter.getLocText("Loading") + "..."});
-        LazyComboBox.this.setModel(loadingModel);
-        new SwingWorker<Void, Void>() {
+        DefaultComboBoxModel<String> loadingModel = new DefaultComboBoxModel<>(PENDING_CONTENT);
+        this.setModel(loadingModel);
+        new SwingWorker<Object[], Void>() {
 
             @Override
-            protected Void doInBackground() throws Exception {
-                final Object selectedObj = getSelectedItem();
-				loadList();
-                return null;
+            protected Object[] doInBackground() {
+                return load();
             }
 
             @Override
             public void done() {
-                LazyComboBox.this.updateUI();
-                LazyComboBox.this.fireEvent();
+                try {
+                    LazyComboBox.this.loadList(get());
+                } catch (InterruptedException | ExecutionException exception) {
+                    FineLoggerFactory.getLogger().debug(exception.getMessage());
+                }
                 LazyComboBox.this.showPopup();
             }
-
         }.execute();
+    }
 
+
+    /**
+     * 加载下拉列表
+     */
+    public void loadList() {
+        DefaultComboBoxModel<Object> model = new DefaultComboBoxModel<>(load());
+        model.setSelectedItem(initialSelected);
+        this.setModel(model);
+        this.selectedItemReminder = initialSelected;
+        loaded = true;
+    }
+
+    /**
+     * 加载下拉列表
+     *
+     * @param contents 下拉列表内容
+     */
+    private void loadList(Object[] contents) {
+        DefaultComboBoxModel<Object> model = new DefaultComboBoxModel<>(contents);
+        model.setSelectedItem(initialSelected);
+        this.setModel(model);
+        this.selectedItemReminder = initialSelected;
+        loaded = true;
+    }
+
+    @Override
+    public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
 
     }
 
-	/**
-	 * 计算加载下拉列表
-	 */
-	public void loadList() {
-		DefaultComboBoxModel model = new DefaultComboBoxModel(load());
-        model.setSelectedItem(initialSelected);
-		LazyComboBox.this.setModel(model);
-		LazyComboBox.this.selectedItemReminder = initialSelected ;
-		loaded = true;
-	}
+    @Override
+    public void popupMenuCanceled(PopupMenuEvent e) {
 
-	@Override
-	public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+    }
 
-	}
+    @Override
+    public Dimension getPreferredSize() {
+        Dimension dim = super.getPreferredSize();
+        dim.width = NUM;
+        return dim;
+    }
 
-	@Override
-	public void popupMenuCanceled(PopupMenuEvent e) {
+    class FilterComboBoxEditor extends UIComboBoxEditor implements DocumentListener {
+        private Object item;
+        private volatile boolean filtering = false;
+        private volatile boolean setting = false;
 
-	}
+        public FilterComboBoxEditor() {
+            super();
+            textField.getDocument().addDocumentListener(this);
+        }
 
-	public void addClickListener(EventListener l) {
-		if (ls == null) {
-			ls = new ArrayList<LazyComboBox.EventListener>();
-		}
-		ls.add(l);
-	}
+        @Override
+        public void setItem(Object item) {
+            if (filtering) {
+                return;
+            }
+            this.item = item;
+            this.setting = true;
+            textField.setSetting(true);
+            String newText = (item == null) ? "" : item.toString();
+            textField.setText(newText);
+            textField.setSetting(false);
+            this.setting = false;
+        }
 
-	public void fireEvent() {
-		for (int i = 0, n = ls.size(); i < n; i++) {
-			ls.get(i).fireEvent();
-		}
-	}
+        @Override
+        public Object getItem() {
+            return this.item;
+        }
 
-	@Override
-	public Dimension getPreferredSize() {
-		Dimension dim = super.getPreferredSize();
-		dim.width = NUM;
-		return dim;
-	}
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            handleChange();
+        }
 
-	private static class LazyPopMenu extends BasicComboPopup {
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            handleChange();
+        }
 
-		public LazyPopMenu(final JComboBox combo) {
-			super(combo);
-			LazyComboBox comboc = (LazyComboBox) combo;
-			comboc.addClickListener(new EventListener() {
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+            handleChange();
+        }
 
-				@Override
-				public void fireEvent() {
-					LazyPopMenu.this.show();
-					combo.showPopup();
-				}
-			});
-		}
-	}
+        void handleChange() {
+            if (setting) {
+                return;
+            }
+            filtering = true;
+            String xx = textField.getText();
+            LazyComboBox.this.setSelectedItem(xx);
+            this.item = textField.getText();
 
-	private interface EventListener {
-		void fireEvent();
-	}
-
-	class FilterComboBoxEditor extends UIComboBoxEditor implements DocumentListener {
-		private Object item;
-		private volatile boolean filtering = false;
-		private volatile boolean setting = false;
-
-		public FilterComboBoxEditor() {
-			super();
-			textField.getDocument().addDocumentListener(this);
-		}
-
-		public void setItem(Object item) {
-			if (filtering) {
-				return;
-			}
-			this.item = item;
-
-			this.setting = true;
-			textField.setSetting(true);
-			String newText = (item == null) ? "" : item.toString();
-			textField.setText(newText);
-			textField.setSetting(false);
-			this.setting = false;
-		}
-
-		public Object getItem() {
-			return this.item;
-		}
-
-		public void insertUpdate(DocumentEvent e) {
-			handleChange();
-		}
-
-		public void removeUpdate(DocumentEvent e) {
-			handleChange();
-		}
-
-		public void changedUpdate(DocumentEvent e) {
-			handleChange();
-		}
-
-		protected void handleChange() {
-			if (setting) {
-				return;
-			}
-			filtering = true;
-			String xx = textField.getText();
-			LazyComboBox.this.setSelectedItem(xx);
-			this.item = textField.getText();
-
-			setPopupVisible(true);
-			filtering = false;
-		}
-	}
+            setPopupVisible(true);
+            filtering = false;
+        }
+    }
 }

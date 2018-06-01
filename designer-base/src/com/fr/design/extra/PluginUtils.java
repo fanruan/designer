@@ -1,17 +1,16 @@
 package com.fr.design.extra;
 
 import com.fr.base.TemplateUtils;
-import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONObject;
+import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.basic.version.Version;
 import com.fr.plugin.basic.version.VersionIntervalFactory;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.context.PluginMarker;
-
 import com.fr.plugin.error.PluginErrorCode;
 import com.fr.plugin.manage.PluginManager;
 import com.fr.plugin.view.PluginView;
@@ -59,7 +58,7 @@ public class PluginUtils {
                 httpClient.asGet();
                 result = httpClient.getResponseText();
             } catch (Exception e) {
-                FRLogger.getLogger().error(e.getMessage());
+                FineLoggerFactory.getLogger().error(e.getMessage());
             }
         } else {
             result = PluginConstants.CONNECTION_404;

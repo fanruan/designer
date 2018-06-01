@@ -43,7 +43,7 @@ import com.fr.form.ui.WidgetValue;
 import com.fr.form.ui.container.WBorderLayout;
 import com.fr.form.ui.container.WFitLayout;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.CoreGraphHelper;
@@ -1291,7 +1291,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
                     try {
                         Thread.sleep(1500);
                     } catch (InterruptedException e) {
-                        FRLogger.getLogger().error(e.getMessage(), e);
+                        FineLoggerFactory.getLogger().error(e.getMessage(), e);
                     }
 
                     pane.setLayout(new BorderLayout());

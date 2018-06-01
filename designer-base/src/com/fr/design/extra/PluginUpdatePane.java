@@ -4,9 +4,9 @@ import com.fr.config.MarketConfig;
 import com.fr.design.extra.tradition.callback.UpdateOnlineCallback;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.json.JSONObject;
+import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.context.PluginMarker;
 import com.fr.plugin.manage.PluginManager;
 import com.fr.plugin.manage.control.PluginTaskResult;
@@ -14,12 +14,7 @@ import com.fr.plugin.manage.control.ProgressCallback;
 import com.fr.plugin.view.PluginView;
 import com.fr.stable.StringUtils;
 
-import javax.swing.JComponent;
-import javax.swing.JFileChooser;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 import java.util.List;
@@ -203,7 +198,7 @@ public class PluginUpdatePane extends PluginAbstractLoadingViewPane<List<PluginV
             @Override
             public void done(PluginTaskResult result) {
                 if (result.isSuccess()) {
-                    FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Update_Success"));
+                    FineLoggerFactory.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Update_Success"));
                     JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Install_Successful"));
                 } else {
                     JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);

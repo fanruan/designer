@@ -81,7 +81,7 @@ import com.fr.design.selection.Selectedable;
 import com.fr.design.selection.SelectionEvent;
 import com.fr.design.selection.SelectionListener;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.grid.Grid;
 import com.fr.grid.GridColumn;
@@ -421,10 +421,10 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
                     c = clazz.getConstructor(ElementCase.class);
                     editor = (CellEditor) c.newInstance(this);
                 } catch (Exception e1) {
-                    FRLogger.getLogger().error(e1.getMessage(), e1);
+                    FineLoggerFactory.getLogger().error(e1.getMessage(), e1);
                 }
             } catch (Exception e) {
-                FRLogger.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
             grid.setDefaultCellEditor(provider.targetObjectClass(), editor);
         }
@@ -524,6 +524,13 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
      *  因为这边判断selection是一个selection，所以不会触发fireSelectionChanged
      */
     public void setSelection(Selection selection) {
+        try {
+            //旧选中内容编辑器释放模板对象
+            this.getCurrentEditor().release();
+        } catch (UnsupportedOperationException e) {
+            FRContext.getLogger().info("Nothing to release");
+        }
+
         if (!ComparatorUtils.equals(this.selection, selection) ||
                 !ComparatorUtils.equals(EastRegionContainerPane.getInstance().getCellAttrPane(), CellElementPropertyPane.getInstance())) {
             this.selection = selection;

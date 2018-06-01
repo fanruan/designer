@@ -9,7 +9,7 @@ import com.fr.design.mainframe.JTemplate;
 import com.fr.design.mainframe.SiteCenterToken;
 import com.fr.env.RemoteEnv;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.general.GeneralUtils;
 import com.fr.general.IOUtils;
 import com.fr.general.SiteCenter;
@@ -207,7 +207,7 @@ public class TemplateInfoCollector<T extends BaseBook> implements Serializable, 
             FileOutputStream out = new FileOutputStream(getInfoFile());
             XMLTools.writeOutputStreamXML(this, out);
         } catch (Exception ex) {
-            FRLogger.getLogger().error(ex.getMessage());
+            FineLoggerFactory.getLogger().error(ex.getMessage());
         }
     }
 

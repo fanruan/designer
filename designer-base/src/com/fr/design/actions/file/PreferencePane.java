@@ -1,7 +1,6 @@
 package com.fr.design.actions.file;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.ServerConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.RestartHelper;
 import com.fr.design.dialog.BasicDialog;
@@ -23,8 +22,9 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
-import com.fr.general.FRLevel;
 import com.fr.general.Inter;
+import com.fr.general.log.Log4jConfig;
+import com.fr.third.apache.log4j.Level;
 
 import javax.swing.*;
 import java.awt.*;
@@ -81,7 +81,7 @@ public class PreferencePane extends BasicPane {
     private static final String MINUS = "MINUS";
     private static final String DISPLAY_MINUS = "-";
 
-    private static final FRLevel[] LOG = {FRLevel.SEVERE, FRLevel.WARNING, FRLevel.INFO, FRLevel.DEBUG};
+    private static final Level[] LOG = {Level.FATAL, Level.ERROR, Level.WARN, Level.INFO, Level.DEBUG};
     private static java.util.List<String> LANGUAGE = new ArrayList<>();
 
     private static int designerEnvLanguageIndex; // 打开设置对话框时，设计器使用的语言
@@ -125,7 +125,7 @@ public class PreferencePane extends BasicPane {
         LANGUAGE.clear();
         Map<Locale, String> map = Inter.getSupportLocaleMap();
         LANGUAGE.add(Inter.getLocText("FR-Designer_Language_Default"));
-        for(Locale locale : map.keySet()){
+        for (Locale locale : map.keySet()) {
             LANGUAGE.add(getLocaledLanguage(map.get(locale), locale));
         }
     }
@@ -177,7 +177,7 @@ public class PreferencePane extends BasicPane {
         advancePane.add(spaceUpPane);
     }
 
-    private static String getLocaledLanguage(String key, Locale locale){
+    private static String getLocaledLanguage(String key, Locale locale) {
         StringBuilder sb = new StringBuilder();
         sb.append(Inter.getLocText(key)).append("(");
         sb.append(Inter.getLocText(key, locale)).append(")");
@@ -362,8 +362,8 @@ public class PreferencePane extends BasicPane {
         logLevelPane.add(logLevelComboBox);
         logLevelComboBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-    
-                ServerConfig.getInstance().setServerLogLevel(((FRLevel) logLevelComboBox.getSelectedItem()).getLevel());
+
+                Log4jConfig.getInstance().setRootLevel((Level) logLevelComboBox.getSelectedItem());
             }
         });
     }
@@ -380,7 +380,7 @@ public class PreferencePane extends BasicPane {
         languageLabel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                final  LocalePane localePane = new LocalePane();
+                final LocalePane localePane = new LocalePane();
                 BasicDialog dlg = localePane.showLargeWindow(SwingUtilities.getWindowAncestor(PreferencePane.this), new DialogActionAdapter() {
                     @Override
                     public void doOk() {
@@ -542,8 +542,8 @@ public class PreferencePane extends BasicPane {
         paginationLineColorTBButton.setColor(designerEnvManager.getPaginationLineColor());
 
         this.logExportDirectoryField.setText(designerEnvManager.getLogLocation());
-    
-        this.logLevelComboBox.setSelectedItem(FRLevel.getByLevel(ServerConfig.getInstance().getServerLogLevel()));
+
+        this.logLevelComboBox.setSelectedItem(Log4jConfig.getInstance().getRootLevel());
 
         this.languageComboBox.setSelectedItem(LANGUAGE.get(designerEnvManager.getLanguage()));
         designerEnvLanguageIndex = designerEnvManager.getLanguage();
@@ -622,8 +622,8 @@ public class PreferencePane extends BasicPane {
         if (maxUndoLimit.getSelectedIndex() == SELECTED_INDEX_5) {
             designerEnvManager.setUndoLimit(MAX_UNDO_LIMIT_50);
         }
-    
-        ServerConfig.getInstance().setServerLogLevel(((FRLevel) logLevelComboBox.getSelectedItem()).getLevel());
+
+        Log4jConfig.getInstance().setRootLevel(((Level) logLevelComboBox.getSelectedItem()));
 
     }
 

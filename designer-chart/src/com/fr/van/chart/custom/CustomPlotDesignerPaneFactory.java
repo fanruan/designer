@@ -5,7 +5,7 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.design.mainframe.chart.gui.data.table.CategoryPlotTableDataContentPane;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.chart.PiePlot4VanChart;
 import com.fr.plugin.chart.attr.plot.VanChartAxisPlot;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
@@ -59,7 +59,7 @@ public class CustomPlotDesignerPaneFactory {
                 Constructor<? extends BasicBeanPane<Plot> > constructor = cl.getConstructor();
                 return constructor.newInstance();
             } catch (Exception e){
-                FRLogger.getLogger().error(e.getMessage());
+                FineLoggerFactory.getLogger().error(e.getMessage());
             }
         }
         return null;
@@ -89,7 +89,7 @@ public class CustomPlotDesignerPaneFactory {
                 Constructor<? extends AbstractTableDataContentPane > constructor = cl.getConstructor(ChartDataPane.class);
                 return constructor.newInstance(parent);
             } catch (Exception e){
-                FRLogger.getLogger().error(e.getMessage());
+                FineLoggerFactory.getLogger().error(e.getMessage());
             }
         }
         return new CategoryPlotTableDataContentPane(parent);
@@ -125,7 +125,7 @@ public class CustomPlotDesignerPaneFactory {
                     return constructor.newInstance(plot, parent);
                 }
             } catch (Exception e){
-                FRLogger.getLogger().error(e.getMessage());
+                FineLoggerFactory.getLogger().error(e.getMessage());
             }
         }
         return new VanChartAxisPane(plot,parent);

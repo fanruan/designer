@@ -15,11 +15,11 @@ import com.fr.design.extra.exe.SearchOnlineExecutor;
 import com.fr.design.extra.exe.callback.JSCallback;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.utils.concurrent.ThreadFactoryBuilder;
-import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
+import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.context.PluginMarker;
 import com.fr.plugin.manage.PluginManager;
@@ -31,10 +31,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import netscape.javascript.JSObject;
 
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-import java.awt.Desktop;
+import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -355,7 +353,7 @@ public class PluginWebBridge {
             Task<Void> task = new PluginTask<>(webEngine, callback, new GetPluginFromStoreExecutor(new JSONObject(info)));
             threadPoolExecutor.submit(task);
         } catch (JSONException e) {
-            FRLogger.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage());
         }
     }
 
@@ -491,10 +489,10 @@ public class PluginWebBridge {
                 }
             } catch (NullPointerException e) {
                 //此为uri为空时抛出异常
-                FRLogger.getLogger().error(e.getMessage());
+                FineLoggerFactory.getLogger().error(e.getMessage());
             } catch (IOException e) {
                 //此为无法获取系统默认浏览器
-                FRLogger.getLogger().error(e.getMessage());
+                FineLoggerFactory.getLogger().error(e.getMessage());
             }
         }
     }
@@ -506,7 +504,7 @@ public class PluginWebBridge {
         try {
             Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("bbs.register")));
         } catch (Exception e) {
-            FRContext.getLogger().info(e.getMessage());
+            FineLoggerFactory.getLogger().info(e.getMessage());
         }
     }
 

@@ -2,7 +2,7 @@ package com.fr.van.chart.designer.component;
 
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.imenutable.UIMenuNameableCreator;
-import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.FCloneable;
 
 /**
@@ -20,7 +20,7 @@ public class VanChartUIMenuNameableCreator extends UIMenuNameableCreator {
         try {
             cloneObj = ((FCloneable)obj).clone();
         } catch (CloneNotSupportedException e){
-            FRLogger.getLogger().error("VanChartUIMenuNameableCreator CloneNotSupportedException");
+            FineLoggerFactory.getLogger().error("VanChartUIMenuNameableCreator CloneNotSupportedException");
         }
         return new UIMenuNameableCreator(name, cloneObj, this.paneClazz);
 

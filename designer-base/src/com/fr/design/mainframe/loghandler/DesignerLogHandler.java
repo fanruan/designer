@@ -7,10 +7,11 @@ import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogLevel;
-import com.fr.general.FRLogger;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
+import com.fr.general.LogRecordTime;
+import com.fr.general.log.Log4jConfig;
+import com.fr.log.FineLoggerFactory;
 import com.fr.log.LogHandler;
 import com.fr.stable.EnvChangedListener;
 import com.fr.stable.xml.LogRecordTimeProvider;
@@ -37,9 +38,9 @@ import java.util.logging.LogRecord;
 import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
 
 public class DesignerLogHandler {
-    protected static final int INFO_INT = FRLogLevel.INFO.intValue();
-    protected static final int ERRO_INT = FRLogLevel.ERROR.intValue();
-    protected static final int SERVER_INT = FRLogLevel.SEVERE.intValue();
+    protected static final int INFO_INT = com.fr.third.apache.log4j.Level.INFO.toInt();
+    protected static final int ERROR_INT = com.fr.third.apache.log4j.Level.ERROR.toInt();
+    protected static final int WARN_INT = com.fr.third.apache.log4j.Level.WARN.toInt();
     private static final int GAP_X = -150;
     private static final int INFO_GAP_Y = -60;
     private static final int ERRO_GAP_Y = -40;
@@ -50,7 +51,7 @@ public class DesignerLogHandler {
             @Override
             public void envChanged() {
                 // envchange后需要重新读取webinf里的log4j配置, 重新添加appender
-                FRLogger.getLogger().addLogAppender(new LogHandler<DesignerLogAppender>() {
+                FineLoggerFactory.getLogger().addLogAppender(new LogHandler<DesignerLogAppender>() {
                     @Override
                     public DesignerLogAppender getHandler() {
                         return new DesignerLogAppender();
@@ -118,20 +119,20 @@ public class DesignerLogHandler {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                JPopupMenu showsetPopup = new JPopupMenu();
-                int logLevelvalue = ServerConfig.getInstance().getServerLogLevel().intValue();
-                if (logLevelvalue <= INFO_INT) {
-                    showsetPopup.add(showInfo);
-                    showsetPopup.add(showError);
-                    showsetPopup.add(showServer);
-                    showsetPopup.show(caption, caption.getWidth() + GAP_X, INFO_GAP_Y);
-                } else if (logLevelvalue == ERRO_INT) {
-                    showsetPopup.add(showError);
-                    showsetPopup.add(showServer);
-                    showsetPopup.show(caption, caption.getWidth() + GAP_X, ERRO_GAP_Y);
+                JPopupMenu jPopupMenu = new JPopupMenu();
+                int logLevelInt = Log4jConfig.getInstance().getRootLevel().toInt();
+                if (logLevelInt <= INFO_INT) {
+                    jPopupMenu.add(showInfo);
+                    jPopupMenu.add(showError);
+                    jPopupMenu.add(showServer);
+                    jPopupMenu.show(caption, caption.getWidth() + GAP_X, INFO_GAP_Y);
+                } else if (logLevelInt == ERROR_INT) {
+                    jPopupMenu.add(showError);
+                    jPopupMenu.add(showServer);
+                    jPopupMenu.show(caption, caption.getWidth() + GAP_X, ERRO_GAP_Y);
                 } else {
-                    showsetPopup.add(showServer);
-                    showsetPopup.show(caption, caption.getWidth() + GAP_X, SERVER_GAP_Y);
+                    jPopupMenu.add(showServer);
+                    jPopupMenu.show(caption, caption.getWidth() + GAP_X, SERVER_GAP_Y);
                 }
             }
         });
@@ -222,9 +223,9 @@ public class DesignerLogHandler {
             int logLevelvalue = logRecord.getLevel().intValue();
             if (logLevelvalue == INFO_INT && showInfo.isSelected()) {
                 printMessage(logRecord.getMessage(), logLevelvalue, date, logRecord.getThrown());
-            } else if (logLevelvalue == ERRO_INT && showError.isSelected()) {
+            } else if (logLevelvalue == ERROR_INT && showError.isSelected()) {
                 printMessage(logRecord.getMessage(), logLevelvalue, date, logRecord.getThrown());
-            } else if (logLevelvalue == SERVER_INT && showServer.isSelected()) {
+            } else if (logLevelvalue == WARN_INT && showServer.isSelected()) {
                 printMessage(logRecord.getMessage(), logLevelvalue, date, logRecord.getThrown());
             }
 
@@ -234,9 +235,9 @@ public class DesignerLogHandler {
             int logLevelvalue = level.intValue();
             if (logLevelvalue == INFO_INT && showInfo.isSelected()) {
                 printMessage(message, logLevelvalue, date);
-            } else if (logLevelvalue == ERRO_INT && showError.isSelected()) {
+            } else if (logLevelvalue == ERROR_INT && showError.isSelected()) {
                 printMessage(message, logLevelvalue, date);
-            } else if (logLevelvalue == SERVER_INT && showServer.isSelected()) {
+            } else if (logLevelvalue == WARN_INT && showServer.isSelected()) {
                 printMessage(message, logLevelvalue, date);
             }
 
@@ -264,10 +265,10 @@ public class DesignerLogHandler {
 
         private void log(String str, int style) {
             SimpleAttributeSet attrSet = new SimpleAttributeSet();
-            if (style == ERRO_INT) {
+            if (style == ERROR_INT) {
                 StyleConstants.setForeground(attrSet, new Color(247, 148, 29));
                 StyleConstants.setBold(attrSet, true);
-            } else if (style == SERVER_INT) {
+            } else if (style == WARN_INT) {
                 StyleConstants.setForeground(attrSet, Color.red);
                 StyleConstants.setBold(attrSet, true);
             } else if (style == INFO_INT) {
@@ -286,9 +287,9 @@ public class DesignerLogHandler {
         }
 
         private String swithInter(String str, int style) {
-            if (style == ERRO_INT) {
+            if (style == ERROR_INT) {
                 str = Inter.getLocText("FR-Designer_Alert") + ":" + str + "\n";
-            } else if (style == SERVER_INT) {
+            } else if (style == WARN_INT) {
                 str = Inter.getLocText("FR-Designer_Seriously") + ":" + str + "\n";
             } else {
                 str = Inter.getLocText("FR-Designer_Normal") + ":" + str + "\n";
@@ -300,9 +301,9 @@ public class DesignerLogHandler {
             LogMessageBar.getInstance().setMessage(message);
             if (level == DesignerLogHandler.INFO_INT && showInfo.isSelected()) {
                 caption.infoAdd();
-            } else if (level == DesignerLogHandler.ERRO_INT && showError.isSelected()) {
+            } else if (level == DesignerLogHandler.ERROR_INT && showError.isSelected()) {
                 caption.errorAdd();
-            } else if (level == DesignerLogHandler.SERVER_INT && showServer.isSelected()) {
+            } else if (level == DesignerLogHandler.WARN_INT && showServer.isSelected()) {
                 caption.serverAdd();
             }
         }
@@ -340,5 +341,9 @@ public class DesignerLogHandler {
             }
         };
 
+    }
+
+    public void printRemoteLog(LogRecordTime logRecordTime) {
+        logHandlerArea.printStackTrace(logRecordTime);
     }
 }
