@@ -6,7 +6,7 @@ import com.fr.base.env.EnvContext;
 import com.fr.base.env.resource.EnvConfigUtils;
 import com.fr.base.env.resource.RemoteEnvConfig;
 import com.fr.core.env.EnvConfig;
-import com.fr.core.env.EnvEvents;
+import com.fr.core.env.EnvEvent;
 import com.fr.dav.LocalEnv;
 import com.fr.design.utils.DesignUtils;
 import com.fr.event.Event;
@@ -23,7 +23,7 @@ import javax.swing.UIManager;
 public class SignIn {
 
     static {
-        EventDispatcher.listen(EnvEvents.CONNECTION_ERROR, new Listener<Null>() {
+        EventDispatcher.listen(EnvEvent.CONNECTION_ERROR, new Listener<Null>() {
             @Override
             public void on(Event event, Null param) {
                 if (JOptionPane.showConfirmDialog(null, Inter.getLocText("FR-Remote_Connect2Server_Again"), UIManager.getString("OptionPane.titleText"), JOptionPane.YES_NO_OPTION)
