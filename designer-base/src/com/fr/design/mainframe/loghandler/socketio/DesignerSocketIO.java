@@ -4,7 +4,7 @@ import com.fr.base.env.EnvContext;
 import com.fr.base.env.resource.LocalEnvConfig;
 import com.fr.core.env.EnvConfig;
 import com.fr.core.env.EnvConstants;
-import com.fr.core.env.EnvEvents;
+import com.fr.core.env.EnvEvent;
 import com.fr.decision.webservice.utils.DecisionServiceConstants;
 import com.fr.design.mainframe.loghandler.DesignerLogHandler;
 import com.fr.event.Event;
@@ -43,7 +43,7 @@ public class DesignerSocketIO {
     };
 
     static {
-        EventDispatcher.listen(EnvEvents.AFTER_SIGN_OUT, new Listener<Null>() {
+        EventDispatcher.listen(EnvEvent.AFTER_SIGN_OUT, new Listener<Null>() {
             @Override
             public void on(Event event, Null param) {
                 if (socketIO.isPresent()) {
@@ -52,7 +52,7 @@ public class DesignerSocketIO {
                 }
             }
         });
-        EventDispatcher.listen(EnvEvents.AFTER_SIGN_IN, new Listener<Null>() {
+        EventDispatcher.listen(EnvEvent.AFTER_SIGN_IN, new Listener<Null>() {
             @Override
             public void on(Event event, Null param) {
                 updateSocket();
