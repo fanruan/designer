@@ -2,7 +2,8 @@ package com.fr.design.remote.ui.list;
 
 import com.fr.env.RemoteDesignMember;
 
-import javax.swing.DefaultListModel;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.Vector;
 
@@ -38,7 +39,15 @@ public class AddingMemberList extends MemberList {
 
     @Override
     protected boolean shouldDisplaySelected(MouseEvent e) {
-        return true;
+        Point point = e.getPoint();
+        int rX = point.x;
+        int rY = point.y;
+        int index = this.getSelectedIndex();
+        int x = 280;
+        int y = 25 * index;
+        int width = 25;
+        int height = 25;
+        return x <= rX && rX <= x + width && y <= rY && rY <= y + height;
     }
 }
 

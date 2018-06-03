@@ -5,12 +5,8 @@ import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.env.RemoteDesignMember;
 
-import javax.swing.BorderFactory;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.ListCellRenderer;
-import java.awt.Component;
-import java.awt.FlowLayout;
+import javax.swing.*;
+import java.awt.*;
 
 public class AddingMemberListCellRender extends JPanel implements ListCellRenderer<RemoteDesignMember> {
 
@@ -23,6 +19,8 @@ public class AddingMemberListCellRender extends JPanel implements ListCellRender
         this.setLayout(new FlowLayout(FlowLayout.LEFT));
 
         label = new UILabel();
+        label.setPreferredSize(new Dimension(270, 20));
+        this.setPreferredSize(new Dimension(this.getPreferredSize().width, 25));
         label.setIcon(BaseUtils.readIcon("com/fr/design/remote/images/icon_Member_normal@1x.png"));
 
         check = new UICheckBox();

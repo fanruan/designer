@@ -24,17 +24,10 @@ import com.fr.general.Inter;
 import com.fr.report.DesignAuthority;
 import com.fr.stable.ArrayUtils;
 
-import javax.swing.BorderFactory;
-import javax.swing.DefaultListModel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JSplitPane;
-import javax.swing.ListSelectionModel;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -230,6 +223,12 @@ public class AuthorityListControlPane extends BasicPane {
      */
     public void addAuthority(DesignAuthority authority, int index) {
         DefaultListModel<DesignAuthority> model = (DefaultListModel<DesignAuthority>) authorityList.getModel();
+
+        for (int i = 0; i < model.size(); i++) {
+            if (model.get(i).getUserId().equals(authority.getUserId())) {
+                return;
+            }
+        }
 
         model.add(index, authority);
         authorityList.setSelectedIndex(index);

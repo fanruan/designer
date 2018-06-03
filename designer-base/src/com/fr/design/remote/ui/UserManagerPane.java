@@ -163,7 +163,7 @@ public class UserManagerPane extends BasicPane {
         // 搜索
         JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         searchPanel.setBorder(BorderFactory.createEmptyBorder());
-        keyField.setPreferredSize(new Dimension(200, 20));
+        keyField.setPreferredSize(new Dimension(250, 20));
         keyField.requestFocus();
         keyField.addKeyListener(keyFieldKeyListener);
         keyButton.setText(Inter.getLocText("FR-Designer_Remote_Design_Search"));
@@ -205,6 +205,8 @@ public class UserManagerPane extends BasicPane {
                 Inter.getLocText("FR-Designer_Remote_Design_Selected_Member_Count",
                         String.valueOf(addedMembers.size()))
         );
+        countLabel.setBorder(BorderFactory.createEmptyBorder(7, 12, 8, 0));
+        countLabel.setForeground(new Color(0x8F8F92));
 
         addedListModel = new DefaultListModel<>();
         addedList = new AddedMemberList(addedListModel);
