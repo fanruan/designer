@@ -11,27 +11,16 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.remote.ui.list.AddedMemberList;
-import com.fr.design.remote.ui.list.AddedMemberListCellRender;
-import com.fr.design.remote.ui.list.AddingMemberList;
-import com.fr.design.remote.ui.list.AddingMemberListCellRender;
-import com.fr.design.remote.ui.list.MemberListSelectedChangeListener;
+import com.fr.design.remote.ui.list.*;
 import com.fr.env.RemoteDesignMember;
 import com.fr.env.operator.decision.DecisionOperator;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 import com.fr.third.guava.collect.ImmutableList;
 
-import javax.swing.BorderFactory;
-import javax.swing.DefaultListModel;
-import javax.swing.JPanel;
-import javax.swing.ListSelectionModel;
-import javax.swing.SwingWorker;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -101,15 +90,22 @@ public class UserManagerPane extends BasicPane {
     private DefaultListModel<RemoteDesignMember> addedListModel;
 
 
+    /**
+     * 左侧列表变动事件
+     */
     private MemberListSelectedChangeListener addingListChangeListener = new MemberListSelectedChangeListener() {
         @Override
         public void selectedChange() {
-            resetAddedMembers();
+            // 右侧列表发生变化后，将右侧列表中选中但是在左侧列表中没有的成员添加进来,同时移除取消选中的
             sync2AddedMembersFromAdding();
+            // 刷新右侧列表显示
             addToAddedMemberList();
         }
     };
 
+    /**
+     * 右侧列表变动事件
+     */
     private MemberListSelectedChangeListener addedListChangeListener = new MemberListSelectedChangeListener() {
         @Override
         public void selectedChange() {
@@ -123,6 +119,8 @@ public class UserManagerPane extends BasicPane {
                             String.valueOf(addedMembers.size())
                     )
             );
+            // 刷新左侧列表显示
+            addToMemberList();
 
         }
     };
@@ -228,6 +226,12 @@ public class UserManagerPane extends BasicPane {
     private void addToMemberList() {
         addingListModel.clear();
         for (RemoteDesignMember member : addingMembers) {
+            // 如果包含在右侧列表中，那么左侧列表默认选中
+            if (addedMembers.contains(member)) {
+                member.setSelected(true);
+            } else {
+                member.setSelected(false);
+            }
             addingListModel.addElement(member);
         }
         addingList.revalidate();
@@ -282,7 +286,11 @@ public class UserManagerPane extends BasicPane {
         // shallow copy
         addingListModel.copyInto(members);
         for (RemoteDesignMember member : members) {
-            if (member.isSelected()) {
+
+            if (!member.isSelected()) {
+                addedMembers.remove(member);
+            }
+            if (member.isSelected() && !addedMembers.contains(member)) {
                 addedMembers.add(member);
             }
         }
