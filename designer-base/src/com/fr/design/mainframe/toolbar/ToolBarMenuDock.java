@@ -227,7 +227,8 @@ public abstract class ToolBarMenuDock {
         menuList.addAll(Arrays.asList(menuDefs));
 
         // 添加服务器菜单
-        if (FRContext.getCurrentEnv() != null && FRContext.getCurrentEnv().isRoot()) {
+        // todo 远程设计isRoot 总是返回false,先处理一下
+        if (FRContext.getCurrentEnv() != null && !FRContext.getCurrentEnv().isRoot()) {
             menuList.add(createServerMenuDef(plus));
         }
 
@@ -444,7 +445,8 @@ public abstract class ToolBarMenuDock {
     }
 
     private boolean shouldShowRemotePermission() {
-        return FRContext.getCurrentEnv() != null && !FRContext.getCurrentEnv().isLocalEnv() && FRContext.getCurrentEnv().isRoot();
+        // todo 远程设计 isRoot 总是返回 false 先处理一下
+        return FRContext.getCurrentEnv() != null && !FRContext.getCurrentEnv().isLocalEnv() && !FRContext.getCurrentEnv().isRoot();
     }
 
     protected boolean shouldShowPlugin() {

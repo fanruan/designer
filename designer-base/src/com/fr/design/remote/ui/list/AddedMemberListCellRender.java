@@ -3,7 +3,7 @@ package com.fr.design.remote.ui.list;
 import com.fr.base.BaseUtils;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.remote.RemoteMember;
+import com.fr.env.RemoteDesignMember;
 
 import javax.swing.BorderFactory;
 import javax.swing.JList;
@@ -12,7 +12,7 @@ import javax.swing.ListCellRenderer;
 import java.awt.Component;
 import java.awt.FlowLayout;
 
-public class AddedMemberListCellRender extends JPanel implements ListCellRenderer<RemoteMember> {
+public class AddedMemberListCellRender extends JPanel implements ListCellRenderer<RemoteDesignMember> {
 
 
     private UILabel label;
@@ -34,8 +34,8 @@ public class AddedMemberListCellRender extends JPanel implements ListCellRendere
     }
 
     @Override
-    public Component getListCellRendererComponent(JList<? extends RemoteMember> list, RemoteMember member, int index, boolean isSelected, boolean cellHasFocus) {
-        this.setLabelText(member.getUsername());
+    public Component getListCellRendererComponent(JList<? extends RemoteDesignMember> list, RemoteDesignMember member, int index, boolean isSelected, boolean cellHasFocus) {
+        this.setLabelText(member.getRealName() + "(" + member.getUsername() + ")");
         return this;
     }
 

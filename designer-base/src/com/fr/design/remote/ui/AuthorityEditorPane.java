@@ -2,8 +2,8 @@ package com.fr.design.remote.ui;
 
 import com.fr.base.FRContext;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.border.UITitledBorder;
 import com.fr.design.gui.icontainer.UIScrollPane;
-import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itree.refreshabletree.ExpandMutableTreeNode;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.remote.ui.tree.FileAuthorityTree;
@@ -14,23 +14,28 @@ import com.fr.report.DesignAuthority;
 import com.fr.stable.CoreConstants;
 
 import javax.swing.BorderFactory;
+import javax.swing.border.EmptyBorder;
 import javax.swing.tree.TreePath;
 import java.awt.BorderLayout;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class AuthorityEditorPane extends BasicBeanPane<DesignAuthority> {
 
-    private UILabel label = new UILabel();
 
     private FileAuthorityTree tree = new FileAuthorityTree();
 
 
     public AuthorityEditorPane() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        this.setBorder(BorderFactory.createEmptyBorder());
-        this.add(label, BorderLayout.NORTH);
+        this.setBorder(
+                BorderFactory.createCompoundBorder(
+                        new EmptyBorder(6, 0, 6, 6),
+                        UITitledBorder.createBorderWithTitle(
+                                Inter.getLocText("模板设计权限配置")
+                        )
+                )
+        );
         IOFileNodeFilter filter = new IOFileNodeFilter(new String[]{".cpt", ".class", ".frm", ".form"});
         tree.setDigIn(true);
         tree.setFileNodeFilter(filter);
@@ -49,7 +54,6 @@ public class AuthorityEditorPane extends BasicBeanPane<DesignAuthority> {
         if (ob == null) {
             return;
         }
-        label.setText(ob.getUsername());
 
         DesignAuthority.Item[] items = ob.getItems();
         if (items == null) {

@@ -1,5 +1,8 @@
 package com.fr.design.remote.ui;
 
+import com.fr.base.env.EnvContext;
+import com.fr.base.env.proxy.EnvProxy;
+import com.fr.base.env.resource.EnvConfigUtils;
 import com.fr.design.border.UITitledBorder;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ibutton.UIButton;
@@ -8,13 +11,13 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.remote.RemoteMember;
-import com.fr.design.remote.Utils;
 import com.fr.design.remote.ui.list.AddedMemberList;
 import com.fr.design.remote.ui.list.AddedMemberListCellRender;
 import com.fr.design.remote.ui.list.AddingMemberList;
 import com.fr.design.remote.ui.list.AddingMemberListCellRender;
 import com.fr.design.remote.ui.list.MemberListSelectedChangeListener;
+import com.fr.env.RemoteDesignMember;
+import com.fr.env.operator.decision.DecisionOperator;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 import com.fr.third.guava.collect.ImmutableList;
@@ -46,16 +49,16 @@ public class UserManagerPane extends BasicPane {
     /**
      * 获取的决策平台成员
      */
-    private List<RemoteMember> addingMembers = new ArrayList<>();
+    private List<RemoteDesignMember> addingMembers = new ArrayList<>();
     /**
      * 添加到设计的决策平台成员
      */
-    private List<RemoteMember> addedMembers = new ArrayList<>();
+    private List<RemoteDesignMember> addedMembers = new ArrayList<>();
 
     /**
      * 决策平台成员列表model
      */
-    private DefaultListModel<RemoteMember> addingListModel = new DefaultListModel<>();
+    private DefaultListModel<RemoteDesignMember> addingListModel = new DefaultListModel<>();
     /**
      * 搜索输入框
      */
@@ -95,7 +98,7 @@ public class UserManagerPane extends BasicPane {
     /**
      * 添加到设计的决策成员计数标签
      */
-    private DefaultListModel<RemoteMember> addedListModel;
+    private DefaultListModel<RemoteDesignMember> addedListModel;
 
 
     private MemberListSelectedChangeListener addingListChangeListener = new MemberListSelectedChangeListener() {
@@ -224,7 +227,7 @@ public class UserManagerPane extends BasicPane {
 
     private void addToMemberList() {
         addingListModel.clear();
-        for (RemoteMember member : addingMembers) {
+        for (RemoteDesignMember member : addingMembers) {
             addingListModel.addElement(member);
         }
         addingList.revalidate();
@@ -233,7 +236,7 @@ public class UserManagerPane extends BasicPane {
 
     private void addToAddedMemberList() {
         addedListModel.clear();
-        for (RemoteMember member : addedMembers) {
+        for (RemoteDesignMember member : addedMembers) {
             addedListModel.addElement(member);
         }
         addedList.revalidate();
@@ -246,7 +249,7 @@ public class UserManagerPane extends BasicPane {
 
     private void resetMembers() {
         addingMembers.clear();
-        addingMembers.add(RemoteMember.DEFAULT_MEMBER);
+        addingMembers.add(RemoteDesignMember.DEFAULT_MEMBER);
     }
 
     private void resetAddedMembers() {
@@ -256,11 +259,12 @@ public class UserManagerPane extends BasicPane {
 
     private void searchAddingMembers(final String keyword) {
 
-        final SwingWorker getMemberWorker = new SwingWorker<List<RemoteMember>, Void>() {
+        final SwingWorker getMemberWorker = new SwingWorker<List<RemoteDesignMember>, Void>() {
             @Override
-            protected List<RemoteMember> doInBackground() {
+            protected List<RemoteDesignMember> doInBackground() {
                 addingMembers.clear();
-                addingMembers.addAll(Utils.getRemoteMember(keyword));
+                String username = EnvConfigUtils.getUsername(EnvContext.currentEnv());
+                addingMembers.addAll(EnvProxy.get(DecisionOperator.class).getMembers(username, keyword));
                 return addingMembers;
             }
 
@@ -274,10 +278,10 @@ public class UserManagerPane extends BasicPane {
 
 
     private void sync2AddedMembersFromAdding() {
-        RemoteMember[] members = new RemoteMember[addingListModel.getSize()];
+        RemoteDesignMember[] members = new RemoteDesignMember[addingListModel.getSize()];
         // shallow copy
         addingListModel.copyInto(members);
-        for (RemoteMember member : members) {
+        for (RemoteDesignMember member : members) {
             if (member.isSelected()) {
                 addedMembers.add(member);
             }
@@ -285,14 +289,14 @@ public class UserManagerPane extends BasicPane {
     }
 
     private void sync2AddedMembersFormAdded() {
-        RemoteMember[] members = new RemoteMember[addedListModel.getSize()];
+        RemoteDesignMember[] members = new RemoteDesignMember[addedListModel.getSize()];
         // shallow copy
         addedListModel.copyInto(members);
         addedMembers.addAll(Arrays.asList(members));
     }
 
 
-    public ImmutableList<RemoteMember> update() {
+    public ImmutableList<RemoteDesignMember> update() {
         return ImmutableList.copyOf(addedMembers);
     }
 }

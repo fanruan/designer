@@ -2,12 +2,13 @@ package com.fr.design.remote.action;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
+import com.fr.base.env.proxy.EnvProxy;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.remote.ui.AuthorityManagerPane;
-import com.fr.env.RemoteEnv;
+import com.fr.env.operator.authority.AuthorityOperator;
 import com.fr.general.Inter;
 import com.fr.report.DesignAuthority;
 
@@ -34,7 +35,8 @@ public class RemoteDesignAuthorityManagerAction extends UpdateAction {
 
         if (!FRContext.getCurrentEnv().isLocalEnv()) {
             try {
-                DesignAuthority[] authorities = ((RemoteEnv) FRContext.getCurrentEnv()).getAuthorities();
+                // 远程设计获取全部设计成员的权限列表
+                DesignAuthority[] authorities = EnvProxy.get(AuthorityOperator.class).getAuthorities();
                 if (authorities != null && authorities.length != 0) {
                     managerPane.populate(authorities);
                 }
@@ -48,7 +50,12 @@ public class RemoteDesignAuthorityManagerAction extends UpdateAction {
             public void doOk() {
                 DesignAuthority[] authorities = managerPane.update();
                 if (!FRContext.getCurrentEnv().isLocalEnv()) {
-                    boolean success = ((RemoteEnv) FRContext.getCurrentEnv()).updateAuthorities(authorities);
+                    boolean success = false;
+                    try {
+                        success = EnvProxy.get(AuthorityOperator.class).updateAuthorities(authorities);
+                    } catch (Exception e) {
+                        FRContext.getLogger().error(e.getMessage());
+                    }
                     FRContext.getLogger().info("update remote design authority: " + success);
                 }
             }

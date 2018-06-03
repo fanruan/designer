@@ -1,8 +1,8 @@
 package com.fr.design.remote.ui.list;
 
-import com.fr.design.remote.RemoteMember;
+import com.fr.env.RemoteDesignMember;
 
-import javax.swing.*;
+import javax.swing.DefaultListModel;
 import java.awt.event.MouseEvent;
 import java.util.Vector;
 
@@ -12,15 +12,15 @@ public class AddedMemberList extends MemberList {
         super();
     }
 
-    public AddedMemberList(DefaultListModel<RemoteMember> dataModel) {
+    public AddedMemberList(DefaultListModel<RemoteDesignMember> dataModel) {
         super(dataModel);
     }
 
-    public AddedMemberList(RemoteMember[] listData) {
+    public AddedMemberList(RemoteDesignMember[] listData) {
         super(listData);
     }
 
-    public AddedMemberList(Vector<? extends RemoteMember> listData) {
+    public AddedMemberList(Vector<? extends RemoteDesignMember> listData) {
         super(listData);
     }
 
@@ -32,10 +32,10 @@ public class AddedMemberList extends MemberList {
 
     @Override
     protected void displaySelected() {
-        RemoteMember member = getSelectedValue();
+        RemoteDesignMember member = getSelectedValue();
         if (member != null) {
             member.setSelected(!member.isSelected());
-            ((DefaultListModel<RemoteMember>) getModel()).removeElement(member);
+            ((DefaultListModel<RemoteDesignMember>) getModel()).removeElement(member);
         }
         revalidate();
         repaint();

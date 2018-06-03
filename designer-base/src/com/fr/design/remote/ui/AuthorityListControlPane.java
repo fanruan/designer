@@ -15,10 +15,10 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.design.remote.RemoteDesignAuthorityCreator;
-import com.fr.design.remote.RemoteMember;
 import com.fr.design.remote.ui.list.AuthorityList;
 import com.fr.design.remote.ui.list.AuthorityListCellRenderer;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.env.RemoteDesignMember;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.report.DesignAuthority;
@@ -92,8 +92,8 @@ public class AuthorityListControlPane extends BasicPane {
         // 右侧卡片布局
         cardLayout = new CardLayout();
         cardPane = new JPanel(cardLayout);
-        UILabel selectLabel = new UILabel();
-        cardPane.add(selectLabel, UNSELECTED_EDITOR_NAME);
+        UILabel emptyLabel = new UILabel();
+        cardPane.add(emptyLabel, UNSELECTED_EDITOR_NAME);
         cardPane.add(editorCtrl, SELECTED_EDITOR_NAME);
 
         // 左右分割布局
@@ -169,7 +169,7 @@ public class AuthorityListControlPane extends BasicPane {
         for (int i = 0, len = listModel.getSize(); i < len; i++) {
             res.add((DesignAuthority) listModel.getElementAt(i));
         }
-        return res.toArray(new DesignAuthority[0]);
+        return res.toArray(new DesignAuthority[res.size()]);
     }
 
     public void populate(DesignAuthority[] authorities) {
@@ -476,8 +476,8 @@ public class AuthorityListControlPane extends BasicPane {
                 @Override
                 public void doOk() {
                     // 获取添加的用户到权限编辑面板
-                    List<RemoteMember> members = userManagerPane.update();
-                    for (RemoteMember member : members) {
+                    List<RemoteDesignMember> members = userManagerPane.update();
+                    for (RemoteDesignMember member : members) {
                         DesignAuthority authority = new DesignAuthority();
                         authority.setUsername(member.getUsername());
                         authority.setUserId(member.getUserId());

@@ -1,6 +1,7 @@
 package com.fr.design.remote.ui.list;
 
-import com.fr.design.remote.RemoteMember;
+
+import com.fr.env.RemoteDesignMember;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
@@ -12,19 +13,19 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Vector;
 
-public abstract class MemberList extends JList<RemoteMember> {
+public abstract class MemberList extends JList<RemoteDesignMember> {
 
-    public MemberList(DefaultListModel<RemoteMember> dataModel) {
+    public MemberList(DefaultListModel<RemoteDesignMember> dataModel) {
         super(dataModel);
         init();
     }
 
-    public MemberList(RemoteMember[] listData) {
+    public MemberList(RemoteDesignMember[] listData) {
         super(listData);
         init();
     }
 
-    public MemberList(Vector<? extends RemoteMember> listData) {
+    public MemberList(Vector<? extends RemoteDesignMember> listData) {
         super(listData);
         init();
     }

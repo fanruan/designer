@@ -82,7 +82,7 @@ public class AuthorityListCellRenderer extends
         setBorder(border);
 
         this.setIcon(BaseUtils.readIcon("com/fr/design/remote/images/icon_Member_normal@1x.png"));
-        this.setText(authority.getUsername());
+        this.setText(authority.getRealName() + "(" + authority.getUsername() + ")");
         return this;
     }
 
