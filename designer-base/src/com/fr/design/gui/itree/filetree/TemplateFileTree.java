@@ -1,9 +1,9 @@
 package com.fr.design.gui.itree.filetree;
 
 import com.fr.base.Env;
-import com.fr.base.env.EnvContext;
-import com.fr.base.env.proxy.EnvProxy;
-import com.fr.base.env.resource.EnvConfigUtils;
+import com.fr.core.env.EnvContext;
+import com.fr.core.env.proxy.EnvProxy;
+import com.fr.core.env.resource.EnvConfigUtils;
 import com.fr.design.gui.itree.refreshabletree.ExpandMutableTreeNode;
 import com.fr.env.operator.file.TplFileOperator;
 import com.fr.file.filetree.FileNode;
