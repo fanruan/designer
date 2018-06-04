@@ -11,7 +11,7 @@ import com.fr.design.mainframe.FormDesigner;
 
 import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
 
-public class PasteAction extends FormEditAction {
+public class PasteAction extends FormWidgetEditAction {
 
 	public PasteAction(FormDesigner t) {
 		super(t);

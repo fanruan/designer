@@ -19,7 +19,7 @@ import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_M
  * Created by plough on 2017/12/4.
  */
 
-public class MoveUpAction extends FormEditAction {
+public class MoveUpAction extends FormWidgetEditAction {
 
     public MoveUpAction(FormDesigner t) {
         super(t);
