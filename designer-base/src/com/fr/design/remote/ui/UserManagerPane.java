@@ -115,7 +115,7 @@ public class UserManagerPane extends BasicPane {
             sync2AddedMembersFormAdded();
             // 不需要重复更新右侧列表显示 但是更新一下计数显示
             countLabel.setText(
-                    Inter.getLocText("FR-Designer_Remote_Design_Selected_Member_Count",
+                    Inter.getLocText("Fine-Designer_Remote_Design_Selected_Member_Count",
                             String.valueOf(addedMembers.size())
                     )
             );
@@ -145,7 +145,7 @@ public class UserManagerPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("FR-Designer_Remote_Design_Add_Member");
+        return Inter.getLocText("Fine-Designer_Remote_Design_Add_Member");
     }
 
     private JPanel createLeftPanel() {
@@ -155,7 +155,7 @@ public class UserManagerPane extends BasicPane {
                 BorderFactory.createCompoundBorder(
                         new EmptyBorder(6, 0, 0, 0),
                         UITitledBorder.createBorderWithTitle(
-                                Inter.getLocText("FR-Designer_Remote_Design_Decision_Member")
+                                Inter.getLocText("Fine-Designer_Remote_Design_Decision_Member")
                         )
                 )
         );
@@ -166,7 +166,7 @@ public class UserManagerPane extends BasicPane {
         keyField.setPreferredSize(new Dimension(250, 20));
         keyField.requestFocus();
         keyField.addKeyListener(keyFieldKeyListener);
-        keyButton.setText(Inter.getLocText("FR-Designer_Remote_Design_Search"));
+        keyButton.setText(Inter.getLocText("Fine-Designer_Remote_Design_Search"));
         keyButton.addActionListener(keyButtonActionListener);
         searchPanel.add(keyField);
         searchPanel.add(keyButton);
@@ -195,14 +195,14 @@ public class UserManagerPane extends BasicPane {
                 BorderFactory.createCompoundBorder(
                         new EmptyBorder(6, 0, 0, 0),
                         UITitledBorder.createBorderWithTitle(
-                                Inter.getLocText("FR-Designer_Remote_Design_Selected_Member")
+                                Inter.getLocText("Fine-Designer_Remote_Design_Selected_Member")
                         )
                 )
         );
 
         // 计数
         countLabel.setText(
-                Inter.getLocText("FR-Designer_Remote_Design_Selected_Member_Count",
+                Inter.getLocText("Fine-Designer_Remote_Design_Selected_Member_Count",
                         String.valueOf(addedMembers.size()))
         );
         countLabel.setBorder(BorderFactory.createEmptyBorder(7, 12, 8, 0));
@@ -248,7 +248,7 @@ public class UserManagerPane extends BasicPane {
         addedList.revalidate();
         addedList.repaint();
         countLabel.setText(
-                Inter.getLocText("FR-Designer_Remote_Design_Selected_Member_Count",
+                Inter.getLocText("Fine-Designer_Remote_Design_Selected_Member_Count",
                         String.valueOf(addedMembers.size())
                 ));
     }

@@ -46,7 +46,7 @@ public class AuthorityEditorPane extends BasicBeanPane<DesignAuthority> {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("FR-Designer_Remote_Design_Configure_Authority");
+        return Inter.getLocText("Fine-Designer_Remote_Design_Configure_Authority");
     }
 
     @Override

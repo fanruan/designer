@@ -21,7 +21,7 @@ public class RemoteDesignAuthorityManagerAction extends UpdateAction {
 
 
     public RemoteDesignAuthorityManagerAction() {
-        this.setName(Inter.getLocText("FR-Designer_Remote_Design_Authority_Manager"));
+        this.setName(Inter.getLocText("Fine-Designer_Remote_Design_Authority_Manager"));
         this.setSmallIcon(BaseUtils.readIcon("com/fr/design/remote/images/icon_Remote_Design_Permission_Manager_normal@1x.png"));
     }
 
