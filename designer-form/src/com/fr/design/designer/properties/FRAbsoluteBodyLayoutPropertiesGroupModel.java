@@ -98,11 +98,6 @@ public class FRAbsoluteBodyLayoutPropertiesGroupModel extends FRAbsoluteLayoutPr
                 if (row == 0) {
                     if (state == WBodyLayoutType.FIT.getTypeValue()) {
                         return switch2FitBodyLayout();
-                    } else {
-                        XWFitLayout xfl = (XWFitLayout) xwAbsoluteLayout.getBackupParent();
-                        if (xfl.toData().removeMargin()) {
-                            DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified();
-                        }
                     }
                 }
                 if (row == 1) {
