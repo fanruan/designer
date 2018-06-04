@@ -25,7 +25,7 @@ public class DeleteAction extends ElementCaseAction {
         this.setMnemonic('D');
         //Richie:删除菜单图标
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_report/delete.png"));
-        this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, 0));
+//        this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, 0));
     }
     
     @Override

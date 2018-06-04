@@ -9,11 +9,18 @@ import com.fr.design.designer.beans.location.Direction;
 import com.fr.design.designer.beans.location.Location;
 import com.fr.design.designer.beans.models.SelectionModel;
 import com.fr.design.designer.beans.models.StateModel;
-import com.fr.design.designer.creator.*;
+import com.fr.design.designer.creator.XChartEditor;
+import com.fr.design.designer.creator.XCreator;
+import com.fr.design.designer.creator.XCreatorUtils;
+import com.fr.design.designer.creator.XEditorHolder;
+import com.fr.design.designer.creator.XElementCase;
+import com.fr.design.designer.creator.XLayoutContainer;
+import com.fr.design.designer.creator.XWFitLayout;
 import com.fr.design.designer.creator.cardlayout.XCardSwitchButton;
 import com.fr.design.designer.creator.cardlayout.XWCardLayout;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.gui.xpane.ToolTipEditor;
 import com.fr.design.icon.IconPathConstants;
 import com.fr.design.utils.ComponentUtils;
@@ -22,9 +29,16 @@ import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.general.Inter;
 import com.fr.stable.Constants;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.JPopupMenu;
+import javax.swing.JWindow;
+import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputAdapter;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Cursor;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 
 /**
@@ -540,8 +554,8 @@ public class EditingMouseListener extends MouseInputAdapter {
         if (creator != null) {
             creator.respondClick(this, e);
             if (e.getButton() == MouseEvent.BUTTON3) {
-                JPopupMenu cellPopupMenu = creator.createPopupMenu(designer);
-                if (cellPopupMenu != null) {
+                UIPopupMenu cellPopupMenu = creator.createPopupMenu(designer);
+                if (cellPopupMenu != UIPopupMenu.EMPTY) {
                     GUICoreUtils.showPopupMenu(cellPopupMenu, designer, e.getX(), e.getY());
                 }
             }

@@ -27,7 +27,7 @@ public class SendFloatElementBackwardAction extends AbstractFloatElementOrderAct
         this.setName(Inter.getLocText("M_Edit-Send_Backward"));
         this.setMnemonic('B');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/down.png"));
-		this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_OPEN_BRACKET, DEFAULT_MODIFIER));
+//		this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_OPEN_BRACKET, DEFAULT_MODIFIER));
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package com.fr.design.designer.beans.actions;
 import com.fr.base.BaseUtils;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.XCreator;
+import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.FormSelection;
 import com.fr.general.Inter;
@@ -18,7 +19,7 @@ import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_M
  * Created by plough on 2017/12/4.
  */
 
-public class MoveUpAction extends FormEditAction {
+public class MoveUpAction extends FormWidgetEditAction {
 
     public MoveUpAction(FormDesigner t) {
         super(t);
@@ -36,13 +37,13 @@ public class MoveUpAction extends FormEditAction {
         }
         FormSelection selection = designer.getSelectionModel().getSelection();
         XCreator creator = selection.getSelectedCreator();
-        Container container = creator.getParent();
+        XLayoutContainer container = (XLayoutContainer) creator.getParent();
         int targetIndex = container.getComponentZOrder(creator) - 1;
         if (targetIndex < 0) {
             return false;
         }
         container.setComponentZOrder(creator, targetIndex);
-        designer.getEditListenerTable().fireCreatorModified(creator, DesignerEvent.CREATOR_DELETED);
+        designer.getEditListenerTable().fireCreatorModified(creator, DesignerEvent.CREATOR_SELECTED);
         return true;
     }
 
