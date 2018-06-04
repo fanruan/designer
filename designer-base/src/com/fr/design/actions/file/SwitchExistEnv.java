@@ -1,9 +1,9 @@
 package com.fr.design.actions.file;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.env.resource.LocalEnvConfig;
-import com.fr.base.env.resource.RemoteEnvConfig;
 import com.fr.core.env.EnvConfig;
+import com.fr.core.env.resource.LocalEnvConfig;
+import com.fr.core.env.resource.RemoteEnvConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.data.DesignTableDataManager;

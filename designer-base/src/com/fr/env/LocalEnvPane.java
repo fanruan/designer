@@ -1,7 +1,6 @@
 package com.fr.env;
 
-import com.fr.base.env.resource.LocalEnvConfig;
-import com.fr.dav.LocalEnv;
+import com.fr.core.env.resource.LocalEnvConfig;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextarea.UITextArea;

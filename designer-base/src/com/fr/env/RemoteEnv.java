@@ -1,15 +1,15 @@
 package com.fr.env;
 
-import com.fr.base.env.old.AbstractEnv;
 import com.fr.base.EnvException;
 import com.fr.base.TableData;
-import com.fr.base.env.EnvContext;
-import com.fr.base.env.resource.RemoteEnvConfig;
 import com.fr.base.remote.RemoteDeziConstants;
 import com.fr.core.env.EnvConstants;
+import com.fr.core.env.EnvContext;
+import com.fr.core.env.resource.RemoteEnvConfig;
 import com.fr.data.TableDataSource;
 import com.fr.data.impl.EmbeddedTableData;
 import com.fr.data.impl.storeproc.StoreProcedure;
+import com.fr.dav.AbstractEnv;
 import com.fr.dav.DavXMLUtils;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.DesignerContext;
