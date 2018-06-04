@@ -156,8 +156,9 @@ public class FloatSelection extends Selection {
         TemplateElementCase ec = ePane.getEditingElementCase();
         FloatElement fe = ec.getFloatElement(selectedFloatName);
         if (fe != null) {
-            ec.removeFloatElement(fe);
+            //  REPORT-5955 [Report]删除悬浮元素后，设计器卡死；之前wu做了释放内存，删除悬浮元素会报npe；删除悬浮元素逻辑改为先setSelection 再 remove
             ePane.setSelection(new CellSelection(0, 0, 1, 1));
+            ec.removeFloatElement(fe);
 
             return true;
         }
