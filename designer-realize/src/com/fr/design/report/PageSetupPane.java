@@ -73,14 +73,6 @@ public class PageSetupPane extends BasicPane {
     private OtherPane otherPane;
     private UILabel zeroMarginWarn;
     
-    public final static PaperSize MOBILE_SMAIL_SIZE = new PaperSize(new MM(142.8f), new MM(254));
-    public final static PaperSize MOBILE_LARGE_SIZE = new PaperSize(new MM(190.5f), new MM(338.7f));
-    
-    public static final Object[][] MOBILE_NAME_SIZE_ARRAY = {
-    	{Inter.getLocText("FR-Designer_PaperSize-Mobile-Large"),MOBILE_LARGE_SIZE},
-    	{Inter.getLocText("FR-Designer_PaperSize-Mobile-Small"),MOBILE_SMAIL_SIZE}
-    };
-    
     public PageSetupPane() {
         this.initComponents();
     }
@@ -135,12 +127,10 @@ public class PageSetupPane extends BasicPane {
         private UIRadioButton landscapeRadioButton;
 
         private UIRadioButton predefinedRadioButton;
-        private UIRadioButton mobileRadioButton;
         private UIRadioButton customRadioButton;
         
         private UIComboBox predefinedComboBox;
-        private UIComboBox mobileComboBox;
-        
+
         private UIBasicSpinner paperWidthSpinner;
         private UIBasicSpinner paperHeightSpinner;
         private UIComboBox switchInch;
@@ -206,24 +196,16 @@ public class PageSetupPane extends BasicPane {
             paperSizePane.add(innerpaperSizePane);
             defaultPane.add(paperSizePane);
 
-
             predefinedRadioButton = new UIRadioButton(Inter.getLocText("PageSetup-Predefined") + ":");
             predefinedRadioButton.setMnemonic('P');
             predefinedRadioButton.addActionListener(previewListener);
-            
-            mobileRadioButton = new UIRadioButton(Inter.getLocText("FR-Designer_MobilePhone") + "  :");
-            mobileRadioButton.setMnemonic('M');
-            mobileRadioButton.addActionListener(previewListener);
-            
-            
             
             customRadioButton = new UIRadioButton(Inter.getLocText("Custom") + ":");
             customRadioButton.setMnemonic('C');
             customRadioButton.addActionListener(previewListener);
             
             predefinedComboBox = new UIComboBox();
-            mobileComboBox = new UIComboBox();
-            
+
             paperWidthSpinner = new UIBasicSpinner(new SpinnerNumberModel(0.0, 0.0, Double.MAX_VALUE, 1.0));
             ((JSpinner.DefaultEditor) paperWidthSpinner.getEditor()).getTextField().setColumns(7);
             paperHeightSpinner = new UIBasicSpinner(new SpinnerNumberModel(0.0, 0.0, Double.MAX_VALUE, 1.0));
@@ -239,9 +221,7 @@ public class PageSetupPane extends BasicPane {
 
             predefinedComboBox.setRenderer(paperSizeCellRenderere);
             predefinedComboBox.addItemListener(paperSizeItemListener);
-            
-            mobileComboBox.setRenderer(paperSizeMobileCellRenderere);
-            mobileComboBox.addItemListener(paperSizeItemMobileListener);
+
 
             ((JSpinner.DefaultEditor) paperWidthSpinner.getEditor()).getTextField().getDocument().addDocumentListener(customTextListener);
             ((JSpinner.DefaultEditor) paperHeightSpinner.getEditor()).getTextField().getDocument().addDocumentListener(customTextListener);
@@ -253,11 +233,6 @@ public class PageSetupPane extends BasicPane {
                 Object[] tmpPaperSizeNameArray = ReportConstants.PaperSizeNameSizeArray[i];
                 predefinedComboBox.addItem(tmpPaperSizeNameArray[1]);
             }
-            
-            for(int i=0; i<MOBILE_NAME_SIZE_ARRAY.length;i++){
-                Object[] tmpPaperSizeNameArray = MOBILE_NAME_SIZE_ARRAY[i];
-                mobileComboBox.addItem(tmpPaperSizeNameArray[1]);
-            }
 
 
             // tow radio buttons.
@@ -266,17 +241,9 @@ public class PageSetupPane extends BasicPane {
             
             radioButtonPane.add(predefinedRadioButton);
             radioButtonPane.add(predefinedComboBox);
-            
-            // tow radio buttons.
-            JPanel mobileButtonPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-            innerpaperSizePane.add(mobileButtonPane);
-            
-            mobileButtonPane.add(mobileRadioButton);
-            mobileButtonPane.add(mobileComboBox);
 
             ButtonGroup paperSizeRadioButtonGroup = new ButtonGroup();
             paperSizeRadioButtonGroup.add(predefinedRadioButton);
-            paperSizeRadioButtonGroup.add(mobileRadioButton);
             paperSizeRadioButtonGroup.add(customRadioButton);
 
             // size and textfields.
@@ -457,17 +424,27 @@ public class PageSetupPane extends BasicPane {
                     break;
                 }
             }
-            for(int i=0; i<MOBILE_NAME_SIZE_ARRAY.length; i++){
-            	Object[] mobileNameSizeArray = MOBILE_NAME_SIZE_ARRAY[i];
-            	if(ComparatorUtils.equals(paperSize, mobileNameSizeArray[1])){
-            		this.mobileComboBox.setSelectedIndex(i);
-            		this.mobileRadioButton.setSelected(true);
-            		isCustomed = false;
-            		break;
-            	}
-            }
+
             setAndPopulate(isCustomed, unitType);
             populateMargin();
+
+            checkMobileSetting(report);
+        }
+
+        private void checkMobileSetting(Report report) {
+            if (report.getBook().getReportMobileAttr().isMobileCanvasSize()) {
+                // 当勾选移动端画布大小后，自定义选项不可修改；限制宽度范围
+                predefinedRadioButton.setEnabled(false);
+                predefinedComboBox.setEnabled(false);
+                double maxWidth;
+                if (unitType == Constants.UNIT_MM) {  // 毫米
+                    maxWidth = PaperSize.PAPERSIZE_MOBILE.getWidth().toMMValue4Scale2();
+                } else {  // 英寸
+                    maxWidth = PaperSize.PAPERSIZE_MOBILE.getWidth().toINCHValue4Scale3();
+                }
+                maxWidth = Math.round(maxWidth * 100) / 100.0;  // 保留两位小数
+                ((SpinnerNumberModel)paperWidthSpinner.getModel()).setMaximum(maxWidth);
+            }
         }
         
         private void unitSet(int unitType) {
@@ -539,13 +516,6 @@ public class PageSetupPane extends BasicPane {
                 } catch (CloneNotSupportedException cloneNotSupportedException) {
                     // do nothing
                 }
-            }else if(this.mobileRadioButton.isSelected()){
-                try {
-                    psetting.setPaperSize((PaperSize) ((PaperSize) mobileComboBox.getSelectedItem()).clone());
-                } catch (CloneNotSupportedException cloneNotSupportedException) {
-                    // do nothing
-                }
-            	
             } else if (this.customRadioButton.isSelected()) {
                 if (unitType == Constants.UNIT_CM) {
                     psetting.setPaperSize(new PaperSize(new CM(((Number) this.paperWidthSpinner.getValue()).floatValue()), new CM(
@@ -616,10 +586,7 @@ public class PageSetupPane extends BasicPane {
             if (this.predefinedRadioButton.isSelected()) {
                 ps = (PaperSize) predefinedComboBox.getSelectedItem();
                 showPagePaneByType(ps,ori);
-            } else if(this.mobileRadioButton.isSelected()){
-                ps = (PaperSize) mobileComboBox.getSelectedItem();
-                showPagePaneByType(ps, ori);
-            }else if (this.customRadioButton.isSelected()) {
+            } else if (this.customRadioButton.isSelected()) {
                 showPagePane.populate(((Number) this.paperWidthSpinner.getValue()).doubleValue(),
                         ((Number) this.paperHeightSpinner.getValue()).doubleValue(), ori, unitType == Constants.UNIT_MM);
             }
@@ -691,34 +658,7 @@ public class PageSetupPane extends BasicPane {
             }
             sbuf.append(']');
         }
-        
-        
-        /**
-         * Paper size cell renderer.
-         */
-        private UIComboBoxRenderer paperSizeMobileCellRenderere = new UIComboBoxRenderer() {
-            @Override
-            public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
-                if (value instanceof PaperSize) {
-                    PaperSize paperSize = (PaperSize) value;
-                    for (int i = 0; i < MOBILE_NAME_SIZE_ARRAY.length; i++) {
-                        Object[] tmpPaperSizeNameArray = MOBILE_NAME_SIZE_ARRAY[i];
-
-                        if (ComparatorUtils.equals(paperSize, tmpPaperSizeNameArray[1])) {
-                            StringBuffer sbuf = new StringBuffer(tmpPaperSizeNameArray[0].toString());
-                            adjustCellRenderByType(sbuf,paperSize);
-                            this.setText(sbuf.toString());
-                            break;
-                        }
-                    }
-                }
-
-                return this;
-            }
-        };
-        
 
         /**
          * Paper size item listener.
@@ -744,18 +684,6 @@ public class PageSetupPane extends BasicPane {
                 paperHeightSpinner.setValue(new Float(paperSize.getHeight().toMMValue4Scale2()));
             }
         }
-        
-        /**
-         * Paper size item listener.
-         */
-        private ItemListener paperSizeItemMobileListener = new ItemListener() {
-            public void itemStateChanged(ItemEvent evt) {
-                PaperSize paperSize = (PaperSize) mobileComboBox.getSelectedItem();
-                adjustSpinnerValueByType(paperSize);
-                mobileRadioButton.setSelected(true);
-                previewShowPagePane();
-            }
-        };
 
         // text listener.
         DocumentListener customTextListener = new DocumentListener() {

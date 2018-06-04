@@ -7,25 +7,47 @@ import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.designer.creator.XWBorderLayout;
 import com.fr.design.designer.creator.XWFitLayout;
+import com.fr.design.event.TargetModifiedEvent;
+import com.fr.design.event.TargetModifiedListener;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UIBasicSpinner;
 import com.fr.design.gui.itextfield.UINumberField;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.scrollruler.*;
+import com.fr.design.scrollruler.BaseRuler;
+import com.fr.design.scrollruler.HorizontalRuler;
+import com.fr.design.scrollruler.RulerLayout;
+import com.fr.design.scrollruler.ScrollRulerComponent;
+import com.fr.design.scrollruler.VerticalRuler;
 import com.fr.design.utils.ComponentUtils;
 import com.fr.design.utils.gui.LayoutUtils;
+import com.fr.form.main.mobile.FormMobileAttr;
 import com.fr.form.ui.container.WBorderLayout;
 import com.fr.general.FRScreen;
 import com.fr.general.Inter;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.AWTEvent;
+import java.awt.Adjustable;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 
 public class FormArea extends JComponent implements ScrollRulerComponent {
 
@@ -36,6 +58,8 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
     private static final int SHOWVALMAX = 400;
     private static final int SHOWVALMIN = 10;
     private static final int RESIZE_PANE_GAP = 8;
+    private static final int MOBILE_ONLY_WIDTH = 375;
+    private static final int MOBILE_ONLY_HEIGHT = 560;
     private FormDesigner designer;
     private int horizontalValue = 0;
     private int verticalValue = 0;
@@ -79,6 +103,7 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
             this.add(FormRulerLayout.VERTICAL, verScrollBar);
             this.add(FormRulerLayout.HIRIZONTAL, horScrollBar);
             enableEvents(AWTEvent.MOUSE_WHEEL_EVENT_MASK);
+            widthPane.setEnabled(!designer.getTarget().getFormMobileAttr().isMobileOnly());
         } else {
             // 报表参数界面只要标尺和中心pane
             this.setLayout(new RulerLayout());
@@ -87,6 +112,17 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
         }
         this.setFocusTraversalKeysEnabled(false);
         this.designer.addMouseWheelListener(showValSpinnerMouseWheelListener);
+    }
+
+    public void onMobileAttrModified() {
+        FormMobileAttr formMobileAttr = designer.getTarget().getFormMobileAttr();
+        if (formMobileAttr.isMobileOnly()) {
+            widthPane.setValue(MOBILE_ONLY_WIDTH);
+            changeWidthPaneValue(MOBILE_ONLY_WIDTH);
+            heightPane.setValue(MOBILE_ONLY_HEIGHT);
+            changeHeightPaneValue(MOBILE_ONLY_HEIGHT);
+        }
+        widthPane.setEnabled(!formMobileAttr.isMobileOnly());
     }
 
     MouseWheelListener showValSpinnerMouseWheelListener = new MouseWheelListener() {

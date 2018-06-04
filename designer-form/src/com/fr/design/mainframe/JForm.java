@@ -1,6 +1,7 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.PaperSize;
 import com.fr.design.DesignState;
 import com.fr.design.actions.core.WorkBookSupportable;
 import com.fr.design.actions.file.WebPreviewUtils;
@@ -55,6 +56,8 @@ import com.fr.form.ui.container.WLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.log.FineLoggerFactory;
+import com.fr.page.PaperSettingProvider;
+import com.fr.report.worksheet.FormElementCase;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Constants;
 import com.fr.stable.bridge.StableFactory;
@@ -810,6 +813,14 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     }
 
     /**
+     * 模板更新
+     */
+    public void fireTargetModified() {
+        super.fireTargetModified();
+        WidgetPropertyPane.getInstance().refreshDockingView();
+    }
+
+    /**
      * 在Form和ElementCase, 以及ElementCase和ElementCase之间切换
      *
      * @param index       切换位置
@@ -834,8 +845,13 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         HashMap<String, Class> designerClass = new HashMap<String, Class>();
         designerClass.put(Constants.ARG_0, FormElementCaseProvider.class);
 
-        Object[] designerArg = new Object[]{formDesign.getElementCase()};
-        return StableFactory.getMarkedInstanceObjectFromClass(FormECDesignerProvider.XML_TAG, designerArg, designerClass, FormECDesignerProvider.class);
+        Object[] designerArg = new Object[]{formDesign.getElementCase(), getTarget()};
+        FormECDesignerProvider formECDesigner = StableFactory.getMarkedInstanceObjectFromClass(FormECDesignerProvider.XML_TAG, designerArg, designerClass, FormECDesignerProvider.class);
+        // 如果是移动端专属模版，需要修改页面大小并显示边缘线
+        PaperSettingProvider paperSetting = ((FormElementCase)formECDesigner.getEditingElementCase()).getReportSettings().getPaperSetting();
+        paperSetting.setPaperSize(getTarget().getFormMobileAttr().isMobileOnly() ? PaperSize.PAPERSIZE_MOBILE : new PaperSize());
+
+        return formECDesigner;
     }
 
     /**

@@ -27,6 +27,7 @@ import com.fr.design.selection.SelectableElement;
 import com.fr.design.selection.Selectedable;
 import com.fr.design.selection.SelectionListener;
 import com.fr.form.FormElementCaseProvider;
+import com.fr.form.main.Form;
 import com.fr.general.Inter;
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.Selection;
@@ -54,11 +55,11 @@ public class FormElementCaseDesigner<T extends FormElementCaseProvider, E extend
         return elementCasePane;
     }
 
-    public FormElementCaseDesigner(T sheet) {
+    public FormElementCaseDesigner(T sheet, Form form) {
         super(sheet);
 
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        elementCasePane = new FormElementCasePaneDelegate((FormElementCase) sheet);
+        elementCasePane = new FormElementCasePaneDelegate((FormElementCase) sheet, form);
         elementCasePane.setSelection(getDefaultSelectElement());
         this.add(elementCasePane, BorderLayout.CENTER);
         elementCasePane.addTargetModifiedListener(new TargetModifiedListener() {

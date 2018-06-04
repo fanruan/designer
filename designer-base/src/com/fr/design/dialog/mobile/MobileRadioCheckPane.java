@@ -2,14 +2,13 @@ package com.fr.design.dialog.mobile;
 
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.icheckbox.UICheckBox;
-import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
 
