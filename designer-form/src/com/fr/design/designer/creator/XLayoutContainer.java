@@ -560,4 +560,12 @@ public abstract class XLayoutContainer extends XBorderStyleWidgetCreator impleme
         return false;
     }
 
+    /**
+     * 内部组件是否支持叠加顺序的调整
+     * return boolean
+     */
+    public boolean supportInnerOrderChangeActions() {
+        return false;
+    }
+
 }

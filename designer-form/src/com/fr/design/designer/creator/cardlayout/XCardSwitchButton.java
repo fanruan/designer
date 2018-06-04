@@ -13,6 +13,7 @@ import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.mainframe.EditingMouseListener;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.FormHierarchyTreePane;
@@ -211,6 +212,11 @@ public class XCardSwitchButton extends XButton {
 		jPopupMenu.add(next);
 		jPopupMenu.add(end);
 		GUICoreUtils.showPopupMenu(jPopupMenu, editingMouseListener.getDesigner(), e.getX(), e.getY());
+	}
+
+	@Override
+	public UIPopupMenu createPopupMenu(FormDesigner formDesigner) {
+		return UIPopupMenu.EMPTY;  // 自己有一个showPopupMenu，不需要使用通用的弹出菜单
 	}
 
 	//删除card，同时修改其他switchbutton和tabfit的index

@@ -4,10 +4,17 @@ import com.fr.design.constants.UIConstants;
 import com.fr.design.designer.creator.XWParameterLayout;
 import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.mainframe.*;
+import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.mainframe.FormDesigner;
+import com.fr.design.mainframe.FormHierarchyTreePane;
+import com.fr.design.mainframe.JForm;
+import com.fr.design.mainframe.JTemplate;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -26,6 +33,7 @@ public class ParameterPropertyPane extends JPanel{
     private static final int PADDING_SMALL = 5;
     private static final int PADDING_MIDDLE = 10;
     private static final int PADDING_LARGE = 15;
+	private static final int ADD_PARA_PANE_MAX_HEIGHT = 95;
 
 	public static final ParameterPropertyPane getInstance() {
 		if (THIS == null) {
@@ -86,11 +94,22 @@ public class ParameterPropertyPane extends JPanel{
     // 显示或隐藏添加参数面板
 	public void refreshState(JTemplate jt) {
 		setAddParaPaneVisible(toolbarPane.hasSelectedLabelItem(), jt);
+		updateAddParaPaneSize();
 	}
 
 	// 显示或隐藏添加参数面板
 	public void refreshState() {
 		refreshState(DesignerContext.getDesignerFrame().getSelectedJTemplate());
+	}
+
+	private void updateAddParaPaneSize() {
+		if (!addParaPane.isVisible()) {
+			return;
+		}
+		addParaPane.setPreferredSize(null);
+		int height = Math.min(addParaPane.getPreferredSize().height, ADD_PARA_PANE_MAX_HEIGHT);
+		addParaPane.setPreferredSize(new Dimension(addParaPane.getPreferredSize().width, height));
+		repaintContainer();
 	}
 
     public void setAddParaPaneVisible(boolean isVisible, JTemplate jt) {
@@ -112,7 +131,6 @@ public class ParameterPropertyPane extends JPanel{
             addParaPane.setVisible(false);
             this.setPreferredSize(new Dimension(getWidth(), formHierarchyTreePaneWrapper.getPreferredSize().height + UIConstants.GAP_NORMAL));
         }
-        repaintContainer();
     }
 	
 	private void setEditor(FormDesigner editor) {

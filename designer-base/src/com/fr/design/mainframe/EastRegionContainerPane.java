@@ -499,7 +499,6 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         private boolean isEnabled = true;  // 是否可用
         private Set<PropertyMode> visibleModes;
         private Set<PropertyMode> enableModes;
-        private static final int MAX_PARA_HEIGHT = 240;
 
         // 完整icon路径为 ICON_BASE_DIR + btnIconName + iconSuffix
         private static final String ICON_BASE_DIR = "/com/fr/design/images/buttonicon/propertiestab/";
@@ -621,8 +620,6 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
 
         public void replaceHeaderPane(JComponent pane) {
             contentArea.remove(headerPane);
-            int height = Math.min(pane.getPreferredSize().height, MAX_PARA_HEIGHT);
-            pane.setPreferredSize(new Dimension(pane.getPreferredSize().width, height));
             headerPane = pane;
             contentArea.add(headerPane, BorderLayout.NORTH);
 

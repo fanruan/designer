@@ -1013,6 +1013,9 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
      */
     @Override
     public void valueChanged(TreeSelectionEvent e) {
+        if (DesignerContext.getDesignerFrame().getSelectedJTemplate() == null) {  // 初始化完成前，不响应事件
+            return;
+        }
         ComponentTree tree = (ComponentTree) e.getSource();
         TreePath[] paths = tree.getSelectionPaths();
 
@@ -1139,8 +1142,8 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     // 当前选中控件可以上移一层吗？
     public boolean isCurrentComponentMovableUp() {
         XCreator creator = getSelectionModel().getSelection().getSelectedCreator();
-        Container container = creator.getParent();
-        if (container == null) {
+        XLayoutContainer container = (XLayoutContainer) creator.getParent();
+        if (container == null || !container.supportInnerOrderChangeActions()) {
             return false;
         }
         return creator.isMovable() && container.getComponentZOrder(creator) > 0;
@@ -1149,8 +1152,8 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     // 当前选中控件可以下移一层吗？
     public boolean isCurrentComponentMovableDown() {
         XCreator creator = getSelectionModel().getSelection().getSelectedCreator();
-        Container container = creator.getParent();
-        if (container == null) {
+        XLayoutContainer container = (XLayoutContainer) creator.getParent();
+        if (container == null || !container.supportInnerOrderChangeActions()) {
             return false;
         }
         return creator.isMovable() && container.getComponentZOrder(creator) < container.getComponentCount() - 1;

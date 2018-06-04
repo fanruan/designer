@@ -10,6 +10,7 @@ import com.fr.design.constants.UIConstants;
 public class UIPopupMenu extends JPopupMenu{
 	private static final float REC = 8f;
 	private boolean onlyText = false;
+	public static UIPopupMenu EMPTY = new UIPopupMenu();
 	public UIPopupMenu() {
 		super();
 		setBackground(UIConstants.NORMAL_BACKGROUND);

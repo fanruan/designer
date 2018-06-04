@@ -11,23 +11,29 @@ import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.designer.creator.XWFitLayout;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.fun.WidgetPropertyUIProvider;
+import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.FormHierarchyTreePane;
 import com.fr.design.mainframe.widget.editors.ButtonTypeEditor;
 import com.fr.design.mainframe.widget.editors.ImgBackgroundEditor;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.form.ui.CardSwitchButton;
+import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.form.ui.container.cardlayout.WTabFitLayout;
-import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.general.Background;
-import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.core.PropertyChangeAdapter;
 
 import javax.swing.border.Border;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Rectangle;
 import java.beans.IntrospectionException;
 
 
@@ -96,6 +102,11 @@ public class XWTabFitLayout extends XWFitLayout {
 	
 	public XWTabFitLayout(WTabFitLayout widget, Dimension initSize) {
 		super(widget, initSize);
+	}
+
+	@Override
+	public UIPopupMenu createPopupMenu(FormDesigner formDesigner) {
+		return UIPopupMenu.EMPTY;  // 不要菜单
 	}
 
 	/**
