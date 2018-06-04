@@ -15,12 +15,13 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.design.remote.RemoteDesignAuthorityCreator;
-import com.fr.design.remote.RemoteMember;
 import com.fr.design.remote.ui.list.AuthorityList;
 import com.fr.design.remote.ui.list.AuthorityListCellRenderer;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.env.RemoteDesignMember;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
+import com.fr.log.FineLoggerFactory;
 import com.fr.report.DesignAuthority;
 import com.fr.stable.ArrayUtils;
 
@@ -77,7 +78,7 @@ public class AuthorityListControlPane extends BasicPane {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.authorityCreators = new RemoteDesignAuthorityCreator[]{
                 new RemoteDesignAuthorityCreator(
-                        Inter.getLocText("FR-Designer_Remote_Design_User"),
+                        Inter.getLocText("Fine-Designer_Remote_Design_User"),
                         BaseUtils.readIcon("com/fr/design/remote/images/icon_Member_normal@1x.png"),
                         DesignAuthority.class,
                         AuthorityEditorPane.class)
@@ -92,8 +93,8 @@ public class AuthorityListControlPane extends BasicPane {
         // 右侧卡片布局
         cardLayout = new CardLayout();
         cardPane = new JPanel(cardLayout);
-        UILabel selectLabel = new UILabel();
-        cardPane.add(selectLabel, UNSELECTED_EDITOR_NAME);
+        UILabel emptyLabel = new UILabel();
+        cardPane.add(emptyLabel, UNSELECTED_EDITOR_NAME);
         cardPane.add(editorCtrl, SELECTED_EDITOR_NAME);
 
         // 左右分割布局
@@ -169,7 +170,7 @@ public class AuthorityListControlPane extends BasicPane {
         for (int i = 0, len = listModel.getSize(); i < len; i++) {
             res.add((DesignAuthority) listModel.getElementAt(i));
         }
-        return res.toArray(new DesignAuthority[0]);
+        return res.toArray(new DesignAuthority[res.size()]);
     }
 
     public void populate(DesignAuthority[] authorities) {
@@ -230,6 +231,12 @@ public class AuthorityListControlPane extends BasicPane {
      */
     public void addAuthority(DesignAuthority authority, int index) {
         DefaultListModel<DesignAuthority> model = (DefaultListModel<DesignAuthority>) authorityList.getModel();
+
+        for (int i = 0; i < model.size(); i++) {
+            if (model.get(i).getUserId().equals(authority.getUserId())) {
+                return;
+            }
+        }
 
         model.add(index, authority);
         authorityList.setSelectedIndex(index);
@@ -318,7 +325,7 @@ public class AuthorityListControlPane extends BasicPane {
                 if (p[i] != null) {
                     try {
                         p[i].checkValid();
-                    } catch (Exception e) {
+                    } catch (Exception ignore) {
                         return i;
                     }
                 }
@@ -333,6 +340,7 @@ public class AuthorityListControlPane extends BasicPane {
             try {
                 checkValid();
             } catch (Exception exp) {
+                FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
                 JOptionPane.showMessageDialog(AuthorityListControlPane.this, exp.getMessage());
                 authorityList.setSelectedIndex(idx);
                 return true;
@@ -476,8 +484,8 @@ public class AuthorityListControlPane extends BasicPane {
                 @Override
                 public void doOk() {
                     // 获取添加的用户到权限编辑面板
-                    List<RemoteMember> members = userManagerPane.update();
-                    for (RemoteMember member : members) {
+                    List<RemoteDesignMember> members = userManagerPane.update();
+                    for (RemoteDesignMember member : members) {
                         DesignAuthority authority = new DesignAuthority();
                         authority.setUsername(member.getUsername());
                         authority.setUserId(member.getUserId());

@@ -1,8 +1,9 @@
 package com.fr.design.remote.ui.list;
 
-import com.fr.design.remote.RemoteMember;
+import com.fr.env.RemoteDesignMember;
 
-import javax.swing.*;
+import javax.swing.DefaultListModel;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.util.Vector;
 
@@ -12,30 +13,38 @@ public class AddedMemberList extends MemberList {
         super();
     }
 
-    public AddedMemberList(DefaultListModel<RemoteMember> dataModel) {
+    public AddedMemberList(DefaultListModel<RemoteDesignMember> dataModel) {
         super(dataModel);
     }
 
-    public AddedMemberList(RemoteMember[] listData) {
+    public AddedMemberList(RemoteDesignMember[] listData) {
         super(listData);
     }
 
-    public AddedMemberList(Vector<? extends RemoteMember> listData) {
+    public AddedMemberList(Vector<? extends RemoteDesignMember> listData) {
         super(listData);
     }
 
 
     @Override
     protected boolean shouldDisplaySelected(MouseEvent e) {
-        return true;
+        Point point = e.getPoint();
+        int rX = point.x;
+        int rY = point.y;
+        int index = this.getSelectedIndex();
+        int x = 280;
+        int y = 25 * index;
+        int width = 20;
+        int height = 25;
+        return x <= rX && rX <= x + width && y <= rY && rY <= y + height;
     }
 
     @Override
     protected void displaySelected() {
-        RemoteMember member = getSelectedValue();
+        RemoteDesignMember member = getSelectedValue();
         if (member != null) {
             member.setSelected(!member.isSelected());
-            ((DefaultListModel<RemoteMember>) getModel()).removeElement(member);
+            ((DefaultListModel<RemoteDesignMember>) getModel()).removeElement(member);
         }
         revalidate();
         repaint();

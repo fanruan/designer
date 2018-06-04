@@ -6,7 +6,6 @@ import com.fr.report.DesignAuthority;
 
 import javax.swing.BorderFactory;
 import java.awt.BorderLayout;
-import java.util.Arrays;
 
 public class AuthorityManagerPane extends BasicPane {
 
@@ -24,7 +23,7 @@ public class AuthorityManagerPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("FR-Designer_Remote_Design_Authority_Manager");
+        return Inter.getLocText("Fine-Designer_Remote_Design_Authority_Manager");
     }
 
     public void populate(DesignAuthority[] authorities) {
