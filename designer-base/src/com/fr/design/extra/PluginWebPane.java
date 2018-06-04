@@ -1,5 +1,6 @@
 package com.fr.design.extra;
 
+import com.fr.base.FRContext;
 import com.fr.base.TemplateUtils;
 import com.fr.general.IOUtils;
 import com.fr.stable.StableUtils;
@@ -28,7 +29,7 @@ import java.util.Map;
  * Created by richie on 16/3/19.
  */
 public class PluginWebPane extends JFXPanel {
-
+    private static final String RESOURCE_URL = "resourceURL";
     private WebEngine webEngine;
 
     public PluginWebPane(final String installHome, final String mainJs) {
@@ -42,29 +43,8 @@ public class PluginWebPane extends JFXPanel {
                 WebView webView = new WebView();
                 webEngine = webView.getEngine();
                 try{
-                    InputStream inp = IOUtils.readResource(StableUtils.pathJoin(installHome, mainJs));
-                    if (inp == null) {
-                        throw new IOException("Not found template: " +  mainJs);
-                    }
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(inp, StableUtils.RESOURCE_ENCODER));
-                    BufferedReader read = new BufferedReader(reader);
-                    StringBuffer sb = new StringBuffer();
-                    String line;
-                    Map<String, Object> map4Tpl = new HashMap<String, Object>();
-
-                    map4Tpl.put("servletURL", "file:///" + URLEncoder.encode(installHome, "UTF-8"));
-                    while ((line = read.readLine()) != null) {
-                        if (sb.length() > 0) {
-                            sb.append('\n');
-                        }
-                        sb.append(line);
-                    }
-
-                    String htmlString = TemplateUtils.renderParameter4Tpl(sb.toString(), map4Tpl);
-                    reader.close();
-                    inp.close();
+                    String htmlString = getRenderedHtml(installHome, mainJs);
                     webEngine.loadContent(htmlString);
-
                     webEngine.setOnAlert(new EventHandler<WebEvent<String>>() {
                         @Override
                         public void handle(WebEvent<String> event) {
@@ -76,11 +56,40 @@ public class PluginWebPane extends JFXPanel {
                     webView.setContextMenuEnabled(false);//屏蔽右键
                     root.setCenter(webView);
                 }catch (Exception e){
-
+                    FRContext.getLogger().error(e.getMessage(), e);
                 }
 
             }
         });
+    }
+
+    private String getRenderedHtml(String installHome, String mainJs) throws IOException {
+        InputStream inp = IOUtils.readResource(StableUtils.pathJoin(installHome, mainJs));
+        if (inp == null) {
+            throw new IOException("Not found template: " +  mainJs);
+        }
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inp, StableUtils.RESOURCE_ENCODER));
+        BufferedReader read = new BufferedReader(reader);
+        StringBuffer sb = new StringBuffer();
+        String line;
+        Map<String, Object> map4Tpl = new HashMap<String, Object>();
+
+        map4Tpl.put(RESOURCE_URL, "file:///" + URLEncoder.encode(installHome, "UTF-8"));
+        while ((line = read.readLine()) != null) {
+            if (sb.length() > 0) {
+                sb.append('\n');
+            }
+            sb.append(line);
+        }
+        String htmlString = StringUtils.EMPTY;
+        try{
+            htmlString = TemplateUtils.renderParameter4Tpl(sb.toString(), map4Tpl);
+        }catch (Exception e){
+            FRContext.getLogger().error(e.getMessage(), e);
+        }
+        reader.close();
+        inp.close();
+        return htmlString;
     }
 
     private void showAlert(final String message) {
