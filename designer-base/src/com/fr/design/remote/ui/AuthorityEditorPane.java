@@ -32,7 +32,7 @@ public class AuthorityEditorPane extends BasicBeanPane<DesignAuthority> {
                 BorderFactory.createCompoundBorder(
                         new EmptyBorder(6, 0, 6, 6),
                         UITitledBorder.createBorderWithTitle(
-                                Inter.getLocText("模板设计权限配置")
+                                Inter.getLocText("Fine-Designer_Remote_Design_Template_Authority_Config")
                         )
                 )
         );
