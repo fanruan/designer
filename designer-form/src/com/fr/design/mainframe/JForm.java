@@ -53,15 +53,24 @@ import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WBorderLayout;
 import com.fr.form.ui.container.WLayout;
 import com.fr.general.ComparatorUtils;
-import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Constants;
 import com.fr.stable.bridge.StableFactory;
 import com.fr.web.controller.ViewRequestConstants;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -246,9 +255,11 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
             private XComponent lastAffectedCreator;
             @Override
             public void fireCreatorModified(DesignerEvent evt) {
-                if (evt.getCreatorEventID() == DesignerEvent.CREATOR_CUTED
-                        || evt.getCreatorEventID() == DesignerEvent.CREATOR_DELETED) {
+                if (evt.getCreatorEventID() == DesignerEvent.CREATOR_CUTED) {
                     setPropertyPaneChange(formDesign.getRootComponent());
+                } else if (evt.getCreatorEventID() == DesignerEvent.CREATOR_DELETED) {
+                    // 在 delete 之前，会先 select 父组件。这里直接传入 lastAffectedCreator 就好了
+                    setPropertyPaneChange(lastAffectedCreator);
                 } else if (evt.getCreatorEventID() == DesignerEvent.CREATOR_SELECTED) {
                     lastAffectedCreator = evt.getAffectedCreator();
                     setPropertyPaneChange(lastAffectedCreator);
