@@ -2,8 +2,8 @@ package com.fr.design.remote.ui.list;
 
 import com.fr.env.RemoteDesignMember;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.DefaultListModel;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.util.Vector;
 

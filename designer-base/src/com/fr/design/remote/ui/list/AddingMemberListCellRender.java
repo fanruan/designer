@@ -5,8 +5,13 @@ import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.env.RemoteDesignMember;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.ListCellRenderer;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 
 public class AddingMemberListCellRender extends JPanel implements ListCellRenderer<RemoteDesignMember> {
 

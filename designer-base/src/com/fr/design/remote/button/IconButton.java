@@ -4,8 +4,15 @@ import com.fr.base.BaseUtils;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
+import java.awt.Color;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
 
 public final class IconButton extends JButton {
     public IconButton() {

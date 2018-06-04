@@ -3,7 +3,7 @@ package com.fr.design.remote;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.report.DesignAuthority;
 
-import javax.swing.*;
+import javax.swing.Icon;
 
 public class RemoteDesignAuthorityCreator {
 
