@@ -21,6 +21,7 @@ import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.env.RemoteDesignMember;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
+import com.fr.log.FineLoggerFactory;
 import com.fr.report.DesignAuthority;
 import com.fr.stable.ArrayUtils;
 
@@ -324,7 +325,7 @@ public class AuthorityListControlPane extends BasicPane {
                 if (p[i] != null) {
                     try {
                         p[i].checkValid();
-                    } catch (Exception e) {
+                    } catch (Exception ignore) {
                         return i;
                     }
                 }
@@ -339,6 +340,7 @@ public class AuthorityListControlPane extends BasicPane {
             try {
                 checkValid();
             } catch (Exception exp) {
+                FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
                 JOptionPane.showMessageDialog(AuthorityListControlPane.this, exp.getMessage());
                 authorityList.setSelectedIndex(idx);
                 return true;

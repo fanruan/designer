@@ -1,13 +1,13 @@
 package com.fr.design.gui.itree.filetree;
 
 import com.fr.base.Env;
-import com.fr.base.FRContext;
 import com.fr.base.env.EnvContext;
 import com.fr.base.env.proxy.EnvProxy;
 import com.fr.base.env.resource.EnvConfigUtils;
 import com.fr.design.gui.itree.refreshabletree.ExpandMutableTreeNode;
 import com.fr.env.operator.file.TplFileOperator;
 import com.fr.file.filetree.FileNode;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StableUtils;
 import com.fr.stable.project.ProjectConstants;
@@ -168,7 +168,7 @@ public class TemplateFileTree extends EnvFileTree {
         try {
             fileNodes = listFile(filePath);
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         if (fileNodes == null) {
             fileNodes = new FileNode[0];

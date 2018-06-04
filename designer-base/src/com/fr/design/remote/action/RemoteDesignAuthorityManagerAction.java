@@ -10,6 +10,7 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.remote.ui.AuthorityManagerPane;
 import com.fr.env.operator.authority.AuthorityOperator;
 import com.fr.general.Inter;
+import com.fr.log.FineLoggerFactory;
 import com.fr.report.DesignAuthority;
 
 import java.awt.event.ActionEvent;
@@ -41,7 +42,7 @@ public class RemoteDesignAuthorityManagerAction extends UpdateAction {
                     managerPane.populate(authorities);
                 }
             } catch (Exception exception) {
-                FRContext.getLogger().error(exception.getMessage());
+                FineLoggerFactory.getLogger().error(exception.getMessage(), exception);
             }
         }
 
@@ -54,7 +55,7 @@ public class RemoteDesignAuthorityManagerAction extends UpdateAction {
                     try {
                         success = EnvProxy.get(AuthorityOperator.class).updateAuthorities(authorities);
                     } catch (Exception e) {
-                        FRContext.getLogger().error(e.getMessage());
+                        FineLoggerFactory.getLogger().error(e.getMessage(), e);
                     }
                     FRContext.getLogger().info("update remote design authority: " + success);
                 }
