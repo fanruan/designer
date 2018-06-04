@@ -1,5 +1,8 @@
 package com.fr.design.remote.ui;
 
+import com.fr.base.env.EnvContext;
+import com.fr.base.env.proxy.EnvProxy;
+import com.fr.base.env.resource.EnvConfigUtils;
 import com.fr.design.border.UITitledBorder;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ibutton.UIButton;
@@ -8,13 +11,13 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.remote.RemoteMember;
-import com.fr.design.remote.Utils;
 import com.fr.design.remote.ui.list.AddedMemberList;
 import com.fr.design.remote.ui.list.AddedMemberListCellRender;
 import com.fr.design.remote.ui.list.AddingMemberList;
 import com.fr.design.remote.ui.list.AddingMemberListCellRender;
 import com.fr.design.remote.ui.list.MemberListSelectedChangeListener;
+import com.fr.env.RemoteDesignMember;
+import com.fr.env.operator.decision.DecisionOperator;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 import com.fr.third.guava.collect.ImmutableList;
@@ -26,6 +29,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingWorker;
 import javax.swing.border.EmptyBorder;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -46,16 +50,16 @@ public class UserManagerPane extends BasicPane {
     /**
      * 获取的决策平台成员
      */
-    private List<RemoteMember> addingMembers = new ArrayList<>();
+    private List<RemoteDesignMember> addingMembers = new ArrayList<>();
     /**
      * 添加到设计的决策平台成员
      */
-    private List<RemoteMember> addedMembers = new ArrayList<>();
+    private List<RemoteDesignMember> addedMembers = new ArrayList<>();
 
     /**
      * 决策平台成员列表model
      */
-    private DefaultListModel<RemoteMember> addingListModel = new DefaultListModel<>();
+    private DefaultListModel<RemoteDesignMember> addingListModel = new DefaultListModel<>();
     /**
      * 搜索输入框
      */
@@ -95,18 +99,25 @@ public class UserManagerPane extends BasicPane {
     /**
      * 添加到设计的决策成员计数标签
      */
-    private DefaultListModel<RemoteMember> addedListModel;
+    private DefaultListModel<RemoteDesignMember> addedListModel;
 
 
+    /**
+     * 左侧列表变动事件
+     */
     private MemberListSelectedChangeListener addingListChangeListener = new MemberListSelectedChangeListener() {
         @Override
         public void selectedChange() {
-            resetAddedMembers();
+            // 右侧列表发生变化后，将右侧列表中选中但是在左侧列表中没有的成员添加进来,同时移除取消选中的
             sync2AddedMembersFromAdding();
+            // 刷新右侧列表显示
             addToAddedMemberList();
         }
     };
 
+    /**
+     * 右侧列表变动事件
+     */
     private MemberListSelectedChangeListener addedListChangeListener = new MemberListSelectedChangeListener() {
         @Override
         public void selectedChange() {
@@ -116,10 +127,12 @@ public class UserManagerPane extends BasicPane {
             sync2AddedMembersFormAdded();
             // 不需要重复更新右侧列表显示 但是更新一下计数显示
             countLabel.setText(
-                    Inter.getLocText("FR-Designer_Remote_Design_Selected_Member_Count",
+                    Inter.getLocText("Fine-Designer_Remote_Design_Selected_Member_Count",
                             String.valueOf(addedMembers.size())
                     )
             );
+            // 刷新左侧列表显示
+            addToMemberList();
 
         }
     };
@@ -144,7 +157,7 @@ public class UserManagerPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("FR-Designer_Remote_Design_Add_Member");
+        return Inter.getLocText("Fine-Designer_Remote_Design_Add_Member");
     }
 
     private JPanel createLeftPanel() {
@@ -154,7 +167,7 @@ public class UserManagerPane extends BasicPane {
                 BorderFactory.createCompoundBorder(
                         new EmptyBorder(6, 0, 0, 0),
                         UITitledBorder.createBorderWithTitle(
-                                Inter.getLocText("FR-Designer_Remote_Design_Decision_Member")
+                                Inter.getLocText("Fine-Designer_Remote_Design_Decision_Member")
                         )
                 )
         );
@@ -162,10 +175,10 @@ public class UserManagerPane extends BasicPane {
         // 搜索
         JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         searchPanel.setBorder(BorderFactory.createEmptyBorder());
-        keyField.setPreferredSize(new Dimension(200, 20));
+        keyField.setPreferredSize(new Dimension(250, 20));
         keyField.requestFocus();
         keyField.addKeyListener(keyFieldKeyListener);
-        keyButton.setText(Inter.getLocText("FR-Designer_Remote_Design_Search"));
+        keyButton.setText(Inter.getLocText("Fine-Designer_Remote_Design_Search"));
         keyButton.addActionListener(keyButtonActionListener);
         searchPanel.add(keyField);
         searchPanel.add(keyButton);
@@ -194,16 +207,18 @@ public class UserManagerPane extends BasicPane {
                 BorderFactory.createCompoundBorder(
                         new EmptyBorder(6, 0, 0, 0),
                         UITitledBorder.createBorderWithTitle(
-                                Inter.getLocText("FR-Designer_Remote_Design_Selected_Member")
+                                Inter.getLocText("Fine-Designer_Remote_Design_Selected_Member")
                         )
                 )
         );
 
         // 计数
         countLabel.setText(
-                Inter.getLocText("FR-Designer_Remote_Design_Selected_Member_Count",
+                Inter.getLocText("Fine-Designer_Remote_Design_Selected_Member_Count",
                         String.valueOf(addedMembers.size()))
         );
+        countLabel.setBorder(BorderFactory.createEmptyBorder(7, 12, 8, 0));
+        countLabel.setForeground(new Color(0x8F8F92));
 
         addedListModel = new DefaultListModel<>();
         addedList = new AddedMemberList(addedListModel);
@@ -224,7 +239,13 @@ public class UserManagerPane extends BasicPane {
 
     private void addToMemberList() {
         addingListModel.clear();
-        for (RemoteMember member : addingMembers) {
+        for (RemoteDesignMember member : addingMembers) {
+            // 如果包含在右侧列表中，那么左侧列表默认选中
+            if (addedMembers.contains(member)) {
+                member.setSelected(true);
+            } else {
+                member.setSelected(false);
+            }
             addingListModel.addElement(member);
         }
         addingList.revalidate();
@@ -233,20 +254,20 @@ public class UserManagerPane extends BasicPane {
 
     private void addToAddedMemberList() {
         addedListModel.clear();
-        for (RemoteMember member : addedMembers) {
+        for (RemoteDesignMember member : addedMembers) {
             addedListModel.addElement(member);
         }
         addedList.revalidate();
         addedList.repaint();
         countLabel.setText(
-                Inter.getLocText("FR-Designer_Remote_Design_Selected_Member_Count",
+                Inter.getLocText("Fine-Designer_Remote_Design_Selected_Member_Count",
                         String.valueOf(addedMembers.size())
                 ));
     }
 
     private void resetMembers() {
         addingMembers.clear();
-        addingMembers.add(RemoteMember.DEFAULT_MEMBER);
+        addingMembers.add(RemoteDesignMember.DEFAULT_MEMBER);
     }
 
     private void resetAddedMembers() {
@@ -256,11 +277,12 @@ public class UserManagerPane extends BasicPane {
 
     private void searchAddingMembers(final String keyword) {
 
-        final SwingWorker getMemberWorker = new SwingWorker<List<RemoteMember>, Void>() {
+        final SwingWorker getMemberWorker = new SwingWorker<List<RemoteDesignMember>, Void>() {
             @Override
-            protected List<RemoteMember> doInBackground() {
+            protected List<RemoteDesignMember> doInBackground() {
                 addingMembers.clear();
-                addingMembers.addAll(Utils.getRemoteMember(keyword));
+                String username = EnvConfigUtils.getUsername(EnvContext.currentEnv());
+                addingMembers.addAll(EnvProxy.get(DecisionOperator.class).getMembers(username, keyword));
                 return addingMembers;
             }
 
@@ -274,25 +296,29 @@ public class UserManagerPane extends BasicPane {
 
 
     private void sync2AddedMembersFromAdding() {
-        RemoteMember[] members = new RemoteMember[addingListModel.getSize()];
+        RemoteDesignMember[] members = new RemoteDesignMember[addingListModel.getSize()];
         // shallow copy
         addingListModel.copyInto(members);
-        for (RemoteMember member : members) {
-            if (member.isSelected()) {
+        for (RemoteDesignMember member : members) {
+
+            if (!member.isSelected()) {
+                addedMembers.remove(member);
+            }
+            if (member.isSelected() && !addedMembers.contains(member)) {
                 addedMembers.add(member);
             }
         }
     }
 
     private void sync2AddedMembersFormAdded() {
-        RemoteMember[] members = new RemoteMember[addedListModel.getSize()];
+        RemoteDesignMember[] members = new RemoteDesignMember[addedListModel.getSize()];
         // shallow copy
         addedListModel.copyInto(members);
         addedMembers.addAll(Arrays.asList(members));
     }
 
 
-    public ImmutableList<RemoteMember> update() {
+    public ImmutableList<RemoteDesignMember> update() {
         return ImmutableList.copyOf(addedMembers);
     }
 }
