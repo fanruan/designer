@@ -28,7 +28,7 @@ public class SendFloatElementToBackAction extends AbstractFloatElementOrderActio
         this.setName(Inter.getLocText("M_Edit-Send_to_Back"));
         this.setMnemonic('K');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/to_bottom.png"));
-		this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_OPEN_BRACKET, DEFAULT_MODIFIER + InputEvent.ALT_MASK));
+//		this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_OPEN_BRACKET, DEFAULT_MODIFIER + InputEvent.ALT_MASK));
 	}
 
 	@Override

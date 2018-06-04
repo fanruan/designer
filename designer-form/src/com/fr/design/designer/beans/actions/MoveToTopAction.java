@@ -3,6 +3,7 @@ package com.fr.design.designer.beans.actions;
 import com.fr.base.BaseUtils;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.XCreator;
+import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.FormSelection;
 import com.fr.general.Inter;
@@ -37,12 +38,12 @@ public class MoveToTopAction extends FormEditAction {
         }
         FormSelection selection = designer.getSelectionModel().getSelection();
         XCreator creator = selection.getSelectedCreator();
-        Container container = creator.getParent();
+        XLayoutContainer container = (XLayoutContainer) creator.getParent();
         if (container.getComponentZOrder(creator) == 0) {
             return false;
         }
         container.setComponentZOrder(creator, 0);
-        designer.getEditListenerTable().fireCreatorModified(creator, DesignerEvent.CREATOR_DELETED);
+        designer.getEditListenerTable().fireCreatorModified(creator, DesignerEvent.CREATOR_SELECTED);
         return true;
     }
 
