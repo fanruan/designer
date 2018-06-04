@@ -83,6 +83,7 @@ public class FormMobileAttrAction extends JTemplateAction<JForm> {
                     }
                     ((FormArea)jf.getFormDesign().getParent()).onMobileAttrModified();
                     WidgetPropertyPane.getInstance().refreshDockingView();
+                    jf.fireTargetModified();
                 } catch (CloneNotSupportedException e) {
                     FRContext.getLogger().error(e.getMessage(), e);
                 }
