@@ -31,7 +31,7 @@ public class GetInstalledPluginsExecutor  implements Executor {
                     @Override
                     public void run(Process<String> process) {
                         List<PluginContext> plugins = PluginManager.getContexts();
-                        JSONArray ja = PluginUtils.transferPluginToJson(plugins.toArray(new PluginContext[plugins.size()]));
+                        JSONArray ja = PluginUtils.transferStorePluginToJson(plugins.toArray(new PluginContext[plugins.size()]));
                         result = ja.toString();
                     }
                 }
