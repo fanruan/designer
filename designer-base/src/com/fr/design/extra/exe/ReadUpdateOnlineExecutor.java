@@ -37,7 +37,7 @@ public class ReadUpdateOnlineExecutor implements Executor {
                             JSONArray jsonArray = new JSONArray();
                             for (PluginView plugin : plugins) {
                                 JSONObject jsonObject = new JSONObject();
-                                jsonObject.put("pluginid", plugin.getID());
+                                jsonObject.put("pluginId", plugin.getID());
                                 jsonArray.put(jsonObject);
                             }
                             result = jsonArray.toString();
