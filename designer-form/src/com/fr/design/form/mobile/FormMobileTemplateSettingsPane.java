@@ -26,6 +26,7 @@ public class FormMobileTemplateSettingsPane extends BasicBeanPane<FormMobileAttr
     private UICheckBox mobileOnlyCheck;  // 设置为手机端专属模版
     private UICheckBox mobileCanvasSizeCheck;  // 设置为手机模版画布大小
     private UICheckBox adaptivePropertyAutoMatchCheck;  // 自适应属性自动匹配
+    private JPanel mobileSettingsPane;
 
     public FormMobileTemplateSettingsPane() {
         this.initComponents();
@@ -38,7 +39,7 @@ public class FormMobileTemplateSettingsPane extends BasicBeanPane<FormMobileAttr
         JPanel contentPane = new JPanel(FRGUIPaneFactory.createBorderLayout());
         contentPane.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L1, IntervalConstants.INTERVAL_L5, IntervalConstants.INTERVAL_L2, 0));
 
-        JPanel mobileSettingsPane = new JPanel(FRGUIPaneFactory.createBorderLayout());
+        mobileSettingsPane = new JPanel(FRGUIPaneFactory.createBorderLayout());
         mobileSettingsPane.setVisible(false);
         mobileSettingsPane.add(getMobileCanvasSizeCheckPane(), BorderLayout.NORTH);
         mobileSettingsPane.add(getAdaptivePropertyAutoMatchCheckPane(), BorderLayout.CENTER);
