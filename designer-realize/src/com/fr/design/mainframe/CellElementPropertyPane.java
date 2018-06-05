@@ -3,11 +3,8 @@
  */
 package com.fr.design.mainframe;
 
-import java.awt.*;
-
-import javax.swing.*;
-
 import com.fr.base.BaseUtils;
+import com.fr.design.fun.BackgroundQuickUIProvider;
 import com.fr.design.fun.CellAttributeProvider;
 import com.fr.design.fun.PresentKindProvider;
 import com.fr.design.gui.frpane.UITitlePanel;
@@ -27,6 +24,13 @@ import com.fr.plugin.observer.PluginEventListener;
 import com.fr.report.cell.DefaultTemplateCellElement;
 import com.fr.report.cell.Elem;
 import com.fr.report.elementcase.TemplateElementCase;
+
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 
 
 /**
@@ -53,9 +57,11 @@ public class CellElementPropertyPane extends DockingView {
             
             @Override
             public boolean accept(PluginContext context) {
-                
-                return context.contain(PluginModule.ExtraDesign, PresentKindProvider.MARK_STRING) ||
-                    context.contain(PluginModule.ExtraDesign, CellAttributeProvider.MARK_STRING);
+
+                return context.contain(PluginModule.ExtraDesign, BackgroundQuickUIProvider.MARK_STRING)
+                        || context.contain(PluginModule.ExtraDesign, PresentKindProvider.MARK_STRING)
+                        || context.contain(PluginModule.ExtraDesign, CellAttributeProvider.MARK_STRING);
+
             }
         });
     }
