@@ -2,7 +2,7 @@ package com.fr.design.remote.action;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
-import com.fr.base.env.proxy.EnvProxy;
+import com.fr.core.env.proxy.EnvProxy;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;

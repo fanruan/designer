@@ -1,8 +1,8 @@
 package com.fr.design.remote.ui;
 
-import com.fr.base.env.EnvContext;
-import com.fr.base.env.proxy.EnvProxy;
-import com.fr.base.env.resource.EnvConfigUtils;
+import com.fr.core.env.EnvContext;
+import com.fr.core.env.proxy.EnvProxy;
+import com.fr.core.env.resource.EnvConfigUtils;
 import com.fr.design.border.UITitledBorder;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ibutton.UIButton;
