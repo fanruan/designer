@@ -56,6 +56,7 @@ public class PluginWebBridge {
     private static final String PLUGIN_INFO = "pluginInfo";
     private static final int COREPOOLSIZE = 3;
     private static final int MAXPOOLSIZE = 5;
+    private static final String I18N_PREFIX = "Fine-";
 
     private static PluginWebBridge helper;
 
@@ -572,7 +573,7 @@ public class PluginWebBridge {
      * 国际化
      */
     public String parseI18(final String key) {
-        return Inter.getLocText(key);
+        return Inter.getLocText(I18N_PREFIX + key);
     }
 
     /**
