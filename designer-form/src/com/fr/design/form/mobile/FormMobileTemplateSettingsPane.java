@@ -38,7 +38,7 @@ public class FormMobileTemplateSettingsPane extends BasicBeanPane<FormMobileAttr
         JPanel contentPane = new JPanel(FRGUIPaneFactory.createBorderLayout());
         contentPane.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L1, IntervalConstants.INTERVAL_L5, IntervalConstants.INTERVAL_L2, 0));
 
-        JPanel mobileSettingsPane = new JPanel(FRGUIPaneFactory.createBorderLayout());
+        final JPanel mobileSettingsPane = new JPanel(FRGUIPaneFactory.createBorderLayout());
         mobileSettingsPane.setVisible(false);
         mobileSettingsPane.add(getMobileCanvasSizeCheckPane(), BorderLayout.NORTH);
         mobileSettingsPane.add(getAdaptivePropertyAutoMatchCheckPane(), BorderLayout.CENTER);
