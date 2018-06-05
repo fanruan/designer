@@ -1,24 +1,44 @@
 package com.fr.design.mainframe;
 
-import com.fr.base.*;
+import com.fr.base.BaseUtils;
+import com.fr.base.iofileattr.SharableAttrMark;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XCreatorUtils;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.share.ShareConstants;
 import com.fr.form.share.ShareLoader;
-import com.fr.form.ui.ElCaseBindInfo;
+import com.fr.form.ui.AbstractBorderStyleWidget;
+import com.fr.form.ui.SharableWidgetBindInfo;
 import com.fr.form.ui.Widget;
+import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.IOUtils;
+import com.fr.share.ShareConstants;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
 import javax.swing.Icon;
-import java.awt.*;
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import java.awt.AlphaComposite;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Composite;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.LayoutManager;
+import java.awt.Rectangle;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.dnd.*;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DragGestureEvent;
+import java.awt.dnd.DragGestureListener;
+import java.awt.dnd.DragSource;
+import java.awt.dnd.DragSourceAdapter;
+import java.awt.dnd.DragSourceDragEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -31,7 +51,8 @@ import java.io.Serializable;
  * Time: 16:14
  */
 public class ShareWidgetButton extends JPanel implements MouseListener, MouseMotionListener, Serializable {
-    private ElCaseBindInfo bindInfo;
+    private static final Dimension TAB_DEFAULT_SIZE = new Dimension(500, 300);
+    private SharableWidgetBindInfo bindInfo;
     private MouseEvent lastPressEvent;
     private JPanel reportPane;
     private boolean isEdit;
@@ -50,7 +71,7 @@ public class ShareWidgetButton extends JPanel implements MouseListener, MouseMot
         }
     };
 
-    public ShareWidgetButton(ElCaseBindInfo bindInfo) {
+    public ShareWidgetButton(SharableWidgetBindInfo bindInfo) {
         this.bindInfo = bindInfo;
         this.setPreferredSize(new Dimension(108, 68));
         initUI();
@@ -127,11 +148,11 @@ public class ShareWidgetButton extends JPanel implements MouseListener, MouseMot
         };
     }
 
-    public ElCaseBindInfo getBindInfo() {
+    public SharableWidgetBindInfo getBindInfo() {
         return bindInfo;
     }
 
-    public void setBindInfo(ElCaseBindInfo bindInfo) {
+    public void setBindInfo(SharableWidgetBindInfo bindInfo) {
         this.bindInfo = bindInfo;
     }
 
@@ -194,13 +215,21 @@ public class ShareWidgetButton extends JPanel implements MouseListener, MouseMot
             }
             shareId = no.getBindInfo().getId();
             creatorSource = ShareLoader.getLoader().getElCaseEditorById(shareId);
-        }
-        if (creatorSource != null) {
-            XCreator xCreator = XCreatorUtils.createXCreator(creatorSource);
-            xCreator.setShareId(shareId);
-            WidgetToolBarPane.getTarget().startDraggingBean(xCreator);
-            lastPressEvent = null;
-            this.setBorder(null);
+            if (creatorSource != null) {
+                ((AbstractBorderStyleWidget)creatorSource).addWidgetAttrMark(new SharableAttrMark(true));
+                //tab布局WCardMainBorderLayout通过反射出来的大小是960*480
+                XCreator xCreator = null;
+                if (creatorSource instanceof WCardMainBorderLayout) {
+                    xCreator = XCreatorUtils.createXCreator(creatorSource, TAB_DEFAULT_SIZE);
+                } else {
+                    xCreator = XCreatorUtils.createXCreator(creatorSource);
+                }
+                xCreator.setBackupBound(new Rectangle(no.getBindInfo().getWidth(), no.getBindInfo().getHeight()));
+                xCreator.setShareId(shareId);
+                WidgetToolBarPane.getTarget().startDraggingBean(xCreator);
+                lastPressEvent = null;
+                this.setBorder(null);
+            }
         }
     }
 

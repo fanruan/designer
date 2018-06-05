@@ -8,21 +8,31 @@ import com.fr.design.designer.beans.HoverPainter;
 import com.fr.design.designer.beans.Painter;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.beans.models.AddingModel;
-import com.fr.design.designer.creator.*;
+import com.fr.design.designer.creator.XCreator;
+import com.fr.design.designer.creator.XCreatorUtils;
+import com.fr.design.designer.creator.XLayoutContainer;
+import com.fr.design.designer.creator.XWAbsoluteLayout;
+import com.fr.design.designer.creator.XWFitLayout;
+import com.fr.design.designer.creator.XWParameterLayout;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.icon.IconPathConstants;
 import com.fr.design.utils.ComponentUtils;
+import com.fr.form.share.SharableEditorProvider;
 import com.fr.form.share.ShareLoader;
-import com.fr.form.ui.ElCaseBindInfo;
 import com.fr.form.ui.ElementCaseEditor;
-import com.fr.form.ui.SharableElementCaseEditor;
+import com.fr.form.ui.SharableWidgetBindInfo;
 import com.fr.form.ui.Widget;
 import com.fr.general.Inter;
 import com.fr.stable.Constants;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JWindow;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
@@ -84,8 +94,8 @@ public class FormCreatorDropTarget extends DropTarget {
             Widget widget = (addingXCreator.getTopLayout() != null) ? (addingXCreator.getTopLayout().toData()) : addingXCreator.toData();
             if (addingXCreator.isShared()) {
                 String shareId = addingXCreator.getShareId();
-                SharableElementCaseEditor sharableEditor = ShareLoader.getLoader().getSharedElCaseEditorById(shareId);
-                ElCaseBindInfo bindInfo = ShareLoader.getLoader().getElCaseBindInfoById(shareId);
+                SharableEditorProvider sharableEditor = ShareLoader.getLoader().getSharedElCaseEditorById(shareId);
+                SharableWidgetBindInfo bindInfo = ShareLoader.getLoader().getElCaseBindInfoById(shareId);
                 if (sharableEditor != null && bindInfo != null) {
                     Map<String, String> tdNameMap = TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter()).addTableData(bindInfo.getName(), sharableEditor.getTableDataSource());
                     //合并数据集之后,可能会有数据集名称变化，做一下联动
