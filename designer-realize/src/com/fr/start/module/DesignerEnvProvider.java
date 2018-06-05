@@ -6,7 +6,6 @@ import com.fr.base.StoreProcedureParameter;
 import com.fr.base.TableData;
 import com.fr.base.env.serializer.OldSerializerAdapter;
 import com.fr.base.env.serializer.ProcedureDataModelSerializer;
-import com.fr.base.env.user.LocalUserCenter;
 import com.fr.base.env.user.RemoteUserCenter;
 import com.fr.base.operator.connection.DataConnectionOperator;
 import com.fr.base.operator.connection.LocalDataConnectionOperator;
@@ -27,6 +26,7 @@ import com.fr.general.ComparatorUtils;
 import com.fr.module.Activator;
 import com.fr.start.EnvSwitcher;
 import com.fr.start.StartServer;
+import com.fr.startup.opeartors.LocalUserCenter;
 
 import java.io.InputStream;
 import java.io.OutputStream;
