@@ -19,6 +19,7 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -93,7 +94,16 @@ public class ChartHyperRelateFloatLinkPane extends AbstractHyperLinkPane<ChartHy
             itemNameTextField.setText(ob.getItemName());
         }
 
-        floatNameBox.setSelectedItem(ob.getRelateCCName());
+        floatNameBox.removeAllItems();
+        String[] floatNames = getFloatNames();
+        for (int i = 0, size = floatNames.length; i < size; i++) {
+            floatNameBox.addItem(floatNames[i]);
+        }
+        if (ob.getRelateCCName() == null || !Arrays.asList(floatNames).contains(ob.getRelateCCName())) {
+            floatNameBox.setSelectedIndex(-1);
+        } else {
+            floatNameBox.setSelectedItem(ob.getRelateCCName());
+        }
 
         List parameterList = this.parameterViewPane.update();
         parameterList.clear();
