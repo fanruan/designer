@@ -1,11 +1,9 @@
 package com.fr.design.gui.itree.filetree;
 
 import com.fr.base.Env;
-import com.fr.core.env.EnvContext;
+import com.fr.base.operator.file.FileOperator;
 import com.fr.core.env.proxy.EnvProxy;
-import com.fr.core.env.resource.EnvConfigUtils;
 import com.fr.design.gui.itree.refreshabletree.ExpandMutableTreeNode;
-import com.fr.env.operator.file.TplFileOperator;
 import com.fr.file.filetree.FileNode;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ArrayUtils;
@@ -103,10 +101,9 @@ public class TemplateFileTree extends EnvFileTree {
         return null;
     }
 
-    public FileNode[] listFile(String path) {
-        String username = EnvConfigUtils.getUsername(EnvContext.currentEnv());
-        String extra = EnvProxy.get(TplFileOperator.class).readExtraResourcePath(path);
-        return EnvProxy.get(TplFileOperator.class).list(username, extra, path);
+    public FileNode[] listFile(String path) throws Exception {
+        String extra = EnvProxy.get(FileOperator.class).readExtraResourcePath(path);
+        return EnvProxy.get(FileOperator.class).list(extra, path);
     }
 
     /*
