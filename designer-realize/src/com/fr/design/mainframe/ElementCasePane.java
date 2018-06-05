@@ -81,7 +81,6 @@ import com.fr.design.selection.Selectedable;
 import com.fr.design.selection.SelectionEvent;
 import com.fr.design.selection.SelectionListener;
 import com.fr.general.ComparatorUtils;
-import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.grid.Grid;
 import com.fr.grid.GridColumn;
@@ -91,6 +90,7 @@ import com.fr.grid.GridUtils;
 import com.fr.grid.dnd.ElementCasePaneDropTarget;
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.Selection;
+import com.fr.log.FineLoggerFactory;
 import com.fr.page.PageAttributeGetter;
 import com.fr.page.ReportPageAttrProvider;
 import com.fr.poly.creator.PolyElementCasePane;
@@ -524,15 +524,14 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
      *  因为这边判断selection是一个selection，所以不会触发fireSelectionChanged
      */
     public void setSelection(Selection selection) {
-        try {
-            //旧选中内容编辑器释放模板对象
-            this.getCurrentEditor().release();
-        } catch (UnsupportedOperationException e) {
-            FRContext.getLogger().info("Nothing to release");
-        }
-
         if (!ComparatorUtils.equals(this.selection, selection) ||
                 !ComparatorUtils.equals(EastRegionContainerPane.getInstance().getCellAttrPane(), CellElementPropertyPane.getInstance())) {
+            try {
+                //旧选中内容编辑器释放模板对象
+                this.getCurrentEditor().release();
+            } catch (UnsupportedOperationException e) {
+                FRContext.getLogger().info("Nothing to release");
+            }
             this.selection = selection;
             fireSelectionChanged();
         }
