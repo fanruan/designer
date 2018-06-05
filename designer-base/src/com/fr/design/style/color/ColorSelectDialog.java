@@ -85,6 +85,7 @@ public class ColorSelectDialog extends MiddleChartDialog{
     	this.add(pane,BorderLayout.NORTH);
     	this.setBasicDialogSize(545,500);
 
+		this.setResizable(false);
     	
     	JPanel buttonPane = new JPanel();
     	buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
