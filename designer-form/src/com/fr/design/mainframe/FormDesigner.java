@@ -8,7 +8,14 @@ import com.fr.design.actions.UpdateAction;
 import com.fr.design.designer.TargetComponent;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.Painter;
-import com.fr.design.designer.beans.actions.*;
+import com.fr.design.designer.beans.actions.CopyAction;
+import com.fr.design.designer.beans.actions.CutAction;
+import com.fr.design.designer.beans.actions.FormDeleteAction;
+import com.fr.design.designer.beans.actions.MoveDownAction;
+import com.fr.design.designer.beans.actions.MoveToBottomAction;
+import com.fr.design.designer.beans.actions.MoveToTopAction;
+import com.fr.design.designer.beans.actions.MoveUpAction;
+import com.fr.design.designer.beans.actions.PasteAction;
 import com.fr.design.designer.beans.adapters.layout.FRParameterLayoutAdapter;
 import com.fr.design.designer.beans.events.CreatorEventListenerTable;
 import com.fr.design.designer.beans.events.DesignerEditListener;
@@ -19,8 +26,16 @@ import com.fr.design.designer.beans.location.RootResizeDirection;
 import com.fr.design.designer.beans.models.AddingModel;
 import com.fr.design.designer.beans.models.SelectionModel;
 import com.fr.design.designer.beans.models.StateModel;
-import com.fr.design.designer.creator.*;
+import com.fr.design.designer.creator.XChartEditor;
+import com.fr.design.designer.creator.XCreator;
+import com.fr.design.designer.creator.XCreatorUtils;
+import com.fr.design.designer.creator.XLayoutContainer;
+import com.fr.design.designer.creator.XWAbsoluteBodyLayout;
+import com.fr.design.designer.creator.XWAbsoluteLayout;
+import com.fr.design.designer.creator.XWBorderLayout;
+import com.fr.design.designer.creator.XWParameterLayout;
 import com.fr.design.designer.properties.FormWidgetAuthorityEditPane;
+import com.fr.design.event.DesignerOpenedListener;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
@@ -43,18 +58,29 @@ import com.fr.form.ui.WidgetValue;
 import com.fr.form.ui.container.WBorderLayout;
 import com.fr.form.ui.container.WFitLayout;
 import com.fr.general.ComparatorUtils;
-import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ArrayUtils;
-import com.fr.stable.CoreGraphHelper;
 import com.fr.stable.bridge.StableFactory;
 
-import javax.swing.*;
+import javax.swing.Action;
+import javax.swing.JComponent;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.TransferHandler;
 import javax.swing.border.Border;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreePath;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.lang.reflect.InvocationHandler;
@@ -350,11 +376,11 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
         }
 
         parameterArray = null;
-        refreshParameter();
+
         //parameter多的时候，不刷新会出现控件边界交叉
         refreshRoot();
-        //不知道为什么添加完参数后控件树只有一个label，这儿刷新一下控件树好了
-        EastRegionContainerPane.getInstance().refreshDownPane();
+        // 最后刷新"添加参数面板"和控件树
+        refreshParameter();
     }
 
     private void addParaPaneTooltips() {
@@ -678,6 +704,13 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
                 }
             }
 
+        });
+
+        DesignerContext.getDesignerFrame().addDesignerOpenedListener(new DesignerOpenedListener() {
+            @Override
+            public void designerOpened() {
+                setToolbarButtons();
+            }
         });
     }
 
@@ -1040,8 +1073,21 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
                 showAuthorityEditPane();
             }
             //先选中再检查
-            setToolbarButtons(paths.length == 1 && tree.getSelectionPath().getParentPath() == null);
+            setToolbarButtons();
         }
+    }
+
+    /**
+     * 是否选中了自适应布局或底层form
+     */
+    public boolean isRootSelected() {
+        ComponentTree tree = FormHierarchyTreePane.getInstance().getComponentTree();
+        TreePath[] paths = tree.getSelectionPaths();
+        if (paths == null) {
+            return true;
+        }
+        boolean isForm = paths.length == 1 && tree.getSelectionPath().getParentPath() == null;
+        return isForm || isRoot(getSelectionModel().getSelection().getSelectedCreator());
     }
 
     /**
@@ -1074,9 +1120,9 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     }
 
 
-    protected void setToolbarButtons(boolean flag) {
+    protected void setToolbarButtons() {
         //自适应布局和底层都不能删除
-        DesignerContext.getDesignerFrame().checkCombineUp(!(isRoot(getSelectionModel().getSelection().getSelectedCreator()) || flag), NAME_ARRAY_LIST);
+        DesignerContext.getDesignerFrame().checkCombineUp(!isRootSelected(), NAME_ARRAY_LIST);
     }
 
     private void invalidateLayout() {
