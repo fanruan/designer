@@ -16,6 +16,7 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.Constants;
+import com.fr.stable.OperatingSystem;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.project.ProjectConstants;
 
@@ -709,7 +710,7 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
             filename = ((FileNodeFILE) openedTemplate.get(selectedIndex).getEditingFILE()).getEnvPath() + File.separator + filename;
         }
 
-        filename = filename.replaceAll("/", "\\\\");
+        filename = OperatingSystem.isWindows() ? filename.replaceAll("/", "\\\\") : filename.replaceAll("\\\\", "/");
 
         if (!specifiedTemplate.isALLSaved()) {
             specifiedTemplate.stopEditing();
