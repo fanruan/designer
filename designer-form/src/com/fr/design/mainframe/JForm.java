@@ -2,6 +2,7 @@ package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.PaperSize;
+import com.fr.base.Parameter;
 import com.fr.design.DesignState;
 import com.fr.design.actions.core.WorkBookSupportable;
 import com.fr.design.actions.file.WebPreviewUtils;
@@ -678,6 +679,11 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
      */
     public Icon getPreviewLargeIcon() {
         return UIConstants.RUN_BIG_ICON;
+    }
+
+    @Override
+    public Parameter[] getJTemplateParameters() {
+        return this.getTarget().getTemplateParameters();
     }
 
     @Override
