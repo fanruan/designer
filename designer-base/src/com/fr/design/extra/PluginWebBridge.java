@@ -56,7 +56,7 @@ public class PluginWebBridge {
     private static final String PLUGIN_INFO = "pluginInfo";
     private static final int COREPOOLSIZE = 3;
     private static final int MAXPOOLSIZE = 5;
-    private static final String I18N_PREFIX = "FR-";
+    private static final String I18N_PREFIX = "Fine-";
 
     private static PluginWebBridge helper;
 
