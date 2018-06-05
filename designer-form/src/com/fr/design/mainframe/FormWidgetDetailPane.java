@@ -3,17 +3,15 @@ package com.fr.design.mainframe;
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.gui.ibutton.UIHeadGroup;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.form.share.ShareLoader;
-import com.fr.form.ui.ElCaseBindInfo;
+import com.fr.form.ui.SharableWidgetBindInfo;
 import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
-import com.fr.log.FineLoggerFactory;
 import com.fr.share.ShareConstants;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
@@ -42,7 +40,7 @@ public class FormWidgetDetailPane extends FormDockView{
     private UIScrollPane downPane;
     private JPanel reuWidgetPanel;
     private UIComboBox comboBox;
-    private ElCaseBindInfo[] elCaseBindInfoList;
+    private SharableWidgetBindInfo[] elCaseBindInfoList;
     private UIButton deleteButton;
     private UIButton resetButton;
     private JPanel editPanel;
@@ -119,21 +117,7 @@ public class FormWidgetDetailPane extends FormDockView{
         initReuWidgetPanel();
         initMenuPanel();
 
-        card = new CardLayout();
-        tabbedPane = new JPanel();
-        tabbedPane.setLayout(card);
-        tabbedPane.add(REPORT_TAB, reuWidgetPanel);
-        tabbedPane.add(CHART_TAB, new JPanel());
-        UIHeadGroup tabsHeaderIconPane = new UIHeadGroup(new String[] {REPORT_TAB, CHART_TAB}) {
-            @Override
-            public void tabChanged(int index) {
-                card.show(tabbedPane, labelButtonList.get(index).getText());
-            }
-        };
-        tabsHeaderIconPane.setNeedLeftRightOutLine(false);
-
-        add(tabsHeaderIconPane, BorderLayout.NORTH);
-        add(tabbedPane, BorderLayout.CENTER);
+        add(reuWidgetPanel, BorderLayout.CENTER);
 
     }
 
