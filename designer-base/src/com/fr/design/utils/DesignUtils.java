@@ -9,7 +9,6 @@ import com.fr.base.ServerConfig;
 import com.fr.base.Utils;
 import com.fr.base.remote.RemoteDeziConstants;
 import com.fr.dav.DavXMLUtils;
-import com.fr.dav.LocalEnv;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.fun.DesignerEnvProcessor;
@@ -29,7 +28,7 @@ import com.fr.stable.CodeUtils;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
-import com.fr.start.StartServer;
+import com.fr.start.ServerStarter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -142,7 +141,7 @@ public class DesignUtils {
                         String line = null;
                         while ((line = reader.readLine()) != null) {
                             if (line.startsWith("demo")) {
-                                StartServer.browserDemoURL();
+                                ServerStarter.browserDemoURL();
                             } else if (StringUtils.isNotEmpty(line)) {
                                 File f = new File(line);
                                 String path = f.getAbsolutePath();
@@ -208,15 +207,9 @@ public class DesignUtils {
                 break;
             }
         }
-
         // 更新CurrentEnv于FRContext & DesignerEnvManager
         FRContext.setCurrentEnv(env);
-
         refreshDesignerFrame(env);
-        // 当换了运行环境,重置服务器，让它下次预览时重启
-        if (env instanceof LocalEnv && !ComparatorUtils.equals(env.getPath(), oldEnvPath)) {
-            StartServer.currentEnvChanged();
-        }
     }
 
     public static void refreshDesignerFrame(Env env) {
@@ -358,10 +351,10 @@ public class DesignUtils {
         } else {
             try {
                 String web = GeneralContext.getCurrentAppNameOfEnv();
-                String url = "http://localhost:" + DesignerEnvManager.getEnvManager().getJettyServerPort()
+                String url = "http://localhost:" + DesignerEnvManager.getEnvManager().getInnerServerPort()
                         + "/" + web + "/" + ServerConfig.getInstance().getServletName() + baseRoute
                         + postfixOfUri;
-                StartServer.browserURLWithLocalEnv(url);
+                ServerStarter.browserURLWithLocalEnv(url);
             } catch (Throwable e) {
                 //
             }

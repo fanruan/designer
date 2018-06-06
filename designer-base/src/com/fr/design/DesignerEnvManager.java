@@ -740,7 +740,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     /**
      * 返回Jetty服务器的端口号
      */
-    public int getJettyServerPort() {
+    public int getInnerServerPort() {
         return this.jettyServerPort;
     }
 

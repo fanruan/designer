@@ -48,6 +48,8 @@ import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.xml.XMLTools;
 import com.fr.start.module.StartupArgs;
+import com.fr.start.server.ServerTray;
+import com.fr.start.server.FineEmbedServer;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -92,7 +94,8 @@ public class Designer extends BaseDesigner {
         designerRoot.start();
         if (FRContext.getCurrentEnv() instanceof LocalEnv) {
             // 预启动一下
-            StartServer.start();
+            FineEmbedServer.getInstance().start();
+            ServerTray.init();
         }
     }
 
