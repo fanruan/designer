@@ -52,12 +52,12 @@ public class FineEmbedServer extends AbstractLifecycle {
         
         tomcat = new Tomcat();
         
-        //覆盖tomcat的WebAppClassLoader
         tomcat.setPort(DesignerEnvManager.getEnvManager().getEmbedServerPort());
         String docBase = new File(FRContext.getCurrentEnv().getPath()).getParent();
         String appName = "/" + FRContext.getCurrentEnv().getAppName();
         Context context = tomcat.addContext(appName, docBase);
         tomcat.addServlet(appName, "default", "org.apache.catalina.servlets.DefaultServlet");
+        //覆盖tomcat的WebAppClassLoader
         context.setLoader(new FRTomcatLoader());
         
         //直接指定initializer，tomcat就不用再扫描一遍了
