@@ -6,6 +6,9 @@ import com.fr.event.EventDispatcher;
 import com.fr.log.FineLoggerFactory;
 import com.fr.module.ModuleRole;
 import com.fr.stable.lifecycle.AbstractLifecycle;
+import com.fr.stable.lifecycle.Lifecycle;
+import com.fr.stable.lifecycle.LifecycleEvent;
+import com.fr.stable.lifecycle.LifecycleListener;
 import com.fr.startup.FineWebApplicationInitializer;
 import com.fr.third.springframework.web.SpringServletContainerInitializer;
 import com.fr.third.springframework.web.context.support.AnnotationConfigWebApplicationContext;
@@ -21,11 +24,13 @@ import java.util.Set;
 /**
  * Created by juhaoyu on 2018/6/5.
  */
-public class FineEmbedServer extends AbstractLifecycle {
+public class FineEmbedServer {
     
     private static final FineEmbedServer INSTANCE = new FineEmbedServer();
     
     private Tomcat tomcat;
+    
+    private volatile boolean isRunning = false;
     
     public static FineEmbedServer getInstance() {
         
@@ -34,9 +39,12 @@ public class FineEmbedServer extends AbstractLifecycle {
     
     private FineEmbedServer() {}
     
-    @Override
-    protected synchronized void executeStart() {
+    
+    public void start() {
         
+        if (isRunning) {
+            return;
+        }
         EventDispatcher.fire(EmbedServerEvent.BeforeStart);
         try {
             //初始化tomcat
@@ -45,8 +53,32 @@ public class FineEmbedServer extends AbstractLifecycle {
         } catch (LifecycleException e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
+        isRunning = true;
         EventDispatcher.fire(EmbedServerEvent.AfterStart);
     }
+    
+    public void stop() {
+        
+        if (!isRunning) {
+            return;
+        }
+        EventDispatcher.fire(EmbedServerEvent.BeforeStop);
+        try {
+            stopSpring();
+            stopServerActivator();
+            stopTomcat();
+        } catch (LifecycleException e) {
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+        }
+        isRunning = false;
+        EventDispatcher.fire(EmbedServerEvent.AfterStop);
+    }
+    
+    public boolean isRunning() {
+        
+        return isRunning;
+    }
+    
     
     private void initTomcat() {
         
@@ -67,22 +99,9 @@ public class FineEmbedServer extends AbstractLifecycle {
         context.addServletContainerInitializer(initializer, classes);
     }
     
-    @Override
-    protected synchronized void executeStop() {
-        
-        EventDispatcher.fire(EmbedServerEvent.BeforeStop);
-        try {
-            stopSpring();
-            stopServerActivator();
-            stopTomcat();
-        } catch (LifecycleException e) {
-            FineLoggerFactory.getLogger().error(e.getMessage(), e);
-        }
-        EventDispatcher.fire(EmbedServerEvent.AfterStop);
-    }
     
     private void stopServerActivator() {
-
+    
         ModuleRole.ServerRoot.stop();
     }
     
