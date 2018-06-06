@@ -2,7 +2,6 @@ package com.fr.start.module;
 
 import com.fr.module.Activator;
 import com.fr.stable.CoreActivator;
-import com.fr.stable.module.ModuleListener;
 import com.fr.start.Designer;
 import com.fr.start.EnvSwitcher;
 import com.fr.start.SplashContext;
@@ -18,8 +17,6 @@ public class DesignerStartup extends Activator {
         startSub(PreStartActivator.class);
         //启动基础部分
         startSub(BasicActivator.class);
-        //启动画面注册监听，必须在初始化国际化之后注册监听
-        registerSplashListener();
         String[] args = getModule().upFindSingleton(StartupArgs.class).get();
         Designer designer = new Designer(args);
         //启动env
@@ -34,13 +31,7 @@ public class DesignerStartup extends Activator {
         SplashContext.getInstance().hide();
         startSub(StartFinishActivator.class);
     }
-
-    /**
-     * 注册启动动画监听器
-     */
-    private void registerSplashListener() {
-        getModule().setSingleton(ModuleListener.class, SplashContext.getInstance().getModuleListener());
-    }
+    
 
     @Override
     public void stop() {

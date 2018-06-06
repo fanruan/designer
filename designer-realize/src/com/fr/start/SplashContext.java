@@ -2,10 +2,12 @@ package com.fr.start;
 
 import com.fr.base.FRContext;
 import com.fr.design.mainframe.bbs.BBSConstants;
+import com.fr.event.Event;
+import com.fr.event.EventDispatcher;
+import com.fr.event.Listener;
 import com.fr.general.Inter;
+import com.fr.module.ModuleEvent;
 import com.fr.stable.StringUtils;
-import com.fr.stable.module.ModuleAdapter;
-import com.fr.stable.module.ModuleListener;
 
 import java.util.Locale;
 import java.util.Random;
@@ -32,8 +34,8 @@ public class SplashContext {
     private static final String GUEST = getRandomUser();
 
     private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-
-    private ModuleListener listener;
+    
+    private Listener<String> listener;
 
 
     public static SplashContext getInstance() {
@@ -41,6 +43,7 @@ public class SplashContext {
     }
 
     private SplashContext() {
+    
     }
 
     /**
@@ -51,17 +54,11 @@ public class SplashContext {
     }
 
     /**
-     * 注册监听
-     */
-    public ModuleListener getModuleListener() {
-        initListener();
-        return listener;
-    }
-
-    /**
      * 展示启动动画
      */
     public void show() {
+        //监听
+        initListener();
         splashStrategy.show();
     }
 
@@ -69,6 +66,8 @@ public class SplashContext {
      * 隐藏启动动画
      */
     public void hide() {
+        //取消监听
+        EventDispatcher.stopListen(listener);
         splashStrategy.hide();
         // 窗口关闭后取消定时获取模块信息的timer
         scheduler.shutdown();
@@ -84,16 +83,18 @@ public class SplashContext {
                 updateModuleLog(moduleID.isEmpty() ? StringUtils.EMPTY : moduleID + loading[loadingIndex % 3]);
             }
         }, 0, 300, TimeUnit.MILLISECONDS);
-
-        listener = new ModuleAdapter() {
+    
+        listener = new Listener<String>() {
+    
             @Override
-            public void onStartBefore(String moduleName, String moduleI18nName) {
-                moduleID = moduleI18nName;
+            public void on(Event event, String i18n) {
+    
+                moduleID = i18n;
                 loadingIndex++;
                 updateModuleLog(moduleID.isEmpty() ? StringUtils.EMPTY : moduleID + loading[loadingIndex % 3]);
-
             }
         };
+        EventDispatcher.listen(ModuleEvent.MajorModuleStarting, listener);
         showThanks();
     }
 
