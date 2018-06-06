@@ -351,7 +351,7 @@ public class DesignUtils {
         } else {
             try {
                 String web = GeneralContext.getCurrentAppNameOfEnv();
-                String url = "http://localhost:" + DesignerEnvManager.getEnvManager().getInnerServerPort()
+                String url = "http://localhost:" + DesignerEnvManager.getEnvManager().getEmbedServerPort()
                         + "/" + web + "/" + ServerConfig.getInstance().getServletName() + baseRoute
                         + postfixOfUri;
                 ServerStarter.browserURLWithLocalEnv(url);

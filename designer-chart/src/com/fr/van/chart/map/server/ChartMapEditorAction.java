@@ -23,7 +23,7 @@ public class ChartMapEditorAction extends UpdateAction {
     }
 
     public void actionPerformed(ActionEvent evt) {
-        int port = DesignerEnvManager.getEnvManager().getInnerServerPort();
+        int port = DesignerEnvManager.getEnvManager().getEmbedServerPort();
         String web = GeneralContext.getCurrentAppNameOfEnv();
         String serverlet = ServerConfig.getInstance().getReportServletName();
         Env env = FRContext.getCurrentEnv();

@@ -42,7 +42,7 @@ public class ServerStarter {
         }
         if (ComparatorUtils.equals(StableUtils.getInstallHome(), ".")) {//august:供代码使用
             String web = GeneralContext.getCurrentAppNameOfEnv();
-            browserURLWithLocalEnv("http://localhost:" + DesignerEnvManager.getEnvManager().getInnerServerPort() + "/" + web + "/" + ServerConfig.getInstance().getServletName());
+            browserURLWithLocalEnv("http://localhost:" + DesignerEnvManager.getEnvManager().getEmbedServerPort() + "/" + web + "/" + ServerConfig.getInstance().getServletName());
             return;
         }
         DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
@@ -75,7 +75,7 @@ public class ServerStarter {
             FineEmbedServer.getInstance().start();
         } finally {
             //先访问Demo, 后访问报表, 不需要重置服务器.
-            browser("http://localhost:" + DesignerEnvManager.getEnvManager().getInnerServerPort() + "/" + GeneralContext.getCurrentAppNameOfEnv() + "/" + ServerConfig.getInstance().getServletName());
+            browser("http://localhost:" + DesignerEnvManager.getEnvManager().getEmbedServerPort() + "/" + GeneralContext.getCurrentAppNameOfEnv() + "/" + ServerConfig.getInstance().getServletName());
         }
     }
     

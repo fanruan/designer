@@ -53,7 +53,7 @@ public class FineEmbedServer extends AbstractLifecycle {
         tomcat = new Tomcat();
         
         //覆盖tomcat的WebAppClassLoader
-        tomcat.setPort(DesignerEnvManager.getEnvManager().getInnerServerPort());
+        tomcat.setPort(DesignerEnvManager.getEnvManager().getEmbedServerPort());
         String docBase = new File(FRContext.getCurrentEnv().getPath()).getParent();
         String appName = "/" + FRContext.getCurrentEnv().getAppName();
         Context context = tomcat.addContext(appName, docBase);
