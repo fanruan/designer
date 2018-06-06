@@ -13,10 +13,13 @@ import com.fr.general.FRFont;
 import com.fr.general.Inter;
 import com.fr.stable.Constants;
 
-import javax.swing.*;
-
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
+import javax.swing.JPanel;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Shape;
 import java.awt.geom.Rectangle2D.Double;
 import java.awt.geom.RoundRectangle2D;
 
@@ -54,7 +57,7 @@ public class LayoutBorderPreviewPane extends JPanel{
         add(jp);
     }
 	
-	public LayoutBorderPreviewPane(LayoutBorderStyle borderStyle,boolean isTabLayout) {
+	public LayoutBorderPreviewPane(LayoutBorderStyle borderStyle, boolean isTabLayout) {
 		this(borderStyle);
 		this.isTabLayout = true;
     }
@@ -74,7 +77,7 @@ public class LayoutBorderPreviewPane extends JPanel{
 
         Background background = borderStyle.getBackground();
         if (background != null) {
-            Shape shape = new Rectangle2D.Double(smallGAP, smallGAP, this.getWidth() - GAP, this.getHeight() - GAP);
+            Shape shape = new Double(smallGAP, smallGAP, this.getWidth() - GAP, this.getHeight() - GAP);
             background.paint(g, shape);
         } else {
             g.setColor(Color.WHITE);
@@ -90,11 +93,14 @@ public class LayoutBorderPreviewPane extends JPanel{
             int height = borderStyle.getTitle().getFrFont().getSize() + GAP;
             jp.setPreferredSize(new Dimension(getWidth() - GAP, height));
             jp.setBounds(smallGAP,smallGAP, getWidth() - GAP, height);
-            borderStyle.paint(g, new Rectangle2D.Double(smallGAP, smallGAP, getWidth() - GAP, getHeight() - GAP));
+            borderStyle.paint(g, new Double(smallGAP, smallGAP, getWidth() - GAP, getHeight() - GAP));
             jp.setFontObject(borderStyle.getTitle().getFrFont());
-            jp.setVisible(borderStyle.getType() == LayoutBorderStyle.TITLE);
-            
+            showTitlePreviewPane();
         }
+    }
+
+    protected void showTitlePreviewPane(){
+        jp.setVisible(borderStyle.getType() == LayoutBorderStyle.TITLE);
     }
 
     private class titlePreviewPane extends UITextArea {
@@ -134,7 +140,7 @@ public class LayoutBorderPreviewPane extends JPanel{
                 }
                 Background background = title.getBackground();
                 if (background != null) {
-                    Shape shape = new Rectangle2D.Double(0, 0, this.getWidth(), this.getHeight());
+                    Shape shape = new Double(0, 0, this.getWidth(), this.getHeight());
                     background.paint(g, shape);
                 }
                 GraphHelper.drawString(g2d, paintText, startX1, startY);
@@ -145,25 +151,25 @@ public class LayoutBorderPreviewPane extends JPanel{
             }
             g.setColor(borderStyle.getColor());
             int line = GraphHelper.getLineStyleSize(borderStyle.getBorder());
-            Double double1 =  new Rectangle2D.Double(0, getHeight()-1, getWidth(), getHeight());
+            Double double1 =  new Double(0, getHeight()-1, getWidth(), getHeight());
             double x = double1.getX() + (line == 1 ? 1 : 2) - line - 1;
             double y = double1.getY() + (line == 1 ? 1 : 2) - line ;
             RoundRectangle2D.Double  double2 = new RoundRectangle2D.Double(x, y, double1.getWidth() + line, double1.getHeight() + line,  0, 0);
             GraphHelper.draw(g,double2, borderStyle.getBorder());
         }
-        
-        private void drawTabBack(Graphics2D g2d,Graphics g,WidgetTitle title,FontMetrics fm,int startX1,int startY){
+
+        private void drawTabBack(Graphics2D g2d, Graphics g, WidgetTitle title, FontMetrics fm, int startX1, int startY){
         	Dimension d = getSize();
         	String paintText = Inter.getLocText("FR-Designer_Title")+TAB_ZERO;
-        	
+
             Background rightBack = ColorBackground.getInstance(XCardSwitchButton.CHOOSED_GRAL);
-            Shape right = new Rectangle2D.Double(this.getWidth()/2, 0, this.getWidth()/2, this.getHeight());
+            Shape right = new Double(this.getWidth()/2, 0, this.getWidth()/2, this.getHeight());
             rightBack.paint(g, right);
             String rightLabel = Inter.getLocText("FR-Designer_Title")+TAB_ONE;
             GraphHelper.drawString(g2d, rightLabel, (d.width/2 - fm.stringWidth(paintText)) / 2+d.width/2, startY);
             Background background = title.getBackground();
             if (background != null) {
-                Shape shape = new Rectangle2D.Double(0, 0, this.getWidth()/2, this.getHeight());
+                Shape shape = new Double(0, 0, this.getWidth()/2, this.getHeight());
                 background.paint(g, shape);
             }
             GraphHelper.drawString(g2d, paintText, startX1, startY);

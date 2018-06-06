@@ -1,13 +1,29 @@
 package com.fr.design.style.background;
 
 
-import com.fr.base.background.*;
+import com.fr.base.background.ColorBackground;
+import com.fr.base.background.GradientBackground;
+import com.fr.base.background.ImageBackground;
+import com.fr.base.background.PatternBackground;
+import com.fr.base.background.TextureBackground;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.fun.BackgroundUIProvider;
 import com.fr.design.style.background.gradient.GradientBackgroundPane;
-import com.fr.design.style.background.impl.*;
+import com.fr.design.style.background.impl.ColorBackgroundPane;
+import com.fr.design.style.background.impl.ImageBackgroundPane;
+import com.fr.design.style.background.impl.ImageBackgroundPane4Browser;
+import com.fr.design.style.background.impl.ImageButtonBackgroundPane;
+import com.fr.design.style.background.impl.NullBackgroundPane;
+import com.fr.design.style.background.impl.PatternBackgroundPane;
+import com.fr.design.style.background.impl.TextureBackgroundPane;
 import com.fr.general.Background;
+import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
+import com.fr.plugin.context.PluginContext;
+import com.fr.plugin.manage.PluginFilter;
+import com.fr.plugin.observer.PluginEvent;
+import com.fr.plugin.observer.PluginEventListener;
+import com.fr.plugin.observer.PluginEventType;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -29,9 +45,51 @@ public class BackgroundFactory {
         registerBrowserImageBackground(browser);
         registerExtra(map);
         registerExtra(browser);
+        listenPlugin();
         registerButtonBackground(button);
     }
-
+    
+    private static void listenPlugin() {
+        
+        PluginFilter filter = new PluginFilter() {
+            
+            @Override
+            public boolean accept(PluginContext context) {
+                
+                return context.contain(BackgroundUIProvider.MARK_STRING);
+            }
+        };
+        GeneralContext.listenPlugin(PluginEventType.BeforeStop, new PluginEventListener() {
+            
+            @Override
+            public void on(PluginEvent event) {
+                
+                Set<BackgroundUIProvider> set = event.getContext().getRuntime().get(BackgroundUIProvider.MARK_STRING);
+                for (BackgroundUIProvider provider : set) {
+                    map.remove(provider.targetClass());
+                    browser.remove(provider.targetClass());
+                }
+            }
+        }, filter);
+        GeneralContext.listenPlugin(PluginEventType.AfterRun, new PluginEventListener() {
+            
+            @Override
+            public void on(PluginEvent event) {
+                
+                Set<BackgroundUIProvider> set = event.getContext().getRuntime().get(BackgroundUIProvider.MARK_STRING);
+                Class<? extends Background> clazz;
+                BackgroundUIWrapper wrapper;
+                for (BackgroundUIProvider provider : set) {
+                    clazz = provider.targetClass();
+                    wrapper = BackgroundUIWrapper.create().setType(provider.targetUIClass()).setTitle(provider.targetTitle());
+                    map.put(clazz, wrapper);
+                    browser.put(clazz, wrapper);
+                }
+            }
+        });
+        
+    }
+    
     private static void registerUniversal(Map<Class<? extends Background>, BackgroundUIWrapper> map) {
         map.put(null, BackgroundUIWrapper.create()
                 .setType(NullBackgroundPane.class).setTitle(Inter.getLocText("FR-Designer_Background_Null")));
@@ -46,19 +104,19 @@ public class BackgroundFactory {
     }
 
     private static void registerImageBackground(Map<Class<? extends Background>, BackgroundUIWrapper> map) {
-        map.put(ImageFileBackground.class, BackgroundUIWrapper.create()
+        map.put(ImageBackground.class, BackgroundUIWrapper.create()
                 .setType(ImageBackgroundPane.class).setTitle(Inter.getLocText("FR-Designer_Background_Image")));
     }
 
     private static void registerBrowserImageBackground(Map<Class<? extends Background>, BackgroundUIWrapper> map) {
-        map.put(ImageFileBackground.class, BackgroundUIWrapper.create()
+        map.put(ImageBackground.class, BackgroundUIWrapper.create()
                 .setType(ImageBackgroundPane4Browser.class).setTitle(Inter.getLocText("FR-Designer_Background_Image")));
     }
 
-    private static void registerButtonBackground(Map<Class<? extends Background>, BackgroundUIWrapper> map) {
+    private static void registerButtonBackground(Map<Class<? extends Background>, BackgroundUIWrapper> map){
         map.put(ColorBackground.class, BackgroundUIWrapper.create()
                 .setType(ColorBackgroundPane.class).setTitle(Inter.getLocText("FR-Designer_Background_Color")));
-        map.put(ImageFileBackground.class, BackgroundUIWrapper.create()
+        map.put(ImageBackground.class, BackgroundUIWrapper.create()
                 .setType(ImageButtonBackgroundPane.class).setTitle(Inter.getLocText("FR-Designer_Background_Image")));
 
     }
@@ -139,7 +197,7 @@ public class BackgroundFactory {
         return new NullBackgroundPane();
     }
 
-    private static BackgroundDetailPane createByWrapper(BackgroundUIWrapper wrapper) {
+    public static BackgroundDetailPane createByWrapper(BackgroundUIWrapper wrapper) {
         Class<? extends BackgroundDetailPane> clazz = wrapper.getType();
         if (clazz == null) {
             clazz = NullBackgroundPane.class;

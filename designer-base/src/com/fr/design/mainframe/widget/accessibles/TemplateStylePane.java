@@ -1,17 +1,17 @@
 package com.fr.design.mainframe.widget.accessibles;
 
+import com.fr.design.dialog.BasicPane;
+import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.general.Inter;
 import com.fr.general.cardtag.BannerTemplateStyle;
 import com.fr.general.cardtag.BookMarkTemplateStyle;
 import com.fr.general.cardtag.CardTemplateStyle;
 import com.fr.general.cardtag.DefaultTemplateStyle;
 import com.fr.general.cardtag.MenuTemplateStyle;
 import com.fr.general.cardtag.PentagonTemplateStyle;
-import com.fr.general.cardtag.TrapezoidTemplateStyle;
-import com.fr.design.dialog.BasicPane;
 import com.fr.general.cardtag.TemplateStyle;
-import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.Inter;
+import com.fr.general.cardtag.TrapezoidTemplateStyle;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
@@ -41,11 +41,11 @@ public class TemplateStylePane extends BasicPane {
         listModel = new DefaultListModel();
         listModel.addElement(new DefaultTemplateStyle());
         listModel.addElement(new CardTemplateStyle());
-        listModel.addElement(new BookMarkTemplateStyle());
-        listModel.addElement(new PentagonTemplateStyle());
-        listModel.addElement(new MenuTemplateStyle());
-        listModel.addElement(new TrapezoidTemplateStyle());
         listModel.addElement(new BannerTemplateStyle());
+        listModel.addElement(new BookMarkTemplateStyle());
+        listModel.addElement(new MenuTemplateStyle());
+        listModel.addElement(new PentagonTemplateStyle());
+        listModel.addElement(new TrapezoidTemplateStyle());
         styleList = new JList(listModel);
         styleList.setCellRenderer(render);
 

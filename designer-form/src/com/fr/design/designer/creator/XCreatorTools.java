@@ -4,7 +4,7 @@
 package com.fr.design.designer.creator;
 
 import java.awt.Component;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author jim
@@ -17,7 +17,7 @@ public interface XCreatorTools {
 	 * 控件树不显示此组件
 	 * @param path 控件树list
 	 */
-	void notShowInComponentTree(ArrayList<Component> path);
+	void notShowInComponentTree(List<Component> path);
 	
 	/**
 	 * 重置组件的名称
@@ -54,5 +54,11 @@ public interface XCreatorTools {
 	 * @return 是则返回true
 	 */
 	boolean isDedicateContainer();
+
+	/**
+	 * 获取其在控件树上可见父层
+	 * @return 组件
+	 */
+	Component getParentShow();
 	
 }
