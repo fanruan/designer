@@ -2,7 +2,6 @@ package com.fr.start.module;
 
 import com.fr.design.fun.impl.GlobalListenerProviderManager;
 import com.fr.design.utils.DesignUtils;
-import com.fr.general.ModuleContext;
 import com.fr.module.Activator;
 
 /**
@@ -16,7 +15,6 @@ public class StartFinishActivator extends Activator {
     public void start() {
         
         DesignUtils.creatListeningServer(getStartPort(), startFileSuffix());
-        ModuleContext.clearModuleListener();
         GlobalListenerProviderManager.getInstance().init();
     }
     

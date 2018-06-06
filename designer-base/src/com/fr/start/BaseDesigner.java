@@ -13,11 +13,14 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDock;
 import com.fr.design.utils.DesignUtils;
+import com.fr.event.EventDispatcher;
 import com.fr.file.FILE;
 import com.fr.file.FILEFactory;
 import com.fr.file.FileFILE;
 import com.fr.general.ComparatorUtils;
+import com.fr.locale.InterProviderFactory;
 import com.fr.log.FineLoggerFactory;
+import com.fr.module.ModuleEvent;
 import com.fr.stable.OperatingSystem;
 
 import java.awt.*;
@@ -39,7 +42,8 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
     }
     
     private void init(String[] args) {
-        
+        //初始化
+        EventDispatcher.fire(ModuleEvent.MajorModuleStarting, InterProviderFactory.getProvider().getLocText("FR-Designer_Initializing"));
         // 初始化look and feel.这个在预加载之前执行是因为lookAndFeel里的东西，预加载时也要用到
         DesignUtils.initLookAndFeel();
     

@@ -6,7 +6,6 @@ import com.fr.general.ModuleContext;
 import com.fr.locale.InterMutableKey;
 import com.fr.module.Activator;
 import com.fr.module.extension.Prepare;
-import com.fr.stable.module.ModuleListener;
 
 /**
  * Created by juhaoyu on 2018/1/31.
@@ -17,11 +16,8 @@ public class DesignerModuleActivator extends Activator implements Prepare {
 
     @Override
     public void start() {
-
-        ModuleContext.registerModuleListener(getModule().upFindSingleton(ModuleListener.class));
+        
         ModuleContext.startModule(DesignerModule.class.getName());
-        ModuleContext.clearModuleListener();
-
         DesignerSocketIO.init();
     }
 
