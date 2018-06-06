@@ -12,6 +12,7 @@ import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.file.FILE;
 import com.fr.file.FileNodeFILE;
+import com.fr.stable.OperatingSystem;
 import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
 
@@ -41,7 +42,8 @@ public class JVirtualTemplate extends JTemplate {
         if (editingFileName.startsWith(ProjectConstants.REPORTLETS_NAME)) {
             editingFileName = ((FileNodeFILE) getEditingFILE()).getEnvPath() + File.separator + editingFileName;
         }
-        return editingFileName.replaceAll("/", "\\\\");
+        editingFileName = OperatingSystem.isWindows() ? editingFileName.replaceAll("/", "\\\\") : editingFileName.replaceAll("\\\\", "/");
+        return editingFileName;
     }
 
     /**

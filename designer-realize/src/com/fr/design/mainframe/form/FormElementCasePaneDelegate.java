@@ -21,6 +21,7 @@ import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.design.present.ConditionAttributesGroupPane;
 import com.fr.form.main.Form;
+import com.fr.grid.Grid;
 import com.fr.js.NameJavaScriptGroup;
 import com.fr.page.ReportSettingsProvider;
 import com.fr.report.elementcase.TemplateElementCase;
@@ -32,9 +33,13 @@ import com.fr.design.selection.SelectionListener;
  */
 public class FormElementCasePaneDelegate extends ElementCasePane<FormElementCase>{
 
-	public FormElementCasePaneDelegate(FormElementCase sheet, Form form) {
+    public FormElementCasePaneDelegate(FormElementCase sheet, Form form) {
         super(sheet);
-        this.getGrid().setShowPaginateLine(form.getFormMobileAttr().isMobileOnly());
+
+        this.getGrid().setPaginateLineShowType(form.getFormMobileAttr().isMobileOnly()
+                ? Grid.SINGLE_HORIZONTAL_PAGINATE_LINE
+                : Grid.NO_PAGINATE_LINE);
+
         this.addSelectionChangeListener(new SelectionListener() {
             @Override
             public void selectionChanged(SelectionEvent e) {
@@ -138,9 +143,9 @@ public class FormElementCasePaneDelegate extends ElementCasePane<FormElementCase
     }
 
     private ToolBarDef createFrozenColumnsToolBar() {
-       return ShortCut.asToolBarDef(new ShortCut[]{
-               new FormECFrozenAction(this),
-               new FormECColumnsAction(this),});
+        return ShortCut.asToolBarDef(new ShortCut[]{
+                new FormECFrozenAction(this),
+                new FormECColumnsAction(this),});
     }
 
 

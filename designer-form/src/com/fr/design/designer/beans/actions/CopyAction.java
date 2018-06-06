@@ -1,6 +1,7 @@
 package com.fr.design.designer.beans.actions;
 
 import com.fr.base.BaseUtils;
+import com.fr.design.designer.beans.actions.behavior.ComponentEnable;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.general.Inter;
 
@@ -18,6 +19,7 @@ public class CopyAction extends FormWidgetEditAction {
         this.setMnemonic('C');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_edit/copy.png"));
         this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, DEFAULT_MODIFIER));
+        setUpdateBehavior(new ComponentEnable());
     }
 
     @Override
@@ -28,5 +30,4 @@ public class CopyAction extends FormWidgetEditAction {
         }
         return false;
     }
-
 }

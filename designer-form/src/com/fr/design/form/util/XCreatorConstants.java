@@ -50,7 +50,7 @@ public class XCreatorConstants {
 
     // 伸缩表单操作条的颜色
     public static final Color OP_COLOR = new Color(157,228,245);
-    
+
     // 不同粗细的线
     public static final BasicStroke STROKE = new BasicStroke(2);
 }

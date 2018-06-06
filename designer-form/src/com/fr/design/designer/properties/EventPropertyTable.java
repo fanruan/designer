@@ -30,10 +30,10 @@ public class EventPropertyTable extends UIListControlPane {
 		this.designer = designer;
 	}
 
-    @Override
-    public String getAddItemText() {
-        return Inter.getLocText("FR-Designer_Add_Event");
-    }
+	@Override
+	public String getAddItemText() {
+		return Inter.getLocText("FR-Designer_Add_Event");
+	}
 
 	public static class WidgetEventListenerUpdatePane extends ListenerUpdatePane {
 
@@ -70,9 +70,9 @@ public class EventPropertyTable extends UIListControlPane {
 			return false;
 		}
 	}
-	
+
 	private String switchLang(String eventName)	{
-		return Inter.getLocText("Event-" + eventName);
+		return Inter.getLocText("FR-Engine_Event_" + eventName);
 	}
 
 	/**
@@ -93,31 +93,31 @@ public class EventPropertyTable extends UIListControlPane {
 
 		refreshNameableCreator(EventCreator.createEventCreator(widget.supportedEvents(), WidgetEventListenerUpdatePane.class));
 
-        ArrayList<NameObject> nameObjectList = new ArrayList<>();
+		ArrayList<NameObject> nameObjectList = new ArrayList<>();
 		for (int i = 0, size = widget.getListenerSize(); i < size; i++) {
 			Listener listener = widget.getListener(i);
 			if (!listener.isDefault()) {
-                nameObjectList.add(i, new NameObject(switchLang(listener.getEventName()) + (i + 1), listener));
-            }
+				nameObjectList.add(i, new NameObject(switchLang(listener.getEventName()) + (i + 1), listener));
+			}
 		}
-        populate(nameObjectList.toArray(new NameObject[widget.getListenerSize()]));
+		populate(nameObjectList.toArray(new NameObject[widget.getListenerSize()]));
 		checkButtonEnabled();
 		this.repaint();
-    }
+	}
 
 	/**
 	 * 更新控件事件
 	 * @param creator 控件
 	 */
 	public void updateWidgetListener(XCreator creator) {
-        (creator.toData()).clearListeners();
-        Nameable[] res = this.update();
-        for (int i = 0; i < res.length; i++) {
-            NameObject nameObject = (NameObject)res[i];
-            (creator.toData()).addListener((Listener) nameObject.getObject());
-        }
+		(creator.toData()).clearListeners();
+		Nameable[] res = this.update();
+		for (int i = 0; i < res.length; i++) {
+			NameObject nameObject = (NameObject)res[i];
+			(creator.toData()).addListener((Listener) nameObject.getObject());
+		}
 
-        designer.fireTargetModified();
+		designer.fireTargetModified();
 		checkButtonEnabled();
 	}
 
@@ -135,9 +135,9 @@ public class EventPropertyTable extends UIListControlPane {
 
 	@Override
 	public void saveSettings() {
-        if (isPopulating) {
-            return;
-        }
-        updateWidgetListener(creator);
-    }
+		if (isPopulating) {
+			return;
+		}
+		updateWidgetListener(creator);
+	}
 }

@@ -1,6 +1,7 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ibutton.UIButton;
@@ -81,7 +82,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
      *
      * @return
      */
-    public static final EastRegionContainerPane getInstance() {
+    public static EastRegionContainerPane getInstance() {
         if (THIS == null) {
             THIS = new EastRegionContainerPane();
             THIS.setLastContainerWidth(DesignerEnvManager.getEnvManager().getLastEastRegionContainerWidth());
@@ -230,6 +231,13 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         updateAllPropertyPane();
     }
 
+    /**
+     * 可通过此方法，判断当前的编辑模式
+     * */
+    public PropertyMode getCurrentMode() {
+        return currentMode;
+    }
+
     public void updateAllPropertyPane() {
         updatePropertyItemMap();
         initContentPane();
@@ -357,10 +365,6 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         propertyItemMap.get(KEY_WIDGET_SETTINGS).replaceHeaderPane(paraPane);
     }
 
-    public void setParameterHeight(int height) {
-        // stub
-    }
-
     public static void main(String[] args){
         JFrame jf = new JFrame("test");
 //        jf = new JFrame("test");
@@ -436,7 +440,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         // 无可用 tab 时，显示提示文字
         if (!hasAvailableTab) {
             resetPropertyIcons();
-            if (!hasEnabledTab && BaseUtils.isAuthorityEditing()) {
+            if (!hasEnabledTab && DesignerMode.isAuthorityEditing()) {
                 propertyCard.show(rightPane, DEFAULT_AUTHORITY_PANE);
             } else {
                 propertyCard.show(rightPane, DEFAULT_PANE);

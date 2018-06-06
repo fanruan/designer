@@ -108,6 +108,7 @@ public interface UIConstants {
     public static final Color AUTHORITY_SHEET_UNSELECTED = new Color(146, 192, 225);
     public static final Color ATTRIBUTE_PRESS = new Color(0x419BF9);
     public static final Color NORMAL_BLUE = new Color(0x419BF9);
+    public static final Color DISABLED_ICON_COLOR = new Color(170, 170, 171);
     public static final Color ATTRIBUTE_NORMAL = Color.WHITE;
     public static final Color ATTRIBUTE_HOVER = new Color(0xF5F5F7);
     public static final Color UI_TOOLBAR_COLOR = new Color(0xF5F5F7);

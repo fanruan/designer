@@ -5,6 +5,7 @@ import com.fr.design.event.GlobalNameListener;
 import com.fr.design.event.GlobalNameObserver;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
+import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -40,7 +41,7 @@ public abstract class AbstractAttrNoScrollPane extends BasicPane {
 	 * 后台初始化所有事件.
 	 */
 	public void initAllListeners() {
-        initListener(AbstractAttrNoScrollPane.this);
+		initListener(AbstractAttrNoScrollPane.this);
 	}
 
 	protected void initContentPane() {
@@ -73,14 +74,14 @@ public abstract class AbstractAttrNoScrollPane extends BasicPane {
 			}
 			if (tmpComp instanceof GlobalNameObserver) {
 				((GlobalNameObserver) tmpComp).registerNameListener(new GlobalNameListener() {
-                    public void setGlobalName(String name) {
-                        globalName = name;
-                    }
+					public void setGlobalName(String name) {
+						globalName = name;
+					}
 
-                    public String getGlobalName() {
-                        return globalName;
-                    }
-                });
+					public String getGlobalName() {
+						return globalName;
+					}
+				});
 			}
 			if (tmpComp instanceof UIObserver) {
 				((UIObserver) tmpComp).registerChangeListener(new UIObserverListener() {
@@ -93,10 +94,10 @@ public abstract class AbstractAttrNoScrollPane extends BasicPane {
 		}
 	}
 
-    /**
-     * 是否有改变监听
-     * @return  是则返回true
-     */
+	/**
+	 * 是否有改变监听
+	 * @return  是则返回true
+	 */
 	public static boolean isHasChangeListener() {
 		return hasChangeListener;
 	}
@@ -109,10 +110,10 @@ public abstract class AbstractAttrNoScrollPane extends BasicPane {
 	}
 
 
-    /**
-     * 返回绑定的属性事件.
-     * @param listener  增加监听
-     */
+	/**
+	 * 返回绑定的属性事件.
+	 * @param listener  增加监听
+	 */
 	public void addAttributeChangeListener(AttributeChangeListener listener) {
 		this.listener = listener;
 		hasChangeListener = true;
@@ -132,13 +133,19 @@ public abstract class AbstractAttrNoScrollPane extends BasicPane {
 	/**
 	 * 返回图标的路径
 	 */
-	public abstract String getIconPath();
+	public String getIconPath() {
+		// 默认为空，子类有需要再重写
+		return StringUtils.EMPTY;
+	}
 
-    /**
-     * 界面标题
-     * @return 标题
-     */
-	public abstract String title4PopupWindow();
+	/**
+	 * 界面标题
+	 * @return 标题
+	 */
+	public String title4PopupWindow() {
+		// 默认为空，子类有需要再重写
+		return StringUtils.EMPTY;
+	}
 
 	/**
 	 * 设置选中的ID, 用于双击展示界面.
@@ -151,12 +158,12 @@ public abstract class AbstractAttrNoScrollPane extends BasicPane {
 		return globalName;
 	}
 
-    /**
-     * 主要用于图表设计器
-     * @return 是
-     */
-    public boolean isNeedPresentPaneWhenFilterData(){
-        return true;
-    }
+	/**
+	 * 主要用于图表设计器
+	 * @return 是
+	 */
+	public boolean isNeedPresentPaneWhenFilterData(){
+		return true;
+	}
 
 }
