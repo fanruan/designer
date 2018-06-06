@@ -1,7 +1,8 @@
 package com.fr.design.gui.itree.filetree;
 
 import com.fr.base.Env;
-import com.fr.base.operator.file.DefaultFileOperator;
+import com.fr.base.operator.file.FileOperator;
+import com.fr.core.env.proxy.EnvProxy;
 import com.fr.design.gui.itree.refreshabletree.ExpandMutableTreeNode;
 import com.fr.file.filetree.FileNode;
 import com.fr.log.FineLoggerFactory;
@@ -101,8 +102,8 @@ public class TemplateFileTree extends EnvFileTree {
     }
 
     public FileNode[] listFile(String path) throws Exception {
-        String extra = DefaultFileOperator.getInstance().readExtraResourcePath(path);
-        return DefaultFileOperator.getInstance().list(extra, path);
+        String extra = EnvProxy.get(FileOperator.class).readExtraResourcePath(path);
+        return EnvProxy.get(FileOperator.class).list(extra, path);
     }
 
     /*

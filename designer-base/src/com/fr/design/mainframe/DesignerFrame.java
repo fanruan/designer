@@ -7,6 +7,7 @@ import com.fr.base.BaseUtils;
 import com.fr.base.Env;
 import com.fr.base.FRContext;
 import com.fr.core.env.EnvConfig;
+import com.fr.core.env.EnvContext;
 import com.fr.core.env.resource.EnvConfigUtils;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignState;
@@ -317,7 +318,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
             public void on(PluginEvent event) {
 
                 refreshNorthEastPane(northEastPane, ad);
-                DesignUtils.refreshDesignerFrame(FRContext.getCurrentEnv());
+                DesignUtils.refreshDesignerFrame();
             }
         }, new PluginFilter() {
 
@@ -682,10 +683,8 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
     /**
      * 报表运行环境改变时,需要刷新某些面板
-     *
-     * @param env 环境
      */
-    public void refreshEnv(Env env) {
+    public void refreshEnv() {
 
         this.setTitle();
         DesignerFrameFileDealerPane.getInstance().refreshDockingView();
@@ -965,14 +964,8 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
         DesignerEnvManager.getEnvManager().saveXMLFile();
 
-        Env currentEnv = FRContext.getCurrentEnv();
-        try {
-            EventDispatcher.fire(BEFORE_SIGN_OUT);
-            currentEnv.signOut();
-            EventDispatcher.fire(AFTER_SIGN_OUT);
-        } catch (Exception e) {
-            FineLoggerFactory.getLogger().error(e.getMessage(), e);
-        }
+        EnvContext.signOut();
+
         this.setVisible(false);
         this.dispose();
 

@@ -18,7 +18,6 @@ import com.fr.design.remote.ui.list.AddingMemberListCellRender;
 import com.fr.design.remote.ui.list.MemberListSelectedChangeListener;
 import com.fr.env.RemoteDesignMember;
 import com.fr.env.operator.decision.DecisionOperator;
-import com.fr.env.operator.decision.DefaultDecisionOperator;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 import com.fr.third.guava.collect.ImmutableList;
@@ -283,7 +282,7 @@ public class UserManagerPane extends BasicPane {
             protected List<RemoteDesignMember> doInBackground() {
                 addingMembers.clear();
                 String username = EnvConfigUtils.getUsername(EnvContext.currentEnv());
-                addingMembers.addAll(DefaultDecisionOperator.getInstance().getMembers(username, keyword));
+                addingMembers.addAll(EnvProxy.get(DecisionOperator.class).getMembers(username, keyword));
                 return addingMembers;
             }
 

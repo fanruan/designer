@@ -9,7 +9,6 @@ import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.remote.ui.AuthorityManagerPane;
 import com.fr.env.operator.authority.AuthorityOperator;
-import com.fr.env.operator.authority.DefaultAuthorityOperator;
 import com.fr.general.Inter;
 import com.fr.log.FineLoggerFactory;
 import com.fr.report.DesignAuthority;
@@ -38,7 +37,7 @@ public class RemoteDesignAuthorityManagerAction extends UpdateAction {
         if (!FRContext.getCurrentEnv().isLocalEnv()) {
             try {
                 // 远程设计获取全部设计成员的权限列表
-                DesignAuthority[] authorities = DefaultAuthorityOperator.getInstance().getAuthorities();
+                DesignAuthority[] authorities = EnvProxy.get(AuthorityOperator.class).getAuthorities();
                 if (authorities != null && authorities.length != 0) {
                     managerPane.populate(authorities);
                 }
@@ -54,7 +53,7 @@ public class RemoteDesignAuthorityManagerAction extends UpdateAction {
                 if (!FRContext.getCurrentEnv().isLocalEnv()) {
                     boolean success = false;
                     try {
-                        success = DefaultAuthorityOperator.getInstance().updateAuthorities(authorities);
+                        success = EnvProxy.get(AuthorityOperator.class).updateAuthorities(authorities);
                     } catch (Exception e) {
                         FineLoggerFactory.getLogger().error(e.getMessage(), e);
                     }

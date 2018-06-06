@@ -14,25 +14,25 @@ import com.fr.stable.module.ModuleListener;
  * 之后慢慢将DesignerModule拆成Activator
  */
 public class DesignerModuleActivator extends Activator implements Prepare {
-    
+
     @Override
     public void start() {
-        
+
         ModuleContext.registerModuleListener(getModule().upFindSingleton(ModuleListener.class));
         ModuleContext.startModule(DesignerModule.class.getName());
         ModuleContext.clearModuleListener();
 
         DesignerSocketIO.init();
     }
-    
+
     @Override
     public void stop() {
-    
+
     }
-    
+
     @Override
     public void prepare() {
-        
+
         addMutable(InterMutableKey.Path, "com/fr/design/i18n/main", "com/fr/design/i18n/chart");
     }
 }
