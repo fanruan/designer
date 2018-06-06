@@ -37,7 +37,7 @@ public class SignIn {
     
         if (EnvContext.currentEnv() != null && !ComparatorUtils.equals(EnvContext.currentEnv(), selectedEnv)) {
             EnvContext.signOut();
-            DesignUtils.switchToEnv(selectedEnv);
         }
+        DesignUtils.switchToEnv(selectedEnv);
     }
 }
