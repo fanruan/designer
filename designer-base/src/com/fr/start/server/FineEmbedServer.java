@@ -5,10 +5,6 @@ import com.fr.design.DesignerEnvManager;
 import com.fr.event.EventDispatcher;
 import com.fr.log.FineLoggerFactory;
 import com.fr.module.ModuleRole;
-import com.fr.stable.lifecycle.AbstractLifecycle;
-import com.fr.stable.lifecycle.Lifecycle;
-import com.fr.stable.lifecycle.LifecycleEvent;
-import com.fr.stable.lifecycle.LifecycleListener;
 import com.fr.startup.FineWebApplicationInitializer;
 import com.fr.third.springframework.web.SpringServletContainerInitializer;
 import com.fr.third.springframework.web.context.support.AnnotationConfigWebApplicationContext;
@@ -40,7 +36,7 @@ public class FineEmbedServer {
     private FineEmbedServer() {}
     
     
-    public void start() {
+    public synchronized void start() {
         
         if (isRunning) {
             return;
@@ -57,7 +53,7 @@ public class FineEmbedServer {
         EventDispatcher.fire(EmbedServerEvent.AfterStart);
     }
     
-    public void stop() {
+    public synchronized void stop() {
         
         if (!isRunning) {
             return;
