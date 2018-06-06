@@ -97,6 +97,7 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
                         + DesignerEnvManager.getEnvManager().getLastOpenFile());
             }
             isException = openFile(df, isException, file);
+            df.fireDesignerOpened();
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
             if (!isException) {

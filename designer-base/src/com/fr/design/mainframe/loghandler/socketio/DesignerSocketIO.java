@@ -10,7 +10,6 @@ import com.fr.design.mainframe.loghandler.DesignerLogHandler;
 import com.fr.event.Event;
 import com.fr.event.EventDispatcher;
 import com.fr.event.Listener;
-import com.fr.event.Null;
 import com.fr.general.LogRecordTime;
 import com.fr.general.LogUtils;
 import com.fr.log.FineLoggerFactory;
@@ -43,18 +42,18 @@ public class DesignerSocketIO {
     };
 
     static {
-        EventDispatcher.listen(EnvEvent.AFTER_SIGN_OUT, new Listener<Null>() {
+        EventDispatcher.listen(EnvEvent.AFTER_SIGN_OUT, new Listener<EnvConfig>() {
             @Override
-            public void on(Event event, Null param) {
+            public void on(Event event, EnvConfig param) {
                 if (socketIO.isPresent()) {
                     socketIO.get().close();
                     socketIO = Optional.absent();
                 }
             }
         });
-        EventDispatcher.listen(EnvEvent.AFTER_SIGN_IN, new Listener<Null>() {
+        EventDispatcher.listen(EnvEvent.AFTER_SIGN_IN, new Listener<EnvConfig>() {
             @Override
-            public void on(Event event, Null param) {
+            public void on(Event event, EnvConfig param) {
                 updateSocket();
             }
         });

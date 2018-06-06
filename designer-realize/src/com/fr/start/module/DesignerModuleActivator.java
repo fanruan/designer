@@ -13,22 +13,22 @@ import com.fr.module.extension.Prepare;
  * 之后慢慢将DesignerModule拆成Activator
  */
 public class DesignerModuleActivator extends Activator implements Prepare {
-    
+
     @Override
     public void start() {
         
         ModuleContext.startModule(DesignerModule.class.getName());
         DesignerSocketIO.init();
     }
-    
+
     @Override
     public void stop() {
-    
+
     }
-    
+
     @Override
     public void prepare() {
-        
+
         addMutable(InterMutableKey.Path, "com/fr/design/i18n/main", "com/fr/design/i18n/chart");
     }
 }

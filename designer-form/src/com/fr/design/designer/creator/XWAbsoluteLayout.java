@@ -16,9 +16,11 @@ import com.fr.design.designer.creator.cardlayout.XWTabFitLayout;
 import com.fr.design.form.layout.FRAbsoluteLayout;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.icon.IconPathConstants;
+import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.EditingMouseListener;
 import com.fr.design.mainframe.FormArea;
 import com.fr.design.mainframe.FormDesigner;
+import com.fr.design.mainframe.WidgetHelpDialog;
 import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.form.ui.Connector;
 import com.fr.form.ui.Widget;
@@ -32,7 +34,16 @@ import com.fr.share.ShareConstants;
 import com.fr.stable.Constants;
 
 import javax.swing.Icon;
-import java.awt.*;
+import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Composite;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
+import java.awt.Toolkit;
 import java.awt.event.ContainerEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -46,8 +57,8 @@ import java.util.HashMap;
  */
 public class XWAbsoluteLayout extends XLayoutContainer {
 
-    private static final int EDIT_BTN_WIDTH = 60;
-    private static final int EDIT_BTN_HEIGHT = 24;
+    private static final int EDIT_BTN_WIDTH = 75;
+    private static final int EDIT_BTN_HEIGHT = 20;
     private int minWidth = WLayout.MIN_WIDTH;
     private int minHeight = WLayout.MIN_HEIGHT;
     private static final Color OUTER_BORDER_COLOR = new Color(65, 155, 249, 30);
@@ -57,6 +68,8 @@ public class XWAbsoluteLayout extends XLayoutContainer {
 
     //由于屏幕分辨率不同，界面上的容器大小可能不是默认的100%，此时拖入组件时，保存的大小按照100%时的计算
     protected double containerPercent = 1.0;
+
+    private boolean isHovering = false;
 
     private HashMap<Connector, XConnector> xConnectorMap;
 
@@ -501,7 +514,6 @@ public class XWAbsoluteLayout extends XLayoutContainer {
             super.paintBorder(g, bounds);
         }
     }
-
     /**
      * 响应点击事件
      *
@@ -509,6 +521,11 @@ public class XWAbsoluteLayout extends XLayoutContainer {
      * @param e                    鼠标点击事件
      */
     public void respondClick(EditingMouseListener editingMouseListener, MouseEvent e) {
+        //帮助弹窗
+        if (this.isHelpBtnOnFocus()) {
+            new WidgetHelpDialog(DesignerContext.getDesignerFrame(), this.toData().getDescription()).showWindow(e);
+            return;
+        }
         FormDesigner designer = editingMouseListener.getDesigner();
         SelectionModel selectionModel = editingMouseListener.getSelectionModel();
         boolean isEditing = isEditable() ||
@@ -562,6 +579,14 @@ public class XWAbsoluteLayout extends XLayoutContainer {
 
     @Override
     public boolean supportInnerOrderChangeActions() {
+        return true;
+    }
+
+    /**
+     * 是否支持共享-现只支持报表块、图表、tab块、绝对布局
+     * @return
+     */
+    public boolean isSupportShared() {
         return true;
     }
 }

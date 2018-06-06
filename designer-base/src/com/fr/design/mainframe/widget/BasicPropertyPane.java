@@ -13,6 +13,10 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 /**
  * Created by plough on 2017/8/7.
@@ -27,7 +31,31 @@ public class BasicPropertyPane extends BasicPane {
     protected void initContentPane() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        widgetName = new UITextField();
+        widgetName = new UITextField() {
+            protected void initListener() {
+                if (shouldResponseChangeListener()) {
+                    addFocusListener(new FocusListener() {
+                        @Override
+                        public void focusGained(FocusEvent e) {
+
+                        }
+
+                        @Override
+                        public void focusLost(FocusEvent e) {
+                            attributeChange();
+                        }
+                    });
+                    addKeyListener(new KeyAdapter() {
+                        @Override
+                        public void keyPressed(KeyEvent e) {
+                            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                                attributeChange();
+                            }
+                        }
+                    });
+                }
+            }
+        };
         widgetName.setGlobalName(Inter.getLocText("FR-Designer_Basic"));
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;

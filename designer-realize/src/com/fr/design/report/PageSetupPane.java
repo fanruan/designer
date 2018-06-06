@@ -72,7 +72,7 @@ public class PageSetupPane extends BasicPane {
     private PagePane pagePane;
     private OtherPane otherPane;
     private UILabel zeroMarginWarn;
-    
+
     public PageSetupPane() {
         this.initComponents();
     }
@@ -128,7 +128,7 @@ public class PageSetupPane extends BasicPane {
 
         private UIRadioButton predefinedRadioButton;
         private UIRadioButton customRadioButton;
-        
+
         private UIComboBox predefinedComboBox;
 
         private UIBasicSpinner paperWidthSpinner;
@@ -196,14 +196,16 @@ public class PageSetupPane extends BasicPane {
             paperSizePane.add(innerpaperSizePane);
             defaultPane.add(paperSizePane);
 
+
             predefinedRadioButton = new UIRadioButton(Inter.getLocText("PageSetup-Predefined") + ":");
             predefinedRadioButton.setMnemonic('P');
             predefinedRadioButton.addActionListener(previewListener);
-            
+
+
             customRadioButton = new UIRadioButton(Inter.getLocText("Custom") + ":");
             customRadioButton.setMnemonic('C');
             customRadioButton.addActionListener(previewListener);
-            
+
             predefinedComboBox = new UIComboBox();
 
             paperWidthSpinner = new UIBasicSpinner(new SpinnerNumberModel(0.0, 0.0, Double.MAX_VALUE, 1.0));
@@ -234,11 +236,10 @@ public class PageSetupPane extends BasicPane {
                 predefinedComboBox.addItem(tmpPaperSizeNameArray[1]);
             }
 
-
             // tow radio buttons.
             JPanel radioButtonPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
             innerpaperSizePane.add(radioButtonPane);
-            
+
             radioButtonPane.add(predefinedRadioButton);
             radioButtonPane.add(predefinedComboBox);
 
@@ -415,7 +416,7 @@ public class PageSetupPane extends BasicPane {
             boolean isCustomed = true;
             for (int i = 0; i < ReportConstants.PaperSizeNameSizeArray.length; i++) {
                 Object[] tmpPaperSizeNameArray = ReportConstants.PaperSizeNameSizeArray[i];
-                
+
                 // peter:当前选择的是预先定义好的.
                 if (ComparatorUtils.equals(paperSize, tmpPaperSizeNameArray[1])) {
                     this.predefinedComboBox.setSelectedIndex(i);
@@ -446,7 +447,7 @@ public class PageSetupPane extends BasicPane {
                 ((SpinnerNumberModel)paperWidthSpinner.getModel()).setMaximum(maxWidth);
             }
         }
-        
+
         private void unitSet(int unitType) {
             this.unitType = unitType;
             unitLabel.setUnitType(unitType);
@@ -461,7 +462,7 @@ public class PageSetupPane extends BasicPane {
 
 
         private void setAndPopulate(boolean isCustomed, int unitType) {
-        	ReportSettingsProvider reportSettings = report.getReportSettings();
+            ReportSettingsProvider reportSettings = report.getReportSettings();
             PaperSettingProvider psetting = reportSettings.getPaperSetting();
             PaperSize paperSize = psetting.getPaperSize();
             if (isCustomed) {
@@ -493,7 +494,7 @@ public class PageSetupPane extends BasicPane {
 
 
         private void populateMargin() {
-        	ReportSettingsProvider reportSettings = report.getReportSettings();
+            ReportSettingsProvider reportSettings = report.getReportSettings();
             PaperSettingProvider psetting = reportSettings.getPaperSetting();
             // margins
             Margin margin = psetting.getMargin();
@@ -506,7 +507,7 @@ public class PageSetupPane extends BasicPane {
             headerUnitFieldPane.setUnitValue(reportSettings.getHeaderHeight());
             footerUnitFieldPane.setUnitValue(reportSettings.getFooterHeight());
         }
-        
+
         private void updatePaperSizeByType(PaperSettingProvider psetting){
             // paper size.
             if (this.predefinedRadioButton.isSelected()) {
@@ -534,7 +535,7 @@ public class PageSetupPane extends BasicPane {
          * update
          */
         public void update(Report report) {
-        	ReportSettingsProvider reportSettings = report.getReportSettings();
+            ReportSettingsProvider reportSettings = report.getReportSettings();
             // samuel:先判断是否reportSettings是否为空，如果为空，先新建
             if (reportSettings == null) {
                 reportSettings = new ReportSettings();
@@ -552,7 +553,7 @@ public class PageSetupPane extends BasicPane {
 
             //paper size
             updatePaperSizeByType(psetting);
-            
+
             // margins
             Margin margin = psetting.getMargin();
             margin.setTop(this.marginTopUnitFieldPane.getUnitValue());
@@ -634,9 +635,9 @@ public class PageSetupPane extends BasicPane {
                 return this;
             }
         };
-        
+
         private void adjustCellRenderByType(StringBuffer sbuf,PaperSize paperSize){
-        	sbuf.append(" [");
+            sbuf.append(" [");
             if (unitType == Constants.UNIT_CM) {
                 sbuf.append(Utils.convertNumberStringToString(new Float(paperSize.getWidth().toCMValue4Scale2())));
                 sbuf.append('x');
@@ -659,7 +660,6 @@ public class PageSetupPane extends BasicPane {
             sbuf.append(']');
         }
 
-
         /**
          * Paper size item listener.
          */
@@ -671,7 +671,7 @@ public class PageSetupPane extends BasicPane {
                 previewShowPagePane();
             }
         };
-        
+
         private void adjustSpinnerValueByType(PaperSize paperSize){
             if (unitType == Constants.UNIT_CM) {
                 paperWidthSpinner.setValue(new Float(paperSize.getWidth().toCMValue4Scale2()));
@@ -831,8 +831,8 @@ public class PageSetupPane extends BasicPane {
         }
 
         private FocusAdapter fa = new FocusAdapter() {
-        	private final static int NUM_11 = 11;
-        	
+            private final static int NUM_11 = 11;
+
             @Override
             public void focusLost(FocusEvent e) {
                 String zeroValue = "0";
@@ -969,7 +969,7 @@ public class PageSetupPane extends BasicPane {
          * Populate
          */
         public void populate(Report report) {
-        	ReportSettingsProvider reportSettings = null;
+            ReportSettingsProvider reportSettings = null;
             reportSettings = ReportUtils.getReportSettings(report);
 
             if (reportSettings == null) {
@@ -1004,7 +1004,7 @@ public class PageSetupPane extends BasicPane {
          * void update
          */
         public void update(Report report) {
-        	ReportSettingsProvider reportSettings = null;
+            ReportSettingsProvider reportSettings = null;
             if (report.getReportSettings() == null) {
                 report.setReportSettings(new ReportSettings());
             }

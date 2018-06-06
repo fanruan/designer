@@ -3,8 +3,8 @@
  */
 package com.fr.design.designer.creator;
 
-import com.fr.base.BaseUtils;
 import com.fr.base.GraphHelper;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
@@ -15,6 +15,7 @@ import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.AuthorityPropertyPane;
 import com.fr.design.mainframe.BaseJForm;
+import com.fr.design.mainframe.CoverReportPane;
 import com.fr.design.mainframe.EditingMouseListener;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.NoSupportAuthorityEdit;
@@ -58,14 +59,15 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 
 	protected Widget data;
 	protected JComponent editor;
+	protected CoverReportPane coverPanel;
 	// XCreator加入到某些XLayoutContainer中时，能调整宽度或者高度
 	private int[] directions;
 	private Rectangle backupBound;
 	private String shareId = StringUtils.EMPTY;//如果组件是共享的会有这个属性
 	private boolean isHelpBtnOnFocus = false;//焦点是否在帮助按钮上
-    private static final int SHORTS_SEPARATOR_POS = 4;  // 弹出菜单分割的位置
+	private static final int SHORTS_SEPARATOR_POS = 4;  // 弹出菜单分割的位置
 
-    public XCreator(Widget ob, Dimension initSize) {
+	public XCreator(Widget ob, Dimension initSize) {
 		this.data = ob;
 
 		this.initEditor();
@@ -251,8 +253,8 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	}
 
 	protected String getIconName() {
-        return StringUtils.EMPTY;
-    }
+		return StringUtils.EMPTY;
+	}
 
 	public String getIconPath() {
 		return "/com/fr/web/images/form/resources/" + getIconName();
@@ -294,7 +296,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	 */
 	@Override
 	public JComponent createToolPane(BaseJForm jform, FormDesigner formEditor) {
-		if (!BaseUtils.isAuthorityEditing()) {
+		if (!DesignerMode.isAuthorityEditing()) {
 			if (isDedicateContainer()) {
 				// 图表块和报表块由于控件树处不显示，但对应的属性表要显示，此处处理下
 				XCreator child = ((XLayoutContainer) this).getXCreator(0);
@@ -328,21 +330,21 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 		return false;
 	}
 
-    /**
-     * 该组件是否可以拖入参数面板
-     * @return 是则返回true
-     */
-    public boolean canEnterIntoParaPane(){
-        return true;
-    }
+	/**
+	 * 该组件是否可以拖入参数面板
+	 * @return 是则返回true
+	 */
+	public boolean canEnterIntoParaPane(){
+		return true;
+	}
 
-    /**
-     * 该组件是否可以拖入表单主体
-     * @return 是则返回true
-     */
-    public boolean canEnterIntoAdaptPane(){
-        return true;
-    }
+	/**
+	 * 该组件是否可以拖入表单主体
+	 * @return 是则返回true
+	 */
+	public boolean canEnterIntoAdaptPane(){
+		return true;
+	}
 
 	/**
 	 * 该组件是否可以拖入绝对布局
@@ -352,27 +354,27 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 		return true;
 	}
 
-    /**
-     * 该组件是否可以拖拽(表单中参数面板和自适应布局不可以拖拽)
-     * @return 是则返回true
-     */
-    public boolean isSupportDrag(){
-        return true;
-    }
+	/**
+	 * 该组件是否可以拖拽(表单中参数面板和自适应布局不可以拖拽)
+	 * @return 是则返回true
+	 */
+	public boolean isSupportDrag(){
+		return true;
+	}
 
-    public List<String> getAllXCreatorNameList(XCreator xCreator,  List<String> namelist){
-        namelist.add(xCreator.toData().getWidgetName());
-        return namelist;
-    }
+	public List<String> getAllXCreatorNameList(XCreator xCreator,  List<String> namelist){
+		namelist.add(xCreator.toData().getWidgetName());
+		return namelist;
+	}
 
-    /**
-     * 是否有查询按钮
-     * @param xCreator  控件或容器
-     * @return  有无查询按钮
-     */
-    public boolean SearchQueryCreators(XCreator xCreator) {
-        return false;
-    }
+	/**
+	 * 是否有查询按钮
+	 * @param xCreator  控件或容器
+	 * @return  有无查询按钮
+	 */
+	public boolean SearchQueryCreators(XCreator xCreator) {
+		return false;
+	}
 
 	/**
 	 * @return the backupBound
@@ -410,6 +412,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	 * 重置组件的名称
 	 * @param name 名称
 	 */
+	@Override
 	public void resetCreatorName(String name) {
 		toData().setWidgetName(name);
 	}
@@ -426,6 +429,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	 * 返回编辑的子组件，scale为其内部组件
 	 * @return 组件
 	 */
+	@Override
 	public XCreator getEditingChildCreator() {
 		return this;
 	}
@@ -434,6 +438,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	 * 返回对应属性表的组件，scale和title返回其子组件
 	 * @return 组件
 	 */
+	@Override
 	public XCreator getPropertyDescriptorCreator() {
 		return this;
 	}
@@ -442,6 +447,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	 * 更新子组件的Bound; 没有不处理
 	 * @param minHeight 最小高度
 	 */
+	@Override
 	public void updateChildBound(int minHeight) {
 		return;
 	}
@@ -450,6 +456,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	 * 是否作为控件树的叶子节点
 	 * @return 是则返回true
 	 */
+	@Override
 	public boolean isComponentTreeLeaf() {
 		return true;
 	}
@@ -458,23 +465,24 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	 *  是否为sclae和title专属容器
 	 * @return 是则返回true
 	 */
+	@Override
 	public boolean isDedicateContainer() {
 		return false;
 	}
 
 	/**
-     * 是否接收这种类型
-     * @param acceptTypes 接收的类型
-     * @return 接收指定的类型则返回true,否则返回false
-     */
-    public boolean acceptType(Class<?>... acceptTypes) {
-        for (Class<?> type : acceptTypes) {
-            if (StableUtils.objectInstanceOf(this, type)) {
-                return true;
-            }
-        }
-        return false;
-    }
+	 * 是否接收这种类型
+	 * @param acceptTypes 接收的类型
+	 * @return 接收指定的类型则返回true,否则返回false
+	 */
+	public boolean acceptType(Class<?>... acceptTypes) {
+		for (Class<?> type : acceptTypes) {
+			if (StableUtils.objectInstanceOf(this, type)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	/**
 	 * 是否组件要缩放(自适应里部分组件需要, 如数字、文本、下拉框、下拉复选框、密码、下拉树、下拉复选树、日期)
@@ -601,7 +609,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	/**
 	 * 组件是否是共享组件
 	 * @return 是否是共享组件
-     */
+	 */
 	public boolean isShared() {
 		return StringUtils.isNotEmpty(shareId);
 	}
@@ -617,7 +625,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	/**
 	 * 焦点是否在帮助按钮上
 	 * @return 焦点是否在帮助按钮上
-     */
+	 */
 	public boolean isHelpBtnOnFocus() {
 		return isHelpBtnOnFocus;
 	}
@@ -629,18 +637,41 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	/**
 	 * 设置描述信息
 	 * @param msg 帮助信息
-     */
-	public void setXDescrption(String msg){}
+	 */
+	public void setXDescrption(String msg){
+		if (coverPanel != null) {
+			coverPanel.setHelpMsg(msg);
+		}
+	}
+
+	public JComponent getCoverPane(){
+		return coverPanel;
+	}
+
+	/**
+	 * 销毁帮助提示框
+	 */
+	public void destroyHelpDialog(){
+		if (coverPanel != null) {
+			coverPanel.destroyHelpDialog();
+		}
+	}
+
+	/**
+	 * 是否展现覆盖的pane
+	 * @param display     是否
+	 */
+	public void displayCoverPane(boolean display){
+	}
 
 	/**
 	 * 根据widget设置Xcreator描述信息
 	 * @param widget
-     */
+	 */
 	public void setXDescrption(Widget widget){
 		if (widget != null) {
 			setXDescrption(widget.getDescription());
 		}
-
 	}
 
 	/**
@@ -688,17 +719,16 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	 *
 	 */
 	public void firePropertyChange(){
-        // do nothing
+		// do nothing
 	}
 
-    /**
-     * 有的控件是有编辑状态的，给一个退出编辑的接口
-     *
-     */
-    public void stopEditing() {
-        // do nothing
-    }
-
+	/**
+	 * 有的控件是有编辑状态的，给一个退出编辑的接口
+	 *
+	 */
+	public void stopEditing() {
+		// do nothing
+	}
 
 	/**
 	 *  编辑状态的时候需要重新绘制下边框
@@ -713,23 +743,31 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	 *
 	 */
 	public UIPopupMenu createPopupMenu(FormDesigner formDesigner) {
-        UpdateAction[] actions = formDesigner.getActions();
+		UpdateAction[] actions = formDesigner.getActions();
 		UIPopupMenu popup = new UIPopupMenu();
-        for (int i = 0; i < actions.length; i++) {
-            if (i == SHORTS_SEPARATOR_POS) {
-                popup.addSeparator();
-            }
-            popup.add(actions[i].createMenuItem());
-        }
+		for (int i = 0; i < actions.length; i++) {
+			if (i == SHORTS_SEPARATOR_POS) {
+				popup.addSeparator();
+			}
+			popup.add(actions[i].createMenuItem());
+		}
 		return popup;
 	}
 
-    /**
-     * 是否支持上移一层、下移一层等操作
-     *
-     */
-    public boolean isMovable() {
-        return true;
-    }
+	/**
+	 * 是否支持上移一层、下移一层等操作
+	 *
+	 */
+	public boolean isMovable() {
+		return true;
+	}
+
+	/**
+	 * 是否支持共享-现只支持报表块、图表、tab块、绝对布局
+	 * @return
+	 */
+	public boolean isSupportShared() {
+		return false;
+	}
 
 }
