@@ -1,7 +1,9 @@
 package com.fr.start.jni;
 
+import com.fr.base.FRContext;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
+import com.fr.stable.StringUtils;
 import com.fr.start.SplashContext;
 import com.fr.start.SplashStrategy;
 
@@ -21,7 +23,7 @@ import java.io.InputStream;
 public class SplashMac implements SplashStrategy {
 
     private static final String SPLASH_CACHE_NAME = "splash_10.gif";
-    private static final String SPLASH_PATH = "/com/fr/base/images/oem/splash_10.gif";
+    private static final String SPLASH_PATH = "/com/fr/design/images/splash_10.gif";
 
     private SplashJNI jni;
 
@@ -33,11 +35,14 @@ public class SplashMac implements SplashStrategy {
      * 将jar中的资源拷贝到缓存文件夹
      *
      * @return 路径
-     * @throws IOException 拷贝失败
      */
-    private static String loadResFromJar() throws UnsatisfiedLinkError {
+    private static String loadResFromJar() {
         File tempLib = null;
         try (InputStream inputStream = SplashContext.class.getResourceAsStream(SplashMac.SPLASH_PATH)) {
+            if (inputStream == null) {
+                FRContext.getLogger().error("Unable to copy " + SplashMac.SPLASH_PATH + " from jar file.");
+                return StringUtils.EMPTY;
+            }
             tempLib = new File(StableUtils.pathJoin(ProductConstants.getEnvHome(), SPLASH_CACHE_NAME));
             byte[] buffer = new byte[1024];
             int read = -1;
@@ -48,8 +53,11 @@ public class SplashMac implements SplashStrategy {
             }
             return tempLib.getAbsolutePath();
         } catch (IOException e) {
-            tempLib.deleteOnExit();
-            throw new UnsatisfiedLinkError("Unable to open " + SplashMac.SPLASH_PATH + " from jar file.");
+            if (tempLib != null) {
+                tempLib.deleteOnExit();
+            }
+            // 直接抛异常
+            throw new RuntimeException("Unable to copy " + SplashMac.SPLASH_PATH + " from jar file.");
         }
     }
 
