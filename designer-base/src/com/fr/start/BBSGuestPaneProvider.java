@@ -10,6 +10,6 @@ package com.fr.start;
  */
 public interface BBSGuestPaneProvider {
 	
-	public static final String XML_TAG = "BBSGuestPane";
+	String XML_TAG = "BBSGuestPane";
 
 }

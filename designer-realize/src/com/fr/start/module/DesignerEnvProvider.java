@@ -28,7 +28,7 @@ import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
 import com.fr.module.Activator;
 import com.fr.start.EnvSwitcher;
-import com.fr.start.StartServer;
+import com.fr.start.ServerStarter;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -47,7 +47,7 @@ public class DesignerEnvProvider extends Activator {
             for (String arg : args) {
                 if (ComparatorUtils.equals(arg, "demo")) {
                     DesignerEnvManager.getEnvManager().setCurrentEnv2Default();
-                    StartServer.browserDemoURL();
+                    ServerStarter.browserDemoURL();
                     break;
                 }
             }

@@ -8,7 +8,7 @@ import com.fr.design.actions.UpdateAction;
 import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
-import com.fr.start.StartServer;
+import com.fr.start.ServerStarter;
 
 import java.awt.event.ActionEvent;
 
@@ -23,11 +23,11 @@ public class ChartMapEditorAction extends UpdateAction {
     }
 
     public void actionPerformed(ActionEvent evt) {
-        int port = DesignerEnvManager.getEnvManager().getJettyServerPort();
+        int port = DesignerEnvManager.getEnvManager().getEmbedServerPort();
         String web = GeneralContext.getCurrentAppNameOfEnv();
         String serverlet = ServerConfig.getInstance().getReportServletName();
         Env env = FRContext.getCurrentEnv();
-        StartServer.browserURLWithLocalEnv(env.isLocalEnv() ? String.format("http://localhost:%d/%s/%s?op=map", port, web, serverlet) : env.getPath() + "?op=map");
+        ServerStarter.browserURLWithLocalEnv(env.isLocalEnv() ? String.format("http://localhost:%d/%s/%s?op=map", port, web, serverlet) : env.getPath() + "?op=map");
     }
 
 }

@@ -30,7 +30,7 @@ import com.fr.stable.CodeUtils;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
-import com.fr.start.StartServer;
+import com.fr.start.ServerStarter;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -146,7 +146,7 @@ public class DesignUtils {
                         String line = null;
                         while ((line = reader.readLine()) != null) {
                             if (line.startsWith("demo")) {
-                                StartServer.browserDemoURL();
+                                ServerStarter.browserDemoURL();
                             } else if (StringUtils.isNotEmpty(line)) {
                                 File f = new File(line);
                                 String path = f.getAbsolutePath();
@@ -208,7 +208,6 @@ public class DesignUtils {
                 break;
             }
         }
-
         EnvConfig oldEnv = EnvContext.currentEnv();
         String oldEnvPath = oldEnv == null ? null : oldEnv.getPath();
 
@@ -358,10 +357,10 @@ public class DesignUtils {
         } else {
             try {
                 String web = GeneralContext.getCurrentAppNameOfEnv();
-                String url = "http://localhost:" + DesignerEnvManager.getEnvManager().getJettyServerPort()
+                String url = "http://localhost:" + DesignerEnvManager.getEnvManager().getEmbedServerPort()
                         + "/" + web + "/" + ServerConfig.getInstance().getServletName() + baseRoute
                         + postfixOfUri;
-                StartServer.browserURLWithLocalEnv(url);
+                ServerStarter.browserURLWithLocalEnv(url);
             } catch (Throwable e) {
                 //
             }
