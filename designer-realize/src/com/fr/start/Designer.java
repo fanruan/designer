@@ -43,10 +43,13 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.module.Module;
 import com.fr.module.ModuleContext;
+import com.fr.stable.OperatingSystem;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.xml.XMLTools;
+import com.fr.start.fx.SplashFx;
+import com.fr.start.jni.SplashMac;
 import com.fr.start.module.StartupArgs;
 import com.fr.start.server.ServerTray;
 import com.fr.start.server.FineEmbedServer;
@@ -87,7 +90,8 @@ public class Designer extends BaseDesigner {
      * @param args 参数
      */
     public static void main(String[] args) {
-
+        SplashContext.getInstance().registerSplash(createSplash());
+        SplashContext.getInstance().show();
         Module designerRoot = ModuleContext.parseRoot("designer-startup.xml");
         //传递启动参数
         designerRoot.setSingleton(StartupArgs.class, new StartupArgs(args));
@@ -97,6 +101,17 @@ public class Designer extends BaseDesigner {
             FineEmbedServer.getInstance().start();
             ServerTray.init();
         }
+
+    }
+
+    private static SplashStrategy createSplash() {
+        // 这里可以开接口加载自定义启动画面
+        if (OperatingSystem.isWindows()) {
+            return new SplashFx();
+        } else if (OperatingSystem.isMacOS()) {
+            return new SplashMac();
+        }
+        return new SplashFx();
     }
 
     public Designer(String[] args) {
