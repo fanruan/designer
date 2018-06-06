@@ -2,6 +2,9 @@ package com.fr.start.server;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
+import com.fr.event.Event;
+import com.fr.event.EventDispatcher;
+import com.fr.event.ListenerAdaptor;
 import com.fr.general.Inter;
 
 import java.awt.*;
@@ -28,12 +31,13 @@ public class ServerTray {
 	private ServerManageFrame serverManageFrame;
 
 	private TrayIcon trayIcon;
-	
-	
-	public ServerTray() {
-		
-		//p:首先构建右键菜单
-		PopupMenu popup = new PopupMenu();
+    
+    
+    private ServerTray() {
+    
+        listen();
+        //p:首先构建右键菜单
+        PopupMenu popup = new PopupMenu();
 		MenuItem manangeMenu = new MenuItem(Inter.getLocText("Server-Open_Service_Manager"));
 		manangeMenu.addActionListener(new ActionListener() {
 			
@@ -117,8 +121,22 @@ public class ServerTray {
 		
 		checkPopupMenuItemEnabled();
 	}
-
-	private void exit() {
+    
+    private void listen() {
+        
+        ListenerAdaptor listenerAdaptor = new ListenerAdaptor() {
+            
+            @Override
+            protected void on(Event event) {
+                
+                checkPopupMenuItemEnabled();
+            }
+        };
+        EventDispatcher.listen(EmbedServerEvent.AfterStart, listenerAdaptor);
+        EventDispatcher.listen(EmbedServerEvent.AfterStop, listenerAdaptor);
+    }
+    
+    private void exit() {
 		
 		FineEmbedServer.getInstance().stop();
 		SystemTray.getSystemTray().remove(trayIcon);
@@ -150,5 +168,6 @@ public class ServerTray {
 	public static void init() {
 		
 		INSTANCE = new ServerTray();
-	}
+    
+    }
 }
