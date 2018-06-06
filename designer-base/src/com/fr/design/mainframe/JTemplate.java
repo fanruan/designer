@@ -557,15 +557,25 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
                 operation == FILEChooserPane.OK_OPTION;
     }
 
-    private boolean saveAsTemplate(boolean isShowLoc) {
+    public boolean saveAsTemplate(boolean isShowLoc) {
         FILE editingFILE = this.getEditingFILE();
         if (editingFILE == null) {
             return false;
         }
+        return saveAsTemplate(isShowLoc, editingFILE.getName());
+    }
+
+    /**
+     * 保存
+     * @param isShowLoc 是否显示“报表运行环境”外的路径(C盘D盘等)
+     * @param fileName 保存文件名
+     * @return
+     */
+    public boolean saveAsTemplate(boolean isShowLoc, String fileName) {
         String oldName = this.getFullPathName();
         // alex:如果是SaveAs的话需要让用户来选择路径了
         FILEChooserPane fileChooser = getFILEChooserPane(isShowLoc);
-        fileChooser.setFileNameTextField(editingFILE.getName(), this.suffix());
+        fileChooser.setFileNameTextField(fileName, this.suffix());
         int chooseResult = fileChooser.showSaveDialog(DesignerContext.getDesignerFrame(), this.suffix());
 
         if (isCancelOperation(chooseResult)) {
@@ -574,7 +584,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         }
 
         if (isOkOperation(chooseResult)) {
-            if (!FRContext.getCurrentEnv().hasFileFolderAllow(fileChooser.getSelectedFILE().getPath())) {
+            if (!FRContext.getCurrentEnv().hasFileFolderAllow(fileChooser.getSelectedFILE().getPath()) ) {
                 JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("FR-Designer_No-Privilege") + "!", Inter.getLocText("FR-Designer_Message"), JOptionPane.WARNING_MESSAGE);
                 return false;
             }

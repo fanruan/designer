@@ -18,9 +18,14 @@ import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.form.ui.ElementCaseEditor;
 import com.fr.general.Inter;
+import com.fr.stable.StringUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
+import java.awt.Component;
 
 /**
  * 报表块-移动端属性面板
@@ -28,6 +33,7 @@ import java.awt.*;
  * Created by fanglei on 2017/8/8.
  */
 public class ElementCaseDefinePane extends MobileWidgetDefinePane{
+    private static final double MAX_HEIGHT_LIMIT = 0.8;
     private static final Item[] ITEMS = {
             new Item(MobileFitAttrState.HORIZONTAL.description(), MobileFitAttrState.HORIZONTAL),
             new Item(MobileFitAttrState.VERTICAL.description(), MobileFitAttrState.VERTICAL),
@@ -49,25 +55,6 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane{
     }
 
     @Override
-    protected void initContentPane() {}
-
-    @Override
-    protected JPanel createContentPane() {
-        return null;
-    }
-
-    @Override
-    public String getIconPath() {
-        return "";
-    }
-
-    @Override
-    public String title4PopupWindow() {
-        return "ElementCase";
-    }
-
-
-    @Override
     public void initPropertyGroups(Object source) {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
@@ -75,7 +62,25 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane{
         this.vComboBox = new UIComboBox(ITEMS);
         this.heightRestrictCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Mobile-Height-Limit"));
         this.maxHeightLabel = new UILabel(Inter.getLocText("FR-Designer_Mobile-Height-Percent"), SwingConstants.LEFT);
-        this.maxHeightSpinner = new UISpinner(0, 1, 0.01, 0.75);
+        this.maxHeightSpinner = new UISpinner(0, MAX_HEIGHT_LIMIT, 0.01, 0.75) {
+            public void setValue(double value) {
+                String warningText = StringUtils.EMPTY;
+                if (value > MAX_HEIGHT_LIMIT) {
+                    warningText = Inter.getLocText("FR-Designer_Mobile-Warning");
+                } else if (value < 0) {
+                    // 弹窗提示
+                    warningText = Inter.getLocText("FR-Designer_Max_Height_Cannot_Be_Negative");
+                }
+                if (StringUtils.isNotEmpty(warningText)) {
+                    // 弹窗提示
+                    JOptionPane.showMessageDialog(null,
+                            warningText,
+                            Inter.getLocText("FR-Designer_Tooltips"),
+                            JOptionPane.PLAIN_MESSAGE);
+                }
+                super.setValue(value);
+            }
+        };
         maxHeightSpinner.setVisible(false);
         maxHeightLabel.setVisible(false);
 

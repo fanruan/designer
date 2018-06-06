@@ -7,6 +7,7 @@ import com.fr.start.Designer;
 import com.fr.start.EnvSwitcher;
 import com.fr.start.ReportSplashPane;
 import com.fr.start.SplashWindow;
+import com.fr.startup.EnvInitializer;
 import com.fr.startup.activators.BasicActivator;
 
 /**
@@ -16,7 +17,6 @@ public class DesignerStartup extends Activator {
 
     @Override
     public void start() {
-
         startSub(PreStartActivator.class);
         //启动基础部分
         startSub(BasicActivator.class);

@@ -13,7 +13,6 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -21,6 +20,7 @@ import javax.swing.JPanel;
 import com.fr.base.BaseUtils;
 import com.fr.base.Parameter;
 import com.fr.base.parameter.ParameterUI;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.designer.beans.actions.CopyAction;
@@ -107,11 +107,10 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
         EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.REPORT_PARA);
         EastRegionContainerPane.getInstance().replaceWidgetLibPane(
                 FormWidgetDetailPane.getInstance(this));
-        if (!BaseUtils.isAuthorityEditing()) {
-            ParameterPropertyPane parameterPropertyPane = ParameterPropertyPane.getInstance(this);
+        if (!DesignerMode.isAuthorityEditing()) {
+            ParameterPropertyPane parameterPropertyPane = ParameterPropertyPane.getInstance(this);  // 传入this的同时会更新参数面板高度
             parameterPropertyPane.refreshState();
             EastRegionContainerPane.getInstance().addParameterPane(parameterPropertyPane);
-            EastRegionContainerPane.getInstance().setParameterHeight(parameterPropertyPane.getPreferredSize().height);
             EastRegionContainerPane.getInstance().replaceWidgetSettingsPane(
                     WidgetPropertyPane.getInstance(this));
         } else {

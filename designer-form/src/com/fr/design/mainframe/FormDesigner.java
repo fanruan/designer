@@ -1,21 +1,14 @@
 package com.fr.design.mainframe;
 
-import com.fr.base.BaseUtils;
 import com.fr.base.Parameter;
 import com.fr.base.ScreenResolution;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignState;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.designer.TargetComponent;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.Painter;
-import com.fr.design.designer.beans.actions.CopyAction;
-import com.fr.design.designer.beans.actions.CutAction;
-import com.fr.design.designer.beans.actions.FormDeleteAction;
-import com.fr.design.designer.beans.actions.MoveDownAction;
-import com.fr.design.designer.beans.actions.MoveToBottomAction;
-import com.fr.design.designer.beans.actions.MoveToTopAction;
-import com.fr.design.designer.beans.actions.MoveUpAction;
-import com.fr.design.designer.beans.actions.PasteAction;
+import com.fr.design.designer.beans.actions.*;
 import com.fr.design.designer.beans.adapters.layout.FRParameterLayoutAdapter;
 import com.fr.design.designer.beans.events.CreatorEventListenerTable;
 import com.fr.design.designer.beans.events.DesignerEditListener;
@@ -26,14 +19,7 @@ import com.fr.design.designer.beans.location.RootResizeDirection;
 import com.fr.design.designer.beans.models.AddingModel;
 import com.fr.design.designer.beans.models.SelectionModel;
 import com.fr.design.designer.beans.models.StateModel;
-import com.fr.design.designer.creator.XChartEditor;
-import com.fr.design.designer.creator.XCreator;
-import com.fr.design.designer.creator.XCreatorUtils;
-import com.fr.design.designer.creator.XLayoutContainer;
-import com.fr.design.designer.creator.XWAbsoluteBodyLayout;
-import com.fr.design.designer.creator.XWAbsoluteLayout;
-import com.fr.design.designer.creator.XWBorderLayout;
-import com.fr.design.designer.creator.XWParameterLayout;
+import com.fr.design.designer.creator.*;
 import com.fr.design.designer.properties.FormWidgetAuthorityEditPane;
 import com.fr.design.event.DesignerOpenedListener;
 import com.fr.design.file.HistoryTemplateListPane;
@@ -58,29 +44,17 @@ import com.fr.form.ui.WidgetValue;
 import com.fr.form.ui.container.WBorderLayout;
 import com.fr.form.ui.container.WFitLayout;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.FRLogger;
 import com.fr.general.Inter;
-import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.bridge.StableFactory;
 
-import javax.swing.Action;
-import javax.swing.JComponent;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.TransferHandler;
+import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreePath;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.Point;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.lang.reflect.InvocationHandler;
@@ -228,8 +202,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
         }
         ParameterPropertyPane.getInstance().getParameterToolbarPane().populateBean(
                 getParameterArray() == null ? new Parameter[0] : getParameterArray());
-        ParameterPropertyPane.getInstance().repaintContainer();
-        EastRegionContainerPane.getInstance().setParameterHeight(ParameterPropertyPane.getInstance(this).getPreferredSize().height);
+        ParameterPropertyPane.getInstance(this).repaintContainer();  // 传入this的同时会更新参数面板高度
     }
 
     private void removeSame(Parameter[] parameters, List<String> namelist) {
@@ -501,7 +474,6 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
         paraHeight = 0;
         paraComponent = null;
         formLayoutContainer.setSize(rootComponent.getWidth(), rootComponent.getHeight());
-        EastRegionContainerPane.getInstance().replaceConfiguredRolesPane(this.getEastDownPane());
         //atat
         //EastRegionContainerPane.getInstance().addTitlePane(ParameterPropertyPane.getInstance(FormDesigner.this));
         //删除后重绘下
@@ -1061,7 +1033,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
                 selected.add((XCreator) path.getLastPathComponent());
             }
 
-            if (!BaseUtils.isAuthorityEditing()) {
+            if (!DesignerMode.isAuthorityEditing()) {
                 selectionModel.setSelectedCreators(selected);
 
                 if (formArea != null) {
@@ -1344,7 +1316,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
                     try {
                         Thread.sleep(1500);
                     } catch (InterruptedException e) {
-                        FineLoggerFactory.getLogger().error(e.getMessage(), e);
+                        FRLogger.getLogger().error(e.getMessage(), e);
                     }
 
                     pane.setLayout(new BorderLayout());
@@ -1459,7 +1431,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
 
         @Override
         public void fireCreatorModified(DesignerEvent evt) {
-            if (!BaseUtils.isAuthorityEditing()) {
+            if (!DesignerMode.isAuthorityEditing()) {
                 return;
             }
             if (evt.getCreatorEventID() == DesignerEvent.CREATOR_EDITED
@@ -1471,7 +1443,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
                 if (paths == null) {
                     return;
                 }
-                if (BaseUtils.isAuthorityEditing()) {
+                if (DesignerMode.isAuthorityEditing()) {
                     showAuthorityEditPane();
                 }
 
