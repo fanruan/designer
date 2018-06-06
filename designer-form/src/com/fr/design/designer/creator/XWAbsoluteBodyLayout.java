@@ -89,6 +89,21 @@ public class XWAbsoluteBodyLayout extends XWAbsoluteLayout {
         };
     }
 
+    /**
+     * 获取其在控件树上可见父层
+     * @return 组件
+     */
+    @Override
+    public Component getParentShow(){
+        //绝对布局作为body的时候不显示自适应布局父层
+        if ((this.getParent() != null)) {
+            return ((XCreator) this.getParent()).getParentShow();
+        }
+        return super.getParentShow();
+    }
+
+
+
     @Override
     public WidgetPropertyUIProvider[] getWidgetPropertyUIProviders() {
         return new WidgetPropertyUIProvider[]{ new BodyMobilePropertyUI(this)};

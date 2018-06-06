@@ -2,9 +2,10 @@ package com.fr.design.designer.creator.cardlayout;
 
 import com.fr.design.designer.beans.actions.FormUndoableAction;
 import com.fr.design.mainframe.FormDesigner;
+import com.fr.design.mainframe.FormHierarchyTreePane;
 import com.fr.form.ui.CardSwitchButton;
 import com.fr.form.ui.container.cardlayout.WTabFitLayout;
-import com.fr.log.FineLoggerFactory;
+import com.fr.general.FRLogger;
 
 /**
  * Created by zhouping on 2017/2/17.
@@ -35,9 +36,11 @@ public class TabMoveAction extends FormUndoableAction {
             moveTabAction(xwCardTagLayout, currentButton, xCurrentTab, currentTab);
 
             xwCardTagLayout.setSwitchingTab(false);
+            xwCardTagLayout.doLayout();
+            FormHierarchyTreePane.getInstance().refreshDockingView();
         }catch (Exception e){
             xwCardTagLayout.setSwitchingTab(false);
-            FineLoggerFactory.getLogger().error(e.getMessage());
+            FRLogger.getLogger().error(e.getMessage());
             return false;
         }
         return true;

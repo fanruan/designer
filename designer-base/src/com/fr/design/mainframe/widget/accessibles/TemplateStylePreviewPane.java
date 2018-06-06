@@ -14,7 +14,8 @@ import java.awt.Image;
 public class TemplateStylePreviewPane extends JPanel {
 
     private static final int WIDTH = 540;
-    private static final int HEIGHT = 500;
+    private static final int HEIGHT = 400;
+    private static final int OFFSETY = 50;
 
     private TemplateStyle templateStyle;
 
@@ -32,6 +33,6 @@ public class TemplateStylePreviewPane extends JPanel {
         super.paint(g);
         Graphics2D g2d = (Graphics2D) g.create();
         Image image = BaseUtils.readImage(templateStyle.getPreview());
-        g2d.drawImage(image, 0, 0, WIDTH, HEIGHT, null);
+        g2d.drawImage(image, 0, OFFSETY, WIDTH, HEIGHT, null);
     }
 }

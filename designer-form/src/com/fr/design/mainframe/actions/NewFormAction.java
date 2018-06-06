@@ -9,9 +9,8 @@ import com.fr.design.menu.MenuKeySet;
 import com.fr.general.Inter;
 import com.fr.stable.bridge.StableFactory;
 
-import javax.swing.*;
+import javax.swing.KeyStroke;
 import java.awt.event.ActionEvent;
-import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
 import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;

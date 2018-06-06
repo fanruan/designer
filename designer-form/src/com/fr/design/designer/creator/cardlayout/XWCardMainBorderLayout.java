@@ -3,22 +3,38 @@
  */
 package com.fr.design.designer.creator.cardlayout;
 
+import com.fr.base.GraphHelper;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
+import com.fr.design.designer.beans.LayoutAdapter;
+import com.fr.design.designer.beans.adapters.layout.FRCardMainBorderLayoutAdapter;
 import com.fr.design.designer.beans.models.SelectionModel;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XCreatorUtils;
 import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.designer.creator.XWBorderLayout;
+import com.fr.design.designer.creator.XWidgetCreator;
+import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.icon.IconPathConstants;
 import com.fr.design.mainframe.EditingMouseListener;
 import com.fr.design.mainframe.FormDesigner;
+import com.fr.design.mainframe.WidgetPropertyPane;
+import com.fr.form.event.Listener;
+import com.fr.form.ui.LayoutBorderStyle;
+import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.form.ui.container.WBorderLayout;
+import com.fr.form.ui.container.WCardLayout;
 import com.fr.form.ui.container.WTabDisplayPosition;
+import com.fr.form.ui.container.WTitleLayout;
 import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
+import com.fr.form.ui.container.cardlayout.WCardTagLayout;
+import com.fr.form.ui.container.cardlayout.WCardTitleLayout;
+import com.fr.general.ComparatorUtils;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
+import com.fr.stable.Constants;
+
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Component;
@@ -27,9 +43,11 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * card布局主体框架
@@ -38,17 +56,17 @@ import java.util.ArrayList;
  *
  * @date: 2014-12-9-下午9:59:31
  */
-public class XWCardMainBorderLayout extends XWBorderLayout{
+public class XWCardMainBorderLayout extends XWBorderLayout {
 
 	private static final int CENTER = 1;
 	private static final int NORTH = 0;
-	public static final Color DEFAULT_BORDER_COLOR = new Color(210,210,210);
-	private static final int LAYOUT_INDEX = 0;
 	private static final int TITLE_STYLE = 2;
-	private static final int NORMAL_STYLE = 1;
 
-	private static final int EDIT_BTN_WIDTH = 60;
-	private static final int EDIT_BTN_HEIGHT = 24;
+	private static final int EDIT_BTN_WIDTH = 75;
+	private static final int EDIT_BTN_HEIGHT = 20;
+	private static final int BORDER_WIDTH = 1;
+
+	private final int CARDMAINLAYOUT_CHILD_COUNT = 1;
 
 	/**
 	 * 构造函数
@@ -66,6 +84,7 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 	 * @date 2014-12-10-下午1:46:33
 	 *
 	 */
+	@Override
 	public WCardMainBorderLayout toData() {
 		return (WCardMainBorderLayout) super.toData();
 	}
@@ -84,15 +103,86 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 		this.add(title, position);
 	}
 
+	public int getTitleWidth(){
+		String position = toData().getTabPosition();
+		if(ComparatorUtils.equals(WBorderLayout.NORTH, position) || ComparatorUtils.equals(WBorderLayout.SOUTH, position)){
+			return getTitlePart().getHeight();
+		}
+		return getTitlePart().getWidth();
+	}
+
     public void add(Component comp, String position) {
         super.add(comp, position);
     }
+
+
+	/**
+	 * 将WLayout转换为XLayoutContainer
+	 */
+	@Override
+	public void convert() {
+		isRefreshing = true;
+		WBorderLayout wb = this.toData();
+		this.removeAll();
+		String[] arrs = {WBorderLayout.NORTH, WBorderLayout.SOUTH, WBorderLayout.EAST, WBorderLayout.WEST, WBorderLayout.CENTER};
+		for (int i = 0; i < arrs.length; i++) {
+			Widget wgt = wb.getLayoutWidget(arrs[i]);
+			//用来兼容之前titlePart设置不可见
+			if (wgt != null && ComparatorUtils.equals(arrs[i], WBorderLayout.NORTH) && !wgt.isVisible()) {
+				wgt.setVisible(true);
+				this.toData().setNorthSize(0);
+			}
+			if (wgt != null) {
+				XWidgetCreator comp = (XWidgetCreator) XCreatorUtils.createXCreator(wgt, calculatePreferredSize(wgt));
+				this.add(comp, arrs[i]);
+				comp.setBackupParent(this);
+			}
+		}
+		dealCompatibility(wb);
+
+		isRefreshing = false;
+	}
+
+	private void dealCompatibility(WBorderLayout wb){
+ 		WCardMainBorderLayout ob = (WCardMainBorderLayout)wb;
+		WCardLayout cardLayout = ob.getCardPart();
+		//tab结构改变需要兼容以前的tab，重新命名tabpane
+		WCardTitleLayout wCardTitleLayout = ob.getTitlePart();
+		if(cardLayout == null || wCardTitleLayout == null){
+			return;
+		}
+		WCardTagLayout wCardTagLayout = wCardTitleLayout.getTagPart();
+		String tabpaneName = cardLayout.getWidgetName();
+		if (!wCardTagLayout.isNewTab()) {
+			wCardTagLayout.setWidgetName(tabpaneName);
+			LayoutBorderStyle borderStyle = cardLayout.getBorderStyle();
+			if(borderStyle != null){
+				//新tab默认都有标题
+				borderStyle.setType(LayoutBorderStyle.TITLE);
+			}
+			cardLayout.setWidgetName(XWCardLayout.DEFAULT_NAME + tabpaneName.replaceAll(XWCardTagLayout.DEFAULT_NAME, ""));
+			wCardTitleLayout.setCardName(cardLayout.getWidgetName());
+			wCardTagLayout.setNewTab(true);
+			//这边需要设置成默认值兼容之前的title高度(不知道为啥之前的title的高度会改变)
+			if(this.toData().getNorthSize() != 0){
+				ob.setNorthSize(WTitleLayout.TITLE_HEIGHT);
+			}
+			for(int i = 0 ;i < cardLayout.getListenerSize(); i ++){
+				Listener listener = cardLayout.getListener(i);
+				if(listener != null){
+					wCardTagLayout.addListener(listener);
+				}
+			}
+			cardLayout.clearListeners();
+		}
+	}
 
 	/**
 	 * 切换到非添加状态
 	 *
 	 * @return designer 表单设计器
 	 */
+	@Override
 	public void stopAddingState(FormDesigner designer){
 		designer.stopAddingState();
 		return;
@@ -119,7 +209,7 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 	public XWCardTitleLayout getTitlePart(){
 		Component[] components = this.getComponents();
 		for(Component component : components){
-			if(component instanceof  XWCardTitleLayout){
+			if(component instanceof XWCardTitleLayout){
 				return (XWCardTitleLayout)component;
 			}
 		}
@@ -141,8 +231,14 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 	 * 控件树不显示此组件
 	 * @param path 控件树list
 	 */
-	public void notShowInComponentTree(ArrayList<Component> path) {
-		path.remove(LAYOUT_INDEX);
+	@Override
+	public void notShowInComponentTree(List<Component> path) {
+		return;
+	}
+
+	@Override
+	public int getShowXCreatorCount() {
+		return CARDMAINLAYOUT_CHILD_COUNT;
 	}
 
     @Override
@@ -160,7 +256,8 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
      * 重新调整子组件的宽度
      * @param width 宽度
      */
-    public void recalculateChildWidth(int width){
+    @Override
+	public void recalculateChildWidth(int width){
 		ArrayList<?> childrenList = this.getTargetChildrenList();
 		int size = childrenList.size();
 		if (size > 0) {
@@ -191,7 +288,8 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
      * 重新调整子组件的高度
      * @param height 高度
      */
-    public void recalculateChildHeight(int height){
+    @Override
+	public void recalculateChildHeight(int height){
 		ArrayList<?> childrenList = this.getTargetChildrenList();
 		int size = childrenList.size();
 		if (size > 0) {
@@ -223,6 +321,7 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 
     }
 
+	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
 		//如果鼠标移动到布局内且布局不可编辑，画出编辑蒙层
@@ -235,15 +334,19 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 			Graphics2D g2d = (Graphics2D) g;
 			Composite oldComposite = g2d.getComposite();
 			//画白色的编辑层
-			g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 60 / 100.0F));
-			g2d.setColor(Color.WHITE);
+			g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 50 / 100.0F));
+			g2d.setColor(XCreatorConstants.COVER_COLOR);
 			g2d.fillRect(x, y, w, h);
 			//画编辑按钮所在框
+			FormDesigner formDesigner = WidgetPropertyPane.getInstance().getEditingFormDesigner();
+			AlphaComposite alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, formDesigner.getCursor().getType() != Cursor.DEFAULT_CURSOR ? 0.9f : 0.7f);
+			g2d.setColor(XCreatorConstants.EDIT_COLOR);
+			g2d.setComposite(alphaComposite);
+			g2d.fillRoundRect((x + w / 2 - EDIT_BTN_WIDTH / 2), (y + h / 2 - EDIT_BTN_HEIGHT / 2), EDIT_BTN_WIDTH, EDIT_BTN_HEIGHT, 4, 4);
 			g2d.setComposite(oldComposite);
-			g2d.setColor(new Color(176, 196, 222));
-			g2d.fillRect((x + w / 2 - EDIT_BTN_WIDTH / 2), (y + h / 2 - EDIT_BTN_HEIGHT / 2), EDIT_BTN_WIDTH, EDIT_BTN_HEIGHT);
+
 			//画编辑按钮图标
-			BufferedImage image = IOUtils.readImage(IconPathConstants.TD_EDIT_ICON_PATH);
+			BufferedImage image = IOUtils.readImage(IconPathConstants.EDIT_ICON_PATH);
 			g2d.drawImage(
 					image,
 					(x + w / 2 - 23),
@@ -253,9 +356,18 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 					null,
 					this
 			);
-			g2d.setColor(Color.BLACK);
+			g2d.setColor(Color.WHITE);
 			//画编辑文字
 			g2d.drawString(Inter.getLocText("FR-Designer_Edit"), x + w / 2 - 2, y + h / 2 + 5);
+			g.setColor(XCreatorConstants.FORM_BORDER_COLOR);
+			GraphHelper.draw(g, new Rectangle(BORDER_WIDTH, BORDER_WIDTH, getWidth() - BORDER_WIDTH * 2, getHeight() - BORDER_WIDTH * 2), Constants.LINE_MEDIUM);
+		}
+	}
+
+	@Override
+	public void paintBorder(Graphics g, Rectangle bounds){
+		if (!isMouseEnter) {
+			super.paintBorder(g, bounds);
 		}
 	}
 
@@ -265,7 +377,8 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 	 * @param editingMouseListener 鼠标点击，位置处理器
 	 * @param e 鼠标点击事件
 	 */
-	public void respondClick(EditingMouseListener editingMouseListener,MouseEvent e){
+	@Override
+	public void respondClick(EditingMouseListener editingMouseListener, MouseEvent e){
 		FormDesigner designer = editingMouseListener.getDesigner();
 		SelectionModel selectionModel = editingMouseListener.getSelectionModel();
 		boolean isEditing = e.getButton() == MouseEvent.BUTTON1 &&
@@ -289,43 +402,57 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 	 */
 	@Override
 	public XLayoutContainer getTopLayout() {
-		XLayoutContainer xTopLayout = XCreatorUtils.getParentXLayoutContainer(this).getTopLayout();
-		if (xTopLayout != null && !xTopLayout.isEditable()){
-			return xTopLayout;
-		}
-		else{
 			return this;
-		}
+	}
+
+	@Override
+	public int getIndexOfChild(Object child) {
+		XWCardTitleLayout titlePart = this.getTitlePart();
+		return titlePart.getIndexOfChild(child);
 	}
 
 	/**
 	 * data属性改变触发其他操作
 	 *
 	 */
+	@Override
 	public void firePropertyChange(){
-		getCardPart().initStyle();
+		return;
 	}
 
 
 	public void resetTabDisplayPosition(WTabDisplayPosition wTabDisplayPosition){
 		XWCardTitleLayout xwCardTitleLayout = getTitlePart();
+		int titleSize = getTitleWidth();
 		xwCardTitleLayout.resetNewBtnPosition(wTabDisplayPosition);
+		Rectangle parentBounds = new Rectangle(xwCardTitleLayout.getBounds());
 		switch (wTabDisplayPosition){
 			case TOP_POSITION:
-				this.addTitlePart(getTitlePart(),WBorderLayout.NORTH);
+				this.addTitlePart(xwCardTitleLayout, WBorderLayout.NORTH);
+				parentBounds.height = titleSize;
 				break;
 			case LEFT_POSITION:
-				this.addTitlePart(getTitlePart(),WBorderLayout.WEST);
+				this.addTitlePart(xwCardTitleLayout, WBorderLayout.WEST);
+				parentBounds.width = titleSize;
 				break;
 			case BOTTOM_POSITION:
-				this.addTitlePart(getTitlePart(),WBorderLayout.SOUTH);
+				this.addTitlePart(xwCardTitleLayout, WBorderLayout.SOUTH);
+				parentBounds.height = titleSize;
 				break;
 			case RIGHT_POSITION:
-				this.addTitlePart(getTitlePart(),WBorderLayout.EAST);
+				this.addTitlePart(xwCardTitleLayout, WBorderLayout.EAST);
+				parentBounds.width = titleSize;
 				break;
 			default:
 				break;
 		}
+		xwCardTitleLayout.setBounds(parentBounds);
 		this.addCardPart((XWCardLayout)this.getComponent(0));
 	}
+
+	@Override
+	public LayoutAdapter getLayoutAdapter() {
+		return new FRCardMainBorderLayoutAdapter(this);
+	}
+
 }
