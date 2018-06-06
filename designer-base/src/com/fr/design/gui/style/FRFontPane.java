@@ -49,7 +49,7 @@ public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObse
     private JPanel isSuperOrSubPane;
     private UIComboBox fontNameComboBox;
     private UIComboBox fontSizeStyleComboBox;
-    private UIComboBox fontSizeComboBox;
+    protected UIComboBox fontSizeComboBox;
     private UIToggleButton bold;
     private UIToggleButton italic;
     private UIToggleButton underline;
@@ -327,7 +327,7 @@ public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObse
         return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
     }
 
-    private JPanel createRightPane() {
+    protected JPanel createRightPane() {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] columnSize = {f};

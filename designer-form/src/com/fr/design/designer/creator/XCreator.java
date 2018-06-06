@@ -76,6 +76,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 			this.setLayout(FRGUIPaneFactory.createBorderLayout());
 			add(editor, BorderLayout.CENTER);
 		}
+
 		setInitSize(initSize);
 		this.setPreferredSize(initSize);
 		this.setSize(initSize);

@@ -59,13 +59,14 @@ public class WidgetAbsoluteBoundPane extends WidgetBoundPane {
     @Override
     public void limitWidth(WLayout wabs, int w, Rectangle bounds, Rectangle rec){
         bounds.width = w;
+        creator.setBounds(bounds);
     }
 
     @Override
     public void limitHeight(WLayout wabs, int h, Rectangle bounds, Rectangle rec){
         bounds.height = h;
+        creator.setBounds(bounds);
     }
-
     @Override
     protected String title4PopupWindow() {
         return "absoluteBound";

@@ -4,7 +4,6 @@
 package com.fr.design.designer.creator;
 
 import java.awt.Component;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,7 +18,6 @@ public interface XCreatorTools {
 	 * @param path 控件树list
 	 */
 	void notShowInComponentTree(List<Component> path);
-
 	/**
 	 * 重置组件的名称
 	 * @param name 名称
@@ -61,5 +59,4 @@ public interface XCreatorTools {
 	 * @return 组件
 	 */
 	Component getParentShow();
-
 }

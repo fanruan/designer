@@ -11,6 +11,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
@@ -248,10 +249,17 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
 		}
 		while (dialog.getParent() != null) {
 			dialog = dialog.getParent();
-			if (dialog instanceof SmartInsertSubmitJobListPane) {
-				((SmartInsertSubmitJobListPane)dialog).showParentDialog();
-			} else if (dialog instanceof Dialog) {
-                dialog.setVisible(true);
+			if (dialog instanceof Dialog) {
+				//这边需要另起一个线程设置可见，防止阻塞
+				final Container finalDialog = dialog;
+				SwingWorker worker = new SwingWorker() {
+					@Override
+					protected Object doInBackground() throws Exception {
+						finalDialog.setVisible(true);
+						return null;
+					}
+				};
+				worker.execute();
 			}
 		}
 	}
@@ -263,14 +271,13 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
 		}
 		while (dialog.getParent() != null) {
 			dialog = dialog.getParent();
-			if (dialog instanceof SmartInsertSubmitJobListPane) {
-				((SmartInsertSubmitJobListPane)dialog).hideParentDialog();
-			} else if (dialog instanceof Dialog) {
+			if (dialog instanceof Dialog) {
 				// 条件属性中添加的控件的话有两层dialog，需要都隐藏
 				dialog.setVisible(false);
 			}
 		}
 	}
+
 
 	/**
 	 * 检测是否合法

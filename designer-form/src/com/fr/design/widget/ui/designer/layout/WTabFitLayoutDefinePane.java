@@ -19,6 +19,7 @@ import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
 import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.form.ui.container.cardlayout.WCardTitleLayout;
 import com.fr.form.ui.container.cardlayout.WTabFitLayout;
+import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 
 import javax.swing.BorderFactory;
@@ -77,12 +78,12 @@ public class WTabFitLayoutDefinePane extends AbstractDataModify<WTabFitLayout> {
 
     @Override
     public void populateBean(WTabFitLayout ob) {
-        borderStyle.populate(ob);
         paddingBoundPane.populate(ob);
         componentInterval.setValue(ob.getCompInterval());
         if(ob.getCurrentCard() == null){
             ob.setCurrentCard(getRelateSwitchButton(ob));
         }
+        borderStyle.populate(ob);
         titleField.setText(ob.getCurrentCard().getText());
     }
 
@@ -118,7 +119,9 @@ public class WTabFitLayoutDefinePane extends AbstractDataModify<WTabFitLayout> {
     public WTabFitLayout updateBean() {
         WTabFitLayout layout = (WTabFitLayout) creator.toData();
         borderStyle.update(layout);
-        paddingBoundPane.update(layout);
+        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_Layout-Padding"))) {
+            paddingBoundPane.update(layout);
+        }
         int gap = (int)componentInterval.getValue();
         setLayoutGap(gap, layout, (XWTabFitLayout)creator);
         layout.getCurrentCard().setText(titleField.getText());

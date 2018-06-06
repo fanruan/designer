@@ -25,7 +25,6 @@ public class PreStartActivator extends Activator {
     public void start() {
 
         RestartHelper.deleteRecordFilesWhenStart();
-        BuildContext.setBuildFilePath("/com/fr/stable/build.properties");
         SiteCenter.getInstance();
         if (checkMultiStart()) {
             return;

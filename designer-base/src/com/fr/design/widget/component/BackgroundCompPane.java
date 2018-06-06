@@ -11,8 +11,10 @@ import com.fr.design.mainframe.widget.accessibles.AccessibleImgBackgroundEditor;
 import com.fr.form.ui.Widget;
 import com.fr.general.Inter;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Component;
 
 /**
  * Created by ibm on 2017/8/6.
@@ -31,9 +33,7 @@ public abstract class BackgroundCompPane<T extends Widget> extends BasicPane {
     public void initComponent() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         UILabel headLabel = createUILable();
-        initialBackgroundEditor = new AccessibleImgBackgroundEditor();
-        overBackgroundEditor = new AccessibleImgBackgroundEditor();
-        clickBackgroundEditor = new AccessibleImgBackgroundEditor();
+        initBackgroundEditor();
         String [] titles = new String[]{Inter.getLocText("FR-Designer_DEFAULT"), Inter.getLocText("FR-Designer_Custom")};
 
         double f = TableLayout.FILL;
@@ -44,9 +44,9 @@ public abstract class BackgroundCompPane<T extends Widget> extends BasicPane {
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Background-Initial")), initialBackgroundEditor},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Background-Over")), overBackgroundEditor},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Background-Click")), clickBackgroundEditor},
+                new Component[]{getClickLabel(), clickBackgroundEditor},
         };
-        panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W0, IntervalConstants.INTERVAL_L1);
+        panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
         panel.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L6, IntervalConstants.INTERVAL_L5, 0, 0));
         backgroundHead = new UIButtonGroup(titles);
         JPanel headPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
@@ -55,6 +55,16 @@ public abstract class BackgroundCompPane<T extends Widget> extends BasicPane {
         this.add(headPane, BorderLayout.NORTH);
         this.add(panel, BorderLayout.CENTER);
 
+    }
+
+    protected void initBackgroundEditor(){
+        initialBackgroundEditor = new AccessibleImgBackgroundEditor();
+        overBackgroundEditor = new AccessibleImgBackgroundEditor();
+        clickBackgroundEditor = new AccessibleImgBackgroundEditor();
+    }
+
+    protected UILabel getClickLabel(){
+        return new UILabel(Inter.getLocText("FR-Designer_Background-Click"));
     }
 
     protected UILabel createUILable(){

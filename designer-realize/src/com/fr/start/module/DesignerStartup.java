@@ -5,9 +5,7 @@ import com.fr.stable.CoreActivator;
 import com.fr.stable.module.ModuleListener;
 import com.fr.start.Designer;
 import com.fr.start.EnvSwitcher;
-import com.fr.start.ReportSplashPane;
-import com.fr.start.SplashWindow;
-import com.fr.startup.EnvInitializer;
+import com.fr.start.SplashContext;
 import com.fr.startup.activators.BasicActivator;
 
 /**
@@ -20,8 +18,8 @@ public class DesignerStartup extends Activator {
         startSub(PreStartActivator.class);
         //启动基础部分
         startSub(BasicActivator.class);
-        //启动画面
-        SplashWindow splashWindow = createSplashWindow();
+        //启动画面注册监听，必须在初始化国际化之后注册监听
+        registerSplashListener();
         String[] args = getModule().upFindSingleton(StartupArgs.class).get();
         Designer designer = new Designer(args);
         //启动env
@@ -33,17 +31,15 @@ public class DesignerStartup extends Activator {
         //启动设计器界面
         designer.show(args);
         //启动画面结束
-        splashWindow.setVisible(false);
-        splashWindow.dispose();
+        SplashContext.getInstance().hide();
         startSub(StartFinishActivator.class);
     }
 
-    private SplashWindow createSplashWindow() {
-
-        ReportSplashPane reportSplashPane = new ReportSplashPane();
-        SplashWindow splashWindow = new SplashWindow(reportSplashPane);
-        getModule().setSingleton(ModuleListener.class, reportSplashPane.getModuleListener());
-        return splashWindow;
+    /**
+     * 注册启动动画监听器
+     */
+    private void registerSplashListener() {
+        getModule().setSingleton(ModuleListener.class, SplashContext.getInstance().getModuleListener());
     }
 
     @Override

@@ -3,20 +3,6 @@
  */
 package com.fr.design.designer.creator;
 
-import java.awt.AlphaComposite;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.geom.Rectangle2D;
-import java.beans.IntrospectionException;
-
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
-import javax.swing.SwingConstants;
-
 import com.fr.base.ScreenResolution;
 import com.fr.base.background.GradientBackground;
 import com.fr.design.form.util.XCreatorConstants;
@@ -36,13 +22,26 @@ import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.core.PropertyChangeAdapter;
 
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.SwingConstants;
+import java.awt.AlphaComposite;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
+import java.beans.IntrospectionException;
+
 /**
  * @author richer
  * @since 6.5.3
  */
 public class XButton extends XWidgetCreator {
 	
-	public final static Background DEFAULTBG = new GradientBackground(new Color(247,247,247),new Color(210,210,210),GradientBackground.TOP2BOTTOM);
+	public final static Background DEFAULTBG = new GradientBackground(new Color(247,247,247),new Color(210,210,210), GradientBackground.TOP2BOTTOM);
 	public final static Font DEFAULTFT = new Font("Song_TypeFace",0,12);
     public final static Color DEFAULTFOREGROUNDCOLOR = Color.BLACK;
 	private Background bg;
@@ -198,10 +197,14 @@ public class XButton extends XWidgetCreator {
     protected JComponent initEditor() {
         if (editor == null) {
             editor = new UILabel();
-            contentLabel = new UILabel();
+            contentLabel = initContentLabel();
         }
         return editor;
     }
+
+	protected UILabel initContentLabel() {
+		return  new UILabel();
+	}
     
 	@Override
 	public void paintComponent(Graphics g) {

@@ -38,6 +38,7 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 	private CoverReportPane coverPanel;
 	private FormDesigner designer;
 	private static BufferedImage DEFAULT_BACKGROUND;
+	private boolean isHovering = false;
 
 	static{
 		try{
@@ -122,7 +123,11 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 		if (editor.getFitStateInPC() == 0) {
 			editor.setReportFitAttr(null);
 		}
-		ReportFitAttrProvider reportFitAttr = editor.getReportFitAttr() == null ? fitAttr : editor.getReportFitAttr();
+		ReportFitAttrProvider reportFit = editor.getReportFitAttr();
+		if(fitAttr != null){
+			reportFit = fitAttr.fitInBrowser() ? editor.getReportFitAttr() : fitAttr;
+		}
+		ReportFitAttrProvider reportFitAttr = editor.getReportFitAttr() == null ? fitAttr : reportFit;
 		PropertyDescriptor[] extraEditor = processor.createPropertyDescriptor(this.data.getClass(), reportFitAttr);
 		if (editor.getReportFitAttr() == null) {
 			editor.setReportFitInPc(processor.getFitStateInPC(fitAttr));
@@ -211,6 +216,7 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 	 * @param display     是否
 	 */
 	public void  displayCoverPane(boolean display){
+		isHovering = display;
 		coverPanel.setVisible(display);
 		coverPanel.setBounds(1, 1, (int) editor.getBounds().getWidth(), (int) editor.getBounds().getHeight());
 		editor.repaint();
@@ -226,6 +232,14 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 	public JComponent getCoverPane(){
 		return coverPanel;
 	}
+
+	@Override
+	public void paintBorder(Graphics g, Rectangle bounds){
+		if (!isHovering) {
+			super.paintBorder(g, bounds);
+		}
+	}
+
 
 	/**
 	 * 初始化大小

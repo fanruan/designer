@@ -570,7 +570,7 @@ public class PreferencePane extends BasicPane {
         this.pageLengthComboBox.setSelectedIndex(designerEnvManager.getPageLengthUnit());
         this.reportLengthComboBox.setSelectedIndex(designerEnvManager.getReportLengthUnit());
 
-        this.portEditor.setValue(new Integer(designerEnvManager.getJettyServerPort()));
+        this.portEditor.setValue(new Integer(designerEnvManager.getEmbedServerPort()));
 
         this.jdkHomeTextField.setText(designerEnvManager.getJdkHome());
 
