@@ -9,7 +9,6 @@ import com.fr.base.Utils;
 import com.fr.base.remote.RemoteDeziConstants;
 import com.fr.core.env.EnvConfig;
 import com.fr.core.env.EnvContext;
-import com.fr.core.env.resource.LocalEnvConfig;
 import com.fr.dav.DavXMLUtils;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
@@ -193,7 +192,7 @@ public class DesignUtils {
      *
      * @param env 需要切换去的环境
      */
-    public static void switchToEnv(EnvConfig env) throws Exception {
+    public static void switchToEnv(EnvConfig env) {
         if (env == null) {
             return;
         }
@@ -208,16 +207,8 @@ public class DesignUtils {
                 break;
             }
         }
-        EnvConfig oldEnv = EnvContext.currentEnv();
-        String oldEnvPath = oldEnv == null ? null : oldEnv.getPath();
-
         EnvContext.signIn(env);
-
         refreshDesignerFrame();
-        // 当换了运行环境,重置服务器，让它下次预览时重启
-        if (env instanceof LocalEnvConfig && !ComparatorUtils.equals(env.getPath(), oldEnvPath)) {
-            StartServer.currentEnvChanged();
-        }
     }
 
     public static void refreshDesignerFrame() {
