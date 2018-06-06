@@ -18,7 +18,7 @@ public class TabFitLayoutBackgroundPane extends BackgroundCompPane<WTabFitLayout
 
     @Override
     protected void initBackgroundEditor(){
-        initalBackgroundEditor = new AccessibleTabBackgroundEditor();
+        initialBackgroundEditor = new AccessibleTabBackgroundEditor();
         overBackgroundEditor = new AccessibleTabBackgroundEditor();
         clickBackgroundEditor = new AccessibleTabBackgroundEditor();
     }
@@ -38,7 +38,7 @@ public class TabFitLayoutBackgroundPane extends BackgroundCompPane<WTabFitLayout
             tabFitLayout.setClickBackground(null);
         }else{
             tabFitLayout.setCustomStyle(true);
-            tabFitLayout.setInitialBackground((Background) initalBackgroundEditor.getValue());
+            tabFitLayout.setInitialBackground((Background) initialBackgroundEditor.getValue());
             tabFitLayout.setOverBackground((Background) overBackgroundEditor.getValue());
             tabFitLayout.setClickBackground((Background)clickBackgroundEditor.getValue());
         }
@@ -49,12 +49,12 @@ public class TabFitLayoutBackgroundPane extends BackgroundCompPane<WTabFitLayout
     public void populate(WTabFitLayout tabFitLayout){
         if(!tabFitLayout.isCustomStyle()){
             backgroundHead.setSelectedIndex(0);
-            initalBackgroundEditor.setValue(null);
+            initialBackgroundEditor.setValue(null);
             overBackgroundEditor.setValue(null);
             clickBackgroundEditor.setValue(null);
         }else{
             backgroundHead.setSelectedIndex(1);
-            initalBackgroundEditor.setValue(tabFitLayout.getInitialBackground());
+            initialBackgroundEditor.setValue(tabFitLayout.getInitialBackground());
             overBackgroundEditor.setValue(tabFitLayout.getOverBackground());
             clickBackgroundEditor.setValue(tabFitLayout.getClickBackground());
         }
