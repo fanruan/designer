@@ -38,12 +38,23 @@ public class SplashFx implements SplashStrategy {
     }
 
     @Override
-    public void updateModuleLog(String text) {
-        test.updateModuleInfo(text);
+    public void updateModuleLog(final String text) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                test.updateModuleInfo(text);
+            }
+        });
+
     }
 
     @Override
-    public void updateThanksLog(String text) {
-        test.updateThanks(text);
+    public void updateThanksLog(final String text) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                test.updateThanks(text);
+            }
+        });
     }
 }
