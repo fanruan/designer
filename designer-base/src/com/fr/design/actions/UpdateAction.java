@@ -293,11 +293,18 @@ public abstract class UpdateAction extends ShortCut implements Action {
 			button.setEnabled(this.isEnabled());
 
 			//peter:产生tooltip
-			button.setToolTipText(ActionFactory.createButtonToolTipText(this));
+			button.setToolTipText(getToolTipText());
 			object = button;
 		}
 
 		return (JComponent) object;
+	}
+
+	/**
+	 * 重写此方法，可以自定义 action 的提示文字
+	 */
+	protected String getToolTipText() {
+		return ActionFactory.createButtonToolTipText(this);
 	}
 
 	/**

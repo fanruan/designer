@@ -7,6 +7,7 @@ import com.fr.base.BaseUtils;
 import com.fr.base.Env;
 import com.fr.base.FRContext;
 import com.fr.core.env.EnvConfig;
+import com.fr.core.env.EnvContext;
 import com.fr.core.env.resource.EnvConfigUtils;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignState;
@@ -16,6 +17,7 @@ import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.datapane.TableDataTreePane;
+import com.fr.design.event.DesignerOpenedListener;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
 import com.fr.design.file.HistoryTemplateListPane;
@@ -94,6 +96,8 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
     private static final Integer SECOND_LAYER = new Integer(100);
     private static final Integer TOP_LAYER = new Integer((200));
     private static java.util.List<App<?>> appList = new java.util.ArrayList<App<?>>();
+
+    private List<DesignerOpenedListener> designerOpenedListenerList = new ArrayList<>();
 
     private ToolBarMenuDock ad;
 
@@ -287,6 +291,22 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         }
     }
 
+    /**
+     * 注册"设计器初始化完成"的监听
+     */
+    public void addDesignerOpenedListener(DesignerOpenedListener listener) {
+        designerOpenedListenerList.add(listener);
+    }
+
+    /**
+     * 触发"设计器初始化完成"事件
+     */
+    public void fireDesignerOpened() {
+        for (DesignerOpenedListener listener : designerOpenedListenerList) {
+            listener.designerOpened();
+        }
+    }
+
     protected DesktopCardPane getCenterTemplateCardPane() {
         return centerTemplateCardPane;
     }
@@ -317,7 +337,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
             public void on(PluginEvent event) {
 
                 refreshNorthEastPane(northEastPane, ad);
-                DesignUtils.refreshDesignerFrame(FRContext.getCurrentEnv());
+                DesignUtils.refreshDesignerFrame();
             }
         }, new PluginFilter() {
 
@@ -682,10 +702,8 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
     /**
      * 报表运行环境改变时,需要刷新某些面板
-     *
-     * @param env 环境
      */
-    public void refreshEnv(Env env) {
+    public void refreshEnv() {
 
         this.setTitle();
         DesignerFrameFileDealerPane.getInstance().refreshDockingView();
@@ -929,8 +947,6 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         } else {
             this.addAndActivateJTemplate(jt);
         }
-        //REPORT-5084：激活后刷新一下右側面板
-        jt.refreshEastPropertiesPane();
     }
 
     /**
@@ -965,14 +981,8 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
         DesignerEnvManager.getEnvManager().saveXMLFile();
 
-        Env currentEnv = FRContext.getCurrentEnv();
-        try {
-            EventDispatcher.fire(BEFORE_SIGN_OUT);
-            currentEnv.disconnect();
-            EventDispatcher.fire(AFTER_SIGN_OUT);
-        } catch (Exception e) {
-            FineLoggerFactory.getLogger().error(e.getMessage(), e);
-        }
+        EnvContext.signOut();
+
         this.setVisible(false);
         this.dispose();
 

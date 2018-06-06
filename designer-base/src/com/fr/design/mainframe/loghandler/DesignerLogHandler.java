@@ -1,7 +1,6 @@
 package com.fr.design.mainframe.loghandler;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.ServerConfig;
 import com.fr.base.FRContext;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.imenu.UIMenuItem;
@@ -38,9 +37,9 @@ import java.util.logging.LogRecord;
 import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
 
 public class DesignerLogHandler {
-    protected static final int INFO_INT = com.fr.third.apache.log4j.Level.INFO.toInt();
-    protected static final int ERROR_INT = com.fr.third.apache.log4j.Level.ERROR.toInt();
-    protected static final int WARN_INT = com.fr.third.apache.log4j.Level.WARN.toInt();
+    protected static final int INFO_INT = Level.INFO.intValue();
+    protected static final int ERROR_INT = Level.SEVERE.intValue();
+    protected static final int WARN_INT = Level.WARNING.intValue();
     private static final int GAP_X = -150;
     private static final int INFO_GAP_Y = -60;
     private static final int ERRO_GAP_Y = -40;

@@ -219,8 +219,9 @@ public abstract class UIListControlPane extends UIControlPane {
             return;
         }
 
-        for (Nameable aNameableArray : nameableArray) {
-            listModel.addElement(new ListModelElement(aNameableArray));
+        listModel.setSize(nameableArray.length);
+        for (int i = 0; i < nameableArray.length; i++) {
+            listModel.set(i, new ListModelElement(nameableArray[i]));
         }
 
         if (listModel.size() > 0 || this.nameableList.getSelectedIndex() != 0) {

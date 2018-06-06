@@ -34,7 +34,7 @@ import java.awt.image.ImageObserver;
 
 public class ToolBarDragPane extends WidgetToolBarPane {
 	private static final int COLUMN = 4;
-	private int row = 6;
+	private int row = 7;
 	private DefaultTableModel toolbarButtonTableModel;
 	private JTable layoutTable;
 	private UICheckBox isUseToolBarCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Use_ToolBar") + ":"); // 是否使用工具栏

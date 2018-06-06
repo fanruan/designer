@@ -2,6 +2,7 @@ package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.PaperSize;
+import com.fr.base.Parameter;
 import com.fr.design.DesignState;
 import com.fr.design.actions.core.WorkBookSupportable;
 import com.fr.design.actions.file.WebPreviewUtils;
@@ -258,9 +259,6 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
             private XComponent lastAffectedCreator;
             @Override
             public void fireCreatorModified(DesignerEvent evt) {
-                if (formDesign.getArea() == null || !formDesign.getArea().isValid()) {
-                    return;
-                }
                 if (evt.getCreatorEventID() == DesignerEvent.CREATOR_CUTED) {
                     setPropertyPaneChange(formDesign.getRootComponent());
                 } else if (evt.getCreatorEventID() == DesignerEvent.CREATOR_DELETED) {
@@ -683,6 +681,11 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     }
 
     @Override
+    public Parameter[] getJTemplateParameters() {
+        return this.getTarget().getTemplateParameters();
+    }
+
+    @Override
     /**
      * 创建菜单项Preview
      *
@@ -740,9 +743,8 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.FORM);
         EastRegionContainerPane.getInstance().replaceWidgetSettingsPane(WidgetPropertyPane.getInstance(formDesign));
         ParameterPropertyPane parameterPropertyPane = ParameterPropertyPane.getInstance(formDesign);
-        parameterPropertyPane.setAddParaPaneVisible(false, this);
+        parameterPropertyPane.refreshState(this);
         EastRegionContainerPane.getInstance().addParameterPane(parameterPropertyPane);
-        EastRegionContainerPane.getInstance().setParameterHeight(parameterPropertyPane.getPreferredSize().height);
 
         refreshWidgetLibPane();
     }

@@ -1,6 +1,7 @@
 package com.fr.design.mainframe.actions;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.iofileattr.MobileOnlyTemplateAttrMark;
 import com.fr.design.actions.JTemplateAction;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
@@ -8,7 +9,9 @@ import com.fr.design.form.mobile.FormMobileAttrPane;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.FormArea;
 import com.fr.design.mainframe.JForm;
+import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.design.menu.MenuKeySet;
+import com.fr.file.FILE;
 import com.fr.form.main.Form;
 import com.fr.form.main.mobile.FormMobileAttr;
 import com.fr.general.Inter;
@@ -52,15 +55,27 @@ public class FormMobileAttrAction extends JTemplateAction<JForm> {
             @Override
             public void doOk() {
                 FormMobileAttr formMobileAttr = mobileAttrPane.updateBean();
-                formTpl.setFormMobileAttr(formMobileAttr);
-                ((FormArea)jf.getFormDesign().getParent()).onMobileAttrModified();
-                jf.fireTargetModified();
-                if (formMobileAttr.isMobileOnly()) {
-                    FunctionProcessor processor = ExtraClassManager.getInstance().getFunctionProcessor();
-                    if (processor != null) {
-                        processor.recordFunction(ReportFunctionProcessor.MOBILE_TEMPLATE_FRM);
+                if (formMobileAttr.isMobileOnly() && jf.getTarget().getAttrMark(MobileOnlyTemplateAttrMark.XML_TAG) == null) {
+                    // 如果是老模板，选择手机专属之后需要另存为
+                    FILE editingFILE = jf.getEditingFILE();
+                    if (editingFILE != null && editingFILE.exists()) {
+                        String fileName = editingFILE.getName().substring(0, editingFILE.getName().length() - jf.suffix().length()) + "_mobile";
+                        if (!jf.saveAsTemplate(true, fileName)) {
+                            return;
+                        }
                     }
+                    // 放到后面。如果提前 return 了，则仍然处于未设置状态，不要添加
+                    jf.getTarget().addAttrMark(new MobileOnlyTemplateAttrMark());
                 }
+                // 记录功能点
+                FunctionProcessor processor = ExtraClassManager.getInstance().getFunctionProcessor();
+                if (processor != null) {
+                    processor.recordFunction(ReportFunctionProcessor.MOBILE_TEMPLATE_FRM);
+                }
+                // 设置移动端属性并刷新界面
+                formTpl.setFormMobileAttr(formMobileAttr);  // 会调整 body 的自适应布局，放到最后
+                ((FormArea)jf.getFormDesign().getParent()).onMobileAttrModified();
+                WidgetPropertyPane.getInstance().refreshDockingView();
             }
         });
         dialog.setVisible(true);
