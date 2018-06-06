@@ -2,7 +2,10 @@ package com.fr.env;
 
 import com.fr.base.EnvException;
 import com.fr.base.TableData;
+import com.fr.base.operator.file.FileOperator;
 import com.fr.base.remote.RemoteDeziConstants;
+import com.fr.common.rpc.netty.MessageSendExecutor;
+import com.fr.common.rpc.serialize.RpcSerializeProtocol;
 import com.fr.core.env.EnvConstants;
 import com.fr.core.env.EnvContext;
 import com.fr.core.env.resource.RemoteEnvConfig;
@@ -85,6 +88,23 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
 
     public RemoteEnv(String path, String userName, String password) {
         env = new RemoteEnvConfig(path, userName, password);
+    }
+
+    @Override
+    public void connect() {
+        // FIXME:richie ip地址属于测试的，带实际修改为RemoteEnv配置的地址
+        MessageSendExecutor.getInstance().setRpcServerLoader("127.0.0.1:" + 33999, RpcSerializeProtocol.KRYOSERIALIZE);
+    }
+
+    @Override
+    public boolean disconnect() {
+        MessageSendExecutor.getInstance().stop();
+        return true;
+    }
+
+    @Override
+    public FileOperator getFileOperator() throws Exception {
+        return MessageSendExecutor.getInstance().execute(FileOperator.class);
     }
 
     @Override

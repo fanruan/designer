@@ -968,7 +968,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         Env currentEnv = FRContext.getCurrentEnv();
         try {
             EventDispatcher.fire(BEFORE_SIGN_OUT);
-            currentEnv.signOut();
+            currentEnv.disconnect();
             EventDispatcher.fire(AFTER_SIGN_OUT);
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
