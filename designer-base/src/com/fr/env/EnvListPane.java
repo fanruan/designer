@@ -14,8 +14,7 @@ import com.fr.stable.Nameable;
 import com.fr.stable.StringUtils;
 import com.fr.stable.core.PropertyChangeAdapter;
 
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -62,7 +61,7 @@ public class EnvListPane extends JListControlPane {
         NameableCreator local = new NameObjectCreator(Inter.getLocText("Env-Local_Directory"), "com/fr/design/images/data/bind/localconnect.png",
                 LocalEnvConfig.class, LocalEnvPane.class);
         NameableCreator remote = new NameObjectCreator(Inter.getLocText("Env-Remote_Server"), "com/fr/design/images/data/bind/distanceconnect.png",
-                RemoteEnvConfig.class, RemoteEnvPane.class);
+                RemoteEnvConfig.class, RemoteEnvPane2.class);
         return new NameableCreator[]{local, remote};
     }
 

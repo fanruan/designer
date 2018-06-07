@@ -2,11 +2,12 @@ package com.fr.env;
 
 import com.fr.base.EnvException;
 import com.fr.base.TableData;
+import com.fr.base.operator.connect.ConnectOperator;
 import com.fr.base.operator.file.FileOperator;
 import com.fr.base.remote.RemoteDeziConstants;
 import com.fr.common.rpc.RemoteCallServerConfig;
 import com.fr.common.rpc.netty.MessageSendExecutor;
-import com.fr.common.rpc.serialize.SerializeProtocol;
+import com.fr.common.rpc.netty.RemoteCallClient;
 import com.fr.core.env.EnvConstants;
 import com.fr.core.env.EnvContext;
 import com.fr.core.env.resource.RemoteEnvConfig;
@@ -49,7 +50,7 @@ import com.fr.third.guava.base.Strings;
 import com.fr.third.guava.collect.ImmutableMap;
 import com.fr.web.ResourceConstants;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
@@ -57,7 +58,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.awt.Component;
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -79,24 +80,41 @@ import static com.fr.third.guava.base.Preconditions.checkArgument;
 /**
  * @author null
  */
-public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurable {
+public class RemoteEnv extends AbstractEnv<RemoteEnvConfig> implements DesignAuthorityConfigurable {
 
     private static final String CERT_KEY = "javax.net.ssl.trustStore";
     private static final String PWD_KEY = "javax.net.ssl.trustStorePassword";
     private static final String HTTPS_PREFIX = "https:";
     private final static String[] FILE_TYPE = {"cptx", "cpt", "frm", "form", "cht", "chart"};
     private String buildFilePath;
-    private RemoteEnvConfig env;
+    private RemoteEnvConfig config;
 
+    public RemoteEnv(RemoteEnvConfig config) {
+        this.config = config;
+    }
 
     public RemoteEnv(String path, String userName, String password) {
-        env = new RemoteEnvConfig(path, userName, password);
+        config = new RemoteEnvConfig(path, userName, password);
     }
 
     @Override
-    public void connect() {
-        // FIXME:richie ip地址属于测试的，带实际修改为RemoteEnv配置的地址
-        MessageSendExecutor.getInstance().setRpcServerLoader("127.0.0.1", RemoteCallServerConfig.getInstance().getPort(), RemoteCallServerConfig.getInstance().getSerializeProtocol());
+    public void connect() throws Exception {
+
+    }
+
+    @Override
+    public void connectOnce() throws Exception {
+        RemoteCallClient.getInstance().loadOnce(config.getHost(), config.getPort(), RemoteCallServerConfig.getInstance().getSerializeProtocol(), 10 * 1000);
+        ConnectOperator operator = RemoteCallClient.getInstance().execute(ConnectOperator.class);
+        boolean result = false;
+        try {
+            result = operator.connect(config.getUsername(), config.getPassword());
+        } catch (Exception ignore) {
+
+        }
+        if (!result) {
+            throw new Exception("Cannot connect to the remote server!");
+        }
     }
 
     @Override
@@ -112,16 +130,16 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
 
     @Override
     public String getPath() {
-        return env.getPath();
+        return config.getPath();
     }
 
     @Override
     public String getUser() {
-        return env.getUsername();
+        return config.getUsername();
     }
 
     public String getPassword() {
-        return env.getPassword();
+        return config.getPassword();
     }
 
     @Override
