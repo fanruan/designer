@@ -7,9 +7,14 @@ import com.fr.design.gui.core.WidgetOption;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.form.ui.ToolBar;
 import com.fr.form.ui.Widget;
+import com.fr.general.Inter;
+import com.fr.report.web.annotation.OldPrintMethod;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.TransferHandler;
+import java.awt.Component;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.MouseAdapter;
@@ -19,6 +24,7 @@ import java.util.List;
 
 public class ToolBarPane extends BasicBeanPane<ToolBar> {
 	private FToolBar ftoolbar = new FToolBar();
+	private boolean populateFinished = false;  // 正在 populate 数据
 
 	public ToolBarPane() {
 		super();
@@ -26,11 +32,11 @@ public class ToolBarPane extends BasicBeanPane<ToolBar> {
 	}
 
 
-    /**
-     * 添加鼠标监听
-     *
-     * @param mouselistener 鼠标监听
-     */
+	/**
+	 * 添加鼠标监听
+	 *
+	 * @param mouselistener 鼠标监听
+	 */
 	public void addAuthorityListener(MouseListener mouselistener) {
 		List<ToolBarButton> list = ftoolbar.getButtonlist();
 		for (int i = 0; i < list.size(); i++) {
@@ -44,9 +50,9 @@ public class ToolBarPane extends BasicBeanPane<ToolBar> {
 		this.add(button);
 	}
 
-    /**
-     * 初始化组件
-     */
+	/**
+	 * 初始化组件
+	 */
 	public void initComponent() {
 		this.addMouseListener(listener);
 		this.setLayout(FRGUIPaneFactory.createBoxFlowLayout());
@@ -54,9 +60,9 @@ public class ToolBarPane extends BasicBeanPane<ToolBar> {
 		this.setBorder(BorderFactory.createTitledBorder(""));
 	}
 
-    /**
-     * 删除鼠标事件
-     */
+	/**
+	 * 删除鼠标事件
+	 */
 	public void removeDefaultMouseListener() {
 		this.removeMouseListener(listener);
 	}
@@ -70,15 +76,19 @@ public class ToolBarPane extends BasicBeanPane<ToolBar> {
 		this.ftoolbar.addButton(button);
 	}
 
-    /**
-     * 添加组件
-     *
-     * @param comp 组件
-     *
-     * @return 被添加的组件
-     */
+	/**
+	 * 添加组件
+	 *
+	 * @param comp 组件
+	 *
+	 * @return 被添加的组件
+	 */
 	public Component add(Component comp) {
 		if (comp instanceof ToolBarButton) {
+			if (isPopulateFinished() && ((ToolBarButton) comp).getWidget().getClass().isAnnotationPresent(OldPrintMethod.class)) {
+				JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this), Inter.getLocText("FR-Designer_Use_New_Print_Tip"));
+				return comp;
+			}
 			this.ftoolbar.addButton((ToolBarButton) comp);
 		}
 		return super.add(comp);
@@ -128,15 +138,16 @@ public class ToolBarPane extends BasicBeanPane<ToolBar> {
 
 	@Override
 	public void populateBean(ToolBar toolbar) {
+		setPopulateFinished(false);
 		this.removeAll();
 		this.getFToolBar().clearButton();
 		for (int j = 0; j < toolbar.getWidgetSize(); j++) {
 			Widget widget = toolbar.getWidget(j);
 			WidgetOption no = WidgetOption.getToolBarButton(widget.getClass());
-            if (no == null){
-                //如果装了什么插件, 放到了工具栏上, 后来删除了插件, 模板里还存着之前的控件
-                continue;
-            }
+			if (no == null){
+				//如果装了什么插件, 放到了工具栏上, 后来删除了插件, 模板里还存着之前的控件
+				continue;
+			}
 
 			ToolBarButton button = new ToolBarButton(no.optionIcon(), widget);
 			button.setNameOption(no);
@@ -146,6 +157,7 @@ public class ToolBarPane extends BasicBeanPane<ToolBar> {
 		}
 		this.getFToolBar().setBackground(toolbar.getBackground());
 		this.getFToolBar().setDefault(toolbar.isDefault());
+		setPopulateFinished(true);
 	}
 
 	@Override
@@ -170,6 +182,14 @@ public class ToolBarPane extends BasicBeanPane<ToolBar> {
 			}
 		}
 	};
+
+	private boolean isPopulateFinished() {
+		return populateFinished;
+	}
+
+	private void setPopulateFinished(boolean populateFinished) {
+		this.populateFinished = populateFinished;
+	}
 
 
 	/*
