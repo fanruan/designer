@@ -2,7 +2,7 @@ package com.fr.start.module;
 
 import com.fr.module.Activator;
 import com.fr.stable.CoreActivator;
-import com.fr.start.server.FineEmbedServerActivator;
+import com.fr.start.server.FineEmbedServer;
 
 /**
  * Created by juhaoyu on 2018/6/6.
@@ -21,7 +21,7 @@ public class EnvBasedModule extends Activator {
     @Override
     public void stop() {
         //先关闭tomcat(如果已经启动了的话)
-        stopSub(FineEmbedServerActivator.class);
+        FineEmbedServer.stop();
         //倒叙关闭其他模块
         getSub("designer").stop();
         stopSub(CoreActivator.class);
