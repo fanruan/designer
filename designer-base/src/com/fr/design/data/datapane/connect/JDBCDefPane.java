@@ -54,7 +54,7 @@ public class JDBCDefPane extends JPanel {
 		jdbcMap.put("Access", new DriverURLName[]{new DriverURLName("sun.jdbc.odbc.JdbcOdbcDriver", "jdbc:odbc:Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=")});
 		jdbcMap.put("Derby", new DriverURLName[]{new DriverURLName("org.apache.derby.jdbc.ClientDriver", "jdbc:derby://localhost:1527/")});
 		jdbcMap.put("Postgre", new DriverURLName[]{new DriverURLName("org.postgresql.Driver", "jdbc:postgresql://localhost:5432/")});
-		jdbcMap.put("SQLite", new DriverURLName[]{new DriverURLName("org.sqlite.JDBC", "jdbc:sqlite://${ENV_HOME}/../FRDemo.db")});
+		jdbcMap.put("SQLite", new DriverURLName[]{new DriverURLName("org.sqlite.JDBC", "jdbc:sqlite://${ENV_HOME}/../help/FRDemo.db")});
 	}
 
 	private UIButton dbtypeButton;
