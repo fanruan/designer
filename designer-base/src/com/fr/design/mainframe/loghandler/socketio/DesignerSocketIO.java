@@ -81,18 +81,18 @@ public class DesignerSocketIO {
 
             socketIO = Optional.of(IO.socket(new URI(uri)));
             socketIO.get().on(EnvConstants.WS_LOGRECORD, printLog);
-            socketIO.get().on(EnvConstants.CONFIG, new Emitter.Listener() {
-                @Override
-                public void call(Object... objects) {
-                    if (objects == null || objects.length != 1) {
-                        throw new IllegalArgumentException("config should have only one param");
-                    }
-                    Object param = objects[0];
-                    if (param instanceof Class) {
-                        EventDispatcher.fire(ConfigEvent.EDIT, (Class<? extends Configuration>) param);
-                    }
-                }
-            });
+//            socketIO.get().on(EnvConstants.CONFIG, new Emitter.Listener() {
+//                @Override
+//                public void call(Object... objects) {
+//                    if (objects == null || objects.length != 1) {
+//                        throw new IllegalArgumentException("config should have only one param");
+//                    }
+//                    Object param = objects[0];
+//                    if (param instanceof Class) {
+//                        EventDispatcher.fire(ConfigEvent.EDIT, (Class<? extends Configuration>) param);
+//                    }
+//                }
+//            });
             socketIO.get().connect();
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
