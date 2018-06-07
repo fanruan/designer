@@ -1,9 +1,9 @@
 package com.fr.design.style.background.image;
 
-import com.fr.base.BaseUtils;
 import com.fr.base.background.ImageFileBackground;
 import com.fr.base.frpx.pack.PictureCollection;
 import com.fr.base.frpx.util.ImageIOHelper;
+import com.fr.design.gui.frpane.ImgChooseWrapper;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
@@ -13,7 +13,6 @@ import com.fr.design.style.background.BackgroundPane4BoxChange;
 import com.fr.general.Background;
 import com.fr.general.Inter;
 import com.fr.stable.Constants;
-import com.fr.stable.CoreGraphHelper;
 
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
@@ -100,20 +99,13 @@ public class ImageSelectPane extends BackgroundPane4BoxChange {
     }
 
     ActionListener selectPictureActionListener = new ActionListener() {
-
-        @Override
         public void actionPerformed(ActionEvent evt) {
             int returnVal = imageFileChooser.showOpenDialog(ImageSelectPane.this);
             if (returnVal != JFileChooser.CANCEL_OPTION) {
                 File selectedFile = imageFileChooser.getSelectedFile();
-                if (selectedFile != null && selectedFile.isFile()) {
-                    String path = selectedFile.getPath();
-                    suffix = ImageIOHelper.getSuffix(path);
-                    Image image = BaseUtils.readImage(path);
-                    CoreGraphHelper.waitForImage(image);
-                    selectImage = image;
-                }
-                chechLabelText();
+                String path = selectedFile.getPath();
+                suffix = ImageIOHelper.getSuffix(path);
+                ImgChooseWrapper.getInstance(selectImage, imageSizeLabel, imageFileChooser).dealWithImageFile(returnVal);
             }
         }
     };

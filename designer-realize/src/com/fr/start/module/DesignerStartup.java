@@ -24,7 +24,7 @@ public class DesignerStartup extends Activator {
         Designer designer = new Designer(args);
         //启动env
         startSub(DesignerEnvProvider.class);
-        getSub(EnvBasedModule.class).start();
+        startSub(EnvBasedModule.class);
         getRoot().getSingleton(EnvSwitcher.class).switch2LastEnv();
         registerEnvListener();
         //启动设计器界面

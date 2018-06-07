@@ -1,4 +1,4 @@
-package com.fr.design.report.freeze;
+package com.fr.design.gui.itextfield;
 
 import com.fr.design.gui.itextfield.UINumberField;
 

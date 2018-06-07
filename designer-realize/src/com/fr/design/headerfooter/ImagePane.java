@@ -3,25 +3,22 @@
  */
 package com.fr.design.headerfooter;
 
+import com.fr.design.dialog.BasicPane;
+import com.fr.design.gui.frpane.ImgChooseWrapper;
+import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.style.background.image.ImageFileChooser;
+import com.fr.design.style.background.image.ImagePreviewPane;
+import com.fr.general.Inter;
+
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.SwingWorker;
 import java.awt.BorderLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-
-import javax.swing.BorderFactory;
-import javax.swing.JFileChooser;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-
-import com.fr.base.BaseUtils;
-import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.dialog.BasicPane;
-import com.fr.general.Inter;
-import com.fr.stable.CoreGraphHelper;
-import com.fr.design.style.background.image.ImageFileChooser;
-import com.fr.design.style.background.image.ImagePreviewPane;
 
 /**
  * Image Pane.
@@ -67,17 +64,17 @@ public class ImagePane extends BasicPane {
         imageFileChooser = new ImageFileChooser();
         imageFileChooser.setMultiSelectionEnabled(false);
     }
-    
+
     @Override
     protected String title4PopupWindow() {
-    	return "image";
+        return "image";
     }
 
     public void populate(Image image) {
-    	if(image == null) {
-    		return;
-    	}
-    	
+        if(image == null) {
+            return;
+        }
+
         this.imagePreviewPane.setImage(image);
     }
 
@@ -91,19 +88,7 @@ public class ImagePane extends BasicPane {
     ActionListener selectPictureActionListener = new ActionListener() {
         public void actionPerformed(ActionEvent evt) {
             int returnVal = imageFileChooser.showOpenDialog(ImagePane.this);
-            if (returnVal != JFileChooser.CANCEL_OPTION) {
-                File selectedFile = imageFileChooser.getSelectedFile();
-
-                if (selectedFile != null && selectedFile.isFile()) {
-                    Image image = BaseUtils.readImage(selectedFile.getPath());
-                    CoreGraphHelper.waitForImage(image);
-
-                    imagePreviewPane.setImage(image);
-                } else {
-                    imagePreviewPane.setImage(null);
-                }
-                imagePreviewPane.repaint();
-            }
+            ImgChooseWrapper.getInstance(imagePreviewPane, imageFileChooser, null).dealWithImageFile(returnVal);
         }
     };
 }

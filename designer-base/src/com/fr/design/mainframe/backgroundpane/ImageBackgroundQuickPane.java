@@ -1,30 +1,28 @@
 package com.fr.design.mainframe.backgroundpane;
 
-import com.fr.base.BaseUtils;
 import com.fr.base.Style;
 import com.fr.base.background.ImageFileBackground;
 import com.fr.base.frpx.pack.PictureCollection;
-import com.fr.base.frpx.util.ImageIOHelper;
-import com.fr.design.constants.UIConstants;
 import com.fr.design.border.UIRoundedBorder;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.event.UIObserverListener;
+import com.fr.design.gui.frpane.ImgChooseWrapper;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.style.background.image.ImageFileChooser;
 import com.fr.general.Background;
 import com.fr.general.Inter;
 import com.fr.stable.Constants;
-import com.fr.stable.CoreGraphHelper;
-import com.fr.design.style.background.image.ImageFileChooser;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 
 /**
  * @author zhou
@@ -90,32 +88,14 @@ public class ImageBackgroundQuickPane extends BackgroundQuickPane {
      */
     ActionListener selectPictureActionListener = new ActionListener() {
 
-        @Override
         public void actionPerformed(ActionEvent evt) {
             if (imageFileChooser == null) {
                 imageFileChooser = new ImageFileChooser();
                 imageFileChooser.setMultiSelectionEnabled(false);
             }
             int returnVal = imageFileChooser.showOpenDialog(DesignerContext.getDesignerFrame());
-            if (returnVal != JFileChooser.CANCEL_OPTION) {
-                File selectedFile = imageFileChooser.getSelectedFile();
-
-                if (selectedFile != null && selectedFile.isFile()) {
-                    String path = selectedFile.getPath();
-                    suffix = ImageIOHelper.getSuffix(path);
-                    Image image = BaseUtils.readImage(path);
-                    CoreGraphHelper.waitForImage(image);
-
-                    previewPane.setImage(image);
-                    imageStyle = Style.DEFAULT_STYLE.deriveImageLayout(imageLayoutPane.getSelectedItem());
-                    previewPane.setImageStyle(imageStyle);
-                    previewPane.repaint();
-                } else {
-                    previewPane.setImage(null);
-                }
-                fireChagneListener();
-            }
-
+            imageStyle = Style.DEFAULT_STYLE.deriveImageLayout(imageLayoutPane.getSelectedItem());
+            ImgChooseWrapper.getInstance(previewPane, imageFileChooser, imageStyle, changeListener).dealWithImageFile(returnVal);
         }
     };
 
@@ -128,7 +108,7 @@ public class ImageBackgroundQuickPane extends BackgroundQuickPane {
         Style.DEFAULT_STYLE.deriveImageLayout(imageBackground.getLayout());
 
         previewPane.setImageStyle(ImageBackgroundQuickPane.this.imageStyle);
-        previewPane.setImage(imageBackground.getImage());
+        previewPane.setImageWithSuffix(imageBackground.getImageWithSuffix());
         previewPane.repaint();
     }
 
