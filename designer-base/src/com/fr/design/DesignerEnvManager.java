@@ -148,6 +148,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     private boolean isHttps = false;
 
     private static List<SwingWorker> mapWorkerList = new ArrayList<SwingWorker>();
+    private boolean imageCompress = false;//图片压缩
 
     /**
      * DesignerEnvManager.
@@ -1412,6 +1413,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         this.setOracleSystemSpace(reader.getAttrAsBoolean("useOracleSystemSpace", true));
         this.setCachingTemplateLimit(reader.getAttrAsInt("cachingTemplateLimit", CACHINGTEMPLATE_LIMIT));
         this.setJoinProductImprove(reader.getAttrAsBoolean("joinProductImprove", true));
+        this.setImageCompress(reader.getAttrAsBoolean("imageCompress", true));
         this.setAutoBackUp(reader.getAttrAsBoolean("autoBackUp", true));
         this.setTemplateTreePaneExpanded(reader.getAttrAsBoolean("templateTreePaneExpanded", false));
         // peter:读取webinfLocation
@@ -1636,6 +1638,9 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         }
         if (!this.isJoinProductImprove()) {
             writer.attr("joinProductImprove", this.isJoinProductImprove());
+        }
+        if (!this.isImageCompress()) {
+            writer.attr("imageCompress", this.isImageCompress());
         }
         if (!this.isAutoBackUp()) {
             writer.attr("autoBackUp", this.isAutoBackUp());
@@ -1883,5 +1888,12 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
             this.password = EnvConfigUtils.getPassword(envConfig);
             return this;
         }
+    }
+    public boolean isImageCompress() {
+        return imageCompress;
+    }
+
+    public void setImageCompress(boolean imageCompress) {
+        this.imageCompress = imageCompress;
     }
 }

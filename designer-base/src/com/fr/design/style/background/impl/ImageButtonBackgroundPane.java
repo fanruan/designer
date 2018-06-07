@@ -1,15 +1,16 @@
 package com.fr.design.style.background.impl;
 
 import com.fr.base.Style;
-import com.fr.base.background.ImageFileBackground;
-import com.fr.base.frpx.pack.PictureCollection;
+import com.fr.base.background.ImageBackground;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.general.Background;
 import com.fr.general.Inter;
 import com.fr.stable.Constants;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -55,24 +56,21 @@ public class ImageButtonBackgroundPane extends ImageBackgroundPane {
             public void actionPerformed(ActionEvent e) {
                 previewPane.setImage(null);
                 previewPane.repaint();
-                setSuffix(PictureCollection.DEFAULT_SUFFIX);
             }
         });
     }
 
     @Override
-    public void imageStyleRepaint() {
-
+    public void setImageStyle() {
     }
 
 
     @Override
     public void populate(Background background) {
-        if (background instanceof ImageFileBackground) {
-            ImageFileBackground imageBackground = (ImageFileBackground) background;
-            setSuffix(imageBackground.getSuffix());
+        if (background != null && background instanceof ImageBackground) {
+            ImageBackground imageBackground = (ImageBackground) background;
             if (imageBackground.getImage() != null) {
-                previewPane.setImage(imageBackground.getImage());
+                previewPane.setImageWithSuffix(imageBackground.getImageWithSuffix());
             }
         }
 
@@ -83,6 +81,6 @@ public class ImageButtonBackgroundPane extends ImageBackgroundPane {
         if (previewPane.getImage() == null) {
             return null;
         }
-        return new ImageFileBackground(previewPane.getImage(), getSuffix());
+        return new ImageBackground(previewPane.getImageWithSuffix());
     }
 }
