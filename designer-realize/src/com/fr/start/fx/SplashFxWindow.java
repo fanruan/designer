@@ -115,6 +115,19 @@ public class SplashFxWindow extends Application {
         primaryStage.show();
     }
 
+    public void close() {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    ((Stage) moduleInfo.getScene().getWindow()).close();
+                } catch (Exception e) {
+                    FRContext.getLogger().error(e.getMessage(), e);
+                }
+            }
+        });
+    }
+
     /**
      * 更新模块信息
      *
