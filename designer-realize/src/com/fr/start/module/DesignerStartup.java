@@ -1,7 +1,10 @@
 package com.fr.start.module;
 
+import com.fr.core.env.EnvConfig;
+import com.fr.core.env.EnvEvent;
+import com.fr.event.Event;
+import com.fr.event.Listener;
 import com.fr.module.Activator;
-import com.fr.stable.CoreActivator;
 import com.fr.start.Designer;
 import com.fr.start.EnvSwitcher;
 import com.fr.start.SplashContext;
@@ -21,10 +24,9 @@ public class DesignerStartup extends Activator {
         Designer designer = new Designer(args);
         //启动env
         startSub(DesignerEnvProvider.class);
-        //启动各个模块
-        getSub(CoreActivator.class).start();
-        getSub("designer").start();
+        getSub(EnvBasedModule.class).start();
         getRoot().getSingleton(EnvSwitcher.class).switch2LastEnv();
+        registerEnvListener();
         //启动设计器界面
         designer.show(args);
         //启动画面结束
@@ -32,7 +34,30 @@ public class DesignerStartup extends Activator {
         startSub(StartFinishActivator.class);
     }
     
-
+    /**
+     * 切换环境时，重新启动所有相关模块
+     */
+    private void registerEnvListener() {
+        
+        listenEvent(EnvEvent.BEFORE_SIGN_OUT, new Listener<EnvConfig>() {
+            
+            @Override
+            public void on(Event event, EnvConfig param) {
+                
+                getSub(EnvBasedModule.class).stop();
+            }
+        });
+        listenEvent(EnvEvent.AFTER_SIGN_IN, new Listener<EnvConfig>() {
+            
+            @Override
+            public void on(Event event, EnvConfig param) {
+                
+                getSub(EnvBasedModule.class).start();
+            }
+        });
+    }
+    
+    
     @Override
     public void stop() {
 

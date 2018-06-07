@@ -9,7 +9,6 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.DesignUtils;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
-import com.fr.start.ServerStarter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -75,7 +74,7 @@ public class ServerManageFrame extends JFrame {
 		startButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					FineEmbedServer.getInstance().start();
+					FineEmbedServer.start();
 					checkButtonEnabled();
 				} catch(Exception exp) {
                     FRContext.getLogger().error(exp.getMessage());
@@ -92,7 +91,7 @@ public class ServerManageFrame extends JFrame {
 		stopButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					FineEmbedServer.getInstance().stop();
+					FineEmbedServer.stop();
 					checkButtonEnabled();
 				} catch(Exception exp) {
                     FRContext.getLogger().error(exp.getMessage());
@@ -137,7 +136,7 @@ public class ServerManageFrame extends JFrame {
      */
 	public void checkButtonEnabled() throws Exception  {
 		
-		if (ServerStarter.isStarted()) {
+		if (FineEmbedServer.isRunning()) {
 			GUICoreUtils.setEnabled(startPane, false);
 			GUICoreUtils.setEnabled(stopPane, true);
 		} else {
