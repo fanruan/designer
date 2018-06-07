@@ -63,7 +63,8 @@ public class ConnectionListAction extends UpdateAction {
         final ConnectionConfig datasourceManager = ConnectionConfig.getInstance();
         final ConnectionManagerPane databaseManagerPane = new ConnectionManagerPane() {
             public void complete() {
-                populate(datasourceManager);
+                ConnectionConfig clone = datasourceManager.mirror();
+                populate(clone);
             }
 
             protected void renameConnection(String oldName, String newName) {

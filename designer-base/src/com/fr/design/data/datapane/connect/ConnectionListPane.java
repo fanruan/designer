@@ -1,6 +1,5 @@
 package com.fr.design.data.datapane.connect;
 
-import com.fr.config.utils.UniqueKey;
 import com.fr.data.impl.Connection;
 import com.fr.data.impl.JDBCDatabaseConnection;
 import com.fr.data.impl.JNDIDatabaseConnection;
@@ -13,7 +12,6 @@ import com.fr.file.ConnectionConfig;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.general.NameObject;
-import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Nameable;
 import com.fr.stable.StringUtils;
@@ -156,15 +154,7 @@ public class ConnectionListPane extends JListControlPane implements ConnectionSh
 
         for (int i = 0; i < res_array.length; i++) {
             NameObject nameObject = res_array[i];
-            if(nameObject.getObject() instanceof UniqueKey){
-                try{
-                    Connection cloneConnection = (Connection)((UniqueKey)nameObject.getObject()).clone();
-                    connectionConfig.addConnection(nameObject.getName(), cloneConnection);
-                }catch (Exception e){
-                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
-                }
-            }
-
+            connectionConfig.addConnection(nameObject.getName(), (Connection) nameObject.getObject());
         }
     }
 }
