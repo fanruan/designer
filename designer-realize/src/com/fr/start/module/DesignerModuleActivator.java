@@ -23,7 +23,7 @@ public class DesignerModuleActivator extends Activator implements Prepare {
 
     @Override
     public void stop() {
-
+        ModuleContext.stopModule(DesignerModule.class.getName());
     }
 
     @Override

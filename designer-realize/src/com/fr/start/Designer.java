@@ -39,13 +39,10 @@ import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.module.DesignerModule;
 import com.fr.design.utils.concurrent.ThreadFactoryBuilder;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.event.EventDispatcher;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
-import com.fr.locale.InterProviderFactory;
 import com.fr.module.Module;
 import com.fr.module.ModuleContext;
-import com.fr.module.ModuleEvent;
 import com.fr.stable.BuildContext;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.ProductConstants;
@@ -99,8 +96,7 @@ public class Designer extends BaseDesigner {
         designerRoot.setSingleton(StartupArgs.class, new StartupArgs(args));
         designerRoot.start();
         if (FRContext.getCurrentEnv() instanceof LocalEnv) {
-            // 预启动一下
-            FineEmbedServer.getInstance().start();
+            //初始化一下serverTray
             ServerTray.init();
         }
 

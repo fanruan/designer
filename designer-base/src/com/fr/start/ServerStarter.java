@@ -72,7 +72,7 @@ public class ServerStarter {
     private static void initDemoServerAndBrowser() {
         
         try {
-            FineEmbedServer.getInstance().start();
+            FineEmbedServer.start();
         } finally {
             //先访问Demo, 后访问报表, 不需要重置服务器.
             browser("http://localhost:" + DesignerEnvManager.getEnvManager().getEmbedServerPort() + "/" + GeneralContext.getCurrentAppNameOfEnv() + "/" + ServerConfig.getInstance().getServletName());
@@ -86,7 +86,7 @@ public class ServerStarter {
      */
     public static void browserURLWithLocalEnv(String url) {
     
-        FineEmbedServer.getInstance().start();
+        FineEmbedServer.start();
         browser(url);
     }
     
@@ -122,11 +122,6 @@ public class ServerStarter {
         } else {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
-    }
-    
-    public static boolean isStarted() {
-        
-        return FineEmbedServer.getInstance().isRunning();
     }
     
     private static class InformationPane extends BasicPane {
