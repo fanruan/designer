@@ -23,7 +23,7 @@ public class AlphaFineAction extends UpdateAction {
         this.setName(getMenuKeySet().getMenuName());
         this.setMnemonic(getMenuKeySet().getMnemonic());
         this.setSmallIcon(IOUtils.readIcon("/com/fr/design/mainframe/alphafine/images/smallsearch.png"));
-        this.setSearchText(new AlphaFineConfigPane());
+        this.generateAndSetSearchText(AlphaFineConfigPane.class.getName());
     }
 
     public static final MenuKeySet ALPHAFINE = new MenuKeySet() {

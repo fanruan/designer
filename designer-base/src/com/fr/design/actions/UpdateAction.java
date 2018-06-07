@@ -9,7 +9,11 @@ import com.fr.base.Style;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.gui.imenu.*;
+import com.fr.design.gui.imenu.UICheckBoxMenuItem;
+import com.fr.design.gui.imenu.UIMenuEastAttrItem;
+import com.fr.design.gui.imenu.UIMenuItem;
+import com.fr.design.gui.imenu.UIPopupEastAttrMenu;
+import com.fr.design.mainframe.toolbar.UpdateActionManager;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.selection.SelectionListener;
 import com.fr.general.ComparatorUtils;
@@ -17,10 +21,28 @@ import com.fr.stable.StringUtils;
 import com.fr.stable.pinyin.PinyinFormat;
 import com.fr.stable.pinyin.PinyinHelper;
 
-import javax.swing.*;
+import javax.swing.AbstractButton;
+import javax.swing.Action;
+import javax.swing.Icon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JToolBar;
+import javax.swing.KeyStroke;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
-import java.awt.*;
+import java.awt.AWTEvent;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ComponentEvent;
 import java.beans.PropertyChangeListener;
 import java.util.HashMap;
@@ -454,10 +476,13 @@ public abstract class UpdateAction extends ShortCut implements Action {
 		return menuItem;
 	}
 
-	public void setSearchText(JPanel panel) {
-		this.searchText = getComponentTexts(panel, "_", new StringBuffer(), new StringBuffer(), new StringBuffer());
+    public void generateAndSetSearchText(String paneClass) {
+        UpdateActionManager.getUpdateActionManager().dealWithSearchText(paneClass, this);
+    }
 
-	}
+    public void setSearchText(String text) {
+        this.searchText = text;
+    }
 
 	/**
 	 * 获取搜索匹配字符串

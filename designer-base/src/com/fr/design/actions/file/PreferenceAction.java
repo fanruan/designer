@@ -18,7 +18,7 @@ public class PreferenceAction extends UpdateAction {
         this.setMenuKeySet(KeySetUtils.PREFERENCE);
         this.setName(getMenuKeySet().getMenuKeySetName() + "...");
         this.setMnemonic(getMenuKeySet().getMnemonic());
-        this.setSearchText(new PreferencePane());
+        this.generateAndSetSearchText(PreferencePane.class.getName());
     }
 
     /**

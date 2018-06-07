@@ -33,7 +33,7 @@ public class ConnectionListAction extends UpdateAction {
         this.setName(getMenuKeySet().getMenuKeySetName());
         this.setMnemonic(getMenuKeySet().getMnemonic());
         this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/m_web/connection.png"));
-        this.setSearchText(new DatabaseConnectionPane.JDBC());
+        this.generateAndSetSearchText(DatabaseConnectionPane.JDBC.class.getName());
     }
 
     public static final MenuKeySet DEFINE_DATA_CONNECTION = new MenuKeySet() {

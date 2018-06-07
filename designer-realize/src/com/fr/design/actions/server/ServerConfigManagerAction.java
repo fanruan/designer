@@ -29,7 +29,7 @@ public class ServerConfigManagerAction extends UpdateAction {
         this.setName(getMenuKeySet().getMenuKeySetName() + "...");
         this.setMnemonic(getMenuKeySet().getMnemonic());
         this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/m_web/edit.png"));
-        this.setSearchText(new EditReportServerParameterPane().getAllComponents());
+        this.generateAndSetSearchText(EditReportServerParameterPane.class.getName());
     }
 
     /**

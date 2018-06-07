@@ -11,7 +11,6 @@ import com.fr.design.menu.MenuKeySet;
 import com.fr.design.webattr.printsettings.ReportPrintSettingPane;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
-import com.fr.main.TemplateWorkBook;
 import com.fr.main.impl.WorkBook;
 import com.fr.report.core.ReportUtils;
 
@@ -29,7 +28,7 @@ public class ReportPrintSettingAction extends JWorkBookAction {
         this.setName(getMenuKeySet().getMenuKeySetName() + "...");
         this.setMnemonic(getMenuKeySet().getMnemonic());
         this.setSmallIcon(IOUtils.readIcon(IconManager.PRINT.getPath()));
-        this.setSearchText(new ReportPrintSettingPane());
+        this.setSearchText(ReportPrintSettingPane.class.getName());
     }
 
     /**
