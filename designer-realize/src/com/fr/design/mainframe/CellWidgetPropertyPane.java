@@ -107,17 +107,22 @@ public class CellWidgetPropertyPane extends BasicPane {
         }
         final CellSelection finalCS = (CellSelection) ePane.getSelection();
         final TemplateElementCase tplEC = ePane.getEditingElementCase();
+        final Widget cellWidget = cellEditorDefPane.update();
         if(finalCS.isSelectedOneCell(ePane)){
             if(tplEC.getTemplateCellElement(cellElement.getColumn(), cellElement.getRow())== null){//cellElement未加入到report中时要添加进去
                 tplEC.addCellElement(cellElement);
             }
-            setCellWidget(cellElement);
+            setCellWidget(cellWidget, cellElement);
         }else{
             ReportActionUtils.actionIterateWithCellSelection(finalCS, tplEC, new ReportActionUtils.IterAction() {
                 public void dealWith(CellElement editCellElement) {
                     // p:最后把这个cellEditorDef设置到CellGUIAttr.
                     TemplateCellElement templateCellElement = (TemplateCellElement) editCellElement;
-                    setCellWidget(templateCellElement);
+                    try {
+                        setCellWidget((Widget)cellWidget.clone(), templateCellElement);
+                    } catch (CloneNotSupportedException e) {
+                        FRContext.getLogger().error("InternalError: " + e.getMessage());
+                    }
                 }
             });
         }
@@ -126,8 +131,7 @@ public class CellWidgetPropertyPane extends BasicPane {
         }
     }
 
-    private void setCellWidget(TemplateCellElement cellElement){
-        Widget cellWidget = cellEditorDefPane.update();
+    private void setCellWidget(Widget cellWidget, TemplateCellElement cellElement){
         if (cellWidget instanceof NoneWidget) {
             cellElement.setWidget(null);
         } else {

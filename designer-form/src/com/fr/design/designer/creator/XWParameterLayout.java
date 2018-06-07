@@ -6,7 +6,9 @@ package com.fr.design.designer.creator;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.FRParameterLayoutAdapter;
+import com.fr.design.designer.properties.mobile.ParaMobilePropertyUI;
 import com.fr.design.form.util.XCreatorConstants;
+import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.design.mainframe.widget.editors.BackgroundEditor;
 import com.fr.design.mainframe.widget.editors.BooleanEditor;
 import com.fr.design.mainframe.widget.editors.WidgetDisplayPosition;
@@ -28,18 +30,18 @@ import java.beans.PropertyDescriptor;
  * 表单参数界面container
  */
 public class XWParameterLayout extends XWAbsoluteLayout {
-	
-	public XWParameterLayout() {
-		this(new WParameterLayout(), new Dimension());
-	}
-	
-	public XWParameterLayout(WParameterLayout widget) {
-		this(widget,new Dimension());
-	}
 
-	public XWParameterLayout(WParameterLayout widget, Dimension initSize) {
-		super(widget, initSize);
-	}
+    public XWParameterLayout() {
+        this(new WParameterLayout(), new Dimension());
+    }
+
+    public XWParameterLayout(WParameterLayout widget) {
+        this(widget,new Dimension());
+    }
+
+    public XWParameterLayout(WParameterLayout widget, Dimension initSize) {
+        super(widget, initSize);
+    }
 
     /**
      * 初始化尺寸
@@ -74,11 +76,11 @@ public class XWParameterLayout extends XWAbsoluteLayout {
 
         return ArrayUtils.addAll(propertyTableEditor, getExtraTableEditor());
     }
-    
-	@Override
-	public LayoutAdapter getLayoutAdapter() {
-		return new FRParameterLayoutAdapter(this);
-	}
+
+    @Override
+    public LayoutAdapter getLayoutAdapter() {
+        return new FRParameterLayoutAdapter(this);
+    }
 
     /**
      * 获取插件给该控件提供的额外属性表
@@ -215,6 +217,11 @@ public class XWParameterLayout extends XWAbsoluteLayout {
     }
 
     @Override
+    public WidgetPropertyUIProvider[] getWidgetPropertyUIProviders() {
+        return new WidgetPropertyUIProvider[]{ new ParaMobilePropertyUI(this)};
+    }
+
+    @Override
     protected String getIconName() {
         return "layout_absolute.png";
     }
@@ -234,6 +241,14 @@ public class XWParameterLayout extends XWAbsoluteLayout {
 
     @Override
     public boolean supportInnerOrderChangeActions() {
+        return false;
+    }
+
+    /**
+     * 是否支持共享-现只支持报表块、图表、tab块、绝对布局
+     * @return
+     */
+    public boolean isSupportShared() {
         return false;
     }
 

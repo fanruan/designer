@@ -35,7 +35,7 @@ public class CoverReportPane extends CoverPane implements HelpDialogHandler{
 
     private String helpMsg;//帮助信息(后续帮助信息可能会变成标配,就直接放这边了)
 
-    private ElementCaseHelpDialog helpDialog = null;
+    private WidgetHelpDialog helpDialog = null;
 
     public CoverReportPane() {
         this(StringUtils.EMPTY);
@@ -62,7 +62,7 @@ public class CoverReportPane extends CoverPane implements HelpDialogHandler{
         if (helpDialog == null) {
 //            controlMode = IOUtils.readIcon(IconPathConstants.TD_EL_SHARE_CLOSE_ICON_PATH);
             controlButton.setVisible(false);
-            helpDialog = new ElementCaseHelpDialog(DesignerContext.getDesignerFrame(), helpMsg);
+            helpDialog = new WidgetHelpDialog(DesignerContext.getDesignerFrame(), helpMsg);
             double screenValue = FRScreen.getByDimension(Toolkit.getDefaultToolkit().getScreenSize()).getValue();
             int offsetX = 0;
             if (screenValue < FormArea.DEFAULT_SLIDER) {
