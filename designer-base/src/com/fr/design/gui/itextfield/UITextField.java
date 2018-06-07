@@ -7,6 +7,7 @@ import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.stable.Constants;
+import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -22,9 +23,10 @@ public class UITextField extends JTextField implements UIObserver, GlobalNameObs
     private boolean isRoundBorder = true;
     private int rectDirection = Constants.NULL;
     private UIObserverListener uiObserverListener;
-    private String textFeildName = "";
+    private String textFieldName = StringUtils.EMPTY;
     private GlobalNameListener globalNameListener = null;
     private Dimension preferredSize = null;
+    private String placeholder = StringUtils.EMPTY;
 
     //有些情况下setText的时候不希望触发attributeChange，添加一个属性标识
     private boolean isSetting = false;
@@ -81,6 +83,15 @@ public class UITextField extends JTextField implements UIObserver, GlobalNameObs
         }
     }
 
+    public String getPlaceholder() {
+        return placeholder;
+    }
+
+    public void setPlaceholder(String placeholder) {
+        this.placeholder = placeholder;
+    }
+
+
     public boolean isSetting() {
         return isSetting;
     }
@@ -94,7 +105,7 @@ public class UITextField extends JTextField implements UIObserver, GlobalNameObs
     }
 
     public void setGlobalName(String name) {
-        textFeildName = name;
+        textFieldName = name;
     }
 
     protected void attributeChange() {
@@ -102,7 +113,7 @@ public class UITextField extends JTextField implements UIObserver, GlobalNameObs
             return;
         }
         if (globalNameListener != null && shouldResponseNameListener()) {
-            globalNameListener.setGlobalName(textFeildName);
+            globalNameListener.setGlobalName(textFieldName);
         }
         if (uiObserverListener != null) {
             uiObserverListener.doChange();
@@ -139,6 +150,21 @@ public class UITextField extends JTextField implements UIObserver, GlobalNameObs
      */
     public void updateUI() {
         this.setUI(new UITextFieldUI(this));
+    }
+
+    @Override
+    protected void paintComponent(final Graphics pG) {
+        super.paintComponent(pG);
+        if (placeholder.length() == 0 || getText().length() > 0) {
+            return;
+        }
+        final Graphics2D g = (Graphics2D) pG;
+        g.setRenderingHint(
+                RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+        g.setColor(getDisabledTextColor());
+        g.drawString(placeholder, getInsets().left, pG.getFontMetrics()
+                .getMaxAscent() + getInsets().top + 1);
     }
 
     @Override
