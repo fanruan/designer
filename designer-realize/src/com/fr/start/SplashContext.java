@@ -34,7 +34,7 @@ public class SplashContext {
     private static final String GUEST = getRandomUser();
 
     private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-    
+
     private Listener<String> listener;
 
 
@@ -43,7 +43,7 @@ public class SplashContext {
     }
 
     private SplashContext() {
-    
+
     }
 
     /**
@@ -57,18 +57,18 @@ public class SplashContext {
      * 展示启动动画
      */
     public void show() {
+        splashStrategy.show();
         //监听
         initListener();
-        splashStrategy.show();
     }
 
     /**
      * 隐藏启动动画
      */
     public void hide() {
+        splashStrategy.hide();
         //取消监听
         EventDispatcher.stopListen(listener);
-        splashStrategy.hide();
         // 窗口关闭后取消定时获取模块信息的timer
         scheduler.shutdown();
         // 一次性
@@ -83,19 +83,18 @@ public class SplashContext {
                 updateModuleLog(moduleID.isEmpty() ? StringUtils.EMPTY : moduleID + loading[loadingIndex % 3]);
             }
         }, 0, 300, TimeUnit.MILLISECONDS);
-    
+
         listener = new Listener<String>() {
-    
+
             @Override
             public void on(Event event, String i18n) {
-    
+                showThanks();
                 moduleID = i18n;
                 loadingIndex++;
                 updateModuleLog(moduleID.isEmpty() ? StringUtils.EMPTY : moduleID + loading[loadingIndex % 3]);
             }
         };
         EventDispatcher.listen(ModuleEvent.MajorModuleStarting, listener);
-        showThanks();
     }
 
     private void updateModuleLog(String text) {

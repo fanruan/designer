@@ -18,7 +18,7 @@ import java.util.concurrent.Executors;
  */
 public class SplashFx implements SplashStrategy {
 
-    private SplashFxWindow test;
+    private SplashFxWindow fxWindow;
     private static final ExecutorService SERVICE = Executors.newSingleThreadExecutor();
 
     @Override
@@ -29,7 +29,7 @@ public class SplashFx implements SplashStrategy {
                 Application.launch(SplashFxWindow.class);
             }
         });
-        test = SplashFxWindow.waitForStartUpTest();
+        fxWindow = SplashFxWindow.waitForStartUpTest();
     }
 
     @Override
@@ -39,22 +39,11 @@ public class SplashFx implements SplashStrategy {
 
     @Override
     public void updateModuleLog(final String text) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                test.updateModuleInfo(text);
-            }
-        });
-
+        fxWindow.updateModuleInfo(text);
     }
 
     @Override
     public void updateThanksLog(final String text) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                test.updateThanks(text);
-            }
-        });
+        fxWindow.updateThanks(text);
     }
 }
