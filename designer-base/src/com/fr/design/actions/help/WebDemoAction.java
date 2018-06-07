@@ -4,7 +4,7 @@ import com.fr.base.BaseUtils;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.general.Inter;
-import com.fr.start.StartServer;
+import com.fr.start.ServerStarter;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -23,7 +23,7 @@ public class WebDemoAction extends UpdateAction {
      * @param evt 事件
      */
     public void actionPerformed(ActionEvent evt) {
-        StartServer.browserDemoURL();
+        ServerStarter.browserDemoURL();
     }
 
     public static final MenuKeySet PRODUCT_DEMO = new MenuKeySet() {

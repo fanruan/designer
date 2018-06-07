@@ -71,6 +71,9 @@ public class VerticalFlowLayout implements LayoutManager, java.io.Serializable {
      */
     int newAlign;       // This is the one we actually use
 
+    // 当列宽不一致时，是否需要左对齐（默认居中对齐）
+    boolean isAlignLeft = false;
+
     /**
      * The flow layout manager allows a seperation of
      * components with gaps.  The horizontal gap will
@@ -261,9 +264,9 @@ public class VerticalFlowLayout implements LayoutManager, java.io.Serializable {
             return dim;
         }
     }
-    
+
     protected boolean dialWithDim4PreferredLayoutSize(Dimension dim, Dimension d, boolean firstVisibleComponent) {
-    	dim.width = Math.max(dim.width, d.width);
+        dim.width = Math.max(dim.width, d.width);
         if (firstVisibleComponent) {
             firstVisibleComponent = false;
         } else {
@@ -271,7 +274,7 @@ public class VerticalFlowLayout implements LayoutManager, java.io.Serializable {
         }
 
         dim.height += d.height;
-        
+
         return firstVisibleComponent;
     }
 
@@ -291,7 +294,7 @@ public class VerticalFlowLayout implements LayoutManager, java.io.Serializable {
             Dimension dim = new Dimension(0, 0);
             int nmembers = target.getComponentCount();
             boolean firstVisibleComponent = true;
-            
+
             for (int i = 0; i < nmembers; i++) {
                 Component m = target.getComponent(i);
                 if (m.isVisible()) {
@@ -306,14 +309,14 @@ public class VerticalFlowLayout implements LayoutManager, java.io.Serializable {
             return dim;
         }
     }
-    
+
     protected boolean dialWithDim4MinimumLayoutSize(Dimension dim, Dimension d, int i, boolean firstVisibleComponent) {
-    	dim.width = Math.max(dim.width, d.width);
+        dim.width = Math.max(dim.width, d.width);
         if (i > 0) {
             dim.height += vgap;
         }
         dim.height += d.height;
-        
+
         return firstVisibleComponent;
     }
 
@@ -345,10 +348,11 @@ public class VerticalFlowLayout implements LayoutManager, java.io.Serializable {
             for (int i = rowStart; i < rowEnd; i++) {
                 Component m = target.getComponent(i);
                 if (m.isVisible()) {
+                    int newX = x + (width - m.getWidth()) / 2;
                     if (ltr) {
-                        m.setLocation(x + (width - m.getWidth()) / 2, y);
+                        m.setLocation(isAlignLeft ? x : newX, y);
                     } else {
-                        m.setLocation(x + (width - m.getWidth()) / 2, target.getHeight() - y - m.getHeight());
+                        m.setLocation(isAlignLeft ? x : newX, target.getHeight() - y - m.getHeight());
                     }
                     y += m.getHeight() + vgap;
                 }
@@ -395,17 +399,17 @@ public class VerticalFlowLayout implements LayoutManager, java.io.Serializable {
             dealWithMC4LayoutContainer(target, insets, x, y, roww, start, maxlen, nmembers, ltr);
         }
     }
-    
+
     protected Dimension getPreferredSize(Container target, Component m) {
-    	return m.getPreferredSize();
+        return m.getPreferredSize();
     }
-    
+
     protected void dealWithMC4LayoutContainer(Container target, Insets insets, int x, int y, int roww, int start, int maxlen, int nmembers, boolean ltr) {
-    	moveComponents(target, x, insets.top + vgap, roww, maxlen - y, start, nmembers, ltr);
+        moveComponents(target, x, insets.top + vgap, roww, maxlen - y, start, nmembers, ltr);
     }
-    
+
     protected int[] dealWithDim4LayoutContainer(Container target, Insets insets, Dimension d, int x, int y, int roww, int start, int maxlen, int i, boolean ltr) {
-    	if ((y == 0) || ((y + d.height) <= maxlen)) {
+        if ((y == 0) || ((y + d.height) <= maxlen)) {
             if (y > 0) y += vgap;
             y += d.height;
             roww = Math.max(roww, d.width);
@@ -416,19 +420,26 @@ public class VerticalFlowLayout implements LayoutManager, java.io.Serializable {
             roww = d.width;
             start = i;
         }
-    	return new int[]{x, y, roww, start};
+        return new int[]{x, y, roww, start};
     }
-    
+
     protected int getMaxLen4LayoutContainer(Container target, Insets insets) {
-    	return target.getHeight() - (insets.top + insets.bottom + vgap * 2);
+        return target.getHeight() - (insets.top + insets.bottom + vgap * 2);
     }
-    
+
     protected int getX4LayoutContainer(Insets insets) {
-    	return insets.left + hgap;
+        return insets.left + hgap;
     }
-    
+
     protected int getY4LayoutContainer(Insets insets) {
-    	return 0;
+        return 0;
+    }
+
+    /**
+     * 当列宽不一致时，通过此方法设置是否需要左对齐
+     */
+    public void setAlignLeft(boolean isAlignLeft) {
+        this.isAlignLeft = true;
     }
 
 

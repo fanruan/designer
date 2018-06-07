@@ -1,11 +1,5 @@
 package com.fr.design.designer.beans.adapters.layout;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-
-import com.fr.design.designer.creator.cardlayout.XWCardTagLayout;
-import com.fr.general.ComparatorUtils;
 import com.fr.design.designer.beans.ConstraintsGroupModel;
 import com.fr.design.designer.beans.HoverPainter;
 import com.fr.design.designer.beans.painters.FRBorderLayoutPainter;
@@ -14,8 +8,13 @@ import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.designer.creator.XWBorderLayout;
 import com.fr.design.designer.properties.FRBorderLayoutConstraints;
 import com.fr.design.form.layout.FRBorderLayout;
-import com.fr.form.ui.container.WBorderLayout;
 import com.fr.design.utils.gui.LayoutUtils;
+import com.fr.form.ui.container.WBorderLayout;
+import com.fr.general.ComparatorUtils;
+
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
 
 public class FRBorderLayoutAdapter extends AbstractLayoutAdapter {
 
@@ -36,9 +35,6 @@ public class FRBorderLayoutAdapter extends AbstractLayoutAdapter {
      * @param creator 组件
      */
     public void fix(XCreator creator) {
-        if(creator.acceptType(XWCardTagLayout.class)){
-            creator = (XCreator) creator.getParent();
-        }
         FRBorderLayout layout = (FRBorderLayout)container.getFRLayout();
         Object constraints = layout.getConstraints(creator);
         if (ComparatorUtils.equals(constraints, BorderLayout.NORTH)) {

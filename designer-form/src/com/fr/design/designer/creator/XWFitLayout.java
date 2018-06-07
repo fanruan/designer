@@ -28,14 +28,17 @@ import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 
+import javax.swing.JOptionPane;
+
+
 /**
  * @author jim
  * @date 2014-6-23
  */
 public class XWFitLayout extends XLayoutContainer {
-	
+
 	private static final long serialVersionUID = 8112908607102660176L;
-	
+
 	//由于屏幕分辨率不同，界面上的容器大小可能不是默认的100%，此时拖入组件时，保存的大小按照100%时的计算
 	protected double containerPercent = 1.0;
 	// 布局缩小的时候，考虑最小宽高，若挨着右侧或底侧边框的控件缩小后达到最小宽或高，此时容器大小微调下
@@ -50,7 +53,7 @@ public class XWFitLayout extends XLayoutContainer {
 	public XWFitLayout(){
 		this(new WFitLayout(), new Dimension());
 	}
-	
+
 	public XWFitLayout(WFitLayout widget, Dimension initSize) {
 		super(widget, initSize);
 
@@ -58,17 +61,17 @@ public class XWFitLayout extends XLayoutContainer {
 
 		widget.setResolutionScaling(containerPercent);
 	}
-	
+
 	//根据屏幕大小来确定显示的百分比, 1440*900默认100%, 1366*768缩放90%
 	private void initPercent(){
-    	Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Dimension scrnsize = toolkit.getScreenSize();
-        double screenValue = FRScreen.getByDimension(scrnsize).getValue();
-        if(screenValue != FormArea.DEFAULT_SLIDER){
-        	this.setContainerPercent(screenValue / FormArea.DEFAULT_SLIDER);
-        }
+		Toolkit toolkit = Toolkit.getDefaultToolkit();
+		Dimension scrnsize = toolkit.getScreenSize();
+		double screenValue = FRScreen.getByDimension(scrnsize).getValue();
+		if(screenValue != FormArea.DEFAULT_SLIDER){
+			this.setContainerPercent(screenValue / FormArea.DEFAULT_SLIDER);
+		}
 	}
-	
+
 	@Override
 	public LayoutAdapter getLayoutAdapter() {
 		return new FRFitLayoutAdapter(this);
@@ -79,15 +82,15 @@ public class XWFitLayout extends XLayoutContainer {
 		this.setLayout(new FRFitLayout());
 	}
 
-    @Override
+	@Override
 	protected String getIconName() {
 		return "layout_absolute.png";
 	}
-    
-    /**
-     * 返回最右侧控件的微调宽度
-     * @return 微调宽度
-     */
+
+	/**
+	 * 返回最右侧控件的微调宽度
+	 * @return 微调宽度
+	 */
 	public int getNeedAddWidth() {
 		return needAddWidth;
 	}
@@ -96,10 +99,10 @@ public class XWFitLayout extends XLayoutContainer {
 		this.needAddWidth = needAddWidth;
 	}
 
-    /**
-     * 返回最右侧控件的微调高度
-     * @return 微调宽度
-     */
+	/**
+	 * 返回最右侧控件的微调高度
+	 * @return 微调宽度
+	 */
 	public int getNeedAddHeight() {
 		return needAddHeight;
 	}
@@ -107,7 +110,7 @@ public class XWFitLayout extends XLayoutContainer {
 	public void setNeedAddHeight(int needAddHeight) {
 		this.needAddHeight = needAddHeight;
 	}
-    
+
 	/**
 	 * 更新组件的backupBound
 	 *  拖动滑块改变容器大小，改变的是界面显示大小，更新bound，再次拖入或拉伸边框用到
@@ -119,7 +122,7 @@ public class XWFitLayout extends XLayoutContainer {
 			creator.setBackupBound(comp.getBounds());
 		}
 	}
-	
+
 	/**
 	 * 直接拖动滑条改变整体像素大小时，不用考虑控件的最小高度宽度，内部组件全部一起缩小放大
 	 * 只是界面显示大小改变，不改变对应的BoundsWidget大小
@@ -172,7 +175,7 @@ public class XWFitLayout extends XLayoutContainer {
 		}
 		LayoutUtils.layoutContainer(this);
 	}
-	
+
 	/**
 	 * 调整控件的point和size,避免拖动滑块出现空隙
 	 */
@@ -216,20 +219,20 @@ public class XWFitLayout extends XLayoutContainer {
 	 * 获取内部组件横坐标的值
 	 * @return int[] 横坐标数组
 	 */
-	
+
 	public int[] getHors(){
 		return getHors(false);
 	}
-	
+
 	/**
 	 * 获取内部组件纵坐标值
 	 * @return int[] 纵坐标数组
-	 * 
+	 *
 	 */
 	public int[] getVeris(){
 		return getVeris(false);
 	}
-	
+
 	/**
 	 * 获取内部组件横坐标的值
 	 * @param isActualSize 实际大小
@@ -254,12 +257,12 @@ public class XWFitLayout extends XLayoutContainer {
 		Collections.sort(posX);
 		return ArrayUtils.toPrimitive(posX.toArray(new Integer[]{posX.size()}));
 	}
-	
+
 	/**
 	 * 获取内部组件纵坐标值
 	 * @param isActualSize 实际大小
 	 * @return int[] 纵坐标数组
-	 * 
+	 *
 	 */
 	public int[] getVeris(boolean isActualSize) {
 		double perc = isActualSize ? containerPercent : 1.0;
@@ -280,7 +283,7 @@ public class XWFitLayout extends XLayoutContainer {
 		Collections.sort(posY);
 		return ArrayUtils.toPrimitive(posY.toArray(new Integer[]{posY.size()}));
 	}
-	
+
 	/**
 	 * 是否能缩小
 	 * @param percent 百分比
@@ -294,10 +297,10 @@ public class XWFitLayout extends XLayoutContainer {
 		}
 		return canReduceSize;
 	}
-	
+
 	/**
 	 * 按照百分比缩放内部组件宽度
-	 * 
+	 *
 	 * @param percent 宽度变化的百分比
 	 */
 	public void adjustCreatorsWidth(double percent) {
@@ -311,7 +314,7 @@ public class XWFitLayout extends XLayoutContainer {
 		if (gap >0 && hasCalGap) {
 			moveCompInterval(getAcualInterval());
 		}
-		layoutWidthResize(percent); 
+		layoutWidthResize(percent);
 		if (percent < 0 && needAddWidth > 0) {
 			this.setSize(this.getWidth()+needAddWidth, this.getHeight());
 			modifyEdgemostCreator(true);
@@ -321,7 +324,7 @@ public class XWFitLayout extends XLayoutContainer {
 		updateWidgetBackupBounds();
 		LayoutUtils.layoutContainer(this);
 	}
-	
+
 	// 手动修改宽高时，全部用的实际大小计算，所以最小值不用百分比计算后的
 	protected void layoutWidthResize(double percent) {
 		int[] hroValues= toData().getHorComps();
@@ -336,11 +339,11 @@ public class XWFitLayout extends XLayoutContainer {
 			//自适应布局里，控件的最小宽度为36
 			if (nextX-x < MIN_WIDTH-dw) {
 				dw = MIN_WIDTH +x - nextX;
-			} 
+			}
 			caculateWidth(x, dw);
 		}
 	}
-	
+
 	/**
 	 * x位置的组件宽度按dw进行调整
 	 */
@@ -365,7 +368,7 @@ public class XWFitLayout extends XLayoutContainer {
 			calculateCreatorWidth(creator, rec, dw, x);
 		}
 	}
-	
+
 	private void calculateCreatorWidth(XCreator creator, Rectangle rec, int dw, int x) {
 		if (x == 0) {
 			int width = notHasRightCreator(rec) ? this.getWidth() : rec.width+dw;
@@ -388,7 +391,7 @@ public class XWFitLayout extends XLayoutContainer {
 		creator.adjustCompWidth((double) creator.getBounds().width / rec.width);
 		toData().setBounds(creator.toData(), creator.getBounds());
 	}
-	
+
 	/**
 	 * 是否在布局最右侧
 	 */
@@ -398,7 +401,7 @@ public class XWFitLayout extends XLayoutContainer {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * 是否在布局最下侧
 	 */
@@ -408,7 +411,7 @@ public class XWFitLayout extends XLayoutContainer {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * 布局最右侧或下侧有控件在缩小时达到最小宽高，则微调下
 	 */
@@ -424,7 +427,7 @@ public class XWFitLayout extends XLayoutContainer {
 			}
 		}
 	}
-	
+
 	/**
 	 * 布局容器高度手动修改时，
 	 * 同时调整容器内的组件们,缩小时需要考虑有的组件高度不满足缩小高度
@@ -451,7 +454,7 @@ public class XWFitLayout extends XLayoutContainer {
 		updateWidgetBackupBounds();
 		LayoutUtils.layoutContainer(this);
 	}
-	
+
 	protected void layoutHeightResize(double percent) {
 		int[] vertiValues= toData().getVertiComps();
 		int num=vertiValues.length;
@@ -464,12 +467,12 @@ public class XWFitLayout extends XLayoutContainer {
 			dh = (int) ((nextY-y)*percent);
 			if (nextY-y < MIN_HEIGHT-dh) {
 				dh = MIN_HEIGHT + y - nextY;
-			} 
+			}
 
 			calculateHeight(y, dh);
 		}
 	}
-	
+
 	/**
 	 * y位置的组件按dh进行调整
 	 */
@@ -490,11 +493,11 @@ public class XWFitLayout extends XLayoutContainer {
 				creator.setSize(rec.width, rec.height+dh);
 				toData().setBounds(creator.toData(), creator.getBounds());
 				continue;
-			} 
+			}
 			calculateCreatorHeight(creator, rec, dh, y);
 		}
 	}
-	
+
 	private void calculateCreatorHeight(XCreator creator, Rectangle rec, int dh, int y) {
 		if (y==0) {
 			int height = notHasBottomCreator(rec) ? this.getHeight() : rec.height+dh;
@@ -512,7 +515,7 @@ public class XWFitLayout extends XLayoutContainer {
 		creator.adjustCompHeight((double) creator.getBounds().height / rec.height);
 		toData().setBounds(creator.toData(), creator.getBounds());
 	}
-	
+
 	private List<Component> getCompsAtX(int x) {
 		List<Component> comps = new ArrayList<Component>();
 		int size = toData().getWidgetCount();
@@ -529,7 +532,7 @@ public class XWFitLayout extends XLayoutContainer {
 		}
 		return comps;
 	}
-	
+
 	private List<Component> getCompsAtY(int y) {
 		List<Component> comps = new ArrayList<Component>();
 		for (int i=0,size=this.getComponentCount(); i<size; i++) {
@@ -544,7 +547,7 @@ public class XWFitLayout extends XLayoutContainer {
 		}
 		return comps;
 	}
-	
+
 	private int getPosX(XCreator creator) {
 		if (creator == null) {
 			return 0;
@@ -552,7 +555,7 @@ public class XWFitLayout extends XLayoutContainer {
 			return creator.getX()+creator.getWidth();
 		}
 	}
-	
+
 	/**
 	 * 返回上侧组件最新的位置
 	 */
@@ -563,10 +566,10 @@ public class XWFitLayout extends XLayoutContainer {
 			return creator.getY()+creator.getHeight();
 		}
 	}
-	
+
 	/**
 	 * 返回 x、y 所在区域的组件
-	 * 
+	 *
 	 * @param x 坐标x
 	 * @param y 坐标y
 	 * @return 指定坐标的组件
@@ -583,7 +586,7 @@ public class XWFitLayout extends XLayoutContainer {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * 更新boundsWidget的backupBound
 	 */
@@ -595,8 +598,8 @@ public class XWFitLayout extends XLayoutContainer {
 			widget.setBackupBounds(widget.getBounds());
 		}
 	}
-	
-	
+
+
 	/**
 	 * 返回内部组件的最小高度
 	 * @param comps 组件集合
@@ -605,15 +608,15 @@ public class XWFitLayout extends XLayoutContainer {
 	public int getMinHeight(List<Component> comps) {
 		//容器高度拉伸时，计算内部组件的最小高度
 		if (comps.isEmpty()) {
-    		return 0;
-    	}
-    	int minH =this.getWidth();
-    	for (int i=0, size=comps.size(); i<size; i++) {
-    		minH = minH>comps.get(i).getHeight() ? comps.get(i).getHeight() : minH;
-    	}
-    	return minH;
+			return 0;
+		}
+		int minH =this.getWidth();
+		for (int i=0, size=comps.size(); i<size; i++) {
+			minH = minH>comps.get(i).getHeight() ? comps.get(i).getHeight() : minH;
+		}
+		return minH;
 	}
-	
+
 	/**
 	 * 初始化组件大小
 	 * @return 默认大小
@@ -622,7 +625,7 @@ public class XWFitLayout extends XLayoutContainer {
 	public Dimension initEditorSize() {
 		return new Dimension(0, 0);
 	}
-	
+
 	/**
 	 * f返回默认组件name
 	 * @return 容器名
@@ -630,16 +633,16 @@ public class XWFitLayout extends XLayoutContainer {
 	public String createDefaultName() {
 		return "fit";
 	}
-	
+
 	/**
 	 * 返回容器对应的wlayout
 	 * @return 同上
 	 */
 	@Override
-    public WFitLayout toData() {
-        return (WFitLayout) data;
-    }
-	
+	public WFitLayout toData() {
+		return (WFitLayout) data;
+	}
+
 	/**
 	 * 当前组件zorder位置替换新的控件
 	 * @param widget 控件
@@ -657,118 +660,136 @@ public class XWFitLayout extends XLayoutContainer {
 		}
 		return null;
 	}
-	
+
 	@Override
 	public Dimension getMinimumSize() {
 		return toData().getMinDesignSize();
 	}
-	
+
 	/**
-     * 将WLayout转换为XLayoutContainer
-     */
-    public void convert() {
-        isRefreshing = true;
-        WFitLayout layout = this.toData();
-        this.removeAll();
-        for (int i=0, num=layout.getWidgetCount(); i<num ; i++) {
-            BoundsWidget bw = (BoundsWidget)layout.getWidget(i);
-            if (bw != null) {
-            	Rectangle bounds = bw.getBounds();
-            	bw.setBackupBounds(bounds);
-                XWidgetCreator comp = (XWidgetCreator) XCreatorUtils.createXCreator(bw.getWidget());
-                comp.setBounds(bounds);
-                this.add(comp, bw.getWidget().getWidgetName(), true);
-                comp.setBackupParent(this);
-            }
-        }
-        isRefreshing = false;
-    }
-    
-    /**
-     * 组件增加
-     * @param e 容器事件
-     */
-    public void componentAdded(ContainerEvent e) {
-    	if (isRefreshing) {
-            return;
-        }
+	 * 将WLayout转换为XLayoutContainer
+	 */
+	public void convert() {
+		isRefreshing = true;
+		WFitLayout layout = this.toData();
+		this.removeAll();
+		for (int i=0, num=layout.getWidgetCount(); i<num ; i++) {
+			BoundsWidget bw = (BoundsWidget)layout.getWidget(i);
+			if (bw != null) {
+				Rectangle bounds = bw.getBounds();
+				bw.setBackupBounds(bounds);
+				XWidgetCreator comp = (XWidgetCreator) XCreatorUtils.createXCreator(bw.getWidget());
+				comp.setBounds(bounds);
+				this.add(comp, bw.getWidget().getWidgetName(), true);
+				comp.setBackupParent(this);
+			}
+		}
+		isRefreshing = false;
+	}
+
+	/**
+	 * 组件增加
+	 * @param e 容器事件
+	 */
+	public void componentAdded(ContainerEvent e) {
+		if (isRefreshing) {
+			return;
+		}
 		//当前的body布局为绝对布局的时候不要doLayout
 		if (toData().getBodyLayoutType() != WBodyLayoutType.ABSOLUTE){
 			LayoutUtils.layoutContainer(this);
 		}
-    	WFitLayout layout = this.toData();
-    	//自适应布局新增控件后，其他控件位置也会变
+		WFitLayout layout = this.toData();
+		//自适应布局新增控件后，其他控件位置也会变
 		XWidgetCreator creator = (XWidgetCreator) e.getChild();
 		Rectangle rec = creator.getBounds();
 		layout.addWidget(new BoundsWidget(creator.toData(), rec));
 		creator.setBackupParent(this);
-    }
-    
-    /**
-     * 界面容器大小不是默认的时，处理控件的BoundsWidget，且避免出现空隙
-     */
-    private Rectangle dealWidgetBound(Rectangle rec) {
-    	if (containerPercent == 1.0) {
-    		return rec;
-    	}
-    	rec.x = (int) (rec.x/containerPercent);
-    	rec.y = (int) (rec.y/containerPercent);
-    	rec.width = (int) (rec.width/containerPercent);
-    	rec.height = (int) (rec.height/containerPercent);
-    	return rec;
-    }
-    
-    /**
-     * 新增删除拉伸后更新每个组件的BoundsWidget
-     */
-    public void updateBoundsWidget() {
-    	WFitLayout layout = this.toData();
-    	if (this.getComponentCount() == 0) {
-    		// 删除最后一个组件时就不再需要调整了
-    		return;
-    	}
-    	// 什么间隔啊 边距啊都去掉
-    	moveContainerMargin();
-    	moveCompInterval(getAcualInterval());
-    	int[] hors = getHors(true);
-    	int[] veris = getVeris(true);
-    	int containerWidth = 0;
-    	int containerHeight = 0;
-    	for (int index=0, n=this.getComponentCount(); index<n; index++) {
-    		XCreator creator = (XCreator) this.getComponent(index);
-    		BoundsWidget wgt = (BoundsWidget) layout.getBoundsWidget(creator.toData());
-    		// 用当前的显示大小计算后调正具体位置
-    		Rectangle wgtBound = dealWidgetBound(creator.getBounds());
-    		Rectangle rec = recalculateWidgetBounds(wgtBound, hors, veris);
-    		wgt.setBounds(rec);
-    		creator.toData().updateChildBounds(rec);
-    		if (rec.x == 0) {
-    			containerHeight += rec.height;
-    		}
-    		if (rec.y == 0) {
-    			containerWidth += rec.width;
-    		}
-    		// 如果子组件时tab布局，则tab布局内部的组件的wiget也要更新，否则保存后重新打开大小不对
-    		ArrayList<?> childrenList = creator.getTargetChildrenList();
-    		if(!childrenList.isEmpty()){
-    			for(int i=0; i<childrenList.size(); i++){
-    				XWTabFitLayout tabLayout = (XWTabFitLayout) childrenList.get(i);
-    				tabLayout.updateBoundsWidget();
-    			}
-    		}
+	}
+
+	/**
+	 * 界面容器大小不是默认的时，处理控件的BoundsWidget，且避免出现空隙
+	 */
+	private Rectangle dealWidgetBound(Rectangle rec) {
+		if (containerPercent == 1.0) {
+			return rec;
+		}
+		rec.x = (int) (rec.x/containerPercent);
+		rec.y = (int) (rec.y/containerPercent);
+		rec.width = (int) (rec.width/containerPercent);
+		rec.height = (int) (rec.height/containerPercent);
+		return rec;
+	}
+
+	/**
+	 * 界面容器大小不是默认的时，恢复组件实际大小
+	 */
+	private Rectangle dealWgtBound(Rectangle rec) {
+		if (containerPercent == 1.0) {
+			return rec;
+		}
+		rec.x = (int) (rec.x * containerPercent);
+		rec.y = (int) (rec.y * containerPercent);
+		rec.width = (int) (rec.width * containerPercent);
+		rec.height = (int) (rec.height * containerPercent);
+		return rec;
+	}
+
+	/**
+	 * 新增删除拉伸后更新每个组件的BoundsWidget
+	 */
+	public void updateBoundsWidget() {
+		WFitLayout layout = this.toData();
+		if (this.getComponentCount() == 0) {
+			// 删除最后一个组件时就不再需要调整了
+			return;
+		}
+		// 什么间隔啊 边距啊都去掉
+		moveContainerMargin();
+		moveCompInterval(getAcualInterval());
+		int[] hors = getHors(true);
+		int[] veris = getVeris(true);
+		int containerWidth = 0;
+		int containerHeight = 0;
+		for (int index=0, n=this.getComponentCount(); index<n; index++) {
+			XCreator creator = (XCreator) this.getComponent(index);
+			BoundsWidget wgt = (BoundsWidget) layout.getBoundsWidget(creator.toData());
+			// 用当前的显示大小计算后调正具体位置
+			Rectangle wgtBound = dealWidgetBound(creator.getBounds());
+			Rectangle rec = recalculateWidgetBounds(wgtBound, hors, veris);
+			wgt.setBounds(rec);
+			creator.toData().updateChildBounds(rec);
+			if (rec.x == 0) {
+				containerHeight += rec.height;
+			}
+			if (rec.y == 0) {
+				containerWidth += rec.width;
+			}
+			// 如果子组件时tab布局，则tab布局内部的组件的wiget也要更新，否则保存后重新打开大小不对
+			ArrayList<?> childrenList = creator.getTargetChildrenList();
+			if(!childrenList.isEmpty()){
+				for(int i=0; i<childrenList.size(); i++){
+					XWTabFitLayout tabLayout = (XWTabFitLayout) childrenList.get(i);
+					tabLayout.updateBoundsWidget();
+				}
+			}
 			//如果子组件是绝对布局，则内部的widget也要更新
 			if (creator.acceptType(XWAbsoluteLayout.class)){
+				//更新的时候一定要带上backupBound
+				if (creator.getBackupBound() == null && wgt.getBeforeScaleBounds() != null) {
+					creator.setBackupBound(dealWgtBound(wgt.getBeforeScaleBounds()));
+				}
 				((XWAbsoluteLayout) creator).updateBoundsWidget();
 				creator.setBackupBound(creator.getBounds());
 			}
-    	}
-    	layout.setContainerHeight(containerHeight);
-    	layout.setContainerWidth(containerWidth);
-    	addCompInterval(getAcualInterval());
-    }
-    
-    private Rectangle recalculateWidgetBounds(Rectangle rec, int[] hors, int[] veris) {
-    	int xIndex = 0, yIndex = 0;
+		}
+		layout.setContainerHeight(containerHeight);
+		layout.setContainerWidth(containerWidth);
+		addCompInterval(getAcualInterval());
+	}
+
+	private Rectangle recalculateWidgetBounds(Rectangle rec, int[] hors, int[] veris) {
+		int xIndex = 0, yIndex = 0;
 		Rectangle bound = new Rectangle();
 		if (rec.x > 0) {
 			for (int i=1, len=hors.length; i<len; i++) {
@@ -802,176 +823,178 @@ public class XWFitLayout extends XLayoutContainer {
 			}
 		}
 		return bound;
-    }
-    
-    /**
-     * 组件删除
-     * @param e 容器事件
-     */
-    public void componentRemoved(ContainerEvent e) {
-        if (isRefreshing) {
-            return;
-        }
-        WFitLayout wlayout = this.toData();
-        XWidgetCreator xwc = ((XWidgetCreator) e.getChild());
-        Widget wgt = xwc.toData();
-        BoundsWidget bw = (BoundsWidget) wlayout.getBoundsWidget(wgt);
-        wlayout.removeWidget(bw);
-        updateBoundsWidget();
+	}
+
+	/**
+	 * 组件删除
+	 * @param e 容器事件
+	 */
+	public void componentRemoved(ContainerEvent e) {
+		if (isRefreshing) {
+			return;
+		}
+		WFitLayout wlayout = this.toData();
+		XWidgetCreator xwc = ((XWidgetCreator) e.getChild());
+		Widget wgt = xwc.toData();
+		BoundsWidget bw = (BoundsWidget) wlayout.getBoundsWidget(wgt);
+		wlayout.removeWidget(bw);
+		updateBoundsWidget();
 		((FRFitLayoutAdapter)getLayoutAdapter()).updateCreatorBackBound();
-    }
-    
-    /**
-     *  在添加的时候需要把可拉伸的方向确定，所以重写了add方法
-     *  @param comp 组件
-     *  @param constraints 属性
-     */
-    public void add(Component comp, Object constraints) {
-    	if (comp == null) {
-    		return;
-    	}
-    	super.add(comp, constraints);
-        XCreator creator = (XCreator) comp;
-        dealDirections(creator, false);
-    }
-    
-    private void add(Component comp, Object constraints, boolean isInit) {
-    	super.add(comp, constraints);
-        XCreator creator = (XCreator) comp;
-        dealDirections(creator, isInit);
-    }
-    
-    /**
-     * 处理自适应布局的directions
-     * @param xcreator 组件
-     */
-    public void dealDirections(XCreator xcreator, boolean isInit) {
-    	if (xcreator == null) {
-            return;
-        }
-    	// 重新打开模版时，容器还没初始化，大小都还为0
-    	int containerWidth = isInit ? toData().getContainerWidth() : this.getWidth();
-    	int containerHeight = isInit ? toData().getContainerHeight() : this.getHeight();
-    	PaddingMargin margin = isInit ? new PaddingMargin(0,0,0,0) : toData().getMargin();
-    	// 再次打开时和初始设计时的区别是没计算过内边距和没按屏幕分辨率调整大小
-    	for (int i=0; i<this.getXCreatorCount(); i++) {
-    		XCreator creator = this.getXCreator(i);
-    		int x = creator.getX();
-    		int y = creator.getY();
-    		int w = creator.getWidth();
-    		int h = creator.getHeight();
-    		List<Integer> directions = new ArrayList<Integer>();
-    		// 只要组件边框没有和container贴着的，都可以拉伸
-    		if (x > margin.getLeft()) {
-    			directions.add(Direction.LEFT);
-    		}
-    		if (x+w < containerWidth - margin.getRight()) {
-    			directions.add(Direction.RIGHT);
-    		}
-    		if (y > margin.getTop()) {
-    			directions.add(Direction.TOP);
-    		}
-    		if (y+h < containerHeight - margin.getBottom()) {
-    			directions.add(Direction.BOTTOM);
-    		}
-    		if (directions.isEmpty()) {
-    			creator.setDirections(null);
-    		}else  {
-    			creator.setDirections(ArrayUtils.toPrimitive(directions.toArray(new Integer[directions.size()])));
-    		}
-    	}
-    	
-    }
-    
-    
-    /**
-     * 间隔大于0时，界面处加上间隔
-     * 界面的间隔是针对显示，实际保存的大小不受间隔影响
-     * ps:改变布局大小或者拖入、删除、拉伸都要重新考虑间隔
-     * @param gap 间隔
-     */
-    public void addCompInterval(int gap) {
-    	if (gap == 0) {
-    		return;
-    	}
-    	int val = gap/2;
-    	for (int i=0, len=this.getComponentCount(); i<len; i++) {
-    		Component comp = this.getComponent(i);
-    		Rectangle rec = comp.getBounds();
-    		Rectangle bound = new Rectangle(rec);
-    		if (rec.x > 0) {
-    			bound.x += val;
-    			bound.width -= val;
-    		}
-    		if (rec.width+rec.x < this.getWidth()) {
-    			bound.width  -= val;
-    		}
-    		if (rec.y > 0) {
-    			bound.y += val;
-    			bound.height -= val;
-    		}
-    		if (rec.height+rec.y < this.getHeight()) {
-    			bound.height -= val;
-    		}
-    		comp.setBounds(bound);
-    	}
-    	this.hasCalGap = true;
-    }
-    
-    /**
-     * 去除原有的间隔
-     * @param gap 间隔
-     */
-    public void moveCompInterval(int gap) {
-    	if (gap == 0) {
-    		return;
-    	}
-    	int val = gap/2;
-    	for (int i=0, len=this.getComponentCount(); i<len; i++) {
-    		Component comp = this.getComponent(i);
-    		Rectangle rec = comp.getBounds();
-    		Rectangle bound = new Rectangle(rec);
-    		if (rec.x > 0) {
-    			bound.x -= val;
-    			bound.width += val;
-    		}
-    		if (rec.width+rec.x < this.getWidth()) {
-    			bound.width  += val;
-    		}
-    		if (rec.y > 0) {
-    			bound.y -= val;
-    			bound.height += val;
-    		}
-    		if (rec.height+rec.y < this.getHeight()) {
-    			bound.height += val;
-    		}
-    		comp.setBounds(bound);
-    	}
-    	this.hasCalGap = false;
-    }
-    
-    /**
-     * 是否可以加入当前间隔
-     * @param interval 间隔
-     * @return 默认返回true
-     */
-    public boolean canAddInterval(int interval) {
-    	int val = interval/2;
-    	for (int i=0, len=this.getComponentCount(); i<len; i++) {
-    		Component comp = this.getComponent(i);
-    		Rectangle rec = comp.getBounds();
-    		Dimension d = new Dimension(this.getWidth(), this.getHeight());
-    		Rectangle bound = dealBound(rec, d, val, 0);
-    		if (bound.width < minWidth || bound.height< minHeight) {
-    			return false;
-    		}
-    	}
-    	return true;
-    }
-    
-    private Rectangle dealBound(Rectangle rec, Dimension d, int val, double perc) {
-    	Rectangle bound = reSetBound(rec, perc);
-    	if (rec.x > 0) {
+	}
+
+	/**
+	 *  在添加的时候需要把可拉伸的方向确定，所以重写了add方法
+	 *  @param comp 组件
+	 *  @param constraints 属性
+	 */
+	public void add(Component comp, Object constraints) {
+		if (comp == null) {
+			return;
+		}
+		super.add(comp, constraints);
+		XCreator creator = (XCreator) comp;
+		dealDirections(creator, false);
+	}
+
+	private void add(Component comp, Object constraints, boolean isInit) {
+		super.add(comp, constraints);
+		XCreator creator = (XCreator) comp;
+		dealDirections(creator, isInit);
+	}
+
+	/**
+	 * 处理自适应布局的directions
+	 * @param xcreator 组件
+	 */
+	public void dealDirections(XCreator xcreator, boolean isInit) {
+		if (xcreator == null) {
+			return;
+		}
+		// 重新打开模版时，容器还没初始化，大小都还为0
+		int containerWidth = isInit ? toData().getContainerWidth() : this.getWidth();
+		int containerHeight = isInit ? toData().getContainerHeight() : this.getHeight();
+		PaddingMargin margin = isInit ? new PaddingMargin(0,0,0,0) : toData().getMargin();
+		// 再次打开时和初始设计时的区别是没计算过内边距和没按屏幕分辨率调整大小
+		for (int i=0; i<this.getXCreatorCount(); i++) {
+			XCreator creator = this.getXCreator(i);
+			int x = creator.getX();
+			int y = creator.getY();
+			int w = creator.getWidth();
+			int h = creator.getHeight();
+			List<Integer> directions = new ArrayList<Integer>();
+			// 只要组件边框没有和container贴着的，都可以拉伸
+			if (x > margin.getLeft()) {
+				directions.add(Direction.LEFT);
+			}
+			if (x+w < containerWidth - margin.getRight()) {
+				directions.add(Direction.RIGHT);
+			}
+			if (y > margin.getTop()) {
+				directions.add(Direction.TOP);
+			}
+			if (y+h < containerHeight - margin.getBottom()) {
+				directions.add(Direction.BOTTOM);
+			}
+			if (directions.isEmpty()) {
+				creator.setDirections(null);
+			}else  {
+				creator.setDirections(ArrayUtils.toPrimitive(directions.toArray(new Integer[directions.size()])));
+			}
+		}
+
+	}
+
+
+	/**
+	 * 间隔大于0时，界面处加上间隔
+	 * 界面的间隔是针对显示，实际保存的大小不受间隔影响
+	 * ps:改变布局大小或者拖入、删除、拉伸都要重新考虑间隔
+	 * @param gap 间隔
+	 */
+	public void addCompInterval(int gap) {
+		if (gap == 0) {
+			return;
+		}
+		int val = gap/2;
+		for (int i=0, len=this.getComponentCount(); i<len; i++) {
+			Component comp = this.getComponent(i);
+			Rectangle rec = comp.getBounds();
+			Rectangle bound = new Rectangle(rec);
+			if (rec.x > 0) {
+				bound.x += val;
+				bound.width -= val;
+			}
+			if (rec.width+rec.x < this.getWidth()) {
+				bound.width  -= val;
+			}
+			if (rec.y > 0) {
+				bound.y += val;
+				bound.height -= val;
+			}
+			if (rec.height+rec.y < this.getHeight()) {
+				bound.height -= val;
+			}
+			comp.setBounds(bound);
+		}
+		this.hasCalGap = true;
+	}
+
+	/**
+	 * 去除原有的间隔
+	 * @param gap 间隔
+	 */
+	public void moveCompInterval(int gap) {
+		if (gap == 0) {
+			return;
+		}
+		int val = gap/2;
+		for (int i=0, len=this.getComponentCount(); i<len; i++) {
+			Component comp = this.getComponent(i);
+			Rectangle rec = comp.getBounds();
+			Rectangle bound = new Rectangle(rec);
+			if (rec.x > 0) {
+				bound.x -= val;
+				bound.width += val;
+			}
+			if (rec.width+rec.x < this.getWidth()) {
+				bound.width  += val;
+			}
+			if (rec.y > 0) {
+				bound.y -= val;
+				bound.height += val;
+			}
+			if (rec.height+rec.y < this.getHeight()) {
+				bound.height += val;
+			}
+			comp.setBounds(bound);
+		}
+		this.hasCalGap = false;
+	}
+
+	/**
+	 * 是否可以加入当前间隔
+	 * @param interval 间隔
+	 * @return 默认返回true
+	 */
+	public boolean canAddInterval(int interval) {
+		int val = interval/2;
+		for (int i=0, len=this.getComponentCount(); i<len; i++) {
+			XCreator comp = (XCreator) this.getComponent(i);
+			Rectangle rec = comp.getBounds();
+			Dimension d = new Dimension(this.getWidth(), this.getHeight());
+			Rectangle bound = dealBound(rec, d, val, 0);
+			if (bound.width < minWidth || bound.height< minHeight) {
+				String widgetName = comp.toData().getWidgetName();
+				JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Engine_Invalid_Setting_Cause_Reach_Min_Widget_Size", widgetName));
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private Rectangle dealBound(Rectangle rec, Dimension d, int val, double perc) {
+		Rectangle bound = reSetBound(rec, perc);
+		if (rec.x > 0) {
 			bound.width -= val;
 		}
 		if (rec.width+rec.x < d.width) {
@@ -984,106 +1007,106 @@ public class XWFitLayout extends XLayoutContainer {
 			bound.height -= val;
 		}
 		return new Rectangle(bound);
-    }
-    
-    /**
-     * 缩小宽度或者高度时  存在间隔的话是否支持缩小
-     */
-    private boolean canReduceSize(double percent) {
-    	int val = toData().getCompInterval()/2;
-    	for (int i=0, len=this.getComponentCount(); i<len; i++) {
-    		XCreator creator = (XCreator) this.getComponent(i);
+	}
+
+	/**
+	 * 缩小宽度或者高度时  存在间隔的话是否支持缩小
+	 */
+	private boolean canReduceSize(double percent) {
+		int val = toData().getCompInterval()/2;
+		for (int i=0, len=this.getComponentCount(); i<len; i++) {
+			XCreator creator = (XCreator) this.getComponent(i);
 			BoundsWidget widget = (BoundsWidget) toData().getBoundsWidget(creator.toData());
 			Rectangle rec = widget.getBounds();
-    		Dimension d = new Dimension(this.getBackupBound().width, this.getBackupBound().height);
-    		Rectangle bound = dealBound(rec, d, val, percent);
-    		// 缩小宽高都是实际大小判断
-    		if (bound.width < MIN_WIDTH || bound.height< MIN_HEIGHT) {
-    			return false;
-    		}
-    	}
-    	return true;
-    }
-    
-    private Rectangle reSetBound(Rectangle rec, double percent) {
-    	Rectangle b = new Rectangle(rec);
-    	b.x += b.x*percent;
-    	b.y += b.y*percent;
-    	b.width += b.width*percent;
-    	b.height += b.height*percent;
-    	return new Rectangle(b);
-    }
-    
-    /**
-     * 去除内边距
-     * 重设间隔时，保存实际大小时都要先去掉内边距
-     */
-    public void moveContainerMargin() {
-    	PaddingMargin margin = toData().getMargin();
-    	int num = this.getComponentCount();
-    	int maxW = this.getWidth() - margin.getRight();
-    	int maxH = this.getHeight() - margin.getBottom();
-    	for (int i=0; i<num; i++) {
-    		Component comp = this.getComponent(i);
-    		Rectangle rec = comp.getBounds();
-    		if (rec.x == margin.getLeft()) {
-    			rec.x = 0;
-    			rec.width += margin.getLeft();
-    		}
-    		if (rec.y == margin.getTop()) {
-    			rec.y = 0;
-    			rec.height += margin.getTop();
-    		}
-    		if (rec.x +rec.width == maxW) {
-    			rec.width += margin.getRight();
-    		}
-    		if (rec.y + rec.height == maxH) {
-    			rec.height += margin.getBottom();
-    		}
-    		comp.setBounds(rec);
-    	}
-    }
-    
-    public Component getTopComp(int x, int y) {
-    	int val = getAcualInterval();
+			Dimension d = new Dimension(this.getBackupBound().width, this.getBackupBound().height);
+			Rectangle bound = dealBound(rec, d, val, percent);
+			// 缩小宽高都是实际大小判断
+			if (bound.width < MIN_WIDTH || bound.height< MIN_HEIGHT) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private Rectangle reSetBound(Rectangle rec, double percent) {
+		Rectangle b = new Rectangle(rec);
+		b.x += b.x*percent;
+		b.y += b.y*percent;
+		b.width += b.width*percent;
+		b.height += b.height*percent;
+		return new Rectangle(b);
+	}
+
+	/**
+	 * 去除内边距
+	 * 重设间隔时，保存实际大小时都要先去掉内边距
+	 */
+	public void moveContainerMargin() {
+		PaddingMargin margin = toData().getMargin();
+		int num = this.getComponentCount();
+		int maxW = this.getWidth() - margin.getRight();
+		int maxH = this.getHeight() - margin.getBottom();
+		for (int i=0; i<num; i++) {
+			Component comp = this.getComponent(i);
+			Rectangle rec = comp.getBounds();
+			if (rec.x == margin.getLeft()) {
+				rec.x = 0;
+				rec.width += margin.getLeft();
+			}
+			if (rec.y == margin.getTop()) {
+				rec.y = 0;
+				rec.height += margin.getTop();
+			}
+			if (rec.x +rec.width == maxW) {
+				rec.width += margin.getRight();
+			}
+			if (rec.y + rec.height == maxH) {
+				rec.height += margin.getBottom();
+			}
+			comp.setBounds(rec);
+		}
+	}
+
+	public Component getTopComp(int x, int y) {
+		int val = getAcualInterval();
 		return this.getComponentAt(x, y-default_Length-val);
 	}
-	
+
 	public Component getLeftComp(int x, int y) {
 		int val = getAcualInterval();
 		return this.getComponentAt(x-default_Length-val, y);
 	}
-	
+
 	public Component getRightComp(int x, int y, int w) {
 		int val = getAcualInterval();
 		return this.getComponentAt(x+w+default_Length+val, y);
 	}
-	
+
 	public Component getBottomComp(int x, int y, int h) {
 		int val = getAcualInterval();
 		return this.getComponentAt(x, y+h+default_Length+val);
 	}
-	
+
 	public Component getRightTopComp(int x, int y, int w) {
 		int val = getAcualInterval();
 		return this.getComponentAt(x+w-default_Length, y-default_Length-val);
 	}
-	
+
 	public Component getBottomLeftComp(int x, int y, int h) {
 		int val = getAcualInterval();
 		return this.getComponentAt(x-default_Length-val, y+h-default_Length);
 	}
-	
+
 	public Component getBottomRightComp(int x, int y, int h, int w) {
 		int val = getAcualInterval();
 		return this.getComponentAt(x+w+default_Length+val, y+h-default_Length);
 	}
-	
+
 	public Component getRightBottomComp(int x, int y, int h, int w) {
 		int val = getAcualInterval();
 		return this.getComponentAt(x+w-default_Length, y+h+default_Length+val);
 	}
-    
+
 	/**
 	 * 返回容器大小的百分比
 	 * @return the containerPercent
@@ -1102,40 +1125,40 @@ public class XWFitLayout extends XLayoutContainer {
 		minHeight = (int) (XWFitLayout.MIN_HEIGHT*containerPercent);
 	}
 
-    /**
-     * 该组件是否可以拖拽(表单中参数面板和自适应布局不可以拖拽)
-     * @return 是则返回true
-     */
-    public boolean isSupportDrag(){
-        return false;
-    }
-    
-    /**
-     * 返回界面处根据百分比调整后的最小宽度
-     * @return 最小宽度
-     */
-    public int getActualMinWidth() {
+	/**
+	 * 该组件是否可以拖拽(表单中参数面板和自适应布局不可以拖拽)
+	 * @return 是则返回true
+	 */
+	public boolean isSupportDrag(){
+		return false;
+	}
+
+	/**
+	 * 返回界面处根据百分比调整后的最小宽度
+	 * @return 最小宽度
+	 */
+	public int getActualMinWidth() {
 		return this.minWidth;
 	}
-    
-    /**
-     * 返回界面处根据百分比调整后的最小高度
-     * @return 最小高度
-     */
-    public int getActualMinHeight() {
+
+	/**
+	 * 返回界面处根据百分比调整后的最小高度
+	 * @return 最小高度
+	 */
+	public int getActualMinHeight() {
 		return this.minHeight;
 	}
-    
-    /**
-     * 返回界面处根据百分比调整后的间隔大小（且为偶数）
-     * @return 间隔
-     */
-    public int getAcualInterval() {
-    	// adapter那边交叉三等分、删除都要判断是否对齐，所以间隔转为偶数
-    	int interval = (int) (toData().getCompInterval()*containerPercent);
-    	int val = interval/2;
-    	return val*2;
-    }
+
+	/**
+	 * 返回界面处根据百分比调整后的间隔大小（且为偶数）
+	 * @return 间隔
+	 */
+	public int getAcualInterval() {
+		// adapter那边交叉三等分、删除都要判断是否对齐，所以间隔转为偶数
+		int interval = (int) (toData().getCompInterval()*containerPercent);
+		int val = interval/2;
+		return val*2;
+	}
 
 	/**
 	 * 返回是否已经加上间隔
@@ -1152,7 +1175,7 @@ public class XWFitLayout extends XLayoutContainer {
 	public void setHasCalGap(boolean hasCalGap) {
 		this.hasCalGap = hasCalGap;
 	}
-	
+
 	/**
 	 * 设置上次的间隔
 	 * @param backupPercent 上次的百分比
@@ -1162,15 +1185,15 @@ public class XWFitLayout extends XLayoutContainer {
 		int val = value/2;
 		this.backupGap = val*2;
 	}
-	
-    /**
+
+	/**
 	 * 寻找最近的为自适应布局的父容器
-	 * 
+	 *
 	 * @return 布局容器
-	 * 
+	 *
 	 *
 	 * @date 2014-12-30-下午3:15:28
-	 * 
+	 *
 	 */
 	public XLayoutContainer findNearestFit() {
 		return this;

@@ -1,7 +1,6 @@
 package com.fr.design.designer.creator.cardlayout;
 
 import com.fr.base.GraphHelper;
-import com.fr.base.background.ColorBackground;
 import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.FRTabFitLayoutAdapter;
 import com.fr.design.designer.beans.models.SelectionModel;
@@ -23,7 +22,6 @@ import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.form.ui.container.cardlayout.WTabFitLayout;
 import com.fr.general.Background;
 import com.fr.general.Inter;
-import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.core.PropertyChangeAdapter;
 
@@ -43,7 +41,7 @@ import java.beans.IntrospectionException;
  */
 public class XWTabFitLayout extends XWFitLayout {
 	
-	private static final int MIN_SIZE = 1;
+	private static final int MIN_SIZE = 0;
 
 	private static final int WIDTH_SIDE_OFFSET = 57;
 
@@ -104,16 +102,27 @@ public class XWTabFitLayout extends XWFitLayout {
 		super(widget, initSize);
 	}
 
+	public WTabFitLayout getWTabFitLayout(){
+		return (WTabFitLayout)data;
+	}
+
 	@Override
 	public UIPopupMenu createPopupMenu(FormDesigner formDesigner) {
 		return UIPopupMenu.EMPTY;  // 不要菜单
 	}
+
+	@Override
+	protected String getIconName() {
+		return "tab_fit_layout.png";
+	}
+
 
 	/**
 	 *  得到属性名
 	 * @return 属性名
 	 * @throws IntrospectionException
 	 */
+	@Override
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
 		checkButonType();
 		CRPropertyDescriptor[] crp = ((WTabFitLayout) data).isCustomStyle() ? getisCustomStyle() : getisnotCustomStyle();
@@ -205,41 +214,32 @@ public class XWTabFitLayout extends XWFitLayout {
 		return crPropertyDescriptors;
 	}
 
-	private void checkButonType() {
-		if (this.xCardSwitchButton == null) {
-			//假如为空，默认获取第一个tab的cardBtn属性
-			try {
-				xCardSwitchButton = (XCardSwitchButton) ((XWCardMainBorderLayout) this.getTopLayout()).getTitlePart().getTagPart().getComponent(0);
-			}catch (Exception e){
-				FineLoggerFactory.getLogger().error(e.getMessage());
-			}
-			return;
+	public void checkButonType() {
+		WTabFitLayout wTabFitLayout = ((WTabFitLayout) data);
+		XCardSwitchButton xCardSwitchButton = this.getxCardSwitchButton();
+		if(xCardSwitchButton == null){
+			initRelateSwitchButton();
 		}
-		boolean isStyle = ((WTabFitLayout) data).isCustomStyle();
-		Background bg;
-		bg = ColorBackground.getInstance(NORMAL_GRAL);
 		CardSwitchButton cardSwitchButton = (CardSwitchButton) this.xCardSwitchButton.toData();
+		boolean isStyle = wTabFitLayout.isCustomStyle();
+		Background initialBackground = wTabFitLayout.getInitialBackground();
+		Background overBackground = wTabFitLayout.getOverBackground();
+		Background clickBackground = wTabFitLayout.getClickBackground();
 		if (!isStyle) {
-			this.xCardSwitchButton.setCustomStyle(false);
-			this.xCardSwitchButton.setSelectBackground(bg);
+			cardSwitchButton.setCustomStyle(false);
 			cardSwitchButton.setInitialBackground(null);
 			cardSwitchButton.setClickBackground(null);
 			cardSwitchButton.setOverBackground(null);
 		} else {
-			Background initialBackground = cardSwitchButton.getInitialBackground();
-			bg = initialBackground == null ? bg : initialBackground;
-			this.xCardSwitchButton.setSelectBackground(bg);
-			this.xCardSwitchButton.setCustomStyle(true);
 			cardSwitchButton.setCustomStyle(true);
-			if (this.initialBackground != null){
-				this.xCardSwitchButton.setSelectBackground(this.initialBackground);
-				cardSwitchButton.setInitialBackground(this.initialBackground);
+			if (initialBackground != null){
+				cardSwitchButton.setInitialBackground(initialBackground);
 			}
-			if (this.overBackground != null){
-				cardSwitchButton.setOverBackground(this.overBackground);
+			if (overBackground != null){
+				cardSwitchButton.setOverBackground(overBackground);
 			}
-			if (this.clickBackground != null) {
-				cardSwitchButton.setClickBackground(this.clickBackground);
+			if (clickBackground != null) {
+				cardSwitchButton.setClickBackground(clickBackground);
 			}
 		}
 	}
@@ -256,7 +256,8 @@ public class XWTabFitLayout extends XWFitLayout {
 	 * @param designer 表单设计器
 	 * 
 	 */
-	public void deleteRelatedComponent(XCreator creator,FormDesigner designer){
+	@Override
+	public void deleteRelatedComponent(XCreator creator, FormDesigner designer){
 		//逐层回溯找出相关的layout和对应的tab按钮
     	XWTabFitLayout fitLayout = (XWTabFitLayout)creator;
     	WTabFitLayout fit = (WTabFitLayout) fitLayout.toData();
@@ -269,21 +270,22 @@ public class XWTabFitLayout extends XWFitLayout {
     	//放置tab按钮的tagLayout
     	XWCardTagLayout tagLayout = titleLayout.getTagPart();
     	WCardTagLayout tag = (WCardTagLayout) tagLayout.toData();
-    	
+
+		//先删除对应的tab按钮
+		for(int i=0;i<tagLayout.getComponentCount();i++){
+			CardSwitchButton button = tag.getSwitchButton(i);
+			if(button.getIndex()==index){
+				tagLayout.remove(i);
+				break;
+			}
+		}
     	//删除整个tab布局
     	if(tag.getWidgetCount() <= MIN_SIZE){
     		deleteTabLayout(mainLayout,designer);
     		return;
     	}
     	
-    	//先删除对应的tab按钮
-    	for(int i=0;i<tagLayout.getComponentCount();i++){
-    		CardSwitchButton button = tag.getSwitchButton(i);
-    		if(button.getIndex()==index){
-    			tagLayout.remove(i);
-    			break;
-    		}
-    	}
+
     	//刷新tab按钮和tabFitLayout的index
     	refreshIndex(tag,cardLayout,index);
     	
@@ -291,7 +293,7 @@ public class XWTabFitLayout extends XWFitLayout {
 	}
 	
 	
-	private void deleteTabLayout(XLayoutContainer mainLayout,FormDesigner designer){
+	private void deleteTabLayout(XLayoutContainer mainLayout, FormDesigner designer){
 		SelectionModel selectionModel = designer.getSelectionModel();
 		if(mainLayout != null){
 			selectionModel.setSelectedCreator(mainLayout);
@@ -301,21 +303,21 @@ public class XWTabFitLayout extends XWFitLayout {
 		FormHierarchyTreePane.getInstance().refreshRoot();
 		selectionModel.setSelectedCreator(designer.getRootComponent());
 	}
-	
-	private void refreshIndex(WCardTagLayout tag,XWCardLayout cardLayout,int index){
-    	for(int i=0;i<tag.getWidgetCount();i++){
-    		CardSwitchButton button = tag.getSwitchButton(i);
-    		XWTabFitLayout tempFit = (XWTabFitLayout) cardLayout.getComponent(i);
-    		WTabFitLayout tempFitLayout = (WTabFitLayout) tempFit.toData();
-    		int currentFitIndex = tempFitLayout.getIndex();
-    		int buttonIndex = button.getIndex();
-    		if(buttonIndex > index){
-    			button.setIndex(--buttonIndex);
-    		}
-    		if(currentFitIndex > index){
-    			tempFitLayout.setIndex(--currentFitIndex);
-    		}
-    	}
+
+	private void refreshIndex(WCardTagLayout tag, XWCardLayout cardLayout, int index) {
+		for (int i = 0; i < tag.getWidgetCount(); i++) {
+			CardSwitchButton button = tag.getSwitchButton(i);
+			XWTabFitLayout tempFit = (XWTabFitLayout) cardLayout.getComponent(i);
+			WTabFitLayout tempFitLayout = (WTabFitLayout) tempFit.toData();
+			int currentFitIndex = tempFitLayout.getIndex();
+			int buttonIndex = button.getIndex();
+			if (buttonIndex > index) {
+				button.setIndex(--buttonIndex);
+			}
+			if (currentFitIndex > index) {
+				tempFitLayout.setIndex(--currentFitIndex);
+			}
+		}
 	}
 	
 	/**
@@ -323,7 +325,8 @@ public class XWTabFitLayout extends XWFitLayout {
 	 * @param comp 当前组件
 	 * void
 	 */
-    public void seleteRelatedComponent(XCreator comp){
+    @Override
+	public void seleteRelatedComponent(XCreator comp){
     	XWTabFitLayout fitLayout = (XWTabFitLayout)comp;
     	WTabFitLayout fit = (WTabFitLayout) fitLayout.toData();
     	int index = fit.getIndex();
@@ -348,7 +351,8 @@ public class XWTabFitLayout extends XWFitLayout {
 	 * @date 2014-12-30-下午3:15:28
 	 * 
 	 */
-    public XLayoutContainer findNearestFit(){
+    @Override
+	public XLayoutContainer findNearestFit(){
     	XLayoutContainer parent = this.getBackupParent();
     	return parent == null ? null : parent.findNearestFit();
     } 
@@ -357,6 +361,7 @@ public class XWTabFitLayout extends XWFitLayout {
 	 * 非顶层自适应布局的缩放
 	 * @param percent 百分比
 	 */
+	@Override
 	public void adjustCompSize(double percent) {
 		this.adjustCreatorsWhileSlide(percent);
 	}
@@ -375,6 +380,7 @@ public class XWTabFitLayout extends XWFitLayout {
 	 * 
 	 * @param percent 宽度变化的百分比
 	 */
+	@Override
 	public void adjustCreatorsWidth(double percent) {
 		if (this.getComponentCount()==0) {
 			// 初始化没有拖入控件时，实际宽度依然调整
@@ -407,6 +413,7 @@ public class XWTabFitLayout extends XWFitLayout {
 	 * 同时调整容器内的组件们,缩小时需要考虑有的组件高度不满足缩小高度
 	 * @param percent 高度变化的百分比
 	 */
+	@Override
 	public void adjustCreatorsHeight(double percent) {
 		if (this.getComponentCount()==0) {
 			//调整高度后，wlayout那边记录下
@@ -431,6 +438,7 @@ public class XWTabFitLayout extends XWFitLayout {
 		LayoutUtils.layoutContainer(this);
 	}
 	
+	@Override
 	public XLayoutContainer getOuterLayout(){
 		XWCardLayout cardLayout = (XWCardLayout) this.getBackupParent();
 		return cardLayout.getBackupParent();
@@ -445,12 +453,43 @@ public class XWTabFitLayout extends XWFitLayout {
 			wgt.setBackupBounds(this.getComponent(m).getBounds());
 		}
 	}
+
+	/**
+	 * 获取其在控件树上可见父层
+	 * @return 组件
+	 */
+	@Override
+	public Component getParentShow(){
+		XCardSwitchButton cardSwitchButton = this.getxCardSwitchButton();
+		if(cardSwitchButton == null){
+			initRelateSwitchButton();
+		}
+		//控件树上显示其taglayout层
+		if ((cardSwitchButton != null)) {
+			return cardSwitchButton.getBackupParent();
+		}
+		return super.getParentShow();
+	}
+
+	public void initRelateSwitchButton(){
+		//先确定此tabFitLayout所处位置
+		XLayoutContainer parentContainer = this.getBackupParent();
+		int index = parentContainer.getIndexOfChild(this);
+		XWCardMainBorderLayout cardMainBorderLayout = (XWCardMainBorderLayout) this.getTopLayout();
+		XWCardTitleLayout titleLayout = cardMainBorderLayout.getTitlePart();
+		XWCardTagLayout tagLayout =  titleLayout.getTagPart();
+		XCreator xCreator = tagLayout.getXCreator(index);
+		if(xCreator != null){
+			this.setxCardSwitchButton((XCardSwitchButton)xCreator);
+		}
+	}
 	
     /**
      * 去除原有的间隔
      * @param gap 间隔
      */
-    public void moveCompInterval(int gap) {
+    @Override
+	public void moveCompInterval(int gap) {
     	if (gap == 0) {
     		return;
     	}
@@ -507,7 +546,8 @@ public class XWTabFitLayout extends XWFitLayout {
      * ps:改变布局大小或者拖入、删除、拉伸都要重新考虑间隔
      * @param gap 间隔
      */
-    public void addCompInterval(int gap) {
+    @Override
+	public void addCompInterval(int gap) {
     	if (gap == 0) {
     		return;
     	}
@@ -552,6 +592,7 @@ public class XWTabFitLayout extends XWFitLayout {
 		return new WidgetPropertyUIProvider[0];
 	}
 
+	@Override
 	public void firePropertyChange(){
 		checkButonType();
 		//根据字体长度设置tab宽度
@@ -559,24 +600,9 @@ public class XWTabFitLayout extends XWFitLayout {
 		XWCardLayout cardLayout = (XWCardLayout) this.getBackupParent();
 		XWCardMainBorderLayout mainLayout = (XWCardMainBorderLayout) cardLayout.getBackupParent();
 		XWCardTitleLayout titleLayout = mainLayout.getTitlePart();
-//		//放置tab按钮的tagLayout
+		//放置tab按钮的tagLayout
 		XWCardTagLayout tagLayout = titleLayout.getTagPart();
 		tagLayout.setTabsAndAdjust();
-
-		initialBackground = ((WTabFitLayout) data).getInitialBackground();
-		overBackground = ((WTabFitLayout) data).getOverBackground();
-		clickBackground = ((WTabFitLayout)data).getClickBackground();
-		CardSwitchButton cardSwitchButton = (CardSwitchButton) xCardSwitchButton.toData();
-		if(initialBackground != null){
-			xCardSwitchButton.setSelectBackground(initialBackground);
-			cardSwitchButton.setInitialBackground(initialBackground);
-		}
-		if(overBackground != null){
-			cardSwitchButton.setOverBackground(overBackground);
-		}
-		if(clickBackground != null){
-			cardSwitchButton.setClickBackground(clickBackground);
-		}
 	}
 
 	public void setCardSwitchBtnSize(){
@@ -587,5 +613,26 @@ public class XWTabFitLayout extends XWFitLayout {
 		xCardSwitchButton.setPreferredSize(new Dimension(width, xCardSwitchButton.getHeight()));
 	}
 
+	private void checkVisible(){
+		WTabFitLayout wTabFitLayout = (WTabFitLayout)this.data;
+		CardSwitchButton cardSwitchButton = wTabFitLayout.getCurrentCard();
+		cardSwitchButton.setVisible(wTabFitLayout.isVisible());
+	}
+
+
+	/**
+	 * 是否支持设置可见
+	 * return boolean
+	 */
+	@Override
+	public boolean supportSetVisible(){
+		return true;
+	}
+
+
+	@Override
+	public void resetVisible(boolean visible){
+		checkVisible();
+	}
 
 }

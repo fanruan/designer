@@ -61,6 +61,9 @@ public class Grid extends BaseGridComponent {
     /**
      * If editing, the <code>Component</code> that is handling the editing.
      */
+    public static final int NO_PAGINATE_LINE = 0;  // 不显示分页线
+    public static final int MULTIPLE_PAGINATE_LINE = 1;  // 绘制多条分页线
+    public static final int SINGLE_HORIZONTAL_PAGINATE_LINE = 2;  // 仅绘制一条水平分页线
     private static final int VERTICAL_EXTENT_INITIAL_VALUE = 50;
     private static final int HORIZONTAL_EXTENT_INITIAL_VALUE = 40;
     transient protected Component editorComponent;
@@ -70,7 +73,7 @@ public class Grid extends BaseGridComponent {
     private boolean showGridLine = true;
     private Color gridLineColor = UIConstants.RULER_LINE_COLOR; // line color.
 
-    private boolean isShowPaginateLine = true;
+    private int paginateLineShowType = MULTIPLE_PAGINATE_LINE;  // 分页线类型
     private Color paginationLineColor = Color.RED; // line color of paper
 
     private boolean isShowVerticalFrozenLine = true;
@@ -213,25 +216,6 @@ public class Grid extends BaseGridComponent {
         this.gridLineColor = gridLineColor;
 
         this.firePropertyChange("girdLineColor", old, this.gridLineColor);
-        this.getElementCasePane().repaint();
-    }
-
-    /**
-     * 是否显示分页线
-     *
-     * @return 是否显示分页线
-     * @date 2014-12-21-下午6:31:45
-     */
-    public boolean isShowPaginateLine() {
-        return isShowPaginateLine;
-    }
-
-    /**
-     * Sets to show pagination line.
-     */
-    public void setShowPaginateLine(boolean showPaginateLine) {
-        this.isShowPaginateLine = showPaginateLine;
-
         this.getElementCasePane().repaint();
     }
 
@@ -1456,8 +1440,12 @@ public class Grid extends BaseGridComponent {
         this.tooltipLocation.setLocation(x, y);
     }
 
-//	@Override
-//	public void requestFocus() {
-//		super.requestFocus();
-//	}
+    public int getPaginateLineShowType() {
+        return paginateLineShowType;
+    }
+
+    public void setPaginateLineShowType(int paginateLineShowType) {
+        this.paginateLineShowType = paginateLineShowType;
+        this.getElementCasePane().repaint();
+    }
 }

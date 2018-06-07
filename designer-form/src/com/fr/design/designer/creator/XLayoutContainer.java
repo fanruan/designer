@@ -241,6 +241,10 @@ public abstract class XLayoutContainer extends XBorderStyleWidgetCreator impleme
         }
     }
 
+    public int getShowXCreatorCount() {
+        return getXCreatorCount();
+    }
+
     public int getXCreatorCount() {
         return getComponentCount();
     }

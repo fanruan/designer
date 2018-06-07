@@ -417,6 +417,37 @@ public class FRGUIPaneFactory {
     }
 
     /**
+     * 创建垂直流布局面板
+     *
+     * @param isAlignLeft 是否左对齐
+     * @return JPanel对象
+     */
+    public static JPanel createVerticalFlowLayout_S_Pane(boolean isAlignLeft) {
+        JPanel jp = new JPanel();
+        VerticalFlowLayout layout = new VerticalFlowLayout();
+        layout.setAlignLeft(isAlignLeft);
+        jp.setLayout(layout);
+        return jp;
+    }
+
+    /**
+     * 创建垂直流布局面板
+     *
+     * @param isAlignLeft 是否左对齐
+     * @param align the alignment value
+     * @param hgap  the horizontal gap between components
+     * @param vgap  the vertical gap between components
+     * @return JPanel对象
+     */
+    public static JPanel createVerticalFlowLayout_Pane(boolean isAlignLeft, int align, int hgap, int vgap) {
+        JPanel jp = new JPanel();
+        VerticalFlowLayout layout = new VerticalFlowLayout(align, hgap, vgap);
+        layout.setAlignLeft(isAlignLeft);
+        jp.setLayout(layout);
+        return jp;
+    }
+
+    /**
      * 创建边框面板L
      *
      * @return JPanel对象

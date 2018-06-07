@@ -3,11 +3,6 @@
  */
 package com.fr.design.gui.xpane;
 
-import java.awt.BorderLayout;
-
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
 import com.fr.base.Utils;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.icontainer.UIScrollPane;
@@ -21,6 +16,11 @@ import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.form.ui.LayoutBorderStyle;
 import com.fr.general.Inter;
 
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+
 /**
  * CardTagLayoutBorderPane Pane.
  */
@@ -32,7 +32,7 @@ public class CardTagLayoutBorderPane extends LayoutBorderPane {
 
 	protected UIScrollPane initRightBottomPane(){
         this.setFontSizeComboBox(new UIComboBox(FRFontPane.FONT_SIZES));
-        this.setFontNameComboBox(new UIComboBox(Utils.getAvailableFontFamilyNames4Report())); 
+        this.setFontNameComboBox(new UIComboBox(Utils.getAvailableFontFamilyNames4Report()));
         JPanel fontSizeTypePane = new JPanel(new BorderLayout(10,0));
         fontSizeTypePane.add(this.getFontSizeComboBox(), BorderLayout.CENTER);
         fontSizeTypePane.add(this.getFontNameComboBox(), BorderLayout.EAST);
@@ -72,7 +72,7 @@ public class CardTagLayoutBorderPane extends LayoutBorderPane {
 	        centerPane.add(borderPane, BorderLayout.CENTER);
 	        borderPane.setBorder(BorderFactory.createEmptyBorder(10, 4, 10, 4));
 
-	        this.setLayoutBorderPreviewPane(new CardTagLayoutBorderPreviewPane(this.getBorderStyle())); 
+	        this.setLayoutBorderPreviewPane(new CardTagLayoutBorderPreviewPane(this.getBorderStyle()));
 	        
 	        borderPane.add(this.getLayoutBorderPreviewPane(), BorderLayout.CENTER);
 
@@ -92,15 +92,18 @@ public class CardTagLayoutBorderPane extends LayoutBorderPane {
 		return;
 	}
 
-	    public LayoutBorderStyle update() {
-	        LayoutBorderStyle style = new LayoutBorderStyle();
-	        style.setBorderStyle(this.getBorderStyleCombo().getSelectedIndex());
-	        style.setBorder(this.getCurrentLineCombo().getSelectedLineStyle());
-	        style.setColor(this.getCurrentLineColorPane().getColor());
-	        style.setBackground(this.getBackgroundPane().update());
-	        style.setAlpha((float)(this.getNumberDragPane().updateBean()/this.getMaxNumber()));
-			return style;
+	public LayoutBorderStyle update() {
+		LayoutBorderStyle style = new LayoutBorderStyle();
+		if (this.getBorderStyle() != null) {
+			style.setStyle(this.getBorderStyle());
 		}
+		style.setBorderStyle(this.getBorderStyleCombo().getSelectedIndex());
+		style.setBorder(this.getCurrentLineCombo().getSelectedLineStyle());
+		style.setColor(this.getCurrentLineColorPane().getColor());
+		style.setBackground(this.getBackgroundPane().update());
+		style.setAlpha((float) (this.getNumberDragPane().updateBean() / this.getMaxNumber()));
+		return style;
+	}
 
 	protected void populateBorderType(){
 		return;

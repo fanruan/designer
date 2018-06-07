@@ -1,27 +1,20 @@
 package com.fr.start.server;
 
-import java.awt.BorderLayout;
-import java.awt.Desktop;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.BorderFactory;
-import javax.swing.JFrame;
-
-import com.fr.base.FRContext;
-import com.fr.design.gui.ilable.UILabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-
 import com.fr.base.BaseUtils;
+import com.fr.base.FRContext;
 import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
-import com.fr.start.StartServer;
 import com.fr.design.utils.DesignUtils;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.general.Inter;
+import com.fr.start.ServerStarter;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * 内置Tomcat服务器管理界面 
@@ -29,11 +22,11 @@ import com.fr.design.utils.gui.GUICoreUtils;
 public class ServerManageFrame extends JFrame {
 	// 由于实际情况，只需要一个当前对象的Instance.
 	private static ServerManageFrame serverManageFrame = null;
-	private TomcatHost hostTomcatServer;
 	
-	public static ServerManageFrame getServerManageFrame(TomcatHost hostTomcatServer) {
-		if(serverManageFrame == null) {			
-			serverManageFrame = new ServerManageFrame(hostTomcatServer);
+	static ServerManageFrame getServerManageFrame() {
+		
+		if (serverManageFrame == null) {
+			serverManageFrame = new ServerManageFrame();
 		}
 
 		//p:每次启动之前都需要检查按钮的Enabled属性.
@@ -49,8 +42,7 @@ public class ServerManageFrame extends JFrame {
 	private JPanel startPane;
 	private JPanel stopPane;
 	
-	private ServerManageFrame(TomcatHost hostTomcatServer) {
-		this.hostTomcatServer = hostTomcatServer;
+	private ServerManageFrame() {
 		
 		DesignUtils.initLookAndFeel();	
 		this.setIconImage(BaseUtils.readImage("/com/fr/base/images/oem/trayStarted.png"));
@@ -82,12 +74,8 @@ public class ServerManageFrame extends JFrame {
 		startPane.add(new UILabel(Inter.getLocText("Server-Start")));
 		startButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				TomcatHost tomcatServer = StartServer.getInstance();
 				try {
-					if(!tomcatServer.isStarted()) {
-						tomcatServer.start();
-                        tomcatServer.addAndStartLocalEnvHomeWebApp();
-					}
+					FineEmbedServer.getInstance().start();
 					checkButtonEnabled();
 				} catch(Exception exp) {
                     FRContext.getLogger().error(exp.getMessage());
@@ -103,11 +91,8 @@ public class ServerManageFrame extends JFrame {
 		stopPane.add(new UILabel(Inter.getLocText("Server-Stop")));
 		stopButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				TomcatHost tomcatServer = StartServer.getInstance();
 				try {
-					if(tomcatServer.isStarted()) {
-						tomcatServer.stop();
-					}
+					FineEmbedServer.getInstance().stop();
 					checkButtonEnabled();
 				} catch(Exception exp) {
                     FRContext.getLogger().error(exp.getMessage());
@@ -125,24 +110,21 @@ public class ServerManageFrame extends JFrame {
 		infoPane.add(logPathTextField, BorderLayout.CENTER);
 		logPathTextField.setEditable(false);
 		
-		// logfile
-		logPathTextField.setText(hostTomcatServer.getOutLogFile().getPath());
-		
 		UIButton openButton = new UIButton();
 		infoPane.add(openButton, BorderLayout.EAST);
 		openButton.setIcon(BaseUtils.readIcon("/com/fr/design/images/server/view.png"));
 		openButton.setToolTipText(Inter.getLocText("Open"));
-		openButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				
-				Desktop desktop = Desktop.getDesktop();
-				try {
-					desktop.open(ServerManageFrame.this.hostTomcatServer.getOutLogFile());
-				} catch(Exception exp) {
-                    FRContext.getLogger().error(exp.getMessage());
-				}
-			}
-		});
+//		openButton.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent evt) {
+//
+//				Desktop desktop = Desktop.getDesktop();
+//				try {
+//					desktop.open();
+//				} catch(Exception exp) {
+//                    FRContext.getLogger().error(exp.getMessage());
+//				}
+//			}
+//		});
 		
 		this.setSize(420, 160);
 		this.setTitle(Inter.getLocText("Server-Embedded_Server"));
@@ -154,8 +136,8 @@ public class ServerManageFrame extends JFrame {
      * @throws Exception 异常
      */
 	public void checkButtonEnabled() throws Exception  {
-		TomcatHost tomcatServer = StartServer.getInstance();
-		if(tomcatServer.isStarted()) {
+		
+		if (ServerStarter.isStarted()) {
 			GUICoreUtils.setEnabled(startPane, false);
 			GUICoreUtils.setEnabled(stopPane, true);
 		} else {

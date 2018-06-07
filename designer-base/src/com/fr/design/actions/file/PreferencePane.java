@@ -14,6 +14,7 @@ import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.ActionLabel;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
@@ -55,6 +56,9 @@ public class PreferencePane extends BasicPane {
     private static final int MAX_UNDO_LIMIT_50 = 50;
     private static final int SELECTED_INDEX_4 = 4;
     private static final int SELECTED_INDEX_5 = 5;
+    private static final int CACHING_MAX = 10;
+    private static final int CACHING_DEFAULT = 5;
+    private static final int CACHING_GAP = 5;
 
     private static final String TYPE = "pressed";
     private static final String DISPLAY_TYPE = "+";
@@ -113,6 +117,7 @@ public class PreferencePane extends BasicPane {
     private IntegerEditor portEditor;
     private UITextField jdkHomeTextField;
     private UICheckBox oracleSpace;
+    private UISpinner cachingTemplateSpinner;
     private UICheckBox joinProductImprove;
 
     public PreferencePane() {
@@ -173,6 +178,7 @@ public class PreferencePane extends BasicPane {
 
         JPanel spaceUpPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         spaceUpPane.add(oraclePane, BorderLayout.NORTH);
+        spaceUpPane.add(createMemoryPane(), BorderLayout.CENTER);
         spaceUpPane.add(improvePane, BorderLayout.SOUTH);
         advancePane.add(spaceUpPane);
     }
@@ -497,6 +503,20 @@ public class PreferencePane extends BasicPane {
         serverPortPane.add(choosePortPane, BorderLayout.CENTER);
     }
 
+    private JPanel createMemoryPane() {
+        JPanel memoryPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Preference_CachingTemplate"));
+        UILabel memoryLabel = new UILabel(Inter.getLocText("FR-Designer_Preference_MaxCachingTemplate"));
+        UILabel memoryTipLabel = new UILabel(Inter.getLocText("FR-Designer_Preference_CachingTemplateTip"));
+        memoryTipLabel.setBorder(BorderFactory.createEmptyBorder( 0, CACHING_GAP, 0, 0));
+        cachingTemplateSpinner = new UISpinner(0, CACHING_MAX, 1, CACHING_DEFAULT);
+        JPanel memorySpace = new JPanel(FRGUIPaneFactory.createLeftZeroLayout());
+        memorySpace.add(memoryLabel);
+        memorySpace.add(cachingTemplateSpinner);
+        memorySpace.add(memoryTipLabel);
+        memoryPane.add(memorySpace);
+        return memoryPane;
+    }
+
     @Override
     protected String title4PopupWindow() {
         return Inter.getLocText("M_Window-Preference");
@@ -550,11 +570,12 @@ public class PreferencePane extends BasicPane {
         this.pageLengthComboBox.setSelectedIndex(designerEnvManager.getPageLengthUnit());
         this.reportLengthComboBox.setSelectedIndex(designerEnvManager.getReportLengthUnit());
 
-        this.portEditor.setValue(new Integer(designerEnvManager.getJettyServerPort()));
+        this.portEditor.setValue(new Integer(designerEnvManager.getEmbedServerPort()));
 
         this.jdkHomeTextField.setText(designerEnvManager.getJdkHome());
 
         this.oracleSpace.setSelected(designerEnvManager.isOracleSystemSpace());
+        this.cachingTemplateSpinner.setValue(designerEnvManager.getCachingTemplateLimit());
         this.joinProductImprove.setSelected(designerEnvManager.isJoinProductImprove());
     }
 
@@ -615,6 +636,7 @@ public class PreferencePane extends BasicPane {
         designerEnvManager.setJdkHome(jdkHomeTextField.getText());
 
         designerEnvManager.setOracleSystemSpace(this.oracleSpace.isSelected());
+        designerEnvManager.setCachingTemplateLimit((int) this.cachingTemplateSpinner.getValue());
         designerEnvManager.setJoinProductImprove(this.joinProductImprove.isSelected());
 //		designerEnvManager.setAutoBackUp(this.autoBackUp.isSelected());
 

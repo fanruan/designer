@@ -1,15 +1,15 @@
 package com.fr.design.utils;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.Env;
 import com.fr.base.EnvException;
 import com.fr.base.FRContext;
 import com.fr.base.FeedBackInfo;
 import com.fr.base.ServerConfig;
 import com.fr.base.Utils;
 import com.fr.base.remote.RemoteDeziConstants;
+import com.fr.core.env.EnvConfig;
+import com.fr.core.env.EnvContext;
 import com.fr.dav.DavXMLUtils;
-import com.fr.dav.LocalEnv;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.fun.DesignerEnvProcessor;
@@ -29,10 +29,13 @@ import com.fr.stable.CodeUtils;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
-import com.fr.start.StartServer;
+import com.fr.start.ServerStarter;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import java.awt.Desktop;
+import java.awt.Font;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
@@ -142,7 +145,7 @@ public class DesignUtils {
                         String line = null;
                         while ((line = reader.readLine()) != null) {
                             if (line.startsWith("demo")) {
-                                StartServer.browserDemoURL();
+                                ServerStarter.browserDemoURL();
                             } else if (StringUtils.isNotEmpty(line)) {
                                 File f = new File(line);
                                 String path = f.getAbsolutePath();
@@ -184,19 +187,15 @@ public class DesignUtils {
         });
     }
 
-
     /**
      * 当前的报表运行环境切换到env
      *
      * @param env 需要切换去的环境
      */
-    public static void switchToEnv(Env env) {
+    public static void switchToEnv(EnvConfig env) {
         if (env == null) {
             return;
         }
-
-        Env oldEnv = FRContext.getCurrentEnv();
-        String oldEnvPath = oldEnv == null ? null : oldEnv.getPath();
 
         // 看一下这个env在DesignerEnvManager里面有没有对应的,有的话就setCurrentEnvName
         DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
@@ -208,20 +207,11 @@ public class DesignUtils {
                 break;
             }
         }
-
-        // 更新CurrentEnv于FRContext & DesignerEnvManager
-        FRContext.setCurrentEnv(env);
-
-        refreshDesignerFrame(env);
-        // 当换了运行环境,重置服务器，让它下次预览时重启
-        if (env instanceof LocalEnv && !ComparatorUtils.equals(env.getPath(), oldEnvPath)) {
-            StartServer.currentEnvChanged();
-        }
+        EnvContext.signIn(env);
+        refreshDesignerFrame();
     }
 
-    public static void refreshDesignerFrame(Env env) {
-
-        final Env run_env = env;
+    public static void refreshDesignerFrame() {
 
         // 刷新DesignerFrame里面的面板
         SwingUtilities.invokeLater(new Runnable() {
@@ -230,7 +220,7 @@ public class DesignUtils {
                 if (DesignerContext.getDesignerFrame() == null) {
                     return;
                 }
-                DesignerContext.getDesignerFrame().refreshEnv(run_env);
+                DesignerContext.getDesignerFrame().refreshEnv();
                 DesignerContext.getDesignerFrame().repaint();// kunsnat: 切换环境后 刷新下 报表. 比如图表某些风格改变.
             }
         });
@@ -358,10 +348,10 @@ public class DesignUtils {
         } else {
             try {
                 String web = GeneralContext.getCurrentAppNameOfEnv();
-                String url = "http://localhost:" + DesignerEnvManager.getEnvManager().getJettyServerPort()
+                String url = "http://localhost:" + DesignerEnvManager.getEnvManager().getEmbedServerPort()
                         + "/" + web + "/" + ServerConfig.getInstance().getServletName() + baseRoute
                         + postfixOfUri;
-                StartServer.browserURLWithLocalEnv(url);
+                ServerStarter.browserURLWithLocalEnv(url);
             } catch (Throwable e) {
                 //
             }

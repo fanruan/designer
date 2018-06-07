@@ -2,7 +2,10 @@ package com.fr.env;
 
 import com.fr.base.EnvException;
 import com.fr.base.TableData;
+import com.fr.base.operator.file.FileOperator;
 import com.fr.base.remote.RemoteDeziConstants;
+import com.fr.common.rpc.netty.MessageSendExecutor;
+import com.fr.common.rpc.serialize.RpcSerializeProtocol;
 import com.fr.core.env.EnvConstants;
 import com.fr.core.env.EnvContext;
 import com.fr.core.env.resource.RemoteEnvConfig;
@@ -41,6 +44,7 @@ import com.fr.stable.SvgProvider;
 import com.fr.stable.file.XMLFileManagerProvider;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.stable.xml.XMLTools;
+import com.fr.third.guava.base.Strings;
 import com.fr.third.guava.collect.ImmutableMap;
 import com.fr.web.ResourceConstants;
 
@@ -75,6 +79,7 @@ import static com.fr.third.guava.base.Preconditions.checkArgument;
  * @author null
  */
 public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurable {
+
     private static final String CERT_KEY = "javax.net.ssl.trustStore";
     private static final String PWD_KEY = "javax.net.ssl.trustStorePassword";
     private static final String HTTPS_PREFIX = "https:";
@@ -85,6 +90,23 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
 
     public RemoteEnv(String path, String userName, String password) {
         env = new RemoteEnvConfig(path, userName, password);
+    }
+
+    @Override
+    public void connect() {
+        // FIXME:richie ip地址属于测试的，带实际修改为RemoteEnv配置的地址
+        MessageSendExecutor.getInstance().setRpcServerLoader("127.0.0.1:" + 33999, RpcSerializeProtocol.KRYOSERIALIZE);
+    }
+
+    @Override
+    public boolean disconnect() {
+        MessageSendExecutor.getInstance().stop();
+        return true;
+    }
+
+    @Override
+    public FileOperator getFileOperator() throws Exception {
+        return MessageSendExecutor.getInstance().execute(FileOperator.class);
     }
 
     @Override
@@ -136,7 +158,6 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
             }
         }
     }
-
 
 
     /**
@@ -214,7 +235,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
                 EnvConstants.USERNAME, getUser(),
                 EnvConstants.PWD, getPassword());
         String res = HttpToolbox.post(url, params, headers);
-        if (res == null) {
+        if (Strings.isNullOrEmpty(res)) {
             if (needMessage) {
                 JOptionPane.showMessageDialog(component, Inter.getLocText("Datasource-Connection_failed"));
             }
@@ -237,7 +258,7 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
                     return false;
                 } else {
                     if (needMessage) {
-                        JOptionPane.showMessageDialog(component, Inter.getLocText(new String[]{"Datasource-Connection_failed", "Version-does-not-support"}, new String[]{",", "!"}));
+                        JOptionPane.showMessageDialog(component, Inter.getLocText("Datasource-Connection_failed"));
                     } else {
                         FineLoggerFactory.getLogger().info(Inter.getLocText(new String[]{"Datasource-Connection_failed", "Version-does-not-support"}, new String[]{",", "!"}));
                     }
@@ -816,7 +837,6 @@ public class RemoteEnv extends AbstractEnv implements DesignAuthorityConfigurabl
         }
         return allRoleList;
     }
-
 
 
     /**

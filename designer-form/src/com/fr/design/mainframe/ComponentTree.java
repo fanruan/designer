@@ -121,6 +121,11 @@ public class ComponentTree extends JTree {
         scrollPathToVisible(treepath[0]);
     }
 
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+        designer.getSelectionModel();  // 否则参数一个一个加会导致参数面板和body结构出问题
+    }
 
     /**
      * 刷新
@@ -222,20 +227,12 @@ public class ComponentTree extends JTree {
             if (creator != comp) {
                 creator.notShowInComponentTree(path);
             }
-            //绝对布局作为body的时候不显示自适应布局父层
-            if (((XCreator) parent).acceptType(XWAbsoluteBodyLayout.class)) {
-                if ((parent.getParent() != null)
-                        && ((XCreator) parent.getParent()).acceptType(XWFitLayout.class)) {
-                    parent = parent.getParent().getParent();
-                    continue;
-                }
-            }
-
-            parent = parent.getParent();
+            parent = creator.getParentShow();
         }
         Object[] components = path.toArray();
         return new TreePath(components);
     }
+
 
     private void popupPreviewPane(int popupPosYOnScreen, XCreator comp) {
         if (previewPane == null) {
@@ -245,7 +242,7 @@ public class ComponentTree extends JTree {
             previewPane.setVisible(false);
         }
 
-        if (!previewPane.isVisible()) {
+        if (!previewPane.isVisible() && comp.getWidth() != 0 && comp.getHeight() != 0) {
             previewPane.setComp(comp);
             int popupPosY = popupPosYOnScreen - FormHierarchyTreePane.getInstance().getLocationOnScreen().y;
             GUICoreUtils.showPopupMenu(previewPane, FormHierarchyTreePane.getInstance(), -previewPane.getPreferredSize().width, popupPosY);
