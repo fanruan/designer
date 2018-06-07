@@ -26,7 +26,7 @@ public class StyleListAction extends UpdateAction {
         this.setName(getMenuKeySet().getMenuKeySetName()+ "...");
         this.setMnemonic(getMenuKeySet().getMnemonic());
 		this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/m_web/style.png"));
-		this.setSearchText(new StyleManagerPane());
+		this.generateAndSetSearchText(StyleManagerPane.class.getName());
 	}
 
     /**

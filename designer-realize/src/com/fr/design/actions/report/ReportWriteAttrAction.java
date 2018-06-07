@@ -21,7 +21,7 @@ public class ReportWriteAttrAction extends ReportComponentAction<WorkSheetDesign
         this.setName(getMenuKeySet().getMenuKeySetName() + "...");
         this.setMnemonic(getMenuKeySet().getMnemonic());
         this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/m_report/reportWriteAttr.png"));
-        this.setSearchText(new ReportWriteAttrPane(null).getAllComponents());
+        this.generateAndSetSearchText(ReportWriteAttrPane.class.getName());
 
     }
 

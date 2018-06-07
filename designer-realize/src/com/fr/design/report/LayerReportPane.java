@@ -1,30 +1,28 @@
 package com.fr.design.report;
 
-import java.awt.CardLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
+import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.editor.editor.IntegerEditor;
+import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.FRExplainLabel;
 import com.fr.design.gui.ilable.UILabel;
-
-import javax.swing.BorderFactory;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-
-import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.editor.editor.IntegerEditor;
 import com.fr.general.Inter;
 import com.fr.report.core.ReportUtils;
 import com.fr.report.stable.LayerReportAttr;
 import com.fr.report.worksheet.WorkSheet;
 import com.fr.stable.ProductConstants;
+
+import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import java.awt.CardLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * 
@@ -43,6 +41,10 @@ public class LayerReportPane extends BasicBeanPane<LayerReportAttr> {
 	public LayerReportPane(WorkSheet worksheet) {
 		this.worksheet = worksheet;
 		this.initComponents();
+	}
+
+	public LayerReportPane() {
+		this(null);
 	}
 
 	protected void initComponents() {

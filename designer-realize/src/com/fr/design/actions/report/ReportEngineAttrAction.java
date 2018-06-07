@@ -18,7 +18,7 @@ public class ReportEngineAttrAction extends ReportComponentAction<WorkSheetDesig
         this.setName(getMenuKeySet().getMenuKeySetName() + "...");
         this.setMnemonic(getMenuKeySet().getMnemonic());
 		this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/m_report/reportEngineAttr.png"));
-        this.setSearchText(new LayerReportPane(null));
+        this.generateAndSetSearchText(LayerReportPane.class.getName());
 
     }
 

@@ -4,6 +4,7 @@ import com.bulenkov.iconloader.util.JBUI;
 import com.fr.base.FRContext;
 import com.fr.stable.OperatingSystem;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -119,8 +120,16 @@ public class SplashFxWindow extends Application {
      *
      * @param s 文字
      */
-    public void updateModuleInfo(String s) {
-        moduleInfo.setText(s);
+    public void updateModuleInfo(final String s) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                if (moduleInfo != null) {
+                    moduleInfo.setText(s);
+                }
+            }
+        });
+
     }
 
     /**
@@ -128,7 +137,15 @@ public class SplashFxWindow extends Application {
      *
      * @param s 文字
      */
-    public void updateThanks(String s) {
-        thanks.setText(s);
+    public void updateThanks(final String s) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                if (thanks != null) {
+                    thanks.setText(s);
+                }
+            }
+        });
+
     }
 }

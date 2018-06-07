@@ -3,17 +3,16 @@
  */
 package com.fr.design.actions.report;
 
-import javax.swing.SwingUtilities;
-
-import com.fr.base.BaseUtils;
 import com.fr.design.actions.ReportComponentAction;
+import com.fr.design.dialog.BasicDialog;
+import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.mainframe.WorkSheetDesigner;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.report.freeze.RepeatAndFreezeSettingPane;
-import com.fr.design.dialog.BasicDialog;
-import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.general.IOUtils;
 import com.fr.report.worksheet.WorkSheet;
+
+import javax.swing.SwingUtilities;
 
 /**
  * @author richer
@@ -29,7 +28,7 @@ public class ReportPageAttrAction extends ReportComponentAction<WorkSheetDesigne
         this.setName(getMenuKeySet().getMenuKeySetName() + "...");
         this.setMnemonic(getMenuKeySet().getMnemonic());
         this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/m_file/pageSetup.png"));
-        this.setSearchText(new RepeatAndFreezeSettingPane());
+        this.generateAndSetSearchText(RepeatAndFreezeSettingPane.class.getName());
     }
 
     /**

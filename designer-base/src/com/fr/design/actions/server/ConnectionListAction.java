@@ -33,7 +33,7 @@ public class ConnectionListAction extends UpdateAction {
         this.setName(getMenuKeySet().getMenuKeySetName());
         this.setMnemonic(getMenuKeySet().getMnemonic());
         this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/m_web/connection.png"));
-        this.setSearchText(new DatabaseConnectionPane.JDBC());
+        this.generateAndSetSearchText(DatabaseConnectionPane.JDBC.class.getName());
     }
 
     public static final MenuKeySet DEFINE_DATA_CONNECTION = new MenuKeySet() {
@@ -63,7 +63,8 @@ public class ConnectionListAction extends UpdateAction {
         final ConnectionConfig datasourceManager = ConnectionConfig.getInstance();
         final ConnectionManagerPane databaseManagerPane = new ConnectionManagerPane() {
             public void complete() {
-                populate(datasourceManager);
+                ConnectionConfig connectionConfig = datasourceManager.mirror();
+                populate(connectionConfig);
             }
 
             protected void renameConnection(String oldName, String newName) {
