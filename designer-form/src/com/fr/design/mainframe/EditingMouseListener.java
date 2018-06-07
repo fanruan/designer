@@ -1,6 +1,8 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.vcs.DesignerMode;
+import com.fr.common.inputevent.InputEventBaseOnOS;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
 import com.fr.design.designer.beans.events.DesignerEditor;
@@ -9,13 +11,7 @@ import com.fr.design.designer.beans.location.Direction;
 import com.fr.design.designer.beans.location.Location;
 import com.fr.design.designer.beans.models.SelectionModel;
 import com.fr.design.designer.beans.models.StateModel;
-import com.fr.design.designer.creator.XChartEditor;
-import com.fr.design.designer.creator.XCreator;
-import com.fr.design.designer.creator.XCreatorUtils;
-import com.fr.design.designer.creator.XEditorHolder;
-import com.fr.design.designer.creator.XElementCase;
-import com.fr.design.designer.creator.XLayoutContainer;
-import com.fr.design.designer.creator.XWFitLayout;
+import com.fr.design.designer.creator.*;
 import com.fr.design.designer.creator.cardlayout.XCardSwitchButton;
 import com.fr.design.designer.creator.cardlayout.XWCardLayout;
 import com.fr.design.form.util.XCreatorConstants;
@@ -27,18 +23,13 @@ import com.fr.design.utils.ComponentUtils;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.general.Inter;
+import com.fr.share.ShareConstants;
 import com.fr.stable.Constants;
 
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
-import javax.swing.JPopupMenu;
-import javax.swing.JWindow;
-import javax.swing.SwingUtilities;
+import com.fr.stable.StringUtils;
+import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Cursor;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 
 /**
@@ -158,7 +149,7 @@ public class EditingMouseListener extends MouseInputAdapter {
         if (e.getButton() == MouseEvent.BUTTON1) {
 
             Direction dir = selectionModel.getDirectionAt(e);
-            if (!BaseUtils.isAuthorityEditing()) {
+            if (!DesignerMode.isAuthorityEditing()) {
                 stateModel.setDirection(dir);
             }
 
@@ -272,7 +263,7 @@ public class EditingMouseListener extends MouseInputAdapter {
     public void mouseMoved(MouseEvent e) {
         XCreator component = designer.getComponentAt(e);
 
-        setCoverPaneNotDisplay(e, false);
+        setCoverPaneNotDisplay(component, e, false);
 
         if (processTopLayoutMouseMove(component, e)) {
             return;
@@ -297,7 +288,7 @@ public class EditingMouseListener extends MouseInputAdapter {
         if (designer.isDrawLineMode() && stateModel.getDirection() == Location.outer) {
             designer.updateDrawLineMode(e);
         }
-        if (!BaseUtils.isAuthorityEditing()) {
+        if (!DesignerMode.isAuthorityEditing()) {
             stateModel.setDirection(dir);
         }
 
@@ -325,23 +316,42 @@ public class EditingMouseListener extends MouseInputAdapter {
                 designer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             }
         }
-        xElementCase.setHelpBtnOnFocus(false);
-        if (xElementCase.getCoverPane().getComponentCount() > 1) {
-            JComponent button1 = (JComponent) xElementCase.getCoverPane().getComponent(1);
-            int minX1 = button1.getX() + getParentPositionX(component, 0) - designer.getArea().getHorizontalValue();
-            int minY1 = button1.getY() + getParentPositionY(component, 0) - designer.getArea().getVerticalValue();
-            if (e.getX() + GAP - xElementCase.getInsets().left > minX1 && e.getX() - GAP - xElementCase.getInsets().left < minX1 + button1.getWidth()) {
-                if (e.getY() + GAP - xElementCase.getInsets().top > minY1 && e.getY() - GAP - xElementCase.getInsets().top < minY1 + button1.getHeight()) {
+        setHelpBtnFocus(e, xElementCase);
+    }
+
+    private void setHelpBtnFocus(MouseEvent e, XCreator component) {
+        component.setHelpBtnOnFocus(false);
+        if (component.getCoverPane() != null) {
+            if (component.getCoverPane().getComponentCount() > 1) {
+                JComponent button1 = (JComponent) component.getCoverPane().getComponent(1);
+                int minX1 = button1.getX() + getParentPositionX(component, 0) - designer.getArea().getHorizontalValue();
+                int minY1 = button1.getY() + getParentPositionY(component, 0) - designer.getArea().getVerticalValue();
+                if (e.getX() + GAP - component.getInsets().left > minX1 && e.getX() - GAP - component.getInsets().left < minX1 + button1.getWidth()) {
+                    if (e.getY() + GAP - component.getInsets().top > minY1 && e.getY() - GAP - component.getInsets().top < minY1 + button1.getHeight()) {
+                        designer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                        component.setHelpBtnOnFocus(true);
+                    }
+                }
+            }
+            component.displayCoverPane(true);
+            component.setDirections(Direction.TOP_BOTTOM_LEFT_RIGHT);
+        } else {
+            //没有帮助信息时，不显示帮助图标
+            if (StringUtils.isEmpty(component.toData().getDescription())) {
+                return;
+            }
+            int minX1 = getParentPositionX(component, component.getX()) + component.getWidth() - ShareConstants.SHARE_EL_CONTROL_BUTTON_HW - designer.getArea().getHorizontalValue();
+            int minY1 = getParentPositionY(component, component.getY()) - designer.getArea().getVerticalValue();
+            if (e.getX() + GAP - component.getInsets().left > minX1 && e.getX() - GAP - component.getInsets().left < minX1 + ShareConstants.SHARE_EL_CONTROL_BUTTON_HW) {
+                if (e.getY() + GAP - component.getInsets().top > minY1 && e.getY() - GAP - component.getInsets().top < minY1 + ShareConstants.SHARE_EL_CONTROL_BUTTON_HW) {
                     designer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                    xElementCase.setHelpBtnOnFocus(true);
+                    component.setHelpBtnOnFocus(true);
                 }
             }
         }
-        xElementCase.displayCoverPane(true);
-        xElementCase.setDirections(Direction.TOP_BOTTOM_LEFT_RIGHT);
     }
 
-    private void setCoverPaneNotDisplay(MouseEvent e, boolean isLinkedHelpDialog) {
+    private void setCoverPaneNotDisplay(XCreator component, MouseEvent e, boolean isLinkedHelpDialog) {
         if (xElementCase != null) {
             int x = getParentPositionX(xElementCase, 0) - designer.getArea().getHorizontalValue();
             int y = getParentPositionY(xElementCase, 0) - designer.getArea().getVerticalValue();
@@ -349,15 +359,16 @@ public class EditingMouseListener extends MouseInputAdapter {
             if (rect.contains(e.getPoint())) {
                 return;
             }
-            if (isLinkedHelpDialog) {
-                xElementCase.destroyHelpDialog();
-            }
+
             xElementCase.displayCoverPane(false);
         }
         if (xChartEditor != null) {
             xChartEditor.displayCoverPane(false);
         }
-
+        if (isLinkedHelpDialog) {
+            component.destroyHelpDialog();
+        }
+        component.displayCoverPane(false);
         if (xTopLayoutContainer != null) {
             xTopLayoutContainer.setMouseEnter(false);
         }
@@ -383,6 +394,7 @@ public class EditingMouseListener extends MouseInputAdapter {
                         designer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                     }
                 }
+                setHelpBtnFocus(e, xTopLayoutContainer);
                 return true;
             }
         }
@@ -403,8 +415,7 @@ public class EditingMouseListener extends MouseInputAdapter {
                     designer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                 }
             }
-            xChartEditor.displayCoverPane(true);
-            xChartEditor.setDirections(Direction.TOP_BOTTOM_LEFT_RIGHT);
+            setHelpBtnFocus(e, xChartEditor);
             designer.repaint();
         }
     }
@@ -425,8 +436,11 @@ public class EditingMouseListener extends MouseInputAdapter {
      * @param e 鼠标事件
      */
     public void mouseDragged(MouseEvent e) {
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             return;
+        }
+        if ((e.isShiftDown() || InputEventBaseOnOS.isControlDown(e)) && !stateModel.isSelecting()) {
+            stateModel.startSelecting(e);
         }
         // 如果当前是左键拖拽状态，拖拽组件
         if (stateModel.dragable()) {
@@ -571,12 +585,9 @@ public class EditingMouseListener extends MouseInputAdapter {
      * @param e 鼠标事件
      */
     public void mouseExited(MouseEvent e) {
-        if (designer.getCursor().getType() != Cursor.DEFAULT_CURSOR) {
+        if (designer.getCursor().getType() != Cursor.DEFAULT_CURSOR && !(e.isShiftDown() || InputEventBaseOnOS.isControlDown(e))) {
             designer.setCursor(Cursor.getDefaultCursor());
         }
-
-        setCoverPaneNotDisplay(e, true);
-
         cancelPromptWidgetForbidEnter();
     }
 

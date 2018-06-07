@@ -11,11 +11,13 @@ import com.fr.base.chart.BaseChartCollection;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
 import com.fr.design.designer.beans.models.SelectionModel;
+import com.fr.design.designer.properties.mobile.ChartEditorPropertyUI;
+import com.fr.design.designer.properties.mobile.ElementCasePropertyUI;
+import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.design.gui.chart.BaseChartPropertyPane;
 import com.fr.design.gui.chart.MiddleChartComponent;
 import com.fr.design.mainframe.*;
 import com.fr.design.mainframe.widget.editors.WLayoutBorderStyleEditor;
-import com.fr.design.mainframe.widget.renderer.LayoutBorderStyleRenderer;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.designer.beans.events.DesignerEditor;
 import com.fr.form.ui.BaseChartEditor;
@@ -23,6 +25,7 @@ import com.fr.form.ui.Widget;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.general.Inter;
 import com.fr.stable.Constants;
+import com.fr.stable.GraphDrawHelper;
 import com.fr.stable.core.PropertyChangeAdapter;
 
 /**
@@ -35,18 +38,17 @@ import com.fr.stable.core.PropertyChangeAdapter;
 public class XChartEditor extends XBorderStyleWidgetCreator {
 	private static final long serialVersionUID = -7009439442104836657L;
 	private static final int BORDER_WIDTH = 2;
-
 	//具体来说是DesignerEditor<SimpleChartComponent>
 	private DesignerEditor<JComponent> designerEditor;
 	//	private DesignerEditor<SimpleChartComponent> designerEditor;
 	//marro：无奈的属性，暂时想不出好办法
 	private boolean isRefreshing = false;
-	private boolean isHovering = false;
 
 	private boolean isEditing = false;
+
+	private boolean isHovering = false;
 	private static final Color OUTER_BORDER_COLOR = new Color(65, 155, 249, 30);
 	private static final Color INNER_BORDER_COLOR = new Color(65, 155, 249);
-	private JPanel coverPanel;
 
 	public XChartEditor(BaseChartEditor editor) {
 		this(editor, new Dimension(250, 150));
@@ -67,19 +69,19 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 		return "Chart.png";
 	}
 
-    /**
-     * 返回组件默认名
-     * @return 组件类名(小写)
-     */
-    public String createDefaultName() {
-        return "chart";
-    }
-    
-    /**
-     * 是否支持设置标题
-     * @return 是返回true
-     */
-    public boolean hasTitleStyle() {
+	/**
+	 * 返回组件默认名
+	 * @return 组件类名(小写)
+	 */
+	public String createDefaultName() {
+		return "chart";
+	}
+
+	/**
+	 * 是否支持设置标题
+	 * @return 是返回true
+	 */
+	public boolean hasTitleStyle() {
 		return true;
 	}
 
@@ -88,15 +90,15 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 		isEditing = false;
 	}
 
-    /**
-     *  得到属性名
-     * @return 属性名
-     * @throws java.beans.IntrospectionException
-     */
-    public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
-        return  new CRPropertyDescriptor[] {
-                new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Inter
-                        .getLocText("Form-Widget_Name")),
+	/**
+	 *  得到属性名
+	 * @return 属性名
+	 * @throws java.beans.IntrospectionException
+	 */
+	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
+		return  new CRPropertyDescriptor[] {
+				new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Inter
+						.getLocText("Form-Widget_Name")),
 				new CRPropertyDescriptor("visible", this.data.getClass()).setI18NName(
 						Inter.getLocText("FR-Designer_Widget-Visible")).setPropertyChangeListener(new PropertyChangeAdapter() {
 
@@ -104,26 +106,42 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 					public void propertyChange() {
 						makeVisible(toData().isVisible());}
 				}),
-                new CRPropertyDescriptor("borderStyle", this.data.getClass()).setEditorClass(
-                        WLayoutBorderStyleEditor.class).setI18NName(
-                        Inter.getLocText("Chart-Style_Name")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
-                        .setPropertyChangeListener(new PropertyChangeAdapter() {
+				new CRPropertyDescriptor("borderStyle", this.data.getClass()).setEditorClass(
+						WLayoutBorderStyleEditor.class).setI18NName(
+						Inter.getLocText("Chart-Style_Name")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
+						.setPropertyChangeListener(new PropertyChangeAdapter() {
 
-                            @Override
-                            public void propertyChange() {
-                            	initStyle();
-                            }
-                        }),
-        };
-    }
+					@Override
+					public void propertyChange() {
+						initStyle();
+					}
+				}),
+		};
+	}
 
-    /**
-     * 该组件是否可以拖入参数面板
-     * @return 是则返回true
-     */
-    public boolean canEnterIntoParaPane(){
-        return false;
-    }
+	/**
+	 * 该组件是否可以拖入参数面板
+	 * @return 是则返回true
+	 */
+	public boolean canEnterIntoParaPane(){
+		return false;
+	}
+
+
+	/**
+	 *  编辑状态的时候需要重新绘制下边框
+	 *
+	 */
+	@Override
+	public void paintBorder(Graphics g, Rectangle bounds){
+		if(isEditing){
+			g.setColor(OUTER_BORDER_COLOR);
+			GraphHelper.draw(g, new Rectangle(bounds.x - BORDER_WIDTH, bounds.y - BORDER_WIDTH, bounds.width + BORDER_WIDTH + 1, bounds.height + BORDER_WIDTH + 1), Constants.LINE_LARGE);
+		}else if(!isHovering){
+			super.paintBorder(g, bounds);
+		}
+	}
+
 
 	/**
 	 * 返回设计器的Editor
@@ -187,22 +205,6 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 		return bcc;
 	}
 
-
-	/**
-	 *  编辑状态的时候需要重新绘制下边框
-	 *
-	 */
-	@Override
-	public void paintBorder(Graphics g, Rectangle bounds){
-		if(isEditing){
-			g.setColor(OUTER_BORDER_COLOR);
-			GraphHelper.draw(g, new Rectangle(bounds.x - BORDER_WIDTH, bounds.y - BORDER_WIDTH, bounds.width + BORDER_WIDTH + 1, bounds.height + BORDER_WIDTH + 1), Constants.LINE_LARGE);
-		}else if(!isHovering){
-			super.paintBorder(g, bounds);
-		}
-	}
-
-
 	/**
 	 * 渲染Painter
 	 */
@@ -244,6 +246,10 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 				editingMouseListener.startEditing(this, isEditing ? adapter.getDesignerEditor() : null, adapter);
 			}
 		}
+		HelpDialogManager.getInstance().setPane(coverPanel);
+		if (this.isHelpBtnOnFocus()) {
+			coverPanel.setMsgDisplay(e);
+		}
 	}
 
 	@Override
@@ -272,7 +278,7 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 			editor.setLayout(null);
 			editor.setOpaque(false);
 
-			coverPanel = new CoverPane();
+			coverPanel = new CoverReportPane();
 			coverPanel.setPreferredSize(this.getPreferredSize());
 			coverPanel.setBounds(this.getBounds());
 
@@ -287,6 +293,7 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 	 * @param display     是否
 	 */
 	public void  displayCoverPane(boolean display){
+		isHovering = display;
 		coverPanel.setVisible(display);
 		coverPanel.setPreferredSize(editor.getPreferredSize());
 		coverPanel.setBounds(editor.getBounds());
@@ -313,4 +320,16 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 		initStyle();
 	}
 
+	@Override
+	public WidgetPropertyUIProvider[] getWidgetPropertyUIProviders() {
+		return new WidgetPropertyUIProvider[]{ new ChartEditorPropertyUI(this)};
+	}
+
+	/**
+	 * 是否支持共享-现只支持报表块、图表、tab块、绝对布局
+	 * @return
+	 */
+	public boolean isSupportShared() {
+		return true;
+	}
 }
