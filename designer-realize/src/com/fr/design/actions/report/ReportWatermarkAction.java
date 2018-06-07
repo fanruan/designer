@@ -26,7 +26,7 @@ public class ReportWatermarkAction extends JWorkBookAction {
         this.setName(getMenuKeySet().getMenuKeySetName() + "...");
         this.setMnemonic(getMenuKeySet().getMnemonic());
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_report/watermark.png"));
-        this.setSearchText(new WatermarkPane());
+        this.generateAndSetSearchText(WatermarkPane.class.getName());
     }
 
     @Override

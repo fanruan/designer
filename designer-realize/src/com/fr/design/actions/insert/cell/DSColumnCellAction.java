@@ -15,7 +15,7 @@ public class DSColumnCellAction extends AbstractCellAction implements WorkBookSu
     public DSColumnCellAction(ElementCasePane t) {
         super(t);
         initAction();
-        this.setSearchText(new DSColumnPane());
+        this.generateAndSetSearchText(DSColumnPane.class.getName());
     }
 
     private void initAction() {

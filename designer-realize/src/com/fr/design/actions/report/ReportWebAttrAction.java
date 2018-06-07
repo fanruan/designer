@@ -30,7 +30,7 @@ public class ReportWebAttrAction extends JWorkBookAction {
         this.setName(getMenuKeySet().getMenuKeySetName()+"...");
         this.setMnemonic(getMenuKeySet().getMnemonic());
 		this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/m_report/webreportattribute.png"));
-		this.setSearchText(new ReportWebAttrPane().getAllComponents());
+		this.generateAndSetSearchText(ReportWebAttrPane.class.getName());
 	}
 
     /**

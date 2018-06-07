@@ -19,7 +19,7 @@ public class ReportExportAttrAction extends JWorkBookAction {
         this.setName(getMenuKeySet().getMenuKeySetName()+"...");
         this.setMnemonic(getMenuKeySet().getMnemonic());
         this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/m_report/exportAttr.png"));
-        this.setSearchText(new ReportExportAttrPane());
+        this.generateAndSetSearchText(ReportExportAttrPane.class.getName());
     }
 
     /**

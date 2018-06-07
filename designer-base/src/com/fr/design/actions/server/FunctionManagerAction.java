@@ -30,7 +30,7 @@ public class FunctionManagerAction extends UpdateAction {
         this.setName(getMenuKeySet().getMenuKeySetName()+"...");
         this.setMnemonic(getMenuKeySet().getMnemonic());
         this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/m_web/function.png"));
-        this.setSearchText(new FunctionManagerPane());
+        this.generateAndSetSearchText(FunctionManagerPane.class.getName());
     }
 
     /**

@@ -28,7 +28,7 @@ public class ReportPageSetupAction extends ReportComponentAction<ReportComponent
         this.setName(getMenuKeySet().getMenuKeySetName()+"...");
         this.setMnemonic(getMenuKeySet().getMnemonic());
         this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/m_file/pageSetup.png"));
-        this.setSearchText(new PageSetupPane());
+        this.generateAndSetSearchText(PageSetupPane.class.getName());
     }
     
     /**

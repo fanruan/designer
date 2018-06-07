@@ -20,6 +20,9 @@ public class ReportWriteAttrPane extends LoadingBasicPane {
 	private VerifierListPane verifierListPane;
 	private WriteShortCutsPane writeShortCutsPane;
 	private ElementCasePane ePane;
+	public ReportWriteAttrPane(){
+		this(null);
+	}
 	public ReportWriteAttrPane(ElementCasePane ePane){
 		this.ePane = ePane;
 	}

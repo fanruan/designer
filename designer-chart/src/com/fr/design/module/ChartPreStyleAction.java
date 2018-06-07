@@ -1,6 +1,5 @@
 package com.fr.design.module;
 
-import com.fr.base.BaseUtils;
 import com.fr.base.ChartPreStyleManagerProvider;
 import com.fr.base.ChartPreStyleServerManager;
 import com.fr.design.actions.UpdateAction;
@@ -12,7 +11,7 @@ import com.fr.design.menu.MenuKeySet;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 
-import javax.swing.*;
+import javax.swing.KeyStroke;
 import java.awt.event.ActionEvent;
 
 /**
@@ -27,7 +26,7 @@ public class ChartPreStyleAction extends UpdateAction {
         this.setName(getMenuKeySet().getMenuKeySetName()+ "...");
         this.setMnemonic(getMenuKeySet().getMnemonic());
 		this.setSmallIcon(IOUtils.readIcon("com/fr/design/images/chart/ChartType.png"));
-		this.setSearchText(new ChartPreStyleManagerPane());
+		this.generateAndSetSearchText(ChartPreStyleManagerPane.class.getName());
 	}
 
     /**

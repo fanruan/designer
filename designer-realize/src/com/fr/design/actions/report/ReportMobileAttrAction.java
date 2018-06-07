@@ -1,6 +1,5 @@
 package com.fr.design.actions.report;
 
-import com.fr.base.BaseUtils;
 import com.fr.design.actions.JWorkBookAction;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
@@ -16,7 +15,7 @@ import com.fr.report.mobile.ElementCaseMobileAttr;
 import com.fr.stable.ReportFunctionProcessor;
 import com.fr.stable.fun.FunctionProcessor;
 
-import javax.swing.*;
+import javax.swing.KeyStroke;
 import java.awt.event.ActionEvent;
 
 /**
@@ -32,7 +31,7 @@ public class ReportMobileAttrAction extends JWorkBookAction{
         this.setName(getMenuKeySet().getMenuKeySetName() + "...");
         this.setMnemonic(getMenuKeySet().getMnemonic());
         this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/m_report/mobile.png"));
-        this.setSearchText(new ReportMobileAttrPane());
+        this.generateAndSetSearchText(ReportMobileAttrPane.class.getName());
     }
 
     /**
