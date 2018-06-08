@@ -13,6 +13,7 @@ import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONObject;
+import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.PluginStoreConstants;
 import com.fr.plugin.PluginVerifyException;
 import com.fr.stable.EnvChangedListener;
@@ -42,6 +43,7 @@ public class WebViewDlgHelper {
     private static final String SHOP_SCRIPTS = "shop_scripts";
     private static final int VERSION_8 = 8;
     private static String installHome = FRContext.getCurrentEnv().getWebReportPath();
+    private static final String MAIN_JS_PATH = "/scripts/plugin.html";
     private static final int BYTES_NUM = 1024;
 
     static {
@@ -55,8 +57,7 @@ public class WebViewDlgHelper {
 
     public static void createPluginDialog() {
         if (StableUtils.getMajorJavaVersion() >= VERSION_8) {
-            String relativePath = "/scripts/plugin.html";
-            String mainJsPath = StableUtils.pathJoin(installHome, relativePath);
+            String mainJsPath = StableUtils.pathJoin(installHome, MAIN_JS_PATH);
             File file = new File(mainJsPath);
             if (!file.exists()) {
                 int rv = JOptionPane.showConfirmDialog(
@@ -70,10 +71,7 @@ public class WebViewDlgHelper {
                     downloadShopScripts(SHOP_SCRIPTS);
                 }
             } else {
-                String indexPath = "plugin.html";
-                String mainIndexPath = StableUtils.pathJoin(installHome, indexPath);
-                checkAndCopyMainFile(mainIndexPath, mainJsPath);
-                showPluginDlg(indexPath);
+                showPluginDlg();
                 updateShopScripts(SHOP_SCRIPTS);
             }
         } else {
@@ -107,7 +105,7 @@ public class WebViewDlgHelper {
         try {
             CommonIOUtils.copy(new File(mainJsPath), new File(installHome));
         } catch (IOException e) {
-            FRContext.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage());
         }
     }
 
@@ -185,18 +183,19 @@ public class WebViewDlgHelper {
         }
     }
 
-    private static void showPluginDlg(String mainJsPath) {
+    private static void showPluginDlg() {
         try {
             Class<?> clazz = Class.forName("com.fr.design.extra.PluginWebPane");
             Constructor constructor = clazz.getConstructor(String.class, String.class);
-            Component webPane = (Component) constructor.newInstance(installHome, mainJsPath);
+            Component webPane = (Component) constructor.newInstance(installHome, MAIN_JS_PATH);
 
             BasicPane managerPane = new ShopManagerPane(webPane);
             UIDialog dlg = new ShopDialog(DesignerContext.getDesignerFrame(), managerPane);
             PluginWebBridge.getHelper().setDialogHandle(dlg);
             dlg.setVisible(true);
-        } catch (Throwable ignored) {
+        } catch (Exception e) {
             // ignored
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
 
@@ -242,7 +241,7 @@ public class WebViewDlgHelper {
                     JOptionPane.showMessageDialog(null, e.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
                     return false;
                 } catch (Exception e) {
-                    FRContext.getLogger().error(e.getMessage(), e);
+                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
                     return false;
                 }
                 return true;
@@ -261,7 +260,7 @@ public class WebViewDlgHelper {
                         JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Shop_Installed"), Inter.getLocText("FR-Designer_Tooltips"), JOptionPane.INFORMATION_MESSAGE);
                     }
                 } catch (InterruptedException | ExecutionException e) {
-                    FRContext.getLogger().error(e.getMessage(), e);
+                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
                 }
 
             }
