@@ -81,7 +81,10 @@ public class RemoteEnvConfig extends AbstractEnvConfig {
                 this.host = reader.getAttrAsString("host", StringUtils.EMPTY);
                 this.port = reader.getAttrAsInt("port", DEFAULT_RPC_PORT);
                 this.username = reader.getAttrAsString("username", StringUtils.EMPTY);
-                this.password = SecurityToolbox.decrypt(reader.getAttrAsString("password", StringUtils.EMPTY));
+                String password = reader.getAttrAsString("password", StringUtils.EMPTY);
+                if (StringUtils.isNotEmpty(password)) {
+                    this.password = SecurityToolbox.decrypt(password);
+                }
             }
         }
     }
@@ -92,9 +95,12 @@ public class RemoteEnvConfig extends AbstractEnvConfig {
         writer.startTAG("Attr")
                 .attr("host", host)
                 .attr("port", port)
-                .attr("username", username)
-                .attr("password", SecurityToolbox.encrypt(password))
-                .end();
+                .attr("username", username);
+        if (StringUtils.isNotEmpty(password)) {
+            writer.attr("password", SecurityToolbox.encrypt(password));
+        }
+
+        writer.end();
 
     }
 
