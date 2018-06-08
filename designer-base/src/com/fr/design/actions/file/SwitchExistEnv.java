@@ -1,13 +1,16 @@
 package com.fr.design.actions.file;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.env.Callback;
+import com.fr.base.env.EnvUpdater;
 import com.fr.core.env.EnvConfig;
-import com.fr.core.env.resource.LocalEnvConfig;
-import com.fr.core.env.resource.RemoteEnvConfig;
+import com.fr.core.env.impl.LocalEnvConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.tabledata.ResponseDataSourceChange;
+import com.fr.design.env.EnvGenerator;
+import com.fr.design.env.RemoteEnvConfig;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
@@ -15,14 +18,14 @@ import com.fr.design.mainframe.TemplatePane;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
+import com.fr.design.utils.DesignUtils;
 import com.fr.env.RemoteEnv;
-import com.fr.env.SignIn;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.EnvChangedListener;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -97,24 +100,25 @@ public class SwitchExistEnv extends MenuDef {
          */
         public void actionPerformed(ActionEvent e) {
             DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
-            EnvConfig selectedEnv = envManager.getEnv(this.getName());
-            try {
-                if (selectedEnv instanceof RemoteEnv && !((RemoteEnv) selectedEnv).testServerConnection()) {
+            final String envName = getName();
+            EnvConfig selectedEnv = envManager.getEnv(envName);
+            EnvUpdater.updateEnv(EnvGenerator.generate(selectedEnv), new Callback() {
+                @Override
+                public void success() {
+                    DesignerEnvManager.getEnvManager().setCurEnvName(envName);
+                    DesignUtils.refreshDesignerFrame();
+                    HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().refreshToolArea();
+                    fireDSChanged();
+                }
+
+                @Override
+                public void fail() {
+                    TemplatePane.getInstance().editItems();
                     JOptionPane.showMessageDialog(
                             DesignerContext.getDesignerFrame(),
                             Inter.getLocText(new String[]{"M-SwitchWorkspace", "Failed"}));
-                    return;
                 }
-                SignIn.signIn(selectedEnv);
-                HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().refreshToolArea();
-                fireDSChanged();
-            } catch (Exception em) {
-                FineLoggerFactory.getLogger().error(em.getMessage(), em);
-                JOptionPane.showMessageDialog(
-                        DesignerContext.getDesignerFrame(),
-                        Inter.getLocText(new String[]{"M-SwitchWorkspace", "Failed"}));
-                TemplatePane.getInstance().editItems();
-            }
+            });
         }
     }
 }
