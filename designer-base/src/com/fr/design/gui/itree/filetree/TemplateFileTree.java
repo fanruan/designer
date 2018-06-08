@@ -2,6 +2,7 @@ package com.fr.design.gui.itree.filetree;
 
 import com.fr.base.Env;
 import com.fr.base.FRContext;
+import com.fr.base.extension.FileExtension;
 import com.fr.base.operator.file.FileOperator;
 import com.fr.core.env.proxy.EnvProxy;
 import com.fr.design.gui.itree.refreshabletree.ExpandMutableTreeNode;
@@ -104,7 +105,9 @@ public class TemplateFileTree extends EnvFileTree {
     }
 
     public FileNode[] listFile(String path) throws Exception {
-        return FRContext.getCurrentEnv().getFileOperator().list(path);
+        return FRContext.getCurrentEnv().getFileOperator().list(
+                path,
+                new FileExtension[]{FileExtension.CPT, FileExtension.FRM, FileExtension.CPTX, FileExtension.FRMX});
     }
 
     /*

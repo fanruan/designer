@@ -5,6 +5,7 @@ import com.fr.base.TableData;
 import com.fr.base.operator.common.CommonOperator;
 import com.fr.base.operator.connect.ConnectOperator;
 import com.fr.base.operator.file.FileOperator;
+import com.fr.base.operator.org.OrganizationOperator;
 import com.fr.base.remote.RemoteDeziConstants;
 import com.fr.common.rpc.RemoteCallServerConfig;
 import com.fr.common.rpc.netty.MessageSendExecutor;
@@ -20,8 +21,6 @@ import com.fr.design.DesignerEnvManager;
 import com.fr.design.env.RemoteEnvConfig;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.file.CacheManager;
-import com.fr.file.ConnectionConfig;
-import com.fr.file.TableDataConfig;
 import com.fr.general.CommonIOUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.IOUtils;
@@ -37,7 +36,6 @@ import com.fr.share.ShareConstants;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.Filter;
-import com.fr.stable.JavaCompileInfo;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
@@ -56,20 +54,17 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.awt.*;
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import static com.fr.third.guava.base.Preconditions.checkArgument;
@@ -124,6 +119,11 @@ public class RemoteEnv extends AbstractEnv<RemoteEnvConfig> implements DesignAut
     @Override
     public CommonOperator getCommonOperator() throws Exception {
         return MessageSendExecutor.getInstance().execute(CommonOperator.class);
+    }
+
+    @Override
+    public OrganizationOperator getOrganizationOperator() throws Exception {
+        return MessageSendExecutor.getInstance().execute(OrganizationOperator.class);
     }
 
     @Override
@@ -427,45 +427,6 @@ public class RemoteEnv extends AbstractEnv<RemoteEnvConfig> implements DesignAut
         return Boolean.valueOf(IOUtils.inputStream2String(input, EncodeConstants.ENCODING_UTF_8));
     }
 
-    /**
-     * DataSource中去除当前角色没有权限访问的数据源
-     */
-    @Override
-    public void removeNoPrivilegeConnection() {
-        refreshHttpSProperty();
-        TableDataConfig dm = TableDataConfig.getInstance();
-
-        try {
-            HashMap<String, String> para = new HashMap<>();
-            para.put("op", "fs_remote_design");
-            para.put("cmd", "env_get_role");
-            para.put("currentUsername", this.getUser());
-            para.put("currentPwd", this.getPassword());
-
-            InputStream input = filterInputStream(
-                    RemoteEnvUtils.simulateRPCByHttpGet(para, false, this)
-            );
-            JSONArray ja = new JSONArray(stream2String(input));
-            ArrayList<String> toBeRemoveTDName = new ArrayList<>();
-            for (int i = 0; i < ja.length(); i++) {
-                String toBeRemoveConnName = (String) ((JSONObject) ja.get(i)).get("name");
-                ConnectionConfig.getInstance().removeConnection(toBeRemoveConnName);
-                Iterator it = dm.getTableDatas().keySet().iterator();
-                while (it.hasNext()) {
-                    String tdName = (String) it.next();
-                    TableData td = dm.getTableData(tdName);
-                    td.registerNoPrivilege(toBeRemoveTDName, toBeRemoveConnName, tdName);
-                }
-            }
-
-            for (int i = 0; i < toBeRemoveTDName.size(); i++) {
-                dm.removeTableData(toBeRemoveTDName.get(i));
-            }
-        } catch (Exception e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
-        }
-    }
-
     @Override
     public EmbeddedTableData previewTableData(Object tableData, Map parameterMap, int rowCount) throws Exception {
         return previewTableData(null, tableData, parameterMap, rowCount);
@@ -713,63 +674,6 @@ public class RemoteEnv extends AbstractEnv<RemoteEnvConfig> implements DesignAut
         return FILE_TYPE;
     }
 
-
-    /**
-     * 判断是否有文件夹权限
-     *
-     * @param path 路径
-     * @return 有权限则返回true
-     */
-    @Override
-    public boolean hasFileFolderAllow(String path) {
-        refreshHttpSProperty();
-        try {
-            HashMap<String, String> para = new HashMap<>();
-            para.put("op", "fs_remote_design");
-            para.put("cmd", "design_filefolder_allow");
-            para.put("current_uid", this.getUserID());
-            para.put(RemoteDeziConstants.TEMPLATE_PATH, path);
-
-            InputStream input = filterInputStream(
-                    RemoteEnvUtils.simulateRPCByHttpGet(para, false, this)
-            );
-
-            if (input == null) {
-                return false;
-            }
-            return Boolean.valueOf(IOUtils.inputStream2String(input, EncodeConstants.ENCODING_UTF_8));
-        } catch (Exception e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
-            return false;
-        }
-
-    }
-
-    @Override
-    public ArrayList getAllRole4Privilege(boolean isFS) {
-        refreshHttpSProperty();
-        ArrayList<String> allRoleList = new ArrayList<>();
-        try {
-            HashMap<String, String> para = new HashMap<>();
-            para.put("op", "fr_remote_design");
-            para.put("cmd", "get_all_role");
-            para.put("isFS", String.valueOf(isFS));
-
-            InputStream input = filterInputStream(
-                    RemoteEnvUtils.simulateRPCByHttpGet(para, false, this)
-            );
-            JSONArray ja = new JSONArray(stream2String(input));
-            for (int i = 0; i < ja.length(); i++) {
-                String roleName = (String) ((JSONObject) ja.get(i)).get("name");
-                allRoleList.add(roleName);
-            }
-        } catch (Exception e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
-        }
-        return allRoleList;
-    }
-
-
     /**
      * 获取当前env的build文件路径
      */
@@ -784,30 +688,6 @@ public class RemoteEnv extends AbstractEnv<RemoteEnvConfig> implements DesignAut
     @Override
     public void setBuildFilePath(String buildFilePath) {
         this.buildFilePath = buildFilePath;
-    }
-
-    /**
-     * 编译Java源代码，方便二次开发的进行
-     *
-     * @param sourceText 源代码
-     * @return 编译信息，有可能是成功信息，也有可能是出错或者警告信息
-     */
-    @Override
-    public JavaCompileInfo compilerSourceCode(String sourceText) throws Exception {
-        HashMap<String, String> para = new HashMap<>();
-        para.put("op", "fr_remote_design");
-        para.put("cmd", "design_compile_source_code");
-        InputStream in = postBytes2ServerB(sourceText.getBytes(EncodeConstants.ENCODING_UTF_8), para);
-        BufferedReader br = new BufferedReader(new InputStreamReader(in, EncodeConstants.ENCODING_UTF_8));
-        StringBuilder sb = new StringBuilder();
-        String line;
-        while ((line = br.readLine()) != null) {
-            sb.append(line);
-        }
-        JSONObject jo = new JSONObject(sb.toString());
-        JavaCompileInfo info = new JavaCompileInfo();
-        info.parseJSON(jo);
-        return info;
     }
 
     @Override
