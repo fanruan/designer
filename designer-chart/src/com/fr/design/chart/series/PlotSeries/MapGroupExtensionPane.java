@@ -340,13 +340,13 @@ public class MapGroupExtensionPane extends BasicPane implements UIObserver {
 						return;
 					}
 					try{//提醒名字已存在
-						if(FRContext.getCurrentEnv().fileExists(StableUtils.pathJoin(
-								new String[]{MapSvgXMLHelper.relativeDefaultMapPath(),newName+SvgProvider.EXTENSION}))){
+						if(FRContext.getCurrentEnv().getFileOperator().isExists(StableUtils.pathJoin(
+								MapSvgXMLHelper.relativeDefaultMapPath(),newName+SvgProvider.EXTENSION))){
 							showRenameWaring(newName);
 							return;
 						}
-						if(FRContext.getCurrentEnv().fileExists(StableUtils.pathJoin(
-								new String[]{MapSvgXMLHelper.relativeCustomMapPath(), newName + SvgProvider.EXTENSION}))){
+						if(FRContext.getCurrentEnv().getFileOperator().isExists(StableUtils.pathJoin(
+								MapSvgXMLHelper.relativeCustomMapPath(), newName + SvgProvider.EXTENSION))){
 							showRenameWaring(newName);
 							return;
 						}
@@ -361,10 +361,10 @@ public class MapGroupExtensionPane extends BasicPane implements UIObserver {
 						groupExtensionPane.setValueAtCurrentSelectIndex(newName);
 						fireStateChange();
 						saveMapInfo(newName);
-						FRContext.getCurrentEnv().deleteFile(
-								StableUtils.pathJoin(new String[]{MapSvgXMLHelper.relativeDefaultMapPath(),oldName+SvgProvider.EXTENSION}));
-						FRContext.getCurrentEnv().deleteFile(
-								StableUtils.pathJoin(new String[]{MapSvgXMLHelper.relativeCustomMapPath(),oldName+SvgProvider.EXTENSION}));
+						FRContext.getCurrentEnv().getFileOperator().delete(
+								StableUtils.pathJoin(MapSvgXMLHelper.relativeDefaultMapPath(),oldName+SvgProvider.EXTENSION));
+						FRContext.getCurrentEnv().getFileOperator().delete(
+								StableUtils.pathJoin(MapSvgXMLHelper.relativeCustomMapPath(),oldName+SvgProvider.EXTENSION));
 						refresh();
 					}catch (Exception exp){
 						FineLoggerFactory.getLogger().error(exp.getMessage());

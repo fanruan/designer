@@ -12,13 +12,15 @@ import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.search.manager.fun.AlphaFineSearchProvider;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
-import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.json.JSONObject;
+import com.fr.log.FineLoggerFactory;
+import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -149,7 +151,7 @@ public class FileSearchManager implements AlphaFineSearchProvider {
      */
     private void searchFileContent(Env env, String searchText, FileNode node, boolean isAlreadyContain, boolean needMore) {
         try {
-            InputStream inputStream = env.readBean(node.getEnvPath().substring(ProjectConstants.REPORTLETS_NAME.length() + 1), ProjectConstants.REPORTLETS_NAME);
+            InputStream inputStream = new ByteArrayInputStream(env.getFileOperator().read(StableUtils.pathJoin(ProjectConstants.REPORTLETS_NAME, node.getEnvPath().substring(ProjectConstants.REPORTLETS_NAME.length() + 1))));
             InputStreamReader isr = new InputStreamReader(inputStream, "UTF-8");
             BufferedReader reader = new BufferedReader(isr);
             String line;
@@ -232,7 +234,7 @@ public class FileSearchManager implements AlphaFineSearchProvider {
      * @throws Exception
      */
     private void listAll(Env env, String rootFilePath, List<FileNode> nodeList, boolean recurse) throws Exception {
-        FileNode[] fns = env.listFile(rootFilePath);
+        FileNode[] fns = env.getFileOperator().list(rootFilePath);
         for (int i = 0; i < fns.length; i++) {
             FileNode fileNode = fns[i];
             if (fileNode.isDirectory()) {

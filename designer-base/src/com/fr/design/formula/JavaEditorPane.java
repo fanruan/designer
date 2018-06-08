@@ -9,8 +9,8 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.syntax.ui.rsyntaxtextarea.RSyntaxTextArea;
 import com.fr.design.gui.syntax.ui.rsyntaxtextarea.SyntaxConstants;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.JavaCompileInfo;
 import com.fr.stable.StableUtils;
@@ -21,7 +21,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
@@ -111,7 +113,7 @@ public class JavaEditorPane extends BasicPane {
     private InputStream getJavaSourceInputStream() {
         String javaPath = getJavaPath();
         try {
-            return FRContext.getCurrentEnv().readBean(javaPath, ProjectConstants.CLASSES_NAME);
+            return new ByteArrayInputStream(FRContext.getCurrentEnv().getFileOperator().read(StableUtils.pathJoin(ProjectConstants.CLASSES_NAME, javaPath)));
         } catch (Exception e) {
             FRContext.getLogger().error(e.getMessage(), e);
         }
@@ -154,11 +156,7 @@ public class JavaEditorPane extends BasicPane {
             return;
         }
         try {
-            OutputStream out = FRContext.getCurrentEnv().writeBean(getJavaPath(), ProjectConstants.CLASSES_NAME);
-            Writer writer = new BufferedWriter(new OutputStreamWriter(out, EncodeConstants.ENCODING_UTF_8));
-            writer.write(text);
-            writer.flush();
-            writer.close();
+            FRContext.getCurrentEnv().getFileOperator().write(text.getBytes(EncodeConstants.ENCODING_UTF_8), ProjectConstants.CLASSES_NAME, getJavaPath());
             JOptionPane.showMessageDialog(null, Inter.getLocText(new String[]{"Save", "Successfully"}) + "！");
             fireSaveActionListener();
         } catch (Exception e) {

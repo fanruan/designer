@@ -4,13 +4,13 @@
 package com.fr.design.file;
 
 import com.fr.base.FRContext;
+import com.fr.base.io.FileAssistUtils;
 import com.fr.dav.LocalEnv;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.itree.filetree.TemplateFileTree;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
-import com.fr.env.RemoteEnv;
 import com.fr.file.FileNodeFILE;
 import com.fr.file.filetree.FileNode;
 import com.fr.file.filetree.IOFileNodeFilter;
@@ -21,7 +21,6 @@ import com.fr.stable.CoreConstants;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.project.ProjectConstants;
-import com.sun.jna.platform.FileUtils;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -32,7 +31,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class TemplateTreePane extends JPanel implements FileOperations {
@@ -181,8 +179,8 @@ public class TemplateTreePane extends JPanel implements FileOperations {
                 break;
             }
             if (nodeFile.exists()) {
-                String path = StableUtils.pathJoin(new String[]{nodeFile.getEnvPath(), nodeFile.getPath()});
-                moveToTrash(nodeFile);
+                String path = StableUtils.pathJoin(nodeFile.getEnvPath(), nodeFile.getPath());
+                FileAssistUtils.moveToTrash(path);
                 deleteHistory(path.replaceAll("/", "\\\\"));
             } else {
                 JOptionPane.showMessageDialog(this, Inter.getLocText("Warning-Template_Do_Not_Exsit"), ProductConstants.PRODUCT_NAME,
@@ -282,27 +280,4 @@ public class TemplateTreePane extends JPanel implements FileOperations {
             }
         }
     }
-
-    /**
-     * 文件回收
-     *
-     * @param nodeFile 节点文件
-     */
-    private void moveToTrash(FileNodeFILE nodeFile) {
-        FileUtils fileUtils = FileUtils.getInstance();
-        if (fileUtils.hasTrash()) {
-            try {
-                fileUtils.moveToTrash(new File[]{new File(StableUtils.pathJoin(nodeFile.getEnvPath(), nodeFile.getPath()))});
-                //todo 走下这个流程，否则集群下其它节点无法同步删除
-                FRContext.getCurrentEnv().deleteFile(nodeFile.getPath());
-            } catch (IOException e) {
-                FineLoggerFactory.getLogger().info(e.getMessage());
-                FRContext.getCurrentEnv().deleteFile(nodeFile.getPath());
-            }
-        } else {
-            FineLoggerFactory.getLogger().info("No Trash Available");
-            FRContext.getCurrentEnv().deleteFile(nodeFile.getPath());
-        }
-    }
-
 }

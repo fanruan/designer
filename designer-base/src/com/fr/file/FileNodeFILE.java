@@ -8,12 +8,14 @@ import com.fr.design.gui.itree.filetree.FileTreeIcon;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.project.ProjectConstants;
 
 import javax.swing.*;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -166,7 +168,7 @@ public class FileNodeFILE implements FILE {
 
             return res_array;
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
             return new FILE[0];
         }
     }
@@ -178,18 +180,10 @@ public class FileNodeFILE implements FILE {
      * @return 返回文件节点
      */
     private FileNode[] listFile(String rootFilePath) {
-        if (ComparatorUtils.equals(envPath, FRContext.getCurrentEnv().getWebReportPath())) {
-            try {
-                return FRContext.getCurrentEnv().listReportPathFile(rootFilePath);
-            } catch (Exception e) {
-                FRContext.getLogger().error(e.getMessage(), e);
-            }
-        } else {
-            try {
-                return FRContext.getCurrentEnv().listFile(rootFilePath);
-            } catch (Exception e) {
-                FRContext.getLogger().error(e.getMessage(), e);
-            }
+        try {
+            return FRContext.getCurrentEnv().getFileOperator().list(rootFilePath);
+        } catch (Exception e) {
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         return new FileNode[0];
     }
@@ -206,11 +200,9 @@ public class FileNodeFILE implements FILE {
         }
 
         try {
-            return FRContext.getCurrentEnv().createFolder(StableUtils.pathJoin(new String[]{
-                    node.getEnvPath(), name
-            }));
+            return FRContext.getCurrentEnv().getFileOperator().createFolder(StableUtils.pathJoin(node.getEnvPath(), name));
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
             return false;
         }
     }
@@ -248,7 +240,7 @@ public class FileNodeFILE implements FILE {
         }
 
         try {
-            return FRContext.getCurrentEnv().fileExists(node.getEnvPath());
+            return FRContext.getCurrentEnv().getFileOperator().isExists(node.getEnvPath());
         } catch (Exception e) {
             FRContext.getLogger().error(e.getMessage(), e);
             return false;
@@ -275,9 +267,9 @@ public class FileNodeFILE implements FILE {
         }
 
         try {
-            return FRContext.getCurrentEnv().createFile(node.getEnvPath());
+            return FRContext.getCurrentEnv().getFileOperator().createFile(node.getEnvPath());
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
             return false;
         }
     }
@@ -299,10 +291,7 @@ public class FileNodeFILE implements FILE {
             return null;
         }
 
-        InputStream in = FRContext.getCurrentEnv().readBean(
-                envPath.substring(ProjectConstants.REPORTLETS_NAME.length() + 1),
-                ProjectConstants.REPORTLETS_NAME
-        );
+        InputStream in = new ByteArrayInputStream(FRContext.getCurrentEnv().getFileOperator().read(StableUtils.pathJoin(ProjectConstants.REPORTLETS_NAME, envPath.substring(ProjectConstants.REPORTLETS_NAME.length() + 1))));
         
         return envPath.endsWith(".cpt") || envPath.endsWith(".frm")
                 ? XMLEncryptUtils.decodeInputStream(in) : in;

@@ -315,16 +315,6 @@ public class RemoteEnv extends AbstractEnv<RemoteEnvConfig> implements DesignAut
      * @throws Exception e
      */
 
-    /**
-     * 返回描述该运行环境的名字
-     *
-     * @return 描述环境名字的字符串
-     */
-    @Override
-    public String getEnvDescription() {
-        return Inter.getLocText("Env-Remote_Server");
-    }
-
     public class Bytes2ServerOutputStream extends OutputStream {
         private ByteArrayOutputStream out = new ByteArrayOutputStream();
         private HashMap<String, String> nameValuePairs;
@@ -691,26 +681,6 @@ public class RemoteEnv extends AbstractEnv<RemoteEnvConfig> implements DesignAut
     }
 
     /**
-     * 读取文件
-     *
-     * @param beanPath 文件名
-     * @param prefix   当前Env下得工程分类，如reportlets，lib等
-     * @return InputStream  输入流
-     */
-    @Override
-    public InputStream readBean(String beanPath, String prefix)
-            throws Exception {
-        refreshHttpSProperty();
-        HashMap<String, String> para = new HashMap<>();
-        para.put("op", "fs_remote_design");
-        para.put("cmd", "design_open");
-        para.put(RemoteDeziConstants.PREFXI, prefix);
-        para.put("resource", beanPath);
-
-        return filterInputStream(RemoteEnvUtils.simulateRPCByHttpGet(para, false, this));
-    }
-
-    /**
      * 写文件
      *
      * @param beanPath 文件名
@@ -783,25 +753,6 @@ public class RemoteEnv extends AbstractEnv<RemoteEnvConfig> implements DesignAut
 
     }
 
-    /**
-     * 输出日志信息
-     *
-     * @throws Exception e
-     */
-    @Override
-    public void printLogMessage() throws Exception {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        HashMap<String, String> para = new HashMap<>();
-        para.put("op", "fr_remote_design");
-        para.put("cmd", "get_log_message");
-
-        InputStream input = postBytes2ServerB(out.toByteArray(), para);
-        if (input == null) {
-            return;
-        }
-        LogRecordTime[] records = LogUtils.readXMLLogRecords(input);
-    }
-
     @Override
     public String[] getSupportedTypes() {
         return FILE_TYPE;
@@ -838,12 +789,6 @@ public class RemoteEnv extends AbstractEnv<RemoteEnvConfig> implements DesignAut
         }
 
     }
-
-    @Override
-    public InputStream getDataSourceInputStream(String filePath) throws Exception {
-        return readBean(filePath, "datasource");
-    }
-
 
     @Override
     public ArrayList getAllRole4Privilege(boolean isFS) {
@@ -908,32 +853,6 @@ public class RemoteEnv extends AbstractEnv<RemoteEnvConfig> implements DesignAut
         JavaCompileInfo info = new JavaCompileInfo();
         info.parseJSON(jo);
         return info;
-    }
-
-
-    @Override
-    public String pluginServiceAction(String serviceID, String req) throws Exception {
-        refreshHttpSProperty();
-        HashMap<String, String> para = new HashMap<>();
-        para.put("op", "fr_remote_design");
-        para.put("cmd", "design_get_plugin_service_data");
-        para.put("serviceID", serviceID);
-        para.put("req", req);
-        //jim ：加上user，远程设计点击预览时传递用户角色信息
-        InputStream inputStream = filterInputStream(
-                RemoteEnvUtils.simulateRPCByHttpPost(para, false, this)
-        );
-        return IOUtils.inputStream2String(inputStream);
-    }
-
-    /**
-     * 远程不启动，使用虚拟服务
-     * <p>
-     *
-     * @param serviceID serviceID
-     */
-    @Override
-    public void pluginServiceStart(String serviceID) {
     }
 
     @Override
