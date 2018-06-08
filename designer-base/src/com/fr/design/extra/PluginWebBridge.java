@@ -1,6 +1,5 @@
 package com.fr.design.extra;
 
-import com.fr.base.FRContext;
 import com.fr.config.MarketConfig;
 import com.fr.design.RestartHelper;
 import com.fr.design.bbs.BBSLoginUtils;
@@ -20,9 +19,7 @@ import com.fr.general.SiteCenter;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
-import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.context.PluginMarker;
-import com.fr.plugin.manage.PluginManager;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
 import javafx.concurrent.Task;
@@ -56,7 +53,7 @@ public class PluginWebBridge {
     private static final String PLUGIN_INFO = "pluginInfo";
     private static final int COREPOOLSIZE = 3;
     private static final int MAXPOOLSIZE = 5;
-    private static final String I18N_PREFIX = "Fine-";
+    private static final String I18N_PREFIX = "FR-";
 
     private static PluginWebBridge helper;
 
@@ -109,7 +106,7 @@ public class PluginWebBridge {
                     jsonObject.put(key, config.get(key).toString());
                 }
             } catch (JSONException e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
             return jsonObject.toString();
         }
@@ -443,7 +440,7 @@ public class PluginWebBridge {
             String loginUrl = SiteCenter.getInstance().acquireUrlByKind("bbs.default");
             Desktop.getDesktop().browse(new URI(loginUrl));
         } catch (Exception exp) {
-            FRContext.getLogger().info(exp.getMessage());
+            FineLoggerFactory.getLogger().info(exp.getMessage());
         }
     }
 
@@ -519,7 +516,7 @@ public class PluginWebBridge {
         try {
             Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("bbs.reset")));
         } catch (Exception e) {
-            FRContext.getLogger().info(e.getMessage());
+            FineLoggerFactory.getLogger().info(e.getMessage());
         }
     }
 

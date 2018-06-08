@@ -1,8 +1,8 @@
 package com.fr.design.extra;
 
-import com.fr.base.FRContext;
 import com.fr.base.TemplateUtils;
 import com.fr.general.IOUtils;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import javafx.application.Platform;
@@ -56,7 +56,7 @@ public class PluginWebPane extends JFXPanel {
                     webView.setContextMenuEnabled(false);//屏蔽右键
                     root.setCenter(webView);
                 }catch (Exception e){
-                    FRContext.getLogger().error(e.getMessage(), e);
+                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
                 }
 
             }
@@ -85,7 +85,7 @@ public class PluginWebPane extends JFXPanel {
         try{
             htmlString = TemplateUtils.renderParameter4Tpl(sb.toString(), map4Tpl);
         }catch (Exception e){
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         reader.close();
         inp.close();
