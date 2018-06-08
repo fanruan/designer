@@ -1,6 +1,7 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.env.EnvUpdater;
 import com.fr.core.env.EnvConfig;
 import com.fr.dav.LocalEnv;
 import com.fr.design.DesignModelAdapter;
@@ -8,13 +9,13 @@ import com.fr.design.DesignerEnvManager;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.dialog.InformationWarnPane;
+import com.fr.design.env.EnvGenerator;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.file.TemplateTreePane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.env.EnvListPane;
 import com.fr.env.RemoteEnv;
-import com.fr.env.SignIn;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
@@ -141,7 +142,7 @@ public class TemplatePane extends JPanel implements MouseListener {
                     }
                 }
             }
-            SignIn.signIn(selectedEnv);
+            EnvUpdater.updateEnv(EnvGenerator.generate(selectedEnv));
             JTemplate template = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
             if (template != null) {
                 template.refreshToolArea();

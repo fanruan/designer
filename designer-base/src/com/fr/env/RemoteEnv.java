@@ -10,7 +10,7 @@ import com.fr.common.rpc.netty.MessageSendExecutor;
 import com.fr.common.rpc.netty.RemoteCallClient;
 import com.fr.core.env.EnvConstants;
 import com.fr.core.env.EnvContext;
-import com.fr.core.env.resource.RemoteEnvConfig;
+import com.fr.design.env.RemoteEnvConfig;
 import com.fr.data.TableDataSource;
 import com.fr.data.impl.EmbeddedTableData;
 import com.fr.data.impl.storeproc.StoreProcedure;
@@ -93,13 +93,9 @@ public class RemoteEnv extends AbstractEnv<RemoteEnvConfig> implements DesignAut
         this.config = config;
     }
 
-    public RemoteEnv(String path, String userName, String password) {
-        config = new RemoteEnvConfig(path, userName, password);
-    }
-
     @Override
     public void connect() throws Exception {
-
+        RemoteCallClient.getInstance().load(config.getHost(), config.getPort(), RemoteCallServerConfig.getInstance().getSerializeProtocol());
     }
 
     @Override
@@ -129,6 +125,11 @@ public class RemoteEnv extends AbstractEnv<RemoteEnvConfig> implements DesignAut
     }
 
     @Override
+    public RemoteEnvConfig getEnvConfig() {
+        return config;
+    }
+
+    @Override
     public String getPath() {
         return config.getPath();
     }
@@ -145,6 +146,11 @@ public class RemoteEnv extends AbstractEnv<RemoteEnvConfig> implements DesignAut
     @Override
     public String getUserID() {
         return EnvContext.currentToken();
+    }
+
+    @Override
+    public boolean isLocalEnv() {
+        return false;
     }
 
     /**

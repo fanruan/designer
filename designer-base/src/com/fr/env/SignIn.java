@@ -1,6 +1,8 @@
 package com.fr.env;
 
 
+import com.fr.base.Env;
+import com.fr.base.FRContext;
 import com.fr.core.env.EnvConfig;
 import com.fr.core.env.EnvContext;
 import com.fr.core.env.EnvEvent;
@@ -12,6 +14,7 @@ import com.fr.event.Listener;
 import com.fr.event.Null;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
+import com.fr.stable.AssistUtils;
 
 import javax.swing.*;
 
@@ -34,9 +37,9 @@ public class SignIn {
      * @throws Exception 异常
      */
     public static void signIn(EnvConfig selectedEnv) throws Exception {
-    
-        if (EnvContext.currentEnv() != null && !ComparatorUtils.equals(EnvContext.currentEnv(), selectedEnv)) {
-            EnvContext.signOut();
+        Env env = FRContext.getCurrentEnv();
+        if (env != null && AssistUtils.equals(env.getEnvConfig(), selectedEnv)) {
+            env.disconnect();
         }
         DesignUtils.switchToEnv(selectedEnv);
     }

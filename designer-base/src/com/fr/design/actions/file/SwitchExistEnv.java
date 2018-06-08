@@ -1,13 +1,15 @@
 package com.fr.design.actions.file;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.env.EnvUpdater;
 import com.fr.core.env.EnvConfig;
-import com.fr.core.env.resource.LocalEnvConfig;
-import com.fr.core.env.resource.RemoteEnvConfig;
+import com.fr.core.env.impl.LocalEnvConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.tabledata.ResponseDataSourceChange;
+import com.fr.design.env.EnvGenerator;
+import com.fr.design.env.RemoteEnvConfig;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
@@ -16,13 +18,12 @@ import com.fr.design.menu.KeySetUtils;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
 import com.fr.env.RemoteEnv;
-import com.fr.env.SignIn;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.EnvChangedListener;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -105,7 +106,7 @@ public class SwitchExistEnv extends MenuDef {
                             Inter.getLocText(new String[]{"M-SwitchWorkspace", "Failed"}));
                     return;
                 }
-                SignIn.signIn(selectedEnv);
+                EnvUpdater.updateEnv(EnvGenerator.generate(selectedEnv));
                 HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().refreshToolArea();
                 fireDSChanged();
             } catch (Exception em) {

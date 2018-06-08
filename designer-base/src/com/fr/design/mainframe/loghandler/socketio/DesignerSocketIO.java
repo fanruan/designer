@@ -1,14 +1,18 @@
 package com.fr.design.mainframe.loghandler.socketio;
 
+import com.fr.base.Env;
+import com.fr.base.FRContext;
 import com.fr.config.ConfigEvent;
 import com.fr.config.Configuration;
 import com.fr.core.env.EnvConfig;
 import com.fr.core.env.EnvConstants;
 import com.fr.core.env.EnvContext;
 import com.fr.core.env.EnvEvent;
-import com.fr.core.env.resource.LocalEnvConfig;
+import com.fr.core.env.impl.LocalEnvConfig;
 import com.fr.decision.webservice.utils.DecisionServiceConstants;
+import com.fr.design.env.RemoteEnvConfig;
 import com.fr.design.mainframe.loghandler.DesignerLogHandler;
+import com.fr.env.RemoteEnv;
 import com.fr.event.Event;
 import com.fr.event.EventDispatcher;
 import com.fr.event.Listener;
@@ -66,14 +70,14 @@ public class DesignerSocketIO {
     }
 
     private static void updateSocket() {
-        EnvConfig env = EnvContext.currentEnv();
-        if (env instanceof LocalEnvConfig) {
+        Env env = FRContext.getCurrentEnv();
+        if (env.isLocalEnv()) {
             return;
         }
-
         try {
+            RemoteEnvConfig config = ((RemoteEnv)env).getEnvConfig();
             String uri = String.format("http://%s:%s%s?%s=%s",
-                    new URL(env.getPath()).getHost(),
+                    config.getHost(),
                     WebSocketConfig.getInstance().getPort(),
                     EnvConstants.WS_NAMESPACE,
                     DecisionServiceConstants.WEB_SOCKET_TOKEN_NAME,
