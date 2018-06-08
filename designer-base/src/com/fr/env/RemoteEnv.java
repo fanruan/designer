@@ -11,13 +11,13 @@ import com.fr.common.rpc.netty.MessageSendExecutor;
 import com.fr.common.rpc.netty.RemoteCallClient;
 import com.fr.core.env.EnvConstants;
 import com.fr.core.env.EnvContext;
-import com.fr.design.env.RemoteEnvConfig;
 import com.fr.data.TableDataSource;
 import com.fr.data.impl.EmbeddedTableData;
 import com.fr.data.impl.storeproc.StoreProcedure;
 import com.fr.dav.AbstractEnv;
 import com.fr.dav.DavXMLUtils;
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.env.RemoteEnvConfig;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.file.CacheManager;
 import com.fr.file.ConnectionConfig;
@@ -26,8 +26,6 @@ import com.fr.general.CommonIOUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
-import com.fr.general.LogRecordTime;
-import com.fr.general.LogUtils;
 import com.fr.general.http.HttpToolbox;
 import com.fr.io.utils.ResourceIOUtils;
 import com.fr.json.JSONArray;
@@ -44,9 +42,7 @@ import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.SvgProvider;
-import com.fr.stable.file.XMLFileManagerProvider;
 import com.fr.stable.project.ProjectConstants;
-import com.fr.stable.xml.XMLTools;
 import com.fr.third.guava.base.Strings;
 import com.fr.third.guava.collect.ImmutableMap;
 import com.fr.web.ResourceConstants;
@@ -627,47 +623,6 @@ public class RemoteEnv extends AbstractEnv<RemoteEnvConfig> implements DesignAut
             String res = stream2String(filterInputStream(
                     RemoteEnvUtils.simulateRPCByHttpPost(out.getOut().toByteArray(), out.nameValuePairs, false, this)
             ));
-            if (StringUtils.isNotEmpty(res)) {
-                JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Already_exist") + res);
-                return false;
-            }
-        } catch (Exception e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * 写报表运行环境所需的配置文件
-     *
-     * @param mgr 管理各个资源文件的管理器
-     * @return 写入xml成功返回true
-     * @throws Exception 写入xml错误则抛出此异常
-     */
-    @Override
-    public boolean writeResource(XMLFileManagerProvider mgr) throws Exception {
-        testServerConnection();
-
-        HashMap<String, String> para = new HashMap<>();
-        para.put("op", "fr_remote_design");
-        para.put("cmd", "design_save_resource");
-        para.put("resource", mgr.fileName());
-        para.put("class_name", mgr.getClass().getName());
-        para.put("current_uid", this.getUserID());
-        para.put("currentUsername", this.getUser());
-
-        // alex:通过ByteArrayOutputStream将mgr写成字节流
-        Bytes2ServerOutputStream out = new Bytes2ServerOutputStream(para);
-        XMLTools.writeOutputStreamXML(mgr, out);
-
-        try {
-            String res = stream2String(
-                    filterInputStream(
-                            RemoteEnvUtils.simulateRPCByHttpPost(out.getOut().toByteArray(), out.nameValuePairs, false, this)
-                    )
-            );
             if (StringUtils.isNotEmpty(res)) {
                 JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Already_exist") + res);
                 return false;
