@@ -176,7 +176,7 @@ public class JavaEditorPane extends BasicPane {
                 @Override
                 protected JavaCompileInfo doInBackground() throws Exception {
                     Env env = FRContext.getCurrentEnv();
-                    return env.compilerSourceCode(javaText.getText());
+                    return env.getCommonOperator().compile(javaText.getText());
                 }
 
                 public void done() {

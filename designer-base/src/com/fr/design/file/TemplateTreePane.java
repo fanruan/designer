@@ -3,6 +3,7 @@
  */
 package com.fr.design.file;
 
+import com.fr.base.Env;
 import com.fr.base.FRContext;
 import com.fr.base.io.FileAssistUtils;
 import com.fr.dav.LocalEnv;
@@ -15,6 +16,7 @@ import com.fr.file.FileNodeFILE;
 import com.fr.file.filetree.FileNode;
 import com.fr.file.filetree.IOFileNodeFilter;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CoreConstants;
@@ -139,13 +141,13 @@ public class TemplateTreePane extends JPanel implements FileOperations {
      */
     public void openContainerFolder() {
         FileNode fn = TemplateTreePane.this.reportletsTree.getSelectedFileNode();
-        LocalEnv localEnv = (LocalEnv) FRContext.getCurrentEnv();
+        Env localEnv = FRContext.getCurrentEnv();
         String filePath = StableUtils.pathJoin(localEnv.getPath(), fn.getEnvPath());
         filePath = filePath.substring(0, filePath.lastIndexOf(CoreConstants.SEPARATOR));
         try {
             Desktop.getDesktop().open(new File(filePath));
         } catch (Exception e) {
-            localEnv.openContainerFolder(fn);
+            IOUtils.openWindowsFolder(StableUtils.pathJoin(localEnv.getEnvConfig().getPath(), fn.getEnvPath()));
         }
     }
 
