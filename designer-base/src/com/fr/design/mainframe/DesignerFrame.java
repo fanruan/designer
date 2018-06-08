@@ -55,9 +55,23 @@ import com.fr.stable.StableUtils;
 import com.fr.stable.image4j.codec.ico.ICODecoder;
 import com.fr.stable.project.ProjectConstants;
 
-import javax.swing.*;
+import javax.swing.Icon;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
+import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 import javax.swing.border.MatteBorder;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;
@@ -124,9 +138,6 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
     private WindowAdapter windowAdapter = new WindowAdapter() {
         public void windowOpened(WindowEvent e) {
-            HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().setComposite();
-            reCalculateFrameSize();
-            HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().doResize();
 
         }
 
@@ -257,6 +268,14 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
                 if (BaseUtils.isAuthorityEditing()) {
                     doResize();
                 }
+            }
+        });
+        this.addDesignerOpenedListener(new DesignerOpenedListener() {
+            @Override
+            public void designerOpened() {
+                HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().setComposite();
+                reCalculateFrameSize();
+                HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().doResize();
             }
         });
         this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
