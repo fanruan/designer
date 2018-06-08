@@ -2,6 +2,7 @@ package com.fr.env;
 
 import com.fr.base.EnvException;
 import com.fr.base.TableData;
+import com.fr.base.operator.common.CommonOperator;
 import com.fr.base.operator.connect.ConnectOperator;
 import com.fr.base.operator.file.FileOperator;
 import com.fr.base.remote.RemoteDeziConstants;
@@ -122,6 +123,11 @@ public class RemoteEnv extends AbstractEnv<RemoteEnvConfig> implements DesignAut
     @Override
     public FileOperator getFileOperator() throws Exception {
         return MessageSendExecutor.getInstance().execute(FileOperator.class);
+    }
+
+    @Override
+    public CommonOperator getCommonOperator() throws Exception {
+        return MessageSendExecutor.getInstance().execute(CommonOperator.class);
     }
 
     @Override

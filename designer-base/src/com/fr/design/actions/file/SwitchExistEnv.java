@@ -1,6 +1,7 @@
 package com.fr.design.actions.file;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.env.Callback;
 import com.fr.base.env.EnvUpdater;
 import com.fr.core.env.EnvConfig;
 import com.fr.core.env.impl.LocalEnvConfig;
@@ -17,6 +18,7 @@ import com.fr.design.mainframe.TemplatePane;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
+import com.fr.design.utils.DesignUtils;
 import com.fr.env.RemoteEnv;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
@@ -98,24 +100,25 @@ public class SwitchExistEnv extends MenuDef {
          */
         public void actionPerformed(ActionEvent e) {
             DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
-            EnvConfig selectedEnv = envManager.getEnv(this.getName());
-            try {
-                if (selectedEnv instanceof RemoteEnv && !((RemoteEnv) selectedEnv).testServerConnection()) {
+            final String envName = getName();
+            EnvConfig selectedEnv = envManager.getEnv(envName);
+            EnvUpdater.updateEnv(EnvGenerator.generate(selectedEnv), new Callback() {
+                @Override
+                public void success() {
+                    DesignerEnvManager.getEnvManager().setCurEnvName(envName);
+                    DesignUtils.refreshDesignerFrame();
+                    HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().refreshToolArea();
+                    fireDSChanged();
+                }
+
+                @Override
+                public void fail() {
+                    TemplatePane.getInstance().editItems();
                     JOptionPane.showMessageDialog(
                             DesignerContext.getDesignerFrame(),
                             Inter.getLocText(new String[]{"M-SwitchWorkspace", "Failed"}));
-                    return;
                 }
-                EnvUpdater.updateEnv(EnvGenerator.generate(selectedEnv));
-                HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().refreshToolArea();
-                fireDSChanged();
-            } catch (Exception em) {
-                FineLoggerFactory.getLogger().error(em.getMessage(), em);
-                JOptionPane.showMessageDialog(
-                        DesignerContext.getDesignerFrame(),
-                        Inter.getLocText(new String[]{"M-SwitchWorkspace", "Failed"}));
-                TemplatePane.getInstance().editItems();
-            }
+            });
         }
     }
 }

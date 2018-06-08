@@ -69,7 +69,7 @@ public class RemoteEnvConfig extends AbstractEnvConfig {
 
     @Override
     public String getDescription(String name) {
-        return username + "@" + name + "[" + Inter.getLocText("") + "]";
+        return username + "@" + name + "[" + Inter.getLocText("Fine-Designer_Basic_Remote_Env") + "]";
     }
 
     @Override
@@ -85,6 +85,11 @@ public class RemoteEnvConfig extends AbstractEnvConfig {
                 if (StringUtils.isNotEmpty(password)) {
                     this.password = SecurityToolbox.decrypt(password);
                 }
+            } else if ("Username".equals(tagName)) {
+                this.username = reader.getElementValue();
+            } else if ("Password".equals(tagName)) {
+                String txt = reader.getElementValue();
+                this.password = SecurityToolbox.decrypt(txt);
             }
         }
     }
@@ -94,13 +99,12 @@ public class RemoteEnvConfig extends AbstractEnvConfig {
         super.writeXML(writer);
         writer.startTAG("Attr")
                 .attr("host", host)
-                .attr("port", port)
-                .attr("username", username);
-        if (StringUtils.isNotEmpty(password)) {
-            writer.attr("password", SecurityToolbox.encrypt(password));
-        }
-
+                .attr("port", port);
         writer.end();
+        writer.startTAG("Username").textNode(username).end();
+        if (StringUtils.isNotEmpty(password)) {
+            writer.startTAG("Password").textNode(SecurityToolbox.encrypt(password)).end();
+        }
 
     }
 

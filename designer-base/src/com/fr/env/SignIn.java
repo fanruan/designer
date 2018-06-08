@@ -41,6 +41,6 @@ public class SignIn {
         if (env != null && AssistUtils.equals(env.getEnvConfig(), selectedEnv)) {
             env.disconnect();
         }
-        DesignUtils.switchToEnv(selectedEnv);
+        //DesignUtils.switchToEnv(selectedEnv);
     }
 }
