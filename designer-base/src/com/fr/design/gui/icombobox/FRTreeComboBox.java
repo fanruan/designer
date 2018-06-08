@@ -50,13 +50,14 @@ import com.fr.stable.Constants;
 import com.fr.stable.StringUtils;
 
 public class FRTreeComboBox extends UIComboBox {
-	
-	private static final int PAGE_DIFF = 5;
-	private static final int DEFAULT_HEIGHT = 120;
-	
+
+    private static final int PAGE_DIFF = 5;
+    private static final int DEFAULT_HEIGHT = 120;
+
     // richer:下拉展示用的tree
     protected JTree tree;
     private boolean onlyLeafSelectable = true;
+    private Object selectedObject = null;
 
     public FRTreeComboBox() {
         this(new JTree());
@@ -148,7 +149,7 @@ public class FRTreeComboBox extends UIComboBox {
             for (Enumeration e2 = pathnode.children(); e2.hasMoreElements(); ) {
                 TreeNode n2 = (TreeNode) e2.nextElement();
                 TreePath path2 = path.pathByAddingChild(n2);
-                if (pathToString(path2).toUpperCase().startsWith(textField.getText().toUpperCase())) {
+                if (pathToString(path2).toUpperCase().contains(textField.getText().toUpperCase())) {
                     tree.scrollPathToVisible(path2);
                     tree.setSelectionPath(path2);
                     isBreak = true;
@@ -162,6 +163,7 @@ public class FRTreeComboBox extends UIComboBox {
     }
 
     public void setSelectedItem(Object o) {
+        selectedObject = o;
         if (o instanceof String) {
             this.setSelectedItemString((String) o);
             return;
@@ -173,9 +175,13 @@ public class FRTreeComboBox extends UIComboBox {
             this.getModel().setSelectedItem(o);
         }
     }
-    
+
+    public Object getSelectedItemObject() {
+        return selectedObject;
+    }
+
     private boolean validTreePath(String treePath){
-    	return StringUtils.isNotEmpty(treePath) && treePath.charAt(0) == '[' && treePath.endsWith("]");
+        return StringUtils.isNotEmpty(treePath) && treePath.charAt(0) == '[' && treePath.endsWith("]");
     }
 
     protected String pathToString(TreePath path) {
@@ -183,12 +189,7 @@ public class FRTreeComboBox extends UIComboBox {
         if (validTreePath(temp)) {
             temp = temp.substring(2, temp.length() - 1);
             String[] selectedtable = temp.split(",");
-            String table = selectedtable[selectedtable.length - 1].trim();
-            if (table.contains(".")) {
-                String[] temp2 = table.split("\\.");
-                table = temp2[temp2.length - 1].trim();
-            }
-            return table;
+            return selectedtable[selectedtable.length - 1].trim();
         }
         return "";
     }
@@ -198,7 +199,7 @@ public class FRTreeComboBox extends UIComboBox {
       */
     public void setSelectedItemString(String _name) {
         if (StringUtils.isBlank(_name)) {
-			this.setSelectedIndex(-1);
+            this.setSelectedIndex(-1);
             return;
         }
         DefaultTreeModel model = (DefaultTreeModel) this.tree.getModel();
@@ -237,26 +238,26 @@ public class FRTreeComboBox extends UIComboBox {
         }
     }
 
-	public void setPopSize(int width, int height) {
-		treePopup.setPopSize(width, height);
-	}
+    public void setPopSize(int width, int height) {
+        treePopup.setPopSize(width, height);
+    }
 
 
     private static TreePopup treePopup;
 
     private static class FRTreeComboBoxUI extends BasicComboBoxUI implements MouseListener{
-    	private boolean isRollover = false;
+        private boolean isRollover = false;
 
-    	public FRTreeComboBoxUI() {
-    		super();
-    	}
+        public FRTreeComboBoxUI() {
+            super();
+        }
         protected ComboPopup createPopup() {
             treePopup = new TreePopup(comboBox);
             return treePopup;
         }
         @Override
-    	protected UIButton createArrowButton() {
-        	arrowButton = new UIButton(UIConstants.ARROW_DOWN_ICON){
+        protected UIButton createArrowButton() {
+            arrowButton = new UIButton(UIConstants.ARROW_DOWN_ICON){
                 /**
                  * 组件是否需要响应添加的观察者事件
                  *
@@ -267,77 +268,77 @@ public class FRTreeComboBox extends UIComboBox {
                     return false;
                 }
             };
-    		((UIButton) arrowButton).setRoundBorder(true, Constants.LEFT);
-    		arrowButton.addMouseListener(this);
-    		comboBox.addMouseListener(this);
-    		return (UIButton) arrowButton;
-    	}
+            ((UIButton) arrowButton).setRoundBorder(true, Constants.LEFT);
+            arrowButton.addMouseListener(this);
+            comboBox.addMouseListener(this);
+            return (UIButton) arrowButton;
+        }
 
-    	public void paint(Graphics g, JComponent c) {
-    		super.paint(g, c);
-    		Graphics2D g2d = (Graphics2D)g;
-    		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-    		Color linecolor = null;
-    		if (comboBox.isPopupVisible()) {
-    			linecolor = UIConstants.LINE_COLOR;
-    			arrowButton.setSelected(true);
-    		} else if (isRollover) {
-    			linecolor = UIConstants.LIGHT_BLUE;
-    		} else {
-    			linecolor = UIConstants.LINE_COLOR;
-    			arrowButton.setSelected(false);
-    		}
-    		g2d.setColor(linecolor);
-    		if (!comboBox.isPopupVisible()) {
-    			g2d.drawRoundRect(0, 0, c.getWidth() - arrowButton.getWidth() + 3, c.getHeight() - 1, UIConstants.LARGEARC, UIConstants.LARGEARC);
-    		} else {
-    			g2d.drawRoundRect(0, 0, c.getWidth() , c.getHeight() + 3, UIConstants.LARGEARC, UIConstants.LARGEARC	);
-    			g2d.drawLine(0, c.getHeight()-1, c.getWidth(), c.getHeight()-1);
-    		}
-    	}
-    	
+        public void paint(Graphics g, JComponent c) {
+            super.paint(g, c);
+            Graphics2D g2d = (Graphics2D)g;
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            Color linecolor = null;
+            if (comboBox.isPopupVisible()) {
+                linecolor = UIConstants.LINE_COLOR;
+                arrowButton.setSelected(true);
+            } else if (isRollover) {
+                linecolor = UIConstants.LIGHT_BLUE;
+            } else {
+                linecolor = UIConstants.LINE_COLOR;
+                arrowButton.setSelected(false);
+            }
+            g2d.setColor(linecolor);
+            if (!comboBox.isPopupVisible()) {
+                g2d.drawRoundRect(0, 0, c.getWidth() - arrowButton.getWidth() + 3, c.getHeight() - 1, UIConstants.LARGEARC, UIConstants.LARGEARC);
+            } else {
+                g2d.drawRoundRect(0, 0, c.getWidth() , c.getHeight() + 3, UIConstants.LARGEARC, UIConstants.LARGEARC	);
+                g2d.drawLine(0, c.getHeight()-1, c.getWidth(), c.getHeight()-1);
+            }
+        }
 
 
-    	private void setRollover(boolean isRollover) {
-    		if (this.isRollover != isRollover) {
-    			this.isRollover = isRollover;
-    			comboBox.repaint();
-    		}
-    	}
 
-    	@Override
-    	public void mouseEntered(MouseEvent e) {
-    		setRollover(true);
-    	}
+        private void setRollover(boolean isRollover) {
+            if (this.isRollover != isRollover) {
+                this.isRollover = isRollover;
+                comboBox.repaint();
+            }
+        }
 
-    	@Override
-    	public void mouseExited(MouseEvent e) {
-    		setRollover(false);
-    	}
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            setRollover(true);
+        }
 
-    	@Override
-    	public void mouseClicked(MouseEvent e) {
-    	}
+        @Override
+        public void mouseExited(MouseEvent e) {
+            setRollover(false);
+        }
 
-    	@Override
-    	public void mousePressed(MouseEvent e) {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+        }
 
-    	}
+        @Override
+        public void mousePressed(MouseEvent e) {
 
-    	@Override
-    	public void mouseReleased(MouseEvent e) {
+        }
 
-    	}
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+        }
     }
 
     /**
-	 * 添加弹出菜单监听
-	 * 
-	 * @param l 监听事件
-	 * 
-	 * @date 2015-1-22-下午5:04:00
-	 * 
-	 */
+     * 添加弹出菜单监听
+     *
+     * @param l 监听事件
+     *
+     * @date 2015-1-22-下午5:04:00
+     *
+     */
     public void addPopupMenuListener(PopupMenuListener l) {
         treePopup.addPopupMenuListener(l);
     }
@@ -367,8 +368,8 @@ public class FRTreeComboBox extends UIComboBox {
          *
          */
         private static final long serialVersionUID = 1L;
-		private int defaultWidth = 0;
-		private int defaultHeight = 0;
+        private int defaultWidth = 0;
+        private int defaultHeight = 0;
         protected FRTreeComboBox comboBox;
         protected JScrollPane scrollPane;
         protected JTree tree;
@@ -492,8 +493,8 @@ public class FRTreeComboBox extends UIComboBox {
         }
 
         protected void updatePopup() {
-        	int width = defaultWidth == 0 ? this.comboBox.getSize().width : defaultWidth;
-        	int height = defaultHeight == 0 ? DEFAULT_HEIGHT : defaultHeight;
+            int width = defaultWidth == 0 ? this.comboBox.getSize().width : defaultWidth;
+            int height = defaultHeight == 0 ? DEFAULT_HEIGHT : defaultHeight;
             this.setPreferredSize(new Dimension(width, height));
             Object selectedObj = this.comboBox.getSelectedItem();
             if (selectedObj instanceof TreePath) {
@@ -502,10 +503,10 @@ public class FRTreeComboBox extends UIComboBox {
             }
         }
 
-		public void setPopSize(int width, int height) {
-			this.defaultWidth = width;
-			this.defaultHeight = height;
-		}
+        public void setPopSize(int width, int height) {
+            this.defaultWidth = width;
+            this.defaultHeight = height;
+        }
 
         protected class InvocationMouseHandler extends MouseAdapter {
             public void mousePressed(MouseEvent e) {
@@ -533,7 +534,7 @@ public class FRTreeComboBox extends UIComboBox {
         private Object item;
 
         public FrTreeSearchComboBoxEditor(FRTreeComboBox comboBox) {
-        	super();
+            super();
             this.comboBox = comboBox;
             textField.getDocument().addDocumentListener(this);
             textField.addKeyListener(this.treeKeyListener);
@@ -582,7 +583,7 @@ public class FRTreeComboBox extends UIComboBox {
 
 
         public void setItem(Object item) {
-        	this.item = item;
+            this.item = item;
             this.setting = true;
             textField.setText((item == null) ? "" : item.toString());
             this.setting = false;
