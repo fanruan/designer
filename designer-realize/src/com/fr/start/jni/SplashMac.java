@@ -22,8 +22,6 @@ import java.io.InputStream;
  */
 public class SplashMac implements SplashStrategy {
 
-    private static final String SPLASH_CACHE_NAME = "splash_10.gif";
-    private static final String SPLASH_PATH = "/com/fr/design/images/splash_10.gif";
 
     private SplashJNI jni;
 
@@ -38,12 +36,12 @@ public class SplashMac implements SplashStrategy {
      */
     private static String loadResFromJar() {
         File tempLib = null;
-        try (InputStream inputStream = SplashContext.class.getResourceAsStream(SplashMac.SPLASH_PATH)) {
+        try (InputStream inputStream = SplashContext.class.getResourceAsStream(SplashContext.SPLASH_PATH)) {
             if (inputStream == null) {
-                FRContext.getLogger().error("Unable to copy " + SplashMac.SPLASH_PATH + " from jar file.");
+                FRContext.getLogger().error("Unable to copy " + SplashContext.SPLASH_PATH + " from jar file.");
                 return StringUtils.EMPTY;
             }
-            tempLib = new File(StableUtils.pathJoin(ProductConstants.getEnvHome(), SPLASH_CACHE_NAME));
+            tempLib = new File(StableUtils.pathJoin(ProductConstants.getEnvHome(), SplashContext.SPLASH_CACHE_NAME));
             byte[] buffer = new byte[1024];
             int read = -1;
             try (FileOutputStream fileOutputStream = new FileOutputStream(tempLib)) {
@@ -57,14 +55,14 @@ public class SplashMac implements SplashStrategy {
                 tempLib.deleteOnExit();
             }
             // 直接抛异常
-            throw new RuntimeException("Unable to copy " + SplashMac.SPLASH_PATH + " from jar file.");
+            throw new RuntimeException("Unable to copy " + SplashContext.SPLASH_PATH + " from jar file.");
         }
     }
 
     @Override
     public void show() {
         if (jni != null) {
-            File splash = new File(StableUtils.pathJoin(ProductConstants.getEnvHome(), SPLASH_CACHE_NAME));
+            File splash = new File(StableUtils.pathJoin(ProductConstants.getEnvHome(), SplashContext.SPLASH_CACHE_NAME));
             String path = splash.exists() ? splash.getAbsolutePath() : loadResFromJar();
             jni.show(path);
         }
