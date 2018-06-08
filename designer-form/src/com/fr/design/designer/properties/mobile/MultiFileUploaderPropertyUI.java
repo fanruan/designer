@@ -1,27 +1,22 @@
 package com.fr.design.designer.properties.mobile;
 
 import com.fr.design.designer.creator.XCreator;
-import com.fr.design.designer.creator.XWAbsoluteBodyLayout;
-import com.fr.design.designer.creator.XWFitLayout;
+import com.fr.design.designer.creator.XMultiFileUploader;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.fun.impl.AbstractWidgetPropertyUIProvider;
 import com.fr.design.gui.itable.AbstractPropertyTable;
-import com.fr.design.widget.ui.designer.mobile.BodyMobileDefinePane;
+import com.fr.design.widget.ui.designer.mobile.MultiFileUploaderDefinePane;
 import com.fr.general.Inter;
 
 /**
- * Created by Administrator on 2016/5/16/0016.
+ * Created by plough on 2018/4/19.
  */
-public class BodyMobilePropertyUI extends AbstractWidgetPropertyUIProvider {
+public class MultiFileUploaderPropertyUI extends AbstractWidgetPropertyUIProvider {
 
     private XCreator xCreator;
 
-    public BodyMobilePropertyUI(XWFitLayout xwFitLayout) {
-        this.xCreator = xwFitLayout;
-    }
-
-    public BodyMobilePropertyUI(XWAbsoluteBodyLayout xwAbsoluteBodyLayout) {
-        this.xCreator = xwAbsoluteBodyLayout;
+    public MultiFileUploaderPropertyUI(XMultiFileUploader xMultiFileUploader) {
+        this.xCreator = xMultiFileUploader;
     }
 
     @Override
@@ -31,7 +26,7 @@ public class BodyMobilePropertyUI extends AbstractWidgetPropertyUIProvider {
 
     @Override
     public BasicPane createWidgetAttrPane() {
-        return new BodyMobileDefinePane(xCreator);
+        return new MultiFileUploaderDefinePane(xCreator);
     }
 
     @Override
