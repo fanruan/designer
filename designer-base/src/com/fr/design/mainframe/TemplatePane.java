@@ -1,40 +1,34 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.env.Callback;
+import com.fr.base.env.EnvUpdater;
 import com.fr.core.env.EnvConfig;
-import com.fr.dav.LocalEnv;
+import com.fr.core.env.impl.LocalEnvConfig;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.dialog.InformationWarnPane;
+import com.fr.design.env.EnvGenerator;
+import com.fr.design.env.RemoteEnvConfig;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.file.TemplateTreePane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.utils.DesignUtils;
 import com.fr.env.EnvListPane;
 import com.fr.env.RemoteEnv;
-import com.fr.env.SignIn;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
+import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.stable.EnvChangedListener;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
 
-import javax.swing.BorderFactory;
-import javax.swing.Icon;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -121,27 +115,23 @@ public class TemplatePane extends JPanel implements MouseListener {
     }
 
     private boolean envListOkAction(EnvListPane envListPane) {
-        String selectedName = envListPane.updateEnvManager();
+        final String selectedName = envListPane.updateEnvManager();
         DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
         EnvConfig selectedEnv = envManager.getEnv(selectedName);
         GeneralContext.fireEnvWillChangeListener();
         try {
-            //如果是远程的还要先测试下，如果失败就不切换
-            if (selectedEnv instanceof RemoteEnv) {
-                if (!((RemoteEnv) selectedEnv).testServerConnection()) {
+            EnvUpdater.updateEnv(EnvGenerator.generate(selectedEnv), new Callback() {
+                @Override
+                public void fail() {
                     JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText(new String[]{"M-SwitchWorkspace", "Failed"}));
-                    return false;
-                } else {
-                    String remoteVersion = getDesignerVersion(selectedEnv);
-                    if (StringUtils.isBlank(remoteVersion) || ComparatorUtils.compare(remoteVersion, ProductConstants.DESIGNER_VERSION) < 0) {
-                        String infor = Inter.getLocText("Server-version-tip");
-                        String moreInfo = Inter.getLocText("Server-version-tip-moreInfo");
-                        new InformationWarnPane(infor, moreInfo, Inter.getLocText("Tooltips")).show();
-                        return false;
-                    }
                 }
-            }
-            SignIn.signIn(selectedEnv);
+
+                @Override
+                public void success() {
+                    DesignerEnvManager.getEnvManager().setCurEnvName(selectedName);
+                    DesignUtils.refreshDesignerFrame();
+                }
+            });
             JTemplate template = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
             if (template != null) {
                 template.refreshToolArea();
@@ -185,11 +175,12 @@ public class TemplatePane extends JPanel implements MouseListener {
     }
 
     private void setJLabel(String name) {
-        if (DesignerEnvManager.getEnvManager().getEnv(name) instanceof LocalEnv) {
-            envLabel.setIcon(BaseUtils.readIcon("com/fr/design/images/data/bind/localconnect.png"));
+        EnvConfig config = DesignerEnvManager.getEnvManager().getEnv(name);
+        if (config instanceof LocalEnvConfig) {
+            envLabel.setIcon(IOUtils.readIcon("com/fr/design/images/data/bind/localconnect.png"));
 
-        } else if (DesignerEnvManager.getEnvManager().getEnv(name) instanceof RemoteEnv) {
-            envLabel.setIcon(BaseUtils.readIcon("com/fr/design/images/data/bind/distanceconnect.png"));
+        } else if (config instanceof RemoteEnvConfig) {
+            envLabel.setIcon(IOUtils.readIcon("com/fr/design/images/data/bind/distanceconnect.png"));
         }
         envLabel.setText(name);
         envLabel.repaint();

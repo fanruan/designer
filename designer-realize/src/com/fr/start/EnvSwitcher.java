@@ -1,10 +1,10 @@
 package com.fr.start;
 
-import com.fr.base.FRContext;
+import com.fr.base.Env;
+import com.fr.base.env.EnvUpdater;
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.env.EnvGenerator;
 import com.fr.design.mainframe.TemplatePane;
-import com.fr.env.SignIn;
-import com.fr.general.Inter;
 
 /**
  * Created by juhaoyu on 2018/1/31.
@@ -16,10 +16,8 @@ public class EnvSwitcher {
         
         try {
             String current = DesignerEnvManager.getEnvManager().getCurEnvName();
-            SignIn.signIn(DesignerEnvManager.getEnvManager().getEnv(current));
-            if (!FRContext.getCurrentEnv().testServerConnectionWithOutShowMessagePane()) {
-                throw new Exception(Inter.getLocText("Datasource-Connection_failed"));
-            }
+            Env env = EnvGenerator.generate(DesignerEnvManager.getEnvManager().getEnv(current));
+            EnvUpdater.updateEnv(env);
         } catch (Exception e) {
             TemplatePane.getInstance().dealEvnExceptionWhenStartDesigner();
         }

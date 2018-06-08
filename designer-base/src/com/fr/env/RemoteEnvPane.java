@@ -2,7 +2,7 @@ package com.fr.env;
 
 import com.fr.base.FRContext;
 import com.fr.core.env.resource.EnvConfigUtils;
-import com.fr.core.env.resource.RemoteEnvConfig;
+import com.fr.design.env.RemoteEnvConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.border.UITitledBorder;
@@ -280,8 +280,9 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteEnvConfig> {
         String path = remoteEnvURL.getURL();
         String user = this.usernameInput.getText();
         String password = new String(this.passwordInput.getPassword());
+        return null;
 
-        return new RemoteEnvConfig(path, user, password);
+        //return new RemoteEnvConfig(path, user, password);
     }
 
     @Override
@@ -471,7 +472,8 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteEnvConfig> {
 
     private boolean testConnection() {
         String url = remoteEnvURL.getURL();
-        RemoteEnv env = new RemoteEnv(url, usernameInput.getText(), new String(passwordInput.getPassword()));
+        //RemoteEnv env = new RemoteEnv(url, usernameInput.getText(), new String(passwordInput.getPassword()));
+        RemoteEnv env = null;
         boolean connect = false;
         try {
             if (StringUtils.isNotEmpty(url)) {

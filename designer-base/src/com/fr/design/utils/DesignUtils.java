@@ -7,8 +7,6 @@ import com.fr.base.FeedBackInfo;
 import com.fr.base.ServerConfig;
 import com.fr.base.Utils;
 import com.fr.base.remote.RemoteDeziConstants;
-import com.fr.core.env.EnvConfig;
-import com.fr.core.env.EnvContext;
 import com.fr.dav.DavXMLUtils;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
@@ -31,11 +29,8 @@ import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.start.ServerStarter;
 
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import java.awt.Desktop;
-import java.awt.Font;
+import javax.swing.*;
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
@@ -185,30 +180,6 @@ public class DesignUtils {
                 JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), final_msg);
             }
         });
-    }
-
-    /**
-     * 当前的报表运行环境切换到env
-     *
-     * @param env 需要切换去的环境
-     */
-    public static void switchToEnv(EnvConfig env) {
-        if (env == null) {
-            return;
-        }
-
-        // 看一下这个env在DesignerEnvManager里面有没有对应的,有的话就setCurrentEnvName
-        DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
-        java.util.Iterator<String> nameIt = envManager.getEnvNameIterator();
-        while (nameIt.hasNext()) {
-            String name = nameIt.next();
-            if (ComparatorUtils.equals(envManager.getEnv(name), env)) {
-                envManager.setCurEnvName(name);
-                break;
-            }
-        }
-        EnvContext.signIn(env);
-        refreshDesignerFrame();
     }
 
     public static void refreshDesignerFrame() {
