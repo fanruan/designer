@@ -1,6 +1,7 @@
 package com.fr.design.report.freeze;
 
 import com.fr.design.gui.ispinner.UISpinner;
+import com.fr.design.gui.itextfield.UIIntNumberField;
 import com.fr.design.gui.itextfield.UINumberField;
 
 /**

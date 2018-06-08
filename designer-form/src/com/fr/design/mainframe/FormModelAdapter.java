@@ -5,7 +5,11 @@ import com.fr.design.DesignModelAdapter;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.form.main.Form;
 import com.fr.form.main.WidgetGatherAdapter;
-import com.fr.form.ui.*;
+import com.fr.form.ui.BaseChartEditor;
+import com.fr.form.ui.DataControl;
+import com.fr.form.ui.ElementCaseEditor;
+import com.fr.form.ui.MultiFileEditor;
+import com.fr.form.ui.Widget;
 import com.fr.stable.js.WidgetName;
 
 import java.util.ArrayList;
@@ -85,7 +89,7 @@ public class FormModelAdapter extends DesignModelAdapter<Form, BaseJForm> {
 			}
 			
 			public void dealWith(Widget widget) {
-                boolean isSupportAsHypelink = widget.acceptType(ElementCaseEditor.class) || widget.acceptType(ChartEditorProvider.class);
+                boolean isSupportAsHypelink = widget.acceptType(ElementCaseEditor.class) || widget.acceptType(BaseChartEditor.class);
                 //可以超链的对象不包含本身; 目前只有图表和报表块可以
                 // bug66182 删了条件：!ComparatorUtils.equals(editingECName, widget.getWidgetName())  让当前表单对象可以选到自己
                  if (isSupportAsHypelink){

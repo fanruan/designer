@@ -23,6 +23,7 @@ public class SplashFx implements SplashStrategy {
 
     @Override
     public void show() {
+        Platform.setImplicitExit(false);
         SERVICE.execute(new Runnable() {
             @Override
             public void run() {
@@ -34,7 +35,7 @@ public class SplashFx implements SplashStrategy {
 
     @Override
     public void hide() {
-        Platform.exit();
+        fxWindow.close();
     }
 
     @Override

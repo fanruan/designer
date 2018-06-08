@@ -9,13 +9,16 @@ import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.ibutton.UIHeadGroup;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.ElementCasePane;
+import com.fr.design.widget.mobile.WidgetMobilePane;
 import com.fr.design.widget.ui.BasicWidgetPropertySettingPane;
 import com.fr.form.event.Listener;
 import com.fr.form.ui.Widget;
 import com.fr.general.Inter;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.util.ArrayList;
 
 /*
@@ -24,6 +27,8 @@ import java.util.ArrayList;
 public class CellWidgetCardPane extends BasicPane {
     //当前的编辑器属性定义面板
     private DataModify<? extends Widget> currentEditorDefinePane;
+    //当前的编辑器移动端面板
+    private WidgetMobilePane currentWidgetMobilePane;
     //属性配置切换面板
     private ArrayList<JPanel> paneList;
     private JPanel center;
@@ -40,6 +45,11 @@ public class CellWidgetCardPane extends BasicPane {
     private JPanel eventTabPane;
     private WidgetEventPane eventPane;
 
+    //移动端属性容器
+    private JPanel mobileTabPane;
+    private JPanel mobileCardPane;
+    private CardLayout mobileCardLayout;
+
     private ElementCasePane pane;
 
     public CellWidgetCardPane(ElementCasePane pane) {
@@ -51,27 +61,45 @@ public class CellWidgetCardPane extends BasicPane {
 
         this.removeAll();
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        //k
         tabbedPane = new CardLayout();
         center = new JPanel(tabbedPane);
         this.add(center, BorderLayout.CENTER);
+
+        // 属性
         attriTabPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        eventTabPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        eventTabPane.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
-        initPaneList();
-        eventPane = initWidgetEventPane(pane);
-        eventTabPane.add(eventPane, BorderLayout.CENTER);
-        //k
         BasicScrollPane basicScrollPane = new AttrScrollPane() {
             @Override
             protected JPanel createContentPane() {
                 return attriTabPane;
             }
         };
+        widgetPropertyPane = new BasicWidgetPropertySettingPane();
+        UIExpandablePane uiExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer_Basic"), 280, 24, widgetPropertyPane);
+        attriTabPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
+        attriTabPane.add(uiExpandablePane, BorderLayout.NORTH);
+        attriCardPane = FRGUIPaneFactory.createCardLayout_S_Pane();
+        attriTabPane.add(attriCardPane, BorderLayout.CENTER);
+        attriCardLayout = (CardLayout) attriCardPane.getLayout();
+
+        // 事件
+        eventTabPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        eventTabPane.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
+        eventPane = initWidgetEventPane(pane);
+        eventTabPane.add(eventPane, BorderLayout.CENTER);
+
+        // 移动端
+        mobileTabPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        mobileCardPane = FRGUIPaneFactory.createCardLayout_S_Pane();
+        mobileTabPane.add(mobileCardPane, BorderLayout.CENTER);
+        mobileCardLayout = (CardLayout) mobileCardPane.getLayout();
+
         center.add(basicScrollPane, Inter.getLocText("FR-Designer_Attribute"));
         center.add(eventTabPane, Inter.getLocText("FR-Designer_Event"));
-        final String[] tabTitles = new String[]{Inter.getLocText("FR-Designer_Attribute"), Inter.getLocText("FR-Designer_Event")};
+        center.add(mobileTabPane, Inter.getLocText("FR-Widget_Mobile_Terminal"));
+        initPaneList();
 
+
+        final String[] tabTitles = new String[]{Inter.getLocText("FR-Designer_Attribute"), Inter.getLocText("FR-Designer_Event"), Inter.getLocText("FR-Widget_Mobile_Terminal")};
         tabsHeaderIconPane = new UIHeadGroup(tabTitles) {
             @Override
             public void tabChanged(int index) {
@@ -81,24 +109,13 @@ public class CellWidgetCardPane extends BasicPane {
         tabsHeaderIconPane.setNeedLeftRightOutLine(true);
         tabsHeaderIconPane.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, UIConstants.SHADOW_GREY));
         this.add(tabsHeaderIconPane, BorderLayout.NORTH);
-
-        widgetPropertyPane = new BasicWidgetPropertySettingPane();
-
-        UIExpandablePane uiExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer_Basic"), 280, 24, widgetPropertyPane);
-
-
-        attriTabPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
-        attriTabPane.add(uiExpandablePane, BorderLayout.NORTH);
-
-        attriCardPane = FRGUIPaneFactory.createCardLayout_S_Pane();
-        attriTabPane.add(attriCardPane, BorderLayout.CENTER);
-        attriCardLayout = (CardLayout) attriCardPane.getLayout();
     }
 
     private void initPaneList() {
         paneList = new ArrayList<JPanel>();
         paneList.add(attriTabPane);
         paneList.add(eventPane);
+        paneList.add(mobileTabPane);
     }
 
     protected WidgetEventPane initWidgetEventPane(ElementCasePane pane){
@@ -112,7 +129,6 @@ public class CellWidgetCardPane extends BasicPane {
 
     public void populate(Widget cellWidget) {
         initComponents(pane);
-        currentEditorDefinePane = null;
 
         WidgetDefinePaneFactory.RN rn = WidgetDefinePaneFactory.createWidgetDefinePane(cellWidget, new Operator() {
             @Override
@@ -123,9 +139,17 @@ public class CellWidgetCardPane extends BasicPane {
         DataModify<? extends Widget> definePane = rn.getDefinePane();
         attriCardPane.add(definePane.toSwingComponent(), rn.getCardName());
         attriCardLayout.show(attriCardPane, rn.getCardName());
-        currentEditorDefinePane = definePane;
-        eventPane.populate(cellWidget);
         widgetPropertyPane.populate(cellWidget);
+        currentEditorDefinePane = definePane;
+
+        eventPane.populate(cellWidget);
+
+        WidgetMobilePane mobilePane = WidgetMobilePaneFactory.createWidgetMobilePane(cellWidget);
+        mobileCardPane.add(mobilePane, mobilePane.getClass().toString());
+        mobileCardLayout.show(mobileCardPane, mobilePane.getClass().toString());
+        currentWidgetMobilePane = mobilePane;
+
+
         tabsHeaderIconPane.setSelectedIndex(0);
     }
 
@@ -144,6 +168,8 @@ public class CellWidgetCardPane extends BasicPane {
         for (Listener l : listener) {
             widget.addListener(l);
         }
+
+        currentWidgetMobilePane.update(widget);
 
         return widget;
     }

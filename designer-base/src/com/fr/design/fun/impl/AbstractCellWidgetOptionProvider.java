@@ -1,6 +1,7 @@
 package com.fr.design.fun.impl;
 
 import com.fr.design.fun.CellWidgetOptionProvider;
+import com.fr.design.widget.mobile.WidgetMobilePane;
 import com.fr.stable.fun.impl.AbstractProvider;
 import com.fr.stable.fun.mark.API;
 
@@ -19,5 +20,10 @@ public abstract class AbstractCellWidgetOptionProvider extends AbstractProvider 
     @Override
     public String mark4Provider() {
         return getClass().getName();
+    }
+
+    @Override
+    public Class<? extends WidgetMobilePane> classForMobilePane() {
+        return WidgetMobilePane.class;
     }
 }

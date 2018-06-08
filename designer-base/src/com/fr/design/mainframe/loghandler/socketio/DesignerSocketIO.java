@@ -1,5 +1,7 @@
 package com.fr.design.mainframe.loghandler.socketio;
 
+import com.fr.config.ConfigEvent;
+import com.fr.config.Configuration;
 import com.fr.core.env.EnvConfig;
 import com.fr.core.env.EnvConstants;
 import com.fr.core.env.EnvContext;
@@ -79,6 +81,18 @@ public class DesignerSocketIO {
 
             socketIO = Optional.of(IO.socket(new URI(uri)));
             socketIO.get().on(EnvConstants.WS_LOGRECORD, printLog);
+//            socketIO.get().on(EnvConstants.CONFIG, new Emitter.Listener() {
+//                @Override
+//                public void call(Object... objects) {
+//                    if (objects == null || objects.length != 1) {
+//                        throw new IllegalArgumentException("config should have only one param");
+//                    }
+//                    Object param = objects[0];
+//                    if (param instanceof Class) {
+//                        EventDispatcher.fire(ConfigEvent.EDIT, (Class<? extends Configuration>) param);
+//                    }
+//                }
+//            });
             socketIO.get().connect();
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);

@@ -1,10 +1,8 @@
 package com.fr.design.style.background.impl;
 
-import com.fr.base.BaseUtils;
 import com.fr.base.Style;
-import com.fr.base.background.ImageFileBackground;
-import com.fr.base.frpx.pack.PictureCollection;
-import com.fr.base.frpx.util.ImageIOHelper;
+import com.fr.base.background.ImageBackground;
+import com.fr.design.gui.frpane.ImgChooseWrapper;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.gui.ilable.UILabel;
@@ -15,11 +13,9 @@ import com.fr.design.style.background.image.ImagePreviewPane;
 import com.fr.general.Background;
 import com.fr.general.Inter;
 import com.fr.stable.Constants;
-import com.fr.stable.CoreGraphHelper;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
-import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.event.ChangeEvent;
@@ -29,7 +25,6 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 
 /**
  * Image background pane.
@@ -46,8 +41,6 @@ public class ImageBackgroundPane extends BackgroundDetailPane {
     protected UIRadioButton tiledRadioButton = null;
     private UIRadioButton extendRadioButton = null;
     private UIRadioButton adjustRadioButton = null;
-
-    private String suffix = PictureCollection.DEFAULT_SUFFIX;
 
     public ImageBackgroundPane() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
@@ -124,36 +117,14 @@ public class ImageBackgroundPane extends BackgroundDetailPane {
      */
     ActionListener selectPictureActionListener = new ActionListener() {
 
-        @Override
         public void actionPerformed(ActionEvent evt) {
             int returnVal = imageFileChooser.showOpenDialog(ImageBackgroundPane.this);
-            if (returnVal != JFileChooser.CANCEL_OPTION) {
-                File selectedFile = imageFileChooser.getSelectedFile();
-
-                if (selectedFile != null && selectedFile.isFile()) {
-                    String path = selectedFile.getPath();
-                    suffix = ImageIOHelper.getSuffix(path);
-                    Image image = BaseUtils.readImage(path);
-                    CoreGraphHelper.waitForImage(image);
-
-                    previewPane.setImage(image);
-                    imageStyleRepaint();
-                    previewPane.repaint();
-                } else {
-                    previewPane.setImage(null);
-                }
-            }
-
-            fireChagneListener();
+            setImageStyle();
+            ImgChooseWrapper.getInstance(previewPane, imageFileChooser, imageStyle, changeListener).dealWithImageFile(returnVal);
         }
     };
 
-    public void imageStyleRepaint() {
-        setImageStyle();
-        previewPane.setImageStyle(imageStyle);
-    }
-
-    private void setImageStyle() {
+    protected void setImageStyle() {
         if (tiledRadioButton.isSelected()) {
             imageStyle = Style.DEFAULT_STYLE.deriveImageLayout(Constants.IMAGE_TILED);
         } else if (adjustRadioButton.isSelected()) {
@@ -182,9 +153,8 @@ public class ImageBackgroundPane extends BackgroundDetailPane {
     @Override
     public void populate(Background background) {
 
-        if (background instanceof ImageFileBackground) {
-            ImageFileBackground imageBackground = (ImageFileBackground) background;
-            suffix = imageBackground.getSuffix();
+        if (background instanceof ImageBackground) {
+            ImageBackground imageBackground = (ImageBackground) background;
 
             if (imageBackground.getLayout() == Constants.IMAGE_CENTER) {
                 defaultRadioButton.setSelected(true);
@@ -202,7 +172,7 @@ public class ImageBackgroundPane extends BackgroundDetailPane {
 
             previewPane.setImageStyle(ImageBackgroundPane.this.imageStyle);
             if (imageBackground.getImage() != null) {
-                previewPane.setImage(imageBackground.getImage());
+                previewPane.setImageWithSuffix(imageBackground.getImageWithSuffix());
                 imageSizeLabel.setText(previewPane.getImage().getWidth(null)
                         + " X " + previewPane.getImage().getHeight(null));
             }
@@ -222,7 +192,7 @@ public class ImageBackgroundPane extends BackgroundDetailPane {
 
     @Override
     public Background update() throws Exception {
-        ImageFileBackground imageBackground = new ImageFileBackground(previewPane.getImage(), suffix);
+        ImageBackground imageBackground = new ImageBackground(previewPane.getImageWithSuffix());
         setImageStyle();
         imageBackground.setLayout(imageStyle.getImageLayout());
         return imageBackground;
@@ -253,12 +223,4 @@ public class ImageBackgroundPane extends BackgroundDetailPane {
             }
         }
     };
-
-    public String getSuffix() {
-        return suffix;
-    }
-
-    public void setSuffix(String suffix) {
-        this.suffix = suffix;
-    }
 }
