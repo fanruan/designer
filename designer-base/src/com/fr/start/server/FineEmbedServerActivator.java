@@ -11,6 +11,7 @@ import com.fr.third.springframework.web.SpringServletContainerInitializer;
 import com.fr.third.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.apache.catalina.Context;
 import org.apache.catalina.LifecycleException;
+import org.apache.catalina.Wrapper;
 import org.apache.catalina.loader.VirtualWebappLoader;
 import org.apache.catalina.startup.Tomcat;
 
@@ -57,7 +58,7 @@ public class FineEmbedServerActivator extends Activator {
         String docBase = new File(FRContext.getCurrentEnv().getPath()).getParent();
         String appName = "/" + FRContext.getCurrentEnv().getAppName();
         Context context = tomcat.addContext(appName, docBase);
-        tomcat.addServlet(appName, "default", "org.apache.catalina.servlets.DefaultServlet");
+        addDefaultServlet(context);
         //覆盖tomcat的WebAppClassLoader
         context.setLoader(new FRTomcatLoader());
         
@@ -66,6 +67,19 @@ public class FineEmbedServerActivator extends Activator {
         Set<Class<?>> classes = new HashSet<Class<?>>();
         classes.add(FineWebApplicationInitializer.class);
         context.addServletContainerInitializer(initializer, classes);
+    }
+    
+    private void addDefaultServlet(Context context) {
+        
+        Wrapper defaultServlet = context.createWrapper();
+        defaultServlet.setName("default");
+        defaultServlet.setServletClass("org.apache.catalina.servlets.DefaultServlet");
+        defaultServlet.addInitParameter("debug", "0");
+        defaultServlet.addInitParameter("listings", "false");
+        defaultServlet.setLoadOnStartup(1);
+        defaultServlet.setOverridable(true);
+        context.addChild(defaultServlet);
+        context.addServletMapping("/","default");
     }
     
     

@@ -1,8 +1,8 @@
 package com.fr.env;
 
 import com.fr.core.env.EnvConfig;
-import com.fr.core.env.resource.LocalEnvConfig;
-import com.fr.core.env.resource.RemoteEnvConfig;
+import com.fr.core.env.impl.LocalEnvConfig;
+import com.fr.design.env.RemoteEnvConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameObjectCreator;
