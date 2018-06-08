@@ -1,19 +1,9 @@
 package com.fr.design.gui.itree.filetree;
 
-import java.awt.*;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import com.fr.design.constants.UIConstants;
-import com.fr.design.gui.ilable.UILabel;
-import javax.swing.JTree;
-import javax.swing.tree.DefaultTreeCellRenderer;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreePath;
-
 import com.fr.base.Env;
 import com.fr.base.FRContext;
+import com.fr.design.constants.UIConstants;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itree.refreshabletree.ExpandMutableTreeNode;
 import com.fr.design.gui.itree.refreshabletree.RefreshableJTree;
 import com.fr.file.filetree.FileNode;
@@ -22,6 +12,15 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.StableUtils;
+
+import javax.swing.*;
+import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
+import java.awt.*;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /*
  * 文件结构树.
@@ -192,7 +191,7 @@ public class EnvFileTree extends RefreshableJTree {
 		FileNode[] res_fns = null;
 
 		try {
-			res_fns = env == null ? new FileNode[0] : env.listFile(filePath);
+			res_fns = env == null ? new FileNode[0] : env.getFileOperator().list(filePath);
 		} catch (Exception e) {
 			FRContext.getLogger().error(e.getMessage(), e);
 		}

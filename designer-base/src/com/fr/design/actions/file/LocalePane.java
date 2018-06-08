@@ -15,6 +15,7 @@ import com.fr.general.GeneralUtils;
 import com.fr.general.Inter;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ArrayUtils;
+import com.fr.stable.StableUtils;
 import com.fr.stable.bridge.StableFactory;
 import com.fr.stable.project.ProjectConstants;
 
@@ -24,6 +25,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -183,7 +185,7 @@ public class LocalePane extends BasicPane {
         if (env == null) {
             return;
         }
-        FileNode[] fileNodes = env.listFile(ProjectConstants.LOCALE_NAME);
+        FileNode[] fileNodes = env.getFileOperator().list(ProjectConstants.LOCALE_NAME);
         if (ArrayUtils.getLength(fileNodes) == 0) {
             return;
         }
@@ -194,7 +196,7 @@ public class LocalePane extends BasicPane {
         for (FileNode fileNode : fileNodes) {
             String fileName = fileNode.getName();
             if (fileName.endsWith(".properties")) {
-                InputStream in = env.readBean(fileName, ProjectConstants.LOCALE_NAME);
+                InputStream in = new ByteArrayInputStream(env.getFileOperator().read(StableUtils.pathJoin(ProjectConstants.LOCALE_NAME, fileName)));
                 Properties properties = new Properties();
                 properties.load(in);
                 keys.addAll(properties.stringPropertyNames());
@@ -234,16 +236,16 @@ public class LocalePane extends BasicPane {
                 properties.setProperty(GeneralUtils.objectToString(customTableModel.getValueAt(j, 0)), GeneralUtils.objectToString(customTableModel.getValueAt(j, i)));
             }
 
-            OutputStream out = null;
-            try {
-                out = env.writeBean(PREFIX + fileName + ".properties", ProjectConstants.LOCALE_NAME);
-                properties.store(out, null);
-
-                out.flush();
-                out.close();
-            } catch (Exception e) {
-                FineLoggerFactory.getLogger().info(e.getMessage());
-            }
+//            OutputStream out = null;
+//            try {
+//                out = env.writeBean(PREFIX + fileName + ".properties", ProjectConstants.LOCALE_NAME);
+//                properties.store(out, null);
+//
+//                out.flush();
+//                out.close();
+//            } catch (Exception e) {
+//                FineLoggerFactory.getLogger().info(e.getMessage());
+//            }
         }
     }
 

@@ -104,7 +104,7 @@ public class TemplateFileTree extends EnvFileTree {
     }
 
     public FileNode[] listFile(String path) throws Exception {
-        return FRContext.getCurrentEnv().getFileOperator().list("reportlets", path);
+        return FRContext.getCurrentEnv().getFileOperator().list(path);
     }
 
     /*
