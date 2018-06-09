@@ -156,7 +156,7 @@ public class JavaEditorPane extends BasicPane {
             return;
         }
         try {
-            FRContext.getCurrentEnv().getFileOperator().write(text.getBytes(EncodeConstants.ENCODING_UTF_8), ProjectConstants.CLASSES_NAME, getJavaPath());
+            FRContext.getCurrentEnv().getFileOperator().write(text.getBytes(EncodeConstants.ENCODING_UTF_8), StableUtils.pathJoin(ProjectConstants.CLASSES_NAME, getJavaPath()));
             JOptionPane.showMessageDialog(null, Inter.getLocText(new String[]{"Save", "Successfully"}) + "！");
             fireSaveActionListener();
         } catch (Exception e) {
