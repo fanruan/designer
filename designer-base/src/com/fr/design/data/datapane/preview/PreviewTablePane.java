@@ -10,6 +10,7 @@ import com.fr.data.TableDataSource;
 import com.fr.data.impl.DBTableData;
 import com.fr.data.impl.EmbeddedTableData;
 import com.fr.data.impl.storeproc.ProcedureDataModel;
+import com.fr.data.operator.DataOperator;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.dialog.BasicDialog;
@@ -358,7 +359,7 @@ public class PreviewTablePane extends BasicPane {
             protected PreviewTableModel doInBackground() throws Exception {
                 connectionBar.start();
                 if (tableData instanceof DBTableData) {
-                    boolean status = FRContext.getCurrentEnv().testConnection(((DBTableData) tableData).getDatabase());
+                    boolean status = DataOperator.getInstance().testConnection(((DBTableData) tableData).getDatabase());
                     if (!status) {
                         connectionBar.close();
                         throw new Exception(Inter.getLocText("Datasource-Connection_failed"));

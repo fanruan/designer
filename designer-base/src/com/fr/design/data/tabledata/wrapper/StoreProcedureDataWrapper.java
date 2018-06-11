@@ -1,19 +1,11 @@
 package com.fr.design.data.tabledata.wrapper;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.CancellationException;
-
-import javax.swing.Icon;
-import javax.swing.JOptionPane;
-import javax.swing.SwingWorker;
-
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.base.TableData;
 import com.fr.data.impl.storeproc.ProcedureDataModel;
 import com.fr.data.impl.storeproc.StoreProcedure;
+import com.fr.data.operator.DataOperator;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.datapane.preview.PreviewTablePane;
 import com.fr.design.dialog.BasicDialog;
@@ -23,6 +15,12 @@ import com.fr.design.gui.itree.refreshabletree.ExpandMutableTreeNode;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
+
+import javax.swing.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.CancellationException;
 
 /**
  * <code>StoreProcedureDataWrappe</code> ：存储过程的一个返回数据集,不是它本身。<br>
@@ -191,7 +189,7 @@ public final class StoreProcedureDataWrapper implements TableDataWrapper {
         worker = new SwingWorker<Void, Void>() {
             protected Void doInBackground() throws Exception {
                 connectionBar.start();
-                boolean status = FRContext.getCurrentEnv().testConnection(((StoreProcedure) getTableData()).getDatabaseConnection());
+                boolean status = DataOperator.getInstance().testConnection(((StoreProcedure) getTableData()).getDatabaseConnection());
                 if (!status) {
                     connectionBar.close();
                     // bug 61345 预览失败时，关闭窗口

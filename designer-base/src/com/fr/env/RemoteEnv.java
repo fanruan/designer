@@ -1,7 +1,6 @@
 package com.fr.env;
 
 import com.fr.base.EnvException;
-import com.fr.base.TableData;
 import com.fr.base.operator.common.CommonOperator;
 import com.fr.base.operator.connect.ConnectOperator;
 import com.fr.base.operator.file.FileOperator;
@@ -12,8 +11,6 @@ import com.fr.common.rpc.netty.MessageSendExecutor;
 import com.fr.common.rpc.netty.RemoteCallClient;
 import com.fr.core.env.EnvConstants;
 import com.fr.core.env.EnvContext;
-import com.fr.data.TableDataSource;
-import com.fr.data.impl.EmbeddedTableData;
 import com.fr.data.impl.storeproc.StoreProcedure;
 import com.fr.dav.AbstractEnv;
 import com.fr.dav.DavXMLUtils;
@@ -23,6 +20,7 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.file.CacheManager;
 import com.fr.general.CommonIOUtils;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.EnvProxyFactory;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.general.http.HttpToolbox;
@@ -110,9 +108,28 @@ public class RemoteEnv extends AbstractEnv<RemoteEnvConfig> implements DesignAut
         MessageSendExecutor.getInstance().stop();
         return true;
     }
-
+    
+    @Override
+    public EnvProxyFactory getProxyFactory() {
+        
+        return new EnvProxyFactory() {
+            
+            @Override
+            public <T> T get(Class<T> clazz, T obj) {
+                
+                assert clazz != null;
+                try {
+                    return MessageSendExecutor.getInstance().execute(clazz);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        };
+    }
+    
     @Override
     public FileOperator getFileOperator() throws Exception {
+        
         return MessageSendExecutor.getInstance().execute(FileOperator.class);
     }
 
@@ -125,7 +142,7 @@ public class RemoteEnv extends AbstractEnv<RemoteEnvConfig> implements DesignAut
     public OrganizationOperator getOrganizationOperator() throws Exception {
         return MessageSendExecutor.getInstance().execute(OrganizationOperator.class);
     }
-
+    
     @Override
     public RemoteEnvConfig getEnvConfig() {
         return config;
@@ -205,7 +222,7 @@ public class RemoteEnv extends AbstractEnv<RemoteEnvConfig> implements DesignAut
      * @param in InputStream输入流
      * @return 转换后的字符串
      */
-    public static String stream2String(InputStream in) {
+    private static String stream2String(InputStream in) {
         if (in == null) {
             return null;
         }
@@ -224,7 +241,7 @@ public class RemoteEnv extends AbstractEnv<RemoteEnvConfig> implements DesignAut
      * @return 测试连接成功返回true
      * @throws Exception 异常
      */
-    public boolean testServerConnection() throws Exception {
+    private boolean testServerConnection() throws Exception {
         return testConnection(true, true, DesignerContext.getDesignerFrame());
     }
 
@@ -426,67 +443,8 @@ public class RemoteEnv extends AbstractEnv<RemoteEnvConfig> implements DesignAut
 
         return Boolean.valueOf(IOUtils.inputStream2String(input, EncodeConstants.ENCODING_UTF_8));
     }
-
-    @Override
-    public EmbeddedTableData previewTableData(Object tableData, Map parameterMap, int rowCount) throws Exception {
-        return previewTableData(null, tableData, parameterMap, rowCount);
-    }
-
-    /**
-     * 根据指定的参数生成一个实际可预览的数据集
-     *
-     * @param tableData    带参数的数据集
-     * @param parameterMap 参数键值对
-     * @param rowCount     需要获取的行数
-     * @return 实际的二维数据集
-     * @throws Exception 如果生成数据失败则抛出此异常
-     */
-    @Override
-    public EmbeddedTableData previewTableData(TableDataSource dataSource, Object tableData, java.util.Map parameterMap, int rowCount) throws Exception {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-
-        // 把tableData写成xml文件到out
-        DavXMLUtils.writeXMLFileTableDataAndSource((TableData) tableData, out);
-
-        // 把parameterMap转成JSON格式的字符串
-        JSONObject jo = new JSONObject(parameterMap);
-        String jsonParameter = jo.toString();
-        HashMap<String, String> para = new HashMap<>();
-        para.put("op", "fr_remote_design");
-        para.put("cmd", "design_preview_td");
-        para.put("pars", jsonParameter);
-        para.put("rowcount", String.valueOf(rowCount));
-        InputStream input = postBytes2ServerB(out.toByteArray(), para);
-
-        if (input == null) {
-            return null;
-        }
-
-        return (EmbeddedTableData) DavXMLUtils.readXMLTableData(input);
-    }
-
-    /**
-     * 根据指定的参数生成一个实际可预览的数据集
-     *
-     * @param tableData    带参数的数据集
-     * @param parameterMap 参数键值对
-     * @param start        开始
-     * @param end          结尾
-     * @param cols         列名
-     * @param colIdx       列序号
-     * @return 实际的二位数据条
-     * @throws Exception 异常
-     */
-    @Override
-    public Object previewTableData(Object tableData, java.util.Map parameterMap, int start, int end, String[] cols, int[] colIdx) throws Exception {
-        return previewTableData(tableData, parameterMap, -1);
-    }
-
-    @Override
-    public Object previewTableData(TableDataSource dataSource, Object tableData, Map parameterMap, int start, int end, String[] cols, int[] colIdx) throws Exception {
-        return previewTableData(dataSource, tableData, parameterMap, -1);
-    }
-
+    
+    
     /**
      * nameValuePairs,这个参数要接着this.path,拼成一个URL,否则服务器端req.getParameter是无法得到的
      *

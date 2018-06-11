@@ -3,9 +3,9 @@
  */
 package com.fr.design.data.datapane.connect;
 
-import com.fr.base.FRContext;
 import com.fr.data.impl.JDBCDatabaseConnection;
 import com.fr.data.impl.JNDIDatabaseConnection;
+import com.fr.data.operator.DataOperator;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icombobox.UIComboBox;
@@ -118,7 +118,7 @@ public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connecti
                 protected Object doInBackground() throws Exception {
                     try {
                         com.fr.data.impl.Connection database = DatabaseConnectionPane.this.updateBean();
-                        boolean connect = FRContext.getCurrentEnv().testConnection(database);
+                        boolean connect = DataOperator.getInstance().testConnection(database);
                         okButton.setEnabled(true);
                         message.setText(database.connectMessage(connect));
                     } catch (Exception exp) {
