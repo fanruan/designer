@@ -5,7 +5,6 @@ import com.fr.base.TableData;
 import com.fr.base.operator.common.CommonOperator;
 import com.fr.base.operator.connect.ConnectOperator;
 import com.fr.base.operator.file.FileOperator;
-import com.fr.base.operator.file.SimpleFileOperator;
 import com.fr.base.operator.org.OrganizationOperator;
 import com.fr.base.remote.RemoteDeziConstants;
 import com.fr.common.rpc.RemoteCallServerConfig;
@@ -125,11 +124,6 @@ public class RemoteEnv extends AbstractEnv<RemoteEnvConfig> implements DesignAut
     @Override
     public OrganizationOperator getOrganizationOperator() throws Exception {
         return MessageSendExecutor.getInstance().execute(OrganizationOperator.class);
-    }
-
-    @Override
-    public SimpleFileOperator getSimpleFileOperator() throws Exception {
-        return MessageSendExecutor.getInstance().execute(SimpleFileOperator.class);
     }
 
     @Override
