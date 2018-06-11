@@ -78,9 +78,7 @@ public class GlobalTableDataAction extends UpdateAction implements ResponseDataS
                 Configurations.update(new Worker() {
                     @Override
                     public void run() {
-                        if(tableDataConfig.getTableData(oldName) != null){
-                            tableDataConfig.renameTableData(oldName, newName);
-                        }
+                        tableDataConfig.renameTableData(oldName, newName);
                     }
 
                     @Override

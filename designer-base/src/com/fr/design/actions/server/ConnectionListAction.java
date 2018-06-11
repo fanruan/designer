@@ -68,9 +68,7 @@ public class ConnectionListAction extends UpdateAction {
             }
 
             protected void renameConnection(String oldName, String newName) {
-                if(datasourceManager.getConnection(oldName) != null){
-                    datasourceManager.renameConnection(oldName, newName);
-                }
+                datasourceManager.renameConnection(oldName, newName);
             }
         };
         final BasicDialog databaseListDialog = databaseManagerPane.showLargeWindow(designerFrame, null);
