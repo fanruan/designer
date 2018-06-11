@@ -17,7 +17,9 @@ import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.PluginStoreConstants;
 import com.fr.plugin.PluginVerifyException;
 import com.fr.stable.EnvChangedListener;
+import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
+import com.fr.stable.StringUtils;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
@@ -44,7 +46,7 @@ public class WebViewDlgHelper {
     private static final int VERSION_8 = 8;
     private static String installHome = FRContext.getCurrentEnv().getWebReportPath();
     private static final String MAIN_JS_PATH = "/scripts/plugin.html";
-    private static final int BYTES_NUM = 1024;
+    private static final String ENV_VERSION = "ENV_VERSION";
 
     static {
         GeneralContext.addEnvChangedListener(new EnvChangedListener() {
@@ -70,10 +72,24 @@ public class WebViewDlgHelper {
                 if (rv == JOptionPane.OK_OPTION) {
                     downloadShopScripts(SHOP_SCRIPTS);
                 }
-            } else {
-                showPluginDlg();
-                updateShopScripts(SHOP_SCRIPTS);
             }
+            String jar_version = PluginStoreConstants.getInstance().getProps(ENV_VERSION, StringUtils.EMPTY);
+            if (ComparatorUtils.equals(jar_version, ProductConstants.VERSION)) {
+                updateShopScripts(SHOP_SCRIPTS);
+            } else {
+                int rv = JOptionPane.showConfirmDialog(
+                        null,
+                        Inter.getLocText("Fine-Plugin_Shop_Need_Install_Version"),
+                        Inter.getLocText("FR-Designer-Plugin_Warning"),
+                        JOptionPane.OK_CANCEL_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+                if (rv == JOptionPane.OK_OPTION) {
+                    downloadShopScripts(SHOP_SCRIPTS);
+                    deleteExtraFile(StableUtils.pathJoin(installHome, "plugin.html"));
+                }
+            }
+
         } else {
             BasicPane traditionalStorePane = new BasicPane() {
                 @Override
@@ -107,6 +123,16 @@ public class WebViewDlgHelper {
         } catch (IOException e) {
             FineLoggerFactory.getLogger().error(e.getMessage());
         }
+    }
+
+
+    /**
+     * 删除9.0工程下无用的plugin.html文件
+     *
+     * @param filePath 待删除文件路径
+     */
+    private static void deleteExtraFile(String filePath){
+        CommonIOUtils.deleteFile(new File(filePath));
     }
 
     /**
@@ -252,12 +278,10 @@ public class WebViewDlgHelper {
 
                 try {
                     if (get()) {
-                        String relativePath = "/scripts/plugin.html";
                         IOUtils.unzip(new File(StableUtils.pathJoin(PluginConstants.DOWNLOAD_PATH, PluginConstants.TEMP_FILE)), installHome);
-                        copyMainFile(StableUtils.pathJoin(installHome, relativePath));
-                        // TODO: 2017/4/17 删除之前存放在安装目录下的script
                         PluginStoreConstants.refreshProps();    // 下载完刷新一下版本号等
                         JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Shop_Installed"), Inter.getLocText("FR-Designer_Tooltips"), JOptionPane.INFORMATION_MESSAGE);
+                        showPluginDlg();
                     }
                 } catch (InterruptedException | ExecutionException e) {
                     FineLoggerFactory.getLogger().error(e.getMessage(), e);
@@ -290,6 +314,7 @@ public class WebViewDlgHelper {
                         }
                     }
                 }
+                showPluginDlg();
                 return null;
             }
         }.execute();
