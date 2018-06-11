@@ -125,7 +125,7 @@ public class Designer extends BaseDesigner {
         service.submit(new Runnable() {
             @Override
             public void run() {
-                new Image PreLoader();
+                new ImagePreLoader();
             }
         });
 
