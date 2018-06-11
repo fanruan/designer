@@ -629,7 +629,7 @@ public class UIBasicMenuItemUI extends MenuItemUI {
         LookAndFeel.installBorder(menuItem, prefix + ".border");
         oldBorderPainted = menuItem.isBorderPainted();
         menuItem.setBorderPainted(((Boolean) (UIManager.get(prefix + ".borderPainted"))).booleanValue());
-        installFont(prefix);
+        installFont(prefix, menuItem);
 
         // MenuItem specific defaults
         if (selectionBackground == null || selectionBackground instanceof UIResource) {
@@ -666,10 +666,13 @@ public class UIBasicMenuItemUI extends MenuItemUI {
         defaultIconGap = DEFAULT_ICON_GAP; // Should be from table
     }
 
-    private void installFont(final String prefix) {
+    private void installFont(final String prefix, final JComponent menuItem) {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
+                if (menuItem == null) {
+                    return;
+                }
                 LookAndFeel.installColorsAndFont(menuItem, prefix + ".background", prefix + ".foreground", prefix + ".font");
             }
         });
