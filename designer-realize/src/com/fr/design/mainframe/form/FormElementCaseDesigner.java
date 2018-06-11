@@ -139,6 +139,14 @@ public class FormElementCaseDesigner<T extends FormElementCaseProvider, E extend
     }
 
     /**
+     * 刷新右侧属性面板
+     */
+    @Override
+    public void refreshPropertyPane() {
+        this.elementCasePane.fireSelectionChangeListener();
+    }
+
+    /**
      * 创建正在编辑的状态.
      *
      * @return 返回正在编辑的状态.

@@ -76,7 +76,7 @@ public class WriteWebSettingPane extends WebSettingPane<WebWrite> {
         unloadCheck = new UICheckBox(Inter.getLocText("FR-Designer_Unload_Check"));
         unloadCheck.setSelected(true);
 
-        showWidgets = new UICheckBox(Inter.getLocText(new String[]{"Event-showWidgets"}));
+        showWidgets = new UICheckBox(Inter.getLocText(new String[]{"FR-Engine_Event_showWidgets"}));
         showWidgets.setSelected(false);
         isAutoStash = new UICheckBox(Inter.getLocText("FR-Designer-Write_Auto_Stash"));
         isAutoStash.setSelected(false);

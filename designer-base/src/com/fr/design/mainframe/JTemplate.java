@@ -45,8 +45,8 @@ import com.fr.file.MemFILE;
 import com.fr.form.ui.NoneWidget;
 import com.fr.form.ui.Widget;
 import com.fr.general.ComparatorUtils;
-import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
+import com.fr.log.FineLoggerFactory;
 import com.fr.report.cell.Elem;
 import com.fr.report.cell.cellattr.CellImage;
 import com.fr.stable.ArrayUtils;
@@ -539,7 +539,14 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         if (!editingFILE.exists()) {
             return saveAsTemplate(isShowLoc);
         }
-        if (!FRContext.getCurrentEnv().hasFileFolderAllow(this.getEditingFILE().getPath())) {
+        boolean access = false;
+
+        try {
+            access = FRContext.getCurrentEnv().getOrganizationOperator().canAccess(this.getEditingFILE().getPath());
+        } catch (Exception e) {
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+        }
+        if (!access) {
             JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("FR-Designer_No-Privilege") + "!", Inter.getLocText("FR-Designer_Message"), JOptionPane.WARNING_MESSAGE);
             return false;
         }
@@ -579,18 +586,22 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         int chooseResult = fileChooser.showSaveDialog(DesignerContext.getDesignerFrame(), this.suffix());
 
         if (isCancelOperation(chooseResult)) {
-            fileChooser = null;
             return false;
         }
 
         if (isOkOperation(chooseResult)) {
-            if (!FRContext.getCurrentEnv().hasFileFolderAllow(fileChooser.getSelectedFILE().getPath()) ) {
+            boolean access = false;
+            try {
+                access = FRContext.getCurrentEnv().getOrganizationOperator().canAccess(fileChooser.getSelectedFILE().getPath());
+            } catch (Exception e) {
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
+            }
+            if (!access) {
                 JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("FR-Designer_No-Privilege") + "!", Inter.getLocText("FR-Designer_Message"), JOptionPane.WARNING_MESSAGE);
                 return false;
             }
             editingFILE = fileChooser.getSelectedFILE();
             mkNewFile(editingFILE);
-            fileChooser = null;
         }
 
         return saveNewFile(editingFILE, oldName);

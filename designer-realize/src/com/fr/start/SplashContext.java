@@ -23,6 +23,9 @@ import java.util.concurrent.TimeUnit;
  */
 public class SplashContext {
 
+    public static final String SPLASH_PATH = "/com/fr/design/images/splash_10.gif";
+    public static final String SPLASH_CACHE_NAME = "splash_10.gif";
+
     private static final SplashContext SPLASH_CONTEXT = new SplashContext();
 
     private SplashStrategy splashStrategy;

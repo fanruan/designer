@@ -8,6 +8,7 @@ import com.fr.design.DesignerEnvManager;
 import com.fr.general.FRLogManager;
 import com.fr.general.Inter;
 import com.fr.general.LogDuration;
+import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.stable.xml.XMLPrintWriter;
@@ -18,6 +19,7 @@ import com.fr.third.apache.log4j.spi.LoggingEvent;
 import com.fr.web.core.SessionDealWith;
 import com.fr.web.core.SessionIDInfor;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
 /**
@@ -132,7 +134,7 @@ public class ErrorInfoLogAppender extends AppenderSkeleton {
             }
         };
         try {
-            file.readStream(FRContext.getCurrentEnv().readBean(bookPath, ProjectConstants.REPORTLETS_NAME));
+            file.readStream(new ByteArrayInputStream(FRContext.getCurrentEnv().getFileOperator().read(StableUtils.pathJoin(ProjectConstants.REPORTLETS_NAME, bookPath))));
             return file.getTemplateID();
         } catch (Exception ignore) {
         }

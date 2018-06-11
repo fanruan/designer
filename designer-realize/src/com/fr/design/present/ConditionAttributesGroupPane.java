@@ -16,6 +16,7 @@ import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.general.Inter;
 import com.fr.grid.selection.CellSelection;
+import com.fr.grid.selection.Selection;
 import com.fr.report.cell.CellElement;
 import com.fr.report.cell.DefaultTemplateCellElement;
 import com.fr.report.cell.TemplateCellElement;
@@ -27,20 +28,21 @@ import com.fr.report.elementcase.TemplateElementCase;
 import com.fr.stable.Nameable;
 
 public class ConditionAttributesGroupPane extends UIListControlPane {
-    private static ConditionAttributesGroupPane singleton;
-    private TemplateCellElement editCellElement;  // 当前单元格对象
+	private static ConditionAttributesGroupPane singleton;
+	private TemplateCellElement editCellElement;  // 当前单元格对象
+	private Selection editSelection;  // 当前编辑对象
 	private ElementCasePane ePane;
 
 	private ConditionAttributesGroupPane() {
-        super();
-    }
+		super();
+	}
 
-    public static ConditionAttributesGroupPane getInstance() {
-        if (singleton == null) {
-            singleton = new ConditionAttributesGroupPane();
-        }
-        return singleton;
-    }
+	public static ConditionAttributesGroupPane getInstance() {
+		if (singleton == null) {
+			singleton = new ConditionAttributesGroupPane();
+		}
+		return singleton;
+	}
 
 	@Override
 	public NameableCreator[] createNameableCreators() {
@@ -49,18 +51,21 @@ public class ConditionAttributesGroupPane extends UIListControlPane {
 
 	@Override
 	public void saveSettings() {
-        if (isPopulating) {
-            return;
-        }
-		final CellSelection finalCS = (CellSelection) ePane.getSelection();
+		if (isPopulating) {
+			return;
+		}
 		final TemplateElementCase tplEC = ePane.getEditingElementCase();
-
-        ReportActionUtils.actionIterateWithCellSelection(finalCS, tplEC, new ReportActionUtils.IterAction() {
-            public void dealWith(CellElement editCellElement) {
-                ((TemplateCellElement)editCellElement).setHighlightGroup(updateHighlightGroup());
-            }
-        });
-        DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified();
+		final HighlightGroup highlightGroup = updateHighlightGroup();
+		ReportActionUtils.actionIterateWithCellSelection((CellSelection) editSelection, tplEC, new ReportActionUtils.IterAction() {
+			public void dealWith(CellElement editCellElement) {
+				try {
+					((TemplateCellElement)editCellElement).setHighlightGroup((HighlightGroup) highlightGroup.clone());
+				} catch (CloneNotSupportedException e) {
+					FRContext.getLogger().error("InternalError: " + e.getMessage());
+				}
+			}
+		});
+		DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified();
 	}
 
 	@Override
@@ -68,24 +73,25 @@ public class ConditionAttributesGroupPane extends UIListControlPane {
 		return Inter.getLocText("Condition_Attributes");
 	}
 
-    @Override
-    public String getAddItemText() {
-        return Inter.getLocText("FR-Designer_Add_Condition");
-    }
+	@Override
+	public String getAddItemText() {
+		return Inter.getLocText("FR-Designer_Add_Condition");
+	}
 
-    public void populate(ElementCasePane ePane) {
+	public void populate(ElementCasePane ePane) {
 		this.ePane = ePane;
-        CellSelection cs = (CellSelection) ePane.getSelection();
-        final TemplateElementCase tplEC = ePane.getEditingElementCase();
-        editCellElement = tplEC.getTemplateCellElement(cs.getColumn(), cs.getRow());
-        if (editCellElement == null) {
-            editCellElement = new DefaultTemplateCellElement(cs.getColumn(), cs.getRow());
-        }
+		this.editSelection = ePane.getSelection();
+		CellSelection cs = (CellSelection) ePane.getSelection();
+		final TemplateElementCase tplEC = ePane.getEditingElementCase();
+		editCellElement = tplEC.getTemplateCellElement(cs.getColumn(), cs.getRow());
+		if (editCellElement == null) {
+			editCellElement = new DefaultTemplateCellElement(cs.getColumn(), cs.getRow());
+		}
 
-        SheetUtils.calculateDefaultParent(tplEC);  // 不知道这行代码的作用，怕去掉之后会出问题，先放在这里
+		SheetUtils.calculateDefaultParent(tplEC);  // 不知道这行代码的作用，怕去掉之后会出问题，先放在这里
 
-        populate(editCellElement.getHighlightGroup());
-    }
+		populate(editCellElement.getHighlightGroup());
+	}
 
 	/**
 	 * Populate
@@ -93,7 +99,7 @@ public class ConditionAttributesGroupPane extends UIListControlPane {
 	public void populate(HighlightGroup highlightGroup) {
 		// marks这个必须放在前面，不论是否有高亮分组都可以操作
 		if (highlightGroup == null || highlightGroup.size() <= 0) {
-            this.populate(new NameObject[0]);
+			this.populate(new NameObject[0]);
 			return;
 		}
 		List<NameObject> nameObjectList = new ArrayList<NameObject>();

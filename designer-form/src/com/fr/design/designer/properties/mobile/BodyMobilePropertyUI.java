@@ -6,6 +6,7 @@ import com.fr.design.designer.creator.XWFitLayout;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.fun.impl.AbstractWidgetPropertyUIProvider;
 import com.fr.design.gui.itable.AbstractPropertyTable;
+import com.fr.design.widget.ui.designer.mobile.BodyMobileDefinePane;
 import com.fr.general.Inter;
 
 /**
@@ -25,12 +26,12 @@ public class BodyMobilePropertyUI extends AbstractWidgetPropertyUIProvider {
 
     @Override
     public AbstractPropertyTable createWidgetAttrTable() {
-        return new BodyAppRelayoutTable(xCreator);
+        return null;
     }
 
     @Override
     public BasicPane createWidgetAttrPane() {
-        return null;
+        return new BodyMobileDefinePane(xCreator);
     }
 
     @Override

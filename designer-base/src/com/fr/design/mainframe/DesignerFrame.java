@@ -4,11 +4,9 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.Env;
 import com.fr.base.FRContext;
+import com.fr.base.env.EnvUpdater;
 import com.fr.core.env.EnvConfig;
-import com.fr.core.env.EnvContext;
-import com.fr.core.env.resource.EnvConfigUtils;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignState;
 import com.fr.design.DesignerEnvManager;
@@ -37,15 +35,14 @@ import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.menu.MenuManager;
 import com.fr.design.utils.DesignUtils;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.event.EventDispatcher;
 import com.fr.file.FILE;
 import com.fr.file.FILEFactory;
 import com.fr.file.FileFILE;
 import com.fr.file.FileNodeFILE;
 import com.fr.general.ComparatorUtils;
-import com.fr.log.FineLoggerFactory;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
+import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.injectable.PluginModule;
 import com.fr.plugin.manage.PluginFilter;
@@ -58,9 +55,23 @@ import com.fr.stable.StableUtils;
 import com.fr.stable.image4j.codec.ico.ICODecoder;
 import com.fr.stable.project.ProjectConstants;
 
-import javax.swing.*;
+import javax.swing.Icon;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
+import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 import javax.swing.border.MatteBorder;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;
@@ -83,9 +94,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import static com.fr.core.env.EnvEvent.AFTER_SIGN_OUT;
-import static com.fr.core.env.EnvEvent.BEFORE_SIGN_OUT;
 
 public class DesignerFrame extends JFrame implements JTemplateActionListener, TargetModifiedListener {
     public static final String DESIGNER_FRAME_NAME = "designer_frame";
@@ -130,9 +138,6 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
     private WindowAdapter windowAdapter = new WindowAdapter() {
         public void windowOpened(WindowEvent e) {
-            HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().setComposite();
-            reCalculateFrameSize();
-            HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().doResize();
 
         }
 
@@ -263,6 +268,14 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
                 if (BaseUtils.isAuthorityEditing()) {
                     doResize();
                 }
+            }
+        });
+        this.addDesignerOpenedListener(new DesignerOpenedListener() {
+            @Override
+            public void designerOpened() {
+                HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().setComposite();
+                reCalculateFrameSize();
+                HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().doResize();
             }
         });
         this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -648,13 +661,12 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         defaultTitleSB.append(ProductConstants.PRODUCT_NAME);
         defaultTitleSB.append(" ");
         defaultTitleSB.append(ProductConstants.BRANCH);
+        defaultTitleSB.append(" ");
         // james：标识登录的用户和登录的ENV
         String envName = DesignerEnvManager.getEnvManager().getCurEnvName();
         EnvConfig env = DesignerEnvManager.getEnvManager().getEnv(envName);
         if (env != null) {
-            defaultTitleSB.append(EnvConfigUtils.getUsername(env)).append('@').append(envName).append('[');
-            defaultTitleSB.append(Inter.getLocText("Env-Remote_Server"));
-            defaultTitleSB.append(']');
+            defaultTitleSB.append(env.getDescription(envName));
             if (editingTemplate != null) {
                 String path = editingTemplate.getEditingFILE().getPath();
                 if (!editingTemplate.getEditingFILE().exists()) {
@@ -981,7 +993,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
         DesignerEnvManager.getEnvManager().saveXMLFile();
 
-        EnvContext.signOut();
+        EnvUpdater.disconnect();
 
         this.setVisible(false);
         this.dispose();

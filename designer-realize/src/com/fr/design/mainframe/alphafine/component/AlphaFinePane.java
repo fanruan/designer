@@ -1,16 +1,18 @@
 package com.fr.design.mainframe.alphafine.component;
 
-import com.bulenkov.iconloader.IconLoader;
 import com.fr.design.actions.help.alphafine.AlphaFineContext;
 import com.fr.design.actions.help.alphafine.AlphaFineListener;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.mainframe.alphafine.AlphaFineHelper;
-import com.fr.design.utils.ThemeUtils;
+import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 
-import java.awt.*;
+import java.awt.AWTEvent;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -28,7 +30,7 @@ public class AlphaFinePane extends BasicPane {
         setPreferredSize(new Dimension(24, 24));
         setLayout(new BorderLayout());
         UIButton refreshButton = new UIButton();
-        refreshButton.setIcon(IconLoader.getIcon("/com/fr/design/mainframe/alphafine/images/smallsearch.png"));
+        refreshButton.setIcon(IOUtils.readIcon(("/com/fr/design/mainframe/alphafine/images/smallsearch.png")));
         refreshButton.setToolTipText(Inter.getLocText("FR-Designer_AlphaFine"));
         refreshButton.set4ToolbarButton();
         refreshButton.setRolloverEnabled(false);

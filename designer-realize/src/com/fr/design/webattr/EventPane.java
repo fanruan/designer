@@ -29,7 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * richer:调用该类并且对事件名字国际化时需要严格按照"Event-事件名"来进行命名
+ * richer:调用该类并且对事件名字国际化时需要严格按照"FR-Engine_Event_事件名"来进行命名
  */
 public class EventPane extends BasicPane {
 	private DefaultListModel listModel;
@@ -74,7 +74,7 @@ public class EventPane extends BasicPane {
 		super.setEnabled(enabled);
 		this.eventList.setEnabled(enabled);
 		this.addAction.setEnabled(enabled); // TODO ALEX_SEP
-											// 似乎UpdateAction.enable属性还是有用的...
+		// 似乎UpdateAction.enable属性还是有用的...
 		this.editAction.setEnabled(enabled);
 		this.removeAction.setEnabled(enabled);
 
@@ -83,9 +83,9 @@ public class EventPane extends BasicPane {
 
 	private void checkEnableState() {
 		if (this.listModel.size() == 0 || eventList.getSelectedIndex() < 0) {
-			 setEditEnabled(false);
+			setEditEnabled(false);
 		} else {
-			 setEditEnabled(true);
+			setEditEnabled(true);
 		}
 	}
 
