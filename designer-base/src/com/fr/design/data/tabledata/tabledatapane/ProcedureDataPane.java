@@ -1,25 +1,12 @@
 package com.fr.design.data.tabledata.tabledatapane;
 
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.swing.*;
-
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.base.StoreProcedureParameter;
 import com.fr.data.core.db.TableProcedure;
 import com.fr.data.impl.Connection;
 import com.fr.data.impl.NameDatabaseConnection;
 import com.fr.data.impl.storeproc.StoreProcedure;
+import com.fr.data.operator.DataOperator;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.border.UIRoundedBorder;
 import com.fr.design.constants.UIConstants;
@@ -45,6 +32,16 @@ import com.fr.general.Inter;
 import com.fr.script.Calculator;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ProcedureDataPane extends AbstractTableDataPane<StoreProcedure> implements ResponseDataSourceChange {
     private static final String[] DRIVERS = {
@@ -194,7 +191,7 @@ public class ProcedureDataPane extends AbstractTableDataPane<StoreProcedure> imp
                 try {
                     storeProcedureContext.setText(StringUtils.EMPTY);
                     String connectionname = connectionTableProcedurePane.getSelectedDatabaseConnnectonName();
-                    String procedureText = FRContext.getCurrentEnv().getProcedureText(connectionname, storeprocedure.getQuery());
+                    String procedureText = DataOperator.getInstance().getProcedureText(connectionname, storeprocedure.getQuery());
                     storeProcedureContext.setText(procedureText);
                     warningLabel.setText(StringUtils.EMPTY);
                 } catch (Exception ex) {
@@ -301,7 +298,7 @@ public class ProcedureDataPane extends AbstractTableDataPane<StoreProcedure> imp
         text = text.trim();
         String connectionname = this.connectionTableProcedurePane.getSelectedDatabaseConnnectonName();
         try {
-            String procedureText = FRContext.getCurrentEnv().getProcedureText(this.connectionTableProcedurePane.getSelectedDatabaseConnnectonName(), text);
+            String procedureText = DataOperator.getInstance().getProcedureText(this.connectionTableProcedurePane.getSelectedDatabaseConnnectonName(), text);
 
             // 获取参数默认值，例如：NAME in varchar2 default 'SCOTT'，默认值为SCOTT
             String parameterDefaultValue = "";
@@ -315,22 +312,17 @@ public class ProcedureDataPane extends AbstractTableDataPane<StoreProcedure> imp
             }
 
             StoreProcedureParameter[] newparameters;
-            newparameters = FRContext.getCurrentEnv().getStoreProcedureDeclarationParameters(connectionname, text, parameterDefaultValue);
+            newparameters = DataOperator.getInstance().getStoreProcedureDeclarationParameters(connectionname, text, parameterDefaultValue);
 
 
             editorPane.populate(newparameters);
             storeProcedureContext.setText(procedureText);
             warningLabel.setText("");
-        } catch (SQLException sql) {
+        } catch (Exception e) {
             warningLabel.setText(Inter.getLocText(new String[]{"Database", "Datasource-Connection_failed"}));
             storeProcedureContext.setText("");
             editorPane.populate(new StoreProcedureParameter[0]);
-        } catch (Exception e) {
-            warningLabel.setText(e.getMessage());
-            storeProcedureContext.setText("");
-            editorPane.populate(new StoreProcedureParameter[0]);
         }
-        return;
     }
 
     /**

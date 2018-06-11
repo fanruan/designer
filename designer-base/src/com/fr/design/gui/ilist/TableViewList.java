@@ -7,6 +7,7 @@ import com.fr.data.core.db.TableProcedure;
 import com.fr.data.core.db.dialect.DialectFactory;
 import com.fr.data.core.db.dialect.OracleDialect;
 import com.fr.data.impl.Connection;
+import com.fr.data.operator.DataOperator;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.mainframe.dnd.SerializableTransferable;
@@ -17,7 +18,11 @@ import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.dnd.*;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DragGestureEvent;
+import java.awt.dnd.DragGestureListener;
+import java.awt.dnd.DragSource;
+import java.awt.dnd.DragSourceAdapter;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
@@ -90,7 +95,7 @@ public class TableViewList extends UIList {
                 int count = 3;
                 //总共给3次连接的机会
                 while (!status && count > 0) {
-                    status = FRContext.getCurrentEnv().testConnection(datasource);
+                    status = DataOperator.getInstance().testConnection(datasource);
                     count--;
                 }
                 if (!status) {
@@ -133,9 +138,9 @@ public class TableViewList extends UIList {
         String[] schemas = DataCoreUtils.getDatabaseSchema(datasource);
 
         searchFilter = searchFilter.toLowerCase();
-
-
-        boolean isOracle = FRContext.getCurrentEnv().isOracle(datasource);
+    
+    
+        boolean isOracle = DataOperator.getInstance().isOracle(datasource);
         boolean isOracleSystemSpace = DesignerEnvManager.getEnvManager().isOracleSystemSpace();
         // oracleb不勾选显示所有表，则只显示用户下的(包括存储过程和table表)
         if (isOracle && !isOracleSystemSpace) {
