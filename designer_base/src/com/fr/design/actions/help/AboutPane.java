@@ -9,7 +9,6 @@ import com.fr.design.gui.ilable.ActionLabel;
 import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralUtils;
 import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
@@ -34,6 +33,7 @@ public class AboutPane extends JPanel {
     private static final int DEFAULT_GAP = 12;
     private static final String COPYRIGHT_LABEL = "\u00A9 ";
     private static final String BUILD_PREFIX = "  Build #";
+    private static final String COMPANY_TELEPHONE = SiteCenter.getInstance().acquireUrlByKind("company_telephone");
 
     public AboutPane() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
@@ -90,7 +90,7 @@ public class AboutPane extends JPanel {
         if (FRContext.getLocale().equals(Locale.US)) {
             return;
         }
-        boxCenterAlignmentPane = new BoxCenterAligmentPane(Inter.getLocText("FR-Designer_Service_Phone") + SiteCenter.getInstance().acquireUrlByKind("service.phone." + FRContext.getLocale(), ProductConstants.COMPARE_TELEPHONE));
+        boxCenterAlignmentPane = new BoxCenterAligmentPane(Inter.getLocText("FR-Designer_Service_Phone") + SiteCenter.getInstance().acquireUrlByKind("service.phone." + FRContext.getLocale(), COMPANY_TELEPHONE));
         contentPane.add(boxCenterAlignmentPane);
         // 繁体版不显示QQ
         if (FRContext.getLocale().equals(Locale.TAIWAN)) {
