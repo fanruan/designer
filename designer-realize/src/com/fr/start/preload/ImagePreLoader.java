@@ -1,4 +1,4 @@
-package com.fr.start;
+package com.fr.start.preload;
 
 import com.fr.general.IOUtils;
 
