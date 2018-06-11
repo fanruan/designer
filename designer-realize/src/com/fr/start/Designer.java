@@ -54,6 +54,7 @@ import com.fr.stable.xml.XMLTools;
 import com.fr.start.fx.SplashFx;
 import com.fr.start.jni.SplashMac;
 import com.fr.start.module.StartupArgs;
+import com.fr.start.preload.ImagePreLoader;
 import com.fr.start.server.ServerTray;
 
 import javax.swing.JComponent;
