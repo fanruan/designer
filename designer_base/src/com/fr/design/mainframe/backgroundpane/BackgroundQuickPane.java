@@ -10,26 +10,27 @@ import com.fr.general.Background;
  */
 public abstract class BackgroundQuickPane extends BasicBeanPane<Background> implements UIObserver {
 
-	public abstract boolean accept(Background background);
+    public abstract boolean accept(Background background);
 
-	@Override
-	public abstract void populateBean(Background background);
+    @Override
+    public abstract void populateBean(Background background);
 
-	@Override
-	public abstract Background updateBean();
+    @Override
+    public abstract Background updateBean();
 
-	@Override
-	public abstract String title4PopupWindow();
+    @Override
+    public abstract String title4PopupWindow();
 
-	public abstract void reset();
+    public void reset() {
+    }
 
-	/**
-	 * 组件是否需要响应添加的观察者事件
-	 *
-	 * @return 如果需要响应观察者事件则返回true，否则返回false
-	 */
-	public boolean shouldResponseChangeListener() {
+    /**
+     * 组件是否需要响应添加的观察者事件
+     *
+     * @return 如果需要响应观察者事件则返回true，否则返回false
+     */
+    public boolean shouldResponseChangeListener() {
 
-		return true;
-	}
+        return true;
+    }
 }
