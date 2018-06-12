@@ -1,6 +1,5 @@
 package com.fr.design.extra;
 
-import com.fr.base.FRContext;
 import com.fr.base.TemplateUtils;
 import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
@@ -18,7 +17,6 @@ import com.fr.plugin.view.PluginView;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -202,7 +200,7 @@ public class PluginUtils {
                 resultJSONArray.put(jo);
             }
         }
-        return PluginUtils.transferLocalPluginToJson(resultJSONArray);
+        return resultJSONArray;
     }
 
     private static boolean isCompatibleCurrentEnv(String envVersion){
@@ -223,48 +221,24 @@ public class PluginUtils {
                 jo.put("changeNotes", pluginContext.getChangeNotes());
                 jo.put("vendor", pluginContext.getVendor());
                 jo.put("price", pluginContext.getPrice());
-                jo.put("jarTime", pluginContext.getRequiredJarTime());
+                jo.put("requiredJarTime", pluginContext.getRequiredJarTime());
                 jo.put("active", pluginContext.isActive());
                 jo.put("hidden", pluginContext.isHidden());
                 jo.put("free", pluginContext.isFree());
-                jo.put("licDamage", pluginContext.isLicDamaged());
+                jo.put("licDamaged", pluginContext.isLicDamaged());
                 jo.put("available", pluginContext.isAvailable());
-                jo.put("leftTime", String.valueOf(pluginContext.getLeftDays()));
+                jo.put("leftDays", String.valueOf(pluginContext.getLeftDays()));
                 jo.put("trial", pluginContext.isOnTrial());
                 jo.put("deadline", getDeadline(pluginContext));
                 jo.put("registerFailed", pluginContext.isRegisterFailed());
                 ja.put(jo);
             }
         }catch (Exception e){
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         return ja;
     }
 
-    public static JSONArray transferLocalPluginToJson(JSONArray resultArr) throws Exception{
-        JSONArray ja = JSONArray.create();
-        for(int i = 0; i < resultArr.length(); i++){
-            JSONObject jo = JSONObject.create();
-            JSONObject pluginJsonObject = resultArr.getJSONObject(i);
-            jo.put("categoryId", pluginJsonObject.getString("cid"));
-            jo.put("description", pluginJsonObject.optString("description"));
-            jo.put("downloadTimes", Integer.parseInt(pluginJsonObject.getString("downloadTimes")));
-            jo.put("envVersion", pluginJsonObject.getString("envversion"));
-            jo.put("id", Integer.parseInt(pluginJsonObject.getString("id")));
-            jo.put("jarTime", pluginJsonObject.getString("jartime"));
-            jo.put("link", pluginJsonObject.getString("link"));
-            jo.put("name", pluginJsonObject.getString("name"));
-            jo.put("pic", pluginJsonObject.getString("pic"));
-            jo.put("pluginId", pluginJsonObject.getString("pluginid"));
-            jo.put("price", Integer.parseInt(pluginJsonObject.getString("price")));
-            jo.put("sellerId", Integer.parseInt(pluginJsonObject.getString("sellerId")));
-            jo.put("uploadTime", pluginJsonObject.getString("uploadTime"));
-            jo.put("vendor", pluginJsonObject.getString("vendor"));
-            jo.put("version", pluginJsonObject.getString("version"));
-            ja.put(jo);
-        }
-        return ja;
-    }
 
     private static String getDeadline(PluginContext plugin) {
 
