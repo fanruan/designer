@@ -5,17 +5,13 @@ import com.fr.design.designer.beans.adapters.layout.FRAbsoluteBodyLayoutAdapter;
 import com.fr.design.designer.properties.mobile.BodyMobilePropertyUI;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.fun.WidgetPropertyUIProvider;
-import com.fr.design.mainframe.widget.editors.PaddingMarginEditor;
 import com.fr.design.mainframe.widget.editors.WLayoutBorderStyleEditor;
-import com.fr.design.mainframe.widget.renderer.LayoutBorderStyleRenderer;
-import com.fr.design.mainframe.widget.renderer.PaddingMarginCellRenderer;
-import com.fr.form.ui.LayoutBorderStyle;
 import com.fr.form.ui.container.WAbsoluteBodyLayout;
-import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.stable.core.PropertyChangeAdapter;
 
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.beans.IntrospectionException;
 
 /**
@@ -127,4 +123,11 @@ public class XWAbsoluteBodyLayout extends XWAbsoluteLayout {
         return false;
     }
 
+    /**
+     * 是否支持共享-body不支持共享
+     * @return
+     */
+    public boolean isSupportShared() {
+        return false;
+    }
 }

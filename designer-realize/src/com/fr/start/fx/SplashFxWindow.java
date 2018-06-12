@@ -3,6 +3,7 @@ package com.fr.start.fx;
 import com.bulenkov.iconloader.util.JBUI;
 import com.fr.base.FRContext;
 import com.fr.stable.OperatingSystem;
+import com.fr.start.SplashContext;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -37,9 +38,8 @@ public class SplashFxWindow extends Application {
     private static final int WINDOW_WIDTH = 640;
     private static final int WINDOW_HEIGHT = 360;
     private static final int FONT = 12;
-    private static final int FRAME_COUNT = 254;
+    private static final int FRAME_COUNT = 315;
     private static final String THINKS_COLOR = "#82b1ce";
-    private static final String SPLASH_PATH = "/com/fr/design/images/splash_10.gif";
 
     private static final CountDownLatch LATCH = new CountDownLatch(1);
     private static SplashFxWindow app = null;
@@ -78,7 +78,7 @@ public class SplashFxWindow extends Application {
     public void start(Stage primaryStage) {
         AnchorPane root = new AnchorPane();
         primaryStage.initStyle(StageStyle.TRANSPARENT);
-        Image image = new FastGifImage(SPLASH_PATH, FRAME_COUNT, WINDOW_WIDTH, WINDOW_HEIGHT);
+        Image image = new FastGifImage(SplashContext.SPLASH_PATH, FRAME_COUNT, WINDOW_WIDTH, WINDOW_HEIGHT);
 
         ImageView gif = new ImageView(image);
 

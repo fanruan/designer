@@ -23,11 +23,13 @@ import com.fr.log.FineLoggerFactory;
 import com.fr.module.ModuleEvent;
 import com.fr.stable.OperatingSystem;
 
-import java.awt.*;
+import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.lang.reflect.Method;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * The main class of Report Designer.
@@ -51,14 +53,21 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
         DesignerEnvManager.loadLogSetting();
         createDesignerFrame();
     }
-    
-    public void show(String[] args) {
-        
-        collectUserInformation();
-        showDesignerFrame(args, DesignerContext.getDesignerFrame(), false);
-        for (int i = 0; !TemplateTreePane.getInstance().getTemplateFileTree().isTemplateShowing() && i < LOAD_TREE_MAXNUM; i++) {
-            TemplateTreePane.getInstance().getTemplateFileTree().refresh();
-        }
+
+    public void show(final String[] args) {
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.submit(new Runnable() {
+            @Override
+            public void run() {
+                collectUserInformation();
+                showDesignerFrame(args, DesignerContext.getDesignerFrame(), false);
+                for (int i = 0; !TemplateTreePane.getInstance().getTemplateFileTree().isTemplateShowing() && i < LOAD_TREE_MAXNUM; i++) {
+                    TemplateTreePane.getInstance().getTemplateFileTree().refresh();
+                }
+            }
+        });
+        executorService.shutdown();
+        DesignerContext.getDesignerFrame().setVisible(true);
     }
     
     
@@ -134,7 +143,6 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
                 df.getSelectedJTemplate().requestGridFocus();
             }
         });
-        df.setVisible(true);
         return isException;
     }
     

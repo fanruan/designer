@@ -20,7 +20,7 @@ public interface FormECDesignerProvider {
      * 选中目标的 对应Menu
      * @return 返回MenuDef数组.
      */
-	MenuDef[] menus4Target();
+    MenuDef[] menus4Target();
 
     /**
      * 获取焦点
@@ -31,7 +31,7 @@ public interface FormECDesignerProvider {
      * 工具栏菜单字体字号等
      * @return   工具栏菜单数组
      */
-	ToolBarDef[] toolbars4Target();
+    ToolBarDef[] toolbars4Target();
 
     /**
      * 表单的报表块的工具按钮复制剪切那行
@@ -43,25 +43,25 @@ public interface FormECDesignerProvider {
      * 模板菜单
      * @return    返回菜单
      */
-	ShortCut[] shortcut4TemplateMenu();
+    ShortCut[] shortcut4TemplateMenu();
 
     /**
      *当前正在编辑的elementcase
      * @return   当前正在编辑的elementcase
      */
-	FormElementCaseProvider getEditingElementCase();
+    FormElementCaseProvider getEditingElementCase();
 
     /**
      *  右上角属性表
      * @return     属性面板
      */
-	JComponent getEastDownPane();
+    JComponent getEastDownPane();
 
     /**
      *   右下角控件树或者扩展属性
      * @return    属性面板
      */
-	JComponent getEastUpPane();
+    JComponent getEastUpPane();
 
     /**
      *   条件属性面板
@@ -87,6 +87,7 @@ public interface FormECDesignerProvider {
      * @param elementCaseContainerSize 缩略图的大小
      * @return    图
      */
-	BufferedImage getElementCaseImage(Dimension elementCaseContainerSize);
+    BufferedImage getElementCaseImage(Dimension elementCaseContainerSize);
 
+    void refreshPropertyPane();
 }

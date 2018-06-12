@@ -65,6 +65,19 @@ public class SelectionModel {
         if (e.getButton() == MouseEvent.BUTTON3 || (!InputEventBaseOnOS.isControlDown(e) && !e.isShiftDown())) {
             // 如果Ctrl或者Shift键盘没有按下，则清除已经选择的组件
             selection.reset();
+        } else {
+            //按下Ctrl或者shift键时鼠标可以进行多选,两次点击同一控件就取消选中
+            XCreator comp = designer.getComponentAt(e);
+            XLayoutContainer topLayout = XCreatorUtils.getHotspotContainer(comp).getTopLayout();
+            if (topLayout != null && !topLayout.isEditable()) {
+                comp = topLayout;
+            }
+            XLayoutContainer container = XCreatorUtils.getParentXLayoutContainer(comp);
+            for (XCreator selected : selection.getSelectedCreators()) {
+                if (selected == comp || XCreatorUtils.getParentXLayoutContainer(selected) != container) {
+                    selection.removeCreator(selected);
+                }
+            }
         }
         // 获取e所在的组件
         XCreator comp = designer.getComponentAt(e);

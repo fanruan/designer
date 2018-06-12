@@ -1,6 +1,6 @@
 package com.fr.env;
 
-import com.fr.core.env.resource.RemoteEnvConfig;
+import com.fr.design.env.RemoteEnvConfig;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.border.UITitledBorder;
 import com.fr.design.gui.ibutton.UIButton;
@@ -12,14 +12,14 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
-import com.fr.log.FineLoggerFactory;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.concurrent.ExecutionException;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  * 远程环境设置界面，暂时命名为2，待做完功能直接替代掉老的RemoteEnvPane
@@ -30,6 +30,10 @@ public class RemoteEnvPane2 extends BasicBeanPane<RemoteEnvConfig> {
     private UIIntNumberField portTextField;
     private UITextField usernameTextField;
     private UIPassWordField passwordTextField;
+    private JDialog dialog;
+    private UILabel message;
+    private UIButton okButton;
+    private UIButton cancelButton;
 
     public RemoteEnvPane2() {
         initComponents();
@@ -73,46 +77,82 @@ public class RemoteEnvPane2 extends BasicBeanPane<RemoteEnvConfig> {
             }
         });
         contentPanel.add(valuePane, BorderLayout.CENTER);
+
+        message = new UILabel();
+        okButton = new UIButton(Inter.getLocText("OK"));
+        cancelButton = new UIButton(Inter.getLocText("Cancel"));
     }
 
     private void tryConnectRemoteEnv() {
-        final RemoteEnv remoteEnv = new RemoteEnv(this.updateBean());
-        new SwingWorker<Void, Void>() {
+        final SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
 
             @Override
             protected Void doInBackground() throws Exception {
+                final RemoteEnv remoteEnv = new RemoteEnv(updateBean());
                 remoteEnv.connectOnce();
                 return null;
             }
 
             @Override
             protected void done() {
+                okButton.setEnabled(true);
                 try {
                     get();
-                    showConnectMessage();
+                    message.setText(Inter.getLocText("Fine-Designer_Basic_Remote_Connect_Successful"));
                 } catch (Exception e) {
-                    showCannotConnectMessage();
+                    message.setText(Inter.getLocText("Fine-Designer_Basic_Remote_Connect_Failed"));
                 }
             }
-        }.execute();
+        };
+        worker.execute();
+        initMessageDialog();
+        okButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dialog.dispose();
+            }
+        });
+        cancelButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dialog.dispose();
+                worker.cancel(true);
+            }
+        });
+
+        dialog.addWindowListener(new WindowAdapter() {
+            public void windowClosed(WindowEvent e) {
+                worker.cancel(true);
+            }
+        });
+
+        dialog.setVisible(true);
+        dialog.dispose();
     }
 
-    private void showCannotConnectMessage() {
-        JOptionPane.showMessageDialog(
-                this,
-                Inter.getLocText("Fine-Designer_Basic_Remote_Connect_Failed"),
-                UIManager.getString("OptionPane.messageDialogTitle", this.getLocale()),
-                JOptionPane.ERROR_MESSAGE
-        );
-    }
+    private void initMessageDialog() {
+        message.setText(Inter.getLocText("Fine-Designer_Basic_Remote_Env_Try") + "...");
+        message.setBorder(BorderFactory.createEmptyBorder(8, 5, 0, 0));
+        okButton.setEnabled(false);
 
-    private void showConnectMessage() {
-        JOptionPane.showMessageDialog(
-                this,
-                Inter.getLocText("Fine-Designer_Basic_Remote_Connect_Successful"),
-                UIManager.getString("OptionPane.messageDialogTitle", this.getLocale()),
-                JOptionPane.INFORMATION_MESSAGE
-        );
+        dialog = new JDialog((Dialog) SwingUtilities.getWindowAncestor(RemoteEnvPane2.this), Inter.getLocText("Datasource-Test_Connection"), true);
+
+        dialog.setSize(new Dimension(268, 118));
+        okButton.setEnabled(false);
+        JPanel jp = new JPanel();
+        JPanel upPane = new JPanel();
+        JPanel downPane = new JPanel();
+        UILabel uiLabel = new UILabel(UIManager.getIcon("OptionPane.informationIcon"));
+        upPane.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
+        upPane.add(uiLabel);
+        upPane.add(message);
+        downPane.setLayout(new FlowLayout(FlowLayout.CENTER, 6, 0));
+        downPane.add(okButton);
+        downPane.add(cancelButton);
+        jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS));
+        jp.add(upPane);
+        jp.add(downPane);
+        dialog.add(jp);
+        dialog.setResizable(false);
+        dialog.setLocationRelativeTo(SwingUtilities.getWindowAncestor(RemoteEnvPane2.this));
     }
 
     @Override
@@ -125,7 +165,7 @@ public class RemoteEnvPane2 extends BasicBeanPane<RemoteEnvConfig> {
         if (config == null) {
             return;
         }
-        hostTextField.setText(config.getPath());
+        hostTextField.setText(config.getHost());
         if (config.getPort() != 0) {
             portTextField.setValue(config.getPort());
         }
