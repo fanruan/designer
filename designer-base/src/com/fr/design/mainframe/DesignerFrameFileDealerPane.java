@@ -10,7 +10,11 @@ import com.fr.design.constants.UIConstants;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.datapane.TableDataTreePane;
 import com.fr.design.data.tabledata.ResponseDataSourceChange;
-import com.fr.design.file.*;
+import com.fr.design.file.FileOperations;
+import com.fr.design.file.FileToolbarStateChangeListener;
+import com.fr.design.file.HistoryTemplateListPane;
+import com.fr.design.file.MutilTempalteTabPane;
+import com.fr.design.file.TemplateTreePane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.imenu.UIMenuHighLight;
@@ -33,15 +37,23 @@ import com.fr.stable.CoreConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.project.ProjectConstants;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -129,9 +141,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
     public void refreshDockingView() {
         ToolBarDef toolbarDef = new ToolBarDef();
         toolbarDef.addShortCut(openReportAction, refreshTreeAction);
-        if (FRContext.getCurrentEnv().isSupportLocalFileOperate()) {
-            toolbarDef.addShortCut(openFolderAction, renameAction);
-        }
+        toolbarDef.addShortCut(openFolderAction, renameAction);
         toolbarDef.addShortCut(delFileAction);
         Set<ShortCut> extraShortCuts = ExtraDesignClassManager.getInstance().getExtraShortCuts();
         for (ShortCut shortCut : extraShortCuts){
@@ -256,37 +266,19 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
     public void stateChange() {
         //当前环境为远程环境时
         if (FRContext.getCurrentEnv() != null) {
-            if (!FRContext.getCurrentEnv().isSupportLocalFileOperate()) {
-                if (selectedOperation.getSelectedTemplatePath() != null) {
-                    openReportAction.setEnabled(true);
-                } else {
-                    openReportAction.setEnabled(false);
-                }
-                FileNode node = TemplateTreePane.getInstance().getTemplateFileTree().getSelectedFileNode();
-                if (selectedOperation.getSelectedTemplatePath() != null){
-                    if (node.getLock() != null && !ComparatorUtils.equals(node.getUserID(),node.getLock())){
-                        delFileAction.setEnabled(false);
-                    } else {
-                        delFileAction.setEnabled(true);
-                    }
-                } else {
-                    delFileAction.setEnabled(false);
-                }
+            //当前环境为本地环境时
+            if (selectedOperation.getSelectedTemplatePath() != null) {
+                openReportAction.setEnabled(true);
+                renameAction.setEnabled(true);
+                delFileAction.setEnabled(true);
             } else {
-                //当前环境为本地环境时
-                if (selectedOperation.getSelectedTemplatePath() != null) {
-                    openReportAction.setEnabled(true);
-                    renameAction.setEnabled(true);
-                    delFileAction.setEnabled(true);
-                } else {
-                    openReportAction.setEnabled(false);
-                    renameAction.setEnabled(false);
-                    delFileAction.setEnabled(false);
-                }
-                openFolderAction.setEnabled(containsFolderNums() + seletedTemplateNums() != 0);
+                openReportAction.setEnabled(false);
+                renameAction.setEnabled(false);
+                delFileAction.setEnabled(false);
             }
-            refreshTreeAction.setEnabled(true);
+            openFolderAction.setEnabled(containsFolderNums() + seletedTemplateNums() != 0);
         }
+        refreshTreeAction.setEnabled(true);
         if (containsFolderNums() > 0 && (containsFolderNums() + seletedTemplateNums() > 1)) {
             refreshActions();
         } else if (containsFolderNums() == 0 && seletedTemplateNums() > 1) {

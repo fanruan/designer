@@ -4,20 +4,49 @@
 
 package com.fr.design.gui.imenu;
 
-import com.fr.general.ComparatorUtils;
 import com.fr.design.utils.ColorRoutines;
 import com.fr.design.utils.ThemeUtils;
+import com.fr.general.ComparatorUtils;
 
-import javax.swing.*;
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
+import javax.swing.ButtonModel;
+import javax.swing.Icon;
+import javax.swing.InputMap;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComponent;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.KeyStroke;
+import javax.swing.LookAndFeel;
+import javax.swing.MenuElement;
+import javax.swing.MenuSelectionManager;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.event.MenuDragMouseEvent;
 import javax.swing.event.MenuDragMouseListener;
 import javax.swing.event.MenuKeyListener;
 import javax.swing.event.MouseInputListener;
-import javax.swing.plaf.*;
+import javax.swing.plaf.ActionMapUIResource;
+import javax.swing.plaf.ColorUIResource;
+import javax.swing.plaf.ComponentInputMapUIResource;
+import javax.swing.plaf.ComponentUI;
+import javax.swing.plaf.MenuItemUI;
+import javax.swing.plaf.UIResource;
 import javax.swing.plaf.basic.BasicGraphicsUtils;
 import javax.swing.plaf.basic.BasicHTML;
 import javax.swing.text.View;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
@@ -588,7 +617,7 @@ public class UIBasicMenuItemUI extends MenuItemUI {
     }
 
     protected void installDefaults() {
-        String prefix = getPropertyPrefix();
+        final String prefix = getPropertyPrefix();
 
         acceleratorFont = UIManager.getFont("MenuItem.acceleratorFont");
 
@@ -600,7 +629,7 @@ public class UIBasicMenuItemUI extends MenuItemUI {
         LookAndFeel.installBorder(menuItem, prefix + ".border");
         oldBorderPainted = menuItem.isBorderPainted();
         menuItem.setBorderPainted(((Boolean) (UIManager.get(prefix + ".borderPainted"))).booleanValue());
-        LookAndFeel.installColorsAndFont(menuItem, prefix + ".background", prefix + ".foreground", prefix + ".font");
+        installFont(prefix, menuItem);
 
         // MenuItem specific defaults
         if (selectionBackground == null || selectionBackground instanceof UIResource) {
@@ -635,6 +664,21 @@ public class UIBasicMenuItemUI extends MenuItemUI {
 
         defaultTextIconGap = DEFAULT_TEXT_ICON_GAP; // Should be from table
         defaultIconGap = DEFAULT_ICON_GAP; // Should be from table
+    }
+
+    private void installFont(final String prefix, final JComponent menuItem) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (menuItem == null) {
+                    return;
+                }
+                LookAndFeel.installColorsAndFont(menuItem, prefix + ".background", prefix + ".foreground", prefix + ".font");
+            }
+        });
+        thread.setName("UIBasicMenuItemUI");
+        thread.setDaemon(true);
+        thread.start();
     }
 
     protected Dimension getPreferredMenuItemSize(JComponent c, Icon checkIcon,

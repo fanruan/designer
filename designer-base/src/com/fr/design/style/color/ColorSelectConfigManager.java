@@ -3,7 +3,6 @@ package com.fr.design.style.color;
 import com.fr.base.FRContext;
 import com.fr.file.XMLFileManager;
 import com.fr.general.ComparatorUtils;
-import com.fr.log.FineLoggerFactory;
 import com.fr.general.GeneralContext;
 import com.fr.stable.EnvChangedListener;
 import com.fr.stable.xml.XMLPrintWriter;
@@ -96,11 +95,6 @@ public class ColorSelectConfigManager extends XMLFileManager implements ColorSel
         if (colors != null && !colors.isEmpty()) {
             manager.setColorsToFile(colors);
         }
-        try {
-            FRContext.getCurrentEnv().writeResource(manager);
-        } catch (Exception e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
-        }
     }
 
 
@@ -115,7 +109,6 @@ public class ColorSelectConfigManager extends XMLFileManager implements ColorSel
         ColorSelectConfigManager manager = new ColorSelectConfigManager();
         XMLTools.readInputStreamXML(manager, input);
         configManager = manager;
-        FRContext.getCurrentEnv().writeResource(configManager);
     }
 
 
@@ -130,11 +123,6 @@ public class ColorSelectConfigManager extends XMLFileManager implements ColorSel
             configManager.readXMLFile();
         }
         return configManager;
-    }
-    
-    
-    public boolean writeResource() throws Exception {
-        return FRContext.getCurrentEnv().writeResource(ColorSelectConfigManager.getProviderInstance());
     }
 
     public String fileName() {

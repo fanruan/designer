@@ -1,32 +1,29 @@
 package com.fr.env;
 
 import com.fr.base.EnvException;
-import com.fr.base.TableData;
 import com.fr.base.operator.common.CommonOperator;
 import com.fr.base.operator.connect.ConnectOperator;
 import com.fr.base.operator.file.FileOperator;
+import com.fr.base.operator.org.OrganizationOperator;
 import com.fr.base.remote.RemoteDeziConstants;
 import com.fr.common.rpc.RemoteCallServerConfig;
 import com.fr.common.rpc.netty.MessageSendExecutor;
 import com.fr.common.rpc.netty.RemoteCallClient;
 import com.fr.core.env.EnvContext;
-import com.fr.design.env.RemoteEnvConfig;
-import com.fr.data.TableDataSource;
-import com.fr.data.impl.EmbeddedTableData;
 import com.fr.data.impl.storeproc.StoreProcedure;
 import com.fr.dav.AbstractEnv;
 import com.fr.dav.DavXMLUtils;
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.env.RemoteEnvConfig;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.file.CacheManager;
-import com.fr.file.ConnectionConfig;
-import com.fr.file.TableDataConfig;
 import com.fr.general.CommonIOUtils;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.EnvProxyFactory;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
-import com.fr.general.LogRecordTime;
-import com.fr.general.LogUtils;
+
+import com.fr.general.http.HttpToolbox;
 import com.fr.io.utils.ResourceIOUtils;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONObject;
@@ -37,13 +34,15 @@ import com.fr.share.ShareConstants;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.Filter;
-import com.fr.stable.JavaCompileInfo;
+
+import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.SvgProvider;
-import com.fr.stable.file.XMLFileManagerProvider;
 import com.fr.stable.project.ProjectConstants;
-import com.fr.stable.xml.XMLTools;
+
+import com.fr.third.guava.base.Strings;
+import com.fr.third.guava.collect.ImmutableMap;
 import com.fr.web.ResourceConstants;
 
 import javax.swing.JOptionPane;
@@ -54,21 +53,19 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.awt.Component;
-import java.io.BufferedReader;
+
+import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -112,9 +109,28 @@ public class RemoteEnv extends AbstractEnv<RemoteEnvConfig> implements DesignAut
         MessageSendExecutor.getInstance().stop();
         return true;
     }
-
+    
+    @Override
+    public EnvProxyFactory getProxyFactory() {
+        
+        return new EnvProxyFactory() {
+            
+            @Override
+            public <T> T get(Class<T> clazz, T obj) {
+                
+                assert clazz != null;
+                try {
+                    return MessageSendExecutor.getInstance().execute(clazz);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        };
+    }
+    
     @Override
     public FileOperator getFileOperator() throws Exception {
+        
         return MessageSendExecutor.getInstance().execute(FileOperator.class);
     }
 
@@ -123,6 +139,11 @@ public class RemoteEnv extends AbstractEnv<RemoteEnvConfig> implements DesignAut
         return MessageSendExecutor.getInstance().execute(CommonOperator.class);
     }
 
+    @Override
+    public OrganizationOperator getOrganizationOperator() throws Exception {
+        return MessageSendExecutor.getInstance().execute(OrganizationOperator.class);
+    }
+    
     @Override
     public RemoteEnvConfig getEnvConfig() {
         return config;
@@ -202,7 +223,7 @@ public class RemoteEnv extends AbstractEnv<RemoteEnvConfig> implements DesignAut
      * @param in InputStream输入流
      * @return 转换后的字符串
      */
-    public static String stream2String(InputStream in) {
+    private static String stream2String(InputStream in) {
         if (in == null) {
             return null;
         }
@@ -221,14 +242,8 @@ public class RemoteEnv extends AbstractEnv<RemoteEnvConfig> implements DesignAut
      * @return 测试连接成功返回true
      * @throws Exception 异常
      */
-    public boolean testServerConnection() throws Exception {
-        try {
-            connectOnce();
-            return true;
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("Datasource-Connection_failed"));
-            return false;
-        }
+    private boolean testServerConnection() throws Exception {
+        return testConnection(true, true, DesignerContext.getDesignerFrame());
     }
 
     /**
@@ -278,16 +293,6 @@ public class RemoteEnv extends AbstractEnv<RemoteEnvConfig> implements DesignAut
      *
      * @throws Exception e
      */
-
-    /**
-     * 返回描述该运行环境的名字
-     *
-     * @return 描述环境名字的字符串
-     */
-    @Override
-    public String getEnvDescription() {
-        return Inter.getLocText("Env-Remote_Server");
-    }
 
     public class Bytes2ServerOutputStream extends OutputStream {
         private ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -404,106 +409,8 @@ public class RemoteEnv extends AbstractEnv<RemoteEnvConfig> implements DesignAut
 
         return Boolean.valueOf(IOUtils.inputStream2String(input, EncodeConstants.ENCODING_UTF_8));
     }
-
-    /**
-     * DataSource中去除当前角色没有权限访问的数据源
-     */
-    @Override
-    public void removeNoPrivilegeConnection() {
-        refreshHttpSProperty();
-        TableDataConfig dm = TableDataConfig.getInstance();
-
-        try {
-            HashMap<String, String> para = new HashMap<>();
-            para.put("op", "fs_remote_design");
-            para.put("cmd", "env_get_role");
-            para.put("currentUsername", this.getUser());
-            para.put("currentPwd", this.getPassword());
-
-            InputStream input = filterInputStream(
-                    RemoteEnvUtils.simulateRPCByHttpGet(para, false, this)
-            );
-            JSONArray ja = new JSONArray(stream2String(input));
-            ArrayList<String> toBeRemoveTDName = new ArrayList<>();
-            for (int i = 0; i < ja.length(); i++) {
-                String toBeRemoveConnName = (String) ((JSONObject) ja.get(i)).get("name");
-                ConnectionConfig.getInstance().removeConnection(toBeRemoveConnName);
-                Iterator it = dm.getTableDatas().keySet().iterator();
-                while (it.hasNext()) {
-                    String tdName = (String) it.next();
-                    TableData td = dm.getTableData(tdName);
-                    td.registerNoPrivilege(toBeRemoveTDName, toBeRemoveConnName, tdName);
-                }
-            }
-
-            for (int i = 0; i < toBeRemoveTDName.size(); i++) {
-                dm.removeTableData(toBeRemoveTDName.get(i));
-            }
-        } catch (Exception e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
-        }
-    }
-
-    @Override
-    public EmbeddedTableData previewTableData(Object tableData, Map parameterMap, int rowCount) throws Exception {
-        return previewTableData(null, tableData, parameterMap, rowCount);
-    }
-
-    /**
-     * 根据指定的参数生成一个实际可预览的数据集
-     *
-     * @param tableData    带参数的数据集
-     * @param parameterMap 参数键值对
-     * @param rowCount     需要获取的行数
-     * @return 实际的二维数据集
-     * @throws Exception 如果生成数据失败则抛出此异常
-     */
-    @Override
-    public EmbeddedTableData previewTableData(TableDataSource dataSource, Object tableData, java.util.Map parameterMap, int rowCount) throws Exception {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-
-        // 把tableData写成xml文件到out
-        DavXMLUtils.writeXMLFileTableDataAndSource((TableData) tableData, out);
-
-        // 把parameterMap转成JSON格式的字符串
-        JSONObject jo = new JSONObject(parameterMap);
-        String jsonParameter = jo.toString();
-        HashMap<String, String> para = new HashMap<>();
-        para.put("op", "fr_remote_design");
-        para.put("cmd", "design_preview_td");
-        para.put("pars", jsonParameter);
-        para.put("rowcount", String.valueOf(rowCount));
-        InputStream input = postBytes2ServerB(out.toByteArray(), para);
-
-        if (input == null) {
-            return null;
-        }
-
-        return (EmbeddedTableData) DavXMLUtils.readXMLTableData(input);
-    }
-
-    /**
-     * 根据指定的参数生成一个实际可预览的数据集
-     *
-     * @param tableData    带参数的数据集
-     * @param parameterMap 参数键值对
-     * @param start        开始
-     * @param end          结尾
-     * @param cols         列名
-     * @param colIdx       列序号
-     * @return 实际的二位数据条
-     * @throws Exception 异常
-     */
-    @Override
-    public Object previewTableData(Object tableData, java.util.Map parameterMap, int start, int end, String[] cols, int[] colIdx) throws Exception {
-        return previewTableData(tableData, parameterMap, -1);
-    }
-
-    @Override
-    public Object previewTableData(TableDataSource dataSource, Object tableData, Map parameterMap, int start, int end, String[] cols, int[] colIdx) throws Exception {
-        return previewTableData(dataSource, tableData, parameterMap, -1);
-    }
-
+    
+    
     /**
      * nameValuePairs,这个参数要接着this.path,拼成一个URL,否则服务器端req.getParameter是无法得到的
      *
@@ -614,67 +521,6 @@ public class RemoteEnv extends AbstractEnv<RemoteEnvConfig> implements DesignAut
     }
 
     /**
-     * 写报表运行环境所需的配置文件
-     *
-     * @param mgr 管理各个资源文件的管理器
-     * @return 写入xml成功返回true
-     * @throws Exception 写入xml错误则抛出此异常
-     */
-    @Override
-    public boolean writeResource(XMLFileManagerProvider mgr) throws Exception {
-        testServerConnection();
-
-        HashMap<String, String> para = new HashMap<>();
-        para.put("op", "fr_remote_design");
-        para.put("cmd", "design_save_resource");
-        para.put("resource", mgr.fileName());
-        para.put("class_name", mgr.getClass().getName());
-        para.put("current_uid", this.getUserID());
-        para.put("currentUsername", this.getUser());
-
-        // alex:通过ByteArrayOutputStream将mgr写成字节流
-        Bytes2ServerOutputStream out = new Bytes2ServerOutputStream(para);
-        XMLTools.writeOutputStreamXML(mgr, out);
-
-        try {
-            String res = stream2String(
-                    filterInputStream(
-                            RemoteEnvUtils.simulateRPCByHttpPost(out.getOut().toByteArray(), out.nameValuePairs, false, this)
-                    )
-            );
-            if (StringUtils.isNotEmpty(res)) {
-                JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Already_exist") + res);
-                return false;
-            }
-        } catch (Exception e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * 读取文件
-     *
-     * @param beanPath 文件名
-     * @param prefix   当前Env下得工程分类，如reportlets，lib等
-     * @return InputStream  输入流
-     */
-    @Override
-    public InputStream readBean(String beanPath, String prefix)
-            throws Exception {
-        refreshHttpSProperty();
-        HashMap<String, String> para = new HashMap<>();
-        para.put("op", "fs_remote_design");
-        para.put("cmd", "design_open");
-        para.put(RemoteDeziConstants.PREFXI, prefix);
-        para.put("resource", beanPath);
-
-        return filterInputStream(RemoteEnvUtils.simulateRPCByHttpGet(para, false, this));
-    }
-
-    /**
      * 写文件
      *
      * @param beanPath 文件名
@@ -747,92 +593,10 @@ public class RemoteEnv extends AbstractEnv<RemoteEnvConfig> implements DesignAut
 
     }
 
-    /**
-     * 输出日志信息
-     *
-     * @throws Exception e
-     */
-    @Override
-    public void printLogMessage() throws Exception {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        HashMap<String, String> para = new HashMap<>();
-        para.put("op", "fr_remote_design");
-        para.put("cmd", "get_log_message");
-
-        InputStream input = postBytes2ServerB(out.toByteArray(), para);
-        if (input == null) {
-            return;
-        }
-        LogRecordTime[] records = LogUtils.readXMLLogRecords(input);
-    }
-
     @Override
     public String[] getSupportedTypes() {
         return FILE_TYPE;
     }
-
-
-    /**
-     * 判断是否有文件夹权限
-     *
-     * @param path 路径
-     * @return 有权限则返回true
-     */
-    @Override
-    public boolean hasFileFolderAllow(String path) {
-        refreshHttpSProperty();
-        try {
-            HashMap<String, String> para = new HashMap<>();
-            para.put("op", "fs_remote_design");
-            para.put("cmd", "design_filefolder_allow");
-            para.put("current_uid", this.getUserID());
-            para.put(RemoteDeziConstants.TEMPLATE_PATH, path);
-
-            InputStream input = filterInputStream(
-                    RemoteEnvUtils.simulateRPCByHttpGet(para, false, this)
-            );
-
-            if (input == null) {
-                return false;
-            }
-            return Boolean.valueOf(IOUtils.inputStream2String(input, EncodeConstants.ENCODING_UTF_8));
-        } catch (Exception e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
-            return false;
-        }
-
-    }
-
-    @Override
-    public InputStream getDataSourceInputStream(String filePath) throws Exception {
-        return readBean(filePath, "datasource");
-    }
-
-
-    @Override
-    public ArrayList getAllRole4Privilege(boolean isFS) {
-        refreshHttpSProperty();
-        ArrayList<String> allRoleList = new ArrayList<>();
-        try {
-            HashMap<String, String> para = new HashMap<>();
-            para.put("op", "fr_remote_design");
-            para.put("cmd", "get_all_role");
-            para.put("isFS", String.valueOf(isFS));
-
-            InputStream input = filterInputStream(
-                    RemoteEnvUtils.simulateRPCByHttpGet(para, false, this)
-            );
-            JSONArray ja = new JSONArray(stream2String(input));
-            for (int i = 0; i < ja.length(); i++) {
-                String roleName = (String) ((JSONObject) ja.get(i)).get("name");
-                allRoleList.add(roleName);
-            }
-        } catch (Exception e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
-        }
-        return allRoleList;
-    }
-
 
     /**
      * 获取当前env的build文件路径
@@ -848,56 +612,6 @@ public class RemoteEnv extends AbstractEnv<RemoteEnvConfig> implements DesignAut
     @Override
     public void setBuildFilePath(String buildFilePath) {
         this.buildFilePath = buildFilePath;
-    }
-
-    /**
-     * 编译Java源代码，方便二次开发的进行
-     *
-     * @param sourceText 源代码
-     * @return 编译信息，有可能是成功信息，也有可能是出错或者警告信息
-     */
-    @Override
-    public JavaCompileInfo compilerSourceCode(String sourceText) throws Exception {
-        HashMap<String, String> para = new HashMap<>();
-        para.put("op", "fr_remote_design");
-        para.put("cmd", "design_compile_source_code");
-        InputStream in = postBytes2ServerB(sourceText.getBytes(EncodeConstants.ENCODING_UTF_8), para);
-        BufferedReader br = new BufferedReader(new InputStreamReader(in, EncodeConstants.ENCODING_UTF_8));
-        StringBuilder sb = new StringBuilder();
-        String line;
-        while ((line = br.readLine()) != null) {
-            sb.append(line);
-        }
-        JSONObject jo = new JSONObject(sb.toString());
-        JavaCompileInfo info = new JavaCompileInfo();
-        info.parseJSON(jo);
-        return info;
-    }
-
-
-    @Override
-    public String pluginServiceAction(String serviceID, String req) throws Exception {
-        refreshHttpSProperty();
-        HashMap<String, String> para = new HashMap<>();
-        para.put("op", "fr_remote_design");
-        para.put("cmd", "design_get_plugin_service_data");
-        para.put("serviceID", serviceID);
-        para.put("req", req);
-        //jim ：加上user，远程设计点击预览时传递用户角色信息
-        InputStream inputStream = filterInputStream(
-                RemoteEnvUtils.simulateRPCByHttpPost(para, false, this)
-        );
-        return IOUtils.inputStream2String(inputStream);
-    }
-
-    /**
-     * 远程不启动，使用虚拟服务
-     * <p>
-     *
-     * @param serviceID serviceID
-     */
-    @Override
-    public void pluginServiceStart(String serviceID) {
     }
 
     @Override

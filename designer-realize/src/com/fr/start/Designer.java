@@ -30,6 +30,7 @@ import com.fr.design.mainframe.JWorkBook;
 import com.fr.design.mainframe.alphafine.component.AlphaFinePane;
 import com.fr.design.mainframe.bbs.UserInfoLabel;
 import com.fr.design.mainframe.bbs.UserInfoPane;
+import com.fr.design.mainframe.templateinfo.TemplateInfoCollector;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.menu.MenuDef;
@@ -41,6 +42,7 @@ import com.fr.design.utils.concurrent.ThreadFactoryBuilder;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
+import com.fr.general.SiteCenter;
 import com.fr.module.Module;
 import com.fr.module.ModuleContext;
 import com.fr.stable.BuildContext;
@@ -52,16 +54,23 @@ import com.fr.stable.xml.XMLTools;
 import com.fr.start.fx.SplashFx;
 import com.fr.start.jni.SplashMac;
 import com.fr.start.module.StartupArgs;
-import com.fr.start.server.FineEmbedServer;
+import com.fr.start.preload.ImagePreLoader;
 import com.fr.start.server.ServerTray;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.border.MatteBorder;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -87,7 +96,7 @@ public class Designer extends BaseDesigner {
      * @param args 参数
      */
     public static void main(String[] args) {
-    
+        preloadResource();
         BuildContext.setBuildFilePath("/com/fr/stable/build.properties");
         SplashContext.getInstance().registerSplash(createSplash());
         SplashContext.getInstance().show();
@@ -100,6 +109,33 @@ public class Designer extends BaseDesigner {
             ServerTray.init();
         }
 
+    }
+
+    private static void preloadResource() {
+        ExecutorService service = Executors.newCachedThreadPool();
+
+        service.submit(new Runnable() {
+            @Override
+            public void run() {
+                SiteCenter.getInstance();
+                Cursor cursor = UIConstants.CELL_DEFAULT_CURSOR;
+            }
+        });
+
+        service.submit(new Runnable() {
+            @Override
+            public void run() {
+                new ImagePreLoader();
+            }
+        });
+
+        service.submit(new Runnable() {
+            @Override
+            public void run() {
+                TemplateInfoCollector.getInstance();
+            }
+        });
+        service.shutdown();
     }
 
     private static SplashStrategy createSplash() {
@@ -498,6 +534,9 @@ public class Designer extends BaseDesigner {
         collector.collectStopTime();
         collector.saveXMLFile();
         Env currentEnv = FRContext.getCurrentEnv();
+        if (currentEnv == null) {
+            return;
+        }
         currentEnv.doWhenServerShutDown();
     }
 

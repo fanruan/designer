@@ -1,6 +1,5 @@
 package com.fr.design.data;
 
-import com.fr.base.Env;
 import com.fr.base.FRContext;
 import com.fr.base.StoreProcedureParameter;
 import com.fr.base.TableData;
@@ -10,6 +9,7 @@ import com.fr.data.impl.EmbeddedTableData;
 import com.fr.data.impl.storeproc.ProcedureDataModel;
 import com.fr.data.impl.storeproc.StoreProcedure;
 import com.fr.data.impl.storeproc.StoreProcedureConstants;
+import com.fr.data.operator.DataOperator;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.data.datapane.preview.PreviewTablePane;
 import com.fr.design.data.tabledata.wrapper.ServerTableDataWrapper;
@@ -417,8 +417,7 @@ public abstract class DesignTableDataManager {
      */
     private static EmbeddedTableData previewTableData(TableDataSource tableDataSource, TableData tabledata, int rowCount, boolean isMustInputParameters, boolean needLoadingBar) throws Exception {
         final AutoProgressBar loadingBar = PreviewTablePane.getInstance().getProgressBar();
-        Env currentEnv = FRContext.getCurrentEnv();
-        ParameterProvider[] parameters = currentEnv.getTableDataParameters(tabledata);
+        ParameterProvider[] parameters = DataOperator.getInstance().getTableDataParameters(tabledata);
         if (ArrayUtils.isEmpty(parameters)) {
             parameters = tabledata.getParameters(Calculator.createCalculator());
         }
@@ -440,13 +439,13 @@ public abstract class DesignTableDataManager {
             loadingBar.start();
         }
         try {
-            for (ParameterProvider parameter : currentEnv.getTableDataParameters(tabledata)) {
+            for (ParameterProvider parameter : DataOperator.getInstance().getTableDataParameters(tabledata)) {
                 if (parameterMap.containsKey(parameter.getName())) {
                     parameter.setValue(parameterMap.get(parameter.getName()));
                 }
             }
-            return currentEnv.previewTableData(tableDataSource, tabledata, parameterMap, rowCount);
-        } catch (TableDataException e) {
+            return DataOperator.getInstance().previewTableData(tableDataSource, tabledata, parameterMap, rowCount);
+        } catch (Exception e) {
             throw new TableDataException(e.getMessage(), e);
         } finally {
             new Timer().schedule(new TimerTask() {
@@ -510,11 +509,10 @@ public abstract class DesignTableDataManager {
         XMLPrintWriter writer = XMLPrintWriter.create(out);
         // 把storeProcedure写成xml文件到out
         DataCoreXmlUtils.writeXMLStoreProcedure(writer, storeProcedure, null);
-        Env currentEnv = FRContext.getCurrentEnv();
         if (storeProcedure.getDataModelSize() > 0 && !storeProcedure.isFirstExpand()) {
             return storeProcedure.creatLazyDataModel();
         }
-        ParameterProvider[] inParameters = currentEnv.getStoreProcedureParameters(storeProcedure);
+        ParameterProvider[] inParameters = DataOperator.getInstance().getStoreProcedureParameters(storeProcedure);
         final Map<String, Object> parameterMap = new HashMap<String, Object>();
         if (inParameters.length > 0 && !ComparatorUtils.equals(threadLocal.get(), NO_PARAMETER)) {// 检查Parameter.
             final ParameterInputPane pPane = new ParameterInputPane(inParameters);
@@ -529,7 +527,7 @@ public abstract class DesignTableDataManager {
         if (needLoadingBar) {
             StoreProcedureDataWrapper.loadingBar.start();
         }
-        return FRContext.getCurrentEnv().previewProcedureDataModel(storeProcedure, parameterMap, 0);
+        return DataOperator.getInstance().previewProcedureDataModel(storeProcedure, parameterMap, 0);
     }
 
     public static void setThreadLocal(String value) {

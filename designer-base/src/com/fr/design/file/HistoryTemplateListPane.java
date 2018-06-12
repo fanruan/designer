@@ -1,5 +1,6 @@
 package com.fr.design.file;
 
+import com.fr.base.Env;
 import com.fr.base.FRContext;
 import com.fr.base.chart.chartdata.CallbackEvent;
 import com.fr.dav.LocalEnv;
@@ -18,9 +19,11 @@ import com.fr.design.utils.gui.GUIPaintUtils;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
+import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.Constants;
+import com.fr.stable.StableUtils;
 import com.fr.stable.project.ProjectConstants;
 
 import javax.swing.*;
@@ -363,8 +366,10 @@ public class HistoryTemplateListPane extends JPanel implements FileOperations, C
      */
     public void openContainerFolder() {
         FileNode fileNode = new FileNode(((JTemplate<?, ?>) list.getSelectedValue()).getEditingFILE().getPath(), false);
-        LocalEnv localEnv = (LocalEnv) FRContext.getCurrentEnv();
-        localEnv.openContainerFolder(fileNode);
+        Env env = FRContext.getCurrentEnv();
+        if (env.isLocalEnv()) {
+            IOUtils.openWindowsFolder(StableUtils.pathJoin(env.getEnvConfig().getPath(), fileNode.getEnvPath()));
+        }
     }
 
     /**

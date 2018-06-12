@@ -172,7 +172,7 @@ public class ChartTypePane extends ChartCommonWizardPane {
     }
 
     private boolean supportMap() {
-        return VT4FR.ChartMap.support();
+        return VT4FR.ChartMap.isSupport();
     }
 
     public void update(ChartCollection cc) {

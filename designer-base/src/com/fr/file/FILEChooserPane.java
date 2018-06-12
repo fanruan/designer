@@ -1,8 +1,8 @@
 package com.fr.file;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.extension.FileExtension;
 import com.fr.base.FRContext;
+import com.fr.base.extension.FileExtension;
 import com.fr.dav.LocalEnv;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.UpdateAction;
@@ -26,6 +26,7 @@ import com.fr.file.filter.FILEFilter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.ProductConstants;
@@ -33,38 +34,13 @@ import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
 
-import javax.swing.AbstractAction;
-import javax.swing.AbstractListModel;
-import javax.swing.ActionMap;
-import javax.swing.BorderFactory;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.DefaultListModel;
-import javax.swing.Icon;
-import javax.swing.InputMap;
-import javax.swing.JComponent;
-import javax.swing.JFileChooser;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.KeyStroke;
-import javax.swing.ListCellRenderer;
-import javax.swing.ListModel;
-import javax.swing.ListSelectionModel;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.plaf.basic.BasicButtonUI;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Insets;
-import java.awt.Window;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -707,7 +683,14 @@ public class FILEChooserPane extends BasicPane {
         }
         returnValue = OK_OPTION;
         FILE selectedFile = this.getSelectedFILE();
-        if (!FRContext.getCurrentEnv().hasFileFolderAllow(selectedFile.getPath())) {
+        boolean access = false;
+
+        try {
+            access = FRContext.getCurrentEnv().getOrganizationOperator().canAccess(selectedFile.getPath());
+        } catch (Exception e) {
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+        }
+        if (!access) {
             JOptionPane.showMessageDialog(FILEChooserPane.this, Inter.getLocText("FR-App-Privilege_No") + "!", Inter.getLocText("FR-App-File_Message"), JOptionPane.WARNING_MESSAGE);
             return;
         }
@@ -1418,7 +1401,14 @@ public class FILEChooserPane extends BasicPane {
             if (currentDirectory == null) {
                 return;
             }
-            if (!FRContext.getCurrentEnv().hasFileFolderAllow(currentDirectory.getPath() + "/")) {
+
+            boolean access = false;
+            try {
+                access = FRContext.getCurrentEnv().getOrganizationOperator().canAccess(currentDirectory.getPath());
+            } catch (Exception e) {
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
+            }
+            if (!access) {
                 JOptionPane.showMessageDialog(FILEChooserPane.this, Inter.getLocText("FR-App-Privilege_No") + "!", Inter.getLocText("FR-App-File_Message"), JOptionPane.WARNING_MESSAGE);
                 return;
             }

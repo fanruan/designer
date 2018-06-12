@@ -11,6 +11,7 @@ import com.fr.design.file.TemplateTreePane;
 import com.fr.design.fun.DesignerStartOpenFileProcessor;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrame;
+import com.fr.design.mainframe.loghandler.LogMessageBar;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDock;
 import com.fr.design.utils.DesignUtils;
 import com.fr.event.EventDispatcher;
@@ -48,10 +49,30 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
         EventDispatcher.fire(ModuleEvent.MajorModuleStarting, InterProviderFactory.getProvider().getLocText("FR-Designer_Initializing"));
         // 初始化look and feel.这个在预加载之前执行是因为lookAndFeel里的东西，预加载时也要用到
         DesignUtils.initLookAndFeel();
-    
+        // 预加载一些耗时的单例面板
+        preLoadPane();
+
         // 初始化Log Handler
         DesignerEnvManager.loadLogSetting();
         createDesignerFrame();
+    }
+
+    private void preLoadPane() {
+        ExecutorService service = Executors.newCachedThreadPool();
+        service.submit(new Runnable() {
+            @Override
+            public void run() {
+                LogMessageBar.getInstance();
+            }
+        });
+
+        service.submit(new Runnable() {
+            @Override
+            public void run() {
+                HistoryTemplateListPane.getInstance();
+            }
+        });
+        service.shutdown();
     }
 
     public void show(final String[] args) {
@@ -61,6 +82,7 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
             public void run() {
                 collectUserInformation();
                 showDesignerFrame(args, DesignerContext.getDesignerFrame(), false);
+                DesignerContext.getDesignerFrame().refreshEnv();
                 for (int i = 0; !TemplateTreePane.getInstance().getTemplateFileTree().isTemplateShowing() && i < LOAD_TREE_MAXNUM; i++) {
                     TemplateTreePane.getInstance().getTemplateFileTree().refresh();
                 }
