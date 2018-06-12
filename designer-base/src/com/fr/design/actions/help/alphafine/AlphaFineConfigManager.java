@@ -75,7 +75,7 @@ public class AlphaFineConfigManager implements XMLable {
 
     public static boolean isALPHALicAvailable() {
     
-        return FRContext.getCurrentEnv() != null && VT4FR.AlphaFine.support();
+        return FRContext.getCurrentEnv() != null && VT4FR.AlphaFine.isSupport();
     }
 
     @Override

@@ -182,7 +182,7 @@ public class TemplateTreePane extends JPanel implements FileOperations {
             }
             if (nodeFile.exists()) {
                 String path = StableUtils.pathJoin(nodeFile.getEnvPath(), nodeFile.getPath());
-                FileAssistUtils.moveToTrash(path);
+                FileAssistUtils.moveToTrash(nodeFile.getPath());
                 deleteHistory(path.replaceAll("/", "\\\\"));
             } else {
                 JOptionPane.showMessageDialog(this, Inter.getLocText("Warning-Template_Do_Not_Exsit"), ProductConstants.PRODUCT_NAME,

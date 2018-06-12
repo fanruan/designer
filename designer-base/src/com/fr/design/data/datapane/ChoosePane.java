@@ -9,6 +9,7 @@ import com.fr.data.core.db.TableProcedure;
 import com.fr.data.core.db.dialect.DialectFactory;
 import com.fr.data.impl.Connection;
 import com.fr.data.impl.DBTableData;
+import com.fr.data.operator.DataOperator;
 import com.fr.dav.LocalEnv;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.beans.BasicBeanPane;
@@ -449,7 +450,7 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
             return TableData.EMPTY_TABLEDATA;
         }
         try {
-            connect = FRContext.getCurrentEnv().testConnection(database);
+            connect = DataOperator.getInstance().testConnection(database);
         } catch (Exception ignored) {
         }
         if (!connect) {
@@ -468,7 +469,7 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
         } else {
             try {
                 TableData tableDataLocal = new DBTableData(database, DataCoreUtils.createSelectSQL(paras.getSchemaName(), paras.getTableName(), DialectFactory.getDialectByName(paras.getDatabaseName())));
-                tableData = FRContext.getCurrentEnv().previewTableData(tableDataLocal, java.util.Collections.EMPTY_MAP,
+                tableData = DataOperator.getInstance().previewTableData(tableDataLocal, java.util.Collections.EMPTY_MAP,
                         DesignerEnvManager.getEnvManager().getMaxNumberOrPreviewRow());
             } catch (Exception e) {
                 failedToFindTable();
@@ -524,7 +525,7 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
         }
         try {
             // daniel:增加参数
-            colNames = FRContext.getCurrentEnv().getColumns(selectedDSName, paras.getSchemaName(), selectedTableObject);
+            colNames = DataOperator.getInstance().getColumns(selectedDSName, paras.getSchemaName(), selectedTableObject);
         } catch (Exception e2) {
             FRContext.getLogger().error(e2.getMessage(), e2);
         }

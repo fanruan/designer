@@ -69,7 +69,7 @@ public class ErrorInfoUploader {
     // 从云中心更新最新的解决方案文件
     private void checkUpdateSolution() {
 
-        if (!VT4FR.AlphaFine.support()) {
+        if (!VT4FR.AlphaFine.isSupport()) {
             return;
         }
 
