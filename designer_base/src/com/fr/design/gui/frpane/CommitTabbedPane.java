@@ -3,6 +3,7 @@ package com.fr.design.gui.frpane;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.constants.UIConstants;
+import com.fr.design.utils.ComponentUtils;
 import com.fr.design.write.submit.DBManipulationPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.javascript.Commit2DBJavaScriptPane;
@@ -21,23 +22,23 @@ import java.util.List;
  * Time: 下午3:24
  */
 
-public  class CommitTabbedPane extends JComponent implements MouseListener, MouseMotionListener {
+public class CommitTabbedPane extends JComponent implements MouseListener, MouseMotionListener {
 
     private Icon closeIcon = BaseUtils.readIcon("com/fr/design/images/gui/tab_delete.png");
     private static final Icon ADD_NORMAL = BaseUtils.readIcon("com/fr/design/images/gui/tab_add_normal.png");
     private static final Icon ADD_OVER = BaseUtils.readIcon("com/fr/design/images/gui/tab_add_hover.png");
     private static final Icon ADD_CLICK = BaseUtils.readIcon("com/fr/design/images/gui/tab_add_click.png");
     private static final Image DESIGN_IMAGE = BaseUtils.readImage("com/fr/design/images/sheet/left_right_btn.png");
-    private static final Icon LEFT_ICON = BaseUtils.createIcon(DESIGN_IMAGE, 0, 0, 14, 14);
-    private static final Icon RIGHT_ICON = BaseUtils.createIcon(DESIGN_IMAGE, 14, 0, 14, 14);
-    private static final Icon DISABLED_LEFT_ICON = BaseUtils.createIcon(DESIGN_IMAGE, 0, 14, 14, 14);
-    private static final Icon DISABLED_RIGHT_ICON = BaseUtils.createIcon(DESIGN_IMAGE, 14, 14, 14, 14);
+    private static final Icon LEFT_ICON = ComponentUtils.createIcon(DESIGN_IMAGE, 0, 0, 14, 14);
+    private static final Icon RIGHT_ICON = ComponentUtils.createIcon(DESIGN_IMAGE, 14, 0, 14, 14);
+    private static final Icon DISABLED_LEFT_ICON = ComponentUtils.createIcon(DESIGN_IMAGE, 0, 14, 14, 14);
+    private static final Icon DISABLED_RIGHT_ICON = ComponentUtils.createIcon(DESIGN_IMAGE, 14, 14, 14, 14);
     private Icon addIcon = ADD_NORMAL;
 
     private static final int TOOLBAR_HEIGHT = 16;  //  按钮高度
     private static final int GAP = 5;       //间隔
     private static final int SMALLGAP = 3;
-    
+
     private static final int FIRST_TAB_POSITION = 20;
 
 
@@ -47,7 +48,7 @@ public  class CommitTabbedPane extends JComponent implements MouseListener, Mous
 
     private JPanel buttonPane;
 
-    private List dbManipulationPaneList ;
+    private List dbManipulationPaneList;
 
     private Commit2DBJavaScriptPane commit2DBJavaScriptPane;
 
@@ -82,7 +83,7 @@ public  class CommitTabbedPane extends JComponent implements MouseListener, Mous
     private int[] closeIconStartX;
 
 
-    public  CommitTabbedPane(Commit2DBJavaScriptPane commit2DBJavaScriptPane, List dbManipulationPaneList ){
+    public CommitTabbedPane(Commit2DBJavaScriptPane commit2DBJavaScriptPane, List dbManipulationPaneList) {
         this.commit2DBJavaScriptPane = commit2DBJavaScriptPane;
         this.dbManipulationPaneList = dbManipulationPaneList;
         this.setLayout(new BorderLayout(0, 0));
@@ -113,7 +114,7 @@ public  class CommitTabbedPane extends JComponent implements MouseListener, Mous
 
     }
 
-    private ActionListener createRightButtonActionListener(){
+    private ActionListener createRightButtonActionListener() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -122,8 +123,8 @@ public  class CommitTabbedPane extends JComponent implements MouseListener, Mous
                     scrollIndex += showCount;
                     lastOneIndex += showCount;
                     selectedIndex = lastOneIndex;
-                } else if(lastOneIndex < tabCount && lastOneIndex + showCount > tabCount){
-                    lastOneIndex = tabCount -1;
+                } else if (lastOneIndex < tabCount && lastOneIndex + showCount > tabCount) {
+                    lastOneIndex = tabCount - 1;
                     scrollIndex = lastOneIndex - showCount;
                     selectedIndex = lastOneIndex;
                 }
@@ -137,12 +138,12 @@ public  class CommitTabbedPane extends JComponent implements MouseListener, Mous
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(scrollIndex >= showCount) {
+                if (scrollIndex >= showCount) {
                     scrollIndex -= showCount;
                     selectedIndex = scrollIndex;
                     lastOneIndex -= showCount;
-                } else if (scrollIndex > 0 && scrollIndex< showCount){
-                    scrollIndex =0;
+                } else if (scrollIndex > 0 && scrollIndex < showCount) {
+                    scrollIndex = 0;
                     selectedIndex = 0;
                     lastOneIndex = showCount;
 
@@ -157,14 +158,14 @@ public  class CommitTabbedPane extends JComponent implements MouseListener, Mous
         rightButton.setEnabled(buttonEnabled);
     }
 
-    public int getSelectedIndex(){
+    public int getSelectedIndex() {
         return selectedIndex;
     }
 
-    public void  paintComponent(Graphics g){
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
         double maxWidth = getWidth() - buttonPane.getWidth();
-        Graphics2D  g2d = (Graphics2D) g;
+        Graphics2D g2d = (Graphics2D) g;
         paintBackgroundAndLine(g2d, maxWidth);
 
     }
@@ -185,41 +186,41 @@ public  class CommitTabbedPane extends JComponent implements MouseListener, Mous
         int startX = 0;
         //从可以开始展示在tab面板上的tab开始画
         for (int i = scrollIndex; i <= lastOneIndex; i++) {
-            DBManipulationPane dbManipulationPane = (DBManipulationPane)dbManipulationPaneList.get(i);
-            String name ;
-            if (dbManipulationPane.getSubMitName() != null){
+            DBManipulationPane dbManipulationPane = (DBManipulationPane) dbManipulationPaneList.get(i);
+            String name;
+            if (dbManipulationPane.getSubMitName() != null) {
                 name = dbManipulationPane.getSubMitName();
             } else {
                 name = createName();
                 dbManipulationPane.setSubMitName(name);
             }
             if (i == selectedIndex) {
-                closeIconStartX[i - scrollIndex] = paintSelectedTab(g2d, startX,name, i);
+                closeIconStartX[i - scrollIndex] = paintSelectedTab(g2d, startX, name, i);
             } else {
-                closeIconStartX[i - scrollIndex] = paintUnSelectedTab(g2d,startX,name,i);
+                closeIconStartX[i - scrollIndex] = paintUnSelectedTab(g2d, startX, name, i);
             }
             startX += tabWidth;
         }
         paintUnderLine(startX, maxWidth, g2d);
         addX = startX + GAP;
-        addIcon.paintIcon(this,g2d,addX,0);
+        addIcon.paintIcon(this, g2d, addX, 0);
         checkButton(getTabCount() > showCount);
     }
 
-    public int getTabCount(){
+    public int getTabCount() {
         return dbManipulationPaneList.size();
     }
 
-    private String createName(){
+    private String createName() {
         String prefix = Inter.getLocText("FR-Designer-CommitTab_Submit");
-        int  count = getTabCount();
+        int count = getTabCount();
         while (true) {
             //从提交1开始
             count = count == 0 ? 1 : count;
             String newName = prefix + count;
             boolean repeated = false;
-            for (int  i= 0;i < getTabCount();i++) {
-                if (ComparatorUtils.equals( ((DBManipulationPane)dbManipulationPaneList.get(i)).getSubMitName(), newName)) {
+            for (int i = 0; i < getTabCount(); i++) {
+                if (ComparatorUtils.equals(((DBManipulationPane) dbManipulationPaneList.get(i)).getSubMitName(), newName)) {
                     repeated = true;
                     break;
                 }
@@ -234,7 +235,6 @@ public  class CommitTabbedPane extends JComponent implements MouseListener, Mous
     }
 
 
-
     private void paintUnderLine(double startX, double maxWidth, Graphics2D g2d) {
         //画下面的那条线
         if (startX < maxWidth) {
@@ -243,7 +243,7 @@ public  class CommitTabbedPane extends JComponent implements MouseListener, Mous
             generalPath.lineTo((float) maxWidth, (float) (getHeight() - 1));
             g2d.fill(generalPath);
             g2d.setPaint(UIConstants.LINE_COLOR);
-            g2d.draw(new Line2D.Double((float) startX, (float) (getHeight() - 1), (float) maxWidth , (float) (getHeight() - 1)));
+            g2d.draw(new Line2D.Double((float) startX, (float) (getHeight() - 1), (float) maxWidth, (float) (getHeight() - 1)));
         }
     }
 
@@ -292,7 +292,7 @@ public  class CommitTabbedPane extends JComponent implements MouseListener, Mous
      * @param sheetName
      * @return
      */
-    private int paintSelectedTab(Graphics2D g2d,int startX, String sheetName, int selfIndex) {
+    private int paintSelectedTab(Graphics2D g2d, int startX, String sheetName, int selfIndex) {
         double[] x = {startX, startX, startX + tabWidth, startX + tabWidth, startX};
         double[] y = {-1, getHeight(), getHeight(), -1, -1};
         RoundRectangle2D.Double rect1 = new RoundRectangle2D.Double(startX, 1, this.getWidth(), this.getHeight(), 7, 7);
@@ -318,15 +318,15 @@ public  class CommitTabbedPane extends JComponent implements MouseListener, Mous
         g2d.draw(new Line2D.Double(x[0], y[0] + CORNOR_RADIUS, x[1], y[1]));
         g2d.draw(new Line2D.Double(x[1], y[1], x[2], y[2]));
         g2d.draw(new Line2D.Double(x[2], y[2], x[3], y[3] + CORNOR_RADIUS));
-        g2d.draw(new Line2D.Double(x[0] + 3 ,0,x[2] - 3,0));
+        g2d.draw(new Line2D.Double(x[0] + 3, 0, x[2] - 3, 0));
         g2d.draw(new Arc2D.Double(x[3] - CORNOR_RADIUS * 2, y[3], CORNOR_RADIUS * 2, CORNOR_RADIUS * 2, 90, -90, 0));
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
         // 画字符
         g2d.setPaint(getForeground());
-        g2d.drawString(sheetName,  startX  + 2 * GAP, getHeight()-GAP);
-        int closePosition =  startX + tabWidth - closeIcon.getIconWidth() - SMALLGAP;
+        g2d.drawString(sheetName, startX + 2 * GAP, getHeight() - GAP);
+        int closePosition = startX + tabWidth - closeIcon.getIconWidth() - SMALLGAP;
         int closeY = (getHeight() - closeIcon.getIconHeight()) / 2;
-        if (canClose() && mouseOveredIndex == selfIndex){
+        if (canClose() && mouseOveredIndex == selfIndex) {
             closeIcon.paintIcon(this, g2d, closePosition, closeY);
         }
         return closePosition;
@@ -341,7 +341,7 @@ public  class CommitTabbedPane extends JComponent implements MouseListener, Mous
      * @param sheetName
      * @return
      */
-    private int paintUnSelectedTab(Graphics2D g2d,  int startX, String sheetName, int selfIndex) {
+    private int paintUnSelectedTab(Graphics2D g2d, int startX, String sheetName, int selfIndex) {
         double[] x = {startX, startX, startX + tabWidth, startX + tabWidth, startX};
         double[] y = {-1, getHeight() - 1, getHeight() - 1, -1, -1};
         if (selfIndex == mouseOveredIndex) {
@@ -373,16 +373,16 @@ public  class CommitTabbedPane extends JComponent implements MouseListener, Mous
         g2d.draw(new Line2D.Double(x[0], y[0] + CORNOR_RADIUS, x[1], y[1]));
         g2d.draw(new Line2D.Double(x[1], y[1], x[2], y[2]));
         g2d.draw(new Line2D.Double(x[2], y[2], x[3], y[3] + CORNOR_RADIUS));
-        g2d.draw(new Line2D.Double(x[0] + 3 ,0,x[2] - 3,0));
+        g2d.draw(new Line2D.Double(x[0] + 3, 0, x[2] - 3, 0));
         g2d.draw(new Arc2D.Double(x[3] - CORNOR_RADIUS * 2, y[3], CORNOR_RADIUS * 2, CORNOR_RADIUS * 2, 90, -90, 0));
 
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
         // 画字符
         g2d.setPaint(getForeground());
-        g2d.drawString(sheetName,  startX  + 2 * GAP, getHeight() - GAP );
+        g2d.drawString(sheetName, startX + 2 * GAP, getHeight() - GAP);
         int closeY = (getHeight() - closeIcon.getIconHeight()) / 2;
-        int closePosition =  startX + tabWidth - closeIcon.getIconWidth() - SMALLGAP;
-        if (canClose()  && mouseOveredIndex == selfIndex){
+        int closePosition = startX + tabWidth - closeIcon.getIconWidth() - SMALLGAP;
+        if (canClose() && mouseOveredIndex == selfIndex) {
             closeIcon.paintIcon(this, g2d, closePosition, closeY);
         }
         return closePosition;
@@ -391,24 +391,26 @@ public  class CommitTabbedPane extends JComponent implements MouseListener, Mous
 
     /**
      * 鼠标按下
-     * @param e  事件
+     *
+     * @param e 事件
      */
     public void mouseClicked(MouseEvent e) {
     }
 
     /**
      * 鼠标按下
+     *
      * @param e 事件
      */
     public void mousePressed(MouseEvent e) {
         int x = e.getX(), y = e.getY();
-        if (addX!= -1 && isOverAddIcon(x, y)){
+        if (addX != -1 && isOverAddIcon(x, y)) {
             addIcon = ADD_CLICK;
             commit2DBJavaScriptPane.createDBManipulationPane();
-            selectedIndex = dbManipulationPaneList.size()-1;
+            selectedIndex = dbManipulationPaneList.size() - 1;
             commit2DBJavaScriptPane.updateCardPane();
-        } else if (isOverCloseIcon(x)){
-            int re = JOptionPane.showConfirmDialog(SwingUtilities.getWindowAncestor(this), Inter.getLocText("FR-Designer-CommitTab_SureToDelete")+ "?", Inter.getLocText("FR-Designer-CommitTab_Remove")
+        } else if (isOverCloseIcon(x)) {
+            int re = JOptionPane.showConfirmDialog(SwingUtilities.getWindowAncestor(this), Inter.getLocText("FR-Designer-CommitTab_SureToDelete") + "?", Inter.getLocText("FR-Designer-CommitTab_Remove")
                     , JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (re == JOptionPane.OK_OPTION) {
                 dbManipulationPaneList.remove(getTabIndex(x));
@@ -416,9 +418,9 @@ public  class CommitTabbedPane extends JComponent implements MouseListener, Mous
                 // 删除tab以后，获得第一个tab，再刷新一下，否则画面会停留在已删除的tab上，第一个tab是不可删除的
                 selectedIndex = getTabIndex(FIRST_TAB_POSITION);
                 commit2DBJavaScriptPane.updateCardPane();
-                
+
             }
-        } else if (selectedIndex != getTabIndex(x)){
+        } else if (selectedIndex != getTabIndex(x)) {
             selectedIndex = getTabIndex(x);
             commit2DBJavaScriptPane.updateCardPane();
         }
@@ -427,24 +429,27 @@ public  class CommitTabbedPane extends JComponent implements MouseListener, Mous
 
     /**
      * 鼠标离开
-     * @param e   事件
+     *
+     * @param e 事件
      */
     public void mouseReleased(MouseEvent e) {
-        if(addX != -1 && isOverAddIcon(e.getX(), e.getY())){
+        if (addX != -1 && isOverAddIcon(e.getX(), e.getY())) {
             addIcon = ADD_NORMAL;
         }
     }
 
     /**
      * 鼠标进入
-     * @param e   事件
+     *
+     * @param e 事件
      */
     public void mouseEntered(MouseEvent e) {
     }
 
     /**
      * 鼠标离开
-     * @param e   事件
+     *
+     * @param e 事件
      */
     public void mouseExited(MouseEvent e) {
         mouseOveredIndex = -1;
@@ -453,19 +458,21 @@ public  class CommitTabbedPane extends JComponent implements MouseListener, Mous
 
     /**
      * 鼠标拖动
-     * @param e   事件
+     *
+     * @param e 事件
      */
     public void mouseDragged(MouseEvent e) {
     }
 
     /**
      * 鼠标移动
-     * @param e   事件
+     *
+     * @param e 事件
      */
     public void mouseMoved(MouseEvent e) {
-        if(addX!= -1 && isOverAddIcon(e.getX(), e.getY())){
+        if (addX != -1 && isOverAddIcon(e.getX(), e.getY())) {
             addIcon = ADD_OVER;
-        }  else {
+        } else {
             mouseOveredIndex = getTabIndex(e.getX());
             addIcon = ADD_NORMAL;
         }
@@ -474,14 +481,15 @@ public  class CommitTabbedPane extends JComponent implements MouseListener, Mous
 
 
     /**
-     *  判断鼠标所在Tab
-     * @param   evtX
-     * @return    index
+     * 判断鼠标所在Tab
+     *
+     * @param evtX
+     * @return index
      */
-    private int getTabIndex ( int evtX ){
+    private int getTabIndex(int evtX) {
         int x = 0;
-        for( int i = scrollIndex;i <= lastOneIndex;i++){
-            if(evtX > x && evtX <= x + tabWidth ){
+        for (int i = scrollIndex; i <= lastOneIndex; i++) {
+            if (evtX > x && evtX <= x + tabWidth) {
                 return i;
             }
             x = x + tabWidth;
@@ -491,46 +499,49 @@ public  class CommitTabbedPane extends JComponent implements MouseListener, Mous
 
     /**
      * 判断鼠标是否在添加按钮上
+     *
      * @param x 鼠标坐标x
      * @param y 鼠标坐标y
      * @return 返回鼠标是否在添加按钮上
      */
-    private boolean isOverAddIcon(int x, int y){
-        int addWidth = addIcon.getIconWidth(),addHeight = addIcon.getIconHeight();
+    private boolean isOverAddIcon(int x, int y) {
+        int addWidth = addIcon.getIconWidth(), addHeight = addIcon.getIconHeight();
         return x >= addX && x <= addX + addWidth && y > addY && y <= addY + addHeight;
     }
 
 
     /**
      * 判断鼠标是否在关闭按钮上
-     * @param evtX      x
+     *
+     * @param evtX x
      * @return 返回鼠标是否在关闭按钮上
      */
     private boolean isOverCloseIcon(int evtX) {
         boolean isOverCloseIcon = false;
-        if( canClose()){
-        for (int i = 0; i < closeIconStartX.length; i++) {
-            if (evtX >= closeIconStartX[i] && evtX <= closeIconStartX[i] + closeIcon.getIconWidth()) {
-                isOverCloseIcon = true;
-                break;
+        if (canClose()) {
+            for (int i = 0; i < closeIconStartX.length; i++) {
+                if (evtX >= closeIconStartX[i] && evtX <= closeIconStartX[i] + closeIcon.getIconWidth()) {
+                    isOverCloseIcon = true;
+                    break;
+                }
             }
-        }
         }
         return isOverCloseIcon;
     }
 
     /**
      * 如果tab只剩下最后一个，则不画删除按钮
+     *
      * @return 返回当前tab还可否关闭
      */
-    private boolean canClose(){
+    private boolean canClose() {
         return closeIconStartX.length > 1;
     }
 
     /**
      * 刷新tab，停留在第一个tab上面
      */
-    public void refreshTab(){
+    public void refreshTab() {
         selectedIndex = getTabIndex(FIRST_TAB_POSITION);
         commit2DBJavaScriptPane.updateCardPane();
     }
