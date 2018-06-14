@@ -109,7 +109,7 @@ public class PluginUtils {
     private static String getDownloadPath(String id) throws Exception {
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("id", id);
-        HttpClient httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("shop.plugin.scripts"));
+        HttpClient httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("shop.plugin.scripts_10"));
         httpClient.asGet();
         String resText = httpClient.getResponseText();
         JSONObject resultJSONObject = new JSONObject(resText);

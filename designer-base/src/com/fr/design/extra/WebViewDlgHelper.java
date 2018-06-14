@@ -72,10 +72,12 @@ public class WebViewDlgHelper {
                 if (rv == JOptionPane.OK_OPTION) {
                     downloadShopScripts(SHOP_SCRIPTS);
                 }
+                return;
             }
             String jar_version = PluginStoreConstants.getInstance().getProps(ENV_VERSION, StringUtils.EMPTY);
             if (ComparatorUtils.equals(jar_version, ProductConstants.VERSION)) {
                 updateShopScripts(SHOP_SCRIPTS);
+                showPluginDlg();
             } else {
                 int rv = JOptionPane.showConfirmDialog(
                         null,
@@ -281,7 +283,6 @@ public class WebViewDlgHelper {
                         IOUtils.unzip(new File(StableUtils.pathJoin(PluginConstants.DOWNLOAD_PATH, PluginConstants.TEMP_FILE)), installHome);
                         PluginStoreConstants.refreshProps();    // 下载完刷新一下版本号等
                         JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Shop_Installed"), Inter.getLocText("FR-Designer_Tooltips"), JOptionPane.INFORMATION_MESSAGE);
-                        showPluginDlg();
                     }
                 } catch (InterruptedException | ExecutionException e) {
                     FineLoggerFactory.getLogger().error(e.getMessage(), e);
@@ -295,7 +296,7 @@ public class WebViewDlgHelper {
         new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
-                HttpClient httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("shop.plugin.cv") + "&version=" + PluginStoreConstants.getInstance().getProps("VERSION"));
+                HttpClient httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("shop.plugin.cv_10") + "&version=" + PluginStoreConstants.getInstance().getProps("VERSION"));
                 httpClient.asGet();
                 if (httpClient.getResponseCode() == HttpURLConnection.HTTP_OK) {
                     String text = httpClient.getResponseText();
@@ -314,7 +315,6 @@ public class WebViewDlgHelper {
                         }
                     }
                 }
-                showPluginDlg();
                 return null;
             }
         }.execute();
