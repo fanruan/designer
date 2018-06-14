@@ -577,7 +577,8 @@ public class RemoteEnv extends AbstractEnv<RemoteEnvConfig> implements DesignAut
      */
     @Override
     public String getWebReportPath() {
-        return getPath().substring(0, getPath().lastIndexOf("/"));
+    
+        return StableUtils.pathJoin(getPath(), getAppName());
     }
 
     public String[] getProcedureColumns(StoreProcedure storeProcedure, Map parameterMap) throws Exception {
