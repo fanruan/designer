@@ -6,9 +6,6 @@ import com.fr.base.operator.connect.ConnectOperator;
 import com.fr.base.operator.file.FileOperator;
 import com.fr.base.operator.org.OrganizationOperator;
 import com.fr.base.remote.RemoteDeziConstants;
-import com.fr.common.rpc.RemoteCallServerConfig;
-import com.fr.common.rpc.netty.MessageSendExecutor;
-import com.fr.common.rpc.netty.RemoteCallClient;
 import com.fr.core.env.EnvConstants;
 import com.fr.core.env.EnvContext;
 import com.fr.data.impl.storeproc.StoreProcedure;
@@ -20,7 +17,6 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.file.CacheManager;
 import com.fr.general.CommonIOUtils;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.EnvProxyFactory;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.general.http.HttpToolbox;
@@ -42,6 +38,9 @@ import com.fr.stable.project.ProjectConstants;
 import com.fr.third.guava.base.Strings;
 import com.fr.third.guava.collect.ImmutableMap;
 import com.fr.web.ResourceConstants;
+import com.fr.workspace.engine.server.rpc.RemoteCallServerConfig;
+import com.fr.workspace.engine.server.rpc.netty.MessageSendExecutor;
+import com.fr.workspace.engine.server.rpc.netty.RemoteCallClient;
 
 import javax.swing.*;
 import javax.xml.transform.Source;
@@ -110,24 +109,6 @@ public class RemoteEnv extends AbstractEnv<RemoteEnvConfig> implements DesignAut
     }
     
     @Override
-    public EnvProxyFactory getProxyFactory() {
-        
-        return new EnvProxyFactory() {
-            
-            @Override
-            public <T> T get(Class<T> clazz, T obj) {
-                
-                assert clazz != null;
-                try {
-                    return MessageSendExecutor.getInstance().execute(clazz);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        };
-    }
-    
-    @Override
     public FileOperator getFileOperator() throws Exception {
         
         return MessageSendExecutor.getInstance().execute(FileOperator.class);
@@ -143,11 +124,6 @@ public class RemoteEnv extends AbstractEnv<RemoteEnvConfig> implements DesignAut
         return MessageSendExecutor.getInstance().execute(OrganizationOperator.class);
     }
     
-    @Override
-    public RemoteEnvConfig getEnvConfig() {
-        return config;
-    }
-
     @Override
     public String getPath() {
         return config.getPath();

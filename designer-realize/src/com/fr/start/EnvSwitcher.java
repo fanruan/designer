@@ -1,10 +1,10 @@
 package com.fr.start;
 
-import com.fr.base.Env;
-import com.fr.base.env.EnvUpdater;
 import com.fr.design.DesignerEnvManager;
-import com.fr.design.env.EnvGenerator;
+import com.fr.design.env.DesignerWorkspaceGenerator;
 import com.fr.design.mainframe.TemplatePane;
+import com.fr.workspace.WorkContext;
+import com.fr.workspace.Workspace;
 
 /**
  * Created by juhaoyu on 2018/1/31.
@@ -16,8 +16,8 @@ public class EnvSwitcher {
         
         try {
             String current = DesignerEnvManager.getEnvManager().getCurEnvName();
-            Env env = EnvGenerator.generate(DesignerEnvManager.getEnvManager().getEnv(current));
-            EnvUpdater.updateEnv(env);
+            Workspace workspace = DesignerWorkspaceGenerator.generate(DesignerEnvManager.getEnvManager().getEnv(current));
+            WorkContext.switchTo(workspace);
         } catch (Exception e) {
             TemplatePane.getInstance().dealEvnExceptionWhenStartDesigner();
         }

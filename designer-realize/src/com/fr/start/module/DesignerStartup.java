@@ -1,6 +1,6 @@
 package com.fr.start.module;
 
-import com.fr.core.env.EnvConfig;
+import com.fr.base.env.EnvConfig;
 import com.fr.core.env.EnvEvent;
 import com.fr.event.Event;
 import com.fr.event.Listener;

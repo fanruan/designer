@@ -1,15 +1,11 @@
 package com.fr.start.module;
 
-import com.fr.base.Env;
 import com.fr.base.ModifiedTable;
 import com.fr.base.Parameter;
 import com.fr.base.StoreProcedureParameter;
 import com.fr.base.TableData;
-import com.fr.base.env.EnvUpdater;
 import com.fr.base.env.serializer.OldSerializerAdapter;
 import com.fr.base.env.serializer.ProcedureDataModelSerializer;
-import com.fr.core.env.EnvConfig;
-import com.fr.core.env.EnvEvent;
 import com.fr.core.env.proxy.EnvProxy;
 import com.fr.data.core.db.TableProcedure;
 import com.fr.data.impl.Connection;
@@ -17,10 +13,6 @@ import com.fr.data.impl.storeproc.ProcedureDataModel;
 import com.fr.data.impl.storeproc.StoreProcedure;
 import com.fr.dav.DavXMLUtils;
 import com.fr.design.DesignerEnvManager;
-import com.fr.design.env.EnvGenerator;
-import com.fr.event.Event;
-import com.fr.event.EventDispatcher;
-import com.fr.event.Listener;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
 import com.fr.module.Activator;
@@ -58,13 +50,6 @@ public class DesignerEnvProvider extends Activator {
 
     private void initDesignerEnv() {
         addSerializers();
-        EventDispatcher.listen(EnvEvent.BEFORE_SIGN_IN, new Listener<EnvConfig>() {
-            @Override
-            public void on(Event event, EnvConfig envConfig) {
-                Env env = EnvGenerator.generate(envConfig);
-                EnvUpdater.updateEnv(env);
-            }
-        });
     }
 
     private void addSerializers() {

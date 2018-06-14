@@ -1,6 +1,6 @@
 package com.fr.design.env;
 
-import com.fr.core.env.impl.AbstractEnvConfig;
+import com.fr.base.env.AbstractEnvConfig;
 import com.fr.general.Inter;
 import com.fr.security.SecurityToolbox;
 import com.fr.stable.AssistUtils;
@@ -20,10 +20,13 @@ public class RemoteEnvConfig extends AbstractEnvConfig {
     private String password;
 
     public RemoteEnvConfig() {
-
+    
+        super(name);
     }
 
     public RemoteEnvConfig(String host, int port, String username, String password) {
+    
+        super(name);
         this.host = host;
         this.port = port;
         this.username = username;

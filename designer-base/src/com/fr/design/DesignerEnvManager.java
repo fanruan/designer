@@ -6,12 +6,11 @@ package com.fr.design;
 import com.fr.base.BaseXMLUtils;
 import com.fr.base.FRContext;
 import com.fr.base.Utils;
-import com.fr.base.env.EnvUpdater;
-import com.fr.core.env.EnvConfig;
-import com.fr.core.env.impl.LocalEnvConfig;
+import com.fr.base.env.EnvConfig;
+import com.fr.base.env.LocalEnvConfig;
 import com.fr.design.actions.help.alphafine.AlphaFineConfigManager;
 import com.fr.design.constants.UIConstants;
-import com.fr.design.env.EnvGenerator;
+import com.fr.design.env.DesignerWorkspaceGenerator;
 import com.fr.file.FILEFactory;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogFormatter;
@@ -33,6 +32,7 @@ import com.fr.stable.xml.XMLReadable;
 import com.fr.stable.xml.XMLTools;
 import com.fr.stable.xml.XMLWriter;
 import com.fr.stable.xml.XMLableReader;
+import com.fr.workspace.WorkContext;
 
 import javax.swing.*;
 import javax.swing.SwingWorker.StateValue;
@@ -194,7 +194,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         if (installHome != null) {
             String name = Inter.getLocText("FR-Engine_DEFAULT");
             String envPath = StableUtils.pathJoin(new String[]{installHome, ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBINF_NAME});
-            designerEnvManager.putEnv(name, new LocalEnvConfig(envPath));
+            designerEnvManager.putEnv(name, new LocalEnvConfig(envPath, name));
             designerEnvManager.setCurEnvName(name);
         }
     }
@@ -482,7 +482,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     /**
      * 返回默认环境
      */
-    public EnvConfig getDefaultEnv() {
+    public EnvConfig getDefaultConfig() {
         String installHome = StableUtils.getInstallHome();
         String defaultenvPath = StableUtils.pathJoin(installHome, ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBINF_NAME);
         defaultenvPath = new File(defaultenvPath).getPath();
@@ -494,8 +494,9 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 return env;
             }
         }
-        EnvConfig newDefaultEnv = new LocalEnvConfig(defaultenvPath);
-        this.putEnv(Inter.getLocText(new String[]{"Default", "Utils-Report_Runtime_Env"}), newDefaultEnv);
+        String name = Inter.getLocText(new String[]{"Default", "Utils-Report_Runtime_Env"});
+        EnvConfig newDefaultEnv = new LocalEnvConfig(defaultenvPath, name);
+        this.putEnv(name, newDefaultEnv);
         return newDefaultEnv;
     }
 
@@ -526,7 +527,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         if (isCurrentEnvDefault()) {
             return;
         }
-        EnvUpdater.updateEnv(EnvGenerator.generate(getDefaultEnv()));
+        WorkContext.switchTo(DesignerWorkspaceGenerator.generate(getDefaultConfig()));
     }
 
     /**
@@ -1416,9 +1417,9 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         if ((tmpVal = reader.getAttrAsString("webinfLocation", null)) != null) {
             // marks:兼容6.1的
             // marks:设置默认的目录.
-            EnvConfig reportServer = new LocalEnvConfig(tmpVal);
-
             String curReportServerName = Inter.getLocText("Server-Embedded_Server");
+            EnvConfig reportServer = new LocalEnvConfig(tmpVal,curReportServerName);
+
             this.putEnv(curReportServerName, reportServer);
             this.setCurEnvName(curReportServerName);
         }

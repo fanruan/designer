@@ -1,16 +1,13 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.env.Callback;
-import com.fr.base.env.EnvUpdater;
-import com.fr.core.env.EnvConfig;
-import com.fr.core.env.impl.LocalEnvConfig;
+import com.fr.base.env.EnvConfig;
+import com.fr.base.env.LocalEnvConfig;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
-import com.fr.design.dialog.InformationWarnPane;
-import com.fr.design.env.EnvGenerator;
+import com.fr.design.env.DesignerWorkspaceGenerator;
 import com.fr.design.env.RemoteEnvConfig;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.file.TemplateTreePane;
@@ -18,14 +15,12 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.utils.DesignUtils;
 import com.fr.env.EnvListPane;
-import com.fr.env.RemoteEnv;
-import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.stable.EnvChangedListener;
-import com.fr.stable.ProductConstants;
-import com.fr.stable.StringUtils;
+import com.fr.workspace.WorkContext;
+import com.fr.workspace.WorkContextCallback;
 
 import javax.swing.*;
 import java.awt.*;
@@ -120,7 +115,7 @@ public class TemplatePane extends JPanel implements MouseListener {
         EnvConfig selectedEnv = envManager.getEnv(selectedName);
         GeneralContext.fireEnvWillChangeListener();
         try {
-            EnvUpdater.updateEnv(EnvGenerator.generate(selectedEnv), new Callback() {
+            WorkContext.switchTo(DesignerWorkspaceGenerator.generate(selectedEnv), new WorkContextCallback() {
                 @Override
                 public void fail() {
                     JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText(new String[]{"M-SwitchWorkspace", "Failed"}));
@@ -128,7 +123,6 @@ public class TemplatePane extends JPanel implements MouseListener {
 
                 @Override
                 public void success() {
-                    DesignerEnvManager.getEnvManager().setCurEnvName(selectedName);
                     DesignUtils.refreshDesignerFrame();
                 }
             });

@@ -6,7 +6,6 @@ package com.fr.design.file;
 import com.fr.base.Env;
 import com.fr.base.FRContext;
 import com.fr.base.io.FileAssistUtils;
-import com.fr.dav.LocalEnv;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.itree.filetree.TemplateFileTree;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -23,6 +22,7 @@ import com.fr.stable.CoreConstants;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.project.ProjectConstants;
+import com.fr.workspace.WorkContext;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -147,7 +147,7 @@ public class TemplateTreePane extends JPanel implements FileOperations {
         try {
             Desktop.getDesktop().open(new File(filePath));
         } catch (Exception e) {
-            IOUtils.openWindowsFolder(StableUtils.pathJoin(localEnv.getEnvConfig().getPath(), fn.getEnvPath()));
+            IOUtils.openWindowsFolder(StableUtils.pathJoin(WorkContext.getCurrent().getPath(), fn.getEnvPath()));
         }
     }
 

@@ -5,8 +5,7 @@ package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
-import com.fr.base.env.EnvUpdater;
-import com.fr.core.env.EnvConfig;
+import com.fr.base.env.EnvConfig;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignState;
 import com.fr.design.DesignerEnvManager;
@@ -54,24 +53,11 @@ import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.image4j.codec.ico.ICODecoder;
 import com.fr.stable.project.ProjectConstants;
+import com.fr.workspace.WorkContext;
 
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JLayeredPane;
-import javax.swing.JMenuBar;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 import javax.swing.border.MatteBorder;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;
@@ -992,8 +978,8 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
                 EastRegionContainerPane.getInstance().getContainerWidth());
 
         DesignerEnvManager.getEnvManager().saveXMLFile();
-
-        EnvUpdater.disconnect();
+    
+        WorkContext.switchTo(null);
 
         this.setVisible(false);
         this.dispose();

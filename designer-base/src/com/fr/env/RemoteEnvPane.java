@@ -1,7 +1,6 @@
 package com.fr.env;
 
 import com.fr.base.FRContext;
-import com.fr.core.env.resource.EnvConfigUtils;
 import com.fr.design.env.RemoteEnvConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.beans.BasicBeanPane;
