@@ -21,6 +21,7 @@ import com.fr.design.designer.EditingState;
 import com.fr.design.designer.TargetComponent;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
+import com.fr.design.gui.frpane.HyperlinkGroupPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.*;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
@@ -239,7 +240,9 @@ public class FormElementCaseDesigner<T extends FormElementCaseProvider, E extend
     }
 
     public JPanel getHyperlinkPane(JTemplate jt) {
-        return jt.getHyperLinkPane(HyperlinkGroupPaneActionImpl.getInstance());
+        HyperlinkGroupPane hyperlinkGroupPane = jt.getHyperLinkPane(HyperlinkGroupPaneActionImpl.getInstance());
+        hyperlinkGroupPane.populate(elementCasePane);
+        return  hyperlinkGroupPane;
     }
 
 
