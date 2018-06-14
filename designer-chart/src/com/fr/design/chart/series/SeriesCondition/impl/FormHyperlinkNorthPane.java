@@ -1,13 +1,6 @@
 package com.fr.design.chart.series.SeriesCondition.impl;
 
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.JList;
-import javax.swing.JPanel;
-
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.icombobox.UIComboBox;
@@ -22,17 +15,26 @@ import com.fr.general.Inter;
 import com.fr.js.FormHyperlinkProvider;
 import com.fr.stable.bridge.StableFactory;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Component;
+
 /**
- + * Created with IntelliJ IDEA.
- + * User: zx
- + * Date: 14-8-6
- + * Time: 下午2:53
- + */
-public class FormHyperlinkNorthPane  extends BasicBeanPane<FormHyperlinkProvider> {
+ * + * Created with IntelliJ IDEA.
+ * + * User: zx
+ * + * Date: 14-8-6
+ * + * Time: 下午2:53
+ * +
+ *
+ * @author zx
+ */
+public class FormHyperlinkNorthPane extends BasicBeanPane<FormHyperlinkProvider> {
 
     private UITextField itemNameTextField;
     private boolean needRenamePane = false;
-    private  Widget[] formHyperlinkEditors;
+    private Widget[] formHyperlinkEditors;
     private UIComboBox targetFrameComboBox;
 
     public FormHyperlinkNorthPane(boolean needRenamePane) {
@@ -47,21 +49,16 @@ public class FormHyperlinkNorthPane  extends BasicBeanPane<FormHyperlinkProvider
         this.add(centerPane, BorderLayout.CENTER);
         formHyperlinkEditors = getFormHyperlinkEditors();
         targetFrameComboBox = formHyperlinkEditors == null ? new UIComboBox() : new UIComboBox(getFormHyperlinkEditNames());
-        targetFrameComboBox.setRenderer(new DefaultListCellRenderer() {
-            public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                return this;
-            }
-        });
+        targetFrameComboBox.setRenderer(new DefaultListCellRenderer());
         double p = TableLayout.PREFERRED;
         double[] rowSize = {p, p, p};
         double[] columnSize = {p, TableLayout.FILL};
         Component[][] components;
-        if(!this.needRenamePane){
+        if (!this.needRenamePane) {
             components = new Component[][]{
                     {new UILabel(Inter.getLocText("FR-Designer_Form-Object")), targetFrameComboBox},
             };
-        }else{
+        } else {
             itemNameTextField = new UITextField();
             components = new Component[][]{
                     {new UILabel(Inter.getLocText("FR-Designer_Name_has_Colon")), itemNameTextField},
@@ -72,33 +69,33 @@ public class FormHyperlinkNorthPane  extends BasicBeanPane<FormHyperlinkProvider
         centerPane.add(northPane, BorderLayout.NORTH);
     }
 
-    public Widget getEditingEditor(){
-        if (formHyperlinkEditors == null){
+    public Widget getEditingEditor() {
+        if (formHyperlinkEditors == null) {
             return null;
         }
-        String editingEditorName = (String)targetFrameComboBox.getSelectedItem();
-        for (Widget editor : formHyperlinkEditors){
-            if (ComparatorUtils.equals(editingEditorName,editor.getWidgetName())){
+        String editingEditorName = (String) targetFrameComboBox.getSelectedItem();
+        for (Widget editor : formHyperlinkEditors) {
+            if (ComparatorUtils.equals(editingEditorName, editor.getWidgetName())) {
                 return editor;
             }
         }
         return null;
     }
 
-    private Widget[] getFormHyperlinkEditors(){
-        return  DesignModelAdapter.getCurrentModelAdapter().getLinkableWidgets();
+    private Widget[] getFormHyperlinkEditors() {
+        return DesignModelAdapter.getCurrentModelAdapter().getLinkableWidgets();
     }
 
 
-    private String[] getFormHyperlinkEditNames(){
-       String[] editorNames = new String[formHyperlinkEditors.length];
-       int i =0;
-       for(Widget editor : formHyperlinkEditors){
+    private String[] getFormHyperlinkEditNames() {
+        String[] editorNames = new String[formHyperlinkEditors.length];
+        int i = 0;
+        for (Widget editor : formHyperlinkEditors) {
             editorNames[i] = editor.getWidgetName();
             i++;
-       }
-       return editorNames;
-   }
+        }
+        return editorNames;
+    }
 
     @Override
     protected String title4PopupWindow() {
@@ -107,27 +104,34 @@ public class FormHyperlinkNorthPane  extends BasicBeanPane<FormHyperlinkProvider
 
     @Override
     public void populateBean(FormHyperlinkProvider formHyperlink) {
-        if(itemNameTextField != null){
+        formHyperlinkEditors = getFormHyperlinkEditors();
+        if (itemNameTextField != null) {
             this.itemNameTextField.setText(formHyperlink.getItemName());
         }
         String editorName = formHyperlink.getRelateEditorName();
         //防止初始的时候有空白选项
-        if (editorName == null){
+        if (editorName == null) {
             return;
         }
-        targetFrameComboBox.setSelectedItem(editorName);
+        if (targetFrameComboBox != null) {
+            //noinspection unchecked
+            targetFrameComboBox.setModel(new DefaultComboBoxModel(getFormHyperlinkEditNames()));
+            targetFrameComboBox.setSelectedItem(editorName);
+        }
     }
 
 
     @Override
     public FormHyperlinkProvider updateBean() {
-    	FormHyperlinkProvider formHyperlink = StableFactory.getMarkedInstanceObjectFromClass(FormHyperlinkProvider.XML_TAG, FormHyperlinkProvider.class);
+        FormHyperlinkProvider formHyperlink =
+                StableFactory.getMarkedInstanceObjectFromClass(FormHyperlinkProvider.XML_TAG, FormHyperlinkProvider.class);
         updateBean(formHyperlink);
         return formHyperlink;
     }
 
+    @Override
     public void updateBean(FormHyperlinkProvider formHyperlink) {
-        if(itemNameTextField != null){
+        if (itemNameTextField != null) {
             formHyperlink.setItemName(this.itemNameTextField.getText());
         }
         formHyperlink.setRelateEditorName((String) targetFrameComboBox.getSelectedItem());
