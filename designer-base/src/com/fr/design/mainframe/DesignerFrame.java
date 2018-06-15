@@ -5,7 +5,6 @@ package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
-import com.fr.base.env.EnvConfig;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignState;
 import com.fr.design.DesignerEnvManager;
@@ -14,6 +13,7 @@ import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.datapane.TableDataTreePane;
+import com.fr.design.env.DesignerWorkspaceInfo;
 import com.fr.design.event.DesignerOpenedListener;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
@@ -650,9 +650,9 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         defaultTitleSB.append(" ");
         // james：标识登录的用户和登录的ENV
         String envName = DesignerEnvManager.getEnvManager().getCurEnvName();
-        EnvConfig env = DesignerEnvManager.getEnvManager().getWorkspaceInfo(envName);
+        DesignerWorkspaceInfo env = DesignerEnvManager.getEnvManager().getWorkspaceInfo(envName);
         if (env != null) {
-            defaultTitleSB.append(env.getDescription(envName));
+//            defaultTitleSB.append(env.getDescription(envName));
             if (editingTemplate != null) {
                 String path = editingTemplate.getEditingFILE().getPath();
                 if (!editingTemplate.getEditingFILE().exists()) {

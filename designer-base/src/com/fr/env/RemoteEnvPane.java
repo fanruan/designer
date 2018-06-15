@@ -257,7 +257,7 @@ public class RemoteEnvPane extends BasicBeanPane<DesignerWorkspaceInfo> {
         String username = ob.getConnection().getUserName();
         String pwd = ob.getConnection().getPassword();
         this.usernameInput.setText(username == null ? StringUtils.EMPTY : pwd);
-        this.passwordInput.setText(pwd == null ? StringUtils.EMPTY : "******");
+        this.passwordInput.setText(pwd == null ? StringUtils.EMPTY : pwd);
     }
 
     @Override
@@ -459,14 +459,13 @@ public class RemoteEnvPane extends BasicBeanPane<DesignerWorkspaceInfo> {
     private boolean testConnection() {
         String url = remoteEnvURL.getURL();
         //RemoteEnv env = new RemoteEnv(url, usernameInput.getText(), new String(passwordInput.getPassword()));
-        RemoteEnv env = null;
         boolean connect = false;
         try {
             if (StringUtils.isNotEmpty(url)) {
                 if (remoteEnvURL.getHttps()) {
                     setHttpsParas();
                 }
-                connect = env.testConnectionWithOutRegisteServer(this);
+//                connect = env.testConnectionWithOutRegisteServer(this);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(
@@ -479,7 +478,7 @@ public class RemoteEnvPane extends BasicBeanPane<DesignerWorkspaceInfo> {
         }
         if (connect) {
             try {
-                String remoteVersion = env.getDesignerVersion();
+                String remoteVersion = "";
                 if (StringUtils.isBlank(remoteVersion) || ComparatorUtils.compare(remoteVersion, ProductConstants.DESIGNER_VERSION) < 0) {
                     String info = Inter.getLocText("Server-version-tip") + "。";
                     String moreInfo = Inter.getLocText("Server-version-tip-moreInfo") + "。";

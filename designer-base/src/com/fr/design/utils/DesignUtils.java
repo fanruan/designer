@@ -27,6 +27,7 @@ import com.fr.stable.EncodeConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.start.ServerStarter;
+import com.fr.workspace.WorkContext;
 
 import javax.swing.*;
 import java.awt.*;
@@ -298,12 +299,13 @@ public class DesignUtils {
             }
         }
         String postfixOfUri = (segs.length > 0 ? "?" + StableUtils.join(segs, "&") : StringUtils.EMPTY);
-
-        if (FRContext.getCurrentEnv() instanceof RemoteEnv) {
+    
+        if (!WorkContext.getCurrent().isLocal()) {
             try {
                 if (Utils.isEmbeddedParameter(postfixOfUri)) {
                     String time = Calendar.getInstance().getTime().toString().replaceAll(" ", "");
-                    boolean isUserPrivilege = ((RemoteEnv) FRContext.getCurrentEnv()).writePrivilegeMap(time, postfixOfUri);
+//                    boolean isUserPrivilege = FRContext.getCurrentEnv()).writePrivilegeMap(time, postfixOfUri);
+                    boolean isUserPrivilege = false;
                     postfixOfUri = isUserPrivilege ? postfixOfUri + "&fr_check_url=" + time + "&id=" + FRContext.getCurrentEnv().getUserID() : postfixOfUri;
                 }
                 // 加参数给远程设计校验权限。

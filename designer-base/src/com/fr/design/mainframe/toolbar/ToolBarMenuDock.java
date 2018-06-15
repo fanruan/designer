@@ -48,7 +48,6 @@ import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.design.remote.action.RemoteDesignAuthorityManagerAction;
 import com.fr.design.utils.ThemeUtils;
-import com.fr.env.RemoteEnv;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
@@ -60,19 +59,10 @@ import com.fr.plugin.observer.PluginEventListener;
 import com.fr.plugin.observer.PluginEventType;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
+import com.fr.workspace.WorkContext;
 
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.JMenuBar;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -447,8 +437,9 @@ public abstract class ToolBarMenuDock {
         return FRContext.getCurrentEnv() != null && !FRContext.getCurrentEnv().isLocalEnv() && FRContext.getCurrentEnv().isRoot();
     }
 
-    protected boolean shouldShowPlugin() {
-        return !(FRContext.getCurrentEnv() instanceof RemoteEnv) && FRContext.isChineseEnv();
+    private boolean shouldShowPlugin() {
+    
+        return !(WorkContext.getCurrent().isLocal()) && FRContext.isChineseEnv();
     }
 
     /**

@@ -59,6 +59,21 @@ public class DesignerWorkspaceInfo implements XMLable {
         return connection;
     }
     
+    public void setType(DesignerWorkspaceType type) {
+        
+        this.type = type;
+    }
+    
+    public void setPath(String path) {
+        
+        this.path = path;
+    }
+    
+    public void setConnection(WorkspaceConnection connection) {
+        
+        this.connection = connection;
+    }
+    
     @Override
     public void readXML(XMLableReader reader) {
         

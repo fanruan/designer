@@ -1,8 +1,9 @@
 package com.fr.env;
 
-import com.fr.design.env.RemoteEnvConfig;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.border.UITitledBorder;
+import com.fr.design.env.DesignerWorkspaceInfo;
+import com.fr.design.env.DesignerWorkspaceType;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ipasswordfield.UIPassWordField;
@@ -12,6 +13,8 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
+import com.fr.workspace.WorkContext;
+import com.fr.workspace.connect.WorkspaceConnection;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -24,7 +27,7 @@ import java.awt.event.WindowEvent;
 /**
  * 远程环境设置界面，暂时命名为2，待做完功能直接替代掉老的RemoteEnvPane
  */
-public class RemoteEnvPane2 extends BasicBeanPane<RemoteEnvConfig> {
+public class RemoteEnvPane2 extends BasicBeanPane<DesignerWorkspaceInfo> {
 
     private UITextField hostTextField;
     private UIIntNumberField portTextField;
@@ -88,8 +91,9 @@ public class RemoteEnvPane2 extends BasicBeanPane<RemoteEnvConfig> {
 
             @Override
             protected Void doInBackground() throws Exception {
-                final RemoteEnv remoteEnv = new RemoteEnv(updateBean());
-                remoteEnv.connectOnce();
+    
+                final DesignerWorkspaceInfo remoteEnv = updateBean();
+                WorkContext.getConnector().testConnection(remoteEnv.getConnection());
                 return null;
             }
 
@@ -161,25 +165,28 @@ public class RemoteEnvPane2 extends BasicBeanPane<RemoteEnvConfig> {
     }
 
     @Override
-    public void populateBean(RemoteEnvConfig config) {
+    public void populateBean(DesignerWorkspaceInfo config) {
         if (config == null) {
             return;
         }
-        hostTextField.setText(config.getHost());
-        if (config.getPort() != 0) {
-            portTextField.setValue(config.getPort());
+        WorkspaceConnection connection = config.getConnection();
+        if (connection != null) {
+            hostTextField.setText(connection.getIp());
+            if (connection.getPort() != 0) {
+                portTextField.setValue(connection.getPort());
+            }
+            usernameTextField.setText(connection.getUserName());
+            passwordTextField.setText(connection.getPassword());
         }
-        usernameTextField.setText(config.getUsername());
-        passwordTextField.setText(config.getPassword());
     }
 
     @Override
-    public RemoteEnvConfig updateBean() {
-        RemoteEnvConfig config = new RemoteEnvConfig();
-        config.setHost(hostTextField.getText());
-        config.setPort((int) portTextField.getValue());
-        config.setUsername(usernameTextField.getText());
-        config.setPassword(passwordTextField.getText());
+    public DesignerWorkspaceInfo updateBean() {
+    
+        DesignerWorkspaceInfo config = new DesignerWorkspaceInfo();
+        WorkspaceConnection connection = new WorkspaceConnection(hostTextField.getText(), (int) portTextField.getValue(), usernameTextField.getText(), passwordTextField.getText());
+        config.setConnection(connection);
+        config.setType(DesignerWorkspaceType.Remote);
         return config;
     }
 }

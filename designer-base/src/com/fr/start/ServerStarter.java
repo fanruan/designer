@@ -11,7 +11,6 @@ import com.fr.design.env.DesignerWorkspaceGenerator;
 import com.fr.design.file.TemplateTreePane;
 import com.fr.design.gui.itextarea.UITextArea;
 import com.fr.design.mainframe.DesignerContext;
-import com.fr.env.RemoteEnv;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
@@ -37,8 +36,9 @@ public class ServerStarter {
      */
     public static void browserDemoURL() {
     
-        if (FRContext.getCurrentEnv() instanceof RemoteEnv) {
-            browser(FRContext.getCurrentEnv().getPath());
+        if (!WorkContext.getCurrent().isLocal()) {
+            //有问题，这里拿不到远程的http端口
+            browser(WorkContext.getCurrent().getPath());
             return;
         }
         if (ComparatorUtils.equals(StableUtils.getInstallHome(), ".")) {//august:供代码使用

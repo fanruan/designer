@@ -278,8 +278,8 @@ public class UserManagerPane extends BasicPane {
             @Override
             protected List<RemoteDesignMember> doInBackground() {
                 addingMembers.clear();
-                String username = EnvConfigUtils.getUsername(EnvContext.currentEnv());
-                addingMembers.addAll(EnvProxy.get(DecisionOperator.class).getMembers(username, keyword));
+//                String username = EnvConfigUtils.getUsername(EnvContext.currentEnv());
+//                addingMembers.addAll(EnvProxy.get(DecisionOperator.class).getMembers(username, keyword));
                 return addingMembers;
             }
 
