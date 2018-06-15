@@ -9,6 +9,7 @@ import com.fr.base.remote.RemoteDeziConstants;
 import com.fr.common.rpc.RemoteCallServerConfig;
 import com.fr.common.rpc.netty.MessageSendExecutor;
 import com.fr.common.rpc.netty.RemoteCallClient;
+import com.fr.core.env.EnvConstants;
 import com.fr.core.env.EnvContext;
 import com.fr.data.impl.storeproc.StoreProcedure;
 import com.fr.dav.AbstractEnv;
@@ -22,7 +23,6 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.EnvProxyFactory;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
-
 import com.fr.general.http.HttpToolbox;
 import com.fr.io.utils.ResourceIOUtils;
 import com.fr.json.JSONArray;
@@ -34,18 +34,16 @@ import com.fr.share.ShareConstants;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.Filter;
-
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.SvgProvider;
 import com.fr.stable.project.ProjectConstants;
-
 import com.fr.third.guava.base.Strings;
 import com.fr.third.guava.collect.ImmutableMap;
 import com.fr.web.ResourceConstants;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
@@ -53,7 +51,6 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
 import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -67,6 +64,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.fr.third.guava.base.Preconditions.checkArgument;
 
 /**
  * @author null
@@ -109,15 +108,15 @@ public class RemoteEnv extends AbstractEnv<RemoteEnvConfig> implements DesignAut
         MessageSendExecutor.getInstance().stop();
         return true;
     }
-    
+
     @Override
     public EnvProxyFactory getProxyFactory() {
-        
+
         return new EnvProxyFactory() {
-            
+
             @Override
             public <T> T get(Class<T> clazz, T obj) {
-                
+
                 assert clazz != null;
                 try {
                     return MessageSendExecutor.getInstance().execute(clazz);
@@ -127,10 +126,10 @@ public class RemoteEnv extends AbstractEnv<RemoteEnvConfig> implements DesignAut
             }
         };
     }
-    
+
     @Override
     public FileOperator getFileOperator() throws Exception {
-        
+
         return MessageSendExecutor.getInstance().execute(FileOperator.class);
     }
 
@@ -143,7 +142,7 @@ public class RemoteEnv extends AbstractEnv<RemoteEnvConfig> implements DesignAut
     public OrganizationOperator getOrganizationOperator() throws Exception {
         return MessageSendExecutor.getInstance().execute(OrganizationOperator.class);
     }
-    
+
     @Override
     public RemoteEnvConfig getEnvConfig() {
         return config;
@@ -254,12 +253,7 @@ public class RemoteEnv extends AbstractEnv<RemoteEnvConfig> implements DesignAut
      */
     @Override
     public boolean testServerConnectionWithOutShowMessagePane() throws Exception {
-        try {
-            connectOnce();
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+        return testConnection(false, true, DesignerContext.getDesignerFrame());
     }
 
     /**
@@ -270,14 +264,54 @@ public class RemoteEnv extends AbstractEnv<RemoteEnvConfig> implements DesignAut
      * @throws Exception 异常
      */
     public boolean testConnectionWithOutRegisteServer(Component messageParentPane) throws Exception {
-        try {
-            connectOnce();
-            return true;
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(messageParentPane, Inter.getLocText("Datasource-Connection_failed"));
+        return testConnection(true, false, messageParentPane);
+    }
+
+
+    private boolean testConnection(boolean needMessage, boolean isRegisteServer, Component parentComponent) throws Exception {
+        checkArgument(parentComponent instanceof Component, "parentComponent should be a java.awt.component");
+        Component component = parentComponent;
+        String url = String.format("%s/connection", EnvConstants.toDecisionPath(getPath()));
+        ImmutableMap<String, Object> params = ImmutableMap.of(
+                "version", (Object) ProductConstants.DESIGNER_VERSION
+        );
+        ImmutableMap<String, String> headers = ImmutableMap.of(
+                EnvConstants.USERNAME, getUser(),
+                EnvConstants.PWD, getPassword());
+        String res = HttpToolbox.post(url, params, headers);
+        if (Strings.isNullOrEmpty(res)) {
+            if (needMessage) {
+                JOptionPane.showMessageDialog(component, Inter.getLocText("Datasource-Connection_failed"));
+            }
             return false;
+        } else if (ComparatorUtils.equals(res, "true")) {
+            return true;
+        } else {
+            if (ComparatorUtils.equals(res, EnvConstants.AUTH_ERROR)) {
+                JOptionPane.showMessageDialog(component,
+                        Inter.getLocText(new String[]{"Datasource-Connection_failed", "Registration-User_Name", "Password", "Error"}, new String[]{",", "", "", "!"})
+                        , Inter.getLocText("FR-Server-All_Error"), JOptionPane.ERROR_MESSAGE);
+                return false;
+            } else {
+                if (ComparatorUtils.equals(res, EnvConstants.WAR_ERROR)) {
+                    if (needMessage) {
+                        JOptionPane.showMessageDialog(component, Inter.getLocText(new String[]{"Datasource-Connection_failed", "NS-war-remote"}, new String[]{",", "!"}));
+                    } else {
+                        FineLoggerFactory.getLogger().info(Inter.getLocText(new String[]{"Datasource-Connection_failed", "NS-war-remote"}, new String[]{",", "!"}));
+                    }
+                    return false;
+                } else {
+                    if (needMessage) {
+                        JOptionPane.showMessageDialog(component, Inter.getLocText("Datasource-Connection_failed"));
+                    } else {
+                        FineLoggerFactory.getLogger().info(Inter.getLocText(new String[]{"Datasource-Connection_failed", "Version-does-not-support"}, new String[]{",", "!"}));
+                    }
+                    return false;
+                }
+            }
         }
     }
+
 
     private void refreshHttpSProperty() {
         if (getPath().startsWith(HTTPS_PREFIX) && System.getProperty(CERT_KEY) == null) {
@@ -409,8 +443,8 @@ public class RemoteEnv extends AbstractEnv<RemoteEnvConfig> implements DesignAut
 
         return Boolean.valueOf(IOUtils.inputStream2String(input, EncodeConstants.ENCODING_UTF_8));
     }
-    
-    
+
+
     /**
      * nameValuePairs,这个参数要接着this.path,拼成一个URL,否则服务器端req.getParameter是无法得到的
      *
@@ -543,7 +577,8 @@ public class RemoteEnv extends AbstractEnv<RemoteEnvConfig> implements DesignAut
      */
     @Override
     public String getWebReportPath() {
-        return getPath().substring(0, getPath().lastIndexOf("/"));
+
+        return StableUtils.pathJoin(getPath(), getAppName());
     }
 
     public String[] getProcedureColumns(StoreProcedure storeProcedure, Map parameterMap) throws Exception {
