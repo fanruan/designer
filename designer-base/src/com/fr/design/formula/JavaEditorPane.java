@@ -1,6 +1,5 @@
 package com.fr.design.formula;
 
-import com.fr.base.Env;
 import com.fr.base.FRContext;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ibutton.UIButton;
@@ -176,8 +175,8 @@ public class JavaEditorPane extends BasicPane {
 
                 @Override
                 protected JavaCompileInfo doInBackground() throws Exception {
-                    Env env = FRContext.getCurrentEnv();
-                    return env.getCommonOperator().compile(javaText.getText());
+    
+                    return FRContext.getCommonOperator().compile(javaText.getText());
                 }
 
                 public void done() {

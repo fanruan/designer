@@ -1,6 +1,5 @@
 package com.fr.design.mainframe.alphafine.search.manager.impl;
 
-import com.fr.base.Env;
 import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
@@ -81,13 +80,12 @@ public class FileSearchManager implements AlphaFineSearchProvider {
             lessModelList.add(new MoreModel(Inter.getLocText("FR-Designer_Templates")));
             return lessModelList;
         }
-        Env env = FRContext.getCurrentEnv();
         fileNodes = new ArrayList<>();
-        fileNodes = listTpl(env, ProjectConstants.REPORTLETS_NAME, true);
+        fileNodes = listTpl(ProjectConstants.REPORTLETS_NAME, true);
         AlphaFineHelper.checkCancel();
         isContainCpt = true;
         isContainFrm = true;
-        doSearch(this.searchText, true, env);
+        doSearch(this.searchText, true);
         if (stopSearch) {
             lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Templates"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"), true, CellType.FILE));
             lessModelList.addAll(filterModelList.subList(0, AlphaFineConstants.SHOW_SIZE));
@@ -109,21 +107,20 @@ public class FileSearchManager implements AlphaFineSearchProvider {
         }
         this.filterModelList = new SearchResult();
         this.moreModelList = new SearchResult();
-        Env env = FRContext.getCurrentEnv();
         AlphaFineHelper.checkCancel();
         isContainCpt = true;
         isContainFrm = true;
-        doSearch(this.searchText, false, env);
+        doSearch(this.searchText, false);
         moreModelList.addAll(filterModelList.subList(AlphaFineConstants.SHOW_SIZE, filterModelList.size()));
         return moreModelList;
     }
-
-    private void doSearch(String searchText, boolean needMore, Env env) {
+    
+    private void doSearch(String searchText, boolean needMore) {
         for (FileNode node : fileNodes) {
             boolean isAlreadyContain = false;
             isAlreadyContain = searchFile(searchText, node, isAlreadyContain, needMore);
             if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainFileContent() && node.getLock() == null) {
-                searchFileContent(env, searchText, node, isAlreadyContain, needMore);
+                searchFileContent(searchText, node, isAlreadyContain, needMore);
             }
             if (filterModelList.size() > AlphaFineConstants.SHOW_SIZE && stopSearch) {
                 return;
@@ -150,7 +147,7 @@ public class FileSearchManager implements AlphaFineSearchProvider {
      * @param node
      * @param isAlreadyContain
      */
-    private void searchFileContent(Env env, String searchText, FileNode node, boolean isAlreadyContain, boolean needMore) {
+    private void searchFileContent(String searchText, FileNode node, boolean isAlreadyContain, boolean needMore) {
         try {
             InputStream inputStream = new ByteArrayInputStream(WorkContext.getWorkResource().readFully(StableUtils.pathJoin(ProjectConstants.REPORTLETS_NAME, node.getEnvPath().substring(ProjectConstants.REPORTLETS_NAME.length() + 1))));
             InputStreamReader isr = new InputStreamReader(inputStream, "UTF-8");
@@ -210,15 +207,14 @@ public class FileSearchManager implements AlphaFineSearchProvider {
     /**
      * 获取工作目录下所有符合要求的模板
      *
-     * @param env
      * @param rootFilePath
      * @param recurse
      * @return
      */
-    private List<FileNode> listTpl(Env env, String rootFilePath, boolean recurse) {
+    private List<FileNode> listTpl(String rootFilePath, boolean recurse) {
         List<FileNode> fileNodeList = new ArrayList<FileNode>();
         try {
-            listAll(env, rootFilePath, fileNodeList, recurse);
+            listAll(rootFilePath, fileNodeList, recurse);
         } catch (Exception e) {
             FRContext.getLogger().error("file search error: " + e.getMessage(), e);
         }
@@ -228,19 +224,19 @@ public class FileSearchManager implements AlphaFineSearchProvider {
     /**
      * 获取当前工作目录下所有模板
      *
-     * @param env
      * @param rootFilePath
      * @param nodeList
      * @param recurse
      * @throws Exception
      */
-    private void listAll(Env env, String rootFilePath, List<FileNode> nodeList, boolean recurse) throws Exception {
-        FileNode[] fns = env.getFileOperator().list(rootFilePath);
+    private void listAll(String rootFilePath, List<FileNode> nodeList, boolean recurse) throws Exception {
+    
+        FileNode[] fns = FRContext.getFileOperator().list(rootFilePath);
         for (int i = 0; i < fns.length; i++) {
             FileNode fileNode = fns[i];
             if (fileNode.isDirectory()) {
                 if (recurse) {
-                    listAll(env, rootFilePath + File.separator + fns[i].getName(), nodeList, true);
+                    listAll(rootFilePath + File.separator + fns[i].getName(), nodeList, true);
                 } else {
                     nodeList.add(fns[i]);
                 }

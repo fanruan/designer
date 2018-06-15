@@ -544,7 +544,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         boolean access = false;
 
         try {
-            access = FRContext.getCurrentEnv().getOrganizationOperator().canAccess(this.getEditingFILE().getPath());
+            access = FRContext.getOrganizationOperator().canAccess(this.getEditingFILE().getPath());
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
@@ -594,7 +594,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         if (isOkOperation(chooseResult)) {
             boolean access = false;
             try {
-                access = FRContext.getCurrentEnv().getOrganizationOperator().canAccess(fileChooser.getSelectedFILE().getPath());
+                access = FRContext.getOrganizationOperator().canAccess(fileChooser.getSelectedFILE().getPath());
             } catch (Exception e) {
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }

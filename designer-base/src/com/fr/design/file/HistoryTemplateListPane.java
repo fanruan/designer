@@ -1,6 +1,5 @@
 package com.fr.design.file;
 
-import com.fr.base.Env;
 import com.fr.base.FRContext;
 import com.fr.base.chart.chartdata.CallbackEvent;
 import com.fr.design.DesignModelAdapter;
@@ -366,8 +365,7 @@ public class HistoryTemplateListPane extends JPanel implements FileOperations, C
      */
     public void openContainerFolder() {
         FileNode fileNode = new FileNode(((JTemplate<?, ?>) list.getSelectedValue()).getEditingFILE().getPath(), false);
-        Env env = FRContext.getCurrentEnv();
-        if (env.isLocalEnv()) {
+        if (WorkContext.getCurrent().isLocal()) {
             IOUtils.openWindowsFolder(StableUtils.pathJoin(WorkContext.getCurrent().getPath(), fileNode.getEnvPath()));
         }
     }

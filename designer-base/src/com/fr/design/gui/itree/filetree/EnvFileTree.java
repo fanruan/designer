@@ -1,6 +1,5 @@
 package com.fr.design.gui.itree.filetree;
 
-import com.fr.base.Env;
 import com.fr.base.FRContext;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ilable.UILabel;
@@ -28,7 +27,6 @@ import java.util.Arrays;
 public class EnvFileTree extends RefreshableJTree {
 
 	protected FileNodeFilter filter;
-	protected Env env;
 	protected String treeRootPath = "";
 	protected String[] subPathes;
 
@@ -191,7 +189,7 @@ public class EnvFileTree extends RefreshableJTree {
 		FileNode[] res_fns = null;
 
 		try {
-			res_fns = env == null ? new FileNode[0] : env.getFileOperator().list(filePath);
+			res_fns = FRContext.getCurrentEnv() == null ? new FileNode[0] : FRContext.getFileOperator().list(filePath);
 		} catch (Exception e) {
 			FRContext.getLogger().error(e.getMessage(), e);
 		}
@@ -239,8 +237,7 @@ public class EnvFileTree extends RefreshableJTree {
 	/*
 	 * 改变Env后,根据构造函数时设置的RootPathes,重新加载
 	 */
-	public void refreshEnv(Env env) {
-		this.env = env;
+	public void refreshEnv() {
 
 		DefaultTreeModel m_model = (DefaultTreeModel) this.getModel();
 		ExpandMutableTreeNode rootTreeNode = (ExpandMutableTreeNode) m_model.getRoot();

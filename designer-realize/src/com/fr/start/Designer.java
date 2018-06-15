@@ -1,9 +1,7 @@
 package com.fr.start;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.Env;
 import com.fr.base.FRContext;
-import com.fr.dav.LocalEnv;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.actions.file.WebPreviewUtils;
@@ -56,6 +54,7 @@ import com.fr.start.jni.SplashMac;
 import com.fr.start.module.StartupArgs;
 import com.fr.start.preload.ImagePreLoader;
 import com.fr.start.server.ServerTray;
+import com.fr.workspace.WorkContext;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -104,7 +103,7 @@ public class Designer extends BaseDesigner {
         //传递启动参数
         designerRoot.setSingleton(StartupArgs.class, new StartupArgs(args));
         designerRoot.start();
-        if (FRContext.getCurrentEnv() instanceof LocalEnv) {
+        if (WorkContext.getCurrent().isLocal()) {
             //初始化一下serverTray
             ServerTray.init();
         }
@@ -533,11 +532,6 @@ public class Designer extends BaseDesigner {
         InformationCollector collector = InformationCollector.getInstance();
         collector.collectStopTime();
         collector.saveXMLFile();
-        Env currentEnv = FRContext.getCurrentEnv();
-        if (currentEnv == null) {
-            return;
-        }
-        currentEnv.doWhenServerShutDown();
     }
 
 }

@@ -434,7 +434,8 @@ public abstract class ToolBarMenuDock {
     }
 
     private boolean shouldShowRemotePermission() {
-        return FRContext.getCurrentEnv() != null && !FRContext.getCurrentEnv().isLocalEnv() && FRContext.getCurrentEnv().isRoot();
+    
+        return WorkContext.getCurrent() != null && !WorkContext.getCurrent().isLocal() && FRContext.getCurrentEnv().isRoot();
     }
 
     private boolean shouldShowPlugin() {

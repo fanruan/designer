@@ -3,7 +3,6 @@
  */
 package com.fr.design.file;
 
-import com.fr.base.Env;
 import com.fr.base.FRContext;
 import com.fr.base.io.FileAssistUtils;
 import com.fr.design.gui.icontainer.UIScrollPane;
@@ -100,7 +99,7 @@ public class TemplateTreePane extends JPanel implements FileOperations {
      */
     public void refreshDockingView() {
         reportletsTree.setFileNodeFilter(new IOFileNodeFilter(FRContext.getCurrentEnv().getSupportedTypes()));
-        reportletsTree.refreshEnv(FRContext.getCurrentEnv());
+        reportletsTree.refreshEnv();
     }
 
     /*
@@ -141,8 +140,7 @@ public class TemplateTreePane extends JPanel implements FileOperations {
      */
     public void openContainerFolder() {
         FileNode fn = TemplateTreePane.this.reportletsTree.getSelectedFileNode();
-        Env localEnv = FRContext.getCurrentEnv();
-        String filePath = StableUtils.pathJoin(localEnv.getPath(), fn.getEnvPath());
+        String filePath = StableUtils.pathJoin(WorkContext.getCurrent().getPath(), fn.getEnvPath());
         filePath = filePath.substring(0, filePath.lastIndexOf(CoreConstants.SEPARATOR));
         try {
             Desktop.getDesktop().open(new File(filePath));

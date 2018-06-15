@@ -1,7 +1,6 @@
 package com.fr.design.data.tabledata.wrapper;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.Env;
 import com.fr.base.FRContext;
 import com.fr.base.TableData;
 import com.fr.data.impl.storeproc.ProcedureDataModel;
@@ -94,7 +93,6 @@ public final class StoreProcedureNameWrapper implements TableDataWrapper {
             return columnNameList;
         }
         columnNameList = new ArrayList<String>();
-        Env env = FRContext.getCurrentEnv();
         if (!WorkContext.getCurrent().isLocal()) {
             try {
                 createStore(false);

@@ -1,7 +1,5 @@
 package com.fr.design.mainframe.loghandler.socketio;
 
-import com.fr.base.Env;
-import com.fr.base.FRContext;
 import com.fr.design.mainframe.loghandler.DesignerLogHandler;
 import com.fr.event.Event;
 import com.fr.event.EventDispatcher;
@@ -10,15 +8,13 @@ import com.fr.general.LogRecordTime;
 import com.fr.general.LogUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.third.guava.base.Optional;
-import com.fr.web.WebSocketConfig;
+import com.fr.workspace.WorkContext;
 import com.fr.workspace.Workspace;
 import com.fr.workspace.WorkspaceEvent;
-import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
 import java.io.ByteArrayInputStream;
-import java.net.URI;
 
 public class DesignerSocketIO {
 
@@ -61,8 +57,8 @@ public class DesignerSocketIO {
     }
 
     private static void updateSocket() {
-        Env env = FRContext.getCurrentEnv();
-        if (env.isLocalEnv()) {
+    
+        if (WorkContext.getCurrent().isLocal()) {
             return;
         }
         try {

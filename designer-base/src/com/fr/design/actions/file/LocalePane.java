@@ -4,13 +4,13 @@
 
 package com.fr.design.actions.file;
 
-import com.fr.base.Env;
 import com.fr.base.FRContext;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.file.filetree.FileNode;
+import com.fr.general.Env;
 import com.fr.general.GeneralUtils;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
@@ -180,11 +180,8 @@ public class LocalePane extends BasicPane {
     }
 
     private void initCustomProperties() throws Exception {
-        Env env = FRContext.getCurrentEnv();
-        if (env == null) {
-            return;
-        }
-        FileNode[] fileNodes = env.getFileOperator().list(ProjectConstants.LOCALE_NAME);
+    
+        FileNode[] fileNodes = FRContext.getFileOperator().list(ProjectConstants.LOCALE_NAME);
         if (ArrayUtils.getLength(fileNodes) == 0) {
             return;
         }
@@ -220,6 +217,7 @@ public class LocalePane extends BasicPane {
 	 * 
 	 */
     public void save() {
+    
         Env env = FRContext.getCurrentEnv();
         if (env == null) {
             return;

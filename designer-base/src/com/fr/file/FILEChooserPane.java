@@ -3,7 +3,6 @@ package com.fr.file;
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.base.extension.FileExtension;
-import com.fr.dav.LocalEnv;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.dialog.BasicPane;
@@ -26,6 +25,7 @@ import com.fr.file.filter.FILEFilter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
+import com.fr.general.adaptor.WorkspaceAdaptor;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.OperatingSystem;
@@ -545,7 +545,7 @@ public class FILEChooserPane extends BasicPane {
             return;
         }
         if (editing == null || !editing.isChartBook()) {
-            String[] fileSuffix_local = LocalEnv.FILE_TYPE;
+            String[] fileSuffix_local = WorkspaceAdaptor.FILE_TYPE;
             EnumSet<FileExtension> fileExtensions = EnumSet.of(FileExtension.CPT, FileExtension.CPTX, FileExtension.FRM, FileExtension.FRMX, FileExtension.CHT);
             if (type == JFileChooser.OPEN_DIALOG) {
                 if (FRContext.getCurrentEnv().isSupportLocalFileOperate()) { //本地连接
@@ -686,7 +686,7 @@ public class FILEChooserPane extends BasicPane {
         boolean access = false;
 
         try {
-            access = FRContext.getCurrentEnv().getOrganizationOperator().canAccess(selectedFile.getPath());
+            access = FRContext.getOrganizationOperator().canAccess(selectedFile.getPath());
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
@@ -1404,7 +1404,7 @@ public class FILEChooserPane extends BasicPane {
 
             boolean access = false;
             try {
-                access = FRContext.getCurrentEnv().getOrganizationOperator().canAccess(currentDirectory.getPath());
+                access = FRContext.getOrganizationOperator().canAccess(currentDirectory.getPath());
             } catch (Exception e) {
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
