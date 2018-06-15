@@ -3,6 +3,7 @@ package com.fr.design.env;
 import com.fr.general.Inter;
 import com.fr.workspace.Workspace;
 import com.fr.workspace.connect.WorkspaceClient;
+import com.fr.workspace.connect.WorkspaceConnection;
 
 /**
  * Created by juhaoyu on 2018/6/14.
@@ -16,11 +17,11 @@ public class RemoteWorkspace implements Workspace {
     
     private final String userName;
     
-    public RemoteWorkspace(WorkspaceClient client, String address, String userName) {
+    RemoteWorkspace(WorkspaceClient client, WorkspaceConnection connection) {
         
         this.client = client;
-        this.address = address;
-        this.userName = userName;
+        this.address = connection.getIp() + ":" + connection.getPort();
+        this.userName = connection.getUserName();
     }
     
     @Override

@@ -240,7 +240,7 @@ public class FileNodeFILE implements FILE {
         }
 
         try {
-            return FRContext.getCurrentEnv().getFileOperator().isExists(node.getEnvPath());
+            return WorkContext.getWorkResource().exist(node.getEnvPath());
         } catch (Exception e) {
             FRContext.getLogger().error(e.getMessage(), e);
             return false;

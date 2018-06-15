@@ -1,17 +1,11 @@
 package com.fr.design.remote.action;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
-import com.fr.core.env.proxy.EnvProxy;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.dialog.BasicDialog;
-import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.remote.ui.AuthorityManagerPane;
-import com.fr.env.operator.authority.AuthorityOperator;
 import com.fr.general.Inter;
-import com.fr.log.FineLoggerFactory;
-import com.fr.report.DesignAuthority;
 
 import java.awt.event.ActionEvent;
 
@@ -34,38 +28,38 @@ public class RemoteDesignAuthorityManagerAction extends UpdateAction {
 
         BasicDialog dialog = managerPane.showWindow(DesignerContext.getDesignerFrame());
 
-        if (!FRContext.getCurrentEnv().isLocalEnv()) {
-            try {
-                // 远程设计获取全部设计成员的权限列表
-                DesignAuthority[] authorities = EnvProxy.get(AuthorityOperator.class).getAuthorities();
-                if (authorities != null && authorities.length != 0) {
-                    managerPane.populate(authorities);
-                }
-            } catch (Exception exception) {
-                FineLoggerFactory.getLogger().error(exception.getMessage(), exception);
-            }
-        }
-
-        dialog.addDialogActionListener(new DialogActionAdapter() {
-            @Override
-            public void doOk() {
-                DesignAuthority[] authorities = managerPane.update();
-                if (!FRContext.getCurrentEnv().isLocalEnv()) {
-                    boolean success = false;
-                    try {
-                        success = EnvProxy.get(AuthorityOperator.class).updateAuthorities(authorities);
-                    } catch (Exception e) {
-                        FineLoggerFactory.getLogger().error(e.getMessage(), e);
-                    }
-                    FRContext.getLogger().info("update remote design authority: " + success);
-                }
-            }
-
-            @Override
-            public void doCancel() {
-                super.doCancel();
-            }
-        });
+//        if (!FRContext.getCurrentEnv().isLocalEnv()) {
+//            try {
+//                // 远程设计获取全部设计成员的权限列表
+//                DesignAuthority[] authorities = EnvProxy.get(AuthorityOperator.class).getAuthorities();
+//                if (authorities != null && authorities.length != 0) {
+//                    managerPane.populate(authorities);
+//                }
+//            } catch (Exception exception) {
+//                FineLoggerFactory.getLogger().error(exception.getMessage(), exception);
+//            }
+//        }
+//
+//        dialog.addDialogActionListener(new DialogActionAdapter() {
+//            @Override
+//            public void doOk() {
+//                DesignAuthority[] authorities = managerPane.update();
+//                if (!FRContext.getCurrentEnv().isLocalEnv()) {
+//                    boolean success = false;
+//                    try {
+//                        success = EnvProxy.get(AuthorityOperator.class).updateAuthorities(authorities);
+//                    } catch (Exception e) {
+//                        FineLoggerFactory.getLogger().error(e.getMessage(), e);
+//                    }
+//                    FRContext.getLogger().info("update remote design authority: " + success);
+//                }
+//            }
+//
+//            @Override
+//            public void doCancel() {
+//                super.doCancel();
+//            }
+//        });
         dialog.setModal(true);
         dialog.setVisible(true);
     }

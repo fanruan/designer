@@ -2,10 +2,6 @@ package com.fr.design.mainframe.loghandler.socketio;
 
 import com.fr.base.Env;
 import com.fr.base.FRContext;
-import com.fr.base.env.EnvConfig;
-import com.fr.core.env.EnvConstants;
-import com.fr.core.env.EnvContext;
-import com.fr.core.env.EnvEvent;
 import com.fr.decision.webservice.utils.DecisionServiceConstants;
 import com.fr.design.env.RemoteEnvConfig;
 import com.fr.design.mainframe.loghandler.DesignerLogHandler;
@@ -18,6 +14,8 @@ import com.fr.general.LogUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.third.guava.base.Optional;
 import com.fr.web.WebSocketConfig;
+import com.fr.workspace.Workspace;
+import com.fr.workspace.WorkspaceEvent;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
@@ -44,18 +42,18 @@ public class DesignerSocketIO {
     };
 
     static {
-        EventDispatcher.listen(EnvEvent.AFTER_SIGN_OUT, new Listener<EnvConfig>() {
+        EventDispatcher.listen(WorkspaceEvent.BeforeSwitch, new Listener<Workspace>() {
             @Override
-            public void on(Event event, EnvConfig param) {
+            public void on(Event event, Workspace param) {
                 if (socketIO.isPresent()) {
                     socketIO.get().close();
                     socketIO = Optional.absent();
                 }
             }
         });
-        EventDispatcher.listen(EnvEvent.AFTER_SIGN_IN, new Listener<EnvConfig>() {
+        EventDispatcher.listen(WorkspaceEvent.AfterSwitch, new Listener<Workspace>() {
             @Override
-            public void on(Event event, EnvConfig param) {
+            public void on(Event event, Workspace param) {
                 updateSocket();
             }
         });
@@ -71,16 +69,16 @@ public class DesignerSocketIO {
             return;
         }
         try {
-            RemoteEnvConfig config = ((RemoteEnv)env).getEnvConfig();
-            String uri = String.format("http://%s:%s%s?%s=%s",
-                    config.getHost(),
-                    WebSocketConfig.getInstance().getPort(),
-                    EnvConstants.WS_NAMESPACE,
-                    DecisionServiceConstants.WEB_SOCKET_TOKEN_NAME,
-                    EnvContext.currentToken());
-
-            socketIO = Optional.of(IO.socket(new URI(uri)));
-            socketIO.get().on(EnvConstants.WS_LOGRECORD, printLog);
+//            RemoteEnvConfig config = ((RemoteEnv)env).getEnvConfig();
+//            String uri = String.format("http://%s:%s%s?%s=%s",
+//                    config.getHost(),
+//                    WebSocketConfig.getInstance().getPort(),
+//                    EnvConstants.WS_NAMESPACE,
+//                    DecisionServiceConstants.WEB_SOCKET_TOKEN_NAME,
+//                    EnvContext.currentToken());
+//
+//            socketIO = Optional.of(IO.socket(new URI(uri)));
+//            socketIO.get().on(EnvConstants.WS_LOGRECORD, printLog);
 //            socketIO.get().on(EnvConstants.CONFIG, new Emitter.Listener() {
 //                @Override
 //                public void call(Object... objects) {

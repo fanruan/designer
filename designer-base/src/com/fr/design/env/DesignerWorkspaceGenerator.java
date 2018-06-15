@@ -1,28 +1,31 @@
 package com.fr.design.env;
 
-import com.fr.base.Env;
-import com.fr.base.env.EnvConfig;
-import com.fr.base.env.LocalEnvConfig;
-import com.fr.env.RemoteEnv;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.Workspace;
 import com.fr.workspace.connect.WorkspaceClient;
-import com.fr.workspace.connect.WorkspaceConnection;
 
 /**
  * 根据配置生成运行环境
  */
 public class DesignerWorkspaceGenerator {
     
-    public static Workspace generate(EnvConfig config) {
+    public static Workspace generate(DesignerWorkspaceInfo config) {
+        
+        if (config == null || config.getType() == null) {
+            return null;
+        }
         
         Workspace workspace = null;
-        if (config instanceof LocalEnvConfig) {
-            workspace = WorkContext.getFactory().build(config.getPath());
-        } else if (config instanceof RemoteEnvConfig) {
-            RemoteEnvConfig remoteConfig = (RemoteEnvConfig) config;
-            WorkspaceClient client = WorkContext.getConnector().connect(new WorkspaceConnection(remoteConfig.getHost(), remoteConfig.getPort(), remoteConfig.getUsername(), remoteConfig.getPassword()));
-            workspace = new RemoteWorkspace(client, remoteConfig.getHost() + ":" + remoteConfig.getPort(), remoteConfig.getPassword());
+        switch (config.getType()) {
+            case Local: {
+                workspace = WorkContext.getFactory().build(config.getPath());
+                break;
+            }
+            case Remote: {
+                WorkspaceClient client = WorkContext.getConnector().connect(config.getConnection());
+                workspace = new RemoteWorkspace(client, config.getConnection());
+                break;
+            }
         }
         return workspace;
     }

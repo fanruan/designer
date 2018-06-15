@@ -55,6 +55,7 @@ import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
 import com.fr.stable.core.UUID;
 import com.fr.stable.project.ProjectConstants;
+import com.fr.workspace.WorkContext;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -657,7 +658,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         try {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             this.getTarget().export(out);
-            FRContext.getCurrentEnv().getFileOperator().write(out.toByteArray(), editingFILE.getPath());
+            WorkContext.getWorkResource().write(editingFILE.getPath(), out.toByteArray());
         } catch (Exception e) {
             FRContext.getLogger().error(e.getMessage(), e);
             JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), e.getMessage(), "Save Error", JOptionPane.ERROR_MESSAGE);

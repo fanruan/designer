@@ -13,11 +13,11 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.GeneralUtils;
 import com.fr.general.Inter;
-import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StableUtils;
 import com.fr.stable.bridge.StableFactory;
 import com.fr.stable.project.ProjectConstants;
+import com.fr.workspace.WorkContext;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -27,7 +27,6 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -196,7 +195,7 @@ public class LocalePane extends BasicPane {
         for (FileNode fileNode : fileNodes) {
             String fileName = fileNode.getName();
             if (fileName.endsWith(".properties")) {
-                InputStream in = new ByteArrayInputStream(env.getFileOperator().read(StableUtils.pathJoin(ProjectConstants.LOCALE_NAME, fileName)));
+                InputStream in = new ByteArrayInputStream(WorkContext.getWorkResource().readFully(StableUtils.pathJoin(ProjectConstants.LOCALE_NAME, fileName)));
                 Properties properties = new Properties();
                 properties.load(in);
                 keys.addAll(properties.stringPropertyNames());

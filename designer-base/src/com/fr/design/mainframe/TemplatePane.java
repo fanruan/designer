@@ -1,14 +1,12 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.env.EnvConfig;
-import com.fr.base.env.LocalEnvConfig;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.env.DesignerWorkspaceGenerator;
-import com.fr.design.env.RemoteEnvConfig;
+import com.fr.design.env.DesignerWorkspaceInfo;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.file.TemplateTreePane;
 import com.fr.design.gui.ibutton.UIButton;
@@ -112,7 +110,7 @@ public class TemplatePane extends JPanel implements MouseListener {
     private boolean envListOkAction(EnvListPane envListPane) {
         final String selectedName = envListPane.updateEnvManager();
         DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
-        EnvConfig selectedEnv = envManager.getEnv(selectedName);
+        DesignerWorkspaceInfo selectedEnv = envManager.getWorkspaceInfo(selectedName);
         GeneralContext.fireEnvWillChangeListener();
         try {
             WorkContext.switchTo(DesignerWorkspaceGenerator.generate(selectedEnv), new WorkContextCallback() {
@@ -143,7 +141,7 @@ public class TemplatePane extends JPanel implements MouseListener {
         return true;
     }
 
-    private String getDesignerVersion(EnvConfig selectedEnv) {
+    private String getDesignerVersion(DesignerWorkspaceInfo selectedEnv) {
 //        return selectedEnv.getDesignerVersion();
         throw new UnsupportedOperationException("unsupport now");
     }
@@ -169,12 +167,17 @@ public class TemplatePane extends JPanel implements MouseListener {
     }
 
     private void setJLabel(String name) {
-        EnvConfig config = DesignerEnvManager.getEnvManager().getEnv(name);
-        if (config instanceof LocalEnvConfig) {
-            envLabel.setIcon(IOUtils.readIcon("com/fr/design/images/data/bind/localconnect.png"));
-
-        } else if (config instanceof RemoteEnvConfig) {
-            envLabel.setIcon(IOUtils.readIcon("com/fr/design/images/data/bind/distanceconnect.png"));
+    
+        DesignerWorkspaceInfo config = DesignerEnvManager.getEnvManager().getWorkspaceInfo(name);
+        switch (config.getType()) {
+            case Remote: {
+                envLabel.setIcon(IOUtils.readIcon("com/fr/design/images/data/bind/localconnect.png"));
+                break;
+            }
+            case Local: {
+                envLabel.setIcon(IOUtils.readIcon("com/fr/design/images/data/bind/distanceconnect.png"));
+                break;
+            }
         }
         envLabel.setText(name);
         envLabel.repaint();

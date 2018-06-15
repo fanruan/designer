@@ -1,14 +1,12 @@
 package com.fr.design.actions.file;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.env.EnvConfig;
-import com.fr.base.env.LocalEnvConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.tabledata.ResponseDataSourceChange;
 import com.fr.design.env.DesignerWorkspaceGenerator;
-import com.fr.design.env.RemoteEnvConfig;
+import com.fr.design.env.DesignerWorkspaceInfo;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
@@ -67,11 +65,16 @@ public class SwitchExistEnv extends MenuDef {
 
         public GetExistEnvAction(String envName) {
             this.setName(envName);
-            EnvConfig env = DesignerEnvManager.getEnvManager().getEnv(envName);
-            if (env instanceof LocalEnvConfig) {
-                this.setSmallIcon(BaseUtils.readIcon("com/fr/design/images/data/bind/localconnect.png"));
-            } else if (env instanceof RemoteEnvConfig) {
+            DesignerWorkspaceInfo env = DesignerEnvManager.getEnvManager().getWorkspaceInfo(envName);
+            switch (env.getType())
+            {
+                case Local:{
+                    this.setSmallIcon(BaseUtils.readIcon("com/fr/design/images/data/bind/localconnect.png"));
+                    break;
+                }case Remote:{
                 this.setSmallIcon(BaseUtils.readIcon("com/fr/design/images/data/bind/distanceconnect.png"));
+                break;
+            }
             }
         }
 
@@ -99,7 +102,7 @@ public class SwitchExistEnv extends MenuDef {
         public void actionPerformed(ActionEvent e) {
             DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
             final String envName = getName();
-            EnvConfig selectedEnv = envManager.getEnv(envName);
+            DesignerWorkspaceInfo selectedEnv = envManager.getWorkspaceInfo(envName);
             WorkContext.switchTo(DesignerWorkspaceGenerator.generate(selectedEnv), new WorkContextCallback() {
                 @Override
                 public void success() {

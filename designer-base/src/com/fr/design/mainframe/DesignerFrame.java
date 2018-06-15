@@ -650,7 +650,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         defaultTitleSB.append(" ");
         // james：标识登录的用户和登录的ENV
         String envName = DesignerEnvManager.getEnvManager().getCurEnvName();
-        EnvConfig env = DesignerEnvManager.getEnvManager().getEnv(envName);
+        EnvConfig env = DesignerEnvManager.getEnvManager().getWorkspaceInfo(envName);
         if (env != null) {
             defaultTitleSB.append(env.getDescription(envName));
             if (editingTemplate != null) {

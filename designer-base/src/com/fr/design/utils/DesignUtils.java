@@ -13,7 +13,6 @@ import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.fun.DesignerEnvProcessor;
 import com.fr.design.gui.UILookAndFeel;
 import com.fr.design.mainframe.DesignerContext;
-import com.fr.env.RemoteEnv;
 import com.fr.file.FileFILE;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;

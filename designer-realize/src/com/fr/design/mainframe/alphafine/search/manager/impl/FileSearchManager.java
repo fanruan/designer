@@ -18,6 +18,7 @@ import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
+import com.fr.workspace.WorkContext;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -151,7 +152,7 @@ public class FileSearchManager implements AlphaFineSearchProvider {
      */
     private void searchFileContent(Env env, String searchText, FileNode node, boolean isAlreadyContain, boolean needMore) {
         try {
-            InputStream inputStream = new ByteArrayInputStream(env.getFileOperator().read(StableUtils.pathJoin(ProjectConstants.REPORTLETS_NAME, node.getEnvPath().substring(ProjectConstants.REPORTLETS_NAME.length() + 1))));
+            InputStream inputStream = new ByteArrayInputStream(WorkContext.getWorkResource().readFully(StableUtils.pathJoin(ProjectConstants.REPORTLETS_NAME, node.getEnvPath().substring(ProjectConstants.REPORTLETS_NAME.length() + 1))));
             InputStreamReader isr = new InputStreamReader(inputStream, "UTF-8");
             BufferedReader reader = new BufferedReader(isr);
             String line;

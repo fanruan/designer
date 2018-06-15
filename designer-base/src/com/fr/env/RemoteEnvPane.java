@@ -1,11 +1,11 @@
 package com.fr.env;
 
 import com.fr.base.FRContext;
-import com.fr.design.env.RemoteEnvConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.border.UITitledBorder;
 import com.fr.design.dialog.InformationWarnPane;
+import com.fr.design.env.DesignerWorkspaceInfo;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
@@ -19,24 +19,11 @@ import com.fr.general.Inter;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
 
-import javax.swing.BorderFactory;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextPane;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.ToolTipManager;
-import javax.swing.UIManager;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -50,7 +37,7 @@ import static com.fr.design.layout.TableLayout.PREFERRED;
 /**
  * @author yaohwu
  */
-public class RemoteEnvPane extends BasicBeanPane<RemoteEnvConfig> {
+public class RemoteEnvPane extends BasicBeanPane<DesignerWorkspaceInfo> {
 
     private static final Color TIPS_FONT_COLOR = new Color(0x8f8f92);
 
@@ -252,7 +239,7 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteEnvConfig> {
     }
 
     @Override
-    public void populateBean(RemoteEnvConfig ob) {
+    public void populateBean(DesignerWorkspaceInfo ob) {
 
         if (StringUtils.isEmpty(ob.getPath())) {
             remoteEnvURL = RemoteEnvURL.createDefaultURL();
@@ -266,21 +253,21 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteEnvConfig> {
         DesignerEnvManager.getEnvManager().setHttps(remoteEnvURL.getHttps());
         fileChooserButton.setEnabled(remoteEnvURL.getHttps());
         updateHttpsConfigPanel();
-
-        String username = EnvConfigUtils.getUsername(ob);
-        String pwd = EnvConfigUtils.getPassword(ob);
+    
+        String username = ob.getConnection().getUserName();
+        String pwd = ob.getConnection().getPassword();
         this.usernameInput.setText(username == null ? StringUtils.EMPTY : pwd);
-        this.passwordInput.setText(ob.getPassword() == null ? StringUtils.EMPTY : ob.getPassword());
+        this.passwordInput.setText(pwd == null ? StringUtils.EMPTY : "******");
     }
 
     @Override
-    public RemoteEnvConfig updateBean() {
+    public DesignerWorkspaceInfo updateBean() {
 
         String path = remoteEnvURL.getURL();
         String user = this.usernameInput.getText();
         String password = new String(this.passwordInput.getPassword());
+//        return DesignerWorkspaceInfo.createRemote();
         return null;
-
         //return new RemoteEnvConfig(path, user, password);
     }
 
