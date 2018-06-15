@@ -2,6 +2,7 @@ package com.fr.design.hyperlink;
 
 import com.fr.config.ServerPreferenceConfig;
 import com.fr.design.constants.LayoutConstants;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
@@ -11,6 +12,7 @@ import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 
 /**
@@ -22,6 +24,7 @@ public class WebHyperNorthPane extends AbstractHyperNorthPane<WebHyperlink> {
     private UITextField itemNameTextField;
     private boolean needRenamePane = false;
     private UITextField urlTextField;
+    private UILabel uiLabel;
 
     public WebHyperNorthPane(boolean needRenamePane) {
         this.needRenamePane = needRenamePane;
@@ -45,23 +48,27 @@ public class WebHyperNorthPane extends AbstractHyperNorthPane<WebHyperlink> {
     protected JPanel setHeaderPanel() {
         JPanel headerPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
 
-        JPanel urlPane = FRGUIPaneFactory.createX_AXISBoxInnerContainer_S_Pane();
-        urlTextField = new UITextField(24);
+        JPanel urlPane = new JPanel();
+        uiLabel = new UILabel("URL:");
+        urlPane.add(uiLabel);
+        urlTextField = new UITextField(43);
         urlPane.add(urlTextField);
         urlTextField.setText(ProductConstants.WEBSITE_URL);
+
 
         //UILabel label = new UILabel(Inter.getLocText(new String[]{"Example","Or"}, new String[]{":http://www.baidu.com","/main.jsp"}));
         JPanel urlWithHelp = FRGUIPaneFactory.createNColumnGridInnerContainer_S_Pane(2);
         urlWithHelp.add(GUICoreUtils.createNamedPane(urlPane, "URL:"));
+
         //urlWithHelp.add(label);
 
         if (this.needRenamePane) {
             headerPane.setLayout(new BorderLayout(LayoutConstants.VGAP_LARGE, LayoutConstants.VGAP_SMALL));
             itemNameTextField = new UITextField();
             headerPane.add(GUICoreUtils.createNamedPane(itemNameTextField, Inter.getLocText("FR-Designer_Name") + ":"), BorderLayout.NORTH);
-            headerPane.add(urlWithHelp, BorderLayout.CENTER);
+            headerPane.add(urlPane, BorderLayout.WEST);
         } else {
-            headerPane.add(urlWithHelp, BorderLayout.NORTH);
+            headerPane.add(urlPane, BorderLayout.WEST);
         }
 
         return headerPane;
