@@ -24,7 +24,6 @@ public class WebHyperNorthPane extends AbstractHyperNorthPane<WebHyperlink> {
     private UITextField itemNameTextField;
     private boolean needRenamePane = false;
     private UITextField urlTextField;
-    private UILabel uiLabel;
 
     public WebHyperNorthPane(boolean needRenamePane) {
         this.needRenamePane = needRenamePane;
@@ -49,26 +48,22 @@ public class WebHyperNorthPane extends AbstractHyperNorthPane<WebHyperlink> {
         JPanel headerPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
 
         JPanel urlPane = new JPanel();
-        uiLabel = new UILabel("URL:");
-        urlPane.add(uiLabel);
+
         urlTextField = new UITextField(43);
         urlPane.add(urlTextField);
         urlTextField.setText(ProductConstants.WEBSITE_URL);
 
 
         //UILabel label = new UILabel(Inter.getLocText(new String[]{"Example","Or"}, new String[]{":http://www.baidu.com","/main.jsp"}));
-        JPanel urlWithHelp = FRGUIPaneFactory.createNColumnGridInnerContainer_S_Pane(2);
-        urlWithHelp.add(GUICoreUtils.createNamedPane(urlPane, "URL:"));
-
-        //urlWithHelp.add(label);
+        JPanel urlWithHelp = GUICoreUtils.createNamedPane(urlPane, "URL:");
 
         if (this.needRenamePane) {
             headerPane.setLayout(new BorderLayout(LayoutConstants.VGAP_LARGE, LayoutConstants.VGAP_SMALL));
             itemNameTextField = new UITextField();
             headerPane.add(GUICoreUtils.createNamedPane(itemNameTextField, Inter.getLocText("FR-Designer_Name") + ":"), BorderLayout.NORTH);
-            headerPane.add(urlPane, BorderLayout.WEST);
+            headerPane.add(urlWithHelp, BorderLayout.WEST);
         } else {
-            headerPane.add(urlPane, BorderLayout.WEST);
+            headerPane.add(urlWithHelp, BorderLayout.WEST);
         }
 
         return headerPane;
