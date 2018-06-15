@@ -12,9 +12,9 @@ import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.project.ProjectConstants;
+import com.fr.workspace.WorkContext;
 
 import javax.swing.*;
-
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -200,7 +200,7 @@ public class FileNodeFILE implements FILE {
         }
 
         try {
-            return FRContext.getCurrentEnv().getFileOperator().createFolder(StableUtils.pathJoin(node.getEnvPath(), name));
+            return WorkContext.getWorkResource().create(StableUtils.pathJoin(node.getEnvPath(), name));
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
             return false;
@@ -267,7 +267,7 @@ public class FileNodeFILE implements FILE {
         }
 
         try {
-            return FRContext.getCurrentEnv().getFileOperator().createFile(node.getEnvPath());
+            return WorkContext.getWorkResource().create(node.getEnvPath());
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
             return false;
@@ -290,8 +290,8 @@ public class FileNodeFILE implements FILE {
         if (!envPath.startsWith(ProjectConstants.REPORTLETS_NAME)) {
             return null;
         }
-
-        InputStream in = new ByteArrayInputStream(FRContext.getCurrentEnv().getFileOperator().read(StableUtils.pathJoin(ProjectConstants.REPORTLETS_NAME, envPath.substring(ProjectConstants.REPORTLETS_NAME.length() + 1))));
+    
+        InputStream in = new ByteArrayInputStream(WorkContext.getWorkResource().readFully(StableUtils.pathJoin(ProjectConstants.REPORTLETS_NAME, envPath.substring(ProjectConstants.REPORTLETS_NAME.length() + 1))));
         
         return envPath.endsWith(".cpt") || envPath.endsWith(".frm")
                 ? XMLEncryptUtils.decodeInputStream(in) : in;
