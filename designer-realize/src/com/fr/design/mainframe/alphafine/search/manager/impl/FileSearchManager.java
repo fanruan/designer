@@ -231,7 +231,7 @@ public class FileSearchManager implements AlphaFineSearchProvider {
      */
     private void listAll(String rootFilePath, List<FileNode> nodeList, boolean recurse) throws Exception {
     
-        FileNode[] fns = FRContext.getFileOperator().list(rootFilePath);
+        FileNode[] fns = FRContext.getFileNodes().list(rootFilePath);
         for (int i = 0; i < fns.length; i++) {
             FileNode fileNode = fns[i];
             if (fileNode.isDirectory()) {

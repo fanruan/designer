@@ -181,7 +181,7 @@ public class FileNodeFILE implements FILE {
      */
     private FileNode[] listFile(String rootFilePath) {
         try {
-            return FRContext.getFileOperator().list(rootFilePath);
+            return FRContext.getFileNodes().list(rootFilePath);
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }

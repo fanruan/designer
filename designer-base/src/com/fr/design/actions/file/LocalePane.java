@@ -182,7 +182,7 @@ public class LocalePane extends BasicPane {
 
     private void initCustomProperties() throws Exception {
     
-        FileNode[] fileNodes = FRContext.getFileOperator().list(ProjectConstants.LOCALE_NAME);
+        FileNode[] fileNodes = FRContext.getFileNodes().list(ProjectConstants.LOCALE_NAME);
         if (ArrayUtils.getLength(fileNodes) == 0) {
             return;
         }

@@ -1,6 +1,6 @@
 package com.fr.design.gui.itree.filetree;
 
-import com.fr.base.operator.file.LocalFileOperator;
+import com.fr.file.filetree.LocalFileNodes;
 import com.fr.file.filetree.FileNode;
 
 import java.util.Comparator;
@@ -59,13 +59,13 @@ public class FileNodeComparator implements Comparator<FileNode> {
 	private int groupByFileType(FileNode nameNode1, FileNode nameNode2,
 			int i) {
 		
-		if (i < LocalFileOperator.FILE_TYPE.length) {
-			if (nameNode1.isFileType(LocalFileOperator.FILE_TYPE[i]))
-				if (nameNode2.isFileType(LocalFileOperator.FILE_TYPE[i]))
+		if (i < LocalFileNodes.FILE_TYPE.length) {
+			if (nameNode1.isFileType(LocalFileNodes.FILE_TYPE[i]))
+				if (nameNode2.isFileType(LocalFileNodes.FILE_TYPE[i]))
 					return nameNode1.getName().toLowerCase().compareTo(nameNode2.getName().toLowerCase());
 				else
 					return-1;
-			else if (nameNode2.isFileType(LocalFileOperator.FILE_TYPE[i]))
+			else if (nameNode2.isFileType(LocalFileNodes.FILE_TYPE[i]))
 					return 1;
 				else{
 					return groupByFileType(nameNode1, nameNode2, i+1);

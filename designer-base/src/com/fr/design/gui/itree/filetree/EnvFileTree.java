@@ -190,7 +190,7 @@ public class EnvFileTree extends RefreshableJTree {
 		FileNode[] res_fns = null;
 
 		try {
-			res_fns = WorkContext.getCurrent() == null ? new FileNode[0] : FRContext.getFileOperator().list(filePath);
+			res_fns = WorkContext.getCurrent() == null ? new FileNode[0] : FRContext.getFileNodes().list(filePath);
 		} catch (Exception e) {
 			FRContext.getLogger().error(e.getMessage(), e);
 		}
