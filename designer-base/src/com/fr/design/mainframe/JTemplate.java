@@ -523,18 +523,18 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         if (editingFILE == null) {
             return false;
         }
-        //检查一下连接是否成功
-        try {
-            if (FRContext.getCommonOperator() != null && !FRContext.getCommonOperator().testServerConnectionWithOutShowMessagePane()) {
-                //连接不成功，提示
-                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
-                        Inter.getLocText(new String[]{"server_disconnected", "template_unsaved"}, new String[]{",", "!"})
-                        , Inter.getLocText("FR-Designer_Error"), JOptionPane.ERROR_MESSAGE);
-                return false;
-            }
-        } catch (Exception e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
-        }
+//        //检查一下连接是否成功
+//        try {
+//            if (FRContext.getCommonOperator() != null && !FRContext.getCommonOperator().testServerConnectionWithOutShowMessagePane()) {
+//                //连接不成功，提示
+//                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
+//                        Inter.getLocText(new String[]{"server_disconnected", "template_unsaved"}, new String[]{",", "!"})
+//                        , Inter.getLocText("FR-Designer_Error"), JOptionPane.ERROR_MESSAGE);
+//                return false;
+//            }
+//        } catch (Exception e) {
+//            FineLoggerFactory.getLogger().error(e.getMessage());
+//        }
 
 
         // 检查一下editingFILE是不是已存在的文件,如果不存在则用saveAs

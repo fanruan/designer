@@ -4,7 +4,6 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignState;
 import com.fr.design.DesignerEnvManager;
@@ -836,18 +835,18 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
      */
     public void openTemplate(FILE tplFile) {
         // 测试连接，如果连接失败，则提示
-        try {
-            if (FRContext.getCommonOperator() != null
-                    && !FRContext.getCommonOperator().testServerConnectionWithOutShowMessagePane()) {
-                JOptionPane.showMessageDialog(
-                        DesignerContext.getDesignerFrame(),
-                        Inter.getLocText(new String[]{"FR-Chart-Server_disconnected", "FR-Server-Design_template_unopened"}, new String[]{
-                                ",", "!"}), Inter.getLocText("FR-Server-All_Error"), JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-        } catch (Exception e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
-        }
+//        try {
+//            if (FRContext.getCommonOperator() != null
+//                    && !FRContext.getCommonOperator().testServerConnectionWithOutShowMessagePane()) {
+//                JOptionPane.showMessageDialog(
+//                        DesignerContext.getDesignerFrame(),
+//                        Inter.getLocText(new String[]{"FR-Chart-Server_disconnected", "FR-Server-Design_template_unopened"}, new String[]{
+//                                ",", "!"}), Inter.getLocText("FR-Server-All_Error"), JOptionPane.ERROR_MESSAGE);
+//                return;
+//            }
+//        } catch (Exception e) {
+//            FineLoggerFactory.getLogger().error(e.getMessage());
+//        }
 
         // p:判断一下，如何文件为空或者文件不存在，直接返回.
         if (tplFile == null || !tplFile.exists()) {

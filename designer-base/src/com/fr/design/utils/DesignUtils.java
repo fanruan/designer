@@ -20,7 +20,6 @@ import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
 import com.fr.general.http.HttpClient;
 import com.fr.log.FineLoggerFactory;
-import com.fr.security.JwtUtils;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.CodeUtils;
 import com.fr.stable.EncodeConstants;
@@ -47,7 +46,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URI;
 import java.net.URLEncoder;
-import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.Locale;
 
@@ -302,16 +300,6 @@ public class DesignUtils {
     
         if (!WorkContext.getCurrent().isLocal()) {
             try {
-                if (Utils.isEmbeddedParameter(postfixOfUri)) {
-                    String time = Calendar.getInstance().getTime().toString().replaceAll(" ", "");
-//                    boolean isUserPrivilege = FRContext.getCommonOperator()).writePrivilegeMap(time, postfixOfUri);
-                    boolean isUserPrivilege = false;
-                    postfixOfUri = isUserPrivilege ? postfixOfUri + "&fr_check_url=" + time + "&id=" + FRContext.getCommonOperator().getUserID() : postfixOfUri;
-                }
-                // 加参数给远程设计校验权限。
-                String design = JwtUtils.createDefaultJWT(FRContext.getCommonOperator().getUser());
-                postfixOfUri = postfixOfUri + "&design=" + design;
-
                 String urlPath = getWebBrowserPath();
                 Desktop.getDesktop().browse(new URI(urlPath + postfixOfUri));
             } catch (Exception e) {
