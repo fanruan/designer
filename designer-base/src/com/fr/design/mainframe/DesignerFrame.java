@@ -13,7 +13,6 @@ import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.datapane.TableDataTreePane;
-import com.fr.design.env.DesignerWorkspaceInfo;
 import com.fr.design.event.DesignerOpenedListener;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
@@ -54,6 +53,7 @@ import com.fr.stable.StableUtils;
 import com.fr.stable.image4j.codec.ico.ICODecoder;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.workspace.WorkContext;
+import com.fr.workspace.Workspace;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
@@ -650,15 +650,15 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         defaultTitleSB.append(" ");
         // james：标识登录的用户和登录的ENV
         String envName = DesignerEnvManager.getEnvManager().getCurEnvName();
-        DesignerWorkspaceInfo env = DesignerEnvManager.getEnvManager().getWorkspaceInfo(envName);
-        if (env != null) {
-            defaultTitleSB.append(WorkContext.getCurrent().getDescription());
+        Workspace workspace = WorkContext.getCurrent();
+        if (workspace != null) {
+            defaultTitleSB.append(workspace.getDescription());
             if (editingTemplate != null) {
                 String path = editingTemplate.getEditingFILE().getPath();
                 if (!editingTemplate.getEditingFILE().exists()) {
                     path = FILEFactory.MEM_PREFIX + path;
                 } else if (path.startsWith(ProjectConstants.REPORTLETS_NAME)) {
-                    path = env.getPath() + File.separator + path;
+                    path = workspace.getPath() + File.separator + path;
                 }
                 defaultTitleSB.append("    " + path);
             }

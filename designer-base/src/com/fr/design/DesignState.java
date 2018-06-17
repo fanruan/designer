@@ -39,9 +39,9 @@ public class DesignState {
 
     public DesignState(ToolBarMenuDockPlus plus) {
         designState = plus.getMenuState();
-        if (WorkContext.getCurrent().isLocal()) {
-            designState += REMOTE;
-        }
+//        if (WorkContext.getCurrent().isLocal()) {
+//            designState += REMOTE;
+//        }
 //        isRoot = env != null && env.isRoot();
         isAuthority = BaseUtils.isAuthorityEditing();
     }

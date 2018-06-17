@@ -13,14 +13,25 @@ import com.fr.workspace.Workspace;
 public class EnvSwitcher {
     
     public void switch2LastEnv() {
-        
         try {
+    
             String current = DesignerEnvManager.getEnvManager().getCurEnvName();
             Workspace workspace = DesignerWorkspaceGenerator.generate(DesignerEnvManager.getEnvManager().getWorkspaceInfo(current));
+            if (workspace == null) {
+                TemplatePane.getInstance().dealEvnExceptionWhenStartDesigner();
+            }
             WorkContext.switchTo(workspace);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             TemplatePane.getInstance().dealEvnExceptionWhenStartDesigner();
         }
+    }
+    
+    /**
+     * 找不到默认的工作空间时，让用户手动选择一个
+     */
+    private Workspace chooseWorkspace() {
+        
+        return null;
     }
     
 }

@@ -200,7 +200,7 @@ public class FileNodeFILE implements FILE {
         }
 
         try {
-            return WorkContext.getWorkResource().create(StableUtils.pathJoin(node.getEnvPath(), name));
+            return WorkContext.getWorkResource().createFile(StableUtils.pathJoin(node.getEnvPath(), name));
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
             return false;
@@ -267,7 +267,7 @@ public class FileNodeFILE implements FILE {
         }
 
         try {
-            return WorkContext.getWorkResource().create(node.getEnvPath());
+            return WorkContext.getWorkResource().createFile(node.getEnvPath());
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
             return false;
