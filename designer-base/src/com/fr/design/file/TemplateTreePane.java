@@ -98,7 +98,7 @@ public class TemplateTreePane extends JPanel implements FileOperations {
      * 刷新
      */
     public void refreshDockingView() {
-        reportletsTree.setFileNodeFilter(new IOFileNodeFilter(FRContext.getCurrentEnv().getSupportedTypes()));
+        reportletsTree.setFileNodeFilter(new IOFileNodeFilter(FRContext.getFileOperator().getSupportedTypes()));
         reportletsTree.refreshEnv();
     }
 

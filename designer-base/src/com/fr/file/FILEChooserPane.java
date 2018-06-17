@@ -3,6 +3,7 @@ package com.fr.file;
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.base.extension.FileExtension;
+import com.fr.base.operator.file.LocalFileOperator;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.dialog.BasicPane;
@@ -25,7 +26,6 @@ import com.fr.file.filter.FILEFilter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
-import com.fr.general.adaptor.WorkspaceAdaptor;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.OperatingSystem;
@@ -545,10 +545,10 @@ public class FILEChooserPane extends BasicPane {
             return;
         }
         if (editing == null || !editing.isChartBook()) {
-            String[] fileSuffix_local = WorkspaceAdaptor.FILE_TYPE;
+            String[] fileSuffix_local = LocalFileOperator.FILE_TYPE;
             EnumSet<FileExtension> fileExtensions = EnumSet.of(FileExtension.CPT, FileExtension.CPTX, FileExtension.FRM, FileExtension.FRMX, FileExtension.CHT);
             if (type == JFileChooser.OPEN_DIALOG) {
-                if (FRContext.getCurrentEnv().isSupportLocalFileOperate()) { //本地连接
+                if (FRContext.getFileOperator().isSupportLocalFileOperate()) { //本地连接
                     this.addChooseFILEFilter(new ChooseFileFilter(fileSuffix_local, appName + Inter.getLocText(new String[]{"FR-App-Report_Template", "FR-App-All_File"})));
                 } else {
                     this.addChooseFILEFilter(new ChooseFileFilter(fileExtensions, appName + Inter.getLocText(new String[]{"FR-App-Report_Template", "FR-App-All_File"})));
@@ -569,7 +569,7 @@ public class FILEChooserPane extends BasicPane {
         }
 
         // 添加 xls 文件类型过滤 kt
-        if (FRContext.getCurrentEnv().isSupportLocalFileOperate()) {  //本地连接
+        if (FRContext.getFileOperator().isSupportLocalFileOperate()) {  //本地连接
             this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.XLS, Inter.getLocText("Import-Excel_Source")));
             this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.XLSX, Inter.getLocText("Import-Excel2007_Source")));
         }
@@ -592,7 +592,7 @@ public class FILEChooserPane extends BasicPane {
         for (FILEFilter aFilterList : filterList) {
             defaultComboBoxModel.addElement(aFilterList);
         }
-        if (FRContext.getCurrentEnv().isSupportLocalFileOperate()) {  //本地连接
+        if (FRContext.getFileOperator().isSupportLocalFileOperate()) {  //本地连接
             if (!showWebReport) {
                 defaultComboBoxModel.addElement(Inter.getLocText("FR-Utils-App_AllFiles") + "(*.*)");
             }
@@ -786,10 +786,10 @@ public class FILEChooserPane extends BasicPane {
             }
             if (FILEChooserPane.this.showWebReport) {
                 // webReportFILE = new FileFILE(new
-                // File(FRContext.getCurrentEnv().getWebReportPath()));
-                webReportFILE = new FileNodeFILE(FRContext.getCurrentEnv().getWebReportPath());
+                // File(FRContext.getCommonOperator().getWebReportPath()));
+                webReportFILE = new FileNodeFILE(FRContext.getCommonOperator().getWebReportPath());
                 // String webReportPath =
-                // FRContext.getCurrentEnv().getWebReportPath();
+                // FRContext.getCommonOperator().getWebReportPath();
                 // String webReportParentPath = new
                 // File(webReportPath).getParent();
                 // webReportFILE = new FileNodeFILE(new FileNode("WebReport",

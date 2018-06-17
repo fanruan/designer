@@ -56,14 +56,9 @@ import com.fr.start.preload.ImagePreLoader;
 import com.fr.start.server.ServerTray;
 import com.fr.workspace.WorkContext;
 
-import javax.swing.JComponent;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.MatteBorder;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -182,14 +177,14 @@ public class Designer extends BaseDesigner {
     protected MenuDef createServerMenuDef(ToolBarMenuDockPlus plus) {
         MenuDef menuDef = super.createServerMenuDef(plus);
 
-        if (FRContext.getCurrentEnv() == null) {
+        if (WorkContext.getCurrent() == null) {
             return menuDef;
         }
 
         if (!BaseUtils.isAuthorityEditing()) {
             menuDef.addShortCut(SeparatorDef.DEFAULT);
-
-            if (FRContext.getCurrentEnv().isRoot()) {
+    
+            if (WorkContext.getCurrent().isRoot()) {
                 menuDef.addShortCut(new ServerConfigManagerAction(), new StyleListAction(), new WidgetManagerAction());
                 if (ActionFactory.getChartPreStyleAction() != null) {
                     menuDef.addShortCut(ActionFactory.getChartPreStyleAction());

@@ -37,12 +37,12 @@ public class FileNodeFILE implements FILE {
         this.node = new FileNode(StableUtils.pathJoin(new String[]{
                 parentDir, name
         }), isDir);
-        this.envPath = FRContext.getCurrentEnv().getPath();
+        this.envPath = WorkContext.getCurrent().getPath();
     }
 
     public FileNodeFILE(FileNode node) {
         this.node = node;
-        this.envPath = FRContext.getCurrentEnv().getPath();
+        this.envPath = WorkContext.getCurrent().getPath();
     }
 
     public FileNodeFILE(String envPath) {
@@ -61,7 +61,7 @@ public class FileNodeFILE implements FILE {
      * @return 返回后缀
      */
     public String prefix() {
-        if (ComparatorUtils.equals(getEnvPath(), FRContext.getCurrentEnv().getWebReportPath())) {
+        if (ComparatorUtils.equals(getEnvPath(), FRContext.getCommonOperator().getWebReportPath())) {
             return FILEFactory.WEBREPORT_PREFIX;
         }
         return FILEFactory.ENV_PREFIX;
@@ -218,7 +218,7 @@ public class FileNodeFILE implements FILE {
         }
 
         try {
-            return FRContext.getCurrentEnv().fileLocked(node.getEnvPath());
+            return FRContext.getCommonOperator().fileLocked(node.getEnvPath());
         } catch (Exception e) {
             FRContext.getLogger().error(e.getMessage(), e);
             return false;
@@ -253,7 +253,7 @@ public class FileNodeFILE implements FILE {
      * @return 是报表当前环境返回true
      */
     public boolean isCurrentEnv() {
-        return ComparatorUtils.equals(FRContext.getCurrentEnv().getPath(), envPath);
+        return ComparatorUtils.equals(WorkContext.getCurrent().getPath(), envPath);
     }
 
     /**
@@ -313,7 +313,7 @@ public class FileNodeFILE implements FILE {
         if (!envPath.startsWith(ProjectConstants.REPORTLETS_NAME)) {
             return null;
         }
-        return FRContext.getCurrentEnv().writeBean(
+        return FRContext.getCommonOperator().writeBean(
                 envPath.substring(ProjectConstants.REPORTLETS_NAME.length() + 1),
                 ProjectConstants.REPORTLETS_NAME
         );
@@ -335,7 +335,7 @@ public class FileNodeFILE implements FILE {
             return;
         }
 
-        FRContext.getCurrentEnv().unlockTemplate(
+        FRContext.getCommonOperator().unlockTemplate(
                 envPath.substring(ProjectConstants.REPORTLETS_NAME.length() + 1));
     }
 

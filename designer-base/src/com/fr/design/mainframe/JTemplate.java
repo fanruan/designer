@@ -525,7 +525,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         }
         //检查一下连接是否成功
         try {
-            if (FRContext.getCurrentEnv() != null && !FRContext.getCurrentEnv().testServerConnectionWithOutShowMessagePane()) {
+            if (FRContext.getCommonOperator() != null && !FRContext.getCommonOperator().testServerConnectionWithOutShowMessagePane()) {
                 //连接不成功，提示
                 JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
                         Inter.getLocText(new String[]{"server_disconnected", "template_unsaved"}, new String[]{",", "!"})

@@ -837,8 +837,8 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
     public void openTemplate(FILE tplFile) {
         // 测试连接，如果连接失败，则提示
         try {
-            if (FRContext.getCurrentEnv() != null
-                    && !FRContext.getCurrentEnv().testServerConnectionWithOutShowMessagePane()) {
+            if (FRContext.getCommonOperator() != null
+                    && !FRContext.getCommonOperator().testServerConnectionWithOutShowMessagePane()) {
                 JOptionPane.showMessageDialog(
                         DesignerContext.getDesignerFrame(),
                         Inter.getLocText(new String[]{"FR-Chart-Server_disconnected", "FR-Server-Design_template_unopened"}, new String[]{

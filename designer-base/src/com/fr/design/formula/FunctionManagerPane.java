@@ -1,6 +1,5 @@
 package com.fr.design.formula;
 
-import com.fr.base.FRContext;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.data.tabledata.tabledatapane.ClassNameSelectPane;
 import com.fr.design.dialog.BasicDialog;
@@ -22,6 +21,7 @@ import com.fr.general.NameObject;
 import com.fr.stable.Nameable;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.stable.script.FunctionDef;
+import com.fr.workspace.WorkContext;
 
 import javax.swing.*;
 import java.awt.*;
@@ -64,7 +64,7 @@ public class FunctionManagerPane extends BasicPane {
      */
     public void populate(FunctionConfig functionManager) {
         //todo 原来界面上显示的xml路径
-//        this.functionTextField.setText(FRContext.getCurrentEnv().getPath() + File.separator
+//        this.functionTextField.setText(WorkContext.getCurrent().getPath() + File.separator
 //            + ProjectConstants.RESOURCES_NAME
 //            + File.separator + functionManager.fileName());
 
@@ -162,7 +162,7 @@ public class FunctionManagerPane extends BasicPane {
             northPane.add(descriptionArea);
 
             String path1 = getEscapePath(File.separator + ProjectConstants.WEBINF_NAME + File.separator + ProjectConstants.CLASSES_NAME);
-            String path2 = getEscapePath(FRContext.getCurrentEnv().getPath() + File.separator + ProjectConstants.CLASSES_NAME);
+            String path2 = getEscapePath(WorkContext.getCurrent().getPath() + File.separator + ProjectConstants.CLASSES_NAME);
             descriptionArea.setText(Inter.getLocText("FR-Designer_Function_Description_Area_Text", path1, path2));
 
             JPanel descriptionPane = FRGUIPaneFactory.createBorderLayout_S_Pane();  //Description Pane

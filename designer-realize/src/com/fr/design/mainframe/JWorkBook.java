@@ -1098,7 +1098,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
         java.util.Map<String, Object> parameterMap = inputParameters(tpl);
 
         try {
-            String fullPath = StableUtils.pathJoin(FRContext.getCurrentEnv().getPath(), newFile.getPath());
+            String fullPath = StableUtils.pathJoin(WorkContext.getCurrent().getPath(), newFile.getPath());
             FileOutputStream fileOutputStream = new FileOutputStream(fullPath);
             EmbeddedTableDataExporter exporter = new EmbeddedTableDataExporter();
             exporter.export(fileOutputStream, (WorkBook) tpl, parameterMap);

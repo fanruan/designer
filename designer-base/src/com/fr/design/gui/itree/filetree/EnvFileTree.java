@@ -11,6 +11,7 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.StableUtils;
+import com.fr.workspace.WorkContext;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultTreeCellRenderer;
@@ -189,7 +190,7 @@ public class EnvFileTree extends RefreshableJTree {
 		FileNode[] res_fns = null;
 
 		try {
-			res_fns = FRContext.getCurrentEnv() == null ? new FileNode[0] : FRContext.getFileOperator().list(filePath);
+			res_fns = WorkContext.getCurrent() == null ? new FileNode[0] : FRContext.getFileOperator().list(filePath);
 		} catch (Exception e) {
 			FRContext.getLogger().error(e.getMessage(), e);
 		}

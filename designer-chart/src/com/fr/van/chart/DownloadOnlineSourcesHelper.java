@@ -1,6 +1,5 @@
 package com.fr.van.chart;
 
-import com.fr.base.FRContext;
 import com.fr.chart.base.ChartConstants;
 import com.fr.design.RestartHelper;
 import com.fr.design.extra.PluginConstants;
@@ -12,16 +11,10 @@ import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.plugin.chart.DownloadSourcesEvent;
 import com.fr.stable.StableUtils;
+import com.fr.workspace.WorkContext;
 
-import javax.swing.ImageIcon;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Rectangle;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
@@ -70,7 +63,8 @@ public class DownloadOnlineSourcesHelper implements DownloadSourcesEvent {
     }
 
     public void addSiteInfo(String siteKind, String localDir, double megaBits) {
-        if (new File(StableUtils.pathJoin(FRContext.getCurrentEnv().getPath(), localDir)).exists()) {
+    
+        if (new File(StableUtils.pathJoin(WorkContext.getCurrent().getPath(), localDir)).exists()) {
             //本地有这个资源，不下载
             return;
         }
@@ -145,7 +139,7 @@ public class DownloadOnlineSourcesHelper implements DownloadSourcesEvent {
 
                     if (result) {
                         //安装文件
-                        IOUtils.unZipFilesGBK(temp, StableUtils.pathJoin(FRContext.getCurrentEnv().getPath(), siteInfo.localDir));
+                        IOUtils.unZipFilesGBK(temp, StableUtils.pathJoin(WorkContext.getCurrent().getPath(), siteInfo.localDir));
                     }
                 } else {
                     result = false;

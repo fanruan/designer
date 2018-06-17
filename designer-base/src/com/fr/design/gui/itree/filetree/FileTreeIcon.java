@@ -115,7 +115,7 @@ public class FileTreeIcon {
     }
     
     public static Icon getIcon(FileNode node, boolean isShowLock) {
-        String path = StableUtils.pathJoin(new String[]{FRContext.getCurrentEnv().getPath(), node.getEnvPath()});
+        String path = StableUtils.pathJoin(new String[]{WorkContext.getCurrent().getPath(), node.getEnvPath()});
         if (WorkContext.getCurrent().isLocal()) {
             File ff = new File(path);
             if (ff.exists()) {

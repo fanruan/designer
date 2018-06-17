@@ -217,7 +217,7 @@ public abstract class ToolBarMenuDock {
         menuList.addAll(Arrays.asList(menuDefs));
 
         // 添加服务器菜单
-        if (FRContext.getCurrentEnv() != null && FRContext.getCurrentEnv().isRoot()) {
+        if (WorkContext.getCurrent() != null && WorkContext.getCurrent().isRoot()) {
             menuList.add(createServerMenuDef(plus));
         }
 
@@ -435,7 +435,7 @@ public abstract class ToolBarMenuDock {
 
     private boolean shouldShowRemotePermission() {
     
-        return WorkContext.getCurrent() != null && !WorkContext.getCurrent().isLocal() && FRContext.getCurrentEnv().isRoot();
+        return WorkContext.getCurrent() != null && !WorkContext.getCurrent().isLocal() && WorkContext.getCurrent().isRoot();
     }
 
     private boolean shouldShowPlugin() {

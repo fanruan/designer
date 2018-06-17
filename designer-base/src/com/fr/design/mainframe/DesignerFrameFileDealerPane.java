@@ -265,7 +265,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
     @Override
     public void stateChange() {
         //当前环境为远程环境时
-        if (FRContext.getCurrentEnv() != null) {
+        if (FRContext.getCommonOperator() != null) {
             //当前环境为本地环境时
             if (selectedOperation.getSelectedTemplatePath() != null) {
                 openReportAction.setEnabled(true);

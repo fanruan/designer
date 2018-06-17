@@ -10,9 +10,9 @@ import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.file.filetree.FileNode;
-import com.fr.general.Env;
 import com.fr.general.GeneralUtils;
 import com.fr.general.Inter;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StableUtils;
 import com.fr.stable.bridge.StableFactory;
@@ -27,6 +27,7 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -205,8 +206,8 @@ public class LocalePane extends BasicPane {
         for (String key : sortKeys) {
             Vector<String> vector = new Vector<String>();
             vector.add(key);
-            for (int i = 0; i < list.size(); i ++) {
-                vector.add(list.get(i).getProperty(key));
+            for (Properties aList : list) {
+                vector.add(aList.getProperty(key));
             }
             customTableModel.addRow(vector);
         }
@@ -218,8 +219,7 @@ public class LocalePane extends BasicPane {
 	 */
     public void save() {
     
-        Env env = FRContext.getCurrentEnv();
-        if (env == null) {
+        if (WorkContext.getCurrent() == null) {
             return;
         }
         if (customTable.getCellEditor() == null) {
@@ -232,17 +232,17 @@ public class LocalePane extends BasicPane {
             for (int j = 0, rowCount = customTableModel.getRowCount(); j < rowCount; j ++) {
                 properties.setProperty(GeneralUtils.objectToString(customTableModel.getValueAt(j, 0)), GeneralUtils.objectToString(customTableModel.getValueAt(j, i)));
             }
-
-//            OutputStream out = null;
-//            try {
-//                out = env.writeBean(PREFIX + fileName + ".properties", ProjectConstants.LOCALE_NAME);
-//                properties.store(out, null);
-//
-//                out.flush();
-//                out.close();
-//            } catch (Exception e) {
-//                FineLoggerFactory.getLogger().info(e.getMessage());
-//            }
+    
+            OutputStream out = null;
+            try {
+                out = FRContext.getCommonOperator().writeBean(PREFIX + fileName + ".properties", ProjectConstants.LOCALE_NAME);
+                properties.store(out, null);
+        
+                out.flush();
+                out.close();
+            } catch (Exception e) {
+                FineLoggerFactory.getLogger().info(e.getMessage());
+            }
         }
     }
 

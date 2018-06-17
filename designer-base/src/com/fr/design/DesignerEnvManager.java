@@ -190,9 +190,10 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
             return;
         }
         String installHome = StableUtils.getInstallHome();
-        if (installHome != null && !".".equals(installHome)) {
+        if (installHome != null) {
             String name = Inter.getLocText("FR-Engine_DEFAULT");
-            String envPath = StableUtils.pathJoin(new String[]{installHome, ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBINF_NAME});
+//            String envPath = StableUtils.pathJoin(new String[]{installHome, ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBINF_NAME});
+            String envPath = "/Users/juhaoyu/finereport/finereport-maven/env/webroot/WEB-INF";
             designerEnvManager.putEnv(name, DesignerWorkspaceInfo.createLocal(name, envPath));
             designerEnvManager.setCurEnvName(name);
         }

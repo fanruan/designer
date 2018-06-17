@@ -304,12 +304,12 @@ public class DesignUtils {
             try {
                 if (Utils.isEmbeddedParameter(postfixOfUri)) {
                     String time = Calendar.getInstance().getTime().toString().replaceAll(" ", "");
-//                    boolean isUserPrivilege = FRContext.getCurrentEnv()).writePrivilegeMap(time, postfixOfUri);
+//                    boolean isUserPrivilege = FRContext.getCommonOperator()).writePrivilegeMap(time, postfixOfUri);
                     boolean isUserPrivilege = false;
-                    postfixOfUri = isUserPrivilege ? postfixOfUri + "&fr_check_url=" + time + "&id=" + FRContext.getCurrentEnv().getUserID() : postfixOfUri;
+                    postfixOfUri = isUserPrivilege ? postfixOfUri + "&fr_check_url=" + time + "&id=" + FRContext.getCommonOperator().getUserID() : postfixOfUri;
                 }
                 // 加参数给远程设计校验权限。
-                String design = JwtUtils.createDefaultJWT(FRContext.getCurrentEnv().getUser());
+                String design = JwtUtils.createDefaultJWT(FRContext.getCommonOperator().getUser());
                 postfixOfUri = postfixOfUri + "&design=" + design;
 
                 String urlPath = getWebBrowserPath();
@@ -331,7 +331,7 @@ public class DesignUtils {
     }
 
     private static String getWebBrowserPath() {
-        String urlPath = FRContext.getCurrentEnv().getPath();
+        String urlPath = WorkContext.getCurrent().getPath();
         DesignerEnvProcessor processor = ExtraDesignClassManager.getInstance().getSingle(DesignerEnvProcessor.XML_TAG);
         if (processor != null) {
             //cas访问的时候, url要处理下.

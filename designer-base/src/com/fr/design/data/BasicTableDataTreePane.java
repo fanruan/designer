@@ -29,6 +29,7 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.general.NameObject;
 import com.fr.stable.StringUtils;
+import com.fr.workspace.WorkContext;
 
 import javax.swing.*;
 import javax.swing.event.CellEditorListener;
@@ -152,7 +153,7 @@ public abstract class BasicTableDataTreePane extends DockingView implements Resp
     protected void checkButtonEnabled(UpdateAction editAction, UpdateAction previewTableDataAction, UpdateAction removeAction, TableDataSourceOP op, TableDataTree dataTree) {
         // august:BUG 9344
         addMenuDef.setEnabled(true);
-        connectionTableAction.setEnabled(FRContext.getCurrentEnv() != null && FRContext.getCurrentEnv().isRoot());
+        connectionTableAction.setEnabled(WorkContext.getCurrent() != null && WorkContext.getCurrent().isRoot());
         if (op == null || op.interceptButtonEnabled()) {
             addMenuDef.setEnabled(false);
             editAction.setEnabled(false);
