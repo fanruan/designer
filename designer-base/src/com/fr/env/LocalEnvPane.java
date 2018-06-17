@@ -1,7 +1,7 @@
 package com.fr.env;
 
 import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.env.DesignerWorkspaceInfo;
+import com.fr.design.env.LocalDesignerWorkspaceInfo;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextarea.UITextArea;
 import com.fr.design.gui.itextfield.UITextField;
@@ -21,7 +21,7 @@ import java.io.File;
 /**
  * @author yaohwu
  */
-public class LocalEnvPane extends BasicBeanPane<DesignerWorkspaceInfo> {
+public class LocalEnvPane extends BasicBeanPane<LocalDesignerWorkspaceInfo> {
 
     private UITextField pathTextField;
     private JFileTree localEnvTree;
@@ -70,9 +70,9 @@ public class LocalEnvPane extends BasicBeanPane<DesignerWorkspaceInfo> {
     }
 
     @Override
-    public DesignerWorkspaceInfo updateBean() {
+    public LocalDesignerWorkspaceInfo updateBean() {
         String path = pathTextField.getText();
-        return DesignerWorkspaceInfo.createLocal(StringUtils.EMPTY, path);
+        return LocalDesignerWorkspaceInfo.create(StringUtils.EMPTY, path);
     }
 
     public String getPath() {
@@ -80,7 +80,7 @@ public class LocalEnvPane extends BasicBeanPane<DesignerWorkspaceInfo> {
     }
 
     @Override
-    public void populateBean(DesignerWorkspaceInfo ob) {
+    public void populateBean(LocalDesignerWorkspaceInfo ob) {
         if (StringUtils.isBlank(ob.getPath())) {
             return;
         }

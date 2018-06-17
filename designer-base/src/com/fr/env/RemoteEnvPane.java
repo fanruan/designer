@@ -3,8 +3,7 @@ package com.fr.env;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.border.UITitledBorder;
-import com.fr.design.env.DesignerWorkspaceInfo;
-import com.fr.design.env.DesignerWorkspaceType;
+import com.fr.design.env.RemoteDesignerWorkspaceInfo;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
@@ -56,7 +55,7 @@ import static com.fr.third.guava.base.Optional.fromNullable;
 /**
  * @author yaohwu
  */
-public class RemoteEnvPane extends BasicBeanPane<DesignerWorkspaceInfo> {
+public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
 
     private static final Color TIPS_FONT_COLOR = new Color(0x8f8f92);
 
@@ -261,11 +260,18 @@ public class RemoteEnvPane extends BasicBeanPane<DesignerWorkspaceInfo> {
     }
 
     @Override
-    public void populateBean(DesignerWorkspaceInfo ob) {
+    public void populateBean(RemoteDesignerWorkspaceInfo ob) {
         WorkspaceConnection connection = ob.getConnection();
-        this.remoteEnvURL = Strings.isNullOrEmpty(connection.getUrl())
-                ? RemoteEnvURL.createDefaultURL()
-                : new RemoteEnvURL(connection.getUrl());
+        if (connection != null) {
+            this.remoteEnvURL = Strings.isNullOrEmpty(connection.getUrl())
+                    ? RemoteEnvURL.createDefaultURL()
+                    : new RemoteEnvURL(connection.getUrl());
+            String username = fromNullable(connection.getUserName()).or(StringUtils.EMPTY);
+            String pwd = fromNullable(connection.getPassword()).or(StringUtils.EMPTY);
+            this.usernameInput.setText(username);
+            this.passwordInput.setText(pwd);
+        }
+
         fillRemoteEnvURLField();
         fillIndividualField();
         httpsCheckbox.setSelected(this.remoteEnvURL.getHttps());
@@ -274,21 +280,17 @@ public class RemoteEnvPane extends BasicBeanPane<DesignerWorkspaceInfo> {
         fileChooserButton.setEnabled(this.remoteEnvURL.getHttps());
         updateHttpsConfigPanel();
 
-        this.usernameInput.setText(fromNullable(connection.getUserName()).or(StringUtils.EMPTY));
-        this.passwordInput.setText(fromNullable(connection.getPassword()).or(StringUtils.EMPTY));
+
     }
 
     @Override
-    public DesignerWorkspaceInfo updateBean() {
+    public RemoteDesignerWorkspaceInfo updateBean() {
         WorkspaceConnection connection = new WorkspaceConnection(
                 this.remoteEnvURL.getURL(),
                 this.usernameInput.getText(),
                 new String(this.passwordInput.getPassword()));
 
-        DesignerWorkspaceInfo config = new DesignerWorkspaceInfo();
-        config.setConnection(connection);
-        config.setType(DesignerWorkspaceType.Remote);
-        return config;
+        return RemoteDesignerWorkspaceInfo.create(connection);
     }
 
     @Override
@@ -472,7 +474,7 @@ public class RemoteEnvPane extends BasicBeanPane<DesignerWorkspaceInfo> {
             @Override
             protected Void doInBackground() throws Exception {
 
-                final DesignerWorkspaceInfo remoteEnv = updateBean();
+                final RemoteDesignerWorkspaceInfo remoteEnv = updateBean();
                 WorkContext.getConnector().testConnection(remoteEnv.getConnection());
                 return null;
             }

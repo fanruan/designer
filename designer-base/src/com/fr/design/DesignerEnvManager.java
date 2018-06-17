@@ -10,6 +10,8 @@ import com.fr.design.actions.help.alphafine.AlphaFineConfigManager;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.env.DesignerWorkspaceGenerator;
 import com.fr.design.env.DesignerWorkspaceInfo;
+import com.fr.design.env.LocalDesignerWorkspaceInfo;
+import com.fr.design.env.RemoteDesignerWorkspaceInfo;
 import com.fr.file.FILEFactory;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogFormatter;
@@ -33,9 +35,10 @@ import com.fr.stable.xml.XMLWriter;
 import com.fr.stable.xml.XMLableReader;
 import com.fr.workspace.WorkContext;
 
-import javax.swing.*;
+import javax.swing.SwingWorker;
 import javax.swing.SwingWorker.StateValue;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Rectangle;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -193,7 +196,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         if (installHome != null && !".".equals(installHome)) {
             String name = Inter.getLocText("FR-Engine_DEFAULT");
             String envPath = StableUtils.pathJoin(installHome, ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBINF_NAME);
-            designerEnvManager.putEnv(name, DesignerWorkspaceInfo.createLocal(name, envPath));
+            designerEnvManager.putEnv(name, LocalDesignerWorkspaceInfo.create(name, envPath));
             designerEnvManager.setCurEnvName(name);
         }
     }
@@ -495,7 +498,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
             }
         }
         String name = Inter.getLocText(new String[]{"Default", "Utils-Report_Runtime_Env"});
-        DesignerWorkspaceInfo newDefaultEnv = DesignerWorkspaceInfo.createLocal(name, defaultenvPath);
+        LocalDesignerWorkspaceInfo newDefaultEnv = LocalDesignerWorkspaceInfo.create(name, defaultenvPath);
         this.putEnv(name, newDefaultEnv);
         return newDefaultEnv;
     }
@@ -702,7 +705,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
      * 记录名称 和对应的环境
      *
      * @param name 名称
-     * @param info  对应的环境信息
+     * @param info 对应的环境信息
      */
     public void putEnv(String name, DesignerWorkspaceInfo info) {
     
@@ -1419,7 +1422,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
             // marks:兼容6.1的
             // marks:设置默认的目录.
             String curReportServerName = Inter.getLocText("Server-Embedded_Server");
-            DesignerWorkspaceInfo reportServer = DesignerWorkspaceInfo.createLocal(curReportServerName, tmpVal);
+            LocalDesignerWorkspaceInfo reportServer = LocalDesignerWorkspaceInfo.create(curReportServerName, tmpVal);
 
             this.putEnv(curReportServerName, reportServer);
             this.setCurEnvName(curReportServerName);
@@ -1472,8 +1475,11 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                             public void readXML(XMLableReader reader) {
                                 if (reader.isChildNode()) {
                                     String tagName = reader.getTagName();
-                                    if (DesignerWorkspaceInfo.XML_TAG.equals(tagName)) {
-                                        DesignerWorkspaceInfo envConfig = (DesignerWorkspaceInfo) GeneralXMLTools.readXMLable(reader);
+                                    if (LocalDesignerWorkspaceInfo.XML_TAG.equals(tagName)) {
+                                        LocalDesignerWorkspaceInfo envConfig = (LocalDesignerWorkspaceInfo) GeneralXMLTools.readXMLable(reader);
+                                        putEnv(name, envConfig);
+                                    } else if (RemoteDesignerWorkspaceInfo.XML_TAG.equals(tagName)) {
+                                        RemoteDesignerWorkspaceInfo envConfig = (RemoteDesignerWorkspaceInfo) GeneralXMLTools.readXMLable(reader);
                                         putEnv(name, envConfig);
                                     }
                                 }
@@ -1599,7 +1605,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         for (Entry<String, DesignerWorkspaceInfo> entry : nameEnvMap.entrySet()) {
             writer.startTAG("EnvConfigElement").attr("name", entry.getKey());
             DesignerWorkspaceInfo envConfig = entry.getValue();
-            GeneralXMLTools.writeXMLable(writer, envConfig, DesignerWorkspaceInfo.XML_TAG);
+            GeneralXMLTools.writeXMLable(writer, envConfig, envConfig.XML_TAG);
             writer.end();
         }
         writer.end();

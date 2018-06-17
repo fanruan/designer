@@ -2,6 +2,8 @@ package com.fr.env;
 
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.env.DesignerWorkspaceInfo;
+import com.fr.design.env.LocalDesignerWorkspaceInfo;
+import com.fr.design.env.RemoteDesignerWorkspaceInfo;
 import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
@@ -57,9 +59,9 @@ public class EnvListPane extends JListControlPane {
     @Override
     public NameableCreator[] createNameableCreators() {
         NameableCreator local = new NameObjectCreator(Inter.getLocText("Env-Local_Directory"), "com/fr/design/images/data/bind/localconnect.png",
-                DesignerWorkspaceInfo.class, LocalEnvPane.class);
+                LocalDesignerWorkspaceInfo.class, LocalEnvPane.class);
         NameableCreator remote = new NameObjectCreator(Inter.getLocText("Env-Remote_Server"), "com/fr/design/images/data/bind/distanceconnect.png",
-            DesignerWorkspaceInfo.class, RemoteEnvPane.class);
+            RemoteDesignerWorkspaceInfo.class, RemoteEnvPane.class);
         return new NameableCreator[]{local, remote};
     }
 
@@ -105,5 +107,10 @@ public class EnvListPane extends JListControlPane {
             mgr.putEnv(nameObject.getName(), (DesignerWorkspaceInfo) nameObject.getObject());
         }
         return this.getSelectedName();
+    }
+
+    @Override
+    protected boolean filterNameableCreator(NameableCreator creator) {
+        return false;
     }
 }

@@ -21,7 +21,7 @@ import com.fr.stable.EnvChangedListener;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.WorkContextCallback;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
 import java.awt.event.ActionEvent;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -66,15 +66,15 @@ public class SwitchExistEnv extends MenuDef {
         public GetExistEnvAction(String envName) {
             this.setName(envName);
             DesignerWorkspaceInfo env = DesignerEnvManager.getEnvManager().getWorkspaceInfo(envName);
-            switch (env.getType())
-            {
-                case Local:{
+            switch (env.getType()) {
+                case Local: {
                     this.setSmallIcon(BaseUtils.readIcon("com/fr/design/images/data/bind/localconnect.png"));
                     break;
-                }case Remote:{
-                this.setSmallIcon(BaseUtils.readIcon("com/fr/design/images/data/bind/distanceconnect.png"));
-                break;
-            }
+                }
+                case Remote: {
+                    this.setSmallIcon(BaseUtils.readIcon("com/fr/design/images/data/bind/distanceconnect.png"));
+                    break;
+                }
             }
         }
 

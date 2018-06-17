@@ -19,8 +19,9 @@ public class EnvSwitcher {
             Workspace workspace = DesignerWorkspaceGenerator.generate(DesignerEnvManager.getEnvManager().getWorkspaceInfo(current));
             if (workspace == null) {
                 TemplatePane.getInstance().dealEvnExceptionWhenStartDesigner();
+            } else {
+                WorkContext.switchTo(workspace);
             }
-            WorkContext.switchTo(workspace);
         } catch (Throwable e) {
             TemplatePane.getInstance().dealEvnExceptionWhenStartDesigner();
         }
