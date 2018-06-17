@@ -10,7 +10,7 @@ import com.fr.start.ServerStarter;
  * Created by juhaoyu on 2018/1/8.
  * 设计器启动时的环境相关模块activator
  */
-public class DesignerEnvProvider extends Activator {
+public class DesignerWorkspaceProvider extends Activator {
 
     @Override
     public void start() {

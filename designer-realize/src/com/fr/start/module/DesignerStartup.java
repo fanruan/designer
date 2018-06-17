@@ -23,7 +23,7 @@ public class DesignerStartup extends Activator {
         String[] args = getModule().upFindSingleton(StartupArgs.class).get();
         Designer designer = new Designer(args);
         //启动env
-        startSub(DesignerEnvProvider.class);
+        startSub(DesignerWorkspaceProvider.class);
         startSub(EnvBasedModule.class);
         getRoot().getSingleton(EnvSwitcher.class).switch2LastEnv();
         registerEnvListener();
