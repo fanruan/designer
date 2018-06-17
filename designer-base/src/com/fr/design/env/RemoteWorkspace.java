@@ -5,7 +5,7 @@ import com.fr.report.util.RemoteDesignAuthenticateUtils;
 import com.fr.workspace.Workspace;
 import com.fr.workspace.connect.WorkspaceClient;
 import com.fr.workspace.connect.WorkspaceConnection;
-import com.fr.workspace.engine.WorkspaceServerContext;
+import com.fr.workspace.server.WorkspaceServerContext;
 
 /**
  * Created by juhaoyu on 2018/6/14.
@@ -22,7 +22,7 @@ public class RemoteWorkspace implements Workspace {
     RemoteWorkspace(WorkspaceClient client, WorkspaceConnection connection) {
 
         this.client = client;
-        this.address = connection.getIp() + ":" + connection.getPort();
+        this.address = connection.getUrl();
         this.userName = connection.getUserName();
     }
 

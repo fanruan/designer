@@ -59,7 +59,7 @@ public class EnvListPane extends JListControlPane {
         NameableCreator local = new NameObjectCreator(Inter.getLocText("Env-Local_Directory"), "com/fr/design/images/data/bind/localconnect.png",
                 DesignerWorkspaceInfo.class, LocalEnvPane.class);
         NameableCreator remote = new NameObjectCreator(Inter.getLocText("Env-Remote_Server"), "com/fr/design/images/data/bind/distanceconnect.png",
-            DesignerWorkspaceInfo.class, RemoteEnvPane2.class);
+            DesignerWorkspaceInfo.class, RemoteEnvPane.class);
         return new NameableCreator[]{local, remote};
     }
 

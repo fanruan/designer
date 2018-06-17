@@ -85,12 +85,11 @@ public class DesignerWorkspaceInfo implements XMLable {
         if (reader.isChildNode()) {
             String tagName = reader.getTagName();
             if ("Connection".equals(tagName)) {
-                String ip = reader.getAttrAsString("ip", StringUtils.EMPTY);
-                int port = reader.getAttrAsInt("port", DEFAULT_RPC_PORT);
+                String url = reader.getAttrAsString("url", StringUtils.EMPTY);
                 String username = reader.getAttrAsString("username", StringUtils.EMPTY);
                 //密码解密
                 String password = SecurityToolbox.decrypt(reader.getAttrAsString("password", StringUtils.EMPTY));
-                this.connection = new WorkspaceConnection(ip, port, username, password);
+                this.connection = new WorkspaceConnection(url, username, password);
             }
         }
     }
@@ -103,8 +102,7 @@ public class DesignerWorkspaceInfo implements XMLable {
         writer.attr("type", type.toString());
         if (this.connection != null) {
             writer.startTAG("Connection");
-            writer.attr("ip", connection.getIp());
-            writer.attr("port", connection.getPort());
+            writer.attr("url", connection.getUrl());
             writer.attr("username", connection.getUserName());
             writer.attr("password", SecurityToolbox.encrypt(connection.getPassword()));
             writer.end();
