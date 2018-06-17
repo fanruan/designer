@@ -79,7 +79,7 @@ public class DesignerWorkspaceInfo implements XMLable {
         
         if (reader.isAttr()) {
             this.name = reader.getAttrAsString("name", StringUtils.EMPTY);
-            this.type = DesignerWorkspaceType.valueOf(reader.getAttrAsString("name", "Local"));
+            this.type = DesignerWorkspaceType.valueOf(reader.getAttrAsString("type", "Local"));
             this.path = reader.getAttrAsString("path", StringUtils.EMPTY);
         }
         if (reader.isChildNode()) {
