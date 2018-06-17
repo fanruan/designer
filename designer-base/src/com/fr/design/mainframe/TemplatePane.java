@@ -163,11 +163,6 @@ public class TemplatePane extends JPanel implements MouseListener {
         return true;
     }
     
-    private String getDesignerVersion(DesignerWorkspaceInfo selectedEnv) {
-//        return selectedEnv.getDesignerVersion();
-        throw new UnsupportedOperationException("unsupport now");
-    }
-    
     /**
      * 编辑items
      */
