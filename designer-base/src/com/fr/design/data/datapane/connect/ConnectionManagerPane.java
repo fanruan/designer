@@ -46,7 +46,7 @@ public class ConnectionManagerPane extends LoadingBasicPane implements Connectio
     }
 
     public void populate(ConnectionConfig datasourceManager) {
-//        this.connectionTextField.setText(FRContext.getCurrentEnv().getPath() + File.separator + ProjectConstants.RESOURCES_NAME
+//        this.connectionTextField.setText(WorkContext.getCurrent().getPath() + File.separator + ProjectConstants.RESOURCES_NAME
 //                + File.separator + datasourceManager.fileName());
         this.connectionListPane.populate(datasourceManager);
     }

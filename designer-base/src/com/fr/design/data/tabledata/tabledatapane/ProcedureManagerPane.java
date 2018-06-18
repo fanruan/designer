@@ -37,7 +37,7 @@ public class ProcedureManagerPane extends LoadingBasicPane {
 
 	public void populate(ProcedureConfig procedureConfig) {
 		//todo 原来界面上显示的xml路径
-//		this.connectionTextField.setText(FRContext.getCurrentEnv().getPath() + File.separator + ProjectConstants.RESOURCES_NAME
+//		this.connectionTextField.setText(WorkContext.getCurrent().getPath() + File.separator + ProjectConstants.RESOURCES_NAME
 //				+ File.separator + datasourceManager.fileName());
 		this.procedureListPane.populate(procedureConfig);
 	}

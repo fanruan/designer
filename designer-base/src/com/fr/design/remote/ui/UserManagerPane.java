@@ -1,8 +1,5 @@
 package com.fr.design.remote.ui;
 
-import com.fr.core.env.EnvContext;
-import com.fr.core.env.proxy.EnvProxy;
-import com.fr.core.env.resource.EnvConfigUtils;
 import com.fr.design.border.UITitledBorder;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ibutton.UIButton;
@@ -21,6 +18,7 @@ import com.fr.env.operator.decision.DecisionOperator;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 import com.fr.third.guava.collect.ImmutableList;
+import com.fr.workspace.WorkContext;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
@@ -281,8 +279,8 @@ public class UserManagerPane extends BasicPane {
             @Override
             protected List<RemoteDesignMember> doInBackground() {
                 addingMembers.clear();
-                String username = EnvConfigUtils.getUsername(EnvContext.currentEnv());
-                addingMembers.addAll(EnvProxy.get(DecisionOperator.class).getMembers(username, keyword));
+                String username = WorkContext.getConnector().currentUser();
+                addingMembers.addAll(WorkContext.getCurrent().get(DecisionOperator.class).getMembers(username, keyword));
                 return addingMembers;
             }
 

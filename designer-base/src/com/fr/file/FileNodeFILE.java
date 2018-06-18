@@ -12,9 +12,9 @@ import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.project.ProjectConstants;
+import com.fr.workspace.WorkContext;
 
 import javax.swing.*;
-
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -34,15 +34,13 @@ public class FileNodeFILE implements FILE {
             parentDir = fn.getParent();
         }
 
-        this.node = new FileNode(StableUtils.pathJoin(new String[]{
-                parentDir, name
-        }), isDir);
-        this.envPath = FRContext.getCurrentEnv().getPath();
+        this.node = new FileNode(StableUtils.pathJoin(parentDir, name), isDir);
+        this.envPath = WorkContext.getCurrent().getPath();
     }
 
     public FileNodeFILE(FileNode node) {
         this.node = node;
-        this.envPath = FRContext.getCurrentEnv().getPath();
+        this.envPath = WorkContext.getCurrent().getPath();
     }
 
     public FileNodeFILE(String envPath) {
@@ -61,7 +59,7 @@ public class FileNodeFILE implements FILE {
      * @return 返回后缀
      */
     public String prefix() {
-        if (ComparatorUtils.equals(getEnvPath(), FRContext.getCurrentEnv().getWebReportPath())) {
+        if (ComparatorUtils.equals(getEnvPath(), FRContext.getCommonOperator().getWebReportPath())) {
             return FILEFactory.WEBREPORT_PREFIX;
         }
         return FILEFactory.ENV_PREFIX;
@@ -181,7 +179,7 @@ public class FileNodeFILE implements FILE {
      */
     private FileNode[] listFile(String rootFilePath) {
         try {
-            return FRContext.getCurrentEnv().getFileOperator().list(rootFilePath);
+            return FRContext.getFileNodes().list(rootFilePath);
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
@@ -200,7 +198,7 @@ public class FileNodeFILE implements FILE {
         }
 
         try {
-            return FRContext.getCurrentEnv().getFileOperator().createFolder(StableUtils.pathJoin(node.getEnvPath(), name));
+            return WorkContext.getWorkResource().createFile(StableUtils.pathJoin(node.getEnvPath(), name));
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
             return false;
@@ -218,7 +216,7 @@ public class FileNodeFILE implements FILE {
         }
 
         try {
-            return FRContext.getCurrentEnv().fileLocked(node.getEnvPath());
+            return FRContext.getCommonOperator().fileLocked(node.getEnvPath());
         } catch (Exception e) {
             FRContext.getLogger().error(e.getMessage(), e);
             return false;
@@ -240,7 +238,7 @@ public class FileNodeFILE implements FILE {
         }
 
         try {
-            return FRContext.getCurrentEnv().getFileOperator().isExists(node.getEnvPath());
+            return WorkContext.getWorkResource().exist(node.getEnvPath());
         } catch (Exception e) {
             FRContext.getLogger().error(e.getMessage(), e);
             return false;
@@ -253,7 +251,7 @@ public class FileNodeFILE implements FILE {
      * @return 是报表当前环境返回true
      */
     public boolean isCurrentEnv() {
-        return ComparatorUtils.equals(FRContext.getCurrentEnv().getPath(), envPath);
+        return ComparatorUtils.equals(WorkContext.getCurrent().getPath(), envPath);
     }
 
     /**
@@ -267,7 +265,7 @@ public class FileNodeFILE implements FILE {
         }
 
         try {
-            return FRContext.getCurrentEnv().getFileOperator().createFile(node.getEnvPath());
+            return WorkContext.getWorkResource().createFile(node.getEnvPath());
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
             return false;
@@ -290,8 +288,8 @@ public class FileNodeFILE implements FILE {
         if (!envPath.startsWith(ProjectConstants.REPORTLETS_NAME)) {
             return null;
         }
-
-        InputStream in = new ByteArrayInputStream(FRContext.getCurrentEnv().getFileOperator().read(StableUtils.pathJoin(ProjectConstants.REPORTLETS_NAME, envPath.substring(ProjectConstants.REPORTLETS_NAME.length() + 1))));
+    
+        InputStream in = new ByteArrayInputStream(WorkContext.getWorkResource().readFully(StableUtils.pathJoin(ProjectConstants.REPORTLETS_NAME, envPath.substring(ProjectConstants.REPORTLETS_NAME.length() + 1))));
         
         return envPath.endsWith(".cpt") || envPath.endsWith(".frm")
                 ? XMLEncryptUtils.decodeInputStream(in) : in;
@@ -313,7 +311,7 @@ public class FileNodeFILE implements FILE {
         if (!envPath.startsWith(ProjectConstants.REPORTLETS_NAME)) {
             return null;
         }
-        return FRContext.getCurrentEnv().writeBean(
+        return FRContext.getCommonOperator().writeBean(
                 envPath.substring(ProjectConstants.REPORTLETS_NAME.length() + 1),
                 ProjectConstants.REPORTLETS_NAME
         );
@@ -335,7 +333,7 @@ public class FileNodeFILE implements FILE {
             return;
         }
 
-        FRContext.getCurrentEnv().unlockTemplate(
+        FRContext.getCommonOperator().unlockTemplate(
                 envPath.substring(ProjectConstants.REPORTLETS_NAME.length() + 1));
     }
 

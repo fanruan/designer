@@ -76,7 +76,7 @@ public class TableDataManagerPane extends LoadingBasicPane {
 
 	public void populate(TableDataConfig tableDataConfig) {
 		//todo 原来界面上显示的xml路径
-//		this.tableDataTextField.setText(FRContext.getCurrentEnv().getPath() + File.separator + ProjectConstants.RESOURCES_NAME
+//		this.tableDataTextField.setText(WorkContext.getCurrent().getPath() + File.separator + ProjectConstants.RESOURCES_NAME
 //				+ File.separator + datasourceManager.fileName());
 		this.tableDataPane.populate(tableDataConfig);
 	}

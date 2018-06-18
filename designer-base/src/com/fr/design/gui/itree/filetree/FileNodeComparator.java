@@ -1,9 +1,9 @@
 package com.fr.design.gui.itree.filetree;
 
-import java.util.Comparator;
-
-import com.fr.dav.LocalEnv;
+import com.fr.file.filetree.LocalFileNodes;
 import com.fr.file.filetree.FileNode;
+
+import java.util.Comparator;
 
 /**
  * FileTreeNode compare...
@@ -26,8 +26,6 @@ public class FileNodeComparator implements Comparator<FileNode> {
      * v1 is equal to v2, or < 0 if v1 is less than v2.
      * It must handle null values for the comparison values.
      *
-     * @param v1 comparison value.
-     * @param v2 comparison value.
      * @return < 0, 0, or > 0 for v1<v2, v1==v2, or v1>v2.
      */
     public int compare(FileNode nameNode1, FileNode nameNode2) {
@@ -60,14 +58,14 @@ public class FileNodeComparator implements Comparator<FileNode> {
      */
 	private int groupByFileType(FileNode nameNode1, FileNode nameNode2,
 			int i) {
-		if(i< LocalEnv.FILE_TYPE.length){
-			if(nameNode1.isFileType(LocalEnv.FILE_TYPE[i]))
-				if(nameNode2.isFileType(LocalEnv.FILE_TYPE[i]))
+		
+		if (i < LocalFileNodes.FILE_TYPE.length) {
+			if (nameNode1.isFileType(LocalFileNodes.FILE_TYPE[i]))
+				if (nameNode2.isFileType(LocalFileNodes.FILE_TYPE[i]))
 					return nameNode1.getName().toLowerCase().compareTo(nameNode2.getName().toLowerCase());
 				else
 					return-1;
-			else
-				if(nameNode2.isFileType(LocalEnv.FILE_TYPE[i]))
+			else if (nameNode2.isFileType(LocalFileNodes.FILE_TYPE[i]))
 					return 1;
 				else{
 					return groupByFileType(nameNode1, nameNode2, i+1);

@@ -4,9 +4,6 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
-import com.fr.base.env.EnvUpdater;
-import com.fr.core.env.EnvConfig;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignState;
 import com.fr.design.DesignerEnvManager;
@@ -54,24 +51,12 @@ import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.image4j.codec.ico.ICODecoder;
 import com.fr.stable.project.ProjectConstants;
+import com.fr.workspace.WorkContext;
+import com.fr.workspace.Workspace;
 
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JLayeredPane;
-import javax.swing.JMenuBar;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 import javax.swing.border.MatteBorder;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;
@@ -664,15 +649,15 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         defaultTitleSB.append(" ");
         // james：标识登录的用户和登录的ENV
         String envName = DesignerEnvManager.getEnvManager().getCurEnvName();
-        EnvConfig env = DesignerEnvManager.getEnvManager().getEnv(envName);
-        if (env != null) {
-            defaultTitleSB.append(env.getDescription(envName));
+        Workspace workspace = WorkContext.getCurrent();
+        if (workspace != null) {
+            defaultTitleSB.append(workspace.getDescription());
             if (editingTemplate != null) {
                 String path = editingTemplate.getEditingFILE().getPath();
                 if (!editingTemplate.getEditingFILE().exists()) {
                     path = FILEFactory.MEM_PREFIX + path;
                 } else if (path.startsWith(ProjectConstants.REPORTLETS_NAME)) {
-                    path = env.getPath() + File.separator + path;
+                    path = workspace.getPath() + File.separator + path;
                 }
                 defaultTitleSB.append("    " + path);
             }
@@ -850,18 +835,18 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
      */
     public void openTemplate(FILE tplFile) {
         // 测试连接，如果连接失败，则提示
-        try {
-            if (FRContext.getCurrentEnv() != null
-                    && !FRContext.getCurrentEnv().testServerConnectionWithOutShowMessagePane()) {
-                JOptionPane.showMessageDialog(
-                        DesignerContext.getDesignerFrame(),
-                        Inter.getLocText(new String[]{"FR-Chart-Server_disconnected", "FR-Server-Design_template_unopened"}, new String[]{
-                                ",", "!"}), Inter.getLocText("FR-Server-All_Error"), JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-        } catch (Exception e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
-        }
+//        try {
+//            if (FRContext.getCommonOperator() != null
+//                    && !FRContext.getCommonOperator().testServerConnectionWithOutShowMessagePane()) {
+//                JOptionPane.showMessageDialog(
+//                        DesignerContext.getDesignerFrame(),
+//                        Inter.getLocText(new String[]{"FR-Chart-Server_disconnected", "FR-Server-Design_template_unopened"}, new String[]{
+//                                ",", "!"}), Inter.getLocText("FR-Server-All_Error"), JOptionPane.ERROR_MESSAGE);
+//                return;
+//            }
+//        } catch (Exception e) {
+//            FineLoggerFactory.getLogger().error(e.getMessage());
+//        }
 
         // p:判断一下，如何文件为空或者文件不存在，直接返回.
         if (tplFile == null || !tplFile.exists()) {
@@ -992,8 +977,8 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
                 EastRegionContainerPane.getInstance().getContainerWidth());
 
         DesignerEnvManager.getEnvManager().saveXMLFile();
-
-        EnvUpdater.disconnect();
+    
+        WorkContext.switchTo(null);
 
         this.setVisible(false);
         this.dispose();

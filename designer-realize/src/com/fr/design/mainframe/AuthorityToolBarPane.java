@@ -23,6 +23,7 @@ import com.fr.report.web.ToolBarManager;
 import com.fr.report.web.WebContent;
 import com.fr.stable.ArrayUtils;
 import com.fr.web.attr.ReportWebAttr;
+import com.fr.workspace.WorkContext;
 
 import javax.swing.*;
 import java.awt.*;
@@ -182,7 +183,7 @@ public class AuthorityToolBarPane<T extends WebContent> extends BasicBeanPane<Re
     private void checkToolBarPaneEnable() {
         List<ToolBarButton> toolBarButtons = toolBarPane.getToolBarButtons();
         boolean isnotEnable = ComparatorUtils.equals(title.getText(), Inter.getLocText(new String[]{"Server", "ReportServerP-Toolbar", "Choose_Role"}))
-                && !FRContext.getCurrentEnv().isRoot();
+                && !WorkContext.getCurrent().isRoot();
         for (ToolBarButton button : toolBarButtons) {
             button.setEnabled(!isnotEnable);
         }

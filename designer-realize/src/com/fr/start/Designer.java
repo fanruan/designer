@@ -1,9 +1,7 @@
 package com.fr.start;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.Env;
 import com.fr.base.FRContext;
-import com.fr.dav.LocalEnv;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.actions.file.WebPreviewUtils;
@@ -56,15 +54,11 @@ import com.fr.start.jni.SplashMac;
 import com.fr.start.module.StartupArgs;
 import com.fr.start.preload.ImagePreLoader;
 import com.fr.start.server.ServerTray;
+import com.fr.workspace.WorkContext;
 
-import javax.swing.JComponent;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.MatteBorder;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -104,7 +98,7 @@ public class Designer extends BaseDesigner {
         //传递启动参数
         designerRoot.setSingleton(StartupArgs.class, new StartupArgs(args));
         designerRoot.start();
-        if (FRContext.getCurrentEnv() instanceof LocalEnv) {
+        if (WorkContext.getCurrent().isLocal()) {
             //初始化一下serverTray
             ServerTray.init();
         }
@@ -183,14 +177,14 @@ public class Designer extends BaseDesigner {
     protected MenuDef createServerMenuDef(ToolBarMenuDockPlus plus) {
         MenuDef menuDef = super.createServerMenuDef(plus);
 
-        if (FRContext.getCurrentEnv() == null) {
+        if (WorkContext.getCurrent() == null) {
             return menuDef;
         }
 
         if (!BaseUtils.isAuthorityEditing()) {
             menuDef.addShortCut(SeparatorDef.DEFAULT);
-
-            if (FRContext.getCurrentEnv().isRoot()) {
+    
+            if (WorkContext.getCurrent().isRoot()) {
                 menuDef.addShortCut(new ServerConfigManagerAction(), new StyleListAction(), new WidgetManagerAction());
                 if (ActionFactory.getChartPreStyleAction() != null) {
                     menuDef.addShortCut(ActionFactory.getChartPreStyleAction());
@@ -533,11 +527,6 @@ public class Designer extends BaseDesigner {
         InformationCollector collector = InformationCollector.getInstance();
         collector.collectStopTime();
         collector.saveXMLFile();
-        Env currentEnv = FRContext.getCurrentEnv();
-        if (currentEnv == null) {
-            return;
-        }
-        currentEnv.doWhenServerShutDown();
     }
 
 }

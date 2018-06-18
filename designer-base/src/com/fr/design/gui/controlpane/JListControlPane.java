@@ -25,10 +25,20 @@ import com.fr.stable.ArrayUtils;
 import com.fr.stable.Nameable;
 import com.fr.stable.core.PropertyChangeAdapter;
 
-import javax.swing.*;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
+import javax.swing.Icon;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -383,7 +393,7 @@ public abstract class JListControlPane extends JControlPane {
 
         private void wrapActionListener(NameableCreator[] creators) {
             for (final NameableCreator creator : creators) {
-                if (!HyperlinkFilterHelper.whetherAddHyperlink4cell(creator.menuName())) {
+                if (filterNameableCreator(creator)) {
                     continue;
                 }
                 boolean isTrue = ComparatorUtils.equals(creator.menuName(), Inter.getLocText("Datasource-Stored_Procedure")) ||
@@ -942,6 +952,7 @@ public abstract class JListControlPane extends JControlPane {
         }
         return false;
     }
+
     /**
      * 设置选中项
      *
@@ -951,4 +962,12 @@ public abstract class JListControlPane extends JControlPane {
         nameableList.setSelectedIndex(index);
     }
 
+
+    /**
+     * 用于在list面板中，过滤某些下拉选项
+     * @return true：过滤掉这个creator
+     */
+    protected boolean filterNameableCreator(NameableCreator creator) {
+        return !HyperlinkFilterHelper.whetherAddHyperlink4cell(creator.menuName());
+    }
 }

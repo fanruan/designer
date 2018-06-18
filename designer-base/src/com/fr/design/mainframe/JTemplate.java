@@ -55,6 +55,7 @@ import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
 import com.fr.stable.core.UUID;
 import com.fr.stable.project.ProjectConstants;
+import com.fr.workspace.WorkContext;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -522,18 +523,18 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         if (editingFILE == null) {
             return false;
         }
-        //检查一下连接是否成功
-        try {
-            if (FRContext.getCurrentEnv() != null && !FRContext.getCurrentEnv().testServerConnectionWithOutShowMessagePane()) {
-                //连接不成功，提示
-                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
-                        Inter.getLocText(new String[]{"server_disconnected", "template_unsaved"}, new String[]{",", "!"})
-                        , Inter.getLocText("FR-Designer_Error"), JOptionPane.ERROR_MESSAGE);
-                return false;
-            }
-        } catch (Exception e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
-        }
+//        //检查一下连接是否成功
+//        try {
+//            if (FRContext.getCommonOperator() != null && !FRContext.getCommonOperator().testServerConnectionWithOutShowMessagePane()) {
+//                //连接不成功，提示
+//                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
+//                        Inter.getLocText(new String[]{"server_disconnected", "template_unsaved"}, new String[]{",", "!"})
+//                        , Inter.getLocText("FR-Designer_Error"), JOptionPane.ERROR_MESSAGE);
+//                return false;
+//            }
+//        } catch (Exception e) {
+//            FineLoggerFactory.getLogger().error(e.getMessage());
+//        }
 
 
         // 检查一下editingFILE是不是已存在的文件,如果不存在则用saveAs
@@ -543,7 +544,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         boolean access = false;
 
         try {
-            access = FRContext.getCurrentEnv().getOrganizationOperator().canAccess(this.getEditingFILE().getPath());
+            access = FRContext.getOrganizationOperator().canAccess(this.getEditingFILE().getPath());
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
@@ -593,7 +594,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         if (isOkOperation(chooseResult)) {
             boolean access = false;
             try {
-                access = FRContext.getCurrentEnv().getOrganizationOperator().canAccess(fileChooser.getSelectedFILE().getPath());
+                access = FRContext.getOrganizationOperator().canAccess(fileChooser.getSelectedFILE().getPath());
             } catch (Exception e) {
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
@@ -657,7 +658,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         try {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             this.getTarget().export(out);
-            FRContext.getCurrentEnv().getFileOperator().write(out.toByteArray(), editingFILE.getPath());
+            WorkContext.getWorkResource().write(editingFILE.getPath(), out.toByteArray());
         } catch (Exception e) {
             FRContext.getLogger().error(e.getMessage(), e);
             JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), e.getMessage(), "Save Error", JOptionPane.ERROR_MESSAGE);

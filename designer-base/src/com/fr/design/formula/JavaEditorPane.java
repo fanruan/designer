@@ -1,6 +1,5 @@
 package com.fr.design.formula;
 
-import com.fr.base.Env;
 import com.fr.base.FRContext;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ibutton.UIButton;
@@ -16,6 +15,7 @@ import com.fr.stable.JavaCompileInfo;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
+import com.fr.workspace.WorkContext;
 
 import javax.swing.*;
 import java.awt.*;
@@ -113,7 +113,7 @@ public class JavaEditorPane extends BasicPane {
     private InputStream getJavaSourceInputStream() {
         String javaPath = getJavaPath();
         try {
-            return new ByteArrayInputStream(FRContext.getCurrentEnv().getFileOperator().read(StableUtils.pathJoin(ProjectConstants.CLASSES_NAME, javaPath)));
+            return new ByteArrayInputStream(WorkContext.getWorkResource().readFully(StableUtils.pathJoin(ProjectConstants.CLASSES_NAME, javaPath)));
         } catch (Exception e) {
             FRContext.getLogger().error(e.getMessage(), e);
         }
@@ -156,7 +156,7 @@ public class JavaEditorPane extends BasicPane {
             return;
         }
         try {
-            FRContext.getCurrentEnv().getFileOperator().write(text.getBytes(EncodeConstants.ENCODING_UTF_8), StableUtils.pathJoin(ProjectConstants.CLASSES_NAME, getJavaPath()));
+            WorkContext.getWorkResource().write(StableUtils.pathJoin(ProjectConstants.CLASSES_NAME, getJavaPath()), text.getBytes(EncodeConstants.ENCODING_UTF_8));
             JOptionPane.showMessageDialog(null, Inter.getLocText(new String[]{"Save", "Successfully"}) + "！");
             fireSaveActionListener();
         } catch (Exception e) {
@@ -175,8 +175,8 @@ public class JavaEditorPane extends BasicPane {
 
                 @Override
                 protected JavaCompileInfo doInBackground() throws Exception {
-                    Env env = FRContext.getCurrentEnv();
-                    return env.getCommonOperator().compile(javaText.getText());
+    
+                    return FRContext.getCommonOperator().compile(javaText.getText());
                 }
 
                 public void done() {

@@ -15,6 +15,7 @@ import com.fr.general.ComparatorUtils;
 import com.fr.stable.StringUtils;
 import com.fr.transaction.Configurations;
 import com.fr.transaction.Worker;
+import com.fr.workspace.WorkContext;
 
 import javax.swing.*;
 import java.awt.event.ItemEvent;
@@ -127,7 +128,7 @@ public class ConnectionComboBoxPanel extends ItemEditableComboBoxPanel {
      * @param connection 数据库链接
      */
     public void populate(Connection connection) {
-        editButton.setEnabled(FRContext.getCurrentEnv().isRoot());
+        editButton.setEnabled(WorkContext.getCurrent().isRoot());
         if (connection instanceof NameDatabaseConnection) {
             this.setSelectedItem(((NameDatabaseConnection) connection).getName());
         } else {

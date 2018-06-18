@@ -7,14 +7,13 @@ import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.mainframe.SiteCenterToken;
-import com.fr.env.RemoteEnv;
 import com.fr.general.ComparatorUtils;
-import com.fr.log.FineLoggerFactory;
 import com.fr.general.GeneralUtils;
 import com.fr.general.IOUtils;
 import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONObject;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
@@ -25,6 +24,7 @@ import com.fr.stable.xml.XMLTools;
 import com.fr.stable.xml.XMLWriter;
 import com.fr.stable.xml.XMLableReader;
 import com.fr.third.javax.xml.stream.XMLStreamException;
+import com.fr.workspace.WorkContext;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -167,7 +167,8 @@ public class TemplateInfoCollector<T extends BaseBook> implements Serializable, 
     }
 
     private boolean shouldCollectInfo() {
-        if (FRContext.getCurrentEnv() instanceof RemoteEnv) {  // 远程设计不收集数据
+        //只收集本地环境的
+        if (!WorkContext.getCurrent().isLocal()) {
             return false;
         }
         return DesignerEnvManager.getEnvManager().isJoinProductImprove() && FRContext.isChineseEnv();

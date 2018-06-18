@@ -42,7 +42,7 @@ public class WidgetManagerPane extends LoadingBasicPane {
 
 	public void populate(WidgetInfoConfig widgetManager) {
     	//todo  原来界面上显示的xml路径
-//		this.widgetTextField.setText(FRContext.getCurrentEnv().getPath() + File.separator +
+//		this.widgetTextField.setText(WorkContext.getCurrent().getPath() + File.separator +
 //                ProjectConstants.RESOURCES_NAME +
 //                File.separator + widgetManager.fileName());
 		this.widgetConfigPane.populate(widgetManager);
