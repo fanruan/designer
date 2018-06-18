@@ -47,6 +47,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.util.concurrent.ExecutionException;
 
 import static com.fr.design.layout.TableLayout.FILL;
 import static com.fr.design.layout.TableLayout.PREFERRED;
@@ -60,9 +61,10 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
     private static final Color TIPS_FONT_COLOR = new Color(0x8f8f92);
 
     private JDialog dialog;
-    private UILabel message;
-    private UIButton okButton;
-    private UIButton cancelButton;
+    private UILabel message = new UILabel();
+    private UIButton okButton = new UIButton(Inter.getLocText("OK"));
+    private UIButton cancelButton = new UIButton(Inter.getLocText("Cancel"));
+    ;
 
     /**
      * 是否启用 https 勾选框
@@ -469,23 +471,25 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
     }
 
     private void tryConnectRemoteEnv() {
-        final SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+        final SwingWorker<Boolean, Void> worker = new SwingWorker<Boolean, Void>() {
 
             @Override
-            protected Void doInBackground() throws Exception {
+            protected Boolean doInBackground() throws Exception {
 
                 final RemoteDesignerWorkspaceInfo remoteEnv = updateBean();
-                WorkContext.getConnector().testConnection(remoteEnv.getConnection());
-                return null;
+                return WorkContext.getConnector().testConnection(remoteEnv.getConnection());
             }
 
             @Override
             protected void done() {
                 okButton.setEnabled(true);
                 try {
-                    get();
-                    message.setText(Inter.getLocText("Fine-Designer_Basic_Remote_Connect_Successful"));
-                } catch (Exception e) {
+                    if (get()) {
+                        message.setText(Inter.getLocText("Fine-Designer_Basic_Remote_Connect_Successful"));
+                    } else {
+                        message.setText(Inter.getLocText("Fine-Designer_Basic_Remote_Connect_Failed"));
+                    }
+                } catch (InterruptedException | ExecutionException e) {
                     message.setText(Inter.getLocText("Fine-Designer_Basic_Remote_Connect_Failed"));
                 }
             }

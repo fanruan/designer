@@ -9,9 +9,7 @@ import com.fr.workspace.connect.WorkspaceConnection;
  * Created by juhaoyu on 2018/6/15.
  */
 public class LocalDesignerWorkspaceInfo implements DesignerWorkspaceInfo {
-
-    public static final String XML_TAG = "LocalDesignerWorkspaceInfo";
-
+    
     private String name;
 
     private String path;

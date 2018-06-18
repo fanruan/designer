@@ -7,9 +7,7 @@ import com.fr.stable.xml.XMLableReader;
 import com.fr.workspace.connect.WorkspaceConnection;
 
 public class RemoteDesignerWorkspaceInfo implements DesignerWorkspaceInfo {
-
-    public static final String XML_TAG = "RemoteDesignerWorkspaceInfo";
-
+    
     private String name;
 
     private WorkspaceConnection connection;

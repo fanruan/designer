@@ -26,13 +26,4 @@ public class EnvSwitcher {
             TemplatePane.getInstance().dealEvnExceptionWhenStartDesigner();
         }
     }
-    
-    /**
-     * 找不到默认的工作空间时，让用户手动选择一个
-     */
-    private Workspace chooseWorkspace() {
-        
-        return null;
-    }
-    
 }

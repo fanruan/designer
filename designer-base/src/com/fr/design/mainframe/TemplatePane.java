@@ -142,7 +142,7 @@ public class TemplatePane extends JPanel implements MouseListener {
                 
                 @Override
                 public void success() {
-                    
+                    DesignerEnvManager.getEnvManager().setCurEnvName(selectedName);
                     DesignUtils.refreshDesignerFrame();
                 }
             });

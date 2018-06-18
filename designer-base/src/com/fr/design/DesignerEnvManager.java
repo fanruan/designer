@@ -10,6 +10,7 @@ import com.fr.design.actions.help.alphafine.AlphaFineConfigManager;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.env.DesignerWorkspaceGenerator;
 import com.fr.design.env.DesignerWorkspaceInfo;
+import com.fr.design.env.DesignerWorkspaceType;
 import com.fr.design.env.LocalDesignerWorkspaceInfo;
 import com.fr.design.env.RemoteDesignerWorkspaceInfo;
 import com.fr.file.FILEFactory;
@@ -35,10 +36,9 @@ import com.fr.stable.xml.XMLWriter;
 import com.fr.stable.xml.XMLableReader;
 import com.fr.workspace.WorkContext;
 
-import javax.swing.SwingWorker;
+import javax.swing.*;
 import javax.swing.SwingWorker.StateValue;
-import java.awt.Color;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -1475,10 +1475,10 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                             public void readXML(XMLableReader reader) {
                                 if (reader.isChildNode()) {
                                     String tagName = reader.getTagName();
-                                    if (LocalDesignerWorkspaceInfo.XML_TAG.equals(tagName)) {
+                                    if (DesignerWorkspaceType.Local.toString().equals(tagName)) {
                                         LocalDesignerWorkspaceInfo envConfig = (LocalDesignerWorkspaceInfo) GeneralXMLTools.readXMLable(reader);
                                         putEnv(name, envConfig);
-                                    } else if (RemoteDesignerWorkspaceInfo.XML_TAG.equals(tagName)) {
+                                    } else if (DesignerWorkspaceType.Remote.toString().equals(tagName)) {
                                         RemoteDesignerWorkspaceInfo envConfig = (RemoteDesignerWorkspaceInfo) GeneralXMLTools.readXMLable(reader);
                                         putEnv(name, envConfig);
                                     }
@@ -1605,7 +1605,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         for (Entry<String, DesignerWorkspaceInfo> entry : nameEnvMap.entrySet()) {
             writer.startTAG("EnvConfigElement").attr("name", entry.getKey());
             DesignerWorkspaceInfo envConfig = entry.getValue();
-            GeneralXMLTools.writeXMLable(writer, envConfig, envConfig.XML_TAG);
+            GeneralXMLTools.writeXMLable(writer, envConfig, envConfig.getType().toString());
             writer.end();
         }
         writer.end();
