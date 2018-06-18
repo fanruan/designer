@@ -84,7 +84,7 @@ public class DesignerSocketIO {
 //                    }
 //                }
 //            });
-            socketIO.get().connect();
+//            socketIO.get().connect();
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }

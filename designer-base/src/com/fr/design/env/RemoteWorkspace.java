@@ -1,11 +1,12 @@
 package com.fr.design.env;
 
+import com.fr.env.operator.decision.DecisionOperator;
 import com.fr.general.Inter;
 import com.fr.report.util.RemoteDesignAuthenticateUtils;
+import com.fr.workspace.WorkContext;
 import com.fr.workspace.Workspace;
 import com.fr.workspace.connect.WorkspaceClient;
 import com.fr.workspace.connect.WorkspaceConnection;
-import com.fr.workspace.server.WorkspaceServerContext;
 
 /**
  * Created by juhaoyu on 2018/6/14.
@@ -59,7 +60,7 @@ public class RemoteWorkspace implements Workspace {
     @Override
     public boolean isRoot() {
         try {
-            return RemoteDesignAuthenticateUtils.isRoot(WorkspaceServerContext.currentUsername());
+            return WorkContext.getCurrent().get(DecisionOperator.class).isRoot(WorkContext.getConnector().currentUser());
         } catch (Exception e) {
             return false;
         }

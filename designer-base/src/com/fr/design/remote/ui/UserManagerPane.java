@@ -18,6 +18,7 @@ import com.fr.env.operator.decision.DecisionOperator;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 import com.fr.third.guava.collect.ImmutableList;
+import com.fr.workspace.WorkContext;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
@@ -278,8 +279,8 @@ public class UserManagerPane extends BasicPane {
             @Override
             protected List<RemoteDesignMember> doInBackground() {
                 addingMembers.clear();
-//                String username = EnvConfigUtils.getUsername(EnvContext.currentEnv());
-//                addingMembers.addAll(EnvProxy.get(DecisionOperator.class).getMembers(username, keyword));
+                String username = WorkContext.getConnector().currentUser();
+                addingMembers.addAll(WorkContext.getCurrent().get(DecisionOperator.class).getMembers(username, keyword));
                 return addingMembers;
             }
 

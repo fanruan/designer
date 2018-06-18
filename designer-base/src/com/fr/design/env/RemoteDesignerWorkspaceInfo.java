@@ -54,7 +54,7 @@ public class RemoteDesignerWorkspaceInfo implements DesignerWorkspaceInfo {
                 String url = reader.getAttrAsString("url", StringUtils.EMPTY);
                 String username = reader.getAttrAsString("username", StringUtils.EMPTY);
                 //密码解密
-                String password = SecurityToolbox.decrypt(reader.getAttrAsString("password", StringUtils.EMPTY));
+                String password = SecurityToolbox.defaultDecrypt(reader.getAttrAsString("password", StringUtils.EMPTY));
                 this.connection = new WorkspaceConnection(url, username, password);
             }
         }
@@ -68,14 +68,14 @@ public class RemoteDesignerWorkspaceInfo implements DesignerWorkspaceInfo {
             writer.startTAG("Connection");
             writer.attr("url", connection.getUrl());
             writer.attr("username", connection.getUserName());
-            writer.attr("password", SecurityToolbox.encrypt(connection.getPassword()));
+            writer.attr("password", SecurityToolbox.defaultEncrypt(connection.getPassword()));
             writer.end();
         }
     }
-
+    
     @Override
     public Object clone() throws CloneNotSupportedException {
-
+        
         return null;
     }
 }
