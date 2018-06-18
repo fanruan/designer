@@ -34,9 +34,7 @@ public class FileNodeFILE implements FILE {
             parentDir = fn.getParent();
         }
 
-        this.node = new FileNode(StableUtils.pathJoin(new String[]{
-                parentDir, name
-        }), isDir);
+        this.node = new FileNode(StableUtils.pathJoin(parentDir, name), isDir);
         this.envPath = WorkContext.getCurrent().getPath();
     }
 
