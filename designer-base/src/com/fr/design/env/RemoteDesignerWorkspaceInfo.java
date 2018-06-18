@@ -54,7 +54,7 @@ public class RemoteDesignerWorkspaceInfo implements DesignerWorkspaceInfo {
                 String url = reader.getAttrAsString("url", StringUtils.EMPTY);
                 String username = reader.getAttrAsString("username", StringUtils.EMPTY);
                 //密码解密
-                String password = SecurityToolbox.defaultDecrypt(reader.getAttrAsString("password", StringUtils.EMPTY));
+                String password = SecurityToolbox.defaultDecrypt(reader.getAttrAsString("password", StringUtils.EMPTY).replaceAll(" ","\r\n"));
                 this.connection = new WorkspaceConnection(url, username, password);
             }
         }
