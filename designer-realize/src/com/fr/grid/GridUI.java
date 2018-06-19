@@ -22,6 +22,7 @@ import com.fr.general.ComparatorUtils;
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.FloatSelection;
 import com.fr.grid.selection.Selection;
+import com.fr.main.FineBook;
 import com.fr.page.PaperSettingProvider;
 import com.fr.page.ReportPage;
 import com.fr.page.ReportSettingsProvider;
@@ -98,6 +99,7 @@ public class GridUI extends ComponentUI {
     protected int resolution;
 
     private boolean isAuthority = false;
+    private WatermarkPainter watermarkPainter;
 
     public GridUI(int resolution) {
         super();
@@ -162,9 +164,6 @@ public class GridUI extends ComponentUI {
             // denny: make that the background can move with scroll
             paintScrollBackground(g2d, grid, background, psetting, reportSettings);
         }
-
-        WatermarkAttr watermark = ReportUtils.getWatermarkFromAttrMarkFile(((WorkSheet) elementCase).getBook());
-        new WatermarkPainter(watermark).paint(g2d, this.back_or_selection_rect.getBounds());
     }
 
     private void clearBackground(Graphics2D g2d, Grid grid) {
@@ -1095,7 +1094,23 @@ public class GridUI extends ComponentUI {
         // 画Drag格子的边框.
         this.paintDragCellBorder(g2d, grid);
 
+        // 画水印
+        if (elementCase instanceof WorkSheet) {
+            paintWatermark(g2d, ((WorkSheet) elementCase).getBook());
+        }
+
         grid.ajustEditorComponentBounds(); // refresh size
+    }
+
+    // 绘制水印
+    private void paintWatermark(Graphics2D g2d, FineBook book) {
+        WatermarkAttr watermark = ReportUtils.getWatermarkFromAttrMarkFile(book);
+
+        // 不要每次都 new 一个 WatermarkPainter
+        if (watermarkPainter == null || !ComparatorUtils.equals(watermarkPainter.getWatermark(), watermark)) {
+            watermarkPainter = new WatermarkPainter(watermark);
+        }
+        watermarkPainter.paint(g2d, gridSize.width, gridSize.height);
     }
 
 
