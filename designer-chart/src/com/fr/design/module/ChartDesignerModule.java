@@ -9,15 +9,18 @@ import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.chart.ChartDialog;
 import com.fr.design.chart.gui.ChartComponent;
 import com.fr.design.chart.gui.ChartWidgetOption;
+import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.core.WidgetOption;
 import com.fr.design.mainframe.App;
 import com.fr.design.mainframe.ChartPropertyPane;
 import com.fr.form.ui.ChartEditor;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
+import com.fr.plugin.chart.vanchart.imgevent.design.DesignImageEvent;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.bridge.StableFactory;
 import com.fr.stable.plugin.ExtraChartDesignClassManagerProvider;
+import com.fr.van.chart.DownloadOnlineSourcesHelper;
 import com.fr.van.chart.map.server.ChartMapEditorAction;
 
 import javax.swing.Icon;
@@ -54,6 +57,11 @@ public class ChartDesignerModule extends DesignModule {
 
         ActionFactory.registerChartPreStyleAction(new ChartPreStyleAction());
         ActionFactory.registerChartMapEditorAction(new ChartMapEditorAction());
+
+        DesignModuleFactory.registerExtraWidgetOptions(ChartTypeInterfaceManager.initWidgetOption());
+
+        DesignImageEvent.registerDefaultCallbackEvent(HistoryTemplateListPane.getInstance());
+        DesignImageEvent.registerDownloadSourcesEvent(new DownloadOnlineSourcesHelper());
     }
 
     protected void registerFloatEditor() {
