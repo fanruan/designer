@@ -1,5 +1,7 @@
 package com.fr.start.fx;
 
+import com.fr.design.mainframe.DesignerContext;
+import com.fr.start.SplashFxActionListener;
 import com.fr.start.SplashStrategy;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -31,6 +33,12 @@ public class SplashFx implements SplashStrategy {
             }
         });
         fxWindow = SplashFxWindow.waitForStartUpTest();
+        fxWindow.addSplashActionListener(new SplashFxActionListener() {
+            @Override
+            public void splashClose() {
+                DesignerContext.getDesignerFrame().setVisible(true);
+            }
+        });
     }
 
     @Override
