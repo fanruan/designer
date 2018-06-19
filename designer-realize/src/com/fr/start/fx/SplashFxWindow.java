@@ -4,6 +4,7 @@ import com.bulenkov.iconloader.util.JBUI;
 import com.fr.base.FRContext;
 import com.fr.stable.OperatingSystem;
 import com.fr.start.SplashContext;
+import com.fr.start.SplashFxActionListener;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -16,6 +17,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 
@@ -46,6 +49,7 @@ public class SplashFxWindow extends Application {
 
     private Text moduleInfo;
     private Text thanks;
+    private List<SplashFxActionListener> listeners = new ArrayList<SplashFxActionListener>();
 
     private static int uiScale(int i) {
         return (int) (i * JBUI_INIT_SCALE);
@@ -121,6 +125,7 @@ public class SplashFxWindow extends Application {
             public void run() {
                 try {
                     ((Stage) moduleInfo.getScene().getWindow()).close();
+                    fireSplashClose();
                 } catch (Exception e) {
                     FRContext.getLogger().error(e.getMessage(), e);
                 }
@@ -160,5 +165,18 @@ public class SplashFxWindow extends Application {
             }
         });
 
+    }
+    /**
+     * 添加一个动画状态监听
+     * @param listener
+     */
+    public void addSplashActionListener(SplashFxActionListener listener) {
+        listeners.add(listener);
+    }
+
+    public void fireSplashClose() {
+        for (SplashFxActionListener listener : listeners) {
+            listener.splashClose();
+        }
     }
 }
