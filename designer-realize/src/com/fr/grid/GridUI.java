@@ -10,6 +10,7 @@ import com.fr.base.PaperSize;
 import com.fr.base.Utils;
 import com.fr.base.background.ColorBackground;
 import com.fr.base.background.ImageFileBackground;
+import com.fr.base.iofileattr.WatermarkAttr;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.mainframe.DesignerContext;
@@ -22,7 +23,9 @@ import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.FloatSelection;
 import com.fr.grid.selection.Selection;
 import com.fr.page.PaperSettingProvider;
+import com.fr.page.ReportPage;
 import com.fr.page.ReportSettingsProvider;
+import com.fr.page.WatermarkPainter;
 import com.fr.report.ReportHelper;
 import com.fr.report.cell.CellElement;
 import com.fr.report.cell.FloatElement;
@@ -159,6 +162,9 @@ public class GridUI extends ComponentUI {
             // denny: make that the background can move with scroll
             paintScrollBackground(g2d, grid, background, psetting, reportSettings);
         }
+
+        WatermarkAttr watermark = ReportUtils.getWatermarkFromAttrMarkFile(((WorkSheet) elementCase).getBook());
+        new WatermarkPainter(watermark).paint(g2d, this.back_or_selection_rect.getBounds());
     }
 
     private void clearBackground(Graphics2D g2d, Grid grid) {
