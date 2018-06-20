@@ -33,19 +33,11 @@ import javax.swing.Icon;
  * Time: 上午9:13
  */
 public class ChartDesignerModule extends DesignModule {
-    public void start() {
-        super.start();
-        dealBeforeRegister();
-        register();
-        registerFloatEditor();
-    }
 
-    protected void dealBeforeRegister(){
+    public static void register(){
         StableFactory.registerMarkedClass(ExtraChartDesignClassManagerProvider.XML_TAG, ChartTypeInterfaceManager.class);
         StableFactory.getStaticMarkedInstanceObjectFromClass(ExtraChartDesignClassManagerProvider.XML_TAG, ExtraChartDesignClassManagerProvider.class);
-    }
 
-    private void register(){
         DesignModuleFactory.registerHyperlinkGroupType(new ChartHyperlinkGroup());
 
         DesignModuleFactory.registerChartEditorClass(ChartEditor.class);
@@ -58,14 +50,12 @@ public class ChartDesignerModule extends DesignModule {
         ActionFactory.registerChartPreStyleAction(new ChartPreStyleAction());
         ActionFactory.registerChartMapEditorAction(new ChartMapEditorAction());
 
+        ActionFactory.registerChartCollection(ChartCollection.class);
+
         DesignModuleFactory.registerExtraWidgetOptions(ChartTypeInterfaceManager.initWidgetOption());
 
         DesignImageEvent.registerDefaultCallbackEvent(HistoryTemplateListPane.getInstance());
         DesignImageEvent.registerDownloadSourcesEvent(new DownloadOnlineSourcesHelper());
-    }
-
-    protected void registerFloatEditor() {
-        ActionFactory.registerChartCollection(ChartCollection.class);
     }
 
     /**
