@@ -6,6 +6,7 @@ import com.fr.stable.OperatingSystem;
 import com.fr.start.SplashContext;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -13,6 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -110,8 +112,10 @@ public class SplashFxWindow extends Application {
         root.getChildren().add(moduleInfo);
         root.getChildren().add(thanks);
 
-        Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT, null);
-        primaryStage.setScene(scene);
+        primaryStage.setWidth(WINDOW_WIDTH);
+        primaryStage.setHeight(WINDOW_HEIGHT);
+        primaryStage.setScene(new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT, null));
+        setWindowCenter(primaryStage);
         primaryStage.show();
     }
 
@@ -126,6 +130,17 @@ public class SplashFxWindow extends Application {
                 }
             }
         });
+    }
+
+    /**
+     * 设置窗口居中
+     *
+     * @param stage 窗口
+     */
+    private void setWindowCenter(Stage stage) {
+        Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+        stage.setX(primaryScreenBounds.getMinX() + (primaryScreenBounds.getWidth() - stage.getWidth()) / 2.0);
+        stage.setY(primaryScreenBounds.getMinY() + (primaryScreenBounds.getHeight() - stage.getHeight()) / 2.0);
     }
 
     /**
