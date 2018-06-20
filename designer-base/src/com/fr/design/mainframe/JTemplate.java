@@ -5,7 +5,7 @@ import com.fr.base.FRContext;
 import com.fr.base.Parameter;
 import com.fr.base.ScreenResolution;
 import com.fr.base.io.BaseBook;
-import com.fr.base.iofileattr.TemplateIdAttrMark;
+import com.fr.base.iofile.attr.TemplateIdAttrMark;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignState;
 import com.fr.design.DesignerEnvManager;

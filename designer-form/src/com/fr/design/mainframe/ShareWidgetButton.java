@@ -1,7 +1,7 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.iofileattr.SharableAttrMark;
+import com.fr.base.iofile.attr.SharableAttrMark;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XCreatorUtils;
 import com.fr.design.gui.ilable.UILabel;

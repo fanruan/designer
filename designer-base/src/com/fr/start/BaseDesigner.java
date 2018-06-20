@@ -25,8 +25,6 @@ import com.fr.module.ModuleEvent;
 import com.fr.stable.OperatingSystem;
 
 import java.awt.Window;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.concurrent.ExecutorService;
@@ -76,20 +74,12 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
     }
 
     public void show(final String[] args) {
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
-        executorService.submit(new Runnable() {
-            @Override
-            public void run() {
-                collectUserInformation();
-                showDesignerFrame(args, DesignerContext.getDesignerFrame(), false);
-                DesignerContext.getDesignerFrame().refreshEnv();
-                for (int i = 0; !TemplateTreePane.getInstance().getTemplateFileTree().isTemplateShowing() && i < LOAD_TREE_MAXNUM; i++) {
-                    TemplateTreePane.getInstance().getTemplateFileTree().refresh();
-                }
-            }
-        });
-        executorService.shutdown();
-        DesignerContext.getDesignerFrame().setVisible(true);
+        collectUserInformation();
+        showDesignerFrame(args, DesignerContext.getDesignerFrame(), false);
+        DesignerContext.getDesignerFrame().refreshEnv();
+        for (int i = 0; !TemplateTreePane.getInstance().getTemplateFileTree().isTemplateShowing() && i < LOAD_TREE_MAXNUM; i++) {
+            TemplateTreePane.getInstance().getTemplateFileTree().refresh();
+        }
     }
     
     
@@ -160,11 +150,7 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
         if (OperatingSystem.isMacOS()) {
             enableFullScreenMode(df);
         }
-        df.addWindowListener(new WindowAdapter() {
-            public void windowOpened(WindowEvent e) {
-                df.getSelectedJTemplate().requestGridFocus();
-            }
-        });
+        df.getSelectedJTemplate().requestGridFocus();
         return isException;
     }
     

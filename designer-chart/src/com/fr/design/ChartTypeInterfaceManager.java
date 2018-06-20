@@ -27,7 +27,6 @@ import com.fr.design.chartinterface.RangeIndependentChartInterface;
 import com.fr.design.chartinterface.StockIndependentChartInterface;
 import com.fr.design.chartinterface.XYScatterIndependentChartInterface;
 import com.fr.design.condition.ConditionAttributesPane;
-import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.core.WidgetOption;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
@@ -60,7 +59,6 @@ import com.fr.plugin.chart.radar.VanChartRadarPlot;
 import com.fr.plugin.chart.scatter.VanChartScatterPlot;
 import com.fr.plugin.chart.structure.VanChartStructurePlot;
 import com.fr.plugin.chart.treemap.VanChartTreeMapPlot;
-import com.fr.plugin.chart.vanchart.imgevent.design.DesignImageEvent;
 import com.fr.plugin.chart.wordcloud.VanChartWordCloudPlot;
 import com.fr.plugin.injectable.PluginModule;
 import com.fr.plugin.injectable.PluginSingleInjection;
@@ -69,7 +67,6 @@ import com.fr.stable.ArrayUtils;
 import com.fr.stable.EnvChangedListener;
 import com.fr.stable.StringUtils;
 import com.fr.stable.plugin.ExtraChartDesignClassManagerProvider;
-import com.fr.van.chart.DownloadOnlineSourcesHelper;
 import com.fr.van.chart.area.AreaIndependentVanChartInterface;
 import com.fr.van.chart.bar.BarIndependentVanChartInterface;
 import com.fr.van.chart.bubble.BubbleIndependentVanChartInterface;
@@ -133,13 +130,11 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
             public void envChanged() {
                 //重新注册designModuleFactory
                 DesignModuleFactory.registerExtraWidgetOptions(initWidgetOption());
-                DesignImageEvent.registerDefaultCallbackEvent(HistoryTemplateListPane.getInstance());
-                DesignImageEvent.registerDownloadSourcesEvent(new DownloadOnlineSourcesHelper());
             }
         });
     }
     
-    private static WidgetOption[] initWidgetOption() {
+    public static WidgetOption[] initWidgetOption() {
 
         ChartInternationalNameContentBean[] typeName = ChartTypeManager.getInstance().getAllChartBaseNames();
         ChartWidgetOption[] child = new ChartWidgetOption[typeName.length];

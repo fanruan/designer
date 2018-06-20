@@ -1,6 +1,6 @@
 package com.fr.design.mainframe.widget.accessibles;
 
-import com.fr.base.iofileattr.WatermarkAttr;
+import com.fr.base.iofile.attr.WatermarkAttr;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.mainframe.widget.editors.ITextComponent;
