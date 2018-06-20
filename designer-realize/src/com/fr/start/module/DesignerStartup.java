@@ -1,5 +1,6 @@
 package com.fr.start.module;
 
+import com.fr.design.mainframe.DesignerContext;
 import com.fr.event.Event;
 import com.fr.event.Listener;
 import com.fr.module.Activator;
@@ -27,10 +28,11 @@ public class DesignerStartup extends Activator {
         startSub(EnvBasedModule.class);
         getRoot().getSingleton(EnvSwitcher.class).switch2LastEnv();
         registerEnvListener();
-        //启动设计器界面
-        designer.show(args);
+        DesignerContext.getDesignerFrame().setVisible(true);
         //启动画面结束
         SplashContext.getInstance().hide();
+        //启动设计器界面
+        designer.show(args);
         startSub(StartFinishActivator.class);
     }
     

@@ -1,6 +1,6 @@
 package com.fr.design.actions.report;
 
-import com.fr.base.iofileattr.MobileOnlyTemplateAttrMark;
+import com.fr.base.iofile.attr.MobileOnlyTemplateAttrMark;
 import com.fr.design.actions.JWorkBookAction;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;

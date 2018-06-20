@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.fr.report</groupId>
         <artifactId>fine-report-designer</artifactId>
-        <version>10.0-FEATURE-SNAPSHOT</version>
+        <version>10.0-RELEASE-SNAPSHOT</version>
         <relativePath>../design-settings/fine-report-designer</relativePath>
     </parent>
 
@@ -19,6 +19,6 @@
     </modules>
     <groupId>com.fr.report</groupId>
     <artifactId>design</artifactId>
-    <version>10.0-FEATURE-SNAPSHOT</version>
+    <version>10.0-RELEASE-SNAPSHOT</version>
     <packaging>pom</packaging>
 </project>

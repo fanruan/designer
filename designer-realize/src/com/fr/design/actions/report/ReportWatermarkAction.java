@@ -1,7 +1,7 @@
 package com.fr.design.actions.report;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.iofileattr.WatermarkAttr;
+import com.fr.base.iofile.attr.WatermarkAttr;
 import com.fr.design.actions.JWorkBookAction;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.mainframe.DesignerContext;
