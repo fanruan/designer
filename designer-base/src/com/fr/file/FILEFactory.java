@@ -31,7 +31,7 @@ public class FILEFactory {
             return new FileNodeFILE(new FileNode(path.substring(envPath.length() + 1), false));
         } else if (path.startsWith(WEBREPORT_PREFIX)) {
             return new FileNodeFILE(new FileNode(path.substring(WEBREPORT_PREFIX.length()), false),
-                    FRContext.getCommonOperator().getWebReportPath());
+                    FRContext.getCommonOperator().getWebRootPath());
         } else if (path.startsWith(FILE_PREFIX)) {
             return new FileFILE(new java.io.File(path.substring(FILE_PREFIX.length())));
         } else {
@@ -48,7 +48,7 @@ public class FILEFactory {
             return new FileNodeFILE(new FileNode(path.substring(ENV_PREFIX.length()), true));
         } else if (path.startsWith(WEBREPORT_PREFIX)) {
             return new FileNodeFILE(new FileNode(path.substring(WEBREPORT_PREFIX.length()), true),
-                    FRContext.getCommonOperator().getWebReportPath());
+                    FRContext.getCommonOperator().getWebRootPath());
         } else if (path.startsWith(FILE_PREFIX)) {
             return new FileFILE(new java.io.File(path.substring(FILE_PREFIX.length())));
         } else {

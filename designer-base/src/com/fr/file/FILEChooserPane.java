@@ -787,7 +787,7 @@ public class FILEChooserPane extends BasicPane {
             if (FILEChooserPane.this.showWebReport) {
                 // webReportFILE = new FileFILE(new
                 // File(FRContext.getCommonOperator().getWebReportPath()));
-                webReportFILE = new FileNodeFILE(FRContext.getCommonOperator().getWebReportPath());
+                webReportFILE = new FileNodeFILE(FRContext.getCommonOperator().getWebRootPath());
                 // String webReportPath =
                 // FRContext.getCommonOperator().getWebReportPath();
                 // String webReportParentPath = new
@@ -1108,7 +1108,7 @@ public class FILEChooserPane extends BasicPane {
             ((DefaultListModel) subFileList.getModel()).removeAllElements();
             for (int i = 0; i < res_array.length; i++) {
                 if (filter == null || filter.accept(res_array[i])) {
-                    ((DefaultListModel) subFileList.getModel()).addElement(res_array[i]);
+                    ((DefaultListModel) subFileList.getModel()).addElement( res_array[i]);
                 }
             }
             String[] name_array = new String[res_array.length];
