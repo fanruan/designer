@@ -1,14 +1,12 @@
 package com.fr.design.mainframe;
 
 import java.awt.AlphaComposite;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.swing.JComponent;
@@ -19,7 +17,7 @@ import com.fr.base.BaseUtils;
 import com.fr.base.GraphHelper;
 import com.fr.base.ScreenResolution;
 import com.fr.base.Utils;
-import com.fr.base.iofileattr.WatermarkAttr;
+import com.fr.base.iofile.attr.WatermarkAttr;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
@@ -37,8 +35,6 @@ import com.fr.general.Inter;
 import com.fr.page.WatermarkPainter;
 import com.fr.report.core.ReportUtils;
 import com.fr.stable.ArrayUtils;
-import com.fr.stable.Constants;
-import com.fr.stable.CoreGraphHelper;
 
 /**
  * FormDesigner的UI类，是一个有状态的UI类，它根据FormDesigner的当前状态画出

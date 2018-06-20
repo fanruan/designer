@@ -1,7 +1,7 @@
 package com.fr.design.mainframe.actions;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.iofileattr.MobileOnlyTemplateAttrMark;
+import com.fr.base.iofile.attr.MobileOnlyTemplateAttrMark;
 import com.fr.design.actions.JTemplateAction;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;

@@ -1,7 +1,7 @@
 package com.fr.design.widget.ui.designer.layout;
 
 import com.fr.base.io.IOFile;
-import com.fr.base.iofileattr.WatermarkAttr;
+import com.fr.base.iofile.attr.WatermarkAttr;
 import com.fr.design.data.DataCreatorUI;
 import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.XCreator;
