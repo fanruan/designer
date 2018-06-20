@@ -1,6 +1,6 @@
 package com.fr.design.report;
 
-import com.fr.base.iofileattr.WatermarkAttr;
+import com.fr.base.iofile.attr.WatermarkAttr;
 import com.fr.design.constants.UIConstants;
 import com.fr.page.WatermarkPainter;
 
