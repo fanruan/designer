@@ -116,7 +116,6 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
     private static Map<String, String> idAndPriorityMap = new HashMap<String, String>();
 
     public synchronized static ChartTypeInterfaceManager getInstance() {
-        DesignModuleFactory.registerExtraWidgetOptions(initWidgetOption());
         return classManager;
     }
 
