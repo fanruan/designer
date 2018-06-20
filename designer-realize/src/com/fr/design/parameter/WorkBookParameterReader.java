@@ -17,7 +17,7 @@ public class WorkBookParameterReader extends AbstractParameterReader {
     public Parameter[] readParameterFromPath(String tplPath) {
         if (accept(tplPath, ".cpt")) {
             try {
-                TemplateWorkBook template = TemplateWorkBookIO.readTemplateWorkBook(FRContext.getCurrentEnv(), tplPath);
+                TemplateWorkBook template = TemplateWorkBookIO.readTemplateWorkBook(tplPath);
                 return template.getParameters();
             } catch (Exception e1) {
                 FRContext.getLogger().error(e1.getMessage(), e1);

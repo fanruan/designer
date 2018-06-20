@@ -1,18 +1,18 @@
 package com.fr.design.data.datapane.preview;
 
-import javax.swing.table.AbstractTableModel;
-
 import com.fr.base.FRContext;
+import com.fr.cache.list.IntList;
 import com.fr.data.AbstractDataModel;
 import com.fr.data.impl.EmbeddedTableData.EmbeddedTDDataModel;
 import com.fr.data.impl.storeproc.ProcedureDataModel;
-import com.fr.env.RemoteEnv;
+import com.fr.design.utils.DesignUtils;
 import com.fr.general.Inter;
 import com.fr.general.data.DataModel;
 import com.fr.general.data.TableDataException;
-import com.fr.cache.list.IntList;
 import com.fr.stable.StringUtils;
-import com.fr.design.utils.DesignUtils;
+import com.fr.workspace.WorkContext;
+
+import javax.swing.table.AbstractTableModel;
 
 /**
  * 这个TableModel主要是预览数据的. 字段TableData必须转化为内置的
@@ -188,7 +188,7 @@ public class PreviewTableModel extends AbstractTableModel {
             s = "?";
         } else if (o instanceof String) {
             s = Inter.getLocText("FR-Designer_Parameter_String");
-            if (FRContext.getCurrentEnv() instanceof RemoteEnv && dataModel instanceof EmbeddedTDDataModel) {
+            if (!WorkContext.getCurrent().isLocal() && dataModel instanceof EmbeddedTDDataModel) {
                 Class clzz = ((EmbeddedTDDataModel) dataModel).getColumnClass(column);
                 if (Number.class.isAssignableFrom(clzz)) {
                     s = Inter.getLocText("FR-Designer_Number");//bigdecimal

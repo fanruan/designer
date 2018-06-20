@@ -37,7 +37,7 @@ public class StyleManagerPane extends BasicPane {
 	
 	public void populate(ServerPreferenceConfig configManager) {
 		//todo 原来界面上显示的xml路径
-//		this.StyleTextField.setText(FRContext.getCurrentEnv().getPath() + File.separator +
+//		this.StyleTextField.setText(WorkContext.getCurrent().getPath() + File.separator +
 //				ProjectConstants.RESOURCES_NAME +
 //				File.separator + configManager.fileName());
 		this.styleArrayPane.populate(configManager);

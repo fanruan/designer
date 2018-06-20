@@ -1,13 +1,9 @@
 package com.fr.design.gui.itree.filetree;
 
-import com.fr.base.Env;
 import com.fr.base.FRContext;
 import com.fr.base.extension.FileExtension;
-import com.fr.base.operator.file.FileOperator;
-import com.fr.core.env.proxy.EnvProxy;
 import com.fr.design.gui.itree.refreshabletree.ExpandMutableTreeNode;
 import com.fr.file.filetree.FileNode;
-import com.fr.general.web.ParameterConstants;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StableUtils;
@@ -105,7 +101,7 @@ public class TemplateFileTree extends EnvFileTree {
     }
 
     public FileNode[] listFile(String path) throws Exception {
-        return FRContext.getCurrentEnv().getFileOperator().list(
+        return FRContext.getFileNodes().list(
                 path,
                 new FileExtension[]{FileExtension.CPT, FileExtension.FRM, FileExtension.CPTX, FileExtension.FRMX});
     }
@@ -113,7 +109,7 @@ public class TemplateFileTree extends EnvFileTree {
     /*
      * 改变Env后,根据构造函数时设置的RootPaths,重新加载
      */
-    public void refreshEnv(Env env) {
+    public void refreshEnv() {
 
         DefaultTreeModel defaultTreeModel = (DefaultTreeModel) this.getModel();
         ExpandMutableTreeNode rootTreeNode = (ExpandMutableTreeNode) defaultTreeModel.getRoot();

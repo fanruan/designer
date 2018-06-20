@@ -1,7 +1,6 @@
 package com.fr.design.mainframe.alphafine.component;
 
 import com.bulenkov.iconloader.IconLoader;
-import com.fr.base.FRContext;
 import com.fr.config.MarketConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.help.alphafine.AlphaFineConfigManager;
@@ -32,13 +31,13 @@ import com.fr.design.mainframe.alphafine.search.manager.impl.RecommendSearchMana
 import com.fr.form.main.Form;
 import com.fr.form.main.FormIO;
 import com.fr.general.ComparatorUtils;
-import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.general.http.HttpClient;
 import com.fr.io.TemplateWorkBookIO;
 import com.fr.io.exporter.ImageExporter;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
+import com.fr.log.FineLoggerFactory;
 import com.fr.main.impl.WorkBook;
 import com.fr.stable.CodeUtils;
 import com.fr.stable.StringUtils;
@@ -507,7 +506,7 @@ public class AlphaFineDialog extends UIDialog {
                         protected BufferedImage doInBackground() {
                             Form form = null;
                             try {
-                                form = FormIO.readForm(FRContext.getCurrentEnv(), fileName);
+                                form = FormIO.readForm(fileName);
                             } catch (Exception e) {
                                 FineLoggerFactory.getLogger().error(e.getMessage());
                             }
@@ -539,7 +538,7 @@ public class AlphaFineDialog extends UIDialog {
                         protected BufferedImage doInBackground() {
                             WorkBook workBook = null;
                             try {
-                                workBook = (WorkBook) TemplateWorkBookIO.readTemplateWorkBook(FRContext.getCurrentEnv(), fileName);
+                                workBook = (WorkBook) TemplateWorkBookIO.readTemplateWorkBook(fileName);
                             } catch (Exception e) {
                                 FineLoggerFactory.getLogger().error(e.getMessage());
                             }

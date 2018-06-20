@@ -1,8 +1,6 @@
 package com.fr.design.remote.action;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
-import com.fr.core.env.proxy.EnvProxy;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
@@ -12,6 +10,7 @@ import com.fr.env.operator.authority.AuthorityOperator;
 import com.fr.general.Inter;
 import com.fr.log.FineLoggerFactory;
 import com.fr.report.DesignAuthority;
+import com.fr.workspace.WorkContext;
 
 import java.awt.event.ActionEvent;
 
@@ -33,11 +32,11 @@ public class RemoteDesignAuthorityManagerAction extends UpdateAction {
         final AuthorityManagerPane managerPane = new AuthorityManagerPane();
 
         BasicDialog dialog = managerPane.showWindow(DesignerContext.getDesignerFrame());
-
-        if (!FRContext.getCurrentEnv().isLocalEnv()) {
+    
+        if (!WorkContext.getCurrent().isLocal()) {
             try {
                 // 远程设计获取全部设计成员的权限列表
-                DesignAuthority[] authorities = EnvProxy.get(AuthorityOperator.class).getAuthorities();
+                DesignAuthority[] authorities = WorkContext.getCurrent().get(AuthorityOperator.class).getAuthorities();
                 if (authorities != null && authorities.length != 0) {
                     managerPane.populate(authorities);
                 }
@@ -45,24 +44,27 @@ public class RemoteDesignAuthorityManagerAction extends UpdateAction {
                 FineLoggerFactory.getLogger().error(exception.getMessage(), exception);
             }
         }
-
+    
         dialog.addDialogActionListener(new DialogActionAdapter() {
+        
             @Override
             public void doOk() {
+            
                 DesignAuthority[] authorities = managerPane.update();
-                if (!FRContext.getCurrentEnv().isLocalEnv()) {
+                if (!WorkContext.getCurrent().isLocal()) {
                     boolean success = false;
                     try {
-                        success = EnvProxy.get(AuthorityOperator.class).updateAuthorities(authorities);
+                        success = WorkContext.getCurrent().get(AuthorityOperator.class).updateAuthorities(authorities);
                     } catch (Exception e) {
                         FineLoggerFactory.getLogger().error(e.getMessage(), e);
                     }
-                    FRContext.getLogger().info("update remote design authority: " + success);
+                    FineLoggerFactory.getLogger().info("update remote design authority: " + success);
                 }
             }
-
+        
             @Override
             public void doCancel() {
+            
                 super.doCancel();
             }
         });

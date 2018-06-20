@@ -1,14 +1,13 @@
 package com.fr.design.mainframe.alphafine.cell.model;
 
-import com.fr.base.FRContext;
 import com.fr.design.extra.WebViewDlgHelper;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.CellType;
-import com.fr.env.RemoteEnv;
-import com.fr.log.FineLoggerFactory;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
+import com.fr.workspace.WorkContext;
 
 /**
  * Created by XiaXiang on 2017/4/20.
@@ -106,7 +105,8 @@ public class PluginModel extends AlphaCellModel {
 
     @Override
     public void doAction() {
-        if (StringUtils.isBlank(this.pluginId) || FRContext.getCurrentEnv() instanceof RemoteEnv) {
+    
+        if (StringUtils.isBlank(this.pluginId) || !WorkContext.getCurrent().isLocal()) {
             return;
         }
         WebViewDlgHelper.showPluginInStore(getName(), "[" + ModelToJson().optString("result") + "]");

@@ -3,7 +3,7 @@ package com.fr.file;
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.base.extension.FileExtension;
-import com.fr.dav.LocalEnv;
+import com.fr.file.filetree.LocalFileNodes;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.dialog.BasicPane;
@@ -545,10 +545,10 @@ public class FILEChooserPane extends BasicPane {
             return;
         }
         if (editing == null || !editing.isChartBook()) {
-            String[] fileSuffix_local = LocalEnv.FILE_TYPE;
+            String[] fileSuffix_local = LocalFileNodes.FILE_TYPE;
             EnumSet<FileExtension> fileExtensions = EnumSet.of(FileExtension.CPT, FileExtension.CPTX, FileExtension.FRM, FileExtension.FRMX, FileExtension.CHT);
             if (type == JFileChooser.OPEN_DIALOG) {
-                if (FRContext.getCurrentEnv().isSupportLocalFileOperate()) { //本地连接
+                if (FRContext.getFileNodes().isSupportLocalFileOperate()) { //本地连接
                     this.addChooseFILEFilter(new ChooseFileFilter(fileSuffix_local, appName + Inter.getLocText(new String[]{"FR-App-Report_Template", "FR-App-All_File"})));
                 } else {
                     this.addChooseFILEFilter(new ChooseFileFilter(fileExtensions, appName + Inter.getLocText(new String[]{"FR-App-Report_Template", "FR-App-All_File"})));
@@ -569,7 +569,7 @@ public class FILEChooserPane extends BasicPane {
         }
 
         // 添加 xls 文件类型过滤 kt
-        if (FRContext.getCurrentEnv().isSupportLocalFileOperate()) {  //本地连接
+        if (FRContext.getFileNodes().isSupportLocalFileOperate()) {  //本地连接
             this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.XLS, Inter.getLocText("Import-Excel_Source")));
             this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.XLSX, Inter.getLocText("Import-Excel2007_Source")));
         }
@@ -592,7 +592,7 @@ public class FILEChooserPane extends BasicPane {
         for (FILEFilter aFilterList : filterList) {
             defaultComboBoxModel.addElement(aFilterList);
         }
-        if (FRContext.getCurrentEnv().isSupportLocalFileOperate()) {  //本地连接
+        if (FRContext.getFileNodes().isSupportLocalFileOperate()) {  //本地连接
             if (!showWebReport) {
                 defaultComboBoxModel.addElement(Inter.getLocText("FR-Utils-App_AllFiles") + "(*.*)");
             }
@@ -686,7 +686,7 @@ public class FILEChooserPane extends BasicPane {
         boolean access = false;
 
         try {
-            access = FRContext.getCurrentEnv().getOrganizationOperator().canAccess(selectedFile.getPath());
+            access = FRContext.getOrganizationOperator().canAccess(selectedFile.getPath());
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
@@ -786,10 +786,10 @@ public class FILEChooserPane extends BasicPane {
             }
             if (FILEChooserPane.this.showWebReport) {
                 // webReportFILE = new FileFILE(new
-                // File(FRContext.getCurrentEnv().getWebReportPath()));
-                webReportFILE = new FileNodeFILE(FRContext.getCurrentEnv().getWebReportPath());
+                // File(FRContext.getCommonOperator().getWebReportPath()));
+                webReportFILE = new FileNodeFILE(FRContext.getCommonOperator().getWebRootPath());
                 // String webReportPath =
-                // FRContext.getCurrentEnv().getWebReportPath();
+                // FRContext.getCommonOperator().getWebReportPath();
                 // String webReportParentPath = new
                 // File(webReportPath).getParent();
                 // webReportFILE = new FileNodeFILE(new FileNode("WebReport",
@@ -1108,7 +1108,7 @@ public class FILEChooserPane extends BasicPane {
             ((DefaultListModel) subFileList.getModel()).removeAllElements();
             for (int i = 0; i < res_array.length; i++) {
                 if (filter == null || filter.accept(res_array[i])) {
-                    ((DefaultListModel) subFileList.getModel()).addElement(res_array[i]);
+                    ((DefaultListModel) subFileList.getModel()).addElement( res_array[i]);
                 }
             }
             String[] name_array = new String[res_array.length];
@@ -1404,7 +1404,7 @@ public class FILEChooserPane extends BasicPane {
 
             boolean access = false;
             try {
-                access = FRContext.getCurrentEnv().getOrganizationOperator().canAccess(currentDirectory.getPath());
+                access = FRContext.getOrganizationOperator().canAccess(currentDirectory.getPath());
             } catch (Exception e) {
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }

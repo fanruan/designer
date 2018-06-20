@@ -62,7 +62,6 @@ import com.fr.design.selection.QuickEditor;
 import com.fr.design.write.submit.DBManipulationPane;
 import com.fr.design.write.submit.SmartInsertDBManipulationInWidgetEventPane;
 import com.fr.design.write.submit.SmartInsertDBManipulationPane;
-import com.fr.env.RemoteEnv;
 import com.fr.file.FILE;
 import com.fr.file.FileNodeFILE;
 import com.fr.file.filetree.FileNode;
@@ -93,6 +92,7 @@ import com.fr.stable.StringUtils;
 import com.fr.stable.module.Module;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.web.controller.ViewRequestConstants;
+import com.fr.workspace.WorkContext;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -634,7 +634,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     public ShortCut[] shortcut4FileMenu() {
         return (ShortCut[]) ArrayUtils.addAll(
                 super.shortcut4FileMenu(),
-                BaseUtils.isAuthorityEditing() || (FRContext.getCurrentEnv() instanceof RemoteEnv) ? new ShortCut[0] : new ShortCut[]{this.createWorkBookExportMenu()}
+            BaseUtils.isAuthorityEditing() || (!WorkContext.getCurrent().isLocal()) ? new ShortCut[0] : new ShortCut[]{this.createWorkBookExportMenu()}
         );
     }
 
@@ -1098,7 +1098,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
         java.util.Map<String, Object> parameterMap = inputParameters(tpl);
 
         try {
-            String fullPath = StableUtils.pathJoin(FRContext.getCurrentEnv().getPath(), newFile.getPath());
+            String fullPath = StableUtils.pathJoin(WorkContext.getCurrent().getPath(), newFile.getPath());
             FileOutputStream fileOutputStream = new FileOutputStream(fullPath);
             EmbeddedTableDataExporter exporter = new EmbeddedTableDataExporter();
             exporter.export(fileOutputStream, (WorkBook) tpl, parameterMap);

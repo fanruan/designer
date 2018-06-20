@@ -1,7 +1,6 @@
 package com.fr.design.data.tabledata.wrapper;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.Env;
 import com.fr.base.FRContext;
 import com.fr.base.TableData;
 import com.fr.data.impl.storeproc.ProcedureDataModel;
@@ -9,8 +8,8 @@ import com.fr.data.impl.storeproc.StoreProcedure;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.datapane.preview.PreviewTablePane;
 import com.fr.design.gui.itree.refreshabletree.ExpandMutableTreeNode;
-import com.fr.env.RemoteEnv;
 import com.fr.log.FineLoggerFactory;
+import com.fr.workspace.WorkContext;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -94,8 +93,7 @@ public final class StoreProcedureNameWrapper implements TableDataWrapper {
             return columnNameList;
         }
         columnNameList = new ArrayList<String>();
-        Env env = FRContext.getCurrentEnv();
-        if (env instanceof RemoteEnv) {
+        if (!WorkContext.getCurrent().isLocal()) {
             try {
                 createStore(false);
                 columnNameList = Arrays.asList(procedureDataModel.getColumnName());

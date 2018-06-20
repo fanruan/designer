@@ -13,7 +13,6 @@ import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.fun.DesignerEnvProcessor;
 import com.fr.design.gui.UILookAndFeel;
 import com.fr.design.mainframe.DesignerContext;
-import com.fr.env.RemoteEnv;
 import com.fr.file.FileFILE;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
@@ -21,13 +20,13 @@ import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
 import com.fr.general.http.HttpClient;
 import com.fr.log.FineLoggerFactory;
-import com.fr.security.JwtUtils;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.CodeUtils;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.start.ServerStarter;
+import com.fr.workspace.WorkContext;
 
 import javax.swing.*;
 import java.awt.*;
@@ -47,7 +46,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URI;
 import java.net.URLEncoder;
-import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.Locale;
 
@@ -299,18 +297,9 @@ public class DesignUtils {
             }
         }
         String postfixOfUri = (segs.length > 0 ? "?" + StableUtils.join(segs, "&") : StringUtils.EMPTY);
-
-        if (FRContext.getCurrentEnv() instanceof RemoteEnv) {
+    
+        if (!WorkContext.getCurrent().isLocal()) {
             try {
-                if (Utils.isEmbeddedParameter(postfixOfUri)) {
-                    String time = Calendar.getInstance().getTime().toString().replaceAll(" ", "");
-                    boolean isUserPrivilege = ((RemoteEnv) FRContext.getCurrentEnv()).writePrivilegeMap(time, postfixOfUri);
-                    postfixOfUri = isUserPrivilege ? postfixOfUri + "&fr_check_url=" + time + "&id=" + FRContext.getCurrentEnv().getUserID() : postfixOfUri;
-                }
-                // 加参数给远程设计校验权限。
-                String design = JwtUtils.createDefaultJWT(FRContext.getCurrentEnv().getUser());
-                postfixOfUri = postfixOfUri + "&design=" + design;
-
                 String urlPath = getWebBrowserPath();
                 Desktop.getDesktop().browse(new URI(urlPath + postfixOfUri));
             } catch (Exception e) {
@@ -330,7 +319,7 @@ public class DesignUtils {
     }
 
     private static String getWebBrowserPath() {
-        String urlPath = FRContext.getCurrentEnv().getPath();
+        String urlPath = WorkContext.getCurrent().getPath();
         DesignerEnvProcessor processor = ExtraDesignClassManager.getInstance().getSingle(DesignerEnvProcessor.XML_TAG);
         if (processor != null) {
             //cas访问的时候, url要处理下.

@@ -1,15 +1,13 @@
 package com.fr.design.widget;
 
-import com.fr.base.Env;
-import com.fr.base.FRContext;
+import com.fr.design.dialog.BasicDialog;
+import com.fr.design.dialog.BasicPane;
+import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.web.CustomIconPane;
-import com.fr.design.dialog.BasicDialog;
-import com.fr.design.dialog.BasicPane;
-import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.form.ui.WidgetInfoConfig;
 import com.fr.general.Inter;
 

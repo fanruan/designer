@@ -1,16 +1,12 @@
 package com.fr.design.actions.file;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.env.Callback;
-import com.fr.base.env.EnvUpdater;
-import com.fr.core.env.EnvConfig;
-import com.fr.core.env.impl.LocalEnvConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.tabledata.ResponseDataSourceChange;
-import com.fr.design.env.EnvGenerator;
-import com.fr.design.env.RemoteEnvConfig;
+import com.fr.design.env.DesignerWorkspaceGenerator;
+import com.fr.design.env.DesignerWorkspaceInfo;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
@@ -19,13 +15,13 @@ import com.fr.design.menu.KeySetUtils;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
 import com.fr.design.utils.DesignUtils;
-import com.fr.env.RemoteEnv;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
-import com.fr.log.FineLoggerFactory;
 import com.fr.stable.EnvChangedListener;
+import com.fr.workspace.WorkContext;
+import com.fr.workspace.WorkContextCallback;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
 import java.awt.event.ActionEvent;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -69,11 +65,16 @@ public class SwitchExistEnv extends MenuDef {
 
         public GetExistEnvAction(String envName) {
             this.setName(envName);
-            EnvConfig env = DesignerEnvManager.getEnvManager().getEnv(envName);
-            if (env instanceof LocalEnvConfig) {
-                this.setSmallIcon(BaseUtils.readIcon("com/fr/design/images/data/bind/localconnect.png"));
-            } else if (env instanceof RemoteEnvConfig) {
-                this.setSmallIcon(BaseUtils.readIcon("com/fr/design/images/data/bind/distanceconnect.png"));
+            DesignerWorkspaceInfo env = DesignerEnvManager.getEnvManager().getWorkspaceInfo(envName);
+            switch (env.getType()) {
+                case Local: {
+                    this.setSmallIcon(BaseUtils.readIcon("com/fr/design/images/data/bind/localconnect.png"));
+                    break;
+                }
+                case Remote: {
+                    this.setSmallIcon(BaseUtils.readIcon("com/fr/design/images/data/bind/distanceconnect.png"));
+                    break;
+                }
             }
         }
 
@@ -101,8 +102,8 @@ public class SwitchExistEnv extends MenuDef {
         public void actionPerformed(ActionEvent e) {
             DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
             final String envName = getName();
-            EnvConfig selectedEnv = envManager.getEnv(envName);
-            EnvUpdater.updateEnv(EnvGenerator.generate(selectedEnv), new Callback() {
+            DesignerWorkspaceInfo selectedEnv = envManager.getWorkspaceInfo(envName);
+            WorkContext.switchTo(DesignerWorkspaceGenerator.generate(selectedEnv), new WorkContextCallback() {
                 @Override
                 public void success() {
                     DesignerEnvManager.getEnvManager().setCurEnvName(envName);

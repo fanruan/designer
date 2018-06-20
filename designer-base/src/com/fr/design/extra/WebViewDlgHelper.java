@@ -44,7 +44,7 @@ public class WebViewDlgHelper {
     private static final String LATEST = "latest";
     private static final String SHOP_SCRIPTS = "shop_scripts";
     private static final int VERSION_8 = 8;
-    private static String installHome = FRContext.getCurrentEnv().getWebReportPath();
+    private static String installHome = FRContext.getCommonOperator().getWebRootPath();
     private static final String MAIN_JS_PATH = "/scripts/plugin.html";
     private static final String ENV_VERSION = "ENV_VERSION";
 
@@ -52,7 +52,7 @@ public class WebViewDlgHelper {
         GeneralContext.addEnvChangedListener(new EnvChangedListener() {
             @Override
             public void envChanged() {
-                installHome = FRContext.getCurrentEnv().getWebReportPath();
+                installHome = FRContext.getCommonOperator().getWebRootPath();
             }
         });
     }

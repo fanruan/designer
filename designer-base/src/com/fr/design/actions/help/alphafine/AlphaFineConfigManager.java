@@ -1,6 +1,5 @@
 package com.fr.design.actions.help.alphafine;
 
-import com.fr.base.FRContext;
 import com.fr.license.function.VT4FR;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.StringUtils;
@@ -75,7 +74,7 @@ public class AlphaFineConfigManager implements XMLable {
 
     public static boolean isALPHALicAvailable() {
     
-        return FRContext.getCurrentEnv() != null && VT4FR.AlphaFine.isSupport();
+        return VT4FR.AlphaFine.isSupport();
     }
 
     @Override

@@ -1,17 +1,15 @@
 package com.fr.design.gui.itree.filetree;
 
-import java.io.File;
-
-import javax.swing.Icon;
-import javax.swing.UIManager;
-import javax.swing.filechooser.FileSystemView;
-
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
-import com.fr.dav.LocalEnv;
 import com.fr.design.icon.LockIcon;
 import com.fr.file.filetree.FileNode;
 import com.fr.stable.StableUtils;
+import com.fr.workspace.WorkContext;
+
+import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
+import java.io.File;
 
 public class FileTreeIcon {
 	private FileTreeIcon() {}
@@ -117,8 +115,8 @@ public class FileTreeIcon {
     }
     
     public static Icon getIcon(FileNode node, boolean isShowLock) {
-        String path = StableUtils.pathJoin(new String[]{FRContext.getCurrentEnv().getPath(), node.getEnvPath()});
-        if (FRContext.getCurrentEnv() instanceof LocalEnv) {
+        String path = StableUtils.pathJoin(new String[]{WorkContext.getCurrent().getPath(), node.getEnvPath()});
+        if (WorkContext.getCurrent().isLocal()) {
             File ff = new File(path);
             if (ff.exists()) {
                 if(node.isDirectory()){

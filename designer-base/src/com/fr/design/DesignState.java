@@ -1,10 +1,8 @@
 package com.fr.design;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.Env;
-import com.fr.base.FRContext;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
-import com.fr.env.RemoteEnv;
+import com.fr.workspace.WorkContext;
 
 /**
  * Created by IntelliJ IDEA.
@@ -41,11 +39,10 @@ public class DesignState {
 
     public DesignState(ToolBarMenuDockPlus plus) {
         designState = plus.getMenuState();
-        Env env = FRContext.getCurrentEnv();
-        if (env != null && env instanceof RemoteEnv) {
-            designState += REMOTE;
-        }
-        isRoot = env != null && env.isRoot();
+//        if (WorkContext.getCurrent().isLocal()) {
+//            designState += REMOTE;
+//        }
+//        isRoot = env != null && env.isRoot();
         isAuthority = BaseUtils.isAuthorityEditing();
     }
 

@@ -4,7 +4,6 @@
 
 package com.fr.design.actions.file;
 
-import com.fr.base.Env;
 import com.fr.base.FRContext;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.frpane.UITabbedPane;
@@ -18,6 +17,7 @@ import com.fr.stable.ArrayUtils;
 import com.fr.stable.StableUtils;
 import com.fr.stable.bridge.StableFactory;
 import com.fr.stable.project.ProjectConstants;
+import com.fr.workspace.WorkContext;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -181,11 +181,8 @@ public class LocalePane extends BasicPane {
     }
 
     private void initCustomProperties() throws Exception {
-        Env env = FRContext.getCurrentEnv();
-        if (env == null) {
-            return;
-        }
-        FileNode[] fileNodes = env.getFileOperator().list(ProjectConstants.LOCALE_NAME);
+    
+        FileNode[] fileNodes = FRContext.getFileNodes().list(ProjectConstants.LOCALE_NAME);
         if (ArrayUtils.getLength(fileNodes) == 0) {
             return;
         }
@@ -196,7 +193,7 @@ public class LocalePane extends BasicPane {
         for (FileNode fileNode : fileNodes) {
             String fileName = fileNode.getName();
             if (fileName.endsWith(".properties")) {
-                InputStream in = new ByteArrayInputStream(env.getFileOperator().read(StableUtils.pathJoin(ProjectConstants.LOCALE_NAME, fileName)));
+                InputStream in = new ByteArrayInputStream(WorkContext.getWorkResource().readFully(StableUtils.pathJoin(ProjectConstants.LOCALE_NAME, fileName)));
                 Properties properties = new Properties();
                 properties.load(in);
                 keys.addAll(properties.stringPropertyNames());
@@ -209,8 +206,8 @@ public class LocalePane extends BasicPane {
         for (String key : sortKeys) {
             Vector<String> vector = new Vector<String>();
             vector.add(key);
-            for (int i = 0; i < list.size(); i ++) {
-                vector.add(list.get(i).getProperty(key));
+            for (Properties aList : list) {
+                vector.add(aList.getProperty(key));
             }
             customTableModel.addRow(vector);
         }
@@ -221,8 +218,8 @@ public class LocalePane extends BasicPane {
 	 * 
 	 */
     public void save() {
-        Env env = FRContext.getCurrentEnv();
-        if (env == null) {
+    
+        if (WorkContext.getCurrent() == null) {
             return;
         }
         if (customTable.getCellEditor() == null) {
@@ -235,17 +232,17 @@ public class LocalePane extends BasicPane {
             for (int j = 0, rowCount = customTableModel.getRowCount(); j < rowCount; j ++) {
                 properties.setProperty(GeneralUtils.objectToString(customTableModel.getValueAt(j, 0)), GeneralUtils.objectToString(customTableModel.getValueAt(j, i)));
             }
-
-//            OutputStream out = null;
-//            try {
-//                out = env.writeBean(PREFIX + fileName + ".properties", ProjectConstants.LOCALE_NAME);
-//                properties.store(out, null);
-//
-//                out.flush();
-//                out.close();
-//            } catch (Exception e) {
-//                FineLoggerFactory.getLogger().info(e.getMessage());
-//            }
+    
+            OutputStream out = null;
+            try {
+                out = FRContext.getCommonOperator().writeBean(PREFIX + fileName + ".properties", ProjectConstants.LOCALE_NAME);
+                properties.store(out, null);
+        
+                out.flush();
+                out.close();
+            } catch (Exception e) {
+                FineLoggerFactory.getLogger().info(e.getMessage());
+            }
         }
     }
 

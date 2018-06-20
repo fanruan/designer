@@ -1,12 +1,9 @@
 package com.fr.env;
 
-import com.fr.base.FRContext;
-import com.fr.core.env.resource.EnvConfigUtils;
-import com.fr.design.env.RemoteEnvConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.border.UITitledBorder;
-import com.fr.design.dialog.InformationWarnPane;
+import com.fr.design.env.RemoteDesignerWorkspaceInfo;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
@@ -15,18 +12,21 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.scrollruler.ModLineBorder;
-import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
-import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
+import com.fr.third.guava.base.Strings;
+import com.fr.workspace.WorkContext;
+import com.fr.workspace.connect.WorkspaceConnection;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
@@ -35,6 +35,7 @@ import javax.swing.event.DocumentListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Toolkit;
@@ -43,17 +44,27 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
+import java.util.concurrent.ExecutionException;
 
 import static com.fr.design.layout.TableLayout.FILL;
 import static com.fr.design.layout.TableLayout.PREFERRED;
+import static com.fr.third.guava.base.Optional.fromNullable;
 
 /**
  * @author yaohwu
  */
-public class RemoteEnvPane extends BasicBeanPane<RemoteEnvConfig> {
+public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
 
     private static final Color TIPS_FONT_COLOR = new Color(0x8f8f92);
+
+    private JDialog dialog;
+    private UILabel message = new UILabel();
+    private UIButton okButton = new UIButton(Inter.getLocText("OK"));
+    private UIButton cancelButton = new UIButton(Inter.getLocText("Cancel"));
+    ;
 
     /**
      * 是否启用 https 勾选框
@@ -194,7 +205,7 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteEnvConfig> {
 
 
         // 服务器地址地址
-        JPanel configPanel = new JPanel(new BorderLayout());
+        final JPanel configPanel = new JPanel(new BorderLayout());
         configPanel.setBorder(
                 BorderFactory.createCompoundBorder(
                         new EmptyBorder(15, 0, 0, 0),
@@ -236,9 +247,7 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteEnvConfig> {
         testConnectionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ev) {
-                if (testConnection()) {
-                    JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(RemoteEnvPane.this), Inter.getLocText("Datasource-Connection_successfully"));
-                }
+                tryConnectRemoteEnv();
             }
         });
         testPanel.add(testConnectionButton);
@@ -253,36 +262,37 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteEnvConfig> {
     }
 
     @Override
-    public void populateBean(RemoteEnvConfig ob) {
-
-        if (StringUtils.isEmpty(ob.getPath())) {
-            remoteEnvURL = RemoteEnvURL.createDefaultURL();
-        } else {
-            remoteEnvURL = new RemoteEnvURL(ob.getPath());
+    public void populateBean(RemoteDesignerWorkspaceInfo ob) {
+        WorkspaceConnection connection = ob.getConnection();
+        if (connection != null) {
+            this.remoteEnvURL = Strings.isNullOrEmpty(connection.getUrl())
+                    ? RemoteEnvURL.createDefaultURL()
+                    : new RemoteEnvURL(connection.getUrl());
+            String username = fromNullable(connection.getUserName()).or(StringUtils.EMPTY);
+            String pwd = fromNullable(connection.getPassword()).or(StringUtils.EMPTY);
+            this.usernameInput.setText(username);
+            this.passwordInput.setText(pwd);
         }
+
         fillRemoteEnvURLField();
         fillIndividualField();
-        httpsCheckbox.setSelected(remoteEnvURL.getHttps());
+        httpsCheckbox.setSelected(this.remoteEnvURL.getHttps());
 
-        DesignerEnvManager.getEnvManager().setHttps(remoteEnvURL.getHttps());
-        fileChooserButton.setEnabled(remoteEnvURL.getHttps());
+        DesignerEnvManager.getEnvManager().setHttps(this.remoteEnvURL.getHttps());
+        fileChooserButton.setEnabled(this.remoteEnvURL.getHttps());
         updateHttpsConfigPanel();
 
-        String username = EnvConfigUtils.getUsername(ob);
-        String pwd = EnvConfigUtils.getPassword(ob);
-        this.usernameInput.setText(username == null ? StringUtils.EMPTY : pwd);
-        this.passwordInput.setText(ob.getPassword() == null ? StringUtils.EMPTY : ob.getPassword());
+
     }
 
     @Override
-    public RemoteEnvConfig updateBean() {
+    public RemoteDesignerWorkspaceInfo updateBean() {
+        WorkspaceConnection connection = new WorkspaceConnection(
+                this.remoteEnvURL.getURL(),
+                this.usernameInput.getText(),
+                new String(this.passwordInput.getPassword()));
 
-        String path = remoteEnvURL.getURL();
-        String user = this.usernameInput.getText();
-        String password = new String(this.passwordInput.getPassword());
-        return null;
-
-        //return new RemoteEnvConfig(path, user, password);
+        return RemoteDesignerWorkspaceInfo.create(connection);
     }
 
     @Override
@@ -460,51 +470,79 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteEnvConfig> {
         return inputPanel;
     }
 
+    private void tryConnectRemoteEnv() {
+        final SwingWorker<Boolean, Void> worker = new SwingWorker<Boolean, Void>() {
 
-    private void setHttpsParas() {
-        System.setProperty("javax.net.ssl.trustStore", this.certPathInput.getText());
-        System.setProperty("javax.net.ssl.trustStorePassword", new String(this.certSecretKeyInput.getPassword()));
-        DesignerEnvManager manager = DesignerEnvManager.getEnvManager();
-        manager.setCertificatePath(this.certPathInput.getText());
-        manager.setCertificatePass(new String(this.certSecretKeyInput.getPassword()));
-        manager.setHttps(this.httpsCheckbox.isSelected());
+            @Override
+            protected Boolean doInBackground() throws Exception {
+
+                final RemoteDesignerWorkspaceInfo remoteEnv = updateBean();
+                return WorkContext.getConnector().testConnection(remoteEnv.getConnection());
+            }
+
+            @Override
+            protected void done() {
+                okButton.setEnabled(true);
+                try {
+                    if (get()) {
+                        message.setText(Inter.getLocText("Fine-Designer_Basic_Remote_Connect_Successful"));
+                    } else {
+                        message.setText(Inter.getLocText("Fine-Designer_Basic_Remote_Connect_Failed"));
+                    }
+                } catch (InterruptedException | ExecutionException e) {
+                    message.setText(Inter.getLocText("Fine-Designer_Basic_Remote_Connect_Failed"));
+                }
+            }
+        };
+        worker.execute();
+        initMessageDialog();
+        okButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dialog.dispose();
+            }
+        });
+        cancelButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dialog.dispose();
+                worker.cancel(true);
+            }
+        });
+
+        dialog.addWindowListener(new WindowAdapter() {
+            public void windowClosed(WindowEvent e) {
+                worker.cancel(true);
+            }
+        });
+
+        dialog.setVisible(true);
+        dialog.dispose();
     }
 
-    private boolean testConnection() {
-        String url = remoteEnvURL.getURL();
-        //RemoteEnv env = new RemoteEnv(url, usernameInput.getText(), new String(passwordInput.getPassword()));
-        RemoteEnv env = null;
-        boolean connect = false;
-        try {
-            if (StringUtils.isNotEmpty(url)) {
-                if (remoteEnvURL.getHttps()) {
-                    setHttpsParas();
-                }
-                connect = env.testConnectionWithOutRegisteServer(this);
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    Inter.getLocText("Datasource-Connection_failed"),
-                    UIManager.getString("OptionPane.messageDialogTitle", this.getLocale()),
-                    JOptionPane.ERROR_MESSAGE
-            );
-            FRContext.getLogger().error(e.getMessage(), e);
-        }
-        if (connect) {
-            try {
-                String remoteVersion = env.getDesignerVersion();
-                if (StringUtils.isBlank(remoteVersion) || ComparatorUtils.compare(remoteVersion, ProductConstants.DESIGNER_VERSION) < 0) {
-                    String info = Inter.getLocText("Server-version-tip") + "。";
-                    String moreInfo = Inter.getLocText("Server-version-tip-moreInfo") + "。";
-                    new InformationWarnPane(info, moreInfo, Inter.getLocText("Tooltips")).show();
-                    return false;
-                }
-            } catch (Exception e) {
-                FRContext.getLogger().error(e.getMessage(), e);
-            }
-        }
-        return connect;
+    private void initMessageDialog() {
+        message.setText(Inter.getLocText("Fine-Designer_Basic_Remote_Env_Try") + "...");
+        message.setBorder(BorderFactory.createEmptyBorder(8, 5, 0, 0));
+        okButton.setEnabled(false);
+
+        dialog = new JDialog((Dialog) SwingUtilities.getWindowAncestor(RemoteEnvPane.this), Inter.getLocText("Datasource-Test_Connection"), true);
+
+        dialog.setSize(new Dimension(268, 118));
+        okButton.setEnabled(false);
+        JPanel jp = new JPanel();
+        JPanel upPane = new JPanel();
+        JPanel downPane = new JPanel();
+        UILabel uiLabel = new UILabel(UIManager.getIcon("OptionPane.informationIcon"));
+        upPane.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
+        upPane.add(uiLabel);
+        upPane.add(message);
+        downPane.setLayout(new FlowLayout(FlowLayout.CENTER, 6, 0));
+        downPane.add(okButton);
+        downPane.add(cancelButton);
+        jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS));
+        jp.add(upPane);
+        jp.add(downPane);
+        dialog.add(jp);
+        dialog.setResizable(false);
+        dialog.setLocationRelativeTo(SwingUtilities.getWindowAncestor(RemoteEnvPane.this));
     }
 
     /**

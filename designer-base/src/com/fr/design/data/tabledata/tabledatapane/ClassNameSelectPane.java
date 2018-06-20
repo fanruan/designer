@@ -1,18 +1,14 @@
 package com.fr.design.data.tabledata.tabledatapane;
 
-import java.awt.BorderLayout;
-
-import javax.swing.BorderFactory;
+import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ilable.UILabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.tree.TreeSelectionModel;
-
-import com.fr.base.FRContext;
 import com.fr.design.gui.itree.filetree.ClassFileTree;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.dialog.BasicPane;
 import com.fr.general.Inter;
+
+import javax.swing.*;
+import javax.swing.tree.TreeSelectionModel;
+import java.awt.*;
 
 public class ClassNameSelectPane extends BasicPane {
     private ClassFileTree classFileTree;
@@ -27,7 +23,7 @@ public class ClassNameSelectPane extends BasicPane {
                 Inter.getLocText("Function-Choose_Function_Class") + ":"));
 
         classFileTree = new ClassFileTree();
-        classFileTree.refreshEnv(FRContext.getCurrentEnv());
+        classFileTree.refreshEnv();
         classFileTree.getSelectionModel().setSelectionMode(
                 TreeSelectionModel.SINGLE_TREE_SELECTION);
         this.add(new JScrollPane(classFileTree), BorderLayout.CENTER);

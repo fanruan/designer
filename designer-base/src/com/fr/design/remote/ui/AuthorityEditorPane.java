@@ -1,6 +1,5 @@
 package com.fr.design.remote.ui;
 
-import com.fr.base.FRContext;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.border.UITitledBorder;
 import com.fr.design.gui.icontainer.UIScrollPane;
@@ -13,10 +12,10 @@ import com.fr.general.Inter;
 import com.fr.report.DesignAuthority;
 import com.fr.stable.CoreConstants;
 
-import javax.swing.BorderFactory;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.tree.TreePath;
-import java.awt.BorderLayout;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +39,7 @@ public class AuthorityEditorPane extends BasicBeanPane<DesignAuthority> {
         tree.setDigIn(true);
         tree.setFileNodeFilter(filter);
         this.add(new UIScrollPane(tree), BorderLayout.CENTER);
-        tree.refreshEnv(FRContext.getCurrentEnv());
+        tree.refreshEnv();
 
     }
 

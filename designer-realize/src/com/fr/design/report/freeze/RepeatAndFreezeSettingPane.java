@@ -1,13 +1,5 @@
 package com.fr.design.report.freeze;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
 import com.fr.base.FRContext;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.extra.WebViewDlgHelper;
@@ -15,12 +7,19 @@ import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.ActionLabel;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.env.RemoteEnv;
 import com.fr.general.Inter;
 import com.fr.page.ReportPageAttrProvider;
 import com.fr.stable.ColumnRow;
 import com.fr.stable.FT;
 import com.fr.stable.bridge.StableFactory;
+import com.fr.workspace.WorkContext;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Sets Report Page Attributes
@@ -244,7 +243,8 @@ public class RepeatAndFreezeSettingPane extends BasicPane {
     }
 
     private boolean shouldShowTip() {
-        return !(FRContext.getCurrentEnv() instanceof RemoteEnv) && FRContext.isChineseEnv();
+    
+        return WorkContext.getCurrent().isLocal() && FRContext.isChineseEnv();
     }
 
     protected void initWriteListener() {

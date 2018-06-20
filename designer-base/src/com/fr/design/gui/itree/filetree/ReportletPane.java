@@ -1,23 +1,18 @@
 package com.fr.design.gui.itree.filetree;
 
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-
-import com.fr.base.Env;
 import com.fr.base.FRContext;
+import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.itextarea.UITextArea;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.dialog.BasicPane;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.file.filetree.IOFileNodeFilter;
 import com.fr.general.Inter;
-import com.fr.design.utils.gui.GUICoreUtils;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ReportletPane extends BasicPane {
     private TemplateFileTree templateReportletTree;
@@ -60,8 +55,8 @@ public class ReportletPane extends BasicPane {
         cardPane.add(t_panel = new JScrollPane(templateReportletTree), "TEMPLATE");
         classReportletTree = new ClassFileTree();
         cardPane.add(c_panel = new JScrollPane(classReportletTree), "CLASS");
-
-        this.refreshEnv(FRContext.getCurrentEnv());
+    
+        this.refreshEnv();
     }
 
     /*
@@ -92,11 +87,11 @@ public class ReportletPane extends BasicPane {
 
     /**
      * 刷新Env
-     * @param env   环境
      */
-    public void refreshEnv(Env env) {
-        this.templateReportletTree.refreshEnv(env);
-        this.classReportletTree.refreshEnv(env);
+    public void refreshEnv() {
+    
+        this.templateReportletTree.refreshEnv();
+        this.classReportletTree.refreshEnv();
     }
 
     @Override

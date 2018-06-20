@@ -81,7 +81,7 @@ public class EditReportServerParameterPane extends LoadingBasicPane {
 
     public void populate(ServerPreferenceConfig reportServerPreferenceConfig) {
         //todo 原来界面上显示的xml路径
-//        this.configFileTextField.setText(FRContext.getCurrentEnv().getPath() + File.separator +
+//        this.configFileTextField.setText(WorkContext.getCurrent().getPath() + File.separator +
 //                ProjectConstants.RESOURCES_NAME +
 //                File.separator + reportServerPreferenceConfig.fileName());
 

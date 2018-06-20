@@ -2,13 +2,13 @@ package com.fr.start.server;
 
 import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
-import com.fr.event.EventDispatcher;
 import com.fr.log.FineLoggerFactory;
 import com.fr.module.Activator;
 import com.fr.module.ModuleRole;
 import com.fr.startup.FineWebApplicationInitializer;
 import com.fr.third.springframework.web.SpringServletContainerInitializer;
 import com.fr.third.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import com.fr.workspace.WorkContext;
 import org.apache.catalina.Context;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.Wrapper;
@@ -55,8 +55,8 @@ public class FineEmbedServerActivator extends Activator {
         tomcat = new Tomcat();
         
         tomcat.setPort(DesignerEnvManager.getEnvManager().getEmbedServerPort());
-        String docBase = new File(FRContext.getCurrentEnv().getPath()).getParent();
-        String appName = "/" + FRContext.getCurrentEnv().getAppName();
+        String docBase = new File(WorkContext.getCurrent().getPath()).getParent();
+        String appName = "/" + FRContext.getCommonOperator().getAppName();
         Context context = tomcat.addContext(appName, docBase);
         addDefaultServlet(context);
         //覆盖tomcat的WebAppClassLoader

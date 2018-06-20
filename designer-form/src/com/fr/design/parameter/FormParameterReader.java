@@ -17,7 +17,7 @@ public class FormParameterReader extends AbstractParameterReader {
     public Parameter[] readParameterFromPath(String tplPath) {
         if (accept(tplPath, ".frm", ".form")) {
             try {
-                Form form = FormIO.readForm(FRContext.getCurrentEnv(), tplPath);
+                Form form = FormIO.readForm(tplPath);
                 return form.getParameters();
             } catch (Exception e1) {
                 FRContext.getLogger().error(e1.getMessage(), e1);

@@ -10,7 +10,6 @@ import com.fr.data.core.db.dialect.DialectFactory;
 import com.fr.data.impl.Connection;
 import com.fr.data.impl.DBTableData;
 import com.fr.data.operator.DataOperator;
-import com.fr.dav.LocalEnv;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.data.DesignTableDataManager;
@@ -37,6 +36,7 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
+import com.fr.workspace.WorkContext;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -463,7 +463,7 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
         // 显示Table数据.
 
         TableData tableData = null;
-        if (FRContext.getCurrentEnv() instanceof LocalEnv) {
+        if (WorkContext.getCurrent().isLocal()) {
             tableData = new DBTableData(database, DataCoreUtils.createSelectSQL(paras.getSchemaName(), paras.getTableName(),
                     DialectFactory.getDialectByName(paras.getDatabaseName())));
         } else {

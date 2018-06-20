@@ -2,17 +2,15 @@ package com.fr.start;
 
 import com.fr.base.FRContext;
 import com.fr.base.ServerConfig;
-import com.fr.base.env.EnvUpdater;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.data.datapane.TableDataTreePane;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
-import com.fr.design.env.EnvGenerator;
+import com.fr.design.env.DesignerWorkspaceGenerator;
 import com.fr.design.file.TemplateTreePane;
 import com.fr.design.gui.itextarea.UITextArea;
 import com.fr.design.mainframe.DesignerContext;
-import com.fr.env.RemoteEnv;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
@@ -22,6 +20,7 @@ import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.start.server.FineEmbedServer;
+import com.fr.workspace.WorkContext;
 
 import javax.swing.*;
 import java.awt.*;
@@ -37,8 +36,9 @@ public class ServerStarter {
      */
     public static void browserDemoURL() {
     
-        if (FRContext.getCurrentEnv() instanceof RemoteEnv) {
-            browser(FRContext.getCurrentEnv().getPath());
+        if (!WorkContext.getCurrent().isLocal()) {
+            //有问题，这里拿不到远程的http端口
+            browser(WorkContext.getCurrent().getPath());
             return;
         }
         if (ComparatorUtils.equals(StableUtils.getInstallHome(), ".")) {//august:供代码使用
@@ -54,7 +54,7 @@ public class ServerStarter {
                 @Override
                 public void doOk() {
                     try {
-                        EnvUpdater.updateEnv(EnvGenerator.generate(DesignerEnvManager.getEnvManager().getDefaultEnv()));
+                        WorkContext.switchTo(DesignerWorkspaceGenerator.generate(DesignerEnvManager.getEnvManager().getDefaultConfig()));
                         TemplateTreePane.getInstance().refreshDockingView();
                         TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter());
                     } catch (Exception e) {

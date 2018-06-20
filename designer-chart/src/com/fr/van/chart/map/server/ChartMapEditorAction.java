@@ -1,7 +1,5 @@
 package com.fr.van.chart.map.server;
 
-import com.fr.base.Env;
-import com.fr.base.FRContext;
 import com.fr.base.ServerConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.UpdateAction;
@@ -9,6 +7,7 @@ import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.start.ServerStarter;
+import com.fr.workspace.WorkContext;
 
 import java.awt.event.ActionEvent;
 
@@ -26,8 +25,7 @@ public class ChartMapEditorAction extends UpdateAction {
         int port = DesignerEnvManager.getEnvManager().getEmbedServerPort();
         String web = GeneralContext.getCurrentAppNameOfEnv();
         String serverlet = ServerConfig.getInstance().getReportServletName();
-        Env env = FRContext.getCurrentEnv();
-        ServerStarter.browserURLWithLocalEnv(env.isLocalEnv() ? String.format("http://localhost:%d/%s/%s?op=map", port, web, serverlet) : env.getPath() + "?op=map");
+        ServerStarter.browserURLWithLocalEnv(WorkContext.getCurrent().isLocal() ? String.format("http://localhost:%d/%s/%s?op=map", port, web, serverlet) : WorkContext.getCurrent().getPath() + "?op=map");
     }
 
 }

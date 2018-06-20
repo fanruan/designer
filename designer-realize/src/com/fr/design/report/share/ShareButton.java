@@ -23,11 +23,21 @@ import com.fr.general.SiteCenter;
 import com.fr.io.exporter.ImageExporter;
 import com.fr.main.TemplateWorkBook;
 import com.fr.main.workbook.ResultWorkBook;
-import com.fr.stable.*;
+import com.fr.stable.ActorConstants;
+import com.fr.stable.ActorFactory;
+import com.fr.stable.ArrayUtils;
+import com.fr.stable.Nameable;
+import com.fr.stable.StableUtils;
+import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
+import com.fr.workspace.WorkContext;
 
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.net.URI;
@@ -84,7 +94,7 @@ public class ShareButton extends UIButton{
 	//获取默认导出图片位置
 	private String getImagePath(JTemplate<?, ?> jt){
 		FILE file = jt.getEditingFILE();
-		String envPath = FRContext.getCurrentEnv().getPath();
+		String envPath = WorkContext.getCurrent().getPath();
 		String folderPath = file.getParent().getPath();
 		String imageName = file.getName().replaceAll(ProjectConstants.CPT_SUFFIX, StringUtils.EMPTY) + ".png";
 		

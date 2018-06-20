@@ -1,6 +1,5 @@
 package com.fr.design.mainframe.errorinfo;
 
-import com.fr.base.FRContext;
 import com.fr.base.io.IOFile;
 import com.fr.base.io.XMLReadHelper;
 import com.fr.config.MarketConfig;
@@ -18,6 +17,7 @@ import com.fr.third.apache.log4j.Level;
 import com.fr.third.apache.log4j.spi.LoggingEvent;
 import com.fr.web.core.SessionDealWith;
 import com.fr.web.core.SessionIDInfor;
+import com.fr.workspace.WorkContext;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -134,7 +134,7 @@ public class ErrorInfoLogAppender extends AppenderSkeleton {
             }
         };
         try {
-            file.readStream(new ByteArrayInputStream(FRContext.getCurrentEnv().getFileOperator().read(StableUtils.pathJoin(ProjectConstants.REPORTLETS_NAME, bookPath))));
+            file.readStream(new ByteArrayInputStream(WorkContext.getWorkResource().readFully(StableUtils.pathJoin(ProjectConstants.REPORTLETS_NAME, bookPath))));
             return file.getTemplateID();
         } catch (Exception ignore) {
         }
