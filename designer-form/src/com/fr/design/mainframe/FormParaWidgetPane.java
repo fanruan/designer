@@ -318,8 +318,8 @@ public class FormParaWidgetPane extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 initWidgetTypePopUp();
                 widgetTypePopupMenu.show(FormParaWidgetPane.this,
-                        (int) jSeparatorChart.getLocation().getX() + BORDER,
-                        (int) jSeparatorChart.getLocation().getY());
+                        (int) jSeparatorLayout.getLocation().getX() + BORDER,
+                        (int) jSeparatorLayout.getLocation().getY());
             }
 
         });

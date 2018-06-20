@@ -3,5 +3,10 @@
 .DS_Store
 .classpath
 .project
+target/
+${web-inf-path}/
+assets/
+lib/
+logs/
 
 

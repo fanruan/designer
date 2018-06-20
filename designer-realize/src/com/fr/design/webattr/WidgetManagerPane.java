@@ -15,21 +15,12 @@ import java.awt.*;
 import java.io.File;
 
 public class WidgetManagerPane extends LoadingBasicPane {
-	private UITextField widgetTextField;
+
 	private WidgetConfigPane widgetConfigPane;
 
     @Override
 	protected void initComponents(JPanel container) {
         container.setLayout(FRGUIPaneFactory.createBorderLayout());
-
-		JPanel widgetPathPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
-		container.add(widgetPathPane, BorderLayout.NORTH);
-
-
-		widgetPathPane.add(new UILabel(Inter.getLocText("FR-Designer_Save_Path") + ":"), BorderLayout.WEST);
-		this.widgetTextField = new UITextField();
-		widgetPathPane.add(widgetTextField, BorderLayout.CENTER);
-		this.widgetTextField.setEditable(false);
 
 		widgetConfigPane = new WidgetConfigPane();
 		container.add(widgetConfigPane, BorderLayout.CENTER);
