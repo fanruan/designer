@@ -1,6 +1,6 @@
 package com.fr.design.mainframe.widget.wrappers;
 
-import com.fr.base.iofileattr.WatermarkAttr;
+import com.fr.base.iofile.attr.WatermarkAttr;
 import com.fr.design.Exception.ValidationException;
 import com.fr.design.designer.properties.Decoder;
 import com.fr.design.designer.properties.Encoder;

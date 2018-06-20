@@ -4,7 +4,7 @@
 package com.fr.design.designer.creator.cardlayout;
 
 import com.fr.base.GraphHelper;
-import com.fr.base.iofileattr.SharableAttrMark;
+import com.fr.base.iofile.attr.SharableAttrMark;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;

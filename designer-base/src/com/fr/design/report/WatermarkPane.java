@@ -1,6 +1,6 @@
 package com.fr.design.report;
 
-import com.fr.base.iofileattr.WatermarkAttr;
+import com.fr.base.iofile.attr.WatermarkAttr;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.formula.TinyFormulaPane;
 import com.fr.design.gui.icombobox.UIComboBox;
