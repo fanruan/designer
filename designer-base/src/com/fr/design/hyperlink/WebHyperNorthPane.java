@@ -2,7 +2,7 @@ package com.fr.design.hyperlink;
 
 import com.fr.config.ServerPreferenceConfig;
 import com.fr.design.constants.LayoutConstants;
-import com.fr.design.gui.itextarea.UITextArea;
+
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
@@ -11,8 +11,9 @@ import com.fr.js.WebHyperlink;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+
 
 /**
  * chart 网页链接 定义属性 target url 特征的 界面
@@ -22,7 +23,7 @@ import java.awt.*;
 public class WebHyperNorthPane extends AbstractHyperNorthPane<WebHyperlink> {
     private UITextField itemNameTextField;
     private boolean needRenamePane = false;
-    private UITextArea urlTextField;
+    private UITextField urlTextField;
 
     public WebHyperNorthPane(boolean needRenamePane) {
         this.needRenamePane = needRenamePane;
@@ -46,9 +47,11 @@ public class WebHyperNorthPane extends AbstractHyperNorthPane<WebHyperlink> {
     protected JPanel setHeaderPanel() {
         JPanel headerPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
 
-        urlTextField = new UITextArea(1,headerPane.getWidth());
+        urlTextField = new UITextField(43);
         urlTextField.setText(ProductConstants.WEBSITE_URL);
 
+
+        //UILabel label = new UILabel(Inter.getLocText(new String[]{"Example","Or"}, new String[]{":http://www.baidu.com","/main.jsp"}));
         JPanel urlWithHelp = GUICoreUtils.createNamedPane(urlTextField, "URL:");
 
         if (this.needRenamePane) {
