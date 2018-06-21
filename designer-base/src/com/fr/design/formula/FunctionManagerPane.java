@@ -33,22 +33,10 @@ import java.util.List;
 
 public class FunctionManagerPane extends BasicPane {
 
-    private UITextField functionTextField;
     private FunctionControlPane functionControlPane;
 
     public FunctionManagerPane() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
-
-        //path pane
-        JPanel datasourcePathPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
-        this.add(datasourcePathPane, BorderLayout.NORTH);
-
-
-        datasourcePathPane.add(new UILabel(Inter.getLocText(
-            "Function-Function_File") + ":"), BorderLayout.WEST);
-        this.functionTextField = new UITextField();
-        datasourcePathPane.add(this.functionTextField, BorderLayout.CENTER);
-        this.functionTextField.setEditable(false);
 
         functionControlPane = new FunctionControlPane();
         this.add(functionControlPane, BorderLayout.CENTER);

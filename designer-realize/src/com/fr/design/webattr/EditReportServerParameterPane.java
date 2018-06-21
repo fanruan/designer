@@ -24,7 +24,6 @@ import java.awt.*;
  * Edit Report Server Parameter.
  */
 public class EditReportServerParameterPane extends LoadingBasicPane {
-    private UITextField configFileTextField;
 
     private UITabbedPane tabbedPane;
 
@@ -50,17 +49,6 @@ public class EditReportServerParameterPane extends LoadingBasicPane {
         JPanel defaultPane = container;
         defaultPane.setLayout(FRGUIPaneFactory.createBorderLayout());
 
-        //path pane
-        JPanel datasourcePathPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        defaultPane.add(datasourcePathPane, BorderLayout.NORTH);
-        
-        datasourcePathPane.add(GUICoreUtils.createFlowPane(new Component[] {
-        		new UILabel(Inter.getLocText(
-                "ReportServerP-Report_server_parameter") + ":"),
-                (this.configFileTextField = new UITextField(40))
-        }, FlowLayout.LEFT), BorderLayout.WEST);
-        
-        this.configFileTextField.setEditable(false);
         //Tabbed Pane
         tabbedPane = new UITabbedPane();
         defaultPane.add(tabbedPane, BorderLayout.CENTER);

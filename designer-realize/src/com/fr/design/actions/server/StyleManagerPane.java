@@ -12,19 +12,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class StyleManagerPane extends BasicPane {
-	private UITextField StyleTextField;
 	private StyleArrayPane styleArrayPane;
 	
 	public StyleManagerPane(){
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
-		
-		JPanel stylePathPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
-		this.add(stylePathPane, BorderLayout.NORTH);
-		
-		stylePathPane.add(new UILabel(Inter.getLocText("FR-Designer_Save_Path") + ":"), BorderLayout.WEST);
-		this.StyleTextField = new UITextField();
-		stylePathPane.add(StyleTextField, BorderLayout.CENTER);
-		this.StyleTextField.setEditable(false);
 		
 		styleArrayPane = new StyleArrayPane();
 		this.add(styleArrayPane, BorderLayout.CENTER);

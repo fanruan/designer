@@ -13,20 +13,10 @@ import java.awt.*;
 
 
 public class ParameterManagerPane extends BasicPane {
-    private UITextField parameterTextField;
     private ParameterArrayPane parameterArrayPane;
 
     public ParameterManagerPane() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
-
-        JPanel parameterPathPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
-        this.add(parameterPathPane, BorderLayout.NORTH);
-
-
-        parameterPathPane.add(new UILabel(Inter.getLocText("FR-Designer_Save_Path") + ":"), BorderLayout.WEST);
-        this.parameterTextField = new UITextField();
-        parameterPathPane.add(parameterTextField, BorderLayout.CENTER);
-        this.parameterTextField.setEditable(false);
 
         parameterArrayPane = new ParameterArrayPane();
         this.add(parameterArrayPane, BorderLayout.CENTER);

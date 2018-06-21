@@ -12,21 +12,11 @@ import java.awt.*;
 import java.util.HashMap;
 
 public class ConnectionManagerPane extends LoadingBasicPane implements ConnectionShowPane {
-    private UITextField connectionTextField;
+
     private ConnectionListPane connectionListPane;
 
     protected void initComponents(JPanel container) {
         container.setLayout(FRGUIPaneFactory.createBorderLayout());
-
-        JPanel connectionPathPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
-        container.add(connectionPathPane, BorderLayout.NORTH);
-
-        connectionPathPane.setBorder(BorderFactory.createEmptyBorder(6, 2, 2, 2));
-
-        connectionPathPane.add(new UILabel(Inter.getLocText("FR-Designer_Save_Path") + ":"), BorderLayout.WEST);
-        this.connectionTextField = new UITextField();
-        connectionPathPane.add(connectionTextField, BorderLayout.CENTER);
-        this.connectionTextField.setEditable(false);
         connectionListPane = new ConnectionListPane() {
             protected void rename(String oldName, String newName) {
                 super.rename(oldName, newName);

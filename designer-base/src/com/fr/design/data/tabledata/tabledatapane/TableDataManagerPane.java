@@ -18,7 +18,6 @@ import java.util.Map;
 
 public class TableDataManagerPane extends LoadingBasicPane {
 
-	private UITextField tableDataTextField;
 	private TableDataPaneController tableDataPane;
 
 	@Override
@@ -29,14 +28,6 @@ public class TableDataManagerPane extends LoadingBasicPane {
 	private void initTableDataManagerPane(JPanel container) {
 		container.setLayout(FRGUIPaneFactory.createBorderLayout());
 
-		JPanel tableDataPathPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
-		container.add(tableDataPathPane, BorderLayout.NORTH);
-
-
-		tableDataPathPane.add(new UILabel(Inter.getLocText("FR-Designer_Save_Path") + ":"), BorderLayout.WEST);
-		this.tableDataTextField = new UITextField();
-		tableDataPathPane.add(tableDataTextField, BorderLayout.CENTER);
-		this.tableDataTextField.setEditable(false);
 		TableDataPaneProcessor paneProcessor = ExtraDesignClassManager.getInstance().getSingle(TableDataPaneProcessor.XML_TAG);
 		TableDataPaneController pane = null;
 		if (paneProcessor != null) {
