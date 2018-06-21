@@ -21,7 +21,9 @@ import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.gui.itoolbar.UILargeToolbar;
 import com.fr.design.mainframe.ActiveKeyGenerator;
+import com.fr.design.mainframe.CellElementPropertyPane;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.mainframe.DesignerFrameFileDealerPane;
 import com.fr.design.mainframe.InformationCollector;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.mainframe.JWorkBook;
@@ -38,6 +40,7 @@ import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.module.DesignerModule;
 import com.fr.design.utils.concurrent.ThreadFactoryBuilder;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.form.ui.WidgetInfoConfig;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
@@ -56,9 +59,14 @@ import com.fr.start.preload.ImagePreLoader;
 import com.fr.start.server.ServerTray;
 import com.fr.workspace.WorkContext;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.border.MatteBorder;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -127,6 +135,25 @@ public class Designer extends BaseDesigner {
             @Override
             public void run() {
                 TemplateInfoCollector.getInstance();
+            }
+        });
+
+        service.submit(new Runnable() {
+            @Override
+            public void run() {
+                CellElementPropertyPane.getInstance();
+            }
+        });
+        service.submit(new Runnable() {
+            @Override
+            public void run() {
+                DesignerFrameFileDealerPane.getInstance();//这边会涉及到TemplateTreePane
+            }
+        });
+        service.submit(new Runnable() {
+            @Override
+            public void run() {
+                WidgetInfoConfig.getInstance();
             }
         });
         service.shutdown();

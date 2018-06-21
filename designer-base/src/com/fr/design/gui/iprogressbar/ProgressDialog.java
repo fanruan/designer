@@ -1,0 +1,80 @@
+package com.fr.design.gui.iprogressbar;
+
+import com.fr.design.constants.UIConstants;
+import com.fr.design.dialog.UIDialog;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.general.FRFont;
+import com.fr.general.Inter;
+
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.plaf.ColorUIResource;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Frame;
+
+/**
+ * 加载进度弹窗
+ */
+public class ProgressDialog extends UIDialog {
+    private JProgressBar progressBar;
+    private JDialog centerDialog;
+    private JLabel text;
+
+    public ProgressDialog(Frame parent) {
+        super(parent);
+        setUndecorated(true);
+        setSize(parent.getSize());
+        setLocationRelativeTo(null);
+        setOpacity(0.5f);
+        initComponent();
+    }
+
+    private void initComponent() {
+
+        centerDialog = new JDialog(this);
+        centerDialog.setSize(new Dimension(482, 124));
+        centerDialog.setUndecorated(true);
+        GUICoreUtils.centerWindow(centerDialog);
+        JPanel panel = new JPanel();
+        panel.setBorder(new UIProgressBorder(3, UIConstants.DEFAULT_BG_RULER, 14, 46, 47, 37, 47));
+        panel.setLayout(new BorderLayout(4, 15));
+        progressBar = new JProgressBar();
+        progressBar.setUI(new ModernUIProgressBarUI());
+        progressBar.setBorderPainted(false);
+        progressBar.setOpaque(false);
+        progressBar.setBorder(null);
+        panel.add(progressBar, BorderLayout.CENTER);
+        text = new UILabel(Inter.getLocText("Fine-Designer_Loading_Project"), JLabel.CENTER);
+        FRFont font = FRFont.getInstance().applySize(14).applyForeground(new ColorUIResource(333334));
+        text.setFont(font);
+        panel.add(text, BorderLayout.SOUTH);
+        centerDialog.getContentPane().add(panel);
+
+    }
+
+    @Override
+    public void checkValid() throws Exception {
+
+    }
+
+    @Override
+    public void setVisible(boolean b) {
+        super.setVisible(b);
+        centerDialog.setVisible(b);
+        centerDialog.setResizable(false);
+    }
+
+    public void setProgressValue(int value) {
+        progressBar.setValue(value);
+    }
+
+    @Override
+    public void dispose() {
+        centerDialog.dispose();
+        super.dispose();
+    }
+}
