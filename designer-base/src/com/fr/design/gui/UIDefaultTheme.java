@@ -1,6 +1,7 @@
 package com.fr.design.gui;
 
 
+import com.fr.design.constants.UIConstants;
 import com.fr.design.utils.ThemeUtils;
 
 import javax.swing.*;
@@ -79,6 +80,8 @@ public class UIDefaultTheme extends DefaultMetalTheme {
         table.put("TableHeader.background", new ColorUIResource(229, 229, 229));
         table.put("ProgressBar.foreground", ThemeUtils.PROCESS_COLOR);
         table.put("ProgressBar.background", ThemeUtils.TEXT_BG_COLOR);
+        table.put("ProgressBar.modern.foreground", new ColorUIResource(0x3497FF));
+        table.put("ProgressBar.modern.background", UIConstants.PROPERTY_PANE_BACKGROUND);
         table.put("ProgressBar.selectionForeground", ThemeUtils.NORMAL_FOREGROUND);
         table.put("ProgressBar.selectionBackground", ThemeUtils.NORMAL_FOREGROUND);
         table.put("PopupMenu.background", ThemeUtils.NORMAL_BG);

@@ -9,7 +9,6 @@ import com.fr.stable.StableUtils;
 
 import javax.swing.JPanel;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -20,9 +19,9 @@ import java.util.concurrent.TimeUnit;
 public class UpdateActionManager {
     private static UpdateActionManager updateActionManager = null;
     private List<UpdateActionModel> updateActions;
-    private ExecutorService threadPoolExecutor = new ThreadPoolExecutor(
-            1, 1,
-            0L, TimeUnit.MILLISECONDS,
+    private ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
+            1, 2,
+            30000L, TimeUnit.MILLISECONDS,
             new LinkedBlockingQueue<Runnable>(),
             new ThreadFactoryBuilder().setNameFormat("alphafine-thread-%s").build());//目前测下来一个线程慢慢做处理总共大概也只要两秒,暂时就这样
 
@@ -57,6 +56,7 @@ public class UpdateActionManager {
     }
 
     public synchronized void dealWithSearchText(final String paneClass, final UpdateAction updateAction) {
+        threadPoolExecutor.allowCoreThreadTimeOut(true);
         threadPoolExecutor.execute(new Runnable() {
             @Override
             public void run() {

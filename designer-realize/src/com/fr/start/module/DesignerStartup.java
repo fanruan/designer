@@ -11,6 +11,9 @@ import com.fr.startup.activators.BasicActivator;
 import com.fr.workspace.Workspace;
 import com.fr.workspace.WorkspaceEvent;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 /**
  * Created by juhaoyu on 2018/1/8.
  */
@@ -21,18 +24,26 @@ public class DesignerStartup extends Activator {
         startSub(PreStartActivator.class);
         //启动基础部分
         startSub(BasicActivator.class);
-        String[] args = getModule().upFindSingleton(StartupArgs.class).get();
-        Designer designer = new Designer(args);
+        final String[] args = getModule().upFindSingleton(StartupArgs.class).get();
+        final Designer designer = new Designer(args);
         //启动env
         startSub(DesignerWorkspaceProvider.class);
         startSub(EnvBasedModule.class);
         getRoot().getSingleton(EnvSwitcher.class).switch2LastEnv();
+        ExecutorService service = Executors.newSingleThreadExecutor();
+        service.submit(new Runnable() {
+            @Override
+            public void run() {
+                designer.show(args);
+                DesignerContext.getDesignerFrame().getProgressDialog().dispose();
+            }
+        });
+        service.shutdown();
         registerEnvListener();
         DesignerContext.getDesignerFrame().setVisible(true);
         //启动画面结束
         SplashContext.getInstance().hide();
-        //启动设计器界面
-        designer.show(args);
+        DesignerContext.getDesignerFrame().getProgressDialog().setVisible(true);
         startSub(StartFinishActivator.class);
     }
     
