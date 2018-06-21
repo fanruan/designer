@@ -207,7 +207,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
 
     private ActionListener testConnectionListener = new ActionListener() {
         public void actionPerformed(ActionEvent arg0) {
-            String uri = urlText.getText();
+            String uri = ParameterHelper.analyze4Templatee( urlText.getText(), params);
             if (!checkURL(uri)) {
                 JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(FileTableDataPane.this), Inter.getLocText("FR-Designer_Add_JS_warning"));
                 return;
