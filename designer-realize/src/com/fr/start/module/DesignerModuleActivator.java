@@ -1,6 +1,5 @@
 package com.fr.start.module;
 
-import com.fr.common.rpc.netty.RemoteCallClient;
 import com.fr.design.mainframe.loghandler.socketio.DesignerSocketIO;
 import com.fr.design.module.ChartDesignerModule;
 import com.fr.design.module.DesignerModule;
