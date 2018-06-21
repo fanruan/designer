@@ -1,5 +1,6 @@
 package com.fr.start.module;
 
+import com.fr.common.rpc.netty.RemoteCallClient;
 import com.fr.design.mainframe.loghandler.socketio.DesignerSocketIO;
 import com.fr.design.module.ChartDesignerModule;
 import com.fr.design.module.DesignerModule;
@@ -17,10 +18,9 @@ public class DesignerModuleActivator extends Activator implements Prepare {
 
     @Override
     public void start() {
-        
+
         ModuleContext.startModule(DesignerModule.class.getName());
         DesignerSocketIO.init();
-
         ChartDesignerModule.register();
     }
 
