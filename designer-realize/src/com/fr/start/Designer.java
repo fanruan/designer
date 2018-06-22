@@ -98,8 +98,8 @@ public class Designer extends BaseDesigner {
      * @param args 参数
      */
     public static void main(String[] args) {
-        preloadResource();
         BuildContext.setBuildFilePath("/com/fr/stable/build.properties");
+        preloadResource();
         SplashContext.getInstance().registerSplash(createSplash());
         SplashContext.getInstance().show();
         Module designerRoot = ModuleContext.parseRoot("designer-startup.xml");
