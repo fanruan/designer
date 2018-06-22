@@ -242,16 +242,28 @@ public class FormSelectionUtils {
     private static Widget copyWidget(FormDesigner formDesigner, XCreator xCreator) throws
             CloneNotSupportedException {
         ArrayList<String> nameSpace = new ArrayList<>();
-        Widget copied = (Widget) xCreator.toData().clone();
+        //这边应该没必要再clone下widget,复制的时候已经clone过了
         //重命名拷贝的组件
-        String name = getCopiedName(formDesigner, copied, nameSpace);
-        if (copied instanceof WTitleLayout) {
-            XWTitleLayout xwTitleLayout = new XWTitleLayout((WTitleLayout) copied, xCreator.getSize());
-            xwTitleLayout.resetCreatorName(name);
-        } else {
-            copied.setWidgetName(name);
+        copyWidgetName(formDesigner, nameSpace, xCreator);
+        return xCreator.toData();
+    }
+
+    private static void copyWidgetName(FormDesigner formDesigner, ArrayList<String> nameSpace, XCreator xCreator){
+        String copyName = FormSelectionUtils.getCopiedName(formDesigner, xCreator.toData(), nameSpace);
+        if (xCreator.toData() instanceof WTitleLayout) {
+            XWTitleLayout xwTitleLayout = new XWTitleLayout((WTitleLayout) xCreator.toData(), xCreator.getSize());
+            xwTitleLayout.resetCreatorName(copyName);
+            return;
         }
-        return copied;
+        xCreator.toData().setWidgetName(copyName);
+        int count = xCreator.getComponentCount();
+        for(int a = 0; a <count; a++){
+            if(xCreator.getComponent(a) instanceof XCreator){
+                XCreator child = (XCreator)xCreator.getComponent(a);
+                copyWidgetName(formDesigner, nameSpace, child);
+            }
+
+        }
     }
 
     /**
