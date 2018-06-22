@@ -4,7 +4,7 @@ import com.fr.design.extra.PluginConstants;
 import com.fr.design.extra.PluginOperateUtils;
 import com.fr.design.extra.PluginUtils;
 import com.fr.design.extra.Process;
-import com.fr.general.SiteCenter;
+import com.fr.general.CloudCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONObject;
@@ -52,7 +52,7 @@ public class GetPluginFromStoreExecutor implements Executor {
 
                     @Override
                     public void run(Process<String> process) {
-                        String plistUrl = SiteCenter.getInstance().acquireUrlByKind("shop.plugin.plist") + "?";
+                        String plistUrl = CloudCenter.getInstance().acquireUrlByKind("shop.plugin.plist") + "?";
                         boolean getRecommend = StringUtils.isEmpty(category) && StringUtils.isEmpty(seller) && StringUtils.isEmpty(fee) && StringUtils.isEmpty(scope);
                         if (getRecommend) {
                             result = PluginOperateUtils.getRecommendPlugins();

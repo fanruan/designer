@@ -1,8 +1,8 @@
 package com.fr.design.extra;
 
+import com.fr.general.CloudCenter;
 import com.fr.general.GeneralUtils;
 import com.fr.general.Inter;
-import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
@@ -32,7 +32,7 @@ public class PluginsReaderFromStore {
     public static List<PluginView> readPlugins() throws Exception {
         String resText;
         try {
-            HttpClient httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("plugin.store"));
+            HttpClient httpClient = new HttpClient(CloudCenter.getInstance().acquireUrlByKind("plugin.store"));
             resText = httpClient.getResponseText();
             String charSet = EncodeConstants.ENCODING_UTF_8;
             resText = URLDecoder.decode(URLDecoder.decode(resText, charSet), charSet);
@@ -49,7 +49,7 @@ public class PluginsReaderFromStore {
      */
     public static List<PluginView> readPluginsForUpdate() throws Exception {
         String resText = null;
-        String url = SiteCenter.getInstance().acquireUrlByKind("plugin.update");
+        String url = CloudCenter.getInstance().acquireUrlByKind("plugin.update");
         if (StringUtils.isNotEmpty(url)) {
             HashMap<String, String> para = new HashMap<String, String>();
             para.put("plugins", PluginUtils.transPluginsToString(PluginManager.getContexts()));

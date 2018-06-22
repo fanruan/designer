@@ -2,10 +2,10 @@ package com.fr.design.mainframe.errorinfo;
 
 import com.fr.base.FRContext;
 import com.fr.design.mainframe.SiteCenterToken;
+import com.fr.general.CloudCenter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
-import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
@@ -89,7 +89,7 @@ public class ErrorInfoUploader {
 
     private void downloadSolution(File localCacheZip) {
         try {
-            String downloadURL = SiteCenter.getInstance().acquireUrlByKind("solution.download", "http://cloud.fanruan.com/api/solution");
+            String downloadURL = CloudCenter.getInstance().acquireUrlByKind("solution.download", "http://cloud.fanruan.com/api/solution");
             downloadURL = String.format("%s?token=%s", downloadURL, SiteCenterToken.generateToken());
             HttpClient hc = new HttpClient(downloadURL);
             hc.asGet();
@@ -110,7 +110,7 @@ public class ErrorInfoUploader {
     private boolean needUpdate(File localCacheZip) {
         if (localCacheZip.exists()) {
             // 判断本地文件大小.
-            String checkURL = SiteCenter.getInstance().acquireUrlByKind("solution.check", "http://cloud.fanruan.com/api/solution/cache/check");
+            String checkURL = CloudCenter.getInstance().acquireUrlByKind("solution.check", "http://cloud.fanruan.com/api/solution/cache/check");
             checkURL = String.format("%s?token=%s", checkURL, SiteCenterToken.generateToken());
             HttpClient client = new HttpClient(checkURL);
             client.asGet();
@@ -156,7 +156,7 @@ public class ErrorInfoUploader {
                         continue;
                     }
 
-                    String url = SiteCenter.getInstance().acquireUrlByKind("design.error");
+                    String url = CloudCenter.getInstance().acquireUrlByKind("design.error");
                     if (sendErroInfo(url, content)) {
                         file.delete();
                     }

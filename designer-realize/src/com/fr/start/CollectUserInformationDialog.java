@@ -12,9 +12,9 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.ActiveKeyGenerator;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.general.CloudCenter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
-import com.fr.general.SiteCenter;
 import com.fr.stable.OperatingSystem;
 
 import javax.swing.BorderFactory;
@@ -40,10 +40,10 @@ public class CollectUserInformationDialog extends UIDialog {
 
     private static final int ONLINE_VERIFY_TIMEOUT = 30 * 1000;
 
-    private static final String CN_LOGIN_HTML = SiteCenter.getInstance().acquireUrlByKind("frlogin.cn");
-    private static final String EN_LOGIN_HTML = SiteCenter.getInstance().acquireUrlByKind("frlogin.en");
-    private static final String TW_LOGIN_HTML = SiteCenter.getInstance().acquireUrlByKind("frlogin.tw");
-    private static final String JP_LOGIN_HTML = SiteCenter.getInstance().acquireUrlByKind("frlogin.jp");
+    private static final String CN_LOGIN_HTML = CloudCenter.getInstance().acquireUrlByKind("frlogin.cn");
+    private static final String EN_LOGIN_HTML = CloudCenter.getInstance().acquireUrlByKind("frlogin.en");
+    private static final String TW_LOGIN_HTML = CloudCenter.getInstance().acquireUrlByKind("frlogin.tw");
+    private static final String JP_LOGIN_HTML = CloudCenter.getInstance().acquireUrlByKind("frlogin.jp");
 
     private UITextField keyTextField;
 
