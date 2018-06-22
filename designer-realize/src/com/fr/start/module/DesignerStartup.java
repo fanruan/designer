@@ -1,11 +1,14 @@
 package com.fr.start.module;
 
+import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.event.Event;
 import com.fr.event.Listener;
+import com.fr.general.ComparatorUtils;
 import com.fr.module.Activator;
 import com.fr.start.Designer;
 import com.fr.start.EnvSwitcher;
+import com.fr.start.ServerStarter;
 import com.fr.start.SplashContext;
 import com.fr.startup.activators.BasicActivator;
 import com.fr.workspace.Workspace;
@@ -43,6 +46,14 @@ public class DesignerStartup extends Activator {
         DesignerContext.getDesignerFrame().setVisible(true);
         //启动画面结束
         SplashContext.getInstance().hide();
+
+        //启动画面结束后，启动tip小窗口并打开决策页面
+        for (String arg : args) {
+                if (ComparatorUtils.equals(arg, "demo")) {
+                    ServerStarter.browserDemoURL();
+                    break;
+                }
+        }
         DesignerContext.getDesignerFrame().getProgressDialog().setVisible(true);
         startSub(StartFinishActivator.class);
     }
