@@ -4,7 +4,7 @@
 package com.fr.design.mainframe.bbs;
 
 import com.fr.general.IOUtils;
-import com.fr.general.SiteCenter;
+import com.fr.general.CloudCenter;
 import com.fr.stable.StringUtils;
 
 import java.util.Properties;
@@ -42,7 +42,7 @@ public class BBSConstants {
     //加载所有用户的信息, 用户名, 论坛连接
     private static String[] loadAllGuestsInfoOnline(String key, String defaultValue) {
         String[] allGuests = new String[0];
-        String guest = SiteCenter.getInstance().acquireUrlByKind(key, defaultValue);
+        String guest = CloudCenter.getInstance().acquireUrlByKind(key, defaultValue);
         if (StringUtils.isNotEmpty(guest)) {
             allGuests = guest.split("\\|");
         }

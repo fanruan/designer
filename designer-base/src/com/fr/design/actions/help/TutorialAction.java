@@ -6,7 +6,6 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-import java.util.Locale;
 
 import javax.swing.KeyStroke;
 
@@ -15,12 +14,10 @@ import com.fr.base.FRContext;
 import com.fr.base.Utils;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.menu.MenuKeySet;
-import com.fr.general.ComparatorUtils;
+import com.fr.general.CloudCenter;
 import com.fr.general.Inter;
-import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.stable.OperatingSystem;
-import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 
 public class TutorialAction extends UpdateAction {
@@ -59,7 +56,7 @@ public class TutorialAction extends UpdateAction {
      * @param evt 事件
      */
     public void actionPerformed(ActionEvent evt) {
-        String helpURL = SiteCenter.getInstance().acquireUrlByKind("help." + FRContext.getLocale());
+        String helpURL = CloudCenter.getInstance().acquireUrlByKind("help." + FRContext.getLocale());
 
         if (helpURL != null) {
             HttpClient client = new HttpClient(helpURL);

@@ -9,9 +9,9 @@ import com.fr.design.gui.ilable.ActionLabel;
 import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.general.CloudCenter;
 import com.fr.general.GeneralUtils;
 import com.fr.general.Inter;
-import com.fr.general.SiteCenter;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
 import com.fr.stable.bridge.StableFactory;
@@ -33,7 +33,7 @@ public class AboutPane extends JPanel {
     private static final int DEFAULT_GAP = 12;
     private static final String COPYRIGHT_LABEL = "\u00A9 ";
     private static final String BUILD_PREFIX = "   ";
-    private static final String COMPANY_TELEPHONE = SiteCenter.getInstance().acquireUrlByKind("company_telephone");
+    private static final String COMPANY_TELEPHONE = CloudCenter.getInstance().acquireUrlByKind("company_telephone");
 
     public AboutPane() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
@@ -71,11 +71,11 @@ public class AboutPane extends JPanel {
         addPhoneAndQQPane(contentPane);
 
         // 官网
-        JPanel urlActionPane = getURLActionPane(Inter.getLocText("FR-Designer_Official_Website"), SiteCenter.getInstance().acquireUrlByKind("website." + FRContext.getLocale(), ProductConstants.WEBSITE_URL));
+        JPanel urlActionPane = getURLActionPane(Inter.getLocText("FR-Designer_Official_Website"), CloudCenter.getInstance().acquireUrlByKind("website." + FRContext.getLocale(), ProductConstants.WEBSITE_URL));
 
         // 支持邮箱
-        String defaultEmail = SiteCenter.getInstance().acquireUrlByKind("support.email", ProductConstants.SUPPORT_EMAIL);
-        JPanel emailPane = getEmailActionPane(Inter.getLocText("FR-Designer_Support_Email"),SiteCenter.getInstance().acquireUrlByKind("support.email." + FRContext.getLocale(), defaultEmail));
+        String defaultEmail = CloudCenter.getInstance().acquireUrlByKind("support.email", ProductConstants.SUPPORT_EMAIL);
+        JPanel emailPane = getEmailActionPane(Inter.getLocText("FR-Designer_Support_Email"), CloudCenter.getInstance().acquireUrlByKind("support.email." + FRContext.getLocale(), defaultEmail));
 
         contentPane.add(urlActionPane);
         contentPane.add(emailPane);
@@ -90,13 +90,13 @@ public class AboutPane extends JPanel {
         if (FRContext.getLocale().equals(Locale.US)) {
             return;
         }
-        boxCenterAlignmentPane = new BoxCenterAligmentPane(Inter.getLocText("FR-Designer_Service_Phone") + SiteCenter.getInstance().acquireUrlByKind("service.phone." + FRContext.getLocale(), COMPANY_TELEPHONE));
+        boxCenterAlignmentPane = new BoxCenterAligmentPane(Inter.getLocText("FR-Designer_Service_Phone") + CloudCenter.getInstance().acquireUrlByKind("service.phone." + FRContext.getLocale(), COMPANY_TELEPHONE));
         contentPane.add(boxCenterAlignmentPane);
         // 繁体版不显示QQ
         if (FRContext.getLocale().equals(Locale.TAIWAN)) {
             return;
         }
-        boxCenterAlignmentPane = new BoxCenterAligmentPane("QQ: " + SiteCenter.getInstance().acquireUrlByKind("help.qq"));
+        boxCenterAlignmentPane = new BoxCenterAligmentPane("QQ: " + CloudCenter.getInstance().acquireUrlByKind("help.qq"));
         contentPane.add(boxCenterAlignmentPane);
     }
 
@@ -133,7 +133,7 @@ public class AboutPane extends JPanel {
 
     private String getCopyRight() {
         return append(Inter.getLocText("FR-Designer_About_CopyRight"), COPYRIGHT_LABEL,
-                ProductConstants.HISTORY, StringUtils.BLANK, SiteCenter.getInstance().acquireUrlByKind("company.name", ProductConstants.COMPANY_NAME));
+                ProductConstants.HISTORY, StringUtils.BLANK, CloudCenter.getInstance().acquireUrlByKind("company.name", ProductConstants.COMPANY_NAME));
     }
 
     private String getBuildTitle() {

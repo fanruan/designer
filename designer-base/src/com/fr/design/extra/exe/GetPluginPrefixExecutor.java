@@ -1,7 +1,7 @@
 package com.fr.design.extra.exe;
 
 import com.fr.design.extra.Process;
-import com.fr.general.SiteCenter;
+import com.fr.general.CloudCenter;
 import com.fr.stable.StringUtils;
 
 /**
@@ -26,7 +26,7 @@ public class GetPluginPrefixExecutor implements Executor {
 
                     @Override
                     public void run(Process<String> process) {
-                        result = SiteCenter.getInstance().acquireUrlByKind("plugin.url.prefix");
+                        result = CloudCenter.getInstance().acquireUrlByKind("plugin.url.prefix");
                     }
                 }
         };

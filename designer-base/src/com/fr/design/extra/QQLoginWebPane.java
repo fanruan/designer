@@ -102,7 +102,7 @@ public class QQLoginWebPane extends JFXPanel {
             public void changed(ObservableValue<? extends String> observable, final String oldValue, String newValue) {
                 disableLink(webEngine);
                 // webView好像默认以手机版显示网页，浏览器里过滤掉这个跳转
-                if (ComparatorUtils.equals(newValue, url) || ComparatorUtils.equals(newValue, SiteCenter.getInstance().acquireUrlByKind("bbs.mobile"))) {
+                if (ComparatorUtils.equals(newValue, url) || ComparatorUtils.equals(newValue, CloudCenter.getInstance().acquireUrlByKind("bbs.mobile"))) {
                     return;
                 }
                 LoginWebBridge.getHelper().openUrlAtLocalWebBrowser(webEngine, newValue);

@@ -10,7 +10,7 @@ import com.fr.design.mainframe.SiteCenterToken;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralUtils;
 import com.fr.general.IOUtils;
-import com.fr.general.SiteCenter;
+import com.fr.general.CloudCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
@@ -305,8 +305,8 @@ public class TemplateInfoCollector<T extends BaseBook> implements Serializable, 
      */
     public void sendTemplateInfo() {
         addDayCount();
-        String consumingUrl = SiteCenter.getInstance().acquireUrlByKind("tempinfo.consuming") + "/single";
-        String processUrl = SiteCenter.getInstance().acquireUrlByKind("tempinfo.process") + "/single";
+        String consumingUrl = CloudCenter.getInstance().acquireUrlByKind("tempinfo.consuming") + "/single";
+        String processUrl = CloudCenter.getInstance().acquireUrlByKind("tempinfo.process") + "/single";
         ArrayList<HashMap<String, String>> completeTemplatesInfo = getCompleteTemplatesInfo();
         for (HashMap<String, String> templateInfo : completeTemplatesInfo) {
             String jsonConsumingMap = templateInfo.get(JSON_CONSUMING_MAP);
