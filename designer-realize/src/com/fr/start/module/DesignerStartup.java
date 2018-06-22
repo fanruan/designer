@@ -1,8 +1,11 @@
 package com.fr.start.module;
 
+import com.fr.design.mainframe.CellElementPropertyPane;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.mainframe.DesignerFrameFileDealerPane;
 import com.fr.event.Event;
 import com.fr.event.Listener;
+import com.fr.form.ui.WidgetInfoConfig;
 import com.fr.module.Activator;
 import com.fr.start.Designer;
 import com.fr.start.EnvSwitcher;
@@ -26,6 +29,7 @@ public class DesignerStartup extends Activator {
         startSub(BasicActivator.class);
         final String[] args = getModule().upFindSingleton(StartupArgs.class).get();
         final Designer designer = new Designer(args);
+        preLoadSomething();
         //启动env
         startSub(DesignerWorkspaceProvider.class);
         startSub(EnvBasedModule.class);
@@ -46,31 +50,57 @@ public class DesignerStartup extends Activator {
         DesignerContext.getDesignerFrame().getProgressDialog().setVisible(true);
         startSub(StartFinishActivator.class);
     }
-    
+
+    /**
+     * 基础模块结束后可以提前加载一部分依赖基础模块(国际化,图标样式之类)的东西
+     */
+    private void preLoadSomething(){
+        ExecutorService service = Executors.newCachedThreadPool();
+        service.submit(new Runnable() {
+            @Override
+            public void run() {
+                CellElementPropertyPane.getInstance();
+            }
+        });
+        service.submit(new Runnable() {
+            @Override
+            public void run() {
+                DesignerFrameFileDealerPane.getInstance();//这边会涉及到TemplateTreePane
+            }
+        });
+        service.submit(new Runnable() {
+            @Override
+            public void run() {
+                WidgetInfoConfig.getInstance();
+            }
+        });
+        service.shutdown();
+    }
+
     /**
      * 切换环境时，重新启动所有相关模块
      */
     private void registerEnvListener() {
-    
+
         listenEvent(WorkspaceEvent.BeforeSwitch, new Listener<Workspace>() {
-            
+
             @Override
             public void on(Event event, Workspace param) {
-                
+
                 getSub(EnvBasedModule.class).stop();
             }
         });
         listenEvent(WorkspaceEvent.AfterSwitch, new Listener<Workspace>() {
-            
+
             @Override
             public void on(Event event, Workspace param) {
-                
+
                 getSub(EnvBasedModule.class).start();
             }
         });
     }
-    
-    
+
+
     @Override
     public void stop() {
 

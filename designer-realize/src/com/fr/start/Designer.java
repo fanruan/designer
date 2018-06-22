@@ -137,25 +137,6 @@ public class Designer extends BaseDesigner {
                 TemplateInfoCollector.getInstance();
             }
         });
-
-        service.submit(new Runnable() {
-            @Override
-            public void run() {
-                CellElementPropertyPane.getInstance();
-            }
-        });
-        service.submit(new Runnable() {
-            @Override
-            public void run() {
-                DesignerFrameFileDealerPane.getInstance();//这边会涉及到TemplateTreePane
-            }
-        });
-        service.submit(new Runnable() {
-            @Override
-            public void run() {
-                WidgetInfoConfig.getInstance();
-            }
-        });
         service.shutdown();
     }
 
