@@ -7,7 +7,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
-import com.fr.general.SiteCenter;
+import com.fr.general.CloudCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.plugin.chart.DownloadSourcesEvent;
 import com.fr.stable.StableUtils;
@@ -68,7 +68,7 @@ public class DownloadOnlineSourcesHelper implements DownloadSourcesEvent {
             //本地有这个资源，不下载
             return;
         }
-        httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind(siteKind));
+        httpClient = new HttpClient(CloudCenter.getInstance().acquireUrlByKind(siteKind));
         if (httpClient.getResponseCode() != HttpURLConnection.HTTP_OK) {
             //服务器连不上，不下载
             return;
@@ -116,7 +116,7 @@ public class DownloadOnlineSourcesHelper implements DownloadSourcesEvent {
             for (int i = 0; i < list.size(); i++) {
                 SiteInfo siteInfo = list.get(i);
 
-                httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind(siteInfo.siteKind));
+                httpClient = new HttpClient(CloudCenter.getInstance().acquireUrlByKind(siteInfo.siteKind));
                 if (httpClient.getResponseCode() == HttpURLConnection.HTTP_OK) {
                     InputStream reader = httpClient.getResponseStream();
                     String temp = StableUtils.pathJoin(PluginConstants.DOWNLOAD_PATH, PluginConstants.TEMP_FILE);

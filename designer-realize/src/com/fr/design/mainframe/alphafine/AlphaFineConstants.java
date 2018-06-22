@@ -1,6 +1,6 @@
 package com.fr.design.mainframe.alphafine;
 
-import com.fr.general.SiteCenter;
+import com.fr.general.CloudCenter;
 
 import java.awt.*;
 
@@ -68,24 +68,24 @@ public class AlphaFineConstants {
 
     public static final String IMAGE_URL = "/com/fr/design/mainframe/alphafine/images/";
 
-    public static final String PLUGIN_SEARCH_URL = SiteCenter.getInstance().acquireUrlByKind("plugin.searchAPI");
+    public static final String PLUGIN_SEARCH_URL = CloudCenter.getInstance().acquireUrlByKind("plugin.searchAPI");
 
-    public static final String PLUGIN_URL = SiteCenter.getInstance().acquireUrlByKind("af.pluginInfo");
+    public static final String PLUGIN_URL = CloudCenter.getInstance().acquireUrlByKind("af.pluginInfo");
 
-    public static final String REUSE_URL = SiteCenter.getInstance().acquireUrlByKind("af.reuseInfo");
+    public static final String REUSE_URL = CloudCenter.getInstance().acquireUrlByKind("af.reuseInfo");
 
 
-    public static final String DOCUMENT_DOC_URL = SiteCenter.getInstance().acquireUrlByKind("af.doc_view");
+    public static final String DOCUMENT_DOC_URL = CloudCenter.getInstance().acquireUrlByKind("af.doc_view");
 
-    public static final String DOCUMENT_SEARCH_URL = SiteCenter.getInstance().acquireUrlByKind("af.doc_search");
+    public static final String DOCUMENT_SEARCH_URL = CloudCenter.getInstance().acquireUrlByKind("af.doc_search");
 
-    public static final String DOCUMENT_INFORMATION_URL = SiteCenter.getInstance().acquireUrlByKind("af.doc_info");
+    public static final String DOCUMENT_INFORMATION_URL = CloudCenter.getInstance().acquireUrlByKind("af.doc_info");
 
-    public static final String PLUGIN_IMAGE_URL = SiteCenter.getInstance().acquireUrlByKind("af.plugin_image");
+    public static final String PLUGIN_IMAGE_URL = CloudCenter.getInstance().acquireUrlByKind("af.plugin_image");
 
-    public static final String CLOUD_SERVER_URL = SiteCenter.getInstance().acquireUrlByKind("af.record");
+    public static final String CLOUD_SERVER_URL = CloudCenter.getInstance().acquireUrlByKind("af.record");
 
-    public static final String SEARCH_API = SiteCenter.getInstance().acquireUrlByKind("af.cloud_search");
+    public static final String SEARCH_API = CloudCenter.getInstance().acquireUrlByKind("af.cloud_search");
 
 
 

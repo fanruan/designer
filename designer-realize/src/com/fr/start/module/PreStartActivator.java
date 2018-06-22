@@ -4,10 +4,9 @@ import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.RestartHelper;
 import com.fr.design.utils.DesignUtils;
+import com.fr.general.CloudCenter;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.SiteCenter;
 import com.fr.module.Activator;
-import com.fr.stable.BuildContext;
 import com.fr.stable.ProductConstants;
 
 import java.io.File;
@@ -25,7 +24,7 @@ public class PreStartActivator extends Activator {
     public void start() {
 
         RestartHelper.deleteRecordFilesWhenStart();
-        SiteCenter.getInstance();
+        CloudCenter.getInstance();
         if (checkMultiStart()) {
             return;
         }

@@ -41,9 +41,9 @@ import com.fr.design.module.DesignerModule;
 import com.fr.design.utils.concurrent.ThreadFactoryBuilder;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.form.ui.WidgetInfoConfig;
+import com.fr.general.CloudCenter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
-import com.fr.general.SiteCenter;
 import com.fr.module.Module;
 import com.fr.module.ModuleContext;
 import com.fr.stable.BuildContext;
@@ -98,8 +98,8 @@ public class Designer extends BaseDesigner {
      * @param args 参数
      */
     public static void main(String[] args) {
-        preloadResource();
         BuildContext.setBuildFilePath("/com/fr/stable/build.properties");
+        preloadResource();
         SplashContext.getInstance().registerSplash(createSplash());
         SplashContext.getInstance().show();
         Module designerRoot = ModuleContext.parseRoot("designer-startup.xml");
@@ -119,7 +119,7 @@ public class Designer extends BaseDesigner {
         service.submit(new Runnable() {
             @Override
             public void run() {
-                SiteCenter.getInstance();
+                CloudCenter.getInstance();
                 Cursor cursor = UIConstants.CELL_DEFAULT_CURSOR;
             }
         });

@@ -301,7 +301,7 @@ public class DesignUtils {
         if (!WorkContext.getCurrent().isLocal()) {
             try {
                 String urlPath = getWebBrowserPath();
-                Desktop.getDesktop().browse(new URI(urlPath + postfixOfUri));
+                Desktop.getDesktop().browse(new URI(urlPath + baseRoute + postfixOfUri));
             } catch (Exception e) {
                 FRContext.getLogger().error("cannot open the url Successful", e);
             }

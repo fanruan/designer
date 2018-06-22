@@ -1,7 +1,7 @@
 package com.fr.design.extra.ucenter;
 
 import com.fr.base.FRContext;
-import com.fr.general.SiteCenter;
+import com.fr.general.CloudCenter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -92,8 +92,8 @@ public class Client extends AbstractClient {
             sep = "&";
         }
         String postData = ucApiRequestdata(module, action, str.toString(), "");
-        UC_API = SiteCenter.getInstance().acquireUrlByKind("bbs.ucapi");
-        UC_IP = SiteCenter.getInstance().acquireUrlByKind("bbs.ip");
+        UC_API = CloudCenter.getInstance().acquireUrlByKind("bbs.ucapi");
+        UC_IP = CloudCenter.getInstance().acquireUrlByKind("bbs.ip");
         return ucFopen2(UC_API + "/index.php", 500000, postData, "", true, UC_IP, 20, true);
     }
 

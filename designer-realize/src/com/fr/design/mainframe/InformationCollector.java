@@ -13,12 +13,12 @@ import com.fr.data.core.db.dml.Table;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.errorinfo.ErrorInfoUploader;
 import com.fr.design.mainframe.templateinfo.TemplateInfoCollector;
+import com.fr.general.CloudCenter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.DateUtils;
 import com.fr.general.DesUtils;
 import com.fr.general.GeneralUtils;
 import com.fr.general.IOUtils;
-import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
@@ -187,7 +187,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 			return;
 		}
 		byte[] content = getJSONContentAsByte();
-		HttpClient hc = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("user.info"));
+		HttpClient hc = new HttpClient(CloudCenter.getInstance().acquireUrlByKind("user.info"));
 		hc.setContent(content);
 		if (!hc.isServerAlive()) {
 			return;
@@ -230,7 +230,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
             DBUtils.closeConnection(conn);
         }
 
-        HttpClient httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("functions.info"));
+        HttpClient httpClient = new HttpClient(CloudCenter.getInstance().acquireUrlByKind("functions.info"));
         httpClient.setContent(content);
         httpClient.setTimeout(5000);
 

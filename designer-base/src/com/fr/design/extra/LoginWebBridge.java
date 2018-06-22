@@ -8,8 +8,8 @@ import com.fr.design.extra.exe.PluginLoginExecutor;
 import com.fr.design.extra.ucenter.Client;
 import com.fr.design.extra.ucenter.XMLHelper;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.general.CloudCenter;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONObject;
 import com.fr.stable.EncodeConstants;
@@ -134,7 +134,7 @@ public class LoginWebBridge {
      * @return
      */
     private boolean testConnection() {
-        HttpClient client = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("bbs.test"));
+        HttpClient client = new HttpClient(CloudCenter.getInstance().acquireUrlByKind("bbs.test"));
         return client.isServerAlive();
     }
 
@@ -159,7 +159,7 @@ public class LoginWebBridge {
      */
     public void registerHref() {
         try {
-            Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("bbs.register")));
+            Desktop.getDesktop().browse(new URI(CloudCenter.getInstance().acquireUrlByKind("bbs.register")));
         } catch (Exception e) {
             FRContext.getLogger().info(e.getMessage());
         }
@@ -170,7 +170,7 @@ public class LoginWebBridge {
      */
     public void forgetHref() {
         try {
-            Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("bbs.reset")));
+            Desktop.getDesktop().browse(new URI(CloudCenter.getInstance().acquireUrlByKind("bbs.reset")));
         } catch (Exception e) {
             FRContext.getLogger().info(e.getMessage());
         }
@@ -300,7 +300,7 @@ public class LoginWebBridge {
                 //账号没有QQ授权
                 closeQQWindow();
                 try {
-                    Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("QQ_binding")));
+                    Desktop.getDesktop().browse(new URI(CloudCenter.getInstance().acquireUrlByKind("QQ_binding")));
                 } catch (Exception ignored) {
                     // ignored
                 }

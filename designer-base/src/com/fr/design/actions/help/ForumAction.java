@@ -9,7 +9,7 @@ import com.fr.base.FRContext;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.general.Inter;
-import com.fr.general.SiteCenter;
+import com.fr.general.CloudCenter;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
 
@@ -40,7 +40,7 @@ public class ForumAction extends UpdateAction {
      * @param e 事件
      */
     public void actionPerformed(ActionEvent e) {
-        String url = SiteCenter.getInstance().acquireUrlByKind("bbs");
+        String url = CloudCenter.getInstance().acquireUrlByKind("bbs");
         if (StringUtils.isEmpty(url)) {
             FRContext.getLogger().info("The URL is empty!");
             return;

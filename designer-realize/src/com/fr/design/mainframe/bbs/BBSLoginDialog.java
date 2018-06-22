@@ -105,8 +105,8 @@ public class BBSLoginDialog extends UIDialog {
         nameField = new UITextField();
         passField = new UIPassWordField();
         loginButton = new UIButton(Inter.getLocText("FR-Designer-BBSLogin_Login"));
-        passwordReset = getURLActionLabel(SiteCenter.getInstance().acquireUrlByKind("bbs.reset"));
-        registerLabel = getURLActionLabel(SiteCenter.getInstance().acquireUrlByKind("bbs.register"));
+        passwordReset = getURLActionLabel(CloudCenter.getInstance().acquireUrlByKind("bbs.reset"));
+        registerLabel = getURLActionLabel(CloudCenter.getInstance().acquireUrlByKind("bbs.register"));
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
@@ -163,7 +163,7 @@ public class BBSLoginDialog extends UIDialog {
     }
 
     private boolean testConnection() {
-        HttpClient client = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("bbs.test"));
+        HttpClient client = new HttpClient(CloudCenter.getInstance().acquireUrlByKind("bbs.test"));
         return client.isServerAlive();
     }
 
@@ -283,8 +283,8 @@ public class BBSLoginDialog extends UIDialog {
             } catch (UnsupportedEncodingException e) {
                 FineLoggerFactory.getLogger().error(e.getMessage());
             }
-            String url = SiteCenter.getInstance().acquireUrlByKind("bbs.login") + "&username=" + username + "&password=" + password;
-            String loginSuccessFlag = SiteCenter.getInstance().acquireUrlByKind("bbs");
+            String url = CloudCenter.getInstance().acquireUrlByKind("bbs.login") + "&username=" + username + "&password=" + password;
+            String loginSuccessFlag = CloudCenter.getInstance().acquireUrlByKind("bbs");
             HttpClient client = new HttpClient(url);
             client.setTimeout(TIME_OUT);
             if (client.getResponseCodeNoException() == HttpURLConnection.HTTP_OK) {
@@ -303,7 +303,7 @@ public class BBSLoginDialog extends UIDialog {
 
     private BoxCenterAligmentPane getURLActionLabel(final String url) {
         ActionLabel actionLabel = new ActionLabel(url);
-        if (ComparatorUtils.equals(url, SiteCenter.getInstance().acquireUrlByKind("bbs.reset"))) {
+        if (ComparatorUtils.equals(url, CloudCenter.getInstance().acquireUrlByKind("bbs.reset"))) {
             actionLabel.setText(Inter.getLocText("FR-Designer-BBSLogin_Forgot-Password"));
         } else {
             actionLabel.setText(Inter.getLocText("FR-Designer-BBSLogin_Register-Account"));

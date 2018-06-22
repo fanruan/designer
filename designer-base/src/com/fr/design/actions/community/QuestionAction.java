@@ -4,8 +4,8 @@ import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.menu.MenuKeySet;
+import com.fr.general.CloudCenter;
 import com.fr.general.Inter;
-import com.fr.general.SiteCenter;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
 
@@ -30,7 +30,7 @@ public class QuestionAction extends UpdateAction
 @Override
 public void actionPerformed(ActionEvent arg0)
 {
-	 String url = SiteCenter.getInstance().acquireUrlByKind("bbs.questions");
+	 String url = CloudCenter.getInstance().acquireUrlByKind("bbs.questions");
        if (StringUtils.isEmpty(url)) {
            FRContext.getLogger().info("The URL is empty!");
            return;

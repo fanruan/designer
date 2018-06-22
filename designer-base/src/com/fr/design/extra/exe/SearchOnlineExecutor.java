@@ -3,7 +3,7 @@ package com.fr.design.extra.exe;
 import com.fr.design.extra.PluginOperateUtils;
 import com.fr.design.extra.PluginUtils;
 import com.fr.design.extra.Process;
-import com.fr.general.SiteCenter;
+import com.fr.general.CloudCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONObject;
@@ -42,7 +42,7 @@ public class SearchOnlineExecutor implements Executor {
                                 result = PluginOperateUtils.getRecommendPlugins();
                                 return;
                             }
-                            HttpClient httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("shop.plugin.store") + "&keyword=" + keyword);
+                            HttpClient httpClient = new HttpClient(CloudCenter.getInstance().acquireUrlByKind("shop.plugin.store") + "&keyword=" + keyword);
                             httpClient.asGet();
                             String responseText = httpClient.getResponseText();
                             JSONObject jsonObject = new JSONObject(responseText);
