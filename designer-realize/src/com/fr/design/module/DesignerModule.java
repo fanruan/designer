@@ -13,6 +13,7 @@ import com.fr.base.frpx.exception.InvalidWorkBookException;
 import com.fr.base.io.XMLEncryptUtils;
 import com.fr.base.process.ProcessOperator;
 import com.fr.base.remote.RemoteDeziConstants;
+import com.fr.chart.chartattr.ChartCollection;
 import com.fr.config.ServerPreferenceConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
@@ -49,13 +50,13 @@ import com.fr.design.parameter.WorkBookParameterReader;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.file.FILE;
 import com.fr.general.ComparatorUtils;
-import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.general.ModuleContext;
 import com.fr.general.xml.GeneralXMLTools;
 import com.fr.io.importer.Excel2007ReportImporter;
 import com.fr.io.importer.ExcelReportImporter;
 import com.fr.io.utils.ResourceIOUtils;
+import com.fr.log.FineLoggerFactory;
 import com.fr.main.impl.WorkBook;
 import com.fr.main.impl.WorkBookAdapter;
 import com.fr.main.impl.WorkBookX;
@@ -161,7 +162,7 @@ public class DesignerModule extends DesignModule {
         ActionFactory.registerCellEditor(BufferedImage.class, new CellImageQuickEditor());
         ActionFactory.registerCellEditor(CellImagePainter.class, new CellImageQuickEditor());
         //todo 图表编辑器populate没能实现刷新面板显示
-        ActionFactory.registerChartCellEditorInEditor(BasicChartQuickEditor.class);
+        ActionFactory.registerCellEditorClass(ChartCollection.class, BasicChartQuickEditor.class);
 
         Set<ElementUIProvider> providers = ExtraDesignClassManager.getInstance().getArray(ElementUIProvider.MARK_STRING);
         for (ElementUIProvider provider : providers) {
@@ -191,7 +192,7 @@ public class DesignerModule extends DesignModule {
         ActionFactory.registerFloatEditor(BufferedImage.class, new FloatImageQuickEditor());
         ActionFactory.registerFloatEditor(CellImagePainter.class, new FloatImageQuickEditor());
         //todo 图表编辑器populate没能实现刷新面板显示
-        ActionFactory.registerChartFloatEditorInEditor(FloatChartQuickEditor.class);
+        ActionFactory.registerFloatEditorClass(ChartCollection.class, FloatChartQuickEditor.class);
     }
 
     /**
