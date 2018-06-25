@@ -97,17 +97,7 @@ public class FastGifImage extends WritableImage {
         }
     }
 
-
-    private void finishImage(Exception e) {
-        e.printStackTrace();
-    }
-
     private void finishImage(ImageLoader loader) {
-        final Exception loadingException = loader.getException();
-        if (loadingException != null) {
-            finishImage(loadingException);
-            return;
-        }
         initializeAnimatedImage(loader);
     }
 
