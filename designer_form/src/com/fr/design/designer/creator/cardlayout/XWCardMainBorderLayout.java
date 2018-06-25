@@ -17,10 +17,17 @@ import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.form.ui.container.WBorderLayout;
 import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
 import com.fr.general.IOUtils;
-import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.general.Inter;
 
-import java.awt.*;
+import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Composite;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -137,29 +144,31 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
     /**
      * 重新调整子组件的宽度
      * @param width 宽度
+	 * @param actualSize 是否按照实际大小计算
      */
-    public void recalculateChildWidth(int width){
+    public void recalculateChildWidth(int width, boolean actualSize){
 		ArrayList<?> childrenList = this.getTargetChildrenList();
 		int size = childrenList.size();
 		if (size > 0) {
 			for (int j = 0; j < size; j++) {
 				XWTabFitLayout tabLayout = (XWTabFitLayout) childrenList
 						.get(j);
-				tabLayout.setBackupBound(tabLayout.getBounds());
-				int refSize = tabLayout.getWidth();
+
+
+                Dimension d = new Dimension(tabLayout.toData().getContainerWidth(), tabLayout.toData().getContainerHeight());
+                Rectangle rec = actualSize? new Rectangle(d): tabLayout.getBounds();
+                // 容器大小改变时，设下backupBound为其之前的实际大小
+                tabLayout.setBackupBound(rec);
+				int refSize = rec.width;
 				int offest = width - refSize;
 				double percent = (double) offest / refSize;
 				if (percent < 0 && !tabLayout.canReduce(percent)) {
 					return;
 				}
-				tabLayout.setSize(tabLayout.getWidth() + offest,
-						tabLayout.getHeight());
-				for (int m = 0; m < tabLayout.getComponentCount(); m++) {
-					XCreator childCreator = tabLayout.getXCreator(m);
-					BoundsWidget wgt = (BoundsWidget) tabLayout.toData()
-							.getBoundsWidget(childCreator.toData());
-					wgt.setBounds(tabLayout.getComponent(m).getBounds());
-				}
+				tabLayout.setSize(rec.width + offest, rec.height);
+                if(!actualSize){
+                    updateWidgetBounds(tabLayout);
+                }
 				tabLayout.adjustCreatorsWidth(percent);
 			}
 		}
@@ -168,37 +177,46 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
     /**
      * 重新调整子组件的高度
      * @param height 高度
+	 * @param actualSize 是否按照实际大小计算
      */
-    public void recalculateChildHeight(int height){
+    public void recalculateChildHeight(int height, boolean actualSize){
 		ArrayList<?> childrenList = this.getTargetChildrenList();
 		int size = childrenList.size();
 		if (size > 0) {
 			for (int j = 0; j < size; j++) {
 				XWTabFitLayout tabLayout = (XWTabFitLayout) childrenList
 						.get(j);
-				tabLayout.setBackupBound(tabLayout.getBounds());
-				int refSize = tabLayout.getHeight();
+                Dimension d = new Dimension(tabLayout.toData().getContainerWidth(), tabLayout.toData().getContainerHeight());
+                Rectangle rec = actualSize? new Rectangle(d): tabLayout.getBounds();
+                // 容器大小改变时，设下backupBound为其之前的实际大小
+                tabLayout.setBackupBound(rec);
+                int refSize = rec.height;
 				int offset = height - refSize - WCardMainBorderLayout.TAB_HEIGHT;
 		    	if(offset < 0){
 		    		// 缩放时需要备份原tab布局宽高
-		    		tabLayout.setReferDim(new Dimension(tabLayout.getWidth(),tabLayout.getHeight()));
+		    		tabLayout.setReferDim(new Dimension(rec.width, rec.height));
 		    	}
 				double percent = (double) offset / refSize;
 				if (percent < 0 && !tabLayout.canReduce(percent)) {
 					return;
 				}
-				tabLayout.setSize(tabLayout.getWidth(),
-						tabLayout.getHeight() + offset);
-				for (int m = 0; m < tabLayout.getComponentCount(); m++) {
-					XCreator childCreator = tabLayout.getXCreator(m);
-					BoundsWidget wgt = (BoundsWidget) tabLayout.toData()
-							.getBoundsWidget(childCreator.toData());
-					wgt.setBounds(tabLayout.getComponent(m).getBounds());
-				}
+				tabLayout.setSize(rec.width, rec.height + offset);
+                if(!actualSize){
+                    updateWidgetBounds(tabLayout);
+                }
 				tabLayout.adjustCreatorsHeight(percent);
 			}
 		}
     
+    }
+
+    private void updateWidgetBounds(XWTabFitLayout tabLayout){
+        for (int m = 0; m < tabLayout.getComponentCount(); m++) {
+            XCreator childCreator = tabLayout.getXCreator(m);
+            BoundsWidget wgt = (BoundsWidget) tabLayout.toData()
+                    .getBoundsWidget(childCreator.toData());
+            wgt.setBounds(tabLayout.getComponent(m).getBounds());
+        }
     }
 
 	public void paint(Graphics g) {
