@@ -255,7 +255,7 @@ public class FormSelectionUtils {
             xwTitleLayout.resetCreatorName(copyName);
             return;
         }
-        xCreator.toData().setWidgetName(copyName);
+        xCreator.resetCreatorName(copyName);
         int count = xCreator.getComponentCount();
         for(int a = 0; a <count; a++){
             if(xCreator.getComponent(a) instanceof XCreator){
