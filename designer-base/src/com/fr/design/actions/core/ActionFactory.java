@@ -9,7 +9,8 @@ import com.fr.design.menu.MenuKeySet;
 import com.fr.design.selection.QuickEditor;
 import com.fr.log.FineLoggerFactory;
 
-import javax.swing.*;
+import javax.swing.Action;
+import javax.swing.KeyStroke;
 import java.awt.event.KeyEvent;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
@@ -137,28 +138,6 @@ public class ActionFactory {
      */
     public static void registerChartPreStyleAction(UpdateAction action) {
         chartPreStyleAction = action;
-    }
-
-    /**
-     * kunsnat: 图表注册 悬浮元素编辑器 , 因为ChartCollection和ChartQuickEditor一个在Chart,一个在Designer, 所以分开注册.
-     *
-     * @param editorClass 悬浮元素图表编辑器类
-     */
-    public static void registerChartFloatEditorInEditor(Class<? extends QuickEditor> editorClass) {
-        if (chartCollectionClass != null) {
-            registerFloatEditorClass(chartCollectionClass, editorClass);
-        }
-    }
-
-    /**
-     * kunsnat: 图表注册 单元格元素编辑器 , 因为ChartCollecion和ChartQuickEditor一个在Chart,一个在Designer, 所以分开注册.
-     *
-     * @param editorClass 单元格元素图表编辑器类
-     */
-    public static void registerChartCellEditorInEditor(Class<? extends QuickEditor> editorClass) {
-        if (chartCollectionClass != null) {
-            registerCellEditorClass(chartCollectionClass, editorClass);
-        }
     }
 
     /**

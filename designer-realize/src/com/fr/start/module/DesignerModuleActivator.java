@@ -19,6 +19,7 @@ public class DesignerModuleActivator extends Activator implements Prepare {
         
         ModuleContext.startModule(DesignerModule.class.getName());
 
+        DesignerModule.register();
         ChartDesignerModule.register();
     }
 
