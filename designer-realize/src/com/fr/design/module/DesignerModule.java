@@ -131,25 +131,27 @@ public class DesignerModule extends DesignModule {
         GeneralXMLTools.Object_XML_Writer_Finder = startObjectXMLWriterFinder();
         addAdapterForPlate();
 
-        registerCellEditor();
-        registerFloatEditor();
-        registerData4Form();
-        registerOtherPane();
-
         InformationCollector.getInstance().collectStartTime();
 
         ExtraDesignClassManager.getInstance().getFeedback().didFeedback();
         StableFactory.registerMarkedObject(LogProvider.MARK_STRING, DesignerLogImpl.getInstance());
     }
 
-    private void registerOtherPane() {
+    public static void register() {
+        registerCellEditor();
+        registerFloatEditor();
+        registerData4Form();
+        registerOtherPane();
+    }
+
+    private static void registerOtherPane() {
         StableFactory.registerMarkedClass(BBSGuestPaneProvider.XML_TAG, BBSGuestPane.class);
     }
 
     /**
      * kunsnat:注册单元格选中Editor
      */
-    private void registerCellEditor() {
+    private static void registerCellEditor() {
 
         ActionFactory.registerCellEditor(String.class, new CellStringQuickEditor());
         ActionFactory.registerCellEditor(Number.class, new CellStringQuickEditor());
@@ -184,7 +186,7 @@ public class DesignerModule extends DesignModule {
     /**
      * kunnat: 注册悬浮选中Editor
      */
-    private void registerFloatEditor() {
+    private static void registerFloatEditor() {
 
         ActionFactory.registerFloatEditor(String.class, new FloatStringQuickEditor());
         ActionFactory.registerFloatEditor(Formula.class, new FloatStringQuickEditor());
@@ -494,7 +496,7 @@ public class DesignerModule extends DesignModule {
     }
 
 
-    private void registerData4Form() {
+    private static void registerData4Form() {
         StableFactory.registerMarkedClass(FormECDesignerProvider.XML_TAG, FormElementCaseDesigner.class);
         StableFactory.registerMarkedClass(FormECCompositeProvider.XML_TAG, FormReportComponentComposite.class);
         DesignModuleFactory.registerParameterReader(new WorkBookParameterReader());
