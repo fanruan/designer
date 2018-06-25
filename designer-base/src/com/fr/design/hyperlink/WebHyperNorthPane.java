@@ -24,7 +24,7 @@ import java.awt.BorderLayout;
 public class WebHyperNorthPane extends AbstractHyperNorthPane<WebHyperlink> {
     private UITextField itemNameTextField;
     private boolean needRenamePane = false;
-    private UITextArea urlTextField;
+    private UITextField urlTextField;
 
     public WebHyperNorthPane(boolean needRenamePane) {
         this.needRenamePane = needRenamePane;
@@ -48,7 +48,7 @@ public class WebHyperNorthPane extends AbstractHyperNorthPane<WebHyperlink> {
     protected JPanel setHeaderPanel() {
         JPanel headerPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
 
-        urlTextField = new UITextArea(1,headerPane.getWidth());
+        urlTextField = new UITextField(headerPane.getWidth());
         urlTextField.setText(ProductConstants.WEBSITE_URL);
 
         JPanel urlWithHelp = GUICoreUtils.createNamedPane(urlTextField, "URL:");

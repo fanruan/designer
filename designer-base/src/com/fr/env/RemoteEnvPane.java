@@ -64,7 +64,7 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
     private UILabel message = new UILabel();
     private UIButton okButton = new UIButton(Inter.getLocText("OK"));
     private UIButton cancelButton = new UIButton(Inter.getLocText("Cancel"));
-    ;
+    private UILabel uiLabel = new UILabel();
 
     /**
      * 是否启用 https 勾选框
@@ -477,6 +477,7 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
             protected Boolean doInBackground() throws Exception {
 
                 final RemoteDesignerWorkspaceInfo remoteEnv = updateBean();
+
                 return WorkContext.getConnector().testConnection(remoteEnv.getConnection());
             }
 
@@ -486,11 +487,14 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
                 try {
                     if (get()) {
                         message.setText(Inter.getLocText("Fine-Designer_Basic_Remote_Connect_Successful"));
+                        uiLabel.setIcon(UIManager.getIcon("OptionPane.informationIcon"));
                     } else {
                         message.setText(Inter.getLocText("Fine-Designer_Basic_Remote_Connect_Failed"));
+                        uiLabel.setIcon(UIManager.getIcon("OptionPane.errorIcon"));
                     }
                 } catch (InterruptedException | ExecutionException e) {
                     message.setText(Inter.getLocText("Fine-Designer_Basic_Remote_Connect_Failed"));
+                    uiLabel.setIcon(UIManager.getIcon("OptionPane.errorIcon"));
                 }
             }
         };
@@ -530,7 +534,7 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
         JPanel jp = new JPanel();
         JPanel upPane = new JPanel();
         JPanel downPane = new JPanel();
-        UILabel uiLabel = new UILabel(UIManager.getIcon("OptionPane.informationIcon"));
+        uiLabel = new UILabel(UIManager.getIcon("OptionPane.informationIcon"));
         upPane.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
         upPane.add(uiLabel);
         upPane.add(message);

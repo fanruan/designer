@@ -390,7 +390,8 @@ public class PreviewTablePane extends BasicPane {
                 } catch (Exception e) {
                     if (!(e instanceof CancellationException)) {
                         FRContext.getLogger().error(e.getMessage(), e);
-                        JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), e.getMessage());
+                        JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), e.getMessage(),
+                                null, 0, UIManager.getIcon("OptionPane.errorIcon"));
                     }
                     dialog.setVisible(false);
                 } finally {
