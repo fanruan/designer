@@ -227,8 +227,8 @@ public class FRAbsoluteBodyLayoutPropertiesGroupModel extends FRAbsoluteLayoutPr
         }
         for (int i = 0;i < components.length;i++){
             if (components[i] instanceof XWCardMainBorderLayout){
-                ((XWCardMainBorderLayout)components[i]).recalculateChildWidth(components[i].getWidth());
-                ((XWCardMainBorderLayout)components[i]).recalculateChildHeight(components[i].getHeight());
+                ((XWCardMainBorderLayout)components[i]).recalculateChildWidth(components[i].getWidth(), false);
+                ((XWCardMainBorderLayout)components[i]).recalculateChildHeight(components[i].getHeight(), false);
             }
             xwFitLayout.dealDirections((XCreator)components[i], false);
         }
