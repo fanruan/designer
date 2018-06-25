@@ -5,6 +5,7 @@ import com.fr.design.DesignerEnvManager;
 import com.fr.log.FineLoggerFactory;
 import com.fr.module.Activator;
 import com.fr.module.ModuleRole;
+import com.fr.stable.EncodeConstants;
 import com.fr.startup.FineWebApplicationInitializer;
 import com.fr.third.springframework.web.SpringServletContainerInitializer;
 import com.fr.third.springframework.web.context.support.AnnotationConfigWebApplicationContext;
@@ -12,6 +13,7 @@ import com.fr.workspace.WorkContext;
 import org.apache.catalina.Context;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.Wrapper;
+import org.apache.catalina.connector.Connector;
 import org.apache.catalina.loader.VirtualWebappLoader;
 import org.apache.catalina.startup.Tomcat;
 
@@ -55,6 +57,8 @@ public class FineEmbedServerActivator extends Activator {
         tomcat = new Tomcat();
         
         tomcat.setPort(DesignerEnvManager.getEnvManager().getEmbedServerPort());
+        // 设置解码uri使用的字符编码
+        tomcat.getConnector().setURIEncoding(EncodeConstants.ENCODING_UTF_8);
         String docBase = new File(WorkContext.getCurrent().getPath()).getParent();
         String appName = "/" + FRContext.getCommonOperator().getAppName();
         Context context = tomcat.addContext(appName, docBase);

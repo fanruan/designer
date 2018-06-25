@@ -3,36 +3,44 @@
  */
 package com.fr.poly;
 
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-
-import javax.swing.JComponent;
-import javax.swing.JScrollBar;
-import javax.swing.plaf.ComponentUI;
-
 import com.fr.base.GraphHelper;
 import com.fr.base.Margin;
 import com.fr.base.PaperSize;
 import com.fr.base.ScreenResolution;
+import com.fr.base.iofile.attr.WatermarkAttr;
 import com.fr.design.utils.ComponentUtils;
 import com.fr.general.Background;
+import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
+import com.fr.main.FineBook;
 import com.fr.page.PaperSettingProvider;
 import com.fr.page.ReportSettingsProvider;
+import com.fr.page.WatermarkPainter;
 import com.fr.poly.creator.BlockCreator;
-import com.fr.poly.creator.ECBlockCreator;
-import com.fr.poly.creator.ECBlockEditor;
 import com.fr.poly.model.AddedData;
 import com.fr.poly.model.AddingData;
+import com.fr.report.core.ReportUtils;
 import com.fr.report.report.Report;
 import com.fr.report.report.TemplateReport;
 import com.fr.report.stable.ReportConstants;
 import com.fr.stable.Constants;
 import com.fr.stable.CoreGraphHelper;
 import com.fr.stable.unit.UNIT;
+
+import javax.swing.JComponent;
+import javax.swing.JScrollBar;
+import javax.swing.plaf.ComponentUI;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 /**
  * @author richer
@@ -48,6 +56,7 @@ public class PolyDesignUI extends ComponentUI {
     private PolyDesigner designer;
     private int resolution;
 	private float time;
+    private WatermarkPainter watermarkPainter;
 
     public PolyDesignUI(int resolution) {
         if (resolution == 0){
@@ -97,6 +106,18 @@ public class PolyDesignUI extends ComponentUI {
             paintAddingData(g2d, addData);
         }
         paintPaginateLine(g2d);
+        paintWatermark(g2d, designer.getTarget().getBook(), c.getWidth(), c.getHeight());
+    }
+
+    // 绘制水印
+    private void paintWatermark(Graphics2D g2d, FineBook book, int width, int height) {
+        WatermarkAttr watermark = ReportUtils.getWatermarkFromAttrMarkFile(book);
+
+        // 不要每次都 new 一个 WatermarkPainter
+        if (watermarkPainter == null || !ComparatorUtils.equals(watermarkPainter.getWatermark(), watermark)) {
+            watermarkPainter = new WatermarkPainter(watermark);
+        }
+        watermarkPainter.paint(g2d, width, height);
     }
 
     private void paintAddedData(Graphics g) {
