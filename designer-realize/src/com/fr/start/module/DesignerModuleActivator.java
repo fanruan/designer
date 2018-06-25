@@ -1,6 +1,5 @@
 package com.fr.start.module;
 
-import com.fr.design.mainframe.loghandler.socketio.DesignerSocketIO;
 import com.fr.design.module.ChartDesignerModule;
 import com.fr.design.module.DesignerModule;
 import com.fr.general.ModuleContext;
@@ -19,7 +18,6 @@ public class DesignerModuleActivator extends Activator implements Prepare {
     public void start() {
         
         ModuleContext.startModule(DesignerModule.class.getName());
-        DesignerSocketIO.init();
 
         ChartDesignerModule.register();
     }
