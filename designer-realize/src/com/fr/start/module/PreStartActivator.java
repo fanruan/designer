@@ -38,11 +38,7 @@ public class PreStartActivator extends Activator {
         } else {
             DesignUtils.setPort(getStartPort());
         }
-        // 如果端口被占用了 说明程序已经运行了一次,也就是说，已经建立一个监听服务器，现在只要给服务器发送命令就好了
-        if (DesignUtils.isStarted()) {
-            DesignUtils.clientSend(getModule().upFindSingleton(StartupArgs.class).get());
-            return true;
-        }
+
         return false;
     }
 

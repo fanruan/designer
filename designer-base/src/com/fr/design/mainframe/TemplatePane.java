@@ -137,7 +137,8 @@ public class TemplatePane extends JPanel implements MouseListener {
                 @Override
                 public void fail() {
                     
-                    JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText(new String[]{"M-SwitchWorkspace", "Failed"}));
+                    JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText(new String[]{"M-SwitchWorkspace", "Failed"}),
+                            null, 0, UIManager.getIcon("OptionPane.errorIcon"));
                 }
                 
                 @Override
@@ -152,7 +153,8 @@ public class TemplatePane extends JPanel implements MouseListener {
             }
             setJLabel(selectedName);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText(new String[]{"M-SwitchWorkspace", "Failed"}));
+            JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText(new String[]{"M-SwitchWorkspace", "Failed"}),
+                    null, 0, UIManager.getIcon("OptionPane.errorIcon"));
             return false;
         }
         TemplateTreePane.getInstance().refreshDockingView();

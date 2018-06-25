@@ -35,6 +35,9 @@ import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.module.DesignModuleFactory;
+
+import com.fr.design.utils.DesignUtils;
+
 import com.fr.design.utils.concurrent.ThreadFactoryBuilder;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.CloudCenter;
@@ -97,6 +100,12 @@ public class Designer extends BaseDesigner {
         BuildContext.setBuildFilePath("/com/fr/stable/build.properties");
         preloadResource();
         SplashContext.getInstance().registerSplash(createSplash());
+
+        // 如果端口被占用了 说明程序已经运行了一次,也就是说，已经建立一个监听服务器，现在只要给服务器发送命令就好了
+        if (DesignUtils.isStarted()) {
+            DesignUtils.clientSend(args);
+            return;
+        }
         SplashContext.getInstance().show();
         Module designerRoot = ModuleContext.parseRoot("designer-startup.xml");
         //传递启动参数
