@@ -225,10 +225,10 @@ public class XWAbsoluteLayout extends XLayoutContainer {
             for (int i = 0; i < this.getComponentCount(); i++) {
                 XCreator creator = getXCreator(i);
                 Rectangle rec = new Rectangle(creator.getBounds());
-                rec.x = (int) (rec.x / prevContainerPercent * containerPercent);
-                rec.y = (int) (rec.y / prevContainerPercent * containerPercent);
-                rec.height = (int) (rec.height / prevContainerPercent * containerPercent);
-                rec.width = (int) (rec.width / prevContainerPercent * containerPercent);
+                rec.x = (int)Math.round(rec.x / prevContainerPercent * containerPercent);
+                rec.y = (int)Math.round(rec.y / prevContainerPercent * containerPercent);
+                rec.height = (int)Math.round(rec.height / prevContainerPercent * containerPercent);
+                rec.width = (int)Math.round(rec.width / prevContainerPercent * containerPercent);
                 BoundsWidget wgt = (BoundsWidget) toData().getBoundsWidget(creator.toData());
                 wgt.setBounds(rec);
                 creator.setBounds(rec);
