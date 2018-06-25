@@ -20,7 +20,7 @@ import java.util.Map;
 public final class WebPreviewUtils {
 
     public static void preview(JTemplate<?, ?> jt) {
-        preview(jt, null);
+        preview(jt, jt.getPreviewType());
     }
 
     @SuppressWarnings("unchecked")

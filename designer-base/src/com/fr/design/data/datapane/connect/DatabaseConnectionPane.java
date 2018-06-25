@@ -36,6 +36,7 @@ public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connecti
     private UIButton okButton;
     private UIButton cancelButton;
     private JDialog dialog;
+    private UILabel uiLabel;
 
     // Database pane
     public DatabaseConnectionPane() {
@@ -46,6 +47,7 @@ public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connecti
         originalCharSetComboBox = new UIComboBox(EncodeConstants.ALL_ENCODING_ARRAY);
         newCharSetComboBox = new UIComboBox(EncodeConstants.ALL_ENCODING_ARRAY);
         message = new UILabel();
+        uiLabel = new UILabel();
         okButton = new UIButton(Inter.getLocText("OK"));
         cancelButton = new UIButton(Inter.getLocText("Cancel"));
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
@@ -113,6 +115,7 @@ public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connecti
 
     ActionListener testConnectionActionListener = new ActionListener() {
         public void actionPerformed(ActionEvent evt) {
+
             // Try the java connection.
             final SwingWorker connectionThread = new SwingWorker() {
                 protected Object doInBackground() throws Exception {
@@ -121,6 +124,11 @@ public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connecti
                         boolean connect = DataOperator.getInstance().testConnection(database);
                         okButton.setEnabled(true);
                         message.setText(database.connectMessage(connect));
+                        if (connect) {
+                            uiLabel.setIcon(UIManager.getIcon("OptionPane.informationIcon"));
+                        }else{
+                            uiLabel.setIcon(UIManager.getIcon("OptionPane.errorIcon"));
+                        }
                     } catch (Exception exp) {
                         FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
                     }
@@ -165,7 +173,8 @@ public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connecti
         JPanel jp = new JPanel();
         JPanel upPane = new JPanel();
         JPanel downPane = new JPanel();
-        UILabel uiLabel = new UILabel(UIManager.getIcon("OptionPane.informationIcon"));
+        uiLabel = new UILabel(UIManager.getIcon("OptionPane.informationIcon"));
+
         upPane.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
         upPane.add(uiLabel);
         upPane.add(message);
