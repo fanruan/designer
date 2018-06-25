@@ -190,9 +190,6 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
         }
     }
 
-
-    protected abstract String module2Start();
-
     // 收集用户信息码
     protected void collectUserInformation() {
 

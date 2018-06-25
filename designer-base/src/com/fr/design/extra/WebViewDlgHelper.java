@@ -296,7 +296,7 @@ public class WebViewDlgHelper {
         new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
-                HttpClient httpClient = new HttpClient(CloudCenter.getInstance().acquireUrlByKind("shop.plugin.cv_10") + "&version=" + PluginStoreConstants.getInstance().getProps("VERSION"));
+                HttpClient httpClient = new HttpClient(CloudCenter.getInstance().acquireUrlByKind("shop.plugin.update") + "?" + PluginUtils.FR_VERSION + "=" + ProductConstants.VERSION + "&version=" + PluginStoreConstants.getInstance().getProps("VERSION"));
                 httpClient.asGet();
                 if (httpClient.getResponseCode() == HttpURLConnection.HTTP_OK) {
                     String text = httpClient.getResponseText();

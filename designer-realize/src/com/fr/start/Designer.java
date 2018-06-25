@@ -21,9 +21,7 @@ import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.gui.itoolbar.UILargeToolbar;
 import com.fr.design.mainframe.ActiveKeyGenerator;
-import com.fr.design.mainframe.CellElementPropertyPane;
 import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.mainframe.DesignerFrameFileDealerPane;
 import com.fr.design.mainframe.InformationCollector;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.mainframe.JWorkBook;
@@ -37,11 +35,11 @@ import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.module.DesignModuleFactory;
-import com.fr.design.module.DesignerModule;
+
 import com.fr.design.utils.DesignUtils;
+
 import com.fr.design.utils.concurrent.ThreadFactoryBuilder;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.form.ui.WidgetInfoConfig;
 import com.fr.general.CloudCenter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
@@ -144,25 +142,6 @@ public class Designer extends BaseDesigner {
                 TemplateInfoCollector.getInstance();
             }
         });
-
-        service.submit(new Runnable() {
-            @Override
-            public void run() {
-                CellElementPropertyPane.getInstance();
-            }
-        });
-        service.submit(new Runnable() {
-            @Override
-            public void run() {
-                DesignerFrameFileDealerPane.getInstance();//这边会涉及到TemplateTreePane
-            }
-        });
-        service.submit(new Runnable() {
-            @Override
-            public void run() {
-                WidgetInfoConfig.getInstance();
-            }
-        });
         service.shutdown();
     }
 
@@ -178,11 +157,6 @@ public class Designer extends BaseDesigner {
 
     public Designer(String[] args) {
         super(args);
-    }
-
-    @Override
-    protected String module2Start() {
-        return DesignerModule.class.getName();
     }
 
 

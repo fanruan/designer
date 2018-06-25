@@ -1,6 +1,7 @@
 package com.fr.design.gui.iprogressbar;
 
 import com.fr.design.border.UIRoundedBorder;
+import com.fr.stable.OperatingSystem;
 
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
@@ -62,7 +63,9 @@ public class UIProgressBorder extends UIRoundedBorder {
         g2d.fill(new RoundRectangle2D.Double(x, y, width, height, 0, 0));
         g2d.setColor(oldColor);
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
-        paintBorderShadow(g2d, 7, x, y, width, height);
+        if(OperatingSystem.isWindows()){//mac下自带阴影
+            paintBorderShadow(g2d, 7, x, y, width, height);
+        }
 
         g2d.setColor(oldColor);
         g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, 1f));

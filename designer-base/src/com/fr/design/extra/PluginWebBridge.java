@@ -559,7 +559,7 @@ public class PluginWebBridge {
         uiLabel.setText(Inter.getLocText("FR-Base_UnSignIn"));
     }
 
-    public void updatePluginStore(final JSObject callback){
+    public void getPackInfo(final JSObject callback){
         JSCallback jsCallback = new JSCallback(webEngine, callback);
         jsCallback.execute(StringUtils.EMPTY);
     }
