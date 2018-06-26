@@ -1,5 +1,6 @@
 package com.fr.design.mainframe.chart.gui.style;
 
+import com.fr.base.ChartPreStyleConfig;
 import com.fr.base.ChartPreStyleManagerProvider;
 import com.fr.base.ChartPreStyleServerManager;
 import com.fr.base.Utils;
@@ -16,8 +17,13 @@ import com.fr.design.style.background.gradient.FixedGradientBar;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -128,10 +134,10 @@ public class ChartFillStylePane extends BasicBeanPane<AttrFillStyle>{
 	}
 
     private String[] getNameObj() {
-        ChartPreStyleManagerProvider manager = ChartPreStyleServerManager.getProviderInstance();
+		ChartPreStyleConfig config = ChartPreStyleConfig.getInstance();
         ArrayList<String> nameArr = new ArrayList<String>();
         nameArr.add(Inter.getLocText("FR-Designer_DEFAULT"));
-        Iterator keys = manager.names();
+        Iterator keys = config.names();
         while (keys.hasNext()) {
             Object key = keys.next();
             nameArr.add(Utils.objectToString(key));

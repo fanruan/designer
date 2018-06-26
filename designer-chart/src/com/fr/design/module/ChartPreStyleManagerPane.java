@@ -1,7 +1,6 @@
 package com.fr.design.module;
 
-import com.fr.base.ChartPreStyleManagerProvider;
-import com.fr.base.ChartPreStyleServerManager;
+import com.fr.base.ChartPreStyleConfig;
 import com.fr.base.Utils;
 import com.fr.chart.base.ChartPreStyle;
 import com.fr.design.gui.controlpane.JListControlPane;
@@ -42,14 +41,14 @@ public class ChartPreStyleManagerPane extends JListControlPane {
 	}
 	
 	public void populateBean() {
-		ChartPreStyleManagerProvider manager = ChartPreStyleServerManager.getProviderInstance();
+		ChartPreStyleConfig config = ChartPreStyleConfig.getInstance();
 		
 		ArrayList list = new ArrayList();
 		
-		Iterator keys = manager.names();
+		Iterator keys = config.names();
 		while(keys.hasNext()) {
 			Object key = keys.next();
-			ChartPreStyle value = (ChartPreStyle)manager.getPreStyle(key);
+			ChartPreStyle value = (ChartPreStyle)config.getPreStyle(key);
 			
 			list.add(new NameObject(Utils.objectToString(key), value));
 		}
@@ -57,26 +56,23 @@ public class ChartPreStyleManagerPane extends JListControlPane {
 		Nameable[] values = (Nameable[])list.toArray(new Nameable[list.size()]);
 		populate(values);
 		
-		if(manager.containsName(manager.getCurrentStyle())) {
-			this.setSelectedName(manager.getCurrentStyle());
+		if(config.containsName(config.getCurrentStyle())) {
+			this.setSelectedName(config.getCurrentStyle());
 		}
 	}
 	
 	public void updateBean() {
-		ChartPreStyleManagerProvider manager = ChartPreStyleServerManager.getProviderInstance();
-		manager.clearPreStyles();
-		
+		ChartPreStyleConfig config = ChartPreStyleConfig.getInstance();
+
 		Nameable[] values = this.update();
-		
-		manager.setCurrentStyle(getSelectedName());
+
+		config.setCurrentStyle(getSelectedName());
 		
 		for(int i = 0; i < values.length; i++) {
 			Nameable value = values[i];
-			manager.putPreStyle(value.getName(), ((NameObject)value).getObject());
+			config.putPreStyle(value.getName(), ((NameObject)value).getObject());
 		}
-		
-		manager.writerPreChartStyle();
-		
+
 		// 通知报表整个刷新. 
 		DesignerFrame frame = DesignerContext.getDesignerFrame();
 		if(frame != null) {
