@@ -12,7 +12,6 @@ import com.fr.design.fun.DesignerStartOpenFileProcessor;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.mainframe.EastRegionContainerPane;
-import com.fr.design.mainframe.WestRegionContainerPane;
 import com.fr.design.mainframe.loghandler.LogMessageBar;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDock;
 import com.fr.design.utils.DesignUtils;
@@ -70,12 +69,6 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
             @Override
             public void run() {
                 HistoryTemplateListPane.getInstance();
-            }
-        });
-        service.submit(new Runnable() {
-            @Override
-            public void run() {
-                WestRegionContainerPane.getInstance();
             }
         });
         service.submit(new Runnable() {
