@@ -53,7 +53,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
     
     private static final String FILE = "file";
     
-    private static DesignerFrameFileDealerPane THIS;
+    private static volatile DesignerFrameFileDealerPane THIS;
     
     private CardLayout card;
     
@@ -81,11 +81,15 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
     
         selectedOperation.refresh();
     }
-    
+
     public static final DesignerFrameFileDealerPane getInstance() {
-        
+
         if (THIS == null) {
-            THIS = new DesignerFrameFileDealerPane();
+            synchronized (DesignerFrameFileDealerPane.class) {
+                if (THIS == null) {
+                    THIS = new DesignerFrameFileDealerPane();
+                }
+            }
         }
         return THIS;
     }
