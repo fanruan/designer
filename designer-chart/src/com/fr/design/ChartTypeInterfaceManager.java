@@ -275,26 +275,13 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
         List<Integer> priorityList = getPriorityInOrder();
         for (Integer aPriorityList : priorityList) {
             String priority = String.valueOf(aPriorityList);
-            Iterator<Map.Entry<String, IndependentChartUIProvider>> chartUIIterator = chartTypeInterfaces.get(priority).entrySet().iterator();
-            while (chartUIIterator.hasNext()) {
-                Map.Entry<String, IndependentChartUIProvider> chartUIEntry = chartUIIterator.next();
-                IndependentChartUIProvider provider = chartUIEntry.getValue();
-                AbstractChartTypePane pane = provider.getPlotTypePane();
-                pane.setPlotID(chartUIEntry.getKey());
-                paneList.add(pane);
-            }
+            addPlotTypePaneList(priority, paneList);
         }
     }
 
-    private static String getChartName(String plotID, IndependentChartUIProvider provider) {
-        String name = provider.getPlotTypeTitle4PopupWindow();
-        if (StringUtils.isEmpty(name)) {
-            name = ChartTypeManager.getInstance().getChartName(plotID);
-        }
-        return name;
-    }
 
-    private void addTitles(String priority, List<String> list) {
+    public void addPlotTypePaneList(String priority, List<FurtherBasicBeanPane<? extends Chart>> paneList) {
+
         if (chartTypeInterfaces != null && chartTypeInterfaces.containsKey(priority)) {
 
             Map<String, IndependentChartUIProvider> chartUIList = chartTypeInterfaces.get(priority);
@@ -305,30 +292,31 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
                 String plotID = entry.getKey();
 
                 if (enabledChart(plotID)) {
-                    list.add(getChartName(plotID, entry.getValue()));
+                    AbstractChartTypePane pane = entry.getValue().getPlotTypePane();
+                    pane.setPlotID(plotID);
+                    paneList.add(pane);
                 }
             }
         }
     }
 
-    public String[] getTitle4PopupWindow() {
-        List<Integer> priorityList = getPriorityInOrder();
 
-        List<String> result = new ArrayList<String>();
-
-        for (Integer priority : priorityList) {
-            addTitles(String.valueOf(priority), result);
+    public void addPlotTypePaneList(List<FurtherBasicBeanPane<? extends Chart>> paneList,
+                                    String priority, String plotID) {
+        if (chartTypeInterfaces != null && chartTypeInterfaces.containsKey(priority) && chartTypeInterfaces.get(priority).containsKey(plotID)) {
+            IndependentChartUIProvider provider = chartTypeInterfaces.get(priority).get(plotID);
+            AbstractChartTypePane pane = provider.getPlotTypePane();
+            pane.setPlotID(plotID);
+            paneList.add(pane);
         }
-
-        return result.toArray(new String[result.size()]);
     }
 
-    public String[] getTitle4PopupWindow(String priority) {
-        List<String> list = new ArrayList<String>();
-
-        addTitles(priority, list);
-
-        return list.toArray(new String[list.size()]);
+    private static String getChartName(String plotID, IndependentChartUIProvider provider) {
+        String name = provider.getPlotTypeTitle4PopupWindow();
+        if (StringUtils.isEmpty(name)) {
+            name = ChartTypeManager.getInstance().getChartName(plotID);
+        }
+        return name;
     }
     
     /**
