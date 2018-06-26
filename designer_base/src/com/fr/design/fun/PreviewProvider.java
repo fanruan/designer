@@ -11,7 +11,7 @@ import java.util.Map;
  * @since 8.0
  * 自定义预览方式接口
  */
-public interface PreviewProvider extends Mutable{
+public interface PreviewProvider extends Mutable {
 
     String MARK_STRING = "PreviewProvider";
 
@@ -53,5 +53,11 @@ public interface PreviewProvider extends Mutable{
      * @return 参数集合
      */
     Map<String, Object> parametersForPreview();
+
+    /**
+     * 该种预览方式所处理方式
+     * @return 处理方式
+     */
+    String getActionType();
 
 }
