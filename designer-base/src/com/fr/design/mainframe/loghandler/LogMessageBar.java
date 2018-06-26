@@ -1,27 +1,29 @@
 package com.fr.design.mainframe.loghandler;
 
+import com.fr.design.constants.UIConstants;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.general.Inter;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.JFrame;
-
-import com.fr.design.constants.UIConstants;
-import com.fr.design.gui.ilable.UILabel;
-import com.fr.general.Inter;
-
-import javax.swing.JPanel;
-
 public class LogMessageBar extends JPanel {
 	private UILabel messageLabel;
     private int width = 600;
-	public static LogMessageBar THIS;
+	public static volatile LogMessageBar THIS;
 	private JFrame dlg = new LogDetailPane().showDialog();
 
 	public static LogMessageBar getInstance() {
 		if (THIS == null) {
-			THIS = new LogMessageBar();
+			synchronized (LogMessageBar.class) {
+				if (THIS == null) {
+					THIS = new LogMessageBar();
+				}
+			}
 		}
 		return THIS;
 	}
@@ -32,7 +34,7 @@ public class LogMessageBar extends JPanel {
         return bar;
     }
 
-	public LogMessageBar() {
+	private LogMessageBar() {
 		messageLabel = new UILabel();
 		setLayout(new BorderLayout());
 		add(messageLabel, BorderLayout.CENTER);

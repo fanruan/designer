@@ -43,18 +43,22 @@ public class HistoryTemplateListPane extends JPanel implements FileOperations, C
     private JTemplate<?, ?> editingTemplate;
     private FileToolbarStateChangeListener toobarStateChangeListener;
 
-    private static HistoryTemplateListPane THIS;
+    private static volatile HistoryTemplateListPane THIS;
 
     private UIList list;
 
     public static final HistoryTemplateListPane getInstance() {
         if (THIS == null) {
-            THIS = new HistoryTemplateListPane();
+            synchronized (HistoryTemplateListPane.class) {
+                if (THIS == null) {
+                    THIS = new HistoryTemplateListPane();
+                }
+            }
         }
         return THIS;
     }
 
-    public HistoryTemplateListPane() {
+    private HistoryTemplateListPane() {
         setLayout(new BorderLayout());
         historyList = new ArrayList<JTemplate<?, ?>>();
         list = new UIList(new HistoryListDataMode()) {
