@@ -51,9 +51,12 @@ import com.fr.design.javascript.ProcessTransitionAdapter;
 import com.fr.design.mainframe.AbstractAppProvider;
 import com.fr.design.mainframe.App;
 import com.fr.design.mainframe.BaseJForm;
+import com.fr.design.mainframe.CellElementPropertyPane;
 import com.fr.design.mainframe.ChartPropertyPane;
 import com.fr.design.mainframe.DecodeDialog;
 import com.fr.design.mainframe.DesignerFrame;
+import com.fr.design.mainframe.DesignerFrameFileDealerPane;
+import com.fr.design.mainframe.EastRegionContainerPane;
 import com.fr.design.mainframe.ElementCaseThumbnail;
 import com.fr.design.mainframe.FormHierarchyTreePane;
 import com.fr.design.mainframe.InformationCollector;
@@ -69,6 +72,7 @@ import com.fr.design.mainframe.form.FormECDesignerProvider;
 import com.fr.design.mainframe.form.FormElementCaseDesigner;
 import com.fr.design.mainframe.form.FormReportComponentComposite;
 import com.fr.design.mainframe.loghandler.DesignerLogImpl;
+import com.fr.design.mainframe.loghandler.LogMessageBar;
 import com.fr.design.module.ChartHyperlinkGroup;
 import com.fr.design.module.ChartPreStyleAction;
 import com.fr.design.module.DesignModuleFactory;
@@ -81,6 +85,7 @@ import com.fr.file.FILE;
 import com.fr.form.main.Form;
 import com.fr.form.stable.ElementCaseThumbnailProcessor;
 import com.fr.form.ui.ChartEditor;
+import com.fr.form.ui.WidgetInfoConfig;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.general.ModuleContext;
@@ -137,8 +142,11 @@ import com.fr.van.chart.DownloadOnlineSourcesHelper;
 import com.fr.van.chart.map.server.ChartMapEditorAction;
 import com.fr.xml.ReportXMLUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -148,6 +156,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static com.fr.stable.module.Module.ENGINE_MODULE;
 
@@ -204,6 +214,50 @@ public class DesignerModuleActivator extends Activator implements Prepare {
         ExtraDesignClassManager.getInstance().getFeedback().didFeedback();
         StableFactory.registerMarkedObject(LogProvider.MARK_STRING, DesignerLogImpl.getInstance());
 
+        preLoadPane();
+
+    }
+    private static void preLoadPane() {
+        ExecutorService service = Executors.newCachedThreadPool();
+        service.submit(new Runnable() {
+            @Override
+            public void run() {
+                LogMessageBar.getInstance();
+            }
+        });
+
+        service.submit(new Runnable() {
+            @Override
+            public void run() {
+                HistoryTemplateListPane.getInstance();
+            }
+        });
+        service.submit(new Runnable() {
+            @Override
+            public void run() {
+                WidgetInfoConfig.getInstance();
+            }
+        });
+        service.submit(new Runnable() {
+            @Override
+            public void run() {
+                CellElementPropertyPane.getInstance();
+            }
+        });
+        service.submit(new Runnable() {
+            @Override
+            public void run() {
+                DesignerFrameFileDealerPane.getInstance();//这边会涉及到TemplateTreePane
+            }
+        });
+
+        service.submit(new Runnable() {
+            @Override
+            public void run() {
+                EastRegionContainerPane.getInstance();
+            }
+        });
+        service.shutdown();
     }
 
     private static Class<?>[] actionsForInsertCellElement() {

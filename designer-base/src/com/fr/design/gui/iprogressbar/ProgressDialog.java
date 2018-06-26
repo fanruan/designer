@@ -52,6 +52,7 @@ public class ProgressDialog extends UIDialog {
         FRFont font = FRFont.getInstance().applySize(14).applyForeground(new ColorUIResource(333334));
         text.setFont(font);
         panel.add(text, BorderLayout.SOUTH);
+        panel.setVisible(true);
         centerDialog.getContentPane().add(panel);
 
     }
@@ -63,9 +64,8 @@ public class ProgressDialog extends UIDialog {
 
     @Override
     public void setVisible(boolean b) {
-        super.setVisible(b);
         centerDialog.setVisible(b);
-        centerDialog.setResizable(false);
+        super.setVisible(b);
     }
 
     public void setProgressValue(int value) {
