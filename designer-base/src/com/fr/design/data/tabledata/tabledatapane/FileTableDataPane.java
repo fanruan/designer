@@ -221,7 +221,8 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
                 FRContext.getLogger().error(e.getMessage(), e);
             }
             if (in == null) {
-                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("Datasource-Connection_failed"));
+                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("Datasource-Connection_failed"),
+                        null, 0, UIManager.getIcon("OptionPane.errorIcon"));
             } else {
                 JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("Datasource-Connection_successfully"));
                 try {

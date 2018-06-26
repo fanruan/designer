@@ -48,6 +48,7 @@ import com.fr.design.javascript.EmailPane;
 import com.fr.design.javascript.JavaScriptImplPane;
 import com.fr.design.javascript.ParameterJavaScriptPane;
 import com.fr.design.javascript.ProcessTransitionAdapter;
+import com.fr.design.mainframe.AbstractAppProvider;
 import com.fr.design.mainframe.App;
 import com.fr.design.mainframe.BaseJForm;
 import com.fr.design.mainframe.ChartPropertyPane;
@@ -77,6 +78,7 @@ import com.fr.design.parameter.WorkBookParameterReader;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.design.widget.ui.btn.FormSubmitButtonDetailPane;
 import com.fr.file.FILE;
+import com.fr.form.main.Form;
 import com.fr.form.stable.ElementCaseThumbnailProcessor;
 import com.fr.form.ui.ChartEditor;
 import com.fr.general.ComparatorUtils;
@@ -117,6 +119,7 @@ import com.fr.report.cell.cellattr.core.group.DSColumn;
 import com.fr.report.cell.painter.BiasTextPainter;
 import com.fr.report.cell.painter.CellImagePainter;
 import com.fr.stable.ArrayUtils;
+import com.fr.stable.Constants;
 import com.fr.stable.ParameterProvider;
 import com.fr.stable.StringUtils;
 import com.fr.stable.bridge.StableFactory;
@@ -134,16 +137,14 @@ import com.fr.van.chart.DownloadOnlineSourcesHelper;
 import com.fr.van.chart.map.server.ChartMapEditorAction;
 import com.fr.xml.ReportXMLUtils;
 
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import java.awt.BorderLayout;
-import java.awt.Image;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -348,7 +349,8 @@ public class DesignerModuleActivator extends Activator implements Prepare {
  * @return 可以打开的模板类型的数组
  */
     private static App[] apps4TemplateOpener() {
-        return new App[]{getCptxApp(), getCptApp(), getXlsApp(), getXlsxApp()};
+    
+        return new App[]{getCptxApp(), getCptApp(), getXlsApp(), getXlsxApp(), getFrmApp()};
     }
 
     private static AbstractWorkBookApp getXlsxApp() {
@@ -367,6 +369,57 @@ public class DesignerModuleActivator extends Activator implements Prepare {
                     FRContext.getLogger().error("Failed to generate xlsx from " + tplFile, exp);
                 }
                 return workbook;
+            }
+        };
+    }
+    
+    
+    private static AbstractAppProvider getFrmApp() {
+        
+        return new AbstractAppProvider<Form>() {
+            
+            @Override
+            public String[] defaultExtensions() {
+                
+                return new String[]{"frm", "form"};
+            }
+            
+            @Override
+            public JTemplate<Form, ?> openTemplate(FILE tplFile) {
+                
+                HashMap<String, Class> classType = new HashMap<String, Class>();
+                classType.put(Constants.ARG_0, Form.class);
+                classType.put(Constants.ARG_1, FILE.class);
+                
+                return (JTemplate<Form, ?>) StableFactory.getMarkedInstanceObjectFromClass(BaseJForm.XML_TAG,
+                    new Object[]{asIOFile(tplFile), tplFile}, classType, BaseJForm.class);
+            }
+            
+            @Override
+            public Form asIOFile(FILE file) {
+                
+                if (XMLEncryptUtils.isCptEncoded() &&
+                    !XMLEncryptUtils.checkVaild(DesignerEnvManager.getEnvManager().getEncryptionKey())) {
+                    if (!new DecodeDialog(file).isPwdRight()) {
+                        FRContext.getLogger().error(Inter.getLocText("FR-Engine_ECP_error_pwd"));
+                        return new Form();
+                    }
+                }
+                
+                
+                // peter:打开新报表.
+                Form tpl = new Form();
+                // richer:打开报表通知
+//				FRContext.getLogger().info(Inter.getLocText("LOG-Is_Being_Openned") + "\"" + file.getName() + "\"" + "," + Inter.getLocText("LOG-Please_Wait") + "...");
+                FRContext.getLogger().info(Inter.getLocText(new String[]{"LOG-Is_Being_Openned", "LOG-Please_Wait"},
+                    new String[]{"\"" + file.getName() + "\"" + ",", "..."}));
+                try {
+                    tpl.readStream(file.asInputStream());
+                } catch (Exception exp) {
+                    FRContext.getLogger().error("Failed to generate frm from " + file, exp);
+                    return null;
+                }
+                return tpl;
             }
         };
     }

@@ -3,6 +3,7 @@
  */
 package com.fr.design.actions.file.export;
 
+import com.fr.Message.ErrorMessage_;
 import com.fr.base.FRContext;
 import com.fr.base.Parameter;
 import com.fr.design.actions.JWorkBookAction;
@@ -133,7 +134,8 @@ public abstract class AbstractExportAction extends JWorkBookAction {
                 } catch (Exception exp) {
                     this.setProgress(100);
                     FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
-                    JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("FR-Designer_Export_failed") + "\n" + filePath);
+                    JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("FR-Designer_Export_failed") + "\n" + filePath,
+                            null, 0, UIManager.getIcon("OptionPane.errorIcon"));
                 }
                 return null;
             }
