@@ -1,8 +1,8 @@
 package com.fr.design.extra;
 
 import com.fr.base.TemplateUtils;
+import com.fr.general.CloudCenter;
 import com.fr.general.Inter;
-import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONObject;
@@ -15,6 +15,7 @@ import com.fr.plugin.error.PluginErrorCode;
 import com.fr.plugin.manage.PluginManager;
 import com.fr.plugin.view.PluginView;
 import com.fr.stable.EncodeConstants;
+import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import java.io.File;
@@ -35,6 +36,7 @@ import java.util.Map;
 public class PluginUtils {
     
     private static final String ERROR_CODE_I18N_PREFIX = "FR-Plugin_Error_";
+    public static final String FR_VERSION = "fr_version";
 
 
     public static PluginMarker createPluginMarker(String pluginInfo) {
@@ -46,7 +48,7 @@ public class PluginUtils {
 
     public static JSONObject getLatestPluginInfo(String pluginID) throws Exception {
         String result = "";
-        String plistUrl = SiteCenter.getInstance().acquireUrlByKind("plugin.searchAPI");
+        String plistUrl = CloudCenter.getInstance().acquireUrlByKind("plugin.searchAPI");
         if (StringUtils.isNotEmpty(plistUrl)) {
             StringBuilder url = new StringBuilder(plistUrl);
             if (StringUtils.isNotBlank(pluginID)) {
@@ -109,7 +111,7 @@ public class PluginUtils {
     private static String getDownloadPath(String id) throws Exception {
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("id", id);
-        HttpClient httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("shop.plugin.scripts_10"));
+        HttpClient httpClient = new HttpClient(CloudCenter.getInstance().acquireUrlByKind("shop.script.download")+ "?" + FR_VERSION + "=" + ProductConstants.VERSION);
         httpClient.asGet();
         String resText = httpClient.getResponseText();
         JSONObject resultJSONObject = new JSONObject(resText);

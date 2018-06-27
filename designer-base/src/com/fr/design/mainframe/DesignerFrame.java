@@ -23,6 +23,7 @@ import com.fr.design.file.TemplateTreePane;
 import com.fr.design.fun.TitlePlaceProcessor;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.imenu.UIMenuHighLight;
+import com.fr.design.gui.iprogressbar.ProgressDialog;
 import com.fr.design.gui.iscrollbar.UIScrollBar;
 import com.fr.design.gui.itoolbar.UIToolbar;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -192,6 +193,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
             closeButton.repaint();
         }
     };
+    private ProgressDialog progressDialog;
 
     public DesignerFrame(ToolBarMenuDock ad) {
 
@@ -269,6 +271,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         this.setDropTarget(new DropTarget(this, DnDConstants.ACTION_MOVE, new FileDropTargetListener(), true));
         closeMode = UIConstants.CLOSE_OF_AUTHORITY;
         initMenuPane();
+        this.progressDialog = new ProgressDialog(this);
     }
 
     /**
@@ -1049,4 +1052,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         }
     }
 
+    public ProgressDialog getProgressDialog() {
+        return progressDialog;
+    }
 }

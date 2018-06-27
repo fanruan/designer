@@ -11,7 +11,7 @@ import com.fr.form.share.ShareLoader;
 import com.fr.form.ui.SharableWidgetBindInfo;
 import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
-import com.fr.general.SiteCenter;
+import com.fr.general.CloudCenter;
 import com.fr.share.ShareConstants;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
@@ -298,7 +298,7 @@ public class FormWidgetDetailPane extends FormDockView{
         downloadButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String url = SiteCenter.getInstance().acquireUrlByKind("reuse.url");
+                String url = CloudCenter.getInstance().acquireUrlByKind("reuse.url");
                 if (StringUtils.isEmpty(url)) {
                     FRContext.getLogger().info("The URL is empty!");
                     return;

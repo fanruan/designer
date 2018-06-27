@@ -11,7 +11,7 @@ import com.fr.design.extra.exe.callback.UpdateFromDiskCallback;
 import com.fr.design.extra.exe.callback.UpdateOnlineCallback;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.general.Inter;
-import com.fr.general.SiteCenter;
+import com.fr.general.CloudCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONObject;
@@ -108,7 +108,7 @@ public class PluginOperateUtils {
     }
 
     public static String getRecommendPlugins() {
-        String plistUrl = SiteCenter.getInstance().acquireUrlByKind("shop.plugin.feature");
+        String plistUrl = CloudCenter.getInstance().acquireUrlByKind("shop.plugin.feature");
         JSONArray resultArray = JSONArray.create();
         try {
             HttpClient httpClient = new HttpClient(plistUrl);

@@ -206,19 +206,30 @@ public class ChartTypePane extends AbstractChartAttrPane{
 			boolean enabledChart = ChartTypeManager.enabledChart(plotID);
 			String item = ChartTypeInterfaceManager.getInstance().getTitle4PopupWindow(priority, plotID);
 
-			//第一步就是重构cardNames
+			//第一步就是重构cards
+			cards.clear();
 			if (enabledChart) {
-				cardNames = collection.getState() == SwitchState.DEFAULT
-						? ChartTypeInterfaceManager.getInstance().getTitle4PopupWindow()
-						: ChartTypeInterfaceManager.getInstance().getTitle4PopupWindow(priority);
+				if (collection.getState() == SwitchState.DEFAULT) {
+					ChartTypeInterfaceManager.getInstance().addPlotTypePaneList(cards);
+				} else {
+					ChartTypeInterfaceManager.getInstance().addPlotTypePaneList(priority, cards);
+				}
 			} else {
-				cardNames = new String[]{item};
+				ChartTypeInterfaceManager.getInstance().addPlotTypePaneList(cards, priority, plotID);
 			}
 
 			//下拉框重构开始。为了防止重构是触发update
 			((FlexibleComboBox)jcb).setItemEvenType(ItemEventType.REACTOR);
 			//重构下拉框选项
-			reactorComboBox();
+			cardNames = new String[cards.size()];
+			cardPane.removeAll();
+			jcb.removeAllItems();
+			for (int i = 0; i < this.cards.size(); i++) {
+				String name = this.cards.get(i).title4PopupWindow();// Name从各自的pane里面获取
+				cardNames[i] = name;
+				cardPane.add(this.cards.get(i), cardNames[i]);
+				addComboBoxItem(cards, i);
+			}
 			//重新选择选中的下拉项
 			jcb.setSelectedItem(item);
 			jcb.setEnabled(enabledChart);
@@ -231,13 +242,6 @@ public class ChartTypePane extends AbstractChartAttrPane{
 		private void checkPlotPane() {
 			CardLayout cl = (CardLayout)cardPane.getLayout();
 			cl.show(cardPane, cardNames[jcb.getSelectedIndex()]);
-		}
-
-		private void reactorComboBox() {
-			jcb.removeAllItems();
-			for (int i = 0; i < this.cardNames.length; i++) {
-				jcb.addItem(cardNames[i]);
-			}
 		}
 
 		@Override

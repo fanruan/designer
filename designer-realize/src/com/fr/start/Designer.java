@@ -35,12 +35,14 @@ import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.module.DesignModuleFactory;
-import com.fr.design.module.DesignerModule;
+
+import com.fr.design.utils.DesignUtils;
+
 import com.fr.design.utils.concurrent.ThreadFactoryBuilder;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.general.CloudCenter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
-import com.fr.general.SiteCenter;
 import com.fr.module.Module;
 import com.fr.module.ModuleContext;
 import com.fr.stable.BuildContext;
@@ -56,9 +58,14 @@ import com.fr.start.preload.ImagePreLoader;
 import com.fr.start.server.ServerTray;
 import com.fr.workspace.WorkContext;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.border.MatteBorder;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -90,9 +97,15 @@ public class Designer extends BaseDesigner {
      * @param args 参数
      */
     public static void main(String[] args) {
-        preloadResource();
         BuildContext.setBuildFilePath("/com/fr/stable/build.properties");
+        preloadResource();
         SplashContext.getInstance().registerSplash(createSplash());
+
+        // 如果端口被占用了 说明程序已经运行了一次,也就是说，已经建立一个监听服务器，现在只要给服务器发送命令就好了
+        if (DesignUtils.isStarted()) {
+            DesignUtils.clientSend(args);
+            return;
+        }
         SplashContext.getInstance().show();
         Module designerRoot = ModuleContext.parseRoot("designer-startup.xml");
         //传递启动参数
@@ -111,7 +124,7 @@ public class Designer extends BaseDesigner {
         service.submit(new Runnable() {
             @Override
             public void run() {
-                SiteCenter.getInstance();
+                CloudCenter.getInstance();
                 Cursor cursor = UIConstants.CELL_DEFAULT_CURSOR;
             }
         });
@@ -144,11 +157,6 @@ public class Designer extends BaseDesigner {
 
     public Designer(String[] args) {
         super(args);
-    }
-
-    @Override
-    protected String module2Start() {
-        return DesignerModule.class.getName();
     }
 
 

@@ -439,8 +439,7 @@ public abstract class ToolBarMenuDock {
     }
 
     private boolean shouldShowPlugin() {
-    
-        return !(WorkContext.getCurrent().isLocal()) && FRContext.isChineseEnv();
+        return WorkContext.getCurrent().isLocal() && FRContext.isChineseEnv();
     }
 
     /**

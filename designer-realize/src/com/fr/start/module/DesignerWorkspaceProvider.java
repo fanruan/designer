@@ -20,11 +20,12 @@ public class DesignerWorkspaceProvider extends Activator {
             for (String arg : args) {
                 if (ComparatorUtils.equals(arg, "demo")) {
                     DesignerEnvManager.getEnvManager().setCurrentEnv2Default();
-                    ServerStarter.browserDemoURL();
+                   // ServerStarter.browserDemoURL();
                     break;
                 }
             }
         }
+
         getRoot().setSingleton(EnvSwitcher.class, new EnvSwitcher());
         //设置好环境即可，具体跟环境有关的模块会自动调用
         getRoot().getSingleton(EnvSwitcher.class).switch2LastEnv();

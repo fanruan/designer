@@ -576,15 +576,17 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	/**
 	 * 重新调整子组件宽度
 	 * @param width 宽度
+	 * @param actualSize 是否按照实际大小计算
 	 */
-	public void recalculateChildWidth(int width){
+	public void recalculateChildWidth(int width, boolean actualSize){
 		return;
 	}
 	/**
 	 * 重新调整子组件高度
 	 * @param height 高度
+	 * @param actualSize 是否按照实际大小计算
 	 */
-	public void recalculateChildHeight(int height){
+	public void recalculateChildHeight(int height, boolean actualSize){
 		return;
 	}
 

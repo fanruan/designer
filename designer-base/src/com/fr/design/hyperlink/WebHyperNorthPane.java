@@ -3,6 +3,7 @@ package com.fr.design.hyperlink;
 import com.fr.config.ServerPreferenceConfig;
 import com.fr.design.constants.LayoutConstants;
 
+import com.fr.design.gui.itextarea.UITextArea;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
@@ -47,11 +48,9 @@ public class WebHyperNorthPane extends AbstractHyperNorthPane<WebHyperlink> {
     protected JPanel setHeaderPanel() {
         JPanel headerPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
 
-        urlTextField = new UITextField(43);
+        urlTextField = new UITextField(headerPane.getWidth());
         urlTextField.setText(ProductConstants.WEBSITE_URL);
 
-
-        //UILabel label = new UILabel(Inter.getLocText(new String[]{"Example","Or"}, new String[]{":http://www.baidu.com","/main.jsp"}));
         JPanel urlWithHelp = GUICoreUtils.createNamedPane(urlTextField, "URL:");
 
         if (this.needRenamePane) {

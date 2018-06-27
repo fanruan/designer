@@ -10,7 +10,7 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
-import com.fr.general.SiteCenter;
+import com.fr.general.CloudCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
@@ -296,7 +296,7 @@ public class WebViewDlgHelper {
         new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
-                HttpClient httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("shop.plugin.cv_10") + "&version=" + PluginStoreConstants.getInstance().getProps("VERSION"));
+                HttpClient httpClient = new HttpClient(CloudCenter.getInstance().acquireUrlByKind("shop.plugin.update") + "?" + PluginUtils.FR_VERSION + "=" + ProductConstants.VERSION + "&version=" + PluginStoreConstants.getInstance().getProps("VERSION"));
                 httpClient.asGet();
                 if (httpClient.getResponseCode() == HttpURLConnection.HTTP_OK) {
                     String text = httpClient.getResponseText();

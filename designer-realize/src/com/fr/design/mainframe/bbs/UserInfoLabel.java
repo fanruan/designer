@@ -18,10 +18,10 @@ import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.utils.concurrent.ThreadFactoryBuilder;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.general.CloudCenter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.DateUtils;
 import com.fr.general.Inter;
-import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.OperatingSystem;
@@ -93,7 +93,7 @@ public class UserInfoLabel extends UILabel {
                     public void mousePressed(MouseEvent e) {
                         if (StringUtils.isNotEmpty(userName)) {
                             try {
-                                String loginUrl = SiteCenter.getInstance().acquireUrlByKind("bbs.default");
+                                String loginUrl = CloudCenter.getInstance().acquireUrlByKind("bbs.default");
                                 Desktop.getDesktop().browse(new URI(loginUrl));
                             } catch (Exception exp) {
                                 FRContext.getLogger().info(exp.getMessage());
@@ -151,7 +151,7 @@ public class UserInfoLabel extends UILabel {
                 } catch (InterruptedException e) {
                     FRContext.getLogger().error(e.getMessage());
                 }
-                HttpClient hc = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("bbs.popup"));
+                HttpClient hc = new HttpClient(CloudCenter.getInstance().acquireUrlByKind("bbs.popup"));
                 if (!hc.isServerAlive()) {
                     return;
                 }
@@ -164,7 +164,7 @@ public class UserInfoLabel extends UILabel {
                     Constructor constructor = clazz.getConstructor(Frame.class);
                     Object instance = constructor.newInstance(DesignerContext.getDesignerFrame());
                     Method showWindow = clazz.getMethod("showWindow", String.class);
-                    showWindow.invoke(instance, SiteCenter.getInstance().acquireUrlByKind("bbs.popup"));
+                    showWindow.invoke(instance, CloudCenter.getInstance().acquireUrlByKind("bbs.popup"));
                     DesignerEnvManager.getEnvManager().setLastShowBBSNewsTime(DateUtils.DATEFORMAT2.format(new Date()));
                 } catch (Throwable ignored) {
                     // ignored

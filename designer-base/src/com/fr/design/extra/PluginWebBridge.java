@@ -15,7 +15,7 @@ import com.fr.design.extra.exe.callback.JSCallback;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.utils.concurrent.ThreadFactoryBuilder;
 import com.fr.general.Inter;
-import com.fr.general.SiteCenter;
+import com.fr.general.CloudCenter;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
@@ -437,7 +437,7 @@ public class PluginWebBridge {
      */
     public void getPriviteMessage() {
         try {
-            String loginUrl = SiteCenter.getInstance().acquireUrlByKind("bbs.default");
+            String loginUrl = CloudCenter.getInstance().acquireUrlByKind("bbs.default");
             Desktop.getDesktop().browse(new URI(loginUrl));
         } catch (Exception exp) {
             FineLoggerFactory.getLogger().info(exp.getMessage());
@@ -500,7 +500,7 @@ public class PluginWebBridge {
      */
     public void registerHref() {
         try {
-            Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("bbs.register")));
+            Desktop.getDesktop().browse(new URI(CloudCenter.getInstance().acquireUrlByKind("bbs.register")));
         } catch (Exception e) {
             FineLoggerFactory.getLogger().info(e.getMessage());
         }
@@ -514,7 +514,7 @@ public class PluginWebBridge {
      */
     public void forgetHref() {
         try {
-            Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("bbs.reset")));
+            Desktop.getDesktop().browse(new URI(CloudCenter.getInstance().acquireUrlByKind("bbs.reset")));
         } catch (Exception e) {
             FineLoggerFactory.getLogger().info(e.getMessage());
         }
@@ -559,7 +559,7 @@ public class PluginWebBridge {
         uiLabel.setText(Inter.getLocText("FR-Base_UnSignIn"));
     }
 
-    public void updatePluginStore(final JSObject callback){
+    public void getPackInfo(final JSObject callback){
         JSCallback jsCallback = new JSCallback(webEngine, callback);
         jsCallback.execute(StringUtils.EMPTY);
     }

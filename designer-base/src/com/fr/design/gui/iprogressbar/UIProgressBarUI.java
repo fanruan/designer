@@ -74,7 +74,7 @@ public class UIProgressBarUI extends BasicProgressBarUI {
     }
 
     // draw determinate
-    private void drawXpHorzProgress(Graphics g, int x, int y,
+    protected void drawXpHorzProgress(Graphics g, int x, int y,
                                     int w, int h, int amountFull) {
         g.translate(x, y);
         if (!progressBar.isOpaque()) {
@@ -124,7 +124,7 @@ public class UIProgressBarUI extends BasicProgressBarUI {
 
 
     // draw determinate
-    private void drawXpVertProgress(Graphics g, int x, int y,
+    protected void drawXpVertProgress(Graphics g, int x, int y,
                                     int w, int h, int amountFull) {
         g.translate(x, y);
         // paint the track

@@ -65,16 +65,20 @@ public class CellElementPropertyPane extends DockingView {
             }
         });
     }
-    
-    
+
+
     public synchronized static CellElementPropertyPane getInstance() {
         if (singleton == null) {
-            singleton = new CellElementPropertyPane();
+            synchronized (CellElementPropertyPane.class) {
+                if (singleton == null) {
+                    singleton = new CellElementPropertyPane();
+                }
+            }
         }
         return singleton;
     }
 
-    private static CellElementPropertyPane singleton;
+    private static volatile CellElementPropertyPane singleton;
 
     private CellElementEditPane cellElementEditPane;
 

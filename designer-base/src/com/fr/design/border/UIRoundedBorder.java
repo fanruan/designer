@@ -1,15 +1,14 @@
 package com.fr.design.border;
 
+import com.fr.base.GraphHelper;
+
+import javax.swing.border.LineBorder;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.RoundRectangle2D;
-
-import javax.swing.border.LineBorder;
-
-import com.fr.base.GraphHelper;
 
 public class UIRoundedBorder extends LineBorder {
 
@@ -36,7 +35,15 @@ public class UIRoundedBorder extends LineBorder {
 		this.lineStyle = lineStyle;
 		this.roundedCorner = roundedCorners;
 	}
-	
+
+	public int getRoundedCorner() {
+		return roundedCorner;
+	}
+
+	public int getLineStyle() {
+		return lineStyle;
+	}
+
 	public void paintBorder(Component c, Graphics g, int x, int y, int width, int height){
 		Color oldColor = g.getColor();
 

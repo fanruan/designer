@@ -15,7 +15,6 @@
             <version>0.7.0</version>
         </dependency>
     </dependencies>
-    <groupId>com.fr.report</groupId>
     <artifactId>designer-base</artifactId>
     <version>10.0-RELEASE-SNAPSHOT</version>
 </project>

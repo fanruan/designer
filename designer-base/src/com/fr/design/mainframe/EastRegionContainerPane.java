@@ -30,7 +30,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class EastRegionContainerPane extends UIEastResizableContainer {
-    private static EastRegionContainerPane THIS;
+    private static volatile EastRegionContainerPane THIS;
     private Map<String, PropertyItem> propertyItemMap;
     private CardLayout propertyCard;
     private JPanel leftPane;
@@ -84,13 +84,17 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
      */
     public static EastRegionContainerPane getInstance() {
         if (THIS == null) {
-            THIS = new EastRegionContainerPane();
-            THIS.setLastContainerWidth(DesignerEnvManager.getEnvManager().getLastEastRegionContainerWidth());
+            synchronized (EastRegionContainerPane.class) {
+                if (THIS == null) {
+                    THIS = new EastRegionContainerPane();
+                    THIS.setLastContainerWidth(DesignerEnvManager.getEnvManager().getLastEastRegionContainerWidth());
+                }
+            }
         }
         return THIS;
     }
 
-    public EastRegionContainerPane() {
+    private EastRegionContainerPane() {
         super();
         initPropertyItemList();
         defaultPane = getDefaultPane(Inter.getLocText("FR-Designer_No_Settings_Available"));
