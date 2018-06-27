@@ -372,7 +372,7 @@ public class XWFitLayout extends XLayoutContainer {
 		if (x == 0) {
 			int width = notHasRightCreator(rec) ? this.getWidth() : rec.width+dw;
 			creator.setBounds(0, rec.y, width, rec.height);
-			creator.recalculateChildWidth(width);
+			creator.recalculateChildWidth(width, true);
 		} else {
 			XCreator leftCreator = getCreatorAt(rec.x-1, rec.y);
 			int posX = getPosX(leftCreator);
@@ -501,6 +501,7 @@ public class XWFitLayout extends XLayoutContainer {
 		if (y==0) {
 			int height = notHasBottomCreator(rec) ? this.getHeight() : rec.height+dh;
 			creator.setBounds(rec.x, 0, rec.width, height);
+			creator.recalculateChildHeight(height, true);
 		} else {
 			XCreator topCreator = getCreatorAt(rec.x, rec.y-1);
 			int posY = getPosY(topCreator);
