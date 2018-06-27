@@ -620,8 +620,8 @@ public class FRBodyLayoutAdapter extends AbstractLayoutAdapter {
         } else {
             currentCreator.setLocation(finalX, finalY);
             currentCreator.setSize(finalW, finalH);
-            currentCreator.recalculateChildWidth(finalW);
-            currentCreator.recalculateChildHeight(finalH);
+            currentCreator.recalculateChildWidth(finalW, false);
+            currentCreator.recalculateChildHeight(finalH, false);
             child.setLocation(xL, yL);
             child.setSize(dim);
         }
@@ -1078,7 +1078,7 @@ public class FRBodyLayoutAdapter extends AbstractLayoutAdapter {
             int offset = comp.getHeight() - length;
             comp.setSize(comp.getWidth(), offset);
             XCreator creator = (XCreator) comp;
-            creator.recalculateChildHeight(offset);
+            creator.recalculateChildHeight(offset, false);
         }
     }
 
@@ -1100,7 +1100,7 @@ public class FRBodyLayoutAdapter extends AbstractLayoutAdapter {
                 int offset = comp.getHeight() - length;
                 comp.setSize(comp.getWidth(), offset);
                 XCreator creator = (XCreator) comp;
-                creator.recalculateChildHeight(offset);
+                creator.recalculateChildHeight(offset, false);
             }
         }
         childY += actualVal;
@@ -1134,7 +1134,7 @@ public class FRBodyLayoutAdapter extends AbstractLayoutAdapter {
                 int offset = comp.getWidth() - length;
                 comp.setSize(offset, comp.getHeight());
                 XCreator creator = (XCreator) comp;
-                creator.recalculateChildWidth(offset);
+                creator.recalculateChildWidth(offset, false);
             }
         }
         childX += actualVal;
@@ -1155,7 +1155,7 @@ public class FRBodyLayoutAdapter extends AbstractLayoutAdapter {
             int offset = comp.getWidth() - length;
             comp.setSize(offset, comp.getHeight());
             XCreator creator = (XCreator) comp;
-            creator.recalculateChildWidth(offset);
+            creator.recalculateChildWidth(offset, false);
         }
     }
 
