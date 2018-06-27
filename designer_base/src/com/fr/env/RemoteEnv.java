@@ -1300,6 +1300,7 @@ public class RemoteEnv extends AbstractEnv {
         // 把parameterMap转成JSON格式的字符串
         JSONObject jo = new JSONObject(parameterMap);
         String jsonParameter = jo.toString();
+        jsonParameter = URLEncoder.encode(jsonParameter, EncodeConstants.ENCODING_UTF_8);
         HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "design_preview_td");
