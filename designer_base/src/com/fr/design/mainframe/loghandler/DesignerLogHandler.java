@@ -51,6 +51,7 @@ public class DesignerLogHandler {
     protected static final int INFO_INT = FRLogLevel.INFO.intValue();
     protected static final int ERRO_INT = FRLogLevel.ERROR.intValue();
     protected static final int SERVER_INT = FRLogLevel.SEVERE.intValue();
+    private static final int BUFFER_SIZE = 10 * 1024 * 1024;
     private static final int GAP_X = -150;
     private static final int INFO_GAP_Y = -60;
     private static final int ERRO_GAP_Y = -40;
@@ -294,6 +295,10 @@ public class DesignerLogHandler {
             }
             Document doc = jTextArea.getDocument();
             try {
+                int overLength = doc.getLength() - BUFFER_SIZE;
+                if (overLength > 0) {
+                    doc.remove(0, overLength);
+                }
                 doc.insertString(doc.getLength(), str, attrSet);
             } catch (BadLocationException e) {
                 FRContext.getLogger().error(e.getMessage());
