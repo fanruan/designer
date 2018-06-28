@@ -1,7 +1,7 @@
 package com.fr.design.env;
 
-import com.fr.general.NameObject;
 import com.fr.security.SecurityToolbox;
+import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.xml.XMLPrintWriter;
 import com.fr.stable.xml.XMLableReader;
@@ -79,6 +79,7 @@ public class RemoteDesignerWorkspaceInfo implements DesignerWorkspaceInfo {
 
         RemoteDesignerWorkspaceInfo object = (RemoteDesignerWorkspaceInfo)super.clone();
 
+        object.connection = (WorkspaceConnection)StableUtils.cloneObject(this.connection);
         return  object;
     }
 }
