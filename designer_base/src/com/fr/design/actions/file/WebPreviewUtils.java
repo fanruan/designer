@@ -11,7 +11,7 @@ import com.fr.general.Inter;
 import com.fr.general.web.ParameterConsts;
 import com.fr.stable.project.ProjectConstants;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +19,7 @@ import java.util.Map;
 public final class WebPreviewUtils {
 
     public static void onWorkbookPreview(JTemplate<?, ?> jt) {
-        actionPerformed(jt, jt.getPreviewType().parametersForPreview(), ParameterConsts.REPORTLET);
+        actionPerformed(jt, jt.getPreviewType().parametersForPreview(), jt.getPreviewType().getActionType());
     }
 
     public static void onFormPreview(JTemplate<?, ?> jt) {

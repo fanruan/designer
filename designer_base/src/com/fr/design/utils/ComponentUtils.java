@@ -5,6 +5,8 @@ import com.fr.general.ComparatorUtils;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.CropImageFilter;
+import java.awt.image.FilteredImageSource;
 import java.util.ArrayList;
 
 /**
@@ -150,5 +152,21 @@ public class ComponentUtils {
             }
         }
         return false;
+    }
+
+    /**
+     * 截取图片的指定区域作为一个图标
+     *
+     * @param image  原始的图片
+     * @param startx 截取的横向起始位置
+     * @param starty 截取的纵向起始位置
+     * @param width  截取的图标的宽度
+     * @param height 截取的图标的高度
+     * @return 图标
+     */
+    public static ImageIcon createIcon(Image image, int startx, int starty, int width, int height) {
+        JFrame jc = new JFrame();
+        Image cropImage = jc.createImage(new FilteredImageSource(image.getSource(), new CropImageFilter(startx, starty, width, height)));
+        return new ImageIcon(cropImage);
     }
 }

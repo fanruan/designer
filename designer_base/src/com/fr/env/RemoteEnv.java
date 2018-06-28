@@ -1153,6 +1153,28 @@ public class RemoteEnv extends AbstractEnv {
         return fileNodes2;
     }
 
+    @Override
+    public FileNode[] filterFilesByKeywords(String searchKey) {
+        try {
+            FileNode[] fileNodes;
+            HashMap<String, String> para = new HashMap<>();
+            para.put("op", "fr_remote_design");
+            para.put("cmd", "search_file");
+            para.put("searchKey", searchKey);
+            HttpClient client = createHttpMethod(para);
+            InputStream input = null;
+            input = execute4InputStream(client);
+            if (input == null) {
+                return new FileNode[0];
+            }
+            fileNodes = DavXMLUtils.readXMLFileNodes(input);
+            return fileNodes;
+        } catch (Exception e) {
+            FRContext.getLogger().error(e.getMessage());
+        }
+        return new FileNode[0];
+    }
+
 
     /**
      * 列出目标目录下所有cpt文件或文件夹
@@ -1278,6 +1300,7 @@ public class RemoteEnv extends AbstractEnv {
         // 把parameterMap转成JSON格式的字符串
         JSONObject jo = new JSONObject(parameterMap);
         String jsonParameter = jo.toString();
+        jsonParameter = URLEncoder.encode(jsonParameter, EncodeConstants.ENCODING_UTF_8);
         HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "design_preview_td");
@@ -1521,7 +1544,6 @@ public class RemoteEnv extends AbstractEnv {
         } catch (Exception e) {
             FRContext.getLogger().error(e.getMessage());
         }
-
         return fileArray.toArray(new File[fileArray.size()]);
     }
 
