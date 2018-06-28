@@ -2,6 +2,7 @@ package com.fr.design.style.background.impl;
 
 import com.fr.base.Style;
 import com.fr.base.background.ImageBackground;
+import com.fr.base.background.ImageFileBackground;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.general.Background;
 import com.fr.general.Inter;
@@ -81,6 +82,6 @@ public class ImageButtonBackgroundPane extends ImageBackgroundPane {
         if (previewPane.getImage() == null) {
             return null;
         }
-        return new ImageBackground(previewPane.getImageWithSuffix());
+        return new ImageFileBackground(previewPane.getImageWithSuffix());
     }
 }
