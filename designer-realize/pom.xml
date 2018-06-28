@@ -8,9 +8,10 @@
         <artifactId>design</artifactId>
         <version>10.0-RELEASE-SNAPSHOT</version>
     </parent>
+    <groupId>com.fr.report</groupId>
     <artifactId>designer-realize</artifactId>
     <version>10.0-RELEASE-SNAPSHOT</version>
-      <dependencies>
+    <dependencies>
         <dependency>
             <groupId>com.fr.report</groupId>
             <artifactId>designer-form</artifactId>
@@ -21,11 +22,5 @@
             <artifactId>designer-chart</artifactId>
             <version>10.0-RELEASE-SNAPSHOT</version>
         </dependency>
-          <dependency>
-              <groupId>com.fr.report</groupId>
-              <artifactId>designer-base</artifactId>
-              <version>10.0-RELEASE-SNAPSHOT</version>
-              <scope>compile</scope>
-          </dependency>
-      </dependencies>
+    </dependencies>
 </project>
