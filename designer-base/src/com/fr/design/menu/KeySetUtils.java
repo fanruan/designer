@@ -592,7 +592,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M_Report-Report_Background");
+            return Inter.getLocText("Fine-Designer_Report_Background");
         }
 
         @Override
