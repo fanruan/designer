@@ -40,7 +40,7 @@ public class JavaScriptFormatHelper {
             Reader reader = new InputStreamReader(resourceAsStream);
             scriptEngine.eval(reader);
             Invocable invocable = (Invocable) scriptEngine;
-            result = (String) invocable.invokeFunction("js_beautify", jsCode, option.toFormatArgument());
+            result = (String) invocable.invokeFunction("js_beautify_global", jsCode, option.toFormatArgument());
         } catch (ScriptException | NoSuchMethodException e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
