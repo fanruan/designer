@@ -2,6 +2,8 @@ package com.fr.design.mainframe;
 
 import com.fr.base.io.BaseBook;
 import com.fr.file.FILE;
+import com.fr.module.BaseStableKey;
+import com.fr.module.StableKey;
 import com.fr.stable.fun.mark.Aftermath;
 import com.fr.stable.fun.mark.Mutable;
 
@@ -11,6 +13,8 @@ import com.fr.stable.fun.mark.Mutable;
 public interface App<T extends BaseBook> extends Mutable, Aftermath {
 
     String MARK_STRING = "DesignerApp";
+    
+    StableKey<App> KEY = new BaseStableKey<App>();
 
     int CURRENT_LEVEL = 1;
     /**

@@ -172,7 +172,7 @@ public class Designer extends BaseDesigner {
     @Override
     public ShortCut[] createNewFileShortCuts() {
         ArrayList<ShortCut> shortCuts = new ArrayList<ShortCut>();
-        shortCuts.add(new NewWorkBookXAction());
+//        shortCuts.add(new NewWorkBookXAction());
         shortCuts.add(new NewWorkBookAction());
         shortCuts.add(new NewPolyReportAction());
         try {

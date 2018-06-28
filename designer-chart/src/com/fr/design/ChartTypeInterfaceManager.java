@@ -37,9 +37,7 @@ import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
-import com.fr.design.module.DesignModuleFactory;
 import com.fr.form.ui.ChartEditor;
-import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.PiePlot4VanChart;
@@ -64,7 +62,6 @@ import com.fr.plugin.injectable.PluginModule;
 import com.fr.plugin.injectable.PluginSingleInjection;
 import com.fr.plugin.solution.closeable.CloseableContainedMap;
 import com.fr.stable.ArrayUtils;
-import com.fr.stable.EnvChangedListener;
 import com.fr.stable.StringUtils;
 import com.fr.stable.plugin.ExtraChartDesignClassManagerProvider;
 import com.fr.van.chart.area.AreaIndependentVanChartInterface;
@@ -87,7 +84,7 @@ import com.fr.van.chart.structure.desinger.StructureIndependentVanChartInterface
 import com.fr.van.chart.treemap.TreeMapIndependentVanChartInterface;
 import com.fr.van.chart.wordcloud.designer.WordCloudIndependentVanChartInterface;
 
-import javax.swing.Icon;
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -95,9 +92,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.fr.chart.charttypes.ChartTypeManager.CHART_PRIORITY;
-import static com.fr.chart.charttypes.ChartTypeManager.VAN_CHART_PRIORITY;
-import static com.fr.chart.charttypes.ChartTypeManager.enabledChart;
+import static com.fr.chart.charttypes.ChartTypeManager.*;
 
 /**
  * Created by eason on 14/12/29.
@@ -121,17 +116,6 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
         readDefault();
         readVanChart();
         PluginModule.registerAgent(PluginModule.ExtraChartDesign, classManager);
-    }
-    
-    static {
-
-        GeneralContext.addEnvChangedListener(new EnvChangedListener() {
-            @Override
-            public void envChanged() {
-                //重新注册designModuleFactory
-                DesignModuleFactory.registerExtraWidgetOptions(initWidgetOption());
-            }
-        });
     }
     
     public static WidgetOption[] initWidgetOption() {
