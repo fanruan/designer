@@ -1,5 +1,6 @@
 package com.fr.design.env;
 
+import com.fr.general.NameObject;
 import com.fr.security.SecurityToolbox;
 import com.fr.stable.StringUtils;
 import com.fr.stable.xml.XMLPrintWriter;
@@ -75,7 +76,9 @@ public class RemoteDesignerWorkspaceInfo implements DesignerWorkspaceInfo {
     
     @Override
     public Object clone() throws CloneNotSupportedException {
-        
-        return null;
+
+        RemoteDesignerWorkspaceInfo object = (RemoteDesignerWorkspaceInfo)super.clone();
+
+        return  object;
     }
 }
