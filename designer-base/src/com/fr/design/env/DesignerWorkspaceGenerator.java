@@ -8,13 +8,13 @@ import com.fr.workspace.connect.WorkspaceClient;
  * 根据配置生成运行环境
  */
 public class DesignerWorkspaceGenerator {
-    
+
     public static Workspace generate(DesignerWorkspaceInfo config) {
-        
+
         if (config == null || config.getType() == null) {
             return null;
         }
-        
+
         Workspace workspace = null;
         switch (config.getType()) {
             case Local: {
@@ -23,7 +23,9 @@ public class DesignerWorkspaceGenerator {
             }
             case Remote: {
                 WorkspaceClient client = WorkContext.getConnector().connect(config.getConnection());
-                workspace = new RemoteWorkspace(client, config.getConnection());
+                if (client != null) {
+                    workspace = new RemoteWorkspace(client, config.getConnection());
+                }
                 break;
             }
         }
