@@ -2,6 +2,7 @@ package com.fr.design.style.background.impl;
 
 import com.fr.base.Style;
 import com.fr.base.background.ImageBackground;
+import com.fr.base.background.ImageFileBackground;
 import com.fr.design.gui.frpane.ImgChooseWrapper;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIRadioButton;
@@ -192,7 +193,7 @@ public class ImageBackgroundPane extends BackgroundDetailPane {
 
     @Override
     public Background update() throws Exception {
-        ImageBackground imageBackground = new ImageBackground(previewPane.getImageWithSuffix());
+        ImageBackground imageBackground = new ImageFileBackground(previewPane.getImageWithSuffix());
         setImageStyle();
         imageBackground.setLayout(imageStyle.getImageLayout());
         return imageBackground;

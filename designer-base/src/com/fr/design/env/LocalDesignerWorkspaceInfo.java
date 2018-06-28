@@ -1,5 +1,7 @@
 package com.fr.design.env;
 
+import com.fr.general.NameObject;
+import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.xml.XMLPrintWriter;
 import com.fr.stable.xml.XMLableReader;
@@ -63,6 +65,8 @@ public class LocalDesignerWorkspaceInfo implements DesignerWorkspaceInfo {
 
     @Override
     public Object clone() throws CloneNotSupportedException {
-        return null;
+        LocalDesignerWorkspaceInfo object = (LocalDesignerWorkspaceInfo)super.clone();
+
+        return  object;
     }
 }
