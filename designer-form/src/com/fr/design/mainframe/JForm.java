@@ -816,14 +816,6 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     }
 
     /**
-     * 模板更新
-     */
-    public void fireTargetModified() {
-        super.fireTargetModified();
-        WidgetPropertyPane.getInstance().refreshDockingView();
-    }
-
-    /**
      * 在Form和ElementCase, 以及ElementCase和ElementCase之间切换
      *
      * @param index       切换位置
