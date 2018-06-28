@@ -13,8 +13,8 @@ import com.fr.workspace.WorkContext;
 import org.apache.catalina.Context;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.Wrapper;
-import org.apache.catalina.connector.Connector;
-import org.apache.catalina.loader.VirtualWebappLoader;
+
+import org.apache.catalina.loader.WebappLoader;
 import org.apache.catalina.startup.Tomcat;
 
 import java.io.File;
@@ -112,7 +112,7 @@ public class FineEmbedServerActivator extends Activator {
      * Created by juhaoyu on 2018/6/5.
      * 自定义的tomcat loader，主要用于防止内置服务器再加载一遍class
      */
-    private static class FRTomcatLoader extends VirtualWebappLoader {
+    private static class FRTomcatLoader extends WebappLoader {
         
         @Override
         public ClassLoader getClassLoader() {
