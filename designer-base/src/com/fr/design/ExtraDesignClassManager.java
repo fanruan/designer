@@ -46,8 +46,8 @@ public class ExtraDesignClassManager extends AbstractExtraClassManager implement
     private static ExtraDesignClassManager classManager = new ExtraDesignClassManager();
 
     private Set<ShortCut> shortCuts = new CloseableContainedSet<>(HashSet.class);
-
-    public synchronized static ExtraDesignClassManager getInstance() {
+    
+    public static ExtraDesignClassManager getInstance() {
         return classManager;
     }
 
