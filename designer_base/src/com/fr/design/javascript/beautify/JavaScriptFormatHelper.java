@@ -40,7 +40,7 @@ public class JavaScriptFormatHelper {
             Reader reader = new InputStreamReader(resourceAsStream);
             scriptEngine.eval(reader);
             Invocable invocable = (Invocable) scriptEngine;
-            result = (String) invocable.invokeFunction("js_beautify", jsCode, option.toFormatArgument());
+            result = (String) invocable.invokeFunction("js_beautify_global", jsCode, option.toFormatArgument());
         } catch (ScriptException | NoSuchMethodException e) {
             FRLogger.getLogger().error(e.getMessage(), e);
         }
@@ -48,7 +48,7 @@ public class JavaScriptFormatHelper {
     }
 
     public static void main(String[] args) {
-        System.out.println(JavaScriptFormatHelper.beautify("var a = function() {return 1;};var b= Math.abs(a);Console.log(b);",
+        System.out.println(JavaScriptFormatHelper.beautify("var a = \"1';",
                 BeautifyOption.create()));
     }
 }

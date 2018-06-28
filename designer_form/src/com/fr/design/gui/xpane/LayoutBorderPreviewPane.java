@@ -13,11 +13,15 @@ import com.fr.general.FRFont;
 import com.fr.general.Inter;
 import com.fr.stable.Constants;
 
-import javax.swing.*;
 
-import java.awt.*;
+import javax.swing.JPanel;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Rectangle2D.Double;
 import java.awt.geom.RoundRectangle2D;
 
 /**
@@ -26,7 +30,7 @@ import java.awt.geom.RoundRectangle2D;
  * Date: 14-9-18
  * Time: 下午3:31
  */
-public class LayoutBorderPreviewPane extends JPanel{
+public class LayoutBorderPreviewPane extends JPanel {
     private titlePreviewPane jp;
     private LayoutBorderStyle borderStyle;
     private int smallGAP = 5;
@@ -107,6 +111,7 @@ public class LayoutBorderPreviewPane extends JPanel{
             frFont = FRContext.getDefaultValues().getFRFont();
         }
 
+        @Override
         public void paintComponent(Graphics g) {
             Graphics2D g2d = (Graphics2D) g;
             Dimension d = getSize();
@@ -148,7 +153,7 @@ public class LayoutBorderPreviewPane extends JPanel{
             }
             g.setColor(borderStyle.getColor());
             int line = GraphHelper.getLineStyleSize(borderStyle.getBorder());
-            Double double1 =  new Rectangle2D.Double(0, getHeight()-1, getWidth(), getHeight());
+            Rectangle2D.Double double1 =  new Rectangle2D.Double(0, getHeight()-1, getWidth(), getHeight());
             double x = double1.getX() + (line == 1 ? 1 : 2) - line - 1;
             double y = double1.getY() + (line == 1 ? 1 : 2) - line ;
             RoundRectangle2D.Double  double2 = new RoundRectangle2D.Double(x, y, double1.getWidth() + line, double1.getHeight() + line,  0, 0);
