@@ -140,12 +140,12 @@ public class TableViewList extends UIList {
         boolean isOracle = FRContext.getCurrentEnv().isOracle(datasource);
         boolean isOracleSystemSpace = DesignerEnvManager.getEnvManager().isOracleSystemSpace();
         // oracleb不勾选显示所有表，则只显示用户下的(包括存储过程和table表)
-        if (isOracle && !isOracleSystemSpace) {
+        if (isOracle && !isOracleSystemSpace && FRContext.getCurrentEnv().isSupportLocalFileOperate()) {
         	java.sql.Connection connection = datasource.createConnection();
         	OracleDialect orcDialect = (OracleDialect)DialectFactory.generateDialect(connection);
         	schemas = new String[]{orcDialect.getOracleCurrentUserSchema(connection)};
         }
-        
+
         if (typesFilter.length == 1 && ComparatorUtils.equals(typesFilter[0], TableProcedure.PROCEDURE)) {
             return processStoreProcedure(defaultListModel, schemas, datasource, isOracle, searchFilter);
         } else {

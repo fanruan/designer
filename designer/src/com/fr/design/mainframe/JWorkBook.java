@@ -10,7 +10,6 @@ import com.fr.design.DesignModelAdapter;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.AllowAuthorityEditAction;
 import com.fr.design.actions.ExitAuthorityEditAction;
-import com.fr.design.actions.file.WebPreviewUtils;
 import com.fr.design.actions.file.export.CSVExportAction;
 import com.fr.design.actions.file.export.EmbeddedExportExportAction;
 import com.fr.design.actions.file.export.ExcelExportAction;
@@ -52,6 +51,7 @@ import com.fr.design.menu.ToolBarDef;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.parameter.ParameterDefinitePane;
 import com.fr.design.parameter.ParameterInputPane;
+import com.fr.design.preview.MobilePreview;
 import com.fr.design.preview.PagePreview;
 import com.fr.design.preview.ViewPreview;
 import com.fr.design.preview.WriteEnhancePreview;
@@ -69,7 +69,6 @@ import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.general.ModuleContext;
-import com.fr.general.web.ParameterConsts;
 import com.fr.grid.Grid;
 import com.fr.grid.GridUtils;
 import com.fr.io.exporter.EmbeddedTableDataExporter;
@@ -89,7 +88,9 @@ import com.fr.stable.StringUtils;
 import com.fr.stable.module.Module;
 import com.fr.stable.project.ProjectConstants;
 
-import javax.swing.*;
+import javax.swing.Icon;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileOutputStream;
@@ -834,7 +835,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     public PreviewProvider[] supportPreview() {
         Set<PreviewProvider> set = ExtraDesignClassManager.getInstance().getArray(PreviewProvider.MARK_STRING);
         return ArrayUtils.addAll(new PreviewProvider[]{
-                new PagePreview(), new WritePreview(), new ViewPreview(), new WriteEnhancePreview()
+                new PagePreview(), new WritePreview(), new ViewPreview(), new WriteEnhancePreview(), new MobilePreview()
         }, set.toArray(new PreviewProvider[set.size()]));
     }
 
@@ -865,8 +866,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      * @param provider 预览接口
      */
     public void previewMenuActionPerformed(PreviewProvider provider) {
-        setPreviewType(provider);
-        WebPreviewUtils.actionPerformed(this, provider.parametersForPreview(), ParameterConsts.REPORTLET);
+        super.previewMenuActionPerformed(provider);
     }
 
     /**
@@ -1030,7 +1030,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
         MutilTempalteTabPane.getInstance().closeFileTemplate(newFile);
         final TemplateWorkBook tpl = this.getTarget();
         // 弹出输入参数
-        java.util.Map<String, Object> parameterMap = inputParameters(tpl);
+        Map<String, Object> parameterMap = inputParameters(tpl);
 
         try {
             String fullPath = StableUtils.pathJoin(FRContext.getCurrentEnv().getPath(), newFile.getPath());
@@ -1062,7 +1062,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
 
     //输入导出内置数据集需要的参数
     private Map<String, Object> inputParameters(final TemplateWorkBook tpl) {
-        final java.util.Map<String, Object> parameterMap = new java.util.HashMap<String, Object>();
+        final Map<String, Object> parameterMap = new java.util.HashMap<String, Object>();
         DesignerFrame designerFrame = DesignerContext.getDesignerFrame();
         Parameter[] parameters = tpl.getParameters();
         if (!ArrayUtils.isEmpty(parameters)) {// 检查Parameter.
