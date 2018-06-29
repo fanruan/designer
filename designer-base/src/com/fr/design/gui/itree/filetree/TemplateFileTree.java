@@ -1,7 +1,6 @@
 package com.fr.design.gui.itree.filetree;
 
 import com.fr.base.FRContext;
-import com.fr.base.extension.FileExtension;
 import com.fr.design.gui.itree.refreshabletree.ExpandMutableTreeNode;
 import com.fr.file.filetree.FileNode;
 import com.fr.log.FineLoggerFactory;
@@ -104,10 +103,6 @@ public class TemplateFileTree extends EnvFileTree {
         return null;
     }
     
-    public FileNode[] listFile(String path) throws Exception {
-        
-        return FRContext.getFileNodes().list(path);
-    }
     
     /*
      * 改变Env后,根据构造函数时设置的RootPaths,重新加载
@@ -169,23 +164,12 @@ public class TemplateFileTree extends EnvFileTree {
         
         FileNode[] fileNodes = null;
         try {
-            fileNodes = listFile(filePath);
+            fileNodes = FRContext.getFileNodes().list(filePath, filter);
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         if (fileNodes == null) {
             fileNodes = new FileNode[0];
-        }
-        // 用FileNodeFilter过滤一下
-        if (filter != null) {
-            List<FileNode> list = new ArrayList<FileNode>();
-            for (FileNode fileNode : fileNodes) {
-                if (filter.accept(fileNode)) {
-                    list.add(fileNode);
-                }
-            }
-            
-            fileNodes = list.toArray(new FileNode[list.size()]);
         }
         
         Arrays.sort(fileNodes, new FileNodeComparator());
