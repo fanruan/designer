@@ -74,13 +74,17 @@ public class EditReportServerParameterPane extends LoadingBasicPane {
 //                File.separator + reportServerPreferenceConfig.fileName());
 
         webAttr = ((ReportWebAttr) ConfigManager.getProviderInstance().getGlobalAttribute(ReportWebAttr.class));
-        if (webAttr != null) {
-        	pagePane.populateBean(webAttr.getWebPage());
-        	viewPane.populateBean(webAttr.getWebView());
-        	writePane.populateBean(webAttr.getWebWrite());
-        	cssPane.populate(webAttr);
-        	jsPane.populate(webAttr);
+        if(webAttr.getWebPage() != null){
+            pagePane.populateBean(webAttr.getWebPage());
         }
+        if(webAttr.getWebView() != null){
+            viewPane.populateBean(webAttr.getWebView());
+        }
+        if(webAttr.getWebWrite() != null){
+            writePane.populateBean(webAttr.getWebWrite());
+        }
+        cssPane.populate(webAttr);
+        jsPane.populate(webAttr);
         printSettings = ReportUtils.getPrintSettingsFromServerConfig();
         printSettingPane.populate(printSettings);
         
