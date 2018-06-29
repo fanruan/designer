@@ -101,7 +101,7 @@ public class DesignerLogHandler {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JPopupMenu jPopupMenu = new JPopupMenu();
-                //这里把log4j的日志级别也转成java级别,可以进行比对
+             
                 int logLevelInt = Log4jConfig.getInstance().getRootLevel().toInt();
                 if (logLevelInt <= INFO_INT) {
                     jPopupMenu.add(showInfo);
