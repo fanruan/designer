@@ -51,6 +51,7 @@ import com.fr.design.mainframe.form.FormECCompositeProvider;
 import com.fr.design.mainframe.form.FormECDesignerProvider;
 import com.fr.design.mainframe.form.FormElementCaseDesigner;
 import com.fr.design.mainframe.form.FormReportComponentComposite;
+import com.fr.design.mainframe.loghandler.DesignerLogAppender;
 import com.fr.design.mainframe.loghandler.DesignerLogImpl;
 import com.fr.design.mainframe.loghandler.LogMessageBar;
 import com.fr.design.module.ChartHyperlinkGroup;
@@ -73,6 +74,7 @@ import com.fr.js.ReportletHyperlink;
 import com.fr.js.WebHyperlink;
 import com.fr.locale.InterMutableKey;
 import com.fr.log.FineLoggerFactory;
+import com.fr.log.LogHandler;
 import com.fr.module.Activator;
 import com.fr.module.extension.Prepare;
 import com.fr.plugin.chart.vanchart.imgevent.design.DesignImageEvent;
@@ -129,6 +131,16 @@ public class DesignerActivator extends Activator implements Prepare {
     public void start() {
         designerModuleStart();
         preLoadPane();
+        loadLogAppender();
+    }
+
+    private static void loadLogAppender() {
+        FineLoggerFactory.getLogger().addLogAppender(new LogHandler<DesignerLogAppender>() {
+            @Override
+            public DesignerLogAppender getHandler() {
+                return new DesignerLogAppender();
+            }
+        });
     }
 
     private static void designerModuleStart() {
