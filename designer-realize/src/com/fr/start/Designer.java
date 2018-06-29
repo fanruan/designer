@@ -118,6 +118,7 @@ public class Designer extends BaseDesigner {
         //传递启动参数
         designerRoot.setSingleton(StartupArgs.class, new StartupArgs(args));
         designerRoot.start();
+
         if (WorkContext.getCurrent().isLocal()) {
             //初始化一下serverTray
             ServerTray.init();
