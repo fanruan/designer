@@ -114,7 +114,6 @@ public class SwitchExistEnv extends MenuDef {
 
                 @Override
                 public void fail() {
-                    TemplatePane.getInstance().editItems();
                     JOptionPane.showMessageDialog(
                             DesignerContext.getDesignerFrame(),
                             Inter.getLocText(new String[]{"M-SwitchWorkspace", "Failed"}));

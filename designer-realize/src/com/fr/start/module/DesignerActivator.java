@@ -304,8 +304,7 @@ public class DesignerActivator extends Activator implements Prepare {
             }
         });
     }
-    
-    
+
     private static void designerRegister() {
         registerCellEditor();
         registerFloatEditor();

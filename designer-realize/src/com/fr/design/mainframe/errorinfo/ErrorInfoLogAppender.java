@@ -120,7 +120,6 @@ public class ErrorInfoLogAppender extends AppenderSkeleton {
 
             @Override
             public void readXML(XMLableReader reader) {
-                super.readXML(reader);
                 readDesign(reader);
             }
 
