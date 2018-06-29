@@ -15,6 +15,9 @@ import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.design.webattr.printsettings.PrintSettingPane;
 import com.fr.general.Inter;
 import com.fr.report.core.ReportUtils;
+import com.fr.report.web.WebPage;
+import com.fr.report.web.WebView;
+import com.fr.report.web.WebWrite;
 import com.fr.web.attr.ReportWebAttr;
 
 import javax.swing.*;
@@ -74,13 +77,20 @@ public class EditReportServerParameterPane extends LoadingBasicPane {
 //                File.separator + reportServerPreferenceConfig.fileName());
 
         webAttr = ((ReportWebAttr) ConfigManager.getProviderInstance().getGlobalAttribute(ReportWebAttr.class));
-        if (webAttr != null) {
-        	pagePane.populateBean(webAttr.getWebPage());
-        	viewPane.populateBean(webAttr.getWebView());
-        	writePane.populateBean(webAttr.getWebWrite());
-        	cssPane.populate(webAttr);
-        	jsPane.populate(webAttr);
+        WebPage webPage = webAttr.getWebPage();
+        WebView webView = webAttr.getWebView();
+        WebWrite webWrite = webAttr.getWebWrite();
+        if(webPage != null){
+            pagePane.populateBean(webPage);
         }
+        if(webView != null){
+            viewPane.populateBean(webView);
+        }
+        if(webWrite != null){
+            writePane.populateBean(webWrite);
+        }
+        cssPane.populate(webAttr);
+        jsPane.populate(webAttr);
         printSettings = ReportUtils.getPrintSettingsFromServerConfig();
         printSettingPane.populate(printSettings);
         

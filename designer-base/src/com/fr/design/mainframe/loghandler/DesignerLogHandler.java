@@ -46,21 +46,6 @@ public class DesignerLogHandler {
     private static final int ERRO_GAP_Y = -40;
     private static final int SERVER_GAP_Y = -20;
 
-    static {
-        GeneralContext.addEnvChangedListener(new EnvChangedListener() {
-            @Override
-            public void envChanged() {
-                // envchange后需要重新读取webinf里的log4j配置, 重新添加appender
-                FineLoggerFactory.getLogger().addLogAppender(new LogHandler<DesignerLogAppender>() {
-                    @Override
-                    public DesignerLogAppender getHandler() {
-                        return new DesignerLogAppender();
-                    }
-                });
-            }
-        });
-    }
-
     public static DesignerLogHandler getInstance() {
         return HOLDER.singleton;
     }

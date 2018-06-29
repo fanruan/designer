@@ -44,6 +44,7 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.module.Module;
 import com.fr.module.ModuleContext;
+import com.fr.record.analyzer.FineAnalyzer;
 import com.fr.stable.BuildContext;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.ProductConstants;
@@ -96,6 +97,8 @@ public class Designer extends BaseDesigner {
      * @param args 参数
      */
     public static void main(String[] args) {
+
+        FineAnalyzer.init();
 
         BuildContext.setBuildFilePath("/com/fr/stable/build.properties");
 
