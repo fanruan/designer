@@ -7,14 +7,11 @@ import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogLevel;
-import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
 import com.fr.general.LogRecordTime;
 import com.fr.general.log.Log4jConfig;
-import com.fr.log.FineLoggerFactory;
-import com.fr.log.LogHandler;
-import com.fr.stable.EnvChangedListener;
 import com.fr.stable.xml.LogRecordTimeProvider;
+import com.fr.third.apache.log4j.Level;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
@@ -32,15 +29,14 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
 import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
 
 public class DesignerLogHandler {
-    protected static final int INFO_INT = Level.INFO.intValue();
-    protected static final int ERROR_INT = Level.SEVERE.intValue();
-    protected static final int WARN_INT = Level.WARNING.intValue();
+    protected static final int INFO_INT = Level.INFO.toInt();
+    protected static final int ERROR_INT = Level.ERROR.toInt();
+    protected static final int WARN_INT = Level.WARN.toInt();
     private static final int GAP_X = -150;
     private static final int INFO_GAP_Y = -60;
     private static final int ERRO_GAP_Y = -40;
@@ -106,7 +102,7 @@ public class DesignerLogHandler {
             public void actionPerformed(ActionEvent e) {
                 JPopupMenu jPopupMenu = new JPopupMenu();
                 //这里把log4j的日志级别也转成java级别,可以进行比对
-                int logLevelInt = FRLogLevel.convertLog4jToJava(Log4jConfig.getInstance().getRootLevel()).intValue();
+                int logLevelInt = Log4jConfig.getInstance().getRootLevel().toInt();
                 if (logLevelInt <= INFO_INT) {
                     jPopupMenu.add(showInfo);
                     jPopupMenu.add(showError);
@@ -218,7 +214,7 @@ public class DesignerLogHandler {
         }
 
         public void printStackTrace(String message, Level level, Date date) {
-            int logLevelvalue = level.intValue();
+            int logLevelvalue = level.toInt();
             if (logLevelvalue == INFO_INT && showInfo.isSelected()) {
                 printMessage(message, logLevelvalue, date);
             } else if (logLevelvalue == ERROR_INT && showError.isSelected()) {

@@ -37,7 +37,7 @@ public class DesignerLogAppender extends AppenderSkeleton {
         synchronized (DesignerLogHandler.getInstance()) {
             Level level = event.getLevel();
             String msg = this.layout.format(event);
-            DesignerLogHandler.getInstance().printRemoteLog(msg, FRLogLevel.convertLog4jToJava(level), new Date());
+            DesignerLogHandler.getInstance().printRemoteLog(msg, level, new Date());
         }
     }
 }

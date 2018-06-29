@@ -20,7 +20,7 @@ public class DesignerWorkspaceProvider extends Activator {
             for (String arg : args) {
                 if (ComparatorUtils.equals(arg, "demo")) {
                     DesignerEnvManager.getEnvManager().setCurrentEnv2Default();
-                   // ServerStarter.browserDemoURL();
+                    ServerStarter.browserDemoURL();
                     break;
                 }
             }

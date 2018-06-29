@@ -119,17 +119,6 @@ public class Designer extends BaseDesigner {
         designerRoot.setSingleton(StartupArgs.class, new StartupArgs(args));
         designerRoot.start();
 
-        //加入从产品演示启动
-        if (args != null) {
-            for (String arg : args) {
-                if (ComparatorUtils.equals(arg, "demo")) {
-                    DesignerEnvManager.getEnvManager().setCurrentEnv2Default();
-                    ServerStarter.browserDemoURL();
-                    break;
-                }
-            }
-        }
-
         if (WorkContext.getCurrent().isLocal()) {
             //初始化一下serverTray
             ServerTray.init();
