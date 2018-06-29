@@ -4,6 +4,8 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.event.Event;
 import com.fr.event.Listener;
 import com.fr.module.Activator;
+import com.fr.record.analyzer.EnableMetrics;
+import com.fr.record.analyzer.Metrics;
 import com.fr.start.Designer;
 import com.fr.start.EnvSwitcher;
 import com.fr.start.SplashContext;
@@ -17,9 +19,11 @@ import java.util.concurrent.Executors;
 /**
  * Created by juhaoyu on 2018/1/8.
  */
+@EnableMetrics
 public class DesignerStartup extends Activator {
 
     @Override
+    @Metrics
     public void start() {
         startSub(PreStartActivator.class);
         //启动基础部分
