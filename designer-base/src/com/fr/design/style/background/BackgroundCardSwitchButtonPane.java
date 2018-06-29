@@ -2,7 +2,7 @@ package com.fr.design.style.background;
 
 import com.fr.base.background.ColorBackground;
 import com.fr.base.background.GradientBackground;
-import com.fr.base.background.ImageBackground;
+import com.fr.base.background.ImageFileBackground;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.style.background.gradient.GradientBackgroundPane;
 import com.fr.design.style.background.impl.ColorBackgroundPane;
@@ -30,7 +30,7 @@ public class BackgroundCardSwitchButtonPane extends BackgroundButtonPane {
     private static void registerCardSwitchBtnBackground(Map<Class<? extends Background>, BackgroundUIWrapper> map) {
         map.put(ColorBackground.class, BackgroundUIWrapper.create()
                 .setType(ColorBackgroundPane.class).setTitle(Inter.getLocText("FR-Designer_Background_Color")));
-        map.put(ImageBackground.class, BackgroundUIWrapper.create()
+        map.put(ImageFileBackground.class, BackgroundUIWrapper.create()
                 .setType(ImageBackgroundPane.class).setTitle(Inter.getLocText("FR-Designer_Background_Image")));
         map.put(GradientBackground.class, BackgroundUIWrapper.create()
                 .setType(GradientBackgroundPane.class).setTitle(Inter.getLocText("FR-Designer_Background_Gradient_Color")));
