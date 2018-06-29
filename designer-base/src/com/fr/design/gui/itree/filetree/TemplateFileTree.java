@@ -1,6 +1,7 @@
 package com.fr.design.gui.itree.filetree;
 
 import com.fr.base.FRContext;
+import com.fr.base.extension.FileExtension;
 import com.fr.design.gui.itree.refreshabletree.ExpandMutableTreeNode;
 import com.fr.file.filetree.FileNode;
 import com.fr.log.FineLoggerFactory;
@@ -19,40 +20,36 @@ import java.util.List;
  * 显示Env下的reportlets目录下面的所有cpt文件
  */
 public class TemplateFileTree extends EnvFileTree {
-    
-    
+
+
     public TemplateFileTree() {
-        
         super(ProjectConstants.REPORTLETS_NAME, null, null);
     }
-    
+
     /*
      * 选中reportPath
      */
     public void setSelectedTemplatePath(String templatePath) {
-        
         this.selectPath(templatePath);
     }
-    
+
     /**
      * 返回选中的Template的路径
      */
     public String getSelectedTemplatePath() {
-        
         FileNode fn = this.getSelectedFileNode();
         if (fn != null && !fn.isDirectory()) {
             String envPath = fn.getEnvPath();
-            
+
             if (envPath.startsWith(ProjectConstants.REPORTLETS_NAME)) {
                 return envPath.substring(ProjectConstants.REPORTLETS_NAME.length());
             }
         }
-        
+
         return null;
     }
-    
+
     public String[] getSelectedTemplatePaths() {
-        
         TreePath[] selectedTreePaths = this.getSelectionPaths();
         if (ArrayUtils.isEmpty(selectedTreePaths)) {
             return ArrayUtils.EMPTY_STRING_ARRAY;
@@ -71,13 +68,13 @@ public class TemplateFileTree extends EnvFileTree {
                 }
             }
         }
-        
-        
+
+
         return selectedPathList.toArray(new String[0]);
     }
-    
+
     public TreePath getNextMatch(String prefix, int startingRow, Position.Bias bias) {
-        
+
         int max = getRowCount();
         if (prefix == null) {
             throw new IllegalArgumentException();
@@ -92,9 +89,9 @@ public class TemplateFileTree extends EnvFileTree {
         do {
             TreePath path = getPathForRow(row);
             String text = convertValueToText(
-                path.getLastPathComponent(), isRowSelected(row),
-                isExpanded(row), true, row, false);
-            
+                    path.getLastPathComponent(), isRowSelected(row),
+                    isExpanded(row), true, row, false);
+
             if (text.toUpperCase().startsWith(prefix)) {
                 return path;
             }
@@ -102,19 +99,24 @@ public class TemplateFileTree extends EnvFileTree {
         } while (row != startingRow);
         return null;
     }
-    
-    
+
+    public FileNode[] listFile(String path) throws Exception {
+        return FRContext.getFileNodes().list(
+                path,
+                new FileExtension[]{FileExtension.CPT, FileExtension.FRM, FileExtension.CHT,FileExtension.XLS,FileExtension.XLSX});
+    }
+
     /*
      * 改变Env后,根据构造函数时设置的RootPaths,重新加载
      */
     public void refreshEnv() {
-        
+
         DefaultTreeModel defaultTreeModel = (DefaultTreeModel) this.getModel();
         ExpandMutableTreeNode rootTreeNode = (ExpandMutableTreeNode) defaultTreeModel.getRoot();
         rootTreeNode.removeAllChildren();
-        
+
         FileNode[] fns;
-        
+
         // 如果rootPaths是null的话列出所有文件
         if (subPathes == null) {
             fns = listFileNodes(this.treeRootPath);
@@ -125,28 +127,26 @@ public class TemplateFileTree extends EnvFileTree {
                 fns[i] = new FileNode(StableUtils.pathJoin(this.treeRootPath, subPathes[i]), true);
             }
         }
-        
+
         ExpandMutableTreeNode[] subTreeNodes = fileNodeArray2TreeNodeArray(fns);
-        
+
         for (ExpandMutableTreeNode node : subTreeNodes) {
             rootTreeNode.add(node);
         }
-        
+
         defaultTreeModel.reload(rootTreeNode);
     }
-    
+
     protected ExpandMutableTreeNode[] loadChildTreeNodes(ExpandMutableTreeNode treeNode) {
-        
         FileNode[] fn_array = listFileNodes(treeNode);
-        
+
         return fileNodeArray2TreeNodeArray(fn_array);
     }
-    
+
     /*
      * 把FileNode[]转成ExpandMutableTreeNode[]
      */
     private ExpandMutableTreeNode[] fileNodeArray2TreeNodeArray(FileNode[] fileNodes) {
-        
         ExpandMutableTreeNode[] res = new ExpandMutableTreeNode[fileNodes.length];
         for (int i = 0; i < res.length; i++) {
             FileNode fn = fileNodes[i];
@@ -155,45 +155,54 @@ public class TemplateFileTree extends EnvFileTree {
                 res[i].add(new ExpandMutableTreeNode());
             }
         }
-        
+
         return res;
     }
-    
-    
+
+
     private FileNode[] listFileNodes(String filePath) {
-        
         FileNode[] fileNodes = null;
         try {
-            fileNodes = FRContext.getFileNodes().list(filePath, filter);
+            fileNodes = listFile(filePath);
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         if (fileNodes == null) {
             fileNodes = new FileNode[0];
         }
-        
+        // 用FileNodeFilter过滤一下
+        if (filter != null) {
+            List<FileNode> list = new ArrayList<FileNode>();
+            for (FileNode fileNode : fileNodes) {
+                if (filter.accept(fileNode)) {
+                    list.add(fileNode);
+                }
+            }
+
+            fileNodes = list.toArray(new FileNode[list.size()]);
+        }
+
         Arrays.sort(fileNodes, new FileNodeComparator());
-        
+
         return fileNodes;
     }
-    
+
     /*
      * 求当前TreeNode下所有的FileNode.
      */
     private FileNode[] listFileNodes(ExpandMutableTreeNode currentTreeNode) {
-        
         if (currentTreeNode == null) {
             return new FileNode[0];
         }
-        
+
         Object object = currentTreeNode.getUserObject();
-        
+
         if (object instanceof FileNode) {
             return this.listFileNodes(((FileNode) object).getEnvPath());
         }
-        
+
         return new FileNode[0];
     }
-    
-    
+
+
 }
