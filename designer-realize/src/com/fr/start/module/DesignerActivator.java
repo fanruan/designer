@@ -5,7 +5,6 @@ import com.fr.base.Formula;
 import com.fr.base.MultiFieldParameter;
 import com.fr.base.process.ProcessOperator;
 import com.fr.chart.chartattr.ChartCollection;
-import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.actions.insert.cell.BiasCellAction;
@@ -21,8 +20,6 @@ import com.fr.design.actions.insert.flot.FormulaFloatAction;
 import com.fr.design.actions.insert.flot.ImageFloatAction;
 import com.fr.design.actions.insert.flot.TextBoxFloatAction;
 import com.fr.design.bridge.DesignToolbarProvider;
-import com.fr.design.chart.ChartDialog;
-import com.fr.design.chart.gui.ChartComponent;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.form.parameter.FormParaDesigner;
 import com.fr.design.fun.ElementUIProvider;
@@ -36,7 +33,6 @@ import com.fr.design.javascript.ParameterJavaScriptPane;
 import com.fr.design.javascript.ProcessTransitionAdapter;
 import com.fr.design.mainframe.BaseJForm;
 import com.fr.design.mainframe.CellElementPropertyPane;
-import com.fr.design.mainframe.ChartPropertyPane;
 import com.fr.design.mainframe.DesignerFrameFileDealerPane;
 import com.fr.design.mainframe.EastRegionContainerPane;
 import com.fr.design.mainframe.ElementCaseThumbnail;
@@ -54,15 +50,12 @@ import com.fr.design.mainframe.form.FormReportComponentComposite;
 import com.fr.design.mainframe.loghandler.DesignerLogAppender;
 import com.fr.design.mainframe.loghandler.DesignerLogImpl;
 import com.fr.design.mainframe.loghandler.LogMessageBar;
-import com.fr.design.module.ChartHyperlinkGroup;
-import com.fr.design.module.ChartPreStyleAction;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.parameter.FormParameterReader;
 import com.fr.design.parameter.ParameterPropertyPane;
 import com.fr.design.parameter.WorkBookParameterReader;
 import com.fr.design.widget.ui.btn.FormSubmitButtonDetailPane;
 import com.fr.form.stable.ElementCaseThumbnailProcessor;
-import com.fr.form.ui.ChartEditor;
 import com.fr.form.ui.WidgetInfoConfig;
 import com.fr.general.Inter;
 import com.fr.general.ModuleContext;
@@ -77,7 +70,6 @@ import com.fr.log.FineLoggerFactory;
 import com.fr.log.LogHandler;
 import com.fr.module.Activator;
 import com.fr.module.extension.Prepare;
-import com.fr.plugin.chart.vanchart.imgevent.design.DesignImageEvent;
 import com.fr.quickeditor.cellquick.CellBiasTextPainterEditor;
 import com.fr.quickeditor.cellquick.CellDSColumnEditor;
 import com.fr.quickeditor.cellquick.CellFormulaQuickEditor;
@@ -99,18 +91,15 @@ import com.fr.stable.ArrayUtils;
 import com.fr.stable.ParameterProvider;
 import com.fr.stable.bridge.StableFactory;
 import com.fr.stable.fun.LogProvider;
-import com.fr.stable.plugin.ExtraChartDesignClassManagerProvider;
 import com.fr.stable.plugin.ExtraDesignClassManagerProvider;
 import com.fr.stable.script.CalculatorProviderContext;
 import com.fr.stable.script.ValueConverter;
 import com.fr.stable.xml.ObjectTokenizer;
 import com.fr.stable.xml.ObjectXMLWriterFinder;
 import com.fr.start.BBSGuestPaneProvider;
-import com.fr.van.chart.DownloadOnlineSourcesHelper;
-import com.fr.van.chart.map.server.ChartMapEditorAction;
 import com.fr.xml.ReportXMLUtils;
 
-import java.awt.*;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -126,7 +115,9 @@ import static com.fr.stable.module.Module.ENGINE_MODULE;
  * 之后慢慢将DesignerModule拆成Activator
  */
 public class DesignerActivator extends Activator implements Prepare {
-    
+
+    private LogHandler<DesignerLogAppender> logHandler = null;
+
     @Override
     public void start() {
         designerModuleStart();
@@ -134,17 +125,26 @@ public class DesignerActivator extends Activator implements Prepare {
         loadLogAppender();
     }
 
-    private static void loadLogAppender() {
-        FineLoggerFactory.getLogger().addLogAppender(new LogHandler<DesignerLogAppender>() {
+    private void loadLogAppender() {
+        logHandler = new LogHandler<DesignerLogAppender>() {
+            final DesignerLogAppender logAppender = new DesignerLogAppender();
+
             @Override
             public DesignerLogAppender getHandler() {
-                return new DesignerLogAppender();
+                return logAppender;
             }
-        });
+        };
+        FineLoggerFactory.getLogger().addLogAppender(logHandler);
+    }
+
+    private void unloadLogAppender() {
+        if (logHandler != null) {
+            FineLoggerFactory.getLogger().removeLogAppender(logHandler);
+        }
     }
 
     private static void designerModuleStart() {
-    
+
         StableFactory.registerMarkedClass(ExtraDesignClassManagerProvider.XML_TAG, ExtraDesignClassManager.class);
         ActionFactory.registerCellInsertActionClass(actionsForInsertCellElement());
         ActionFactory.registerFloatInsertActionClass(actionsForInsertFloatElement());
@@ -165,6 +165,7 @@ public class DesignerActivator extends Activator implements Prepare {
         ExtraDesignClassManager.getInstance().getFeedback().didFeedback();
         StableFactory.registerMarkedObject(LogProvider.MARK_STRING, DesignerLogImpl.getInstance());
     }
+
     private static void preLoadPane() {
         ExecutorService service = Executors.newCachedThreadPool();
         service.submit(new Runnable() {
@@ -398,6 +399,7 @@ public class DesignerActivator extends Activator implements Prepare {
 
     @Override
     public void stop() {
+        unloadLogAppender();
     }
 
     @Override
