@@ -7,7 +7,6 @@ import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.actions.file.WebPreviewUtils;
 import com.fr.design.actions.file.newReport.NewPolyReportAction;
 import com.fr.design.actions.file.newReport.NewWorkBookAction;
-import com.fr.design.actions.file.newReport.NewWorkBookXAction;
 import com.fr.design.actions.server.ServerConfigManagerAction;
 import com.fr.design.actions.server.StyleListAction;
 import com.fr.design.actions.server.WidgetManagerAction;
@@ -35,9 +34,7 @@ import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.module.DesignModuleFactory;
-
 import com.fr.design.utils.DesignUtils;
-
 import com.fr.design.utils.concurrent.ThreadFactoryBuilder;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.CloudCenter;
@@ -196,6 +193,9 @@ public class Designer extends BaseDesigner {
                 menuDef.addShortCut(new ServerConfigManagerAction(), new StyleListAction(), new WidgetManagerAction());
                 if (ActionFactory.getChartPreStyleAction() != null) {
                     menuDef.addShortCut(ActionFactory.getChartPreStyleAction());
+                }
+                if (ActionFactory.getChartEmptyDataStyleAction() != null) {
+                    menuDef.addShortCut(ActionFactory.getChartEmptyDataStyleAction());
                 }
                 if (ActionFactory.getChartMapEditorAction() != null) {
                     menuDef.addShortCut(ActionFactory.getChartMapEditorAction());

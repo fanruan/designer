@@ -6,6 +6,7 @@ import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.chart.gui.ChartComponent;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.mainframe.ChartPropertyPane;
+import com.fr.design.module.ChartEmptyDataStyleAction;
 import com.fr.design.module.ChartHyperlinkGroup;
 import com.fr.design.module.ChartPreStyleAction;
 import com.fr.design.module.DesignModuleFactory;
@@ -38,6 +39,7 @@ public class ChartDesignerActivator extends Activator {
         DesignModuleFactory.registerChartPropertyPaneClass(ChartPropertyPane.class);
         
         ActionFactory.registerChartPreStyleAction(new ChartPreStyleAction());
+        ActionFactory.registerChartEmptyDataStyleAction(new ChartEmptyDataStyleAction());
         ActionFactory.registerChartMapEditorAction(new ChartMapEditorAction());
         
         ActionFactory.registerChartCollection(ChartCollection.class);
