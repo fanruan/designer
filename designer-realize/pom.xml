@@ -11,7 +11,7 @@
     <groupId>com.fr.report</groupId>
     <artifactId>designer-realize</artifactId>
     <version>10.0-RELEASE-SNAPSHOT</version>
-      <dependencies>
+    <dependencies>
         <dependency>
             <groupId>com.fr.report</groupId>
             <artifactId>designer-form</artifactId>

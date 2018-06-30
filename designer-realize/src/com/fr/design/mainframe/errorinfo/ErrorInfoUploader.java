@@ -39,9 +39,11 @@ public class ErrorInfoUploader {
             @Override
             public void envChanged() {
                 FineLoggerFactory.getLogger().addLogAppender(new LogHandler<ErrorInfoLogAppender>() {
+                    private ErrorInfoLogAppender errorInfoLogAppender = new ErrorInfoLogAppender();
+
                     @Override
                     public ErrorInfoLogAppender getHandler() {
-                        return new ErrorInfoLogAppender();
+                        return errorInfoLogAppender;
                     }
                 });
             }
