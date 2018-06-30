@@ -1,7 +1,6 @@
 package com.fr.van.chart.map.designer.type;
 
 import com.fr.base.Parameter;
-import com.fr.base.ParameterHolder;
 import com.fr.base.Utils;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
@@ -599,12 +598,8 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
         if (jTemplate == null){
             return new String[0];
         }
-        String[] params = new String[0];
-        if(jTemplate.getTarget() instanceof ParameterHolder){
-            params = getParamsName(((ParameterHolder)jTemplate.getTarget()).getParameters());
-        }
 
-        return params;
+        return getParamsName((jTemplate.getJTemplateParameters()));
     }
 
     private String[] getParamsName(Parameter[] parameters) {
