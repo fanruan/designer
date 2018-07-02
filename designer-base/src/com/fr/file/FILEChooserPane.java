@@ -33,6 +33,7 @@ import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
+import com.fr.workspace.WorkContext;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -548,7 +549,7 @@ public class FILEChooserPane extends BasicPane {
             String[] fileSuffix_local = LocalFileNodes.FILE_TYPE;
             EnumSet<FileExtension> fileExtensions = EnumSet.of(FileExtension.CPT, FileExtension.CPTX, FileExtension.FRM, FileExtension.FRMX, FileExtension.CHT);
             if (type == JFileChooser.OPEN_DIALOG) {
-                if (FRContext.getFileNodes().isSupportLocalFileOperate()) { //本地连接
+                if (WorkContext.getCurrent().isLocal()) { //本地连接
                     this.addChooseFILEFilter(new ChooseFileFilter(fileSuffix_local, appName + Inter.getLocText(new String[]{"FR-App-Report_Template", "FR-App-All_File"})));
                 } else {
                     this.addChooseFILEFilter(new ChooseFileFilter(fileExtensions, appName + Inter.getLocText(new String[]{"FR-App-Report_Template", "FR-App-All_File"})));
@@ -569,7 +570,7 @@ public class FILEChooserPane extends BasicPane {
         }
 
         // 添加 xls 文件类型过滤 kt
-        if (FRContext.getFileNodes().isSupportLocalFileOperate()) {  //本地连接
+        if (WorkContext.getCurrent().isLocal()) {  //本地连接
             this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.XLS, Inter.getLocText("Import-Excel_Source")));
             this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.XLSX, Inter.getLocText("Import-Excel2007_Source")));
         }
@@ -592,7 +593,7 @@ public class FILEChooserPane extends BasicPane {
         for (FILEFilter aFilterList : filterList) {
             defaultComboBoxModel.addElement(aFilterList);
         }
-        if (FRContext.getFileNodes().isSupportLocalFileOperate()) {  //本地连接
+        if (WorkContext.getCurrent().isLocal()) {  //本地连接
             if (!showWebReport) {
                 defaultComboBoxModel.addElement(Inter.getLocText("FR-Utils-App_AllFiles") + "(*.*)");
             }
