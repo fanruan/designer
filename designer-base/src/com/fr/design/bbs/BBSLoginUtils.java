@@ -1,5 +1,6 @@
 package com.fr.design.bbs;
 
+import com.fr.config.BBSAttr;
 import com.fr.config.Configuration;
 import com.fr.config.MarketConfig;
 import com.fr.log.FineLoggerFactory;
@@ -15,12 +16,14 @@ import java.util.List;
 public class BBSLoginUtils {
 
     public static void bbsLogin(final String username, final String password) {
+        final BBSAttr bbsAttr = new BBSAttr();
+        bbsAttr.setBbsUsername(username);
+        bbsAttr.setBbsPassword(password);
         try {
             Configurations.update(new Worker() {
                 @Override
                 public void run() {
-                    MarketConfig.getInstance().setBbsUsername(username);
-                    MarketConfig.getInstance().setBbsPassword(password);
+                    MarketConfig.getInstance().setBBsAttr(bbsAttr);
                 }
                 @Override
                 public Class<? extends Configuration>[] targets() {
@@ -35,16 +38,18 @@ public class BBSLoginUtils {
 
     public static void bbsLogin(List<String> list) {
         try {
-            final String uid = list.get(0);
-            final String username = list.get(1);
-            final String password = list.get(2);
+            String uid = list.get(0);
+            String username = list.get(1);
+            String password = list.get(2);
+            final BBSAttr bbsAttr = new BBSAttr();
+            bbsAttr.setBbsUsername(username);
+            bbsAttr.setBbsPassword(password);
+            bbsAttr.setBbsUid(Integer.parseInt(uid));
+            bbsAttr.setInShowBBsName(username);
             Configurations.update(new Worker() {
                 @Override
                 public void run() {
-                    MarketConfig.getInstance().setBbsUsername(username);
-                    MarketConfig.getInstance().setBbsPassword(password);
-                    MarketConfig.getInstance().setBbsUid(Integer.parseInt(uid));
-                    MarketConfig.getInstance().setInShowBBsName(username);
+                    MarketConfig.getInstance().setBBsAttr(bbsAttr);
                 }
                 @Override
                 public Class<? extends Configuration>[] targets() {
@@ -58,11 +63,13 @@ public class BBSLoginUtils {
     }
 
     public static void bbsLogout() {
+        final BBSAttr bbsAttr = new BBSAttr();
+        bbsAttr.setBbsUsername(StringUtils.EMPTY);
+        bbsAttr.setBbsPassword(StringUtils.EMPTY);
+        bbsAttr.setBbsUid(0);
+        bbsAttr.setInShowBBsName(StringUtils.EMPTY);
         try {
-            MarketConfig.getInstance().setBbsUsername(StringUtils.EMPTY);
-            MarketConfig.getInstance().setBbsPassword(StringUtils.EMPTY);
-            MarketConfig.getInstance().setBbsUid(0);
-            MarketConfig.getInstance().setInShowBBsName(StringUtils.EMPTY);
+            MarketConfig.getInstance().setBBsAttr(bbsAttr);
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage());
         }
