@@ -14,7 +14,9 @@ public class DesignerWorkspaceProvider extends Activator {
 
     @Override
     public void start() {
-
+        //检查环境
+        DesignerEnvManager.checkNameEnvMap();
+        
         String[] args = getModule().upFindSingleton(StartupArgs.class).get();
         if (args != null) {
             for (String arg : args) {

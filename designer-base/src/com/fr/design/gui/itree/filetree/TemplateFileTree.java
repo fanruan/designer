@@ -103,7 +103,7 @@ public class TemplateFileTree extends EnvFileTree {
     public FileNode[] listFile(String path) throws Exception {
         return FRContext.getFileNodes().list(
                 path,
-                new FileExtension[]{FileExtension.CPT, FileExtension.FRM, FileExtension.CPTX, FileExtension.FRMX});
+                new FileExtension[]{FileExtension.CPT, FileExtension.FRM, FileExtension.CHT,FileExtension.XLS,FileExtension.XLSX});
     }
 
     /*

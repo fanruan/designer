@@ -11,10 +11,12 @@ import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
 
 import javax.swing.*;
+import java.awt.Dimension;
 import java.util.HashMap;
 import java.util.Iterator;
 
 public abstract class ConditionAttributesPane<T> extends BasicBeanPane<T> {
+    private static final int MIN_HEIGHT = 60;
     protected CellHighlightAddMenuDef menuDef;
 
     protected JPanel selectedItemPane;
@@ -61,6 +63,7 @@ public abstract class ConditionAttributesPane<T> extends BasicBeanPane<T> {
         JScrollPane selectedItemScrollPane = new JScrollPane();
         selectedItemScrollPane.setViewportView(selectedItemPane);
         selectedItemScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        selectedItemScrollPane.setMinimumSize(new Dimension((int) selectedItemScrollPane.getPreferredSize().getWidth(), MIN_HEIGHT));
         propertyChangePane.add(selectedItemScrollPane);
     }
     

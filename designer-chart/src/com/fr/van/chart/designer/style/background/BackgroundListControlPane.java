@@ -53,7 +53,7 @@ public class BackgroundListControlPane extends VanChartUIListControlPane {
         VanChartRectanglePlot rectanglePlot = (VanChartRectanglePlot) plot;
         List<VanChartAxis> xAxisList = rectanglePlot.getXAxisList();
         List<VanChartAxis> yAxisList = rectanglePlot.getYAxisList();
-        String[] axisNames = DefaultAxisHelper.getAllAxisNames(xAxisList, yAxisList);
+        String[] axisNames = DefaultAxisHelper.getAllAxisNames(rectanglePlot);
 
         BackgroundNameObjectCreator[] creators = {new BackgroundNameObjectCreator(getCustomIntervalBackgroundAxisName(axisNames), Inter.getLocText("Plugin-ChartF_CustomIntervalBackground"), VanChartCustomIntervalBackground.class, getIntervalPaneClass())};
 
@@ -66,7 +66,7 @@ public class BackgroundListControlPane extends VanChartUIListControlPane {
             List<VanChartCustomIntervalBackground> customIntervalBackgrounds = axis.getCustomIntervalBackgroundArray();
             for (VanChartCustomIntervalBackground background : customIntervalBackgrounds) {
                 background.setAxisNamesArray(axisNames);
-                background.setAxisName(axis.getAxisName());
+                background.setAxisName(rectanglePlot.getXAxisName(axis));
                 nameObjects.add(new NameObject(background.getCustomIntervalBackgroundSelectName(), background));
             }
 
@@ -75,7 +75,7 @@ public class BackgroundListControlPane extends VanChartUIListControlPane {
             List<VanChartCustomIntervalBackground> customIntervalBackgrounds = axis.getCustomIntervalBackgroundArray();
             for (VanChartCustomIntervalBackground background : customIntervalBackgrounds) {
                 background.setAxisNamesArray(axisNames);
-                background.setAxisName(axis.getAxisName());
+                background.setAxisName(rectanglePlot.getYAxisName(axis));
                 nameObjects.add(new NameObject(background.getCustomIntervalBackgroundSelectName(), background));
             }
         }
@@ -102,7 +102,7 @@ public class BackgroundListControlPane extends VanChartUIListControlPane {
             if (!isDefaultIntervalBackground) {
                 for (int i = 0; i < nameables.length; i++) {
                     VanChartCustomIntervalBackground value = (VanChartCustomIntervalBackground) ((NameObject) nameables[i]).getObject();
-                    if (ComparatorUtils.equals(value.getAxisName(), axis.getAxisName())) {
+                    if (ComparatorUtils.equals(value.getAxisName(), rectanglePlot.getXAxisName(axis))) {
                         value.setCustomIntervalBackgroundSelectName(nameables[i].getName());
                         axisCustomBackground.add(value);
                     }
@@ -115,7 +115,7 @@ public class BackgroundListControlPane extends VanChartUIListControlPane {
             if (!isDefaultIntervalBackground) {
                 for (int i = 0; i < nameables.length; i++) {
                     VanChartCustomIntervalBackground value = (VanChartCustomIntervalBackground) ((NameObject) nameables[i]).getObject();
-                    if (ComparatorUtils.equals(value.getAxisName(), axis.getAxisName())) {
+                    if (ComparatorUtils.equals(value.getAxisName(), rectanglePlot.getYAxisName(axis))) {
                         value.setCustomIntervalBackgroundSelectName(nameables[i].getName());
                         axisCustomBackground.add(value);
                     }
