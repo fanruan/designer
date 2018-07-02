@@ -50,6 +50,7 @@ public class ActionFactory {
     private static ConcurrentMap<Class, Class<? extends QuickEditor>> cellEditorClass = new ConcurrentHashMap<>();
 
     private static UpdateAction chartPreStyleAction = null;
+    private static UpdateAction chartEmptyDataStyleAction = null;
     private static UpdateAction chartMapEditorAction = null;
 
     private ActionFactory() {
@@ -157,6 +158,24 @@ public class ActionFactory {
      */
     public static UpdateAction getChartMapEditorAction() {
         return chartMapEditorAction;
+    }
+
+    /**
+     * 注册图表的 空数据提示样式.
+     *
+     * @param action 注册的图表空数据提示样式action
+     */
+    public static void registerChartEmptyDataStyleAction(UpdateAction action) {
+        chartEmptyDataStyleAction = action;
+    }
+
+    /**
+     * 图表空数据提示样式Action
+     *
+     * @return 图表空数据提示样式Action
+     */
+    public static UpdateAction getChartEmptyDataStyleAction() {
+        return chartEmptyDataStyleAction;
     }
 
 

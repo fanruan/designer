@@ -49,10 +49,8 @@ public class VanChartStackedAndAxisListControlPane extends VanChartUIListControl
 
     public void populate(VanChartRectanglePlot plot) {
         this.plot = plot;
-        java.util.List<VanChartAxis> xAxisList = plot.getXAxisList();
-        java.util.List<VanChartAxis> yAxisList = plot.getYAxisList();
-        String[] axisXNames = DefaultAxisHelper.getAxisNames(xAxisList);
-        String[] axisYNames = DefaultAxisHelper.getAxisNames(yAxisList);
+        String[] axisXNames = DefaultAxisHelper.getXAxisNames(plot);
+        String[] axisYNames = DefaultAxisHelper.getYAxisNames(plot);
 
         java.util.List<StackedAndAxisNameObjectCreator> menuList = new ArrayList<StackedAndAxisNameObjectCreator>();
         AttrSeriesStackAndAxis seriesStackAndAxis = new AttrSeriesStackAndAxis();
