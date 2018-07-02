@@ -1,6 +1,7 @@
 package com.fr.van.chart.drillmap.designer.other;
 
 import com.fr.base.BaseFormula;
+import com.fr.base.FormulaBuilder;
 import com.fr.chart.chartattr.Plot;
 import com.fr.extended.chart.HyperLinkPara;
 import com.fr.extended.chart.HyperLinkParaHelper;
@@ -17,9 +18,10 @@ import java.util.Map;
 public class VanChartCatalogHyperLinkPane extends VanChartHyperLinkPane {
 
     protected Map<String, BaseFormula> getHyperLinkEditorMap() {
+        FormulaBuilder builder = BaseFormula.createFormulaBuilder();
         HashMap<String, BaseFormula> map = new HashMap<String, BaseFormula>();
         for (HyperLinkPara para : HyperLinkParaHelper.DRILL_TOOLS) {
-            map.put(para.getName(), BaseFormula.createFormulaBuilder().build(para.getFormulaContent()));
+            map.put(para.getName(), builder.build(para.getFormulaContent()));
         }
         return map;
     }
