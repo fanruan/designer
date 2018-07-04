@@ -1,6 +1,7 @@
 package com.fr.van.chart.designer.component.marker;
 
 import com.fr.base.background.ImageBackground;
+import com.fr.base.background.ImageFileBackground;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
@@ -98,7 +99,7 @@ public class VanChartImageMarkerPane extends BasicBeanPane<VanChartAttrMarker> {
     public void updateBean(VanChartAttrMarker marker) {
         marker.setCommon(false);
         marker.setMarkerType(MarkerType.MARKER_NULL);
-        ImageBackground background = (ImageBackground) imageBackgroundPane.updateBean();
+        ImageFileBackground background = (ImageFileBackground) imageBackgroundPane.updateBean();
         background.setLayout(Constants.IMAGE_EXTEND);
         marker.setImageBackground(background);
         marker.setWidth(width.getValue());
