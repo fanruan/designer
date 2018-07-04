@@ -16,7 +16,7 @@ import java.awt.*;
  * Number Field.
  */
 public class UINumberField extends UITextField {
-    public static final double ERROR_VALUE = Double.MAX_VALUE + 4.44; // peter:错误的值.
+    public static final double ERROR_VALUE = 0; // peter:错误的值. mata:如果输入负号之类直接走ERROR_VALUE
     public static final int MAX_INTEGERLENGTH = 24;
     public static final int MAX_INTEGERLENGTH_32 = 32;
     public static final int MAX_DECIMALLENGTH = 16;
@@ -106,8 +106,8 @@ public class UINumberField extends UITextField {
      */
     public double getValue() throws NumberFormatException {
         try {
-            //如果只输入了负号应该解释为0，而不是Double最大值
-            if (this.getText().length() == 0 || "-".equals(this.getText())) {
+
+            if (StringUtils.isEmpty(this.getText())) {
                 return 0;
             }
 
