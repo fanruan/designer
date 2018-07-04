@@ -106,7 +106,8 @@ public class UINumberField extends UITextField {
      */
     public double getValue() throws NumberFormatException {
         try {
-            if (this.getText().length() == 0) {
+            //如果只输入了负号应该解释为0，而不是Double最大值
+            if (this.getText().length() == 0 || "-".equals(this.getText())) {
                 return 0;
             }
 
