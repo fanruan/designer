@@ -157,7 +157,7 @@ public class VanChartWordCloudSeriesPane extends VanChartAbstractPlotSeriesPane 
                     ImageFileBackground imageBackground = new ImageFileBackground(IOUtils.readImage(path));
                     imageBackgroundQuickPane.populateBean(imageBackground);
                 } else {
-                    imageBackgroundQuickPane.populateBean(new ImageBackground());
+                    imageBackgroundQuickPane.populateBean(new ImageFileBackground());
                 }
                 checkImagePane();
             }
