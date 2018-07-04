@@ -190,10 +190,12 @@ public class PreviewTableModel extends AbstractTableModel {
             s = Inter.getLocText("FR-Designer_Parameter_String");
             if (!WorkContext.getCurrent().isLocal() && dataModel instanceof EmbeddedTDDataModel) {
                 Class clzz = ((EmbeddedTDDataModel) dataModel).getColumnClass(column);
-                if (Number.class.isAssignableFrom(clzz)) {
+                if (clzz != null) {
+                    if (Number.class.isAssignableFrom(clzz)) {
                     s = Inter.getLocText("FR-Designer_Number");//bigdecimal
-                } else if (java.sql.Date.class.isAssignableFrom(clzz)) {
-                    s = Inter.getLocText("FR-Designer_Date");
+                    } else if (java.sql.Date.class.isAssignableFrom(clzz)) {
+                        s = Inter.getLocText("FR-Designer_Date");
+                    }
                 }
             }
         } else if (o instanceof Integer) {

@@ -188,11 +188,11 @@ public class NumberEditorValidatePane extends JPanel {
 
             @Override
             public void stateChanged(ChangeEvent e) {
-                if (setMaxValueCheckBox.isSelected()) {
+                if (setMinValueCheckBox.isSelected()) {
                     if (maxValueSpinner.getValue() >= minValueSpinner.getValue()) {
                         minValueSpinner.getTextField().setMaxValue(Double.parseDouble("" + maxValueSpinner.getValue()));
                     } else {
-                        maxValueSpinner.setValue(minValueSpinner.getValue());
+                        minValueSpinner.setValue(maxValueSpinner.getValue());
                     }
                 }
             }
@@ -202,11 +202,11 @@ public class NumberEditorValidatePane extends JPanel {
 
             @Override
             public void stateChanged(ChangeEvent e) {
-                if (setMinValueCheckBox.isSelected()) {
+                if (setMaxValueCheckBox.isSelected()) {
                     if (minValueSpinner.getValue() <= maxValueSpinner.getValue()) {
                         maxValueSpinner.getTextField().setMinValue(Double.parseDouble("" + minValueSpinner.getValue()));
                     } else {
-                        minValueSpinner.setValue(maxValueSpinner.getValue());
+                        maxValueSpinner.setValue(minValueSpinner.getValue());
                     }
                 }
             }
@@ -258,27 +258,7 @@ public class NumberEditorValidatePane extends JPanel {
         }
 
         ob.setAllowNegative(allowNegativeCheckBox.isSelected());
-        if (setMaxValueCheckBox.isSelected()) {
-            if (maxValueSpinner.getValue() < maxValueSpinner.getTextField().getMinValue()) {
-                ob.setMaxValue(Double.parseDouble(StringUtils.EMPTY + maxValueSpinner.getTextField().getMinValue()));
-                maxValueSpinner.getTextField().setValue(maxValueSpinner.getTextField().getMaxValue());
-            } else {
-                ob.setMaxValue(Double.parseDouble(StringUtils.EMPTY + maxValueSpinner.getValue()));
-            }
-        } else {
-            ob.setMaxValue(Double.MAX_VALUE);
-        }
 
-        if (setMinValueCheckBox.isSelected()) {
-            if (minValueSpinner.getValue() > minValueSpinner.getTextField().getMaxValue()) {
-                ob.setMinValue(Double.parseDouble(StringUtils.EMPTY + minValueSpinner.getTextField().getMaxValue()));
-                minValueSpinner.getTextField().setValue(minValueSpinner.getTextField().getMaxValue());
-            } else {
-                ob.setMinValue(Double.parseDouble(StringUtils.EMPTY + minValueSpinner.getValue()));
-            }
-        } else {
-            ob.setMinValue(-Double.MAX_VALUE);
-        }
         if(setMinValueCheckBox.isSelected() || setMaxValueCheckBox.isSelected()){
             errorMsgTextFieldPane.setVisible(true);
         }else{
