@@ -108,7 +108,6 @@ public class ConnectionComboBoxPanel extends ItemEditableComboBoxPanel {
                             //如果更新失败，则不关闭对话框，也不写xml文件，并且将对话框定位在请重命名的那个对象页面
                             return;
                         }
-                        connectionListPane.update(connectionConfig);
                         DesignerContext.getDesignerBean("databasename").refreshBeanElement();
                     }
 

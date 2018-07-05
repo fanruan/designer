@@ -1,7 +1,6 @@
 package com.fr.design.mainframe.chart.gui.type;
 
-import com.fr.base.ChartPreStyleManagerProvider;
-import com.fr.base.ChartPreStyleServerManager;
+import com.fr.base.ChartPreStyleConfig;
 import com.fr.base.FRContext;
 import com.fr.base.background.ColorBackground;
 import com.fr.chart.base.AttrContents;
@@ -26,9 +25,9 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
-import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.js.NameJavaScriptGroup;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.Constants;
 
 import javax.swing.JPanel;
@@ -224,7 +223,7 @@ public abstract class AbstractChartTypePane extends FurtherBasicBeanPane<Chart>{
     }
 
     private void setPlotFillStyle(Chart chart){
-        ChartPreStyleManagerProvider manager = ChartPreStyleServerManager.getProviderInstance();
+        ChartPreStyleConfig manager = ChartPreStyleConfig.getInstance();
         Plot plot = chart.getPlot();
         Object preStyle = null;
         String name = "";

@@ -1,8 +1,6 @@
 package com.fr.design.mainframe.chart.gui.style;
 
 import com.fr.base.ChartPreStyleConfig;
-import com.fr.base.ChartPreStyleManagerProvider;
-import com.fr.base.ChartPreStyleServerManager;
 import com.fr.base.Utils;
 import com.fr.chart.base.AttrFillStyle;
 import com.fr.chart.base.ChartConstants;
@@ -199,9 +197,9 @@ public class ChartFillStylePane extends BasicBeanPane<AttrFillStyle>{
 		if(styleSelectBox.getSelectedIndex() == 0) {
 			condition.setColorStyle(ChartConstants.COLOR_DEFAULT);
 		} else if(styleSelectBox.getSelectedIndex() < styleSelectBox.getItemCount() - 1){
-            ChartPreStyleManagerProvider manager = ChartPreStyleServerManager.getProviderInstance();
-            Object preStyle = manager.getPreStyle(styleSelectBox.getSelectedItem());
-            if(preStyle instanceof ChartPreStyle) {
+			ChartPreStyleConfig manager = ChartPreStyleConfig.getInstance();
+			Object preStyle = manager.getPreStyle(styleSelectBox.getSelectedItem());
+			if(preStyle instanceof ChartPreStyle) {
                 AttrFillStyle def = ((ChartPreStyle) preStyle).getAttrFillStyle();
                 def.setFillStyleName(Utils.objectToString(styleSelectBox.getSelectedItem()));
                 return def;
