@@ -12,6 +12,7 @@ import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.datapane.TableDataTreePane;
+import com.fr.design.env.DesignerWorkspaceInfo;
 import com.fr.design.event.DesignerOpenedListener;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
@@ -40,6 +41,7 @@ import com.fr.file.FileNodeFILE;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
+import com.fr.locale.InterProviderFactory;
 import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.injectable.PluginModule;
@@ -654,7 +656,12 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         String envName = DesignerEnvManager.getEnvManager().getCurEnvName();
         Workspace workspace = WorkContext.getCurrent();
         if (workspace != null) {
-            defaultTitleSB.append(workspace.getDescription());
+            if (workspace.isLocal()) {
+                defaultTitleSB.append("@").append(envName).append("[").append(InterProviderFactory.getProvider().getLocText("FR-Engine-Local_Workspace")).append("]");
+            } else {
+                DesignerWorkspaceInfo info = DesignerEnvManager.getEnvManager().getWorkspaceInfo(envName);
+                defaultTitleSB.append(info.getName()).append("@").append(envName).append("[").append(InterProviderFactory.getProvider().getLocText("Fine-Designer_Basic_Remote_Env")).append("]");
+            }
             if (editingTemplate != null) {
                 String path = editingTemplate.getEditingFILE().getPath();
                 if (!editingTemplate.getEditingFILE().exists()) {
