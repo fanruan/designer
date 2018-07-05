@@ -25,6 +25,9 @@ import java.util.Set;
  */
 public class PresentPane extends UIComboBoxPane<Present> {
 	private DictPresentPane dictPresentPane;
+	private FormulaPresentPane formulaPresentPane;
+	private BarCodePane barCodePane;
+	private CurrencyLinePane currencyLinePane;
 	private List<String> keys;
 	private List<String> displays;
 
@@ -51,6 +54,9 @@ public class PresentPane extends UIComboBoxPane<Present> {
 	public void populateBean(Present ob) {
 		if(ob == null) {
 			dictPresentPane.reset();
+			formulaPresentPane.reset();
+			barCodePane.reset();
+			currencyLinePane.reset();
 		}
 		super.populateBean(ob);
 	}
@@ -74,20 +80,20 @@ public class PresentPane extends UIComboBoxPane<Present> {
 		keys.add(DictPresent.class.getName());
 		displays.add(dictPresentPane.title4PopupWindow());
 
-		FurtherBasicBeanPane<BarcodePresent> bar = new BarCodePane();
-		paneList.add(bar);
+		barCodePane = new BarCodePane();
+		paneList.add(barCodePane);
 		keys.add(BarcodePresent.class.getName());
-		displays.add(bar.title4PopupWindow());
+		displays.add(barCodePane.title4PopupWindow());
 
-		FurtherBasicBeanPane<FormulaPresent> formula = new FormulaPresentPane();
-		paneList.add(formula);
+		formulaPresentPane = new FormulaPresentPane();
+		paneList.add(formulaPresentPane);
 		keys.add(FormulaPresent.class.getName());
-		displays.add(formula.title4PopupWindow());
+		displays.add(formulaPresentPane.title4PopupWindow());
 
-		FurtherBasicBeanPane<CurrencyLinePresent> currency = new CurrencyLinePane();
-		paneList.add(currency);
+		currencyLinePane = new CurrencyLinePane();
+		paneList.add(currencyLinePane);
 		keys.add(CurrencyLinePresent.class.getName());
-		displays.add(currency.title4PopupWindow());
+		displays.add(currencyLinePane.title4PopupWindow());
 
 		Set<PresentKindProvider> providers = ExtraDesignClassManager.getInstance().getArray(PresentKindProvider.MARK_STRING);
 		for (PresentKindProvider provider : providers) {

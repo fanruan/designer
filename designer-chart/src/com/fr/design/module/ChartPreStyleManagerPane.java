@@ -10,6 +10,7 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrame;
 import com.fr.general.Inter;
 import com.fr.general.NameObject;
+import com.fr.stable.ListMap;
 import com.fr.stable.Nameable;
 
 import java.util.ArrayList;
@@ -63,6 +64,8 @@ public class ChartPreStyleManagerPane extends JListControlPane {
 	
 	public void updateBean() {
 		ChartPreStyleConfig config = ChartPreStyleConfig.getInstance();
+
+		config.setPreStyleMap(new ListMap());
 
 		Nameable[] values = this.update();
 

@@ -1,7 +1,5 @@
 package com.fr.design.module;
 
-import com.fr.base.ChartPreStyleManagerProvider;
-import com.fr.base.ChartPreStyleServerManager;
 import com.fr.chart.base.ChartPreStyle;
 import com.fr.chart.chartattr.Bar2DPlot;
 import com.fr.chart.chartattr.Chart;
@@ -15,8 +13,12 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.chart.gui.style.ChartPreFillStylePane;
 import com.fr.general.Inter;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 
 /**
  * 图表预定义风格界面,  服务器--图表风格.
@@ -78,8 +80,8 @@ public class ChartPreStylePane extends BasicBeanPane<ChartPreStyle>{
 	}
 	
 	private void refreshWhenStyleChange(ChartPreStyle preStyle) {
-		ChartPreStyleManagerProvider manager = ChartPreStyleServerManager.getProviderInstance();
-		manager.setStyleEditing(preStyle);
+//		ChartPreStyleManagerProvider manager = ChartPreStyleServerManager.getProviderInstance();
+//		manager.setStyleEditing(preStyle);
 		if(chartComponent != null) {
 			chartComponent.reset();
 		}
