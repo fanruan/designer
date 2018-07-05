@@ -1,6 +1,7 @@
 package com.fr.design.env;
 
 import com.fr.env.operator.decision.DecisionOperator;
+import com.fr.locale.InterProviderFactory;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.Workspace;
 import com.fr.workspace.connect.WorkspaceClient;
@@ -26,6 +27,12 @@ public class RemoteWorkspace implements Workspace {
     public String getPath() {
 
         return address;
+    }
+    
+    @Override
+    public String getDescription() {
+        
+        return InterProviderFactory.getProvider().getLocText("Fine-Designer_Basic_Remote_Env");
     }
     
     @Override
