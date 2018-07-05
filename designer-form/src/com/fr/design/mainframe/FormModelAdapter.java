@@ -1,6 +1,8 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.Parameter;
+import com.fr.base.TableData;
+import com.fr.data.TableDataSource;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.form.main.Form;
@@ -10,6 +12,9 @@ import com.fr.form.ui.DataControl;
 import com.fr.form.ui.ElementCaseEditor;
 import com.fr.form.ui.MultiFileEditor;
 import com.fr.form.ui.Widget;
+import com.fr.main.parameter.ReportParameterAttr;
+import com.fr.script.Calculator;
+import com.fr.stable.ParameterProvider;
 import com.fr.stable.js.WidgetName;
 
 import java.util.ArrayList;
@@ -87,18 +92,42 @@ public class FormModelAdapter extends DesignModelAdapter<Form, BaseJForm> {
 			public boolean dealWithAllCards() {
 				return true;
 			}
-			
+
 			public void dealWith(Widget widget) {
-                boolean isSupportAsHypelink = widget.acceptType(ElementCaseEditor.class) || widget.acceptType(BaseChartEditor.class);
-                //可以超链的对象不包含本身; 目前只有图表和报表块可以
-                // bug66182 删了条件：!ComparatorUtils.equals(editingECName, widget.getWidgetName())  让当前表单对象可以选到自己
-                 if (isSupportAsHypelink){
-			    	linkAbleList.add( widget);
-                }
+				boolean isSupportAsHypelink = widget.acceptType(ElementCaseEditor.class) || widget.acceptType(BaseChartEditor.class);
+				//可以超链的对象不包含本身; 目前只有图表和报表块可以
+				// bug66182 删了条件：!ComparatorUtils.equals(editingECName, widget.getWidgetName())  让当前表单对象可以选到自己
+				if (isSupportAsHypelink) {
+					linkAbleList.add(widget);
+				}
 			}
 		}, Widget.class);
 		
 		return linkAbleList.toArray(new Widget[linkAbleList.size()]);
+	}
+
+	// 报表参数
+	@Override
+	public Parameter[] getReportParameters() {
+		Parameter[] rpa = this.getBook().getTemplateParameters();
+		return rpa == null ? new Parameter[0] : rpa;
+	}
+
+	// 数据源参数
+	@Override
+	public Parameter[] getTableDataParameters() {
+		TableDataSource source = this.getBook();
+		Calculator c = Calculator.createCalculator();
+		c.setAttribute(TableDataSource.KEY, source);
+		java.util.List<ParameterProvider> list = new java.util.ArrayList<ParameterProvider>();
+		java.util.Iterator<String> nameIt = this.getBook().getTableDataNameIterator();
+		while (nameIt.hasNext()) {
+			TableData td = source.getTableData(nameIt.next());
+			if (td.getParameters(c) != null) {
+				list.addAll(java.util.Arrays.asList(td.getParameters(c)));
+			}
+		}
+		return list.toArray(new Parameter[list.size()]);
 	}
 
 	@Override
