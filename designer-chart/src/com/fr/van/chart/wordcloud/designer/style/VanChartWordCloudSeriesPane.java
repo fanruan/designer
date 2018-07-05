@@ -2,6 +2,7 @@ package com.fr.van.chart.wordcloud.designer.style;
 
 import com.fr.base.Utils;
 import com.fr.base.background.ImageBackground;
+import com.fr.base.background.ImageFileBackground;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.icombobox.UIComboBox;
@@ -153,10 +154,10 @@ public class VanChartWordCloudSeriesPane extends VanChartAbstractPlotSeriesPane 
                 CloudShapeType type = (CloudShapeType)cloudShape.getSelectedItem();
                 String path = type.getImageUrl();
                 if(path != null) {
-                    ImageBackground imageBackground = new ImageBackground(IOUtils.readImage(path));
+                    ImageFileBackground imageBackground = new ImageFileBackground(IOUtils.readImage(path));
                     imageBackgroundQuickPane.populateBean(imageBackground);
                 } else {
-                    imageBackgroundQuickPane.populateBean(new ImageBackground());
+                    imageBackgroundQuickPane.populateBean(new ImageFileBackground());
                 }
                 checkImagePane();
             }

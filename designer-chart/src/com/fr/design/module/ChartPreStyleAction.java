@@ -1,7 +1,5 @@
 package com.fr.design.module;
 
-import com.fr.base.ChartPreStyleManagerProvider;
-import com.fr.base.ChartPreStyleServerManager;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
@@ -41,14 +39,14 @@ public class ChartPreStyleAction extends UpdateAction {
 			@Override
 			public void doOk() {
 				pane.updateBean();
-				ChartPreStyleManagerProvider manager = ChartPreStyleServerManager.getProviderInstance();
-				manager.setStyleEditing(null);
+//				ChartPreStyleManagerProvider manager = ChartPreStyleServerManager.getProviderInstance();
+//				manager.setStyleEditing(null);
 			}                
 			
 			@Override
 			public void doCancel() {
-				ChartPreStyleManagerProvider manager = ChartPreStyleServerManager.getProviderInstance();
-				manager.setStyleEditing(null);
+//				ChartPreStyleManagerProvider manager = ChartPreStyleServerManager.getProviderInstance();
+//				manager.setStyleEditing(null);
 			}
         });
 
