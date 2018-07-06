@@ -155,7 +155,7 @@ public class WriteToolBarPane extends AbstractEditToolBarPane {
             webContent = new WebWrite();
         }
         WebWrite webWrite = (WebWrite) webContent;
-        if (webWrite.getSelectedColor() != null) {
+        if (webWrite.isEditRowColor()) {
             colorBox.setSelected(true);
             colorButton.setColor(webWrite.getSelectedColor());
         } else {
@@ -205,9 +205,10 @@ public class WriteToolBarPane extends AbstractEditToolBarPane {
         }
 
         if (colorBox.isSelected()) {
+            webWrite.setEditRowColor(true);
             webWrite.setSelectedColor(colorButton.getColor());
         } else {
-            webWrite.setSelectedColor(null);
+            webWrite.setEditRowColor(false);
         }
 
         webWrite.setUnloadCheck(unloadCheck.isSelected());
