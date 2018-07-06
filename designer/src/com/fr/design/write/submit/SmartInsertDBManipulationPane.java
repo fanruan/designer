@@ -183,30 +183,7 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
 		 * @param evt 事件s
 		 */
 		public void actionPerformed(ActionEvent evt) {
-
-			// Grid.GridSelectionListener
-			if (ePane == null) {
-				return;
-			}
-
-			/*
-			 * 布局
-			 */
-			BasicPane bPane = new SmartJTablePane4DB(keyColumnValuesTable.getTableModel4SmartAddCell(), ePane);
-
-			// ReportWriteAttrDialog.this.setVisible(false);
-			hideDialog4AddCellAction();
-			/*
-			 * 当前的ReportPane不可编辑,不可切换Sheet,加GridSelectionChangeListener
-			 */
-			ePane.setEditable(false);
-			ePane.setSelection(NO_SELECTION);
-			ePane.getGrid().setNotShowingTableSelectPane(false);
-
-			BasicDialog dlg = bPane.showWindow(DesignerContext.getDesignerFrame());
-
-			dlg.setModal(false);
-			dlg.setVisible(true);
+			showCellWindow(false);
 		}
 	}
 
@@ -220,26 +197,36 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
 		 * @param e 事件s
 		 */
 		public void actionPerformed(ActionEvent e) {
-			if (ePane == null) {
-				return;
-			}
+			showCellWindow(true);
+		}
+	}
 
-			BasicPane bPane = new SmartJTablePane4DB(keyColumnValuesTable.getTableModel4SmartAddCell(), ePane, true);
+	/**
+	 * 切换到单元格窗口，设置属性面板不可编辑
+	 * @param isCellGroup 判断是否单元格组
+	 */
 
-			// ReportWriteAttrDialog.this.setVisible(false);
-			hideDialog4AddCellAction();
+	private void showCellWindow(boolean isCellGroup){
+		if (ePane == null) {
+			return;
+		}
+
+		BasicPane bPane = new SmartJTablePane4DB(keyColumnValuesTable.getTableModel4SmartAddCell(), ePane, isCellGroup);
+
+		// ReportWriteAttrDialog.this.setVisible(false);
+		hideDialog4AddCellAction();
 			/*
 			 * 当前的ReportPane不可编辑,不可切换Sheet,加GridSelectionChangeListener
 			 */
-			ePane.setSelection(NO_SELECTION);
-			ePane.setEditable(false);
-			ePane.getGrid().setNotShowingTableSelectPane(false);
+		//必须先设置面板不可编辑才能释放单元格选中
+		ePane.setEditable(false);
+		ePane.setSelection(NO_SELECTION);
+		ePane.getGrid().setNotShowingTableSelectPane(false);
 
-			BasicDialog dlg = bPane.showWindow(SwingUtilities.getWindowAncestor(SmartInsertDBManipulationPane.this));
+		BasicDialog dlg = bPane.showWindow(SwingUtilities.getWindowAncestor(SmartInsertDBManipulationPane.this));
 
-			dlg.setModal(false);
-			dlg.setVisible(true);
-		}
+		dlg.setModal(false);
+		dlg.setVisible(true);
 	}
 
 	private void showDialogAfterAddCellAction() {
