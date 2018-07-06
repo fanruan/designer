@@ -119,7 +119,7 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
     private String[] oldParams;
 
     private UIObserverListener listener;
-    private String[] layers = MapLayerConfigManager.getInstance().getLayerItems();
+    private String[] layers = MapLayerConfigManager.getLayerItems();
     /**
      * 给组件登记一个观察者监听事件
      *
@@ -261,7 +261,7 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
 
                 gisLayer.removeAllItems();
 
-                for(String item : MapLayerConfigManager.getInstance().getLayerItems()){
+                for (String item : MapLayerConfigManager.getLayerItems()) {
                     gisLayer.addItem(item);
                 }
 
@@ -286,9 +286,9 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
             @Override
             public Dimension getPreferredSize() {
                 String itemName = Utils.objectToString(gisLayer.getSelectedItem());
-                if(MapLayerConfigManager.getInstance().isCustomLayer(itemName)){
+                if (MapLayerConfigManager.isCustomLayer(itemName)) {
                     return tileLyaerPane.getPreferredSize();
-                }else if(MapLayerConfigManager.getInstance().isCustomWmsLayer(itemName)){
+                } else if (MapLayerConfigManager.isCustomWmsLayer(itemName)) {
                     return wmsLayerPane.getPreferredSize();
                 }
                 return new Dimension(0,0);
@@ -297,9 +297,9 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
 
         for(String itemName : layers){
             JPanel pane = new JPanel();
-            if(MapLayerConfigManager.getInstance().isCustomLayer(itemName)){
+            if (MapLayerConfigManager.isCustomLayer(itemName)) {
                 pane = tileLyaerPane;
-            }else if(MapLayerConfigManager.getInstance().isCustomWmsLayer(itemName)){
+            } else if (MapLayerConfigManager.isCustomWmsLayer(itemName)) {
                 pane = wmsLayerPane;
             }
 
@@ -681,7 +681,7 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
         String layerName = Utils.objectToString(gisLayer.getSelectedItem());
 
         layer.setLayerName(layerName);
-        layer.setGisLayerType(MapLayerConfigManager.getInstance().getGisLayerType(layerName));
+        layer.setGisLayerType(MapLayerConfigManager.getGisLayerType(layerName));
 
         switch (layer.getGisLayerType()){
             case CUSTOM_WMS_LAYER:
