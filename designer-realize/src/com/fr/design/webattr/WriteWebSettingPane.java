@@ -120,7 +120,7 @@ public class WriteWebSettingPane extends WebSettingPane<WebWrite> {
         if (webWrite == null) {
             webWrite = new WebWrite();
         }
-        if (webWrite.getSelectedColor() != null) {
+        if (webWrite.isEditRowColor()) {
             colorBox.setSelected(true);
             colorButton.setColor(webWrite.getSelectedColor());
         } else {
@@ -148,9 +148,10 @@ public class WriteWebSettingPane extends WebSettingPane<WebWrite> {
     protected WebWrite updateSubWebSettingBean() {
         WebWrite webWrite = new WebWrite();
         if (colorBox.isSelected()) {
+            webWrite.setEditRowColor(true);
             webWrite.setSelectedColor(colorButton.getColor());
         } else {
-            webWrite.setSelectedColor(null);
+            webWrite.setEditRowColor(false);
         }
         if (topRadioButton.isSelected()) {
             webWrite.setSheetPosition(Constants.TOP);
