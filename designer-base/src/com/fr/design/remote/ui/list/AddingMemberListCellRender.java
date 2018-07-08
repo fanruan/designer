@@ -24,7 +24,7 @@ public class AddingMemberListCellRender extends JPanel implements ListCellRender
         this.setLayout(new FlowLayout(FlowLayout.LEFT));
 
         label = new UILabel();
-        label.setPreferredSize(new Dimension(270, 20));
+        label.setPreferredSize(new Dimension(260, 20));
         this.setPreferredSize(new Dimension(this.getPreferredSize().width, 25));
         label.setIcon(BaseUtils.readIcon("com/fr/design/remote/images/icon_Member_normal@1x.png"));
 
@@ -39,8 +39,15 @@ public class AddingMemberListCellRender extends JPanel implements ListCellRender
 
     @Override
     public Component getListCellRendererComponent(JList list, RemoteDesignMember member, int index, boolean isSelected, boolean cellHasFocus) {
-        this.setLabelText(member.getRealName() + "(" + member.getUsername() + ")");
-        check.setSelected(member.isSelected());
+
+        if (member.equals(RemoteDesignMember.DEFAULT_MEMBER)) {
+            this.setLabelText(member.getUsername());
+            check.setVisible(false);
+        } else {
+            this.setLabelText(member.getRealName() + "(" + member.getUsername() + ")");
+            check.setVisible(true);
+            check.setSelected(member.isSelected());
+        }
         return this;
     }
 

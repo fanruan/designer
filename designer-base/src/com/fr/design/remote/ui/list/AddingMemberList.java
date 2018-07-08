@@ -43,7 +43,7 @@ public class AddingMemberList extends MemberList {
         int rX = point.x;
         int rY = point.y;
         int index = this.getSelectedIndex();
-        int x = 280;
+        int x = 270;
         int y = 25 * index;
         int width = 25;
         int height = 25;
