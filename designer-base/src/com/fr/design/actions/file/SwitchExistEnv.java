@@ -10,7 +10,6 @@ import com.fr.design.env.DesignerWorkspaceInfo;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
-import com.fr.design.mainframe.TemplatePane;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
@@ -20,6 +19,8 @@ import com.fr.general.Inter;
 import com.fr.stable.EnvChangedListener;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.WorkContextCallback;
+import com.fr.workspace.Workspace;
+import com.fr.workspace.connect.AuthException;
 
 import javax.swing.JOptionPane;
 import java.awt.event.ActionEvent;
@@ -103,7 +104,16 @@ public class SwitchExistEnv extends MenuDef {
             DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
             final String envName = getName();
             DesignerWorkspaceInfo selectedEnv = envManager.getWorkspaceInfo(envName);
-            WorkContext.switchTo(DesignerWorkspaceGenerator.generate(selectedEnv), new WorkContextCallback() {
+            Workspace workspace;
+            try {
+                workspace = DesignerWorkspaceGenerator.generate(selectedEnv);
+            } catch (AuthException exception) {
+                JOptionPane.showMessageDialog(
+                        DesignerContext.getDesignerFrame(),
+                        Inter.getLocText(new String[]{"Env-Invalid_User_and_Password"}));
+                return;
+            }
+            WorkContext.switchTo(workspace, new WorkContextCallback() {
                 @Override
                 public void success() {
                     DesignerEnvManager.getEnvManager().setCurEnvName(envName);

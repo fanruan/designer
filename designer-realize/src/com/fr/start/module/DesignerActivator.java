@@ -50,6 +50,7 @@ import com.fr.design.mainframe.form.FormReportComponentComposite;
 import com.fr.design.mainframe.loghandler.DesignerLogAppender;
 import com.fr.design.mainframe.loghandler.DesignerLogImpl;
 import com.fr.design.mainframe.loghandler.LogMessageBar;
+import com.fr.design.mainframe.socketio.DesignerSocketIO;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.parameter.FormParameterReader;
 import com.fr.design.parameter.ParameterPropertyPane;
@@ -123,6 +124,7 @@ public class DesignerActivator extends Activator implements Prepare {
         designerModuleStart();
         preLoadPane();
         loadLogAppender();
+        DesignerSocketIO.update();
     }
 
     private void loadLogAppender() {
@@ -400,6 +402,7 @@ public class DesignerActivator extends Activator implements Prepare {
     @Override
     public void stop() {
         unloadLogAppender();
+        DesignerSocketIO.close();
     }
 
     @Override

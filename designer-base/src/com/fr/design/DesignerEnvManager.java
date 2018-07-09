@@ -35,10 +35,12 @@ import com.fr.stable.xml.XMLTools;
 import com.fr.stable.xml.XMLWriter;
 import com.fr.stable.xml.XMLableReader;
 import com.fr.workspace.WorkContext;
+import com.fr.workspace.connect.AuthException;
 
-import javax.swing.*;
+import javax.swing.SwingWorker;
 import javax.swing.SwingWorker.StateValue;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Rectangle;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -476,7 +478,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
      * @return 是默认则返回true
      */
     public boolean isCurrentEnvDefault() {
-    
+
         DesignerWorkspaceInfo current = this.getWorkspaceInfo(curEnvName);
         String defaultEnvPath = StableUtils.pathJoin(new String[]{StableUtils.getInstallHome(), ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBINF_NAME});
         return ComparatorUtils.equals(new File(defaultEnvPath).getPath(), current.getPath());
@@ -530,7 +532,11 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         if (isCurrentEnvDefault()) {
             return;
         }
-        WorkContext.switchTo(DesignerWorkspaceGenerator.generate(getDefaultConfig()));
+        try {
+            WorkContext.switchTo(DesignerWorkspaceGenerator.generate(getDefaultConfig()));
+        } catch (AuthException e) {
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+        }
     }
 
     /**
@@ -708,7 +714,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
      * @param info 对应的环境信息
      */
     public void putEnv(String name, DesignerWorkspaceInfo info) {
-    
+
         this.nameEnvMap.put(name, info);
     }
 
