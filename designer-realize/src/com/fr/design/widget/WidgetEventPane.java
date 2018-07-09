@@ -18,6 +18,7 @@ import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.form.event.Listener;
 import com.fr.form.ui.Widget;
+import com.fr.grid.selection.Selection;
 import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.general.NameObject;
@@ -34,9 +35,12 @@ import javax.swing.*;
 
 public class WidgetEventPane extends ObjectUIControlPane {
 
+    private Selection selection;
+
     public WidgetEventPane(ElementCasePane pane) {
         super(pane);
         this.setNameListEditable(false);
+        selection = pane.getSelection();
         setBorder(BorderFactory.createEmptyBorder(10, 0, 15, 0));
     }
 
@@ -57,7 +61,7 @@ public class WidgetEventPane extends ObjectUIControlPane {
 
 	@Override
 	public void saveSettings() {
-        CellWidgetPropertyPane.getInstance().update();
+        CellWidgetPropertyPane.getInstance().update(selection);
     }
 
 	@Override
