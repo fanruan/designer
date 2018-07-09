@@ -110,7 +110,7 @@ public class SwitchExistEnv extends MenuDef {
             } catch (AuthException exception) {
                 JOptionPane.showMessageDialog(
                         DesignerContext.getDesignerFrame(),
-                        Inter.getLocText(new String[]{"Env-Invalid_User_and_Password"}));
+                        Inter.getLocText(new String[]{"Fine-Designer_Basic_Remote_Connect_Auth_Failed"}));
                 return;
             }
             WorkContext.switchTo(workspace, new WorkContextCallback() {
