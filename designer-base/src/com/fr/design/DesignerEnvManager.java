@@ -13,6 +13,7 @@ import com.fr.design.env.DesignerWorkspaceInfo;
 import com.fr.design.env.DesignerWorkspaceType;
 import com.fr.design.env.LocalDesignerWorkspaceInfo;
 import com.fr.design.env.RemoteDesignerWorkspaceInfo;
+import com.fr.design.style.color.ColorSelectConfigManager;
 import com.fr.file.FILEFactory;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogFormatter;
@@ -127,7 +128,8 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     //记录当前激活码的在线激活状态.
     private int activeKeyStatus = -1;
     private boolean joinProductImprove = true;
-
+    //最近使用的颜色
+    private ColorSelectConfigManager configManager = ColorSelectConfigManager.getInstance();
     /**
      * alphafine
      */
@@ -1293,6 +1295,10 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         }
     }
 
+    private void readRecentColor(XMLableReader reader){
+        reader.readXMLObject(this.configManager);
+    }
+
     /**
      * Read XML.<br>
      * The method will be invoked when read data from XML file.<br>
@@ -1344,7 +1350,10 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 readHttpsParas(reader);
             } else if (name.equals("AlphaFineConfigManager")) {
                 readAlphaFineAttr(reader);
-            } else {
+            } else if (name.equals("RecentColors")) {
+                readRecentColor(reader);
+            }
+            else {
                 readLayout(reader, name);
             }
         }
@@ -1536,12 +1545,19 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         writeActiveStatus(writer);
         writeHttpsParas(writer);
         writeAlphaFineAttr(writer);
+        writeRecentColor(writer);
         writer.end();
     }
 
     private void writeAlphaFineAttr(XMLPrintWriter writer) {
         if (this.alphaFineConfigManager != null) {
             this.alphaFineConfigManager.writeXML(writer);
+        }
+    }
+
+    private void writeRecentColor(XMLPrintWriter writer) {
+        if (this.configManager != null) {
+            this.configManager.writeXML(writer);
         }
     }
 
