@@ -192,6 +192,10 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         return designerEnvManager;
     }
 
+    public  ColorSelectConfigManager getColorConfigManager(){
+        return this.configManager;
+    }
+
     public static void checkNameEnvMap() {
         if (designerEnvManager == null || designerEnvManager.nameEnvMap.size() > 0) {
             return;
@@ -1302,7 +1306,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     }
 
     private void readRecentColor(XMLableReader reader){
-        reader.readXMLObject(this.configManager.getInstance());
+        reader.readXMLObject(this.configManager);
     }
 
     /**

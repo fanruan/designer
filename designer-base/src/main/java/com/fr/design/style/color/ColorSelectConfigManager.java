@@ -20,7 +20,6 @@ public class ColorSelectConfigManager implements XMLReadable {
     // 最近使用的颜色个数
     private int colorNums = 20;
 
-    private static ColorSelectConfigManager colorSelectConfigManager = null;
     private boolean init = true;
     // 最近使用颜色
     private List<Color> colors = new ArrayList<Color>();
@@ -41,12 +40,6 @@ public class ColorSelectConfigManager implements XMLReadable {
         this.colorNums = colorNums;
     }
 
-    public synchronized static ColorSelectConfigManager getInstance() {
-        if (colorSelectConfigManager == null) {
-            colorSelectConfigManager = new ColorSelectConfigManager();
-        }
-        return colorSelectConfigManager;
-    }
 
     /**
      * 添加颜色到最近使用队列中
@@ -66,9 +59,8 @@ public class ColorSelectConfigManager implements XMLReadable {
 
         /*@author yaohwu*/
         //将历史颜色信息保存到xml文件中去
-        ColorSelectConfigManager manager = ColorSelectConfigManager.getInstance();
         if (colors != null && !colors.isEmpty()) {
-            manager.setColorsToFile(colors);
+            this.setColorsToFile(colors);
         }
     }
 
