@@ -14,6 +14,7 @@ import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ProductConstants;
+import com.fr.stable.StableUtils;
 import com.fr.third.org.apache.lucene.analysis.Analyzer;
 import com.fr.third.org.apache.lucene.analysis.standard.StandardAnalyzer;
 import com.fr.third.org.apache.lucene.document.Document;
@@ -115,7 +116,9 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
     private void initReader() {
         if (indexReader == null) {
             try {
-                directory = FSDirectory.open(new File(path));
+                File file = new File(path);
+                StableUtils.mkdirs(file);
+                directory = FSDirectory.open(file);
                 indexReader = DirectoryReader.open(directory);
             } catch (IOException e) {
                 FineLoggerFactory.getLogger().error("not privilege to read " + path);
