@@ -674,7 +674,7 @@ public class FILEChooserPane extends BasicPane {
 
     private void saveDialog() {
         String filename = fileNameTextField.getText();
-        if (!filename.endsWith(suffix) && !filename.contains(CoreConstants.DOT)) {
+        if (!filename.endsWith(suffix)) {
             ChooseFileFilter chooseFileFilter = (ChooseFileFilter) (postfixComboBox.getSelectedItem());
             if (chooseFileFilter != null && StringUtils.isNotEmpty(chooseFileFilter.getExtensionString())) {
                 fileNameTextField.setText(filename + chooseFileFilter.getExtensionString());
@@ -1109,7 +1109,7 @@ public class FILEChooserPane extends BasicPane {
             ((DefaultListModel) subFileList.getModel()).removeAllElements();
             for (int i = 0; i < res_array.length; i++) {
                 if (filter == null || filter.accept(res_array[i])) {
-                    ((DefaultListModel) subFileList.getModel()).addElement( res_array[i]);
+                    ((DefaultListModel) subFileList.getModel()).addElement(res_array[i]);
                 }
             }
             String[] name_array = new String[res_array.length];
