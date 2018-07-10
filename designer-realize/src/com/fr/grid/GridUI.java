@@ -1106,8 +1106,8 @@ public class GridUI extends ComponentUI {
         WatermarkAttr watermark = ReportUtils.getWatermarkFromAttrMarkFile(book);
 
         // 不要每次都 new 一个 WatermarkPainter
-        if (watermarkPainter == null || !ComparatorUtils.equals(watermarkPainter.getWatermark(), watermark)) {
-            watermarkPainter = new WatermarkPainter(watermark);
+        if (watermarkPainter == null || watermarkPainter.isOutDated(watermark, resolution)) {
+            watermarkPainter = new WatermarkPainter(watermark, resolution);
         }
         watermarkPainter.paint(g2d, gridSize.width, gridSize.height);
     }

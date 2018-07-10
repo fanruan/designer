@@ -120,8 +120,8 @@ public class FormDesignerUI extends ComponentUI {
     private void paintWatermark(Graphics2D g) {
         WatermarkAttr watermark = ReportUtils.getWatermarkFromAttrMarkFile(designer.getTarget());
         // 不要每次都 new 一个 WatermarkPainter
-        if (watermarkPainter == null || !ComparatorUtils.equals(watermarkPainter.getWatermark(), watermark)) {
-            watermarkPainter = new WatermarkPainter(watermark);
+        if (watermarkPainter == null || watermarkPainter.isOutDated(watermark, designer.getResolution())) {
+            watermarkPainter = new WatermarkPainter(watermark, designer.getResolution());
         }
         watermarkPainter.paint(g, 0, designer.getParaHeight(), designer.getArea().getBounds());
     }
