@@ -375,18 +375,18 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         final JPanel northEastPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         //优先级为-1，保证最后全面刷新一次
         GeneralContext.listenPluginRunningChanged(new PluginEventListener(-1) {
-    
+
             @Override
             public void on(PluginEvent event) {
-        
+
                 refreshNorthEastPane(northEastPane, ad);
                 DesignUtils.refreshDesignerFrame();
             }
         }, new PluginFilter() {
-    
+
             @Override
             public boolean accept(PluginContext context) {
-        
+
                 return context.contain(PluginModule.ExtraDesign);
             }
         });
@@ -469,16 +469,16 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         // 下面的虚线
         downDottedLine = new DottedLine(UIScrollBar.HORIZONTAL, centerWidth);
         downDottedLine.setBounds(WestRegionContainerPane.getInstance().getContainerWidth(), contentHeight - 3,
-            centerWidth, 3);
+                centerWidth, 3);
         
         // 左边的虚线
         leftDottedLine = new DottedLine(UIScrollBar.VERTICAL, contentHeight - MENU_HEIGHT);
         leftDottedLine.setBounds(WestRegionContainerPane.getInstance().getContainerWidth(), MENU_HEIGHT, 3,
-            contentHeight - MENU_HEIGHT);
+                contentHeight - MENU_HEIGHT);
         
         rightDottedLine = new DottedLine(UIScrollBar.VERTICAL, contentHeight - MENU_HEIGHT);
         rightDottedLine.setBounds(contentWidth - EastRegionContainerPane.getInstance().getContainerWidth() - 3,
-            MENU_HEIGHT, 3, contentHeight - MENU_HEIGHT);
+                MENU_HEIGHT, 3, contentHeight - MENU_HEIGHT);
         
     }
     
@@ -719,7 +719,12 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         String envName = DesignerEnvManager.getEnvManager().getCurEnvName();
         Workspace workspace = WorkContext.getCurrent();
         DesignerWorkspaceInfo info = DesignerEnvManager.getEnvManager().getWorkspaceInfo(envName);
-        defaultTitleSB.append(info.getName()).append("@").append(envName).append("[").append(workspace.getDescription()).append("]");
+
+        String username = null;
+        if (info != null){
+            username = info.getName();
+        }
+        defaultTitleSB.append(username).append("@").append(envName).append("[").append(workspace.getDescription()).append("]");
         if (editingTemplate != null) {
             String path = editingTemplate.getEditingFILE().getPath();
             if (!editingTemplate.getEditingFILE().exists()) {

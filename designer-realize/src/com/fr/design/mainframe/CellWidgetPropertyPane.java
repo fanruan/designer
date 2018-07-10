@@ -108,6 +108,36 @@ public class CellWidgetPropertyPane extends BasicPane {
         final CellSelection finalCS = (CellSelection) ePane.getSelection();
         final TemplateElementCase tplEC = ePane.getEditingElementCase();
         final Widget cellWidget = cellEditorDefPane.update();
+        if (finalCS.isSelectedOneCell(ePane)) {
+            if (tplEC.getTemplateCellElement(cellElement.getColumn(), cellElement.getRow()) == null) {//cellElement未加入到report中时要添加进去
+                tplEC.addCellElement(cellElement);
+            }
+            setCellWidget(cellWidget, cellElement);
+        } else {
+            ReportActionUtils.actionIterateWithCellSelection(finalCS, tplEC, new ReportActionUtils.IterAction() {
+                public void dealWith(CellElement editCellElement) {
+                    // p:最后把这个cellEditorDef设置到CellGUIAttr.
+                    TemplateCellElement templateCellElement = (TemplateCellElement) editCellElement;
+                    try {
+                        setCellWidget((Widget) cellWidget.clone(), templateCellElement);
+                    } catch (CloneNotSupportedException e) {
+                        FRContext.getLogger().error("InternalError: " + e.getMessage());
+                    }
+                }
+            });
+        }
+        if (DesignerContext.getDesignerFrame().getSelectedJTemplate() != null) {
+            DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified();
+        }
+    }
+
+    public void update(Selection selection) {
+        if (cellElement == null || !cellEditorDefPane.isShouldFireSelectedEvent()) {
+            return;
+        }
+        final CellSelection finalCS = (CellSelection) selection;
+        final TemplateElementCase tplEC = ePane.getEditingElementCase();
+        final Widget cellWidget = cellEditorDefPane.update();
         if(finalCS.isSelectedOneCell(ePane)){
             if(tplEC.getTemplateCellElement(cellElement.getColumn(), cellElement.getRow())== null){//cellElement未加入到report中时要添加进去
                 tplEC.addCellElement(cellElement);
