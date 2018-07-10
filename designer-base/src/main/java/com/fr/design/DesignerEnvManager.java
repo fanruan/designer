@@ -131,7 +131,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     private int activeKeyStatus = -1;
     private boolean joinProductImprove = true;
     //最近使用的颜色
-    private ColorSelectConfigManager configManager = ColorSelectConfigManager.getInstance();
+    private ColorSelectConfigManager configManager = new ColorSelectConfigManager();
     /**
      * alphafine
      */
@@ -1302,7 +1302,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     }
 
     private void readRecentColor(XMLableReader reader){
-        reader.readXMLObject(this.configManager);
+        reader.readXMLObject(this.configManager.getInstance());
     }
 
     /**
