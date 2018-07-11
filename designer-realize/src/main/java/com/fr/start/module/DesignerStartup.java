@@ -1,10 +1,9 @@
 package com.fr.start.module;
 
-import com.fr.design.DesignerEnvManager;
+
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.event.Event;
 import com.fr.event.Listener;
-import com.fr.general.ComparatorUtils;
 import com.fr.module.Activator;
 import com.fr.record.analyzer.EnableMetrics;
 import com.fr.record.analyzer.Metrics;
