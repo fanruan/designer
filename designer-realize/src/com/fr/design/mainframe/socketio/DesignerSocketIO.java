@@ -4,15 +4,21 @@ import com.fr.decision.webservice.utils.DecisionServiceConstants;
 import com.fr.design.mainframe.loghandler.DesignerLogHandler;
 import com.fr.general.LogRecordTime;
 import com.fr.general.LogUtils;
-import com.fr.general.http.HttpToolbox;
+import com.fr.io.utils.ResourceIOUtils;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
 import com.fr.third.guava.base.Optional;
 import com.fr.third.guava.primitives.Ints;
+import com.fr.third.org.apache.http.HttpEntity;
+import com.fr.third.org.apache.http.client.methods.CloseableHttpResponse;
+import com.fr.third.org.apache.http.client.methods.HttpGet;
+import com.fr.third.org.apache.http.impl.client.CloseableHttpClient;
+import com.fr.third.org.apache.http.util.EntityUtils;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.Workspace;
 import com.fr.workspace.base.WorkspaceConstants;
+import com.fr.workspace.engine.connector.FineWorkspaceConnector;
 import com.fr.workspace.engine.server.rpc.netty.RemoteCallClient;
 import io.socket.client.IO;
 import io.socket.client.Socket;
@@ -76,13 +82,18 @@ public class DesignerSocketIO {
 
     private static int getPort(Workspace current) throws IOException {
         String url = current.getPath() + WorkspaceConstants.CONTROLLER_PREFIX + WorkspaceConstants.CONTROLLER_SOCKETIO_PORT;
+        CloseableHttpResponse response = null;
         try {
-            String portStr = HttpToolbox.get(url);
-            JSONObject jsonObject = new JSONObject(portStr);
+            HttpGet httpGet = new HttpGet(url);
+            response = FineWorkspaceConnector.getInstance().currentHttpClient().execute(httpGet);
+            HttpEntity entity = response.getEntity();
+            JSONObject jsonObject = new JSONObject(EntityUtils.toString(entity));
             return Ints.tryParse(jsonObject.optString("data"));
         } catch (JSONException e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
             throw new RuntimeException(e);
+        } finally {
+            ResourceIOUtils.close(response);
         }
     }
 }

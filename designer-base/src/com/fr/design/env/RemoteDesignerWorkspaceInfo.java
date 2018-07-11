@@ -8,7 +8,7 @@ import com.fr.stable.xml.XMLableReader;
 import com.fr.workspace.connect.WorkspaceConnection;
 
 public class RemoteDesignerWorkspaceInfo implements DesignerWorkspaceInfo {
-    
+
     private String name;
 
     private WorkspaceConnection connection;
@@ -55,8 +55,10 @@ public class RemoteDesignerWorkspaceInfo implements DesignerWorkspaceInfo {
                 String url = reader.getAttrAsString("url", StringUtils.EMPTY);
                 String username = reader.getAttrAsString("username", StringUtils.EMPTY);
                 //密码解密
-                String password = SecurityToolbox.defaultDecrypt(reader.getAttrAsString("password", StringUtils.EMPTY).replaceAll(" ","\r\n"));
-                this.connection = new WorkspaceConnection(url, username, password);
+                String password = SecurityToolbox.defaultDecrypt(reader.getAttrAsString("password", StringUtils.EMPTY).replaceAll(" ", "\r\n"));
+                String certPath = reader.getAttrAsString("certPath", StringUtils.EMPTY);
+                String certSecretKey = reader.getAttrAsString("certSecretKey", StringUtils.EMPTY);
+                this.connection = new WorkspaceConnection(url, username, password, certPath, certSecretKey);
             }
         }
     }
@@ -70,16 +72,18 @@ public class RemoteDesignerWorkspaceInfo implements DesignerWorkspaceInfo {
             writer.attr("url", connection.getUrl());
             writer.attr("username", connection.getUserName());
             writer.attr("password", SecurityToolbox.defaultEncrypt(connection.getPassword()));
+            writer.attr("certPath", connection.getCertPath());
+            writer.attr("certSecretKey", connection.getCertSecretKey());
             writer.end();
         }
     }
-    
+
     @Override
     public Object clone() throws CloneNotSupportedException {
 
-        RemoteDesignerWorkspaceInfo object = (RemoteDesignerWorkspaceInfo)super.clone();
+        RemoteDesignerWorkspaceInfo object = (RemoteDesignerWorkspaceInfo) super.clone();
 
-        object.connection = (WorkspaceConnection)StableUtils.cloneObject(this.connection);
-        return  object;
+        object.connection = (WorkspaceConnection) StableUtils.cloneObject(this.connection);
+        return object;
     }
 }
