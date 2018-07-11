@@ -1,18 +1,5 @@
 package com.fr.design.mainframe;
 
-import java.awt.AlphaComposite;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.geom.Area;
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-
-import javax.swing.JComponent;
-import javax.swing.SwingUtilities;
-import javax.swing.plaf.ComponentUI;
-
 import com.fr.base.BaseUtils;
 import com.fr.base.GraphHelper;
 import com.fr.base.ScreenResolution;
@@ -30,11 +17,22 @@ import com.fr.design.designer.creator.XWFitLayout;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.roleAuthority.ReportAndFSManagePane;
 import com.fr.design.utils.ComponentUtils;
-import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.page.WatermarkPainter;
 import com.fr.report.core.ReportUtils;
 import com.fr.stable.ArrayUtils;
+
+import javax.swing.JComponent;
+import javax.swing.SwingUtilities;
+import javax.swing.plaf.ComponentUI;
+import java.awt.AlphaComposite;
+import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.geom.Area;
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 /**
  * FormDesigner的UI类，是一个有状态的UI类，它根据FormDesigner的当前状态画出
@@ -46,7 +44,6 @@ public class FormDesignerUI extends ComponentUI {
     private FormDesigner designer;
     private SelectionModel selectionModel;
     private Rectangle2D.Double back_or_selection_rect = new Rectangle2D.Double(0, 0, 0, 0);
-    private WatermarkPainter watermarkPainter;
     private float time;
 
     public FormDesignerUI() {
@@ -119,11 +116,8 @@ public class FormDesignerUI extends ComponentUI {
     // 绘制水印
     private void paintWatermark(Graphics2D g) {
         WatermarkAttr watermark = ReportUtils.getWatermarkFromAttrMarkFile(designer.getTarget());
-        // 不要每次都 new 一个 WatermarkPainter
-        if (watermarkPainter == null || !ComparatorUtils.equals(watermarkPainter.getWatermark(), watermark)) {
-            watermarkPainter = new WatermarkPainter(watermark);
-        }
-        watermarkPainter.paint(g, 0, designer.getParaHeight(), designer.getArea().getBounds());
+        WatermarkPainter painter = WatermarkPainter.createPainter(watermark, designer.getResolution());
+        painter.paint(g, 0, designer.getParaHeight(), designer.getArea().getBounds());
     }
 
     private int[] getActualLine(int i) {

@@ -19,6 +19,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import com.fr.design.DesignerEnvManager;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.gui.itextfield.UINumberField;
@@ -104,7 +105,7 @@ public class GradientBar extends JComponent implements UIObserver,ColorSelectabl
                         ColorSelectDialog.showDialog(DesignerContext.getDesignerFrame(), pane, Color.WHITE, GradientBar.this);
                         Color color = GradientBar.this.getColor();
                         if (color != null) {
-                            ColorSelectConfigManager.getInstance().addToColorQueue(color);
+                            DesignerEnvManager.getEnvManager().getColorConfigManager().addToColorQueue(color);
                             list.get(select).setColorInner(color);
                             stateChanged();
                             GradientBar.this.repaint();
