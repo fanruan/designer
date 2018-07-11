@@ -1,5 +1,6 @@
 package com.fr.design.style.color;
 
+import com.fr.design.DesignerEnvManager;
 import com.fr.design.border.UIRoundedBorder;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.dialog.BasicPane;
@@ -163,7 +164,7 @@ public class NewColorSelectPane extends BasicPane implements ColorSelectable {
                 this.colorChangeListenerList.get(i).stateChanged(evt);
             }
         }
-        ColorSelectConfigManager.getInstance().addToColorQueue(color);
+        DesignerEnvManager.getEnvManager().getColorConfigManager().addToColorQueue(color);
         this.repaint();
     }
 

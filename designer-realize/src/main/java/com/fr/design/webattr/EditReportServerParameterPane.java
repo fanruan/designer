@@ -5,6 +5,7 @@ package com.fr.design.webattr;
 
 import com.fr.base.ConfigManager;
 import com.fr.base.print.PrintSettingsAttrMark;
+import com.fr.config.PrintConfig;
 import com.fr.config.ServerPreferenceConfig;
 import com.fr.design.gui.frpane.LoadingBasicPane;
 import com.fr.design.gui.frpane.UITabbedPane;
@@ -109,7 +110,7 @@ public class EditReportServerParameterPane extends LoadingBasicPane {
         jsPane.update(webAttr);
 
         printSettings = printSettingPane.updateBean();
-        (ConfigManager.getProviderInstance()).getPrintAttr().setPrintSettings(printSettings);
+        PrintConfig.getInstance().setPrintSettings(printSettings);
 
         reportServerPreferenceConfig.setErrorTemplate(this.errorTemplatePane.updateBean());
     }

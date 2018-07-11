@@ -1,6 +1,7 @@
 package com.fr.van.chart.range.component;
 
 import com.fr.chart.base.ChartBaseUtils;
+import com.fr.design.DesignerEnvManager;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.mainframe.DesignerContext;
@@ -263,7 +264,7 @@ public class LegendGradientBar extends JComponent implements ColorSelectable, UI
                         ColorSelectDialog.showDialog(DesignerContext.getDesignerFrame(), pane, Color.WHITE, LegendGradientBar.this);
                         Color color = LegendGradientBar.this.getColor();
                         if (color != null) {
-                            ColorSelectConfigManager.getInstance().addToColorQueue(color);
+                            DesignerEnvManager.getEnvManager().getColorConfigManager().addToColorQueue(color);
                             selectColorPointBtnList.get(select).setColorInner(color);
 
                             LegendGradientBar.this.repaint();
@@ -276,7 +277,7 @@ public class LegendGradientBar extends JComponent implements ColorSelectable, UI
                         ColorSelectDialog.showDialog(DesignerContext.getDesignerFrame(), pane, Color.WHITE, LegendGradientBar.this);
                         Color color = LegendGradientBar.this.getColor();
                         if (color != null) {
-                            ColorSelectConfigManager.getInstance().addToColorQueue(color);
+                            DesignerEnvManager.getEnvManager().getColorConfigManager().addToColorQueue(color);
                             selectColorSlotBtnStart.setColorInner(color);
                             //stateChanged();
                             LegendGradientBar.this.repaint();
@@ -286,7 +287,7 @@ public class LegendGradientBar extends JComponent implements ColorSelectable, UI
                         ColorSelectDialog.showDialog(DesignerContext.getDesignerFrame(), pane, Color.WHITE, LegendGradientBar.this);
                         Color color = LegendGradientBar.this.getColor();
                         if (color != null) {
-                            ColorSelectConfigManager.getInstance().addToColorQueue(color);
+                            DesignerEnvManager.getEnvManager().getColorConfigManager().addToColorQueue(color);
                             selectColorSlotBtnEnd.setColorInner(color);
                             //stateChanged();
                             LegendGradientBar.this.repaint();
