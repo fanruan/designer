@@ -5,6 +5,7 @@ import com.fr.base.FRContext;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.StableUtils;
 
+import java.io.File;
 import java.io.IOException;
 
 public class Demo {
@@ -20,7 +21,8 @@ public class Demo {
         if (OperatingSystem.isMacOS()) {
             executorPath = StableUtils.pathJoin(installHome, "bin", "designer.app");
         } else {
-            executorPath = StableUtils.pathJoin(installHome, "bin", "designer.exe demo");
+            //转成反斜杠格式
+            executorPath = new File(StableUtils.pathJoin(installHome, "bin", "designer.exe demo")).getPath();
         }
         if (!new java.io.File(executorPath).exists()) {
             FRContext.getLogger().error(executorPath + " can not be found.");

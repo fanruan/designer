@@ -67,6 +67,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     private static final int MAX_SHOW_NUM = 10;
     private static final String VERSION_80 = "80";
     private static final int CACHINGTEMPLATE_LIMIT = 5;
+    private static final String WEB_NAME = "webapps";
 
     private static DesignerEnvManager designerEnvManager; // gui.
     private String activationKey = null;
@@ -200,10 +201,10 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         if (designerEnvManager == null || designerEnvManager.nameEnvMap.size() > 0) {
             return;
         }
-        String installHome = StableUtils.getInstallHome();
+        String installHome =  StableUtils.getInstallHome();
         if (installHome != null && !".".equals(installHome)) {
             String name = Inter.getLocText("FR-Engine_DEFAULT");
-            String envPath = StableUtils.pathJoin(installHome, ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBINF_NAME);
+            String envPath = designerEnvManager.getDefaultenvPath(installHome);
             designerEnvManager.putEnv(name, LocalDesignerWorkspaceInfo.create(name, envPath));
             designerEnvManager.setCurEnvName(name);
         }
@@ -486,8 +487,8 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     public boolean isCurrentEnvDefault() {
 
         DesignerWorkspaceInfo current = this.getWorkspaceInfo(curEnvName);
-        String defaultEnvPath = StableUtils.pathJoin(new String[]{StableUtils.getInstallHome(), ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBINF_NAME});
-        return ComparatorUtils.equals(new File(defaultEnvPath).getPath(), current.getPath());
+        String defaultEnvPath = getDefaultenvPath(StableUtils.getInstallHome());
+        return ComparatorUtils.equals(defaultEnvPath, current.getPath());
     }
 
     /**
@@ -495,7 +496,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
      */
     public DesignerWorkspaceInfo getDefaultConfig() {
         String installHome = StableUtils.getInstallHome();
-        String defaultenvPath = StableUtils.pathJoin(installHome, ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBINF_NAME);
+        String defaultenvPath = getDefaultenvPath(installHome);
         defaultenvPath = new File(defaultenvPath).getPath();
         Iterator<Entry<String, DesignerWorkspaceInfo>> entryIt = nameEnvMap.entrySet().iterator();
         while (entryIt.hasNext()) {
@@ -516,7 +517,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
      */
     public String getDefaultEnvName() {
         String installHome = StableUtils.getInstallHome();
-        String defaultenvPath = StableUtils.pathJoin(new String[]{installHome, ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBINF_NAME});
+        String defaultenvPath = getDefaultenvPath(installHome);
         defaultenvPath = new File(defaultenvPath).getPath();
         if (nameEnvMap.size() >= 0) {
             Iterator<Entry<String, DesignerWorkspaceInfo>> entryIt = nameEnvMap.entrySet().iterator();
@@ -531,6 +532,10 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         return Inter.getLocText(new String[]{"Default", "Utils-Report_Runtime_Env"});
     }
 
+
+    private String getDefaultenvPath(String installHome){
+        return  StableUtils.pathJoin(installHome, WEB_NAME, ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBINF_NAME);
+    }
     /**
      * 设置当前环境为默认
      */
