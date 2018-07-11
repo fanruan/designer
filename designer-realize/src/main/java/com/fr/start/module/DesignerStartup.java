@@ -1,5 +1,6 @@
 package com.fr.start.module;
 
+
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.event.Event;
 import com.fr.event.Listener;
