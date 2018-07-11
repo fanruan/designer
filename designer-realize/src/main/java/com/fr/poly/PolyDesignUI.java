@@ -55,7 +55,6 @@ public class PolyDesignUI extends ComponentUI {
     private PolyDesigner designer;
     private int resolution;
 	private float time;
-    private WatermarkPainter watermarkPainter;
 
     public PolyDesignUI(int resolution) {
         if (resolution == 0){

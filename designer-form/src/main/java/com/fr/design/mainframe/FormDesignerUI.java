@@ -44,7 +44,6 @@ public class FormDesignerUI extends ComponentUI {
     private FormDesigner designer;
     private SelectionModel selectionModel;
     private Rectangle2D.Double back_or_selection_rect = new Rectangle2D.Double(0, 0, 0, 0);
-    private WatermarkPainter watermarkPainter;
     private float time;
 
     public FormDesignerUI() {

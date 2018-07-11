@@ -109,7 +109,6 @@ public class GridUI extends ComponentUI {
     protected int resolution;
 
     private boolean isAuthority = false;
-    private WatermarkPainter watermarkPainter;
 
     public GridUI(int resolution) {
         super();
