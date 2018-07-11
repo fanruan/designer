@@ -63,6 +63,7 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
     public synchronized static RecentSearchManager getInstance() {
         if (recentSearchManager == null) {
             recentSearchManager = new RecentSearchManager();
+            recentSearchManager.initWriter();
         }
         return recentSearchManager;
     }
@@ -95,17 +96,13 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
      * 初始化indexWriter
      */
     private void initWriter() {
-        if (indexWriter == null) {
-            try {
-                directory = FSDirectory.open(new File(path));
-            } catch (IOException e) {
-                FineLoggerFactory.getLogger().error("cannot open directory " + path);
-            }
-            try {
-                indexWriter = new IndexWriter(directory, config);
-            } catch (IOException e) {
-                FineLoggerFactory.getLogger().error("not privilege to write to" + path);
-            }
+        try {
+            File file = new File(path);
+            StableUtils.mkdirs(file);
+            directory = FSDirectory.open(file);
+            indexWriter = new IndexWriter(directory, config);
+        } catch (IOException e) {
+            FineLoggerFactory.getLogger().error("not privilege to write to" + path);
         }
 
     }
@@ -116,9 +113,8 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
     private void initReader() {
         if (indexReader == null) {
             try {
-                File file = new File(path);
-                StableUtils.mkdirs(file);
-                directory = FSDirectory.open(file);
+                indexWriter.close();
+                directory = FSDirectory.open(new File(path));
                 indexReader = DirectoryReader.open(directory);
             } catch (IOException e) {
                 FineLoggerFactory.getLogger().error("not privilege to read " + path);
@@ -169,6 +165,7 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
     private synchronized SearchResult searchBySort(String key) {
         recentModelList = new SearchResult();
         try {
+
             initReader();
             IndexSearcher searcher = new IndexSearcher(indexReader);
             //构建排序字段
