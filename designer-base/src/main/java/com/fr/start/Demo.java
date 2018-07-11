@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class Demo {
     public static void main(String[] args) {
-        String installHome = "D:\\应用\\FineReport_10.1";//StableUtils.getInstallHome();
+        String installHome = StableUtils.getInstallHome();
         if (installHome == null) {
             FRContext.getLogger().error("Can not find the install home, please check it.");
             return;
