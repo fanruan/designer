@@ -53,15 +53,6 @@ public class DesignerStartup extends Activator {
 
         DesignerContext.getDesignerFrame().getProgressDialog().setVisible(true);
 
-        //需要切换工作目录的弹窗放在打开设计器后，以免被挡住
-        if (args != null) {
-            for (String arg : args) {
-                if (ComparatorUtils.equals(arg, "demo")) {
-                    ServerStarter.switchWorkContext();
-                    break;
-                }
-            }
-        }
         startSub(StartFinishActivator.class);
     }
 

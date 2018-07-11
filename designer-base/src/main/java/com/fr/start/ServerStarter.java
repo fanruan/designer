@@ -50,26 +50,6 @@ public class ServerStarter {
 
     }
 
-    public static void switchWorkContext(){
-        DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
-        if (!envManager.isCurrentEnvDefault()) {
-            InformationPane inf = new InformationPane(envManager.getDefaultEnvName());
-            inf.showSmallWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
-
-                @Override
-                public void doOk() {
-                    try {
-                        WorkContext.switchTo(DesignerWorkspaceGenerator.generate(DesignerEnvManager.getEnvManager().getDefaultConfig()));
-                        TemplateTreePane.getInstance().refreshDockingView();
-                        TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter());
-                    } catch (Exception e) {
-                        FineLoggerFactory.getLogger().error(e.getMessage());
-                    }
-                }
-
-            }).setVisible(true);
-        }
-    }
     
     private static void initDemoServerAndBrowser() {
         
@@ -126,49 +106,5 @@ public class ServerStarter {
         }
     }
 
-    private static class InformationPane extends BasicPane {
-
-        private static final long serialVersionUID = 1L;
-
-        private static final int FREE_STYLE_TOP = 15;
-
-        private static final int FREE_STYLE_OTHER = 5;
-
-        InformationPane(String message) {
-
-            init(message);
-        }
-
-        private void init(String message) {
-
-            this.setLayout(new BorderLayout(10, 10));
-            this.setBorder(BorderFactory.createEmptyBorder(FREE_STYLE_TOP, FREE_STYLE_OTHER, FREE_STYLE_OTHER, FREE_STYLE_OTHER));
-            String text;
-            if (!ComparatorUtils.equals(message, Inter.getLocText(new String[]{"Default", "Utils-Report_Runtime_Env"}))) {
-                text = Inter.getLocText("FR-Designer_Open") +
-                        ProductConstants.APP_NAME +
-                        Inter.getLocText("FR-Designer_Utils-OpenDemoEnv") +
-                        message + Inter.getLocText("FR-Designer_Utils-switch");
-            } else {
-                text = Inter.getLocText("FR-Designer_Open") +
-                        ProductConstants.APP_NAME +
-                        Inter.getLocText("FR-Designer_Utils-NewDemoEnv") +
-                        message + Inter.getLocText("FR-Designer_Utils-switch");
-            }
-            UITextArea a = new UITextArea(text);
-            a.setFont(new Font("Dialog", Font.PLAIN, 12));
-            a.setEditable(false);
-            a.setBackground(this.getBackground());
-            a.setLineWrap(true);
-            this.add(a);
-        }
-
-        @Override
-        protected String title4PopupWindow() {
-
-            return Inter.getLocText("FR-Designer_Tooltips");
-        }
-
-    }
 
 }

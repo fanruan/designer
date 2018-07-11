@@ -534,7 +534,8 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
 
 
     private String getDefaultenvPath(String installHome){
-        return  StableUtils.pathJoin(installHome, WEB_NAME, ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBINF_NAME);
+        //这里需要转成反斜杠和生成默认路径一致
+        return  new File(StableUtils.pathJoin(installHome, WEB_NAME, ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBINF_NAME)).getPath();
     }
     /**
      * 设置当前环境为默认
