@@ -10,7 +10,6 @@ import com.fr.record.analyzer.EnableMetrics;
 import com.fr.record.analyzer.Metrics;
 import com.fr.start.Designer;
 import com.fr.start.EnvSwitcher;
-import com.fr.start.ServerStarter;
 import com.fr.start.SplashContext;
 import com.fr.startup.activators.BasicActivator;
 import com.fr.workspace.Workspace;
@@ -52,7 +51,6 @@ public class DesignerStartup extends Activator {
         SplashContext.getInstance().hide();
 
         DesignerContext.getDesignerFrame().getProgressDialog().setVisible(true);
-
         startSub(StartFinishActivator.class);
     }
 
