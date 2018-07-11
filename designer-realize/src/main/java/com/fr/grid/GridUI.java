@@ -48,9 +48,20 @@ import com.fr.stable.script.CalculatorUtils;
 import com.fr.stable.unit.FU;
 import com.fr.third.antlr.ANTLRException;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.UIManager;
 import javax.swing.plaf.ComponentUI;
-import java.awt.*;
+import java.awt.AlphaComposite;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Composite;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Paint;
+import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.geom.Area;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
@@ -1104,12 +1115,8 @@ public class GridUI extends ComponentUI {
     // 绘制水印
     private void paintWatermark(Graphics2D g2d, FineBook book) {
         WatermarkAttr watermark = ReportUtils.getWatermarkFromAttrMarkFile(book);
-
-        // 不要每次都 new 一个 WatermarkPainter
-        if (watermarkPainter == null || watermarkPainter.isOutDated(watermark, resolution)) {
-            watermarkPainter = new WatermarkPainter(watermark, resolution);
-        }
-        watermarkPainter.paint(g2d, gridSize.width, gridSize.height);
+        WatermarkPainter painter = WatermarkPainter.createPainter(watermark, resolution);
+        painter.paint(g2d, gridSize.width, gridSize.height);
     }
 
 
