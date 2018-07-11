@@ -5,12 +5,11 @@ import com.fr.base.FRContext;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.StableUtils;
 
-import java.io.File;
 import java.io.IOException;
 
 public class Demo {
     public static void main(String[] args) {
-        String installHome = StableUtils.getInstallHome();
+        String installHome = "D:\\应用\\FineReport_10.1";//StableUtils.getInstallHome();
         if (installHome == null) {
             FRContext.getLogger().error("Can not find the install home, please check it.");
             return;
@@ -21,11 +20,7 @@ public class Demo {
         if (OperatingSystem.isMacOS()) {
             executorPath = StableUtils.pathJoin(installHome, "bin", "designer.app");
         } else {
-            //转成反斜杠格式
-            executorPath = new File(StableUtils.pathJoin(installHome, "bin", "designer.exe demo")).getPath();
-        }
-        if (!new java.io.File(executorPath).exists()) {
-            FRContext.getLogger().error(executorPath + " can not be found.");
+            executorPath = StableUtils.pathJoin(installHome, "bin", "designer.exe demo");
         }
 
         if (OperatingSystem.isMacOS()) {

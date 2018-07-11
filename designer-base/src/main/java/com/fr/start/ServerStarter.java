@@ -22,6 +22,7 @@ import com.fr.stable.StringUtils;
 import com.fr.start.server.FineEmbedServer;
 import com.fr.workspace.WorkContext;
 
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
@@ -39,18 +40,22 @@ public class ServerStarter {
         if (!WorkContext.getCurrent().isLocal()) {
             //有问题，这里拿不到远程的http端口
             browser(WorkContext.getCurrent().getPath());
-            return;
         }
-        if (ComparatorUtils.equals(StableUtils.getInstallHome(), ".")) {//august:供代码使用
+        else if (ComparatorUtils.equals(StableUtils.getInstallHome(), ".")) {//august:供代码使用
             String web = GeneralContext.getCurrentAppNameOfEnv();
             browserURLWithLocalEnv("http://localhost:" + DesignerEnvManager.getEnvManager().getEmbedServerPort() + "/" + web + "/" + ServerConfig.getInstance().getServletName());
-            return;
+        }else{
+            initDemoServerAndBrowser();
         }
+
+    }
+
+    public static void switchWorkContext(){
         DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
         if (!envManager.isCurrentEnvDefault()) {
             InformationPane inf = new InformationPane(envManager.getDefaultEnvName());
             inf.showSmallWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
-    
+
                 @Override
                 public void doOk() {
                     try {
@@ -60,12 +65,9 @@ public class ServerStarter {
                     } catch (Exception e) {
                         FineLoggerFactory.getLogger().error(e.getMessage());
                     }
-                    initDemoServerAndBrowser();
                 }
-    
+
             }).setVisible(true);
-        } else {
-            initDemoServerAndBrowser();
         }
     }
     
@@ -123,35 +125,35 @@ public class ServerStarter {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
-    
+
     private static class InformationPane extends BasicPane {
-    
+
         private static final long serialVersionUID = 1L;
-    
+
         private static final int FREE_STYLE_TOP = 15;
-    
+
         private static final int FREE_STYLE_OTHER = 5;
-    
+
         InformationPane(String message) {
-            
+
             init(message);
         }
-    
+
         private void init(String message) {
-        
+
             this.setLayout(new BorderLayout(10, 10));
             this.setBorder(BorderFactory.createEmptyBorder(FREE_STYLE_TOP, FREE_STYLE_OTHER, FREE_STYLE_OTHER, FREE_STYLE_OTHER));
             String text;
             if (!ComparatorUtils.equals(message, Inter.getLocText(new String[]{"Default", "Utils-Report_Runtime_Env"}))) {
                 text = Inter.getLocText("FR-Designer_Open") +
-                    ProductConstants.APP_NAME +
-                    Inter.getLocText("FR-Designer_Utils-OpenDemoEnv") +
-                    message + Inter.getLocText("FR-Designer_Utils-switch");
+                        ProductConstants.APP_NAME +
+                        Inter.getLocText("FR-Designer_Utils-OpenDemoEnv") +
+                        message + Inter.getLocText("FR-Designer_Utils-switch");
             } else {
                 text = Inter.getLocText("FR-Designer_Open") +
-                    ProductConstants.APP_NAME +
-                    Inter.getLocText("FR-Designer_Utils-NewDemoEnv") +
-                    message + Inter.getLocText("FR-Designer_Utils-switch");
+                        ProductConstants.APP_NAME +
+                        Inter.getLocText("FR-Designer_Utils-NewDemoEnv") +
+                        message + Inter.getLocText("FR-Designer_Utils-switch");
             }
             UITextArea a = new UITextArea(text);
             a.setFont(new Font("Dialog", Font.PLAIN, 12));
@@ -160,13 +162,13 @@ public class ServerStarter {
             a.setLineWrap(true);
             this.add(a);
         }
-    
+
         @Override
         protected String title4PopupWindow() {
-        
+
             return Inter.getLocText("FR-Designer_Tooltips");
         }
-    
+
     }
-    
+
 }

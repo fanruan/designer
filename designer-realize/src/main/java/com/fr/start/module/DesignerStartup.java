@@ -1,13 +1,16 @@
 package com.fr.start.module;
 
+import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.event.Event;
 import com.fr.event.Listener;
+import com.fr.general.ComparatorUtils;
 import com.fr.module.Activator;
 import com.fr.record.analyzer.EnableMetrics;
 import com.fr.record.analyzer.Metrics;
 import com.fr.start.Designer;
 import com.fr.start.EnvSwitcher;
+import com.fr.start.ServerStarter;
 import com.fr.start.SplashContext;
 import com.fr.startup.activators.BasicActivator;
 import com.fr.workspace.Workspace;
@@ -49,6 +52,16 @@ public class DesignerStartup extends Activator {
         SplashContext.getInstance().hide();
 
         DesignerContext.getDesignerFrame().getProgressDialog().setVisible(true);
+
+        //需要切换工作目录的弹窗放在打开设计器后，以免被挡住
+        if (args != null) {
+            for (String arg : args) {
+                if (ComparatorUtils.equals(arg, "demo")) {
+                    ServerStarter.switchWorkContext();
+                    break;
+                }
+            }
+        }
         startSub(StartFinishActivator.class);
     }
 
