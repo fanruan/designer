@@ -97,9 +97,7 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
      */
     private void initWriter() {
         try {
-            File file = new File(path);
-            StableUtils.mkdirs(file);
-            directory = FSDirectory.open(file);
+            directory = FSDirectory.open(new File(path));
             indexWriter = new IndexWriter(directory, config);
         } catch (IOException e) {
             FineLoggerFactory.getLogger().error("not privilege to write to" + path);
