@@ -22,9 +22,6 @@ public class Demo {
         } else {
             executorPath = StableUtils.pathJoin(installHome, "bin", "designer.exe demo");
         }
-        if (!new java.io.File(executorPath).exists()) {
-            FRContext.getLogger().error(executorPath + " can not be found.");
-        }
 
         if (OperatingSystem.isMacOS()) {
             ProcessBuilder builder = new ProcessBuilder();

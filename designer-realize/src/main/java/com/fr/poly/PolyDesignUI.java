@@ -10,7 +10,6 @@ import com.fr.base.ScreenResolution;
 import com.fr.base.iofile.attr.WatermarkAttr;
 import com.fr.design.utils.ComponentUtils;
 import com.fr.general.Background;
-import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.main.FineBook;
 import com.fr.page.PaperSettingProvider;
@@ -56,7 +55,6 @@ public class PolyDesignUI extends ComponentUI {
     private PolyDesigner designer;
     private int resolution;
 	private float time;
-    private WatermarkPainter watermarkPainter;
 
     public PolyDesignUI(int resolution) {
         if (resolution == 0){
@@ -112,12 +110,8 @@ public class PolyDesignUI extends ComponentUI {
     // 绘制水印
     private void paintWatermark(Graphics2D g2d, FineBook book, int width, int height) {
         WatermarkAttr watermark = ReportUtils.getWatermarkFromAttrMarkFile(book);
-
-        // 不要每次都 new 一个 WatermarkPainter
-        if (watermarkPainter == null || !ComparatorUtils.equals(watermarkPainter.getWatermark(), watermark)) {
-            watermarkPainter = new WatermarkPainter(watermark);
-        }
-        watermarkPainter.paint(g2d, width, height);
+        WatermarkPainter painter = WatermarkPainter.createPainter(watermark, resolution);
+        painter.paint(g2d, width, height);
     }
 
     private void paintAddedData(Graphics g) {
