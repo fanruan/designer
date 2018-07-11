@@ -63,7 +63,8 @@ public class DesignerSocketIO {
     private static String getSocketUri(Workspace current) throws IOException {
         URL url = new URL(current.getPath());
         int port = WorkContext.getCurrent().get(SocketInfoOperator.class).getPort();
-        return String.format("http://%s:%s%s?%s=%s",
+        return String.format("%s://%s:%s%s?%s=%s",
+                url.getProtocol(),
                 url.getHost(),
                 port,
                 WorkspaceConstants.WS_NAMESPACE,
