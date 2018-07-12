@@ -100,7 +100,7 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
             directory = FSDirectory.open(new File(path));
             indexWriter = new IndexWriter(directory, config);
         } catch (IOException e) {
-            FineLoggerFactory.getLogger().error("not privilege to write to" + path);
+            FineLoggerFactory.getLogger().error(e.getMessage());
         }
 
     }
@@ -109,17 +109,14 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
      * 初始化indexReader
      */
     private void initReader() {
-        if (indexReader == null) {
-            try {
-                indexWriter.close();
-                directory = FSDirectory.open(new File(path));
-                indexReader = DirectoryReader.open(directory);
-            } catch (IOException e) {
-                FineLoggerFactory.getLogger().error("not privilege to read " + path);
-            }
+        try {
+            indexWriter.close();
+            directory = FSDirectory.open(new File(path));
+            indexReader = DirectoryReader.open(directory);
             indexSearcher = new IndexSearcher(indexReader);
+        } catch (IOException e) {
+            FineLoggerFactory.getLogger().error(e.getMessage());
         }
-
     }
 
     /**
