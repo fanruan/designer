@@ -9,12 +9,12 @@ import com.fr.design.mainframe.alphafine.cell.model.PluginModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.search.manager.fun.AlphaFineSearchProvider;
 import com.fr.general.ComparatorUtils;
-import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
+import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.basic.version.Version;
 import com.fr.plugin.basic.version.VersionIntervalFactory;
 import com.fr.stable.StringUtils;
@@ -26,20 +26,24 @@ import java.net.URLEncoder;
  * Created by XiaXiang on 2017/3/27.
  */
 public class PluginSearchManager implements AlphaFineSearchProvider {
-    private static PluginSearchManager pluginSearchManager = null;
+    private static PluginSearchManager instance;
     private SearchResult lessModelList;
     private SearchResult moreModelList;
 
 
-    public synchronized static PluginSearchManager getInstance() {
-        if (pluginSearchManager == null) {
-            pluginSearchManager = new PluginSearchManager();
+    public static PluginSearchManager getInstance() {
+        if (instance == null) {
+            synchronized (PluginSearchManager.class) {
+                if (instance == null) {
+                    instance = new PluginSearchManager();
+                }
+            }
         }
-        return pluginSearchManager;
+        return instance;
 
     }
 
-    private static boolean isCompatibleCurrentEnv(String envVersion){
+    private static boolean isCompatibleCurrentEnv(String envVersion) {
         return VersionIntervalFactory.create(envVersion).contain(Version.currentEnvVersion());
     }
 
