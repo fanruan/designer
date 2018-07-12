@@ -1,8 +1,12 @@
 package com.fr.design.mainframe.socketio;
 
+import com.fr.config.ConfigEvent;
+import com.fr.config.Configuration;
+import com.fr.config.RemoteEvent;
 import com.fr.decision.webservice.utils.DecisionServiceConstants;
 import com.fr.design.mainframe.loghandler.DesignerLogHandler;
 import com.fr.env.operator.socket.SocketInfoOperator;
+import com.fr.event.EventDispatcher;
 import com.fr.general.LogRecordTime;
 import com.fr.general.LogUtils;
 import com.fr.log.FineLoggerFactory;
@@ -54,6 +58,14 @@ public class DesignerSocketIO {
             String uri = getSocketUri(current);
             socketIO = Optional.of(IO.socket(new URI(uri)));
             socketIO.get().on(WorkspaceConstants.WS_LOGRECORD, printLog);
+            socketIO.get().on(WorkspaceConstants.CONFIG_MODIFY, new Emitter.Listener() {
+                @Override
+                public void call(Object... objects) {
+                    assert objects != null && objects.length == 1;
+                    String param = (String) objects[0];
+                    EventDispatcher.fire(RemoteEvent.EDIT, param);
+                }
+            });
             socketIO.get().connect();
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
