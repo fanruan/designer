@@ -116,7 +116,7 @@ public class FileSearchManager implements AlphaFineSearchProvider {
         moreModelList.addAll(filterModelList.subList(AlphaFineConstants.SHOW_SIZE, filterModelList.size()));
         return moreModelList;
     }
-    
+
     private void doSearch(String searchText, boolean needMore) {
         for (FileNode node : fileNodes) {
             boolean isAlreadyContain = false;
@@ -232,7 +232,7 @@ public class FileSearchManager implements AlphaFineSearchProvider {
      * @throws Exception
      */
     private void listAll(String rootFilePath, List<FileNode> nodeList, boolean recurse) throws Exception {
-    
+
         FileNode[] fns = FRContext.getFileNodes().list(rootFilePath);
         for (int i = 0; i < fns.length; i++) {
             FileNode fileNode = fns[i];

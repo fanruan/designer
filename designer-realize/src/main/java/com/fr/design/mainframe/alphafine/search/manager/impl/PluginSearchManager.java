@@ -9,12 +9,12 @@ import com.fr.design.mainframe.alphafine.cell.model.PluginModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.search.manager.fun.AlphaFineSearchProvider;
 import com.fr.general.ComparatorUtils;
-import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
+import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.basic.version.Version;
 import com.fr.plugin.basic.version.VersionIntervalFactory;
 import com.fr.stable.StringUtils;
@@ -41,7 +41,7 @@ public class PluginSearchManager implements AlphaFineSearchProvider {
 
     }
 
-    private static boolean isCompatibleCurrentEnv(String envVersion){
+    private static boolean isCompatibleCurrentEnv(String envVersion) {
         return VersionIntervalFactory.create(envVersion).contain(Version.currentEnvVersion());
     }
 

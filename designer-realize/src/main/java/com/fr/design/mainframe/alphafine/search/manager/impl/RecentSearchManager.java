@@ -121,6 +121,7 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
 
     /**
      * 添加模型
+     *
      * @param searchKey
      * @param cellModel
      * @param searchCount
@@ -140,6 +141,7 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
 
     /**
      * 写文档，建立索引
+     *
      * @param doc
      */
     private void writeDoc(Document doc) {
@@ -154,6 +156,7 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
 
     /**
      * 按序搜索
+     *
      * @param key
      * @return
      */
