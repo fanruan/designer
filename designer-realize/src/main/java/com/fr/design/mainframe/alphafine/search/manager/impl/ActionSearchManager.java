@@ -28,9 +28,11 @@ public class ActionSearchManager implements AlphaFineSearchProvider {
     private SearchResult moreModelList;
 
     public static ActionSearchManager getInstance() {
-        synchronized (ActionSearchManager.class) {
-            if (instance == null) {
-                instance = new ActionSearchManager();
+        if (instance == null) {
+            synchronized (ActionSearchManager.class) {
+                if (instance == null) {
+                    instance = new ActionSearchManager();
+                }
             }
         }
         return instance;

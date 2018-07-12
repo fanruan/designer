@@ -31,9 +31,11 @@ public class RecommendSearchManager implements AlphaFineSearchProvider {
     private SearchResult recommendModelList;
 
     public static RecommendSearchManager getInstance() {
-        synchronized (RecentSearchManager.class) {
-            if (instance == null) {
-                instance = new RecommendSearchManager();
+        if (instance == null) {
+            synchronized (RecentSearchManager.class) {
+                if (instance == null) {
+                    instance = new RecommendSearchManager();
+                }
             }
         }
         return instance;

@@ -32,9 +32,11 @@ public class PluginSearchManager implements AlphaFineSearchProvider {
 
 
     public static PluginSearchManager getInstance() {
-        synchronized (PluginSearchManager.class) {
-            if (instance == null) {
-                instance = new PluginSearchManager();
+        if (instance == null) {
+            synchronized (PluginSearchManager.class) {
+                if (instance == null) {
+                    instance = new PluginSearchManager();
+                }
             }
         }
         return instance;

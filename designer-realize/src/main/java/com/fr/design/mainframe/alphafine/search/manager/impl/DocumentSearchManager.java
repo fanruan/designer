@@ -25,9 +25,11 @@ public class DocumentSearchManager implements AlphaFineSearchProvider {
     private SearchResult moreModelList;
 
     public static DocumentSearchManager getInstance() {
-        synchronized (DocumentSearchManager.class) {
-            if (instance == null) {
-                instance = new DocumentSearchManager();
+        if (instance == null) {
+            synchronized (DocumentSearchManager.class) {
+                if (instance == null) {
+                    instance = new DocumentSearchManager();
+                }
             }
         }
         return instance;

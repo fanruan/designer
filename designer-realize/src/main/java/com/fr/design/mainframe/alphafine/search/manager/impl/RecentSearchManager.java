@@ -60,10 +60,12 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
     private SearchResult modelList;
 
     public static RecentSearchManager getInstance() {
-        synchronized (RecentSearchManager.class) {
-            if (instance == null) {
-                instance = new RecentSearchManager();
-                instance.initWriter();
+        if (instance == null) {
+            synchronized (RecentSearchManager.class) {
+                if (instance == null) {
+                    instance = new RecentSearchManager();
+                    instance.initWriter();
+                }
             }
         }
         return instance;
