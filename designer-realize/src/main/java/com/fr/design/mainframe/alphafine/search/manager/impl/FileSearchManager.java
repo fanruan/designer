@@ -35,7 +35,7 @@ public class FileSearchManager implements AlphaFineSearchProvider {
     private static final String DS_NAME = "dsname=\"";
     private static final String FRM_PREFIX = "k:frm ";
     private static final String CPT_PREFIX = "k:cpt ";
-    private static FileSearchManager fileSearchManager = null;
+    private static FileSearchManager fileSearchManager;
     private SearchResult filterModelList;
     private SearchResult lessModelList;
     private SearchResult moreModelList;
@@ -47,15 +47,17 @@ public class FileSearchManager implements AlphaFineSearchProvider {
     private boolean isContainCpt = true;
     private boolean isContainFrm = true;
 
-    public synchronized static FileSearchManager getInstance() {
-        init();
+    public static FileSearchManager getInstance() {
+        synchronized (FileSearchManager.class) {
+            if (fileSearchManager == null) {
+                fileSearchManager = new FileSearchManager();
+            }
+        }
         return fileSearchManager;
     }
 
     public synchronized static void init() {
-        if (fileSearchManager == null) {
-            fileSearchManager = new FileSearchManager();
-        }
+
     }
 
     /**

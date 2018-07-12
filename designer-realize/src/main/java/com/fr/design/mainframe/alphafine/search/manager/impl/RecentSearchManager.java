@@ -45,7 +45,7 @@ import java.util.List;
  */
 public class RecentSearchManager implements AlphaFineSearchProvider {
     private static final int MAX_SIZE = 3;
-    private static RecentSearchManager recentSearchManager = null;
+    private static RecentSearchManager instance;
     IndexReader indexReader = null;
     IndexSearcher indexSearcher = null;
     //索引存储路径
@@ -59,12 +59,14 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
     private SearchResult recentModelList;
     private SearchResult modelList;
 
-    public synchronized static RecentSearchManager getInstance() {
-        if (recentSearchManager == null) {
-            recentSearchManager = new RecentSearchManager();
-            recentSearchManager.initWriter();
+    public static RecentSearchManager getInstance() {
+        synchronized (RecentSearchManager.class) {
+            if (instance == null) {
+                instance = new RecentSearchManager();
+                instance.initWriter();
+            }
         }
-        return recentSearchManager;
+        return instance;
     }
 
     @Override

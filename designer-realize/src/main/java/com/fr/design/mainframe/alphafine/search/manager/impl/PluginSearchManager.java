@@ -26,16 +26,18 @@ import java.net.URLEncoder;
  * Created by XiaXiang on 2017/3/27.
  */
 public class PluginSearchManager implements AlphaFineSearchProvider {
-    private static PluginSearchManager pluginSearchManager = null;
+    private static PluginSearchManager instance = null;
     private SearchResult lessModelList;
     private SearchResult moreModelList;
 
 
-    public synchronized static PluginSearchManager getInstance() {
-        if (pluginSearchManager == null) {
-            pluginSearchManager = new PluginSearchManager();
+    public static PluginSearchManager getInstance() {
+        synchronized (PluginSearchManager.class) {
+            if (instance == null) {
+                instance = new PluginSearchManager();
+            }
         }
-        return pluginSearchManager;
+        return instance;
 
     }
 

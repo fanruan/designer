@@ -20,16 +20,17 @@ import com.fr.stable.StringUtils;
  * Created by XiaXiang on 2017/3/27.
  */
 public class DocumentSearchManager implements AlphaFineSearchProvider {
-    private static DocumentSearchManager documentSearchManager = null;
+    private static DocumentSearchManager instance;
     private SearchResult lessModelList;
     private SearchResult moreModelList;
 
-    public synchronized static DocumentSearchManager getInstance() {
-        if (documentSearchManager == null) {
-            documentSearchManager = new DocumentSearchManager();
-
+    public static DocumentSearchManager getInstance() {
+        synchronized (DocumentSearchManager.class) {
+            if (instance == null) {
+                instance = new DocumentSearchManager();
+            }
         }
-        return documentSearchManager;
+        return instance;
     }
 
     /**

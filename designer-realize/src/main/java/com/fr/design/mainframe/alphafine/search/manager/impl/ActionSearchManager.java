@@ -22,16 +22,18 @@ import java.util.List;
  * Created by XiaXiang on 2017/3/27.
  */
 public class ActionSearchManager implements AlphaFineSearchProvider {
-    private static ActionSearchManager actionSearchManager = null;
+    private static ActionSearchManager instance;
     private SearchResult filterModelList;
     private SearchResult lessModelList;
     private SearchResult moreModelList;
 
-    public synchronized static ActionSearchManager getInstance() {
-        if (actionSearchManager == null) {
-            actionSearchManager = new ActionSearchManager();
+    public static ActionSearchManager getInstance() {
+        synchronized (ActionSearchManager.class) {
+            if (instance == null) {
+                instance = new ActionSearchManager();
+            }
         }
-        return actionSearchManager;
+        return instance;
     }
 
     /**

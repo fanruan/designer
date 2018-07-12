@@ -26,15 +26,17 @@ import java.util.List;
  * Created by XiaXiang on 2017/3/31.
  */
 public class RecommendSearchManager implements AlphaFineSearchProvider {
-    private static RecommendSearchManager recommendSearchManager = null;
+    private static RecommendSearchManager instance;
     private SearchResult modelList;
     private SearchResult recommendModelList;
 
-    public synchronized static RecommendSearchManager getInstance() {
-        if (recommendSearchManager == null) {
-            recommendSearchManager = new RecommendSearchManager();
+    public static RecommendSearchManager getInstance() {
+        synchronized (RecentSearchManager.class) {
+            if (instance == null) {
+                instance = new RecommendSearchManager();
+            }
         }
-        return recommendSearchManager;
+        return instance;
     }
 
     @Override
