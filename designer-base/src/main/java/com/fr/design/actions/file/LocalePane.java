@@ -18,6 +18,7 @@ import com.fr.stable.StableUtils;
 import com.fr.stable.bridge.StableFactory;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.workspace.WorkContext;
+import com.fr.workspace.resource.WorkResourceOutputStream;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -233,11 +234,9 @@ public class LocalePane extends BasicPane {
                 properties.setProperty(GeneralUtils.objectToString(customTableModel.getValueAt(j, 0)), GeneralUtils.objectToString(customTableModel.getValueAt(j, i)));
             }
     
-            OutputStream out = null;
             try {
-                out = FRContext.getCommonOperator().writeBean(PREFIX + fileName + ".properties", ProjectConstants.LOCALE_NAME);
+                OutputStream out = new WorkResourceOutputStream(StableUtils.pathJoin(ProjectConstants.LOCALE_NAME, PREFIX + fileName + ".properties"));
                 properties.store(out, null);
-        
                 out.flush();
                 out.close();
             } catch (Exception e) {

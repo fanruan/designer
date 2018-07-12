@@ -8,12 +8,12 @@ import com.fr.design.gui.itree.filetree.FileTreeIcon;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
+import com.fr.workspace.resource.WorkResourceOutputStream;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.workspace.WorkContext;
-import com.fr.workspace.resource.WorkResourceOutputStream;
 
 import javax.swing.*;
 import java.io.ByteArrayInputStream;
