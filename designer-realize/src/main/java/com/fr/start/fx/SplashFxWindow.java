@@ -9,7 +9,6 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -51,6 +50,7 @@ public class SplashFxWindow extends Application {
 
     private Text moduleInfo;
     private Text thanks;
+    private FastGifImage image;
     private List<SplashFxActionListener> listeners = new ArrayList<SplashFxActionListener>();
 
     private static int uiScale(int i) {
@@ -84,7 +84,7 @@ public class SplashFxWindow extends Application {
     public void start(Stage primaryStage) {
         AnchorPane root = new AnchorPane();
         primaryStage.initStyle(StageStyle.TRANSPARENT);
-        Image image = new FastGifImage(SplashContext.SPLASH_PATH, FRAME_COUNT, WINDOW_WIDTH, WINDOW_HEIGHT);
+        image = new FastGifImage(SplashContext.SPLASH_PATH, FRAME_COUNT, WINDOW_WIDTH, WINDOW_HEIGHT);
 
         ImageView gif = new ImageView(image);
 
@@ -129,6 +129,7 @@ public class SplashFxWindow extends Application {
             public void run() {
                 try {
                     ((Stage) moduleInfo.getScene().getWindow()).close();
+                    image.destroy();
                     fireSplashClose();
                 } catch (Exception e) {
                     FRContext.getLogger().error(e.getMessage(), e);
@@ -181,8 +182,10 @@ public class SplashFxWindow extends Application {
         });
 
     }
+
     /**
      * 添加一个动画状态监听
+     *
      * @param listener
      */
     public void addSplashActionListener(SplashFxActionListener listener) {
