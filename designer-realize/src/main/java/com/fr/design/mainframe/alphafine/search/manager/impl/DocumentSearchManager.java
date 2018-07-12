@@ -8,28 +8,31 @@ import com.fr.design.mainframe.alphafine.cell.model.DocumentModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.search.manager.fun.AlphaFineSearchProvider;
-import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
 
 /**
  * Created by XiaXiang on 2017/3/27.
  */
 public class DocumentSearchManager implements AlphaFineSearchProvider {
-    private static DocumentSearchManager documentSearchManager = null;
+    private static DocumentSearchManager instance;
     private SearchResult lessModelList;
     private SearchResult moreModelList;
 
-    public synchronized static DocumentSearchManager getInstance() {
-        if (documentSearchManager == null) {
-            documentSearchManager = new DocumentSearchManager();
-
+    public static DocumentSearchManager getInstance() {
+        if (instance == null) {
+            synchronized (DocumentSearchManager.class) {
+                if (instance == null) {
+                    instance = new DocumentSearchManager();
+                }
+            }
         }
-        return documentSearchManager;
+        return instance;
     }
 
     /**

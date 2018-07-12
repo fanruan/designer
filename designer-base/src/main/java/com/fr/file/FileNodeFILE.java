@@ -198,7 +198,6 @@ public class FileNodeFILE implements FILE {
                 return FRContext.getFileNodes().listWebRootFile(rootFilePath);
             } else {
                 return FRContext.getFileNodes().list(rootFilePath);
-            
             }
         } catch (Exception e) {
             FRContext.getLogger().error(e.getMessage(), e);

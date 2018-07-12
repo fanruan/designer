@@ -35,7 +35,7 @@ public class FileSearchManager implements AlphaFineSearchProvider {
     private static final String DS_NAME = "dsname=\"";
     private static final String FRM_PREFIX = "k:frm ";
     private static final String CPT_PREFIX = "k:cpt ";
-    private static FileSearchManager fileSearchManager = null;
+    private static FileSearchManager instance;
     private SearchResult filterModelList;
     private SearchResult lessModelList;
     private SearchResult moreModelList;
@@ -47,15 +47,19 @@ public class FileSearchManager implements AlphaFineSearchProvider {
     private boolean isContainCpt = true;
     private boolean isContainFrm = true;
 
-    public synchronized static FileSearchManager getInstance() {
-        init();
-        return fileSearchManager;
+    public static FileSearchManager getInstance() {
+        if (instance == null) {
+            synchronized (FileSearchManager.class) {
+                if (instance == null) {
+                    instance = new FileSearchManager();
+                }
+            }
+        }
+        return instance;
     }
 
     public synchronized static void init() {
-        if (fileSearchManager == null) {
-            fileSearchManager = new FileSearchManager();
-        }
+
     }
 
     /**
@@ -114,7 +118,7 @@ public class FileSearchManager implements AlphaFineSearchProvider {
         moreModelList.addAll(filterModelList.subList(AlphaFineConstants.SHOW_SIZE, filterModelList.size()));
         return moreModelList;
     }
-    
+
     private void doSearch(String searchText, boolean needMore) {
         for (FileNode node : fileNodes) {
             boolean isAlreadyContain = false;
@@ -230,7 +234,7 @@ public class FileSearchManager implements AlphaFineSearchProvider {
      * @throws Exception
      */
     private void listAll(String rootFilePath, List<FileNode> nodeList, boolean recurse) throws Exception {
-    
+
         FileNode[] fns = FRContext.getFileNodes().list(rootFilePath);
         for (int i = 0; i < fns.length; i++) {
             FileNode fileNode = fns[i];
