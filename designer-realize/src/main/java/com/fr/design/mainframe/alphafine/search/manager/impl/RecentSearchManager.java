@@ -14,7 +14,6 @@ import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ProductConstants;
-import com.fr.stable.StableUtils;
 import com.fr.third.org.apache.lucene.analysis.Analyzer;
 import com.fr.third.org.apache.lucene.analysis.standard.StandardAnalyzer;
 import com.fr.third.org.apache.lucene.document.Document;
@@ -111,7 +110,6 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
     private void initReader() {
         try {
             indexWriter.close();
-            directory = FSDirectory.open(new File(path));
             indexReader = DirectoryReader.open(directory);
             indexSearcher = new IndexSearcher(indexReader);
         } catch (IOException e) {
