@@ -2,14 +2,11 @@ package com.fr.design.mainframe.socketio;
 
 import com.fr.decision.webservice.utils.DecisionServiceConstants;
 import com.fr.design.mainframe.loghandler.DesignerLogHandler;
+import com.fr.env.operator.socket.SocketInfoOperator;
 import com.fr.general.LogRecordTime;
 import com.fr.general.LogUtils;
-import com.fr.general.http.HttpToolbox;
-import com.fr.json.JSONException;
-import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
 import com.fr.third.guava.base.Optional;
-import com.fr.third.guava.primitives.Ints;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.Workspace;
 import com.fr.workspace.base.WorkspaceConstants;
@@ -65,24 +62,13 @@ public class DesignerSocketIO {
 
     private static String getSocketUri(Workspace current) throws IOException {
         URL url = new URL(current.getPath());
-        int port = getPort(current);
-        return String.format("http://%s:%s%s?%s=%s",
+        int port = WorkContext.getCurrent().get(SocketInfoOperator.class).getPort();
+        return String.format("%s://%s:%s%s?%s=%s",
+                url.getProtocol(),
                 url.getHost(),
                 port,
                 WorkspaceConstants.WS_NAMESPACE,
                 DecisionServiceConstants.WEB_SOCKET_TOKEN_NAME,
                 RemoteCallClient.getInstance().getToken());
-    }
-
-    private static int getPort(Workspace current) throws IOException {
-        String url = current.getPath() + WorkspaceConstants.CONTROLLER_PREFIX + WorkspaceConstants.CONTROLLER_SOCKETIO_PORT;
-        try {
-            String portStr = HttpToolbox.get(url);
-            JSONObject jsonObject = new JSONObject(portStr);
-            return Ints.tryParse(jsonObject.optString("data"));
-        } catch (JSONException e) {
-            FineLoggerFactory.getLogger().error(e.getMessage(), e);
-            throw new RuntimeException(e);
-        }
     }
 }
