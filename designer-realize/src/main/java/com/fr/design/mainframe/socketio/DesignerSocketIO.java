@@ -1,7 +1,5 @@
 package com.fr.design.mainframe.socketio;
 
-import com.fr.config.ConfigEvent;
-import com.fr.config.Configuration;
 import com.fr.config.RemoteEvent;
 import com.fr.decision.webservice.utils.DecisionServiceConstants;
 import com.fr.design.mainframe.loghandler.DesignerLogHandler;
