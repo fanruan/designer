@@ -114,7 +114,7 @@ public class HistoryTemplateListPane extends JPanel implements FileOperations, C
     public void closeSelectedReport(JTemplate<?, ?> selected) {
         DesignModuleFactory.clearChartPropertyPane();
         DesignTableDataManager.closeTemplate(selected);
-        GeneralContext.removeEnvWillChangedListener(selected.getFullPathName());
+        GeneralContext.removeEnvWillChangedListener(selected.getPath());
         if (contains(selected) == -1) {
             return;
         }
@@ -139,7 +139,7 @@ public class HistoryTemplateListPane extends JPanel implements FileOperations, C
     public void closeVirtualSelectedReport(JTemplate<?, ?> selected) {
         DesignModuleFactory.clearChartPropertyPane();
         DesignTableDataManager.closeTemplate(selected);
-        GeneralContext.removeEnvWillChangedListener(selected.getFullPathName());
+        GeneralContext.removeEnvWillChangedListener(selected.getPath());
         if (contains(selected) == -1) {
             return;
         }
@@ -185,7 +185,7 @@ public class HistoryTemplateListPane extends JPanel implements FileOperations, C
         if (editingTemplate == null) {
             return;
         }
-        DesignerEnvManager.getEnvManager().addRecentOpenedFilePath(editingTemplate.getFullPathName());
+        DesignerEnvManager.getEnvManager().addRecentOpenedFilePath(editingTemplate.getPath());
         ((HistoryListDataMode) list.getModel()).add(editingTemplate);
     }
 
@@ -246,7 +246,7 @@ public class HistoryTemplateListPane extends JPanel implements FileOperations, C
      */
     public int contains(String filename) {
         for (int i = 0; i < historyList.size(); i++) {
-            String historyPath = historyList.get(i).getFullPathName();
+            String historyPath = historyList.get(i).getPath();
             if (ComparatorUtils.equals(historyPath, filename)) {
                 return i;
             }
@@ -261,7 +261,7 @@ public class HistoryTemplateListPane extends JPanel implements FileOperations, C
      * @return 是则返回TRUE
      */
     public boolean isCurrentEditingFile(String filename) {
-        String editingFileName = editingTemplate.getFullPathName();
+        String editingFileName = editingTemplate.getPath();
         return ComparatorUtils.equals(filename, editingFileName);
     }
 

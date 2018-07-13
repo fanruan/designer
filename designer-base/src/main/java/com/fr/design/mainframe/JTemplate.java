@@ -40,7 +40,6 @@ import com.fr.design.write.submit.DBManipulationInWidgetEventPane;
 import com.fr.design.write.submit.DBManipulationPane;
 import com.fr.file.FILE;
 import com.fr.file.FILEChooserPane;
-import com.fr.file.FileNodeFILE;
 import com.fr.file.MemFILE;
 import com.fr.form.ui.NoneWidget;
 import com.fr.form.ui.Widget;
@@ -50,17 +49,14 @@ import com.fr.log.FineLoggerFactory;
 import com.fr.report.cell.Elem;
 import com.fr.report.cell.cellattr.CellImage;
 import com.fr.stable.ArrayUtils;
-import com.fr.stable.OperatingSystem;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
 import com.fr.stable.core.UUID;
-import com.fr.stable.project.ProjectConstants;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.undo.UndoManager;
 import java.awt.*;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Set;
@@ -202,16 +198,8 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         return -1;
     }
 
-    public String getFullPathName() {
-        String editingFileName = getEditingFILE().getPath();
-        if (editingFileName.startsWith(ProjectConstants.REPORTLETS_NAME)) {
-            editingFileName = ((FileNodeFILE) getEditingFILE()).getEnvPath() + File.separator + editingFileName;
-        }
-        if (OperatingSystem.isWindows()) {
-            return editingFileName.replaceAll("/", "\\\\");
-        } else {
-            return editingFileName.replaceAll("\\\\", "/");
-        }
+    public String getPath() {
+        return getEditingFILE().getPath();
     }
 
     protected abstract JComponent createCenterPane();
@@ -579,7 +567,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
      * @return
      */
     public boolean saveAsTemplate(boolean isShowLoc, String fileName) {
-        String oldName = this.getFullPathName();
+        String oldName = this.getPath();
         // alex:如果是SaveAs的话需要让用户来选择路径了
         FILEChooserPane fileChooser = getFILEChooserPane(isShowLoc);
         fileChooser.setFileNameTextField(fileName, this.suffix());
@@ -618,7 +606,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
             collectInfo();
         }
         //更换最近打开
-        DesignerEnvManager.getEnvManager().replaceRecentOpenedFilePath(oldName, this.getFullPathName());
+        DesignerEnvManager.getEnvManager().replaceRecentOpenedFilePath(oldName, this.getPath());
         return result;
     }
 
