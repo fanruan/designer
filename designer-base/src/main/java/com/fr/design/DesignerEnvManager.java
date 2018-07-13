@@ -52,6 +52,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -75,7 +76,8 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     private Rectangle windowBounds = null; // window bounds.
     private String DialogCurrentDirectory = null;
     private String CurrentDirectoryPrefix = null;
-    private List<String> recentOpenedFilePathList = new ArrayList<String>();
+    private Map<String, List<String>> recentOpenedFileListMap = new HashMap<>();
+    private List<String> tempRecentOpenedFilePathList = new ArrayList<String>();
     private boolean showPaintToolBar = true;
     private int maxNumberOrPreviewRow = 200;
     // name和Env的键值对
@@ -193,7 +195,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         return designerEnvManager;
     }
 
-    public  ColorSelectConfigManager getColorConfigManager(){
+    public ColorSelectConfigManager getColorConfigManager() {
         return this.configManager;
     }
 
@@ -201,7 +203,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         if (designerEnvManager == null || designerEnvManager.nameEnvMap.size() > 0) {
             return;
         }
-        String installHome =  StableUtils.getInstallHome();
+        String installHome = StableUtils.getInstallHome();
         if (installHome != null && !".".equals(installHome)) {
             String name = Inter.getLocText("FR-Engine_DEFAULT");
             String envPath = designerEnvManager.getDefaultenvPath(installHome);
@@ -339,7 +341,6 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         }
         // 清空前一个版本中的工作目录和最近打开
         nameEnvMap = new ListMap<String, DesignerWorkspaceInfo>();
-        recentOpenedFilePathList = new ArrayList<String>();
         curEnvName = null;
         designerEnvManager.saveXMLFile();
     }
@@ -533,10 +534,11 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     }
 
 
-    private String getDefaultenvPath(String installHome){
+    private String getDefaultenvPath(String installHome) {
         //这里需要转成反斜杠和生成默认路径一致
-        return  new File(StableUtils.pathJoin(installHome, WEB_NAME, ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBINF_NAME)).getPath();
+        return new File(StableUtils.pathJoin(installHome, WEB_NAME, ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBINF_NAME)).getPath();
     }
+
     /**
      * 设置当前环境为默认
      */
@@ -825,7 +827,17 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
      * 返回最近打开的文件路径列表
      */
     public List<String> getRecentOpenedFilePathList() {
-        return this.recentOpenedFilePathList;
+
+        if (StringUtils.isEmpty(getCurEnvName())) {
+            return tempRecentOpenedFilePathList;
+        } else {
+            if (!recentOpenedFileListMap.containsKey(getCurEnvName())) {
+                recentOpenedFileListMap.put(getCurEnvName(), tempRecentOpenedFilePathList);
+            }
+        }
+
+
+        return recentOpenedFileListMap.get(getCurEnvName());
     }
 
     /**
@@ -835,11 +847,11 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
      */
     public void addRecentOpenedFilePath(String filePath) {
         // 先删除.
-        if (this.recentOpenedFilePathList.contains(filePath)) {
-            this.recentOpenedFilePathList.remove(filePath);
+        if (getRecentOpenedFilePathList().contains(filePath)) {
+            getRecentOpenedFilePathList().remove(filePath);
         }
 
-        this.recentOpenedFilePathList.add(0, filePath);
+        getRecentOpenedFilePathList().add(0, filePath);
         checkRecentOpenedFileNum();
     }
 
@@ -850,19 +862,21 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
      * @param newPath 新的路径
      */
     public void replaceRecentOpenedFilePath(String oldPath, String newPath) {
-        if (this.recentOpenedFilePathList.contains(oldPath)) {
-            int index = recentOpenedFilePathList.indexOf(oldPath);
-            this.recentOpenedFilePathList.remove(oldPath);
-            this.recentOpenedFilePathList.add(index, newPath);
+        List<String> list = getRecentOpenedFilePathList();
+        if (list.contains(oldPath)) {
+            int index = getRecentOpenedFilePathList().indexOf(oldPath);
+            list.remove(oldPath);
+            list.add(index, newPath);
         }
     }
 
     private void checkRecentOpenedFileNum() {
-        if (this.recentOpenedFilePathList == null) {
+        List<String> list = getRecentOpenedFilePathList();
+        if (list == null) {
             return;
         }
-        while (this.recentOpenedFilePathList.size() > MAX_SHOW_NUM) {
-            this.recentOpenedFilePathList.remove(this.recentOpenedFilePathList.size() - 1);
+        while (list.size() > MAX_SHOW_NUM) {
+            list.remove(list.size() - 1);
         }
     }
 
@@ -872,8 +886,8 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
      * @param filePath 文件路径
      */
     public void removeRecentOpenedFilePath(String filePath) {
-        if (this.recentOpenedFilePathList.contains(filePath)) {
-            this.recentOpenedFilePathList.remove(filePath);
+        if (getRecentOpenedFilePathList().contains(filePath)) {
+            getRecentOpenedFilePathList().remove(filePath);
         }
     }
 
@@ -1311,7 +1325,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         }
     }
 
-    private void readRecentColor(XMLableReader reader){
+    private void readRecentColor(XMLableReader reader) {
         reader.readXMLObject(this.configManager);
     }
 
@@ -1332,7 +1346,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 this.readAttributes(reader);
             } else if (name.equals("ReportPaneAttributions")) {
                 this.readReportPaneAttributions(reader);
-            } else if ("RecentOpenedFilePathList".equals(name) || "ResentOpenedFilePathList".equals(name)) {
+            } else if ("RecentOpenedFilePath".equals(name)) {
                 this.readRecentOpenFileList(reader);
             } else if ("EnvConfigMap".equals(name)) {
                 this.readEnvConfigMap(reader);
@@ -1368,8 +1382,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 readAlphaFineAttr(reader);
             } else if (name.equals("RecentColors")) {
                 readRecentColor(reader);
-            }
-            else {
+            } else {
                 readLayout(reader, name);
             }
         }
@@ -1518,21 +1531,32 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
 
     private void readRecentOpenFileList(XMLableReader reader) {
         reader.readXMLObject(new XMLReadable() {
-
             @Override
             public void readXML(XMLableReader reader) {
                 if (reader.isAttr()) {
-                    DesignerEnvManager.this.recentOpenedFilePathList.clear();
+                    DesignerEnvManager.this.recentOpenedFileListMap.clear();
                 }
 
                 if (reader.isChildNode()) {
-                    String tmpVal;
                     String name = reader.getTagName();
-                    // alex:以前一直是写ResentOpenedFilePath
-                    if ("ResentOpenedFilePath".equals(name) || "Path".equals(name)) { // description.
-                        if ((tmpVal = reader.getElementValue()) != null) {
-                            DesignerEnvManager.this.recentOpenedFilePathList.add(tmpVal);
-                        }
+                    if ("Env".equals(name)) {
+                        final String envName = reader.getAttrAsString("name", StringUtils.EMPTY);
+                        final List<String> recentOpenedFileList = new ArrayList<>();
+                        reader.readXMLObject(new XMLReadable() {
+                            @Override
+                            public void readXML(XMLableReader reader) {
+                                if (reader.isChildNode()) {
+                                    String n = reader.getTagName();
+                                    if ("Path".equals(n)) {
+                                        String path = reader.getElementValue();
+                                        if (StringUtils.isNotEmpty(path)) {
+                                            recentOpenedFileList.add(path);
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                        DesignerEnvManager.this.recentOpenedFileListMap.put(envName, recentOpenedFileList);
                     }
                 }
             }
@@ -1623,10 +1647,15 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
 
     private void writeRecentOpenFileAndEnvList(XMLPrintWriter writer) {
         checkRecentOpenedFileNum();
-        writer.startTAG("RecentOpenedFilePathList");
-        int resentOpenedFilePathCount = Math.min(12, this.recentOpenedFilePathList.size());
-        for (int i = 0; i < resentOpenedFilePathCount; i++) {
-            writer.startTAG("Path").textNode(recentOpenedFilePathList.get(i)).end();
+        writer.startTAG("RecentOpenedFilePath");
+        for (Entry<String, List<String>> entry : recentOpenedFileListMap.entrySet()) {
+            writer.startTAG("Env").attr("name", entry.getKey());
+            List<String> paths = entry.getValue();
+            int count = Math.min(12, paths.size());
+            for (int i = 0; i < count; i++) {
+                writer.startTAG("Path").textNode(paths.get(i)).end();
+            }
+            writer.end();
         }
         writer.end();
 

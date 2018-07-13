@@ -203,7 +203,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
     }
 
     public String getFullPathName() {
-        String editingFileName = getEditingFILE().getPath();
+        /*String editingFileName = getEditingFILE().getPath();
         if (editingFileName.startsWith(ProjectConstants.REPORTLETS_NAME)) {
             editingFileName = ((FileNodeFILE) getEditingFILE()).getEnvPath() + File.separator + editingFileName;
         }
@@ -211,7 +211,8 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
             return editingFileName.replaceAll("/", "\\\\");
         } else {
             return editingFileName.replaceAll("\\\\", "/");
-        }
+        }*/
+        return getEditingFILE().getPath();
     }
 
     protected abstract JComponent createCenterPane();
