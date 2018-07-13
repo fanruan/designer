@@ -3,7 +3,7 @@ package com.fr.design.remote.ui.list;
 import com.fr.base.BaseUtils;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.env.RemoteDesignMember;
+import com.fr.workspace.server.authority.RemoteDesignMember;
 
 import javax.swing.BorderFactory;
 import javax.swing.JList;

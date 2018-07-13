@@ -3,7 +3,7 @@ package com.fr.design.mainframe.socketio;
 import com.fr.decision.webservice.utils.DecisionServiceConstants;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.loghandler.DesignerLogHandler;
-import com.fr.env.operator.socket.SocketInfoOperator;
+import com.fr.workspace.server.socket.SocketInfoOperator;
 import com.fr.general.Inter;
 import com.fr.general.LogRecordTime;
 import com.fr.general.LogUtils;
