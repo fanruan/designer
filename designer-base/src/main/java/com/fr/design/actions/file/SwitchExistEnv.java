@@ -38,7 +38,7 @@ public class SwitchExistEnv extends MenuDef {
         JTemplate<?, ?> t = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
         if (t != null) {
             GeneralContext.addEnvWillChangedListener(
-                    t.getFullPathName(),
+                    t.getPath(),
                     new EnvChangedListener() {
                         public void envChanged() {
                             SwitchExistEnv.this.clearShortCuts();

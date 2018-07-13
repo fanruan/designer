@@ -218,7 +218,7 @@ public class TemplateTreePane extends JPanel implements FileOperations {
             MutilTempalteTabPane.getInstance().setSelectedIndex(index - 1);
         }
         JTemplate selectedfile = MutilTempalteTabPane.getInstance().getSelectedFile();
-        if (!HistoryTemplateListPane.getInstance().isCurrentEditingFile(selectedfile.getFullPathName())) {
+        if (!HistoryTemplateListPane.getInstance().isCurrentEditingFile(selectedfile.getPath())) {
             //如果此时面板上的实时刷新的selectedIndex得到的和历史的不一样
             DesignerContext.getDesignerFrame().activateJTemplate(selectedfile);
         }
