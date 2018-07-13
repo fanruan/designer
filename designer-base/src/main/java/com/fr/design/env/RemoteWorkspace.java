@@ -1,6 +1,6 @@
 package com.fr.design.env;
 
-import com.fr.env.operator.decision.DecisionOperator;
+import com.fr.workspace.server.authority.decision.DecisionOperator;
 import com.fr.locale.InterProviderFactory;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.Workspace;
