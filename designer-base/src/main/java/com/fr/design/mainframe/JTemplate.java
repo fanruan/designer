@@ -55,13 +55,11 @@ import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
 import com.fr.stable.core.UUID;
 import com.fr.stable.project.ProjectConstants;
-import com.fr.workspace.WorkContext;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.undo.UndoManager;
 import java.awt.*;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -656,9 +654,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
             return false;
         }
         try {
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            this.getTarget().export(out);
-            WorkContext.getWorkResource().write(editingFILE.getPath(), out.toByteArray());
+            this.getTarget().export(editingFILE.asOutputStream());
         } catch (Exception e) {
             FRContext.getLogger().error(e.getMessage(), e);
             JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), e.getMessage(), "Save Error", JOptionPane.ERROR_MESSAGE);
