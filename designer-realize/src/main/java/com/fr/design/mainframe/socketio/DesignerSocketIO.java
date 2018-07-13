@@ -1,6 +1,6 @@
 package com.fr.design.mainframe.socketio;
 
-import com.fr.config.RemoteEvent;
+import com.fr.config.RemoteConfigEvent;
 import com.fr.decision.webservice.utils.DecisionServiceConstants;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.loghandler.DesignerLogHandler;
@@ -65,7 +65,7 @@ public class DesignerSocketIO {
                 public void call(Object... objects) {
                     assert objects != null && objects.length == 1;
                     String param = (String) objects[0];
-                    EventDispatcher.fire(RemoteEvent.EDIT, param);
+                    EventDispatcher.fire(RemoteConfigEvent.EDIT, param);
                 }
             });
             socketIO.get().on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
