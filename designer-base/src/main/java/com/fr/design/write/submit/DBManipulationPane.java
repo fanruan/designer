@@ -310,7 +310,7 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
     protected void setBorderAndLayout(JPanel jPanel){
         jPanel.setLayout(FRGUIPaneFactory.createBorderLayout());
         jPanel.setBorder(BorderFactory.createTitledBorder(
-                new ModLineBorder(ModLineBorder.TOP), Inter.getLocText(new String[]{"Submit", "Condition"})));
+				new ModLineBorder(ModLineBorder.TOP), Inter.getLocText(new String[]{"Submit", "Condition"})));
     }
 
     protected void addComponent(JPanel mainPane,JScrollPane addPane){
@@ -368,12 +368,12 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
-                    Object ob = e.getItem();
-					if ((ComparatorUtils.equals(ob,DML_CONFIG_TYPES[0])) || ComparatorUtils.equals(ob,DML_CONFIG_TYPES[3])) {
-                        checkBoxUpdatePane.setVisible(true);
-					}  else if ((ComparatorUtils.equals(ob,DML_CONFIG_TYPES[1])) || ComparatorUtils.equals(ob,DML_CONFIG_TYPES[2])){
-                        checkBoxUpdatePane.setVisible(false);
-                    }
+					Object ob = e.getItem();
+					if ((ComparatorUtils.equals(ob, DML_CONFIG_TYPES[0])) || ComparatorUtils.equals(ob, DML_CONFIG_TYPES[3])) {
+						checkBoxUpdatePane.setVisible(true);
+					} else if ((ComparatorUtils.equals(ob, DML_CONFIG_TYPES[1])) || ComparatorUtils.equals(ob, DML_CONFIG_TYPES[2])) {
+						checkBoxUpdatePane.setVisible(false);
+					}
 				}
 			}
 		});
@@ -512,7 +512,7 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
                 for (int j = 0; j < keyColumnNameValueList.size(); j++) {
                     if (ComparatorUtils.equals(selected[i], keyColumnNameValueList.get(j).cn)) {
                         newKeyColumnNameValueList.remove(i);
-                        newKeyColumnNameValueList.add(i, keyColumnNameValueList.get(j));
+						newKeyColumnNameValueList.add(i, keyColumnNameValueList.get(j));
                     }
                 }
 
@@ -523,9 +523,9 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
             }
 
         } else if (returnValue == 1 || returnValue == 2) {
-            for (int i = 0; i < selected.length; i++) {
-                model.addKeyColumnNameValue(newKeyColumnNameValueList.get(i));
-            }
+			for (int i = 0; i < selected.length; i++) {
+				model.addKeyColumnNameValue(newKeyColumnNameValueList.get(i));
+			}
         }
 
         // Richie:初始化
@@ -534,7 +534,12 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
             for (int i = 0; i < selected.length; i++) {
                 model.addKeyColumnNameValue(new KeyColumnNameValue(false, (ColumnName)selected[i], new ColumnValue(""), false));
             }
-        }
+        }else if (returnValue == 4){
+			//新选项和原来没有重复项的情况，产品确认:只做全量增加，原有的清除
+			for (int i = 0; i < selected.length; i++) {
+				model.addKeyColumnNameValue(newKeyColumnNameValueList.get(i));
+			}
+		}
         model.fireTableDataChanged();
         keyColumnValuesTable.validate();
     }
