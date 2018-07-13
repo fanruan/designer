@@ -51,8 +51,6 @@ import com.fr.design.mainframe.loghandler.DesignerLogAppender;
 import com.fr.design.mainframe.loghandler.DesignerLogImpl;
 import com.fr.design.mainframe.loghandler.LogMessageBar;
 import com.fr.design.mainframe.socketio.DesignerSocketIO;
-import com.fr.env.operator.socket.FineSocketInfoOperator;
-import com.fr.env.operator.socket.SocketInfoOperator;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.parameter.FormParameterReader;
 import com.fr.design.parameter.ParameterPropertyPane;
@@ -100,8 +98,6 @@ import com.fr.stable.script.ValueConverter;
 import com.fr.stable.xml.ObjectTokenizer;
 import com.fr.stable.xml.ObjectXMLWriterFinder;
 import com.fr.start.BBSGuestPaneProvider;
-import com.fr.workspace.base.WorkspaceKey;
-import com.fr.workspace.pool.WorkPRCRegister;
 import com.fr.xml.ReportXMLUtils;
 
 import java.awt.Image;
@@ -413,8 +409,5 @@ public class DesignerActivator extends Activator implements Prepare {
     public void prepare() {
 
         addMutable(InterMutableKey.Path, "com/fr/design/i18n/main", "com/fr/design/i18n/chart");
-
-        addMutable(WorkspaceKey.RPC, WorkPRCRegister.wrap(SocketInfoOperator.class, new FineSocketInfoOperator()));
-
     }
 }
