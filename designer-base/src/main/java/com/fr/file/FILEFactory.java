@@ -35,7 +35,7 @@ public class FILEFactory {
         } else if (path.startsWith(FILE_PREFIX)) {
             return new FileFILE(new java.io.File(path.substring(FILE_PREFIX.length())));
         } else {
-            return new FileFILE(new java.io.File(path));
+            return new FileNodeFILE(new FileNode(path, WorkContext.getWorkResource().isDirectory(path)));
         }
     }
 
@@ -52,7 +52,7 @@ public class FILEFactory {
         } else if (path.startsWith(FILE_PREFIX)) {
             return new FileFILE(new java.io.File(path.substring(FILE_PREFIX.length())));
         } else {
-            return new FileFILE(new java.io.File(path));
+            return new FileNodeFILE(new FileNode(path, WorkContext.getWorkResource().isDirectory(path)));
         }
     }
 }
