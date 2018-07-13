@@ -1,15 +1,16 @@
 package com.fr.design.mainframe.socketio;
 
+import com.fr.config.RemoteConfigEvent;
 import com.fr.decision.webservice.utils.DecisionServiceConstants;
+import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.loghandler.DesignerLogHandler;
+import com.fr.workspace.server.socket.SocketInfoOperator;
+import com.fr.event.EventDispatcher;
+import com.fr.general.Inter;
 import com.fr.general.LogRecordTime;
 import com.fr.general.LogUtils;
-import com.fr.general.http.HttpToolbox;
-import com.fr.json.JSONException;
-import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
 import com.fr.third.guava.base.Optional;
-import com.fr.third.guava.primitives.Ints;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.Workspace;
 import com.fr.workspace.base.WorkspaceConstants;
@@ -18,6 +19,8 @@ import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URI;
@@ -57,6 +60,21 @@ public class DesignerSocketIO {
             String uri = getSocketUri(current);
             socketIO = Optional.of(IO.socket(new URI(uri)));
             socketIO.get().on(WorkspaceConstants.WS_LOGRECORD, printLog);
+            socketIO.get().on(WorkspaceConstants.CONFIG_MODIFY, new Emitter.Listener() {
+                @Override
+                public void call(Object... objects) {
+                    assert objects != null && objects.length == 1;
+                    String param = (String) objects[0];
+                    EventDispatcher.fire(RemoteConfigEvent.EDIT, param);
+                }
+            });
+            socketIO.get().on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
+                @Override
+                public void call(Object... objects) {
+                    JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText(new String[]{"Fine-Designer_Basic_Remote_Disconnected"}),
+                            null, 0, UIManager.getIcon("OptionPane.errorIcon"));
+                }
+            });
             socketIO.get().connect();
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
@@ -65,24 +83,13 @@ public class DesignerSocketIO {
 
     private static String getSocketUri(Workspace current) throws IOException {
         URL url = new URL(current.getPath());
-        int port = getPort(current);
-        return String.format("http://%s:%s%s?%s=%s",
+        int port = WorkContext.getCurrent().get(SocketInfoOperator.class).getPort();
+        return String.format("%s://%s:%s%s?%s=%s",
+                url.getProtocol(),
                 url.getHost(),
                 port,
                 WorkspaceConstants.WS_NAMESPACE,
                 DecisionServiceConstants.WEB_SOCKET_TOKEN_NAME,
                 RemoteCallClient.getInstance().getToken());
-    }
-
-    private static int getPort(Workspace current) throws IOException {
-        String url = current.getPath() + WorkspaceConstants.CONTROLLER_PREFIX + WorkspaceConstants.CONTROLLER_SOCKETIO_PORT;
-        try {
-            String portStr = HttpToolbox.get(url);
-            JSONObject jsonObject = new JSONObject(portStr);
-            return Ints.tryParse(jsonObject.optString("data"));
-        } catch (JSONException e) {
-            FineLoggerFactory.getLogger().error(e.getMessage(), e);
-            throw new RuntimeException(e);
-        }
     }
 }

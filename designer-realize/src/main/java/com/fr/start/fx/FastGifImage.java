@@ -114,7 +114,7 @@ public class FastGifImage extends WritableImage {
     private static final class Animation {
         final WeakReference<FastGifImage> imageRef;
         final Timeline timeline;
-        final ImageLoader loader;
+        private ImageLoader loader;
 
         public Animation(final FastGifImage image, final ImageLoader loader) {
             this.loader = loader;
@@ -141,6 +141,7 @@ public class FastGifImage extends WritableImage {
 
         public void stop() {
             timeline.stop();
+            loader = null;
         }
 
         private void updateImage(final int frameIndex) {
@@ -195,6 +196,13 @@ public class FastGifImage extends WritableImage {
 
     private void initialize() {
         finishImage(new PrismImageLoader2(url, gifCount, (int) getRequestedWidth(), (int) getRequestedHeight(), isPreserveRatio(), isSmooth()));
+    }
+
+    /**
+     * 销毁gif动画
+     */
+    public void destroy() {
+        animation.stop();
     }
 
 }

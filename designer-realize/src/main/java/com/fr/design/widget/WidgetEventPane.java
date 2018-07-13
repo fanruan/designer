@@ -34,13 +34,16 @@ import com.fr.stable.Nameable;
 import javax.swing.*;
 
 public class WidgetEventPane extends ObjectUIControlPane {
+    private static final Selection NO_SELECTION = new CellSelection(-1, -1, -1, -1);
 
-    private Selection selection;
+    private Selection selection = NO_SELECTION;
 
     public WidgetEventPane(ElementCasePane pane) {
         super(pane);
         this.setNameListEditable(false);
-        selection = pane.getSelection();
+        if(pane != null){
+            selection = pane.getSelection();
+        }
         setBorder(BorderFactory.createEmptyBorder(10, 0, 15, 0));
     }
 
