@@ -22,7 +22,7 @@ import com.fr.workspace.WorkContextCallback;
 import com.fr.workspace.Workspace;
 import com.fr.workspace.connect.AuthException;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -107,28 +107,28 @@ public class SwitchExistEnv extends MenuDef {
             Workspace workspace;
             try {
                 workspace = DesignerWorkspaceGenerator.generate(selectedEnv);
+                if (workspace == null) {
+                    JOptionPane.showMessageDialog(
+                        DesignerContext.getDesignerFrame(),
+                        Inter.getLocText(new String[]{"FR-Designer_M-SwitchWorkspace", "Failed"}));
+                    return;
+                }
+                WorkContext.switchTo(workspace, new WorkContextCallback() {
+        
+                    @Override
+                    public void done() {
+            
+                        DesignerEnvManager.getEnvManager().setCurEnvName(envName);
+                        DesignUtils.refreshDesignerFrame();
+                        HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().refreshToolArea();
+                        fireDSChanged();
+                    }
+                });
             } catch (AuthException exception) {
                 JOptionPane.showMessageDialog(
                         DesignerContext.getDesignerFrame(),
                         Inter.getLocText(new String[]{"Fine-Designer_Basic_Remote_Connect_Auth_Failed"}));
-                return;
             }
-            WorkContext.switchTo(workspace, new WorkContextCallback() {
-                @Override
-                public void success() {
-                    DesignerEnvManager.getEnvManager().setCurEnvName(envName);
-                    DesignUtils.refreshDesignerFrame();
-                    HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().refreshToolArea();
-                    fireDSChanged();
-                }
-
-                @Override
-                public void fail() {
-                    JOptionPane.showMessageDialog(
-                            DesignerContext.getDesignerFrame(),
-                            Inter.getLocText(new String[]{"M-SwitchWorkspace", "Failed"}));
-                }
-            });
         }
     }
 }

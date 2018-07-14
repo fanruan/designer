@@ -1,11 +1,12 @@
 package com.fr.design.env;
 
-import com.fr.workspace.server.authority.decision.DecisionOperator;
 import com.fr.locale.InterProviderFactory;
+import com.fr.stable.AssistUtils;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.Workspace;
 import com.fr.workspace.connect.WorkspaceClient;
 import com.fr.workspace.connect.WorkspaceConnection;
+import com.fr.workspace.server.authority.decision.DecisionOperator;
 
 /**
  * Created by juhaoyu on 2018/6/14.
@@ -17,10 +18,13 @@ public class RemoteWorkspace implements Workspace {
 
     private final String address;
     
+    private final WorkspaceConnection connection;
+    
     RemoteWorkspace(WorkspaceClient client, WorkspaceConnection connection) {
 
         this.client = client;
         this.address = connection.getUrl();
+        this.connection = connection;
     }
 
     @Override
@@ -60,5 +64,17 @@ public class RemoteWorkspace implements Workspace {
     public <T> T get(Class<T> type) {
 
         return client.getPool().get(type);
+    }
+    
+    @Override
+    public int hashCode() {
+        
+        return connection.hashCode();
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        
+        return obj != null && obj instanceof RemoteWorkspace && AssistUtils.equals(((RemoteWorkspace) obj).connection, this.connection);
     }
 }
