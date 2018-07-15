@@ -19,6 +19,7 @@ import com.fr.general.Inter;
 import com.fr.stable.EnvChangedListener;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.WorkContextCallback;
+import com.fr.workspace.Workspace;
 
 import javax.swing.*;
 import java.awt.*;
@@ -132,17 +133,17 @@ public class TemplatePane extends JPanel implements MouseListener {
         DesignerWorkspaceInfo selectedEnv = envManager.getWorkspaceInfo(selectedName);
         GeneralContext.fireEnvWillChangeListener();
         try {
-            WorkContext.switchTo(DesignerWorkspaceGenerator.generate(selectedEnv), new WorkContextCallback() {
+            Workspace workspace = DesignerWorkspaceGenerator.generate(selectedEnv);
+            if (workspace == null) {
+                JOptionPane.showMessageDialog(
+                    DesignerContext.getDesignerFrame(),
+                    Inter.getLocText(new String[]{"FR-Designer_M-SwitchWorkspace", "Failed"}));
+                return false;
+            }
+            WorkContext.switchTo(workspace, new WorkContextCallback() {
                 
                 @Override
-                public void fail() {
-                    
-                    JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText(new String[]{"M-SwitchWorkspace", "Failed"}),
-                            null, 0, UIManager.getIcon("OptionPane.errorIcon"));
-                }
-                
-                @Override
-                public void success() {
+                public void done() {
                     DesignerEnvManager.getEnvManager().setCurEnvName(selectedName);
                     DesignUtils.refreshDesignerFrame();
                 }

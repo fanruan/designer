@@ -45,7 +45,7 @@ import java.util.List;
  */
 public class RecentSearchManager implements AlphaFineSearchProvider {
     private static final int MAX_SIZE = 3;
-    private static RecentSearchManager recentSearchManager = null;
+    private static RecentSearchManager instance;
     IndexReader indexReader = null;
     IndexSearcher indexSearcher = null;
     //索引存储路径
@@ -59,11 +59,16 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
     private SearchResult recentModelList;
     private SearchResult modelList;
 
-    public synchronized static RecentSearchManager getInstance() {
-        if (recentSearchManager == null) {
-            recentSearchManager = new RecentSearchManager();
+    public static RecentSearchManager getInstance() {
+        if (instance == null) {
+            synchronized (RecentSearchManager.class) {
+                if (instance == null) {
+                    instance = new RecentSearchManager();
+                    instance.initWriter();
+                }
+            }
         }
-        return recentSearchManager;
+        return instance;
     }
 
     @Override
@@ -94,17 +99,11 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
      * 初始化indexWriter
      */
     private void initWriter() {
-        if (indexWriter == null) {
-            try {
-                directory = FSDirectory.open(new File(path));
-            } catch (IOException e) {
-                FineLoggerFactory.getLogger().error("cannot open directory " + path);
-            }
-            try {
-                indexWriter = new IndexWriter(directory, config);
-            } catch (IOException e) {
-                FineLoggerFactory.getLogger().error("not privilege to write to" + path);
-            }
+        try {
+            directory = FSDirectory.open(new File(path));
+            indexWriter = new IndexWriter(directory, config);
+        } catch (IOException e) {
+            FineLoggerFactory.getLogger().error(e.getMessage());
         }
 
     }
@@ -113,20 +112,18 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
      * 初始化indexReader
      */
     private void initReader() {
-        if (indexReader == null) {
-            try {
-                directory = FSDirectory.open(new File(path));
-                indexReader = DirectoryReader.open(directory);
-            } catch (IOException e) {
-                FineLoggerFactory.getLogger().error("not privilege to read " + path);
-            }
+        try {
+            indexWriter.close();
+            indexReader = DirectoryReader.open(directory);
             indexSearcher = new IndexSearcher(indexReader);
+        } catch (IOException e) {
+            FineLoggerFactory.getLogger().error(e.getMessage());
         }
-
     }
 
     /**
      * 添加模型
+     *
      * @param searchKey
      * @param cellModel
      * @param searchCount
@@ -146,6 +143,7 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
 
     /**
      * 写文档，建立索引
+     *
      * @param doc
      */
     private void writeDoc(Document doc) {
@@ -160,12 +158,14 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
 
     /**
      * 按序搜索
+     *
      * @param key
      * @return
      */
     private synchronized SearchResult searchBySort(String key) {
         recentModelList = new SearchResult();
         try {
+
             initReader();
             IndexSearcher searcher = new IndexSearcher(indexReader);
             //构建排序字段

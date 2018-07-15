@@ -6,7 +6,7 @@ import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.remote.ui.AuthorityManagerPane;
-import com.fr.env.operator.authority.AuthorityOperator;
+import com.fr.workspace.server.authority.AuthorityOperator;
 import com.fr.general.Inter;
 import com.fr.log.FineLoggerFactory;
 import com.fr.report.DesignAuthority;

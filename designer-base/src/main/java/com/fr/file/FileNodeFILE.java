@@ -8,6 +8,7 @@ import com.fr.design.gui.itree.filetree.FileTreeIcon;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
+import com.fr.workspace.resource.WorkResourceOutputStream;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.StableUtils;
@@ -198,7 +199,6 @@ public class FileNodeFILE implements FILE {
                 return FRContext.getFileNodes().listWebRootFile(rootFilePath);
             } else {
                 return FRContext.getFileNodes().list(rootFilePath);
-            
             }
         } catch (Exception e) {
             FRContext.getLogger().error(e.getMessage(), e);
@@ -338,10 +338,7 @@ public class FileNodeFILE implements FILE {
         if (!envPath.startsWith(ProjectConstants.REPORTLETS_NAME)) {
             return null;
         }
-        return FRContext.getCommonOperator().writeBean(
-            envPath.substring(ProjectConstants.REPORTLETS_NAME.length() + 1),
-            ProjectConstants.REPORTLETS_NAME
-        );
+        return new WorkResourceOutputStream(envPath);
     }
     
     /**

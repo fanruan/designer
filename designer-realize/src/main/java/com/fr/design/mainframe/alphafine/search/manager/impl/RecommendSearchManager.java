@@ -10,12 +10,12 @@ import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.search.manager.fun.AlphaFineSearchProvider;
-import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CodeUtils;
 import com.fr.stable.StringUtils;
 
@@ -26,15 +26,19 @@ import java.util.List;
  * Created by XiaXiang on 2017/3/31.
  */
 public class RecommendSearchManager implements AlphaFineSearchProvider {
-    private static RecommendSearchManager recommendSearchManager = null;
+    private static RecommendSearchManager instance;
     private SearchResult modelList;
     private SearchResult recommendModelList;
 
-    public synchronized static RecommendSearchManager getInstance() {
-        if (recommendSearchManager == null) {
-            recommendSearchManager = new RecommendSearchManager();
+    public static RecommendSearchManager getInstance() {
+        if (instance == null) {
+            synchronized (RecentSearchManager.class) {
+                if (instance == null) {
+                    instance = new RecommendSearchManager();
+                }
+            }
         }
-        return recommendSearchManager;
+        return instance;
     }
 
     @Override

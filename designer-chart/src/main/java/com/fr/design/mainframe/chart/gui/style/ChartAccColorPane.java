@@ -1,6 +1,7 @@
 package com.fr.design.mainframe.chart.gui.style;
 
 import com.fr.chart.base.ChartConstants;
+import com.fr.design.DesignerEnvManager;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
@@ -122,7 +123,7 @@ public class ChartAccColorPane extends BasicPane implements MouseListener, UIObs
 			Color choosedColor = this.getColor();
 	        if (choosedColor != null) {
 	        	colors[currentIndex] = choosedColor;
-	        	ColorSelectConfigManager.getInstance().addToColorQueue(choosedColor);
+				DesignerEnvManager.getEnvManager().getColorConfigManager().addToColorQueue(choosedColor);
             	ChartAccColorPane.this.stateChanged();
 	        }
 	        ChartAccColorPane.this.repaint();

@@ -105,7 +105,7 @@ public abstract class DesignTableDataManager {
 
     public static void closeTemplate(JTemplate<?, ?> template) {
         if (template != null) {
-            dsListenersMap.remove(template.getFullPathName());
+            dsListenersMap.remove(template.getPath());
         }
     }
 
@@ -164,7 +164,7 @@ public abstract class DesignTableDataManager {
         JTemplate<?, ?> template = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
         String key = StringUtils.EMPTY;
         if (template != null) {
-            key = template.getFullPathName();
+            key = template.getPath();
         }
         List<ChangeListener> dsListeners = dsListenersMap.get(key);
         if (dsListeners == null) {

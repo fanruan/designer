@@ -1,5 +1,6 @@
 package com.fr.design.style.color;
 
+import com.fr.design.DesignerEnvManager;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ibutton.SpecialUIButton;
 
@@ -66,7 +67,7 @@ public class UsedColorPane extends BasicPane {
         panel.setLayout(new GridLayout(rows, columns, 1, 1));
         panel.setBorder(BorderFactory.createEmptyBorder(8, 8, 0, 8));
         //最近使用颜色
-        Color[] colors = ColorSelectConfigManager.getInstance().getColors();
+        Color[] colors = DesignerEnvManager.getEnvManager().getColorConfigManager().getColors();
         int size = colors.length;
         int i = 0;
         if (needPickColorButton) {
@@ -96,7 +97,7 @@ public class UsedColorPane extends BasicPane {
      */
     public void updateUsedColor() {
         int total = columns * rows;
-        Color[] colors = ColorSelectConfigManager.getInstance().getColors();
+        Color[] colors = DesignerEnvManager.getEnvManager().getColorConfigManager().getColors();
         int size = colors.length;
         for (int i = this.reserveCells; i < total; i++) {
             ColorCell cell = (ColorCell) this.pane.getComponent(i);

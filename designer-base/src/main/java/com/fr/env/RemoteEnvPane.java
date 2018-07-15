@@ -270,8 +270,13 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
                     : new RemoteEnvURL(connection.getUrl());
             String username = fromNullable(connection.getUserName()).or(StringUtils.EMPTY);
             String pwd = fromNullable(connection.getPassword()).or(StringUtils.EMPTY);
+            String certPath = fromNullable(connection.getCertPath()).or(StringUtils.EMPTY);
+            String certSecretKey = fromNullable(connection.getCertSecretKey()).or(StringUtils.EMPTY);
             this.usernameInput.setText(username);
             this.passwordInput.setText(pwd);
+            this.certPathInput.setText(certPath);
+            this.certSecretKeyInput.setText(certSecretKey);
+
         }
 
         fillRemoteEnvURLField();
@@ -290,7 +295,9 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
         WorkspaceConnection connection = new WorkspaceConnection(
                 this.remoteEnvURL.getURL(),
                 this.usernameInput.getText(),
-                new String(this.passwordInput.getPassword()));
+                new String(this.passwordInput.getPassword()),
+                this.certPathInput.getText(),
+                new String(this.certSecretKeyInput.getPassword()));
 
         return RemoteDesignerWorkspaceInfo.create(connection);
     }
@@ -478,7 +485,11 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
 
                 final RemoteDesignerWorkspaceInfo remoteEnv = updateBean();
 
-                return WorkContext.getConnector().testConnection(remoteEnv.getConnection());
+                WorkspaceConnection connection = remoteEnv.getConnection();
+                DesignerEnvManager.getEnvManager().setCertificatePath(connection.getCertPath());
+                DesignerEnvManager.getEnvManager().setCertificatePass(connection.getCertSecretKey());
+
+                return WorkContext.getConnector().testConnection(connection);
             }
 
             @Override

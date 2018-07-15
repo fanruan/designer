@@ -3,6 +3,7 @@
  */
 package com.fr.design.style.color;
 
+import com.fr.design.DesignerEnvManager;
 import com.fr.design.border.UIRoundedBorder;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ibutton.UIButton;
@@ -159,7 +160,7 @@ public class ColorSelectPane extends TransparentPane implements ColorSelectable 
             }
         }
 
-        ColorSelectConfigManager.getInstance().addToColorQueue(color);
+        DesignerEnvManager.getEnvManager().getColorConfigManager().addToColorQueue(color);
         this.repaint();
     }
 
