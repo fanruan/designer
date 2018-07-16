@@ -130,7 +130,7 @@ public abstract class AbstractExportAction extends JWorkBookAction {
 
                     FRContext.getLogger().info("\"" + fileGetName + "\"" + Inter.getLocText("FR-Designer_Finish_Export") + "!");
                     JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
-                            Inter.getLocText("FR-Designer_Exported_successfully") + "\n" + filePath);
+                            Inter.getLocText("FR-Designer_Exported_successfully") + "\n" + fileGetName);
                 } catch (Exception exp) {
                     this.setProgress(100);
                     FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
