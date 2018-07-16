@@ -26,7 +26,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.URI;
-import java.text.MessageFormat;
 import java.util.Locale;
 
 public class AboutPane extends JPanel {
