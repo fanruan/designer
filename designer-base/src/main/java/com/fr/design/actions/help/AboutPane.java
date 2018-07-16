@@ -33,8 +33,8 @@ public class AboutPane extends JPanel {
     private static final int DEFAULT_GAP = 12;
     private static final String COPYRIGHT_LABEL = "\u00A9 ";
     private static final String BUILD_PREFIX = "   ";
-    private static final String COMPANY_TELEPHONE = CloudCenter.getInstance().acquireUrlByKind("company_telephone");
-    private static final String PRESIDENT_PHONE = CloudCenter.getInstance().acquireUrlByKind("president_phone");
+    private static final String COMPANY_TELEPHONE = CloudCenter.getInstance().acquireUrlByKind("help.compNo");
+    private static final String PRESIDENT_PHONE = CloudCenter.getInstance().acquireUrlByKind("help.Pno");
 
     public AboutPane() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
