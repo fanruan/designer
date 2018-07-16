@@ -18,12 +18,12 @@ import com.fr.design.remote.RemoteDesignAuthorityCreator;
 import com.fr.design.remote.ui.list.AuthorityList;
 import com.fr.design.remote.ui.list.AuthorityListCellRenderer;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.env.RemoteDesignMember;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.log.FineLoggerFactory;
 import com.fr.report.DesignAuthority;
 import com.fr.stable.ArrayUtils;
+import com.fr.workspace.server.authority.RemoteDesignMember;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;

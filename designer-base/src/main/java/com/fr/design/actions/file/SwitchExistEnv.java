@@ -115,18 +115,11 @@ public class SwitchExistEnv extends MenuDef {
             }
             WorkContext.switchTo(workspace, new WorkContextCallback() {
                 @Override
-                public void success() {
+                public void done() {
                     DesignerEnvManager.getEnvManager().setCurEnvName(envName);
                     DesignUtils.refreshDesignerFrame();
                     HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().refreshToolArea();
                     fireDSChanged();
-                }
-
-                @Override
-                public void fail() {
-                    JOptionPane.showMessageDialog(
-                            DesignerContext.getDesignerFrame(),
-                            Inter.getLocText(new String[]{"M-SwitchWorkspace", "Failed"}));
                 }
             });
         }

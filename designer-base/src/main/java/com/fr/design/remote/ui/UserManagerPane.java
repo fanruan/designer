@@ -13,12 +13,12 @@ import com.fr.design.remote.ui.list.AddedMemberListCellRender;
 import com.fr.design.remote.ui.list.AddingMemberList;
 import com.fr.design.remote.ui.list.AddingMemberListCellRender;
 import com.fr.design.remote.ui.list.MemberListSelectedChangeListener;
-import com.fr.env.RemoteDesignMember;
-import com.fr.env.operator.decision.DecisionOperator;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 import com.fr.third.guava.collect.ImmutableList;
 import com.fr.workspace.WorkContext;
+import com.fr.workspace.server.authority.RemoteDesignMember;
+import com.fr.workspace.server.authority.decision.DecisionOperator;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;

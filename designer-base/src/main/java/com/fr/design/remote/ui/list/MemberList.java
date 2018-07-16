@@ -1,7 +1,7 @@
 package com.fr.design.remote.ui.list;
 
 
-import com.fr.env.RemoteDesignMember;
+import com.fr.workspace.server.authority.RemoteDesignMember;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JList;

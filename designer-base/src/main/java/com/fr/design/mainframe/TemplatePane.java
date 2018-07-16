@@ -133,16 +133,8 @@ public class TemplatePane extends JPanel implements MouseListener {
         GeneralContext.fireEnvWillChangeListener();
         try {
             WorkContext.switchTo(DesignerWorkspaceGenerator.generate(selectedEnv), new WorkContextCallback() {
-                
                 @Override
-                public void fail() {
-                    
-                    JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText(new String[]{"M-SwitchWorkspace", "Failed"}),
-                            null, 0, UIManager.getIcon("OptionPane.errorIcon"));
-                }
-                
-                @Override
-                public void success() {
+                public void done() {
                     DesignerEnvManager.getEnvManager().setCurEnvName(selectedName);
                     DesignUtils.refreshDesignerFrame();
                 }
