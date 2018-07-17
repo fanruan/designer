@@ -173,7 +173,7 @@ public class WebJsPane extends BasicPane {
 				if (!"js".equalsIgnoreCase(fileType)) {
 					return;
 				}
-				localText.setText(file.getPath().replaceFirst("^/*", ""));  // 去掉相对路径开头的"/"（如果有的话）
+				localText.setText(file.getPath());
                 editingPane.setAddEnabled(true);
 			}
 
