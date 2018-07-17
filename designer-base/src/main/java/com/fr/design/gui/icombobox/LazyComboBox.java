@@ -5,6 +5,7 @@ package com.fr.design.gui.icombobox;
 
 import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
+import com.fr.stable.StringUtils;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingWorker;
@@ -35,6 +36,10 @@ public abstract class LazyComboBox extends UIComboBox implements PopupMenuListen
      */
     private Object initialSelected = null;
 
+    //数据集和模板的名称
+    private String oldDsName;
+    private String oldTemplateName;
+
 
     protected LazyComboBox() {
         super();
@@ -52,6 +57,15 @@ public abstract class LazyComboBox extends UIComboBox implements PopupMenuListen
      * @return 下拉框中的选项
      */
     public abstract Object[] load();
+
+    public void changeLoaded(String dsName, String templateName){
+        if (!StringUtils.equals(dsName, oldDsName) || !StringUtils.equals(templateName, oldTemplateName)){
+            this.setLoaded(false);
+
+            oldDsName = dsName;
+            oldTemplateName = templateName;
+        }
+    }
 
     @Override
     public void setSelectedItem(Object anObject) {

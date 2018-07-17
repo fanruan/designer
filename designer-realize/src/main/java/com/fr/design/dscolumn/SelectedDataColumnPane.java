@@ -9,6 +9,7 @@ import com.fr.design.data.tabledata.wrapper.TableDataWrapper;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icombobox.LazyComboBox;
 import com.fr.design.gui.ilable.UILabel;
@@ -88,9 +89,6 @@ public class SelectedDataColumnPane extends BasicPane {
 
     private static final Pattern COLUMN_NAME_PATTERN = Pattern.compile("[^\\d]");
 
-    //数据集和数据列上次的名称
-    private String oldDsName;
-    private String oldColumnName;
 
     /**
      * 数据集下拉框变动后修改数据列下拉框加载状态的监听器
@@ -240,15 +238,12 @@ public class SelectedDataColumnPane extends BasicPane {
         String dsColumnName = TableDataColumn.getColumnName(dsColumn.getColumn());
         columnNameComboBox.setSelectedItem(dsColumnName);
         ps = dsColumn.getParameters();
+        //模板名称
+        String templateName = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getEditingFILE().getName();
 
         addListener();
-        //比较上一次的数据集名称和数据列，不一样的话需要加载
-        if(!StringUtils.equals(dsName,oldDsName) || !StringUtils.equals(dsColumnName,oldColumnName)){
-            columnNameComboBox.setLoaded(false);
-
-            oldDsName = dsName;
-            oldColumnName = dsColumnName;
-        }
+        //比较上一次的数据集名称和模板名称，不一样的话需要加载
+        columnNameComboBox.changeLoaded(dsName, templateName);
     }
 
     /**
