@@ -1,22 +1,21 @@
 package com.fr.file;
 
+import com.fr.base.io.XMLEncryptUtils;
+import com.fr.design.gui.itree.filetree.FileComparator;
+import com.fr.design.gui.itree.filetree.FileTreeIcon;
+import com.fr.general.ComparatorUtils;
+import com.fr.general.SessionLocalManager;
+import com.fr.stable.StableUtils;
+import com.fr.stable.project.ProjectConstants;
+
+import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-
-import javax.swing.Icon;
-import javax.swing.filechooser.FileSystemView;
-
-import com.fr.base.io.XMLEncryptUtils;
-import com.fr.design.gui.itree.filetree.FileComparator;
-import com.fr.design.gui.itree.filetree.FileTreeIcon;
-import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogManager;
-import com.fr.stable.StableUtils;
-import com.fr.stable.project.ProjectConstants;
 
 public class FileFILE implements FILE {
 
@@ -199,12 +198,11 @@ public class FileFILE implements FILE {
         if (file == null || !file.exists()) {
             return null;
         }
-        FRLogManager.declareResourceWriteStart(file.getAbsolutePath());
         java.io.OutputStream out = null;
         try {
             out = new FileOutputStream(file);
         } catch (Exception e) {
-            throw FRLogManager.createLogPackedException(e);
+            throw SessionLocalManager.createLogPackedException(e);
         }
         return out;
     }
