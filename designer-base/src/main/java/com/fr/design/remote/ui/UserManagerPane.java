@@ -13,11 +13,6 @@ import com.fr.design.remote.ui.list.AddedMemberListCellRender;
 import com.fr.design.remote.ui.list.AddingMemberList;
 import com.fr.design.remote.ui.list.AddingMemberListCellRender;
 import com.fr.design.remote.ui.list.MemberListSelectedChangeListener;
-<<<<<<< HEAD
-=======
-import com.fr.workspace.server.authority.RemoteDesignMember;
-import com.fr.workspace.server.authority.decision.DecisionOperator;
->>>>>>> 8346e043d684a530c688bfed0ed064c99655d1f6
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 import com.fr.third.guava.collect.ImmutableList;

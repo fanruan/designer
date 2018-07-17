@@ -4,7 +4,6 @@ import com.fr.config.RemoteConfigEvent;
 import com.fr.decision.webservice.utils.DecisionServiceConstants;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.loghandler.DesignerLogHandler;
-import com.fr.workspace.server.socket.SocketInfoOperator;
 import com.fr.event.EventDispatcher;
 import com.fr.general.Inter;
 import com.fr.general.LogRecordTime;

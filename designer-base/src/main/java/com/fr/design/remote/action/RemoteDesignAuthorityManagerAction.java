@@ -11,7 +11,6 @@ import com.fr.general.Inter;
 import com.fr.log.FineLoggerFactory;
 import com.fr.report.DesignAuthority;
 import com.fr.workspace.WorkContext;
-import com.fr.workspace.server.authority.AuthorityOperator;
 
 import java.awt.event.ActionEvent;
 
