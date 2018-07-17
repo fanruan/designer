@@ -238,12 +238,10 @@ public class SelectedDataColumnPane extends BasicPane {
         String dsColumnName = TableDataColumn.getColumnName(dsColumn.getColumn());
         columnNameComboBox.setSelectedItem(dsColumnName);
         ps = dsColumn.getParameters();
-        //模板名称
-        String templateName = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getEditingFILE().getName();
 
         addListener();
-        //比较上一次的数据集名称和模板名称，不一样的话需要加载
-        columnNameComboBox.changeLoaded(dsName, templateName);
+        //重新设置需要加载
+        columnNameComboBox.setLoaded(false);
     }
 
     /**
