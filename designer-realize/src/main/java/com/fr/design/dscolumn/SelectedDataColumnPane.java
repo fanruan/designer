@@ -9,7 +9,6 @@ import com.fr.design.data.tabledata.wrapper.TableDataWrapper;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
-import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icombobox.LazyComboBox;
 import com.fr.design.gui.ilable.UILabel;
@@ -234,9 +233,7 @@ public class SelectedDataColumnPane extends BasicPane {
         DSColumn dsColumn = (DSColumn) value;
         String dsName = dsColumn.getDSName();
         tableNameComboBox.setSelectedTableDataByName(dsName);
-        //数据列名称
-        String dsColumnName = TableDataColumn.getColumnName(dsColumn.getColumn());
-        columnNameComboBox.setSelectedItem(dsColumnName);
+        columnNameComboBox.setSelectedItem(TableDataColumn.getColumnName(dsColumn.getColumn()));
         ps = dsColumn.getParameters();
 
         addListener();

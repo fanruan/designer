@@ -5,7 +5,6 @@ package com.fr.design.gui.icombobox;
 
 import com.fr.log.FineLoggerFactory;
 import com.fr.general.Inter;
-import com.fr.stable.StringUtils;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingWorker;
