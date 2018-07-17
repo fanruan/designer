@@ -37,7 +37,7 @@ public class JVirtualTemplate extends JTemplate {
     }
 
     @Override
-    public String getFullPathName() {
+    public String getPath() {
         String editingFileName = getEditingFILE().getPath();
         if (editingFileName.startsWith(ProjectConstants.REPORTLETS_NAME)) {
             editingFileName = ((FileNodeFILE) getEditingFILE()).getEnvPath() + File.separator + editingFileName;
@@ -258,7 +258,7 @@ public class JVirtualTemplate extends JTemplate {
 
     @Override
     public Icon getIcon() {
-        if (getFullPathName().endsWith("cpt")) {
+        if (getPath().endsWith("cpt")) {
             return BaseUtils.readIcon("/com/fr/design/images/buttonicon/newcpts.png");
         } else {
             return BaseUtils.readIcon("/com/fr/web/images/form/new_form3.png");

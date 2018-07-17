@@ -19,6 +19,7 @@ import com.fr.general.Inter;
 import com.fr.stable.EnvChangedListener;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.WorkContextCallback;
+import com.fr.workspace.Workspace;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,37 +30,37 @@ import java.awt.event.MouseListener;
 
 //TODO: august TemplatePane和TemplateTreePane最好合并成一个类
 public class TemplatePane extends JPanel implements MouseListener {
-    
+
     private static final long NUM = 1L;
-    
+
     private static int NUM200 = 200;
-    
+
     public static TemplatePane getInstance() {
-        
+
         return HOLDER.singleton;
     }
-    
+
     private static class HOLDER {
-        
+
         private static TemplatePane singleton = new TemplatePane();
     }
-    
+
     private static final long serialVersionUID = 2108412478281713143L;
-    
+
     public static final int HEIGHT = 23;// 最好和日志的高度统一 用同一个变量
-    
+
     private static javax.swing.Icon leftIcon = BaseUtils.readIcon("/com/fr/design/images/docking/left.png");
-    
+
     private static javax.swing.Icon rightIcon = BaseUtils.readIcon("/com/fr/design/images/docking/right.png");
-    
+
     private boolean isExpanded = false;
-    
+
     private UIButton editButton;
-    
+
     private UILabel envLabel;
-    
+
     private TemplatePane() {
-        
+
         super();
         this.initComponents();
         this.setFocusable(true);
@@ -68,24 +69,24 @@ public class TemplatePane extends JPanel implements MouseListener {
         TemplateTreePane.getInstance().setVisible(isExpanded);
         TemplateTreePane.getInstance().setVisible(true);
     }
-    
+
     private void initComponents() {
-        
+
         GeneralContext.addEnvChangedListener(new EnvChangedListener() {
-            
+
             public void envChanged() {
-                
+
                 setJLabel(DesignerEnvManager.getEnvManager().getCurEnvName());
             }
         });
         this.setLayout(new BorderLayout(25, 0));
         editButton = new UIButton(BaseUtils.readIcon("/com/fr/design/images/control/control-center2.png")) {
-            
+
             private static final long serialVersionUID = NUM;
-            
+
             @Override
             public Point getToolTipLocation(MouseEvent event) {
-                
+
                 return new Point(25, 2);
             }
         };
@@ -97,9 +98,9 @@ public class TemplatePane extends JPanel implements MouseListener {
         this.add(new UILabel("   "), BorderLayout.WEST);
         this.add(editButton, BorderLayout.EAST);
         editButton.addActionListener(new ActionListener() {
-            
+
             public void actionPerformed(ActionEvent evt) {
-                
+
                 editItems();
             }
         });
@@ -108,31 +109,38 @@ public class TemplatePane extends JPanel implements MouseListener {
         setJLabel(DesignerEnvManager.getEnvManager().getCurEnvName());
         this.add(envLabel, BorderLayout.CENTER);
     }
-    
+
     /**
      * 是否可扩展
      *
      * @return 同上
      */
     public boolean IsExpanded() {
-        
+
         return this.isExpanded;
     }
-    
+
     public void setExpand(boolean b) {
-        
+
         this.isExpanded = b;
         this.repaint();
     }
-    
+
     private boolean envListOkAction(EnvListPane envListPane) {
-        
+
         final String selectedName = envListPane.updateEnvManager();
         DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
         DesignerWorkspaceInfo selectedEnv = envManager.getWorkspaceInfo(selectedName);
         GeneralContext.fireEnvWillChangeListener();
         try {
-            WorkContext.switchTo(DesignerWorkspaceGenerator.generate(selectedEnv), new WorkContextCallback() {
+            Workspace workspace = DesignerWorkspaceGenerator.generate(selectedEnv);
+            if (workspace == null) {
+                JOptionPane.showMessageDialog(
+                    DesignerContext.getDesignerFrame(),
+                    Inter.getLocText(new String[]{"FR-Designer_M-SwitchWorkspace", "Failed"}));
+                return false;
+            }
+            WorkContext.switchTo(workspace, new WorkContextCallback() {
                 @Override
                 public void done() {
                     DesignerEnvManager.getEnvManager().setCurEnvName(selectedName);
@@ -156,33 +164,33 @@ public class TemplatePane extends JPanel implements MouseListener {
         }
         return true;
     }
-    
+
     /**
      * 编辑items
      */
     public void editItems() {
-        
+
         final EnvListPane envListPane = new EnvListPane();
         final BasicDialog envListDialog = envListPane.showWindow(SwingUtilities.getWindowAncestor(DesignerContext.getDesignerFrame()));
-        
+
         envListPane.populateEnvManager(envLabel.getText());
         envListDialog.addDialogActionListener(new DialogActionAdapter() {
-            
+
             public void doOk() {
-                
+
                 envListOkAction(envListPane);
             }
-            
+
             public void doCancel() {
-                
+
                 envListDialog.setVisible(false);
             }
         });
         envListDialog.setVisible(true);
     }
-    
+
     private void setJLabel(String name) {
-        
+
         DesignerWorkspaceInfo config = DesignerEnvManager.getEnvManager().getWorkspaceInfo(name);
         if (config != null) {
             switch (config.getType()) {
@@ -196,26 +204,26 @@ public class TemplatePane extends JPanel implements MouseListener {
                 }
             }
         }
-        
+
         envLabel.setText(name);
         envLabel.repaint();
     }
-    
+
     @Override
     public Dimension getPreferredSize() {
-        
+
         return new Dimension(250, HEIGHT);
     }
-    
+
     @Override
     public void paintComponent(Graphics g) {
-        
+
         super.paintComponent(g);
         paintBackgroundIcon(g);
     }
-    
+
     private void paintBackgroundIcon(Graphics g) {
-        
+
         int w = this.getWidth();
         int h = this.getHeight();
         Graphics2D g2d = (Graphics2D) g;
@@ -230,9 +238,9 @@ public class TemplatePane extends JPanel implements MouseListener {
         g2d.drawLine(w - 1, 2, w - 1, h - 1);
         Icon icon = !isExpanded ? leftIcon : rightIcon;
         icon.paintIcon(this, g2d, 4, 4);
-        
+
     }
-    
+
     /**
      * 鼠标点击
      *
@@ -240,9 +248,9 @@ public class TemplatePane extends JPanel implements MouseListener {
      */
     @Override
     public void mouseClicked(MouseEvent e) {
-    
+
     }
-    
+
     /**
      * 鼠标按下
      *
@@ -250,7 +258,7 @@ public class TemplatePane extends JPanel implements MouseListener {
      */
     @Override
     public void mousePressed(MouseEvent e) {
-        
+
         if (e.getX() < NUM200) {
             isExpanded = !isExpanded;
             TemplateTreePane.getInstance().setVisible(isExpanded);
@@ -258,7 +266,7 @@ public class TemplatePane extends JPanel implements MouseListener {
             DesignerEnvManager.getEnvManager().setTemplateTreePaneExpanded(isExpanded);
         }
     }
-    
+
     /**
      * 鼠标放开
      *
@@ -266,9 +274,9 @@ public class TemplatePane extends JPanel implements MouseListener {
      */
     @Override
     public void mouseReleased(MouseEvent e) {
-    
+
     }
-    
+
     /**
      * 鼠标进入
      *
@@ -276,9 +284,9 @@ public class TemplatePane extends JPanel implements MouseListener {
      */
     @Override
     public void mouseEntered(MouseEvent e) {
-    
+
     }
-    
+
     /**
      * 鼠标离开
      *
@@ -286,33 +294,33 @@ public class TemplatePane extends JPanel implements MouseListener {
      */
     @Override
     public void mouseExited(MouseEvent e) {
-    
+
     }
-    
+
     /**
      * 处理异常
      */
     public void dealEvnExceptionWhenStartDesigner() {
-        
+
         final EnvListPane envListPane = new EnvListPane();
         envListPane.populateEnvManager(envLabel.getText());
         BasicDialog envListDialog = envListPane.showWindow(SwingUtilities.getWindowAncestor(DesignerContext.getDesignerFrame()));
         envListDialog.addDialogActionListener(new DialogActionAdapter() {
-            
+
             public void doOk() {
-                
+
                 if (!envListOkAction(envListPane)) {
                     System.exit(0);
                 }
-                
+
             }
-            
+
             public void doCancel() {
-                
+
                 System.exit(0);
             }
         });
         envListDialog.setVisible(true);
     }
-    
+
 }

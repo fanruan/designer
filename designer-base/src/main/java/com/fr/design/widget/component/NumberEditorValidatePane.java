@@ -259,6 +259,14 @@ public class NumberEditorValidatePane extends JPanel {
 
         ob.setAllowNegative(allowNegativeCheckBox.isSelected());
 
+        if (setMinValueCheckBox.isSelected()) {
+            ob.setMinValue(minValueSpinner.getValue());
+        }
+
+        if (setMaxValueCheckBox.isSelected()) {
+            ob.setMaxValue(maxValueSpinner.getValue());
+        }
+
         if(setMinValueCheckBox.isSelected() || setMaxValueCheckBox.isSelected()){
             errorMsgTextFieldPane.setVisible(true);
         }else{
