@@ -12,10 +12,10 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.GeneralUtils;
 import com.fr.general.Inter;
+import com.fr.locale.InterProviderFactory;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StableUtils;
-import com.fr.stable.bridge.StableFactory;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.resource.WorkResourceOutputStream;
@@ -37,7 +37,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
-import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.Vector;
 
@@ -121,43 +120,26 @@ public class LocalePane extends BasicPane {
     }
 
     private void initPredefinedProperties() {
-
-        Map<Locale, String> supportLocaleMap = Inter.getSupportLocaleMap();
-
-        String[] localeFiles = StableFactory.getLocaleFiles();
-
-
-
+    
+        Map<Locale, String> supportLocaleMap = InterProviderFactory.getProvider().getSupportLocaleMap();
+    
+        Map<String, String> map;
         List<String> sortKeys = new ArrayList<String>();
-
-
-        for (String path : localeFiles) {
-            ResourceBundle chineseBundle = loadResourceBundle(path, Locale.SIMPLIFIED_CHINESE);
-            sortKeys.addAll(chineseBundle.keySet());
-        }
+    
+    
+        map = InterProviderFactory.getProvider().getLocalBundle(Locale.SIMPLIFIED_CHINESE).getMap();
+        sortKeys.addAll(map.keySet());
         Collections.sort(sortKeys);
-
-        Map<Locale, List<ResourceBundle>> localeResourceBundleMap = new HashMap<Locale, List<ResourceBundle>>();
-        for (Map.Entry<Locale, String> entry : supportLocaleMap.entrySet()) {
-            Locale locale = entry.getKey();
-            List<ResourceBundle> list = new ArrayList<>();
-            for (String path : localeFiles) {
-                ResourceBundle chineseBundle = loadResourceBundle(path, locale);
-                list.add(chineseBundle);
-            }
-            localeResourceBundleMap.put(locale, list);
-        }
-
+    
         Map<Locale, Vector<String>> data = new HashMap<Locale, Vector<String>>();
-        for (Map.Entry<Locale, List<ResourceBundle>> entry : localeResourceBundleMap.entrySet()) {
+        for (Locale locale : supportLocaleMap.keySet()) {
             Vector<String> column = new Vector<String>();
-            List<ResourceBundle> rbs = entry.getValue();
             for (String key : sortKeys) {
-                column.add(readText(rbs, key));
+                column.add(InterProviderFactory.getProvider().getLocText(key));
             }
-            data.put(entry.getKey(), column);
+            data.put(locale, column);
+        
         }
-
         Vector<String> keyVector = new Vector<String>();
         keyVector.addAll(sortKeys);
 
@@ -167,20 +149,7 @@ public class LocalePane extends BasicPane {
             predefineTableModel.addColumn(entry.getKey().getDisplayName(), entry.getValue());
         }
     }
-
-    private String readText(List<ResourceBundle> rbs, String key) {
-        for (ResourceBundle rb : rbs) {
-            if (rb.containsKey(key)) {
-                return rb.getString(key);
-            }
-        }
-        return null;
-    }
-
-    private ResourceBundle loadResourceBundle(String dir, Locale locale) {
-        return ResourceBundle.getBundle(dir, locale, Inter.class.getClassLoader());
-    }
-
+    
     private void initCustomProperties() throws Exception {
     
         FileNode[] fileNodes = FRContext.getFileNodes().list(ProjectConstants.LOCALE_NAME);
