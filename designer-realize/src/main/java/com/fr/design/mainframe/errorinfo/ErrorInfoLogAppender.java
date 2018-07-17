@@ -4,19 +4,19 @@ import com.fr.base.io.IOFile;
 import com.fr.base.io.XMLReadHelper;
 import com.fr.config.MarketConfig;
 import com.fr.design.DesignerEnvManager;
-import com.fr.general.FRLogManager;
+import com.fr.general.SessionLocalManager;
 import com.fr.general.Inter;
-import com.fr.general.LogDuration;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
+import com.fr.stable.web.SessionProvider;
 import com.fr.stable.xml.XMLPrintWriter;
 import com.fr.stable.xml.XMLableReader;
 import com.fr.third.apache.log4j.AppenderSkeleton;
 import com.fr.third.apache.log4j.Level;
 import com.fr.third.apache.log4j.spi.LoggingEvent;
-import com.fr.web.core.SessionDealWith;
-import com.fr.web.core.SessionIDInfor;
+import com.fr.web.core.SessionPoolManager;
+import com.fr.web.core.TemplateSessionIDInfo;
 import com.fr.workspace.WorkContext;
 
 import java.io.ByteArrayInputStream;
@@ -96,13 +96,13 @@ public class ErrorInfoLogAppender extends AppenderSkeleton {
     }
 
     private String readTemplateID() {
-        LogDuration logDuration = FRLogManager.getSession();
+        SessionProvider logDuration = SessionLocalManager.getSession();
         if (logDuration == null) {
             return StringUtils.EMPTY;
         }
 
         String sessionID = logDuration.getSessionID();
-        SessionIDInfor infor = SessionDealWith.getSessionIDInfor(sessionID);
+        TemplateSessionIDInfo infor = SessionPoolManager.getSessionIDInfor(sessionID, TemplateSessionIDInfo.class);
         if (infor == null) {
             return StringUtils.EMPTY;
         }
