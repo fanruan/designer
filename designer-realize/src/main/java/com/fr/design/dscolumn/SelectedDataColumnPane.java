@@ -88,6 +88,10 @@ public class SelectedDataColumnPane extends BasicPane {
 
     private static final Pattern COLUMN_NAME_PATTERN = Pattern.compile("[^\\d]");
 
+    //数据集和数据列上次的名称
+    private String oldDsName;
+    private String oldColumnName;
+
     /**
      * 数据集下拉框变动后修改数据列下拉框加载状态的监听器
      */
@@ -232,10 +236,19 @@ public class SelectedDataColumnPane extends BasicPane {
         DSColumn dsColumn = (DSColumn) value;
         String dsName = dsColumn.getDSName();
         tableNameComboBox.setSelectedTableDataByName(dsName);
-        columnNameComboBox.setSelectedItem(TableDataColumn.getColumnName(dsColumn.getColumn()));
+        //数据列名称
+        String dsColumnName = TableDataColumn.getColumnName(dsColumn.getColumn());
+        columnNameComboBox.setSelectedItem(dsColumnName);
         ps = dsColumn.getParameters();
 
         addListener();
+        //比较上一次的数据集名称和数据列，不一样的话需要加载
+        if(!StringUtils.equals(dsName,oldDsName) || !StringUtils.equals(dsColumnName,oldColumnName)){
+            columnNameComboBox.setLoaded(false);
+
+            oldDsName = dsName;
+            oldColumnName = dsColumnName;
+        }
     }
 
     /**
