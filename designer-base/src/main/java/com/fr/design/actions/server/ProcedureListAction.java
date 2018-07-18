@@ -1,7 +1,6 @@
 package com.fr.design.actions.server;
 
 import com.fr.base.BaseUtils;
-import com.fr.config.Configuration;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.data.DesignTableDataManager;
@@ -13,8 +12,9 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrame;
 import com.fr.file.ProcedureConfig;
 import com.fr.general.Inter;
+import com.fr.transaction.CallBackAdaptor;
 import com.fr.transaction.Configurations;
-import com.fr.transaction.Worker;
+import com.fr.transaction.WorkerFacade;
 
 import java.awt.event.ActionEvent;
 
@@ -44,20 +44,18 @@ public class ProcedureListAction extends UpdateAction {
         BasicDialog databaseListDialog = databaseManagerPane.showLargeWindow(designerFrame, null);
         databaseListDialog.addDialogActionListener(new DialogActionAdapter() {
             public void doOk() {
-                Configurations.update(new Worker() {
+                DesignTableDataManager.clearGlobalDs();
+                Configurations.modify(new WorkerFacade(ProcedureConfig.class) {
                     @Override
                     public void run() {
-                        DesignTableDataManager.clearGlobalDs();
                         databaseManagerPane.update(procedureConfig);
+                    }
+                }.addCallBack(new CallBackAdaptor() {
+                    @Override
+                    public void afterCommit() {
                         TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter());
                     }
-
-                    @Override
-                    public Class<? extends Configuration>[] targets() {
-                        return new Class[]{ProcedureConfig.class};
-                    }
-                });
-
+                }));
             }
         });
         databaseListDialog.setVisible(true);
