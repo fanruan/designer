@@ -1,7 +1,5 @@
 package com.fr.design.data.datapane.connect;
 
-import com.fr.base.FRContext;
-import com.fr.config.Configuration;
 import com.fr.data.impl.AbstractDatabaseConnection;
 import com.fr.data.impl.Connection;
 import com.fr.data.impl.NameDatabaseConnection;
@@ -13,11 +11,12 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.file.ConnectionConfig;
 import com.fr.general.ComparatorUtils;
 import com.fr.stable.StringUtils;
+import com.fr.transaction.CallBackAdaptor;
 import com.fr.transaction.Configurations;
-import com.fr.transaction.Worker;
+import com.fr.transaction.WorkerFacade;
 import com.fr.workspace.WorkContext;
 
-import javax.swing.*;
+import javax.swing.SwingUtilities;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
@@ -100,22 +99,24 @@ public class ConnectionComboBoxPanel extends ItemEditableComboBoxPanel {
                     connectionListDialog.setDoOKSucceed(false);
                     return;
                 }
-                Configurations.update(new Worker() {
+
+                Configurations.modify(new WorkerFacade(ConnectionConfig.class) {
                     @Override
                     public void run() {
-                        if (!ConnectionListAction.doWithDatasourceManager(connectionConfig, connectionListPane,
-                                connectionListDialog)) {
-                            //如果更新失败，则不关闭对话框，也不写xml文件，并且将对话框定位在请重命名的那个对象页面
-                            return;
-                        }
-                        DesignerContext.getDesignerBean("databasename").refreshBeanElement();
+                        connectionListPane.update(connectionConfig);
+                    }
+                }.addCallBack(new CallBackAdaptor() {
+                    @Override
+                    public boolean beforeCommit() {
+                        //如果更新失败，则不关闭对话框，也不写xml文件，并且将对话框定位在请重命名的那个对象页面
+                        return ConnectionListAction.doWithDatasourceManager(connectionConfig, connectionListPane, connectionListDialog);
                     }
 
                     @Override
-                    public Class<? extends Configuration>[] targets() {
-                        return new Class[]{ConnectionConfig.class};
+                    public void afterCommit() {
+                        DesignerContext.getDesignerBean("databasename").refreshBeanElement();
                     }
-                });
+                }));
 
             }
         });

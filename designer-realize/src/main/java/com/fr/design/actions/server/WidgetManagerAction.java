@@ -1,7 +1,6 @@
 package com.fr.design.actions.server;
 
 import com.fr.base.BaseUtils;
-import com.fr.config.Configuration;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.dialog.BasicDialog;
@@ -12,10 +11,11 @@ import com.fr.design.menu.MenuKeySet;
 import com.fr.design.webattr.WidgetManagerPane;
 import com.fr.form.ui.WidgetInfoConfig;
 import com.fr.general.Inter;
+import com.fr.transaction.CallBackAdaptor;
 import com.fr.transaction.Configurations;
-import com.fr.transaction.Worker;
+import com.fr.transaction.WorkerFacade;
 
-import javax.swing.*;
+import javax.swing.KeyStroke;
 import java.awt.event.ActionEvent;
 
 public class WidgetManagerAction extends UpdateAction {
@@ -45,22 +45,22 @@ public class WidgetManagerAction extends UpdateAction {
         BasicDialog widgetConfigDialog = widgetManagerPane.showLargeWindow(designerFrame, new DialogActionAdapter() {
             @Override
             public void doOk() {
-                Configurations.update(new Worker() {
+
+                Configurations.modify(new WorkerFacade(WidgetInfoConfig.class) {
                     @Override
                     public void run() {
                         widgetManagerPane.update(widgetManager);
+                    }
+                }.addCallBack(new CallBackAdaptor() {
+                    @Override
+                    public void afterCommit() {
                         DesignModelAdapter model = DesignModelAdapter.getCurrentModelAdapter();
                         if (model != null) {
                             model.widgetConfigChanged();
                         }
                         designerFrame.getSelectedJTemplate().refreshToolArea();
                     }
-
-                    @Override
-                    public Class<? extends Configuration>[] targets() {
-                        return new Class[]{WidgetInfoConfig.class};
-                    }
-                });
+                }));
             }
         });
 
