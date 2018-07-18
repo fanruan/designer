@@ -48,7 +48,6 @@ import com.fr.design.mainframe.form.FormECDesignerProvider;
 import com.fr.design.mainframe.form.FormElementCaseDesigner;
 import com.fr.design.mainframe.form.FormReportComponentComposite;
 import com.fr.design.mainframe.loghandler.DesignerLogAppender;
-import com.fr.design.mainframe.loghandler.DesignerLogImpl;
 import com.fr.design.mainframe.loghandler.LogMessageBar;
 import com.fr.design.mainframe.socketio.DesignerSocketIO;
 import com.fr.design.module.DesignModuleFactory;
@@ -91,7 +90,6 @@ import com.fr.report.cell.painter.CellImagePainter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.ParameterProvider;
 import com.fr.stable.bridge.StableFactory;
-import com.fr.stable.fun.LogProvider;
 import com.fr.stable.plugin.ExtraDesignClassManagerProvider;
 import com.fr.stable.script.CalculatorProviderContext;
 import com.fr.stable.script.ValueConverter;
@@ -100,7 +98,7 @@ import com.fr.stable.xml.ObjectXMLWriterFinder;
 import com.fr.start.BBSGuestPaneProvider;
 import com.fr.xml.ReportXMLUtils;
 
-import java.awt.Image;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -165,7 +163,6 @@ public class DesignerActivator extends Activator implements Prepare {
         InformationCollector.getInstance().collectStartTime();
 
         ExtraDesignClassManager.getInstance().getFeedback().didFeedback();
-        StableFactory.registerMarkedObject(LogProvider.MARK_STRING, DesignerLogImpl.getInstance());
     }
 
     private static void preLoadPane() {
