@@ -14,6 +14,8 @@ import org.apache.catalina.Context;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.Wrapper;
 
+import org.apache.catalina.deploy.FilterDef;
+import org.apache.catalina.deploy.FilterMap;
 import org.apache.catalina.loader.WebappLoader;
 import org.apache.catalina.startup.Tomcat;
 
@@ -62,6 +64,10 @@ public class FineEmbedServerActivator extends Activator {
         String docBase = new File(WorkContext.getCurrent().getPath()).getParent();
         String appName = "/" + FRContext.getCommonOperator().getAppName();
         Context context = tomcat.addContext(appName, docBase);
+
+        //添加过滤器
+        addFilter(context);
+
         addDefaultServlet(context);
         //覆盖tomcat的WebAppClassLoader
         context.setLoader(new FRTomcatLoader());
@@ -71,6 +77,22 @@ public class FineEmbedServerActivator extends Activator {
         Set<Class<?>> classes = new HashSet<Class<?>>();
         classes.add(FineWebApplicationInitializer.class);
         context.addServletContainerInitializer(initializer, classes);
+    }
+
+    private void addFilter(Context context){
+            FilterDef filterDef = new FilterDef();
+            filterDef.setFilterName("Forbidden");
+            filterDef.setFilterClass("com.fr.start.server.ForbidType");
+
+            FilterMap filterMap = new FilterMap();
+            filterMap.setFilterName("Forbidden");
+            //指定过滤文件类型
+            filterMap.addURLPattern("*.txt");
+            filterMap.addURLPattern("*.xml");
+            filterMap.addURLPattern("*.jar");
+
+            context.addFilterDef(filterDef);
+            context.addFilterMap(filterMap);
     }
     
     private void addDefaultServlet(Context context) {
