@@ -5,7 +5,6 @@ package com.fr.design.actions.server;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.ParameterConfig;
-import com.fr.config.Configuration;
 import com.fr.config.ServerPreferenceConfig;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.actions.UpdateAction;
@@ -16,10 +15,11 @@ import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.design.parameter.ParameterManagerPane;
 import com.fr.general.Inter;
+import com.fr.transaction.CallBackAdaptor;
 import com.fr.transaction.Configurations;
-import com.fr.transaction.Worker;
+import com.fr.transaction.WorkerFacade;
 
-import javax.swing.*;
+import javax.swing.KeyStroke;
 import java.awt.event.ActionEvent;
 
 
@@ -49,23 +49,21 @@ public class GlobalParameterAction extends UpdateAction {
         parameterManagerPane.populate(ParameterConfig.getInstance().getGlobalParameters());
         parameterManagerDialog.addDialogActionListener(new DialogActionAdapter() {
             public void doOk() {
-                Configurations.update(new Worker() {
+                Configurations.modify(new WorkerFacade(ServerPreferenceConfig.class) {
                     @Override
                     public void run() {
-                        //apply new parameter list.
                         parameterManagerPane.update();
+                    }
+                }.addCallBack(new CallBackAdaptor() {
+                    @Override
+                    public void afterCommit() {
                         DesignModelAdapter<?, ?> model = DesignModelAdapter.getCurrentModelAdapter();
                         if (model != null) {
                             model.parameterChanged();
                         }
                         parameterManagerDialog.setDoOKSucceed(!parameterManagerPane.isContainsRename());
                     }
-
-                    @Override
-                    public Class<? extends Configuration>[] targets() {
-                        return new Class[]{ServerPreferenceConfig.class};
-                    }
-                });
+                }));
 
             }
         });

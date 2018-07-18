@@ -173,7 +173,7 @@ public class WebJsPane extends BasicPane {
 				if (!"js".equalsIgnoreCase(fileType)) {
 					return;
 				}
-                localText.setText(file.getPath().substring(1));
+				localText.setText(file.getPath());
                 editingPane.setAddEnabled(true);
 			}
 

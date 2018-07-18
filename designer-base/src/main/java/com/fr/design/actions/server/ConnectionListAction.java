@@ -1,7 +1,6 @@
 package com.fr.design.actions.server;
 
 
-import com.fr.config.Configuration;
 import com.fr.data.impl.Connection;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.data.datapane.connect.ConnectionManagerPane;
@@ -16,10 +15,11 @@ import com.fr.file.ConnectionConfig;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.locale.InterProviderFactory;
+import com.fr.transaction.CallBackAdaptor;
 import com.fr.transaction.Configurations;
-import com.fr.transaction.Worker;
+import com.fr.transaction.WorkerFacade;
 
-import javax.swing.*;
+import javax.swing.KeyStroke;
 import java.awt.event.ActionEvent;
 import java.util.Map;
 
@@ -74,26 +74,27 @@ public class ConnectionListAction extends UpdateAction {
         final BasicDialog databaseListDialog = databaseManagerPane.showLargeWindow(designerFrame, null);
         databaseListDialog.addDialogActionListener(new DialogActionAdapter() {
             public void doOk() {
-                Configurations.update(new Worker() {
+                if (!databaseManagerPane.isNamePermitted()) {
+                    databaseListDialog.setDoOKSucceed(false);
+                    return;
+                }
+                Configurations.modify(new WorkerFacade(ConnectionConfig.class) {
                     @Override
                     public void run() {
-                        if (!databaseManagerPane.isNamePermitted()) {
-                            databaseListDialog.setDoOKSucceed(false);
-                            return;
-                        }
-                        if (!doWithDatasourceManager(datasourceManager, databaseManagerPane, databaseListDialog)) {
-                            //如果更新失败，则不关闭对话框，也不写xml文件，并且将对话框定位在请重命名的那个对象页面
-                            return;
-                        }
-                        DesignerContext.getDesignerBean("databasename").refreshBeanElement();
+                        databaseManagerPane.update(datasourceManager);
+                    }
+                }.addCallBack(new CallBackAdaptor() {
+                    @Override
+                    public boolean beforeCommit() {
+                        //如果更新失败，则不关闭对话框，也不写xml文件，并且将对话框定位在请重命名的那个对象页面
+                        return doWithDatasourceManager(datasourceManager, databaseManagerPane, databaseListDialog);
                     }
 
                     @Override
-                    public Class<? extends Configuration>[] targets() {
-                        return new Class[]{ConnectionConfig.class};
+                    public void afterCommit() {
+                        DesignerContext.getDesignerBean("databasename").refreshBeanElement();
                     }
-                });
-
+                }));
             }
         });
         databaseListDialog.setVisible(true);
@@ -109,7 +110,6 @@ public class ConnectionListAction extends UpdateAction {
      * @return boolean 是否更新成功
      */
     public static boolean doWithDatasourceManager(ConnectionConfig datasourceManager, ConnectionShowPane connectionShowPane, BasicDialog databaseListDialog) {
-        connectionShowPane.update(datasourceManager);
         boolean isFailed = false;
         //存在请重命名则不能更新
         int index = isConnectionMapContainsRename(datasourceManager);

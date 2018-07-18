@@ -85,7 +85,7 @@ public class WebCssPane extends BasicPane {
 				if (!"css".equalsIgnoreCase(fileType)) {
 					return;
 				}
-				localText.setText(file.getPath().substring(1));
+				localText.setText(file.getPath());
 				centerPane.setAddEnabled(true);
 			}
 

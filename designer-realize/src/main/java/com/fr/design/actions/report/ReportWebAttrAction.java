@@ -3,7 +3,6 @@
  */
 package com.fr.design.actions.report;
 
-import com.fr.config.Configuration;
 import com.fr.design.actions.JWorkBookAction;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
@@ -13,8 +12,9 @@ import com.fr.design.menu.KeySetUtils;
 import com.fr.design.webattr.ReportWebAttrPane;
 import com.fr.general.IOUtils;
 import com.fr.main.TemplateWorkBook;
+import com.fr.transaction.CallBackAdaptor;
 import com.fr.transaction.Configurations;
-import com.fr.transaction.Worker;
+import com.fr.transaction.WorkerFacade;
 import com.fr.web.attr.ReportWebAttr;
 
 import java.awt.event.ActionEvent;
@@ -56,19 +56,17 @@ public class ReportWebAttrAction extends JWorkBookAction {
 		dialog.addDialogActionListener(new DialogActionAdapter() {
 			@Override
 			public void doOk() {
-				Configurations.update(new Worker() {
+				Configurations.modify(new WorkerFacade(ReportWebAttr.class) {
 					@Override
 					public void run() {
 						wbTpl.setReportWebAttr(reportWebAttrPane.update());
+					}
+				}.addCallBack(new CallBackAdaptor() {
+					@Override
+					public void afterCommit() {
 						jwb.fireTargetModified();
 					}
-
-					@Override
-					public Class<? extends Configuration>[] targets() {
-						return new Class[]{ReportWebAttr.class};
-					}
-				});
-
+				}));
 			}
 		});
 
