@@ -29,6 +29,7 @@ import java.net.URL;
 public class DesignerSocketIO {
 
     private static Optional<Socket> socketIO = Optional.absent();
+    public static final String CLIENT_CLOSE = "io client disconnect";
 
     private static final Emitter.Listener printLog = new Emitter.Listener() {
         @Override
@@ -71,8 +72,10 @@ public class DesignerSocketIO {
             socketIO.get().on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
                 @Override
                 public void call(Object... objects) {
-                    JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText(new String[]{"Fine-Designer_Basic_Remote_Disconnected"}),
-                            null, 0, UIManager.getIcon("OptionPane.errorIcon"));
+                    if (!CLIENT_CLOSE.equals(objects[0].toString())) {
+                        JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText(new String[]{"Fine-Designer_Basic_Remote_Disconnected"}),
+                                null, 0, UIManager.getIcon("OptionPane.errorIcon"));
+                    }
                 }
             });
             socketIO.get().connect();
