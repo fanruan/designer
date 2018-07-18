@@ -1,14 +1,16 @@
 package com.fr.start.module;
 
 
+import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.event.Event;
 import com.fr.event.Listener;
+import com.fr.general.ComparatorUtils;
 import com.fr.module.Activator;
 import com.fr.record.analyzer.EnableMetrics;
 import com.fr.record.analyzer.Metrics;
 import com.fr.start.Designer;
-import com.fr.start.EnvSwitcher;
+import com.fr.start.ServerStarter;
 import com.fr.start.SplashContext;
 import com.fr.startup.activators.BasicActivator;
 import com.fr.workspace.Workspace;
@@ -32,13 +34,19 @@ public class DesignerStartup extends Activator {
         final String[] args = getModule().upFindSingleton(StartupArgs.class).get();
         final Designer designer = new Designer(args);
 
-        EnvSwitcher switcher = new EnvSwitcher();
-        //设置好环境即可，具体跟环境有关的模块会自动调用
-        switcher.switch2LastEnv();
-        getRoot().setSingleton(EnvSwitcher.class, switcher);
+        startSub(DesignerWorkspaceProvider.class);
         //启动env
         startSub(EnvBasedModule.class);
-        startSub(DesignerWorkspaceProvider.class);
+
+        if (args != null) {
+            for (String arg : args) {
+                if (ComparatorUtils.equals(arg, "demo")) {
+                    DesignerEnvManager.getEnvManager().setCurrentEnv2Default();
+                    ServerStarter.browserDemoURL();
+                    break;
+                }
+            }
+        }
         ExecutorService service = Executors.newSingleThreadExecutor();
         registerEnvListener();
         service.submit(new Runnable() {

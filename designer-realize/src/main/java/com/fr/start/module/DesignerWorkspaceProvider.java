@@ -1,10 +1,9 @@
 package com.fr.start.module;
 
 import com.fr.design.DesignerEnvManager;
-import com.fr.general.ComparatorUtils;
+
 import com.fr.module.Activator;
 import com.fr.start.EnvSwitcher;
-import com.fr.start.ServerStarter;
 
 /**
  * Created by juhaoyu on 2018/1/8.
@@ -16,17 +15,11 @@ public class DesignerWorkspaceProvider extends Activator {
     public void start() {
         //检查环境
         DesignerEnvManager.checkNameEnvMap();
-        
-        String[] args = getModule().upFindSingleton(StartupArgs.class).get();
-        if (args != null) {
-            for (String arg : args) {
-                if (ComparatorUtils.equals(arg, "demo")) {
-                    DesignerEnvManager.getEnvManager().setCurrentEnv2Default();
-                    ServerStarter.browserDemoURL();
-                    break;
-                }
-            }
-        }
+
+        EnvSwitcher switcher = new EnvSwitcher();
+        //设置好环境即可，具体跟环境有关的模块会自动调用
+        switcher.switch2LastEnv();
+        getRoot().setSingleton(EnvSwitcher.class, switcher);
     }
 
 
