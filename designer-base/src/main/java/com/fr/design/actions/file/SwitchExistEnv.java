@@ -114,10 +114,10 @@ public class SwitchExistEnv extends MenuDef {
                     return;
                 }
                 WorkContext.switchTo(workspace, new WorkContextCallback() {
-        
+
                     @Override
                     public void done() {
-            
+
                         DesignerEnvManager.getEnvManager().setCurEnvName(envName);
                         DesignUtils.refreshDesignerFrame();
                         HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().refreshToolArea();

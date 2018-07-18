@@ -27,7 +27,14 @@ import java.net.URL;
 
 public class DesignerSocketIO {
 
+    enum Status {
+        Connected,
+        Disconnected,
+        Disconnecting
+    }
+
     private static Optional<Socket> socketIO = Optional.absent();
+    public static Status status = Status.Disconnected;
 
     private static final Emitter.Listener printLog = new Emitter.Listener() {
         @Override
@@ -45,8 +52,10 @@ public class DesignerSocketIO {
 
     public static void close() {
         if (socketIO.isPresent()) {
+            status = Status.Disconnecting;
             socketIO.get().close();
             socketIO = Optional.absent();
+            status = Status.Disconnected;
         }
     }
 
@@ -70,11 +79,15 @@ public class DesignerSocketIO {
             socketIO.get().on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
                 @Override
                 public void call(Object... objects) {
-                    JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText(new String[]{"Fine-Designer_Basic_Remote_Disconnected"}),
-                            null, 0, UIManager.getIcon("OptionPane.errorIcon"));
+                    if (status != Status.Disconnecting) {
+                        JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText(new String[]{"Fine-Designer_Basic_Remote_Disconnected"}),
+                                null, 0, UIManager.getIcon("OptionPane.errorIcon"));
+                        status = Status.Disconnected;
+                    }
                 }
             });
             socketIO.get().connect();
+            status = Status.Connected;
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
