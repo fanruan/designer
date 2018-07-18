@@ -21,10 +21,12 @@ import com.fr.file.ProcedureConfig;
 import com.fr.file.TableDataConfig;
 import com.fr.general.Inter;
 import com.fr.locale.InterProviderFactory;
+import com.fr.transaction.CallBackAdaptor;
 import com.fr.transaction.Configurations;
 import com.fr.transaction.Worker;
+import com.fr.transaction.WorkerFacade;
 
-import javax.swing.*;
+import javax.swing.KeyStroke;
 import java.awt.event.ActionEvent;
 import java.util.HashMap;
 import java.util.Map;
@@ -92,33 +94,35 @@ public class GlobalTableDataAction extends UpdateAction implements ResponseDataS
 
         globalTableDataDialog.addDialogActionListener(new DialogActionAdapter() {
 
+
             @Override
             public void doOk() {
-                Configurations.update(new Worker() {
+                if (!globalTableDataPane.isNamePermitted()) {
+                    globalTableDataDialog.setDoOKSucceed(false);
+                    return;
+                }
+
+                DesignTableDataManager.clearGlobalDs();
+
+                Configurations.modify(new WorkerFacade(TableDataConfig.class) {
                     @Override
                     public void run() {
-                        if (!globalTableDataPane.isNamePermitted()) {
-                            globalTableDataDialog.setDoOKSucceed(false);
-                            return;
-                        }
-
-                        DesignTableDataManager.clearGlobalDs();
                         globalTableDataPane.update(tableDataConfig);
-                        if (!doWithDatasourceManager(tableDataConfig, globalTableDataPane, globalTableDataDialog)) {
-                            //如果更新失败，则不关闭对话框，也不写xml文件，并且将对话框定位在请重命名的那个对象页面
-                            return;
-                        }
+                    }
+                }.addCallBack(new CallBackAdaptor() {
+                    @Override
+                    public boolean beforeCommit() {
+                        //如果更新失败，则不关闭对话框，也不写xml文件，并且将对话框定位在请重命名的那个对象页面
+                        return doWithDatasourceManager(tableDataConfig, globalTableDataPane, globalTableDataDialog);
+                    }
+
+                    @Override
+                    public void afterCommit() {
                         // 刷新共有数据集
                         TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter());
                         fireDSChanged(globalTableDataPane.getDsChangedNameMap());
                     }
-
-                    @Override
-                    public Class<? extends Configuration>[] targets() {
-                        return new Class[]{TableDataConfig.class};
-                    }
-                });
-
+                }));
             }
         });
         globalTableDataDialog.setVisible(true);
