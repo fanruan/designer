@@ -55,7 +55,6 @@ public class DesignerSocketIO {
             status = Status.Disconnecting;
             socketIO.get().close();
             socketIO = Optional.absent();
-            status = Status.Disconnected;
         }
     }
 
@@ -82,8 +81,8 @@ public class DesignerSocketIO {
                     if (status != Status.Disconnecting) {
                         JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText(new String[]{"Fine-Designer_Basic_Remote_Disconnected"}),
                                 null, 0, UIManager.getIcon("OptionPane.errorIcon"));
-                        status = Status.Disconnected;
                     }
+                    status = Status.Disconnected;
                 }
             });
             socketIO.get().connect();
