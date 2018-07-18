@@ -88,6 +88,7 @@ public class SelectedDataColumnPane extends BasicPane {
 
     private static final Pattern COLUMN_NAME_PATTERN = Pattern.compile("[^\\d]");
 
+
     /**
      * 数据集下拉框变动后修改数据列下拉框加载状态的监听器
      */
@@ -236,6 +237,8 @@ public class SelectedDataColumnPane extends BasicPane {
         ps = dsColumn.getParameters();
 
         addListener();
+        //重新设置需要加载
+        columnNameComboBox.setLoaded(false);
     }
 
     /**
