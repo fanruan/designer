@@ -31,10 +31,13 @@ public class DesignerStartup extends Activator {
         startSub(BasicActivator.class);
         final String[] args = getModule().upFindSingleton(StartupArgs.class).get();
         final Designer designer = new Designer(args);
-        //启动env
-        startSub(DesignerWorkspaceProvider.class);
-        startSub(EnvBasedModule.class);
+
+        getRoot().setSingleton(EnvSwitcher.class, new EnvSwitcher());
+        //设置好环境即可，具体跟环境有关的模块会自动调用
         getRoot().getSingleton(EnvSwitcher.class).switch2LastEnv();
+        //启动env
+        startSub(EnvBasedModule.class);
+        startSub(DesignerWorkspaceProvider.class);
         ExecutorService service = Executors.newSingleThreadExecutor();
         registerEnvListener();
         service.submit(new Runnable() {
