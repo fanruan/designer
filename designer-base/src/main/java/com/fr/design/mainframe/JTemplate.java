@@ -49,6 +49,7 @@ import com.fr.log.FineLoggerFactory;
 import com.fr.report.cell.Elem;
 import com.fr.report.cell.cellattr.CellImage;
 import com.fr.stable.ArrayUtils;
+import com.fr.stable.OperatingSystem;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
 import com.fr.stable.core.UUID;
@@ -199,7 +200,12 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
     }
 
     public String getPath() {
-        return getEditingFILE().getPath();
+        String editingFileName = getEditingFILE().getPath();
+        if (OperatingSystem.isWindows()) {
+            return editingFileName.replaceAll("/", "\\\\");
+        } else {
+            return editingFileName.replaceAll("\\\\", "/");
+        }
     }
 
     protected abstract JComponent createCenterPane();
