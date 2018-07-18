@@ -20,6 +20,7 @@ import com.fr.stable.EnvChangedListener;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.WorkContextCallback;
 import com.fr.workspace.Workspace;
+import com.fr.workspace.connect.AuthException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -135,9 +136,8 @@ public class TemplatePane extends JPanel implements MouseListener {
         try {
             Workspace workspace = DesignerWorkspaceGenerator.generate(selectedEnv);
             if (workspace == null) {
-                JOptionPane.showMessageDialog(
-                    DesignerContext.getDesignerFrame(),
-                    Inter.getLocText(new String[]{"FR-Designer_M-SwitchWorkspace", "Failed"}));
+                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText(new String[]{"FR-Designer_M-SwitchWorkspace", "Failed"}),
+                        null, 0, UIManager.getIcon("OptionPane.errorIcon"));
                 return false;
             }
             WorkContext.switchTo(workspace, new WorkContextCallback() {
@@ -152,8 +152,8 @@ public class TemplatePane extends JPanel implements MouseListener {
                 template.refreshToolArea();
             }
             setJLabel(selectedName);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText(new String[]{"M-SwitchWorkspace", "Failed"}),
+        } catch (AuthException e) {
+            JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText(new String[]{"Fine-Designer_Basic_Remote_Connect_Auth_Failed", "Failed"}),
                     null, 0, UIManager.getIcon("OptionPane.errorIcon"));
             return false;
         }
