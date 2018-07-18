@@ -1009,13 +1009,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
      */
     private void activeTemplate(FILE tplFile, JTemplate jt) {
         // 如果该模板已经打开，则进行激活就可以了
-        String fullName = StableUtils.pathJoin(new String[]{ProjectConstants.REPORTLETS_NAME, tplFile.getName()});
-        // 如果是从文件夹打开的文件，不是从设计器文件树打开的文件，则直接取path就行
-        if (tplFile instanceof FileFILE) {
-            fullName = tplFile.getPath();
-        }
-        fullName = OperatingSystem.isWindows() ? fullName.replaceAll("/", "\\\\") : fullName.replaceAll("\\\\", "/");
-        int index = HistoryTemplateListPane.getInstance().contains(fullName);
+        int index = HistoryTemplateListPane.getInstance().contains(tplFile.getPath());
         List<JTemplate<?, ?>> historyList = HistoryTemplateListPane.getInstance().getHistoryList();
         if (index != -1) {
             historyList.get(index).activeJTemplate(index, jt);

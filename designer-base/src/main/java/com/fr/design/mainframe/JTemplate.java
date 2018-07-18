@@ -200,12 +200,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
     }
 
     public String getPath() {
-        String editingFileName = getEditingFILE().getPath();
-        if (OperatingSystem.isWindows()) {
-            return editingFileName.replaceAll("/", "\\\\");
-        } else {
-            return editingFileName.replaceAll("\\\\", "/");
-        }
+        return getEditingFILE().getPath();
     }
 
     protected abstract JComponent createCenterPane();
