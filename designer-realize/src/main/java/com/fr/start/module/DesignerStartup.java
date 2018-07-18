@@ -32,9 +32,10 @@ public class DesignerStartup extends Activator {
         final String[] args = getModule().upFindSingleton(StartupArgs.class).get();
         final Designer designer = new Designer(args);
 
-        getRoot().setSingleton(EnvSwitcher.class, new EnvSwitcher());
+        EnvSwitcher switcher = new EnvSwitcher();
         //设置好环境即可，具体跟环境有关的模块会自动调用
-        getRoot().getSingleton(EnvSwitcher.class).switch2LastEnv();
+        switcher.switch2LastEnv();
+        getRoot().setSingleton(EnvSwitcher.class, switcher);
         //启动env
         startSub(EnvBasedModule.class);
         startSub(DesignerWorkspaceProvider.class);
