@@ -1,10 +1,11 @@
 package com.fr.design.mainframe.chart.gui.style;
 
+import com.fr.base.ChartColorMatching;
 import com.fr.base.ChartPreStyleConfig;
 import com.fr.base.Utils;
 import com.fr.chart.base.AttrFillStyle;
 import com.fr.chart.base.ChartConstants;
-import com.fr.chart.base.ChartPreStyle;
+import com.fr.chart.base.ChartUtils;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icombobox.UIComboBox;
@@ -199,9 +200,9 @@ public class ChartFillStylePane extends BasicBeanPane<AttrFillStyle>{
 		} else if(styleSelectBox.getSelectedIndex() < styleSelectBox.getItemCount() - 1){
 			ChartPreStyleConfig manager = ChartPreStyleConfig.getInstance();
 			Object preStyle = manager.getPreStyle(styleSelectBox.getSelectedItem());
-			if(preStyle instanceof ChartPreStyle) {
-                AttrFillStyle def = ((ChartPreStyle) preStyle).getAttrFillStyle();
-                def.setFillStyleName(Utils.objectToString(styleSelectBox.getSelectedItem()));
+			if (preStyle instanceof ChartColorMatching) {
+				AttrFillStyle def = ChartUtils.chartColorMatching2AttrFillStyle((ChartColorMatching) preStyle);
+				def.setFillStyleName(Utils.objectToString(styleSelectBox.getSelectedItem()));
                 return def;
             }else{
                 condition.setColorStyle(ChartConstants.COLOR_DEFAULT);

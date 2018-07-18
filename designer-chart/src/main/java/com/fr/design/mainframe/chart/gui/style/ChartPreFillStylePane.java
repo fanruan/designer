@@ -1,97 +1,170 @@
 package com.fr.design.mainframe.chart.gui.style;
 
-import java.awt.*;
-
-import com.fr.chart.base.AttrFillStyle;
+import com.fr.base.ChartColorMatching;
 import com.fr.chart.base.ChartConstants;
+import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.style.background.gradient.FixedGradientBar;
 import com.fr.general.Inter;
 
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+
 /**
- * 预定义的图表配色界面, 其中和属性表中ChartFillStylePane 主要的不同就是标签的位置.
+ * 预定义的图表配色界面.
  * @author kunsnat E-mail:kunsnat@gmail.com
  * @version 创建时间：2013-8-21 下午03:16:27
  */
-public class ChartPreFillStylePane extends ChartFillStylePane {
-	
-	public ChartPreFillStylePane() {
-		
-	}
-	
-	protected void initLayout() {// 仅仅是服务器预定 风格界面布局, 和属性表 有所不同.
-		customPane.setPreferredSize(new Dimension(200, 200));
-		colorGradient.setPreferredSize(new Dimension(120, 30));
-		
-		double p = TableLayout.PREFERRED;
-		double[] columnSize = {p, p };
-		double[] rowSize = { p, p, p};
+public class ChartPreFillStylePane extends BasicBeanPane<ChartColorMatching> {
+
+    private JPanel changeColorSetPane;
+    private CardLayout cardLayout;
+
+    private UIButton accButton;
+    private UIButton gradientButton;
+
+    private ChartAccColorPane colorAcc;
+    private FixedGradientBar colorGradient;
+
+    private ChartColorMatching chartColorMatching;
+
+    public ChartPreFillStylePane() {
+
+        initComponents();
+
+        initListener();
+    }
+
+    private void initComponents() {
+
+        JPanel customPane = new JPanel(FRGUIPaneFactory.createBorderLayout());
+
+        JPanel buttonPane = new JPanel();
+        buttonPane.setLayout(new FlowLayout(FlowLayout.LEFT));
+        buttonPane.add(accButton = new UIButton(Inter.getLocText("FR-Designer_Chart_Acc_Set")));
+        buttonPane.add(gradientButton = new UIButton(Inter.getLocText("FR-Designer_Gradient-Color")));
+        customPane.add(buttonPane, BorderLayout.NORTH);
+
+        changeColorSetPane = new JPanel(cardLayout = new CardLayout());
+        changeColorSetPane.add(colorGradient = new FixedGradientBar(4, 130), "gradient");
+        changeColorSetPane.add(colorAcc = new ChartAccColorPane(), "acc");
+        cardLayout.show(changeColorSetPane, "acc");
+        customPane.add(changeColorSetPane, BorderLayout.CENTER);
+
+        accButton.setSelected(true);
+
+        customPane.setPreferredSize(new Dimension(200, 200));
+        colorGradient.setPreferredSize(new Dimension(120, 30));
+
+        double p = TableLayout.PREFERRED;
+        double[] columnSize = {p, p};
+        double[] rowSize = {p, p, p};
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(" " + Inter.getLocText("ColorMatch")), null},
                 new Component[]{null, customPane},
         };
-        
+
+        this.setLayout(new BorderLayout());
         this.add(TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize), BorderLayout.WEST);
-	}
+    }
 
-    public void populateBean(AttrFillStyle condition) {
-        styleSelectBox.setSelectedIndex(styleSelectBox.getItemCount()-1);
+    private void initListener() {
 
-        if(condition == null || condition.getColorStyle() == ChartConstants.COLOR_DEFAULT) {
-            colorAcc.populateBean(ChartConstants.CHART_COLOR_ARRAY);// 新建时 保持默认样式
+        accButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                accButton.setSelected(true);
+                gradientButton.setSelected(false);
+                cardLayout.show(changeColorSetPane, "acc");
+            }
+        });
+
+        gradientButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gradientButton.setSelected(true);
+                accButton.setSelected(false);
+                cardLayout.show(changeColorSetPane, "gradient");
+            }
+        });
+    }
+
+    @Override
+    protected String title4PopupWindow() {
+        return Inter.getLocText("ServerM-Predefined_Styles");
+    }
+
+    public void populateBean(ChartColorMatching condition) {
+        chartColorMatching = condition;
+
+        colorGradient.getSelectColorPointBtnP1().setColorInner(Color.WHITE);
+        colorGradient.getSelectColorPointBtnP2().setColorInner(Color.black);
+        colorAcc.populateBean(ChartConstants.CHART_COLOR_ARRAY);
+
+        if (condition == null) {
+            return;
+        }
+
+        boolean isGradient = condition.getGradient();
+        List<Color> colorList = condition.getColorList();
+        if (isGradient) {
+            gradientButton.setSelected(true);
+            accButton.setSelected(false);
+            cardLayout.show(changeColorSetPane, "gradient");
+
+            if (colorList.size() == 2) {
+                colorGradient.getSelectColorPointBtnP1().setColorInner(colorList.get(0));
+                colorGradient.getSelectColorPointBtnP2().setColorInner(colorList.get(1));
+                colorGradient.repaint();
+            }
+        } else {
             accButton.setSelected(true);
             gradientButton.setSelected(false);
             cardLayout.show(changeColorSetPane, "acc");
 
-            colorGradient.getSelectColorPointBtnP1().setColorInner(Color.WHITE);
-            colorGradient.getSelectColorPointBtnP2().setColorInner(Color.black);// 控件中的位置无效.
-        } else {
-            int colorStyle = condition.getColorStyle();
-            gradientButton.setSelected(colorStyle == ChartConstants.COLOR_GRADIENT);
-            accButton.setSelected(colorStyle == ChartConstants.COLOR_ACC);
-
-            int colorSize = condition.getColorSize();
-            if(colorSize == 2 && gradientButton.isSelected() ) {
-                cardLayout.show(changeColorSetPane, "gradient");
-
-                Color endColor = condition.getColorIndex(1);
-                Color startColor = condition.getColorIndex(0);
-                colorGradient.getSelectColorPointBtnP1().setColorInner(startColor);
-                colorGradient.getSelectColorPointBtnP2().setColorInner(endColor);
-                colorGradient.repaint();
-            } else if(colorSize > 2 && accButton.isSelected()){
-                cardLayout.show(changeColorSetPane, "acc");
-
-                Color[] colors = new Color[colorSize];
-                for(int i = 0; i < colorSize; i++) {
-                    colors[i] = condition.getColorIndex(i);
-                }
-                colorAcc.populateBean(colors);
+            if (colorList.size() > 0) {
+                colorAcc.populateBean(colorList.toArray(new Color[colorList.size()]));
             }
         }
     }
 
     @Override
-    public AttrFillStyle updateBean() {
-        AttrFillStyle condition = new AttrFillStyle();
-        condition.clearColors();
+    public ChartColorMatching updateBean() {
+        chartColorMatching = chartColorMatching == null ? new ChartColorMatching() : chartColorMatching;
+
+        List<Color> colorList = new ArrayList<Color>();
 
         if(gradientButton.isSelected()) {
-            condition.setColorStyle(ChartConstants.COLOR_GRADIENT);
+            chartColorMatching.setGradient(true);
+
             Color start = colorGradient.getSelectColorPointBtnP1().getColorInner();
             Color end = colorGradient.getSelectColorPointBtnP2().getColorInner();
-            condition.addFillColor(start);
-            condition.addFillColor(end);
+            colorList.add(start);
+            colorList.add(end);
         } else {
-            condition.setColorStyle(ChartConstants.COLOR_ACC);
+            chartColorMatching.setGradient(false);
 
             Color[] colors = colorAcc.updateBean();
-            for(int i = 0, length = colors.length; i < length; i++) {
-                condition.addFillColor(colors[i]);
-            }
+            colorList = Arrays.asList(colors);
         }
 
-        return condition;
+        chartColorMatching.setColorList(colorList);
+
+        return chartColorMatching;
     }
 }
