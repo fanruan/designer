@@ -47,6 +47,7 @@ import com.fr.stable.OperatingSystem;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
+import com.fr.stable.lifecycle.LifecycleFatalError;
 import com.fr.stable.xml.XMLTools;
 import com.fr.start.fx.SplashFx;
 import com.fr.start.jni.SplashMac;
@@ -107,7 +108,11 @@ public class Designer extends BaseDesigner {
         Module designerRoot = ModuleContext.parseRoot("designer-startup.xml");
         //传递启动参数
         designerRoot.setSingleton(StartupArgs.class, new StartupArgs(args));
-        designerRoot.start();
+        try {
+            designerRoot.start();
+        } catch (LifecycleFatalError fatal) {
+            System.exit(0);
+        }
 
         if (WorkContext.getCurrent().isLocal()) {
             //初始化一下serverTray
