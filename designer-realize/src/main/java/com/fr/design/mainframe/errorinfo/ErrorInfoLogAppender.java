@@ -107,7 +107,7 @@ public class ErrorInfoLogAppender extends AppenderSkeleton {
             return StringUtils.EMPTY;
         }
 
-        String bookPath = infor.getBookPath();
+        String bookPath = infor.getRelativePath();
         // 这个iofile只读一个templateid, 其他以后有需要再读.
         IOFile file = new IOFile() {
             @Override
