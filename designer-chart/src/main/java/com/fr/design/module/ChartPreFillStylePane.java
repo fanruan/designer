@@ -1,13 +1,13 @@
-package com.fr.design.mainframe.chart.gui.style;
+package com.fr.design.module;
 
 import com.fr.base.ChartColorMatching;
-import com.fr.chart.base.ChartConstants;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.mainframe.chart.gui.style.ChartAccColorPane;
 import com.fr.design.style.background.gradient.FixedGradientBar;
 import com.fr.general.Inter;
 
@@ -21,7 +21,6 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -40,8 +39,6 @@ public class ChartPreFillStylePane extends BasicBeanPane<ChartColorMatching> {
 
     private ChartAccColorPane colorAcc;
     private FixedGradientBar colorGradient;
-
-    private ChartColorMatching chartColorMatching;
 
     public ChartPreFillStylePane() {
 
@@ -70,6 +67,8 @@ public class ChartPreFillStylePane extends BasicBeanPane<ChartColorMatching> {
 
         customPane.setPreferredSize(new Dimension(200, 200));
         colorGradient.setPreferredSize(new Dimension(120, 30));
+        colorGradient.getSelectColorPointBtnP1().setColorInner(Color.WHITE);
+        colorGradient.getSelectColorPointBtnP2().setColorInner(Color.black);
 
         double p = TableLayout.PREFERRED;
         double[] columnSize = {p, p};
@@ -110,12 +109,6 @@ public class ChartPreFillStylePane extends BasicBeanPane<ChartColorMatching> {
     }
 
     public void populateBean(ChartColorMatching condition) {
-        chartColorMatching = condition;
-
-        colorGradient.getSelectColorPointBtnP1().setColorInner(Color.WHITE);
-        colorGradient.getSelectColorPointBtnP2().setColorInner(Color.black);
-        colorAcc.populateBean(ChartConstants.CHART_COLOR_ARRAY);
-
         if (condition == null) {
             return;
         }
@@ -145,7 +138,7 @@ public class ChartPreFillStylePane extends BasicBeanPane<ChartColorMatching> {
 
     @Override
     public ChartColorMatching updateBean() {
-        chartColorMatching = chartColorMatching == null ? new ChartColorMatching() : chartColorMatching;
+        ChartColorMatching chartColorMatching = new ChartColorMatching();
 
         List<Color> colorList = new ArrayList<Color>();
 
@@ -160,7 +153,9 @@ public class ChartPreFillStylePane extends BasicBeanPane<ChartColorMatching> {
             chartColorMatching.setGradient(false);
 
             Color[] colors = colorAcc.updateBean();
-            colorList = Arrays.asList(colors);
+            for(Color color : colors) {
+                colorList.add(color);
+            }
         }
 
         chartColorMatching.setColorList(colorList);

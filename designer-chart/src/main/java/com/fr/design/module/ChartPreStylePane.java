@@ -12,7 +12,6 @@ import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.mainframe.chart.gui.style.ChartPreFillStylePane;
 import com.fr.general.Inter;
 
 import javax.swing.JPanel;
