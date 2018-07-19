@@ -42,7 +42,6 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.module.Module;
 import com.fr.module.ModuleContext;
-import com.fr.record.analyzer.FineAnalyzer;
 import com.fr.stable.BuildContext;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.ProductConstants;
@@ -56,14 +55,9 @@ import com.fr.start.preload.ImagePreLoader;
 import com.fr.start.server.ServerTray;
 import com.fr.workspace.WorkContext;
 
-import javax.swing.JComponent;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.MatteBorder;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -95,8 +89,6 @@ public class Designer extends BaseDesigner {
      * @param args 参数
      */
     public static void main(String[] args) {
-
-        FineAnalyzer.init();
 
         BuildContext.setBuildFilePath("/com/fr/stable/build.properties");
 
@@ -197,7 +189,7 @@ public class Designer extends BaseDesigner {
 
         if (!BaseUtils.isAuthorityEditing()) {
             menuDef.addShortCut(SeparatorDef.DEFAULT);
-    
+
             if (WorkContext.getCurrent().isRoot()) {
                 menuDef.addShortCut(new ServerConfigManagerAction(), new StyleListAction(), new WidgetManagerAction());
                 if (ActionFactory.getChartPreStyleAction() != null) {

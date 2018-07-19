@@ -22,8 +22,8 @@ public class FileModel extends AlphaCellModel {
 
     public FileModel(String name, String filePath) {
         super(name, null, CellType.FILE);
-        this.filePath = filePath;
-        setDescription(AlphaFineHelper.findFolderName(filePath));
+        this.filePath = filePath.replaceAll("\\\\", "/");
+        setDescription(AlphaFineHelper.findFolderName(this.filePath));
     }
 
     public String getFilePath() {
