@@ -1,7 +1,6 @@
 package com.fr.plugin.chart.area;
 
 import com.fr.chart.base.AttrBackground;
-import com.fr.chart.base.ChartConstants;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.chart.series.SeriesCondition.ChartConditionPane;
 import com.fr.design.chart.series.SeriesCondition.DataSeriesConditionPane;
@@ -24,10 +23,10 @@ import com.fr.plugin.chart.designer.other.condition.item.VanChartMarkerCondition
 import com.fr.plugin.chart.designer.other.condition.item.VanChartSeriesColorConditionPane;
 import com.fr.plugin.chart.designer.other.condition.item.VanChartTooltipConditionPane;
 import com.fr.plugin.chart.designer.other.condition.item.VanChartTrendLineConditionPane;
-import com.fr.plugin.chart.glyph.VanChartMultiCategoryDataPoint;
 import com.fr.plugin.chart.scatter.large.VanChartLargeModelMarkerConditionPane;
+import com.fr.plugin.chart.type.ConditionKeyType;
 
-import java.awt.*;
+import java.awt.Dimension;
 
 /**
  * Created by Mitisky on 15/11/18.
@@ -73,15 +72,8 @@ public class VanChartAreaConditionPane extends DataSeriesConditionPane {
     protected ChartConditionPane createListConditionPane() {
         return new ChartConditionPane(){
             @Override
-            public String[] columns2Populate() {
-                return new String[]{
-                        ChartConstants.CATEGORY_INDEX,
-                        ChartConstants.CATEGORY_NAME,
-                        ChartConstants.SERIES_INDEX,
-                        ChartConstants.SERIES_NAME,
-                        ChartConstants.VALUE,
-                        VanChartMultiCategoryDataPoint.CATEGORY_ARRAY,
-                };
+            protected ConditionKeyType[] conditionKeyTypes() {
+                return ConditionKeyType.CATEGORY_ARRAY_CONDITION_KEY_TYPES;
             }
         };
     }
