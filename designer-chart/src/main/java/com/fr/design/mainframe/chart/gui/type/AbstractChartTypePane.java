@@ -1,12 +1,13 @@
 package com.fr.design.mainframe.chart.gui.type;
 
+import com.fr.base.ChartColorMatching;
 import com.fr.base.ChartPreStyleConfig;
 import com.fr.base.FRContext;
 import com.fr.base.background.ColorBackground;
 import com.fr.chart.base.AttrContents;
 import com.fr.chart.base.AttrFillStyle;
 import com.fr.chart.base.ChartConstants;
-import com.fr.chart.base.ChartPreStyle;
+import com.fr.chart.base.ChartUtils;
 import com.fr.chart.base.DataSeriesCondition;
 import com.fr.chart.base.TextAttr;
 import com.fr.chart.chartattr.Axis;
@@ -243,7 +244,7 @@ public abstract class AbstractChartTypePane extends FurtherBasicBeanPane<Chart>{
         if(preStyle == null){
             plot.getPlotFillStyle().setColorStyle(ChartConstants.COLOR_DEFAULT);
         }else{
-            AttrFillStyle fillStyle = ((ChartPreStyle)preStyle).getAttrFillStyle();
+            AttrFillStyle fillStyle = ChartUtils.chartColorMatching2AttrFillStyle((ChartColorMatching) preStyle);
             fillStyle.setFillStyleName(name);
             plot.setPlotFillStyle(fillStyle);
         }

@@ -1,8 +1,9 @@
 package com.fr.design.module;
 
+import com.fr.base.ChartColorMatching;
 import com.fr.base.ChartPreStyleConfig;
 import com.fr.base.Utils;
-import com.fr.chart.base.ChartPreStyle;
+import com.fr.config.Configuration;
 import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
@@ -10,8 +11,9 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrame;
 import com.fr.general.Inter;
 import com.fr.general.NameObject;
-import com.fr.stable.ListMap;
 import com.fr.stable.Nameable;
+import com.fr.transaction.Configurations;
+import com.fr.transaction.Worker;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -32,7 +34,7 @@ public class ChartPreStyleManagerPane extends JListControlPane {
 	public NameableCreator[] createNameableCreators() {
 		return new NameableCreator[]{
 				new NameObjectCreator(Inter.getLocText("FR-Designer_PreStyle"),
-						ChartPreStyle.class, ChartPreStylePane.class)
+						ChartColorMatching.class, ChartPreStylePane.class)
 		};
 	}
 
@@ -42,15 +44,14 @@ public class ChartPreStyleManagerPane extends JListControlPane {
 	}
 	
 	public void populateBean() {
-		ChartPreStyleConfig config = ChartPreStyleConfig.getInstance();
-		
+		ChartPreStyleConfig config = ChartPreStyleConfig.getInstance().mirror();
 		ArrayList list = new ArrayList();
 		
 		Iterator keys = config.names();
 		while(keys.hasNext()) {
 			Object key = keys.next();
-			ChartPreStyle value = (ChartPreStyle)config.getPreStyle(key);
-			
+			ChartColorMatching value = (ChartColorMatching) config.getPreStyle(key);
+
 			list.add(new NameObject(Utils.objectToString(key), value));
 		}
 		
@@ -63,24 +64,33 @@ public class ChartPreStyleManagerPane extends JListControlPane {
 	}
 	
 	public void updateBean() {
-		ChartPreStyleConfig config = ChartPreStyleConfig.getInstance();
+		Configurations.update(new Worker() {
+			@Override
+			public void run() {
+				ChartPreStyleConfig config = ChartPreStyleConfig.getInstance();
 
-		config.setPreStyleMap(new ListMap());
+				config.setCurrentStyle(getSelectedName());
 
-		Nameable[] values = this.update();
+				Nameable[] values = update();
+				config.clearAllPreStyle();
 
-		config.setCurrentStyle(getSelectedName());
-		
-		for(int i = 0; i < values.length; i++) {
-			Nameable value = values[i];
-			config.putPreStyle(value.getName(), ((NameObject)value).getObject());
-		}
+				for(Nameable value : values) {
+					config.putPreStyle(value.getName(), ((NameObject) value).getObject());
+				}
 
-		// 通知报表整个刷新. 
-		DesignerFrame frame = DesignerContext.getDesignerFrame();
-		if(frame != null) {
-			frame.repaint();
-		}
+				// 通知报表整个刷新.
+				DesignerFrame frame = DesignerContext.getDesignerFrame();
+				if(frame != null) {
+					frame.repaint();
+				}
+			}
+
+			@Override
+			public Class<? extends Configuration>[] targets() {
+				return new Class[]{ChartPreStyleConfig.class};
+			}
+		});
+
 	}
 
 }
