@@ -1,16 +1,17 @@
 package com.fr.design.module;
 
-import com.fr.chart.base.ChartPreStyle;
+import com.fr.base.ChartColorMatching;
+import com.fr.chart.base.ChartUtils;
 import com.fr.chart.chartattr.Bar2DPlot;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
+import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.chart.gui.ChartComponent;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.mainframe.chart.gui.style.ChartPreFillStylePane;
 import com.fr.general.Inter;
 
 import javax.swing.JPanel;
@@ -25,8 +26,8 @@ import java.awt.FlowLayout;
  * @author kunsnat E-mail:kunsnat@gmail.com
  * @version 创建时间：2013-8-20 下午05:02:00
  */
-public class ChartPreStylePane extends BasicBeanPane<ChartPreStyle>{
-	
+public class ChartPreStylePane extends BasicBeanPane<ChartColorMatching> {
+
 	private ChartPreFillStylePane fillStylePane;
 	private ChartComponent chartComponent;
 	
@@ -78,28 +79,26 @@ public class ChartPreStylePane extends BasicBeanPane<ChartPreStyle>{
 			}
 		}
 	}
-	
-	private void refreshWhenStyleChange(ChartPreStyle preStyle) {
-//		ChartPreStyleManagerProvider manager = ChartPreStyleServerManager.getProviderInstance();
-//		manager.setStyleEditing(preStyle);
+
+	private void refreshWhenStyleChange(ChartColorMatching preStyle) {
 		if(chartComponent != null) {
+			Plot plot = (Plot) chartComponent.getEditingChart().getBasePlot();
+			plot.setPlotFillStyle(ChartUtils.chartColorMatching2AttrFillStyle(preStyle));
 			chartComponent.reset();
 		}
 	}
 	
 	@Override
-	public void populateBean(ChartPreStyle preStyle) {
+	public void populateBean(ChartColorMatching preStyle) {
 
-		fillStylePane.populateBean(preStyle.getAttrFillStyle());
-		
+		fillStylePane.populateBean(preStyle);
+
 		refreshWhenStyleChange(preStyle);
 	}
 
 	@Override
-	public ChartPreStyle updateBean() {
-		ChartPreStyle preStyle = new ChartPreStyle();
-		preStyle.setAttrFillStyle(fillStylePane.updateBean());
-		return preStyle;
+	public ChartColorMatching updateBean() {
+		return fillStylePane.updateBean();
 	}
 
 	@Override

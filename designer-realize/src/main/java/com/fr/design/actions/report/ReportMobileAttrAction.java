@@ -12,12 +12,9 @@ import com.fr.file.FILE;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.main.TemplateWorkBook;
-import com.fr.plugin.ExtraClassManager;
 import com.fr.report.mobile.ElementCaseMobileAttr;
-import com.fr.stable.ReportFunctionProcessor;
-import com.fr.stable.fun.FunctionProcessor;
 
-import javax.swing.KeyStroke;
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 /**
@@ -66,11 +63,6 @@ public class ReportMobileAttrAction extends JWorkBookAction{
                     }
                     // 放到后面。如果提前 return 了，则仍然处于未设置状态，不要添加
                     wbTpl.addAttrMark(new MobileOnlyTemplateAttrMark());
-                }
-                // 记录功能点
-                FunctionProcessor processor = ExtraClassManager.getInstance().getFunctionProcessor();
-                if (processor != null) {
-                    processor.recordFunction(ReportFunctionProcessor.MOBILE_TEMPLATE_CPT);
                 }
                 // 设置移动端属性并刷新界面
                 wbTpl.setReportMobileAttr(elementCaseMobileAttr);  // 会同时修改页面设置，放到最后
