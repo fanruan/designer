@@ -22,7 +22,8 @@ import com.fr.workspace.WorkContextCallback;
 import com.fr.workspace.Workspace;
 import com.fr.workspace.connect.AuthException;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import java.awt.event.ActionEvent;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -108,16 +109,15 @@ public class SwitchExistEnv extends MenuDef {
             try {
                 workspace = DesignerWorkspaceGenerator.generate(selectedEnv);
                 if (workspace == null) {
-                    JOptionPane.showMessageDialog(
-                        DesignerContext.getDesignerFrame(),
-                        Inter.getLocText(new String[]{"FR-Designer_M-SwitchWorkspace", "Failed"}));
+                    JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText(new String[]{"FR-Designer_M-SwitchWorkspace", "Failed"}),
+                            null, 0, UIManager.getIcon("OptionPane.errorIcon"));
                     return;
                 }
                 WorkContext.switchTo(workspace, new WorkContextCallback() {
-        
+
                     @Override
                     public void done() {
-            
+
                         DesignerEnvManager.getEnvManager().setCurEnvName(envName);
                         DesignUtils.refreshDesignerFrame();
                         HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().refreshToolArea();
@@ -125,9 +125,8 @@ public class SwitchExistEnv extends MenuDef {
                     }
                 });
             } catch (AuthException exception) {
-                JOptionPane.showMessageDialog(
-                        DesignerContext.getDesignerFrame(),
-                        Inter.getLocText(new String[]{"Fine-Designer_Basic_Remote_Connect_Auth_Failed"}));
+                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText(new String[]{"Fine-Designer_Basic_Remote_Connect_Auth_Failed", "Failed"}),
+                        null, 0, UIManager.getIcon("OptionPane.errorIcon"));
             }
         }
     }

@@ -42,12 +42,12 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.module.Module;
 import com.fr.module.ModuleContext;
-import com.fr.record.analyzer.FineAnalyzer;
 import com.fr.stable.BuildContext;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
+import com.fr.stable.lifecycle.LifecycleFatalError;
 import com.fr.stable.xml.XMLTools;
 import com.fr.start.fx.SplashFx;
 import com.fr.start.jni.SplashMac;
@@ -56,14 +56,9 @@ import com.fr.start.preload.ImagePreLoader;
 import com.fr.start.server.ServerTray;
 import com.fr.workspace.WorkContext;
 
-import javax.swing.JComponent;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.MatteBorder;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -96,8 +91,6 @@ public class Designer extends BaseDesigner {
      */
     public static void main(String[] args) {
 
-        FineAnalyzer.init();
-
         BuildContext.setBuildFilePath("/com/fr/stable/build.properties");
 
 
@@ -115,7 +108,11 @@ public class Designer extends BaseDesigner {
         Module designerRoot = ModuleContext.parseRoot("designer-startup.xml");
         //传递启动参数
         designerRoot.setSingleton(StartupArgs.class, new StartupArgs(args));
-        designerRoot.start();
+        try {
+            designerRoot.start();
+        } catch (LifecycleFatalError fatal) {
+            System.exit(0);
+        }
 
         if (WorkContext.getCurrent().isLocal()) {
             //初始化一下serverTray
@@ -197,7 +194,7 @@ public class Designer extends BaseDesigner {
 
         if (!BaseUtils.isAuthorityEditing()) {
             menuDef.addShortCut(SeparatorDef.DEFAULT);
-    
+
             if (WorkContext.getCurrent().isRoot()) {
                 menuDef.addShortCut(new ServerConfigManagerAction(), new StyleListAction(), new WidgetManagerAction());
                 if (ActionFactory.getChartPreStyleAction() != null) {

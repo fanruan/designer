@@ -39,14 +39,10 @@ public class ChartPreStyleAction extends UpdateAction {
 			@Override
 			public void doOk() {
 				pane.updateBean();
-//				ChartPreStyleManagerProvider manager = ChartPreStyleServerManager.getProviderInstance();
-//				manager.setStyleEditing(null);
 			}                
 			
 			@Override
 			public void doCancel() {
-//				ChartPreStyleManagerProvider manager = ChartPreStyleServerManager.getProviderInstance();
-//				manager.setStyleEditing(null);
 			}
         });
 
