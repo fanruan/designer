@@ -9,10 +9,7 @@ import com.fr.design.mainframe.JWorkBook;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.report.WatermarkPane;
 import com.fr.main.impl.WorkBook;
-import com.fr.plugin.ExtraClassManager;
 import com.fr.report.core.ReportUtils;
-import com.fr.stable.ReportFunctionProcessor;
-import com.fr.stable.fun.FunctionProcessor;
 
 import java.awt.event.ActionEvent;
 
@@ -45,11 +42,6 @@ public class ReportWatermarkAction extends JWorkBookAction {
             public void doOk() {
                 wbTpl.addAttrMark(watermarkPane.update());
                 jwb.fireTargetModified();
-                // 功能点
-                FunctionProcessor processor = ExtraClassManager.getInstance().getFunctionProcessor();
-                if (processor != null) {
-                    processor.recordFunction(ReportFunctionProcessor.WATERMARK);
-                }
             }
         }).setVisible(true);
     }
