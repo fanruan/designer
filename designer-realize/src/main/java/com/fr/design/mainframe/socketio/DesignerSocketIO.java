@@ -81,7 +81,7 @@ public class DesignerSocketIO {
                 @Override
                 public void call(Object... objects) {
                     if (status != Status.Disconnecting) {
-                        JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText(new String[]{"Fine-Designer_Basic_Remote_Disconnected"}),
+                        JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("Fine-Designer_Basic_Remote_Disconnected"),
                                 null, 0, UIManager.getIcon("OptionPane.errorIcon"));
                         TemplatePane.getInstance().editItems();
                     }
