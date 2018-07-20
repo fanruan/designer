@@ -90,7 +90,12 @@ public class FloatStringQuickEditor extends FloatQuickEditor {
     @Override
     protected void refreshDetails() {
         String str;
-        Object value = floatElement.getValue();
+        Object value = null;
+        //处理撤销时npe
+        if (floatElement != null){
+            value = floatElement.getValue();
+        }
+
         if (value == null) {
             str = StringUtils.EMPTY;
         } else if (value instanceof BaseFormula) {
