@@ -1,6 +1,5 @@
 package com.fr.van.chart.drillmap.designer.data.comp;
 
-import com.fr.base.chart.BaseChart;
 import com.fr.base.chart.chartdata.TopDefinitionProvider;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
@@ -18,7 +17,7 @@ import com.fr.plugin.chart.type.MapType;
 import com.fr.van.chart.map.designer.data.MapDataPaneHelper;
 
 import javax.swing.tree.DefaultMutableTreeNode;
-import java.awt.CardLayout;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -116,11 +115,7 @@ public class EachLayerDataDefinitionPane extends MultiTabPane<ChartCollection> {
         List<TopDefinitionProvider> eachLayerDataDefinitionList = new ArrayList<TopDefinitionProvider>();
         for(BasicPane basicPane : paneList){
             if(basicPane instanceof SingleLayerDataDefinitionPane){
-                ChartCollection temp = new ChartCollection(new Chart()){
-                    @Override
-                    public void addFunctionRecord(BaseChart chart) {
-                    }
-                };
+                ChartCollection temp = new ChartCollection(new Chart());
                 ((SingleLayerDataDefinitionPane) basicPane).updateBean(temp);
                 eachLayerDataDefinitionList.add(temp.getSelectedChart().getFilterDefinition());
             }
