@@ -1,17 +1,16 @@
 package com.fr.design.mainframe.loghandler;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogLevel;
 import com.fr.general.Inter;
-import com.fr.general.LogRecordTime;
 import com.fr.general.log.Log4jConfig;
-import com.fr.stable.xml.LogRecordTimeProvider;
+import com.fr.log.FineLoggerFactory;
 import com.fr.third.apache.log4j.Level;
+import com.fr.third.apache.log4j.spi.LoggingEvent;
+import com.fr.third.apache.log4j.spi.ThrowableInformation;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
@@ -29,11 +28,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.LogRecord;
 
 import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
 
 public class DesignerLogHandler {
+
+    private static final SimpleDateFormat LOG_SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
     protected static final int INFO_INT = Level.INFO.toInt();
     protected static final int ERROR_INT = Level.ERROR.toInt();
     protected static final int WARN_INT = Level.WARN.toInt();
@@ -67,7 +68,6 @@ public class DesignerLogHandler {
             public void actionPerformed(ActionEvent e) {
                 logHandlerArea.jTextArea.setText("");
                 caption.clearMessage();
-                DesignerLogImpl.getInstance().clear();
             }
         });
         caption.addSelectedListener(new ActionListener() {
@@ -84,10 +84,6 @@ public class DesignerLogHandler {
             public void itemStateChanged(ItemEvent e) {
                 logHandlerArea.jTextArea.setText("");
                 caption.clearMessage();
-                LogRecordTimeProvider[] recorders = DesignerLogImpl.getInstance().getRecorders();
-                for (LogRecordTimeProvider logRecordTime : recorders) {
-                    logHandlerArea.printStackTrace(logRecordTime);
-                }
             }
         };
         showInfo = new JCheckBoxMenuItem(Inter.getLocText(new String[]{"Display", "Normal", "Info"}), true);
@@ -101,7 +97,7 @@ public class DesignerLogHandler {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JPopupMenu jPopupMenu = new JPopupMenu();
-             
+
                 int logLevelInt = Log4jConfig.getInstance().getRootLevel().toInt();
                 if (logLevelInt <= INFO_INT) {
                     jPopupMenu.add(showInfo);
@@ -193,55 +189,52 @@ public class DesignerLogHandler {
                 public void actionPerformed(ActionEvent evt) {
                     resultPane.setText("");
                     caption.clearMessage();
-                    DesignerLogImpl.getInstance().clear();
                 }
             });
             return resultPane;
         }
 
-        public void printStackTrace(LogRecordTimeProvider logRecordTime) {
-            LogRecord logRecord = logRecordTime.getLogRecord();
-            Date date = logRecordTime.getDate();
-            int logLevelvalue = logRecord.getLevel().intValue();
-            if (logLevelvalue == INFO_INT && showInfo.isSelected()) {
-                printMessage(logRecord.getMessage(), logLevelvalue, date, logRecord.getThrown());
-            } else if (logLevelvalue == ERROR_INT && showError.isSelected()) {
-                printMessage(logRecord.getMessage(), logLevelvalue, date, logRecord.getThrown());
-            } else if (logLevelvalue == WARN_INT && showServer.isSelected()) {
-                printMessage(logRecord.getMessage(), logLevelvalue, date, logRecord.getThrown());
+        public void printStackTrace(LoggingEvent event) {
+            int intLevel = event.getLevel().toInt();
+            Date date = new Date(event.getTimeStamp());
+            ThrowableInformation information = event.getThrowableInformation();
+            if (intLevel == INFO_INT && showInfo.isSelected()) {
+                printMessage(event.getRenderedMessage(), intLevel, date, information == null ? null : information.getThrowable());
+            } else if (intLevel == ERROR_INT && showError.isSelected()) {
+                printMessage(event.getRenderedMessage(), intLevel, date, information == null ? null : information.getThrowable());
+            } else if (intLevel == WARN_INT && showServer.isSelected()) {
+                printMessage(event.getRenderedMessage(), intLevel, date, information == null ? null : information.getThrowable());
             }
-
         }
 
         public void printStackTrace(String message, Level level, Date date) {
-            int logLevelvalue = level.toInt();
-            if (logLevelvalue == INFO_INT && showInfo.isSelected()) {
-                printMessage(message, logLevelvalue, date);
-            } else if (logLevelvalue == ERROR_INT && showError.isSelected()) {
-                printMessage(message, logLevelvalue, date);
-            } else if (logLevelvalue == WARN_INT && showServer.isSelected()) {
-                printMessage(message, logLevelvalue, date);
+            int intLevel = level.toInt();
+            if (intLevel == INFO_INT && showInfo.isSelected()) {
+                printMessage(message, intLevel, date);
+            } else if (intLevel == ERROR_INT && showError.isSelected()) {
+                printMessage(message, intLevel, date);
+            } else if (intLevel == WARN_INT && showServer.isSelected()) {
+                printMessage(message, intLevel, date);
             }
 
         }
 
-        private void printMessage(String message, int logLevelvalue, Date date) {
-            printMessage(message, logLevelvalue, date, null);
+        private void printMessage(String message, int intLevel, Date date) {
+            printMessage(message, intLevel, date, null);
         }
 
-        private void printMessage(String messange, int logLevelvalue, Date date, Throwable e) {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            this.log(simpleDateFormat.format(date) + "\n", 0);
-            String message = swithInter(messange, logLevelvalue);
-            this.log(message, logLevelvalue);
-            setMessage(message, logLevelvalue);
+        private void printMessage(String msg, int intLevel, Date date, Throwable e) {
+            this.log(LOG_SIMPLE_DATE_FORMAT.format(date) + "\n", 0);
+            String message = appendLocaleMark(msg, intLevel);
+            this.log(message, intLevel);
+            setMessage(message, intLevel);
             if (e == null) {
                 return;
             }
 
-            StackTraceElement[] stacktraceelement = e.getStackTrace();
-            for (int i = 0; i < stacktraceelement.length; i++) {
-                this.log("\t" + "at " + stacktraceelement[i].toString() + "\n", 0);
+            StackTraceElement[] traceElements = e.getStackTrace();
+            for (int i = 0; i < traceElements.length; i++) {
+                this.log("\t" + "at " + traceElements[i].toString() + "\n", 0);
             }
         }
 
@@ -264,11 +257,11 @@ public class DesignerLogHandler {
             try {
                 doc.insertString(doc.getLength(), str, attrSet);
             } catch (BadLocationException e) {
-                FRContext.getLogger().error(e.getMessage());
+                FineLoggerFactory.getLogger().error(e.getMessage());
             }
         }
 
-        private String swithInter(String str, int style) {
+        private String appendLocaleMark(String str, int style) {
             if (style == ERROR_INT) {
                 str = Inter.getLocText("FR-Designer_Alert") + ":" + str + "\n";
             } else if (style == WARN_INT) {
@@ -318,14 +311,13 @@ public class DesignerLogHandler {
                 } else if (ComparatorUtils.equals(evt.getActionCommand(), LogHandlerArea.this.clear.getText())) {
                     LogHandlerArea.this.jTextArea.setText("");
                     caption.clearMessage();
-                    DesignerLogImpl.getInstance().clear();
                 }
             }
         };
 
     }
 
-    public void printRemoteLog(LogRecordTime logRecordTime) {
-        logHandlerArea.printStackTrace(logRecordTime);
+    public void printLoggingEvent(LoggingEvent event) {
+        logHandlerArea.printStackTrace(event);
     }
 }

@@ -32,7 +32,7 @@ public class RemoteDesignAuthorityManagerAction extends UpdateAction {
         final AuthorityManagerPane managerPane = new AuthorityManagerPane();
 
         BasicDialog dialog = managerPane.showWindow(DesignerContext.getDesignerFrame());
-    
+
         if (!WorkContext.getCurrent().isLocal()) {
             try {
                 // 远程设计获取全部设计成员的权限列表
@@ -44,12 +44,12 @@ public class RemoteDesignAuthorityManagerAction extends UpdateAction {
                 FineLoggerFactory.getLogger().error(exception.getMessage(), exception);
             }
         }
-    
+
         dialog.addDialogActionListener(new DialogActionAdapter() {
-        
+
             @Override
             public void doOk() {
-            
+
                 DesignAuthority[] authorities = managerPane.update();
                 if (!WorkContext.getCurrent().isLocal()) {
                     boolean success = false;
@@ -61,10 +61,10 @@ public class RemoteDesignAuthorityManagerAction extends UpdateAction {
                     FineLoggerFactory.getLogger().info("update remote design authority: " + success);
                 }
             }
-        
+
             @Override
             public void doCancel() {
-            
+
                 super.doCancel();
             }
         });

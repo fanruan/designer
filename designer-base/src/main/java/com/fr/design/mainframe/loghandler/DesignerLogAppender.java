@@ -1,7 +1,6 @@
 package com.fr.design.mainframe.loghandler;
 
 
-import com.fr.general.FRLogLevel;
 import com.fr.third.apache.log4j.AppenderSkeleton;
 import com.fr.third.apache.log4j.Level;
 import com.fr.third.apache.log4j.spi.LoggingEvent;
