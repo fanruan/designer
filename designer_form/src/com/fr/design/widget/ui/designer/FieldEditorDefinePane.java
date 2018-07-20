@@ -76,7 +76,7 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
         e.setErrorMessage(this.errorMsgTextField.getText());
         e.setFontSize(fontSizePane.getValue());
         designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
-        if (!ComparatorUtils.equals(e.getLabelName(), labelNameTextField.getText())) {
+        if (!ComparatorUtils.equals(e.getLabelName(), labelNameTextField.getText()) && designer.getParaComponent() != null) {
             XCreator xCreator = designer.getSelectionModel().getSelection().getSelectedCreator();
             Widget selectedWidget = xCreator.toData();
             ((WParameterLayout) designer.getParaComponent().toData()).setNameTagModified(selectedWidget.getWidgetName(), true);
