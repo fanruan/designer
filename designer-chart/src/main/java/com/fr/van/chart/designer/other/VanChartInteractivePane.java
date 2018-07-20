@@ -183,7 +183,10 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
 
     private void checkZoomEnabled() {
         if (zoomWidget != null && axisRotation != null) {
-            zoomWidget.setSelectedIndex(1);
+            if (axisRotation.getSelectedIndex() == 0) {
+                //只有开启坐标轴翻转，才需要将缩放控件强制关闭。
+                zoomWidget.setSelectedIndex(1);
+            }
             checkZoomPane();
             zoomWidget.setEnabled(axisRotation.getSelectedIndex() == 1);
         }
