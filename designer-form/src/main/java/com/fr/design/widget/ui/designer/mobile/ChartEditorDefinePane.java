@@ -18,20 +18,12 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.WidgetPropertyPane;
-import com.fr.form.FormFunctionProcessor;
 import com.fr.form.ui.BaseChartEditor;
 import com.fr.form.ui.container.WFitLayout;
 import com.fr.general.Inter;
-import com.fr.plugin.ExtraClassManager;
-import com.fr.stable.fun.FunctionProcessor;
 
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -175,11 +167,7 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane {
                 updateTipLabel();
                 ChartMobileFitAttrState selectedAttr = (ChartMobileFitAttrState)((Item)e.getItem()).getValue();
                 if (selectedAttr.getState() != ChartMobileFitAttrState.AUTO.getState()) {
-                    // 功能埋点
-                    FunctionProcessor processor = ExtraClassManager.getInstance().getFunctionProcessor();
-                    if (processor != null) {
-                        processor.recordFunction(FormFunctionProcessor.MOBILE_CHART_ADAPTIVITY);
-                    }
+
                 }
             }
         });

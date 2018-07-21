@@ -246,8 +246,9 @@ public class HistoryTemplateListPane extends JPanel implements FileOperations, C
      */
     public int contains(String filename) {
         for (int i = 0; i < historyList.size(); i++) {
-            String historyPath = historyList.get(i).getPath();
-            if (ComparatorUtils.equals(historyPath, filename)) {
+            String historyPath = historyList.get(i).getPath().replaceAll("/", "\\\\");
+            //文件路径是全路径，历史路径是reportlets/模板名
+            if (filename.endsWith(historyPath)) {
                 return i;
             }
         }
