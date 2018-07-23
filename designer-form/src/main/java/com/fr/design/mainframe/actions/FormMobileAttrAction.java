@@ -15,11 +15,8 @@ import com.fr.file.FILE;
 import com.fr.form.main.Form;
 import com.fr.form.main.mobile.FormMobileAttr;
 import com.fr.general.Inter;
-import com.fr.plugin.ExtraClassManager;
-import com.fr.stable.ReportFunctionProcessor;
-import com.fr.stable.fun.FunctionProcessor;
 
-import javax.swing.KeyStroke;
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 /**
@@ -66,11 +63,6 @@ public class FormMobileAttrAction extends JTemplateAction<JForm> {
                     }
                     // 放到后面。如果提前 return 了，则仍然处于未设置状态，不要添加
                     jf.getTarget().addAttrMark(new MobileOnlyTemplateAttrMark());
-                }
-                // 记录功能点
-                FunctionProcessor processor = ExtraClassManager.getInstance().getFunctionProcessor();
-                if (processor != null) {
-                    processor.recordFunction(ReportFunctionProcessor.MOBILE_TEMPLATE_FRM);
                 }
                 // 设置移动端属性并刷新界面
                 formTpl.setFormMobileAttr(formMobileAttr);  // 会调整 body 的自适应布局，放到最后
