@@ -8,6 +8,7 @@ import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StableUtils;
 import com.fr.stable.project.ProjectConstants;
+import com.fr.workspace.WorkContext;
 
 import javax.swing.text.Position;
 import javax.swing.tree.DefaultTreeModel;
@@ -73,6 +74,7 @@ public class TemplateFileTree extends EnvFileTree {
         return selectedPathList.toArray(new String[0]);
     }
 
+    @Override
     public TreePath getNextMatch(String prefix, int startingRow, Position.Bias bias) {
 
         int max = getRowCount();
@@ -100,15 +102,16 @@ public class TemplateFileTree extends EnvFileTree {
         return null;
     }
 
-    public FileNode[] listFile(String path) throws Exception {
+    public FileNode[] listFile(String path) {
         return FRContext.getFileNodes().list(
                 path,
-                new FileExtension[]{FileExtension.CPT, FileExtension.FRM, FileExtension.CHT,FileExtension.XLS,FileExtension.XLSX});
+                new FileExtension[]{FileExtension.CPT, FileExtension.FRM, FileExtension.CHT, FileExtension.XLS, FileExtension.XLSX});
     }
 
     /*
      * 改变Env后,根据构造函数时设置的RootPaths,重新加载
      */
+    @Override
     public void refreshEnv() {
 
         DefaultTreeModel defaultTreeModel = (DefaultTreeModel) this.getModel();
@@ -118,13 +121,13 @@ public class TemplateFileTree extends EnvFileTree {
         FileNode[] fns;
 
         // 如果rootPaths是null的话列出所有文件
-        if (subPathes == null) {
+        if (subPaths == null) {
             fns = listFileNodes(this.treeRootPath);
         } else {
             // 重新加载新的FileDirectoryNode
-            fns = new FileNode[subPathes.length];
-            for (int i = 0; i < subPathes.length; i++) {
-                fns[i] = new FileNode(StableUtils.pathJoin(this.treeRootPath, subPathes[i]), true);
+            fns = new FileNode[subPaths.length];
+            for (int i = 0; i < subPaths.length; i++) {
+                fns[i] = new FileNode(StableUtils.pathJoin(this.treeRootPath, subPaths[i]), true);
             }
         }
 
@@ -137,22 +140,32 @@ public class TemplateFileTree extends EnvFileTree {
         defaultTreeModel.reload(rootTreeNode);
     }
 
+    @Override
     protected ExpandMutableTreeNode[] loadChildTreeNodes(ExpandMutableTreeNode treeNode) {
-        FileNode[] fn_array = listFileNodes(treeNode);
+        FileNode[] fnArray = listFileNodes(treeNode);
 
-        return fileNodeArray2TreeNodeArray(fn_array);
+        return fileNodeArray2TreeNodeArray(fnArray);
     }
 
     /*
      * 把FileNode[]转成ExpandMutableTreeNode[]
      */
     private ExpandMutableTreeNode[] fileNodeArray2TreeNodeArray(FileNode[] fileNodes) {
+        boolean isLocal = WorkContext.getCurrent().isLocal();
+        String username = WorkContext.getConnector().currentUser();
         ExpandMutableTreeNode[] res = new ExpandMutableTreeNode[fileNodes.length];
         for (int i = 0; i < res.length; i++) {
             FileNode fn = fileNodes[i];
             res[i] = new ExpandMutableTreeNode(fn);
             if (fn.isDirectory()) {
                 res[i].add(new ExpandMutableTreeNode());
+                if (isLocal) {
+                    res[i].setFullAuthority(true);
+                } else {
+                    // todo 判断权限
+                    boolean hasFullAuthority = false;
+                    res[i].setFullAuthority(hasFullAuthority);
+                }
             }
         }
 
