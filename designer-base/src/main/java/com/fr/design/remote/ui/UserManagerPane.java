@@ -13,7 +13,7 @@ import com.fr.design.remote.ui.list.AddedMemberListCellRender;
 import com.fr.design.remote.ui.list.AddingMemberList;
 import com.fr.design.remote.ui.list.AddingMemberListCellRender;
 import com.fr.design.remote.ui.list.MemberListSelectedChangeListener;
-import com.fr.general.Inter;
+import com.fr.locale.InterProviderFactory;
 import com.fr.stable.StringUtils;
 import com.fr.third.guava.collect.ImmutableList;
 import com.fr.workspace.WorkContext;
@@ -23,9 +23,12 @@ import com.fr.workspace.server.authority.decision.DecisionOperator;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JPanel;
+import javax.swing.JViewport;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingWorker;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -33,10 +36,15 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 
@@ -46,9 +54,14 @@ import java.util.List;
 public class UserManagerPane extends BasicPane {
 
     /**
+     * 每页个数
+     */
+    private final int DEFAULT_NUM_EACH_PAGE = 50;
+
+    /**
      * 获取的决策平台成员
      */
-    private List<RemoteDesignMember> addingMembers = new ArrayList<>();
+    private final List<RemoteDesignMember> addingMembers = new ArrayList<>();
     /**
      * 添加到设计的决策平台成员
      */
@@ -73,7 +86,7 @@ public class UserManagerPane extends BasicPane {
     private ActionListener keyButtonActionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            searchAddingMembers(keyField.getText());
+            searchAddingMembers(keyWord);
         }
     };
 
@@ -84,9 +97,9 @@ public class UserManagerPane extends BasicPane {
         @Override
         public void keyReleased(KeyEvent e) {
             // 判断按下的键是否是回车键
-            // todo 对话框回车键绑定的是对话框的确定按钮
+            // 对话框回车键绑定的是对话框的确定按钮，因此按确定没有办法搜索
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                searchAddingMembers(keyField.getText());
+                searchAddingMembers(keyWord);
             }
         }
     };
@@ -125,7 +138,7 @@ public class UserManagerPane extends BasicPane {
             sync2AddedMembersFormAdded();
             // 不需要重复更新右侧列表显示 但是更新一下计数显示
             countLabel.setText(
-                    Inter.getLocText("Fine-Designer_Remote_Design_Selected_Member_Count",
+                    InterProviderFactory.getProvider().getLocText("Fine-Designer_Remote_Design_Selected_Member_Count",
                             String.valueOf(addedMembers.size())
                     )
             );
@@ -134,8 +147,46 @@ public class UserManagerPane extends BasicPane {
 
         }
     };
+
+
+    /**
+     * 已经添加的成员列表
+     */
     private AddedMemberList addedList;
+    /**
+     * 待添加的成员列表
+     */
     private AddingMemberList addingList;
+
+    /**
+     * 搜索关键字
+     */
+    private String keyWord;
+
+    /**
+     * 搜索关键词变更监听
+     */
+    private DocumentListener documentListener = new DocumentListener() {
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            keyWord = keyField.getText();
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            keyWord = keyField.getText();
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+            keyWord = keyField.getText();
+        }
+    };
+
+    /**
+     * 当前分页计数
+     */
+    private int pageNum = 1;
 
 
     public UserManagerPane() {
@@ -155,7 +206,7 @@ public class UserManagerPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("Fine-Designer_Remote_Design_Add_Member");
+        return InterProviderFactory.getProvider().getLocText("Fine-Designer_Remote_Design_Add_Member");
     }
 
     private JPanel createLeftPanel() {
@@ -165,7 +216,7 @@ public class UserManagerPane extends BasicPane {
                 BorderFactory.createCompoundBorder(
                         new EmptyBorder(6, 0, 0, 0),
                         UITitledBorder.createBorderWithTitle(
-                                Inter.getLocText("Fine-Designer_Remote_Design_Decision_Member")
+                                InterProviderFactory.getProvider().getLocText("Fine-Designer_Remote_Design_Decision_Member")
                         )
                 )
         );
@@ -176,7 +227,8 @@ public class UserManagerPane extends BasicPane {
         keyField.setPreferredSize(new Dimension(250, 20));
         keyField.requestFocus();
         keyField.addKeyListener(keyFieldKeyListener);
-        keyButton.setText(Inter.getLocText("Fine-Designer_Remote_Design_Search"));
+        keyField.getDocument().addDocumentListener(documentListener);
+        keyButton.setText(InterProviderFactory.getProvider().getLocText("Fine-Designer_Remote_Design_Search"));
         keyButton.addActionListener(keyButtonActionListener);
         searchPanel.add(keyField);
         searchPanel.add(keyButton);
@@ -189,7 +241,25 @@ public class UserManagerPane extends BasicPane {
         resetMembers();
         addToMemberList();
         searchAddingMembers(StringUtils.EMPTY);
-        UIScrollPane listPane = new UIScrollPane(addingList);
+        final UIScrollPane listPane = new UIScrollPane(addingList);
+        listPane.addMouseWheelListener(new MouseWheelListener() {
+            @Override
+            public void mouseWheelMoved(MouseWheelEvent e) {
+                JViewport vp = listPane.getViewport();
+                if (vp.getView().getHeight() <= vp.getHeight() + vp.getViewPosition().y) {
+                    loadMoreAddingMembers(keyWord, DEFAULT_NUM_EACH_PAGE);
+                }
+            }
+        });
+        listPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
+            @Override
+            public void adjustmentValueChanged(AdjustmentEvent e) {
+                JViewport vp = listPane.getViewport();
+                if (vp.getView().getHeight() <= vp.getHeight() + vp.getViewPosition().y && e.getValueIsAdjusting()) {
+                    loadMoreAddingMembers(keyWord, DEFAULT_NUM_EACH_PAGE);
+                }
+            }
+        });
         listPane.setBorder(BorderFactory.createEmptyBorder());
 
         content.add(searchPanel, BorderLayout.NORTH);
@@ -205,14 +275,14 @@ public class UserManagerPane extends BasicPane {
                 BorderFactory.createCompoundBorder(
                         new EmptyBorder(6, 0, 0, 0),
                         UITitledBorder.createBorderWithTitle(
-                                Inter.getLocText("Fine-Designer_Remote_Design_Selected_Member")
+                                InterProviderFactory.getProvider().getLocText("Fine-Designer_Remote_Design_Selected_Member")
                         )
                 )
         );
 
         // 计数
         countLabel.setText(
-                Inter.getLocText("Fine-Designer_Remote_Design_Selected_Member_Count",
+                InterProviderFactory.getProvider().getLocText("Fine-Designer_Remote_Design_Selected_Member_Count",
                         String.valueOf(addedMembers.size()))
         );
         countLabel.setBorder(BorderFactory.createEmptyBorder(7, 12, 8, 0));
@@ -258,7 +328,7 @@ public class UserManagerPane extends BasicPane {
         addedList.revalidate();
         addedList.repaint();
         countLabel.setText(
-                Inter.getLocText("Fine-Designer_Remote_Design_Selected_Member_Count",
+                InterProviderFactory.getProvider().getLocText("Fine-Designer_Remote_Design_Selected_Member_Count",
                         String.valueOf(addedMembers.size())
                 ));
     }
@@ -280,7 +350,10 @@ public class UserManagerPane extends BasicPane {
             protected List<RemoteDesignMember> doInBackground() {
                 addingMembers.clear();
                 String username = WorkContext.getConnector().currentUser();
-                addingMembers.addAll(WorkContext.getCurrent().get(DecisionOperator.class).getMembers(username, keyword));
+                synchronized (addingMembers) {
+                    addingMembers.addAll(WorkContext.getCurrent().get(DecisionOperator.class).getMembers(username, keyword));
+                    pageNum = 1;
+                }
                 return addingMembers;
             }
 
@@ -290,6 +363,31 @@ public class UserManagerPane extends BasicPane {
             }
         };
         getMemberWorker.execute();
+    }
+
+    private void loadMoreAddingMembers(final String keyword, final int count) {
+
+        final SwingWorker loadMoreWorker = new SwingWorker<List<RemoteDesignMember>, Void>() {
+            @Override
+            protected List<RemoteDesignMember> doInBackground() {
+                String username = WorkContext.getConnector().currentUser();
+                synchronized (addingMembers) {
+                    Collection<RemoteDesignMember> more =
+                            WorkContext.getCurrent().get(DecisionOperator.class).getMembers(username, keyword, pageNum + 1, count);
+                    if (!more.isEmpty()) {
+                        pageNum += 1;
+                    }
+                    addingMembers.addAll(more);
+                }
+                return addingMembers;
+            }
+
+            @Override
+            protected void done() {
+                addToMemberList();
+            }
+        };
+        loadMoreWorker.execute();
     }
 
 
