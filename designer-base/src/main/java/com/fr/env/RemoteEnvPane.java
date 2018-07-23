@@ -16,12 +16,14 @@ import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 import com.fr.third.guava.base.Strings;
 import com.fr.workspace.WorkContext;
+import com.fr.workspace.connect.AuthException;
 import com.fr.workspace.connect.WorkspaceConnection;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
@@ -488,8 +490,13 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
                 WorkspaceConnection connection = remoteEnv.getConnection();
                 DesignerEnvManager.getEnvManager().setCertificatePath(connection.getCertPath());
                 DesignerEnvManager.getEnvManager().setCertificatePass(connection.getCertSecretKey());
-
-                return WorkContext.getConnector().testConnection(connection);
+                try {
+                    return WorkContext.getConnector().testConnection(connection);
+                } catch (AuthException e) {
+                    message.setText(Inter.getLocText("Fine-Designer_Basic_Remote_Connect_Auth_Failed"));
+                    uiLabel.setIcon(UIManager.getIcon("OptionPane.errorIcon"));
+                    return null;
+                }
             }
 
             @Override
