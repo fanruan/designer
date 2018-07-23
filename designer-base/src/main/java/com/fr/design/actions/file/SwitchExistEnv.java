@@ -125,7 +125,7 @@ public class SwitchExistEnv extends MenuDef {
                     }
                 });
             } catch (AuthException exception) {
-                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText(new String[]{"Fine-Designer_Basic_Remote_Connect_Auth_Failed", "Failed"}),
+                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("Fine-Designer_Basic_Remote_Connect_Auth_Failed"),
                         null, 0, UIManager.getIcon("OptionPane.errorIcon"));
             }
         }

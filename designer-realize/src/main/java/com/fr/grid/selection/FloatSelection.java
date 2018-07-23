@@ -235,7 +235,11 @@ public class FloatSelection extends Selection {
     public QuickEditor getQuickEditor(TargetComponent tc) {
         ElementCasePane ePane = (ElementCasePane) tc;
         FloatElement selectedFloat = ePane.getEditingElementCase().getFloatElement(selectedFloatName);
-        Object value = selectedFloat.getValue();
+        Object value = null;
+        //处理撤销时npe
+        if(selectedFloat != null) {
+            value = selectedFloat.getValue();
+        }
         value = value == null ? "" : value;
         value = value instanceof Number ? value.toString() : value;
         QuickEditor editor = ActionFactory.getFloatEditor(value.getClass());
