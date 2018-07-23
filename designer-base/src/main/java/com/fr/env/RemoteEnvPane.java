@@ -279,6 +279,10 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
             this.certPathInput.setText(certPath);
             this.certSecretKeyInput.setText(certSecretKey);
 
+        } else {
+            this.remoteEnvURL = RemoteEnvURL.createDefaultURL();
+            this.usernameInput.setText(StringUtils.EMPTY);
+            this.passwordInput.setText(StringUtils.EMPTY);
         }
 
         fillRemoteEnvURLField();
