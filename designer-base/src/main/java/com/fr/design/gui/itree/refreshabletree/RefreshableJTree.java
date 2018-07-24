@@ -4,16 +4,28 @@ import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.itooltip.UIToolTip;
 import com.fr.design.gui.itree.checkboxtree.CheckBoxTree;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
 import com.fr.general.NameObject;
+import com.fr.locale.InterProviderFactory;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JToolTip;
+import javax.swing.SwingWorker;
 import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeExpansionListener;
 import javax.swing.event.TreeWillExpandListener;
-import javax.swing.tree.*;
-import java.awt.*;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.ExpandVetoException;
+import javax.swing.tree.TreeCellRenderer;
+import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
+import java.awt.Component;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 
 public abstract class RefreshableJTree extends CheckBoxTree {
@@ -24,16 +36,19 @@ public abstract class RefreshableJTree extends CheckBoxTree {
 
         @Override
         public String toString() {
-            return Inter.getLocText("Loading") + "...";
+            return InterProviderFactory.getProvider().getLocText("Loading") + "...";
         }
     };
 
     public RefreshableJTree() {
         this(null);
     }
+
+    @Override
     public boolean isCheckBoxVisible(TreePath path) {
         return false;
     }
+
     public RefreshableJTree(Object rootObj) {
         super(new DefaultTreeModel(new ExpandMutableTreeNode(rootObj)));
         DefaultTreeModel model = (DefaultTreeModel) getModel();
@@ -101,8 +116,7 @@ public abstract class RefreshableJTree extends CheckBoxTree {
                             treeNode.remove(0);
                         }
                         treeModel.nodeStructureChanged(treeNode);
-                        long usedTime = System.currentTimeMillis() - startTime;
-                        return usedTime;
+                        return System.currentTimeMillis() - startTime;
                     }
 
                     @Override
@@ -118,15 +132,15 @@ public abstract class RefreshableJTree extends CheckBoxTree {
     };
 
     /**
-     * @return
+     * @return is template showing
      */
     public boolean isTemplateShowing() {
-        return ((ExpandMutableTreeNode) this.getModel().getRoot()).getChildCount() == 0 ? false : true;
+        return ((ExpandMutableTreeNode) this.getModel().getRoot()).getChildCount() != 0;
     }
 
     /*
-      * 刷新
-      */
+     * 刷新
+     */
     public void refresh() {
         refresh((ExpandMutableTreeNode) this.getModel().getRoot(), StringUtils.EMPTY);
     }
@@ -136,8 +150,8 @@ public abstract class RefreshableJTree extends CheckBoxTree {
     }
 
     /*
-      * 刷新expandRoot节点下所有已打开的节点的UserObject,并打开isExpanded为true的TreeNode
-      */
+     * 刷新expandRoot节点下所有已打开的节点的UserObject,并打开isExpanded为true的TreeNode
+     */
     private void refresh(ExpandMutableTreeNode expandRoot, String childName) {
         if (expandRoot == null) {
             return;
@@ -152,8 +166,8 @@ public abstract class RefreshableJTree extends CheckBoxTree {
     }
 
     /*
-      * 刷新eTreeNode下面所有的已完成过取数的非叶子节点的子叶内容UserObject
-      */
+     * 刷新eTreeNode下面所有的已完成过取数的非叶子节点的子叶内容UserObject
+     */
     protected void refreshTreeNode(ExpandMutableTreeNode eTreeNode, String childName) {
         // 如果eTreeNode是未取数状态,不用expand
         if (interceptRefresh(eTreeNode)) {
@@ -161,12 +175,12 @@ public abstract class RefreshableJTree extends CheckBoxTree {
         }
 
         // 刷新当前eTreeNode下面的子节点的UserObject的数组
-        ExpandMutableTreeNode[] new_nodes = loadChildTreeNodes(eTreeNode);
+        ExpandMutableTreeNode[] newNodes = loadChildTreeNodes(eTreeNode);
 
         /*
-           * 保存下当前eTreeNode下的ChildTreeNode于childTreeNodeList 移除所有ChildTreeNode
-           * 根据childUserObjects与childTreeNodeList的比对,重新构建eTreeNode
-           */
+         * 保存下当前eTreeNode下的ChildTreeNode于childTreeNodeList 移除所有ChildTreeNode
+         * 根据childUserObjects与childTreeNodeList的比对,重新构建eTreeNode
+         */
         java.util.List<DefaultMutableTreeNode> childTreeNodeList = new java.util.ArrayList<DefaultMutableTreeNode>();
         for (int i = 0, len = eTreeNode.getChildCount(); i < len; i++) {
             if (eTreeNode.getChildAt(i) instanceof ExpandMutableTreeNode) {
@@ -178,29 +192,29 @@ public abstract class RefreshableJTree extends CheckBoxTree {
 
         eTreeNode.removeAllChildren();
 
-        for (int ci = 0; ci < new_nodes.length; ci++) {
-            Object cUserObject = new_nodes[ci].getUserObject();
+        for (int ci = 0; ci < newNodes.length; ci++) {
+            Object cUserObject = newNodes[ci].getUserObject();
 
-            for (int ni = 0, nlen = childTreeNodeList.size(); ni < nlen; ni++) {
+            for (int ni = 0, len = childTreeNodeList.size(); ni < len; ni++) {
                 ExpandMutableTreeNode cTreeNode = (ExpandMutableTreeNode) childTreeNodeList.get(ni);
                 if (ComparatorUtils.equals(cTreeNode.getUserObject(), cUserObject)) {
-                    new_nodes[ci].setExpanded(cTreeNode.isExpanded());
+                    newNodes[ci].setExpanded(cTreeNode.isExpanded());
                     break;
                 }
             }
 
-            eTreeNode.add(new_nodes[ci]);
+            eTreeNode.add(newNodes[ci]);
         }
     }
 
     /*
-      * 判断eTreeNode是否需要Refresh,可提前中止,返回true则表示提前中止,不需要Refresh
-      */
+     * 判断eTreeNode是否需要Refresh,可提前中止,返回true则表示提前中止,不需要Refresh
+     */
     protected abstract boolean interceptRefresh(ExpandMutableTreeNode eTreeNode);
 
     /*
-      * 得到treeNode的子节点ExpandMutableTreeNode的数组
-      */
+     * 得到treeNode的子节点ExpandMutableTreeNode的数组
+     */
     protected abstract ExpandMutableTreeNode[] loadChildTreeNodes(ExpandMutableTreeNode treeNode);
 
     public NameObject getSelectedNameObject() {
@@ -223,6 +237,7 @@ public abstract class RefreshableJTree extends CheckBoxTree {
         return null;
     }
 
+    @Override
     public String getToolTipText(MouseEvent event) {
         String tip = null;
         icon = new ImageIcon();
@@ -238,7 +253,7 @@ public abstract class RefreshableJTree extends CheckBoxTree {
                 Object lastPath = path.getLastPathComponent();
                 if (lastPath instanceof TreeNode) {
                     TreeNode treeNode = (TreeNode) lastPath;
-                    while (treeNode.getParent() instanceof TreeNode) {
+                    while (treeNode.getParent() != null) {
                         i++;
                         treeNode = treeNode.getParent();
                     }
@@ -260,6 +275,7 @@ public abstract class RefreshableJTree extends CheckBoxTree {
         return tip;
     }
 
+    @Override
     public Point getToolTipLocation(MouseEvent event) {
         if (event != null) {
             Point p = event.getPoint();
@@ -268,12 +284,16 @@ public abstract class RefreshableJTree extends CheckBoxTree {
             if (selRow != -1 && r != null) {
                 TreePath path = getPathForRow(selRow);
                 Rectangle pathBounds = getPathBounds(path);
-                return new Point(pathBounds.x - 2, pathBounds.y - 1);
+                if (pathBounds != null) {
+                    return new Point(pathBounds.x - 2, pathBounds.y - 1);
+                }
+                return null;
             }
         }
         return null;
     }
 
+    @Override
     public JToolTip createToolTip() {
         UIToolTip tip = new UIToolTip(icon);
         tip.setComponent(this);
