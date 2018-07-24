@@ -7,7 +7,7 @@ import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.attr.axis.VanChartAxis;
 import com.fr.plugin.chart.attr.axis.VanChartValueAxis;
 import com.fr.stable.StringUtils;
@@ -63,12 +63,12 @@ public class VanChartValueAxisPane extends VanChartBaseAxisPane {
 
     protected JPanel createMinMaxValuePane(double[] row, double[] col){
         JPanel panel = createCommenValuePane(row,col);
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_ValueDefinition"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_ValueDefinition"), panel);
     }
     protected JPanel createCommenValuePane(double[] row, double[] col){
         initMinMaxValuePane();
 
-        logBox = new UICheckBox(Inter.getLocText(new String[]{"Custom", "Plugin-ChartF_LogBaseValue"}));
+        logBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Custom", "Plugin-ChartF_LogBaseValue"}));
         logBaseField = new UITextField();
         logBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -82,7 +82,7 @@ public class VanChartValueAxisPane extends VanChartBaseAxisPane {
 //        logPane.add(logBaseField);
 
 
-        logPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_LogBaseValue"), logBaseField, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
+        logPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_LogBaseValue"), logBaseField, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
 
         logPane.setBorder(BorderFactory.createEmptyBorder(0, TableLayout4VanChartHelper.COMPONENT_INTERVAL, 0, 0));
 
@@ -120,7 +120,7 @@ public class VanChartValueAxisPane extends VanChartBaseAxisPane {
      */
     @Override
     public String title4PopupWindow() {
-        return Inter.getLocText("Plugin-ChartF_ValueAxis");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_ValueAxis");
     }
 
     public void populateBean(VanChartAxis axis){

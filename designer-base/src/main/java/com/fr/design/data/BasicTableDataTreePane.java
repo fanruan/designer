@@ -26,7 +26,6 @@ import com.fr.design.mainframe.DockingView;
 import com.fr.design.menu.LineSeparator;
 import com.fr.design.menu.MenuDef;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
 import com.fr.general.NameObject;
 import com.fr.stable.StringUtils;
 import com.fr.workspace.WorkContext;
@@ -36,7 +35,11 @@ import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.tree.TreeCellEditor;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.EventObject;
 import java.util.HashMap;
 import java.util.Map;
@@ -75,7 +78,7 @@ public abstract class BasicTableDataTreePane extends DockingView implements Resp
      */
     @Override
     public String getViewTitle() {
-        return Inter.getLocText("FR-Designer_TableData");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_TableData");
     }
 
     /**
@@ -117,18 +120,14 @@ public abstract class BasicTableDataTreePane extends DockingView implements Resp
         dg.setButtonEnabled(true);
         String tempName = nPanel.getObjectName();
         if (StringUtils.isBlank(tempName)) {
-            nPanel.setShowText(Inter.getLocText(new String[]{"DS-TableData", "ISEMPTY", "PLEASE", "GIVE-NAME"}, new String[]{"", "，", "", "！"}));
+            nPanel.setShowText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Table_Data_Empty_Name_Tips"));
             dg.setButtonEnabled(false);
         } else if (!ComparatorUtils.equals(oldName, tempName) && isDsNameRepeaded(tempName)) {
-            String[] waring = new String[]{"DS-TableData", "Utils-has_been_existed", "PLEASE", "Rename"};
-            String[] sign = new String[]{tempName, "，", "", "！"};
-            nPanel.setShowText(Inter.getLocText(waring, sign));
+            nPanel.setShowText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Table_Data_Duplicate_Name_Tips", tempName));
             dg.setButtonEnabled(false);
         } else if (isProcedureName(oldName)) {
             if (isIncludeUnderline(tempName)) {
-                String[] datasource_underline = new String[]{"Datasource-Stored_Procedure", "Name", "can_not_include_underline"};
-                String[] sign = new String[]{"", "", "!"};
-                nPanel.setShowText(Inter.getLocText(datasource_underline, sign));
+                nPanel.setShowText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Stored_Procedure_Name_Tips"));
                 dg.setButtonEnabled(false);
             }
         } else {
@@ -138,7 +137,7 @@ public abstract class BasicTableDataTreePane extends DockingView implements Resp
     }
 
     private boolean isProcedureName(String oldName) {
-        return oldName.length() >= PROCEDURE_NAME_INDEX && ComparatorUtils.equals(type, Inter.getLocText("Datasource-Stored_Procedure"));
+        return oldName.length() >= PROCEDURE_NAME_INDEX && ComparatorUtils.equals(type, com.fr.design.i18n.Toolkit.i18nText("Datasource-Stored_Procedure"));
     }
 
 
@@ -383,7 +382,7 @@ public abstract class BasicTableDataTreePane extends DockingView implements Resp
         private TableDataTree dataTree;
 
         public PreviewTableDataAction(TableDataTree dataTree) {
-            this.setName(Inter.getLocText("FR-Designer_Preview"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Preview"));
             this.setMnemonic('p');
             this.setSmallIcon(BaseUtils.readIcon(IconPathConstants.PREVIEW_ICON_PATH));
             this.dataTree = dataTree;
@@ -422,7 +421,7 @@ public abstract class BasicTableDataTreePane extends DockingView implements Resp
     protected class ConnectionTableAction extends com.fr.design.actions.server.ConnectionListAction {
 
         public ConnectionTableAction() {
-            this.setName(Inter.getLocText("Server-Define_Data_Connection"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Server-Define_Data_Connection"));
             this.setMnemonic('D');
             this.setSmallIcon(BaseUtils.readIcon(IconPathConstants.TD_CONNECTION_ICON_PATH));
         }

@@ -5,7 +5,7 @@ import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.base.AttrTooltipContent;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 import com.fr.van.chart.designer.component.format.CategoryNameFormatPaneWithCheckBox;
@@ -56,8 +56,8 @@ public class VanChartTooltipContentPane extends BasicBeanPane<AttrTooltipContent
     }
 
     private JPanel createLabelContentPane() {
-        content = new UIButtonGroup<Integer>(new String[]{Inter.getLocText("Plugin-ChartF_Common"),
-                Inter.getLocText("Plugin-ChartF_Custom")});
+        content = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Common"),
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Custom")});
 
         initFormatPane(parent, showOnPane);
 
@@ -82,8 +82,8 @@ public class VanChartTooltipContentPane extends BasicBeanPane<AttrTooltipContent
                 }
             }
         };
-        centerPane.add(htmlLabelPane, Inter.getLocText("Plugin-ChartF_Custom"));
-        centerPane.add(commonPanel,Inter.getLocText("Plugin-ChartF_Common"));
+        centerPane.add(htmlLabelPane, com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Custom"));
+        centerPane.add(commonPanel,com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Common"));
 
         double[] column = {f, e};
         double[] row = {p,p,p};
@@ -98,11 +98,11 @@ public class VanChartTooltipContentPane extends BasicBeanPane<AttrTooltipContent
     }
 
     protected String getLabelContentTitle () {
-        return Inter.getLocText("FR-Designer_Text");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Text");
     }
 
     protected JPanel getLabelContentPane(JPanel contentPane) {
-        return createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_Content"), contentPane);
+        return createTableLayoutPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Content"), contentPane);
     }
 
     protected VanChartHtmlLabelPane createHtmlLabelPane() {
@@ -146,13 +146,13 @@ public class VanChartTooltipContentPane extends BasicBeanPane<AttrTooltipContent
     private void checkCardPane() {
         CardLayout cardLayout = (CardLayout) centerPane.getLayout();
         if (content.getSelectedIndex() == 1) {
-            cardLayout.show(centerPane,Inter.getLocText("Plugin-ChartF_Custom"));
+            cardLayout.show(centerPane,com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Custom"));
             if(isDirty()){
                 setCustomFormatterText();
                 setDirty(false);
             }
         } else {
-            cardLayout.show(centerPane, Inter.getLocText("Plugin-ChartF_Common"));
+            cardLayout.show(centerPane, com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Common"));
         }
     }
 

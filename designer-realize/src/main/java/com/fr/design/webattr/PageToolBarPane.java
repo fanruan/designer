@@ -12,7 +12,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.form.event.Listener;
-import com.fr.general.Inter;
+
 import com.fr.report.web.Location;
 import com.fr.report.web.ToolBarManager;
 import com.fr.report.web.WebContent;
@@ -30,19 +30,19 @@ import java.util.List;
 
 public class PageToolBarPane extends AbstractEditToolBarPane {
 	
-	private UIRadioButton centerRadioButton = new UIRadioButton(Inter.getLocText("FR-Designer_Center_Display"));
-	private UIRadioButton leftRadioButton = new UIRadioButton(Inter.getLocText("FR-Designer_Left_Display"));
+	private UIRadioButton centerRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Center_Display"));
+	private UIRadioButton leftRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Left_Display"));
 	
-	private UICheckBox isUseToolBarCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Use_ToolBar"));
+	private UICheckBox isUseToolBarCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Use_ToolBar"));
 	private UICheckBox isShowAsImageBox;
 	private UICheckBox isAutoScaleBox;
 	private UICheckBox isTDHeavyBox;
 	private EventPane eventPane;
 	
-	private UILabel showLocationLabel = new UILabel(Inter.getLocText("FR-Designer_Report_Show_Location") + ":");
-	private UILabel showListenersLabel = new UILabel(Inter.getLocText("Form-Editing_Listeners") + ":");
+	private UILabel showLocationLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Report_Show_Location") + ":");
+	private UILabel showListenersLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Form-Editing_Listeners") + ":");
  	
-	private UIButton editToolBarButton = new UIButton(Inter.getLocText("FR-Designer_Edit"));
+	private UIButton editToolBarButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit"));
 	
 	public PageToolBarPane() {
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
@@ -56,11 +56,11 @@ public class PageToolBarPane extends AbstractEditToolBarPane {
 		buttonGroup.add(leftRadioButton);
 		north.add(GUICoreUtils.createFlowPane(new Component[] {
 				showLocationLabel, new UILabel(" "), centerRadioButton, leftRadioButton}, FlowLayout.LEFT));
-		isShowAsImageBox = new UICheckBox(Inter.getLocText("FR-Designer_Is_Paint_Page"));
+		isShowAsImageBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Is_Paint_Page"));
 		north.add(GUICoreUtils.createFlowPane(isShowAsImageBox, FlowLayout.LEFT));
-		isAutoScaleBox = new UICheckBox(Inter.getLocText("FR-Designer_IS_Auto_Scale"));
+		isAutoScaleBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_IS_Auto_Scale"));
 		north.add(GUICoreUtils.createFlowPane(isAutoScaleBox, FlowLayout.LEFT));
-		isTDHeavyBox = new UICheckBox(Inter.getLocText("FR-Designer_IS_TD_HEAVY_EXPORT"), false);
+		isTDHeavyBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_IS_TD_HEAVY_EXPORT"), false);
 		north.add(GUICoreUtils.createFlowPane(isTDHeavyBox, FlowLayout.LEFT));
 
 		editToolBarButton.addActionListener(editBtnListener);
@@ -107,7 +107,7 @@ public class PageToolBarPane extends AbstractEditToolBarPane {
 	
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("WEB-Pagination_Setting");
+		return com.fr.design.i18n.Toolkit.i18nText("WEB-Pagination_Setting");
 	}
 
 	@Override

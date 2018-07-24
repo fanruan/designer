@@ -11,7 +11,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
-import com.fr.general.Inter;
+
 import com.fr.stable.StringUtils;
 import com.fr.design.mainframe.widget.editors.IntegerPropertyEditor;
 import com.fr.design.mainframe.widget.editors.PropertyCellEditor;
@@ -47,7 +47,7 @@ public class FRBorderLayoutConstraints implements ConstraintsGroupModel {
 
     @Override
     public String getGroupName() {
-        return Inter.getLocText("Layout_Constraints");
+        return com.fr.design.i18n.Toolkit.i18nText("Layout_Constraints");
     }
 
     @Override
@@ -84,9 +84,9 @@ public class FRBorderLayoutConstraints implements ConstraintsGroupModel {
         if (column == 0) {
             switch (row) {
                 case 0:
-                    return Inter.getLocText("BorderLayout-Constraints");
+                    return com.fr.design.i18n.Toolkit.i18nText("BorderLayout-Constraints");
                 case 1:
-                    return Inter.getLocText("Title");
+                    return com.fr.design.i18n.Toolkit.i18nText("Title");
                 default:
                     return getSizeDisplayName();
             }
@@ -128,9 +128,9 @@ public class FRBorderLayoutConstraints implements ConstraintsGroupModel {
     private String getSizeDisplayName() {
         Object obj = layout.getConstraints(widget);
         if (BorderLayout.NORTH.equals(obj) || BorderLayout.SOUTH.equals(obj)) {
-            return Inter.getLocText("Tree-Height");
+            return com.fr.design.i18n.Toolkit.i18nText("Tree-Height");
         } else if (BorderLayout.WEST.equals(obj) || BorderLayout.EAST.equals(obj)) {
-            return Inter.getLocText("Tree-Width");
+            return com.fr.design.i18n.Toolkit.i18nText("Tree-Width");
         } else {
             return StringUtils.EMPTY;
         }
@@ -138,7 +138,7 @@ public class FRBorderLayoutConstraints implements ConstraintsGroupModel {
 
     private String getChildPositionDisplayName() {
         Object obj = layout.getConstraints(widget);
-        //return Inter.getLocText("BorderLayout-" + obj);
+        //return com.fr.design.i18n.Toolkit.i18nText("BorderLayout-" + obj);
         return obj.toString();
     }
 

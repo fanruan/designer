@@ -10,7 +10,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.ChartDataFilterPane;
-import com.fr.general.Inter;
+
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 
 import javax.swing.BorderFactory;
@@ -25,8 +25,8 @@ import java.util.List;
  * @version 创建时间：2012-12-21 下午04:51:50
  */
 public class MeterPlotTableDataContentPane extends AbstractTableDataContentPane {
-	private static final String METER_NAME = Inter.getLocText("Chart-Category_Use_Name");
-	private static final String METER_VALUE = Inter.getLocText("Chart-Pointer_Value");
+	private static final String METER_NAME = com.fr.design.i18n.Toolkit.i18nText("Chart-Category_Use_Name");
+	private static final String METER_VALUE = com.fr.design.i18n.Toolkit.i18nText("Chart-Pointer_Value");
 	
 	private UIComboBox nameBox;
 	private UIComboBox valueBox;
@@ -46,7 +46,7 @@ public class MeterPlotTableDataContentPane extends AbstractTableDataContentPane 
 
         Component[][] components = createComponents();
 
-		JPanel jPanel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Chart-Data_Filter"),filterPane);
+		JPanel jPanel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_Filter"),filterPane);
 		JPanel panel = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
 
 		filterPane.setBorder(BorderFactory.createEmptyBorder(0,10,0,15));

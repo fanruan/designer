@@ -1,6 +1,6 @@
 package com.fr.design.actions.columnrow;
 
-import com.fr.general.Inter;
+
 import com.fr.design.mainframe.ElementCasePane;
 
 public class HeadRowAction extends ColumnRowRepeatAction {
@@ -8,7 +8,7 @@ public class HeadRowAction extends ColumnRowRepeatAction {
 	public HeadRowAction(ElementCasePane t) {
 		super(t);
 		
-        this.setName(Inter.getLocText("Set_Row_Title_Start"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Set_Row_Title_Start"));
 //		this.setMnemonic('H');
     }
 	

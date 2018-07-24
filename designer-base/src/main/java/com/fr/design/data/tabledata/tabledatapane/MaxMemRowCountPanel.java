@@ -10,7 +10,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.gui.itoolbar.UIToolbar;
-import com.fr.general.Inter;
+
 
 public class MaxMemRowCountPanel extends UIToolbar {
 	private static final int ALL_IN_MEMORY = 0;
@@ -51,7 +51,7 @@ public class MaxMemRowCountPanel extends UIToolbar {
 		this.setFloatable(false);
 		this.setRollover(true);
 		this.setBackground(UIConstants.NORMAL_BACKGROUND);
-		String[] cacheList = { Inter.getLocText("Save_All_Records_In_Memory"), Inter.getLocText("Max-Mem-Row-Count") };
+		String[] cacheList = { com.fr.design.i18n.Toolkit.i18nText("Save_All_Records_In_Memory"), com.fr.design.i18n.Toolkit.i18nText("Max-Mem-Row-Count") };
 		switchCache = new UIComboBox(cacheList);
 		switchCache.addActionListener(switchStateL);
 		numberSpinner = new UISpinner(0, Integer.MAX_VALUE, 1);
@@ -73,7 +73,7 @@ public class MaxMemRowCountPanel extends UIToolbar {
 		switchCache.setSelectedIndex(MAX_IN_MEMORY);
 		this.add(new UILabel(" "));
 		this.add(numberSpinner);
-		this.add(new UILabel(" " + Inter.getLocText("Row")));
+		this.add(new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("Row")));
 		this.validate();
 		this.repaint();
 	}

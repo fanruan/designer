@@ -10,7 +10,7 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.report.SelectImagePane;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.quickeditor.FloatQuickEditor;
 import com.fr.report.cell.cellattr.CellImage;
 
@@ -25,7 +25,7 @@ public class FloatImageQuickEditor extends FloatQuickEditor {
 
     public FloatImageQuickEditor() {
         super();
-        UIButton editbutton = new UIButton(Inter.getLocText("FR-Designer_Edit"));
+        UIButton editbutton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit"));
         editbutton.addActionListener(new ActionListener() {
 
             @Override

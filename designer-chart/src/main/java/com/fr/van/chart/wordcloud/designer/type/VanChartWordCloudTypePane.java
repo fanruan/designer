@@ -3,7 +3,7 @@ package com.fr.van.chart.wordcloud.designer.type;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.base.VanChartTools;
 import com.fr.plugin.chart.wordcloud.VanChartWordCloudPlot;
 import com.fr.plugin.chart.wordcloud.WordCloudIndependentVanChart;
@@ -13,7 +13,7 @@ import com.fr.van.chart.designer.type.AbstractVanChartTypePane;
  * Created by Mitisky on 16/11/29.
  */
 public class VanChartWordCloudTypePane extends AbstractVanChartTypePane {
-    public static final String TITLE = Inter.getLocText("Plugin-ChartF_NewWordCloud");
+    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewWordCloud");
     @Override
     protected String[] getTypeIconPath() {
         return new String[]{
@@ -24,7 +24,7 @@ public class VanChartWordCloudTypePane extends AbstractVanChartTypePane {
     @Override
     protected String[] getTypeTipName() {
         return new String[]{
-                Inter.getLocText("Plugin-ChartF_WordCloud")
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_WordCloud")
         };
     }
 
@@ -45,7 +45,7 @@ public class VanChartWordCloudTypePane extends AbstractVanChartTypePane {
      */
     @Override
     public String title4PopupWindow() {
-        return Inter.getLocText("Plugin-ChartF_NewWordCloud");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewWordCloud");
     }
 
     protected Plot getSelectedClonedPlot(){

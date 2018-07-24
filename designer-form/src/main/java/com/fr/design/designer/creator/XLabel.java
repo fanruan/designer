@@ -16,7 +16,7 @@ import com.fr.design.mainframe.widget.renderer.FontCellRenderer;
 import com.fr.design.mainframe.widget.renderer.LabelHorizontalAlignmentRenderer;
 import com.fr.form.ui.Label;
 import com.fr.form.ui.container.WParameterLayout;
-import com.fr.general.Inter;
+
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Constants;
 import com.fr.stable.core.PropertyChangeAdapter;
@@ -58,7 +58,7 @@ public class XLabel extends XWidgetCreator {
         return (CRPropertyDescriptor[]) ArrayUtils.addAll(super.supportedDescriptor(),
                 new CRPropertyDescriptor[]{
                         new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(
-                                Inter.getLocText(new String[]{"FR-Designer_Widget", "Value"})).setEditorClass(
+                                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Value")).setEditorClass(
                                 WidgetValueEditor.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
                                 .setPropertyChangeListener(new PropertyChangeAdapter() {
 
@@ -69,16 +69,16 @@ public class XLabel extends XWidgetCreator {
                             }
                         }),
                         new CRPropertyDescriptor("wrap", this.data.getClass()).setI18NName(
-                                Inter.getLocText("FR-Designer_StyleAlignment-Wrap_Text")).putKeyValue(
+                                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_StyleAlignment-Wrap_Text")).putKeyValue(
                                 XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                         new CRPropertyDescriptor("verticalCenter", this.data.getClass()).setI18NName(
-                                Inter.getLocText("FR-Designer_PageSetup-Vertically")).putKeyValue(
+                                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_PageSetup-Vertically")).putKeyValue(
                                 XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                         new CRPropertyDescriptor("textalign", this.data.getClass()).setI18NName(
-                                Inter.getLocText("FR-Designer_Alignment-Style")).setEditorClass(ItemCellEditor.class)
+                                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Alignment-Style")).setEditorClass(ItemCellEditor.class)
                                 .setRendererClass(LabelHorizontalAlignmentRenderer.class).putKeyValue(
                                 XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
-                        new CRPropertyDescriptor("font", this.data.getClass()).setI18NName(Inter.getLocText("FR-Designer_Font"))
+                        new CRPropertyDescriptor("font", this.data.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Font"))
                                 .setEditorClass(FontEditor.class).setRendererClass(FontCellRenderer.class).putKeyValue(
                                 XCreatorConstants.PROPERTY_CATEGORY, "Advanced")});
     }

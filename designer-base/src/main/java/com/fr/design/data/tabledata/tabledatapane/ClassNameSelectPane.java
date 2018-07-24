@@ -4,7 +4,7 @@ import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itree.filetree.ClassFileTree;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import javax.swing.tree.TreeSelectionModel;
@@ -20,7 +20,7 @@ public class ClassNameSelectPane extends BasicPane {
         this.add(webDirectoryPane, BorderLayout.NORTH);
         webDirectoryPane.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
         webDirectoryPane.add(new UILabel(
-                Inter.getLocText("Function-Choose_Function_Class") + ":"));
+                com.fr.design.i18n.Toolkit.i18nText("Function-Choose_Function_Class") + ":"));
 
         classFileTree = new ClassFileTree();
         classFileTree.refreshEnv();
@@ -31,7 +31,7 @@ public class ClassNameSelectPane extends BasicPane {
     
     @Override
     protected String title4PopupWindow() {
-    	return Inter.getLocText("Function-Function_Class_Name");
+    	return com.fr.design.i18n.Toolkit.i18nText("Function-Function_Class_Name");
     }
 
     /*
@@ -53,7 +53,7 @@ public class ClassNameSelectPane extends BasicPane {
     public void checkValid() throws Exception {
         String classPath = classFileTree.getSelectedClassPath();
         if (classPath == null) {
-            throw new Exception(Inter.getLocText("Function-The_selected_file_cannot_be_null"));
+            throw new Exception(com.fr.design.i18n.Toolkit.i18nText("Function-The_selected_file_cannot_be_null"));
         }
     }
 }

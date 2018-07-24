@@ -2,7 +2,7 @@ package com.fr.design.chart.series.SeriesCondition.dlp;
 
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.stable.Constants;
-import com.fr.general.Inter;
+
 import com.fr.chart.base.AttrContents;
 import com.fr.design.layout.FRGUIPaneFactory;
 
@@ -20,9 +20,9 @@ public class RangeDataLabelPane extends DataLabelPane {
 	private JRadioButton bottomButton;
 	  
     protected JPanel createJPanel4Position() {
-    	topButton = new JRadioButton(Inter.getLocText("StyleAlignment-Top"));
-    	bottomButton = new JRadioButton(Inter.getLocText("StyleAlignment-Bottom"));
-    	centerButton = new JRadioButton(Inter.getLocText("Center"));
+    	topButton = new JRadioButton(com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Top"));
+    	bottomButton = new JRadioButton(com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Bottom"));
+    	centerButton = new JRadioButton(com.fr.design.i18n.Toolkit.i18nText("Center"));
 		
 		ButtonGroup bg = new ButtonGroup();
 		bg.add(topButton);
@@ -32,7 +32,7 @@ public class RangeDataLabelPane extends DataLabelPane {
 		topButton.setSelected(true);
 		
 		JPanel buttonPane = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
-		buttonPane.add(new UILabel(Inter.getLocText(new String[]{"Label", "Layout"}) + ":"));
+		buttonPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Label", "Layout"}) + ":"));
 		buttonPane.add(topButton);
 		buttonPane.add(bottomButton);
 		buttonPane.add(centerButton);

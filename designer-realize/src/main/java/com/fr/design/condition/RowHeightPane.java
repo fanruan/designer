@@ -1,7 +1,7 @@
 package com.fr.design.condition;
 
 import com.fr.design.gui.ispinner.UIBasicSpinner;
-import com.fr.general.Inter;
+
 import com.fr.report.cell.cellattr.highlight.HighlightAction;
 import com.fr.report.cell.cellattr.highlight.RowHeightHighlightAction;
 import com.fr.stable.unit.UNIT;
@@ -15,7 +15,7 @@ public class RowHeightPane extends WHPane {
     private UIBasicSpinner rowHeightSpinner;
 
     public RowHeightPane(ConditionAttributesPane conditionAttributesPane) {
-        super(conditionAttributesPane, Inter.getLocText("Utils-Row_Height"));
+        super(conditionAttributesPane, com.fr.design.i18n.Toolkit.i18nText("Utils-Row_Height"));
     }
 
     @Override

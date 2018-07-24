@@ -10,7 +10,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.ChartDataFilterPane;
-import com.fr.general.Inter;
+
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 
 import javax.swing.BorderFactory;
@@ -25,8 +25,8 @@ import java.awt.Component;
  */
 public class MeterPlotReportDataContentPane extends AbstractReportDataContentPane {
 	
-	private static final String CATENAME = Inter.getLocText(new String[]{"ChartF-Meter", "StyleFormat-Category", "WF-Name"});
-	private static final String NVALUE = Inter.getLocText("Chart-Pointer_Value");
+	private static final String CATENAME = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Category_Name");
+	private static final String NVALUE = com.fr.design.i18n.Toolkit.i18nText("Chart-Pointer_Value");
 	
 	private TinyFormulaPane singCatePane;
 	private TinyFormulaPane singValuePane;
@@ -59,7 +59,7 @@ public class MeterPlotReportDataContentPane extends AbstractReportDataContentPan
 		this.setLayout(new BorderLayout());
 		this.add(panel, BorderLayout.NORTH);
 		filterPane = new ChartDataFilterPane(new MeterPlot(), parent);
-		JPanel pane = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Chart-Data_Filter"),filterPane);
+		JPanel pane = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_Filter"),filterPane);
 		pane.setBorder(getSidesBorder());
 		filterPane.setBorder(getFilterPaneBorder());
 

@@ -14,7 +14,7 @@ import com.fr.design.mainframe.chart.ChartHyperEditPane;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.Inter;
+
 
 import java.awt.*;
 import java.util.HashMap;
@@ -43,7 +43,7 @@ public class ChartHyperPoplinkPane extends AbstractHyperLinkPane<ChartHyperPopli
 
         if (this.needRenamePane()) {
             itemNameTextField = new UITextField();
-            this.add(GUICoreUtils.createNamedPane(itemNameTextField, Inter.getLocText("FR-Chart-Use_Name") + ":"), BorderLayout.NORTH);
+            this.add(GUICoreUtils.createNamedPane(itemNameTextField, com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Use_Name") + ":"), BorderLayout.NORTH);
         }
 
         hyperEditPane = new ChartHyperEditPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
@@ -82,7 +82,7 @@ public class ChartHyperPoplinkPane extends AbstractHyperLinkPane<ChartHyperPopli
 
     @Override
     public String title4PopupWindow() {
-        return Inter.getLocText("FR-Chart-Pop_Chart");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Pop_Chart");
     }
 
     @Override

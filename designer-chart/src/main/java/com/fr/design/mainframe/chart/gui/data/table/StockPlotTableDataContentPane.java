@@ -12,7 +12,7 @@ import com.fr.design.mainframe.chart.gui.UIEditLabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,7 +25,7 @@ import java.util.List;
  */
 public class StockPlotTableDataContentPane extends AbstractTableDataContentPane {
 
-	private static final String TIMEAXIS = Inter.getLocText("Chart-Horizontal_TimeAxis");
+	private static final String TIMEAXIS = com.fr.design.i18n.Toolkit.i18nText("Chart-Horizontal_TimeAxis");
 	private static final int LABEL_WIDTH = 105;
 
 	private UIComboBox axisBox;

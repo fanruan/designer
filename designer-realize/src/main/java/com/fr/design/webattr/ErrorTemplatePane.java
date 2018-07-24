@@ -12,7 +12,7 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.Inter;
+
 
 
 public class ErrorTemplatePane extends BasicBeanPane<String> {
@@ -33,12 +33,12 @@ public class ErrorTemplatePane extends BasicBeanPane<String> {
         reportletNamePane.add(this.templateField);
 
         Component[][] components = {
-        		{new UILabel(Inter.getLocText("Template_Path") + ":"), reportletNamePane},
+        		{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Template_Path") + ":"), reportletNamePane},
 
-        		{new UILabel(Inter.getLocText("Template_Parameters") + ":"), null},
-        		{new UILabel("message" + ":"), new UILabel(Inter.getLocText("Verify-Message"))},
-        		{new UILabel("charset" + ":"), new UILabel(Inter.getLocText("Server_Charset"))},
-        		{new UILabel("exception" + ":"), new UILabel(Inter.getLocText("Exception_StackTrace"))}
+        		{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Template_Parameters") + ":"), null},
+        		{new UILabel("message" + ":"), new UILabel(com.fr.design.i18n.Toolkit.i18nText("Verify-Message"))},
+        		{new UILabel("charset" + ":"), new UILabel(com.fr.design.i18n.Toolkit.i18nText("Server_Charset"))},
+        		{new UILabel("exception" + ":"), new UILabel(com.fr.design.i18n.Toolkit.i18nText("Exception_StackTrace"))}
         };
         JPanel northPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
         

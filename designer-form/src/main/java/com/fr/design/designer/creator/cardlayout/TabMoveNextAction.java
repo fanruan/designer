@@ -4,7 +4,7 @@ import com.fr.design.mainframe.FormDesigner;
 import com.fr.form.ui.CardSwitchButton;
 import com.fr.form.ui.container.cardlayout.WTabFitLayout;
 import com.fr.general.IOUtils;
-import com.fr.general.Inter;
+
 
 /**
  * Created by zhouping on 2017/2/9.
@@ -13,7 +13,7 @@ public class TabMoveNextAction extends TabMoveAction {
 
     public TabMoveNextAction(FormDesigner t, XCardSwitchButton xCardSwitchButton) {
         super(t, xCardSwitchButton);
-        this.setName(Inter.getLocText("FR-Designer-Move_Tab_Next"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Move_Tab_Next"));
         this.setSmallIcon(IOUtils.readIcon("com/fr/design/images/control/tab/next.png"));
     }
 

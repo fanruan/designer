@@ -33,15 +33,15 @@ public class ProcedureListPane extends JListControlPane {
 				String tempName = getEditingName();
 				if(StringUtils.isEmpty(tempName)) {
 					nameableList.stopEditing();
-					//JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(ProcedureListPane.this), Inter.getLocText("NOT_NULL_Des") + "," + Inter.getLocText("Please_Rename") + "!");
+					//JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(ProcedureListPane.this), com.fr.design.i18n.Toolkit.i18nText("NOT_NULL_Des") + "," + com.fr.design.i18n.Toolkit.i18nText("Please_Rename") + "!");
 					setWarnigText(nameableList.getSelectedIndex());
 					return;
 				}
 				for(int i = 0; i < allDSNames.length; i++) {
 					String dsname = allDSNames[i];
 					if (ComparatorUtils.equals(dsname, tempName)) {
-//						JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(ProcedureListPane.this), Inter.getLocText(new String[]{"already_exists", "TableData"})
-//								+ tempName + "," + Inter.getLocText("Please_Rename") + "!");
+//						JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(ProcedureListPane.this), com.fr.design.i18n.Toolkit.i18nText(new String[]{"already_exists", "TableData"})
+//								+ tempName + "," + com.fr.design.i18n.Toolkit.i18nText("Please_Rename") + "!");
 						setWarnigText(nameableList.getSelectedIndex());
 						break;
 					}

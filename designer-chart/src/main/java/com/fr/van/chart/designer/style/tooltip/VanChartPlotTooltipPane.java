@@ -8,7 +8,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.base.AttrTooltip;
 import com.fr.van.chart.designer.PlotFactory;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
@@ -50,7 +50,7 @@ public class VanChartPlotTooltipPane extends BasicPane {
     }
 
     protected  void addComponents(Plot plot) {
-        isTooltipShow = new UICheckBox(Inter.getLocText("Plugin-ChartF_UseTooltip"));
+        isTooltipShow = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_UseTooltip"));
         tooltipPane = createTooltipPane(plot);
 
         double p = TableLayout.PREFERRED;
@@ -94,8 +94,8 @@ public class VanChartPlotTooltipPane extends BasicPane {
         Component[][] components = new Component[][]{
                 new Component[]{tooltipContentPane,null},
                 new Component[]{createLabelStylePane(),null},
-                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Border"),borderPane),null},
-                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Background"), backgroundPane),null},
+                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Border"),borderPane),null},
+                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Background"), backgroundPane),null},
                 new Component[]{createDisplayStrategy(plot),null},
         };
         return components;
@@ -107,7 +107,7 @@ public class VanChartPlotTooltipPane extends BasicPane {
     }
 
     protected JPanel createLabelStylePane() {
-        style = new UIButtonGroup<Integer>(new String[]{Inter.getLocText("Plugin-ChartF_Automatic"),Inter.getLocText("Plugin-ChartF_Custom")});
+        style = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Automatic"),com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Custom")});
         textFontPane = new ChartTextAttrPane() {
             protected Component[][] getComponents(JPanel buttonPane) {
                 return new Component[][]{
@@ -118,14 +118,14 @@ public class VanChartPlotTooltipPane extends BasicPane {
             }
         };
 
-        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-Chart_Character"), style);
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-Chart_Character"), style);
         JPanel panel1 = new JPanel(new BorderLayout());
         panel1.add(panel, BorderLayout.CENTER);
         panel1.add(textFontPane, BorderLayout.SOUTH);
 
         initStyleListener();
 
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Designer-Widget_Style"), panel1);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget_Style"), panel1);
     }
 
 
@@ -140,8 +140,8 @@ public class VanChartPlotTooltipPane extends BasicPane {
 
     protected JPanel createDisplayStrategy(Plot plot) {
         showAllSeries = new UICheckBox(getShowAllSeriesLabelText());
-        followMouse = new UIButtonGroup(new String[]{Inter.getLocText("Plugin-ChartF_FollowMouse"),
-                Inter.getLocText("Plugin-ChartF_NotFollowMouse")});
+        followMouse = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_FollowMouse"),
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NotFollowMouse")});
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
@@ -149,17 +149,17 @@ public class VanChartPlotTooltipPane extends BasicPane {
         double[] rowSize = { p,p,p};
         Component[][] components = new Component[3][2];
         components[0] = new Component[]{null,null};
-        components[1] = new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Prompt_Box")),followMouse};
+        components[1] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Prompt_Box")),followMouse};
 
         if(plot.isSupportTooltipSeriesType() && hasTooltipSeriesType()){
             components[2] = new Component[]{showAllSeries,null};
         }
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components,rowSize,columnSize);
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_DisplayStrategy"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_DisplayStrategy"), panel);
     }
 
     protected String getShowAllSeriesLabelText() {
-        return Inter.getLocText("Plugin-ChartF_ShowAllSeries");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_ShowAllSeries");
     };
 
     protected boolean hasTooltipSeriesType() {

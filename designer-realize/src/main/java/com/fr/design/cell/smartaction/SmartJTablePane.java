@@ -14,7 +14,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionListener;
-import com.fr.general.Inter;
+
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.selection.SelectionListener;
 
@@ -52,7 +52,7 @@ public abstract class SmartJTablePane extends BasicPane {
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
 
 		// BasicPane的north放描述
-		this.add(new UILabel(Inter.getLocText("RWA-Click_Cell_To_Edit_Value")), BorderLayout.NORTH);
+		this.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("RWA-Click_Cell_To_Edit_Value")), BorderLayout.NORTH);
 
 		// BasicPane的center放JTable
 		table = new JTable(model);

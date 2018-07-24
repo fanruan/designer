@@ -3,7 +3,7 @@
  */
 package com.fr.design.mainframe.widget.wrappers;
 
-import com.fr.general.Inter;
+
 import com.fr.js.NameJavaScriptGroup;
 import com.fr.design.Exception.ValidationException;
 import com.fr.design.designer.properties.Decoder;
@@ -26,10 +26,10 @@ public class HyperlinkGroupWrapper implements Encoder, Decoder {
     @Override
     public String encode(Object v) {
         if (v == null) {
-            return Inter.getLocText(new String[]{"HF-Undefined", "Hyperlink"});
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Hyperlink_Undefined");
         }
         NameJavaScriptGroup group = (NameJavaScriptGroup)v;
-        return Inter.getLocText(new String[]{"Total", "Has"}) + group.size() + Inter.getLocText(new String[]{"SpecifiedG-Groups", "Hyperlink"});
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Hyperlink_Group_Count", group.size());
     }
 
     @Override

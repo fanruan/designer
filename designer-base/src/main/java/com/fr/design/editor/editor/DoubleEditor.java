@@ -1,7 +1,7 @@
 package com.fr.design.editor.editor;
 
 import com.fr.base.Utils;
-import com.fr.general.Inter;
+
 
 /**
  * 双精度编辑器
@@ -16,7 +16,7 @@ public class DoubleEditor extends NumberEditor<Double> {
 	}
 
 	public DoubleEditor(Double value) {
-		super(value, Inter.getLocText("Parameter-Double"));
+		super(value, com.fr.design.i18n.Toolkit.i18nText("Parameter-Double"));
 	}
 
 	@Override

@@ -6,7 +6,7 @@ import com.fr.design.mainframe.CellElementPropertyPane;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralUtils;
-import com.fr.general.Inter;
+
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.Selection;
 import com.fr.report.cell.TemplateCellElement;
@@ -26,7 +26,7 @@ public class NewPresentAction extends PresentCheckBoxAction {
     @Override
     public boolean executeActionReturnUndoRecordNeeded() {
         if (!ComparatorUtils.equals(this.itemName, "NOPRESENT")) {
-            CellElementPropertyPane.getInstance().GoToPane(Inter.getLocText("FR-Designer_Present"), this.itemName);
+            CellElementPropertyPane.getInstance().GoToPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Present"), this.itemName);
         } else {
             TemplateCellElement ce = getSelectedCellElement();
             // 只有原来ce设置了形态的情况下才有undo操作

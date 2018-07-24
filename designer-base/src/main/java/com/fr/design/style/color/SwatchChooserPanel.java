@@ -17,7 +17,7 @@ import javax.swing.JColorChooser;
 import javax.swing.JPanel;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 
-import com.fr.general.Inter;
+
 
 public class SwatchChooserPanel extends AbstractColorChooserPanel{
 	  /** The main panel that holds the set of choosable colors. */
@@ -577,7 +577,7 @@ public class SwatchChooserPanel extends AbstractColorChooserPanel{
 	   */
 	  public String getDisplayName()
 	  {
-	    return Inter.getLocText("FR-Designer_Swatch");
+	    return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Swatch");
 	  }
 
 	  /**

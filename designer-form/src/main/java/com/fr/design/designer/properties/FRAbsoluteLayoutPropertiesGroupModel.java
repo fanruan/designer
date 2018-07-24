@@ -6,7 +6,7 @@ import com.fr.design.mainframe.widget.editors.AbsoluteLayoutDirectionEditor;
 import com.fr.design.mainframe.widget.editors.IntegerPropertyEditor;
 import com.fr.design.mainframe.widget.editors.PropertyCellEditor;
 import com.fr.form.ui.container.WAbsoluteLayout;
-import com.fr.general.Inter;
+
 
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellEditor;
@@ -38,7 +38,7 @@ public class FRAbsoluteLayoutPropertiesGroupModel implements GroupModel {
      */
     @Override
     public String getGroupName() {
-        return Inter.getLocText("FR-Designer-Widget_Area_Scaling");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget_Area_Scaling");
     }
 
     @Override
@@ -59,7 +59,7 @@ public class FRAbsoluteLayoutPropertiesGroupModel implements GroupModel {
     @Override
     public Object getValue(int row, int column) {
         if (column == 0) {
-            return Inter.getLocText("FR-Designer-Widget_Scaling_Mode");
+            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget_Scaling_Mode");
         } else {
             return layout.getCompState();
         }

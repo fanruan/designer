@@ -4,7 +4,7 @@ import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.base.VanChartTools;
 import com.fr.plugin.chart.heatmap.HeatMapIndependentVanChart;
 import com.fr.plugin.chart.heatmap.VanChartHeatMapPlot;
@@ -16,7 +16,7 @@ import com.fr.van.chart.map.designer.type.VanChartMapSourceChoosePane;
  * Created by Mitisky on 16/10/20.
  */
 public class VanChartHeatMapTypePane extends VanChartMapPlotPane {
-    public static final String TITLE = Inter.getLocText("Plugin-ChartF_NewHeatMap");
+    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewHeatMap");
 
     @Override
     protected String[] getTypeIconPath() {
@@ -27,7 +27,7 @@ public class VanChartHeatMapTypePane extends VanChartMapPlotPane {
     @Override
     protected String[] getTypeTipName() {
         return new String[]{
-                Inter.getLocText("Plugin-ChartF_HeatMap")
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_HeatMap")
         };
     }
 
@@ -48,7 +48,7 @@ public class VanChartHeatMapTypePane extends VanChartMapPlotPane {
      */
     @Override
     public String title4PopupWindow() {
-        return Inter.getLocText("Plugin-ChartF_NewHeatMap");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewHeatMap");
     }
 
     @Override

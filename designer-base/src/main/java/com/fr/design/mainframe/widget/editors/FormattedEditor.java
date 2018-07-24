@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 
 import com.fr.design.Exception.ValidationException;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 
 /**
  * @author richer
@@ -70,7 +70,7 @@ public class FormattedEditor extends AbstractPropertyEditor {
         try {
             format.parseObject(textField.getText());
         } catch (ParseException ex) {
-            throw new ValidationException(Inter.getLocText("Format-Error") + "!");
+            throw new ValidationException(com.fr.design.i18n.Toolkit.i18nText("Format-Error") + "!");
         }
     }
 }

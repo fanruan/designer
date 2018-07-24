@@ -4,7 +4,7 @@ import com.fr.base.BaseUtils;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.report.cell.cellattr.core.SubReport;
 
 import javax.swing.KeyStroke;
@@ -36,7 +36,7 @@ public class SubReportCellAction extends AbstractCellAction {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M_Insert-Sub_Report");
+            return com.fr.design.i18n.Toolkit.i18nText("M_Insert-Sub_Report");
         }
 
         @Override

@@ -18,7 +18,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.style.ChartBeautyPane;
-import com.fr.general.Inter;
+
 
 /**
  * 组合图, 属性表, 图表样式-系列.
@@ -46,10 +46,10 @@ public class CustomSeriesPane extends AbstractPlotSeriesPane {
         Component[][] components = new Component[][]{
         		new Component[]{stylePane},
         	    new Component[]{new JSeparator()},
-                new Component[]{new BoldFontTextLabel(Inter.getLocText("Series_Use_Default"))},
+                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Series_Use_Default"))},
                 new Component[]{defaultSeriesStyle},
                 new Component[]{new JSeparator()},
-                new Component[]{new BoldFontTextLabel(Inter.getLocText("FR-Chart-Add_Series_Setting"), SwingConstants.LEFT)},
+                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Add_Series_Setting"), SwingConstants.LEFT)},
                 new Component[]{conditionPane}
         } ;
 
@@ -69,7 +69,7 @@ public class CustomSeriesPane extends AbstractPlotSeriesPane {
             }
 
             List<UIMenuNameableCreator> list = new ArrayList<UIMenuNameableCreator>();
-            list.add(new UIMenuNameableCreator(Inter.getLocText("FR-Chart-Series_Setting"), new CustomAttr(), CustomTypeConditionSeriesPane.class));
+            list.add(new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Series_Setting"), new CustomAttr(), CustomTypeConditionSeriesPane.class));
 
             conditionPane.refreshMenuAndAddMenuAction(list);
 

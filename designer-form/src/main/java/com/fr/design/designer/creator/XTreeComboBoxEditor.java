@@ -14,7 +14,7 @@ import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.form.ui.TreeComboBoxEditor;
-import com.fr.general.Inter;
+
 import com.fr.stable.ArrayUtils;
 
 /**
@@ -46,19 +46,19 @@ public class XTreeComboBoxEditor extends XTreeEditor {
 
 	protected CRPropertyDescriptor[] addWaterMark(CRPropertyDescriptor[] crp) throws IntrospectionException {
 		return (CRPropertyDescriptor[]) ArrayUtils.add(crp, new CRPropertyDescriptor("waterMark", this.data.getClass()).setI18NName(
-				Inter.getLocText("FR-Designer_WaterMark")).putKeyValue(
+				com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WaterMark")).putKeyValue(
 				XCreatorConstants.PROPERTY_CATEGORY, "Advanced"));
 	}
 
 	protected CRPropertyDescriptor[] addAllowEdit(CRPropertyDescriptor[] crp) throws IntrospectionException{
 		return (CRPropertyDescriptor[])ArrayUtils.add(crp, new CRPropertyDescriptor("directEdit", this.data.getClass())
-          .setI18NName(Inter.getLocText("Form-Allow_Edit")).putKeyValue(
+          .setI18NName(com.fr.design.i18n.Toolkit.i18nText("Form-Allow_Edit")).putKeyValue(
                   XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate"));
 	}
 
 	protected CRPropertyDescriptor[] addCustomData(CRPropertyDescriptor[] crp) throws IntrospectionException{
 		return (CRPropertyDescriptor[])ArrayUtils.add(crp, new CRPropertyDescriptor("customData", this.data.getClass())
-          .setI18NName(Inter.getLocText("Form-Allow_CustomData")).putKeyValue(
+          .setI18NName(com.fr.design.i18n.Toolkit.i18nText("Form-Allow_CustomData")).putKeyValue(
                   XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate"));
 	}
 

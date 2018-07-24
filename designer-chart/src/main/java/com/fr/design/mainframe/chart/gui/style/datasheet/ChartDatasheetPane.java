@@ -16,7 +16,7 @@ import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
 import com.fr.design.mainframe.chart.gui.style.axis.ChartAxisPane;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.FRFont;
-import com.fr.general.Inter;
+
 import com.fr.van.chart.designer.component.format.FormatPaneWithNormalType;
 
 import javax.swing.JPanel;
@@ -46,13 +46,13 @@ public class ChartDatasheetPane extends BasicScrollPane<Chart>{
 			double f = TableLayout.FILL;
 			double[] columnSize = {LayoutConstants.CHART_ATTR_TOMARGIN,f};
 			double[] rowSize = { p, p, p, p};
-			isDatasheetVisable = new UICheckBox(Inter.getLocText("Chart_Show_Data_Sheet"));
+			isDatasheetVisable = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart_Show_Data_Sheet"));
 			textAttrPane = new ChartTextAttrPane();
 			formatPane = new FormatPaneWithNormalType();
             Component[][] components = new Component[][]{
                     new Component[]{null,textAttrPane},
                     new Component[]{new JSeparator(),null},
-                    new Component[]{new UILabel(Inter.getLocText("Data_Type")), null},
+                    new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Data_Type")), null},
                     new Component[]{null,formatPane},
             };
 

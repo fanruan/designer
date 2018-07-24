@@ -8,7 +8,7 @@ import com.fr.design.utils.DesignUtils;
 import com.fr.file.FILE;
 import com.fr.file.FileNodeFILE;
 import com.fr.general.GeneralUtils;
-import com.fr.general.Inter;
+
 import com.fr.general.web.ParameterConstants;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.stable.web.AbstractWebletCreator;
@@ -52,8 +52,8 @@ public final class WebPreviewUtils {
             browseUrl(currentTemplate, baseRoute, map, actionType, jt);
         } else {
             // 说明模板没有保存在报表运行环境下面,提示用户
-            int selVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("Web_Preview_Message"),
-                    Inter.getLocText("Preview_ToolTips"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+            int selVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Web_Preview_Message"),
+                    com.fr.design.i18n.Toolkit.i18nText("Preview_ToolTips"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
 
             if (JOptionPane.OK_OPTION == selVal) {
                 if (!jt.saveAsTemplate2Env()) {
@@ -96,8 +96,8 @@ public final class WebPreviewUtils {
                 DesignUtils.visitEnvServerByParameters(baseRoute, parameterNameList.toArray(new String[parameterNameList.size()]), parameterValueList.toArray(new String[parameterValueList.size()]));
             }
         } else {
-            int selVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("Web_Preview_Message"),
-                    Inter.getLocText("Preview_ToolTips"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+            int selVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Web_Preview_Message"),
+                    com.fr.design.i18n.Toolkit.i18nText("Preview_ToolTips"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
             if (JOptionPane.OK_OPTION == selVal) {
                 if (!jt.saveAsTemplate()) {
                     return;

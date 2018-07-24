@@ -13,7 +13,7 @@ import com.fr.data.condition.ListCondition;
 import com.fr.design.condition.ConditionAttrSingleConditionPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -166,7 +166,7 @@ public class DataSeriesConditionPane extends ConditionAttributesPane<ConditionAt
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText(new String[]{"Condition", "Display"});
+        return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Condition", "Display"});
     }
 
     /**

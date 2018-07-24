@@ -10,7 +10,7 @@ import com.fr.chart.chartattr.PiePlot;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionCollection;
 import com.fr.chart.charttypes.PieIndependentChart;
-import com.fr.general.Inter;
+
 import com.fr.stable.Constants;
 
 import java.awt.*;
@@ -36,10 +36,10 @@ public class PiePlotPane extends AbstractChartTypePane{
 
 	@Override
 	protected String[] getTypeTipName() {
-		String pie = Inter.getLocText("I-PieStyle_Normal");
+		String pie = com.fr.design.i18n.Toolkit.i18nText("I-PieStyle_Normal");
 		return new String[]{
 				pie,
-				Inter.getLocText("FR-Chart-Chart_3D") + pie
+				com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Chart_3D") + pie
 		};
 	}
 
@@ -63,7 +63,7 @@ public class PiePlotPane extends AbstractChartTypePane{
      * @return 界面标题
 	 */
 	public String title4PopupWindow() {
-		return Inter.getLocText("I-PieStyle_Normal");
+		return com.fr.design.i18n.Toolkit.i18nText("I-PieStyle_Normal");
 	}
 
     private void createPieCondition(Plot plot) {

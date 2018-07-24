@@ -13,10 +13,11 @@ import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.FRBorderLayoutAdapter;
 import com.fr.design.designer.beans.location.Direction;
 import com.fr.design.form.layout.FRBorderLayout;
+import com.fr.design.i18n.Toolkit;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WBorderLayout;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 
 /**
  * @author richer
@@ -72,8 +73,7 @@ public class XWBorderLayout extends XLayoutContainer {
      */
     public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
         return  new CRPropertyDescriptor[] {
-                new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Inter
-                        .getLocText("Form-Widget_Name"))
+                new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Toolkit.i18nText("Form-Widget_Name"))
         };
     }
 

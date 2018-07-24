@@ -8,7 +8,6 @@ import com.fr.design.gui.controlpane.NameableSelfCreator;
 import com.fr.design.gui.controlpane.UnrepeatedNameHelper;
 import com.fr.design.gui.ilist.ModNameActionListener;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
 import com.fr.stable.Nameable;
 import com.fr.stable.StringUtils;
 import com.fr.stable.core.PropertyChangeAdapter;
@@ -36,10 +35,8 @@ public class ParameterArrayPane extends JListControlPane {
 				allListNames[nameableList.getSelectedIndex()] = StringUtils.EMPTY;
 				String tempName = getEditingName();
 				if (StringUtils.isEmpty(tempName)) {
-					String[] warning = new String[]{"NOT_NULL_Des", "Please_Rename"};
-					String[] sign = new String[]{",", "!"};
 					nameableList.stopEditing();
-					JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(ParameterArrayPane.this), Inter.getLocText(warning, sign));
+					JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(ParameterArrayPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Empty_Parameter_Name"));
 					setWarnigText(editingIndex);
 					return;
 				}
@@ -47,7 +44,7 @@ public class ParameterArrayPane extends JListControlPane {
 						&& isNameRepeted(new List[]{Arrays.asList(parameters), Arrays.asList(allListNames)}, tempName)) {
 					nameableList.stopEditing();
 					JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(ParameterArrayPane.this),
-							Inter.getLocText(new String[]{"parameter_name_exist", "Please_Rename"}, new String[]{",", "!"}));
+							com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Duplicate_Parameter_Name"));
 					setWarnigText(editingIndex);
 				}
 			}
@@ -57,7 +54,7 @@ public class ParameterArrayPane extends JListControlPane {
 
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("FR-Engine_Schedule-Template_Parameter");
+		return com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Schedule-Template_Parameter");
 	}
 
 	/**
@@ -67,7 +64,7 @@ public class ParameterArrayPane extends JListControlPane {
 	 */
 	public NameableCreator[] createNameableCreators() {
 		return new NameableCreator[]{
-				new NameableSelfCreator(Inter.getLocText("FR-Engine_Parameter_Name"), Parameter.class, ParameterPane.class) {
+				new NameableSelfCreator(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Parameter_Name"), Parameter.class, ParameterPane.class) {
 					public Parameter createNameable(UnrepeatedNameHelper helper) {
 						// 返回参数设置面板.
 						return new Parameter(helper.createUnrepeatedName("p"));

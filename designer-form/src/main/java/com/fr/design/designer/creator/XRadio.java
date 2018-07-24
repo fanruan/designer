@@ -11,7 +11,7 @@ import javax.swing.JRadioButton;
 
 import com.fr.design.mainframe.widget.editors.WidgetValueEditor;
 import com.fr.form.ui.Radio;
-import com.fr.general.Inter;
+
 import com.fr.stable.ArrayUtils;
 
 /**
@@ -32,9 +32,9 @@ public class XRadio extends XWidgetCreator {
     @Override
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
 		return (CRPropertyDescriptor[]) ArrayUtils.addAll(super.supportedDescriptor(), new CRPropertyDescriptor[] {
-				new CRPropertyDescriptor("text", this.data.getClass()).setI18NName(Inter.getLocText("Text")),
+				new CRPropertyDescriptor("text", this.data.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Text")),
 				new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(
-						Inter.getLocText(new String[]{"Widget", "Value"})).setEditorClass(WidgetValueEditor.class)});
+						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Value")).setEditorClass(WidgetValueEditor.class)});
 	}
 
     @Override

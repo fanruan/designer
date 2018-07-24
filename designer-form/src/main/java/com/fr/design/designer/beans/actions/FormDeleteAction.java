@@ -9,7 +9,7 @@ import javax.swing.*;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.designer.beans.actions.behavior.ComponentEnable;
-import com.fr.general.Inter;
+
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.FormSelection;
@@ -23,7 +23,7 @@ public class FormDeleteAction extends FormWidgetEditAction {
     public FormDeleteAction(FormDesigner t) {
         super(t);
 
-        this.setName(Inter.getLocText("M_Edit-Delete"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("M_Edit-Delete"));
         this.setMnemonic('D');
         // Richie:删除菜单图标
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_report/delete.png"));

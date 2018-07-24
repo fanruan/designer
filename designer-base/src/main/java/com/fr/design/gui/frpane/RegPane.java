@@ -13,7 +13,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.form.ui.reg.*;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
@@ -76,7 +76,7 @@ public class RegPane extends BasicPane {
         regComboBox.setRenderer(listCellRender);
 
         JPanel contentPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Input_Rule")), regComboBox}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Input_Rule")), regComboBox}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
         JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
 
         jPanel.add(contentPane, BorderLayout.NORTH);
@@ -119,7 +119,7 @@ public class RegPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("FR-Designer_Input_Rule");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Input_Rule");
     }
 
     private int getRegTypeIndex(RegExp regex) {
@@ -330,14 +330,14 @@ public class RegPane extends BasicPane {
         private static final String REG_PATTERN = "0123456789-*# ";
 
         private UIComboBox dataTypeComboBox;
-        private final String[] dataType = {EMB_REG1, EMB_REG2, EMB_REG3, Inter.getLocText("FR-Designer_Custom")};
+        private final String[] dataType = {EMB_REG1, EMB_REG2, EMB_REG3, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Custom")};
         DefaultComboBoxModel DefaultComboBoxModel= new DefaultComboBoxModel(dataType);
         public RegPhonePane() {
             this.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L6, IntervalConstants.INTERVAL_L5, 0, 0));
             this.setLayout(FRGUIPaneFactory.createBorderLayout());
             dataTypeComboBox = new UIComboBox(DefaultComboBoxModel);
             JTextField editFiled = (JTextField)(dataTypeComboBox.getEditor().getEditorComponent());
-            UILabel dataTypeLable = new UILabel(Inter.getLocText("FR-Designer_Data_Type"));
+            UILabel dataTypeLable = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Data_Type"));
             dataTypeLable.setPreferredSize(new Dimension(60, 20));
             JPanel panel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{dataTypeLable, dataTypeComboBox}}, TableLayoutHelper.FILL_LASTCOLUMN, 10, 0);
             this.add(panel);
@@ -401,8 +401,8 @@ public class RegPane extends BasicPane {
             this.setPreferredSize(new Dimension(210, 56));
             minLenSpinner = new UISpinner(0, Integer.MAX_VALUE, 1, 0);
             maxLenSpinner = new UISpinner(0, Integer.MAX_VALUE, 1, 0);
-            UILabel minLabel = new UILabel(Inter.getLocText("FR-Designer_Reg_Min_Length"));
-            UILabel maxLabel = new UILabel(Inter.getLocText("FR-Designer_Reg_Max_Length"));
+            UILabel minLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Reg_Min_Length"));
+            UILabel maxLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Reg_Max_Length"));
             minLabel.setPreferredSize(new Dimension(60, 20));
             maxLabel.setPreferredSize(new Dimension(60, 20));
             double f = TableLayout.FILL;
@@ -456,7 +456,7 @@ public class RegPane extends BasicPane {
             this.setLayout(FRGUIPaneFactory.createBorderLayout());
             this.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L6, IntervalConstants.INTERVAL_L5, 0, 0));
             regTextField = new UITextField();
-            JPanel panel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{new UILabel(Inter.getLocText("FR-Designer_Reg_Expressions")), regTextField}}, TableLayoutHelper.FILL_LASTCOLUMN, 10, LayoutConstants.VGAP_MEDIUM);
+            JPanel panel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Reg_Expressions")), regTextField}}, TableLayoutHelper.FILL_LASTCOLUMN, 10, LayoutConstants.VGAP_MEDIUM);
             this.add(panel);
         }
 
@@ -490,21 +490,21 @@ public class RegPane extends BasicPane {
                                                       int index, boolean isSelected, boolean cellHasFocus) {
             super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
             if (value instanceof NoneReg){
-                this.setText(Inter.getLocText("FR-Designer_None"));
+                this.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_None"));
             } else if (value instanceof LengthReg){
-                this.setText(Inter.getLocText("FR-Designer_Length"));
+                this.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Length"));
             } else if (value instanceof MailReg){
-                this.setText(Inter.getLocText("FR-Designer_Email"));
+                this.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Email"));
             } else if (value instanceof PhoneReg){
-                this.setText(Inter.getLocText("FR-Designer_Phone"));
+                this.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Phone"));
             } else if (value instanceof MobileReg) {
-                this.setText(Inter.getLocText("FR-Designer_MobilePhone"));
+                this.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_MobilePhone"));
             } else if (value instanceof IDCardReg){
-                this.setText(Inter.getLocText("FR-Designer_IDCard"));
+                this.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_IDCard"));
             } else if (value instanceof PostCardReg){
-                this.setText(Inter.getLocText("FR-Designer_PostCode"));
+                this.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_PostCode"));
             } else if (value instanceof CustomReg){
-                this.setText(Inter.getLocText("FR-Designer_Custom"));
+                this.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Custom"));
             }
             return this;
         }

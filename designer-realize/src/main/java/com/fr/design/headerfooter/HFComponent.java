@@ -34,7 +34,7 @@ import com.fr.base.headerfooter.TextHFElement;
 import com.fr.base.headerfooter.TimeHFElement;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.dialog.DialogActionAdapter;
-import com.fr.general.Inter;
+
 import com.fr.design.utils.gui.GUICoreUtils;
 
 /**
@@ -65,7 +65,7 @@ public class HFComponent extends UILabel implements MoveActionListener {
         //popup menu
         popupMenu = new JPopupMenu();
 
-        UIMenuItem editMenuItem = new UIMenuItem(Inter.getLocText("Edit") + "...");
+        UIMenuItem editMenuItem = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("Edit") + "...");
         editMenuItem.setMnemonic('E');
         popupMenu.add(editMenuItem);
 
@@ -85,7 +85,7 @@ public class HFComponent extends UILabel implements MoveActionListener {
     }
 
     public void menuItemAction(String s,final char o){
-        UIMenuItem menuItem = new UIMenuItem(Inter.getLocText(s));
+        UIMenuItem menuItem = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText(s));
         menuItem.setMnemonic(o);
         popupMenu.add(menuItem);
 
@@ -259,24 +259,24 @@ public class HFComponent extends UILabel implements MoveActionListener {
      */
     public static String getHFELementText(HFElement hfElement) {
         if (hfElement.getClass().equals(TextHFElement.class)) {
-            return Inter.getLocText("Text");
+            return com.fr.design.i18n.Toolkit.i18nText("Text");
         } else if (hfElement.getClass().equals(FormulaHFElement.class)) {
-            return Inter.getLocText("Formula");
+            return com.fr.design.i18n.Toolkit.i18nText("Formula");
         } else if (hfElement.getClass().equals(PageNumberHFElement.class)) {
-            return Inter.getLocText("HF-Page_Number");
+            return com.fr.design.i18n.Toolkit.i18nText("HF-Page_Number");
         } else if (hfElement.getClass().equals(NumberOfPageHFElement.class)) {
-            return Inter.getLocText("HF-Number_of_Page");
+            return com.fr.design.i18n.Toolkit.i18nText("HF-Number_of_Page");
         } else if (hfElement.getClass().equals(DateHFElement.class)) {
-            return Inter.getLocText("Date");
+            return com.fr.design.i18n.Toolkit.i18nText("Date");
         } else if (hfElement.getClass().equals(TimeHFElement.class)) {
-            return Inter.getLocText("Time");
+            return com.fr.design.i18n.Toolkit.i18nText("Time");
         } else if (hfElement.getClass().equals(ImageHFElement.class)) {
-            return Inter.getLocText("Image");
+            return com.fr.design.i18n.Toolkit.i18nText("Image");
         } else if (hfElement.getClass().equals(NewLineHFElement.class)) {
-            return Inter.getLocText("HF-New_Line");
+            return com.fr.design.i18n.Toolkit.i18nText("HF-New_Line");
         }
 
-        return Inter.getLocText("HF-Undefined");
+        return com.fr.design.i18n.Toolkit.i18nText("HF-Undefined");
     }
 
     /**

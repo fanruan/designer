@@ -20,7 +20,7 @@ import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.form.ui.BaseChartEditor;
 import com.fr.form.ui.container.WFitLayout;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -53,9 +53,9 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane {
         this.designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
         JPanel mobileSettingsPane;
         if (isInAbsoluteLayout()) {
-            mobileSettingsPane = getUnavailableTipPane(Inter.getLocText("FR-Designer_Tip_Chart_Adaptivity_Unavailable_In_Absolute_Layout"));
+            mobileSettingsPane = getUnavailableTipPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tip_Chart_Adaptivity_Unavailable_In_Absolute_Layout"));
         } else if (!isAppRelayout()) {
-            mobileSettingsPane = getUnavailableTipPane(Inter.getLocText("FR-Designer_Tip_Chart_Adaptivity_Unavailable"));
+            mobileSettingsPane = getUnavailableTipPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tip_Chart_Adaptivity_Unavailable"));
         } else {
             mobileSettingsPane = getMobileSettingsPane();
         }
@@ -96,8 +96,8 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane {
         updateTipLabel();
 
         Component[][] components = new Component[][]{
-                new Component[] {new UILabel(Inter.getLocText("FR-Designer_Zoom_In_Logic"), SwingConstants.LEFT), new UILabel(ChartMobileFitAttrState.PROPORTION.description())},
-                new Component[] {new UILabel(Inter.getLocText("FR-Designer_Zoom_Out_Logic"), SwingConstants.LEFT), zoomOutComboBox},
+                new Component[] {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Zoom_In_Logic"), SwingConstants.LEFT), new UILabel(ChartMobileFitAttrState.PROPORTION.description())},
+                new Component[] {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Zoom_Out_Logic"), SwingConstants.LEFT), zoomOutComboBox},
                 new Component[] {tipLabel, null}
         };
 
@@ -111,7 +111,7 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane {
         final JPanel panelWrapper = FRGUIPaneFactory.createBorderLayout_S_Pane();
         panelWrapper.add(panel, BorderLayout.NORTH);
 
-        return new UIExpandablePane(Inter.getLocText("FR-Designer_Chart_Adaptivity"), 280, 20, panelWrapper);
+        return new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Chart_Adaptivity"), 280, 20, panelWrapper);
     }
 
     private void initZoomOutComboBox() {

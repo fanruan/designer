@@ -8,7 +8,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.Inter;
+
 import com.fr.report.cell.TemplateCellElement;
 import com.fr.report.cell.cellattr.CellExpandAttr;
 import com.fr.report.cell.cellattr.core.group.*;
@@ -46,7 +46,7 @@ public class ResultSetGroupDockingPane extends ResultSetGroupPane {
     }
 
     public void initComponents() {
-        goBox = new UIComboBox(new String[]{Inter.getLocText("BindColumn-Group"), Inter.getLocText("BindColumn-Select"), Inter.getLocText("BindColumn-Summary")});
+        goBox = new UIComboBox(new String[]{com.fr.design.i18n.Toolkit.i18nText("BindColumn-Group"), com.fr.design.i18n.Toolkit.i18nText("BindColumn-Select"), com.fr.design.i18n.Toolkit.i18nText("BindColumn-Summary")});
         initCardPane();
         contentPane = layoutPane();
         this.setLayout(new BorderLayout());
@@ -56,7 +56,7 @@ public class ResultSetGroupDockingPane extends ResultSetGroupPane {
     private JPanel layoutPane() {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        UILabel dataSetLabel = new UILabel(Inter.getLocText("Data_Setting"));
+        UILabel dataSetLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Data_Setting"));
         dataSetLabel.setPreferredSize(new Dimension(60, 20));
         Component[][] components = new Component[][]
                 {
@@ -100,7 +100,7 @@ public class ResultSetGroupDockingPane extends ResultSetGroupPane {
                 checkButtonEnabled();
             }
         });
-        advancedButton = new UIButton(Inter.getLocText("Custom"));
+        advancedButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Custom"));
         advancedButton.addActionListener(groupAdvancedListener);
 
         JPanel pane = new JPanel(new BorderLayout(0, 10));

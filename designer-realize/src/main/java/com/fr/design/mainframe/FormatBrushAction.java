@@ -3,7 +3,7 @@ package com.fr.design.mainframe;
 import com.fr.base.BaseUtils;
 import com.fr.base.Style;
 import com.fr.design.actions.ElementCaseAction;
-import com.fr.general.Inter;
+
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.Selection;
 import com.fr.report.cell.DefaultTemplateCellElement;
@@ -29,7 +29,7 @@ public class FormatBrushAction extends ElementCaseAction {
 
     public FormatBrushAction(ElementCasePane t) {
         super(t);
-        this.setName(Inter.getLocText("M_Edit-FormatBrush"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("M_Edit-FormatBrush"));
         this.setMnemonic('B');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_edit/formatBrush.png"));
         this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, DEFAULT_MODIFIER));
@@ -50,7 +50,7 @@ public class FormatBrushAction extends ElementCaseAction {
                 //判断是不是连续区域
                 //荣国是连续区域，那么这些长方形的长加起来应该等于
                 if (!isContinueArea()) {
-                    JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("FR-Designer_Can_not_use_FormatBursh"));
+                    JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Can_not_use_FormatBursh"));
                     ePane.setFormatState(DesignerContext.FORMAT_STATE_NULL);
                     ePane.getFormatBrush().setSelected(false);
                     return false;

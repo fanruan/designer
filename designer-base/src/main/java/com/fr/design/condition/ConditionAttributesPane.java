@@ -8,7 +8,7 @@ import com.fr.design.gui.itoolbar.UIToolbar;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.Dimension;
@@ -35,14 +35,14 @@ public abstract class ConditionAttributesPane<T> extends BasicBeanPane<T> {
         JPanel propertyChangePane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_S_Pane();
         this.add(propertyChangePane);
 
-        propertyChangePane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("Property") + ":", null));
+        propertyChangePane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Property") + ":", null));
 
         // 选择要改变的属性.
         JPanel addItemPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
         ToolBarDef toolbarDef = new ToolBarDef();
 
         menuDef = new CellHighlightAddMenuDef();
-        menuDef.setName(Inter.getLocText("Highlight-Click_to_Choose_Property_To_Modify"));
+        menuDef.setName(com.fr.design.i18n.Toolkit.i18nText("Highlight-Click_to_Choose_Property_To_Modify"));
         menuDef.setIconPath("com/fr/design/images/control/addPopup.png");
 
         toolbarDef.addShortCut(menuDef);

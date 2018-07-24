@@ -10,7 +10,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.style.ChartFillStylePane;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.heatmap.VanChartHeatMapPlot;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 import com.fr.van.chart.map.VanChartMapSeriesPane;
@@ -56,7 +56,7 @@ public class VanChartHeatMapSeriesPane extends VanChartMapSeriesPane {
      */
     @Override
     protected JPanel getContentInPlotType() {
-        final UIButtonGroup group = new UIButtonGroup(new String[]{Inter.getLocText("Plugin-ChartF_HeatPoint"), Inter.getLocText("Plugin-ChartF_Background_Area")});
+        final UIButtonGroup group = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_HeatPoint"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Background_Area")});
         group.setSelectedIndex(0);
 
         JPanel backgroundAreaPane = createAreaPane();
@@ -111,13 +111,13 @@ public class VanChartHeatMapSeriesPane extends VanChartMapSeriesPane {
 
         Component[][] components = new Component[][]{
                 new Component[]{null, null, null},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Heat_Map_Radius")), radius, null},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Heat_Map_Blur")), blur, new UILabel("%")}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Heat_Map_Radius")), radius, null},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Heat_Map_Blur")), blur, new UILabel("%")}
         };
 
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
 
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Chart-Style_Name"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Chart-Style_Name"), panel);
 
     }
 
@@ -134,13 +134,13 @@ public class VanChartHeatMapSeriesPane extends VanChartMapSeriesPane {
 
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Min")), minOpacity},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Max")), maxOpacity}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Min")), minOpacity},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Max")), maxOpacity}
         };
 
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
 
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Alpha"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Alpha"), panel);
     }
 
 

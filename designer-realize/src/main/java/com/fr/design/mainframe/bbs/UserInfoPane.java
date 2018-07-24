@@ -12,7 +12,7 @@ import com.fr.design.dialog.BasicPane;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.general.DateUtils;
 import com.fr.general.GeneralContext;
-import com.fr.general.Inter;
+
 import com.fr.stable.EnvChangedListener;
 import com.fr.stable.StringUtils;
 
@@ -92,7 +92,7 @@ public class UserInfoPane extends BasicPane {
      * 标志未登录状态, 面板设置为灰色
      */
     public void markUnSignIn() {
-        this.userInfoLabel.setText(Inter.getLocText("FR-Base_UnSignIn"));
+        this.userInfoLabel.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Base_UnSignIn"));
         this.userInfoLabel.setOpaque(true);
         this.userInfoLabel.setBackground(UN_LOGIN_BACKGROUND);
         this.userInfoLabel.resetUserName();

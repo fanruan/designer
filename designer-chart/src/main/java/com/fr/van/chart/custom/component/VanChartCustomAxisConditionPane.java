@@ -1,7 +1,7 @@
 package com.fr.van.chart.custom.component;
 
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.base.AttrSeriesStackAndAxis;
 import com.fr.van.chart.column.VanChartCustomStackAndAxisConditionPane;
 
@@ -19,8 +19,8 @@ public class VanChartCustomAxisConditionPane extends VanChartCustomStackAndAxisC
 
     protected Component[][] getDeployComponents() {
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("ChartF-X_Axis")),XAxis},
-                new Component[]{new UILabel(Inter.getLocText("ChartF-Y_Axis")),YAxis},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("ChartF-X_Axis")),XAxis},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("ChartF-Y_Axis")),YAxis},
         };
 
         return components;
@@ -28,7 +28,7 @@ public class VanChartCustomAxisConditionPane extends VanChartCustomStackAndAxisC
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("Plugin-ChartF_Custom_Axis");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Custom_Axis");
     }
 
 

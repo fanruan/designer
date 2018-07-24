@@ -28,7 +28,7 @@ import com.fr.design.present.ConditionAttributesGroupPane;
 import com.fr.design.roleAuthority.RolesAlreadyEditedPane;
 import com.fr.design.selection.SelectionEvent;
 import com.fr.design.selection.SelectionListener;
-import com.fr.general.Inter;
+
 import com.fr.grid.selection.FloatSelection;
 import com.fr.grid.selection.Selection;
 import com.fr.page.ReportSettingsProvider;
@@ -146,7 +146,7 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
 
     // 插入菜单
     private MenuDef createInsertMenuDef() {
-        MenuDef menuDef = new MenuDef(Inter.getLocText("FR-Designer_M-Insert"), 'I');
+        MenuDef menuDef = new MenuDef(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_M-Insert"), 'I');
         menuDef.setAnchor(MenuHandler.INSERT);
         // 单元格菜单
         menuDef.addShortCut(DeprecatedActionManager.getCellMenu(this));

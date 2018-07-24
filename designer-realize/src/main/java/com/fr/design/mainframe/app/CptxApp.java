@@ -4,7 +4,7 @@ import com.fr.base.extension.FileExtension;
 import com.fr.base.frpx.exception.FRPackageRunTimeException;
 import com.fr.base.frpx.exception.InvalidWorkBookException;
 import com.fr.file.FILE;
-import com.fr.general.Inter;
+
 import com.fr.log.FineLoggerFactory;
 import com.fr.main.impl.WorkBook;
 import com.fr.main.impl.WorkBookAdapter;
@@ -26,7 +26,7 @@ class CptxApp extends AbstractWorkBookApp {
     @Override
     public WorkBook asIOFile(FILE file) {
         
-        FineLoggerFactory.getLogger().info(Inter.getLocText(new String[]{"LOG-Is_Being_Openned", "LOG-Please_Wait"}, new String[]{"\"" + file.getName() + "\"" + ",", "..."}));
+        FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"LOG-Is_Being_Openned", "LOG-Please_Wait"}, new String[]{"\"" + file.getName() + "\"" + ",", "..."}));
         WorkBookX tpl;
         InputStream inputStream;
         try {

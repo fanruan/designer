@@ -8,7 +8,7 @@ import com.fr.design.mainframe.DecodeDialog;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.file.FILE;
 import com.fr.form.main.Form;
-import com.fr.general.Inter;
+
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.Constants;
 import com.fr.stable.bridge.StableFactory;
@@ -44,7 +44,7 @@ class FormApp extends AbstractAppProvider {
         if (XMLEncryptUtils.isCptEncoded() &&
             !XMLEncryptUtils.checkVaild(DesignerEnvManager.getEnvManager().getEncryptionKey())) {
             if (!new DecodeDialog(file).isPwdRight()) {
-                FineLoggerFactory.getLogger().error(Inter.getLocText("FR-Engine_ECP_error_pwd"));
+                FineLoggerFactory.getLogger().error(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_ECP_error_pwd"));
                 return new Form();
             }
         }
@@ -53,7 +53,7 @@ class FormApp extends AbstractAppProvider {
         // peter:打开新报表.
         Form tpl = new Form();
         // richer:打开报表通知
-        FineLoggerFactory.getLogger().info(Inter.getLocText(new String[]{"LOG-Is_Being_Openned", "LOG-Please_Wait"},
+        FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"LOG-Is_Being_Openned", "LOG-Please_Wait"},
             new String[]{"\"" + file.getName() + "\"" + ",", "..."}));
         try {
             tpl.readStream(file.asInputStream());

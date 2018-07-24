@@ -1,6 +1,6 @@
 package com.fr.design.report.freeze;
 
-import com.fr.general.Inter;
+
 import com.fr.stable.FT;
 import com.fr.stable.StringUtils;
 
@@ -32,7 +32,7 @@ public class RepeatColPane extends FreezeAndRepeatPane {
 
 	@Override
 	public String getLabeshow() {
-		return StringUtils.BLANK + Inter.getLocText("ColumnTo") + StringUtils.BLANK;
+		return StringUtils.BLANK + com.fr.design.i18n.Toolkit.i18nText("ColumnTo") + StringUtils.BLANK;
 	}
 
 }

@@ -43,7 +43,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartOtherPane;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.Inter;
+
 import com.fr.js.EmailJavaScript;
 import com.fr.js.FormHyperlinkProvider;
 import com.fr.js.JavaScript;
@@ -146,30 +146,30 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
      * @return 返回标题.
      */
     public String title4PopupWindow() {
-        return Inter.getLocText("Chart-Interactive_Tab");
+        return com.fr.design.i18n.Toolkit.i18nText("Chart-Interactive_Tab");
     }
 
     @Override
     protected JPanel createContentPane() {
-        isChartAnimation = new UICheckBox(Inter.getLocText("Chart-Animation_JSShow"));
-        isSeriesDragEnable = new UICheckBox(Inter.getLocText("Chart-Series_Drag"));
+        isChartAnimation = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Animation_JSShow"));
+        isSeriesDragEnable = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Series_Drag"));
 
-        isDatapointValue = new UICheckBox(Inter.getLocText("Chart-Use_Value"));
-        dataPointValueFormat = new UIButton(Inter.getLocText("Chart-Use_Format"));
-        isDatapointPercent = new UICheckBox(Inter.getLocText("Chart-Value_Percent"));
-        dataPointPercentFormat = new UIButton(Inter.getLocText("Chart-Use_Format"));
-        tooltipStyle = new UIComboBox(new String[]{Inter.getLocText("Chart-White_Black"), Inter.getLocText("Chart-Black_White")});
-        tooltipStyleLabel = new UILabel(Inter.getLocText("Chart-Style_Name"));
-        tooltipShowType = new UIComboBox(new String[]{Inter.getLocText("Chart-Series_SingleData"), Inter.getLocText("Chart-Series_AllData")});
-        tooltipShowTypeLabel = new UILabel(Inter.getLocText("Chart-Use_Show"));
+        isDatapointValue = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Value"));
+        dataPointValueFormat = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Format"));
+        isDatapointPercent = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Value_Percent"));
+        dataPointPercentFormat = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Format"));
+        tooltipStyle = new UIComboBox(new String[]{com.fr.design.i18n.Toolkit.i18nText("Chart-White_Black"), com.fr.design.i18n.Toolkit.i18nText("Chart-Black_White")});
+        tooltipStyleLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Style_Name"));
+        tooltipShowType = new UIComboBox(new String[]{com.fr.design.i18n.Toolkit.i18nText("Chart-Series_SingleData"), com.fr.design.i18n.Toolkit.i18nText("Chart-Series_AllData")});
+        tooltipShowTypeLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Show"));
 
-        isAddressTittle = new UICheckBox(Inter.getLocText("Chart-Area_Title"));
-        isAddress = new UICheckBox(Inter.getLocText("Chart-Gis_Address"));
-        isAddressName = new UICheckBox(Inter.getLocText("Chart-Address_Name"));
+        isAddressTittle = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Area_Title"));
+        isAddress = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Gis_Address"));
+        isAddressName = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Address_Name"));
 
-        isAxisShowToolTip = new UICheckBox(Inter.getLocText("Chart-Interactive_AxisTooltip"));
-        isAxisZoom = new UICheckBox(Inter.getLocText("Chart-Use_Zoom"));
-        isAutoRefresh = new UICheckBox(Inter.getLocText(new String[]{"Chart-Use_Auto", "Chart-Use_Refresh"}));
+        isAxisShowToolTip = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Interactive_AxisTooltip"));
+        isAxisZoom = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Zoom"));
+        isAutoRefresh = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Enable_Auto_Refresh"));
         autoRefreshTime = new UISpinner(1, Integer.MAX_VALUE, 1);
         superLink = new UICorrelationComboBoxPane();
 
@@ -179,7 +179,7 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
                 checkAutoRefresh();
             }
         });
-        timeSwitch = new UICheckBox(Inter.getLocText("FR-Chart-Interactive_timeSwitch"));
+        timeSwitch = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Interactive_timeSwitch"));
         timeSwitchPane = new TimeSwitchPane();
         initFormatListener();
         return initPaneWithListener();
@@ -326,7 +326,7 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
         double[] rowSize = new double[]{p, p};
 
         if (plot.isShowAllDataPointLabel()) {
-            isDatapointPercent.setText(Inter.getLocText("Chart-Value_Conversion"));
+            isDatapointPercent.setText(com.fr.design.i18n.Toolkit.i18nText("Chart-Value_Conversion"));
         }
         if (plot.isSupportAddress4Gis()) {
             UIButton tmpButton = new UIButton(); //用来调整对齐
@@ -408,11 +408,11 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
         Component[][] components = new Component[][]{
                 new Component[]{isAutoRefresh, null},
                 new Component[]{GUICoreUtils.createFlowPane(new Component[]{
-                        new UILabel(Inter.getLocText("Chart-Time_Interval")),
+                        new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Time_Interval")),
                         autoRefreshTime,
-                        new UILabel(Inter.getLocText("Chart-Time_Seconds"))
+                        new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Time_Seconds"))
                 }, 1)},
-                new Component[]{new UILabel("<html><font size='2' face='Microsoft Yahei' color='red'>" + Inter.getLocText("FR-Chart-AutoRefresh_NotSupportIMGAndReportData") + "</font></html>"), null},
+                new Component[]{new UILabel("<html><font size='2' face='Microsoft Yahei' color='red'>" + com.fr.design.i18n.Toolkit.i18nText("FR-Chart-AutoRefresh_NotSupportIMGAndReportData") + "</font></html>"), null},
         };
         autoRefreshPane = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Data-Check"}, components, rowSize, columnSize);
     }
@@ -568,9 +568,9 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
                 addressType = ((GisMapReportDefinition) definition).isAddress();
             }
             if (addressType) {
-                this.isAddress.setText(Inter.getLocText("Chart-Use_Address"));
+                this.isAddress.setText(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Address"));
             } else {
-                this.isAddress.setText(Inter.getLocText("Chart-Use_LatLng"));
+                this.isAddress.setText(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_LatLng"));
             }
         }
     }
@@ -859,24 +859,24 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
         List<ChartUIMenuNameableCreator> list = new ArrayList<ChartUIMenuNameableCreator>();
         java.util.HashMap<String, BaseFormula> hyperLinkEditorMap = plot.getHyperLinkEditorMap();
 
-        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, Inter.getLocText("Chart-Link_Reportlet"),
+        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, com.fr.design.i18n.Toolkit.i18nText("Chart-Link_Reportlet"),
                 new ReportletHyperlink(), getUseMap(map, ReportletHyperlink.class)));
-        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, Inter.getLocText("Chart-Link_Mail"), new EmailJavaScript(), ChartEmailPane.class));
-        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, Inter.getLocText("Chart-Link_Web"),
+        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, com.fr.design.i18n.Toolkit.i18nText("Chart-Link_Mail"), new EmailJavaScript(), ChartEmailPane.class));
+        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, com.fr.design.i18n.Toolkit.i18nText("Chart-Link_Web"),
                 new WebHyperlink(), getUseMap(map, WebHyperlink.class)));
-        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, Inter.getLocText("Chart-Link_Dynamic_Parameters"),
+        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, com.fr.design.i18n.Toolkit.i18nText("Chart-Link_Dynamic_Parameters"),
                 new ParameterJavaScript(), getUseMap(map, ParameterJavaScript.class)));
         list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, "JavaScript", new JavaScriptImpl(), getUseMap(map, JavaScriptImpl.class)));
 
-        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, Inter.getLocText("Chart-Float_Chart"),
+        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, com.fr.design.i18n.Toolkit.i18nText("Chart-Float_Chart"),
                 new ChartHyperPoplink(), getUseMap(map, ChartHyperPoplink.class)));
-        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, Inter.getLocText("Chart-Link_Cell"),
+        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, com.fr.design.i18n.Toolkit.i18nText("Chart-Link_Cell"),
                 new ChartHyperRelateCellLink(), getUseMap(map, ChartHyperRelateCellLink.class)));
-        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, Inter.getLocText("Chart-Link_Float"),
+        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, com.fr.design.i18n.Toolkit.i18nText("Chart-Link_Float"),
                 new ChartHyperRelateFloatLink(), getUseMap(map, ChartHyperRelateFloatLink.class)));
 
         FormHyperlinkProvider hyperlink = StableFactory.getMarkedInstanceObjectFromClass(FormHyperlinkProvider.XML_TAG, FormHyperlinkProvider.class);
-        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, Inter.getLocText("Chart-Link_Form"),
+        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, com.fr.design.i18n.Toolkit.i18nText("Chart-Link_Form"),
                 hyperlink, getUseMap(map, FormHyperlinkProvider.class)));
 
         return list;

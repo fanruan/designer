@@ -11,7 +11,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.widget.ui.designer.component.FontSizeComboPane;
 import com.fr.design.widget.ui.designer.component.FormWidgetValuePane;
 import com.fr.form.ui.CheckBox;
-import com.fr.general.Inter;
+
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -34,16 +34,16 @@ public class CheckBoxDefinePane extends AbstractDataModify<CheckBox> {
 		text = new UITextField();
 		fontSizePane = new FontSizeComboPane();
 		labelNameTextField = new UITextField();
-		UILabel widgetValueLabel = new UILabel(Inter.getLocText("FR-Designer-Estate_Widget_Value"));
+		UILabel widgetValueLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Estate_Widget_Value"));
 		widgetValueLabel.setVerticalAlignment(SwingConstants.TOP);
 		formWidgetValuePane = new FormWidgetValuePane(creator.toData(), false);
 		double f = TableLayout.FILL;
 		double p = TableLayout.PREFERRED;
 		Component[][] components = new Component[][]{
-				new Component[]{new UILabel(Inter.getLocText("FR-Designer_Label_Name")), labelNameTextField},
-				new Component[]{new UILabel(Inter.getLocText("FR-Designer_Text")),  text },
+				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Label_Name")), labelNameTextField},
+				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Text")),  text },
 				new Component[]{widgetValueLabel,  formWidgetValuePane },
-				new Component[]{new UILabel(Inter.getLocText("FR-Designer_Font-Size")), fontSizePane},
+				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Font-Size")), fontSizePane},
 		};
 		double[] rowSize = {p, p, p, p, p, p};
 		double[] columnSize = {p, f};
@@ -52,7 +52,7 @@ public class CheckBoxDefinePane extends AbstractDataModify<CheckBox> {
 		JPanel boundsPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
 		boundsPane.add(panel);
-		UIExpandablePane uiExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer_Advanced"), 280, 20, boundsPane);
+		UIExpandablePane uiExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Advanced"), 280, 20, boundsPane);
 
 		this.add(uiExpandablePane);
 	}

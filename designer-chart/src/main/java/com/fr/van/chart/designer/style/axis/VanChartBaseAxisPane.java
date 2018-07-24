@@ -20,7 +20,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
 import com.fr.design.style.color.ColorSelectBox;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.attr.axis.VanChartAxis;
 import com.fr.plugin.chart.base.VanChartConstants;
 import com.fr.plugin.chart.type.AxisTickLineType;
@@ -122,7 +122,7 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
         titleAlignPane = isXAxis ? getXAxisTitleAlignPane() : getYAxisTitleAlignPane();
         titleAlignPane.setSelectedItem(Constants.CENTER);
         titleContent = new TinyFormulaPane();
-        titleUseHtml = new UIToggleButton(Inter.getLocText("Plugin-ChartF_Html"));
+        titleUseHtml = new UIToggleButton(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Html"));
         titleTextAttrPane = new ChartTextAttrPane();
         titleTextRotation = new UINumberDragPane(-ROTATION_MAX,ROTATION_MAX);
         if(isXAxis){
@@ -132,11 +132,11 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
         }
         Component[][] components = new Component[][]{
                 new Component[]{null,null},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Content")),titleContent},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Content")),titleContent},
                 new Component[]{null,titleUseHtml},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Position")),titleAlignPane},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Position")),titleAlignPane},
                 new Component[]{titleTextAttrPane,null},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_TextRotation")),titleTextRotation},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_TextRotation")),titleTextRotation},
         };
 
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
@@ -161,18 +161,18 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
     }
 
     protected JPanel createLabelPane(double[] row, double[] col){
-        showLabel = new UIButtonGroup(new String[]{Inter.getLocText("Chart-Use_Show"), Inter.getLocText("Plugin-ChartF_Hidden")});
+        showLabel = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Show"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Hidden")});
         labelTextAttrPane = getChartTextAttrPane();
 
         labelTextRotation = new UINumberDragPane(-ROTATION_MAX,ROTATION_MAX);
-        labelGapStyle = new UIButtonGroup<Integer>(new String[]{Inter.getLocText("Plugin-ChartF_Automatic"),Inter.getLocText("Plugin-ChartF_Fixed")});
+        labelGapStyle = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Automatic"),com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Fixed")});
         labelGapValue = new UITextField();
         Component[][] gapComponents = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_TextRotation")), labelTextRotation},
-                new Component[]{new UILabel(Inter.getLocText("ChartF-Label_Interval")), labelGapStyle},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_TextRotation")), labelTextRotation},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("ChartF-Label_Interval")), labelGapStyle},
         };
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(gapComponents, row, col);
-        labelGapValuePane= TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText(""),labelGapValue, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
+        labelGapValuePane= TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText(""),labelGapValue, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
         JPanel gapPanel = new JPanel(new BorderLayout());
         gapPanel.add(panel, BorderLayout.CENTER);
         gapPanel.add(labelGapValuePane, BorderLayout.SOUTH);
@@ -182,7 +182,7 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
                 new Component[]{gapPanel,null},
         };
 
-        JPanel showLabelPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_AxisLabel"),showLabel);
+        JPanel showLabelPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AxisLabel"),showLabel);
         labelPanel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
         labelPanel.setBorder(BorderFactory.createEmptyBorder(0,10,0,0));
         showLabel.addActionListener(new ActionListener() {
@@ -222,13 +222,13 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
     protected JPanel createLineStylePane(double[] row, double[] col){
         axisLineStyle = createLineComboBox();
         axisLineColor = new ColorSelectBox(100);
-        String[] strings = new String[]{Inter.getLocText("Plugin-ChartF_Open"),Inter.getLocText("Plugin-ChartF_Close")};
+        String[] strings = new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Open"),com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Close")};
         AxisTickLineType[] values = new AxisTickLineType[]{AxisTickLineType.TICK_LINE_OUTSIDE, AxisTickLineType.TICK_LINE_NONE};
         mainTick = new UIButtonGroup<AxisTickLineType>(strings, values);
         secondTick = new UIButtonGroup<AxisTickLineType>(strings, values);
 
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(getLineStylePaneComponents(), row, col);
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_AxisLineStyle"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AxisLineStyle"), panel);
     }
 
     protected LineComboBox createLineComboBox() {
@@ -238,31 +238,31 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
     protected Component[][] getLineStylePaneComponents() {
         return new Component[][]{
                 new Component[]{null,null} ,
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_type")),axisLineStyle} ,
-                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Color_Color")),axisLineColor},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_MainGraduationLine")),mainTick},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_SecondGraduationLine")),secondTick},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_type")),axisLineStyle} ,
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Color_Color")),axisLineColor},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_MainGraduationLine")),mainTick},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_SecondGraduationLine")),secondTick},
         };
     }
 
     protected JPanel createAxisPositionPane(double[] row, double[] col, boolean isXAxis){
         position = new UIButtonGroup<Integer>(getAxisPositionNameArray(isXAxis), getAxisPositionValueArray(isXAxis));
-        reversed = new UIButtonGroup<Boolean>(new String[]{Inter.getLocText("Plugin-ChartF_On"), Inter.getLocText("Plugin-ChartF_Off")}, new Boolean[]{true, false});
+        reversed = new UIButtonGroup<Boolean>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_On"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Off")}, new Boolean[]{true, false});
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_AxisLabel_Position")),position},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_AxisReversed")),reversed},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AxisLabel_Position")),position},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_AxisReversed")),reversed},
         } ;
 
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Chart-Layout_Position"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Chart-Layout_Position"), panel);
     }
 
     private String[] getAxisPositionNameArray(boolean isXAxis){
         if(isXAxis){
-            return new String[]{Inter.getLocText("Plugin-ChartF_AxisTop"), Inter.getLocText("Plugin-ChartF_AxisBottom"), Inter.getLocText("Plugin-ChartF_AxisVerticalZero")};
+            return new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AxisTop"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AxisBottom"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AxisVerticalZero")};
         } else {
-            return new String[]{Inter.getLocText("Chart-Layout_Left"), Inter.getLocText("Chart-Layout_Right"), Inter.getLocText("Plugin-ChartF_AxisVerticalZero")};
+            return new String[]{com.fr.design.i18n.Toolkit.i18nText("Chart-Layout_Left"), com.fr.design.i18n.Toolkit.i18nText("Chart-Layout_Right"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AxisVerticalZero")};
         }
     }
 
@@ -276,10 +276,10 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
 
     protected JPanel createDisplayStrategy(double[] row, double[] col){
         maxProportion = new UISpinner(0,100,1,30);
-        axisLimitSize = new UIButtonGroup<Integer>(new String[]{Inter.getLocText("Plugin-ChartF_Limit"),Inter.getLocText("Plugin-ChartF_NotLimit")});
+        axisLimitSize = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Limit"),com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NotLimit")});
 
-        JPanel limitSizePane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_AreaSize"),axisLimitSize);
-        maxProportionPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_MaxProportion"),maxProportion, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
+        JPanel limitSizePane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AreaSize"),axisLimitSize);
+        maxProportionPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_MaxProportion"),maxProportion, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
         maxProportionPane.setBorder(BorderFactory.createEmptyBorder(0,12,0,0));
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(limitSizePane, BorderLayout.NORTH);
@@ -292,12 +292,12 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
             }
         });
 
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_DisplayStrategy"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_DisplayStrategy"), panel);
     }
 
     protected JPanel createValueStylePane(){
-        valueFormatStyle = new UIButtonGroup<Integer>(new String[]{Inter.getLocText("Plugin-ChartF_Common"),
-                Inter.getLocText("Plugin-ChartF_Custom")});
+        valueFormatStyle = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Common"),
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Custom")});
 
         valueFormat = createFormatPane();
         checkFormatType();
@@ -305,8 +305,8 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
         htmlLabelPane = new VanChartHtmlLabelPane();
 
         centerPane = new JPanel(new CardLayout());
-        centerPane.add(valueFormat,Inter.getLocText("Plugin-ChartF_Common"));
-        centerPane.add(htmlLabelPane, Inter.getLocText("Plugin-ChartF_Custom"));
+        centerPane.add(valueFormat,com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Common"));
+        centerPane.add(htmlLabelPane, com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Custom"));
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
@@ -314,7 +314,7 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
         double[] rowSize = {p,p,p};
         Component[][] components = new Component[][]{
                 new Component[]{null,null},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_AxisLabel_Format"), SwingConstants.LEFT), valueFormatStyle},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AxisLabel_Format"), SwingConstants.LEFT), valueFormatStyle},
                 new Component[]{null, centerPane},
         };
         JPanel contentPane = TableLayout4VanChartHelper.createGapTableLayoutPane(components,rowSize,columnSize);
@@ -327,7 +327,7 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
             }
         });
 
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Chart-Use_Format"), contentPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Format"), contentPane);
     }
 
     protected FormatPane createFormatPane(){
@@ -356,9 +356,9 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
         if(centerPane != null && valueFormatStyle != null){
             CardLayout cardLayout = (CardLayout) centerPane.getLayout();
             if (valueFormatStyle.getSelectedIndex() == 1) {
-                cardLayout.show(centerPane,Inter.getLocText("Plugin-ChartF_Custom"));
+                cardLayout.show(centerPane,com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Custom"));
             } else {
-                cardLayout.show(centerPane, Inter.getLocText("Plugin-ChartF_Common"));
+                cardLayout.show(centerPane, com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Common"));
             }
         }
     }
@@ -403,7 +403,7 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
      */
     @Override
     public String title4PopupWindow(){
-        return Inter.getLocText("Plugin-ChartF_CategoryAxis");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_CategoryAxis");
     }
 
     /**

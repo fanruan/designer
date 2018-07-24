@@ -7,7 +7,7 @@ import com.fr.design.editor.ValueEditorPaneFactory;
 import com.fr.design.editor.editor.CursorEditor;
 import com.fr.design.gui.itableeditorpane.ParameterTableModel;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import javax.swing.event.CellEditorListener;
@@ -117,24 +117,24 @@ public class AutoStoreProcedureTableModel extends StoreProcedureTableModel {
     private int getParameterType (Object value) {
         String type;
         if(value instanceof CursorEditor)
-            type= Inter.getLocText("Cursor");
+            type= com.fr.design.i18n.Toolkit.i18nText("Cursor");
         else if(value instanceof String ){
             if(((String) value).length() > 0 && ((String) value).charAt(0) == '=')
-                type = Inter.getLocText("Formula");
+                type = com.fr.design.i18n.Toolkit.i18nText("Formula");
             else
-                type = Inter.getLocText("Parameter-String");
+                type = com.fr.design.i18n.Toolkit.i18nText("Parameter-String");
         }else if(value instanceof Integer)
-            type = Inter.getLocText("Integer");
+            type = com.fr.design.i18n.Toolkit.i18nText("Integer");
         else if(value instanceof Double)
-            type = Inter.getLocText("Double");
+            type = com.fr.design.i18n.Toolkit.i18nText("Double");
         else if(value instanceof Date)
-            type = Inter.getLocText("Date");
+            type = com.fr.design.i18n.Toolkit.i18nText("Date");
         else if(value instanceof Boolean)
-            type = Inter.getLocText("Parameter-Boolean");
+            type = com.fr.design.i18n.Toolkit.i18nText("Parameter-Boolean");
         else if(value instanceof BaseFormula)
-            type = Inter.getLocText("Formula");
+            type = com.fr.design.i18n.Toolkit.i18nText("Formula");
         else
-            type = Inter.getLocText("Parameter-String");
+            type = com.fr.design.i18n.Toolkit.i18nText("Parameter-String");
         return StoreProcedureParameterPane.getInfo4Value(type);
 
     }

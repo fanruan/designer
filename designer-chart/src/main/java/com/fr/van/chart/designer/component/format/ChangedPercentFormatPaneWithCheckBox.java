@@ -1,6 +1,6 @@
 package com.fr.van.chart.designer.component.format;
 
-import com.fr.general.Inter;
+
 import com.fr.van.chart.designer.style.VanChartStylePane;
 
 import javax.swing.JPanel;
@@ -16,7 +16,7 @@ public class ChangedPercentFormatPaneWithCheckBox extends VanChartFormatPaneWith
 
     @Override
     protected String getCheckBoxText() {
-        return Inter.getLocText("Plugin-ChartF_Change_Percent");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Change_Percent");
     }
 
     protected boolean isPercent() {

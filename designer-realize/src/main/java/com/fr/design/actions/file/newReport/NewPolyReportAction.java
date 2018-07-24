@@ -9,14 +9,14 @@ import com.fr.base.BaseUtils;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JPolyWorkBook;
-import com.fr.general.Inter;
+
 
 import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
 
 public class NewPolyReportAction extends UpdateAction {
 
     public NewPolyReportAction() {
-        this.setName(Inter.getLocText("M-New_Multi_Report"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("M-New_Multi_Report"));
         this.setMnemonic('F');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_file/formExport.png"));
         this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, DEFAULT_MODIFIER));

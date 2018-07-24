@@ -5,7 +5,7 @@ package com.fr.design.gui.icombobox;
 
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.icombobox.UIComboBoxRenderer;
-import com.fr.general.Inter;
+
 import com.fr.stable.Constants;
 import com.fr.stable.StringUtils;
 
@@ -50,17 +50,17 @@ public class AlignmentComboBox extends UIComboBox {
 
 	public static String getAlignDescription(int alignment) {
 		if (alignment == Constants.CENTER) {//0
-			return Inter.getLocText("Center");
+			return com.fr.design.i18n.Toolkit.i18nText("Center");
 		} else if (alignment == Constants.TOP) {//1
-			return Inter.getLocText("StyleAlignment-Top");
+			return com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Top");
 		} else if (alignment == Constants.LEFT) {//2
-			return Inter.getLocText("StyleAlignment-Left");
+			return com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Left");
 		} else if (alignment == Constants.BOTTOM) {//3
-			return Inter.getLocText("StyleAlignment-Bottom");
+			return com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Bottom");
 		} else if (alignment == Constants.RIGHT) { //4
-			return Inter.getLocText("StyleAlignment-Right");
+			return com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Right");
 		} else if (alignment == Constants.DISTRIBUTED) { //added by Kevin Wang 6
-			return Inter.getLocText("StyleAlignment-Distibuted");
+			return com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Distibuted");
 		} else {
 			return StringUtils.EMPTY;
 		}

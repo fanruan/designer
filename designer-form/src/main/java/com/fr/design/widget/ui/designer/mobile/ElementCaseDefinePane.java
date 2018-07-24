@@ -17,7 +17,7 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.form.ui.ElementCaseEditor;
-import com.fr.general.Inter;
+
 import com.fr.stable.StringUtils;
 
 import javax.swing.BorderFactory;
@@ -60,22 +60,22 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane{
         this.designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
         this.hComboBox = new UIComboBox(ITEMS);
         this.vComboBox = new UIComboBox(ITEMS);
-        this.heightRestrictCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Mobile-Height-Limit"));
-        this.maxHeightLabel = new UILabel(Inter.getLocText("FR-Designer_Mobile-Height-Percent"), SwingConstants.LEFT);
+        this.heightRestrictCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Mobile-Height-Limit"));
+        this.maxHeightLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Mobile-Height-Percent"), SwingConstants.LEFT);
         this.maxHeightSpinner = new UISpinner(0, MAX_HEIGHT_LIMIT, 0.01, 0.75) {
             public void setValue(double value) {
                 String warningText = StringUtils.EMPTY;
                 if (value > MAX_HEIGHT_LIMIT) {
-                    warningText = Inter.getLocText("FR-Designer_Mobile-Warning");
+                    warningText = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Mobile-Warning");
                 } else if (value < 0) {
                     // 弹窗提示
-                    warningText = Inter.getLocText("FR-Designer_Max_Height_Cannot_Be_Negative");
+                    warningText = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Max_Height_Cannot_Be_Negative");
                 }
                 if (StringUtils.isNotEmpty(warningText)) {
                     // 弹窗提示
                     JOptionPane.showMessageDialog(null,
                             warningText,
-                            Inter.getLocText("FR-Designer_Tooltips"),
+                            com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tooltips"),
                             JOptionPane.PLAIN_MESSAGE);
                 }
                 super.setValue(value);
@@ -85,8 +85,8 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane{
         maxHeightLabel.setVisible(false);
 
         Component[][] components = new Component[][]{
-                new Component[] {new UILabel(Inter.getLocText("FR-Designer_Mobile-Horizontal"), SwingConstants.LEFT), hComboBox},
-                new Component[] {new UILabel(Inter.getLocText("FR-Designer_Mobile-Vertical"), SwingConstants.LEFT), vComboBox},
+                new Component[] {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Mobile-Horizontal"), SwingConstants.LEFT), hComboBox},
+                new Component[] {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Mobile-Vertical"), SwingConstants.LEFT), vComboBox},
                 new Component[] {heightRestrictCheckBox, null},
                 new Component[] {maxHeightLabel, maxHeightSpinner}
         };
@@ -99,7 +99,7 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane{
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         final JPanel panelWrapper = FRGUIPaneFactory.createBorderLayout_S_Pane();
         panelWrapper.add(panel, BorderLayout.NORTH);
-        UIExpandablePane folderPane = new UIExpandablePane(Inter.getLocText("FR-Designer_Fit"), 280, 20, panelWrapper);
+        UIExpandablePane folderPane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Fit"), 280, 20, panelWrapper);
         this.add(folderPane, BorderLayout.NORTH);
         this.bingListeners2Widgets();
         this.setGlobalNames();

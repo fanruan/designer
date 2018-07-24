@@ -11,7 +11,7 @@ import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.NormalChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.ReportDataPane;
 import com.fr.design.mainframe.chart.gui.data.TableDataPane;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.gantt.data.VanGanttDefinition;
 import com.fr.van.chart.gantt.designer.data.link.GanttLinkReportDataPane;
 import com.fr.van.chart.gantt.designer.data.link.GanttLinkTableDataPane;
@@ -34,7 +34,7 @@ public class VanChartGanttDataAndLinkPane extends MultiTabPane<ChartCollection> 
         dataPane = new NormalChartDataPane(listener, parent){
             @Override
             public String title4PopupWindow() {
-                return Inter.getLocText("Plugin-ChartF_GanttChart");
+                return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_GanttChart");
             }
         };
         linkPane = new NormalChartDataPane(listener, parent){
@@ -50,7 +50,7 @@ public class VanChartGanttDataAndLinkPane extends MultiTabPane<ChartCollection> 
 
             @Override
             public String title4PopupWindow() {
-                return Inter.getLocText("Plugin-ChartF_Task_Link");
+                return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Task_Link");
             }
         };
 

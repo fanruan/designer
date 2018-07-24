@@ -10,7 +10,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.file.TableDataConfig;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -62,7 +62,7 @@ public class TableDataManagerPane extends LoadingBasicPane {
 	
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("DS-Server_TableData");
+		return com.fr.design.i18n.Toolkit.i18nText("DS-Server_TableData");
 	}
 
 	public void populate(TableDataConfig tableDataConfig) {

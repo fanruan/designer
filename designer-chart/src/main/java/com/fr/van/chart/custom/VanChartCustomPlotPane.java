@@ -10,7 +10,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.type.ChartImagePane;
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.base.VanChartAttrLine;
 import com.fr.plugin.chart.base.VanChartTools;
 import com.fr.plugin.chart.custom.CustomDefinition;
@@ -35,7 +35,7 @@ import java.util.Map;
  * Created by Mitisky on 16/2/16.
  */
 public class VanChartCustomPlotPane extends AbstractVanChartTypePane {
-    public static final String TITLE = Inter.getLocText("Plugin-ChartF_NewCustom");
+    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewCustom");
 
     //是否选择自定义
     private boolean isCustom = false;
@@ -117,10 +117,10 @@ public class VanChartCustomPlotPane extends AbstractVanChartTypePane {
     @Override
     protected String[] getTypeTipName() {
         return new String[]{
-                Inter.getLocText("Plugin-ChartF_NewCustom_ColumnLine"),
-                Inter.getLocText("Plugin-ChartF_NewCustom_ColumnArea"),
-                Inter.getLocText("Plugin-ChartF_NewCustom_StackColumnLine"),
-                Inter.getLocText("Plugin-ChartF_NewCustom_Custom")
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewCustom_ColumnLine"),
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewCustom_ColumnArea"),
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewCustom_StackColumnLine"),
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewCustom_Custom")
         };
     }
 
@@ -130,7 +130,7 @@ public class VanChartCustomPlotPane extends AbstractVanChartTypePane {
      * @return 界面标题
      */
     public String title4PopupWindow() {
-        return Inter.getLocText("Plugin-ChartF_NewCustom");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewCustom");
     }
 
 

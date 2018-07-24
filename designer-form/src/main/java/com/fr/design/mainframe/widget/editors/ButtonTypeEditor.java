@@ -1,13 +1,13 @@
 package com.fr.design.mainframe.widget.editors;
 
 import com.fr.design.designer.properties.items.Item;
-import com.fr.general.Inter;
+
 import com.fr.stable.StringUtils;
 
 public class ButtonTypeEditor extends ComboEditor {
 
 	public ButtonTypeEditor() {
-		super(new Item[] { new Item(Inter.getLocText("Default"), false), new Item(Inter.getLocText("Custom"), true), });
+		super(new Item[] { new Item(com.fr.design.i18n.Toolkit.i18nText("Default"), false), new Item(com.fr.design.i18n.Toolkit.i18nText("Custom"), true), });
 	}
 
 	@Override

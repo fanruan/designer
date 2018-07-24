@@ -12,7 +12,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.style.color.ColorSelectBox;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.VanChartAttrHelper;
 import com.fr.plugin.chart.attr.axis.VanChartCustomIntervalBackground;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
@@ -42,7 +42,7 @@ public class VanChartCustomIntervalBackgroundPane extends BasicBeanPane<VanChart
         JPanel top = FRGUIPaneFactory.createBorderLayout_L_Pane();
         this.removeAll();
         this.add(top);
-        top.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("Plugin-ChartF_CustomIntervalBackground") + ":", null));
+        top.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_CustomIntervalBackground") + ":", null));
         top.add(createContentPane());
     }
 
@@ -57,21 +57,21 @@ public class VanChartCustomIntervalBackgroundPane extends BasicBeanPane<VanChart
         double[] columnSize = {p,p};
         double[] rowSize = {p,p,p};
 
-        JPanel axisPane = TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_Axis"), backgroundAxis);
+        JPanel axisPane = TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Axis"), backgroundAxis);
 
         Component[][] rangeComponents = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_BottomValue")),bottomValue},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_TopValue")),topValue},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_BottomValue")),bottomValue},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_TopValue")),topValue},
         };
         JPanel temp = TableLayoutHelper.createTableLayoutPane(rangeComponents, rowSize, columnSize);
-        JPanel rangePane = TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_Range"), temp);
+        JPanel rangePane = TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Range"), temp);
 
         Component[][] styleComponents = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Color_Color")),color},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-Chart_Alpha")),transparent},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Color_Color")),color},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-Chart_Alpha")),transparent},
         };
         temp = TableLayoutHelper.createTableLayoutPane(styleComponents, rowSize, columnSize);
-        JPanel stylePane = TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Chart-Style_Name"), temp);
+        JPanel stylePane = TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Chart-Style_Name"), temp);
 
         Component[][] components = getPaneComponents(axisPane, rangePane, stylePane);
 
@@ -87,7 +87,7 @@ public class VanChartCustomIntervalBackgroundPane extends BasicBeanPane<VanChart
     }
 
     protected String title4PopupWindow(){
-        return Inter.getLocText("Plugin-ChartF_CustomIntervalBackground");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_CustomIntervalBackground");
     }
 
     public void populateBean(VanChartCustomIntervalBackground customIntervalBackground){

@@ -4,14 +4,14 @@ import java.awt.event.ActionEvent;
 
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.mainframe.TemplatePane;
-import com.fr.general.Inter;
+
 
 
 public class EditEnvAction extends UpdateAction {
 
 
     public EditEnvAction() {
-        this.setName(Inter.getLocText("M-Others") + "...");
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("M-Others") + "...");
     }
 
     @Override

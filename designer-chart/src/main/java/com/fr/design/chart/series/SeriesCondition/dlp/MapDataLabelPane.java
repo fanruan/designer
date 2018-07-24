@@ -1,6 +1,6 @@
 package com.fr.design.chart.series.SeriesCondition.dlp;
 
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,12 +23,12 @@ public class MapDataLabelPane extends DataLabelPane {
 
     @Override
     protected String getCategoryString() {
-        return Inter.getLocText("FR-Chart-Area_Name");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Area_Name");
     }
 
     @Override
     protected String getValueString() {
-        return Inter.getLocText("FR-Chart-Area_Value");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Area_Value");
     }
 
     protected JPanel createJPanel4Position() {

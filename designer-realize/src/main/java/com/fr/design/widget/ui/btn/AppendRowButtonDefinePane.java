@@ -1,7 +1,7 @@
 package com.fr.design.widget.ui.btn;
 
 import com.fr.base.IconManager;
-import com.fr.general.Inter;
+
 import com.fr.report.web.button.write.AppendRowButton;
 import com.fr.design.widget.btn.ButtonWithHotkeysDetailPane;
 
@@ -32,7 +32,7 @@ public class AppendRowButtonDefinePane<T extends AppendRowButton> extends Button
     @Override
     public AppendRowButton createButton() {
         AppendRowButton button = new AppendRowButton();
-        button.setText(Inter.getLocText("Utils-Insert_Row"));
+        button.setText(com.fr.design.i18n.Toolkit.i18nText("Utils-Insert_Row"));
         button.setIconName(IconManager.ADD.getName());
         return button;
     }

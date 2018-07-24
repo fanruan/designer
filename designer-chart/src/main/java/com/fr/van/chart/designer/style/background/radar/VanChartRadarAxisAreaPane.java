@@ -2,7 +2,7 @@ package com.fr.van.chart.designer.style.background.radar;
 
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.general.Inter;
+
 import com.fr.van.chart.designer.style.background.AlertLineListControlPane;
 import com.fr.van.chart.designer.style.background.BackgroundListControlPane;
 import com.fr.van.chart.designer.style.background.VanChartAxisAreaPane;
@@ -20,13 +20,13 @@ public class VanChartRadarAxisAreaPane extends VanChartAxisAreaPane {
     protected Component[][] getGridLinePaneComponents() {
         return new Component[][]{
                 new Component[]{null,null},
-                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Color_Color")),horizontalGridLine},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Color_Color")),horizontalGridLine},
         };
     }
 
     protected Component[][] getIntervalPaneComponents() {
         return new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Color_Color")),horizontalColorBackground},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Color_Color")),horizontalColorBackground},
         };
     }
 

@@ -8,7 +8,7 @@ import com.fr.design.chart.series.PlotSeries.AbstrctMapAttrEditPane;
 import com.fr.design.chart.series.PlotSeries.MapCustomPane;
 import com.fr.design.chart.series.PlotSeries.MapDefiAreaNamePane;
 import com.fr.design.gui.frpane.UITabbedPane;
-import com.fr.general.Inter;
+
 import com.fr.stable.CoreConstants;
 import com.fr.stable.StringUtils;
 
@@ -60,9 +60,9 @@ public class MapEditPane extends BasicBeanPane<MapSvgAttr>{
         namedPane= new MapDefiAreaNamePane(false);
         areaPane.setImageSelectType(MapShapeValue.AREA);
 //        pointPane.setImageSelectType(MapShapeValue.POINT);
-        tabbedPane.add(Inter.getLocText("FR-Chart-Map_ImageArea"),areaPane);
-//        tabbedPane.add(Inter.getLocText("FR-Chart-Map_ImagePoint"),pointPane);
-        tabbedPane.add(Inter.getLocText("FR-Chart-Map_Corresponding_Fields"),namedPane);
+        tabbedPane.add(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Map_ImageArea"),areaPane);
+//        tabbedPane.add(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Map_ImagePoint"),pointPane);
+        tabbedPane.add(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Map_Corresponding_Fields"),namedPane);
         editingPane = areaPane;
     }
 

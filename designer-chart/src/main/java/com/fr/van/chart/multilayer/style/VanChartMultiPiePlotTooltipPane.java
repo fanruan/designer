@@ -1,7 +1,7 @@
 package com.fr.van.chart.multilayer.style;
 
 import com.fr.chart.chartattr.Plot;
-import com.fr.general.Inter;
+
 import com.fr.van.chart.designer.style.VanChartStylePane;
 import com.fr.van.chart.designer.style.tooltip.VanChartPlotTooltipPane;
 
@@ -17,6 +17,6 @@ public class VanChartMultiPiePlotTooltipPane extends VanChartPlotTooltipPane {
 
     @Override
     protected String getShowAllSeriesLabelText() {
-        return Inter.getLocText("Plugin-ChartF_ShowAllLevel");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_ShowAllLevel");
     }
 }

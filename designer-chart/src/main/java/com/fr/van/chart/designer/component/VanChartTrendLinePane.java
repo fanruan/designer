@@ -12,7 +12,7 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.style.color.ColorSelectBox;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.base.TrendLineType;
 import com.fr.plugin.chart.base.VanChartAttrTrendLine;
 import com.fr.plugin.chart.base.VanChartConstants;
@@ -54,20 +54,20 @@ public class VanChartTrendLinePane extends BasicPane{
         double[] r = {p, p};
         double[] c = {f, p, f, p};
         Component[][] periodComps = new Component[][]{
-                new Component[]{prePeriod, new UILabel(Inter.getLocText("Plugin-ChartF_Cycle")), afterPeriod, new UILabel(Inter.getLocText("Plugin-ChartF_Cycle"))},
-                new Component[]{new UILabel(Inter.getLocText("Chart_TrendLine_Forward")), null, new UILabel(Inter.getLocText("Plugin-ChartF_After_Period")), null},
+                new Component[]{prePeriod, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Cycle")), afterPeriod, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Cycle"))},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart_TrendLine_Forward")), null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_After_Period")), null},
         };
         JPanel periodPane = TableLayoutHelper.createTableLayoutPane(periodComps, r, c);
 
-        UILabel label = new UILabel(Inter.getLocText("Plugin-ChartF_Period"));
+        UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Period"));
         label.setVerticalAlignment(SwingConstants.TOP);
 
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Name")), trendLineName},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_LineStyle")), trendLineStyle},
-                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Color_Color")), trendLineColor},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_type")), trendLineType},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Name")), trendLineName},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_LineStyle")), trendLineStyle},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Color_Color")), trendLineColor},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_type")), trendLineType},
                 new Component[]{label, periodPane}
         };
 
@@ -75,7 +75,7 @@ public class VanChartTrendLinePane extends BasicPane{
         this.add(panel, BorderLayout.CENTER);
     }
     protected String title4PopupWindow(){
-        return Inter.getLocText("Chart-Trend_Line");
+        return com.fr.design.i18n.Toolkit.i18nText("Chart-Trend_Line");
     }
 
     public void populate(VanChartAttrTrendLine trendLine) {

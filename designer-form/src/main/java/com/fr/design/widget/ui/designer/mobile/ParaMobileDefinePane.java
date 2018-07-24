@@ -9,7 +9,7 @@ import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.MobileWidgetListPane;
 import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.form.ui.container.WSortLayout;
-import com.fr.general.Inter;
+
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -43,7 +43,7 @@ public class ParaMobileDefinePane extends MobileWidgetDefinePane {
         JPanel panelWrapper = FRGUIPaneFactory.createBorderLayout_S_Pane();
         panelWrapper.add(mobileWidgetListPane, BorderLayout.CENTER);
 
-        return new UIExpandablePane(Inter.getLocText("FR-Designer_WidgetOrder"), 280, 20, panelWrapper);
+        return new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WidgetOrder"), 280, 20, panelWrapper);
     }
 
     private void bindListeners2Widgets() {

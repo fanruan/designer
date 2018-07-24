@@ -1,23 +1,5 @@
 package com.fr.design.report;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.SwingConstants;
-
 import com.fr.base.BaseUtils;
 import com.fr.base.GraphHelper;
 import com.fr.design.border.UIRoundedBorder;
@@ -33,12 +15,16 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.FRFont;
-import com.fr.general.Inter;
 import com.fr.report.stable.WorkSheetAttr;
 import com.fr.report.worksheet.WorkSheet;
 import com.fr.stable.ColumnRow;
 import com.fr.stable.Constants;
 import com.fr.stable.StringUtils;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ReportColumnsPane extends BasicPane{
     public static final int ROW = 0;
@@ -47,18 +33,18 @@ public class ReportColumnsPane extends BasicPane{
     private boolean isRepeate;
 
     private static final String[] COLUMN_ROW_TEXTS = {
-            Inter.getLocText("FR-Base_Rows"),
-            Inter.getLocText("FR-Base_Columns")
+            com.fr.design.i18n.Toolkit.i18nText("FR-Base_Rows"),
+            com.fr.design.i18n.Toolkit.i18nText("FR-Base_Columns")
     };
 
     private static final String[] SHOW_BLANK = {
-            Inter.getLocText("FR-Designer_Show_Blank_Row"),
-            Inter.getLocText("FR-Designer_Show_Blank_Column")
+            com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Show_Blank_Row"),
+            com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Show_Blank_Column")
     };
 
     private static final String[] REPORT_COLUMN_RAPEAT = {
-            Inter.getLocText("FR-Designer_ReportColumns-Repeat_Row"),
-            Inter.getLocText("FR-Designer_ReportColumns-Repeat_Column")
+            com.fr.design.i18n.Toolkit.i18nText("FR-Designer_ReportColumns-Repeat_Row"),
+            com.fr.design.i18n.Toolkit.i18nText("FR-Designer_ReportColumns-Repeat_Column")
     };
     
     private static final String FONT_NAME = "simsun";
@@ -97,7 +83,7 @@ public class ReportColumnsPane extends BasicPane{
         north.setPreferredSize(new Dimension(549, 59));
         north.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(11, 23, 6, 23), new UIRoundedBorder(new Color(204, 204, 204), 1, 10)));
         String[] textArray = new String[] {
-            Inter.getLocText("FR-Base_TurnOn"), Inter.getLocText("FR-Base_TurnOff")
+            com.fr.design.i18n.Toolkit.i18nText("FR-Base_TurnOn"), com.fr.design.i18n.Toolkit.i18nText("FR-Base_TurnOff")
         };
 
         onOffButtonGroup = new UIButtonGroup(textArray) {
@@ -109,7 +95,7 @@ public class ReportColumnsPane extends BasicPane{
         };
         onOffButtonGroup.addActionListener(onOffListener);
 
-        UILabel uiLabel = new UILabel(Inter.getLocText("FR-Designer_ReportColumns-Columns"));
+        UILabel uiLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_ReportColumns-Columns"));
         FRFont uiLableFont = FRFont.getInstance(FONT_NAME, Font.PLAIN, FONT_SIZE);
         uiLabel.setFont(uiLableFont);
         uiLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -134,7 +120,7 @@ public class ReportColumnsPane extends BasicPane{
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("ReportColumns-Report_Columns");
+        return com.fr.design.i18n.Toolkit.i18nText("ReportColumns-Report_Columns");
     }
 
     private void checkEnable() {
@@ -181,7 +167,7 @@ public class ReportColumnsPane extends BasicPane{
         divideRowPane.setBorder(BorderFactory.createEmptyBorder(0,21,0,21));
         JPanel center = FRGUIPaneFactory.createBorderLayout_S_Pane();
         // 行分栏样式
-        JPanel north = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText(new String[] {"ReportColumns-Columns", "Style"}));
+        JPanel north = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Column_Style"));
         north.setPreferredSize(new Dimension(549, 216));
         north.add(createSamplePane());
         north.add(createRowMaxOrSetPane());
@@ -204,10 +190,10 @@ public class ReportColumnsPane extends BasicPane{
         JPanel sampleLablePane = new JPanel(new GridLayout(1,2));
         sampleLablePane.setPreferredSize(new Dimension(524, 130));
         JPanel rPane = new JPanel();
-        UILabel rLabel = new UILabel(BaseUtils.readIcon("/com/fr/design/images/reportcolumns/" + Inter.getLocText("FR-Designer_Row_Icon_File_Name")));
+        UILabel rLabel = new UILabel(BaseUtils.readIcon("/com/fr/design/images/reportcolumns/" + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Row_Icon_File_Name")));
         rLabel.setBorder(BorderFactory.createEmptyBorder(5,45,0,49));
         rPane.add(rLabel);
-        rowButton = new UIRadioButton(Inter.getLocText("ReportColumns-Columns_horizontally"));
+        rowButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("ReportColumns-Columns_horizontally"));
         rowButton.addActionListener(rowChangeListener);
         rPane.add(rowButton);
         sampleLablePane.add(rPane);
@@ -215,7 +201,7 @@ public class ReportColumnsPane extends BasicPane{
         UILabel cLabel = new UILabel(BaseUtils.readIcon("/com/fr/design/images/reportcolumns/col.png"));
         cLabel.setBorder(BorderFactory.createEmptyBorder(5,49,0,49));
         cPane.add(cLabel);
-        colButton = new UIRadioButton(Inter.getLocText("ReportColumns-Columns_vertically"));
+        colButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("ReportColumns-Columns_vertically"));
         colButton.addActionListener(colChangeListener);
         cPane.add(colButton);
         sampleLablePane.add(cPane);
@@ -259,15 +245,15 @@ public class ReportColumnsPane extends BasicPane{
         RowMaxOrSetPane.setBorder(BorderFactory.createEmptyBorder(8, 5, 0, 0));
         RowMaxOrSetPane.setLayout(new FlowLayout(FlowLayout.LEFT,25,2));
         //marks:在多少行后开始分栏
-        maxRadioButton = new UIRadioButton(Inter.getLocText("ReportColumns-Columns_after"));
+        maxRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("ReportColumns-Columns_after"));
         maxNumberSpinner = new UIBasicSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1));
         GUICoreUtils.setColumnForSpinner(maxNumberSpinner, 6);
         maxRadioButton.addActionListener(maxBtnListener);
         maxUILabel = new UILabel(COLUMN_ROW_TEXTS[rowOrColumn] );
-        JPanel maxRowRadioPane = GUICoreUtils.createFlowPane(new JComponent[]{maxRadioButton, maxNumberSpinner, maxUILabel, new UILabel(Inter.getLocText("FR-Designer_ReportColumns_Columns_Optional"))}, FlowLayout.CENTER);
+        JPanel maxRowRadioPane = GUICoreUtils.createFlowPane(new JComponent[]{maxRadioButton, maxNumberSpinner, maxUILabel, new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_ReportColumns_Columns_Optional"))}, FlowLayout.CENTER);
         RowMaxOrSetPane.add(maxRowRadioPane);
         //marks:分成多少行
-        toXRadioButton = new UIRadioButton(Inter.getLocText("ReportColumns-Columns_to"));
+        toXRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("ReportColumns-Columns_to"));
         toXRadioButton.addActionListener(toXBtnListener);
         toXSpinner = new UIBasicSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1));
         GUICoreUtils.setColumnForSpinner(toXSpinner, 6);
@@ -308,22 +294,22 @@ public class ReportColumnsPane extends BasicPane{
 	 */
     private JPanel createRowPane() {
         JPanel rowPane = new JPanel();
-        UITitledBorder explainBorder = UITitledBorder.createBorderWithTitle(Inter.getLocText(new String[] {"ReportColumns-Columns" ,"Filed"}));
+        UITitledBorder explainBorder = UITitledBorder.createBorderWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Column_Area"));
         rowPane.setBorder(explainBorder);
         rowPane.setLayout(new FlowLayout(FlowLayout.LEFT, 5,13));
         rowPane.setPreferredSize(new Dimension(500,80));
-        rowPane.add(new UILabel(Inter.getLocText(new String[]{"FR-Designer_ReportColumns_Columns_Optional","Data"}) + ":"));
+        rowPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Column_Data") + ":"));
         repeatColDataTextField = new UITextField();
         repeatColDataTextField.setPreferredSize(new Dimension(107,24));
         rowPane.add(repeatColDataTextField);
-        rowPane.add(new UILabel(Inter.getLocText("FR-Base_Format") + ": A2:D5 "));
+        rowPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Base_Format") + ": A2:D5 "));
         copyLabel = new UILabel(REPORT_COLUMN_RAPEAT[rowOrColumn] + ":");
         rowPane.add(copyLabel);
 
         copyTitleTextField = new UITextField();
         copyTitleTextField.setPreferredSize(new Dimension(107,24));
         rowPane.add(copyTitleTextField);
-        rowPane.add(new UILabel(Inter.getLocText("FR-Base_Format") + ": 1,2-3,5,18"));
+        rowPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Base_Format") + ": 1,2-3,5,18"));
 
 
         return rowPane;
@@ -486,8 +472,7 @@ public class ReportColumnsPane extends BasicPane{
     
     /**
 	 * update数据给WorksheetAttr
-	 * 
-	 * @param 当前sheetAttr
+	 *
 	 */
     public void update(WorkSheetAttr attr){
     	if (!isRepeate) {
@@ -585,15 +570,7 @@ public class ReportColumnsPane extends BasicPane{
 
         if (!valid) {
         	repeatColDataTextField.setText(StringUtils.EMPTY);
-            throw new Exception(Inter.getLocText(new String[] {"Tooltips","ReportColumns-Columns","Filed","Format","Error"},new String[]{": ","","","","!"}));
+            throw new Exception(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Column_Warn_Text"));
         }
     }
-
-
-//    public static void main(String[] args) {
-//        JFrame jf = new JFrame("test");
-//        jf.setSize(new Dimension(600,500));
-//        jf.add(new ReportColumnsPane());
-//        jf.setVisible(true);
-//    }
 }

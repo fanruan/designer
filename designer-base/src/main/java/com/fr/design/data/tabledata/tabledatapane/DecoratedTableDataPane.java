@@ -7,7 +7,7 @@ import com.fr.design.gui.ilist.CheckBoxList;
 import com.fr.design.gui.ilist.CheckBoxList.CheckBoxListSelectionChangeListener;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.file.TableDataConfig;
-import com.fr.general.Inter;
+
 import com.fr.general.data.DataModel;
 import com.fr.general.data.TableDataException;
 import com.fr.script.Calculator;
@@ -27,7 +27,7 @@ public class DecoratedTableDataPane extends AbstractTableDataPane<DecoratedTable
 		while (serverTableDataNameIterator.hasNext()) {
 			tableDataNameList.add((String)serverTableDataNameIterator.next());
 		}
-		availableTableDataNameList = new CheckBoxList(tableDataNameList.toArray(new String[0]), CheckBoxList.SelectedState.NONE,Inter.getLocText("FR-Designer_Chart_Field_Name"));
+		availableTableDataNameList = new CheckBoxList(tableDataNameList.toArray(new String[0]), CheckBoxList.SelectedState.NONE,com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Chart_Field_Name"));
 		this.add(availableTableDataNameList, BorderLayout.WEST);
 		availableTableDataNameList.addCheckBoxListSelectionChangeListener(this);
 		
@@ -68,7 +68,7 @@ public class DecoratedTableDataPane extends AbstractTableDataPane<DecoratedTable
 
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("DS-Relation_TableData");
+		return com.fr.design.i18n.Toolkit.i18nText("DS-Relation_TableData");
 	}
 	
     /**

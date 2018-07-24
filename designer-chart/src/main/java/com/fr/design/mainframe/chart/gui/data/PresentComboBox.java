@@ -13,7 +13,7 @@ import com.fr.design.present.FormulaPresentPane;
 import com.fr.design.present.dict.DictionaryPane;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
-import com.fr.general.Inter;
+
 
 /**
  * 公式下拉框编辑器.
@@ -24,9 +24,9 @@ public class PresentComboBox extends UIComboBox{
 	private Present present;
 	
 	private String[] ITEMS = {
-			Inter.getLocText("DS-Dictionary"),
-			Inter.getLocText("Present-Formula_Present"),
-			Inter.getLocText("Present-No_Present")
+			com.fr.design.i18n.Toolkit.i18nText("DS-Dictionary"),
+			com.fr.design.i18n.Toolkit.i18nText("Present-Formula_Present"),
+			com.fr.design.i18n.Toolkit.i18nText("Present-No_Present")
 	};
 	
 	public PresentComboBox() {

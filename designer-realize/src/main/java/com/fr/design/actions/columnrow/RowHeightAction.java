@@ -3,7 +3,7 @@
  */
 package com.fr.design.actions.columnrow;
 
-import com.fr.general.Inter;
+
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.grid.selection.CellSelection;
 import com.fr.report.elementcase.ElementCase;
@@ -17,13 +17,13 @@ public class RowHeightAction extends ColumnRowSizingAction {
 	public RowHeightAction(ElementCasePane t, int indexOfColumnOrRow) {
 		super(t, indexOfColumnOrRow);
 		
-        this.setName(Inter.getLocText("Utils-Row_Height") + "...");
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Utils-Row_Height") + "...");
         this.setMnemonic('R');
     }
 	
 	@Override
 	protected String title4UnitInputPane() {
-		return Inter.getLocText("Utils-Row_Height");
+		return com.fr.design.i18n.Toolkit.i18nText("Utils-Row_Height");
 	}
     
     @Override

@@ -3,7 +3,7 @@ package com.fr.van.chart.area;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.area.AreaIndependentVanChart;
 import com.fr.plugin.chart.area.VanChartAreaPlot;
 import com.fr.van.chart.designer.type.AbstractVanChartTypePane;
@@ -12,7 +12,7 @@ import com.fr.van.chart.designer.type.AbstractVanChartTypePane;
  * Created by Mitisky on 15/11/18.
  */
 public class VanChartAreaPlotPane extends AbstractVanChartTypePane {
-    public static final String TITLE = Inter.getLocText("Plugin-ChartF_NewArea");
+    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewArea");
     private static final long serialVersionUID = -8161581682558781651L;
 
     @Override
@@ -27,14 +27,14 @@ public class VanChartAreaPlotPane extends AbstractVanChartTypePane {
 
     @Override
     protected String[] getTypeTipName() {
-        String area = Inter.getLocText("FR-Chart-Type_Area");
-        String stack = Inter.getLocText("FR-Chart-Type_Stacked");
-        String percent = Inter.getLocText("FR-Chart-Use_Percent");
+        String area = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Area");
+        String stack = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Stacked");
+        String percent = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Use_Percent");
         return new String[]{
                 area,
                 stack + area,
                 percent + stack + area,
-                Inter.getLocText("FR-Chart-Mode_Custom")
+                com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Mode_Custom")
         };
     }
 
@@ -44,7 +44,7 @@ public class VanChartAreaPlotPane extends AbstractVanChartTypePane {
      * @return 界面标题
      */
     public String title4PopupWindow() {
-        return Inter.getLocText("Plugin-ChartF_NewArea");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewArea");
     }
 
 

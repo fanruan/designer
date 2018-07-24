@@ -15,7 +15,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.general.IOUtils;
-import com.fr.general.Inter;
+
 import com.fr.grid.selection.CellSelection;
 import com.fr.quickeditor.CellQuickEditor;
 import com.fr.report.ReportHelper;
@@ -98,7 +98,7 @@ public class CellFormulaQuickEditor extends CellQuickEditor {
         textFieldPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
 
         UIButton formulaButton = new UIButton(IOUtils.readIcon("/com/fr/design/images/m_insert/formula.png"));
-        formulaButton.setToolTipText(Inter.getLocText("Formula") + "...");
+        formulaButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Formula") + "...");
         formulaButton.setPreferredSize(new Dimension(20, formulaTextField.getPreferredSize().height));
         formulaButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {

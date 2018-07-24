@@ -1,7 +1,7 @@
 package com.fr.van.chart.map.designer.other.condition.item;
 
 import com.fr.design.condition.ConditionAttributesPane;
-import com.fr.general.Inter;
+
 import com.fr.van.chart.designer.other.condition.item.VanChartBubbleSetConditionPane;
 
 /**
@@ -13,11 +13,11 @@ public class VanChartBubbleMarkerConditionPane extends VanChartBubbleSetConditio
     }
 
     protected String getItemLabelString() {
-        return Inter.getLocText("Plugin-ChartF_Marker");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Marker");
     }
 
     public String nameForPopupMenuItem() {
-        return Inter.getLocText("Plugin-ChartF_Marker");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Marker");
     }
 
 

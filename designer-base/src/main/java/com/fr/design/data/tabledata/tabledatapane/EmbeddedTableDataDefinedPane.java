@@ -23,7 +23,7 @@ import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.dialog.BasicPane;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 
 public class EmbeddedTableDataDefinedPane extends BasicPane{
 	
@@ -33,10 +33,10 @@ public class EmbeddedTableDataDefinedPane extends BasicPane{
 	private UIButton del;
     
     private static String[] TYPE = {
-    	 Inter.getLocText("String"), 
-    	 Inter.getLocText("Integer"), 
-    	 Inter.getLocText("Double"), 
-    	 Inter.getLocText("Date") 
+    	 com.fr.design.i18n.Toolkit.i18nText("String"),
+    	 com.fr.design.i18n.Toolkit.i18nText("Integer"),
+    	 com.fr.design.i18n.Toolkit.i18nText("Double"),
+    	 com.fr.design.i18n.Toolkit.i18nText("Date")
     };
 	
 	public EmbeddedTableDataDefinedPane() {
@@ -68,8 +68,8 @@ public class EmbeddedTableDataDefinedPane extends BasicPane{
         tableColumn.setMaxWidth(30);
         
         // 控制按钮
-        add = new UIButton(Inter.getLocText("Add"));
-        del = new UIButton(Inter.getLocText("Delete"));
+        add = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Add"));
+        del = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Delete"));
         JPanel buttonPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
 //        buttonPane.setLayout(FRGUIPaneFactory.createLabelFlowLayout());
         buttonPane.add(add);
@@ -93,7 +93,7 @@ public class EmbeddedTableDataDefinedPane extends BasicPane{
 	
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText(new String[]{"Column", "Set"});
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Tabledata_Embedded_Column_Setting");
 	}
 	 
 	public void checkValid() throws Exception {
@@ -213,8 +213,8 @@ public class EmbeddedTableDataDefinedPane extends BasicPane{
         private EmbeddedTableData embeddedTableData;
         private String[] COLUMN_NAME = {
               	 "", 
-              	 Inter.getLocText("ColumnName"), 
-              	 Inter.getLocText("Type")
+              	 com.fr.design.i18n.Toolkit.i18nText("ColumnName"),
+              	 com.fr.design.i18n.Toolkit.i18nText("Type")
               };
         private int sum = 0;
 

@@ -10,7 +10,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.form.ui.NumberEditor;
-import com.fr.general.Inter;
+
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
@@ -55,19 +55,19 @@ public class NumberEditorValidatePane extends JPanel {
 
     private void initComponent() {
         initListeners();
-        this.allowDecimalsCheckBox = new UICheckBox(Inter.getLocText("Allow_Decimals"));
+        this.allowDecimalsCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Allow_Decimals"));
         allowDecimalsCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         this.allowDecimalsCheckBox.addActionListener(allowDecimalsListener);
         this.decimalLength = new UISpinner(0, Integer.MAX_VALUE, 1, 16);
-        this.allowNegativeCheckBox = new UICheckBox(Inter.getLocText("Allow_Negative"));
+        this.allowNegativeCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Allow_Negative"));
         this.allowNegativeCheckBox.addActionListener(allowNegativeListener);
         allowNegativeCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        this.setMaxValueCheckBox = new UICheckBox(Inter.getLocText("Need_Max_Value"), false);
+        this.setMaxValueCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Need_Max_Value"), false);
         setMaxValueCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         this.maxValueSpinner = new UISpinner(-Double.MAX_VALUE, Double.MAX_VALUE, 1D, 0D);
         this.setMaxValueCheckBox.addActionListener(setMaxListener);
         this.maxValueSpinner.addChangeListener(maxValueChangeListener);
-        this.setMinValueCheckBox = new UICheckBox(Inter.getLocText("Need_Min_Value"), false);
+        this.setMinValueCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Need_Min_Value"), false);
         this.minValueSpinner = new UISpinner(-Double.MAX_VALUE, Double.MAX_VALUE, 1D, 0D);
         minValueSpinner.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         this.setMinValueCheckBox.addActionListener(setMinListener);
@@ -77,7 +77,7 @@ public class NumberEditorValidatePane extends JPanel {
         JPanel errorMsgBorderPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         errorMsgBorderPane.setBorder(BorderFactory.createEmptyBorder(0, IntervalConstants.INTERVAL_L5, IntervalConstants.INTERVAL_L1, 0));
         errorMsgBorderPane.add(errorMsgTextFieldPane, BorderLayout.CENTER);
-        UILabel numberLabel = new UILabel(Inter.getLocText(new String[]{"FR-Designer_Double", "Numbers"}));
+        UILabel numberLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Decimal_Digits"));
         limitNumberPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{numberLabel, decimalLength}}, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);
         limitNumberPane.setBorder(BorderFactory.createEmptyBorder(0, IntervalConstants.INTERVAL_L5, 0, 0));
         double f = TableLayout.FILL;
@@ -100,7 +100,7 @@ public class NumberEditorValidatePane extends JPanel {
     private void initErrorMsgPane() {
         errorMsgTextField = new UITextField();
         errorMsgTextFieldPane = TableLayoutHelper.createGapTableLayoutPane(
-                new Component[][]{new Component[]{new UILabel(Inter.getLocText("FR-Designer_Widget_Error_Tip")), errorMsgTextField}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_L2, IntervalConstants.INTERVAL_L1);
+                new Component[][]{new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget_Error_Tip")), errorMsgTextField}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_L2, IntervalConstants.INTERVAL_L1);
     }
 
 

@@ -6,7 +6,7 @@ import com.fr.design.condition.ConditionAttrSingleConditionPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,7 +29,7 @@ public class LabelContentsPane extends ConditionAttrSingleConditionPane<DataSeri
 
     public LabelContentsPane(ConditionAttributesPane conditionAttributesPane, boolean isRemove, final Class plotClass) {
         super(conditionAttributesPane, isRemove);
-        nameLabel = new UILabel(Inter.getLocText(new String[]{"Label", "HJS-Message"}));
+        nameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Label_Content"));
 
         JPanel pane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 
@@ -56,7 +56,7 @@ public class LabelContentsPane extends ConditionAttrSingleConditionPane<DataSeri
 
     @Override
     public String nameForPopupMenuItem() {
-        return Inter.getLocText(new String[]{"Label", "HJS-Message"});
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Label_Content");
     }
 
     @Override

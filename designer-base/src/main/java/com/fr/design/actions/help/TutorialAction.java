@@ -15,7 +15,7 @@ import com.fr.base.Utils;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.general.CloudCenter;
-import com.fr.general.Inter;
+
 import com.fr.general.http.HttpClient;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.StableUtils;
@@ -86,7 +86,7 @@ public class TutorialAction extends UpdateAction {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("FR-Designer_COMMUNITY_HELP");
+            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_COMMUNITY_HELP");
         }
 
         @Override

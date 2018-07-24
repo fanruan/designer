@@ -29,7 +29,7 @@ import javax.swing.event.HyperlinkListener;
 import javax.swing.event.MouseInputAdapter;
 
 import com.fr.design.gui.syntax.ui.rsyntaxtextarea.PopupWindowDecorator;
-import com.fr.general.Inter;
+
 
 
 /**
@@ -182,7 +182,7 @@ public class FocusableTip {
 	 * @return The localized text.
 	 */
 	static String getString(String key) {
-		return Inter.getLocText(key);
+		return com.fr.design.i18n.Toolkit.i18nText(key);
 	}
 
 

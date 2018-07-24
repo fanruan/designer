@@ -40,7 +40,7 @@ import com.fr.file.FileFILE;
 import com.fr.file.FileNodeFILE;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
-import com.fr.general.Inter;
+
 import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.injectable.PluginModule;
@@ -825,19 +825,19 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
             editingTemplate.stopEditing();
             if (!editingTemplate.getEditingFILE().exists()) {
                 int returnVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(),
-                        Inter.getLocText("Utils-Would_you_like_to_save") + " \"" + editingTemplate.getEditingFILE()
+                        com.fr.design.i18n.Toolkit.i18nText("Utils-Would_you_like_to_save") + " \"" + editingTemplate.getEditingFILE()
                                 + "\" ?", ProductConstants.PRODUCT_NAME, JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE);
                 if (returnVal == JOptionPane.YES_OPTION && editingTemplate.saveTemplate()) {
                     editingTemplate.saveTemplate();
-                    FineLoggerFactory.getLogger().info(Inter.getLocText(new String[]{"Template", "already-saved"}, new String[]{
-                            editingTemplate.getEditingFILE().getName(), "."}));
+                    FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Template_Already_Saved",
+                            editingTemplate.getEditingFILE().getName()));
                 }
             } else {
                 if (editingTemplate.saveTemplate()) {
                     editingTemplate.saveTemplate();
-                    FineLoggerFactory.getLogger().info(Inter.getLocText(new String[]{"Template", "already-saved"}, new String[]{
-                            editingTemplate.getEditingFILE().getName(), "."}));
+                    FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Template_Already_Saved",
+                            editingTemplate.getEditingFILE().getName()));
                 }
             }
         }
@@ -936,8 +936,8 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 //                    && !FRContext.getCommonOperator().testServerConnectionWithOutShowMessagePane()) {
 //                JOptionPane.showMessageDialog(
 //                        DesignerContext.getDesignerFrame(),
-//                        Inter.getLocText(new String[]{"FR-Chart-Server_disconnected", "FR-Server-Design_template_unopened"}, new String[]{
-//                                ",", "!"}), Inter.getLocText("FR-Server-All_Error"), JOptionPane.ERROR_MESSAGE);
+//                        com.fr.design.i18n.Toolkit.i18nText(new String[]{"FR-Chart-Server_disconnected", "FR-Server-Design_template_unopened"}, new String[]{
+//                                ",", "!"}), com.fr.design.i18n.Toolkit.i18nText("FR-Server-All_Error"), JOptionPane.ERROR_MESSAGE);
 //                return;
 //            }
 //        } catch (Exception e) {
@@ -946,7 +946,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
         // p:判断一下，如何文件为空或者文件不存在，直接返回.
         if (tplFile == null || !tplFile.exists()) {
-            JOptionPane.showMessageDialog(this, Inter.getLocText("Warning-Template_Do_Not_Exsit"),
+            JOptionPane.showMessageDialog(this, com.fr.design.i18n.Toolkit.i18nText("Warning-Template_Do_Not_Exsit"),
                     ProductConstants.PRODUCT_NAME, JOptionPane.INFORMATION_MESSAGE);
             DesignerFrameFileDealerPane.getInstance().refresh();
             return;

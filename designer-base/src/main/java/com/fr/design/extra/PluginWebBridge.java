@@ -14,7 +14,7 @@ import com.fr.design.extra.exe.SearchOnlineExecutor;
 import com.fr.design.extra.exe.callback.JSCallback;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.utils.concurrent.ThreadFactoryBuilder;
-import com.fr.general.Inter;
+
 import com.fr.general.CloudCenter;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
@@ -380,11 +380,11 @@ public class PluginWebBridge {
         int rv = JOptionPane.showOptionDialog(
                 null,
                 message,
-                Inter.getLocText("FR-Designer-Plugin_Warning"),
+                com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"),
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.INFORMATION_MESSAGE,
                 null,
-                new String[]{Inter.getLocText("FR-Designer-Basic_Restart_Designer"), Inter.getLocText("FR-Designer-Basic_Restart_Designer_Later")},
+                new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Basic_Restart_Designer"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Basic_Restart_Designer_Later")},
                 null
         );
         if (rv == JOptionPane.OK_OPTION) {
@@ -556,7 +556,7 @@ public class PluginWebBridge {
     public void clearUserInfo() {
         MarketConfig.getInstance().setInShowBBsName(StringUtils.EMPTY);
         BBSLoginUtils.bbsLogout();
-        uiLabel.setText(Inter.getLocText("FR-Base_UnSignIn"));
+        uiLabel.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Base_UnSignIn"));
     }
 
     public void getPackInfo(final JSObject callback){
@@ -575,7 +575,7 @@ public class PluginWebBridge {
      * 国际化
      */
     public String parseI18(final String key) {
-        return Inter.getLocText(I18N_PREFIX + key);
+        return com.fr.design.i18n.Toolkit.i18nText(I18N_PREFIX + key);
     }
 
     /**

@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.data.datapane.FlashLookLabelMouseAdapter.ReleaseAction;
-import com.fr.general.Inter;
+
 
 
 public class EditOrNewLabel extends UILabel {
@@ -16,7 +16,7 @@ public class EditOrNewLabel extends UILabel {
 	
 	public EditOrNewLabel(Editable editable, JPanel editPane) {
 		super(BaseUtils.readIcon("/com/fr/design/images/m_file/edit.png"));
-		this.setToolTipText(Inter.getLocText("Edit"));
+		this.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Edit"));
 		this.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		this.editable = editable;
 		this.editTablePane = editPane;

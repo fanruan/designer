@@ -13,7 +13,7 @@ import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,7 +36,7 @@ public class TableDataPane extends FurtherBasicBeanPane<ChartCollection>{
 	}
 
 	private void initDataPane() {
-		UILabel label = new BoldFontTextLabel(Inter.getLocText("Chart-DS_TableData")) ;
+		UILabel label = new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Chart-DS_TableData")) ;
 		label.setPreferredSize(new Dimension(ChartDataPane.LABEL_WIDTH,ChartDataPane.LABEL_HEIGHT));
 		tableDataPane = new DatabaseTableDataPane(label) {
 			@Override
@@ -81,7 +81,7 @@ public class TableDataPane extends FurtherBasicBeanPane<ChartCollection>{
 	 * @return 返回标题.
 	 */
 	public String title4PopupWindow() {
-		return Inter.getLocText(new String[]{"TableData", "Data"});
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Tabledata");
 	}
 
 

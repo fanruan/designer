@@ -14,7 +14,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.widget.component.DateValuePane;
 import com.fr.design.widget.component.UIComboBoxNoArrow;
 import com.fr.form.ui.DateEditor;
-import com.fr.general.Inter;
+
 import com.fr.stable.ArrayUtils;
 
 import javax.swing.*;
@@ -49,7 +49,7 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 
 	@Override
 	protected JPanel setSecondContentPane() {
-		returnTypeComboBox = new UIButtonGroup<>(new String[] {Inter.getLocText("Date") ,  Inter.getLocText("String")});
+		returnTypeComboBox = new UIButtonGroup<>(new String[] {com.fr.design.i18n.Toolkit.i18nText("Date") ,  com.fr.design.i18n.Toolkit.i18nText("String")});
 		JPanel formatHead =  createFormatHead();
 
 		startDv = new DateValuePane();
@@ -57,11 +57,11 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 
 		double f = TableLayout.FILL;
 		double p = TableLayout.PREFERRED;
-		UILabel formatLabel = new UILabel(Inter.getLocText("FR-Engine_Format"));
+		UILabel formatLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Format"));
 		formatLabel.setVerticalAlignment(SwingConstants.TOP);
-		UILabel startDateLabel = new UILabel(Inter.getLocText("FS_Start_Date"));
+		UILabel startDateLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FS_Start_Date"));
 		startDateLabel.setVerticalAlignment(SwingConstants.TOP);
-		UILabel endDateLabel = new UILabel(Inter.getLocText("FS_End_Date"));
+		UILabel endDateLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FS_End_Date"));
 		endDateLabel.setVerticalAlignment(SwingConstants.TOP);
 
 		Component[][] components = new Component[][]{
@@ -69,7 +69,7 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 				new Component[]{startDateLabel, startDv},
 				new Component[]{endDateLabel, endDv},
 				new Component[]{waterMarkDictPane, null},
-				new Component[]{new UILabel(Inter.getLocText("Widget-Date_Selector_Return_Type")), returnTypeComboBox }
+				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Widget-Date_Selector_Return_Type")), returnTypeComboBox }
 		};
 		double[] rowSize = {p, p, p, p, p, p, p};
 		double[] columnSize = {p, f};
@@ -83,7 +83,7 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 	private JPanel createFormatPane(UIComboBox formatComboBox, UILabel sampleLabel){
 
 		JPanel previewPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-		TitledBorder titledBorder = new TitledBorder(new UIRoundedBorder(UIConstants.LINE_COLOR, 1, 5), Inter.getLocText("FR-Base_StyleFormat_Sample"), 4, 2, this.getFont(), UIConstants.LINE_COLOR);
+		TitledBorder titledBorder = new TitledBorder(new UIRoundedBorder(UIConstants.LINE_COLOR, 1, 5), com.fr.design.i18n.Toolkit.i18nText("FR-Base_StyleFormat_Sample"), 4, 2, this.getFont(), UIConstants.LINE_COLOR);
 		previewPane.setBorder(titledBorder);
 
 		JPanel sampleLabelWrapper = new JPanel(new BorderLayout());
@@ -132,10 +132,10 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 		final JPanel customPane = new JPanel(cardLayout);
 		JPanel dateFormatPane = createFormatPane(dateFormatComboBox, dateSampleLabel);
 		JPanel timeFormatPane = createFormatPane(timeFormatComboBox, timeSampleLabel);
-		customPane.add(dateFormatPane, Inter.getLocText("StyleFormat-Date"));
-		customPane.add(timeFormatPane, Inter.getLocText("StyleFormat-Time"));
-		final String[] tabTitles = new String[]{Inter.getLocText("StyleFormat-Date"), Inter.getLocText("StyleFormat-Time")};
-		fomatHeadGroup = new UIButtonGroup(new String[]{Inter.getLocText("StyleFormat-Date"), Inter.getLocText("StyleFormat-Time")});
+		customPane.add(dateFormatPane, com.fr.design.i18n.Toolkit.i18nText("StyleFormat-Date"));
+		customPane.add(timeFormatPane, com.fr.design.i18n.Toolkit.i18nText("StyleFormat-Time"));
+		final String[] tabTitles = new String[]{com.fr.design.i18n.Toolkit.i18nText("StyleFormat-Date"), com.fr.design.i18n.Toolkit.i18nText("StyleFormat-Time")};
+		fomatHeadGroup = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("StyleFormat-Date"), com.fr.design.i18n.Toolkit.i18nText("StyleFormat-Time")});
 		fomatHeadGroup.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
@@ -166,7 +166,7 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 				String sample = simpleDateFormat.format(new Date());
 				Color c = Color.black;
 				if (!ArrayUtils.contains(FormatField.getInstance().getDateFormatArray(), text)) {
-					sample += " " + Inter.getLocText("DateFormat-Custom_Warning");
+					sample += " " + com.fr.design.i18n.Toolkit.i18nText("DateFormat-Custom_Warning");
 					c = Color.red;
 				}
 				currentSamplelabel.setText(sample);

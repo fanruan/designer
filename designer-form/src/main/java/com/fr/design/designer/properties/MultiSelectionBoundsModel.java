@@ -6,7 +6,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
-import com.fr.general.Inter;
+
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.FormSelection;
 import com.fr.design.mainframe.widget.editors.IntegerPropertyEditor;
@@ -36,7 +36,7 @@ public class MultiSelectionBoundsModel implements ConstraintsGroupModel {
 
 	@Override
 	public String getGroupName() {
-		return Inter.getLocText("Form-Component_Bounds");
+		return com.fr.design.i18n.Toolkit.i18nText("Form-Component_Bounds");
 	}
 
 	@Override
@@ -54,13 +54,13 @@ public class MultiSelectionBoundsModel implements ConstraintsGroupModel {
 		if (column == 0) {
 			switch (row) {
 			case 0:
-				return Inter.getLocText("X-Coordinate");
+				return com.fr.design.i18n.Toolkit.i18nText("X-Coordinate");
 			case 1:
-				return Inter.getLocText("Y-Coordinate");
+				return com.fr.design.i18n.Toolkit.i18nText("Y-Coordinate");
 			case 2:
-				return Inter.getLocText("Tree-Width");
+				return com.fr.design.i18n.Toolkit.i18nText("Tree-Width");
 			default:
-				return Inter.getLocText("Tree-Height");
+				return com.fr.design.i18n.Toolkit.i18nText("Tree-Height");
 			}
 		} else {
 			Rectangle rec = designer.getSelectionModel().getSelection().getSelctionBounds();

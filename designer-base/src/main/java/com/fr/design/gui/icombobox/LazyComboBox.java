@@ -4,7 +4,7 @@
 package com.fr.design.gui.icombobox;
 
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.Inter;
+
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingWorker;
@@ -23,7 +23,7 @@ import java.util.concurrent.ExecutionException;
 public abstract class LazyComboBox extends UIComboBox implements PopupMenuListener {
 
     private static final int NUM = 80;
-    private static final String[] PENDING_CONTENT = new String[]{"", Inter.getLocText("Loading") + "..."};
+    private static final String[] PENDING_CONTENT = new String[]{"", com.fr.design.i18n.Toolkit.i18nText("Loading") + "..."};
 
     /**
      * 是否加载完成

@@ -4,7 +4,7 @@ import com.fr.design.gui.icombobox.DictionaryComboBox;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.widget.btn.ButtonConstants;
 import com.fr.form.ui.Button;
-import com.fr.general.Inter;
+
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -25,7 +25,7 @@ public abstract class ButtonDetailPane<T extends Button> extends BasicPane {
 
     @Override
     public String title4PopupWindow() {
-        return Inter.getLocText("Button");
+        return com.fr.design.i18n.Toolkit.i18nText("Button");
     }
 
     public void populate(T button) {

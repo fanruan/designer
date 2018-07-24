@@ -7,7 +7,7 @@ import com.fr.chart.chartdata.BubbleReportDefinition;
 import com.fr.chart.chartdata.BubbleSeriesValue;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.ChartDataFilterPane;
-import com.fr.general.Inter;
+
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 
 import javax.swing.JPanel;
@@ -26,7 +26,7 @@ public class BubblePlotReportDataContentPane extends AbstractReportDataContentPa
 	public BubblePlotReportDataContentPane(ChartDataPane parent) {
 		initEveryPane();
 		filterPane = new ChartDataFilterPane(new BubblePlot(), parent);
-		JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Chart-Data_Filter"),filterPane);
+		JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_Filter"),filterPane);
 		panel.setBorder(getSidesBorder());
 		filterPane.setBorder(getFilterPaneBorder());
 		this.add(panel, "0,6,2,4");
@@ -35,10 +35,10 @@ public class BubblePlotReportDataContentPane extends AbstractReportDataContentPa
 	@Override
 	protected String[] columnNames() {
 		return  new String[]{
-			Inter.getLocText("Bubble-Series_Name"),
-			Inter.getLocText("ChartF-X_Axis"),
-			Inter.getLocText("ChartF-Y_Axis"),
-			Inter.getLocText("FRFont-Size")
+			com.fr.design.i18n.Toolkit.i18nText("Bubble-Series_Name"),
+			com.fr.design.i18n.Toolkit.i18nText("ChartF-X_Axis"),
+			com.fr.design.i18n.Toolkit.i18nText("ChartF-Y_Axis"),
+			com.fr.design.i18n.Toolkit.i18nText("FRFont-Size")
 		};
 	}
 	

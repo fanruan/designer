@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import com.fr.design.chart.gui.ChartComponent;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.design.module.DesignModuleFactory;
-import com.fr.general.Inter;
+
 
 /**
  * Created by IntelliJ IDEA.
@@ -18,7 +18,7 @@ public class SetChartStyleAciton extends ChartComponentAction {
 
     public SetChartStyleAciton(ChartComponent chartComponent) {
         super(chartComponent);
-        this.setName(Inter.getLocText(new String[]{"DashBoard-ChartFloat", "Style"}));
+        this.setName(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"DashBoard-ChartFloat", "Style"}));
     }
 
     public void actionPerformed(ActionEvent e) {

@@ -15,7 +15,7 @@ import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.data.DataContentsPane;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -58,7 +58,7 @@ public class GisMapDataPane extends DataContentsPane{
      * @return 界面标题
 	 */
 	public String title4PopupWindow() {
-		return Inter.getLocText("ChartF-Gis");
+		return com.fr.design.i18n.Toolkit.i18nText("ChartF-Gis");
 	}
 
 	public void setSupportCellData(boolean surpportCellData) {
@@ -109,7 +109,7 @@ public class GisMapDataPane extends DataContentsPane{
                         double[] columnSize = { p,f };
                         double[] rowSize = { p};
                         Component[][] components = new Component[][]{
-                                new Component[]{new BoldFontTextLabel(Inter.getLocText("ChartF-Data-Resource") + ":"), jcb},
+                                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("ChartF-Data-Resource") + ":"), jcb},
                         } ;
 
                         JPanel northPane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 0, 0);
@@ -130,7 +130,7 @@ public class GisMapDataPane extends DataContentsPane{
 
 					@Override
 					protected String title4PopupWindow() {
-						return Inter.getLocText("Data_Setting");
+						return com.fr.design.i18n.Toolkit.i18nText("Data_Setting");
 					}
 				}, BorderLayout.CENTER);
 

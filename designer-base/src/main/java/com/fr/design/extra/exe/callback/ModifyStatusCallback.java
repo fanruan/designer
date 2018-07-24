@@ -1,7 +1,7 @@
 package com.fr.design.extra.exe.callback;
 
 import com.fr.design.extra.PluginUtils;
-import com.fr.general.Inter;
+
 import com.fr.plugin.manage.control.PluginTaskCallback;
 import com.fr.plugin.manage.control.PluginTaskResult;
 
@@ -22,10 +22,10 @@ public class ModifyStatusCallback implements PluginTaskCallback{
     public void done(PluginTaskResult result) {
         if (result.isSuccess()) {
             jsCallback.execute("success");
-            String modifyMessage = isActive ? Inter.getLocText("FR-Plugin_Has_Been_Disabled") : Inter.getLocText("FR-Plugin_Has_Been_Actived");
+            String modifyMessage = isActive ? com.fr.design.i18n.Toolkit.i18nText("FR-Plugin_Has_Been_Disabled") : com.fr.design.i18n.Toolkit.i18nText("FR-Plugin_Has_Been_Actived");
             JOptionPane.showMessageDialog(null, modifyMessage);
         } else {
-            JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
         }
     }
 

@@ -6,7 +6,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.funnel.VanChartFunnelPlot;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 import com.fr.van.chart.designer.style.series.VanChartAbstractPlotSeriesPane;
@@ -50,8 +50,8 @@ public class VanChartFunnelSeriesPane extends VanChartAbstractPlotSeriesPane {
     }
 
     private JPanel createFunnelStylePane() {
-        useSameSlantAngle = new UIButtonGroup(new String[]{Inter.getLocText("Plugin-ChartF_UseSameSlantAngle"), Inter.getLocText("Plugin-ChartF_UseDiffSlantAngle")});
-        sort = new UIButtonGroup(new String[]{Inter.getLocText("Plugin-ChartF_AutoSort"), Inter.getLocText("Plugin-ChartF_Origin")});
+        useSameSlantAngle = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_UseSameSlantAngle"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_UseDiffSlantAngle")});
+        sort = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AutoSort"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Origin")});
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
@@ -60,13 +60,13 @@ public class VanChartFunnelSeriesPane extends VanChartAbstractPlotSeriesPane {
         double[] rowSize = {p,p,p};
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Continuity")), useSameSlantAngle},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Sort")), sort},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Continuity")), useSameSlantAngle},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Sort")), sort},
         };
 
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
 
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Chart-Style_Name"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Chart-Style_Name"), panel);
     }
 
     public void populateBean(Plot plot) {

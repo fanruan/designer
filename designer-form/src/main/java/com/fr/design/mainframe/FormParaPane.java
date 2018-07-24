@@ -10,7 +10,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.form.ui.*;
 import com.fr.general.GeneralContext;
-import com.fr.general.Inter;
+
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.injectable.PluginModule;
 import com.fr.plugin.manage.PluginFilter;
@@ -91,7 +91,7 @@ public class FormParaPane extends JPanel {
             }
         };
         predefineButton.set4ToolbarButton();
-        predefineButton.setToolTipText(Inter.getLocText("Widget-User_Defined_Widget_Config"));
+        predefineButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Widget-User_Defined_Widget_Config"));
         predefineButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {

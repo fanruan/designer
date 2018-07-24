@@ -60,7 +60,7 @@ import com.fr.design.gui.syntax.ui.rtextarea.RTextArea;
 import com.fr.design.gui.syntax.ui.rtextarea.RTextAreaUI;
 import com.fr.design.gui.syntax.ui.rtextarea.RTextScrollPane;
 import com.fr.design.gui.syntax.ui.rtextarea.RecordableTextAction;
-import com.fr.general.Inter;
+
 
 
 /**
@@ -474,7 +474,7 @@ private boolean fractionalFontMetricsEnabled;
 	 */
 	protected void appendFoldingMenu(JPopupMenu popup) {
 		popup.addSeparator();
-		foldingMenu = new JMenu(Inter.getLocText("ContextMenu.Folding"));
+		foldingMenu = new JMenu(com.fr.design.i18n.Toolkit.i18nText("ContextMenu.Folding"));
 		foldingMenu.add(createPopupMenuItem(toggleCurrentFoldAction));
 		foldingMenu.add(createPopupMenuItem(collapseAllCommentFoldsAction));
 		foldingMenu.add(createPopupMenuItem(collapseAllFoldsAction));

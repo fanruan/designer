@@ -15,7 +15,7 @@ import com.fr.design.formula.UIFormula;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.menu.MenuKeySet;
-import com.fr.general.Inter;
+
 import com.fr.grid.Grid;
 import com.fr.grid.selection.FloatSelection;
 import com.fr.report.ReportHelper;
@@ -48,7 +48,7 @@ public class FormulaFloatAction extends ElementCaseAction {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("FR-Designer_Insert_Formula");
+            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Insert_Formula");
         }
 
         @Override

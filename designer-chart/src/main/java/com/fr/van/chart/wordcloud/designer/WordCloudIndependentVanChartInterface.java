@@ -12,7 +12,7 @@ import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.base.VanChartConstants;
 import com.fr.van.chart.designer.other.VanChartInteractivePaneWithOutSort;
 import com.fr.van.chart.designer.other.VanChartOtherPane;
@@ -87,7 +87,7 @@ public class WordCloudIndependentVanChartInterface extends AbstractIndependentVa
 
                     @Override
                     protected String[] getNameArray() {
-                        return new String[]{Inter.getLocText("Plugin-ChartF_XYAxis"),Inter.getLocText("Chart-Use_None")};
+                        return new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_XYAxis"),com.fr.design.i18n.Toolkit.i18nText("Chart-Use_None")};
                     }
 
                     @Override

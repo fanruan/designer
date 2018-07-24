@@ -16,7 +16,7 @@ import com.fr.design.mainframe.JTemplate;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.selection.QuickEditor;
-import com.fr.general.Inter;
+
 import com.fr.grid.selection.CellSelection;
 import com.fr.quickeditor.cellquick.layout.CellElementBarLayout;
 import com.fr.report.cell.TemplateCellElement;
@@ -209,9 +209,9 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
         double f = TableLayout.FILL;
         double[] columnSize = {p, f};
         double[] rowSize = {p, p};
-        UILabel cellLabel = new UILabel(Inter.getLocText("FR-Designer_Cell"));
+        UILabel cellLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cell"));
         cellLabel.setPreferredSize(LABEL_DIMENSION);
-        UILabel insertContentLabel = new UILabel(Inter.getLocText("FR-Designer_Insert_Cell_Element"));
+        UILabel insertContentLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Insert_Cell_Element"));
         insertContentLabel.setPreferredSize(LABEL_DIMENSION);
         initCellElementEditComboBox();
         Component[][] components = new Component[][]{
@@ -305,8 +305,8 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
                 ColumnRow columnRowEdit = ColumnRow.valueOf(columnRowTextField.getText());
                 // barry:检查输入是否正确
                 if (!ColumnRow.validate(columnRowEdit)) {
-                    Object[] options = {Inter.getLocText("OK")};
-                    JOptionPane.showOptionDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("Please_Input_Letters+Numbers(A1,AA1,A11....)"), Inter.getLocText("Warning"),
+                    Object[] options = {com.fr.design.i18n.Toolkit.i18nText("OK")};
+                    JOptionPane.showOptionDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Please_Input_Letters+Numbers(A1,AA1,A11....)"), com.fr.design.i18n.Toolkit.i18nText("Warning"),
                             JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
                     // 重新选中当前的selection,把columnRowTextField
                     tc.setSelection(tc.getSelection());

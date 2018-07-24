@@ -6,7 +6,7 @@ import com.fr.design.condition.ConditionAttrSingleConditionPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.icombobox.LineComboBox;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.general.Inter;
+
 import com.fr.stable.Constants;
 import com.fr.stable.CoreConstants;
 
@@ -29,7 +29,7 @@ public class LabelLineStylePane extends ConditionAttrSingleConditionPane<DataSer
         super(conditionAttributesPane, isRemove);
 
 
-        nameLabel = new UILabel(Inter.getLocText("Line-Style") + ":");
+        nameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Line-Style") + ":");
         if (isRemove) {
             this.add(nameLabel);
         }
@@ -40,7 +40,7 @@ public class LabelLineStylePane extends ConditionAttrSingleConditionPane<DataSer
 
     @Override
     public String nameForPopupMenuItem() {
-        return Inter.getLocText("Line-Style");
+        return com.fr.design.i18n.Toolkit.i18nText("Line-Style");
     }
 
     @Override

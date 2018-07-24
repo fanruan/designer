@@ -4,7 +4,7 @@ import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.condition.ConditionAttributesPane;
-import com.fr.general.Inter;
+
 import com.fr.van.chart.designer.AbstractVanChartScrollPane;
 
 import javax.swing.JPanel;
@@ -37,7 +37,7 @@ public class VanChartConditionAttrPane extends AbstractVanChartScrollPane<Chart>
      */
     @Override
     public String title4PopupWindow() {
-        return Inter.getLocText("Chart-Condition_Display");
+        return com.fr.design.i18n.Toolkit.i18nText("Chart-Condition_Display");
     }
 
     @Override

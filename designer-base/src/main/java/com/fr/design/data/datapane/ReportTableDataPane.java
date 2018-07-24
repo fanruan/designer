@@ -7,7 +7,7 @@ import com.fr.data.TableDataSource;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.frpane.LoadingBasicPane;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,7 +36,7 @@ public class ReportTableDataPane extends LoadingBasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("DS-Report_TableData");
+        return com.fr.design.i18n.Toolkit.i18nText("DS-Report_TableData");
     }
 
     public void populate(TableDataSource tds) {

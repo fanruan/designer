@@ -3,7 +3,7 @@ package com.fr.design.widget.mobile;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.form.ui.Widget;
-import com.fr.general.Inter;
+
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -23,7 +23,7 @@ public class WidgetMobilePane extends JPanel {
 
     protected void init() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        UILabel label = new UILabel(Inter.getLocText("FR-Designer_No_Settings_Available"));
+        UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_No_Settings_Available"));
         label.setHorizontalAlignment(SwingConstants.CENTER);
         this.add(label);
     }

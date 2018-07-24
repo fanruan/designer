@@ -5,7 +5,7 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.controlpane.ShortCut4JControlPane;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.general.NameObject;
 import com.fr.plugin.chart.attr.DefaultAxisHelper;
 import com.fr.plugin.chart.attr.axis.VanChartAlertValue;
@@ -25,17 +25,17 @@ public class AlertLineListControlPane extends VanChartUIListControlPane {
 
     @Override
     public NameableCreator[] createNameableCreators() {
-        return new ChartNameObjectCreator[]{new ChartNameObjectCreator(new String[]{Inter.getLocText("ChartF-X_Axis"), Inter.getLocText("ChartF-Y_Axis")},
-                Inter.getLocText("Plugin-ChartF_AlertLine"), VanChartAlertValue.class, VanChartAlertValuePane.class)};
+        return new ChartNameObjectCreator[]{new ChartNameObjectCreator(new String[]{com.fr.design.i18n.Toolkit.i18nText("ChartF-X_Axis"), com.fr.design.i18n.Toolkit.i18nText("ChartF-Y_Axis")},
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AlertLine"), VanChartAlertValue.class, VanChartAlertValuePane.class)};
     }
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("Plugin-ChartF_AlertLine");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AlertLine");
     }
 
     protected String getAddItemText() {
-        return Inter.getLocText(new String[]{"Plugin-Chart_Add_Line","Plugin-ChartF_AlertLine"});
+        return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Plugin-Chart_Add_Line","Plugin-ChartF_AlertLine"});
     }
 
     protected ShortCut4JControlPane[] createShortcuts() {
@@ -53,7 +53,7 @@ public class AlertLineListControlPane extends VanChartUIListControlPane {
         List<VanChartAxis> yAxisList = rectanglePlot.getYAxisList();
         String[] axisNames = DefaultAxisHelper.getAllAxisNames(rectanglePlot);
 
-        ChartNameObjectCreator[] creators = {new ChartNameObjectCreator(getAlertAxisName(axisNames), Inter.getLocText("Plugin-ChartF_AlertLine"), VanChartAlertValue.class, getAlertPaneClass())};
+        ChartNameObjectCreator[] creators = {new ChartNameObjectCreator(getAlertAxisName(axisNames), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AlertLine"), VanChartAlertValue.class, getAlertPaneClass())};
 
         refreshNameableCreator(creators);
 

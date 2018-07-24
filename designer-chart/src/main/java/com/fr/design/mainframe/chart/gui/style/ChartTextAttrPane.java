@@ -13,7 +13,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.FRFont;
-import com.fr.general.Inter;
+
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 
 import javax.swing.JPanel;
@@ -165,7 +165,7 @@ public class ChartTextAttrPane extends BasicPane {
     }
 
     protected Component[][] getComponents(JPanel buttonPane) {
-        UILabel text = new UILabel(Inter.getLocText("Plugin-Chart_Character"), SwingConstants.LEFT);
+        UILabel text = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-Chart_Character"), SwingConstants.LEFT);
         return new Component[][]{
                 new Component[]{null, null},
                 new Component[]{text, fontNameComboBox},

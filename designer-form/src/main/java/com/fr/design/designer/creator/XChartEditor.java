@@ -16,6 +16,7 @@ import com.fr.design.designer.properties.mobile.ElementCasePropertyUI;
 import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.design.gui.chart.BaseChartPropertyPane;
 import com.fr.design.gui.chart.MiddleChartComponent;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.*;
 import com.fr.design.mainframe.widget.editors.WLayoutBorderStyleEditor;
 import com.fr.design.module.DesignModuleFactory;
@@ -23,7 +24,7 @@ import com.fr.design.designer.beans.events.DesignerEditor;
 import com.fr.form.ui.BaseChartEditor;
 import com.fr.form.ui.Widget;
 import com.fr.design.form.util.XCreatorConstants;
-import com.fr.general.Inter;
+
 import com.fr.stable.Constants;
 import com.fr.stable.GraphDrawHelper;
 import com.fr.stable.core.PropertyChangeAdapter;
@@ -97,10 +98,9 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 	 */
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
 		return  new CRPropertyDescriptor[] {
-				new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Inter
-						.getLocText("Form-Widget_Name")),
+				new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Toolkit.i18nText("Form-Widget_Name")),
 				new CRPropertyDescriptor("visible", this.data.getClass()).setI18NName(
-						Inter.getLocText("FR-Designer_Widget-Visible")).setPropertyChangeListener(new PropertyChangeAdapter() {
+						com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget-Visible")).setPropertyChangeListener(new PropertyChangeAdapter() {
 
 					@Override
 					public void propertyChange() {
@@ -108,7 +108,7 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 				}),
 				new CRPropertyDescriptor("borderStyle", this.data.getClass()).setEditorClass(
 						WLayoutBorderStyleEditor.class).setI18NName(
-						Inter.getLocText("Chart-Style_Name")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
+						com.fr.design.i18n.Toolkit.i18nText("Chart-Style_Name")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
 						.setPropertyChangeListener(new PropertyChangeAdapter() {
 
 					@Override
