@@ -3,17 +3,12 @@ package com.fr.design.module;
 import com.fr.base.ChartColorMatching;
 import com.fr.base.ChartPreStyleConfig;
 import com.fr.base.Utils;
-import com.fr.config.Configuration;
 import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
-import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.mainframe.DesignerFrame;
 import com.fr.general.Inter;
 import com.fr.general.NameObject;
 import com.fr.stable.Nameable;
-import com.fr.transaction.Configurations;
-import com.fr.transaction.Worker;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -64,33 +59,16 @@ public class ChartPreStyleManagerPane extends JListControlPane {
 	}
 	
 	public void updateBean() {
-		Configurations.update(new Worker() {
-			@Override
-			public void run() {
-				ChartPreStyleConfig config = ChartPreStyleConfig.getInstance();
+		ChartPreStyleConfig config = ChartPreStyleConfig.getInstance();
 
-				config.setCurrentStyle(getSelectedName());
+		config.setCurrentStyle(getSelectedName());
 
-				Nameable[] values = update();
-				config.clearAllPreStyle();
+		Nameable[] values = update();
+		config.clearAllPreStyle();
 
-				for(Nameable value : values) {
-					config.putPreStyle(value.getName(), ((NameObject) value).getObject());
-				}
-
-				// 通知报表整个刷新.
-				DesignerFrame frame = DesignerContext.getDesignerFrame();
-				if(frame != null) {
-					frame.repaint();
-				}
-			}
-
-			@Override
-			public Class<? extends Configuration>[] targets() {
-				return new Class[]{ChartPreStyleConfig.class};
-			}
-		});
-
+		for (Nameable value : values) {
+			config.putPreStyle(value.getName(), ((NameObject) value).getObject());
+		}
 	}
 
 }
