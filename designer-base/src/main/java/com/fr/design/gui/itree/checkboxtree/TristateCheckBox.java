@@ -77,7 +77,7 @@ public class TristateCheckBox extends UICheckBox {
 
     public TristateCheckBox(String text, Icon icon, State initial) {
         super(text, icon);
-        setUI(new TristateUICheckBoxUI());
+        setUI(new TristateCheckBoxUI());
         // Add a listener for when the mouse is pressed
         super.addMouseListener(new MouseAdapter() {
             @Override
@@ -105,17 +105,17 @@ public class TristateCheckBox extends UICheckBox {
 
     public TristateCheckBox(String text, State initial) {
         this(text, null, initial);
-        setUI(new TristateUICheckBoxUI());
+        setUI(new TristateCheckBoxUI());
     }
 
     public TristateCheckBox(String text) {
         this(text, DO_NOT_CARE);
-        setUI(new TristateUICheckBoxUI());
+        setUI(new TristateCheckBoxUI());
     }
 
     public TristateCheckBox() {
         this(null);
-        setUI(new TristateUICheckBoxUI());
+        setUI(new TristateCheckBoxUI());
     }
 
     /**
@@ -343,7 +343,7 @@ public class TristateCheckBox extends UICheckBox {
         }
     }
 
-    private class TristateUICheckBoxUI extends MetalCheckBoxUI {
+    private class TristateCheckBoxUI extends MetalCheckBoxUI {
         @Override
         public void paint(Graphics g, JComponent c) {
             synchronized (this) {
