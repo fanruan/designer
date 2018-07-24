@@ -11,7 +11,7 @@ public class SetDataLabelStyleAction extends ChartComponentAction{
 
 	public SetDataLabelStyleAction(ChartComponent chartComponent) {
 		super(chartComponent);
-		this.setName(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Set", "Data-Label"}));
+		this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Set_Data_Label"));
 	}
 
 	@Override

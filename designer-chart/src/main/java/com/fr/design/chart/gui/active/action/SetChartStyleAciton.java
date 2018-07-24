@@ -18,7 +18,7 @@ public class SetChartStyleAciton extends ChartComponentAction {
 
     public SetChartStyleAciton(ChartComponent chartComponent) {
         super(chartComponent);
-        this.setName(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"DashBoard-ChartFloat", "Style"}));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Style"));
     }
 
     public void actionPerformed(ActionEvent e) {
