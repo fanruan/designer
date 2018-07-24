@@ -8,7 +8,7 @@ import com.fr.base.extension.FileExtension;
 import com.fr.design.mainframe.JWorkBook;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.file.filter.ChooseFileFilter;
-import com.fr.general.Inter;
+
 import com.fr.io.exporter.CSVExporter;
 import com.fr.io.exporter.Exporter;
 import com.fr.io.exporter.LargeDataPageCSVExporter;
@@ -41,7 +41,7 @@ public class CSVExportAction extends AbstractExportAction {
 
     @Override
 	protected ChooseFileFilter getChooseFileFilter() {
-        return new ChooseFileFilter(FileExtension.CSV, Inter.getLocText("Export-CSV"));
+        return new ChooseFileFilter(FileExtension.CSV, com.fr.design.i18n.Toolkit.i18nText("Export-CSV"));
     }
 
     @Override

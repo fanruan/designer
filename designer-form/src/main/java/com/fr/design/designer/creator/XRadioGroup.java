@@ -19,7 +19,7 @@ import com.fr.design.mainframe.widget.editors.WidgetValueEditor;
 import com.fr.design.mainframe.widget.renderer.DictionaryRenderer;
 import com.fr.form.ui.RadioGroup;
 import com.fr.design.form.util.XCreatorConstants;
-import com.fr.general.Inter;
+
 import com.fr.stable.ArrayUtils;
 
 /**
@@ -41,10 +41,10 @@ public class XRadioGroup extends XFieldEditor {
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
 		CRPropertyDescriptor [] sup = (CRPropertyDescriptor[]) ArrayUtils.addAll(new CRPropertyDescriptor[] {
 				new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(
-						Inter.getLocText(new String[]{"Widget", "Value"})).setEditorClass(WidgetValueEditor.class)
+						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Value")).setEditorClass(WidgetValueEditor.class)
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 				new CRPropertyDescriptor("dictionary", this.data.getClass()).setI18NName(
-						Inter.getLocText("DS-Dictionary")).setEditorClass(DictionaryEditor.class).setRendererClass(
+						com.fr.design.i18n.Toolkit.i18nText("DS-Dictionary")).setEditorClass(DictionaryEditor.class).setRendererClass(
 						DictionaryRenderer.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")},super.supportedDescriptor());
 		CRPropertyDescriptor [] properties = (CRPropertyDescriptor[]) ArrayUtils.addAll(sup,getCRPropertyDescriptor());
 		return properties;
@@ -52,11 +52,11 @@ public class XRadioGroup extends XFieldEditor {
 
 	private CRPropertyDescriptor[] getCRPropertyDescriptor() throws IntrospectionException {
 		CRPropertyDescriptor[] crp = new CRPropertyDescriptor[] {
-				new CRPropertyDescriptor("adaptive", this.data.getClass()).setI18NName(Inter.getLocText("Adaptive"))
+				new CRPropertyDescriptor("adaptive", this.data.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Adaptive"))
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced").setEditorClass(InChangeBooleanEditor.class)};
 		if (!toData().isAdaptive()) {
 			crp = (CRPropertyDescriptor[]) ArrayUtils.add(crp, new CRPropertyDescriptor("columnsInRow", this.data
-					.getClass()).setI18NName(Inter.getLocText("Button-Group-Display-Columns")).putKeyValue(
+					.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Button-Group-Display-Columns")).putKeyValue(
 					XCreatorConstants.PROPERTY_CATEGORY, "Advanced"));
 		}
 		return crp;

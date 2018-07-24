@@ -11,7 +11,7 @@ import com.fr.design.designer.beans.HoverPainter;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.form.util.XCreatorConstants;
-import com.fr.general.Inter;
+
 
 public abstract class AbstractPainter implements HoverPainter {
 
@@ -82,7 +82,7 @@ public abstract class AbstractPainter implements HoverPainter {
         g2d.setStroke(XCreatorConstants.STROKE);
         g2d.setColor(bColor);
         if (!accept) {
-            g2d.drawString(Inter.getLocText("Cannot-Add_To_This_Area") + "!", x + width / 3, y + height / 2);
+            g2d.drawString(com.fr.design.i18n.Toolkit.i18nText("Cannot-Add_To_This_Area") + "!", x + width / 3, y + height / 2);
         } else if (drawBackground) {
             g2d.fillRect(x, y, width, height);
         } else {

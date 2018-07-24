@@ -20,7 +20,7 @@ import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.ChartTypePane;
 import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.Inter;
+
 
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
@@ -215,7 +215,7 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("FR-Chart-Property_Table");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Property_Table");
     }
 
     public void populate(ChartCollection collection) {

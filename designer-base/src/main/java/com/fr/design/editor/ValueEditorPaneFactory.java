@@ -20,7 +20,7 @@ import com.fr.design.editor.editor.WidgetNameEditor;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itableeditorpane.ParameterTableModel;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
@@ -83,7 +83,7 @@ public class ValueEditorPaneFactory {
      * @return 返回公式编辑器面板
      */
     public static ValueEditorPane createFormulaValueEditorPane() {
-        return createValueEditorPane(new Editor[]{new FormulaEditor(Inter.getLocText("FR-Designer_Parameter-Formula"))},
+        return createValueEditorPane(new Editor[]{new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter-Formula"))},
                 StringUtils.EMPTY, StringUtils.EMPTY);
     }
 
@@ -227,12 +227,12 @@ public class ValueEditorPaneFactory {
      * @return 值编辑器
      */
     public static Editor<?>[] basicEditors() {
-        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("FR-Designer_Parameter-Formula"));
+        FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter-Formula"));
         return new Editor[]{
                 new TextEditor(),
                 new SpinnerIntegerEditor(),
                 new DoubleEditor(),
-                new DateEditor(true, Inter.getLocText("FR-Designer_Date")),
+                new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Date")),
                 new BooleanEditor(),
                 formulaEditor
         };
@@ -244,15 +244,15 @@ public class ValueEditorPaneFactory {
      * @return 值编辑器
      */
     public static Editor<?>[] formEditors() {
-        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("FR-Designer_Parameter-Formula"));
+        FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter-Formula"));
         return new Editor[]{
                 new TextEditor(),
                 new IntegerEditor(),
                 new DoubleEditor(),
-                new DateEditor(true, Inter.getLocText("FR-Designer_Date")),
+                new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Date")),
                 new BooleanEditor(),
                 formulaEditor,
-                new WidgetNameEditor(Inter.getLocText("FR-Designer_Widget"))
+                new WidgetNameEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget"))
         };
     }
 
@@ -262,16 +262,16 @@ public class ValueEditorPaneFactory {
      * @return 值编辑器
      */
     public static Editor<?>[] extendedEditors() {
-        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("FR-Designer_Parameter-Formula"));
+        FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter-Formula"));
         return new Editor[]{
                 new TextEditor(),
                 new IntegerEditor(),
                 new DoubleEditor(),
-                new DateEditor(true, Inter.getLocText("FR-Designer_Date")),
+                new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Date")),
                 new BooleanEditor(),
                 formulaEditor,
                 new ParameterEditor(),
-                new ColumnRowEditor(Inter.getLocText("FR-Designer_Cell"))
+                new ColumnRowEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cell"))
         };
     }
 
@@ -281,17 +281,17 @@ public class ValueEditorPaneFactory {
      * @return 值编辑器
      */
     public static Editor<?>[] extendedCellGroupEditors() {
-        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("FR-Designer_Parameter-Formula"));
+        FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter-Formula"));
         return new Editor[]{
                 new TextEditor(),
                 new IntegerEditor(),
                 new DoubleEditor(),
-                new DateEditor(true, Inter.getLocText("FR-Designer_Date")),
+                new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Date")),
                 new BooleanEditor(),
                 formulaEditor,
                 new ParameterEditor(),
-                new ColumnRowEditor(Inter.getLocText("FR-Designer_Cell")),
-                new ColumnRowGroupEditor(Inter.getLocText("FR-Designer-Cell_Group"))
+                new ColumnRowEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cell")),
+                new ColumnRowGroupEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Cell_Group"))
         };
     }
 
@@ -302,8 +302,8 @@ public class ValueEditorPaneFactory {
      */
     public static Editor<?>[] cellGroupEditor() {
         return new Editor[]{
-                new ColumnRowEditor(Inter.getLocText("FR-Designer_Cell")),
-                new ColumnRowGroupEditor(Inter.getLocText("FR-Designer-Cell_Group"))
+                new ColumnRowEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cell")),
+                new ColumnRowGroupEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Cell_Group"))
         };
     }
 
@@ -316,7 +316,7 @@ public class ValueEditorPaneFactory {
      */
     public static Editor<?>[] URLEditors(String popupName, String textEditorValue) {
         return new Editor[]{
-                new NoneEditor(textEditorValue, StringUtils.isEmpty(popupName) ? Inter.getLocText("FR-Designer_None") : popupName),
+                new NoneEditor(textEditorValue, StringUtils.isEmpty(popupName) ? com.fr.design.i18n.Toolkit.i18nText("FR-Designer_None") : popupName),
                 new TextEditor()
         };
     }
@@ -330,9 +330,9 @@ public class ValueEditorPaneFactory {
      */
     public static Editor<?>[] dateEditors(String popupName, String textEditorValue) {
         return new Editor[]{
-                new NoneEditor(textEditorValue, StringUtils.isEmpty(popupName) ? Inter.getLocText("FR-Designer_None") : popupName),
-                new DateEditor(true, Inter.getLocText("FR-Designer_Date")),
-                new FormulaEditor(Inter.getLocText("FR-Designer_Parameter-Formula"))
+                new NoneEditor(textEditorValue, StringUtils.isEmpty(popupName) ? com.fr.design.i18n.Toolkit.i18nText("FR-Designer_None") : popupName),
+                new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Date")),
+                new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter-Formula"))
         };
     }
 
@@ -342,20 +342,20 @@ public class ValueEditorPaneFactory {
      * @return 值编辑器
      */
     public static Editor<?>[] allEditors() {
-        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("FR-Designer_Parameter-Formula"));
+        FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter-Formula"));
 //        formulaEditor.setEnabled(true);
         return new Editor[]{
                 new TextEditor(),
                 new IntegerEditor(),
                 new DoubleEditor(),
-                new DateEditor(true, Inter.getLocText("FR-Designer_Date")),
+                new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Date")),
                 new BooleanEditor(),
                 formulaEditor,
                 new ParameterEditor(),
-                new ColumnRowEditor(Inter.getLocText("FR-Designer_Cell")),
+                new ColumnRowEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cell")),
                 new ColumnSelectedEditor(),
                 //23328 allEditors中删除控件选项
-//                new WidgetNameEditor(Inter.getLocText("Widget"))
+//                new WidgetNameEditor(com.fr.design.i18n.Toolkit.i18nText("Widget"))
         };
     }
 
@@ -369,7 +369,7 @@ public class ValueEditorPaneFactory {
                 new TextEditor(),
                 new IntegerEditor(),
                 new DoubleEditor(),
-                new DateEditor(true, Inter.getLocText("FR-Designer_Date")),
+                new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Date")),
                 new BooleanEditor(),
         };
     }
@@ -380,12 +380,12 @@ public class ValueEditorPaneFactory {
      * @return 编辑器
      */
     public static Editor<?>[] noCRnoColumnEditors() {
-        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("FR-Designer_Parameter-Formula"));
+        FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter-Formula"));
         return new Editor[]{
                 new TextEditor(),
                 new IntegerEditor(),
                 new DoubleEditor(),
-                new DateEditor(true, Inter.getLocText("FR-Designer_Date")),
+                new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Date")),
                 new BooleanEditor(),
                 formulaEditor,
                 new ParameterEditor(),
@@ -398,7 +398,7 @@ public class ValueEditorPaneFactory {
      * @return 编辑器
      */
     public static Editor<?>[] numberEditors() {
-        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("FR-Designer_Parameter-Formula"));
+        FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter-Formula"));
         return new Editor[]{
                 new IntegerEditor(),
                 new DoubleEditor(),
@@ -413,9 +413,9 @@ public class ValueEditorPaneFactory {
      * @return 编辑器
      */
     public static Editor<?>[] dateEditors() {
-        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("FR-Designer_Parameter-Formula"));
+        FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter-Formula"));
         return new Editor[]{
-                new DateEditor(true, Inter.getLocText("FR-Designer_Date")),
+                new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Date")),
                 formulaEditor,
                 new ParameterEditor(),
         };
@@ -427,14 +427,14 @@ public class ValueEditorPaneFactory {
      * @return 存储过程的编辑器
      */
     public static Editor<?>[] StoreProcedureEditors() {
-        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("FR-Designer_Parameter-Formula"));
+        FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter-Formula"));
         formulaEditor.setEnabled(true);
         return new Editor[]{
                 new CursorEditor(),
                 new TextEditor(),
                 new IntegerEditor(),
                 new DoubleEditor(),
-                new DateEditor(true, Inter.getLocText("FR-Designer_Date")),
+                new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Date")),
                 new BooleanEditor(),
                 formulaEditor
         };
@@ -451,10 +451,10 @@ public class ValueEditorPaneFactory {
         list.add(new TextEditor());
         list.add(new IntegerEditor());
         list.add(new DoubleEditor());
-        list.add(new DateEditor(true, Inter.getLocText("FR-Designer_Date")));
+        list.add(new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Date")));
         list.add(new BooleanEditor());
 
-        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("FR-Designer_Parameter-Formula"));
+        FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter-Formula"));
         formulaEditor.setEnabled(true);
         list.add(formulaEditor);
 
@@ -493,12 +493,12 @@ public class ValueEditorPaneFactory {
 
         JPanel paneLeft = FRGUIPaneFactory.createBorderLayout_S_Pane();
         pane.add(paneLeft);
-        paneLeft.add(new UILabel(" " + Inter.getLocText("FR-Designer_Actual_Value") + ":"), BorderLayout.NORTH);
+        paneLeft.add(new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Actual_Value") + ":"), BorderLayout.NORTH);
         paneLeft.add(keyColumnPane, BorderLayout.CENTER);
 
         JPanel paneRight = FRGUIPaneFactory.createBorderLayout_S_Pane();
         pane.add(paneRight);
-        paneRight.add(new UILabel(" " + Inter.getLocText("FR-Designer_Display_Value") + ":"), BorderLayout.NORTH);
+        paneRight.add(new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Display_Value") + ":"), BorderLayout.NORTH);
 
         paneRight.add(valueDictPane, BorderLayout.CENTER);
 

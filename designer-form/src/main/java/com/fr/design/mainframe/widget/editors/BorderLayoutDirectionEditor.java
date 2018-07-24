@@ -10,16 +10,16 @@ import com.fr.design.gui.icombobox.ComboCheckBox;
 import com.fr.design.designer.properties.items.FRBorderConstraintsItems;
 import com.fr.design.designer.properties.items.Item;
 import com.fr.form.ui.container.WBorderLayout;
-import com.fr.general.Inter;
+
 import com.fr.stable.StringUtils;
 
 public class BorderLayoutDirectionEditor extends AbstractPropertyEditor {
 
 	public static final Item[] ITEMS = new Item[] {
-			new Item(Inter.getLocText("BorderLayout-North"), WBorderLayout.NORTH),
-			new Item(Inter.getLocText("BorderLayout-South"), WBorderLayout.SOUTH),
-			new Item(Inter.getLocText("BorderLayout-West"), WBorderLayout.WEST),
-			new Item(Inter.getLocText("BorderLayout-East"), WBorderLayout.EAST) };
+			new Item(com.fr.design.i18n.Toolkit.i18nText("BorderLayout-North"), WBorderLayout.NORTH),
+			new Item(com.fr.design.i18n.Toolkit.i18nText("BorderLayout-South"), WBorderLayout.SOUTH),
+			new Item(com.fr.design.i18n.Toolkit.i18nText("BorderLayout-West"), WBorderLayout.WEST),
+			new Item(com.fr.design.i18n.Toolkit.i18nText("BorderLayout-East"), WBorderLayout.EAST) };
 
 	private ComboCheckBox comboBox;
 
@@ -39,7 +39,7 @@ public class BorderLayoutDirectionEditor extends AbstractPropertyEditor {
 						setText(StringUtils.join("、", res));
 					}
 				} else {
-					setText(Inter.getLocText("None"));
+					setText(com.fr.design.i18n.Toolkit.i18nText("None"));
 				}
 				return this;
 			}

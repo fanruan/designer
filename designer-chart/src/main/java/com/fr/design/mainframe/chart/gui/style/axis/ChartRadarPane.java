@@ -5,7 +5,7 @@ import com.fr.chart.chartattr.Axis;
 import com.fr.chart.chartattr.RadarAxis;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -27,7 +27,7 @@ public class ChartRadarPane extends ChartValuePane{
 		JPanel buttonPane = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
 		valuePane.add(buttonPane);
 		
-		String[] names = new String[]{Inter.getLocText("Chart_Axis_AutoCount"), Inter.getLocText("Chart_Axis_UnitCount")};
+		String[] names = new String[]{com.fr.design.i18n.Toolkit.i18nText("Chart_Axis_AutoCount"), com.fr.design.i18n.Toolkit.i18nText("Chart_Axis_UnitCount")};
         Boolean[] values = new Boolean[]{Boolean.FALSE, Boolean.TRUE};
 		allMaxMin = new UIButtonGroup<Boolean>(names, values);
 		buttonPane.add(allMaxMin);

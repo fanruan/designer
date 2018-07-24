@@ -3,7 +3,7 @@
  */
 package com.fr.design.actions.edit.clear;
 
-import com.fr.general.Inter;
+
 import com.fr.design.mainframe.ElementCasePane;
 
 /**
@@ -16,7 +16,7 @@ public class ClearAllAction extends ClearAction {
     public ClearAllAction(ElementCasePane t) {
 		super(t);
 		
-        this.setName(Inter.getLocText("M_Edit-Clear_All"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("M_Edit-Clear_All"));
         this.setMnemonic('A');
     }
 

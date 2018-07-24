@@ -21,7 +21,7 @@ import com.fr.design.editor.editor.FormulaEditor;
 import com.fr.design.editor.editor.TextEditor;
 import com.fr.form.ui.DataControl;
 import com.fr.form.ui.WidgetValue;
-import com.fr.general.Inter;
+
 
 public class WidgetValueEditor extends AbstractPropertyEditor {
 	
@@ -39,7 +39,7 @@ public class WidgetValueEditor extends AbstractPropertyEditor {
 		case DataControl.TYPE_NUMBER:
 			return new DoubleEditor();
 		case DataControl.TYPE_FORMULA:
-			return new FormulaEditor(Inter.getLocText("Parameter-Formula"));
+			return new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Parameter-Formula"));
 		case DataControl.TYPE_DATABINDING:
 			return onlyServer ? new ServerDataBindingEditor() : new DataBindingEditor();
 		case DataControl.TYPE_STRING:
@@ -47,7 +47,7 @@ public class WidgetValueEditor extends AbstractPropertyEditor {
 		case DataControl.TYPE_BOOLEAN:
 			return  new BooleanEditor(false);
 		case DataControl.TYPE_DATE:
-			return new DateEditor(true, Inter.getLocText("Date"));
+			return new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("Date"));
 		case DataControl.TYPE_TABLEDATA:
 			return onlyServer ? new ServerDataTableEditor() : new DataTableEditor();
 		default:

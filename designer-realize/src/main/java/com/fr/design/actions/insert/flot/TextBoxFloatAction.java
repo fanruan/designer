@@ -8,7 +8,7 @@ import com.fr.base.DynamicUnitList;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.menu.MenuKeySet;
-import com.fr.general.Inter;
+
 import com.fr.grid.Grid;
 import com.fr.grid.selection.FloatSelection;
 import com.fr.report.ReportHelper;
@@ -39,7 +39,7 @@ public class TextBoxFloatAction extends AbstractShapeAction {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("FR-Designer_Insert_Text");
+            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Insert_Text");
         }
 
         @Override

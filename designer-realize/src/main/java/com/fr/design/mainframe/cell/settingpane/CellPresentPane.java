@@ -3,7 +3,7 @@ package com.fr.design.mainframe.cell.settingpane;
 import com.fr.base.present.Present;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.present.PresentPane;
-import com.fr.general.Inter;
+
 import com.fr.report.cell.DefaultTemplateCellElement;
 import com.fr.report.cell.TemplateCellElement;
 import com.fr.report.elementcase.TemplateElementCase;
@@ -43,7 +43,7 @@ public class CellPresentPane extends AbstractCellAttrPane {
     @Override
     public String getIconPath() {
 //		return "com/fr/design/images/data/source/dataDictionary.png";
-        return Inter.getLocText("FR-Designer_Present");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Present");
     }
 
     @Override
@@ -111,7 +111,7 @@ public class CellPresentPane extends AbstractCellAttrPane {
      * @return 标题
      */
     public String title4PopupWindow() {
-        return Inter.getLocText("FR-Chart-Style_Present");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Style_Present");
     }
 
     public void setSelectedByIds(int level, String... id) {

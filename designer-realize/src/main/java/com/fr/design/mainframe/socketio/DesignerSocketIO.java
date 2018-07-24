@@ -6,7 +6,7 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.TemplatePane;
 import com.fr.design.mainframe.loghandler.DesignerLogHandler;
 import com.fr.event.EventDispatcher;
-import com.fr.general.Inter;
+
 import com.fr.log.FineLoggerFactory;
 import com.fr.serialization.SerializerHelper;
 import com.fr.stable.ArrayUtils;
@@ -81,7 +81,7 @@ public class DesignerSocketIO {
                 @Override
                 public void call(Object... objects) {
                     if (status != Status.Disconnecting) {
-                        JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("Fine-Designer_Basic_Remote_Disconnected"),
+                        JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Basic_Remote_Disconnected"),
                                 null, 0, UIManager.getIcon("OptionPane.errorIcon"));
                         TemplatePane.getInstance().editItems();
                     }

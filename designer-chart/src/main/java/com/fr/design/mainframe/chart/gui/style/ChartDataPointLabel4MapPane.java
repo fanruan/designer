@@ -12,7 +12,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.general.FRFont;
-import com.fr.general.Inter;
+
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
@@ -29,13 +29,13 @@ public class ChartDataPointLabel4MapPane extends ChartDatapointLabelPane {
 	public ChartDataPointLabel4MapPane(ChartStylePane parent) {
 		this.parent = parent;
 		
-		isLabelShow = new UICheckBox(Inter.getLocText("FR-Chart-Chart_Label"));
-		isCategory = new UICheckBox(Inter.getLocText("FR-Chart-Area_Name"));
-		isValue = new UICheckBox(Inter.getLocText("FR-Chart-Area_Value"));
-        valueFormatButton = new UIButton(Inter.getLocText("Chart-Use_Format"));
+		isLabelShow = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Chart_Label"));
+		isCategory = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Area_Name"));
+		isValue = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Area_Value"));
+        valueFormatButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Format"));
 
-        isValuePercent = new UICheckBox(Inter.getLocText("Chart-Value_Percent"));
-        valuePercentFormatButton = new UIButton(Inter.getLocText("Chart-Use_Format"));
+        isValuePercent = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Value_Percent"));
+        valuePercentFormatButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Format"));
 
         divideComoBox = new UIComboBox(ChartConstants.DELIMITERS);
         textFontPane = new ChartTextAttrPane();
@@ -58,7 +58,7 @@ public class ChartDataPointLabel4MapPane extends ChartDatapointLabelPane {
         components[4] = new Component[]{isValuePercent,valuePercentFormatButton} ;
 
         JPanel delimiterPane = new JPanel(new BorderLayout(LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM));
-        delimiterPane.add(new BoldFontTextLabel(Inter.getLocText("FR-Chart-Delimiter_Symbol")), BorderLayout.WEST);
+        delimiterPane.add(new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Delimiter_Symbol")), BorderLayout.WEST);
         delimiterPane.add(divideComoBox, BorderLayout.CENTER);
 
         components[5] = new Component[]{delimiterPane,null};

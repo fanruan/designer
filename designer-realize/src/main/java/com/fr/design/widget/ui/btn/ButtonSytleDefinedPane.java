@@ -14,7 +14,7 @@ import com.fr.design.mainframe.widget.accessibles.AccessibleBackgroundEditor;
 import com.fr.design.style.background.BackgroundButtonPane;
 import com.fr.form.ui.FreeButton;
 import com.fr.general.Background;
-import com.fr.general.Inter;
+
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -46,9 +46,9 @@ public class ButtonSytleDefinedPane extends BasicPane {
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 1},{1, 1},{1, 1}};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Background-Initial")), initBackgroundPane},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Background-Over")), overBackgroundPane},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Background-Click")), clickBackgroundPane},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background-Initial")), initBackgroundPane},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background-Over")), overBackgroundPane},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background-Click")), clickBackgroundPane},
         };
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 7, 7);
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
@@ -98,7 +98,7 @@ public class ButtonSytleDefinedPane extends BasicPane {
             ImagePreviewPane.setPreferredSize(new Dimension(100, 20));
             this.add(ImagePreviewPane);
 
-            editButton = new UIButton(Inter.getLocText("FR-Designer_Edit"));
+            editButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit"));
             editButton.addActionListener(new ActionListener() {
 
                 public void actionPerformed(ActionEvent e) {

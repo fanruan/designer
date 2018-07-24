@@ -18,7 +18,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 
 /**
  * @author richer
@@ -255,9 +255,9 @@ public abstract class AbstractPropertyTable extends JTable {
         @Override
         public String getColumnName(int column) {
             if (column == 0) {
-                return Inter.getLocText("Form-Widget_Property");
+                return com.fr.design.i18n.Toolkit.i18nText("Form-Widget_Property");
             } else {
-                return Inter.getLocText("Form-Widget_Property_Value");
+                return com.fr.design.i18n.Toolkit.i18nText("Form-Widget_Property_Value");
             }
         }
 

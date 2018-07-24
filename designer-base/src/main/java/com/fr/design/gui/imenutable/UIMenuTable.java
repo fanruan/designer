@@ -10,7 +10,7 @@ import com.fr.design.hyperlink.ReportletHyperlinkPane;
 import com.fr.design.hyperlink.WebHyperlinkPane;
 import com.fr.design.javascript.EmailPane;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.Inter;
+
 import com.fr.js.EmailJavaScript;
 import com.fr.js.ReportletHyperlink;
 import com.fr.js.WebHyperlink;
@@ -211,13 +211,13 @@ public class UIMenuTable extends JTable {
 		JPanel content = (JPanel)jf.getContentPane();
 		content.setLayout(new BorderLayout());
 		List<UIMenuNameableCreator> data = new ArrayList<UIMenuNameableCreator>();
-		UIMenuNameableCreator reportlet = new UIMenuNameableCreator(Inter.getLocText("Reportlet"), 
+		UIMenuNameableCreator reportlet = new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Reportlet"),
 				new ReportletHyperlink(), ReportletHyperlinkPane.class);
 
-		UIMenuNameableCreator email = new UIMenuNameableCreator(Inter.getLocText("Email"),
+		UIMenuNameableCreator email = new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Email"),
 				new EmailJavaScript(), EmailPane.class);
 
-		UIMenuNameableCreator web = new UIMenuNameableCreator(Inter.getLocText("Hyperlink-Web_link"), 
+		UIMenuNameableCreator web = new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Hyperlink-Web_link"),
 				new WebHyperlink(), WebHyperlinkPane.class );
 		data.add(reportlet);
 		data.add(email);

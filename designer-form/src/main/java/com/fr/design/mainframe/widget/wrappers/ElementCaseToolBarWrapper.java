@@ -4,7 +4,7 @@ import com.fr.design.Exception.ValidationException;
 import com.fr.design.designer.properties.Decoder;
 import com.fr.design.designer.properties.Encoder;
 import com.fr.form.web.FormToolBarManager;
-import com.fr.general.Inter;
+
 
 /**
  * Created by harry on 2017-3-1.
@@ -27,8 +27,8 @@ public class ElementCaseToolBarWrapper implements Encoder, Decoder {
         }
         FormToolBarManager[] toolBarManager = (FormToolBarManager[])v;
         if (toolBarManager.length != 0) {
-            return Inter.getLocText("FR-Designer_Open");
+            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Open");
         }
-        return Inter.getLocText("FR-Designer_Close");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Close");
     }
 }

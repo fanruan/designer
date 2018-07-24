@@ -12,7 +12,7 @@ import com.fr.design.layout.TableLayoutHelper;
 
 import com.fr.design.mainframe.widget.accessibles.AccessibleTreeModelEditor;
 import com.fr.form.ui.TreeEditor;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -37,16 +37,16 @@ public class TreeEditorDefinePane extends CustomWritableRepeatEditorPane<TreeEdi
 
 
     public JPanel createOtherPane() {
-        mutiSelect = new UICheckBox(Inter.getLocText("Tree-Mutiple_Selection_Or_Not"));
+        mutiSelect = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Tree-Mutiple_Selection_Or_Not"));
         mutiSelect.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
-        loadAsync = new UICheckBox(Inter.getLocText("Widget-Load_By_Async"));
+        loadAsync = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Widget-Load_By_Async"));
         loadAsync.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
-        returnLeaf = new UICheckBox(Inter.getLocText("FR-Designer_Widget_Return_Leaf"));
+        returnLeaf = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget_Return_Leaf"));
         returnLeaf.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
-        returnPath = new UICheckBox(Inter.getLocText("FR-Designer_Widget_Return_Path"));
+        returnPath = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget_Return_Path"));
         returnPath.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
         double f = TableLayout.FILL;
@@ -71,7 +71,7 @@ public class TreeEditorDefinePane extends CustomWritableRepeatEditorPane<TreeEdi
 
     protected Component[] createDictPane(){
         accessibleTreeModelEditor = new AccessibleTreeModelEditor();
-        return new Component[]{new UILabel(Inter.getLocText("FR-Designer_DS-Dictionary")), accessibleTreeModelEditor};
+        return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_DS-Dictionary")), accessibleTreeModelEditor};
     }
 
     @Override

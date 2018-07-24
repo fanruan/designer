@@ -13,7 +13,7 @@ import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.file.ConnectionConfig;
 import com.fr.general.IOUtils;
-import com.fr.general.Inter;
+
 import com.fr.locale.InterProviderFactory;
 import com.fr.transaction.CallBackAdaptor;
 import com.fr.transaction.Configurations;
@@ -44,7 +44,7 @@ public class ConnectionListAction extends UpdateAction {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("Server-Define_Data_Connection");
+            return com.fr.design.i18n.Toolkit.i18nText("Server-Define_Data_Connection");
         }
 
         @Override

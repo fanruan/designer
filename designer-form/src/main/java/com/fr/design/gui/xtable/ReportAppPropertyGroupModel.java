@@ -4,7 +4,7 @@ import com.fr.base.FRContext;
 import com.fr.design.designer.creator.CRPropertyDescriptor;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.mainframe.FormDesigner;
-import com.fr.general.Inter;
+
 import java.lang.reflect.Method;
 import com.fr.general.ComparatorUtils;
 import com.fr.report.stable.FormConstants;
@@ -35,8 +35,8 @@ public class ReportAppPropertyGroupModel extends PropertyGroupModel {
             if (state > MAX_HEIGHT) {
             	//弹窗提示
                 JOptionPane.showMessageDialog(null,
-                        Inter.getLocText("FR-Designer_Mobile-Warning"),
-                        Inter.getLocText("FR-Designer_Tooltips"),
+                        com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Mobile-Warning"),
+                        com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tooltips"),
                         JOptionPane.PLAIN_MESSAGE);
                 return false;
             }

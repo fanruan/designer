@@ -6,7 +6,7 @@ package com.fr.design.designer.creator;
 import com.fr.design.mainframe.widget.editors.InChangeBooleanEditor;
 import com.fr.form.ui.ComboCheckBox;
 import com.fr.design.form.util.XCreatorConstants;
-import com.fr.general.Inter;
+
 import com.fr.stable.ArrayUtils;
 
 import java.awt.*;
@@ -26,25 +26,25 @@ public class XComboCheckBox extends XComboBox {
 		return (CRPropertyDescriptor[]) ArrayUtils.addAll(super.supportedDescriptor(), !((ComboCheckBox) this.toData())
 				.isReturnString() ? new CRPropertyDescriptor[] {
                 new CRPropertyDescriptor("supportTag", this.data.getClass()).setI18NName(
-                        Inter.getLocText("Form-SupportTag")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
+                        com.fr.design.i18n.Toolkit.i18nText("Form-SupportTag")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
                         "Advanced"),
 				new CRPropertyDescriptor("delimiter", this.data.getClass()).setI18NName(
-						Inter.getLocText("Form-Delimiter")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
+						com.fr.design.i18n.Toolkit.i18nText("Form-Delimiter")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
 						"Advanced"),
 				new CRPropertyDescriptor("returnString", this.data.getClass()).setEditorClass(
-						InChangeBooleanEditor.class).setI18NName(Inter.getLocText("Return-String"))
+						InChangeBooleanEditor.class).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Return-String"))
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced") } : new CRPropertyDescriptor[] {
 				new CRPropertyDescriptor("delimiter", this.data.getClass()).setI18NName(
-						Inter.getLocText("Form-Delimiter")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
+						com.fr.design.i18n.Toolkit.i18nText("Form-Delimiter")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
 						"Advanced"),
 				new CRPropertyDescriptor("returnString", this.data.getClass()).setI18NName(
-						Inter.getLocText("Return-String")).setEditorClass(InChangeBooleanEditor.class)
+						com.fr.design.i18n.Toolkit.i18nText("Return-String")).setEditorClass(InChangeBooleanEditor.class)
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 				new CRPropertyDescriptor("startSymbol", this.data.getClass()).setI18NName(
-						Inter.getLocText("ComboCheckBox-Start_Symbol"))
+						com.fr.design.i18n.Toolkit.i18nText("ComboCheckBox-Start_Symbol"))
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 				new CRPropertyDescriptor("endSymbol", this.data.getClass()).setI18NName(
-						Inter.getLocText("ComboCheckBox-End_Symbol"))
+						com.fr.design.i18n.Toolkit.i18nText("ComboCheckBox-End_Symbol"))
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced") });
 	}
 

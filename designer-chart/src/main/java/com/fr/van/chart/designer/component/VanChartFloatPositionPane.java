@@ -6,7 +6,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.Inter;
+
 import com.fr.stable.StringUtils;
 
 import javax.swing.JPanel;
@@ -25,7 +25,7 @@ public class VanChartFloatPositionPane extends BasicBeanPane<Chart> {
 
         this.setLayout(new BorderLayout());
 
-        this.add(new UILabel(Inter.getLocText("plugin-ChartF_XYFromTheUpLeft")), BorderLayout.CENTER);
+        this.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("plugin-ChartF_XYFromTheUpLeft")), BorderLayout.CENTER);
 
         this.add(createCustomFloatPositionPane(), BorderLayout.SOUTH);
     }
@@ -38,8 +38,8 @@ public class VanChartFloatPositionPane extends BasicBeanPane<Chart> {
         double[] columnSize = {p, f};
         double[] rowSize = {p,p};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("plugin-ChartF_positionX")+": "),floatPosition_x},
-                new Component[]{new UILabel(Inter.getLocText("plugin-ChartF_positionY")+": "),floatPosition_y}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("plugin-ChartF_positionX")+": "),floatPosition_x},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("plugin-ChartF_positionY")+": "),floatPosition_y}
         };
 
         return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);

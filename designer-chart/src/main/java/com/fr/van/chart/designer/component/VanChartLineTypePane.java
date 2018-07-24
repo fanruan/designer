@@ -5,7 +5,7 @@ import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.icombobox.LineComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.base.VanChartAttrLine;
 import com.fr.plugin.chart.type.LineStyle;
 import com.fr.stable.Constants;
@@ -31,7 +31,7 @@ public class VanChartLineTypePane extends BasicPane {
 
         createLineStyle();
 
-        nullValueBreak = new UIButtonGroup(new String[]{Inter.getLocText("Plugin-ChartF_Open"), Inter.getLocText("Plugin-ChartF_Close")});
+        nullValueBreak = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Open"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Close")});
 
         this.setLayout(new BorderLayout());
         double p = TableLayout.PREFERRED;
@@ -40,8 +40,8 @@ public class VanChartLineTypePane extends BasicPane {
     }
 
     protected void createLineStyle() {
-        String[] textArray = new String[]{Inter.getLocText("Plugin-ChartF_NormalLine"),
-                Inter.getLocText("Plugin-ChartF_StepLine"), Inter.getLocText("Plugin-ChartF_CurveLine")};
+        String[] textArray = new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NormalLine"),
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_StepLine"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_CurveLine")};
         lineStyle = new UIButtonGroup<LineStyle>(textArray, LineStyle.values());
     }
 
@@ -52,9 +52,9 @@ public class VanChartLineTypePane extends BasicPane {
 
         Component[][] components = new Component[][]{
                 new Component[]{null,null},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_LineStyle")),lineWidth},
-                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Style_Present")),lineStyle},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Null_Value_Break")),nullValueBreak},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_LineStyle")),lineWidth},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Style_Present")),lineStyle},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Null_Value_Break")),nullValueBreak},
         };
 
         return TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
@@ -69,7 +69,7 @@ public class VanChartLineTypePane extends BasicPane {
     }
 
     protected String title4PopupWindow() {
-        return Inter.getLocText("Plugin-ChartF_Line");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Line");
     }
 
     public void populate(VanChartAttrLine line) {

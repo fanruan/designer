@@ -1,6 +1,6 @@
 package com.fr.design.designer.properties.items;
 
-import com.fr.general.Inter;
+
 import com.fr.report.stable.FormConstants;
 
 /**
@@ -12,9 +12,9 @@ import com.fr.report.stable.FormConstants;
 public class WidgetDisplayPositionItems implements ItemProvider{
     //这里为了和web端一致，只好设置成012了
     private static Item[] VALUE_ITEMS = {
-            new Item(Inter.getLocText("StyleAlignment-Left"), FormConstants.LEFTPOSITION),
-            new Item(Inter.getLocText("Center"), FormConstants.CENTERPOSITION),
-            new Item(Inter.getLocText("StyleAlignment-Right"), FormConstants.RIGHTPOSITION)
+            new Item(com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Left"), FormConstants.LEFTPOSITION),
+            new Item(com.fr.design.i18n.Toolkit.i18nText("Center"), FormConstants.CENTERPOSITION),
+            new Item(com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Right"), FormConstants.RIGHTPOSITION)
     };
 
     @Override

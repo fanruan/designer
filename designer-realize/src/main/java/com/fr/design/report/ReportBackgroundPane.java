@@ -4,7 +4,7 @@ import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.style.background.BackgroundPane;
-import com.fr.general.Inter;
+
 import com.fr.page.ReportSettingsProvider;
 
 import javax.swing.JPanel;
@@ -21,8 +21,8 @@ public class ReportBackgroundPane extends BasicPane {
         backgroundPane = new BackgroundPane();
         this.add(backgroundPane, BorderLayout.CENTER);
 
-        isPrintBackgroundCheckBox = new UICheckBox(Inter.getLocText("Fine-Designer_Print_Background"));
-        isExportBackgroundCheckBox = new UICheckBox(Inter.getLocText("Fine-Designer_Export_Background"));
+        isPrintBackgroundCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Print_Background"));
+        isExportBackgroundCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Export_Background"));
         JPanel sourth = new JPanel();
         sourth.add(isExportBackgroundCheckBox);
         sourth.add(isPrintBackgroundCheckBox);
@@ -31,7 +31,7 @@ public class ReportBackgroundPane extends BasicPane {
     
     @Override
     protected String title4PopupWindow() {
-    	return Inter.getLocText("Fine-Designer_Report_Background");
+    	return com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Report_Background");
     }
 
     /**

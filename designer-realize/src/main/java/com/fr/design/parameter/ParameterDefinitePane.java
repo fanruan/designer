@@ -25,7 +25,7 @@ import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.menu.*;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.style.background.BackgroundPane;
-import com.fr.general.Inter;
+
 import com.fr.main.parameter.ReportParameterAttr;
 import com.fr.main.parameter.TemplateParameterAttr;
 import com.fr.stable.ArrayUtils;
@@ -85,8 +85,8 @@ public class ParameterDefinitePane extends JPanel implements ToolBarMenuDockPlus
 
         setButton = new UIButton(BaseUtils.readIcon("com/fr/design/images/toolbarbtn/parametersetting.png"));
         setButton.set4ToolbarButton();
-        isshowWindowItem = new JCheckBoxMenuItem(Inter.getLocText("ParameterD-Show_Parameter_Window"));
-        isdelayItem = new JCheckBoxMenuItem(Inter.getLocText("ParameterD-Delay_Playing"));
+        isshowWindowItem = new JCheckBoxMenuItem(com.fr.design.i18n.Toolkit.i18nText("ParameterD-Show_Parameter_Window"));
+        isdelayItem = new JCheckBoxMenuItem(com.fr.design.i18n.Toolkit.i18nText("ParameterD-Delay_Playing"));
 
         initListeners();
     }
@@ -478,9 +478,9 @@ public class ParameterDefinitePane extends JPanel implements ToolBarMenuDockPlus
     public MenuDef[] menus4Target() {
         MenuDef tplMenu = new MenuDef(KeySetUtils.TEMPLATE.getMenuKeySetName(),KeySetUtils.TEMPLATE.getMnemonic());
         if (!BaseUtils.isAuthorityEditing()) {
-            tplMenu.addShortCut(new NameSeparator(Inter.getLocText("FR-Utils_WorkBook")));
+            tplMenu.addShortCut(new NameSeparator(com.fr.design.i18n.Toolkit.i18nText("FR-Utils_WorkBook")));
             tplMenu.addShortCut(new ReportParameterAction(workBook));
-            tplMenu.addShortCut(new NameSeparator(Inter.getLocText(new String[]{"DashBoard-Potence", "Edit"})));
+            tplMenu.addShortCut(new NameSeparator(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"DashBoard-Potence", "Edit"})));
             tplMenu.addShortCut(new AllowAuthorityEditAction(workBook));
         } else {
             tplMenu.addShortCut(new ExitAuthorityEditAction(workBook));

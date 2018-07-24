@@ -8,7 +8,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.style.color.ColorSelectBox;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.VanChartAttrHelper;
 import com.fr.plugin.chart.attr.plot.VanChartRectanglePlot;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
@@ -66,20 +66,20 @@ public class VanChartAxisAreaPane extends BasicBeanPane<Plot> {
         verticalGridLine = new ColorSelectBox(100);
         Component[][] components = getGridLinePaneComponents();
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("ChartF-Grid_Line"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("ChartF-Grid_Line"), panel);
     }
 
     protected Component[][] getGridLinePaneComponents() {
         return new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Direction_Horizontal")), horizontalGridLine},
-                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Direction_Vertical")), verticalGridLine},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Direction_Horizontal")), horizontalGridLine},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Direction_Vertical")), verticalGridLine},
         };
     }
 
     protected JPanel createAlertLinePane() {
         alertLine = getAlertLinePane();
-        JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_AlertLine"), alertLine);
+        JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AlertLine"), alertLine);
         alertLine.setBorder(BorderFactory.createEmptyBorder(10, 5, 0, 0));
         return panel;
     }
@@ -89,7 +89,7 @@ public class VanChartAxisAreaPane extends BasicBeanPane<Plot> {
     }
 
     protected JPanel createIntervalPane(double[] row, double[] col) {
-        isDefaultIntervalBackground = new UIButtonGroup(new String[]{Inter.getLocText("Plugin-ChartF_Default_Interval"), Inter.getLocText("Plugin-ChartF_CustomIntervalBackground")});
+        isDefaultIntervalBackground = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Default_Interval"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_CustomIntervalBackground")});
         horizontalColorBackground = new ColorSelectBox(100);
         verticalColorBackground = new ColorSelectBox(100);
         Component[][] components = getIntervalPaneComponents();
@@ -99,8 +99,8 @@ public class VanChartAxisAreaPane extends BasicBeanPane<Plot> {
 
         cardLayout = new CardLayout();
         centerPane = new JPanel(cardLayout);
-        centerPane.add(defaultPane, Inter.getLocText("Plugin-ChartF_Default_Interval"));
-        centerPane.add(customIntervalBackground, Inter.getLocText("Plugin-ChartF_CustomIntervalBackground"));
+        centerPane.add(defaultPane, com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Default_Interval"));
+        centerPane.add(customIntervalBackground, com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_CustomIntervalBackground"));
         isDefaultIntervalBackground.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -108,10 +108,10 @@ public class VanChartAxisAreaPane extends BasicBeanPane<Plot> {
             }
         });
         JPanel intervalPane = new JPanel(new BorderLayout(0, 6));
-        JPanel panel1 = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Chart_Interval_Back"), isDefaultIntervalBackground);
+        JPanel panel1 = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Chart_Interval_Back"), isDefaultIntervalBackground);
         intervalPane.add(panel1, BorderLayout.NORTH);
         intervalPane.add(centerPane, BorderLayout.CENTER);
-        JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_IntervalBackground"), intervalPane);
+        JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_IntervalBackground"), intervalPane);
         intervalPane.setBorder(BorderFactory.createEmptyBorder(10, 5, 0, 0));
         return panel;
     }
@@ -123,16 +123,16 @@ public class VanChartAxisAreaPane extends BasicBeanPane<Plot> {
     protected Component[][] getIntervalPaneComponents() {
         return new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Direction_Horizontal")), horizontalColorBackground},
-                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Direction_Vertical")), verticalColorBackground},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Direction_Horizontal")), horizontalColorBackground},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Direction_Vertical")), verticalColorBackground},
         };
     }
 
     private void checkCardPane() {
         if (isDefaultIntervalBackground.getSelectedIndex() == 0) {
-            cardLayout.show(centerPane, Inter.getLocText("Plugin-ChartF_Default_Interval"));
+            cardLayout.show(centerPane, com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Default_Interval"));
         } else {
-            cardLayout.show(centerPane, Inter.getLocText("Plugin-ChartF_CustomIntervalBackground"));
+            cardLayout.show(centerPane, com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_CustomIntervalBackground"));
         }
     }
 

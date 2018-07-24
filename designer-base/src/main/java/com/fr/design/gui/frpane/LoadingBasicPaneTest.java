@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import com.fr.base.FRContext;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.dialog.BasicDialog;
-import com.fr.general.Inter;
+
 
 /**
  * @author richer
@@ -31,7 +31,7 @@ public class LoadingBasicPaneTest {
 			
 			@Override
 			protected String title4PopupWindow() {
-				return Inter.getLocText("Test") ;
+				return com.fr.design.i18n.Toolkit.i18nText("Test") ;
 			}
 		};
 		BasicDialog dlg = lb.showWindow(null);

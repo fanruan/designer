@@ -10,7 +10,7 @@ import com.fr.design.dialog.MultiTabPane;
 import com.fr.design.gui.style.*;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.style.BorderUtils;
-import com.fr.general.Inter;
+
 import com.fr.stable.Constants;
 
 import javax.swing.*;
@@ -59,7 +59,7 @@ public class CustomStylePane extends MultiTabPane<Style> {
      * @return
      */
     public String title4PopupWindow() {
-        return Inter.getLocText(new String[]{"Custom", "Style"});
+        return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Custom", "Style"});
     }
 
     /**

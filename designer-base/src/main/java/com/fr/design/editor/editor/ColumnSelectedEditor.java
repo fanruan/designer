@@ -6,7 +6,7 @@ import com.fr.design.data.datapane.TableDataComboBox;
 import com.fr.design.data.tabledata.wrapper.TableDataWrapper;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 import com.fr.general.data.TableDataColumn;
 import com.fr.stable.StringUtils;
 
@@ -28,7 +28,7 @@ public class ColumnSelectedEditor extends Editor<SimpleDSColumn> {
 	protected String[] columnNames;
 
 	public ColumnSelectedEditor() {
-		this.setName(Inter.getLocText(new String[]{"Data", "Columns"}));
+		this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_DS_Column"));
 		this.setLayout(FRGUIPaneFactory.createLeftZeroLayout());
 		tableDataComboBox = new TableDataComboBox(DesignTableDataManager.getEditingTableDataSource());
 		columnNames = new String[0];

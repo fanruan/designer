@@ -5,7 +5,7 @@ import com.fr.base.background.ImageBackground;
 import com.fr.base.background.ImageFileBackground;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.general.Background;
-import com.fr.general.Inter;
+
 import com.fr.stable.Constants;
 
 import javax.swing.BorderFactory;
@@ -49,9 +49,9 @@ public class ImageButtonBackgroundPane extends ImageBackgroundPane {
     }
 
     private void initButton() {
-        chooseButton = new UIButton(Inter.getLocText("FR-Designer_Background_Image_Select"));
+        chooseButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background_Image_Select"));
         chooseButton.addActionListener(selectPictureActionListener);
-        clearButton = new UIButton(Inter.getLocText("FR-Designer_Background_Clear"));
+        clearButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background_Clear"));
         clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

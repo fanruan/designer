@@ -15,7 +15,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.widget.accessibles.AccessibleTreeModelEditor;
 import com.fr.form.ui.TreeComboBoxEditor;
 import com.fr.form.ui.TreeEditor;
-import com.fr.general.Inter;
+
 
 public class TreeComboBoxEditorDefinePane extends CustomWritableRepeatEditorPane<TreeEditor> {
 	protected AccessibleTreeModelEditor treeSettingPane;
@@ -40,7 +40,7 @@ public class TreeComboBoxEditorDefinePane extends CustomWritableRepeatEditorPane
 		treeSettingPane = new AccessibleTreeModelEditor();
 		JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		JPanel north = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
-				new Component[]{new UILabel(Inter.getLocText("FR-Designer_Create_Tree")), treeSettingPane}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W2, IntervalConstants.INTERVAL_L1);
+				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Create_Tree")), treeSettingPane}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W2, IntervalConstants.INTERVAL_L1);
 		north.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
 		JPanel center = super.setFirstContentPane();
 		jPanel.add(north, BorderLayout.NORTH);

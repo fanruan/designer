@@ -8,7 +8,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.style.ChartFillStylePane;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,10 +33,10 @@ public class CombinedBubbleSeriesPane extends BubbleSeriesPane{
         double[] columnSize = { p, f };
         double[] rowSize = {p,p,p,p,p};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Chart_BubbleChart")), null},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Chart_BubbleChart")), null},
                 new Component[]{fillColorPane, null},
                 new Component[]{bubbleMean,null},
-                new Component[]{new BoldFontTextLabel(Inter.getLocText("Chart_Change_Bubble_Size")),zoomTime},
+                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Chart_Change_Bubble_Size")),zoomTime},
                 new Component[]{isMinus,null}
         };
         JPanel pane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);

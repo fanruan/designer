@@ -2,7 +2,7 @@ package com.fr.design.extra;
 
 import com.fr.base.TemplateUtils;
 import com.fr.general.CloudCenter;
-import com.fr.general.Inter;
+
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONObject;
@@ -104,7 +104,7 @@ public class PluginUtils {
             writer.flush();
             writer.close();
         } else {
-            throw new com.fr.plugin.PluginVerifyException(Inter.getLocText("FR-Designer-Plugin_Connect_Server_Error"));
+            throw new com.fr.plugin.PluginVerifyException(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Connect_Server_Error"));
         }
     }
 
@@ -134,12 +134,12 @@ public class PluginUtils {
     }
 
     public static String pluginToHtml(PluginView pluginView) {
-        String pluginName = Inter.getLocText("FR-Plugin-Plugin_Name");
-        String pluginVersion = Inter.getLocText("FR-Plugin-Plugin_Version");
-        String startVersion = Inter.getLocText("FR-Plugin-Start_Version");
-        String developer = Inter.getLocText("FR-Plugin_Developer");
-        String desc = Inter.getLocText("FR-Plugin-Function_Description");
-        String updateLog = Inter.getLocText("FR-Plugin-Update_Log");
+        String pluginName = com.fr.design.i18n.Toolkit.i18nText("FR-Plugin-Plugin_Name");
+        String pluginVersion = com.fr.design.i18n.Toolkit.i18nText("FR-Plugin-Plugin_Version");
+        String startVersion = com.fr.design.i18n.Toolkit.i18nText("FR-Plugin-Start_Version");
+        String developer = com.fr.design.i18n.Toolkit.i18nText("FR-Plugin_Developer");
+        String desc = com.fr.design.i18n.Toolkit.i18nText("FR-Plugin-Function_Description");
+        String updateLog = com.fr.design.i18n.Toolkit.i18nText("FR-Plugin-Update_Log");
         Map<String, String> map = new HashMap<String, String>();
 
         map.put("name", pluginName);
@@ -172,7 +172,7 @@ public class PluginUtils {
             return "";
         }
         
-        return Inter.getLocText(getInterKeyByErrorCode(errorCode));
+        return com.fr.design.i18n.Toolkit.i18nText(getInterKeyByErrorCode(errorCode));
     }
     
     private static String getInterKeyByErrorCode(PluginErrorCode errorCode) {
@@ -246,7 +246,7 @@ public class PluginUtils {
 
         int leftDays = plugin.getLeftDays();
         if (leftDays == Integer.MAX_VALUE) {
-            return Inter.getLocText("FR-Plugin-Store_Permanent");
+            return com.fr.design.i18n.Toolkit.i18nText("FR-Plugin-Store_Permanent");
         }
         Calendar deadline = Calendar.getInstance();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");

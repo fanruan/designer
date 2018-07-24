@@ -1,13 +1,13 @@
 package com.fr.design.actions.columnrow;
 
-import com.fr.general.Inter;
+
 import com.fr.design.mainframe.ElementCasePane;
 
 public class FootRowAction extends ColumnRowRepeatAction {
 	public FootRowAction(ElementCasePane t) {
 		super(t);
 		
-		this.setName(Inter.getLocText("Set_Row_Title_End"));
+		this.setName(com.fr.design.i18n.Toolkit.i18nText("Set_Row_Title_End"));
 //		this.setMnemonic('F');
 	}
 	

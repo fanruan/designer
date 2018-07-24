@@ -1,22 +1,26 @@
 package com.fr.design.gui.itree.filetree;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.design.icon.LockIcon;
 import com.fr.file.filetree.FileNode;
 import com.fr.stable.StableUtils;
 import com.fr.workspace.WorkContext;
 
-import javax.swing.*;
+import javax.swing.Icon;
+import javax.swing.UIManager;
 import javax.swing.filechooser.FileSystemView;
 import java.io.File;
 
 public class FileTreeIcon {
-	private FileTreeIcon() {}
-	
+    private FileTreeIcon() {
+    }
+
     public static final Icon BLANK_IMAGE_ICON = BaseUtils.readIcon("/com/fr/design/images/gui/blank.gif");
 
-    public static final Icon FOLDER_IMAGE_ICON =  BaseUtils.readIcon("/com/fr/design/images/gui/folder.png");
+    public static final Icon FOLDER_IMAGE_ICON = BaseUtils.readIcon("/com/fr/design/images/gui/folder.png");
+    public static final Icon FOLDER_HALF_IMAGE_ICON =
+            BaseUtils.readIcon("/com/fr/design/images/gui/filetree_folder_half_authority_normal.png");
+
     public static final Icon FILE_IMAGE_ICON = UIManager.getIcon("FileView.fileIcon");
 
     public static final Icon JAVA_FILE_IMAGE_ICON = BaseUtils.readIcon("/com/fr/design/images/gui/javaFile.gif");
@@ -63,9 +67,9 @@ public class FileTreeIcon {
     public static final LockIcon CPT_FILE_LOCK_ICON =
             new LockIcon(BaseUtils.readImage("/com/fr/base/images/oem/cptlocked.png"));
     public static final LockIcon FRM_FILE_LOCK_ICON =
-        new LockIcon(BaseUtils.readImage("/com/fr/design/images/gui/frmlocked.png"));
+            new LockIcon(BaseUtils.readImage("/com/fr/design/images/gui/frmlocked.png"));
     public static final LockIcon CHT_FILE_LOCK_ICON =
-        new LockIcon(BaseUtils.readImage("/com/fr/design/images/gui/frmlocked.png"));
+            new LockIcon(BaseUtils.readImage("/com/fr/design/images/gui/frmlocked.png"));
     /**
      * file types
      */
@@ -109,27 +113,31 @@ public class FileTreeIcon {
 
         return FileTreeIcon.getIcon(FileTreeIcon.getFileType(file.getName()), isLocked);
     }
-    
-    public static Icon getIcon(FileNode node) {    
-    	return getIcon(node, node.getLock() != null);
+
+    public static Icon getFolderHalfImageIcon() {
+        return FOLDER_HALF_IMAGE_ICON;
     }
-    
+
+    public static Icon getIcon(FileNode node) {
+        return getIcon(node, node.getLock() != null);
+    }
+
     public static Icon getIcon(FileNode node, boolean isShowLock) {
-        String path = StableUtils.pathJoin(new String[]{WorkContext.getCurrent().getPath(), node.getEnvPath()});
+        String path = StableUtils.pathJoin(WorkContext.getCurrent().getPath(), node.getEnvPath());
         if (WorkContext.getCurrent().isLocal()) {
             File ff = new File(path);
             if (ff.exists()) {
-                if(node.isDirectory()){
+                if (node.isDirectory()) {
                     return FileTreeIcon.FOLDER_IMAGE_ICON;
                 }
                 return FileSystemView.getFileSystemView().getSystemIcon(new File(path));
             }
         }
-    	if(node.isDirectory()) {
-    		return FileTreeIcon.FOLDER_IMAGE_ICON;
-    	} else {
-    		return FileTreeIcon.getIcon(FileTreeIcon.getFileType(node.getName()), isShowLock);
-    	}
+        if (node.isDirectory()) {
+            return FileTreeIcon.FOLDER_IMAGE_ICON;
+        } else {
+            return FileTreeIcon.getIcon(FileTreeIcon.getFileType(node.getName()), isShowLock);
+        }
     }
 
     private static Icon getIcon(int fileType, boolean isLocked) {
@@ -200,13 +208,13 @@ public class FileTreeIcon {
                 return FileTreeIcon.CPT_FILE_IMAGE_ICON;
             }
         } else if (fileType == FRM_FILE) { //form frm
-        	if (isLocked) {
+            if (isLocked) {
                 return FileTreeIcon.FRM_FILE_LOCK_ICON;
             } else {
                 return FileTreeIcon.FRM_FILE_IMAGE_ICON;
             }
         } else if (fileType == CHT_FILE) { //chart cht
-        	if (isLocked) {
+            if (isLocked) {
                 return FileTreeIcon.CHT_FILE_LOCK_ICON;
             } else {
                 return FileTreeIcon.CHT_FILE_IMAGE_ICON;
@@ -249,22 +257,22 @@ public class FileTreeIcon {
             return CLASS_FILE;
         } else if (fileName.endsWith(".jar") || fileName.endsWith(".zip")) {
             return ZIP_FILE;
-        } else if( fileName.endsWith(".ear") || fileName.endsWith(".war")){
+        } else if (fileName.endsWith(".ear") || fileName.endsWith(".war")) {
             return ZIP_FILE;
-        }else if (fileName.endsWith(".gif")) {
+        } else if (fileName.endsWith(".gif")) {
             return GIF_FILE;
         } else if (fileName.endsWith(".jpg") || fileName.endsWith(".jpe")) {
             return JPG_FILE;
-        } else if( fileName.endsWith(".jpeg")){
+        } else if (fileName.endsWith(".jpeg")) {
             return JPG_FILE;
-        }else if (fileName.endsWith(".bmp")) {
+        } else if (fileName.endsWith(".bmp")) {
             return BMP_FILE;
         } else if (fileName.endsWith(".cpt")) {
             return CPT_FILE;
-        } else if (fileName.endsWith(".frm") || fileName.endsWith(".form")){
-        	return FRM_FILE;
-        } else if (fileName.endsWith(".cht") || fileName.endsWith(".chart")){
-        	return CHT_FILE;
+        } else if (fileName.endsWith(".frm") || fileName.endsWith(".form")) {
+            return FRM_FILE;
+        } else if (fileName.endsWith(".cht") || fileName.endsWith(".chart")) {
+            return CHT_FILE;
         } else {
             return TEXT_FILE;
         }

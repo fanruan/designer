@@ -7,7 +7,7 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
-import com.fr.general.Inter;
+
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.grid.selection.FloatSelection;
 import com.fr.report.cell.FloatElement;
@@ -18,7 +18,7 @@ public class EditFloatElementNameAction extends FloatSelectionAction {
 	public EditFloatElementNameAction(ElementCasePane t) {
 		super(t);
 		
-		this.setName(Inter.getLocText(new String[]{"Set", "Float_Element_Name"}));
+		this.setName(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Set", "Float_Element_Name"}));
 	}
 	
 	@Override
@@ -56,7 +56,7 @@ public class EditFloatElementNameAction extends FloatSelectionAction {
     	
     	@Override
     	protected String title4PopupWindow() {
-    		return Inter.getLocText(new String[]{"Set", "Float_Element_Name"});
+    		return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Set", "Float_Element_Name"});
     	}
     	
     	public void populate(String name) {

@@ -10,7 +10,7 @@ import com.fr.design.constants.UIConstants;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 import com.fr.main.impl.WorkBook;
 
 /**
@@ -30,7 +30,7 @@ public class AuthoritySheetEditedPane extends AuthorityPropertyPane {
         super(HistoryTemplateListPane.getInstance().getCurrentEditingTemplate());
         this.setLayout(new BorderLayout());
         this.setBorder(null);
-        UILabel authorityTitle = new UILabel(Inter.getLocText(new String[]{"DashBoard-Potence", "Edit"})) {
+        UILabel authorityTitle = new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"DashBoard-Potence", "Edit"})) {
             @Override
             public Dimension getPreferredSize() {
                 return new Dimension(super.getPreferredSize().width, TITLE_HEIGHT);

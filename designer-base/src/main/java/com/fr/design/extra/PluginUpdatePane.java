@@ -4,7 +4,7 @@ import com.fr.config.MarketConfig;
 import com.fr.design.extra.tradition.callback.UpdateOnlineCallback;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.general.Inter;
+
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.context.PluginMarker;
@@ -56,13 +56,13 @@ public class PluginUpdatePane extends PluginAbstractLoadingViewPane<List<PluginV
 
             @Override
             public String textForInstallButton() {
-                return Inter.getLocText("FR-Designer_Plugin_Normal_Update");
+                return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Plugin_Normal_Update");
             }
 
 
             @Override
             public String textForInstallFromDiskButton() {
-                return Inter.getLocText("FR-Designer_Plugin_Normal_Update_From_Local");
+                return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Plugin_Normal_Update_From_Local");
             }
 
             @Override
@@ -104,13 +104,13 @@ public class PluginUpdatePane extends PluginAbstractLoadingViewPane<List<PluginV
 
             @Override
             public String textForInstallButton() {
-                return Inter.getLocText("FR-Designer_Plugin_Normal_Update");
+                return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Plugin_Normal_Update");
             }
 
 
             @Override
             public String textForInstallFromDiskButton() {
-                return Inter.getLocText("FR-Designer_Plugin_Normal_Update_From_Local");
+                return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Plugin_Normal_Update_From_Local");
             }
 
             @Override
@@ -136,7 +136,7 @@ public class PluginUpdatePane extends PluginAbstractLoadingViewPane<List<PluginV
      */
     public void loadOnSuccess(List<PluginView> plugins) {
         controlPane.loadPlugins(plugins);
-        tabbedPane.setTitleAt(1, Inter.getLocText("FR-Designer-Plugin_Update") + "(" + plugins.size() + ")");
+        tabbedPane.setTitleAt(1, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Update") + "(" + plugins.size() + ")");
     }
 
     /**
@@ -155,7 +155,7 @@ public class PluginUpdatePane extends PluginAbstractLoadingViewPane<List<PluginV
      */
     @Override
     public String textForLoadingLabel() {
-        return Inter.getLocText("FR-Designer-Plugin_Detecting_Update");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Detecting_Update");
     }
 
     protected void installFromDiskFile() {
@@ -198,10 +198,10 @@ public class PluginUpdatePane extends PluginAbstractLoadingViewPane<List<PluginV
             @Override
             public void done(PluginTaskResult result) {
                 if (result.isSuccess()) {
-                    FineLoggerFactory.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Update_Success"));
-                    JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Install_Successful"));
+                    FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Update_Success"));
+                    JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Install_Successful"));
                 } else {
-                    JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -214,7 +214,7 @@ public class PluginUpdatePane extends PluginAbstractLoadingViewPane<List<PluginV
      */
     @Override
     public String textForInstallFromDiskFileButton() {
-        return Inter.getLocText("FR-Designer_Plugin_Normal_Update_From_Local");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Plugin_Normal_Update_From_Local");
     }
 
     @Override

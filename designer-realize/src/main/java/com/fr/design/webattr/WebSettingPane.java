@@ -10,7 +10,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.form.event.Listener;
-import com.fr.general.Inter;
+
 import com.fr.report.web.ToolBarManager;
 import com.fr.report.web.WebContent;
 import com.fr.stable.StringUtils;
@@ -25,8 +25,8 @@ import java.util.List;
 
 public abstract class WebSettingPane<T extends WebContent> extends BasicBeanPane<ReportWebAttr> {
 	private static final String[] CHOOSEITEM = new String[] {
-            Inter.getLocText("FR-Designer_I_Want_To_Set_Single"),
-            Inter.getLocText("FR-Designer_Using_Server_Report_View_Settings")
+            com.fr.design.i18n.Toolkit.i18nText("FR-Designer_I_Want_To_Set_Single"),
+            com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Using_Server_Report_View_Settings")
     };
 
 	private EventPane eventPane;
@@ -42,12 +42,12 @@ public abstract class WebSettingPane<T extends WebContent> extends BasicBeanPane
 		JPanel buttonPane = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 6));
 		choseComboBox = new UIComboBox(CHOOSEITEM);
 		choseComboBox.addItemListener(itemListener);
-		buttonPane.add(new UILabel(Inter.getLocText("FR-Designer_Blow_set") + ":"));
+		buttonPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Blow_set") + ":"));
 		buttonPane.add(choseComboBox);
 		dragToolBarPane = new ToolBarDragPane();
 		dragToolBarPane.setDefaultToolBar(getDefaultToolBarManager(), getToolBarInstance());
 		JPanel eventpanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
-		eventpanel.add(new UILabel(Inter.getLocText("FR-Designer_Event_Set") + ':'), BorderLayout.NORTH);
+		eventpanel.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Event_Set") + ':'), BorderLayout.NORTH);
 		eventPane = new EventPane(getEventNames());
 		eventpanel.add(eventPane, BorderLayout.CENTER);
 

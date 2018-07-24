@@ -16,7 +16,7 @@ import com.fr.design.menu.NameSeparator;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.selection.SelectableElement;
 import com.fr.design.selection.Selectedable;
-import com.fr.general.Inter;
+
 import com.fr.report.report.TemplateReport;
 
 import javax.swing.JScrollBar;
@@ -67,7 +67,7 @@ public abstract class ReportComponent<T extends TemplateReport, E extends Elemen
 
     public ShortCut[] shortCuts4Authority() {
         return new ShortCut[]{
-                new NameSeparator(Inter.getLocText(new String[]{"DashBoard-Potence", "Edit"})),
+                new NameSeparator(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"DashBoard-Potence", "Edit"})),
                 BaseUtils.isAuthorityEditing() ? new ExitAuthorityEditAction(this) : new AllowAuthorityEditAction(this),
         };
 

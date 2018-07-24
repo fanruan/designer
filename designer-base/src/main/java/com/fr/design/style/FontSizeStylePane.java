@@ -11,7 +11,7 @@ import com.fr.design.gui.itextfield.UINumberField;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.FRFont;
-import com.fr.general.Inter;
+
 import com.fr.design.utils.gui.GUICoreUtils;
 
 public class FontSizeStylePane extends JPanel {
@@ -32,13 +32,13 @@ public class FontSizeStylePane extends JPanel {
         this.add(fontVSizPane);
         
 //        fontVSizPane.setLayout(new BoxLayout(fontVSizPane, BoxLayout.X_AXIS));
-        fontVSizPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText(new String[]{"FRFont-Style", "FRFont-Size"}), null));
+        fontVSizPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Style_Font_Size"), null));
         
         String[] styles = {
-            Inter.getLocText("FRFont-plain"),
-            Inter.getLocText("FRFont-bold"),
-            Inter.getLocText("FRFont-italic"),
-            Inter.getLocText("FRFont-bolditalic")};
+            com.fr.design.i18n.Toolkit.i18nText("FRFont-plain"),
+            com.fr.design.i18n.Toolkit.i18nText("FRFont-bold"),
+            com.fr.design.i18n.Toolkit.i18nText("FRFont-italic"),
+            com.fr.design.i18n.Toolkit.i18nText("FRFont-bolditalic")};
 
         styleField = new UITextField();
         styleField.setEditable(false);

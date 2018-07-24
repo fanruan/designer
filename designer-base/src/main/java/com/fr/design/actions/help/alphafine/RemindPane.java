@@ -4,7 +4,7 @@ import com.fr.design.dialog.UIDialog;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.general.IOUtils;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -67,7 +67,7 @@ public class RemindPane extends JPanel {
 
             }
         });
-        noRemindLabel = new UILabel(Inter.getLocText("FR-Designer-Alphafine_No_Remind"));
+        noRemindLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Alphafine_No_Remind"));
         noRemindLabel.setFont(MEDIUM_FONT);
         noRemindLabel.setForeground(Color.WHITE);
         checkLabel = new UILabel();

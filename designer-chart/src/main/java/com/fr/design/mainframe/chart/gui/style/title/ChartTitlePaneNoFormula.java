@@ -17,7 +17,7 @@ import com.fr.design.mainframe.chart.gui.style.ChartBackgroundNoImagePane;
 import com.fr.design.mainframe.chart.gui.style.ChartBorderPane;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
 import com.fr.design.dialog.BasicScrollPane;
-import com.fr.general.Inter;
+
 import com.fr.stable.Constants;
 import com.fr.stable.StringUtils;
 
@@ -51,7 +51,7 @@ public class ChartTitlePaneNoFormula extends BasicScrollPane<Chart> {
         }
 
         private void initComponents() {
-            isTitleVisable = new UICheckBox(Inter.getLocText("Chart_Title_Is_Visible"));
+            isTitleVisable = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart_Title_Is_Visible"));
             titlePane = createTitlePane();
 
             double p = TableLayout.PREFERRED;
@@ -110,7 +110,7 @@ public class ChartTitlePaneNoFormula extends BasicScrollPane<Chart> {
         Component[][] components = new Component[][]{
                 new Component[]{null,titleContent,null},
                 new Component[]{null,textAttrPane,null},
-                new Component[]{null,new BoldFontTextLabel(Inter.getLocText("Alignment-Style") + ":"),alignmentPane} ,
+                new Component[]{null,new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Alignment-Style") + ":"),alignmentPane} ,
         } ;
 
         return TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);

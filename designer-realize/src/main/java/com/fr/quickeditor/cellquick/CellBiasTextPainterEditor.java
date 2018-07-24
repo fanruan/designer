@@ -9,7 +9,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.quickeditor.CellQuickEditor;
 import com.fr.report.cell.painter.BiasTextPainter;
 
@@ -31,7 +31,7 @@ public class CellBiasTextPainterEditor extends CellQuickEditor {
     @Override
     public JComponent createCenterBody() {
         JPanel content = new JPanel(new BorderLayout());
-        UIButton editButton = new UIButton(Inter.getLocText("Edit"));
+        UIButton editButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Edit"));
         editButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

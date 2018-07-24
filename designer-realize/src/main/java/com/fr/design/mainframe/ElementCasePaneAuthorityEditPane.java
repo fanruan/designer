@@ -16,7 +16,7 @@ import com.fr.design.roleAuthority.ReportAndFSManagePane;
 import com.fr.design.roleAuthority.RolesAlreadyEditedPane;
 import com.fr.form.ui.Widget;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.FloatSelection;
 import com.fr.grid.selection.Selection;
@@ -58,13 +58,13 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
 
 
 
-    private UICheckBox floatElementVisibleCheckBoxes = new UICheckBox(Inter.getLocText("FR-Designer_Float_Visible"));
-    private UICheckBox cellElementVisibleCheckBoxes = new UICheckBox(Inter.getLocText("FR-Designer_Cell_Visible"));
-    private UICheckBox widgetVisible = new UICheckBox(Inter.getLocText("FR-Designer_Widget_Visible"));
-    private UICheckBox widgetAvailable = new UICheckBox(Inter.getLocText("FR-Designer_Widget_Enabled"));
-    private UICheckBox gridColumnRowVisible = new UICheckBox(Inter.getLocText("FR-Designer_Hide"));
-    private UICheckBox newValue = new UICheckBox(Inter.getLocText("FR-Designer_New_Value"));
-    private UIButtonGroup oldNewValueButton = new UIButtonGroup(new String[]{Inter.getLocText("FR-Designer_CellWrite_InsertRow_COPY"),Inter.getLocText("FR-Designer_New_Value")});
+    private UICheckBox floatElementVisibleCheckBoxes = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Float_Visible"));
+    private UICheckBox cellElementVisibleCheckBoxes = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cell_Visible"));
+    private UICheckBox widgetVisible = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget_Visible"));
+    private UICheckBox widgetAvailable = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget_Enabled"));
+    private UICheckBox gridColumnRowVisible = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Hide"));
+    private UICheckBox newValue = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_New_Value"));
+    private UIButtonGroup oldNewValueButton = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Designer_CellWrite_InsertRow_COPY"),com.fr.design.i18n.Toolkit.i18nText("FR-Designer_New_Value")});
     private JPanel newValuePane;
     private ValueEditorPane valueEditor = ValueEditorPaneFactory.createBasicValueEditorPane(NEW_PANE_WIDTH);
     private UICheckBox[] hyperlinkCheckBoxes = null;
@@ -193,7 +193,7 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
     private boolean setAuthorityColumn() {
         initSelectedPathArray();
         String selectedRoles = ReportAndFSManagePane.getInstance().getRoleTree().getSelectedRoleName();
-        if (ComparatorUtils.equals(selectedRoles, Inter.getLocText("FR-Designer_Role"))) {
+        if (ComparatorUtils.equals(selectedRoles, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Role"))) {
             return false;
         }
         if (selectedRoles == null) {
@@ -222,7 +222,7 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
     private boolean setAuthorityRow() {
         initSelectedPathArray();
         String selectedRoles = ReportAndFSManagePane.getInstance().getRoleTree().getSelectedRoleName();
-        if (ComparatorUtils.equals(selectedRoles, Inter.getLocText("FR-Designer_Role"))) {
+        if (ComparatorUtils.equals(selectedRoles, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Role"))) {
             return false;
         }
         if (selectedRoles == null) {
@@ -252,7 +252,7 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
     private boolean setLFloatAuthorityStyle() {
         initSelectedPathArray();
         String selectedRoles = ReportAndFSManagePane.getInstance().getRoleTree().getSelectedRoleName();
-        if (ComparatorUtils.equals(selectedRoles, Inter.getLocText("FR-Designer_Role"))) {
+        if (ComparatorUtils.equals(selectedRoles, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Role"))) {
             return false;
         }
         if (selectedRoles == null) {
@@ -274,7 +274,7 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
     private boolean setAuthorityStyle(int type) {
         initSelectedPathArray();
         String selectedRoles = ReportAndFSManagePane.getInstance().getRoleTree().getSelectedRoleName();
-        if (ComparatorUtils.equals(selectedRoles, Inter.getLocText("FR-Designer_Role")) ||
+        if (ComparatorUtils.equals(selectedRoles, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Role")) ||
                 selectedRoles == null || selectedPathArray == null) {
             return false;
         }
@@ -427,13 +427,13 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
      */
     public void populateType() {
         if (selectionType == CellSelection.NORMAL) {
-            type.setText(Inter.getLocText("FR-Designer_Cell"));
+            type.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cell"));
         } else if (selectionType == CellSelection.CHOOSE_ROW) {
-            type.setText(Inter.getLocText("FR-Designer_Row"));
+            type.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Row"));
         } else if (selectionType == CellSelection.CHOOSE_COLUMN) {
-            type.setText(Inter.getLocText("FR-Designer_Column"));
+            type.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Column"));
         } else {
-            type.setText(Inter.getLocText("M_Insert-Float"));
+            type.setText(com.fr.design.i18n.Toolkit.i18nText("M_Insert-Float"));
         }
     }
 
@@ -649,10 +649,10 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
 //        double f = TableLayout.FILL;
 //        double p = TableLayout.PREFERRED;
 //        Component[][] components = new Component[][]{
-//                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Cell"), SwingConstants.LEFT), cellElementVisibleCheckBoxes},
+//                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cell"), SwingConstants.LEFT), cellElementVisibleCheckBoxes},
 //                new Component[]{null, newValue},
 //                new Component[]{null, valueEditor},
-//                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Widget"), SwingConstants.LEFT), widgetVisible},
+//                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget"), SwingConstants.LEFT), widgetVisible},
 //                new Component[]{null, widgetAvailable}
 //        };
 //        double[] rowSize = {p, p, p, p, p};
@@ -664,7 +664,7 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
     private JPanel populateWidgetCheckPane() {
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
-        UILabel cv = new UILabel(Inter.getLocText("FR-Designer_Cell_Value") + "    ");
+        UILabel cv = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cell_Value") + "    ");
         cv.setBorder(BorderFactory.createEmptyBorder(0, LEFT_CHECKPANE, 0, 0));
         Component[][] components = new Component[][]{
                 new Component[]{cellElementVisibleCheckBoxes, null},
@@ -683,8 +683,8 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Cell"), SwingConstants.LEFT), cellElementVisibleCheckBoxes},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Widget"), SwingConstants.LEFT), widgetVisible},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cell"), SwingConstants.LEFT), cellElementVisibleCheckBoxes},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget"), SwingConstants.LEFT), widgetVisible},
                 new Component[]{null, widgetAvailable}
         };
         double[] rowSize = {p, p, p};
@@ -725,7 +725,7 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
         double[] rowSize = {p, p, p};
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}};
-        UILabel cv = new UILabel(Inter.getLocText("FR-Designer_Cell_Value") + "    ");
+        UILabel cv = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cell_Value") + "    ");
         cv.setBorder(BorderFactory.createEmptyBorder(0, LEFT_CHECKPANE, 0, 0));
         Component[][] components = new Component[][]{
                 new Component[]{cellElementVisibleCheckBoxes,null},
@@ -867,14 +867,14 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[hyperlinkCheckBoxes.length + 1][];
         if (linkGroup.size() == 1) {
-            components[0] = new Component[]{new UILabel(Inter.getLocText("FR-Designer_Cell"), SwingConstants.LEFT), cellElementVisibleCheckBoxes};
-            components[1] = new Component[]{new UILabel(Inter.getLocText("FR-Designer_Hyperlink"), SwingConstants.LEFT), hyperlinkCheckBoxes[0] = new UICheckBox(Inter.getLocText("FR-Designer_Visible"))};
+            components[0] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cell"), SwingConstants.LEFT), cellElementVisibleCheckBoxes};
+            components[1] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Hyperlink"), SwingConstants.LEFT), hyperlinkCheckBoxes[0] = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Visible"))};
 
         } else {
-            components[0] = new Component[]{new UILabel(Inter.getLocText("FR-Designer_Cell"), SwingConstants.LEFT), cellElementVisibleCheckBoxes = new UICheckBox(Inter.getLocText("FR-Designer_Visible"))};
-            components[1] = new Component[]{new UILabel(Inter.getLocText("FR-Designer_Hyperlink"), SwingConstants.LEFT), hyperlinkCheckBoxes[0] = new UICheckBox(linkGroup.getNameHyperlink(0).getName() + Inter.getLocText("FR-Designer_Visible"))};
+            components[0] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cell"), SwingConstants.LEFT), cellElementVisibleCheckBoxes = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Visible"))};
+            components[1] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Hyperlink"), SwingConstants.LEFT), hyperlinkCheckBoxes[0] = new UICheckBox(linkGroup.getNameHyperlink(0).getName() + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Visible"))};
             for (int i = 1; i < hyperlinkCheckBoxes.length; i++) {
-                components[i + 1] = new Component[]{null, hyperlinkCheckBoxes[i] = new UICheckBox(linkGroup.getNameHyperlink(i).getName() + Inter.getLocText("FR-Designer_Visible"))};
+                components[i + 1] = new Component[]{null, hyperlinkCheckBoxes[i] = new UICheckBox(linkGroup.getNameHyperlink(i).getName() + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Visible"))};
             }
         }
         for (int i = 0; i < hyperlinkCheckBoxes.length; i++) {
@@ -898,8 +898,8 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[2][];
-        components[0] = new Component[]{new UILabel(Inter.getLocText("FR-Designer_Cell"), SwingConstants.LEFT), cellElementVisibleCheckBoxes};
-        components[1] = new Component[]{new UILabel(Inter.getLocText("FR-Designer_Hyperlink"), SwingConstants.LEFT), hyperlinkCheckBoxes[0] = new UICheckBox(Inter.getLocText("FR-Designer_Visible"))};
+        components[0] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cell"), SwingConstants.LEFT), cellElementVisibleCheckBoxes};
+        components[1] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Hyperlink"), SwingConstants.LEFT), hyperlinkCheckBoxes[0] = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Visible"))};
         hyperlinkCheckBoxes[0].setEnabled(cellElementVisibleCheckBoxes.isSelected());
         addHyperlinkListener();
         double[] rowSize = {p, p};

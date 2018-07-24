@@ -24,7 +24,7 @@ import com.fr.design.roleAuthority.ReportAndFSManagePane;
 import com.fr.design.roleAuthority.RolesAlreadyEditedPane;
 import com.fr.form.ui.Widget;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 
 /**
  * Author : daisy
@@ -34,8 +34,8 @@ import com.fr.general.Inter;
 public class FormWidgetAuthorityEditPane extends AuthorityEditPane {
     private FormDesigner designer;
     private Widget[] widgets = null;
-    private UICheckBox widgetVisible = new UICheckBox(Inter.getLocText("FR-Designer_Widget_Visible"));
-    private UICheckBox widgetAvailable = new UICheckBox(Inter.getLocText("FR-Designer_Widget_Enabled"));
+    private UICheckBox widgetVisible = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget_Visible"));
+    private UICheckBox widgetAvailable = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget_Enabled"));
     private ItemListener visibleItemListener = new ItemListener() {
         public void itemStateChanged(ItemEvent e) {
             String selectedRoles = ReportAndFSManagePane.getInstance().getRoleTree().getSelectedRoleName();
@@ -55,7 +55,7 @@ public class FormWidgetAuthorityEditPane extends AuthorityEditPane {
     private ItemListener usableItemListener = new ItemListener() {
         public void itemStateChanged(ItemEvent e) {
             String selectedRoles = ReportAndFSManagePane.getInstance().getRoleTree().getSelectedRoleName();
-            if (ComparatorUtils.equals(selectedRoles, Inter.getLocText("FR-Engine_Role"))) {
+            if (ComparatorUtils.equals(selectedRoles, com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Role"))) {
                 return;
             }
             if (selectedRoles == null) {
@@ -93,7 +93,7 @@ public class FormWidgetAuthorityEditPane extends AuthorityEditPane {
      * @date 2014-12-21-下午6:19:43
      */
     public void populateType() {
-        type.setText(Inter.getLocText("Widget-Form_Widget_Config"));
+        type.setText(com.fr.design.i18n.Toolkit.i18nText("Widget-Form_Widget_Config"));
     }
 
     /**

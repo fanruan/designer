@@ -5,7 +5,7 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,9 +16,9 @@ public class ChartBeautyPane extends BasicBeanPane<Integer>{
 	private UIComboBox styleBox;
 
 	public ChartBeautyPane() {
-		String[] nameArray = {Inter.getLocText("Common"),
-                Inter.getLocText("Plane3D"),Inter.getLocText(new String[]{"Gradient", "HighLight"}),
-                Inter.getLocText("TopDownShade"),Inter.getLocText("Transparent")   //新加的两种风格，注意兼容处理
+		String[] nameArray = {com.fr.design.i18n.Toolkit.i18nText("Common"),
+                com.fr.design.i18n.Toolkit.i18nText("Plane3D"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Gradient_HighLight"),
+                com.fr.design.i18n.Toolkit.i18nText("TopDownShade"),com.fr.design.i18n.Toolkit.i18nText("Transparent")   //新加的两种风格，注意兼容处理
            };
 
 		styleBox = new UIComboBox(nameArray);

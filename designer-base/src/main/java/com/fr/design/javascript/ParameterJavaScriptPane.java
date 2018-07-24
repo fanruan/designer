@@ -6,7 +6,7 @@ import com.fr.design.gui.itableeditorpane.ParameterTableModel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.hyperlink.AbstractHyperLinkPane;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.Inter;
+
 import com.fr.js.ParameterJavaScript;
 import com.fr.stable.ParameterProvider;
 
@@ -29,13 +29,13 @@ public class ParameterJavaScriptPane extends AbstractHyperLinkPane<ParameterJava
         this.add(parameterViewPane, BorderLayout.CENTER);
         if (needRenamePane()) {
             itemNameTextField = new UITextField();
-            this.add(GUICoreUtils.createNamedPane(itemNameTextField, Inter.getLocText("FR-Designer-Hyperlink_Name") + ":"), BorderLayout.NORTH);
+            this.add(GUICoreUtils.createNamedPane(itemNameTextField, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Hyperlink_Name") + ":"), BorderLayout.NORTH);
         }
     }
 
     @Override
     public String title4PopupWindow() {
-        return Inter.getLocText("JavaScript-Dynamic_Parameters");
+        return com.fr.design.i18n.Toolkit.i18nText("JavaScript-Dynamic_Parameters");
     }
 
     @Override

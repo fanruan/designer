@@ -2,7 +2,7 @@ package com.fr.design.extra.tradition.callback;
 
 import com.fr.design.extra.PluginStatusCheckCompletePane;
 import com.fr.design.extra.PluginUtils;
-import com.fr.general.Inter;
+
 import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.context.PluginMarker;
 import com.fr.plugin.error.PluginErrorCode;
@@ -31,13 +31,13 @@ public class UpdateOnlineCallback implements ProgressCallback {
 
     public void done(PluginTaskResult result){
         if (result.isSuccess()) {
-            FineLoggerFactory.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Update_Success"));
-            JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Install_Successful"));
+            FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Update_Success"));
+            JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Install_Successful"));
         } else if (result.errorCode() == PluginErrorCode.OperationNotSupport) {
             int rv = JOptionPane.showOptionDialog(
                     null,
-                    Inter.getLocText(Inter.getLocText("FR-Designer-Plugin_Install_Dependence")),
-                    Inter.getLocText("FR-Designer-Plugin_Install_Success"),
+                    com.fr.design.i18n.Toolkit.i18nText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Install_Dependence")),
+                    com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Install_Success"),
                     JOptionPane.YES_NO_CANCEL_OPTION,
                     JOptionPane.INFORMATION_MESSAGE,
                     null,
@@ -49,8 +49,8 @@ public class UpdateOnlineCallback implements ProgressCallback {
             }
             PluginManager.getController().update(pluginMarker, toPluginMarker, new UpdateOnlineCallback(pluginMarker, toPluginMarker, pane));
         } else {
-            FineLoggerFactory.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Delete_Failed"));
-            JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+            FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Delete_Failed"));
+            JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
         }
     }
 }

@@ -29,7 +29,7 @@ import com.fr.design.gui.islider.UISlider;
 import com.fr.design.gui.ispinner.UIBasicSpinner;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.Inter;
+
 
 /**
  * 颜色选择器自定义面板
@@ -492,7 +492,7 @@ class CustomChooserPanel extends AbstractColorChooserPanel implements ColorSelec
      * @return The name displayed in the JColorChooser tab.
      */
     public String getDisplayName() {
-        return Inter.getLocText("FR-Designer_Custom");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Custom");
     }
 
     /**

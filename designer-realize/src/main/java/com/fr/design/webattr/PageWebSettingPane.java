@@ -18,7 +18,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.gui.core.WidgetOption;
-import com.fr.general.Inter;
+
 import com.fr.report.web.ToolBarManager;
 import com.fr.report.web.WebPage;
 import com.fr.web.attr.ReportWebAttr;
@@ -36,8 +36,8 @@ public class PageWebSettingPane extends WebSettingPane<WebPage> {
 
 	@Override
 	protected JPanel createOtherSetPane() {
-		centerRadioButton = new UIRadioButton(Inter.getLocText("FR-Designer_Center_Display"));
-		leftRadioButton = new UIRadioButton(Inter.getLocText("FR-Designer_Left_Display"));
+		centerRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Center_Display"));
+		leftRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Left_Display"));
 		ButtonGroup buttonGroup = new ButtonGroup();
 		leftRadioButton.setSelected(true);
 		buttonGroup.add(centerRadioButton);
@@ -45,15 +45,15 @@ public class PageWebSettingPane extends WebSettingPane<WebPage> {
 		JPanel buttonpane = new JPanel(FRGUIPaneFactory.createBoxFlowLayout());
 		buttonpane.add(centerRadioButton);
 		buttonpane.add(leftRadioButton);
-		isShowAsImageBox = new UICheckBox(Inter.getLocText("FR-Designer_Is_Paint_Page"));
-		isAutoScaleBox = new UICheckBox(Inter.getLocText("FR-Designer_IS_Auto_Scale"));
-		isTDHeavyBox = new UICheckBox(Inter.getLocText("FR-Designer_IS_TD_HEAVY_EXPORT"), false);
+		isShowAsImageBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Is_Paint_Page"));
+		isAutoScaleBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_IS_Auto_Scale"));
+		isTDHeavyBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_IS_TD_HEAVY_EXPORT"), false);
 		double p = TableLayout.PREFERRED;
 		double[] columnSize = { p,p,p};
 		double[] rowSize = { p, p,p,p };
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Report_Show_Location") + ":", UILabel.RIGHT), buttonpane,null},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_PageSetup_Page") + ":", UILabel.RIGHT), isShowAsImageBox, isAutoScaleBox},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Report_Show_Location") + ":", UILabel.RIGHT), buttonpane,null},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_PageSetup_Page") + ":", UILabel.RIGHT), isShowAsImageBox, isAutoScaleBox},
                 new Component[]{null, isTDHeavyBox, null}
         };
 

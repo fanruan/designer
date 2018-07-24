@@ -11,12 +11,12 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 
 public class ReportSelectToolBarPane<T> extends BasicBeanPane<T> {
-	private UIRadioButton reportRadioButton = new UIRadioButton(Inter.getLocText("I_Want_To_Set_Single"));
-	private UIRadioButton serverRadioButton = new UIRadioButton(Inter.getLocText("Using_Server_Report_View_Settings"));
-	private UIButton serverEditButton = new UIButton(Inter.getLocText("Edit"));
+	private UIRadioButton reportRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("I_Want_To_Set_Single"));
+	private UIRadioButton serverRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Using_Server_Report_View_Settings"));
+	private UIButton serverEditButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Edit"));
 	
 	EditToolBarPane<T> editToolBarPane;
 	

@@ -7,7 +7,7 @@ import java.awt.event.ActionEvent;
 
 import com.fr.design.actions.JTemplateAction;
 import com.fr.design.mainframe.JTemplate;
-import com.fr.general.Inter;
+
 
 /**
  * Close Report.
@@ -19,7 +19,7 @@ public class CloseTemplateAction extends JTemplateAction<JTemplate<?, ?>> {
     public CloseTemplateAction(JTemplate<?, ?> jt) {
     	super(jt);
     	
-        this.setName(Inter.getLocText("M-Close_Template"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("M-Close_Template"));
         this.setMnemonic('C');
     }
 

@@ -5,7 +5,7 @@ import com.fr.base.background.TextureBackground;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.Background;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -47,30 +47,30 @@ public class TextureBackgroundPane extends BPane {
         TextureBackground.MEDIUM_WOOD_TEXTURE_PAINT};
 
     private static final String[] EMBED_TEXTURE_PAINT_DES_ARRAY = new String[]{
-            Inter.getLocText("BackgroundTexture-Newsprint"),
-            Inter.getLocText("BackgroundTexture-RecycledPaper"),
-            Inter.getLocText("BackgroundTexture-Parchment"),
-            Inter.getLocText("BackgroundTexture-Stationery"),
-            Inter.getLocText("BackgroundTexture-GreenMarble"),
-            Inter.getLocText("BackgroundTexture-WhiteMarble"),
-            Inter.getLocText("BackgroundTexture-BrownMarble"),
-            Inter.getLocText("BackgroundTexture-Granite"),
-            Inter.getLocText("BackgroundTexture-BlueTissuePaper"),
-            Inter.getLocText("BackgroundTexture-PinkTissuePaper"),
-            Inter.getLocText("BackgroundTexture-PurpleMesh"),
-            Inter.getLocText("BackgroundTexture-Bouquet"),
-            Inter.getLocText("BackgroundTexture-Papyrus"),
-            Inter.getLocText("BackgroundTexture-Canvas"),
-            Inter.getLocText("BackgroundTexture-Denim"),
-            Inter.getLocText("BackgroundTexture-WovenMat"),
-            Inter.getLocText("BackgroundTexture-WaterDroplets"),
-            Inter.getLocText("BackgroundTexture-PaperBag"),
-            Inter.getLocText("BackgroundTexture-FishFossil"),
-            Inter.getLocText("BackgroundTexture-Sand"),
-            Inter.getLocText("BackgroundTexture-Cork"),
-            Inter.getLocText("BackgroundTexture-Walnut"),
-            Inter.getLocText("BackgroundTexture-Oak"),
-            Inter.getLocText("BackgroundTexture-MediumWood")
+            com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-Newsprint"),
+            com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-RecycledPaper"),
+            com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-Parchment"),
+            com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-Stationery"),
+            com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-GreenMarble"),
+            com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-WhiteMarble"),
+            com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-BrownMarble"),
+            com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-Granite"),
+            com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-BlueTissuePaper"),
+            com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-PinkTissuePaper"),
+            com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-PurpleMesh"),
+            com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-Bouquet"),
+            com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-Papyrus"),
+            com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-Canvas"),
+            com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-Denim"),
+            com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-WovenMat"),
+            com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-WaterDroplets"),
+            com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-PaperBag"),
+            com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-FishFossil"),
+            com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-Sand"),
+            com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-Cork"),
+            com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-Walnut"),
+            com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-Oak"),
+            com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-MediumWood")
     };
 
     private TexturePaint texturePaint;
@@ -89,7 +89,7 @@ public class TextureBackgroundPane extends BPane {
     }
 
     protected String titleOfTypePane() {
-        return Inter.getLocText("Background-Texture");
+        return com.fr.design.i18n.Toolkit.i18nText("Background-Texture");
     }
     protected void setChildrenOfTypePane(JPanel typePane2) {
         ButtonGroup patternButtonGroup = new ButtonGroup();

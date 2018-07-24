@@ -9,7 +9,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.map.VanChartMapPlot;
 import com.fr.plugin.chart.map.data.VanMapTableDefinitionProvider;
 import com.fr.van.chart.map.designer.data.component.SeriesTypeUseComboxPaneWithOutFilter;
@@ -63,7 +63,7 @@ public class VanAreaMapPlotTableDataContentPane extends AbstractTableDataContent
     }
 
     protected JPanel createAreaNamePane() {
-        UILabel label = new BoldFontTextLabel(Inter.getLocText("FR-Chart-Area_Name"));
+        UILabel label = new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Area_Name"));
         label.setPreferredSize(new Dimension(80, 20));
         areaNameCom.setPreferredSize(new Dimension(100, 20));
 

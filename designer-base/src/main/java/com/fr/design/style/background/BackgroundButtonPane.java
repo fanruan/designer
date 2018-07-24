@@ -2,7 +2,7 @@ package com.fr.design.style.background;
 
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.Background;
-import com.fr.general.Inter;
+
 
 /**
  * Created by ibm on 2017/1/5.
@@ -19,7 +19,7 @@ public class BackgroundButtonPane extends BackgroundPane {
         for (Class<? extends Background> key : BackgroundFactory.buttonKindsOfKey()) {
             BackgroundUIWrapper wrapper = BackgroundFactory.getButtonWrapper(key);
             wrapper.setIndex(index++);
-            tabbedPane.addTab(Inter.getLocText(wrapper.getTitle()), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
+            tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText(wrapper.getTitle()), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
         }
     }
 

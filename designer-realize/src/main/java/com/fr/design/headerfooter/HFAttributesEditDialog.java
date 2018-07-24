@@ -26,7 +26,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.style.FRFontPane;
 import com.fr.design.style.FormatPane;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -72,7 +72,7 @@ public class HFAttributesEditDialog extends BasicPane {
         topControlPane.add(topControlButtonPane, BorderLayout.WEST);
 
 
-        moveLeftButton = new UIButton(Inter.getLocText("HF-Move_Left"));
+        moveLeftButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("HF-Move_Left"));
         moveLeftButton.setMnemonic('L');
         moveLeftButton.addActionListener(new ActionListener() {
 
@@ -83,7 +83,7 @@ public class HFAttributesEditDialog extends BasicPane {
         });
         topControlButtonPane.add(moveLeftButton);
 
-        moveRightButton = new UIButton(Inter.getLocText("HF-Move_Right"));
+        moveRightButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("HF-Move_Right"));
         moveRightButton.setMnemonic('R');
         moveRightButton.addActionListener(new ActionListener() {
 
@@ -94,7 +94,7 @@ public class HFAttributesEditDialog extends BasicPane {
         });
         topControlButtonPane.add(moveRightButton);
 
-        deleteButton = new UIButton(Inter.getLocText("HF-Delete_it"));
+        deleteButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("HF-Delete_it"));
         deleteButton.setMnemonic('D');
         deleteButton.addActionListener(new ActionListener() {
 
@@ -114,7 +114,7 @@ public class HFAttributesEditDialog extends BasicPane {
         formulaPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
 
         formulaContentField = new UITextField();
-        formulaPane.add(new UILabel(Inter.getLocText("Value") + ":"));
+        formulaPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Value") + ":"));
         formulaPane.add(Box.createHorizontalStrut(2));
         UILabel label = new UILabel("=");
         label.setFont(new Font("Dialog", Font.BOLD, 12));
@@ -124,7 +124,7 @@ public class HFAttributesEditDialog extends BasicPane {
 
         UIButton formulaButton = new UIButton("...");
         formulaPane.add(formulaButton);
-        formulaButton.setToolTipText(Inter.getLocText("Formula") + "...");
+        formulaButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Formula") + "...");
         formulaButton.setPreferredSize(new Dimension(25, formulaContentField.getPreferredSize().height));
         formulaButton.addActionListener(new ActionListener() {
 
@@ -161,7 +161,7 @@ public class HFAttributesEditDialog extends BasicPane {
     
     @Override
     protected String title4PopupWindow() {
-    	return Inter.getLocText("HF-Header_and_Footer");
+    	return com.fr.design.i18n.Toolkit.i18nText("HF-Header_and_Footer");
     }
 
     /**
@@ -227,30 +227,30 @@ public class HFAttributesEditDialog extends BasicPane {
      * Add text pane.
      */
     private void addTextPaneToTab() {
-        this.tabbedPane.addTab(Inter.getLocText("Text"), this.textPane);
+        this.tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Text"), this.textPane);
     }
 
     /**
      * Add parameter pane.
      */
     private void addFormulaPaneToTab() {
-        this.tabbedPane.addTab(Inter.getLocText("Formula"), this.formulaPane);
+        this.tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Formula"), this.formulaPane);
     }
 
     private void addReportFontPaneToTab() {
-        this.tabbedPane.addTab(Inter.getLocText("FRFont"), this.frFontPane);
+        this.tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("FRFont"), this.frFontPane);
     }
 
     private void addFormatPaneToTab() {
-        this.tabbedPane.addTab(Inter.getLocText("Format"), this.formatPane);
+        this.tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Format"), this.formatPane);
     }
 
     private void addImagePaneToTab() {
-        this.tabbedPane.addTab(Inter.getLocText("Image"), this.imagePane);
+        this.tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Image"), this.imagePane);
     }
 
     private void addNewLinePaneToTab() {
-        this.tabbedPane.addTab(Inter.getLocText("HF-New_Line"), this.newLinePane);
+        this.tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("HF-New_Line"), this.newLinePane);
     }
 
     /**
@@ -366,7 +366,7 @@ public class HFAttributesEditDialog extends BasicPane {
         public NewLinePane() {
             this.setLayout(FRGUIPaneFactory.createBorderLayout());
 
-            UILabel label = new UILabel(Inter.getLocText("HF-NewLine_Des"));
+            UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("HF-NewLine_Des"));
             label.setHorizontalAlignment(SwingConstants.CENTER);
             this.add(label, BorderLayout.CENTER);
             

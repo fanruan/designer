@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import com.fr.design.chart.gui.ChartComponent;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.design.module.DesignModuleFactory;
-import com.fr.general.Inter;
+
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,7 +20,7 @@ public class SetDataSheetAction extends ChartComponentAction {
 
     public SetDataSheetAction(ChartComponent chartComponent) {
         super(chartComponent);
-        this.setName(Inter.getLocText("Chart_Set_Data_Sheet"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Chart_Set_Data_Sheet"));
     }
 
     public void actionPerformed(ActionEvent e) {

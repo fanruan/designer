@@ -4,7 +4,7 @@ import com.fr.design.designer.creator.XCreator;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.form.ui.WriteUnableRepeatEditor;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,7 +22,7 @@ public abstract class WriteUnableRepeatEditorPane<E extends WriteUnableRepeatEdi
 		JPanel contentPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
 		contentPane.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 0));
 		JPanel contenter=FRGUIPaneFactory.createMediumHGapFlowInnerContainer_M_Pane();
-		removeRepeatCheckBox = new UICheckBox(Inter.getLocText("Form-Remove_Repeat_Data"), false);
+		removeRepeatCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Form-Remove_Repeat_Data"), false);
 		contentPane.add(contenter);
 		contenter.add(removeRepeatCheckBox);
 		JPanel otherContentPane = this.setThirdContentPane();

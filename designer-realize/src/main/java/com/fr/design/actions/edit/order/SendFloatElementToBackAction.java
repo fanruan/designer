@@ -4,7 +4,7 @@
 package com.fr.design.actions.edit.order;
 
 import com.fr.base.BaseUtils;
-import com.fr.general.Inter;
+
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.report.cell.FloatElement;
 import com.fr.report.elementcase.ElementCase;
@@ -25,7 +25,7 @@ public class SendFloatElementToBackAction extends AbstractFloatElementOrderActio
 	public SendFloatElementToBackAction(ElementCasePane t) {
 		super(t);
 		
-        this.setName(Inter.getLocText("M_Edit-Send_to_Back"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("M_Edit-Send_to_Back"));
         this.setMnemonic('K');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/to_bottom.png"));
 //		this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_OPEN_BRACKET, DEFAULT_MODIFIER + InputEvent.ALT_MASK));

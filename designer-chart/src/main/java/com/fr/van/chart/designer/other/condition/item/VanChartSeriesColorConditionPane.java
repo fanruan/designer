@@ -7,7 +7,7 @@ import com.fr.design.condition.ConditionAttrSingleConditionPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.style.color.ColorSelectBox;
-import com.fr.general.Inter;
+
 
 /**
  * 条件属性 配色（系列背景色）
@@ -25,7 +25,7 @@ public class VanChartSeriesColorConditionPane extends ConditionAttrSingleConditi
 
     public VanChartSeriesColorConditionPane(ConditionAttributesPane conditionAttributesPane, boolean isRemove) {
         super(conditionAttributesPane, isRemove);
-        nameLabel = new UILabel(Inter.getLocText("plugin-ChartF_MatchColor"));
+        nameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("plugin-ChartF_MatchColor"));
         colorSelectionPane = new ColorSelectBox(80);
 
         if (isRemove) {
@@ -40,7 +40,7 @@ public class VanChartSeriesColorConditionPane extends ConditionAttrSingleConditi
      * @return item的名称
      */
     public String nameForPopupMenuItem() {
-        return Inter.getLocText("plugin-ChartF_MatchColor");
+        return com.fr.design.i18n.Toolkit.i18nText("plugin-ChartF_MatchColor");
     }
 
     @Override

@@ -7,7 +7,7 @@ import com.fr.design.hyperlink.AbstractHyperLinkPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.form.ui.ElementCaseEditorProvider;
-import com.fr.general.Inter;
+
 import com.fr.js.FormHyperlinkProvider;
 import com.fr.stable.ParameterProvider;
 import com.fr.stable.bridge.StableFactory;
@@ -39,12 +39,12 @@ public class FormHyperlinkPane extends AbstractHyperLinkPane<FormHyperlinkProvid
 
         parameterViewPane = new ReportletParameterViewPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
         this.add(parameterViewPane, BorderLayout.CENTER);
-        parameterViewPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("FR-Designer_Parameters"), null));
+        parameterViewPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameters"), null));
     }
 
     @Override
     public String title4PopupWindow() {
-        return Inter.getLocText("Hyperlink-Form_link");
+        return com.fr.design.i18n.Toolkit.i18nText("Hyperlink-Form_link");
     }
 
     protected int getHyperlinkType() {

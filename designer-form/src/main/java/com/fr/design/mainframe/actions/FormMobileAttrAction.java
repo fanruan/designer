@@ -14,7 +14,7 @@ import com.fr.design.menu.MenuKeySet;
 import com.fr.file.FILE;
 import com.fr.form.main.Form;
 import com.fr.form.main.mobile.FormMobileAttr;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -82,7 +82,7 @@ public class FormMobileAttrAction extends JTemplateAction<JForm> {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("FR-Designer_Mobile-Attr");
+            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Mobile-Attr");
         }
 
         @Override

@@ -13,7 +13,7 @@ import com.fr.design.mainframe.backgroundpane.ColorBackgroundQuickPane;
 import com.fr.design.mainframe.backgroundpane.ImageBackgroundQuickPane;
 import com.fr.design.mainframe.backgroundpane.NullBackgroundQuickPane;
 import com.fr.general.Background;
-import com.fr.general.Inter;
+
 import com.fr.stable.Constants;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 
@@ -95,14 +95,14 @@ public class VanChartBackgroundPane extends BasicPane {
     }
 
     protected Component[][] getPaneComponents() {
-        shadow = new UIButtonGroup<Boolean>(new String[]{Inter.getLocText("Plugin-ChartF_On"), Inter.getLocText("Plugin-ChartF_Off")}, new Boolean[]{true, false});
+        shadow = new UIButtonGroup<Boolean>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_On"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Off")}, new Boolean[]{true, false});
 
         return  new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Shape_Fill")), typeComboBox},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Shape_Fill")), typeComboBox},
                 new Component[]{null, centerPane},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Alpha")), transparent},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Shadow")), shadow},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Alpha")), transparent},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Shadow")), shadow},
         };
     }
 

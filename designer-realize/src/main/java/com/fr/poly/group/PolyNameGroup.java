@@ -7,7 +7,7 @@ import javax.swing.table.TableCellRenderer;
 import com.fr.design.beans.GroupModel;
 import com.fr.design.mainframe.widget.editors.PropertyCellEditor;
 import com.fr.design.mainframe.widget.editors.StringEditor;
-import com.fr.general.Inter;
+
 import com.fr.report.poly.TemplateBlock;
 
 public class PolyNameGroup implements GroupModel {
@@ -23,7 +23,7 @@ public class PolyNameGroup implements GroupModel {
 
 	@Override
 	public String getGroupName() {
-		return Inter.getLocText("Form-Basic_Properties");
+		return com.fr.design.i18n.Toolkit.i18nText("Form-Basic_Properties");
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class PolyNameGroup implements GroupModel {
 	@Override
 	public Object getValue(int row, int column) {
 		if (column == 0) {
-			return Inter.getLocText("Poly_Name");
+			return com.fr.design.i18n.Toolkit.i18nText("Poly_Name");
 		} else {
 			return block.getBlockName();
 		}

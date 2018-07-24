@@ -16,7 +16,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.report.stable.ReportConstants;
 import com.fr.stable.StringUtils;
 
@@ -71,11 +71,11 @@ public class NativePrintSettingPane extends JPanel {
         JPanel printPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 
         JPanel northPane = FRGUIPaneFactory.createNColumnGridInnerContainer_Pane(1, 0, 15);
-        UILabel tipDownload = GUICoreUtils.createTipLabel(Inter.getLocText("FR-Designer_Tip_Native_Print_Need_Client"));
+        UILabel tipDownload = GUICoreUtils.createTipLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tip_Native_Print_Need_Client"));
         northPane.add(tipDownload);
-        isShowDialogCheck = new UICheckBox(Inter.getLocText("FR-Engine_Show_Print_Setting_Window_When_Printing"));
+        isShowDialogCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Show_Print_Setting_Window_When_Printing"));
         isShowDialogCheck.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
-        UILabel tipCheck = GUICoreUtils.createTipLabel(Inter.getLocText("FR-Designer_Tip_Use_Default_Settings"));
+        UILabel tipCheck = GUICoreUtils.createTipLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tip_Use_Default_Settings"));
         JPanel checkPane =  GUICoreUtils.createFlowPane(new Component[] {
                 isShowDialogCheck, tipCheck}, FlowLayout.LEFT);
         northPane.add(checkPane);
@@ -83,7 +83,7 @@ public class NativePrintSettingPane extends JPanel {
 
         printPane.add(northPane, BorderLayout.NORTH);
 
-        centerPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Default_Settings"));
+        centerPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Default_Settings"));
 
         UIScrollPane scrollPane = new UIScrollPane(getNativePrintMainSettingPane());
         scrollPane.setBorder(null);
@@ -151,43 +151,43 @@ public class NativePrintSettingPane extends JPanel {
         copyPane.add(copySpinner);
 
         // 继承页面纸张设置
-        inheritPagePaperSettingCheck = GUICoreUtils.createNoBorderCheckBox(Inter.getLocText("FR-Designer_Inherit_Page_Paper_Setting"));
+        inheritPagePaperSettingCheck = GUICoreUtils.createNoBorderCheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Inherit_Page_Paper_Setting"));
         JPanel paperSettingPane = getPaperSettingPane();
         JPanel paperSettingCheckPane = GUICoreUtils.createCheckboxAndDynamicPane(inheritPagePaperSettingCheck, paperSettingPane, true);
 
         // 继承页面布局设置
-        inheritPageLayoutSettingCheck = GUICoreUtils.createNoBorderCheckBox(Inter.getLocText("FR-Designer_Inherit_Page_Layout_Setting"));
+        inheritPageLayoutSettingCheck = GUICoreUtils.createNoBorderCheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Inherit_Page_Layout_Setting"));
         JPanel layoutSettingPane = getLayoutSettingPane();
         JPanel layoutSettingCheckPane = GUICoreUtils.createCheckboxAndDynamicPane(inheritPageLayoutSettingCheck, layoutSettingPane, true);
 
         // 页码标签
-        UILabel printAreaLabel = new UILabel(Inter.getLocText("FR-Engine-Page_Number") + ":");
+        UILabel printAreaLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Engine-Page_Number") + ":");
         JPanel printAreaLabelPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         printAreaLabelPane.add(printAreaLabel, BorderLayout.NORTH);
         printAreaLabel.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
 
         // 边距
-        inheritPageMarginSettingCheck = GUICoreUtils.createNoBorderCheckBox(Inter.getLocText("FR-Designer_Inherit_Page_Margin_Setting"));
+        inheritPageMarginSettingCheck = GUICoreUtils.createNoBorderCheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Inherit_Page_Margin_Setting"));
         pageMarginSettingPane = new PageMarginSettingPane();
         pageMarginSettingPane.setBorder(BorderFactory.createEmptyBorder(10, -10, 0, 0));
         JPanel pageMarginCheckPane = GUICoreUtils.createCheckboxAndDynamicPane(inheritPageMarginSettingCheck, pageMarginSettingPane, true);
 
         // 缩放
-        fitPaperSizeCheck = GUICoreUtils.createNoBorderCheckBox(Inter.getLocText("FR-Designer_Print_To_Fit_Paper_Size"));
+        fitPaperSizeCheck = GUICoreUtils.createNoBorderCheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Print_To_Fit_Paper_Size"));
 
         // TableLayout
         double p = TableLayout.PREFERRED;
         double[] rowSize = {p, p, p, p, p, p};
         double[] columnSize = {60, p};
         Component[][] components = {
-                {new UILabel(Inter.getLocText("FR-Designer_Printer") + ":"), printerPane},
-                {new UILabel(Inter.getLocText("FR-Designer_Copy_Number") + ":"), copyPane},
+                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Printer") + ":"), printerPane},
+                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Copy_Number") + ":"), copyPane},
                 {printAreaLabelPane, getPrintAreaPane()},
-                {getTopAlignLabelPane(Inter.getLocText("FR-Designer_Paper") + ":"), paperSettingCheckPane},
-                {getTopAlignLabelPane(Inter.getLocText("FR-Designer_Layout") + ":"), layoutSettingCheckPane},
-                {getTopAlignLabelPane(Inter.getLocText("FR-Designer_Margin") + ":"), pageMarginCheckPane}
+                {getTopAlignLabelPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Paper") + ":"), paperSettingCheckPane},
+                {getTopAlignLabelPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Layout") + ":"), layoutSettingCheckPane},
+                {getTopAlignLabelPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Margin") + ":"), pageMarginCheckPane}
                 // 此功能暂时不做，在界面上隐藏缩放选项
-//                {new UILabel(Inter.getLocText("FR-Designer_Scale_EnlargeOrReduce") + ":"), fitPaperSizeCheck},
+//                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Scale_EnlargeOrReduce") + ":"), fitPaperSizeCheck},
         };
         return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 0, 15);
     }
@@ -226,7 +226,7 @@ public class NativePrintSettingPane extends JPanel {
                                     'x' +
                                     Utils.convertNumberStringToString(paperSize.getHeight().toMMValue4Scale2()) +
                                     ' ' +
-                                    Inter.getLocText("PageSetup-mm") +
+                                    com.fr.design.i18n.Toolkit.i18nText("PageSetup-mm") +
                                     ']';
                             this.setText(sbuf);
                             break;
@@ -247,9 +247,9 @@ public class NativePrintSettingPane extends JPanel {
     private JPanel getLayoutSettingPane() {
         JPanel layoutSettingPane = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
         layoutSettingPane.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
-        portraitRadioButton = new UIRadioButton(Inter.getLocText("PageSetup-Portrait"));
+        portraitRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("PageSetup-Portrait"));
         portraitRadioButton.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
-        landscapeRadioButton = new UIRadioButton(Inter.getLocText("PageSetup-Landscape"));
+        landscapeRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("PageSetup-Landscape"));
         layoutSettingPane.add(portraitRadioButton);
         layoutSettingPane.add(landscapeRadioButton);
 
@@ -263,9 +263,9 @@ public class NativePrintSettingPane extends JPanel {
 
     // 页码范围
     private JPanel getPrintAreaPane() {
-        allPageRadioButton = new UIRadioButton(Inter.getLocText("FR-Designer_All_Pages"));
-        currentPageRadioButton = new UIRadioButton(Inter.getLocText("FR-Designer_Current_Page"));
-        customPageRadioButton = new UIRadioButton(Inter.getLocText("FR-Engine_HJS-Specified_Pages"));
+        allPageRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_All_Pages"));
+        currentPageRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Current_Page"));
+        customPageRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_HJS-Specified_Pages"));
         ButtonGroup group = new ButtonGroup();
         group.add(allPageRadioButton);
         group.add(currentPageRadioButton);
@@ -282,7 +282,7 @@ public class NativePrintSettingPane extends JPanel {
                 super.setEnabled(enabled);
             }
         };
-        UILabel areaFieldTip = GUICoreUtils.createTipLabel(Inter.getLocText("FR-Designer_Print_Area_Tip"));
+        UILabel areaFieldTip = GUICoreUtils.createTipLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Print_Area_Tip"));
 
         // TableLayout
         double p = TableLayout.PREFERRED;

@@ -5,7 +5,7 @@ import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.icombobox.UIComboBoxRenderer;
 import com.fr.design.gui.icombobox.IntComboBox;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
@@ -51,8 +51,8 @@ public class OldColumnIndexEditor extends Editor {
 	}
 
 	protected void initComponents() {
-		indexCheckBox = new UIRadioButton(Inter.getLocText("Datasource-Column_Index"));
-		nameCheckBox = new UIRadioButton(Inter.getLocText("ColumnName"));
+		indexCheckBox = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Datasource-Column_Index"));
+		nameCheckBox = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("ColumnName"));
 		indexCheckBox.addActionListener(actionListener);
 		nameCheckBox.addActionListener(actionListener);
 		javax.swing.ButtonGroup buttonGroup = new javax.swing.ButtonGroup();

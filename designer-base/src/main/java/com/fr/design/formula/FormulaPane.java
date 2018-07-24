@@ -19,7 +19,7 @@ import com.fr.design.gui.syntax.ui.rsyntaxtextarea.SyntaxConstants;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.Inter;
+
 import com.fr.parser.FRLexer;
 import com.fr.parser.FRParser;
 import com.fr.stable.EncodeConstants;
@@ -88,7 +88,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
                 String text = formulaTextArea.getText();
                 // 判断在中文输入状态是否还包含提示符 要删掉
                 //Tips:You_Can_Input_B1_To_Input_The_Data_Of_The_First_Row_Second_Column
-                String tip = "\n\n\n" + Inter.getLocText("FR-Designer_FormulaPane_Tips");
+                String tip = "\n\n\n" + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FormulaPane_Tips");
                 if (text.contains(tip)) {
                     text = text.substring(0, text.indexOf(tip));
                     insertPosition = 0;
@@ -160,7 +160,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
 
         JPanel searchPane = new JPanel(new BorderLayout(4, 4));
         searchPane.add(keyWordTextField, BorderLayout.CENTER);
-        UIButton searchButton = new UIButton(Inter.getLocText("FR-Designer_FormulaPane_Search"));
+        UIButton searchButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FormulaPane_Search"));
         searchPane.add(searchButton, BorderLayout.EAST);
         tipsPane.add(searchPane, BorderLayout.NORTH);
         initKeyWordTextFieldKeyListener();
@@ -187,7 +187,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
         JPanel textPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         this.add(textPane, BorderLayout.CENTER);
         JPanel checkBoxandbuttonPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-        UILabel formulaLabel = new UILabel(Inter.getLocText("FormulaD-Input_formula_in_the_text_area_below") + ":"
+        UILabel formulaLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FormulaD-Input_formula_in_the_text_area_below") + ":"
                 + "                         ");
         formulaLabel.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
         initFormulaTextArea();
@@ -200,7 +200,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
 
         initTipsPane();
 
-        UIButton checkValidButton = new UIButton(Inter.getLocText("FormulaD-Check_Valid"));
+        UIButton checkValidButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FormulaD-Check_Valid"));
         checkValidButton.addActionListener(checkValidActionListener);
 
         JPanel checkBoxPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
@@ -476,7 +476,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("FormulaD-Formula_Definition");
+        return com.fr.design.i18n.Toolkit.i18nText("FormulaD-Formula_Definition");
     }
 
     /**
@@ -495,7 +495,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
             if (content.trim().equals("=")) {
                 this.formulaTextArea.setForeground(Color.gray);
                 //Tips:You_Can_Input_B1_To_Input_The_Data_Of_The_First_Row_Second_Column
-                this.formulaTextArea.setText("\n\n\n" + Inter.getLocText("FR-Designer_FormulaPane_Tips"));
+                this.formulaTextArea.setText("\n\n\n" + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FormulaPane_Tips"));
                 this.formulaTextArea.setCaretPosition(0);
                 ifHasBeenWriten = 0;
                 this.listModel.removeAllElements();
@@ -567,7 +567,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
                         * 不需要eval
                         * TODO 但有个问题,有些函数的参数个数是有规定的,何以判别之
                         */
-                        (expression != null ? Inter.getLocText("FormulaD-Valid_Formula") : Inter.getLocText("FormulaD-Invalid_Formula")) + ".", ProductConstants.PRODUCT_NAME,
+                        (expression != null ? com.fr.design.i18n.Toolkit.i18nText("FormulaD-Valid_Formula") : com.fr.design.i18n.Toolkit.i18nText("FormulaD-Invalid_Formula")) + ".", ProductConstants.PRODUCT_NAME,
                         JOptionPane.INFORMATION_MESSAGE);
             }
         }
@@ -587,7 +587,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
             UIScrollPane functionTypeScrollPane = new UIScrollPane(functionTypeList);
             functionTypeScrollPane.setBorder(new UIRoundedBorder(UIConstants.LINE_COLOR, 1, UIConstants.ARC));
             functionTypeScrollPane.setPreferredSize(new Dimension(140, 200));
-            functionPane.add(this.createNamePane(Inter.getLocText("FormulaD-Function_category") + ":", functionTypeScrollPane), BorderLayout.WEST);
+            functionPane.add(this.createNamePane(com.fr.design.i18n.Toolkit.i18nText("FormulaD-Function_category") + ":", functionTypeScrollPane), BorderLayout.WEST);
             initTypeListCellRenderer();
             initGroupTypeModel();
             initTypeListSelectionListener();
@@ -701,7 +701,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
             UIScrollPane functionNameScrollPane = new UIScrollPane(functionNameList);
             functionNameScrollPane.setPreferredSize(new Dimension(140, 200));
             functionPane.add(
-                    this.createNamePane(Inter.getLocText("FormulaD-Function_name") + ":", functionNameScrollPane),
+                    this.createNamePane(com.fr.design.i18n.Toolkit.i18nText("FormulaD-Function_name") + ":", functionNameScrollPane),
                     BorderLayout.CENTER);
             functionNameScrollPane.setBorder(new UIRoundedBorder(UIConstants.LINE_COLOR, 1, UIConstants.ARC));
             initFunctionNameListCellRenderer();
@@ -715,7 +715,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
 
             UIScrollPane desScrollPane = new UIScrollPane(descriptionTextArea);
             desScrollPane.setBorder(null);
-            this.add(this.createNamePane(Inter.getLocText("FR-Designer_FormulaPane_Formula_Description") + ":", desScrollPane), BorderLayout.EAST);
+            this.add(this.createNamePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FormulaPane_Formula_Description") + ":", desScrollPane), BorderLayout.EAST);
             descriptionTextArea.setBackground(Color.white);
             descriptionTextArea.setLineWrap(true);
             descriptionTextArea.setWrapStyleWord(true);
@@ -788,7 +788,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
             UIScrollPane variablesTreePane = new UIScrollPane(variablesTree);
             variablesTreePane.setBorder(new UIRoundedBorder(UIConstants.LINE_COLOR, 1, UIConstants.ARC));
             this.add(this.createNamePane(
-                    Inter.getLocText("FR-Designer_FormulaPane_Variables") + ":", variablesTreePane), BorderLayout.CENTER);
+                    com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FormulaPane_Variables") + ":", variablesTreePane), BorderLayout.CENTER);
             variablesTree.setRootVisible(false);
             variablesTree.setShowsRootHandles(true);
             variablesTree.addMouseListener(applyTextMouseListener);
@@ -817,7 +817,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
         private class LookDetailAction extends UpdateAction {
 
             public LookDetailAction() {
-                this.setName(Inter.getLocText("FR-Designer_FormulaPane_Function_Detail"));
+                this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FormulaPane_Function_Detail"));
                 this.setMnemonic('L');
                 this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_file/preview.png"));
             }
@@ -832,7 +832,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
             BasicPane basicPane = new BasicPane() {
                 @Override
                 protected String title4PopupWindow() {
-                    return Inter.getLocText("FR-Designer_FormulaPane_Function_Detail");
+                    return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FormulaPane_Function_Detail");
                 }
             };
             basicPane.setLayout(FRGUIPaneFactory.createBorderLayout());
@@ -923,24 +923,24 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
                 rootNode.add(bindCellNode);
             }
 
-            rootNode.add(new TextFolderUserObject(Inter.getLocText("FormulaD-Data_Fields"),
+            rootNode.add(new TextFolderUserObject(com.fr.design.i18n.Toolkit.i18nText("FormulaD-Data_Fields"),
                     BaseUtils.readIcon("/com/fr/design/images/dialog/table.png"),
                     variableResolver.resolveColumnNames()).createMutableTreeNode());
 
             // Set cutReport Variable
-            rootNode.add(new TextFolderUserObject(Inter.getLocText("FR-Designer_FormulaPane_Variables"),
+            rootNode.add(new TextFolderUserObject(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FormulaPane_Variables"),
                     BaseUtils.readIcon("/com/fr/design/images/dialog/variable.png"),
                     variableResolver.resolveCurReportVariables()).createMutableTreeNode());
 
-            rootNode.add(new TextFolderUserObject(Inter.getLocText(new String[]{"Datasource-Datasource", "Parameter"}),
+            rootNode.add(new TextFolderUserObject(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Parameter_Source_Type_Tabledata"),
                     BaseUtils.readIcon("/com/fr/design/images/dialog/parameter.gif"),
                     variableResolver.resolveTableDataParameterVariables()).createMutableTreeNode());
 
-            rootNode.add(new TextFolderUserObject(Inter.getLocText("ParameterD-Report_Parameter"),
+            rootNode.add(new TextFolderUserObject(com.fr.design.i18n.Toolkit.i18nText("ParameterD-Report_Parameter"),
                     BaseUtils.readIcon("/com/fr/design/images/m_report/p.gif"),
                     variableResolver.resolveReportParameterVariables()).createMutableTreeNode());
 
-            rootNode.add(new TextFolderUserObject(Inter.getLocText("M_Server-Global_Parameters"),
+            rootNode.add(new TextFolderUserObject(com.fr.design.i18n.Toolkit.i18nText("M_Server-Global_Parameters"),
                     BaseUtils.readIcon("/com/fr/design/images/dialog/parameter.gif"),
                     variableResolver.resolveGlobalParameterVariables()).createMutableTreeNode());
 

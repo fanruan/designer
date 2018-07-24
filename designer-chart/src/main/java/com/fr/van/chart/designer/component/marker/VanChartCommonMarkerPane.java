@@ -6,7 +6,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.gui.xcombox.MarkerComboBox;
 import com.fr.design.layout.TableLayout;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.base.VanChartAttrMarker;
 import com.fr.plugin.chart.marker.type.MarkerType;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
@@ -130,16 +130,16 @@ public class VanChartCommonMarkerPane extends BasicBeanPane<VanChartAttrMarker> 
 
     protected Component[][] getUseComponent() {
         return  new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_type")), markerPane},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_FillColor")), markerFillColor},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Radius")), radius},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_type")), markerPane},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_FillColor")), markerFillColor},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Radius")), radius},
         };
     }
 
     protected Component[][] getUseComponentWithOutFillColor() {
         return  new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_type")), markerPane},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Radius")), radius},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_type")), markerPane},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Radius")), radius},
         };
     }
 

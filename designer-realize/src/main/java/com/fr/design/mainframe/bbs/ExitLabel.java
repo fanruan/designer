@@ -15,7 +15,7 @@ import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.Inter;
+
 
 /**
  * @author neil
@@ -45,7 +45,7 @@ public class ExitLabel extends UILabel{
 			menu.setOnlyText(true);
 			menu.setPopupSize(infoPane.getWidth(),infoPane.getHeight());
 			
-			UIMenuItem closeOther = new UIMenuItem(Inter.getLocText("FR-Designer-BBSLogin_Switch-Account"));
+			UIMenuItem closeOther = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-BBSLogin_Switch-Account"));
 			closeOther.addMouseListener(new MouseAdapter() {
 				
 				public void mousePressed(MouseEvent e) {

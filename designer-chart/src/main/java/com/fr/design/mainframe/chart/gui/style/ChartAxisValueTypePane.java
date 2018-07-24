@@ -9,7 +9,7 @@ import com.fr.chart.chartattr.CategoryAxis;
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.gui.frpane.UIComboBoxPane;
 import com.fr.design.dialog.BasicPane;
-import com.fr.general.Inter;
+
 
 /**
  * 坐标轴 值类型界面(文本坐标轴 或者 日期坐标轴).
@@ -49,7 +49,7 @@ public class ChartAxisValueTypePane extends BasicPane {
 	 * 界面标题.
 	 */
 	protected String title4PopupWindow() {
-		return Inter.getLocText("AxisValue");
+		return com.fr.design.i18n.Toolkit.i18nText("AxisValue");
 	}
 	
 	/**
@@ -110,7 +110,7 @@ public class ChartAxisValueTypePane extends BasicPane {
 		 * 界面标题
 		 */
 		public String title4PopupWindow() {
-			return Inter.getLocText("Chart_Text_Axis");
+			return com.fr.design.i18n.Toolkit.i18nText("Chart_Text_Axis");
 		}
 
 		/**

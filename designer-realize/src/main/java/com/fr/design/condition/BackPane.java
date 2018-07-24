@@ -7,7 +7,7 @@ import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.style.background.BackgroundPane;
 import com.fr.design.style.background.BackgroundPreviewLabel;
-import com.fr.general.Inter;
+
 import com.fr.report.cell.cellattr.highlight.BackgroundHighlightAction;
 import com.fr.report.cell.cellattr.highlight.HighlightAction;
 
@@ -28,10 +28,10 @@ public class BackPane extends ConditionAttrSingleConditionPane<HighlightAction> 
 
     public BackPane(final ConditionAttributesPane conditionAttributesPane) {
         super(conditionAttributesPane);
-        backgroundLabel = new UILabel(Inter.getLocText("FR-Designer_Background") + ":");
+        backgroundLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background") + ":");
         this.backgroundPreviewPane = new BackgroundPreviewLabel();
         this.backgroundPreviewPane.setPreferredSize(new Dimension(80, 20));
-        UIButton editBackgroundButton = new UIButton(Inter.getLocText("FR-Designer_Edit"));
+        UIButton editBackgroundButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit"));
         editBackgroundButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 final BackgroundPane backgroundPane = new BackgroundPane();
@@ -47,9 +47,9 @@ public class BackPane extends ConditionAttrSingleConditionPane<HighlightAction> 
         });
 
         this.backScopeComboBox = new UIComboBox(new String[] {
-                Inter.getLocText("Utils-Current_Cell"),
-                Inter.getLocText("Utils-Current_Row"),
-                Inter.getLocText("Utils-Current_Column") });
+                com.fr.design.i18n.Toolkit.i18nText("Utils-Current_Cell"),
+                com.fr.design.i18n.Toolkit.i18nText("Utils-Current_Row"),
+                com.fr.design.i18n.Toolkit.i18nText("Utils-Current_Column") });
 
         this.add(backgroundLabel);
         this.add(backgroundPreviewPane);
@@ -60,7 +60,7 @@ public class BackPane extends ConditionAttrSingleConditionPane<HighlightAction> 
 
     @Override
     public String nameForPopupMenuItem() {
-        return Inter.getLocText("FR-Designer_Background");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background");
     }
 
 

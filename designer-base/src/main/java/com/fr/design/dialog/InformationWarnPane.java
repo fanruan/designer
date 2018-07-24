@@ -23,7 +23,7 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIToggleButton;
 import com.fr.design.gui.itextarea.UITextArea;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 import com.fr.design.utils.gui.GUICoreUtils;
 
 public class InformationWarnPane extends JPanel{
@@ -80,7 +80,7 @@ public class InformationWarnPane extends JPanel{
 		});
 
 		arrow.setBounds(90,100,30,30);
-		UILabel more = new UILabel("<html><font color='blue'FACE='MicroSoft YaHei'>"+Inter.getLocText("More-information")+"</font></html>");
+		UILabel more = new UILabel("<html><font color='blue'FACE='MicroSoft YaHei'>"+com.fr.design.i18n.Toolkit.i18nText("More-information")+"</font></html>");
 		more.setBounds(125,102,55,25);
 		
 		moreText = new UITextArea(moreInfo);
@@ -149,7 +149,7 @@ public class InformationWarnPane extends JPanel{
 		private JPanel createControlButtonPane() {
 			controlPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 
-			okButton = new UIButton("<html><font FACE='MicroSoft YaHei'>" + Inter.getLocText("OK") + "</font></html>") {
+			okButton = new UIButton("<html><font FACE='MicroSoft YaHei'>" + com.fr.design.i18n.Toolkit.i18nText("OK") + "</font></html>") {
 				@Override
 				public Dimension getPreferredSize() {
 					// TODO Auto-generated method stub

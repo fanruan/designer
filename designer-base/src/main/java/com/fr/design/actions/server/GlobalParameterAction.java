@@ -14,7 +14,7 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.design.parameter.ParameterManagerPane;
-import com.fr.general.Inter;
+
 import com.fr.transaction.CallBackAdaptor;
 import com.fr.transaction.Configurations;
 import com.fr.transaction.WorkerFacade;
@@ -83,7 +83,7 @@ public class GlobalParameterAction extends UpdateAction {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M_Server-Global_Parameters");
+            return com.fr.design.i18n.Toolkit.i18nText("M_Server-Global_Parameters");
         }
 
         @Override

@@ -18,7 +18,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.style.color.ColorControlWindow;
 import com.fr.design.style.color.ColorSelectBox;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.Inter;
+
 import com.fr.stable.StringUtils;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 
@@ -83,7 +83,7 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
 						regionNumPane.updateBean().intValue()), getValueArray(regionNumPane.updateBean().intValue()));
 			}
 		});
-		designTypeButtonGroup = new UIButtonGroup<Integer>(new String[]{Inter.getLocText("FR-Chart-Mode_Auto"), Inter.getLocText("FR-Chart-Mode_Custom")}, new Integer[]{0, 1});
+		designTypeButtonGroup = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Mode_Auto"), com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Mode_Custom")}, new Integer[]{0, 1});
 		designTypeButtonGroup.setSelectedIndex(0);
 		designTypeButtonGroup.addChangeListener(new ChangeListener() {
 			@Override
@@ -154,9 +154,9 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
 
     protected Component[][] createComponents(){
         return new Component[][]{
-                new Component[]{new BoldFontTextLabel(Inter.getLocText("FR_Chart-Data_Range_Configuration")), designTypeButtonGroup},
-                new Component[]{new BoldFontTextLabel(Inter.getLocText(new String[]{"FR-Chart-Color_Subject", "FR-Chart-Color_Color"})), fillStyleCombox},
-                new Component[]{new BoldFontTextLabel(Inter.getLocText("FR-Chart-Value_Divided_stage")), regionNumPane},
+                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("FR_Chart-Data_Range_Configuration")), designTypeButtonGroup},
+                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Subject_Color")), fillStyleCombox},
+                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Value_Divided_stage")), regionNumPane},
         };
     }
 
@@ -172,7 +172,7 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
 						regionNumPane.updateBean().intValue()), getValueArray(regionNumPane.updateBean().intValue()));
 			}
 		});
-		designTypeButtonGroup = new UIButtonGroup<Integer>(new String[]{Inter.getLocText("FR-Chart-Mode_Auto"), Inter.getLocText("FR-Chart-Mode_Custom")}, new Integer[]{0, 1});
+		designTypeButtonGroup = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Mode_Auto"), com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Mode_Custom")}, new Integer[]{0, 1});
 		designTypeButtonGroup.setSelectedIndex(0);
 		designTypeButtonGroup.addChangeListener(new ChangeListener() {
 			@Override
@@ -206,12 +206,12 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
 		double d = TableLayout4VanChartHelper.DESCRIPTION_AREA_WIDTH;
 		double[] columnSize = {d, e};
 		double[] rowSize = {p};
-		Component[][] tmpComp = new Component[][]{new Component[]{new BoldFontTextLabel(Inter.getLocText("FR-Chart-Value_Divided_stage")), regionNumPane}};
+		Component[][] tmpComp = new Component[][]{new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Value_Divided_stage")), regionNumPane}};
 
 		stagePanel = TableLayout4VanChartHelper.createGapTableLayoutPane(tmpComp, rowSize, columnSize);
 
 		Component[][] components = new Component[][]{
-				new Component[]{new BoldFontTextLabel(Inter.getLocText("FR-Chart-Value_Tick_And_Color")), designTypeButtonGroup},
+				new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Value_Tick_And_Color")), designTypeButtonGroup},
 		};
 		upControlPane = TableLayout4VanChartHelper.createGapTableLayoutPane(components, rowSize, columnSize);
 

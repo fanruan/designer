@@ -15,7 +15,7 @@ import com.fr.chart.chartattr.Plot;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.chart.gui.style.axis.ChartAxisUsePane;
 import com.fr.design.dialog.BasicPane;
-import com.fr.general.Inter;
+
 
 /**
  * Created by IntelliJ IDEA.
@@ -25,9 +25,9 @@ import com.fr.general.Inter;
  * Time   : 上午8:48
  */
 public abstract class ChartStyleAxisPane extends BasicPane implements ListSelectionListener {
-    protected static final String CATE_AXIS = Inter.getLocText("ChartF-Category_Axis");
-    protected static final String VALUE_AXIS = Inter.getLocText("Chart_F_Radar_Axis");
-    protected static final String SECOND_AXIS = Inter.getLocText(new String[]{"Second", "Chart_F_Radar_Axis"});
+    protected static final String CATE_AXIS = com.fr.design.i18n.Toolkit.i18nText("ChartF-Category_Axis");
+    protected static final String VALUE_AXIS = com.fr.design.i18n.Toolkit.i18nText("Chart_F_Radar_Axis");
+    protected static final String SECOND_AXIS = com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Second", "Chart_F_Radar_Axis"});
     private JList mainList;
     private CardLayout cardLayout;
     private JPanel cardDisplayPane = null;

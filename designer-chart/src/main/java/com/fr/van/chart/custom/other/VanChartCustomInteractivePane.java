@@ -1,7 +1,7 @@
 package com.fr.van.chart.custom.other;
 
 import com.fr.chart.chartattr.Plot;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.custom.VanChartCustomPlot;
 import com.fr.plugin.chart.custom.type.CustomStyle;
@@ -32,7 +32,7 @@ public class VanChartCustomInteractivePane extends VanChartInteractivePane {
 
     protected JPanel createHyperlinkPane() {
         hyperlinkPane = new VanChartCustomPlotHyperlinkPane();
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("M_Insert-Hyperlink"), hyperlinkPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("M_Insert-Hyperlink"), hyperlinkPane);
     }
 
     @Override

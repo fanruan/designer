@@ -5,7 +5,7 @@ package com.fr.design.editor.editor;
 
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -42,7 +42,7 @@ public class BooleanEditor extends Editor<Boolean> {
 		booleanCheckBox = new UICheckBox("true");
 		this.add(booleanCheckBox, BorderLayout.CENTER);
 		this.setValue(value);
-		this.setName(Inter.getLocText("Parameter-Boolean"));
+		this.setName(com.fr.design.i18n.Toolkit.i18nText("Parameter-Boolean"));
 		booleanCheckBox.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {

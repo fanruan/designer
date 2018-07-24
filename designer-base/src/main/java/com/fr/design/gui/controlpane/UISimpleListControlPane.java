@@ -14,7 +14,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Nameable;
 import com.fr.stable.StringUtils;
@@ -228,7 +228,7 @@ public class UISimpleListControlPane extends BasicPane {
      */
     private class MoveUpItemAction extends UpdateAction {
         public MoveUpItemAction() {
-            this.setName(Inter.getLocText("Utils-Move_Up"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Utils-Move_Up"));
             this.setMnemonic('U');
             this.setSmallIcon(BaseUtils
                     .readIcon("/com/fr/design/images/control/up.png"));
@@ -261,7 +261,7 @@ public class UISimpleListControlPane extends BasicPane {
      */
     private class MoveDownItemAction extends UpdateAction {
         public MoveDownItemAction() {
-            this.setName(Inter.getLocText("Utils-Move_Down"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Utils-Move_Down"));
             this.setMnemonic('D');
             this.setSmallIcon(BaseUtils
                     .readIcon("/com/fr/design/images/control/down.png"));
@@ -292,7 +292,7 @@ public class UISimpleListControlPane extends BasicPane {
         private boolean isAtoZ = false;
 
         public SortItemAction() {
-            this.setName(Inter.getLocText("FR-Action_Sort"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Action_Sort"));
             this.setMnemonic('S');
             this.setSmallIcon(BaseUtils
                     .readIcon("/com/fr/design/images/control/sortAsc.png"));

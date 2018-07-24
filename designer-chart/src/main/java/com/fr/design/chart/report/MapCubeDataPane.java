@@ -6,7 +6,7 @@ import com.fr.chart.chartdata.MapMoreLayerTableDefinition;
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.gui.frpane.UIComboBoxPane;
 import com.fr.design.gui.ilable.BoldFontTextLabel;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,7 +26,7 @@ public class MapCubeDataPane extends UIComboBoxPane<TopDefinitionProvider> {
 	protected void initLayout() {
 		this.setLayout(new BorderLayout(0, 0));
 		JPanel northPane = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-		northPane.add(new BoldFontTextLabel(Inter.getLocText("ChartF-Data-Resource") + ":"));
+		northPane.add(new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("ChartF-Data-Resource") + ":"));
 		northPane.add(jcb);
 		
 		this.add(northPane, BorderLayout.NORTH);
@@ -45,7 +45,7 @@ public class MapCubeDataPane extends UIComboBoxPane<TopDefinitionProvider> {
 
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("LayerData");
+		return com.fr.design.i18n.Toolkit.i18nText("LayerData");
 	}
 	
 	/**

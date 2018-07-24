@@ -7,7 +7,7 @@ import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.report.VerifierListPane;
 import com.fr.design.report.WriteShortCutsPane;
 import com.fr.design.write.submit.SubmitVisitorListPane;
-import com.fr.general.Inter;
+
 import com.fr.report.worksheet.WorkSheet;
 import com.fr.report.write.ReportWriteAttr;
 
@@ -43,14 +43,14 @@ public class ReportWriteAttrPane extends LoadingBasicPane {
 		}
 		writeShortCutsPane = new WriteShortCutsPane();
 
-		tabbedPane.addTab(Inter.getLocText("FR-Utils_Submit"), submiterListPane);
-		tabbedPane.addTab(Inter.getLocText("Verify-Data_Verify"), verifierListPane);
-		tabbedPane.addTab(Inter.getLocText("Writer-ShortCuts_Setting"), writeShortCutsPane);
+		tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("FR-Utils_Submit"), submiterListPane);
+		tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Verify-Data_Verify"), verifierListPane);
+		tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Writer-ShortCuts_Setting"), writeShortCutsPane);
 	}
 
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("ReportD-Report_Write_Attributes");
+		return com.fr.design.i18n.Toolkit.i18nText("ReportD-Report_Write_Attributes");
 	}
 
 	public void populate(WorkSheet report) {

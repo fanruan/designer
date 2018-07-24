@@ -6,7 +6,7 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.bubble.VanChartBubblePlot;
 import com.fr.plugin.chart.bubble.attr.VanChartAttrBubble;
 import com.fr.van.chart.bubble.component.VanChartBubblePane;
@@ -69,7 +69,7 @@ public class VanChartBubbleSeriesPane extends VanChartAbstractPlotSeriesPane {
 
             @Override
             public String getPaneTitle(){
-                return Inter.getLocText("Plugin-ChartF_Custom_Axis");
+                return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Custom_Axis");
             }
         };
         stackAndAxisEditExpandablePane =  TableLayout4VanChartHelper.createExpandablePaneWithTitle(stackAndAxisEditPane.getPaneTitle(), stackAndAxisEditPane);
@@ -78,7 +78,7 @@ public class VanChartBubbleSeriesPane extends VanChartAbstractPlotSeriesPane {
 
     private JPanel createBubblePane() {
         bubblePane = new VanChartBubblePane();
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Bubble"), bubblePane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Bubble"), bubblePane);
     }
 
     protected void populateCondition(ConditionAttr defaultAttr){

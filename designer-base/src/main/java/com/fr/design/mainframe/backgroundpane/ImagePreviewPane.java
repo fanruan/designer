@@ -12,7 +12,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.iscrollbar.UIScrollBar;
 import com.fr.design.style.background.image.ImagePreviewer;
 import com.fr.general.ImageWithSuffix;
-import com.fr.general.Inter;
+
 import com.fr.stable.Constants;
 import com.fr.stable.CoreGraphHelper;
 
@@ -60,7 +60,7 @@ public class ImagePreviewPane extends JComponent implements Scrollable, ImagePre
             public void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 if (isLoading) {
-                    g.drawString(Inter.getLocText("FR-Designer_Image_Loading"), getWidth() / 2 - 25, getHeight() / 2);
+                    g.drawString(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Image_Loading"), getWidth() / 2 - 25, getHeight() / 2);
                     return;
                 }
                 // draw image.

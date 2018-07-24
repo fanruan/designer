@@ -12,7 +12,7 @@ import com.fr.design.data.tabledata.wrapper.StoreProcedureNameWrapper;
 import com.fr.design.data.tabledata.wrapper.TableDataWrapper;
 import com.fr.design.gui.itree.refreshabletree.ExpandMutableTreeNode;
 import com.fr.design.gui.itree.refreshabletree.UserObjectOP;
-import com.fr.general.Inter;
+
 import com.fr.general.NameObject;
 
 import java.util.*;
@@ -100,19 +100,19 @@ public class TableDataSourceOP implements UserObjectOP<TableDataWrapper> {
     }
 
     private ExpandMutableTreeNode initTemplateDataNode(Map<String, TableDataWrapper> templateDataMap) {
-        ExpandMutableTreeNode templateNode = new ExpandMutableTreeNode(new NameObject(Inter.getLocText("DS-TableData"), TEMPLATE_TABLE_DATA), true);
+        ExpandMutableTreeNode templateNode = new ExpandMutableTreeNode(new NameObject(com.fr.design.i18n.Toolkit.i18nText("DS-TableData"), TEMPLATE_TABLE_DATA), true);
         templateNode.addChildTreeNodes(getNodeArrayFromMap(templateDataMap));
         return templateNode;
     }
 
     private ExpandMutableTreeNode initServerDataNode(Map<String, TableDataWrapper> serverDataMap) {
-        ExpandMutableTreeNode templateNode = new ExpandMutableTreeNode(new NameObject(Inter.getLocText("DS-Server_TableData"), SERVER_TABLE_DATA), false);
+        ExpandMutableTreeNode templateNode = new ExpandMutableTreeNode(new NameObject(com.fr.design.i18n.Toolkit.i18nText("DS-Server_TableData"), SERVER_TABLE_DATA), false);
         templateNode.addChildTreeNodes(getNodeArrayFromMap(serverDataMap));
         return templateNode;
     }
 
     private ExpandMutableTreeNode initStoreProcedureNode(Map<String, TableDataWrapper> storeProcedureMap) {
-        ExpandMutableTreeNode templateNode = new ExpandMutableTreeNode(new NameObject(Inter.getLocText("Datasource-Stored_Procedure"), STORE_PRECEDURE_DATA), false);
+        ExpandMutableTreeNode templateNode = new ExpandMutableTreeNode(new NameObject(com.fr.design.i18n.Toolkit.i18nText("Datasource-Stored_Procedure"), STORE_PRECEDURE_DATA), false);
         templateNode.addChildTreeNodes(getNodeArrayFromMap(storeProcedureMap));
         return templateNode;
     }

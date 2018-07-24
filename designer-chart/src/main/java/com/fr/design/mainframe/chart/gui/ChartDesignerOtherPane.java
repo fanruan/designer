@@ -7,7 +7,7 @@ package com.fr.design.mainframe.chart.gui;
 import com.fr.design.mainframe.chart.gui.other.ChartDesignerConditionAttrPane;
 import com.fr.design.mainframe.chart.gui.other.ChartDesignerInteractivePane;
 import com.fr.design.dialog.BasicPane;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -37,7 +37,7 @@ public class ChartDesignerOtherPane extends ChartOtherPane {
      * @return 返回标题.
      */
     public String title4PopupWindow() {
-        return Inter.getLocText("Advanced");
+        return com.fr.design.i18n.Toolkit.i18nText("Advanced");
     }
 
     private boolean isHaveCondition() {

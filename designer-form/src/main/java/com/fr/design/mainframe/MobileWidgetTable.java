@@ -18,7 +18,7 @@ import com.fr.design.gui.itable.GroupRenderer;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.*;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.stable.StringUtils;
 
 /**
@@ -33,7 +33,7 @@ public class MobileWidgetTable extends JTable {
 
     private FormDesigner designer;
     private String[][] cellData;
-    private String[] headers = {Inter.getLocText("Form-Widget_Name")};
+    private String[] headers = {com.fr.design.i18n.Toolkit.i18nText("Form-Widget_Name")};
     private static final int WIDGET_TABLE_ROW_HEIGHT = 22;
     private UILabel moveComponent = new UILabel(); // 作为拖动时候随鼠标移动的那个半透明控件
     private int selectedRow = -1;
@@ -267,7 +267,7 @@ public class MobileWidgetTable extends JTable {
             mobileWidgetList = body.getOrderedMobileWidgetList();
         }
         String[][] widgetName = new String[mobileWidgetList.size() + 1][1];
-        widgetName[0][0] = Inter.getLocText("FR-Designer_WidgetOrder");
+        widgetName[0][0] = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WidgetOrder");
         for (int i = 0; i < mobileWidgetList.size(); i++) {
             widgetName[i + 1][0] = mobileWidgetList.get(i);
         }

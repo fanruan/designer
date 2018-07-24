@@ -1,6 +1,6 @@
 package com.fr.design.chart.series.SeriesCondition;
 
-import com.fr.general.Inter;
+
 import com.fr.general.NameObject;
 import com.fr.stable.Nameable;
 import com.fr.chart.base.AttrTrendLine;
@@ -17,7 +17,7 @@ public class TrendLineControlPane extends JListControlPane {
 	public NameableCreator[] createNameableCreators() {
 		return new NameableCreator[] {
         		new NameObjectCreator(
-    				Inter.getLocText("Chart_TrendLine"), 
+    				com.fr.design.i18n.Toolkit.i18nText("Chart_TrendLine"),
     				ConditionTrendLine.class, 
     				ConditionTrendLinePane.class
         		)
@@ -26,7 +26,7 @@ public class TrendLineControlPane extends JListControlPane {
 	
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText(new String[]{"Edit", "Chart_TrendLine"});
+		return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Edit", "Chart_TrendLine"});
 	}
 	
 	public void populate(AttrTrendLine trendLineList) {

@@ -9,7 +9,7 @@ import com.fr.design.gui.ilable.UILabel;
 import javax.swing.JPanel;
 
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.report.cell.TemplateCellElement;
 import com.fr.report.cell.cellattr.CellExpandAttr;
@@ -37,12 +37,12 @@ public class ConditionParentPane extends JPanel {
 		innerthis.add(eastPane);
 
 		eastPane.add(GUICoreUtils.createFlowPane(new JComponent[] {
-				new UILabel(Inter.getLocText("LeftParent") + ": "),
+				new UILabel(com.fr.design.i18n.Toolkit.i18nText("LeftParent") + ": "),
 				leftParentPane = new ParentPane(ParentPane.LEFT, listener) }, FlowLayout.LEFT));
 
 		eastPane.add(GUICoreUtils.createFlowPane(
 				new JComponent[] {
-						new UILabel(Inter.getLocText("UpParent") + ": "),
+						new UILabel(com.fr.design.i18n.Toolkit.i18nText("UpParent") + ": "),
 						upParentPane = new ParentPane(ParentPane.UP, listener) }, FlowLayout.LEFT));
 	}
 	public void putElementcase(ElementCasePane t){

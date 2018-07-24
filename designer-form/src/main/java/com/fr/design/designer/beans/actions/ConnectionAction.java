@@ -7,7 +7,7 @@ import com.fr.design.actions.ToggleButtonUpdateAction;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.gui.ibutton.UIToggleButton;
 import com.fr.design.mainframe.FormDesigner;
-import com.fr.general.Inter;
+
 import com.fr.design.utils.gui.GUICoreUtils;
 
 //marro : 连接线按钮，目前用不到，但是类先留着。2012-3-26
@@ -16,7 +16,7 @@ public class ConnectionAction extends UpdateAction implements ToggleButtonUpdate
 
 	public ConnectionAction(FormDesigner fd) {
 		this.fd = fd;
-		this.setName(Inter.getLocText("Connectionline"));
+		this.setName(com.fr.design.i18n.Toolkit.i18nText("Connectionline"));
 		this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/toolbarbtn/connector.png"));
 	}
 

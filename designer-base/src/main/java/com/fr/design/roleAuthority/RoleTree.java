@@ -13,7 +13,7 @@ import com.fr.design.mainframe.AuthorityPropertyPane;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.EastRegionContainerPane;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 
 import javax.swing.SwingUtilities;
 import javax.swing.JTree;
@@ -239,7 +239,7 @@ public class RoleTree extends UserObjectRefreshJTree<RoleSourceOP> {
      */
     protected void doWithValueChanged(TreeSelectionEvent e) {
         if (e.getNewLeadSelectionPath() != null) {
-            if (!e.getNewLeadSelectionPath().getLastPathComponent().toString().equals(Inter.getLocText("FR-Designer_Role"))) {
+            if (!e.getNewLeadSelectionPath().getLastPathComponent().toString().equals(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Role"))) {
                 roleName = e.getNewLeadSelectionPath().getLastPathComponent().toString();
                 setTabRoleName(roleName);
                 refreshRoleTree(roleName);
@@ -253,7 +253,7 @@ public class RoleTree extends UserObjectRefreshJTree<RoleSourceOP> {
      * @param treepath 所选的节点路径
      */
     protected void doWithValueChanged(TreePath treepath) {
-        if (treepath != null && !treepath.getLastPathComponent().toString().equals(Inter.getLocText("FR-Designer_Role"))) {
+        if (treepath != null && !treepath.getLastPathComponent().toString().equals(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Role"))) {
             roleName = treepath.getLastPathComponent().toString();
             setTabRoleName(roleName);
             refreshRoleTree(roleName);

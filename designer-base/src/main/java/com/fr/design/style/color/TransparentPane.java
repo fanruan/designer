@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.dialog.BasicPane;
-import com.fr.general.Inter;
+
 
 public abstract class TransparentPane extends BasicPane {
 
@@ -28,7 +28,7 @@ public abstract class TransparentPane extends BasicPane {
 
 		// richer:能否拖动
 		if (isSupportTransparent) {
-			UIButton transparentButton = new UIButton(Inter.getLocText("ChartF-Transparency"));
+			UIButton transparentButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("ChartF-Transparency"));
 			transparentButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 			transparentButton.addActionListener(new TransparentActionListener());
 
@@ -41,7 +41,7 @@ public abstract class TransparentPane extends BasicPane {
 
 		initCenterPaneChildren(centerPane);
 
-		UIButton customButton = new CustomButton(Inter.getLocText("Custom")
+		UIButton customButton = new CustomButton(com.fr.design.i18n.Toolkit.i18nText("Custom")
 				+ "...");
 		this.add(customButton, BorderLayout.SOUTH);
 		customButton.setCursor(new Cursor(Cursor.HAND_CURSOR));        

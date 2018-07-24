@@ -26,7 +26,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.Inter;
+
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
@@ -51,7 +51,7 @@ public class JTreeAutoBuildPane extends BasicPane implements PreviewLabel.Previe
      */
     public void initComponent() {
         this.setLayout(FRGUIPaneFactory.createM_BorderLayout());
-        UILabel selectTreeDataLabel = new UILabel(Inter.getLocText("Select_A_Tree_DataSource_To_Build") + ": ");
+        UILabel selectTreeDataLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Select_A_Tree_DataSource_To_Build") + ": ");
         treeTableDataComboBox = new TreeTableDataComboBox(DesignTableDataManager.getEditingTableDataSource());
         treeTableDataComboBox.setPreferredSize(new Dimension(180, 20));
         selectTreeDataPanel = FRGUIPaneFactory.createBoxFlowInnerContainer_S_Pane();
@@ -74,13 +74,13 @@ public class JTreeAutoBuildPane extends BasicPane implements PreviewLabel.Previe
         this.add(selectTreeDataPanel, BorderLayout.NORTH);
 
         valuePane = ValueEditorPaneFactory.createValueEditorPane(new Editor[]{new ColumnNameEditor(), new ColumnIndexEditor()});
-        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("Parameter-Formula"));
+        FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Parameter-Formula"));
         formulaEditor.setEnabled(true);
         textPane = ValueEditorPaneFactory.createValueEditorPane(new Editor[]{new ColumnNameEditor(), new ColumnIndexEditor(), formulaEditor});
         Component[][] coms = {
-                {new UILabel(Inter.getLocText("Actual_Value") + ":"),
+                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Actual_Value") + ":"),
                         valuePane},
-                {new UILabel(Inter.getLocText("Display_Value") + ":"),
+                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Display_Value") + ":"),
                         textPane}};
 
         double p = TableLayout.PREFERRED;
@@ -104,14 +104,14 @@ public class JTreeAutoBuildPane extends BasicPane implements PreviewLabel.Previe
             String[] columnNames = new String[namelist.size()];
             namelist.toArray(columnNames);
             valuePane.setEditors(new Editor[]{new ColumnNameEditor(columnNames), new ColumnIndexEditor(columnNames.length)}, columnNames[0]);
-            FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("Parameter-Formula"));
+            FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Parameter-Formula"));
             formulaEditor.setEnabled(true);
             textPane.setEditors(new Editor[]{new ColumnNameEditor(columnNames), new ColumnIndexEditor(columnNames.length), formulaEditor}, columnNames[0]);
         } catch (Exception e) {
-            valuePane.setEditors(new Editor[]{new OldColumnIndexEditor(100, Inter.getLocText("ColumnName"))}, 1);
-            FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("Parameter-Formula"));
+            valuePane.setEditors(new Editor[]{new OldColumnIndexEditor(100, com.fr.design.i18n.Toolkit.i18nText("ColumnName"))}, 1);
+            FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Parameter-Formula"));
             formulaEditor.setEnabled(true);
-            textPane.setEditors(new Editor[]{new OldColumnIndexEditor(100, Inter.getLocText("ColumnName")), formulaEditor}, 1);
+            textPane.setEditors(new Editor[]{new OldColumnIndexEditor(100, com.fr.design.i18n.Toolkit.i18nText("ColumnName")), formulaEditor}, 1);
         }
     }
 

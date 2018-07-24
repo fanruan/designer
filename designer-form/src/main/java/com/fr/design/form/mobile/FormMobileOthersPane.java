@@ -5,7 +5,7 @@ import com.fr.design.designer.IntervalConstants;
 import com.fr.design.dialog.mobile.MobileRadioCheckPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.form.main.mobile.FormMobileAttr;
-import com.fr.general.Inter;
+
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -28,9 +28,9 @@ public class FormMobileOthersPane extends BasicBeanPane<FormMobileAttr> {
         JPanel borderPane = FRGUIPaneFactory.createTitledBorderPane(this.title4PopupWindow());
         JPanel contentPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         contentPane.setBorder(BorderFactory.createEmptyBorder(0, IntervalConstants.INTERVAL_L1, 0, 0));
-        appearRefreshCheckPane = new MobileRadioCheckPane(Inter.getLocText("FR-Designer_Appear_Refresh"));
+        appearRefreshCheckPane = new MobileRadioCheckPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Appear_Refresh"));
         contentPane.add(appearRefreshCheckPane, BorderLayout.WEST);
-        promptWhenLeaveWithoutSubmitCheckPane = new MobileRadioCheckPane(Inter.getLocText("FR-Designer_Prompt_When_Leave_Without_Submit"));
+        promptWhenLeaveWithoutSubmitCheckPane = new MobileRadioCheckPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Prompt_When_Leave_Without_Submit"));
         contentPane.add(promptWhenLeaveWithoutSubmitCheckPane, BorderLayout.CENTER);
         borderPane.add(contentPane);
         this.add(borderPane);
@@ -60,6 +60,6 @@ public class FormMobileOthersPane extends BasicBeanPane<FormMobileAttr> {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("FR-Designer_Other");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Other");
     }
 }

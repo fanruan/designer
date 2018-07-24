@@ -5,7 +5,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
-import com.fr.general.Inter;
+
 import com.fr.design.beans.GroupModel;
 import com.fr.design.mainframe.widget.editors.IntegerPropertyEditor;
 import com.fr.design.mainframe.widget.editors.PropertyCellEditor;
@@ -29,7 +29,7 @@ public class VerticalBoxProperties implements GroupModel {
 
     @Override
     public String getGroupName() {
-        return Inter.getLocText("VerticalBoxLayout");
+        return com.fr.design.i18n.Toolkit.i18nText("VerticalBoxLayout");
     }
 
     @Override
@@ -52,9 +52,9 @@ public class VerticalBoxProperties implements GroupModel {
         if (column == 0) {
             switch (row) {
                 case 0:
-                    return Inter.getLocText("Hgap");
+                    return com.fr.design.i18n.Toolkit.i18nText("Hgap");
                 case 1:
-                    return Inter.getLocText("Vgap");
+                    return com.fr.design.i18n.Toolkit.i18nText("Vgap");
             }
         } else {
             switch (row) {

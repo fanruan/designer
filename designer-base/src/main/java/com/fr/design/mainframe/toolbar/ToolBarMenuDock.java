@@ -50,7 +50,7 @@ import com.fr.design.remote.action.RemoteDesignAuthorityManagerAction;
 import com.fr.design.utils.ThemeUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
-import com.fr.general.Inter;
+
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.context.PluginRuntime;
 import com.fr.plugin.manage.PluginFilter;
@@ -320,7 +320,7 @@ public abstract class ToolBarMenuDock {
     }
 
     public MenuDef createFileMenuDef(ToolBarMenuDockPlus plus) {
-        MenuDef menuDef = new MenuDef(Inter.getLocText("FR-Designer_File"), 'F');
+        MenuDef menuDef = new MenuDef(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_File"), 'F');
 
         ShortCut[] scs = new ShortCut[0];
         if (!BaseUtils.isAuthorityEditing()) {
@@ -394,7 +394,7 @@ public abstract class ToolBarMenuDock {
     }
 
     protected MenuDef createServerMenuDef(ToolBarMenuDockPlus plus) {
-        MenuDef menuDef = new MenuDef(Inter.getLocText("FR-Designer_M-Server"), 'S');
+        MenuDef menuDef = new MenuDef(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_M-Server"), 'S');
 
         if (!BaseUtils.isAuthorityEditing()) {
             menuDef.addShortCut(
@@ -482,7 +482,7 @@ public abstract class ToolBarMenuDock {
     }
 
     public MenuDef createHelpMenuDef() {
-        MenuDef menuDef = new MenuDef(Inter.getLocText("FR-Designer_Help"), 'H');
+        MenuDef menuDef = new MenuDef(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Help"), 'H');
         ShortCut[] otherHelpShortCuts = createHelpShortCuts();
         for (ShortCut shortCut : otherHelpShortCuts) {
             menuDef.addShortCut(shortCut);
@@ -492,7 +492,7 @@ public abstract class ToolBarMenuDock {
     }
 
     public MenuDef createCommunityMenuDef() {
-        MenuDef menuDef = new MenuDef(Inter.getLocText("FR-Designer_COMMUNITY"), 'C');
+        MenuDef menuDef = new MenuDef(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_COMMUNITY"), 'C');
         ShortCut[] otherCommunityShortCuts = createCommunityShortCuts();
         for (ShortCut shortCut : otherCommunityShortCuts) {
             menuDef.addShortCut(shortCut);
@@ -534,7 +534,7 @@ public abstract class ToolBarMenuDock {
             return toolBar;
 
         } else {
-            return polyToolBar(Inter.getLocText("FR-Designer_Polyblock_Edit"));
+            return polyToolBar(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Polyblock_Edit"));
         }
     }
 
@@ -549,7 +549,7 @@ public abstract class ToolBarMenuDock {
         };
         UILabel uiLabel = new UILabel(text);
         uiLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        uiLabel.setFont(new Font(Inter.getLocText("FR-Designer-All_MSBold"), 0, 14));
+        uiLabel.setFont(new Font(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-All_MSBold"), 0, 14));
         uiLabel.setForeground(new Color(150, 150, 150));
         panel.add(uiLabel, BorderLayout.CENTER);
         return panel;

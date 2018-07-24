@@ -1,13 +1,12 @@
 package com.fr.design.write.submit;
 
 
-import com.fr.general.NameObject;
 import com.fr.data.ClassSubmitJob;
 import com.fr.data.SubmitJob;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.controlpane.ObjectJControlPane;
-import com.fr.general.Inter;
+import com.fr.general.NameObject;
 import com.fr.stable.Nameable;
 import com.fr.write.DMLConfigJob;
 import com.fr.write.NameSubmitJob;
@@ -29,12 +28,12 @@ public class SubmitJobListPane extends ObjectJControlPane {
 	public NameableCreator[] createNameableCreators() {
 		return new NameableCreator[] {
 			new NameObjectCreator(
-					Inter.getLocText(new String[]{"Submit", "Event"}),
+					com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Write_Submit_Event"),
 					"/com/fr/web/images/reportlet.png",
 					DMLConfigJob.class,
 					DMLJobPane.class),
 			new NameObjectCreator(
-					Inter.getLocText(new String[]{"Custom", "Event"}),
+					com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Write_Custom_Event"),
 					"/com/fr/web/images/reportlet.png",
 					ClassSubmitJob.class,
 					CustomSubmitJobPane.class)
@@ -58,6 +57,6 @@ public class SubmitJobListPane extends ObjectJControlPane {
 	
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("Set_Submit_Event");
+		return com.fr.design.i18n.Toolkit.i18nText("Set_Submit_Event");
 	}
 }

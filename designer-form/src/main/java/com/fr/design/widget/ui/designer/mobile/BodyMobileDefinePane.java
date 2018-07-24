@@ -10,7 +10,7 @@ import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.MobileWidgetListPane;
 import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.form.ui.container.WSortLayout;
-import com.fr.general.Inter;
+
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -43,7 +43,7 @@ public class BodyMobileDefinePane extends MobileWidgetDefinePane {
     // 手机属性
     private UIExpandablePane getMobilePropertyPane() {
         JPanel panel = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        appRelayoutCheck = new UICheckBox(Inter.getLocText("FR-Designer-App_ReLayout"), true);
+        appRelayoutCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-App_ReLayout"), true);
         appRelayoutCheck.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         panel.add(appRelayoutCheck);
@@ -51,7 +51,7 @@ public class BodyMobileDefinePane extends MobileWidgetDefinePane {
         final JPanel panelWrapper = FRGUIPaneFactory.createBorderLayout_S_Pane();
         panelWrapper.add(panel, BorderLayout.NORTH);
 
-        return new UIExpandablePane(Inter.getLocText("FR-Designer_Properties_Mobile"), 280, 20, panelWrapper);
+        return new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Properties_Mobile"), 280, 20, panelWrapper);
     }
 
     // 控件顺序
@@ -61,7 +61,7 @@ public class BodyMobileDefinePane extends MobileWidgetDefinePane {
         JPanel panelWrapper = FRGUIPaneFactory.createBorderLayout_S_Pane();
         panelWrapper.add(mobileWidgetListPane, BorderLayout.CENTER);
 
-        return new UIExpandablePane(Inter.getLocText("FR-Designer_WidgetOrder"), 280, 20, panelWrapper);
+        return new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WidgetOrder"), 280, 20, panelWrapper);
     }
 
     private void bindListeners2Widgets() {

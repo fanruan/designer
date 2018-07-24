@@ -1,6 +1,6 @@
 package com.fr.van.chart.designer.component.format;
 
-import com.fr.general.Inter;
+
 import com.fr.van.chart.designer.style.VanChartStylePane;
 
 import javax.swing.JPanel;
@@ -18,6 +18,6 @@ public class CategoryNameFormatPaneWithCheckBox extends VanChartFormatPaneWithCh
 
     @Override
     protected String getCheckBoxText() {
-        return Inter.getLocText("Chart-Category_Name");
+        return com.fr.design.i18n.Toolkit.i18nText("Chart-Category_Name");
     }
 }

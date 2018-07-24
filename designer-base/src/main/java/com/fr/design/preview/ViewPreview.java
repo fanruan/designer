@@ -2,7 +2,7 @@ package com.fr.design.preview;
 
 import com.fr.base.io.IOFile;
 import com.fr.design.fun.impl.AbstractPreviewProvider;
-import com.fr.general.Inter;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +15,7 @@ import java.util.Map;
 public class ViewPreview extends AbstractPreviewProvider {
     @Override
     public String nameForPopupItem() {
-        return Inter.getLocText("M-Data_Analysis");
+        return com.fr.design.i18n.Toolkit.i18nText("M-Data_Analysis");
     }
 
     @Override

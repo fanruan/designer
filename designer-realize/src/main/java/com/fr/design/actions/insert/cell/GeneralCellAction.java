@@ -7,7 +7,7 @@ import com.fr.base.BaseUtils;
 import com.fr.design.actions.core.WorkBookSupportable;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.menu.MenuKeySet;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 
@@ -39,7 +39,7 @@ public class GeneralCellAction extends AbstractCellAction implements WorkBookSup
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M_Insert-Text");
+            return com.fr.design.i18n.Toolkit.i18nText("M_Insert-Text");
         }
 
         @Override

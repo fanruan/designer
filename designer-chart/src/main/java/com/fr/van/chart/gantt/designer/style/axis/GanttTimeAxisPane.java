@@ -5,7 +5,7 @@ import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.gantt.VanChartGanttPlot;
 import com.fr.plugin.chart.gantt.attr.GanttTimeAxis;
 import com.fr.plugin.chart.type.ZoomLevel;
@@ -57,19 +57,19 @@ public class GanttTimeAxisPane extends AbstractVanChartScrollPane<VanChart> {
     private Component createDownHeadPane() {
         downHeadPane = new GanttAxisStylePane();
 
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Down_Head_Table"),downHeadPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Down_Head_Table"),downHeadPane);
     }
 
     private Component createUpHeadPane() {
         upHeadPane = new GanttAxisStylePane();
 
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Up_Head_Table"),upHeadPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Up_Head_Table"),upHeadPane);
     }
 
     private Component createConditionConfigPane() {
-        timeZoom = new UIButtonGroup(new String[]{Inter.getLocText("Plugin-ChartF_Open"), Inter.getLocText("Plugin-ChartF_Close")});
+        timeZoom = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Open"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Close")});
         initialLevel = new UIComboBox(ZOOM_LEVELS);
-        weekendTooltip = new UIButtonGroup(new String[]{Inter.getLocText("Plugin-ChartF_Open"), Inter.getLocText("Plugin-ChartF_Close")});
+        weekendTooltip = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Open"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Close")});
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
@@ -79,14 +79,14 @@ public class GanttTimeAxisPane extends AbstractVanChartScrollPane<VanChart> {
 
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Time_Zoom")), timeZoom},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Initial_Level")), initialLevel},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Weekend_Tooltip")), weekendTooltip}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Time_Zoom")), timeZoom},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Initial_Level")), initialLevel},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Weekend_Tooltip")), weekendTooltip}
         };
 
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
 
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Condition_Config"),panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Condition_Config"),panel);
     }
 
     @Override
@@ -118,6 +118,6 @@ public class GanttTimeAxisPane extends AbstractVanChartScrollPane<VanChart> {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("Plugin-ChartF_Time_Axis");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Time_Axis");
     }
 }

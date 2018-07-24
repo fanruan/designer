@@ -29,7 +29,7 @@ import com.fr.design.menu.SeparatorDef;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
-import com.fr.general.Inter;
+
 import com.fr.general.NameObject;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.injectable.PluginModule;
@@ -84,7 +84,7 @@ public class TableDataTreePane extends BasicTableDataTreePane {
         ToolTipManager.sharedInstance().registerComponent(dataTree);
         ToolTipManager.sharedInstance().setDismissDelay(3000);
         ToolTipManager.sharedInstance().setInitialDelay(0);
-        addMenuDef = new MenuDef(Inter.getLocText("FR-Action_Add"));
+        addMenuDef = new MenuDef(com.fr.design.i18n.Toolkit.i18nText("FR-Action_Add"));
         addMenuDef.setIconPath(IconPathConstants.ADD_POPMENU_ICON_PATH);
 
         createAddMenuDef();
@@ -162,7 +162,7 @@ public class TableDataTreePane extends BasicTableDataTreePane {
     protected void initbuttonGroup() {
 //        Icon[] iconArray = {BaseUtils.readIcon("/com/fr/design/images/data/datasource.png"), BaseUtils.readIcon("/com/fr/design/images/data/dock/serverdatabase.png")};
         final Integer[] modeArray = {TEMPLATE_TABLE_DATA, SERVER_TABLE_DATA};
-        String[] textArray = {Inter.getLocText(new String[]{"Template", "DS-TableData"}), Inter.getLocText("DS-Server_TableData")};
+        String[] textArray = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Tabledata_Source_Type_Template"), com.fr.design.i18n.Toolkit.i18nText("DS-Server_TableData")};
         buttonGroup = new UIHeadGroup(textArray) {
             public void tabChanged(int index) {
                 if (op != null) {
@@ -233,7 +233,7 @@ public class TableDataTreePane extends BasicTableDataTreePane {
 
     private class EditAction extends UpdateAction {
         public EditAction() {
-            this.setName(Inter.getLocText("FR-Designer_Edit"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit"));
             this.setMnemonic('E');
             this.setSmallIcon(BaseUtils.readIcon(IconPathConstants.TD_EDIT_ICON_PATH));
         }
@@ -250,7 +250,7 @@ public class TableDataTreePane extends BasicTableDataTreePane {
     private class RemoveAction extends UpdateAction {
 
         public RemoveAction() {
-            this.setName(Inter.getLocText("FR-Designer_Remove"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Remove"));
             this.setMnemonic('R');
             this.setSmallIcon(BaseUtils.readIcon(IconPathConstants.TD_REMOVE_ICON_PATH));
         }
@@ -263,8 +263,8 @@ public class TableDataTreePane extends BasicTableDataTreePane {
                 return;
             }
 
-            int returnVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("Utils-Are_you_sure_to_remove_the_selected_item") + ":" + selectedNO.getName() + "?",
-                    Inter.getLocText("FR-Designer_Remove"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+            int returnVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Utils-Are_you_sure_to_remove_the_selected_item") + ":" + selectedNO.getName() + "?",
+                    com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Remove"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (returnVal == JOptionPane.OK_OPTION) {
                 // richer:这个地方为什么要在DataSourceTree里面去remove呢？多此一举吧
                 op.removeAction(selectedNO.getName());

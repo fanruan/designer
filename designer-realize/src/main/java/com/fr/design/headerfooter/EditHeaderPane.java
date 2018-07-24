@@ -4,7 +4,7 @@
 package com.fr.design.headerfooter;
 
 import com.fr.page.ReportSettingsProvider;
-import com.fr.general.Inter;
+
 import com.fr.stable.unit.UNIT;
 
 /**
@@ -14,7 +14,7 @@ public class EditHeaderPane extends HeaderFooterPane {
 	
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("HF-Edit_Header");
+		return com.fr.design.i18n.Toolkit.i18nText("HF-Edit_Header");
 	}
 
 	public void populate(ReportSettingsProvider reportSettings) {

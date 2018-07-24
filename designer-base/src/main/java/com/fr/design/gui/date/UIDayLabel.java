@@ -6,7 +6,7 @@ import java.util.Date;
 
 import com.fr.design.gui.ilable.UILabel;
 
-import com.fr.general.Inter;
+
 
 public class UIDayLabel extends UILabel {
 
@@ -27,13 +27,13 @@ public class UIDayLabel extends UILabel {
 
     public UIDayLabel(Date date, boolean isSmallLabel) {
         setHorizontalAlignment(UILabel.CENTER);
-        setFont(new Font(Inter.getLocText("Song_TypeFace"), 0, 12));
+        setFont(new Font(com.fr.design.i18n.Toolkit.i18nText("Song_TypeFace"), 0, 12));
         this.date = date;
         setPreferredSize(new Dimension(30, 18));
         if (isSmallLabel) {
             setText(dayFormat.format(date));
         } else {
-            setText(Inter.getLocText("Today")+":" + dateFormat.format(new Date()));
+            setText(com.fr.design.i18n.Toolkit.i18nText("Today")+":" + dateFormat.format(new Date()));
         }
     }
 

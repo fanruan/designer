@@ -10,7 +10,7 @@ import com.fr.design.menu.MenuKeySet;
 import com.fr.design.report.mobile.ReportMobileAttrPane;
 import com.fr.file.FILE;
 import com.fr.general.IOUtils;
-import com.fr.general.Inter;
+
 import com.fr.main.TemplateWorkBook;
 import com.fr.report.mobile.ElementCaseMobileAttr;
 
@@ -78,7 +78,7 @@ public class ReportMobileAttrAction extends JWorkBookAction{
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("FR-Designer_Mobile-Attr");
+            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Mobile-Attr");
         }
 
         @Override

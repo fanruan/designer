@@ -15,7 +15,7 @@ import com.fr.design.utils.DesignUtils;
 import com.fr.env.EnvListPane;
 import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
-import com.fr.general.Inter;
+
 import com.fr.stable.EnvChangedListener;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.WorkContextCallback;
@@ -95,7 +95,7 @@ public class TemplatePane extends JPanel implements MouseListener {
         editButton.setBorder(BorderFactory.createEmptyBorder(2, 0, 0, 10));
         editButton.setMargin(null);
         editButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        editButton.setToolTipText(Inter.getLocText("Env-Configure_Workspace"));
+        editButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Env-Configure_Workspace"));
         this.add(new UILabel("   "), BorderLayout.WEST);
         this.add(editButton, BorderLayout.EAST);
         editButton.addActionListener(new ActionListener() {
@@ -136,7 +136,7 @@ public class TemplatePane extends JPanel implements MouseListener {
         try {
             Workspace workspace = DesignerWorkspaceGenerator.generate(selectedEnv);
             if (workspace == null) {
-                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText(new String[]{"FR-Designer_M-SwitchWorkspace", "Failed"}),
+                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Switch_Workspace_Failed"),
                         null, 0, UIManager.getIcon("OptionPane.errorIcon"));
                 return false;
             }
@@ -153,7 +153,7 @@ public class TemplatePane extends JPanel implements MouseListener {
             }
             setJLabel(selectedName);
         } catch (AuthException e) {
-            JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("Fine-Designer_Basic_Remote_Connect_Auth_Failed"),
+            JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Basic_Remote_Connect_Auth_Failed"),
                     null, 0, UIManager.getIcon("OptionPane.errorIcon"));
             return false;
         }

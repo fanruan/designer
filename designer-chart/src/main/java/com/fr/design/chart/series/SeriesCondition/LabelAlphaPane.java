@@ -6,7 +6,7 @@ import com.fr.design.condition.ConditionAttrSingleConditionPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.frpane.UINumberDragPane;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,8 +30,8 @@ public class LabelAlphaPane extends ConditionAttrSingleConditionPane<DataSeriesC
     public LabelAlphaPane(ConditionAttributesPane conditionAttributesPane) {
         super(conditionAttributesPane, true);
 
-        nameLabel = new UILabel(Inter.getLocText("ChartF-Alpha"));
-        UILabel label = new UILabel(Inter.getLocText("ChartF-Alpha") + ":");
+        nameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("ChartF-Alpha"));
+        UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("ChartF-Alpha") + ":");
         alphaPane = new UINumberDragPane(0, ALPHASIZE);
 
         JPanel panel = new JPanel(new BorderLayout());
@@ -46,7 +46,7 @@ public class LabelAlphaPane extends ConditionAttrSingleConditionPane<DataSeriesC
 
     @Override
     public String nameForPopupMenuItem() {
-        return Inter.getLocText("ChartF-Alpha");
+        return com.fr.design.i18n.Toolkit.i18nText("ChartF-Alpha");
     }
 
     @Override

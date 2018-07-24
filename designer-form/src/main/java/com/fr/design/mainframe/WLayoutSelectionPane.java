@@ -20,7 +20,7 @@ import javax.swing.JToolTip;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.Inter;
+
 import com.fr.stable.Constants;
 import com.fr.base.GraphHelper;
 import com.fr.design.gui.itooltip.MultiLineToolTip;
@@ -41,15 +41,15 @@ public class WLayoutSelectionPane extends BasicPane {
     private KindPane currentKindPane;
 
     public WLayoutSelectionPane() {
-        this.setBorder(BorderFactory.createTitledBorder(Inter.getLocText("Form-Please_Select_A_Kind_Of_Form_Container") + ":"));
+        this.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Form-Please_Select_A_Kind_Of_Form_Container") + ":"));
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
 
         Component[][] coms = {
-            {createTypeLabel(Inter.getLocText("BorderLayout")), new   
+            {createTypeLabel(com.fr.design.i18n.Toolkit.i18nText("BorderLayout")), new
             	BorderLayoutPane()},
-            {createTypeLabel(Inter.getLocText("GridLayout")), new GridLayoutPane()},
-            {createTypeLabel(Inter.getLocText("CardLayout")), new CardLayoutPane()},
-            {createTypeLabel(Inter.getLocText("Form-NullLayout")), new AbsoluteLayoutPane()}};
+            {createTypeLabel(com.fr.design.i18n.Toolkit.i18nText("GridLayout")), new GridLayoutPane()},
+            {createTypeLabel(com.fr.design.i18n.Toolkit.i18nText("CardLayout")), new CardLayoutPane()},
+            {createTypeLabel(com.fr.design.i18n.Toolkit.i18nText("Form-NullLayout")), new AbsoluteLayoutPane()}};
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] rowSize = {p, p, p, p, p};
@@ -65,7 +65,7 @@ public class WLayoutSelectionPane extends BasicPane {
     
     @Override
     protected String title4PopupWindow() {
-    	return Inter.getLocText("Widget-Form_Widget_Container");
+    	return com.fr.design.i18n.Toolkit.i18nText("Widget-Form_Widget_Container");
     }
 
     @Override
@@ -78,11 +78,11 @@ public class WLayoutSelectionPane extends BasicPane {
         public BorderLayoutPane() {
             this.setLayout(new /* */ GridLayout(1, 4, 5, 5));
             KindPane b1 = new KindPane("/com/fr/web/images/form/layout_border_nc.png", new WBorderLayout(0, 0, new String[]{WBorderLayout.NORTH, WBorderLayout.CENTER}));
-            b1.setToolTipText(Inter.getLocText("WLayout-Border-LayoutContainer"));
+            b1.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("WLayout-Border-LayoutContainer"));
             KindPane b2 = new KindPane("/com/fr/web/images/form/layout_border_ncw.png", new WBorderLayout(0, 0, new String[]{WBorderLayout.WEST, WBorderLayout.NORTH, WBorderLayout.CENTER}));
-            b2.setToolTipText(Inter.getLocText("WLayout-Border-ThreeContainer"));
+            b2.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("WLayout-Border-ThreeContainer"));
             KindPane b4 = new KindPane("/com/fr/web/images/form/layout_border_all.png", new WBorderLayout(0, 0));
-            b4.setToolTipText(Inter.getLocText("WLayout-Border-ToolTips"));
+            b4.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("WLayout-Border-ToolTips"));
             this.add(b1);
             this.add(b2);
             this.add(b4);
@@ -100,13 +100,13 @@ public class WLayoutSelectionPane extends BasicPane {
         public GridLayoutPane() {
             this.setLayout(new/**/ GridLayout(1, 4, 5, 5));
             KindPane b1 = new KindPane("/com/fr/web/images/form/layout_grid_2x2.png", new WGridLayout(2, 2, 0, 0));
-            b1.setToolTipText(Inter.getLocText(new String[]{"Two_Rows_Of_Two_Grid", "Layout_Container"}));
+            b1.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Layout_2x2"));
             KindPane b2 = new KindPane("/com/fr/web/images/form/layout_grid_2x3.png", new WGridLayout(2, 3, 0, 0));
-            b2.setToolTipText(Inter.getLocText(new String[]{"Two_Rows_Of_Three_Grid", "Layout_Container"}));
+            b2.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Layout_2x3"));
             KindPane b3 = new KindPane("/com/fr/web/images/form/layout_grid_3x2.png", new WGridLayout(3, 2, 0, 0));
-            b3.setToolTipText(Inter.getLocText(new String[]{"Three_Rows_Of_Two_Grid", "Layout_Container"}));
+            b3.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Layout_3x2"));
             KindPane b4 = new KindPane("/com/fr/web/images/form/layout_grid_3x3.png", new WGridLayout(3, 3, 0, 0));
-            b4.setToolTipText(Inter.getLocText(new String[]{"Three_Rows_Of_Three_Grid", "Layout_Container"}));
+            b4.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Layout_3x3"));
             this.add(b1);
             this.add(b2);
             this.add(b3);
@@ -124,7 +124,7 @@ public class WLayoutSelectionPane extends BasicPane {
         public CardLayoutPane() {
             this.setLayout(new /* */ GridLayout(1, 4, 5, 5));
             KindPane b1 = new KindPane("/com/fr/web/images/form/layout_absolute_big.png", new WCardLayout());
-            b1.setToolTipText(Inter.getLocText("WLayout-Card-ToolTip"));
+            b1.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("WLayout-Card-ToolTip"));
             this.add(b1);
             this.add(new UILabel());
             this.add(new UILabel());

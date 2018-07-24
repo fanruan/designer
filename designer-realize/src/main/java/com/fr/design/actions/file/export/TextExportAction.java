@@ -8,7 +8,7 @@ import com.fr.base.extension.FileExtension;
 import com.fr.design.mainframe.JWorkBook;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.file.filter.ChooseFileFilter;
-import com.fr.general.Inter;
+
 import com.fr.io.exporter.Exporter;
 import com.fr.io.exporter.TextExporter;
 
@@ -34,7 +34,7 @@ public class TextExportAction extends AbstractExportAction {
 
     @Override
     protected ChooseFileFilter getChooseFileFilter() {
-        return new ChooseFileFilter(FileExtension.TXT, Inter.getLocText("Export-Text"));
+        return new ChooseFileFilter(FileExtension.TXT, com.fr.design.i18n.Toolkit.i18nText("Export-Text"));
     }
 
     @Override

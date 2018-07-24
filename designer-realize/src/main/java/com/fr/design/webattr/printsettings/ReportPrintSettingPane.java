@@ -5,7 +5,7 @@ import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.Inter;
+
 import com.fr.report.core.ReportUtils;
 
 import javax.swing.BorderFactory;
@@ -22,8 +22,8 @@ import java.awt.event.ItemListener;
  */
 public class ReportPrintSettingPane extends BasicPane {
     private static final String[] CHOOSEITEM = new String[] {
-            Inter.getLocText("FR-Designer_I_Want_To_Set_Single"),
-            Inter.getLocText("FR-Designer_Using_Server_Report_View_Settings")
+            com.fr.design.i18n.Toolkit.i18nText("FR-Designer_I_Want_To_Set_Single"),
+            com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Using_Server_Report_View_Settings")
     };
     private static final int SINGLE_SET = 0;
     private static final int SERVER_SET = 1;
@@ -38,7 +38,7 @@ public class ReportPrintSettingPane extends BasicPane {
     private void initComponents() {
         chooseComboBox = new UIComboBox(CHOOSEITEM);
         chooseComboBox.addItemListener(itemListener);
-        UILabel belowSetLabel = new UILabel(Inter.getLocText("FR-Designer_Blow_set") + ":");
+        UILabel belowSetLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Blow_set") + ":");
         JPanel buttonPane = GUICoreUtils.createFlowPane(new Component[] {
                 belowSetLabel, chooseComboBox}, FlowLayout.LEFT, 0, 0);
         buttonPane.setBorder(BorderFactory.createEmptyBorder(10, 20, 0, 0));
@@ -96,6 +96,6 @@ public class ReportPrintSettingPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("FR-Designer_Print_Setting");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Print_Setting");
     }
 }

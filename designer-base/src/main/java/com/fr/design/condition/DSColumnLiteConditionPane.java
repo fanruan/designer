@@ -32,7 +32,7 @@ import com.fr.design.editor.ValueEditorPaneFactory;
 import com.fr.design.editor.editor.ColumnIndexEditor;
 import com.fr.design.editor.editor.ColumnNameEditor;
 import com.fr.design.editor.editor.Editor;
-import com.fr.general.Inter;
+
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
 
@@ -121,7 +121,7 @@ public class DSColumnLiteConditionPane extends LiteConditionPane<CommonCondition
 			keyColumnPane.setPreferredSize(new Dimension(175, keyColumnPane.getPreferredSize().height));
 			conditionOPComboBox.setPreferredSize(new Dimension(80, 20));
 			Component[][] components = {
-					{ new UILabel(Inter.getLocText("Utils-Available_Columns") + ":"), new UILabel(Inter.getLocText("FR-ConditionB_Operator") + ":"),
+					{ new UILabel(com.fr.design.i18n.Toolkit.i18nText("Utils-Available_Columns") + ":"), new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-ConditionB_Operator") + ":"),
 							new UILabel() }, { keyColumnPane, conditionOPComboBox, conditionValuePane } };
 
 			double p = TableLayout.PREFERRED;

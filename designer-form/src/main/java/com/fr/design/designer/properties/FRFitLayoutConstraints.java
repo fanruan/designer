@@ -13,7 +13,7 @@ import com.fr.design.utils.ComponentUtils;
 import com.fr.form.ui.PaddingMargin;
 import com.fr.form.ui.container.WFitLayout;
 import com.fr.form.ui.container.WLayout;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -47,7 +47,7 @@ public class FRFitLayoutConstraints implements ConstraintsGroupModel {
 
     @Override
     public String getGroupName() {
-        return Inter.getLocText("FR-Designer-Widget_Size");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget_Size");
     }
 
     @Override
@@ -70,9 +70,9 @@ public class FRFitLayoutConstraints implements ConstraintsGroupModel {
         if (column == 0) {
             switch (row) {
                 case 0:
-                    return Inter.getLocText("FR-Designer-Tree_Width");
+                    return com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Tree_Width");
                 default:
-                    return Inter.getLocText("FR-Designer-Tree_Height");
+                    return com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Tree_Height");
             }
         } else {
             switch (row) {
@@ -101,9 +101,9 @@ public class FRFitLayoutConstraints implements ConstraintsGroupModel {
                         return false;
                     }
                     if(bounds.width == rec.width - margin.getLeft() - margin.getRight()){
-                        JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Beyond_Bounds"));
+                        JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Beyond_Bounds"));
                     }else if(v < minWidth){
-                        JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Min_Width") + Integer.toString(minWidth));
+                        JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Min_Width") + Integer.toString(minWidth));
                         v = xCreator.getWidth();
                     }
                     difference = bounds.width - v;
@@ -114,9 +114,9 @@ public class FRFitLayoutConstraints implements ConstraintsGroupModel {
                         return false;
                     }
                     if(bounds.height == rec.height - margin.getTop() - margin.getBottom()){
-                        JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Beyond_Bounds"));
+                        JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Beyond_Bounds"));
                     }else if(v < minHeight){
-                        JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Min_Height") + Integer.toString(minHeight));
+                        JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Min_Height") + Integer.toString(minHeight));
                         v = xCreator.getHeight();
                     }
                     difference = bounds.height - v;

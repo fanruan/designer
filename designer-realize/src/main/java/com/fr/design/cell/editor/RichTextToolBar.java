@@ -20,7 +20,7 @@ import com.fr.design.report.RichTextEditingPane;
 import com.fr.design.report.RichTextPane;
 import com.fr.design.style.color.UIToolbarColorButton;
 import com.fr.general.FRFont;
-import com.fr.general.Inter;
+
 import com.fr.report.cell.cellattr.core.RichTextConverter;
 import com.fr.stable.Constants;
 import com.fr.stable.StableUtils;
@@ -85,7 +85,7 @@ public class RichTextToolBar extends BasicPane{
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("FR-Designer_font");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_font");
     }
 
     protected void initComponents() {
@@ -172,23 +172,23 @@ public class RichTextToolBar extends BasicPane{
     }
 
     private void initAllNames() {
-        fontNameComboBox.setGlobalName(Inter.getLocText("FR-Designer_Font-Family"));
-        fontSizeComboBox.setGlobalName(Inter.getLocText("FR-Designer_Font-Size"));
-        italic.setGlobalName(Inter.getLocText("FR-Designer_italic"));
-        bold.setGlobalName(Inter.getLocText("FR-Designer_bold"));
-        underline.setGlobalName(Inter.getLocText("FR-Designer_Underline"));
-        superPane.setGlobalName(Inter.getLocText("FR-Designer_Superscript"));
-        subPane.setGlobalName(Inter.getLocText("FR-Designer_Subscript"));
+        fontNameComboBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Font-Family"));
+        fontSizeComboBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Font-Size"));
+        italic.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_italic"));
+        bold.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_bold"));
+        underline.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Underline"));
+        superPane.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Superscript"));
+        subPane.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Subscript"));
     }
 
     private void setToolTips() {
-        colorSelectPane.setToolTipText(Inter.getLocText("FR-Designer_Foreground"));
-        italic.setToolTipText(Inter.getLocText("FR-Designer_italic"));
-        bold.setToolTipText(Inter.getLocText("FR-Designer_bold"));
-        underline.setToolTipText(Inter.getLocText("FR-Designer_Underline"));
-        superPane.setToolTipText(Inter.getLocText("FR-Designer_Superscript"));
-        subPane.setToolTipText(Inter.getLocText("FR-Designer_Subscript"));
-        formulaPane.setToolTipText(Inter.getLocText("FR-Designer_Formula"));
+        colorSelectPane.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Foreground"));
+        italic.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_italic"));
+        bold.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_bold"));
+        underline.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Underline"));
+        superPane.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Superscript"));
+        subPane.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Subscript"));
+        formulaPane.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Formula"));
     }
     
     /**

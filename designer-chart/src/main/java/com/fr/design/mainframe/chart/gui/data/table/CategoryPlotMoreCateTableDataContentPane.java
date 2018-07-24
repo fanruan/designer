@@ -14,7 +14,7 @@ import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -58,7 +58,7 @@ public class CategoryPlotMoreCateTableDataContentPane extends CategoryPlotTableD
 
         JPanel categoryPane = new JPanel(new BorderLayout(4, 0));
         categoryPane.setBorder(BorderFactory.createMatteBorder(0, 0, 6, 1, getBackground()));
-        UILabel categoryLabel = new BoldFontTextLabel(Inter.getLocText("FR-Chart-Category_Name"));
+        UILabel categoryLabel = new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Category_Name"));
         categoryLabel.setPreferredSize(new Dimension(85,COMBOX_HEIGHT));
 
         addButton = new UIButton(BaseUtils.readIcon("/com/fr/design/images/buttonicon/add.png"));

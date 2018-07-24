@@ -19,7 +19,7 @@ import javax.swing.JSeparator;
 
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 
 /**
  * Wizard dialog.
@@ -104,25 +104,25 @@ public class JWizardDialog extends BasicDialog {
 		workArea.setLayout(cardLayout);
 
 		// Buttons
-		buttonBack = new UIButton(Inter.getLocText("Previous"));
+		buttonBack = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Previous"));
 		buttonBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				back();
 			}
 		});
-		buttonNext = new UIButton(Inter.getLocText("Next"));
+		buttonNext = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Next"));
 		buttonNext.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				next();
 			}
 		});
-		buttonFinish = new UIButton(Inter.getLocText("Finish"));
+		buttonFinish = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Finish"));
 		buttonFinish.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				finish();
 			}
 		});
-		buttonCancel = new UIButton(Inter.getLocText("Cancel"));
+		buttonCancel = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Cancel"));
 		buttonCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				cancel();

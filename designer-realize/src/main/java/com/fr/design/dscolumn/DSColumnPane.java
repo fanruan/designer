@@ -6,7 +6,7 @@ import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.ElementCasePane;
-import com.fr.general.Inter;
+
 import com.fr.report.cell.CellElement;
 import com.fr.report.cell.DefaultTemplateCellElement;
 import com.fr.report.cell.TemplateCellElement;
@@ -98,20 +98,20 @@ public class DSColumnPane extends BasicPane {
         //_denny: 数据列面板
         basicPane = new DSColumnBasicPane(setting);
         basicPane.addPropertyChangeListener("cellElement", myPropertyChangeListener);
-        tabbedPane.addTab(Inter.getLocText("Basic"), basicPane);
+        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Basic"), basicPane);
 
         conditionPane = new DSColumnConditionsPane(setting);
-        tabbedPane.addTab(Inter.getLocText("Filter"), conditionPane);
+        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Filter"), conditionPane);
 
         advancedPane = new DSColumnAdvancedPane(setting);
-        tabbedPane.addTab(Inter.getLocText("Advanced"), advancedPane);
+        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Advanced"), advancedPane);
 
         this.setPreferredSize(new Dimension(610, 400));
     }
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("ExpandD-Data_Column");
+        return com.fr.design.i18n.Toolkit.i18nText("ExpandD-Data_Column");
     }
 
     /**

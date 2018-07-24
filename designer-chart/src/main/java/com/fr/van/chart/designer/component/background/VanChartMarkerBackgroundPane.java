@@ -7,7 +7,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.backgroundpane.BackgroundQuickPane;
 import com.fr.design.mainframe.backgroundpane.ColorBackgroundQuickPane;
 import com.fr.design.mainframe.backgroundpane.NullBackgroundQuickPane;
-import com.fr.general.Inter;
+
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 
 import javax.swing.JPanel;
@@ -33,7 +33,7 @@ public class VanChartMarkerBackgroundPane extends VanChartBackgroundPane {
     protected Component[][] getPaneComponents() {
         return  new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Shape_Fill")), typeComboBox},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Shape_Fill")), typeComboBox},
                 new Component[]{null, centerPane},
         };
     }
@@ -42,7 +42,7 @@ public class VanChartMarkerBackgroundPane extends VanChartBackgroundPane {
         paneList.add(new NullBackgroundQuickPane(){
             @Override
             public String title4PopupWindow() {
-                return Inter.getLocText("Plugin-ChartF_SeriesColor");
+                return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_SeriesColor");
             }
 
         });

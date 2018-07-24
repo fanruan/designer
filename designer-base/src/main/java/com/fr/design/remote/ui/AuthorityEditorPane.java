@@ -8,14 +8,14 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.remote.ui.tree.FileAuthorityTree;
 import com.fr.file.filetree.FileNode;
 import com.fr.file.filetree.IOFileNodeFilter;
-import com.fr.general.Inter;
+
 import com.fr.report.DesignAuthority;
 import com.fr.stable.CoreConstants;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
 import javax.swing.border.EmptyBorder;
 import javax.swing.tree.TreePath;
-import java.awt.*;
+import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +31,7 @@ public class AuthorityEditorPane extends BasicBeanPane<DesignAuthority> {
                 BorderFactory.createCompoundBorder(
                         new EmptyBorder(6, 0, 6, 6),
                         UITitledBorder.createBorderWithTitle(
-                                Inter.getLocText("Fine-Designer_Remote_Design_Template_Authority_Config")
+                                com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Remote_Design_Template_Authority_Config")
                         )
                 )
         );
@@ -45,7 +45,7 @@ public class AuthorityEditorPane extends BasicBeanPane<DesignAuthority> {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("Fine-Designer_Remote_Design_Configure_Authority");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Remote_Design_Configure_Authority");
     }
 
     @Override

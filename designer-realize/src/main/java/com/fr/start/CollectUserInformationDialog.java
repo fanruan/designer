@@ -14,7 +14,7 @@ import com.fr.design.mainframe.ActiveKeyGenerator;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.CloudCenter;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.stable.OperatingSystem;
 
 import javax.swing.BorderFactory;
@@ -60,12 +60,12 @@ public class CollectUserInformationDialog extends UIDialog {
             String keyValue = CollectUserInformationDialog.this.getKey();
             String message;
             if (ActiveKeyGenerator.verify(keyValue, ONLINE_VERIFY_TIMEOUT)) {
-                message = Inter.getLocText("FR-Designer_Activate_Activated_Successfully");
+                message = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Activate_Activated_Successfully");
                 JOptionPane.showMessageDialog(CollectUserInformationDialog.this, message);
                 DesignerEnvManager.getEnvManager().setActivationKey(keyValue);
                 doOK();
             } else {
-                message = Inter.getLocText("FR-Designer_Activate_Activation_Code_Invalid");
+                message = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Activate_Activation_Code_Invalid");
                 JOptionPane.showMessageDialog(CollectUserInformationDialog.this, message);
             }
         }
@@ -90,14 +90,14 @@ public class CollectUserInformationDialog extends UIDialog {
         JPanel topPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         centPane.add(topPane, BorderLayout.NORTH);
         topPane.setBorder(BorderFactory.createTitledBorder(null,
-                Inter.getLocText("FR-Designer_Activate_Enter_Your_FR_Activation_Code"),
+                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Activate_Enter_Your_FR_Activation_Code"),
                 TitledBorder.LEADING, TitledBorder.TOP));
         JPanel keyPane = new JPanel(new BorderLayout(4, 4));
         keyPane.setBorder(BorderFactory.createEmptyBorder(32, 2, 32, 2));
         topPane.add(keyPane);
 
         UILabel activateCodeLabel = new UILabel();
-        activateCodeLabel.setText(Inter.getLocText("FR-Designer_Activate_FR_Activation_Code") + ":");
+        activateCodeLabel.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Activate_FR_Activation_Code") + ":");
         keyPane.add(activateCodeLabel, BorderLayout.WEST);
         keyTextField = new UITextField();
         keyPane.add(keyTextField, BorderLayout.CENTER);
@@ -105,7 +105,7 @@ public class CollectUserInformationDialog extends UIDialog {
         macSystemHit(keyPane);
 
         UIButton getKeyButton = new UIButton(
-                Inter.getLocText("FR-Designer_Activate_Get_FR_Activation_Code"));
+                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Activate_Get_FR_Activation_Code"));
         getKeyButton.setMnemonic('F');
         keyPane.add(getKeyButton, BorderLayout.EAST);
         getKeyButton.addActionListener(actionListener);
@@ -113,14 +113,14 @@ public class CollectUserInformationDialog extends UIDialog {
         DescriptionTextArea descriptionTextArea = new DescriptionTextArea();
         descriptionTextArea.setRows(5);
         descriptionTextArea.setBorder(
-                BorderFactory.createTitledBorder(Inter.getLocText("FR-Designer-Collect_Information_Description")));
-        descriptionTextArea.setText(Inter.getLocText("FR-Designer_Activate_FR_Activation_Code_Description"));
+                BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Collect_Information_Description")));
+        descriptionTextArea.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Activate_FR_Activation_Code_Description"));
         UIScrollPane scrollPane = new UIScrollPane(descriptionTextArea);
         scrollPane.setBorder(null);
         centPane.add(scrollPane, BorderLayout.CENTER);
         defaultPane.add(this.createControlButtonPane(), BorderLayout.SOUTH);
 
-        this.setTitle(Inter.getLocText("FR-Designer_Activate_Register_Product_For_Free"));
+        this.setTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Activate_Register_Product_For_Free"));
         this.setSize(480, 300);
         this.setModal(true);
         GUICoreUtils.centerWindow(this);
@@ -129,7 +129,7 @@ public class CollectUserInformationDialog extends UIDialog {
     private void macSystemHit(JPanel keyPane) {
         if (OperatingSystem.isMacOS()) {
             UITextArea macHit = new UITextArea();
-            macHit.setText(Inter.getLocText("FR-Designer-Collect_OSXTips"));
+            macHit.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Collect_OSXTips"));
             macHit.setEditable(false);
             keyPane.add(macHit, BorderLayout.SOUTH);
         }
@@ -175,11 +175,11 @@ public class CollectUserInformationDialog extends UIDialog {
         JPanel buttonsPane = FRGUIPaneFactory.createRightFlowInnerContainer_S_Pane();
         controlPane.add(buttonsPane, BorderLayout.EAST);
 
-        UIButton finishButton = new UIButton(Inter.getLocText("Collect-Use_Designer"));
+        UIButton finishButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Collect-Use_Designer"));
         finishButton.setMnemonic('F');
         buttonsPane.add(finishButton);
         finishButton.addActionListener(verifyActionListener);
-        UIButton exitButton = new UIButton(Inter.getLocText("Utils-Exit_Designer"));
+        UIButton exitButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Utils-Exit_Designer"));
         exitButton.setMnemonic('E');
         buttonsPane.add(exitButton);
         exitButton.addActionListener(new ActionListener() {

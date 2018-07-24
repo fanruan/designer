@@ -10,7 +10,7 @@ import com.fr.design.extra.exe.callback.UninstallPluginCallback;
 import com.fr.design.extra.exe.callback.UpdateFromDiskCallback;
 import com.fr.design.extra.exe.callback.UpdateOnlineCallback;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.general.Inter;
+
 import com.fr.general.CloudCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
@@ -94,8 +94,8 @@ public class PluginOperateUtils {
             public void run() {
                 int rv = JOptionPane.showConfirmDialog(
                         null,
-                        Inter.getLocText("FR-Plugin_Delete_Confirmed"),
-                        Inter.getLocText("FR-Designer-Plugin_Warning"),
+                        com.fr.design.i18n.Toolkit.i18nText("FR-Plugin_Delete_Confirmed"),
+                        com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"),
                         JOptionPane.OK_CANCEL_OPTION,
                         JOptionPane.INFORMATION_MESSAGE
                 );
@@ -169,7 +169,7 @@ public class PluginOperateUtils {
         String username = MarketConfig.getInstance().getBbsUsername();
         if (StringUtils.isEmpty(username)) {
             jsCallback.execute(StringUtils.EMPTY);
-            uiLabel.setText(Inter.getLocText("FR-Base_UnSignIn"));
+            uiLabel.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Base_UnSignIn"));
         } else {
             uiLabel.setText(username);
             String result = username;

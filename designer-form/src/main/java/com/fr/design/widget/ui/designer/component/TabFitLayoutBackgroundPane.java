@@ -5,7 +5,7 @@ import com.fr.design.mainframe.widget.accessibles.AccessibleTabBackgroundEditor;
 import com.fr.design.widget.component.BackgroundCompPane;
 import com.fr.form.ui.container.cardlayout.WTabFitLayout;
 import com.fr.general.Background;
-import com.fr.general.Inter;
+
 
 /**
  * Created by ibm on 2017/8/8.
@@ -25,7 +25,7 @@ public class TabFitLayoutBackgroundPane extends BackgroundCompPane<WTabFitLayout
 
     @Override
     protected UILabel getClickLabel(){
-        return new UILabel(Inter.getLocText("FR-Designer_Background_Select"));
+        return new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background_Select"));
     }
 
     @Override
@@ -62,7 +62,7 @@ public class TabFitLayoutBackgroundPane extends BackgroundCompPane<WTabFitLayout
     }
 
     protected UILabel createUILable(){
-        return new UILabel(Inter.getLocText("FR-Designer_Style"));
+        return new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Style"));
     }
 
     protected  String title4PopupWindow() {

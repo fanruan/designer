@@ -36,7 +36,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.*;
 import com.fr.design.selection.SelectionEvent;
 import com.fr.design.selection.SelectionListener;
-import com.fr.general.Inter;
+
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.FloatSelection;
 import com.fr.grid.selection.Selection;
@@ -89,11 +89,11 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
 		@Override
 		public NameableCreator[] createNameableCreators() {
 			return new NameableCreator[] {
-					new NameObjectCreator(Inter.getLocText(new String[]{"Submit", "Event"}),
+					new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Submit", "Event"}),
 							"/com/fr/web/images/reportlet.png",
 							DMLConfigJob.class,
 							SmartInsertDMLJobPane.class),
-					new NameObjectCreator(Inter.getLocText(new String[]{"Custom", "Event"}),
+					new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Custom", "Event"}),
 							"/com/fr/web/images/reportlet.png",
 							ClassSubmitJob.class,
 							CustomSubmitJobPane.class) };
@@ -114,7 +114,7 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
 
 	public class BatchModCellAction extends UpdateAction {
 		public BatchModCellAction() {
-			this.setName(Inter.getLocText("RWA-Batch_Modify_Cells"));
+			this.setName(com.fr.design.i18n.Toolkit.i18nText("RWA-Batch_Modify_Cells"));
 		}
 
 		/**
@@ -125,14 +125,14 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
 			BasicPane bPane = new BasicPane() {
 				@Override
 				protected String title4PopupWindow() {
-					return Inter.getLocText("RWA-Batch_Modify_Cells");
+					return com.fr.design.i18n.Toolkit.i18nText("RWA-Batch_Modify_Cells");
 				}
 			};
 			bPane.setLayout(FRGUIPaneFactory.createBorderLayout());
 			bPane.setBorder(BorderFactory.createEmptyBorder(TOP_PADDING, 0, 0, 0));
 			final UIBasicSpinner columnSpinner = new UIBasicSpinner();
 			final UIBasicSpinner rowSpinner = new UIBasicSpinner();
-			Component[][] coms = new Component[][] { { new UILabel(Inter.getLocText("RWA-Row_Offset")), rowSpinner },{ new UILabel(Inter.getLocText("RWA-Column_Offset")), columnSpinner } };
+			Component[][] coms = new Component[][] { { new UILabel(com.fr.design.i18n.Toolkit.i18nText("RWA-Row_Offset")), rowSpinner },{ new UILabel(com.fr.design.i18n.Toolkit.i18nText("RWA-Column_Offset")), columnSpinner } };
 			double p = TableLayout.PREFERRED;
 			double f = TableLayout.FILL;
 			bPane.add(TableLayoutHelper.createTableLayoutPane(coms, new double[]{p, p}, new double[]{p, f}), BorderLayout.NORTH);
@@ -175,7 +175,7 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
 
 	public class SmartAddCellAction extends UpdateAction {
 		public SmartAddCellAction() {
-			this.setName(Inter.getLocText("RWA-Smart_Add_Cells"));
+			this.setName(com.fr.design.i18n.Toolkit.i18nText("RWA-Smart_Add_Cells"));
 		}
 
 		/**
@@ -189,7 +189,7 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
 
 	public class SmartAddCellGroupAction extends UpdateAction {
 		public SmartAddCellGroupAction() {
-			this.setName(Inter.getLocText("RWA-Smart_Add_Cell_Group"));
+			this.setName(com.fr.design.i18n.Toolkit.i18nText("RWA-Smart_Add_Cell_Group"));
 		}
 
 		/**
@@ -282,7 +282,7 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
 				if (groupLength < 0) {
 					groupLength = len;
 				} else if (len != groupLength) {
-					throw new Exception(Inter.getLocText("Report-Write_Attributes_Group_Warning"));
+					throw new Exception(com.fr.design.i18n.Toolkit.i18nText("Report-Write_Attributes_Group_Warning"));
 				}
 			}
 		}
@@ -311,9 +311,9 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
 		@Override
 		protected String title4PopupWindow() {
 			if (isCellGroup) {
-				return Inter.getLocText("RWA-Smart_Add_Cell_Group");
+				return com.fr.design.i18n.Toolkit.i18nText("RWA-Smart_Add_Cell_Group");
 			} else {
-				return Inter.getLocText("RWA-Smart_Add_Cells");
+				return com.fr.design.i18n.Toolkit.i18nText("RWA-Smart_Add_Cells");
 			}
 		}
 
@@ -516,53 +516,17 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
 			}
 		}
 
-		private class ColumnRowGroupCellRenderer implements TableCellRenderer {
-
-			@Override
-			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-														   boolean hasFocus, int row, int column) {
-				JPanel pane = new JPanel();
-				UILabel text = new UILabel();
-
-				String tip = Inter.getLocText("FR-Designer_Double_Click_Edit_OR_Clear");
-
-				if (value instanceof ColumnValue) {
-					Object cv = ((ColumnValue) value).obj;
-					if (cv instanceof ColumnRowGroup && ((ColumnRowGroup)cv).getSize() >= CELL_GROUP_LIMIT) {
-						text.setText("[" + Inter.getLocText(new String[]{"Has_Selected", "Classifier-Ge", "Cell"},
-								new String[]{((ColumnRowGroup)cv).getSize()+StringUtils.EMPTY, StringUtils.EMPTY}) + "]");
-						tip = cv.toString() + " " + tip;
-					} else if (cv != null) {
-						text.setText(cv.toString());
-					} else {
-						text.setText(StringUtils.EMPTY);
-					}
-				}
-
-				if (row == SmartJTablePane4DB.this.editingRowIndex) {
-					pane.setBackground(java.awt.Color.cyan);
-				} else {
-					pane.setBackground(java.awt.Color.WHITE);
-				}
-
-				pane.setToolTipText(tip);
-				pane.add(text);
-
-				return pane;
-			}
-		}
-
 		private class ColumnRowGroupCellRenderer2 extends DefaultTableCellRenderer {
 			@Override
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 				super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
-				String tip = Inter.getLocText("FR-Designer_Double_Click_Edit_OR_Clear");
+				String tip = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Double_Click_Edit_OR_Clear");
 
 				if (value instanceof ColumnValue) {
 					Object cv = ((ColumnValue) value).obj;
 					if (cv instanceof ColumnRowGroup && ((ColumnRowGroup)cv).getSize() >= CELL_GROUP_LIMIT) {
-						this.setText("[" + Inter.getLocText(new String[]{"Has_Selected", "Classifier-Ge", "Cell"},
+						this.setText("[" + com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Has_Selected", "Classifier-Ge", "Cell"},
 								new String[]{((ColumnRowGroup)cv).getSize()+StringUtils.EMPTY, StringUtils.EMPTY}) + "]");
 						tip = cv.toString() + " " + tip;
 					} else if (cv != null) {

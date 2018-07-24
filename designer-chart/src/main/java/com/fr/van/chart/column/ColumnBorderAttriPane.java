@@ -3,7 +3,7 @@ package com.fr.van.chart.column;
 import com.fr.design.chart.comp.BorderAttriPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
-import com.fr.general.Inter;
+
 
 import java.awt.Dimension;
 
@@ -14,7 +14,7 @@ public class ColumnBorderAttriPane extends BorderAttriPane {
     private UISpinner radius;
 
     public ColumnBorderAttriPane() {
-        this(Inter.getLocText("plugin-ChartF_Radius"));
+        this(com.fr.design.i18n.Toolkit.i18nText("plugin-ChartF_Radius"));
     }
 
     public ColumnBorderAttriPane(String radiusString) {

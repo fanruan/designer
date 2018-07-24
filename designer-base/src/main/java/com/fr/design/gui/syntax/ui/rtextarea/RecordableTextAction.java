@@ -9,7 +9,7 @@
  */
 package com.fr.design.gui.syntax.ui.rtextarea;
 
-import com.fr.general.Inter;
+
 
 import java.awt.event.ActionEvent;
 import java.util.ResourceBundle;
@@ -258,9 +258,9 @@ public abstract class RecordableTextAction extends TextAction {
 	 *        property.
 	 */
 	public void setProperties(String keyRoot) {
-		setName(Inter.getLocText(keyRoot + ".Name"));
-		setMnemonic(Inter.getLocText(keyRoot + ".Mnemonic").charAt(0));
-		setShortDescription(Inter.getLocText(keyRoot + ".Desc"));
+		setName(com.fr.design.i18n.Toolkit.i18nText(keyRoot + ".Name"));
+		setMnemonic(com.fr.design.i18n.Toolkit.i18nText(keyRoot + ".Mnemonic").charAt(0));
+		setShortDescription(com.fr.design.i18n.Toolkit.i18nText(keyRoot + ".Desc"));
 	}
 
 

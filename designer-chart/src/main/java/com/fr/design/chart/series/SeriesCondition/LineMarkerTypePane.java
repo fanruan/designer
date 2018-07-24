@@ -7,7 +7,7 @@ import com.fr.design.condition.ConditionAttrSingleConditionPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.xcombox.MarkerComboBox;
-import com.fr.general.Inter;
+
 
 /**
 * @author richie
@@ -28,7 +28,7 @@ public class LineMarkerTypePane extends ConditionAttrSingleConditionPane<DataSer
     public LineMarkerTypePane(ConditionAttributesPane conditionAttributesPane, boolean isRemove) {
         super(conditionAttributesPane, isRemove);
 
-        nameLabel = new UILabel(Inter.getLocText(new String[]{"ChartF-Marker", "FS_Report_Type"}));
+        nameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"ChartF-Marker", "FS_Report_Type"}));
         markerBox = new MarkerComboBox(MarkerFactory.getMarkerArray());
 
         if (isRemove) {
@@ -39,7 +39,7 @@ public class LineMarkerTypePane extends ConditionAttrSingleConditionPane<DataSer
 
     @Override
     public String nameForPopupMenuItem() {
-        return Inter.getLocText(new String[]{"ChartF-Marker", "FS_Report_Type"});
+        return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"ChartF-Marker", "FS_Report_Type"});
     }
 
     @Override

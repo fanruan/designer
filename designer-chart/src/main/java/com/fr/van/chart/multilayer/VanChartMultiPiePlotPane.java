@@ -3,7 +3,7 @@ package com.fr.van.chart.multilayer;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.base.VanChartTools;
 import com.fr.plugin.chart.multilayer.MultiPieIndependentVanChart;
 import com.fr.plugin.chart.multilayer.VanChartMultiPiePlot;
@@ -14,7 +14,7 @@ import com.fr.van.chart.designer.type.AbstractVanChartTypePane;
  * Created by Fangjie on 2016/6/15.
  */
 public class VanChartMultiPiePlotPane extends AbstractVanChartTypePane {
-    public static final String TITLE = Inter.getLocText("Plugin-ChartF_NewMultiPie");
+    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewMultiPie");
     @Override
     protected String[] getTypeIconPath() {
         return new String[]{"/com/fr/van/chart/multilayer/image/multiPie.png"
@@ -24,7 +24,7 @@ public class VanChartMultiPiePlotPane extends AbstractVanChartTypePane {
     @Override
     protected String[] getTypeTipName() {
         return new String[]{
-                Inter.getLocText("Plugin-ChartF_MultiPieChart")
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_MultiPieChart")
         };
     }
 
@@ -35,7 +35,7 @@ public class VanChartMultiPiePlotPane extends AbstractVanChartTypePane {
 
     @Deprecated
     public String title4PopupWindow() {
-        return Inter.getLocText("Plugin-ChartF_NewMultiPie");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewMultiPie");
     }
 
     @Override

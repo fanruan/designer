@@ -5,7 +5,7 @@ import com.fr.chart.chartdata.TopDefinition;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.gantt.data.VanGanttReportDefinition;
 import com.fr.van.chart.gantt.designer.data.data.GanttDataPaneHelper;
 
@@ -25,7 +25,7 @@ public class GanttReportDataProjectPane extends AbstractReportDataContentPane im
     private List<TinyFormulaWithButtonPane> processPaneList = new ArrayList<TinyFormulaWithButtonPane>();
 
     public GanttReportDataProjectPane() {
-        firstProcessPane = new TinyFormulaWithButtonPane(Inter.getLocText("Plugin-ChartF_Project_Name"), "/com/fr/design/images/buttonicon/add.png") {
+        firstProcessPane = new TinyFormulaWithButtonPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Project_Name"), "/com/fr/design/images/buttonicon/add.png") {
             @Override
             protected void buttonEvent(TinyFormulaWithButtonPane pane) {
                 addProcessPane();
@@ -69,7 +69,7 @@ public class GanttReportDataProjectPane extends AbstractReportDataContentPane im
 
     private void addProcessPane() {
         int index = processPaneList.size();
-        String content = Inter.getLocText("Chart-Use_Items") + (index + 1);
+        String content = com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Items") + (index + 1);
         TinyFormulaWithButtonPane stepPane = createTinyFormulaWithButtonPane(content);
         stepPane.registerChangeListener(listener);
 

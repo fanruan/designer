@@ -18,7 +18,7 @@ import com.fr.design.gui.imenu.UIPopupEastAttrMenu;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
@@ -101,7 +101,7 @@ public class ValueEditorPane extends BasicPane implements UIObserver, GlobalName
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("FR-Designer_Values-Editor");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Values-Editor");
     }
 
     public Editor getCurrentEditor() {
@@ -153,7 +153,7 @@ public class ValueEditorPane extends BasicPane implements UIObserver, GlobalName
             item.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     if (globalNameListener != null) {
-                        globalNameListener.setGlobalName(Inter.getLocText("CellWrite-InsertRow_Policy"));
+                        globalNameListener.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("CellWrite-InsertRow_Policy"));
                     }
                     Object oldValue = currentEditor.getValue();
                     setCurrentEditor(j);
@@ -207,7 +207,7 @@ public class ValueEditorPane extends BasicPane implements UIObserver, GlobalName
         Object columnIndex = currentEditor.getValue();
         //bug86542,这边为啥要new一个公式出来，只保留content,其他属性全不要了?
         //MoMeak：我也想注释了，但是有bug啊。。。
-        if (columnIndex == null && ComparatorUtils.equals(name, Inter.getLocText("Formula"))) {
+        if (columnIndex == null && ComparatorUtils.equals(name, com.fr.design.i18n.Toolkit.i18nText("Formula"))) {
             columnIndex = ((FormulaEditor) currentEditor).getFormula();
         }
 
@@ -219,7 +219,7 @@ public class ValueEditorPane extends BasicPane implements UIObserver, GlobalName
         Object columnIndex = currentEditor.getValue();
         Object columnName = StringUtils.EMPTY;
 
-        if (ComparatorUtils.equals(name, Inter.getLocText("FR-Designer_Formula"))) {
+        if (ComparatorUtils.equals(name, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Formula"))) {
             columnIndex = BaseFormula.createFormulaBuilder().build(columnIndex == null ? "" : columnIndex.toString());
         }
 
@@ -235,7 +235,7 @@ public class ValueEditorPane extends BasicPane implements UIObserver, GlobalName
         Object columnIndex = currentEditor.getValue();
         Object columnName = StringUtils.EMPTY;
 
-        if (ComparatorUtils.equals(name, Inter.getLocText("FR-Designer_Formula"))) {
+        if (ComparatorUtils.equals(name, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Formula"))) {
             columnIndex = BaseFormula.createFormulaBuilder().build(columnIndex == null ? "" : columnIndex.toString());
         }
 
@@ -264,7 +264,7 @@ public class ValueEditorPane extends BasicPane implements UIObserver, GlobalName
         int i;
         boolean containFormulaType = false;
         for (i = 0; i < cards.length; i++) {
-            if (ComparatorUtils.equals(cards[i].getName(), Inter.getLocText("FR-Engine_Parameter-Formula"))) {
+            if (ComparatorUtils.equals(cards[i].getName(), com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Parameter-Formula"))) {
                 containFormulaType = true;
                 break;
             }
@@ -283,8 +283,8 @@ public class ValueEditorPane extends BasicPane implements UIObserver, GlobalName
             DesignerEnvManager designerEnvManager = DesignerEnvManager.getEnvManager();
             if (designerEnvManager.isSupportStringToFormula()) {
                 if (!designerEnvManager.isDefaultStringToFormula()) {
-                    int returnValue = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("FR-Designer_Edit_String_To_Formula")
-                            + "?", Inter.getLocText("FR-Designer_Tooltips"), JOptionPane.YES_NO_OPTION);
+                    int returnValue = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit_String_To_Formula")
+                            + "?", com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tooltips"), JOptionPane.YES_NO_OPTION);
                     if (returnValue == JOptionPane.OK_OPTION) {
 
                         setCurrentEditor(j);
