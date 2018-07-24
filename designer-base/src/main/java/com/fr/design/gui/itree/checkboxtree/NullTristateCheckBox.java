@@ -42,10 +42,7 @@ import javax.swing.Icon;
  * </code></pre>
  *
  * @see NullPanel
- * @see NullButton
- * @see NullJideButton
  * @see NullLabel
- * @see NullRadioButton
  */
 public class NullTristateCheckBox extends TristateCheckBox {
     public NullTristateCheckBox() {
@@ -63,7 +60,7 @@ public class NullTristateCheckBox extends TristateCheckBox {
         super(text, icon, initial);
     }
 
-//    @Override
+    @Override
     public void updateUI() {
         clearAttribute();
     }
@@ -72,5 +69,14 @@ public class NullTristateCheckBox extends TristateCheckBox {
         setFont(null);
         setBackground(null);
         setForeground(null);
+    }
+
+    @Override
+    protected State getNextState(State current) {
+        if (SELECTED.equals(current)) {
+            return NOT_SELECTED;
+        } else {
+            return SELECTED;
+        }
     }
 }

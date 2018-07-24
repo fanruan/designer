@@ -4,10 +4,15 @@ import com.fr.base.FRContext;
 import com.fr.base.extension.FileExtension;
 import com.fr.design.gui.itree.refreshabletree.ExpandMutableTreeNode;
 import com.fr.file.filetree.FileNode;
+import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
+import com.fr.report.DesignAuthority;
 import com.fr.stable.ArrayUtils;
+import com.fr.stable.CoreConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.project.ProjectConstants;
+import com.fr.workspace.WorkContext;
+import com.fr.workspace.server.authority.AuthorityOperator;
 
 import javax.swing.text.Position;
 import javax.swing.tree.DefaultTreeModel;
@@ -21,6 +26,11 @@ import java.util.List;
  */
 public class TemplateFileTree extends EnvFileTree {
 
+
+    /**
+     * 远程设计拥有全部权限的文件夹路径
+     */
+    private ArrayList<String> paths = new ArrayList<>();
 
     public TemplateFileTree() {
         super(ProjectConstants.REPORTLETS_NAME, null, null);
@@ -73,6 +83,7 @@ public class TemplateFileTree extends EnvFileTree {
         return selectedPathList.toArray(new String[0]);
     }
 
+    @Override
     public TreePath getNextMatch(String prefix, int startingRow, Position.Bias bias) {
 
         int max = getRowCount();
@@ -100,16 +111,45 @@ public class TemplateFileTree extends EnvFileTree {
         return null;
     }
 
-    public FileNode[] listFile(String path) throws Exception {
+    public FileNode[] listFile(String path) {
         return FRContext.getFileNodes().list(
                 path,
-                new FileExtension[]{FileExtension.CPT, FileExtension.FRM, FileExtension.CHT,FileExtension.XLS,FileExtension.XLSX});
+                new FileExtension[]{FileExtension.CPT, FileExtension.FRM, FileExtension.CHT, FileExtension.XLS, FileExtension.XLSX});
     }
 
     /*
      * 改变Env后,根据构造函数时设置的RootPaths,重新加载
      */
+    @Override
     public void refreshEnv() {
+        paths.clear();
+
+        if (!WorkContext.getCurrent().isLocal()) {
+            try {
+                String username = WorkContext.getConnector().currentUser();
+                // 远程设计获取全部设计成员的权限列表
+                DesignAuthority[] authorities = WorkContext.getCurrent().get(AuthorityOperator.class).getAuthorities();
+                DesignAuthority authority = null;
+
+                if (authorities != null) {
+                    for (DesignAuthority designAuthority : authorities) {
+                        if (ComparatorUtils.equals(designAuthority.getUsername(), username)) {
+                            authority = designAuthority;
+                        }
+                    }
+                }
+                if (authority != null) {
+                    for (DesignAuthority.Item item : authority.getItems()) {
+                        if (item.getType()) {
+                            paths.add(item.getPath());
+                        }
+                    }
+                }
+            } catch (Exception exception) {
+                FineLoggerFactory.getLogger().error(exception.getMessage(), exception);
+            }
+        }
+
 
         DefaultTreeModel defaultTreeModel = (DefaultTreeModel) this.getModel();
         ExpandMutableTreeNode rootTreeNode = (ExpandMutableTreeNode) defaultTreeModel.getRoot();
@@ -118,13 +158,13 @@ public class TemplateFileTree extends EnvFileTree {
         FileNode[] fns;
 
         // 如果rootPaths是null的话列出所有文件
-        if (subPathes == null) {
+        if (subPaths == null) {
             fns = listFileNodes(this.treeRootPath);
         } else {
             // 重新加载新的FileDirectoryNode
-            fns = new FileNode[subPathes.length];
-            for (int i = 0; i < subPathes.length; i++) {
-                fns[i] = new FileNode(StableUtils.pathJoin(this.treeRootPath, subPathes[i]), true);
+            fns = new FileNode[subPaths.length];
+            for (int i = 0; i < subPaths.length; i++) {
+                fns[i] = new FileNode(StableUtils.pathJoin(this.treeRootPath, subPaths[i]), true);
             }
         }
 
@@ -137,26 +177,68 @@ public class TemplateFileTree extends EnvFileTree {
         defaultTreeModel.reload(rootTreeNode);
     }
 
+    @Override
     protected ExpandMutableTreeNode[] loadChildTreeNodes(ExpandMutableTreeNode treeNode) {
-        FileNode[] fn_array = listFileNodes(treeNode);
+        FileNode[] fnArray = listFileNodes(treeNode);
 
-        return fileNodeArray2TreeNodeArray(fn_array);
+        return fileNodeArray2TreeNodeArray(fnArray);
     }
 
     /*
      * 把FileNode[]转成ExpandMutableTreeNode[]
      */
     private ExpandMutableTreeNode[] fileNodeArray2TreeNodeArray(FileNode[] fileNodes) {
+        boolean isLocal = WorkContext.getCurrent().isLocal();
         ExpandMutableTreeNode[] res = new ExpandMutableTreeNode[fileNodes.length];
         for (int i = 0; i < res.length; i++) {
             FileNode fn = fileNodes[i];
             res[i] = new ExpandMutableTreeNode(fn);
             if (fn.isDirectory()) {
                 res[i].add(new ExpandMutableTreeNode());
+                if (isLocal || WorkContext.getCurrent().isRoot()) {
+                    res[i].setFullAuthority(true);
+                } else {
+                    boolean hasFullAuthority = isContained(fn);
+                    res[i].setFullAuthority(hasFullAuthority);
+                }
             }
         }
 
         return res;
+    }
+
+    private boolean isContained(FileNode fileNode) {
+
+        for (String auPath : paths) {
+            if (isContained(auPath, fileNode)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isContained(String auPath, FileNode fileNode) {
+        auPath = ProjectConstants.REPORTLETS_NAME + CoreConstants.SEPARATOR + auPath;
+        String fileName = fileNode.getEnvPath();
+        String[] auPaths = auPath.split(CoreConstants.SEPARATOR);
+        String[] nodePaths = fileName.split(CoreConstants.SEPARATOR);
+
+        if (auPaths.length == nodePaths.length) {
+            for (int i = 0; i < auPaths.length; i++) {
+                if (!auPaths[i].equals(nodePaths[i])) {
+                    return false;
+                }
+            }
+            return fileNode.isDirectory();
+        } else {
+            int len = Math.min(auPaths.length, nodePaths.length);
+            for (int i = 0; i < len; i++) {
+                if (!auPaths[i].equals(nodePaths[i])) {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 
 

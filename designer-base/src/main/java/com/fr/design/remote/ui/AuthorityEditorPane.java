@@ -12,10 +12,10 @@ import com.fr.general.Inter;
 import com.fr.report.DesignAuthority;
 import com.fr.stable.CoreConstants;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
 import javax.swing.border.EmptyBorder;
 import javax.swing.tree.TreePath;
-import java.awt.*;
+import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.List;
 

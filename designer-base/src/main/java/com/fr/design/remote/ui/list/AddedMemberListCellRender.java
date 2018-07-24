@@ -24,7 +24,7 @@ public class AddedMemberListCellRender extends JPanel implements ListCellRendere
 
         label = new UILabel();
         label.setIcon(BaseUtils.readIcon("com/fr/design/remote/images/icon_Member_normal@1x.png"));
-        label.setPreferredSize(new Dimension(270, 20));
+        label.setPreferredSize(new Dimension(260, 20));
         this.setPreferredSize(new Dimension(this.getPreferredSize().width, 25));
 
         this.add(label);
