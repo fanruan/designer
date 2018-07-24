@@ -12,7 +12,7 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
-import com.fr.general.Inter;
+
 import com.fr.stable.StringUtils;
 import com.fr.design.utils.gui.GUICoreUtils;
 
@@ -37,12 +37,12 @@ public abstract class CustomJobPane  extends BasicBeanPane {
 		classNameTextField = new UITextField(getLengthOfTextField());
 		reportletNamePane.add(classNameTextField);
 
-		UIButton browserButton = new UIButton(Inter.getLocText("FR-Designer_Select"));
+		UIButton browserButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Select"));
 		browserButton.setPreferredSize(new Dimension(
 				GraphHelper.getLocTextWidth("FR-Designer_Select") + 20,
 				classNameTextField.getPreferredSize().height));
 
-        UIButton editButton = new UIButton(Inter.getLocText("FR-Designer_Edit"));
+        UIButton editButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit"));
         editButton.setPreferredSize(new Dimension(
 				GraphHelper.getLocTextWidth("FR-Designer_Edit") + 20,
                 classNameTextField.getPreferredSize().height));
@@ -85,18 +85,18 @@ public abstract class CustomJobPane  extends BasicBeanPane {
             }
         });
 
-		reportletNamePane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("FR-Designer_ClassName"), null));
+		reportletNamePane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_ClassName"), null));
 		this.add(reportletNamePane, BorderLayout.NORTH);
 
 		objectProperiesPane = new ObjectProperiesPane();
-		objectProperiesPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("FR-Designer_Property"), null));
+		objectProperiesPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Property"), null));
 		this.add(objectProperiesPane, BorderLayout.CENTER);
 
 		UITextArea area = new UITextArea(2, 1);
-		area.setText(Inter.getLocText(new String[]{"Come_True", "Interface"}) + ":com.fr.data.AbstractSubmitTask");
+		area.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Extend_Class", "com.fr.data.AbstractSubmitTask"));
 		JPanel dsPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		dsPane.add(area);
-		dsPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("FR-Designer_Custom_Job_Description"), null));
+		dsPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Custom_Job_Description"), null));
 		this.add(dsPane, BorderLayout.SOUTH);
 		checkAddButtonEnable();
 	}

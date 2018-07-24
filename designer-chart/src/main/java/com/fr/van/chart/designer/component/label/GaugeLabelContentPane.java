@@ -1,6 +1,6 @@
 package com.fr.van.chart.designer.component.label;
 
-import com.fr.general.Inter;
+
 import com.fr.van.chart.designer.component.VanChartLabelContentPane;
 import com.fr.van.chart.designer.style.VanChartStylePane;
 
@@ -16,7 +16,7 @@ public class GaugeLabelContentPane extends VanChartLabelContentPane {
     }
 
     protected String getLabelContentTitle() {
-        return Inter.getLocText("Plugin-ChartF_Content");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Content");
     }
 
     protected JPanel getLabelContentPane(JPanel contentPane) {

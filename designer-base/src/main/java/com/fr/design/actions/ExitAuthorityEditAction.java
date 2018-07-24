@@ -6,7 +6,7 @@ import com.fr.design.DesignModelAdapter;
 import com.fr.design.designer.TargetComponent;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.mainframe.*;
-import com.fr.general.Inter;
+
 
 /**
  * Author : daisy
@@ -17,7 +17,7 @@ public class ExitAuthorityEditAction extends TemplateComponentAction {
 
 	public ExitAuthorityEditAction(TargetComponent t) {
 		super(t);
-		this.setName(Inter.getLocText(new String[]{"Exit", "DashBoard-Potence", "Edit"}));
+		this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Authority_Edit_Status_Exit"));
 		this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_report/exit_authority_edit.png"));
 	}
 

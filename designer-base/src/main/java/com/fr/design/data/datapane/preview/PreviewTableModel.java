@@ -6,7 +6,7 @@ import com.fr.data.AbstractDataModel;
 import com.fr.data.impl.EmbeddedTableData.EmbeddedTDDataModel;
 import com.fr.data.impl.storeproc.ProcedureDataModel;
 import com.fr.design.utils.DesignUtils;
-import com.fr.general.Inter;
+
 import com.fr.general.data.DataModel;
 import com.fr.general.data.TableDataException;
 import com.fr.stable.StringUtils;
@@ -100,7 +100,7 @@ public class PreviewTableModel extends AbstractTableModel {
         } catch (TableDataException e) {
             FRContext.getLogger().error(e.getMessage(), e);
             DesignUtils.errorMessage(e.getMessage());
-            return Inter.getLocText("FR-Designer_Error");
+            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Error");
         }
     }
 
@@ -149,7 +149,7 @@ public class PreviewTableModel extends AbstractTableModel {
         }
 
         public String getColumnName(int column) {
-            return Inter.getLocText("FR-Designer_Error");
+            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Error");
         }
 
         public int getColumnCount() {
@@ -166,7 +166,7 @@ public class PreviewTableModel extends AbstractTableModel {
 
     private String checkType(int column) {
         if (dateIndexs.contain(column)) {
-            String s = Inter.getLocText("FR-Designer_Date");
+            String s = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Date");
             return ("(" + s + ")");
         }
 
@@ -187,25 +187,25 @@ public class PreviewTableModel extends AbstractTableModel {
         if (o == null) {
             s = "?";
         } else if (o instanceof String) {
-            s = Inter.getLocText("FR-Designer_Parameter_String");
+            s = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter_String");
             if (!WorkContext.getCurrent().isLocal() && dataModel instanceof EmbeddedTDDataModel) {
                 Class clzz = ((EmbeddedTDDataModel) dataModel).getColumnClass(column);
                 if (clzz != null) {
                     if (Number.class.isAssignableFrom(clzz)) {
-                    s = Inter.getLocText("FR-Designer_Number");//bigdecimal
+                    s = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Number");//bigdecimal
                     } else if (java.sql.Date.class.isAssignableFrom(clzz)) {
-                        s = Inter.getLocText("FR-Designer_Date");
+                        s = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Date");
                     }
                 }
             }
         } else if (o instanceof Integer) {
-            s = Inter.getLocText("FR-Designer_Integer");
+            s = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Integer");
         } else if (o instanceof Double || o instanceof Float) {
-            s = Inter.getLocText("FR-Designer_Double");
+            s = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Double");
         } else if (o instanceof java.sql.Date || o instanceof java.util.Date) {
-            s = Inter.getLocText("FR-Designer_Date");
+            s = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Date");
         } else if (o instanceof Number) {
-            s = Inter.getLocText("FR-Designer_Number");//bigdecimal
+            s = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Number");//bigdecimal
         } else {
             s = "?";
         }

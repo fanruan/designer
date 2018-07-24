@@ -7,7 +7,7 @@ import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.controlpane.UIListControlPane;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.general.GeneralContext;
-import com.fr.general.Inter;
+
 import com.fr.general.NameObject;
 import com.fr.js.JavaScript;
 import com.fr.js.NameJavaScript;
@@ -82,12 +82,12 @@ public abstract class HyperlinkGroupPane extends UIListControlPane {
      */
     @Override
     public String title4PopupWindow() {
-        return Inter.getLocText("FR-Designer_Hyperlink");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Hyperlink");
     }
 
     @Override
     protected String getAddItemText() {
-        return Inter.getLocText("FR-Designer_Add_Hyperlink");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Add_Hyperlink");
     }
 
     public void populate(NameJavaScriptGroup hyperlinkArray) {

@@ -10,7 +10,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.design.widget.ui.designer.component.FormWidgetValuePane;
 import com.fr.form.ui.DirectWriteEditor;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,7 +28,7 @@ public abstract class DirectWriteEditorDefinePane<T extends DirectWriteEditor> e
 	@Override
 	protected JPanel setFirstContentPane() {
 		JPanel advancePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-		UILabel widgetValueLabel = new UILabel(Inter.getLocText("FR-Designer-Estate_Widget_Value"));
+		UILabel widgetValueLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Estate_Widget_Value"));
 		widgetValueLabel.setVerticalAlignment(SwingConstants.TOP);
 		formWidgetValuePane = new FormWidgetValuePane(creator.toData(), false);
 		Component[] removeRepeatPane = new Component[]{createRepeatCheckBox(), null};
@@ -37,12 +37,12 @@ public abstract class DirectWriteEditorDefinePane<T extends DirectWriteEditor> e
 		double f = TableLayout.FILL;
 		double p = TableLayout.PREFERRED;
 		Component[][] components = new Component[][]{
-				new Component[]{new UILabel(Inter.getLocText("FR-Designer_Label_Name")), labelNameTextField},
+				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Label_Name")), labelNameTextField},
 				new Component[]{widgetValueLabel,  formWidgetValuePane },
 				dicPane,
 				removeRepeatPane,
 				waterMarkComponent,
-				new Component[]{new UILabel(Inter.getLocText("FR-Designer_Font-Size")), fontSizePane}
+				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Font-Size")), fontSizePane}
 		};
 		double[] rowSize = {p, p, p, p, p, p, p, p};
 		double[] columnSize = {p, f};
@@ -75,7 +75,7 @@ public abstract class DirectWriteEditorDefinePane<T extends DirectWriteEditor> e
 	}
 
 	public  JPanel setValidatePane(){
-        directWriteCheckBox = new UICheckBox(Inter.getLocText("Form-Allow_Edit"), false);
+        directWriteCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Form-Allow_Edit"), false);
 		directWriteCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         JPanel otherContentPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_S_Pane();
         otherContentPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));

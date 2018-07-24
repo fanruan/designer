@@ -6,7 +6,7 @@ import com.fr.design.mainframe.BaseJForm;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.menu.MenuKeySet;
-import com.fr.general.Inter;
+
 import com.fr.stable.bridge.StableFactory;
 
 import javax.swing.KeyStroke;
@@ -44,7 +44,7 @@ public class NewFormAction extends UpdateAction {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M-New_FormBook");
+            return com.fr.design.i18n.Toolkit.i18nText("M-New_FormBook");
         }
 
         @Override

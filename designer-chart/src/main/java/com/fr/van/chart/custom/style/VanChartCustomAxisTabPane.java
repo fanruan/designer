@@ -1,7 +1,7 @@
 package com.fr.van.chart.custom.style;
 
 import com.fr.design.dialog.BasicPane;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.attr.plot.VanChartAxisPlot;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.custom.CustomPlotFactory;
@@ -81,7 +81,7 @@ public class VanChartCustomAxisTabPane extends VanChartCustomPlotTabPane<VanChar
             JPanel pane = paneList.get(paneList.size() - 1);
 
             //获取点的tooltip作为标题
-            NameArray[paneList.size() - 1] = Inter.getLocText("Plugin-ChartF_Rectangular_Coordinate_System");
+            NameArray[paneList.size() - 1] = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Rectangular_Coordinate_System");
             centerPane.add(pane, NameArray[paneList.size() - 1]);
         }
     }

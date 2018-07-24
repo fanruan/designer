@@ -5,7 +5,7 @@ import com.fr.base.extension.FileExtension;
 import com.fr.design.mainframe.JWorkBook;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.file.filter.ChooseFileFilter;
-import com.fr.general.Inter;
+
 import com.fr.io.exporter.Exporter;
 import com.fr.io.exporter.PageToSheetExcelExporter;
 import com.fr.main.TemplateWorkBook;
@@ -30,7 +30,7 @@ public class PageToSheetExcelExportAction extends AbstractExcelExportAction {
 
     @Override
     protected ChooseFileFilter getChooseFileFilter() {
-        return new ChooseFileFilter(FileExtension.XLS, Inter.getLocText("Export-Excel"));
+        return new ChooseFileFilter(FileExtension.XLS, com.fr.design.i18n.Toolkit.i18nText("Export-Excel"));
     }
 
     @Override

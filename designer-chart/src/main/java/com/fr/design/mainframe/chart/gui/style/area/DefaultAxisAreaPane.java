@@ -6,7 +6,7 @@ import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.Inter;
+
 import com.fr.stable.Constants;
 import com.fr.design.style.color.ColorSelectBox;
 
@@ -55,8 +55,8 @@ public class DefaultAxisAreaPane extends ChartAxisAreaPane {
 		verticalColorPane = new ColorSelectBox(100);
 		
 		Component[][] components = new Component[][]{
-                new Component[]{new BoldFontTextLabel(Inter.getLocText("Utils-Left_to_Right") + ":"),horizontalColorPane},
-                new Component[]{new BoldFontTextLabel(Inter.getLocText("Utils-Top_to_Bottom") + ":"),verticalColorPane},
+                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Utils-Left_to_Right") + ":"),horizontalColorPane},
+                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Utils-Top_to_Bottom") + ":"),verticalColorPane},
         };
 		
 		backgroundPane = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Chart_Interval_Back"}, components, rowSize, columnSize);
@@ -69,12 +69,12 @@ public class DefaultAxisAreaPane extends ChartAxisAreaPane {
 		double[] rowSize = {p,p};
 		double[] columnSize = { p, f };
 		
-		isVerticleGridLine = new UICheckBox(Inter.getLocText("Utils-Left_to_Right"));
-		isHorizontalGridLine = new UICheckBox(Inter.getLocText("Utils-Top_to_Bottom"));
+		isVerticleGridLine = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Utils-Left_to_Right"));
+		isHorizontalGridLine = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Utils-Top_to_Bottom"));
 		gridColorPane = new ColorSelectBox(100);
 		
 		JPanel container = TableLayoutHelper.createTableLayoutPane(new Component[][]{
-				 new Component[]{new BoldFontTextLabel(Inter.getLocText("Color")),gridColorPane},}
+				 new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Color")),gridColorPane},}
 																					, rowSize, columnSize);
 		
 		Component[][] components = new Component[][]{

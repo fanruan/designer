@@ -5,7 +5,7 @@ import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.gui.frpane.CommitTabbedPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 import com.fr.js.Commit2DBJavaScript;
 import com.fr.write.DBManipulation;
 
@@ -94,7 +94,7 @@ public class Commit2DBJavaScriptPane extends FurtherBasicBeanPane<Commit2DBJavaS
      * @return 返回窗口名称
      */
 	public String title4PopupWindow() {
-		return Inter.getLocText("JavaScript-Commit_to_Database");
+		return com.fr.design.i18n.Toolkit.i18nText("JavaScript-Commit_to_Database");
 	}
 
 	/**

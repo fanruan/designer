@@ -6,7 +6,7 @@ import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrame;
 import com.fr.general.IOUtils;
-import com.fr.general.Inter;
+
 
 import java.awt.event.ActionEvent;
 
@@ -18,7 +18,7 @@ public class ChartEmptyDataStyleAction extends UpdateAction {
 
     public ChartEmptyDataStyleAction() {
         this.setSmallIcon(IOUtils.readIcon("com/fr/design/images/EmptyChart.png"));
-        this.setName(Inter.getLocText("FR-Designer_Chart_Empty_Data"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Chart_Empty_Data"));
     }
 
     @Override

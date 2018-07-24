@@ -3,7 +3,7 @@ package com.fr.design.extra;
 import com.fr.base.BaseUtils;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -98,7 +98,7 @@ public abstract class PluginAbstractLoadingViewPane<V, T> extends PluginAbstract
 
             @Override
             public String textForInstallButton() {
-                return Inter.getLocText("FR-Designer-Plugin_Install");
+                return com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Install");
             }
 
 

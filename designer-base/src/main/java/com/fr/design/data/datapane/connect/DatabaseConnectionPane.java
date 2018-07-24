@@ -13,7 +13,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.scrollruler.ModLineBorder;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.Inter;
+
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.EncodeConstants;
 
@@ -48,8 +48,8 @@ public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connecti
         newCharSetComboBox = new UIComboBox(EncodeConstants.ALL_ENCODING_ARRAY);
         message = new UILabel();
         uiLabel = new UILabel();
-        okButton = new UIButton(Inter.getLocText("OK"));
-        cancelButton = new UIButton(Inter.getLocText("Cancel"));
+        okButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("OK"));
+        cancelButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Cancel"));
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         JPanel northPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
         this.add(northPane, BorderLayout.NORTH);
@@ -57,7 +57,7 @@ public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connecti
         // 按钮.
         JPanel testPane = FRGUIPaneFactory.createNormalFlowInnerContainer_M_Pane();
         northPane.add(testPane, BorderLayout.NORTH);
-        UIButton testButton = new UIButton(Inter.getLocText("Datasource-Test_Connection"));
+        UIButton testButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Datasource-Test_Connection"));
         testPane.add(testButton);
         testButton.addActionListener(testConnectionActionListener);
         testPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 3, 4));
@@ -70,11 +70,11 @@ public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connecti
             northPane.add(chartSetPane);
             chartSetPane.setBorder(BorderFactory.createTitledBorder(
                     new ModLineBorder(ModLineBorder.TOP),
-                    Inter.getLocText("Datasource-Convert_Charset")
+                    com.fr.design.i18n.Toolkit.i18nText("Datasource-Convert_Charset")
             ));
 
-            chartSetPane.add(GUICoreUtils.createNamedPane(originalCharSetComboBox, Inter.getLocText("Datasource-Original_Charset") + ":"));
-            chartSetPane.add(GUICoreUtils.createNamedPane(newCharSetComboBox, Inter.getLocText("Datasource-New_Charset") + ":"));
+            chartSetPane.add(GUICoreUtils.createNamedPane(originalCharSetComboBox, com.fr.design.i18n.Toolkit.i18nText("Datasource-Original_Charset") + ":"));
+            chartSetPane.add(GUICoreUtils.createNamedPane(newCharSetComboBox, com.fr.design.i18n.Toolkit.i18nText("Datasource-New_Charset") + ":"));
         }
     }
 
@@ -163,11 +163,11 @@ public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connecti
 
     private void initDialogPane() {
 
-        message.setText(Inter.getLocText("Datasource-Test_Connection") + "...");
+        message.setText(com.fr.design.i18n.Toolkit.i18nText("Datasource-Test_Connection") + "...");
         message.setBorder(BorderFactory.createEmptyBorder(8, 5, 0, 0));
         okButton.setEnabled(false);
 
-        dialog = new JDialog((Dialog) SwingUtilities.getWindowAncestor(DatabaseConnectionPane.this), Inter.getLocText("Datasource-Test_Connection"), true);
+        dialog = new JDialog((Dialog) SwingUtilities.getWindowAncestor(DatabaseConnectionPane.this), com.fr.design.i18n.Toolkit.i18nText("Datasource-Test_Connection"), true);
         dialog.setSize(new Dimension(268, 118));
         okButton.setEnabled(false);
         JPanel jp = new JPanel();

@@ -10,7 +10,7 @@ import com.fr.design.gui.itree.refreshabletree.ExpandMutableTreeNode;
 import com.fr.design.parameter.ParameterGroup;
 import com.fr.file.TableDataConfig;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.script.Calculator;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.ParameterProvider;
@@ -144,19 +144,19 @@ public class ParameterTreeComboBox extends FRTreeComboBox {
 			// 报表参数
 			parameters = model.getReportParameters();
 			if (!ArrayUtils.isEmpty(parameters)) {
-				groupList.add(new ParameterGroup(Inter.getLocText("ParameterD-Report_Parameter"), parameters));
+				groupList.add(new ParameterGroup(com.fr.design.i18n.Toolkit.i18nText("ParameterD-Report_Parameter"), parameters));
 			}
 			// 数据源参数
 			parameters = model.getTableDataParameters();
 			if (!ArrayUtils.isEmpty(parameters)) {
-				groupList.add(new ParameterGroup(Inter.getLocText("FR-Designer_Datasource-Parameter"), parameters));
+				groupList.add(new ParameterGroup(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Datasource-Parameter"), parameters));
 			}
 		}
 		
 		// 全局参数
 		parameters = ParameterConfig.getInstance().getGlobalParameters();
 		if (!ArrayUtils.isEmpty(parameters)) {
-			groupList.add(new ParameterGroup(Inter.getLocText("M_Server-Global_Parameters"), parameters));
+			groupList.add(new ParameterGroup(com.fr.design.i18n.Toolkit.i18nText("M_Server-Global_Parameters"), parameters));
 		}
 		// 全局数据源参数
 		parameters = new Parameter[0];
@@ -171,7 +171,7 @@ public class ParameterTreeComboBox extends FRTreeComboBox {
 			}
 		}
 		if (!ArrayUtils.isEmpty(parameters)) {
-			groupList.add(new ParameterGroup(Inter.getLocText(new String[]{"Server", "Datasource-Datasource", "Parameter"}), parameters));
+			groupList.add(new ParameterGroup(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Server", "Datasource-Datasource", "Parameter"}), parameters));
 		}
 		return groupList.toArray(new ParameterGroup[0]);
 

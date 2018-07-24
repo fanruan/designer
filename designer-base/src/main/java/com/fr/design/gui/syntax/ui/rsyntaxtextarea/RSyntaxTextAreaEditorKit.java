@@ -24,7 +24,7 @@ import com.fr.design.gui.syntax.ui.rtextarea.IconRowHeader;
 import com.fr.design.gui.syntax.ui.rtextarea.RecordableTextAction;
 import com.fr.design.gui.syntax.ui.rtextarea.RTextArea;
 import com.fr.design.gui.syntax.ui.rtextarea.RTextAreaEditorKit;
-import com.fr.general.Inter;
+
 
 
 /**
@@ -160,7 +160,7 @@ public class RSyntaxTextAreaEditorKit extends RTextAreaEditorKit {
 	 * @return The localized text.
 	 */
 	public static String getString(String key) {
-		return Inter.getLocText(key);
+		return com.fr.design.i18n.Toolkit.i18nText(key);
 	}
 
 

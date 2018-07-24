@@ -1,6 +1,6 @@
 package com.fr.van.chart.multilayer.style;
 
-import com.fr.general.Inter;
+
 import com.fr.van.chart.designer.component.format.SeriesNameFormatPaneWithCheckBox;
 import com.fr.van.chart.designer.style.VanChartStylePane;
 
@@ -18,6 +18,6 @@ public class MultiPieSeriesNameFormatPaneWithCheckBox extends SeriesNameFormatPa
 
     @Override
     protected String getCheckBoxText() {
-        return Inter.getLocText("Plugin-ChartF_MultiPie_Series_Name");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_MultiPie_Series_Name");
     }
 }

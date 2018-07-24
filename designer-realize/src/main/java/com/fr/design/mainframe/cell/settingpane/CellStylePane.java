@@ -4,7 +4,7 @@ import com.fr.base.Style;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.mainframe.cell.settingpane.style.StylePane;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.Inter;
+
 import com.fr.report.cell.DefaultTemplateCellElement;
 import com.fr.report.cell.TemplateCellElement;
 import com.fr.report.elementcase.TemplateElementCase;
@@ -56,7 +56,7 @@ public class CellStylePane extends AbstractCellAttrPane {
     @Override
     public String getIconPath() {
 //		return "com/fr/design/images/m_format/cell.png";
-        return Inter.getLocText("FR-Designer_Style");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Style");
     }
 
 
@@ -121,7 +121,7 @@ public class CellStylePane extends AbstractCellAttrPane {
 
     @Override
     public String title4PopupWindow() {
-        return Inter.getLocText(Inter.getLocText("FR-Designer_Style"));
+        return com.fr.design.i18n.Toolkit.i18nText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Style"));
     }
 
     public void setSelectedByIds(int level, String... id) {

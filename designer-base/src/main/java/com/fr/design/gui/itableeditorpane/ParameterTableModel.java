@@ -5,7 +5,7 @@ import com.fr.design.editor.ValueEditorPane;
 import com.fr.design.editor.ValueEditorPaneFactory;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
-import com.fr.general.Inter;
+
 import com.fr.stable.ParameterProvider;
 import com.fr.stable.StringUtils;
 
@@ -35,7 +35,7 @@ public class ParameterTableModel extends UITableModelAdapter<ParameterProvider> 
 	}
 
 	public ParameterTableModel(int paraUseType) {
-		super(new String[] { Inter.getLocText("Parameter"), Inter.getLocText("Value") });
+		super(new String[] { com.fr.design.i18n.Toolkit.i18nText("Parameter"), com.fr.design.i18n.Toolkit.i18nText("Value") });
 		this.setColumnClass(new Class[] { ParameterEditor.class, ParameterValueEditor.class });
 		this.setDefaultEditor(ParameterValueEditor.class, new ParameterValueEditor(paraUseType));
 		this.setDefaultEditor(ParameterEditor.class, new ParameterEditor());
@@ -43,7 +43,7 @@ public class ParameterTableModel extends UITableModelAdapter<ParameterProvider> 
 	}
 	
 	public ParameterTableModel(int paraUseType, Component component) {
-		super(new String[] { Inter.getLocText("Parameter"), Inter.getLocText("Value") });
+		super(new String[] { com.fr.design.i18n.Toolkit.i18nText("Parameter"), com.fr.design.i18n.Toolkit.i18nText("Value") });
 		this.setColumnClass(new Class[] { ParameterEditor.class, ParameterValueEditor.class });
 		this.setDefaultEditor(ParameterValueEditor.class, new ParameterValueEditor(paraUseType));
 		this.setDefaultEditor(ParameterEditor.class, new ParameterEditor());
@@ -52,7 +52,7 @@ public class ParameterTableModel extends UITableModelAdapter<ParameterProvider> 
 	}
 
 	public ParameterTableModel(ValueEditorPane valueEditorPane, ValueEditorPane valueRenderPane, Component component) {
-		super(new String[] { Inter.getLocText("Parameter"), Inter.getLocText("Value") });
+		super(new String[] { com.fr.design.i18n.Toolkit.i18nText("Parameter"), com.fr.design.i18n.Toolkit.i18nText("Value") });
 		this.setColumnClass(new Class[] { ParameterEditor.class, ParameterValueEditor.class });
 		this.setDefaultEditor(ParameterValueEditor.class, new ParameterValueEditor(valueEditorPane));
 		this.setDefaultEditor(ParameterEditor.class, new ParameterEditor());
@@ -239,7 +239,7 @@ public class ParameterTableModel extends UITableModelAdapter<ParameterProvider> 
 		}
 
 		public ParameterValueRenderer(ValueEditorPane valueEditorPane) {
-			disableLable = new UILabel(Inter.getLocText("Set-Parameter-Name"));
+			disableLable = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Set-Parameter-Name"));
 			disableLable.setForeground(Color.pink);
 			disableLable.setHorizontalAlignment(SwingConstants.CENTER);
 

@@ -5,7 +5,7 @@ import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.icon.IconPathConstants;
 import com.fr.general.IOUtils;
-import com.fr.general.Inter;
+
 import com.fr.stable.Constants;
 
 import javax.swing.JPanel;
@@ -42,7 +42,7 @@ public class CoverPane extends JPanel {
         setBackground(null);
         setOpaque(false);
 
-        editButton = new UIButton(Inter.getLocText("Edit"), IOUtils.readIcon(IconPathConstants.EDIT_ICON_PATH)) {
+        editButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Edit"), IOUtils.readIcon(IconPathConstants.EDIT_ICON_PATH)) {
             @Override
             public Dimension getPreferredSize() {
                 return new Dimension(60, 24);

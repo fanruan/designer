@@ -6,7 +6,7 @@ import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.attr.radius.VanChartRadiusPlot;
 import com.fr.plugin.chart.base.VanChartRadius;
 import com.fr.plugin.chart.type.RadiusType;
@@ -40,7 +40,7 @@ public class RadiusCardLayoutPane extends BasicBeanPane<Plot> {
 
         Map<String, Component> paneList = new HashMap<String, Component>();
 
-        radiusType = new UIButtonGroup(new String[]{Inter.getLocText("Plugin-ChartF_Auto"), Inter.getLocText("Plugin-ChartF_Fixed")});
+        radiusType = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Auto"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Fixed")});
         radius = new UISpinner(MIN_RADIUS, MAX_RADIUS, 1, 100);
 
         radiusContent = new JPanel(new BorderLayout());

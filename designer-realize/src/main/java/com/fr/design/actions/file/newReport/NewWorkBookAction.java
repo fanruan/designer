@@ -5,7 +5,7 @@ import com.fr.design.actions.UpdateAction;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JWorkBook;
 import com.fr.design.menu.MenuKeySet;
-import com.fr.general.Inter;
+
 
 import javax.swing.Icon;
 import javax.swing.KeyStroke;
@@ -45,7 +45,7 @@ public class NewWorkBookAction extends UpdateAction {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M-New_WorkBook");
+            return com.fr.design.i18n.Toolkit.i18nText("M-New_WorkBook");
         }
 
         @Override

@@ -6,7 +6,7 @@ import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.frpane.HyperlinkGroupPane;
 import com.fr.design.gui.frpane.HyperlinkGroupPaneActionProvider;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.js.EmailJavaScript;
 
 public class FormHyperlinkGroupPane extends HyperlinkGroupPane {
@@ -33,8 +33,8 @@ public class FormHyperlinkGroupPane extends HyperlinkGroupPane {
     public NameableCreator[] createNameableCreators() {
         NameableCreator[] creators = super.createNameableCreators();
         for (int i = 0; i < creators.length; i++) {
-            if (ComparatorUtils.equals(creators[i].menuName(), Inter.getLocText("FR-Designer_Email"))) {
-                creators[i] = new NameObjectCreator(Inter.getLocText("FR-Designer_Email"), EmailJavaScript.class, FormEmailPane.class);
+            if (ComparatorUtils.equals(creators[i].menuName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Email"))) {
+                creators[i] = new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Email"), EmailJavaScript.class, FormEmailPane.class);
                 break;
             }
         }

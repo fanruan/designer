@@ -5,7 +5,7 @@ import com.fr.design.actions.insert.cell.SubReportCellAction;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.Inter;
+
 import com.fr.quickeditor.CellQuickEditor;
 
 import javax.swing.JComponent;
@@ -42,7 +42,7 @@ public class CellSubReportEditor extends CellQuickEditor {
     @Override
     protected void refreshDetails() {
         SubReportCellAction subReportCellAction = new SubReportCellAction(tc);
-        subReportCellAction.setName(Inter.getLocText("Edit"));
+        subReportCellAction.setName(com.fr.design.i18n.Toolkit.i18nText("Edit"));
         subReportCellAction.setSmallIcon(null);
         subReportButton.setAction(subReportCellAction);
     }

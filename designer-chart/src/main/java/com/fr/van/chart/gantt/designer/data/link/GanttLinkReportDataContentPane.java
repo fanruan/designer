@@ -7,7 +7,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.gantt.data.VanGanttLinkReportDefinition;
 import com.fr.van.chart.gantt.designer.data.data.GanttDataPaneHelper;
 
@@ -33,11 +33,11 @@ public class GanttLinkReportDataContentPane extends AbstractReportDataContentPan
         this.add(panel, BorderLayout.CENTER);    }
 
     private void initAllComponent() {
-        startTaskID = createTinyFormulaPaneWithTitle(Inter.getLocText("Plugin-ChartF_Start_Task_ID"));
+        startTaskID = createTinyFormulaPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Start_Task_ID"));
 
-        endTaskID = createTinyFormulaPaneWithTitle(Inter.getLocText("Plugin-ChartF_End_Task_ID"));
+        endTaskID = createTinyFormulaPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_End_Task_ID"));
 
-        linkType = createTinyFormulaPaneWithTitle(Inter.getLocText("Plugin-ChartF_Link_Type"));
+        linkType = createTinyFormulaPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Link_Type"));
     }
 
     private TinyFormulaPane createTinyFormulaPaneWithTitle(final String title) {

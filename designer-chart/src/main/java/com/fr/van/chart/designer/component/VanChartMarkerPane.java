@@ -3,7 +3,7 @@ package com.fr.van.chart.designer.component;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.base.VanChartAttrMarker;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 import com.fr.van.chart.designer.component.marker.VanChartCommonMarkerPane;
@@ -32,7 +32,7 @@ public class VanChartMarkerPane extends BasicPane {
     public VanChartMarkerPane() {
         this.setLayout(new BorderLayout(0, 4));
 
-        String[] array = new String[]{Inter.getLocText("Plugin-ChartF_Rule"), Inter.getLocText("Plugin-ChartF_Custom")};
+        String[] array = new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Rule"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Custom")};
         commonORCustom = new UIButtonGroup<String>(array, array);
 
         commonORCustom.addChangeListener(new ChangeListener() {
@@ -57,8 +57,8 @@ public class VanChartMarkerPane extends BasicPane {
                 }
             }
         };
-        centerPane.add(commonMarkerPane, Inter.getLocText("Plugin-ChartF_Rule"));
-        centerPane.add(imageMarkerPane, Inter.getLocText("Plugin-ChartF_Custom"));
+        centerPane.add(commonMarkerPane, com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Rule"));
+        centerPane.add(imageMarkerPane, com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Custom"));
 
         layoutComponents();
     }
@@ -86,7 +86,7 @@ public class VanChartMarkerPane extends BasicPane {
     }
 
     protected void layoutComponents() {
-        this.add(TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_Point_Style"), commonORCustom), BorderLayout.NORTH);
+        this.add(TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Point_Style"), commonORCustom), BorderLayout.NORTH);
         this.add(centerPane, BorderLayout.CENTER);
     }
 
@@ -99,7 +99,7 @@ public class VanChartMarkerPane extends BasicPane {
     }
 
     protected String title4PopupWindow(){
-        return Inter.getLocText("Plugin-ChartF_Marker");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Marker");
     }
 
     public void populate(VanChartAttrMarker marker) {

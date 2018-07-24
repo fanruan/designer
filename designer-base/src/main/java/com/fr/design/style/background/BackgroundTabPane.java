@@ -7,7 +7,7 @@ import com.fr.design.style.background.gradient.GradientBackgroundPane;
 import com.fr.design.style.background.impl.ColorBackgroundPane;
 import com.fr.design.style.background.impl.NullBackgroundPane;
 import com.fr.general.Background;
-import com.fr.general.Inter;
+
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -27,11 +27,11 @@ public class BackgroundTabPane extends BackgroundPane {
 
     private static void registerTabpaneBackground(Map<Class<? extends Background>, BackgroundUIWrapper> map) {
         map.put(null, BackgroundUIWrapper.create()
-                .setType(NullBackgroundPane.class).setTitle(Inter.getLocText("FR-Designer_Background_Null")));
+                .setType(NullBackgroundPane.class).setTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background_Null")));
         map.put(ColorBackground.class, BackgroundUIWrapper.create()
-                .setType(ColorBackgroundPane.class).setTitle(Inter.getLocText("FR-Designer_Background_Color")));
+                .setType(ColorBackgroundPane.class).setTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background_Color")));
         map.put(GradientBackground.class, BackgroundUIWrapper.create()
-                .setType(GradientBackgroundPane.class).setTitle(Inter.getLocText("FR-Designer_Background_Gradient_Color")));
+                .setType(GradientBackgroundPane.class).setTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background_Gradient_Color")));
 
     }
 
@@ -44,7 +44,7 @@ public class BackgroundTabPane extends BackgroundPane {
         for (Class<? extends Background> key : tabpane.keySet()) {
             BackgroundUIWrapper wrapper = tabpane.get(key);
             wrapper.setIndex(index++);
-            tabbedPane.addTab(Inter.getLocText(wrapper.getTitle()), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
+            tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText(wrapper.getTitle()), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
         }
     }
 

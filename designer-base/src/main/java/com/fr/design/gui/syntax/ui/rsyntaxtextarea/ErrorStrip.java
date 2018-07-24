@@ -36,7 +36,7 @@ import com.fr.design.gui.syntax.ui.rsyntaxtextarea.parser.Parser;
 import com.fr.design.gui.syntax.ui.rsyntaxtextarea.parser.ParserNotice;
 import com.fr.design.gui.syntax.ui.rsyntaxtextarea.parser.TaskTagParser.TaskNotice;
 import com.fr.design.gui.syntax.ui.rtextarea.RTextArea;
-import com.fr.general.Inter;
+
 
 
 /**
@@ -288,7 +288,7 @@ public class ErrorStrip extends JComponent {
 		String text = null;
 		int line = yToLine(e.getY());
 		if (line>-1) {
-			text = Inter.getLocText("Line");
+			text = com.fr.design.i18n.Toolkit.i18nText("Line");
 			text = MessageFormat.format(text, Integer.valueOf(line+1));
 		}
 		return text;
@@ -674,7 +674,7 @@ public class ErrorStrip extends JComponent {
 			try {
 				String word = textArea.getText(range.getStartOffset(),
 												getLength());
-				text = Inter.getLocText("OccurrenceOf");
+				text = com.fr.design.i18n.Toolkit.i18nText("OccurrenceOf");
 				text = MessageFormat.format(text, word);
 			} catch (BadLocationException ble) {
 				UIManager.getLookAndFeel().provideErrorFeedback(textArea);
@@ -765,7 +765,7 @@ public class ErrorStrip extends JComponent {
 			}
 			else { // > 1
 				StringBuilder sb = new StringBuilder("<html>");
-				sb.append(Inter.getLocText("MultipleMarkers"));
+				sb.append(com.fr.design.i18n.Toolkit.i18nText("MultipleMarkers"));
 				sb.append("<br>");
 				for (int i=0; i<notices.size(); i++) {
 					ParserNotice pn = notices.get(i);

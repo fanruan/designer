@@ -10,7 +10,7 @@ import com.fr.form.ui.LayoutBorderStyle;
 import com.fr.form.ui.WidgetTitle;
 import com.fr.general.Background;
 import com.fr.general.FRFont;
-import com.fr.general.Inter;
+
 import com.fr.stable.Constants;
 
 import javax.swing.JPanel;
@@ -160,12 +160,12 @@ public class LayoutBorderPreviewPane extends JPanel{
 
         private void drawTabBack(Graphics2D g2d, Graphics g, WidgetTitle title, FontMetrics fm, int startX1, int startY){
         	Dimension d = getSize();
-        	String paintText = Inter.getLocText("FR-Designer_Title")+TAB_ZERO;
+        	String paintText = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Title")+TAB_ZERO;
 
             Background rightBack = ColorBackground.getInstance(XCardSwitchButton.CHOOSED_GRAL);
             Shape right = new Double(this.getWidth()/2, 0, this.getWidth()/2, this.getHeight());
             rightBack.paint(g, right);
-            String rightLabel = Inter.getLocText("FR-Designer_Title")+TAB_ONE;
+            String rightLabel = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Title")+TAB_ONE;
             GraphHelper.drawString(g2d, rightLabel, (d.width/2 - fm.stringWidth(paintText)) / 2+d.width/2, startY);
             Background background = title.getBackground();
             if (background != null) {

@@ -1,6 +1,6 @@
 package com.fr.design.chart.series.SeriesCondition;
 
-import com.fr.general.Inter;
+
 import com.fr.general.NameObject;
 import com.fr.stable.Nameable;
 import com.fr.chart.chartattr.Plot;
@@ -37,13 +37,13 @@ public class DataSeriesAttrPane extends JListControlPane {
     @Override
     public NameableCreator[] createNameableCreators() {
         return new NameableCreator[]{
-                new NameObjectCreator(Inter.getLocText("Condition_Attributes"), ConditionAttr.class, DataSeriesConditionPaneFactory.findConfitionPane4DataSeries(plot))
+                new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Condition_Attributes"), ConditionAttr.class, DataSeriesConditionPaneFactory.findConfitionPane4DataSeries(plot))
         };
     }
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText(new String[]{"Condition", "Display"});
+        return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Condition", "Display"});
     }
 
     public void populate(Plot plot) {

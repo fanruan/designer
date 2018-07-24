@@ -14,7 +14,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.form.ui.LayoutBorderStyle;
-import com.fr.general.Inter;
+
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
@@ -45,13 +45,13 @@ public class CardTagLayoutBorderPane extends LayoutBorderPane {
         double[] columnSize = { p, f};
 
         JPanel rightBottomContentPane = TableLayoutHelper.createCommonTableLayoutPane( new JComponent[][]{
-                {new UILabel(Inter.getLocText("FR-Designer-Widget-Style_Title_Format")), fontSizeTypePane},
+                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget-Style_Title_Format")), fontSizeTypePane},
                 {new UILabel(""), initFontButtonPane()},
-                {new UILabel(Inter.getLocText("FR-Designer-Widget-Style_Title_Background")), this.getTitleBackgroundPane()},
+                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget-Style_Title_Background")), this.getTitleBackgroundPane()},
         }, rowSize, columnSize, 10);
         rightBottomContentPane.setBorder(BorderFactory.createEmptyBorder(15, 12, 10, 12));
         this.setTitlePane(new UIScrollPane(rightBottomContentPane));
-        this.getTitlePane().setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("FR-Designer-Widget-Style_Title"),null));
+        this.getTitlePane().setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget-Style_Title"),null));
         this.getTitlePane().setVisible(false);
         return this.getTitlePane();
     }
@@ -66,7 +66,7 @@ public class CardTagLayoutBorderPane extends LayoutBorderPane {
 
 	        JPanel centerPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 	        defaultPane.add(centerPane, BorderLayout.CENTER);
-	        centerPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("FR-Designer-Widget-Style_Preview"), null));
+	        centerPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget-Style_Preview"), null));
 
 	        JPanel borderPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 	        centerPane.add(borderPane, BorderLayout.CENTER);

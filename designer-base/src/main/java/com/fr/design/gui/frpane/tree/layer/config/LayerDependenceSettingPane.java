@@ -6,7 +6,7 @@ import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.present.dict.TableDataDictPane;
 import com.fr.form.ui.tree.LayerDependence;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
@@ -69,8 +69,8 @@ public class LayerDependenceSettingPane extends JPanel implements ItemListener {
         tableDataDictPane.tableDataNameComboBox.addItemListener(this);
 
         //初始化按钮对象
-        addButton = new UIButton(Inter.getLocText("add"));
-        delButton = new UIButton(Inter.getLocText("Delete"));
+        addButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("add"));
+        delButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Delete"));
         //初始化Table对象,并添加renderer和editor
         model = new LayerDepenceTableModel();
         dependenceTable = new JTable();
@@ -392,9 +392,9 @@ public class LayerDependenceSettingPane extends JPanel implements ItemListener {
 
             String name;
             if (column == 0) {
-                name = Inter.getLocText("FR-Designer_layerIndex");
+                name = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_layerIndex");
             } else {
-                name = Inter.getLocText("FR-Designer_filedChosen");
+                name = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_filedChosen");
             }
             return name;
         }

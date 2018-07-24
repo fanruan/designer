@@ -16,7 +16,7 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 import com.fr.script.Calculator;
 import com.fr.stable.StringUtils;
 
@@ -53,7 +53,7 @@ public class TreeTableDataDictPane extends BasicPane implements Previewable {
     public TreeTableDataDictPane(String treeName) {
         this.setLayout(new BorderLayout(5, 30));
         this.setBorder(BorderFactory.createEmptyBorder(20, 20, 0, 0));
-        selectTableDataLabel = new UILabel(Inter.getLocText(new String[]{"Please_Select", "Single", "DS-TableData"}) + " :");
+        selectTableDataLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_TableData_Select_One") + " :");
         setTableDataNameComboBox(treeName);
         tableDataNameComboBox.setPreferredSize(new Dimension(180, 20));
         JPanel tableFlowPane = FRGUIPaneFactory.createBoxFlowInnerContainer_S_Pane();
@@ -68,8 +68,8 @@ public class TreeTableDataDictPane extends BasicPane implements Previewable {
         this.add(tableFlowPane, BorderLayout.NORTH);
         JPanel centerPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         this.add(centerPane, BorderLayout.CENTER);
-        parentMarkRadio = new UIRadioButton(Inter.getLocText("FR-Designer_Build_Tree_Accord_Parent_Marked_Filed"), true);
-        lengthMarkRadio = new UIRadioButton(Inter.getLocText("FR-Designer_Build_Tree_Accord_Marked_Filed_Length"));
+        parentMarkRadio = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Build_Tree_Accord_Parent_Marked_Filed"), true);
+        lengthMarkRadio = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Build_Tree_Accord_Marked_Filed_Length"));
         parentMarkRadio.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (isBuildByParentFiled()) {
@@ -90,15 +90,15 @@ public class TreeTableDataDictPane extends BasicPane implements Previewable {
         markButtonGroup.add(parentMarkRadio);
         markButtonGroup.add(lengthMarkRadio);
 
-        originFieldDependsOnParentLabel = new UILabel(Inter.getLocText("FR-Designer_Original_Marked_Filed") + " :", SwingConstants.RIGHT);
-        parentFieldLabel = new UILabel("  " + Inter.getLocText("FR-Designer_Parent_Marked_Field") + " :", SwingConstants.RIGHT);
-        treeDataFieldLabel1 = new UILabel("  " + Inter.getLocText("FR-Designer_Tree_Data_Field") + " :", SwingConstants.RIGHT);
-        originFieldDependsOnLengthLabel = new UILabel(Inter.getLocText("FR-Designer_Original_Marked_Filed") + " :", SwingConstants.RIGHT);
-        treeDataFieldLabel2 = new UILabel("  " + Inter.getLocText("FR-Designer_Tree_Data_Field") + " :", SwingConstants.RIGHT);
+        originFieldDependsOnParentLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Original_Marked_Filed") + " :", SwingConstants.RIGHT);
+        parentFieldLabel = new UILabel("  " + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parent_Marked_Field") + " :", SwingConstants.RIGHT);
+        treeDataFieldLabel1 = new UILabel("  " + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tree_Data_Field") + " :", SwingConstants.RIGHT);
+        originFieldDependsOnLengthLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Original_Marked_Filed") + " :", SwingConstants.RIGHT);
+        treeDataFieldLabel2 = new UILabel("  " + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tree_Data_Field") + " :", SwingConstants.RIGHT);
 
-//		originFieldDependsOnParentPane = ValueEditorPaneFactory.createValueEditorPane(new Editor[] {new OldColumnIndexEditor(Inter.getLocText("Columns"))});
-//		parentFieldPane = ValueEditorPaneFactory.createValueEditorPane(new Editor[] {new OldColumnIndexEditor(Inter.getLocText("Columns"))});
-//		originFieldDependsOnLengthPane = ValueEditorPaneFactory.createValueEditorPane(new Editor[] {new OldColumnIndexEditor(Inter.getLocText("Columns"))});
+//		originFieldDependsOnParentPane = ValueEditorPaneFactory.createValueEditorPane(new Editor[] {new OldColumnIndexEditor(com.fr.design.i18n.Toolkit.i18nText("Columns"))});
+//		parentFieldPane = ValueEditorPaneFactory.createValueEditorPane(new Editor[] {new OldColumnIndexEditor(com.fr.design.i18n.Toolkit.i18nText("Columns"))});
+//		originFieldDependsOnLengthPane = ValueEditorPaneFactory.createValueEditorPane(new Editor[] {new OldColumnIndexEditor(com.fr.design.i18n.Toolkit.i18nText("Columns"))});
         originFieldDependsOnParentPane = ValueEditorPaneFactory.createValueEditorPane(new Editor[]{new ColumnNameEditor(), new ColumnIndexEditor()});
         parentFieldPane = ValueEditorPaneFactory.createValueEditorPane(new Editor[]{new ColumnNameEditor(), new ColumnIndexEditor()});
         originFieldDependsOnLengthPane = ValueEditorPaneFactory.createValueEditorPane(new Editor[]{new ColumnNameEditor(), new ColumnIndexEditor()});
@@ -127,7 +127,7 @@ public class TreeTableDataDictPane extends BasicPane implements Previewable {
         buildTreePanel.add(xxx, BorderLayout.CENTER);
         centerPane.add(buildTreePanel, BorderLayout.NORTH);
         JPanel previewPanel = FRGUIPaneFactory.createRightFlowInnerContainer_S_Pane();
-        UIButton treeDataPreviewButton = new UIButton(Inter.getLocText("FR-Designer_Preview"));
+        UIButton treeDataPreviewButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Preview"));
         previewPanel.add(treeDataPreviewButton);
         treeDataPreviewButton.addActionListener(new ActionListener() {
             @Override

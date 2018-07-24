@@ -1,6 +1,6 @@
 package com.fr.van.chart.map.line;
 
-import com.fr.general.Inter;
+
 import com.fr.van.chart.designer.component.format.CategoryNameFormatPaneWithCheckBox;
 import com.fr.van.chart.designer.style.VanChartStylePane;
 
@@ -16,7 +16,7 @@ public class StartAndEndNameFormatPaneWithCheckBox extends CategoryNameFormatPan
 
     @Override
     protected String getCheckBoxText() {
-        return Inter.getLocText("Plugin-ChartF_Start_And_End");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Start_And_End");
     }
 
 

@@ -6,7 +6,7 @@ import com.fr.design.dialog.BasicDialog;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.menu.MenuKeySet;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -46,7 +46,7 @@ public class FeedBackAction extends UpdateAction {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("product_feedback");
+            return com.fr.design.i18n.Toolkit.i18nText("product_feedback");
         }
 
         @Override

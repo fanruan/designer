@@ -12,7 +12,7 @@
 //import com.fr.design.layout.TableLayout;
 //import com.fr.design.layout.TableLayoutHelper;
 //import com.fr.design.utils.gui.GUICoreUtils;
-//import com.fr.general.Inter;
+//
 //import com.fr.workspace.WorkContext;
 //import com.fr.workspace.connect.WorkspaceConnection;
 //
@@ -50,21 +50,21 @@
 //        contentPanel.setBorder(
 //                BorderFactory.createCompoundBorder(
 //                        new EmptyBorder(6, 0, 0, 0),
-//                        UITitledBorder.createBorderWithTitle(Inter.getLocText("Fine-Designer_Basic_Remote_Env_Config")))
+//                        UITitledBorder.createBorderWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Basic_Remote_Env_Config")))
 //        );
 //
 //        double p = TableLayout.PREFERRED;
 //        double f = TableLayout.FILL;
 //        double[] rowSize = new double[]{p, p, p, p};
 //        double[] columnSize = new double[]{p, f};
-//        UIButton testConnectionButton = new UIButton(Inter.getLocText("Fine-Designer_Basic_Remote_Env_Try"));
+//        UIButton testConnectionButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Basic_Remote_Env_Try"));
 //        urlTextField = new UITextField();
 //        urlTextField.setPlaceholder("http://192.168.100.200/webroot/decision");
 //        JPanel valuePane = TableLayoutHelper.createTableLayoutPane(
 //                new Component[][]{
-//                        {new UILabel(Inter.getLocText("Fine-Designer_Basic_Remote_Env_Host") + ":", SwingConstants.RIGHT), urlTextField},
-//                        {new UILabel(Inter.getLocText("Fine-Designer_Basic_Remote_Env_User") + ":", SwingConstants.RIGHT), usernameTextField = new UITextField()},
-//                        {new UILabel(Inter.getLocText("Fine-Designer_Basic_Remote_Env_Password") + ":", SwingConstants.RIGHT), passwordTextField = new UIPassWordField()},
+//                        {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Basic_Remote_Env_Host") + ":", SwingConstants.RIGHT), urlTextField},
+//                        {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Basic_Remote_Env_User") + ":", SwingConstants.RIGHT), usernameTextField = new UITextField()},
+//                        {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Basic_Remote_Env_Password") + ":", SwingConstants.RIGHT), passwordTextField = new UIPassWordField()},
 //                        {null, GUICoreUtils.createFlowPane(testConnectionButton, FlowLayout.LEFT)}
 //                },
 //                rowSize, columnSize
@@ -78,8 +78,8 @@
 //        contentPanel.add(valuePane, BorderLayout.CENTER);
 //
 //        message = new UILabel();
-//        okButton = new UIButton(Inter.getLocText("OK"));
-//        cancelButton = new UIButton(Inter.getLocText("Cancel"));
+//        okButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("OK"));
+//        cancelButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Cancel"));
 //    }
 //
 //    private void tryConnectRemoteEnv() {
@@ -98,9 +98,9 @@
 //                okButton.setEnabled(true);
 //                try {
 //                    get();
-//                    message.setText(Inter.getLocText("Fine-Designer_Basic_Remote_Connect_Successful"));
+//                    message.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Basic_Remote_Connect_Successful"));
 //                } catch (Exception e) {
-//                    message.setText(Inter.getLocText("Fine-Designer_Basic_Remote_Connect_Failed"));
+//                    message.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Basic_Remote_Connect_Failed"));
 //                }
 //            }
 //        };
@@ -129,11 +129,11 @@
 //    }
 //
 //    private void initMessageDialog() {
-//        message.setText(Inter.getLocText("Fine-Designer_Basic_Remote_Env_Try") + "...");
+//        message.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Basic_Remote_Env_Try") + "...");
 //        message.setBorder(BorderFactory.createEmptyBorder(8, 5, 0, 0));
 //        okButton.setEnabled(false);
 //
-//        dialog = new JDialog((Dialog) SwingUtilities.getWindowAncestor(RemoteEnvPane2.this), Inter.getLocText("Datasource-Test_Connection"), true);
+//        dialog = new JDialog((Dialog) SwingUtilities.getWindowAncestor(RemoteEnvPane2.this), com.fr.design.i18n.Toolkit.i18nText("Datasource-Test_Connection"), true);
 //
 //        dialog.setSize(new Dimension(268, 118));
 //        okButton.setEnabled(false);

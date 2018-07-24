@@ -6,7 +6,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.radar.data.RadarYAxisTableDefinition;
 
 import javax.swing.JPanel;
@@ -53,9 +53,9 @@ public class RadarTableContentPane extends AbstractTableDataContentPane {
         double[] col = {p, f};
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Category") + ":", SwingConstants.RIGHT), categoryNameComboBox},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Min_Value") + ":", SwingConstants.RIGHT), minValueComboBox},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Max_Value") + ":", SwingConstants.RIGHT), maxValueComboBox}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Category") + ":", SwingConstants.RIGHT), categoryNameComboBox},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Min_Value") + ":", SwingConstants.RIGHT), minValueComboBox},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Max_Value") + ":", SwingConstants.RIGHT), maxValueComboBox}
         };
 
         return TableLayoutHelper.createTableLayoutPane(components, row, col);
@@ -121,7 +121,7 @@ public class RadarTableContentPane extends AbstractTableDataContentPane {
         maxValueComboBox.setEnabled(hasUse);
     }
     public void addAutoItem(){
-        Object autoItem = Inter.getLocText("Plugin-ChartF_Auto");
+        Object autoItem = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Auto");
         minValueComboBox.addItem(autoItem);
         maxValueComboBox.addItem(autoItem);
         minValueComboBox.setSelectedItem(autoItem);

@@ -1,7 +1,7 @@
 package com.fr.design.gui.date;
 
 import com.fr.design.gui.itextfield.UINumberField;
-import com.fr.general.Inter;
+
 
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
@@ -30,7 +30,7 @@ public class CalendarNumberField extends UINumberField {
                 setValue(getIntValue());
             }
         });
-        this.setFont(new Font(Inter.getLocText("Song_TypeFace"),0,12));
+        this.setFont(new Font(com.fr.design.i18n.Toolkit.i18nText("Song_TypeFace"),0,12));
     }
 
     public void setValue(int value) {

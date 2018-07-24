@@ -14,7 +14,7 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
 
@@ -82,7 +82,7 @@ public class FormatPane extends BasicPane {
         //sample pane
         JPanel samplePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         this.add(samplePane, BorderLayout.NORTH);
-        samplePane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("StyleFormat-Sample"), null));
+        samplePane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("StyleFormat-Sample"), null));
         samplePane.setLayout(FRGUIPaneFactory.createBorderLayout());
         sampleLabel = new UILabel(FormatField.getInstance().getFormatValue());
         samplePane.add(sampleLabel, BorderLayout.CENTER);
@@ -92,7 +92,7 @@ public class FormatPane extends BasicPane {
         //left control pane
         JPanel leftControlPane =FRGUIPaneFactory.createNColumnGridInnerContainer_S_Pane(1);
         this.add(leftControlPane, BorderLayout.WEST);
-        leftControlPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("StyleFormat-Category"), null));
+        leftControlPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("StyleFormat-Category"), null));
         initRadioButton();
         ButtonGroup categoryButtonGroup = new ButtonGroup();
         categoryButtonGroup.add(nullRadioButton);
@@ -170,7 +170,7 @@ public class FormatPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-    	return Inter.getLocText("Style");
+    	return com.fr.design.i18n.Toolkit.i18nText("Style");
     }
     
     /**
@@ -359,7 +359,7 @@ public class FormatPane extends BasicPane {
         		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(text);
         		String sample = simpleDateFormat.format(new Date());
         		if (!ArrayUtils.contains(FormatField.getInstance().getDateFormatArray(), text)) {
-        			sample += " " + Inter.getLocText("DateFormat-Custom_Warning");
+        			sample += " " + com.fr.design.i18n.Toolkit.i18nText("DateFormat-Custom_Warning");
         			c = Color.red;
         		}
         		this.sampleLabel.setText(sample);

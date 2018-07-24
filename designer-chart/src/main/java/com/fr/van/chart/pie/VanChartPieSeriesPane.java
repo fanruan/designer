@@ -8,7 +8,7 @@ import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.PiePlot4VanChart;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 import com.fr.van.chart.designer.style.series.VanChartAbstractPlotSeriesPane;
@@ -53,21 +53,21 @@ public class VanChartPieSeriesPane extends VanChartAbstractPlotSeriesPane {
         startAngle = new UISpinner(MIN_ANGLE, MAX_ANGLE, 1, 0);
         endAngle = new UISpinner(MIN_ANGLE, MAX_ANGLE, 1, 0);
         innerRadius = new UISpinner(0, 100, 1, 0);
-        supportRotation = new UIButtonGroup<Boolean>(new String[]{Inter.getLocText("Plugin-ChartF_On"), Inter.getLocText("Plugin-ChartF_Off")}, new Boolean[]{true, false});
+        supportRotation = new UIButtonGroup<Boolean>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_On"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Off")}, new Boolean[]{true, false});
 
 
         Component[][] components = new Component[][]{
                 new Component[]{null,null},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_StartAngle")),startAngle},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_EndAngle")),endAngle},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_InnerRadius")),innerRadius},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_StartAngle")),startAngle},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_EndAngle")),endAngle},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_InnerRadius")),innerRadius},
                 new Component[]{createRadiusPane(),null},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Rotation")),supportRotation}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Rotation")),supportRotation}
         };
 
 
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Designer-Widget_Style"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget_Style"), panel);
     }
 
     public void populateBean(Plot plot) {

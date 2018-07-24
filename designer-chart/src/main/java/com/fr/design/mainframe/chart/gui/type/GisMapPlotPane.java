@@ -12,7 +12,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -52,7 +52,7 @@ public class GisMapPlotPane extends AbstractChartTypePane{
 		if(styleList != null && !styleList.isEmpty()) {
 			components = new Component[][]{
 					new Component[]{layoutPane},
-					new Component[]{new UILabel(Inter.getLocText("FR-Chart-Waring_Please_Input_The_Key"))},
+					new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Waring_Please_Input_The_Key"))},
 					new Component[]{keyInput},
 			};
 		}
@@ -72,7 +72,7 @@ public class GisMapPlotPane extends AbstractChartTypePane{
 	@Override
 	protected String[] getTypeTipName() {
 		return new String[]{
-				"gis"+Inter.getLocText("FR-Chart-Map_Map")
+				"gis"+com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Map_Map")
 		};
 	}
 
@@ -90,8 +90,8 @@ public class GisMapPlotPane extends AbstractChartTypePane{
 	@Override
 	protected String[] getTypeLayoutTipName() {
 		return new String[]{
-				Inter.getLocText("FR-Chart-Type_BaiduMap"),
-				Inter.getLocText("FR-Chart-Map_GoogleMap")
+				com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_BaiduMap"),
+				com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Map_GoogleMap")
 		};
 	}
 
@@ -172,7 +172,7 @@ public class GisMapPlotPane extends AbstractChartTypePane{
      * @return 标题
      */
 	public String title4PopupWindow() {
-		return "gis"+Inter.getLocText("FR-Chart-Map_Map");
+		return "gis"+com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Map_Map");
 	}
 
     /**

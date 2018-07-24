@@ -20,7 +20,7 @@ import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Nameable;
 import com.fr.stable.core.PropertyChangeAdapter;
@@ -297,7 +297,7 @@ public abstract class JListControlPane extends JControlPane {
      * @return 是则true
      */
     public boolean isContainsRename() {
-        String rename = Inter.getLocText("FR-Please_Rename") + "!";
+        String rename = com.fr.design.i18n.Toolkit.i18nText("FR-Please_Rename") + "!";
         String[] names = this.nameableList.getAllNames();
         for (int i = names.length - 1; i >= 0; i--) {
             if (ComparatorUtils.equals(names[i], rename)) {
@@ -367,7 +367,7 @@ public abstract class JListControlPane extends JControlPane {
 
         public AddItemUpdateAction(NameableCreator[] creators) {
             this.creator = creators[0];
-            this.setName(Inter.getLocText("FR-Action_Add"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Action_Add"));
             this.setMnemonic('A');
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/buttonicon/add.png"));
         }
@@ -385,7 +385,7 @@ public abstract class JListControlPane extends JControlPane {
      */
     protected class AddItemMenuDef extends MenuDef {
         public AddItemMenuDef(NameableCreator[] creators) {
-            this.setName(Inter.getLocText("FR-Action_Add"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Action_Add"));
             this.setMnemonic('A');
             this.setIconPath("/com/fr/design/images/control/addPopup.png");
             wrapActionListener(creators);
@@ -396,8 +396,8 @@ public abstract class JListControlPane extends JControlPane {
                 if (filterNameableCreator(creator)) {
                     continue;
                 }
-                boolean isTrue = ComparatorUtils.equals(creator.menuName(), Inter.getLocText("Datasource-Stored_Procedure")) ||
-                        ComparatorUtils.equals(creator.menuName(), Inter.getLocText("DS-Relation_TableData")) || ComparatorUtils.equals(creator.menuName(), Inter.getLocText("DS-Multi_Dimensional_Database"));
+                boolean isTrue = ComparatorUtils.equals(creator.menuName(), com.fr.design.i18n.Toolkit.i18nText("Datasource-Stored_Procedure")) ||
+                        ComparatorUtils.equals(creator.menuName(), com.fr.design.i18n.Toolkit.i18nText("DS-Relation_TableData")) || ComparatorUtils.equals(creator.menuName(), com.fr.design.i18n.Toolkit.i18nText("DS-Multi_Dimensional_Database"));
                 if (isTrue) {
                     this.addShortCut(new LineSeparator());
                 }
@@ -430,7 +430,7 @@ public abstract class JListControlPane extends JControlPane {
      */
     private class RemoveItemAction extends UpdateAction {
         public RemoveItemAction() {
-            this.setName(Inter.getLocText("FR-Action_Remove"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Action_Remove"));
             this.setMnemonic('R');
             this.setSmallIcon(BaseUtils
                     .readIcon("/com/fr/base/images/cell/control/remove.png"));
@@ -458,7 +458,7 @@ public abstract class JListControlPane extends JControlPane {
      */
     private class CopyItemAction extends UpdateAction {
         public CopyItemAction() {
-            this.setName(Inter.getLocText("FR-Action_Copy"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Action_Copy"));
             this.setMnemonic('C');
             this.setSmallIcon(BaseUtils
                     .readIcon("/com/fr/design/images/m_edit/copy.png"));
@@ -493,7 +493,7 @@ public abstract class JListControlPane extends JControlPane {
      */
     private class MoveUpItemAction extends UpdateAction {
         public MoveUpItemAction() {
-            this.setName(Inter.getLocText("Utils-Move_Up"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Utils-Move_Up"));
             this.setMnemonic('U');
             this.setSmallIcon(BaseUtils
                     .readIcon("/com/fr/design/images/control/up.png"));
@@ -526,7 +526,7 @@ public abstract class JListControlPane extends JControlPane {
      */
     private class MoveDownItemAction extends UpdateAction {
         public MoveDownItemAction() {
-            this.setName(Inter.getLocText("Utils-Move_Down"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Utils-Move_Down"));
             this.setMnemonic('D');
             this.setSmallIcon(BaseUtils
                     .readIcon("/com/fr/design/images/control/down.png"));
@@ -557,7 +557,7 @@ public abstract class JListControlPane extends JControlPane {
         private boolean isAtoZ = false;
 
         public SortItemAction() {
-            this.setName(Inter.getLocText("FR-Action_Sort"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Action_Sort"));
             this.setMnemonic('S');
             this.setSmallIcon(BaseUtils
                     .readIcon("/com/fr/design/images/control/sortAsc.png"));

@@ -8,7 +8,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.Inter;
+
 import com.fr.log.FineLoggerFactory;
 
 import javax.swing.*;
@@ -87,28 +87,28 @@ public class AlphaFineConfigPane extends BasicPane {
 
         double[] columnSize = {COLUMN_GAP, COLUMN_GAP, COLUMN_GAP};
 
-        JPanel northPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_AlphaFine_SearchRange"));
-        isContainRecommendCheckbox = new UICheckBox(Inter.getLocText("FR-Designer_AlphaFine_Recommend"));
-        isContainActionCheckbox = new UICheckBox(Inter.getLocText("FR-Designer_Set"));
-        isContainPluginCheckbox = new UICheckBox(Inter.getLocText("FR-Designer-Plugin_Addon"));
-        isContainDocumentCheckbox = new UICheckBox(Inter.getLocText("FR-Designer_COMMUNITY_HELP"));
-        isContainTemplateCheckbox = new UICheckBox(Inter.getLocText("FR-Designer_Templates"));
-        isContainFileContentCheckbox = new UICheckBox(Inter.getLocText("FR-Designer_Templates_Content"));
+        JPanel northPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_AlphaFine_SearchRange"));
+        isContainRecommendCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_AlphaFine_Recommend"));
+        isContainActionCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Set"));
+        isContainPluginCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Addon"));
+        isContainDocumentCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_COMMUNITY_HELP"));
+        isContainTemplateCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Templates"));
+        isContainFileContentCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Templates_Content"));
         JPanel searchConfigPane = TableLayoutHelper.createTableLayoutPane(initSearchRangeComponents(), rowSize, columnSize);
         northPane.add(searchConfigPane);
         contentPane.add(northPane);
     }
 
     private void createShortcutsPane(JPanel contentPane) {
-        JPanel northPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_AlphaFine_Shortcut_Config"));
+        JPanel northPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_AlphaFine_Shortcut_Config"));
         shortcutsField = new UITextField();
         shortcutsField.setEditable(false);
         shortcutsField.selectAll();
         shortcutsField.setPreferredSize(new Dimension(100, 20));
         initFieldListener();
-        northPane.add(new UILabel(Inter.getLocText("FR-Designer_Open") + ":"));
+        northPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Open") + ":"));
         northPane.add(shortcutsField);
-        UILabel label = new UILabel(Inter.getLocText("FR-Designer-AlphaFine_SetShortcuts"));
+        UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-AlphaFine_SetShortcuts"));
         label.setForeground(Color.RED);
         northPane.add(label);
         contentPane.add(northPane);
@@ -138,8 +138,8 @@ public class AlphaFineConfigPane extends BasicPane {
     }
 
     private void createOnlinePane(JPanel contentPane) {
-        JPanel northPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_AlphaFine_EnableInternet"));
-        isSearchOnlineCheckbox = new UICheckBox(Inter.getLocText("FR-Designer_AlphaFine_EnableInternetSearch"));
+        JPanel northPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_AlphaFine_EnableInternet"));
+        isSearchOnlineCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_AlphaFine_EnableInternetSearch"));
         isSearchOnlineCheckbox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -162,8 +162,8 @@ public class AlphaFineConfigPane extends BasicPane {
     }
 
     private void createOpenPane(JPanel contentPane) {
-        JPanel northPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_AlphaFine_Enable"));
-        isEnabledCheckbox = new UICheckBox(Inter.getLocText("FR-Designer_AlphaFine_EnableAlphaFine"));
+        JPanel northPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_AlphaFine_Enable"));
+        isEnabledCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_AlphaFine_EnableAlphaFine"));
         northPane.add(isEnabledCheckbox);
         contentPane.add(northPane);
     }

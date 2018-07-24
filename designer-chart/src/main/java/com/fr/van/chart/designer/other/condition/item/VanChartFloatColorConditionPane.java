@@ -5,7 +5,7 @@ import com.fr.design.condition.ConditionAttrSingleConditionPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.style.color.ColorSelectBox;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.base.AttrFloatColor;
 
 /**
@@ -23,7 +23,7 @@ public class VanChartFloatColorConditionPane extends ConditionAttrSingleConditio
 
     public VanChartFloatColorConditionPane(ConditionAttributesPane conditionAttributesPane, boolean isRemove) {
         super(conditionAttributesPane, isRemove);
-        UILabel nameLabel = new UILabel(Inter.getLocText("plugin-ChartF_FloatColor"));
+        UILabel nameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("plugin-ChartF_FloatColor"));
         colorSelectionPane = new ColorSelectBox(80);
 
         if (isRemove) {
@@ -38,7 +38,7 @@ public class VanChartFloatColorConditionPane extends ConditionAttrSingleConditio
      */
     @Override
     public String nameForPopupMenuItem() {
-        return Inter.getLocText("plugin-ChartF_FloatColor");
+        return com.fr.design.i18n.Toolkit.i18nText("plugin-ChartF_FloatColor");
     }
 
     @Override

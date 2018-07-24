@@ -4,7 +4,7 @@ import com.fr.base.BaseUtils;
 import com.fr.design.actions.cell.AbstractCellElementAction;
 import com.fr.design.dscolumn.DSColumnAdvancedPane;
 import com.fr.design.dialog.BasicPane;
-import com.fr.general.Inter;
+
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.report.cell.TemplateCellElement;
 
@@ -14,7 +14,7 @@ public class DSColumnAdvancedAction extends AbstractCellElementAction {
 	public DSColumnAdvancedAction(ElementCasePane t) {
 		super(t);
 		
-		this.setName(Inter.getLocText("Advanced"));
+		this.setName(com.fr.design.i18n.Toolkit.i18nText("Advanced"));
 		this.setMnemonic('A');
 		this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/expand/cellAttr.gif"));
     }

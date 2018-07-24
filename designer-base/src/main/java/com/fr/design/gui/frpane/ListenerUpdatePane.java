@@ -3,7 +3,7 @@ package com.fr.design.gui.frpane;
 
 import java.awt.BorderLayout;
 
-import com.fr.general.Inter;
+
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.javascript.JavaScriptActionPane;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -29,7 +29,7 @@ public abstract class ListenerUpdatePane extends BasicBeanPane<Listener> {
 
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("FR-Designer_Event");
+		return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Event");
 	}
 
     @Override

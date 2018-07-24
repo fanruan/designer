@@ -15,7 +15,7 @@ import com.fr.design.gui.itable.AbstractPropertyTable;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.widget.ui.FormWidgetCardPane;
 import com.fr.design.widget.ui.designer.mobile.MobileWidgetDefinePane;
-import com.fr.general.Inter;
+
 import com.fr.stable.ArrayUtils;
 
 import javax.swing.*;
@@ -66,13 +66,13 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("FR-Designer-Widget_Settings");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget_Settings");
     }
 
 
     @Override
     public String getViewTitle() {
-        return Inter.getLocText("Form-Widget_Property_Table");
+        return com.fr.design.i18n.Toolkit.i18nText("Form-Widget_Property_Table");
     }
 
     @Override
@@ -210,7 +210,7 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
     // "无可用配置项"面板
     private JPanel getUnavailablePane() {
         JPanel panel = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        UILabel label = new UILabel(Inter.getLocText("FR-Designer_No_Settings_Available"));
+        UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_No_Settings_Available"));
         label.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(label);
         return panel;
@@ -218,15 +218,15 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
 
     private void initTabPane() {
         final String[] tabTitles = new String[]{
-                Inter.getLocText("FR-Designer_Properties"),
-                Inter.getLocText("FR-Designer_Event"),
-                Inter.getLocText("FR-Widget_Mobile_Terminal")
+                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Properties"),
+                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Event"),
+                com.fr.design.i18n.Toolkit.i18nText("FR-Widget_Mobile_Terminal")
         };
         final CardLayout tabbedPane =  new CardLayout();
         final JPanel center = new JPanel(tabbedPane);
-        center.add(formWidgetCardPane, Inter.getLocText("FR-Designer_Properties"));
-        center.add(eventTable, Inter.getLocText("FR-Designer_Event"));
-        center.add(wsp, Inter.getLocText("FR-Widget_Mobile_Terminal"));
+        center.add(formWidgetCardPane, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Properties"));
+        center.add(eventTable, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Event"));
+        center.add(wsp, com.fr.design.i18n.Toolkit.i18nText("FR-Widget_Mobile_Terminal"));
         this.add(center, BorderLayout.CENTER);
 
         tabsHeaderIconPane = new UIHeadGroup(tabTitles) {

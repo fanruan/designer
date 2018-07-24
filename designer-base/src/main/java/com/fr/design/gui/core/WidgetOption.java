@@ -3,7 +3,7 @@ package com.fr.design.gui.core;
 import com.fr.base.BaseUtils;
 import com.fr.form.ui.*;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.io.Serializable;
@@ -126,103 +126,73 @@ public abstract class WidgetOption implements Serializable {
                 NUMBEREDITOR, TREECOMBOBOX, RADIOGROUP, CHECKBOXGROUP, TEXTAREA, PASSWORD, CHECKBOX, TREE, MULTI_FILEEDITOR};
     }
 
-    public static final WidgetOption DATEEDITOR = WidgetOptionFactory.createByWidgetClass(Inter.getLocText(new String[]{"Date", "Widget"}),
+    public static final WidgetOption DATEEDITOR = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Type_Date"),
             BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/date_16.png"),
             DateEditor.class);
 
-    public static final WidgetOption TREE = WidgetOptionFactory.createByWidgetClass(Inter.getLocText("Form-View_Tree"),
+    public static final WidgetOption TREE = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Form-View_Tree"),
             BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/tree_16.png"), TreeEditor.class);
 
-    public static final WidgetOption TREECOMBOBOX = WidgetOptionFactory.createByWidgetClass(Inter.getLocText("FR-Designer_Tree-ComboBox"), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/comboboxtree.png"),
+    public static final WidgetOption TREECOMBOBOX = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tree-ComboBox"), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/comboboxtree.png"),
             TreeComboBoxEditor.class);
 
     public static final WidgetOption CHECKBOXGROUP = WidgetOptionFactory.createByWidgetClass(
-            Inter.getLocText(new String[]{"Form-CheckBoxGroup", "Widget"}), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/checkbox_group_16.png"), CheckBoxGroup.class);
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Type_Checkbox_Group"), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/checkbox_group_16.png"), CheckBoxGroup.class);
 
     public static final WidgetOption RADIOGROUP = WidgetOptionFactory.createByWidgetClass(
-            Inter.getLocText(new String[]{"Form-RadioGroup", "Widget"}), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/button_group_16.png"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Type_Radio_Group"), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/button_group_16.png"),
             RadioGroup.class);
 
     public static final WidgetOption NUMBEREDITOR = WidgetOptionFactory.createByWidgetClass(
-            Inter.getLocText(new String[]{"Number", "Widget"}), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/number_field_16.png"), NumberEditor.class);
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Type_Number"), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/number_field_16.png"), NumberEditor.class);
 
     public static final WidgetOption LABEL = WidgetOptionFactory.createByWidgetClass(
-            Inter.getLocText(new String[]{"Label", "Widget"}), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/label_16.png"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Type_Label"), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/label_16.png"),
             Label.class);
 
     public static final WidgetOption BUTTON = WidgetOptionFactory.createByWidgetClass(
-            Inter.getLocText(new String[]{"Form-Button", "Widget"}), BaseUtils.readIcon("/com/fr/web/images/form/resources/button_16.png"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Type_Button"), BaseUtils.readIcon("/com/fr/web/images/form/resources/button_16.png"),
             Button.class);
 
     public static final WidgetOption FREEBUTTON = WidgetOptionFactory.createByWidgetClass(
-            Inter.getLocText(new String[]{"Form-Button", "Widget"}), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/button_16.png"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Type_Free_Button"), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/button_16.png"),
             FreeButton.class);
 
     public static final WidgetOption MULTI_FILEEDITOR = WidgetOptionFactory.createByWidgetClass(
-            Inter.getLocText(new String[]{"File", "Widget"}), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/files_up.png"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Type_File"), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/files_up.png"),
             MultiFileEditor.class);
 
     public static final WidgetOption COMBOBOX = WidgetOptionFactory.createByWidgetClass(
-            Inter.getLocText(new String[]{"Form-ComboBox", "Widget"}), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/combo_box_16.png"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Type_Combo_Box"), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/combo_box_16.png"),
             ComboBox.class);
 
     public static final WidgetOption COMBOCHECKBOX = WidgetOptionFactory.createByWidgetClass(
-            Inter.getLocText(new String[]{"Form-ComboCheckBox", "Widget"}), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/combo_check_16.png"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Type_Combo_Checkbox"), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/combo_check_16.png"),
             ComboCheckBox.class);
 
     public static final WidgetOption CHECKBOX = WidgetOptionFactory.createByWidgetClass(
-            Inter.getLocText(new String[]{"Form-CheckBox", "Widget"}), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/check_box_16.png"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Type_Checkbox"), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/check_box_16.png"),
             CheckBox.class);
 
     public static final WidgetOption LIST = WidgetOptionFactory.createByWidgetClass(
-            Inter.getLocText(new String[]{"Form-List", "Widget"}), BaseUtils.readIcon("/com/fr/web/images/form/resources/list_16.png"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Type_List"), BaseUtils.readIcon("/com/fr/web/images/form/resources/list_16.png"),
             ListEditor.class);
 
-    public static final WidgetOption TABLETREE = WidgetOptionFactory.createByWidgetClass(
-            Inter.getLocText(new String[]{"Form-TableTree", "Widget"}), BaseUtils.readIcon("/com/fr/web/images/form/resources/list_16.png"),
-            TableTree.class);
 
-    public static final WidgetOption TEXTEDITOR = WidgetOptionFactory.createByWidgetClass(Inter.getLocText(new String[]{"Text", "Widget"})
+    public static final WidgetOption TEXTEDITOR = WidgetOptionFactory.createByWidgetClass(
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Type_Text")
             , BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/text_field_16.png"),
             TextEditor.class);
 
     public static final WidgetOption TEXTAREA = WidgetOptionFactory.createByWidgetClass(
-            Inter.getLocText(new String[]{"Form-TextArea", "Widget"}), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/text_area_16.png"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Type_Textarea"), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/text_area_16.png"),
             TextArea.class);
 
     public static final WidgetOption PASSWORD = WidgetOptionFactory.createByWidgetClass(
-            Inter.getLocText(new String[]{"Form-Password", "Widget"}),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Type_Password"),
             BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/password_field_16.png"), Password.class);
 
-    public static final WidgetOption IFRAMEDITOR = WidgetOptionFactory.createByWidgetClass(Inter.getLocText("FR-Designer_Form-Iframe"), BaseUtils.readIcon("/com/fr/web/images/form/resources/iframe_16.png"),
+    public static final WidgetOption IFRAMEDITOR = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form-Iframe"), BaseUtils.readIcon("/com/fr/web/images/form/resources/iframe_16.png"),
             IframeEditor.class);
-
-//    public static final WidgetOption DATATABLE = WidgetOptionFactory.createByWidgetClass(Inter
-//                    .getLocText("Form-DataTable"), BaseUtils.readIcon("/com/fr/web/images/form/resources/table_16.png"),
-//            DataTable.class);
-
-//	public static final WidgetOption CHARTCONTAINER = WidgetOptionFactory.createByWidgetClass(Inter.getLocText("Chart")
-//			+ Inter.getLocText("Widget"), ChartEditor.class);
-
-
-//	public static final WidgetOption ABSOLUTELAYOUTCONTAINER = WidgetOptionFactory.createByWidgetClass(Inter
-//			.getLocText("AbsoluteLayout"), BaseUtils.readIcon("/com/fr/web/images/form/resources/layout_absolute.png"),
-//			WAbsoluteLayout.class);
-//
-//	public static final WidgetOption BORDERLAYOUTCONTAINER = WidgetOptionFactory.createByWidgetClass(Inter
-//			.getLocText("BorderLayout"), BaseUtils.readIcon("/com/fr/web/images/form/resources/layout_border.png"),
-//			WBorderLayout.class);
-//
-//	public static final WidgetOption CARDLAYOUTCONTAINER = WidgetOptionFactory.createByWidgetClass(Inter
-//			.getLocText("CardLayout"), BaseUtils.readIcon("/com/fr/web/images/form/resources/card_layout_16.png"),
-//			WCardLayout.class);
-//
-//	public static final WidgetOption HORIZONTALBOXLAYOUTCONTAINER = WidgetOptionFactory.createByWidgetClass(Inter
-//			.getLocText("Layout-HBox"), BaseUtils.readIcon("/com/fr/web/images/form/resources/boxlayout_h_16.png"),
-//			WHorizontalBoxLayout.class);
-//
-//	public static final WidgetOption VERTICALBOXLAYOUTCONTAINER = WidgetOptionFactory.createByWidgetClass(Inter
-//			.getLocText("VerticalBoxLayout"), BaseUtils.readIcon("/com/fr/web/images/form/resources/boxlayout_v_16.png"),
-//			WVerticalBoxLayout.class);
 
 }

@@ -22,7 +22,7 @@ import com.fr.design.icon.IconPathConstants;
 import com.fr.design.utils.ComponentUtils;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.design.utils.gui.LayoutUtils;
-import com.fr.general.Inter;
+
 import com.fr.share.ShareConstants;
 import com.fr.stable.Constants;
 
@@ -105,7 +105,7 @@ public class EditingMouseListener extends MouseInputAdapter {
         this.designer = designer;
         stateModel = designer.getStateModel();
         selectionModel = designer.getSelectionModel();
-        UIButton promptButton = new UIButton(Inter.getLocText("FR-Designer_Forbid_Drag_into_Adapt_Pane"), BaseUtils.readIcon(IconPathConstants.FORBID_ICON_PATH));
+        UIButton promptButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Forbid_Drag_into_Adapt_Pane"), BaseUtils.readIcon(IconPathConstants.FORBID_ICON_PATH));
         this.promptWindow.add(promptButton);
     }
 

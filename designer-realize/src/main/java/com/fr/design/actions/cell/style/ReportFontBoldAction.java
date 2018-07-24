@@ -11,7 +11,7 @@ import com.fr.design.gui.ibutton.UIToggleButton;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.FRFont;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 
@@ -26,7 +26,7 @@ public class ReportFontBoldAction extends AbstractStyleAction implements ToggleB
     public ReportFontBoldAction(ElementCasePane t) {
         super(t);
 
-        this.setName(Inter.getLocText("FRFont-bold"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("FRFont-bold"));
         this.setSmallIcon(ICONS, true);
     }
 

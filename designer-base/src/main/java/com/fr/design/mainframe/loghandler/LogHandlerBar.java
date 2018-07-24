@@ -2,7 +2,7 @@ package com.fr.design.mainframe.loghandler;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.gui.ibutton.UIButton;
-import com.fr.general.Inter;
+
 import com.fr.stable.script.Atom;
 
 import javax.swing.*;
@@ -39,17 +39,17 @@ public class LogHandlerBar extends JPanel implements ItemSelectable {
 		clear.setMargin(null);
 		clear.setOpaque(false);
 		clear.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		clear.setToolTipText(Inter.getLocText("FR-Designer_Clear_All"));
+		clear.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Clear_All"));
 		selectedall = new UIButton(BaseUtils.readIcon("com/fr/design/images/log/selectedall.png"));
 		selectedall.setMargin(null);
 		selectedall.setOpaque(false);
 		selectedall.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		selectedall.setToolTipText(Inter.getLocText("FR-Designer_Select_All"));
+		selectedall.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Select_All"));
 		set = new UIButton(BaseUtils.readIcon("com/fr/design/images/log/setting.png"));
 		set.setMargin(null);
 		set.setOpaque(false);
 		set.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		set.setToolTipText(Inter.getLocText("FR-Designer_Set"));
+		set.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Set"));
 
 		this.add(clear);
 		this.add(selectedall);

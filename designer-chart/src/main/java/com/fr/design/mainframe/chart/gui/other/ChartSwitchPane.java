@@ -15,7 +15,7 @@ import com.fr.design.mainframe.chart.ChartEditPane;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
-import com.fr.general.Inter;
+
 
 public class ChartSwitchPane extends AbstractAttrNoScrollPane{
 
@@ -34,7 +34,7 @@ public class ChartSwitchPane extends AbstractAttrNoScrollPane{
 		JPanel pane = new JPanel();
 		pane.setLayout(new BorderLayout());
 		
-		changeButton = new UIButton(Inter.getLocText("Switch"));
+		changeButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Switch"));
 		
 		pane.add(changeButton, BorderLayout.NORTH);
 		
@@ -84,7 +84,7 @@ public class ChartSwitchPane extends AbstractAttrNoScrollPane{
 	 * @param 返回标题
 	 */
 	public String title4PopupWindow() {
-		return Inter.getLocText("Chart-Switch");
+		return com.fr.design.i18n.Toolkit.i18nText("Chart-Switch");
 	}
 
 	@Override

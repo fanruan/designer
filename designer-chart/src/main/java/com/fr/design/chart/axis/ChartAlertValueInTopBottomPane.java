@@ -1,6 +1,6 @@
 package com.fr.design.chart.axis;
 
-import com.fr.general.Inter;
+
 
 
 /**
@@ -11,10 +11,10 @@ import com.fr.general.Inter;
 public class ChartAlertValueInTopBottomPane extends ChartAlertValuePane {
 	
 	protected String getLeftName() {
-		return Inter.getLocText("Chart_Alert_Bottom");
+		return com.fr.design.i18n.Toolkit.i18nText("Chart_Alert_Bottom");
 	}
 	
 	protected String getRightName() {
-		return Inter.getLocText("Chart_Alert_Top");
+		return com.fr.design.i18n.Toolkit.i18nText("Chart_Alert_Top");
 	}
 }

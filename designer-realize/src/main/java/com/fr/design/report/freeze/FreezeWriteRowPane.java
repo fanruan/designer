@@ -2,23 +2,18 @@ package com.fr.design.report.freeze;
 
 import com.fr.design.gui.ilable.UILabel;
 import javax.swing.SwingConstants;
-import com.fr.general.Inter;
+
 import com.fr.stable.FT;
 import com.fr.stable.StableUtils;
 
 public class FreezeWriteRowPane extends FreezeAndRepeatPane {
 
 	public FreezeWriteRowPane() {
-		start = new UILabel(Inter.getLocText(new String[]{"Frozen", "N.O."}) + " 1", SwingConstants.CENTER);
+		start = new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Frozen", "N.O."}) + " 1", SwingConstants.CENTER);
 		end =  new RowSpinner(1, Integer.MAX_VALUE, 1,1);
 		super.initComponent();
-		this.add(new UILabel(Inter.getLocText("Row")));
+		this.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Row")));
 	}
-
-    /**
-     *
-     * @param l
-     */
 
 	@Override
 	protected String title4PopupWindow() {
@@ -27,7 +22,7 @@ public class FreezeWriteRowPane extends FreezeAndRepeatPane {
 
 	@Override
 	public void populateBean(FT ob) {
-		((UILabel)start).setText(Inter.getLocText(new String[]{"Frozen", "N.O."}) + String.valueOf(ob.getFrom()));
+		((UILabel)start).setText(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Frozen", "N.O."}) + String.valueOf(ob.getFrom()));
 		((RowSpinner)end).setValue(ob.getTo() + 1);
 	}
 
@@ -38,7 +33,7 @@ public class FreezeWriteRowPane extends FreezeAndRepeatPane {
 
 	@Override
 	public String getLabeshow() {
-		return Inter.getLocText("RowTo");
+		return com.fr.design.i18n.Toolkit.i18nText("RowTo");
 	}
 
 }

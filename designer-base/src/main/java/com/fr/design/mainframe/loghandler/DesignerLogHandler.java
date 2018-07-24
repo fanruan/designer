@@ -5,7 +5,7 @@ import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.general.log.Log4jConfig;
 import com.fr.log.FineLoggerFactory;
 import com.fr.third.apache.log4j.Level;
@@ -60,7 +60,7 @@ public class DesignerLogHandler {
 
     public DesignerLogHandler() {
         logHandlerArea = new LogHandlerArea();
-        caption = new LogHandlerBar(Inter.getLocText("FR-Designer_Log"));
+        caption = new LogHandlerBar(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Log"));
 
         caption.addClearListener(new ActionListener() {
 
@@ -86,11 +86,11 @@ public class DesignerLogHandler {
                 caption.clearMessage();
             }
         };
-        showInfo = new JCheckBoxMenuItem(Inter.getLocText(new String[]{"Display", "Normal", "Info"}), true);
+        showInfo = new JCheckBoxMenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Log_Level_Info"), true);
         showInfo.addItemListener(itemlistener);
-        showError = new JCheckBoxMenuItem(Inter.getLocText(new String[]{"Display", "Alert", "Info"}), true);
+        showError = new JCheckBoxMenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Log_Level_Warn"), true);
         showError.addItemListener(itemlistener);
-        showServer = new JCheckBoxMenuItem(Inter.getLocText(new String[]{"Display", "Seriously", "Info"}), true);
+        showServer = new JCheckBoxMenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Log_Level_Error"), true);
         showServer.addItemListener(itemlistener);
         caption.addSetListener(new ActionListener() {
 
@@ -148,17 +148,17 @@ public class DesignerLogHandler {
             jTextArea.setBackground(Color.WHITE);
 
             popup = new JPopupMenu();
-            selectAll = new UIMenuItem(Inter.getLocText("FR-Designer_Select_All"));
+            selectAll = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Select_All"));
             selectAll.addActionListener(popupListener);
             selectAll.setIcon(BaseUtils.readIcon("/com/fr/design/images/log/selectedall.png"));
             popup.add(selectAll);
 
-            copy = new UIMenuItem(Inter.getLocText("FR-Designer_Copy"));
+            copy = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Copy"));
             copy.addActionListener(popupListener);
             copy.setIcon(BaseUtils.readIcon("/com/fr/design/images/m_edit/copy.png"));
             popup.add(copy);
 
-            clear = new UIMenuItem(Inter.getLocText("FR-Designer_Clear_All"));
+            clear = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Clear_All"));
             clear.addActionListener(popupListener);
             clear.setIcon(BaseUtils.readIcon("/com/fr/design/images/log/clear.png"));
             popup.add(clear);
@@ -263,11 +263,11 @@ public class DesignerLogHandler {
 
         private String appendLocaleMark(String str, int style) {
             if (style == ERROR_INT) {
-                str = Inter.getLocText("FR-Designer_Alert") + ":" + str + "\n";
+                str = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Alert") + ":" + str + "\n";
             } else if (style == WARN_INT) {
-                str = Inter.getLocText("FR-Designer_Seriously") + ":" + str + "\n";
+                str = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Seriously") + ":" + str + "\n";
             } else {
-                str = Inter.getLocText("FR-Designer_Normal") + ":" + str + "\n";
+                str = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Normal") + ":" + str + "\n";
             }
             return str;
         }

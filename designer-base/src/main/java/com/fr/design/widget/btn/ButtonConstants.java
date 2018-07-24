@@ -3,7 +3,7 @@ package com.fr.design.widget.btn;
 import com.fr.form.ui.Button;
 import com.fr.form.ui.FreeButton;
 import com.fr.form.ui.Widget;
-import com.fr.general.Inter;
+
 import com.fr.stable.bridge.BridgeMark;
 import com.fr.stable.bridge.StableFactory;
 
@@ -28,12 +28,12 @@ public class ButtonConstants {
     };
 
     public static final String[] TYPES4BUTTON = {
-            Inter.getLocText("Common"),
-            Inter.getLocText("Custom"),
-            Inter.getLocText("Utils-Insert_Row"),
-            Inter.getLocText("Utils-Delete_Row"),
-            Inter.getLocText(new String[]{"Parameter", "Custom_Button_Type_Submit"}),
-            Inter.getLocText("Widget-TreeNode")
+            com.fr.design.i18n.Toolkit.i18nText("Common"),
+            com.fr.design.i18n.Toolkit.i18nText("Custom"),
+            com.fr.design.i18n.Toolkit.i18nText("Utils-Insert_Row"),
+            com.fr.design.i18n.Toolkit.i18nText("Utils-Delete_Row"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Button_Type_Parameter_Submit"),
+            com.fr.design.i18n.Toolkit.i18nText("Widget-TreeNode")
     };
 
     public static final Class[] CLASSES4BUTTON = {

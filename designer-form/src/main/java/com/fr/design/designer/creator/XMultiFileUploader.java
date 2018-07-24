@@ -12,7 +12,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.form.ui.MultiFileEditor;
-import com.fr.general.Inter;
+
 import com.fr.stable.ArrayUtils;
 
 import javax.swing.JComponent;
@@ -37,13 +37,13 @@ public class XMultiFileUploader extends XFieldEditor {
                 super.supportedDescriptor(),
                 new CRPropertyDescriptor[]{
                         new CRPropertyDescriptor("singleFile", this.data.getClass())
-                                .setI18NName(Inter.getLocText("SINGLE_FILE_UPLOAD"))
+                                .setI18NName(com.fr.design.i18n.Toolkit.i18nText("SINGLE_FILE_UPLOAD"))
                                 .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                         new CRPropertyDescriptor("accept", this.data.getClass())
-                                .setI18NName(Inter.getLocText("File-Allow_Upload_Files"))
+                                .setI18NName(com.fr.design.i18n.Toolkit.i18nText("File-Allow_Upload_Files"))
                                 .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                         new CRPropertyDescriptor("maxSize", this.data.getClass())
-                                .setI18NName(Inter.getLocText("File-File_Size_Limit"))
+                                .setI18NName(com.fr.design.i18n.Toolkit.i18nText("File-File_Size_Limit"))
                                 .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
                 });
     }

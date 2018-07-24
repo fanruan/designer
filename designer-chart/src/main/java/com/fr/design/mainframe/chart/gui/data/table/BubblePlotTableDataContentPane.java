@@ -12,7 +12,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.ChartDataFilterPane;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
@@ -45,7 +45,7 @@ public class BubblePlotTableDataContentPane extends AbstractTableDataContentPane
         yCombox.setPreferredSize(new Dimension(100, 20));
         bubbleSize.setPreferredSize(new Dimension(100, 20));
 
-        seriesName.addItem(Inter.getLocText("Chart-Use_None"));
+        seriesName.addItem(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_None"));
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
@@ -55,17 +55,17 @@ public class BubblePlotTableDataContentPane extends AbstractTableDataContentPane
         double[] columnSize_north = {p, f};
         double[] rowSize_north = {p, p, p, p};
         Component[][] components_north = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Chart-Series_Name")), seriesName},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Series_Name")), seriesName},
                 new Component[]{new UILabel("x"), xCombox},
                 new Component[]{new UILabel("y"), yCombox},
-                new Component[]{new UILabel(Inter.getLocText("FR-Chart_Bubble_Size")), bubbleSize}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart_Bubble_Size")), bubbleSize}
         };
         JPanel north = TableLayoutHelper.createTableLayoutPane(components_north,rowSize_north,columnSize_north);
         north.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 1));
 
         Component[][] components = new Component[][]{
                      new Component[]{north},
-                     new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Chart-Data_Filter"),dataScreeningPane), null},
+                     new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_Filter"),dataScreeningPane), null},
              };
 
 
@@ -91,7 +91,7 @@ public class BubblePlotTableDataContentPane extends AbstractTableDataContentPane
     
     protected void refreshBoxListWithSelectTableData(List list) {
     	refreshBoxItems(seriesName, list);
-        seriesName.addItem(Inter.getLocText("Chart-Use_None"));
+        seriesName.addItem(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_None"));
     	refreshBoxItems(xCombox, list);
     	refreshBoxItems(yCombox, list);
     	refreshBoxItems(bubbleSize, list);
@@ -102,7 +102,7 @@ public class BubblePlotTableDataContentPane extends AbstractTableDataContentPane
      */
     public void clearAllBoxList(){
         clearBoxItems(seriesName);
-        seriesName.addItem(Inter.getLocText("Chart-Use_None"));
+        seriesName.addItem(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_None"));
         clearBoxItems(xCombox);
         clearBoxItems(yCombox);
         clearBoxItems(bubbleSize);
@@ -118,7 +118,7 @@ public class BubblePlotTableDataContentPane extends AbstractTableDataContentPane
         BubbleTableDefinition definition = (BubbleTableDefinition) top;
         
         if(definition.getSeriesName() == null || ComparatorUtils.equals(StringUtils.EMPTY, definition.getSeriesName())) {
-            seriesName.setSelectedItem(Inter.getLocText("Chart-Use_None"));
+            seriesName.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_None"));
         } else {
             combineCustomEditValue(seriesName, definition.getSeriesName());
         }

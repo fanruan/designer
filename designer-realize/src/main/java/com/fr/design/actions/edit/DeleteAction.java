@@ -5,7 +5,7 @@ package com.fr.design.actions.edit;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.actions.ElementCaseAction;
-import com.fr.general.Inter;
+
 import com.fr.design.mainframe.ElementCasePane;
 
 import javax.swing.*;
@@ -21,7 +21,7 @@ public class DeleteAction extends ElementCaseAction {
     public DeleteAction(ElementCasePane t) {
 		super(t);
 		
-        this.setName(Inter.getLocText("M_Edit-Delete"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("M_Edit-Delete"));
         this.setMnemonic('D');
         //Richie:删除菜单图标
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_report/delete.png"));

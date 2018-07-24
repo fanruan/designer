@@ -8,7 +8,7 @@ import javax.swing.JWindow;
 import com.fr.base.BaseUtils;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.icon.IconPathConstants;
-import com.fr.general.Inter;
+
 
 /**
  * 禁止块重叠的提示窗口
@@ -22,7 +22,7 @@ public class BlockForbiddenWindow extends JWindow{
 	private static final int WIDTH = 150;
 	private static final int HEIGHT = 20;
 	
-    private UIButton promptButton = new UIButton(Inter.getLocText("FR-Designer_Block-intersect"), BaseUtils.readIcon(IconPathConstants.FORBID_ICON_PATH));
+    private UIButton promptButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Block-intersect"), BaseUtils.readIcon(IconPathConstants.FORBID_ICON_PATH));
 
 	/**
 	 * 构造函数

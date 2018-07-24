@@ -3,7 +3,7 @@ package com.fr.design.gui.itextfield;
 
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import javax.swing.text.Document;
@@ -27,7 +27,7 @@ public class UISearchTextField extends UITextField {
 
 	private UILabel iconLabel = new UILabel(UIConstants.BLACK_SEARCH_ICON);
 	private UILabel clearLabel = new UILabel(UIConstants.CLEAR_ICON);
-	private UILabel infoLabel = new UILabel(Inter.getLocText("Search"));
+	private UILabel infoLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Search"));
 	private Dimension iconSize;
 	private Dimension infoSize;
 
@@ -62,8 +62,8 @@ public class UISearchTextField extends UITextField {
 
 	private void initTextField() {
 		iconLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		iconLabel.setToolTipText(Inter.getLocText("Search"));
-		clearLabel.setToolTipText(Inter.getLocText("Clear"));
+		iconLabel.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Search"));
+		clearLabel.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Clear"));
 		clearLabel.setOpaque(false);
 		iconSize = iconLabel.getPreferredSize();
 		infoSize = infoLabel.getPreferredSize();

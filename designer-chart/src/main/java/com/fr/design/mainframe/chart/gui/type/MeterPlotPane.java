@@ -7,7 +7,7 @@ import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.MeterStyle;
 import com.fr.chart.charttypes.MeterIndependentChart;
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.Inter;
+
 
 /**
  * 仪表盘, 属性表 类型选择 界面.
@@ -31,9 +31,9 @@ public class MeterPlotPane extends AbstractChartTypePane {
 
     @Override
     protected String[] getTypeTipName() {
-        String meter = Inter.getLocText("FR-Chart-Type_Meter");
+        String meter = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Meter");
         return new String[]{
-                Inter.getLocText("FR-Chart-Mode_Custom") + meter,
+                com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Mode_Custom") + meter,
                 meter + "1",
                 meter + "2"
         };
@@ -77,7 +77,7 @@ public class MeterPlotPane extends AbstractChartTypePane {
      * @return 界面标题
 	 */
 	public String title4PopupWindow() {
-		return Inter.getLocText("FR-Chart-Type_Meter");
+		return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Meter");
 	}
 	
 	/**

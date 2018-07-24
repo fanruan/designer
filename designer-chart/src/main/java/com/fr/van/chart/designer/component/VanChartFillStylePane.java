@@ -3,7 +3,7 @@ package com.fr.van.chart.designer.component;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.mainframe.chart.gui.style.ChartFillStylePane;
-import com.fr.general.Inter;
+
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 
 import javax.swing.BorderFactory;
@@ -24,7 +24,7 @@ public class VanChartFillStylePane extends ChartFillStylePane {
         double[] columnSize = {f, e};
         double[] rowSize = {p, p};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("ColorMatch")),styleSelectBox},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("ColorMatch")),styleSelectBox},
                 new Component[]{null,customPane},
 
         };

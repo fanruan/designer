@@ -15,9 +15,10 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.IOUtils;
-import com.fr.general.Inter;
+
 import com.fr.script.Calculator;
 import com.fr.stable.ParameterProvider;
+import com.fr.stable.StableUtils;
 import com.fr.stable.project.ProjectConstants;
 
 import javax.swing.*;
@@ -44,7 +45,7 @@ public class ClassTableDataPane extends AbstractTableDataPane<ClassTableData> {
         classNameTextField = new UITextField(36);
         reportletNamePane.add(classNameTextField);
 
-        UIButton browserButton = new UIButton(Inter.getLocText("Select"));
+        UIButton browserButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Select"));
         browserButton.setPreferredSize(new Dimension(
                 browserButton.getPreferredSize().width,
                 classNameTextField.getPreferredSize().height));
@@ -63,7 +64,7 @@ public class ClassTableDataPane extends AbstractTableDataPane<ClassTableData> {
                 dlg.setVisible(true);
             }
         });
-        UIButton editButton = new UIButton(Inter.getLocText("Edit"));
+        UIButton editButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Edit"));
         editButton.setPreferredSize(new Dimension(
                 editButton.getPreferredSize().width,
                 classNameTextField.getPreferredSize().height));
@@ -89,11 +90,10 @@ public class ClassTableDataPane extends AbstractTableDataPane<ClassTableData> {
         });
 
         Component[][] components = {
-        		{new UILabel(Inter.getLocText("DS-Class_Name") + ":"), reportletNamePane},
-        		{null, new UILabel(Inter.getLocText("Function-The_class_must_implement_the_interface") + "\"com.fr.data.Tabledata\"")},
-        		{null, new UILabel(Inter.getLocText("Example") + ":\"com.fr.data.impl.ArrayTableData\"")},
-                {null,new UILabel(Inter.getLocText(new String[]{"Function-The_class_must_be_located_in","Function-J2EE_server"},
-                        new String[]{" ","\"",File.separator,ProjectConstants.WEBINF_NAME,File.separator,"classes\""}))}
+        		{new UILabel(com.fr.design.i18n.Toolkit.i18nText("DS-Class_Name") + ":"), reportletNamePane},
+        		{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Function-The_class_must_implement_the_interface") + "\"com.fr.data.Tabledata\"")},
+        		{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Example") + ":\"com.fr.data.impl.ArrayTableData\"")},
+                {null,new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Class_Location_Description", StableUtils.pathJoin(ProjectConstants.WEBINF_NAME, ProjectConstants.CLASSES_NAME)))}
         };
         JPanel northPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
         this.add(northPane, BorderLayout.NORTH);
@@ -112,7 +112,7 @@ public class ClassTableDataPane extends AbstractTableDataPane<ClassTableData> {
                         new RemoveParaAction()
                 };
             }
-        }, " " + Inter.getLocText("FR-Designer_TableData-Default-Para"));
+        }, " " + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_TableData-Default-Para"));
 
         jpanel.add(editorPane, BorderLayout.CENTER);
 
@@ -121,7 +121,7 @@ public class ClassTableDataPane extends AbstractTableDataPane<ClassTableData> {
 
     public class AddParaAction extends UITableEditAction {
         public AddParaAction() {
-            this.setName(Inter.getLocText("FR-Designer_Add"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Add"));
             this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/buttonicon/add.png"));
         }
 
@@ -137,7 +137,7 @@ public class ClassTableDataPane extends AbstractTableDataPane<ClassTableData> {
     }
     private class RemoveParaAction extends UITableEditAction {
         public RemoveParaAction() {
-            this.setName(Inter.getLocText("FR-Designer_Remove"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Remove"));
             this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/control/remove.png"));
         }
 
@@ -155,7 +155,7 @@ public class ClassTableDataPane extends AbstractTableDataPane<ClassTableData> {
 
     @Override
     protected String title4PopupWindow() {
-    	return Inter.getLocText("DS-Class_TableData");
+    	return com.fr.design.i18n.Toolkit.i18nText("DS-Class_TableData");
     }
 
     @Override

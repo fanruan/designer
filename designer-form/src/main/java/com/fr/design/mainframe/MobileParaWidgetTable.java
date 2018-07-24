@@ -11,7 +11,7 @@ import com.fr.form.ui.Label;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WParameterLayout;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
@@ -38,7 +38,7 @@ class MobileParaWidgetTable extends JTable {
 
     private FormDesigner designer;
     private String[][] cellData;
-    private String[] headers = {Inter.getLocText("FR-Designer_Label"), Inter.getLocText("FR-Designer_Widgetname")};
+    private String[] headers = {com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Label"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widgetname")};
     private static final int WIDGET_TABLE_ROW_HEIGHT = 22;
     private static final int UITEXTFIELD_WIDTH = 0;
     private static final int GAP = 11;

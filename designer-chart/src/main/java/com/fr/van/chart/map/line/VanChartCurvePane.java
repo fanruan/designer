@@ -6,7 +6,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.map.line.condition.AttrCurve;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 
@@ -47,9 +47,9 @@ public class VanChartCurvePane extends BasicBeanPane<AttrCurve>{
     private Component[][] getUseComponent() {
         return new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Line_Width")), lineWidth},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Bedding")),bending},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Alpha")), lineAlphaPane}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Line_Width")), lineWidth},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Bedding")),bending},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Alpha")), lineAlphaPane}
         };
     }
 

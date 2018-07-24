@@ -4,7 +4,7 @@ import com.fr.design.constants.UIConstants;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,7 +22,7 @@ public class NoSupportAuthorityEdit extends AuthorityEditPane {
         super(HistoryTemplateListPane.getInstance().getCurrentEditingTemplate());
         this.setLayout(new BorderLayout());
         this.setBorder(null);
-        UILabel title = new UILabel(Inter.getLocText(new String[]{"DashBoard-Potence", "Edit"})) {
+        UILabel title = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Privilege_Preference")) {
             @Override
             public Dimension getPreferredSize() {
                 return new Dimension(super.getPreferredSize().width, TITLE_HEIGHT);
@@ -40,7 +40,7 @@ public class NoSupportAuthorityEdit extends AuthorityEditPane {
 
     private JPanel createTextPane() {
         JPanel panel = new JPanel(new BorderLayout());
-        UILabel uiLabel = new UILabel(Inter.getLocText("not_support_authority_edit"));
+        UILabel uiLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("not_support_authority_edit"));
         uiLabel.setHorizontalAlignment(SwingConstants.CENTER);
         uiLabel.setVerticalAlignment(SwingConstants.CENTER);
         panel.add(uiLabel, BorderLayout.CENTER);

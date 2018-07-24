@@ -17,9 +17,10 @@ import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.dialog.BasicPane;
-import com.fr.general.Inter;
+
 import com.fr.stable.Constants;
 
 /**
@@ -29,8 +30,8 @@ import com.fr.stable.Constants;
  */
 public class GradientChangeBoxPane extends BasicPane {
 	private static final long serialVersionUID = -6747468244414651602L;
-	private static String current = Inter.getLocText(new String[]{"Current", "Choose", "Filed"});
-	private static String custom = Inter.getLocText(new String[]{"Custom", "Filed"});
+	private static final String CURRENT = Toolkit.i18nText("Fine-Design_Style_Background_Gradient_Current_Area");
+	private static final String CUSTOM = Toolkit.i18nText("Fine-Design_Style_Background_Gradient_Custom_Area");
 
 	private JPanel cardPane;
 	private CardLayout cardLayout;
@@ -56,27 +57,27 @@ public class GradientChangeBoxPane extends BasicPane {
 		arrowButton.setRoundBorder(true, Constants.LEFT);
 		this.add(arrowButton, BorderLayout.EAST);
 		
-		currentField = new UITextField(current);
+		currentField = new UITextField(CURRENT);
 		currentField.setEditable(false);
 		
-		cardPane.add(currentField, "current");
+		cardPane.add(currentField, "CURRENT");
 		
 		fromToPixPane = new GradientFromToPixPane();
 		
-		cardPane.add(fromToPixPane, "custom");
+		cardPane.add(fromToPixPane, "CUSTOM");
 		
 		popupMenu = new JPopupMenu();
-		UIMenuItem currentItem = new UIMenuItem(current);
+		UIMenuItem currentItem = new UIMenuItem(CURRENT);
 		currentItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cardLayout.show(cardPane, "current");
+				cardLayout.show(cardPane, "CURRENT");
 			}
 		});
 		
-		customItem = new UIMenuItem(custom);
+		customItem = new UIMenuItem(CUSTOM);
 		customItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cardLayout.show(cardPane, "custom");
+				cardLayout.show(cardPane, "CUSTOM");
 			}
 		});
 		
@@ -105,9 +106,9 @@ public class GradientChangeBoxPane extends BasicPane {
 	
 	public void populate(GradientBackground bg) {
 		if(bg.isUseCell()) {
-			cardLayout.show(cardPane, "current");
+			cardLayout.show(cardPane, "CURRENT");
 		} else {
-			cardLayout.show(cardPane, "custom");
+			cardLayout.show(cardPane, "CUSTOM");
 			fromToPixPane.populate(bg);
 		}
 	}
@@ -123,7 +124,7 @@ public class GradientChangeBoxPane extends BasicPane {
 	
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText(new String[]{"Choose", "Gradient-Color"});
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Style_Background_Choose_Gradient_Color");
 	}
 
 }

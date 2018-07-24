@@ -1,7 +1,7 @@
 package com.fr.van.chart.map.designer.data.component.table;
 
 import com.fr.design.gui.ilable.BoldFontTextLabel;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.map.data.VanMapTableDefinitionProvider;
 import com.fr.van.chart.map.designer.data.component.LongitudeLatitudeAndArea;
 import com.fr.van.chart.map.designer.data.contentpane.table.VanPointMapPlotTableDataContentPane;
@@ -35,7 +35,7 @@ public class LineMapAreaPane extends PointMapAreaPane {
         areaPane = new AreaPane(parentPane){
             protected Component[][] getComponent () {
                 return new Component[][]{
-                        new Component[]{new BoldFontTextLabel(Inter.getLocText(new String[]{"Plugin-ChartF_Start", "FR-Chart-Area_Name"})), areaNameCom}
+                        new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Plugin-ChartF_Start", "FR-Chart-Area_Name"})), areaNameCom}
                 };
             }
         };
@@ -45,7 +45,7 @@ public class LineMapAreaPane extends PointMapAreaPane {
         endAreaPane = new AreaPane(parentPane){
             protected Component[][] getComponent () {
                 return new Component[][]{
-                        new Component[]{new BoldFontTextLabel(Inter.getLocText(new String[]{"Plugin-ChartF_End", "FR-Chart-Area_Name"})), areaNameCom}
+                        new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Plugin-ChartF_End", "FR-Chart-Area_Name"})), areaNameCom}
                 };
             }
         };

@@ -19,7 +19,7 @@ import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.file.ProcedureConfig;
 import com.fr.file.TableDataConfig;
-import com.fr.general.Inter;
+
 import com.fr.locale.InterProviderFactory;
 import com.fr.transaction.CallBackAdaptor;
 import com.fr.transaction.Configurations;
@@ -52,7 +52,7 @@ public class GlobalTableDataAction extends UpdateAction implements ResponseDataS
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("DS-Server_TableData");
+            return com.fr.design.i18n.Toolkit.i18nText("DS-Server_TableData");
         }
 
         @Override

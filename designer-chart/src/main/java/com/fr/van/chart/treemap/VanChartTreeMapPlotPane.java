@@ -3,7 +3,7 @@ package com.fr.van.chart.treemap;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.treemap.TreeMapIndependentVanChart;
 import com.fr.plugin.chart.treemap.VanChartTreeMapPlot;
 import com.fr.van.chart.multilayer.VanChartMultiPiePlotPane;
@@ -12,7 +12,7 @@ import com.fr.van.chart.multilayer.VanChartMultiPiePlotPane;
  * Created by Fangjie on 2016/7/11.
  */
 public class VanChartTreeMapPlotPane extends VanChartMultiPiePlotPane {
-    public static final String TITLE = Inter.getLocText("Plugin-ChartF_NewTreeMap");
+    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewTreeMap");
     protected String[] getTypeIconPath() {
         return new String[]{"/com/fr/van/chart/treemap/images/treeMap.png"
         };
@@ -21,7 +21,7 @@ public class VanChartTreeMapPlotPane extends VanChartMultiPiePlotPane {
     @Override
     protected String[] getTypeTipName() {
         return new String[]{
-                Inter.getLocText("Plugin-ChartF_TreeMapChart")
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_TreeMapChart")
         };
     }
 
@@ -32,7 +32,7 @@ public class VanChartTreeMapPlotPane extends VanChartMultiPiePlotPane {
 
     @Override
     public String title4PopupWindow() {
-        return Inter.getLocText("Plugin-ChartF_NewTreeMap");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewTreeMap");
     }
 
     protected Plot getSelectedClonedPlot(){

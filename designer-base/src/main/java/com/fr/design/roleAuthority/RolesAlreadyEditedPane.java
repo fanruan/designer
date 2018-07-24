@@ -7,7 +7,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itree.refreshabletree.ExpandMutableTreeNode;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DockingView;
-import com.fr.general.Inter;
+
 import com.fr.general.NameObject;
 
 import javax.swing.*;
@@ -45,7 +45,7 @@ public class RolesAlreadyEditedPane extends JPanel {
     public RolesAlreadyEditedPane() {
         this.setLayout(new BorderLayout());
         this.setBorder(null);
-        UILabel authorityTitle = new UILabel(Inter.getLocText("roles_already_authority_edited")) {
+        UILabel authorityTitle = new UILabel(com.fr.design.i18n.Toolkit.i18nText("roles_already_authority_edited")) {
             @Override
             public Dimension getPreferredSize() {
                 return new Dimension(super.getPreferredSize().width, TITLE_HEIGHT);
@@ -92,7 +92,7 @@ public class RolesAlreadyEditedPane extends JPanel {
                 } else if (userObj instanceof NameObject) {
                     NameObject nameObject = (NameObject) userObj;
                     this.setText(nameObject.getName());
-                    if (nameObject.getName() == Inter.getLocText("M_Server-Platform_Manager")) {
+                    if (nameObject.getName() == com.fr.design.i18n.Toolkit.i18nText("M_Server-Platform_Manager")) {
                         this.setIcon(BaseUtils.readIcon("/com/fr/web/images/platform/platform_16_16.png"));
                     } else {
                         this.setIcon(BaseUtils.readIcon("/com/fr/web/images/platform/demo.png"));

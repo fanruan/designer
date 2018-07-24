@@ -11,7 +11,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.style.AlphaPane;
 import com.fr.design.style.background.BackgroundPane4BoxChange;
 import com.fr.general.Background;
-import com.fr.general.Inter;
+
 import com.fr.stable.Constants;
 
 import javax.swing.JFileChooser;
@@ -32,8 +32,8 @@ import java.io.File;
  */
 public class ImageSelectPane extends BackgroundPane4BoxChange {
     private static final long serialVersionUID = -3938766570998917557L;
-    private static String layoutCenter = Inter.getLocText("Default");
-    private static String layoutTitled = Inter.getLocText("Image-Titled");
+    private static String layoutCenter = com.fr.design.i18n.Toolkit.i18nText("Default");
+    private static String layoutTitled = com.fr.design.i18n.Toolkit.i18nText("Image-Titled");
 
     private String suffix = PictureCollection.DEFAULT_SUFFIX;
 
@@ -66,7 +66,7 @@ public class ImageSelectPane extends BackgroundPane4BoxChange {
         pane.add(testPane1);
 
         // 选择图片按钮
-        UIButton selectPictureButton = new UIButton(Inter.getLocText("Image-Select_Picture"));
+        UIButton selectPictureButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Image-Select_Picture"));
         selectFilePane.add(selectPictureButton);
 
         selectPictureButton.setPreferredSize(new Dimension(110, 20));
@@ -77,7 +77,7 @@ public class ImageSelectPane extends BackgroundPane4BoxChange {
         selectPictureButton.addActionListener(selectPictureActionListener);
 
         //布局
-        selectFilePane.add(new UILabel(Inter.getLocText("Form-Layout") + ":"));
+        selectFilePane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Form-Layout") + ":"));
         layoutComboBox = new UIComboBox(layoutTypes);
         selectFilePane.add(layoutComboBox);
 
@@ -115,7 +115,7 @@ public class ImageSelectPane extends BackgroundPane4BoxChange {
             imageSizeLabel.setText("");
         } else {
             imageSizeLabel.setText(selectImage.getWidth(null) + "x"
-                    + selectImage.getHeight(null) + Inter.getLocText("px"));
+                    + selectImage.getHeight(null) + com.fr.design.i18n.Toolkit.i18nText("px"));
         }
     }
 
@@ -159,6 +159,6 @@ public class ImageSelectPane extends BackgroundPane4BoxChange {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("Image-Select_Picture");
+        return com.fr.design.i18n.Toolkit.i18nText("Image-Select_Picture");
     }
 }

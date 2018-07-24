@@ -6,7 +6,7 @@ import com.fr.chart.chartglyph.ConditionCollection;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.controlpane.ShortCut4JControlPane;
-import com.fr.general.Inter;
+
 import com.fr.general.NameObject;
 import com.fr.plugin.chart.attr.DefaultAxisHelper;
 import com.fr.plugin.chart.attr.axis.VanChartAxis;
@@ -32,11 +32,11 @@ public class VanChartStackedAndAxisListControlPane extends VanChartUIListControl
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("Plugin-ChartF_StackAndSeries");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_StackAndSeries");
     }
 
     protected String getAddItemText() {
-        return Inter.getLocText("Plugin-ChartF_Add");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Add");
     }
 
     protected ShortCut4JControlPane[] createShortcuts() {
@@ -97,6 +97,6 @@ public class VanChartStackedAndAxisListControlPane extends VanChartUIListControl
     }
 
     public String getPaneTitle() {
-        return Inter.getLocText("Plugin-ChartF_StackAndSeries");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_StackAndSeries");
     }
 }

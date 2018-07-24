@@ -14,7 +14,7 @@ import com.fr.design.gui.frpane.UICorrelationPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itable.UITableEditor;
 import com.fr.design.gui.itextfield.UITextField;
-import com.fr.general.Inter;
+
 import com.fr.stable.StableUtils;
 
 import javax.swing.*;
@@ -50,12 +50,12 @@ public class MapReportDataSinglePane extends FurtherBasicBeanPane<MapSingleLayer
 		
 		northPane.setLayout(new FlowLayout(FlowLayout.CENTER));
 		
-		northPane.add(new UILabel(Inter.getLocText("Area_Name") + ":", SwingConstants.RIGHT));
+		northPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Area_Name") + ":", SwingConstants.RIGHT));
 		areaNamePane = new TinyFormulaPane();
 		areaNamePane.setPreferredSize(new Dimension(120, 20));
 		northPane.add(areaNamePane);
 
-		String[] columnNames = new String[]{Inter.getLocText(new String[]{"Filed", "Title"}), Inter.getLocText("Area_Value")};
+		String[] columnNames = new String[]{com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Filed", "Title"}), com.fr.design.i18n.Toolkit.i18nText("Area_Value")};
 		seriesPane = new UICorrelationPane(columnNames) {
 			public UITableEditor createUITableEditor() {
 				return new InnerTableEditor();
@@ -83,7 +83,7 @@ public class MapReportDataSinglePane extends FurtherBasicBeanPane<MapSingleLayer
 	 * 界面弹出标题.
 	 */
 	public String title4PopupWindow() {
-		return Inter.getLocText("Cell");
+		return com.fr.design.i18n.Toolkit.i18nText("Cell");
 	}
 
 	@Override

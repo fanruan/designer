@@ -34,7 +34,7 @@ public class XTableEditor extends XWidgetCreator {
 //                    .setRendererClass(GridWidgetRenderer.class),
 //                new CRPropertyDescriptor("dataURL", this.data.getClass()),
 //                new CRPropertyDescriptor("databinding", this.data.getClass())
-//                    .setI18NName(Inter.getLocText("DataBinding"))
+//                    .setI18NName(com.fr.design.i18n.Toolkit.i18nText("DataBinding"))
 //                    .setEditorClass(DataBindingEditor.class)
 //                    .setRendererClass(DataBindingCellRenderer.class)
 //                    .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")

@@ -19,7 +19,7 @@ import com.fr.design.widget.WidgetBoundsPaneFactory;
 import com.fr.form.ui.PaddingMargin;
 import com.fr.form.ui.container.WFitLayout;
 import com.fr.form.ui.container.WLayout;
-import com.fr.general.Inter;
+
 
 import javax.swing.JOptionPane;
 import java.awt.Rectangle;
@@ -58,8 +58,8 @@ public class WidgetBoundPane extends BasicPane {
     public void initBoundPane() {
         width = new UIBoundSpinner(0, Integer.MAX_VALUE, 1);
         height = new UIBoundSpinner(0, Integer.MAX_VALUE, 1);
-        width.setGlobalName(Inter.getLocText("FR-Designer_Coords_And_Size"));
-        height.setGlobalName(Inter.getLocText("FR-Designer_Coords_And_Size"));
+        width.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Coords_And_Size"));
+        height.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Coords_And_Size"));
         if (creator.acceptType(XWCardLayout.class)) {
             width.setEnabled(false);
             height.setEnabled(false);
@@ -115,11 +115,11 @@ public class WidgetBoundPane extends BasicPane {
         PaddingMargin margin = wabs.getMargin();
         if (bounds.width != w) {
             if (bounds.width == rec.width - margin.getLeft() - margin.getRight()) {
-                JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Beyond_Bounds"));
+                JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Beyond_Bounds"));
                 width.setValue(bounds.width);
                 return;
             } else if (w < minWidth) {
-                JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Min_Width") + Integer.toString(minWidth));
+                JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Min_Width") + Integer.toString(minWidth));
                 width.setValue(bounds.width);
                 return;
             }
@@ -136,11 +136,11 @@ public class WidgetBoundPane extends BasicPane {
         int minHeight = (int) (MINHEIGHT * ((WFitLayout) wabs).getResolutionScaling());
         if (bounds.height != h) {
             if (bounds.height == rec.height - margin.getTop() - margin.getBottom()) {
-                JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Beyond_Bounds"));
+                JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Beyond_Bounds"));
                 height.setValue(bounds.height);
                 return;
             } else if (h < minHeight) {
-                JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Min_Height") + Integer.toString(minHeight));
+                JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Min_Height") + Integer.toString(minHeight));
                 height.setValue(bounds.height);
                 return;
             }

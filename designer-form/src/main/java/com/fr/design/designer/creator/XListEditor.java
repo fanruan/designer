@@ -16,7 +16,7 @@ import com.fr.design.mainframe.widget.editors.WidgetValueEditor;
 import com.fr.design.mainframe.widget.renderer.DictionaryRenderer;
 import com.fr.form.ui.ListEditor;
 import com.fr.design.form.util.XCreatorConstants;
-import com.fr.general.Inter;
+
 import com.fr.stable.ArrayUtils;
 
 /**
@@ -34,13 +34,13 @@ public class XListEditor extends XFieldEditor {
 		return (CRPropertyDescriptor[]) ArrayUtils.addAll(super.supportedDescriptor(),
 				new CRPropertyDescriptor[] {
 						new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(
-								Inter.getLocText(new String[]{"Widget", "Value"})).setEditorClass(
+								com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Value")).setEditorClass(
 								WidgetValueEditor.class),
 						new CRPropertyDescriptor("dictionary", this.data.getClass()).setI18NName(
-								Inter.getLocText("DS-Dictionary")).setEditorClass(DictionaryEditor.class)
+								com.fr.design.i18n.Toolkit.i18nText("DS-Dictionary")).setEditorClass(DictionaryEditor.class)
 								.setRendererClass(DictionaryRenderer.class),
 						new CRPropertyDescriptor("needHead", this.data.getClass()).setI18NName(
-								Inter.getLocText("List-Need_Head")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
+								com.fr.design.i18n.Toolkit.i18nText("List-Need_Head")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
 								"Advanced") });
 	}
 

@@ -3,7 +3,7 @@
  */
 package com.fr.design.actions.edit.clear;
 
-import com.fr.general.Inter;
+
 import com.fr.design.mainframe.ElementCasePane;
 
 /**
@@ -16,7 +16,7 @@ public class ClearFormatsAction extends ClearAction {
     public ClearFormatsAction(ElementCasePane t) {
 		super(t);
 		
-        this.setName(Inter.getLocText("M_Edit-Clear_Formats"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("M_Edit-Clear_Formats"));
         this.setMnemonic('F');
     }
 

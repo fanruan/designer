@@ -9,7 +9,7 @@ import com.fr.design.gui.itable.PropertyGroup;
 import com.fr.design.mainframe.FormDesignerModeForSpecial;
 import com.fr.form.main.parameter.FormParameterUI;
 import com.fr.form.parameter.FormSubmitButton;
-import com.fr.general.Inter;
+
 
 import java.util.ArrayList;
 
@@ -26,7 +26,7 @@ public class FormParaTargetMode extends FormDesignerModeForSpecial<FormParaDesig
     @Override
     public WidgetOption[] getPredefinedWidgetOptions() {
         return new WidgetOption[]{
-                WidgetOptionFactory.createByWidgetClass(Inter.getLocText(new String[]{"Query", "Form-Button"}),
+                WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Query_Button"),
                         BaseUtils.readIcon("/com/fr/web/images/form/resources/preview_16.png"), FormSubmitButton.class)};
     }
 

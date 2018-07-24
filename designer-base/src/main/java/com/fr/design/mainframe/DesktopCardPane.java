@@ -9,7 +9,7 @@ import java.awt.*;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
 import com.fr.design.dialog.BasicPane;
-import com.fr.general.Inter;
+
 
 /**
  * Created by IntelliJ IDEA. User : Richer Version: 6.5.5 Date : 11-7-21 Time :
@@ -42,7 +42,7 @@ public class DesktopCardPane extends BasicPane implements TargetModifiedListener
 
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("Desktop");
+		return com.fr.design.i18n.Toolkit.i18nText("Desktop");
 	}
 
 	@Override

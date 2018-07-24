@@ -18,7 +18,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
@@ -108,7 +108,7 @@ public class FormatPane extends AbstractBasicStylePane  implements GlobalNameObs
 
 
         frFontPane = new FRFontPane();
-        UILabel font = new UILabel(Inter.getLocText("FR-Designer_FRFont"), SwingConstants.LEFT);
+        UILabel font = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont"), SwingConstants.LEFT);
         JPanel fontPane = new JPanel(new BorderLayout());
         fontPane.add(font, BorderLayout.NORTH);
 
@@ -136,7 +136,7 @@ public class FormatPane extends AbstractBasicStylePane  implements GlobalNameObs
     protected Component[][] getComponent (JPanel fontPane, JPanel centerPane, JPanel typePane) {
         return new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(Inter.getLocText("FR-Base_Format"), SwingConstants.LEFT), typePane},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Base_Format"), SwingConstants.LEFT), typePane},
                 new Component[]{centerPane, null},
                 new Component[]{fontPane, frFontPane},
         };
@@ -158,7 +158,7 @@ public class FormatPane extends AbstractBasicStylePane  implements GlobalNameObs
     private void iniSampleLable() {
         Border innterborder = new UIRoundedBorder(UIConstants.LINE_COLOR, 1, 4);
         Font tmpFont = null;
-        Border border = BorderFactory.createTitledBorder(innterborder, Inter.getLocText("FR-Base_StyleFormat_Sample"), TitledBorder.LEFT, 0, tmpFont, UIConstants.LINE_COLOR);
+        Border border = BorderFactory.createTitledBorder(innterborder, com.fr.design.i18n.Toolkit.i18nText("FR-Base_StyleFormat_Sample"), TitledBorder.LEFT, 0, tmpFont, UIConstants.LINE_COLOR);
         sampleLabel = new UILabel(FormatField.getInstance().getFormatValue()) {
 
             @Override
@@ -197,7 +197,7 @@ public class FormatPane extends AbstractBasicStylePane  implements GlobalNameObs
      * @return 标题
      */
     public String title4PopupWindow() {
-        return Inter.getLocText("FR-Designer_Text");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Text");
     }
 
     /**

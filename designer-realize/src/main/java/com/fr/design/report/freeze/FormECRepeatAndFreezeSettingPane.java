@@ -2,7 +2,7 @@ package com.fr.design.report.freeze;
 
 import javax.swing.JPanel;
 
-import com.fr.general.Inter;
+
 
 /**
  * 表单的重复标题行以及冻结设置的Pane
@@ -21,7 +21,7 @@ public class FormECRepeatAndFreezeSettingPane extends RepeatAndFreezeSettingPane
 	 * 
 	 */
 	protected String getPageFrozenTitle(){
-		return Inter.getLocText("FR-Engine_Frozen") + ":";
+		return com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Frozen") + ":";
 	}
 	
 	protected void initWriteListener(){

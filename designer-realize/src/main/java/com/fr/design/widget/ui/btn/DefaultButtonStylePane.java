@@ -8,7 +8,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.widget.IconDefinePane;
 import com.fr.form.ui.Button;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,8 +30,8 @@ public class DefaultButtonStylePane extends BasicPane {
 		iconPane = new IconDefinePane();
 	    labelPane.add(iconPane);
 		Component[][] n_components = {
-				{ new UILabel(Inter.getLocText("Text") + ":"), buttonNameTextField = new UITextField(20) },
-				{ new UILabel(Inter.getLocText("Icon") + ":"), labelPane } };
+				{ new UILabel(com.fr.design.i18n.Toolkit.i18nText("Text") + ":"), buttonNameTextField = new UITextField(20) },
+				{ new UILabel(com.fr.design.i18n.Toolkit.i18nText("Icon") + ":"), labelPane } };
 		JPanel panel = TableLayoutHelper.createTableLayoutPane(n_components, new double[]{-2, -2}, new double[]{-2, -2});
 		
 		this.add(panel,BorderLayout.CENTER);

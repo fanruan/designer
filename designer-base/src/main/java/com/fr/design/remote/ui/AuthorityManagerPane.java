@@ -1,7 +1,7 @@
 package com.fr.design.remote.ui;
 
 import com.fr.design.dialog.BasicPane;
-import com.fr.general.Inter;
+
 import com.fr.report.DesignAuthority;
 
 import javax.swing.BorderFactory;
@@ -23,7 +23,7 @@ public class AuthorityManagerPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("Fine-Designer_Remote_Design_Authority_Manager");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Remote_Design_Authority_Manager");
     }
 
     public void populate(DesignAuthority[] authorities) {

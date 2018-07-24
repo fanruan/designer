@@ -3,7 +3,7 @@ package com.fr.van.chart.map.line;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.base.AttrEffect;
 import com.fr.plugin.chart.map.line.condition.AttrLineEffect;
 import com.fr.plugin.chart.type.LineMapAnimationType;
@@ -32,7 +32,7 @@ public class VanChartLineMapEffectPane extends VanChartEffectPane {
 
     public VanChartLineMapEffectPane() {
         super(true);
-        this.add(TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_Line_Map_Animation"), enabledButton), BorderLayout.NORTH);
+        this.add(TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Line_Map_Animation"), enabledButton), BorderLayout.NORTH);
     }
 
     protected JPanel createContentPane() {
@@ -60,7 +60,7 @@ public class VanChartLineMapEffectPane extends VanChartEffectPane {
 
     private Component createAnimationSelectPane() {
         JPanel panel = new JPanel(new BorderLayout(5, 0));
-        UILabel label1 = new UILabel(Inter.getLocText("Plugin-ChartF_Animation_Type"));
+        UILabel label1 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Animation_Type"));
         label1.setPreferredSize(new Dimension((int) TableLayout4VanChartHelper.DESCRIPTION_AREA_WIDTH, 20));
         panel.add(label1, BorderLayout.WEST);
         panel.add(animationType, BorderLayout.CENTER);
@@ -125,6 +125,6 @@ public class VanChartLineMapEffectPane extends VanChartEffectPane {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("Plugin-ChartF_Line_Map_Animation");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Line_Map_Animation");
     }
 }

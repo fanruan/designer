@@ -11,7 +11,7 @@ import com.fr.design.widget.WidgetBoundsPaneFactory;
 import com.fr.form.ui.container.WTabDisplayPosition;
 import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 
 import javax.swing.JOptionPane;
 import java.awt.Rectangle;
@@ -29,7 +29,7 @@ public class WidgetCardTagBoundPane extends WidgetBoundPane {
     @Override
     public void initBoundPane() {
         cardTagWidth = new UIBoundSpinner(0, Integer.MAX_VALUE, 1);
-        cardTagWidth.setGlobalName(Inter.getLocText("FR-Designer_Coords_And_Size"));
+        cardTagWidth.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Coords_And_Size"));
         this.add(WidgetBoundsPaneFactory.createCardTagBoundPane(cardTagWidth));
     }
 
@@ -48,13 +48,13 @@ public class WidgetCardTagBoundPane extends WidgetBoundPane {
         Rectangle rectangle = tabLayout.getBounds();
         if(ComparatorUtils.equals(displayPosition, WTabDisplayPosition.TOP_POSITION) || ComparatorUtils.equals(displayPosition, WTabDisplayPosition.BOTTOM_POSITION)){
             if(rectangle.height < size){
-                JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Beyond_Tablayout_Bounds"));
+                JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Beyond_Tablayout_Bounds"));
                 return;
             }
             parentBounds.height = size;
         }else{
             if(rectangle.width < size){
-                JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Beyond_Tablayout_Bounds"));
+                JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Beyond_Tablayout_Bounds"));
                 return;
             }
             parentBounds.width = size;

@@ -4,7 +4,7 @@ import com.fr.design.designer.creator.XCreator;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.form.ui.CustomWriteAbleRepeatEditor;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,7 +24,7 @@ public abstract class CustomWritableRepeatEditorPane<T extends CustomWriteAbleRe
 
 
 	public  JPanel setValidatePane(){
-		this.customDataCheckBox = new UICheckBox(Inter.getLocText("Form-Allow_CustomData"), false);
+		this.customDataCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Form-Allow_CustomData"), false);
 		this.customDataCheckBox.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
 		JPanel otherContentPane = super.setValidatePane();
 		otherContentPane.add(GUICoreUtils.createFlowPane(new JComponent[]{customDataCheckBox}, FlowLayout.LEFT, 0));

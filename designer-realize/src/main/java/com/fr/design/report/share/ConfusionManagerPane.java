@@ -15,7 +15,7 @@ import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.controlpane.ShortCut4JControlPane;
 import com.fr.design.mainframe.JTemplate;
-import com.fr.general.Inter;
+
 import com.fr.general.NameObject;
 
 /**
@@ -32,7 +32,7 @@ public class ConfusionManagerPane extends JListControlPane {
 	 * 
 	 */
 	public NameableCreator[] createNameableCreators() {
-		NameableCreator local = new NameObjectCreator(Inter.getLocText("FR-Engine_DS-TableData"),
+		NameableCreator local = new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_DS-TableData"),
 				"/com/fr/design/images/data/dock/serverdatatable.png", ConfusionInfo.class,
 				ConfusionTableDataPane.class);
 
@@ -41,7 +41,7 @@ public class ConfusionManagerPane extends JListControlPane {
 
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("FR-Designer_Data-confusion");
+		return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Data-confusion");
 	}
 
 	/**

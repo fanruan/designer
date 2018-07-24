@@ -11,7 +11,7 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.hyperlink.AbstractHyperLinkPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.Inter;
+
 import com.fr.stable.ParameterProvider;
 
 import javax.swing.*;
@@ -51,7 +51,7 @@ public class ChartHyperRelateFloatLinkPane extends AbstractHyperLinkPane<ChartHy
 
         if (needRenamePane()) {
             itemNameTextField = new UITextField();
-            this.add(GUICoreUtils.createNamedPane(itemNameTextField, Inter.getLocText("FR-Designer-Hyperlink_Name") + ":"), BorderLayout.NORTH);
+            this.add(GUICoreUtils.createNamedPane(itemNameTextField, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Hyperlink_Name") + ":"), BorderLayout.NORTH);
         }
 
         this.add(centerPane, BorderLayout.CENTER);
@@ -59,19 +59,19 @@ public class ChartHyperRelateFloatLinkPane extends AbstractHyperLinkPane<ChartHy
         floatNameBox.setPreferredSize(new Dimension(90, 20));
 
         JPanel pane = FRGUIPaneFactory.createBoxFlowInnerContainer_S_Pane();
-        pane.add(new UILabel(Inter.getLocText("M_Insert-Float") + ":"));
+        pane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("M_Insert-Float") + ":"));
         pane.add(floatNameBox);
 
         Border boder = new LineBorder(UIConstants.TITLED_BORDER_COLOR);
         Font font = null;
-        TitledBorder border = new TitledBorder(boder, Inter.getLocText(new String[]{"Related", "M_Insert-Float"}), 4, 2, font, new Color(1, 159, 222));
+        TitledBorder border = new TitledBorder(boder, com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Related", "M_Insert-Float"}), 4, 2, font, new Color(1, 159, 222));
         // 圆角不行
         centerPane.setBorder(border);
 
         centerPane.add(pane, BorderLayout.NORTH);
 
         parameterViewPane = new ReportletParameterViewPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
-        parameterViewPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("FR-Designer_Parameter")));
+        parameterViewPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter")));
         parameterViewPane.setPreferredSize(new Dimension(500, 200));
         this.add(parameterViewPane, BorderLayout.SOUTH);
     }
@@ -144,7 +144,7 @@ public class ChartHyperRelateFloatLinkPane extends AbstractHyperLinkPane<ChartHy
 
     @Override
     public String title4PopupWindow() {
-        return Inter.getLocText(new String[]{"Related", "M_Insert-Float"});
+        return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Related", "M_Insert-Float"});
     }
 
     public static class ChartNoRename extends ChartHyperRelateFloatLinkPane {

@@ -14,7 +14,7 @@ import com.fr.design.gui.iprogressbar.AutoProgressBar;
 import com.fr.design.gui.itree.refreshabletree.ExpandMutableTreeNode;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -79,7 +79,7 @@ public final class StoreProcedureDataWrapper implements TableDataWrapper {
                 getWorker().cancel(true);
             }
         });
-        loadingBar = new AutoProgressBar(dialog, Inter.getLocText("FR-Designer_Loading_Data"), "", 0, 100) {
+        loadingBar = new AutoProgressBar(dialog, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Loading_Data"), "", 0, 100) {
             public void doMonitorCanceled() {
                 getDialog().setVisible(false);
                 getWorker().cancel(true);
@@ -101,7 +101,7 @@ public final class StoreProcedureDataWrapper implements TableDataWrapper {
             return columnNameList;
         }
         if (!createStore(false)) {
-            JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("FR-Engine_No-tableData"));
+            JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("FR-Engine_No-tableData"));
             return new ArrayList<String>();
         }
         columnNameList = Arrays.asList(procedureDataModel.getColumnName());
@@ -176,7 +176,7 @@ public final class StoreProcedureDataWrapper implements TableDataWrapper {
                 return null;
             }
         }.execute();
-        connectionBar = new AutoProgressBar(dialog, Inter.getLocText("Utils-Now_create_connection"), "", 0, 100) {
+        connectionBar = new AutoProgressBar(dialog, com.fr.design.i18n.Toolkit.i18nText("Utils-Now_create_connection"), "", 0, 100) {
             public void doMonitorCanceled() {
                 connectionBar.close();
                 worker.cancel(true);
@@ -194,7 +194,7 @@ public final class StoreProcedureDataWrapper implements TableDataWrapper {
                     connectionBar.close();
                     // bug 61345 预览失败时，关闭窗口
                     dialog.setVisible(false);
-                    throw new Exception(Inter.getLocText("Datasource-Connection_failed"));
+                    throw new Exception(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Database_Connection_Failed"));
                 }
                 connectionBar.close();
                 storeProcedure.resetDataModelList();

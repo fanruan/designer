@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
 
-import com.fr.general.Inter;
+
 import com.fr.stable.ColumnRow;
 
 public class ColumnRowTableModel extends AbstractTableModel {
 
-	private String[] columnNames = new String[] { Inter.getLocText("Column"), Inter.getLocText("Row") };
+	private String[] columnNames = new String[] { com.fr.design.i18n.Toolkit.i18nText("Column"), com.fr.design.i18n.Toolkit.i18nText("Row") };
 	private java.util.List<ColumnRow> columnRowList = new ArrayList<ColumnRow>();
 
 	public ColumnRowTableModel() {

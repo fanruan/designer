@@ -4,7 +4,7 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.base.AttrEffect;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 
@@ -28,7 +28,7 @@ public class VanChartEffectPane extends BasicBeanPane<AttrEffect> {
     }
 
     public VanChartEffectPane(boolean hasEnabledChoose){
-        enabledButton = new UIButtonGroup(new String[]{Inter.getLocText("Plugin-ChartF_Open"), Inter.getLocText("Plugin-ChartF_Close")});
+        enabledButton = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Open"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Close")});
 
         enabledButton.addChangeListener(new ChangeListener() {
             @Override
@@ -40,7 +40,7 @@ public class VanChartEffectPane extends BasicBeanPane<AttrEffect> {
         period = new UISpinner(0, Double.MAX_VALUE, 0.1, 0);
         content = createContentPane();
 
-        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_Flash_Animation"),enabledButton);
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Flash_Animation"),enabledButton);
         this.setLayout(new BorderLayout(0, 5));
         if(hasEnabledChoose) {
             this.add(panel, BorderLayout.NORTH);
@@ -61,11 +61,11 @@ public class VanChartEffectPane extends BasicBeanPane<AttrEffect> {
     protected JPanel createPeriodPane(){
         JPanel periodPane = new JPanel();
         periodPane.setLayout(new BorderLayout(5, 0));
-        UILabel label1= new UILabel(Inter.getLocText("Plugin-ChartF_Flash_Period"));
+        UILabel label1= new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Flash_Period"));
         label1.setPreferredSize(new Dimension((int)TableLayout4VanChartHelper.DESCRIPTION_AREA_WIDTH, 20));
         periodPane.add(label1, BorderLayout.WEST);
         periodPane.add(period, BorderLayout.CENTER);
-        periodPane.add(new UILabel(Inter.getLocText("FR-Base-Time_Second")), BorderLayout.EAST);
+        periodPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Base-Time_Second")), BorderLayout.EAST);
         return periodPane;
     }
 
@@ -90,6 +90,6 @@ public class VanChartEffectPane extends BasicBeanPane<AttrEffect> {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("Plugin-ChartF_Flash_Animation");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Flash_Animation");
     }
 }

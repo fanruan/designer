@@ -3,7 +3,7 @@ package com.fr.van.chart.scatter.component;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.base.VanChartAttrLine;
 import com.fr.plugin.chart.type.LineStyle;
 import com.fr.stable.Constants;
@@ -20,8 +20,8 @@ public class VanChartScatterLineTypePane extends VanChartLineTypePane {
 
     @Override
     protected void createLineStyle() {
-        String[] textArray = new String[]{Inter.getLocText("Plugin-ChartF_NormalLine"),
-                                            Inter.getLocText("Plugin-ChartF_CurveLine")};
+        String[] textArray = new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NormalLine"),
+                                            com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_CurveLine")};
         lineStyle = new UIButtonGroup<LineStyle>(textArray, new LineStyle[]{LineStyle.NORMAL, LineStyle.CURVE});
     }
 
@@ -32,8 +32,8 @@ public class VanChartScatterLineTypePane extends VanChartLineTypePane {
         double[] col = {f, e};
         Component[][] components = new Component[][]{
                 new Component[]{null,null},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_LineStyle")), lineWidth},
-                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Style_Present")), lineStyle},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_LineStyle")), lineWidth},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Style_Present")), lineStyle},
         };
 
         return TableLayoutHelper.createTableLayoutPane(components, row, col);

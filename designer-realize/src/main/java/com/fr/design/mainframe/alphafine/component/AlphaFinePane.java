@@ -7,7 +7,7 @@ import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.general.IOUtils;
-import com.fr.general.Inter;
+
 
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;
@@ -31,7 +31,7 @@ public class AlphaFinePane extends BasicPane {
         setLayout(new BorderLayout());
         UIButton refreshButton = new UIButton();
         refreshButton.setIcon(IOUtils.readIcon(("/com/fr/design/mainframe/alphafine/images/smallsearch.png")));
-        refreshButton.setToolTipText(Inter.getLocText("FR-Designer_AlphaFine"));
+        refreshButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_AlphaFine"));
         refreshButton.set4ToolbarButton();
         refreshButton.setRolloverEnabled(false);
         this.add(refreshButton);

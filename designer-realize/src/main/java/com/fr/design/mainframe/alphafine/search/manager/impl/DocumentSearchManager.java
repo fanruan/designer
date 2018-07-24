@@ -8,7 +8,7 @@ import com.fr.design.mainframe.alphafine.cell.model.DocumentModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.search.manager.fun.AlphaFineSearchProvider;
-import com.fr.general.Inter;
+
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
@@ -54,7 +54,7 @@ public class DocumentSearchManager implements AlphaFineSearchProvider {
         lessModelList = new SearchResult();
         moreModelList = new SearchResult();
         if (StringUtils.isBlank(searchText)) {
-            lessModelList.add(new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP")));
+            lessModelList.add(new MoreModel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_COMMUNITY_HELP")));
             return lessModelList;
         }
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainDocument()) {
@@ -82,10 +82,10 @@ public class DocumentSearchManager implements AlphaFineSearchProvider {
                     if (searchResult.isEmpty()) {
                         return lessModelList;
                     } else if (searchResult.size() < AlphaFineConstants.SHOW_SIZE + 1) {
-                        lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP")));
+                        lessModelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_COMMUNITY_HELP")));
                         lessModelList.addAll(searchResult);
                     } else {
-                        lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"), true, CellType.DOCUMENT));
+                        lessModelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_COMMUNITY_HELP"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_AlphaFine_ShowAll"), true, CellType.DOCUMENT));
                         lessModelList.addAll(searchResult.subList(0, AlphaFineConstants.SHOW_SIZE));
                         moreModelList.addAll(searchResult.subList(AlphaFineConstants.SHOW_SIZE, searchResult.size()));
                     }
@@ -104,7 +104,7 @@ public class DocumentSearchManager implements AlphaFineSearchProvider {
      */
     private SearchResult getNoConnectList() {
         SearchResult result = new SearchResult();
-        result.add(0, new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP")));
+        result.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_COMMUNITY_HELP")));
         result.add(AlphaFineHelper.NO_CONNECTION_MODEL);
         return result;
     }

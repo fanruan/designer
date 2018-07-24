@@ -33,7 +33,7 @@ import com.fr.design.roleAuthority.RolesAlreadyEditedPane;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.design.utils.gui.GUIPaintUtils;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.main.impl.WorkBook;
 import com.fr.poly.PolyDesigner;
 import com.fr.report.poly.PolyWorkSheet;
@@ -768,7 +768,7 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
 
     protected abstract class SheetInsertAction extends UpdateAction {
         SheetInsertAction() {
-            this.setName(Inter.getLocText("Insert") + getTemplateReportType());
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Insert") + getTemplateReportType());
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/base/images/cell/control/add.png"));
         }
 
@@ -833,7 +833,7 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
 
         @Override
         protected String getTemplateReportType() {
-            return Inter.getLocText("Report");
+            return com.fr.design.i18n.Toolkit.i18nText("Report");
         }
     }
 
@@ -845,13 +845,13 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
 
         @Override
         protected String getTemplateReportType() {
-            return Inter.getLocText("Poly");
+            return com.fr.design.i18n.Toolkit.i18nText("Poly");
         }
     }
 
     private class RemoveSheetAction extends UpdateAction {
         RemoveSheetAction() {
-            this.setName(Inter.getLocText("Remove"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Remove"));
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/base/images/cell/control/remove.png"));
         }
 
@@ -862,10 +862,10 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
             }
             int count = reportComposite.getEditingWorkBook().getReportCount();
             if (count <= 1) {
-                JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(reportComposite), Inter.getLocText("At_least_one_visual_worksheet") + "！");
+                JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(reportComposite), com.fr.design.i18n.Toolkit.i18nText("At_least_one_visual_worksheet") + "！");
                 return;
             }
-            int returnValue = JOptionPane.showConfirmDialog(SwingUtilities.getWindowAncestor(reportComposite), Inter.getLocText("Des-Remove_WorkSheet"), ProductConstants.APP_NAME,
+            int returnValue = JOptionPane.showConfirmDialog(SwingUtilities.getWindowAncestor(reportComposite), com.fr.design.i18n.Toolkit.i18nText("Des-Remove_WorkSheet"), ProductConstants.APP_NAME,
                     JOptionPane.OK_CANCEL_OPTION);
             if (returnValue == JOptionPane.OK_OPTION) {
                 if (DesignerContext.getFormatState() != DesignerContext.FORMAT_STATE_NULL) {
@@ -907,7 +907,7 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
 
     private class RenameSheetAction extends UpdateAction {
         RenameSheetAction() {
-            this.setName(Inter.getLocText("Rename"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Rename"));
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/base/images/cell/control/rename.png"));
         }
 
@@ -917,7 +917,7 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
                 return;
             }
 
-            String newName = JOptionPane.showInputDialog(reportComposite, Inter.getLocText("Rename") + ":", reportComposite.getEditingWorkBook().getReportName(selectedIndex));
+            String newName = JOptionPane.showInputDialog(reportComposite, com.fr.design.i18n.Toolkit.i18nText("Rename") + ":", reportComposite.getEditingWorkBook().getReportName(selectedIndex));
             if (newName != null) {
                 // marks：判断是否重名
                 boolean isExisted = false;
@@ -933,7 +933,7 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
                     // sheet名字的公式也需要做相应的变化.
                     reportComposite.repaint();
                 } else {
-                    JOptionPane.showMessageDialog(reportComposite, Inter.getLocText("Utils-The_Name_has_been_existed"));
+                    JOptionPane.showMessageDialog(reportComposite, com.fr.design.i18n.Toolkit.i18nText("Utils-The_Name_has_been_existed"));
                 }
             }
         }
@@ -941,7 +941,7 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
 
     private class CopySheetAction extends UpdateAction {
         CopySheetAction() {
-            this.setName(Inter.getLocText("Copy"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Copy"));
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_edit/copy.png"));
         }
 
@@ -965,7 +965,7 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
                     times++;
                 }
             }
-            String suffix = "-" + Inter.getLocText("Copy") + times;
+            String suffix = "-" + com.fr.design.i18n.Toolkit.i18nText("Copy") + times;
             reportComposite.getEditingWorkBook().setReportName(index + 1, prefix + suffix);
             setSelectedIndex(index + 1);
             reportComposite.validate();

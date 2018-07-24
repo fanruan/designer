@@ -8,7 +8,7 @@ import com.fr.base.BaseFormula;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartdata.TopDefinition;
 import com.fr.design.mainframe.chart.gui.ChartOtherPane;
-import com.fr.general.Inter;
+
 import com.fr.js.JavaScriptImpl;
 import com.fr.js.WebHyperlink;
 import com.fr.third.org.hsqldb.lib.HashMap;
@@ -33,10 +33,10 @@ public class ChartDesignerInteractivePane extends ChartInteractivePane {
         List<ChartUIMenuNameableCreator> list = new ArrayList<ChartUIMenuNameableCreator>();
         java.util.HashMap<String, BaseFormula> hyperLinkEditorMap = plot.getHyperLinkEditorMap();
 
-        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, Inter.getLocText("Hyperlink-Web_link"),
+        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, com.fr.design.i18n.Toolkit.i18nText("Hyperlink-Web_link"),
                 new WebHyperlink(), getUseMap(map, WebHyperlink.class)));
         list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, "FR-Designer_JavaScript", new JavaScriptImpl(), getUseMap(map, JavaScriptImpl.class)));
-        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, Inter.getLocText("FR-Engine_Interactive-chart"), null, null));
+        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Interactive-chart"), null, null));
 
         return list;
     }

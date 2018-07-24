@@ -2,7 +2,7 @@ package com.fr.design.mainframe.widget.wrappers;
 
 import com.fr.design.designer.properties.Encoder;
 import com.fr.design.designer.properties.NameWithListeners;
-import com.fr.general.Inter;
+
 
 public class EventHandlerWrapper implements Encoder {
 
@@ -12,7 +12,7 @@ public class EventHandlerWrapper implements Encoder {
             return null;
         } else {
             NameWithListeners handler = (NameWithListeners) v;
-            return Inter.getLocText("Page_Total") + handler.getCountOfListeners4ThisName() + Inter.getLocText("Ge") + handler.getName() + Inter.getLocText("Event");
+            return com.fr.design.i18n.Toolkit.i18nText("Page_Total") + handler.getCountOfListeners4ThisName() + com.fr.design.i18n.Toolkit.i18nText("Ge") + handler.getName() + com.fr.design.i18n.Toolkit.i18nText("Event");
         }
     }
 }

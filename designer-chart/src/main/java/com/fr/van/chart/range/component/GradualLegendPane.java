@@ -2,7 +2,7 @@ package com.fr.van.chart.range.component;
 
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.range.GradualLegend;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 import com.fr.van.chart.designer.style.VanChartStylePane;
@@ -27,7 +27,7 @@ public class GradualLegendPane extends JPanel{
     }
     private void initComponents() {
         intervalConfigPane = createGradualIntervalConfigPane();
-        JPanel intervalConfigPaneWithTitle = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Section_Config"),intervalConfigPane);
+        JPanel intervalConfigPaneWithTitle = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Section_Config"),intervalConfigPane);
         labelFormPane = new LegendLabelFormatPane();
 
         double p = TableLayout.PREFERRED;

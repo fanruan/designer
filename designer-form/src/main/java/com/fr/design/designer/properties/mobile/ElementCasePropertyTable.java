@@ -14,7 +14,7 @@ import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.design.mainframe.widget.editors.InChangeBooleanEditor;
 import com.fr.design.mainframe.widget.editors.RefinedDoubleEditor;
 import com.fr.form.ui.ElementCaseEditor;
-import com.fr.general.Inter;
+
 
 import javax.swing.table.TableModel;
 import java.beans.IntrospectionException;
@@ -49,16 +49,16 @@ public class ElementCasePropertyTable extends AbstractPropertyTable{
         CRPropertyDescriptor[] propertyTableEditor = {
                 new CRPropertyDescriptor("horziontalAttr", this.xCreator.toData().getClass()).setEditorClass(MobileFitEditor.class)
                         .setRendererClass(MobileFitRender.class)
-                        .setI18NName(Inter.getLocText("FR-Designer_Mobile-Horizontal"))
-                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, Inter.getLocText("FR-Designer_Fit")),
+                        .setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Mobile-Horizontal"))
+                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Fit")),
                 new CRPropertyDescriptor("verticalAttr", this.xCreator.toData().getClass()).setEditorClass(MobileFitEditor.class)
                         .setRendererClass(MobileFitRender.class)
-                        .setI18NName(Inter.getLocText("FR-Designer_Mobile-Vertical"))
-                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, Inter.getLocText("FR-Designer_Fit")),
+                        .setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Mobile-Vertical"))
+                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Fit")),
                 new CRPropertyDescriptor("heightRestrict", this.xCreator.toData().getClass()).setEditorClass(InChangeBooleanEditor.class)
-                        .setI18NName(Inter.getLocText("Form-EC_heightrestrict"))
+                        .setI18NName(com.fr.design.i18n.Toolkit.i18nText("Form-EC_heightrestrict"))
                         .setRendererClass(BooleanRender.class)
-                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, Inter.getLocText("FR-Designer_Fit"))
+                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Fit"))
         };
         List<CRPropertyDescriptor> defaultList = new ArrayList<>();
 
@@ -71,7 +71,7 @@ public class ElementCasePropertyTable extends AbstractPropertyTable{
     protected CRPropertyDescriptor[] revealHeightLimit() throws IntrospectionException {
         CRPropertyDescriptor heightLimitProperty = new CRPropertyDescriptor("heightPercent", this.xCreator.toData().getClass())
                                                                 .setEditorClass(RefinedDoubleEditor.class)
-                                                                .setI18NName(Inter.getLocText("Form-EC_heightpercent"))
+                                                                .setI18NName(com.fr.design.i18n.Toolkit.i18nText("Form-EC_heightpercent"))
                                                                 .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced");
         ArrayList<CRPropertyDescriptor> defaultList = (ArrayList<CRPropertyDescriptor>) createNonListenerProperties();
         defaultList.add(heightLimitProperty);
@@ -96,7 +96,7 @@ public class ElementCasePropertyTable extends AbstractPropertyTable{
         }
 
 
-        groups.add(new PropertyGroup(new ReportAppPropertyGroupModel(Inter.getLocText("FR-Designer_Fit"), xCreator, propertyTableEditor, designer)));
+        groups.add(new PropertyGroup(new ReportAppPropertyGroupModel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Fit"), xCreator, propertyTableEditor, designer)));
 
         TableModel model = new BeanTableModel();
         setModel(model);

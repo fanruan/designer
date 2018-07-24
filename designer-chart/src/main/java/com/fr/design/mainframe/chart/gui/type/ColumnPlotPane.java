@@ -6,7 +6,7 @@ import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.charttypes.ColumnIndependentChart;
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.Inter;
+
 
 /**
  * 柱形图 属性表 选择类型 布局界面.
@@ -30,16 +30,16 @@ public class ColumnPlotPane extends AbstractBarPane{
 
     @Override
     protected String[] getTypeTipName() {
-        String column = Inter.getLocText("FR-Chart-Type_Column");
-        String stack = Inter.getLocText("FR-Chart-Type_Stacked");
-        String percent = Inter.getLocText("FR-Chart-Use_Percent");
-        String td = Inter.getLocText("FR-Chart-Chart_3D");
+        String column = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Column");
+        String stack = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Stacked");
+        String percent = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Use_Percent");
+        String td = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Chart_3D");
         return new String[]{
                 column,
                 stack + column,
                 percent + stack + column,
                 td + column,
-                td + column + "(" + Inter.getLocText("FR-Chart-Direction_Horizontal") + ")",
+                td + column + "(" + com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Direction_Horizontal") + ")",
                 td + stack + column,
                 td + percent + stack + column
         };
@@ -63,7 +63,7 @@ public class ColumnPlotPane extends AbstractBarPane{
      * @return 界面标题
 	 */
 	public String title4PopupWindow() {
-		return Inter.getLocText("FR-Chart-Type_Column");
+		return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Column");
 	}
 
     protected Plot getSelectedClonedPlot(){

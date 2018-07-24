@@ -8,7 +8,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.style.FRFontPane;
 import com.fr.design.style.FRFontPreviewArea;
 import com.fr.general.FRFont;
-import com.fr.general.Inter;
+
 import com.fr.report.cell.cellattr.highlight.FRFontHighlightAction;
 import com.fr.report.cell.cellattr.highlight.HighlightAction;
 
@@ -29,11 +29,11 @@ public class FontPane extends ConditionAttrSingleConditionPane<HighlightAction> 
 
     public FontPane(final ConditionAttributesPane conditionAttributesPane) {
         super(conditionAttributesPane);
-        fontLabel = new UILabel(Inter.getLocText("FR-Designer_Sytle-FRFont") + ":");
+        fontLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Sytle-FRFont") + ":");
         frFontPreviewPane = new FRFontPreviewArea();
         frFontPreviewPane.setBorder(BorderFactory.createTitledBorder(""));
         frFontPreviewPane.setPreferredSize(new Dimension(80, 20));
-        UIButton editFRFontButton = new UIButton(Inter.getLocText("FR-Designer_Edit"));
+        UIButton editFRFontButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit"));
         editFRFontButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 final FRFontPane frFontPane = new FRFontPane();
@@ -52,9 +52,9 @@ public class FontPane extends ConditionAttrSingleConditionPane<HighlightAction> 
         });
 
         this.fontScopeComboBox = new UIComboBox(new String[] {
-                Inter.getLocText("Utils-Current_Cell"),
-                Inter.getLocText("Utils-Current_Row"),
-                Inter.getLocText("Utils-Current_Column") });
+                com.fr.design.i18n.Toolkit.i18nText("Utils-Current_Cell"),
+                com.fr.design.i18n.Toolkit.i18nText("Utils-Current_Row"),
+                com.fr.design.i18n.Toolkit.i18nText("Utils-Current_Column") });
 
         this.add(fontLabel);
         this.add(frFontPreviewPane);
@@ -65,7 +65,7 @@ public class FontPane extends ConditionAttrSingleConditionPane<HighlightAction> 
 
     @Override
     public String nameForPopupMenuItem() {
-        return Inter.getLocText("FR-Designer_Sytle-FRFont");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Sytle-FRFont");
     }
 
 

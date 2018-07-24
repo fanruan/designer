@@ -10,7 +10,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.parameter.ParameterReader;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.Inter;
+
 import com.fr.js.ReportletHyperlink;
 import com.fr.stable.ParameterProvider;
 import com.fr.stable.StringUtils;
@@ -45,15 +45,15 @@ public class ReportletHyperlinkPane extends AbstractHyperLinkPane<ReportletHyper
 
         this.add(parameterViewPane, BorderLayout.CENTER);
 
-        parameterViewPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("FR-Designer_Parameter"), null));
+        parameterViewPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter"), null));
 
-        extendParametersCheckBox = new UICheckBox(Inter.getLocText("Hyperlink-Extends_Report_Parameters"));
+        extendParametersCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Hyperlink-Extends_Report_Parameters"));
         this.add(GUICoreUtils.createFlowPane(extendParametersCheckBox, FlowLayout.LEFT), BorderLayout.SOUTH);
     }
 
     @Override
     public String title4PopupWindow() {
-        return Inter.getLocText("FR-Hyperlink_Reportlet");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Hyperlink_Reportlet");
     }
 
     @Override
@@ -96,14 +96,14 @@ public class ReportletHyperlinkPane extends AbstractHyperLinkPane<ReportletHyper
 
     protected class HyperlinkParametersAction extends UITableEditAction {
         public HyperlinkParametersAction() {
-            this.setName(Inter.getLocText(new String[]{"Reportlet", "Parameter"}));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Template_Parameter"));
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_report/p.gif"));
         }
 
         public void actionPerformed(ActionEvent e) {
             String tpl = northPane.getReportletName();
             if (StringUtils.isBlank(tpl)) {
-                JOptionPane.showMessageDialog(ReportletHyperlinkPane.this, Inter.getLocText("FR-Hyperlink_Please_Select_Reportlet") + ".", Inter.getLocText("FR-Designer_Message"), JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(ReportletHyperlinkPane.this, com.fr.design.i18n.Toolkit.i18nText("FR-Hyperlink_Please_Select_Reportlet") + ".", com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Message"), JOptionPane.WARNING_MESSAGE);
                 northPane.requestButtonFocus();
                 return;
             }

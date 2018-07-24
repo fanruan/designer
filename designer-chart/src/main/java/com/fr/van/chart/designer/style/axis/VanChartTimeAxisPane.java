@@ -17,7 +17,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.DateUtils;
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.attr.axis.VanChartAxis;
 import com.fr.plugin.chart.attr.axis.VanChartTimeAxis;
 import com.fr.plugin.chart.base.VanChartConstants;
@@ -82,7 +82,7 @@ public class VanChartTimeAxisPane extends VanChartBaseAxisPane {
 
     private JPanel createValueDefinition(){
         timeMinMaxValuePane = new TimeMinMaxValuePane();
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_ValueDefinition"), timeMinMaxValuePane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_ValueDefinition"), timeMinMaxValuePane);
     }
 
     @Override
@@ -120,7 +120,7 @@ public class VanChartTimeAxisPane extends VanChartBaseAxisPane {
      */
     @Override
     public String title4PopupWindow() {
-        return Inter.getLocText("Plugin-ChartF_TimeAxis");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_TimeAxis");
     }
 
     private class TimeMinMaxValuePane extends JPanel{
@@ -165,10 +165,10 @@ public class VanChartTimeAxisPane extends VanChartBaseAxisPane {
             secTickPane.add(secondUnitField);
             secTickPane.add(secondType);
 
-            minPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("FR-Chart-Data_Min"),minValueField, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
-            maxPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("FR-Chart-Data_Max"),maxValueField, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
-            mainPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_MainType"),mainTickPane, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
-            secPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_SecType"),secTickPane, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
+            minPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_Min"),minValueField, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
+            maxPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_Max"),maxValueField, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
+            mainPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_MainType"),mainTickPane, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
+            secPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_SecType"),secTickPane, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
 
             minPane.setBorder(BorderFactory.createEmptyBorder(0,TableLayout4VanChartHelper.COMPONENT_INTERVAL,0,0));
             maxPane.setBorder(BorderFactory.createEmptyBorder(0,TableLayout4VanChartHelper.COMPONENT_INTERVAL,0,0));
@@ -199,10 +199,10 @@ public class VanChartTimeAxisPane extends VanChartBaseAxisPane {
 
         private void initMin() {
             // 最小值.
-            minCheckBox = new UICheckBox(Inter.getLocText(new String[]{"Custom", "Min_Value"}));
+            minCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Custom", "Min_Value"}));
             Date tmp = null;
-            DateEditor dateEditor = new DateEditor(tmp, true, Inter.getLocText("FR-Designer_Date"), UIDatePicker.STYLE_CN_DATETIME1);
-            Editor formulaEditor = new FormulaEditor(Inter.getLocText("Plugin-ChartF_Formula"));
+            DateEditor dateEditor = new DateEditor(tmp, true, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Date"), UIDatePicker.STYLE_CN_DATETIME1);
+            Editor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Formula"));
             Editor[] editor = new Editor[]{dateEditor, formulaEditor};
             minValueField = new ValueEditorPane(editor);
             minCheckBox.addActionListener(new ActionListener() {
@@ -214,10 +214,10 @@ public class VanChartTimeAxisPane extends VanChartBaseAxisPane {
 
         private void initMax() {
             // 最大值
-            maxCheckBox = new UICheckBox(Inter.getLocText(new String[]{"Custom", "Max_Value"}));
+            maxCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Custom", "Max_Value"}));
             Date tmp = null;
-            DateEditor dateEditor = new DateEditor(tmp, true, Inter.getLocText("FR-Designer_Date"), UIDatePicker.STYLE_CN_DATETIME1);
-            Editor formulaEditor = new FormulaEditor(Inter.getLocText("Plugin-ChartF_Formula"));
+            DateEditor dateEditor = new DateEditor(tmp, true, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Date"), UIDatePicker.STYLE_CN_DATETIME1);
+            Editor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Formula"));
             Editor[] editor = new Editor[]{dateEditor, formulaEditor};
             maxValueField = new ValueEditorPane(editor);
             maxCheckBox.addActionListener(new ActionListener() {
@@ -229,7 +229,7 @@ public class VanChartTimeAxisPane extends VanChartBaseAxisPane {
 
         private void initMain() {
             // 主要刻度单位
-            mainTickBox = new UICheckBox(Inter.getLocText(new String[]{"Custom", "Plugin-ChartF_MainType"}));
+            mainTickBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Custom", "Plugin-ChartF_MainType"}));
             mainUnitField = new UITextField();
             mainUnitField.setPreferredSize(new Dimension(20, 20));
             mainType = new UIComboBox(TYPES);
@@ -245,7 +245,7 @@ public class VanChartTimeAxisPane extends VanChartBaseAxisPane {
 
         private void initSecond() {
             // 次要刻度单位
-            secondTickBox = new UICheckBox(Inter.getLocText(new String[]{"Custom", "Plugin-ChartF_SecType"}));
+            secondTickBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Custom", "Plugin-ChartF_SecType"}));
             secondUnitField = new UITextField();
             secondUnitField.setPreferredSize(new Dimension(20, 20));
             secondType = new UIComboBox(TYPES);

@@ -50,7 +50,7 @@ import com.fr.form.ui.WidgetValue;
 import com.fr.form.ui.container.WAbsoluteLayout;
 import com.fr.form.ui.container.WLayout;
 import com.fr.form.ui.container.WParameterLayout;
-import com.fr.general.Inter;
+
 import com.fr.stable.ArrayUtils;
 
 /**
@@ -613,7 +613,7 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
         }
         FormSubmitButton formSubmitButton = new FormSubmitButton();
         formSubmitButton.setWidgetName("Search");
-        formSubmitButton.setText(Inter.getLocText("FR-Designer_Query"));
+        formSubmitButton.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Query"));
         xCreator = XCreatorUtils.createXCreator(formSubmitButton);
         if (!(this.autoAddComponent(xCreator, SUBMIT_BUTTON_H_LOCATION, FIRST_V_LOCATION + V_COMPONENT_GAP
                 * (currentIndex / NUM_IN_A_LINE)))) {
@@ -653,7 +653,7 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
         if (!isWithQueryButton()) {
             FormSubmitButton formSubmitButton = new FormSubmitButton();
             formSubmitButton.setWidgetName("Search");
-            formSubmitButton.setText(Inter.getLocText("FR-Designer_Query"));
+            formSubmitButton.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Query"));
             XCreator xCreator = XCreatorUtils.createXCreator(formSubmitButton);
             if (!(this.autoAddComponent(xCreator, H_COMPONENT_GAP * 3 + H_GAP, FIRST_V_LOCATION
                     + V_COMPONENT_GAP * (currentIndex / NUM_IN_A_LINE)))) {

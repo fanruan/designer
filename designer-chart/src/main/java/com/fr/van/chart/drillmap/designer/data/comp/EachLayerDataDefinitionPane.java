@@ -8,7 +8,7 @@ import com.fr.design.dialog.MultiTabPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.drillmap.DrillMapHelper;
 import com.fr.plugin.chart.drillmap.VanChartDrillMapPlot;
 import com.fr.plugin.chart.drillmap.data.DrillMapDefinition;
@@ -57,7 +57,7 @@ public class EachLayerDataDefinitionPane extends MultiTabPane<ChartCollection> {
         List<BasicPane> paneList = new ArrayList<BasicPane>();
 
         for(int i = 1; i < depth + 1; i++){
-            String tile = String.format("%s%d%s", Inter.getLocText("Plugin-ChartF_Index1"), i, Inter.getLocText("Plugin-ChartF_Index3"));
+            String tile = String.format("%s%d%s", com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Index1"), i, com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Index3"));
 
             SingleLayerDataDefinitionPane pane = new SingleLayerDataDefinitionPane(tile, this.listener, this.parent);
             pane.setSupportCellData(parent.isSupportCellData());
@@ -141,7 +141,7 @@ public class EachLayerDataDefinitionPane extends MultiTabPane<ChartCollection> {
      */
     @Override
     public String title4PopupWindow() {
-        return Inter.getLocText("Plugin-ChartF_Each_Layer_Data_Special");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Each_Layer_Data_Special");
     }
 
     /**

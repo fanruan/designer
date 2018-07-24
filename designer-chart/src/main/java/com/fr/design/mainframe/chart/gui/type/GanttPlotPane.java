@@ -3,7 +3,7 @@ package com.fr.design.mainframe.chart.gui.type;
 import com.fr.chart.base.ChartConstants;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.charttypes.GanttIndependentChart;
-import com.fr.general.Inter;
+
 
 /**
  * 甘特图 属性表 选择类型 布局界面.
@@ -24,7 +24,7 @@ public class GanttPlotPane extends AbstractChartTypePane{
 	@Override
 	protected String[] getTypeTipName() {
 		return new String[]{
-				Inter.getLocText("FR-Chart-Gantt_Chart")
+				com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Gantt_Chart")
 		};
 	}
 
@@ -47,7 +47,7 @@ public class GanttPlotPane extends AbstractChartTypePane{
      * @return 界面标题
 	 */
 	public String title4PopupWindow() {
-		return Inter.getLocText("FR-Chart-Gantt_Chart");
+		return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Gantt_Chart");
 	}
 
 	/**

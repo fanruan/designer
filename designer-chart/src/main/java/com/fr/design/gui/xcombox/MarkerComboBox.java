@@ -12,7 +12,7 @@ import com.fr.chart.chartglyph.NullMarker;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.icombobox.UIComboBoxRenderer;
 import com.fr.general.FRFont;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -73,7 +73,7 @@ public class MarkerComboBox extends UIComboBox {
 					g2d.setFont(rfont);
 					FontMetrics fm = GraphHelper.getFontMetrics(rfont);
 
-					GraphHelper.drawString(g2d, Inter.getLocText("None"), 12, (d.height - fm.getHeight()) / 2 + fm.getAscent());
+					GraphHelper.drawString(g2d, com.fr.design.i18n.Toolkit.i18nText("None"), 12, (d.height - fm.getHeight()) / 2 + fm.getAscent());
 				} else {
 					if (marker.getBackground() == null) {
 						marker.setBackground(ColorBackground.getInstance(Color.black));

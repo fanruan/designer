@@ -5,7 +5,7 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
-import com.fr.general.Inter;
+
 import com.fr.van.chart.custom.component.VanChartCustomAxisConditionPane;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 import com.fr.van.chart.designer.component.VanChartLineTypePane;
@@ -64,7 +64,7 @@ public class VanChartScatterSeriesPane extends VanChartAbstractPlotSeriesPane{
 
             @Override
             public String getPaneTitle(){
-                return Inter.getLocText("Plugin-ChartF_Custom_Axis");
+                return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Custom_Axis");
             }
         };
         stackAndAxisEditExpandablePane =  TableLayout4VanChartHelper.createExpandablePaneWithTitle(stackAndAxisEditPane.getPaneTitle(), stackAndAxisEditPane);

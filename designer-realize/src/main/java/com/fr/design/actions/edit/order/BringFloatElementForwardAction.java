@@ -4,7 +4,7 @@
 package com.fr.design.actions.edit.order;
 
 import com.fr.base.BaseUtils;
-import com.fr.general.Inter;
+
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.report.cell.FloatElement;
 import com.fr.report.elementcase.ElementCase;
@@ -24,7 +24,7 @@ public class BringFloatElementForwardAction extends AbstractFloatElementOrderAct
 	public BringFloatElementForwardAction(ElementCasePane t) {
 		super(t);
 		
-        this.setName(Inter.getLocText("M_Edit-Bring_Forward"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("M_Edit-Bring_Forward"));
         this.setMnemonic('F');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/up.png"));
 //		this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_CLOSE_BRACKET, DEFAULT_MODIFIER));

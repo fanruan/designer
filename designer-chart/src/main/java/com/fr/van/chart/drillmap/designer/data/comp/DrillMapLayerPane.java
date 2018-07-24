@@ -7,7 +7,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.drillmap.DrillMapHelper;
 import com.fr.plugin.chart.drillmap.VanChartDrillMapPlot;
 import com.fr.plugin.chart.map.server.CompatibleGeoJSONTreeHelper;
@@ -71,8 +71,8 @@ public class DrillMapLayerPane extends BasicScrollPane<ChartCollection> {
         double[] columnSize = {f};
         double[] rowSize = {p, p};
         Component[][] components = new Component[][]{
-                new Component[]{createTitlePane(Inter.getLocText("Plugin-ChartF_Layer_Tree"), mapDataTreePanel)},
-                new Component[]{createTitlePane(Inter.getLocText("Plugin-ChartF_Layer_Detail"), createLayerDetailPane())}
+                new Component[]{createTitlePane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Layer_Tree"), mapDataTreePanel)},
+                new Component[]{createTitlePane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Layer_Detail"), createLayerDetailPane())}
         };
 
         JPanel contentPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
@@ -96,14 +96,14 @@ public class DrillMapLayerPane extends BasicScrollPane<ChartCollection> {
         detailComps = new Component[depth + 1][3];
         rowSize[0] = p;
         detailComps[0] = new Component[]{
-                new UILabel(Inter.getLocText("Plugin-Chart_Descriptor")),
-                new UILabel(Inter.getLocText("Plugin-ChartF_Zoom_Layer")),
-                new UILabel(Inter.getLocText("Plugin-ChartF_Layer_Map_Type"))
+                new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-Chart_Descriptor")),
+                new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Zoom_Layer")),
+                new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Layer_Map_Type"))
         };
         for (int i = 0; i < depth; i++) {
             rowSize[i + 1] = p;
             int d = i + 1;
-            UILabel label = new UILabel(String.format("%s%d%s", Inter.getLocText("Plugin-ChartF_Index1"), d, Inter.getLocText("Plugin-ChartF_Index3")));
+            UILabel label = new UILabel(String.format("%s%d%s", com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Index1"), d, com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Index3")));
             UIComboBox level = new UIComboBox(VanChartMapSourceChoosePane.ZOOM_LEVELS);
             level.setEnabled(i != 0);
             UIComboBox type = new UIComboBox(TEMP.get(oldMapType));
@@ -198,6 +198,6 @@ public class DrillMapLayerPane extends BasicScrollPane<ChartCollection> {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("FR-Chart-Map_Drill");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Map_Drill");
     }
 }

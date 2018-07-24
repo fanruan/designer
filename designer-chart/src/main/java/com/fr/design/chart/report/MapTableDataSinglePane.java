@@ -14,7 +14,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itable.UITableEditor;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.mainframe.chart.gui.data.DatabaseTableDataPane;
-import com.fr.general.Inter;
+
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
@@ -50,7 +50,7 @@ public class MapTableDataSinglePane extends FurtherBasicBeanPane<MapSingleLayerT
 
 		northPane.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-		UILabel label = new UILabel(Inter.getLocText("Select_Data_Set") + ":", SwingConstants.RIGHT);
+		UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Select_Data_Set") + ":", SwingConstants.RIGHT);
 
 		northPane.add(fromTableData = new DatabaseTableDataPane(label) {
 			@Override
@@ -65,7 +65,7 @@ public class MapTableDataSinglePane extends FurtherBasicBeanPane<MapSingleLayerT
 		fromTableData.setPreferredSize(new Dimension(180, 20));
 		northPane.add(fromTableData);
 		
-		UILabel nameLabel = new UILabel("    " + Inter.getLocText("Area_Name") + ":", SwingConstants.RIGHT);
+		UILabel nameLabel = new UILabel("    " + com.fr.design.i18n.Toolkit.i18nText("Area_Name") + ":", SwingConstants.RIGHT);
 		areaNameBox = new UIComboBox();
 		areaNameBox.setPreferredSize(new Dimension(80, 20));
 		
@@ -81,7 +81,7 @@ public class MapTableDataSinglePane extends FurtherBasicBeanPane<MapSingleLayerT
 		
 		pane.add(areaNamePane, BorderLayout.NORTH);
 		
-		String[] titles = {Inter.getLocText(new String[]{"Filed", "Title"}), Inter.getLocText("Area_Value")};
+		String[] titles = {com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Filed", "Title"}), com.fr.design.i18n.Toolkit.i18nText("Area_Value")};
 		titleValuePane = new UICorrelationPane(titles){
 			public UITableEditor createUITableEditor() {
 				return new InnerTableEditor();
@@ -126,7 +126,7 @@ public class MapTableDataSinglePane extends FurtherBasicBeanPane<MapSingleLayerT
 	 * 界面弹出标题
 	 */
 	public String title4PopupWindow() {
-		return Inter.getLocText("DS-TableData");
+		return com.fr.design.i18n.Toolkit.i18nText("DS-TableData");
 	}
 
 	private void stopEditing() {
