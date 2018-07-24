@@ -12,7 +12,7 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.report.SelectImagePane;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.quickeditor.CellQuickEditor;
 import com.fr.report.cell.cellattr.CellImage;
 
@@ -38,7 +38,7 @@ public class CellImageQuickEditor extends CellQuickEditor {
     @Override
     public JComponent createCenterBody() {
         JPanel content = new JPanel(new BorderLayout());
-        UIButton editButton = new UIButton(Inter.getLocText("Edit"));
+        UIButton editButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Edit"));
         editButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

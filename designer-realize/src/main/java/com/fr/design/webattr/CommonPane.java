@@ -15,7 +15,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.editor.editor.LongEditor;
-import com.fr.general.Inter;
+
 import com.fr.stable.StringUtils;
 import com.fr.web.attr.ReportWebAttr;
 
@@ -40,8 +40,8 @@ public class CommonPane extends JPanel {
         this.cacheValidateTimeEditor = new LongEditor();
 
         JComponent[][] comps = {
-				{new UILabel(Inter.getLocText("Title") + ":"), this.titleTextField, null},
-				{new UILabel(Inter.getLocText("CacheValidateTime") + ":"), this.cacheValidateTimeEditor, new UILabel("milliseconds")}
+				{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Title") + ":"), this.titleTextField, null},
+				{new UILabel(com.fr.design.i18n.Toolkit.i18nText("CacheValidateTime") + ":"), this.cacheValidateTimeEditor, new UILabel("milliseconds")}
 		};
 
         this.add(

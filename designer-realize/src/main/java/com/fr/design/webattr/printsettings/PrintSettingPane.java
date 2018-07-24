@@ -5,7 +5,7 @@ import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.Inter;
+
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -21,8 +21,8 @@ import java.awt.event.ItemListener;
  * Created by plough on 2018/3/1.
  */
 public class PrintSettingPane extends BasicPane {
-    private UIRadioButton noClientPrintRadioButton = new UIRadioButton(Inter.getLocText("FR-Engine_No_Client_Print"));
-    private UIRadioButton nativePrintRadioButton = new UIRadioButton(Inter.getLocText("FR-Engine_Native_Print"));
+    private UIRadioButton noClientPrintRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_No_Client_Print"));
+    private UIRadioButton nativePrintRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Native_Print"));
 
     private NoClientPrintSettingPane noClientPrintSettingPane;
     private NativePrintSettingPane nativePrintSettingPane;
@@ -88,7 +88,7 @@ public class PrintSettingPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("FR-Designer_Print_Setting");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Print_Setting");
     }
 
     public void populate(PrintSettingsAttrMark printSettings) {

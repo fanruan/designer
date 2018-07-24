@@ -8,7 +8,7 @@ import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.backgroundpane.ImageBackgroundQuickPane;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.base.VanChartAttrMarker;
 import com.fr.plugin.chart.marker.type.MarkerType;
 import com.fr.stable.Constants;
@@ -40,8 +40,8 @@ public class VanChartImageMarkerPane extends BasicBeanPane<VanChartAttrMarker> {
         double[] col = {p, f};
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Width")), width},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Height")), height},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Width")), width},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Height")), height},
         };
 
         JPanel sizePanel = TableLayoutHelper.createTableLayoutPane(components, row, col);
@@ -70,7 +70,7 @@ public class VanChartImageMarkerPane extends BasicBeanPane<VanChartAttrMarker> {
      */
     @Override
     public String title4PopupWindow() {
-        return Inter.getLocText("Plugin-ChartF_Image_Map_Data");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Image_Map_Data");
     }
 
     @Override

@@ -40,7 +40,7 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.dialog.UIDialog;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.stable.CoreGraphHelper;
 import com.fr.stable.StringUtils;
 import com.fr.design.utils.gui.GUICoreUtils;
@@ -122,7 +122,7 @@ public class MapImageEditPane extends BasicBeanPane<String> {
 
 		UIScrollPane pane = new UIScrollPane(recordTable);
 		pane.setPreferredSize(new Dimension(150, 320));
-		pane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText(new String[]{"Filed", "WF-Name"})));
+		pane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Filed", "WF-Name"})));
 
 		this.add(pane, BorderLayout.EAST);
 	}
@@ -480,7 +480,7 @@ public class MapImageEditPane extends BasicBeanPane<String> {
 			});
 			bg.setSize(NAME_EDIT_PANE_WIDTH, NAME_EDIT_PANE_HEIGHT);
 			bg.setLocation((int) (e.getLocationOnScreen().getX()) + LOCATIONOFFSET, (int) e.getLocationOnScreen().getY());
-			bg.setTitle(Inter.getLocText(new String[]{"Edit", "Filed", "WF-Name"}));
+			bg.setTitle(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Edit", "Filed", "WF-Name"}));
 			bg.setVisible(true);
 		}
 
@@ -523,7 +523,7 @@ public class MapImageEditPane extends BasicBeanPane<String> {
 
 		private int editViewRow = -1;// 所对应的view的index行 ,  确定当前正在编辑的viewList的行, 然后改变值
 
-		private UILabel namedLabel = new BoldFontTextLabel(Inter.getLocText("FR-Chart-Pre_Defined") + "------");
+		private UILabel namedLabel = new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Pre_Defined") + "------");
 		private JPanel listPane = new JPanel();
 
 		public EditNamePane() {
@@ -630,13 +630,13 @@ public class MapImageEditPane extends BasicBeanPane<String> {
 
 		@Override
 		protected String title4PopupWindow() {
-			return Inter.getLocText(new String[]{"Edit", "Image"});
+			return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Edit", "Image"});
 		}
 	}
 
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText(new String[]{"Edit", "Image"});
+		return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Edit", "Image"});
 	}
 
 	/**

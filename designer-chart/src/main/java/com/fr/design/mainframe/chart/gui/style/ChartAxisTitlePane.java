@@ -15,7 +15,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.FRFont;
-import com.fr.general.Inter;
+
 import com.fr.stable.Constants;
 import com.fr.stable.StableUtils;
 
@@ -38,7 +38,7 @@ public class ChartAxisTitlePane extends BasicPane{
 	}
 	
 	private void initComponents(){
-		isAxisTitleVisable = new UICheckBox(Inter.getLocText("Axis_Title"));
+		isAxisTitleVisable = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Axis_Title"));
 		axisTitleContentPane = new TinyFormulaPane();
 		axisTitleAttrPane = new ChartTextAttrPane();
 		axisTitleAttrPane.populate(FRFont.getInstance("Microsoft YaHei", Font.PLAIN, 9));
@@ -56,7 +56,7 @@ public class ChartAxisTitlePane extends BasicPane{
         Component[][] components = new Component[][]{
                 new Component[]{null,axisTitleContentPane},
                 new Component[]{null,axisTitleAttrPane},
-                new Component[]{null,new UILabel(Inter.getLocText("Alignment-Style"))},
+                new Component[]{null,new UILabel(com.fr.design.i18n.Toolkit.i18nText("Alignment-Style"))},
                 new Component[]{null,titleAlignmentPane,},
         };
         titlePane = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
@@ -97,7 +97,7 @@ public class ChartAxisTitlePane extends BasicPane{
 	public void update(Axis axis) {
 		if(isAxisTitleVisable.isSelected()) {
 			if(axis.getTitle() == null) {
-				Title newTitle = new Title(Inter.getLocText(new String[]{"ChartF-Axis", "ChartF-Title"}));
+				Title newTitle = new Title(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Title"));
 				
 				axis.setTitle(newTitle);
 				axisTitleContentPane.populateBean(Utils.objectToString(newTitle.getTextObject()));

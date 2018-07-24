@@ -2,7 +2,7 @@ package com.fr.design.actions.cell;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.menu.KeySetUtils;
-import com.fr.general.Inter;
+
 
 /**
  * Cell Attribute.
@@ -17,7 +17,7 @@ public class CellAttributeAction extends CellAttributeTableAction {
 
 	@Override
 	protected String getID() {
-		return Inter.getLocText("Datasource-Other_Attributes");
+		return com.fr.design.i18n.Toolkit.i18nText("Datasource-Other_Attributes");
 	}
 
 }

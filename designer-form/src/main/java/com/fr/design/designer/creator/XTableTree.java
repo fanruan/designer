@@ -10,7 +10,7 @@ import javax.swing.JList;
 import com.fr.design.mainframe.widget.editors.DictionaryEditor;
 import com.fr.design.mainframe.widget.renderer.DictionaryRenderer;
 import com.fr.form.ui.TableTree;
-import com.fr.general.Inter;
+
 import com.fr.stable.ArrayUtils;
 
 public class XTableTree extends XWidgetCreator {
@@ -25,7 +25,7 @@ public class XTableTree extends XWidgetCreator {
             super.supportedDescriptor(),
             new CRPropertyDescriptor[]{
                 new CRPropertyDescriptor("dictionary", this.data.getClass())
-                    .setI18NName(Inter.getLocText("DS-Dictionary"))
+                    .setI18NName(com.fr.design.i18n.Toolkit.i18nText("DS-Dictionary"))
                     .setEditorClass(DictionaryEditor.class)
                     .setRendererClass(DictionaryRenderer.class),
                 new CRPropertyDescriptor("dataUrl", this.data.getClass()),

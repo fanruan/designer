@@ -3,7 +3,7 @@ package com.fr.design.mainframe.widget.ui;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.form.ui.Widget;
-import com.fr.general.Inter;
+
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -26,8 +26,8 @@ public class BasicSetVisiblePropertyPane extends FormBasicPropertyPane {
         if(otherOtherConfig != null){
             pane2.add(otherOtherConfig);
         }
-        visibleCheckBox = new UICheckBox(Inter.getLocText("Widget-Visible"), true);
-        visibleCheckBox.setGlobalName(Inter.getLocText("FR-Designer_Basic"));
+        visibleCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Widget-Visible"), true);
+        visibleCheckBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Basic"));
 
         visibleCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
         pane2.add(visibleCheckBox);

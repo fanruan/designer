@@ -1,6 +1,6 @@
 package com.fr.design.designer.properties;
 
-import com.fr.general.Inter;
+
 import com.fr.form.ui.container.WSplitLayout;
 
 public class HorizontalSplitProperties extends VerticalSplitProperties {
@@ -10,6 +10,6 @@ public class HorizontalSplitProperties extends VerticalSplitProperties {
 
 	@Override
 	public String getGroupName() {
-		return Inter.getLocText("Horizontal-Split_Layout");
+		return com.fr.design.i18n.Toolkit.i18nText("Horizontal-Split_Layout");
 	}
 }

@@ -18,7 +18,7 @@ import com.fr.file.filter.ChooseFileFilter;
 import com.fr.form.main.Form;
 import com.fr.form.main.FormEmbeddedTableDataExporter;
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.Inter;
+
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.project.ProjectConstants;
@@ -86,10 +86,10 @@ public class EmbeddedFormExportExportAction extends JTemplateAction<JForm>{
             FineLoggerFactory.getLogger().error("Error In Make New File");
         }
         fileChooserPane = null;
-        FRContext.getLogger().info("\"" + file.getName() + "\"" + Inter.getLocText("FR-Designer_Prepare_Export") + "!");
+        FRContext.getLogger().info("\"" + file.getName() + "\"" + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Prepare_Export") + "!");
 
         (progressbar = new FRProgressBar(createExportWork(file, tpl, parameterMap), designerFrame,
-                Inter.getLocText("FR-Designer_Exporting"), "", 0, 100)).start();
+                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Exporting"), "", 0, 100)).start();
 	}
 	
 	private boolean isOk(int saveValue){
@@ -115,7 +115,7 @@ public class EmbeddedFormExportExportAction extends JTemplateAction<JForm>{
 	}
 	
     protected ChooseFileFilter getChooseFileFilter() {
-        return new ChooseFileFilter(new String[]{"frm"}, Inter.getLocText("FR-Designer_Form_EmbeddedTD"));
+        return new ChooseFileFilter(new String[]{"frm"}, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form_EmbeddedTD"));
     }
 	
     private SwingWorker createExportWork(FILE file, final Form tpl, final Map parameterMap) {
@@ -135,13 +135,13 @@ public class EmbeddedFormExportExportAction extends JTemplateAction<JForm>{
                     fileOutputStream.close();
                     this.setProgress(100);
 
-                    FRContext.getLogger().info("\"" + fileGetName + "\"" + Inter.getLocText("FR-Designer_Finish_Export") + "!");
+                    FRContext.getLogger().info("\"" + fileGetName + "\"" + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Finish_Export") + "!");
                     JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
-                            Inter.getLocText("FR-Designer_Exported_successfully") + "\n" + fileGetName);
+                            com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Exported_successfully") + "\n" + fileGetName);
                 } catch (Exception exp) {
                     this.setProgress(100);
                     FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
-                    JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("FR-Designer_Export_failed") + "\n" + filePath);
+                    JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Export_failed") + "\n" + filePath);
                 }
                 return null;
             }

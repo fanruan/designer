@@ -12,7 +12,7 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.design.webattr.EditReportServerParameterPane;
 import com.fr.general.IOUtils;
-import com.fr.general.Inter;
+
 import com.fr.transaction.Configurations;
 import com.fr.transaction.Worker;
 import com.fr.web.attr.ReportWebAttr;
@@ -85,7 +85,7 @@ public class ServerConfigManagerAction extends UpdateAction {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M_Server-Server_Config_Manager");
+            return com.fr.design.i18n.Toolkit.i18nText("M_Server-Server_Config_Manager");
         }
 
         @Override

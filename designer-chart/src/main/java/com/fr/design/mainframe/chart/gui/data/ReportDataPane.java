@@ -8,7 +8,7 @@ import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
-import com.fr.general.Inter;
+
 
 import java.awt.*;
 
@@ -36,7 +36,7 @@ public class ReportDataPane extends FurtherBasicBeanPane<ChartCollection>{
      * @return 界面的标题
      */
 	public String title4PopupWindow() {
-		return Inter.getLocText("FR-Chart_Cell_Data");
+		return com.fr.design.i18n.Toolkit.i18nText("FR-Chart_Cell_Data");
 	}
 
     /**

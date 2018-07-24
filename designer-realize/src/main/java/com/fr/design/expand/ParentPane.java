@@ -34,7 +34,7 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.present.ColumnRowTableModel;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.BasicPane;
-import com.fr.general.Inter;
+
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.grid.GridUtils;
 import com.fr.grid.selection.CellSelection;
@@ -117,10 +117,10 @@ public class ParentPane extends BasicPane {
 			}
 		});
 
-		noneParentText = new UITextField(Inter.getLocText("None"));
+		noneParentText = new UITextField(com.fr.design.i18n.Toolkit.i18nText("None"));
 		noneParentText.setRectDirection(Constants.RIGHT);
 		parentCardPane.add("None", noneParentText);
-		defaultParentText = new UITextField(Inter.getLocText("Default"));
+		defaultParentText = new UITextField(com.fr.design.i18n.Toolkit.i18nText("Default"));
 		defaultParentText.setRectDirection(Constants.RIGHT);
 		parentCardPane.add("Default", defaultParentText);
 		parentCardPane.add("Custom",
@@ -174,7 +174,7 @@ public class ParentPane extends BasicPane {
 	private UIPopupMenu createPopMenu() {
 		UIPopupMenu pop = new UIPopupMenu();
 		pop.setOnlyText(true);
-		UIMenuItem noneItem = new UIMenuItem(Inter.getLocText("None"));
+		UIMenuItem noneItem = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("None"));
 		if (cellAttrPaneListener != null) {
 			noneItem.addActionListener(cellAttrPaneListener);
 		}
@@ -187,7 +187,7 @@ public class ParentPane extends BasicPane {
 			}
 		});
 
-		UIMenuItem defaultItem = new UIMenuItem(Inter.getLocText("Default"));
+		UIMenuItem defaultItem = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("Default"));
 		if (cellAttrPaneListener != null) {
 			defaultItem.addActionListener(cellAttrPaneListener);
 		}
@@ -199,7 +199,7 @@ public class ParentPane extends BasicPane {
 			}
 		});
 
-		UIMenuItem customItem = new UIMenuItem(Inter.getLocText("Custom"));
+		UIMenuItem customItem = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("Custom"));
 		if (cellAttrPaneListener != null) {
 			customItem.addActionListener(cellAttrPaneListener);
 		}
@@ -233,9 +233,9 @@ public class ParentPane extends BasicPane {
 			this.cardLayout.show(parentCardPane, "Default");
 			this.customParentColumnRowPane.populate(ColumnRow.valueOf(0, 0));
 			if (ColumnRow.validate(columnRow)) {
-				this.defaultParentText.setText(Inter.getLocText("Default") + ":" + BaseUtils.convertColumnRowToCellString(columnRow));
+				this.defaultParentText.setText(com.fr.design.i18n.Toolkit.i18nText("Default") + ":" + BaseUtils.convertColumnRowToCellString(columnRow));
 			} else {
-				this.defaultParentText.setText(Inter.getLocText("Default"));
+				this.defaultParentText.setText(com.fr.design.i18n.Toolkit.i18nText("Default"));
 			}
 		} else if (ColumnRow.validate(columnRow)) {
 			this.cardLayout.show(parentCardPane, "Custom");
@@ -347,7 +347,7 @@ public class ParentPane extends BasicPane {
 
 		@Override
 		protected String title4PopupWindow() {
-			return Inter.getLocText("RWA-Smart_Add_Cells");
+			return com.fr.design.i18n.Toolkit.i18nText("RWA-Smart_Add_Cells");
 		}
 	}
 }

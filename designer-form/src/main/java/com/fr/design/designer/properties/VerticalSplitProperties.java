@@ -4,7 +4,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
-import com.fr.general.Inter;
+
 import com.fr.design.beans.GroupModel;
 import com.fr.design.mainframe.widget.editors.DoubleEditor;
 import com.fr.design.mainframe.widget.editors.PropertyCellEditor;
@@ -23,7 +23,7 @@ public class VerticalSplitProperties implements GroupModel {
 
 	@Override
 	public String getGroupName() {
-		return Inter.getLocText("Vertical-Split_Layout");
+		return com.fr.design.i18n.Toolkit.i18nText("Vertical-Split_Layout");
 	}
 
 	@Override
@@ -46,11 +46,11 @@ public class VerticalSplitProperties implements GroupModel {
 		if (column == 0) {
 			switch (row) {
 			case 0:
-				return Inter.getLocText("Ratio");
+				return com.fr.design.i18n.Toolkit.i18nText("Ratio");
 			case 1:
-				return Inter.getLocText("Hgap");
+				return com.fr.design.i18n.Toolkit.i18nText("Hgap");
 			case 2:
-				return Inter.getLocText("Vgap");
+				return com.fr.design.i18n.Toolkit.i18nText("Vgap");
 			}
 		} else {
 			switch (row) {

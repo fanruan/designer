@@ -4,7 +4,7 @@ import com.fr.design.gui.frpane.AbstractAttrNoScrollPane;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.style.series.MapColorPickerPaneWithFormula;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.range.SectionLegend;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 
@@ -26,7 +26,7 @@ public class SectionLegendPane extends JPanel{
 
     private void initComponents() {
         intervalConfigPane = createSectionIntervalConfigPane(this.parent);
-        JPanel intervalConfigPaneWithTitle = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Section_Config"), intervalConfigPane);
+        JPanel intervalConfigPaneWithTitle = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Section_Config"), intervalConfigPane);
         labelFormPane = new LegendLabelFormatPane(){
             @Override
             protected void checkCustomLabelText() {

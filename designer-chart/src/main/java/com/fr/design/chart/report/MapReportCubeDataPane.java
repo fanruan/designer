@@ -3,7 +3,7 @@ package com.fr.design.chart.report;
 import com.fr.chart.chartdata.MapMoreLayerReportDefinition;
 import com.fr.chart.chartdata.MapSingleLayerReportDefinition;
 import com.fr.design.beans.FurtherBasicBeanPane;
-import com.fr.general.Inter;
+
 
 import java.awt.*;
 
@@ -45,7 +45,7 @@ public class MapReportCubeDataPane extends FurtherBasicBeanPane<MapMoreLayerRepo
      * @return  返回标题.
 	 */
 	public String title4PopupWindow() {
-		return Inter.getLocText("Cell");
+		return com.fr.design.i18n.Toolkit.i18nText("Cell");
 	}
 
 	@Override

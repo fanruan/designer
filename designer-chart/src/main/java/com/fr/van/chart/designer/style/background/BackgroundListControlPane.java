@@ -5,7 +5,7 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.controlpane.ShortCut4JControlPane;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.general.NameObject;
 import com.fr.plugin.chart.attr.DefaultAxisHelper;
 import com.fr.plugin.chart.attr.axis.VanChartAlertValue;
@@ -26,18 +26,18 @@ public class BackgroundListControlPane extends VanChartUIListControlPane {
 
     @Override
     public NameableCreator[] createNameableCreators() {
-        return new BackgroundNameObjectCreator[]{new BackgroundNameObjectCreator(new String[]{Inter.getLocText("ChartF-X_Axis"), Inter.getLocText("ChartF-Y_Axis")},
-                Inter.getLocText("Plugin-ChartF_CustomIntervalBackground"), VanChartAlertValue.class, VanChartAlertValuePane.class)};
+        return new BackgroundNameObjectCreator[]{new BackgroundNameObjectCreator(new String[]{com.fr.design.i18n.Toolkit.i18nText("ChartF-X_Axis"), com.fr.design.i18n.Toolkit.i18nText("ChartF-Y_Axis")},
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_CustomIntervalBackground"), VanChartAlertValue.class, VanChartAlertValuePane.class)};
     }
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("Plugin-ChartF_CustomIntervalBackground");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_CustomIntervalBackground");
     }
 
     @Override
     public String getAddItemText() {
-        return Inter.getLocText("Plugin-ChartF_Add_Interval");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Add_Interval");
     }
 
     protected ShortCut4JControlPane[] createShortcuts() {
@@ -55,7 +55,7 @@ public class BackgroundListControlPane extends VanChartUIListControlPane {
         List<VanChartAxis> yAxisList = rectanglePlot.getYAxisList();
         String[] axisNames = DefaultAxisHelper.getAllAxisNames(rectanglePlot);
 
-        BackgroundNameObjectCreator[] creators = {new BackgroundNameObjectCreator(getCustomIntervalBackgroundAxisName(axisNames), Inter.getLocText("Plugin-ChartF_CustomIntervalBackground"), VanChartCustomIntervalBackground.class, getIntervalPaneClass())};
+        BackgroundNameObjectCreator[] creators = {new BackgroundNameObjectCreator(getCustomIntervalBackgroundAxisName(axisNames), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_CustomIntervalBackground"), VanChartCustomIntervalBackground.class, getIntervalPaneClass())};
 
         refreshNameableCreator(creators);
 

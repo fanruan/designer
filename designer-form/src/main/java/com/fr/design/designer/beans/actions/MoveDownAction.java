@@ -7,7 +7,7 @@ import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.FormSelection;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,7 +25,7 @@ public class MoveDownAction extends FormWidgetEditAction {
 
     public MoveDownAction(FormDesigner t) {
         super(t);
-        this.setName(Inter.getLocText("FR-Designer_Move_Down"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Move_Down"));
         this.setMnemonic('B');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/down.png"));
         this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_OPEN_BRACKET, DEFAULT_MODIFIER));

@@ -3,7 +3,7 @@ package com.fr.van.chart.designer.other.condition.item;
 import com.fr.chart.base.DataSeriesCondition;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.condition.ConditionAttributesPane;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.base.AttrDataSheet;
 import com.fr.van.chart.designer.style.datasheet.VanchartDataSheetNoCheckPane;
 
@@ -33,12 +33,12 @@ public class VanChartDataSheetContentPane extends AbstractNormalMultiLineConditi
 
     @Override
     public String nameForPopupMenuItem() {
-        return Inter.getLocText("Plugin-Chart_Data_Sheet");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-Chart_Data_Sheet");
     }
 
     @Override
     protected String getItemLabelString() {
-        return Inter.getLocText("Plugin-Chart_Data_Sheet");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-Chart_Data_Sheet");
     }
 
     @Override

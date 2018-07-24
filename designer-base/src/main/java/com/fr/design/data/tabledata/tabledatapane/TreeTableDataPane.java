@@ -3,7 +3,7 @@ package com.fr.design.data.tabledata.tabledatapane;
 import com.fr.design.data.datapane.TreeTableDataDictPane;
 import com.fr.data.impl.RecursionTableData;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 
 import java.awt.*;
 
@@ -39,7 +39,7 @@ public class TreeTableDataPane extends AbstractTableDataPane<RecursionTableData>
 
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText(new String[]{"Tree", "DS-TableData"});
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Tabledata_Type_Tree");
 	}
 	
 }

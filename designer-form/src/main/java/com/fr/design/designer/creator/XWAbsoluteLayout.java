@@ -29,7 +29,7 @@ import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.form.ui.container.WLayout;
 import com.fr.general.FRScreen;
 import com.fr.general.IOUtils;
-import com.fr.general.Inter;
+
 import com.fr.share.ShareConstants;
 import com.fr.stable.Constants;
 
@@ -446,7 +446,7 @@ public class XWAbsoluteLayout extends XLayoutContainer {
     public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
         return new CRPropertyDescriptor[]{
                 new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(
-                        Inter.getLocText("FR-Designer_Form-Widget_Name"))
+                        com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form-Widget_Name"))
         };
     }
 
@@ -486,7 +486,7 @@ public class XWAbsoluteLayout extends XLayoutContainer {
             g2d.setColor(Color.WHITE);
             //画编辑文字
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2d.drawString(Inter.getLocText("FR-Designer_Edit"), x + w / 2 - 2, y + h / 2 + 5);
+            g2d.drawString(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit"), x + w / 2 - 2, y + h / 2 + 5);
             g.setColor(XCreatorConstants.FORM_BORDER_COLOR);
             GraphHelper.draw(g, new Rectangle(BORDER_WIDTH, BORDER_WIDTH, getWidth() - BORDER_WIDTH * 2, getHeight() - BORDER_WIDTH * 2), Constants.LINE_MEDIUM);
             paintExtro(g);

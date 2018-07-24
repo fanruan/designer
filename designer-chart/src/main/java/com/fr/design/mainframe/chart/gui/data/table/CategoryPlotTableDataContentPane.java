@@ -11,7 +11,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
 
@@ -41,11 +41,11 @@ public class CategoryPlotTableDataContentPane extends AbstractTableDataContentPa
 		categoryCombox = new UIComboBox();
 		JPanel categoryPane = new JPanel(new BorderLayout(4,0));
 		categoryPane.setBorder(BorderFactory.createMatteBorder(0, 0, 6, 1, getBackground()));
-        UILabel label1 = new BoldFontTextLabel(Inter.getLocText("FR-Chart-Category_Name")) ;
+        UILabel label1 = new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Category_Name")) ;
         label1.setPreferredSize(new Dimension(ChartDataPane.LABEL_WIDTH,ChartDataPane.LABEL_HEIGHT));
         categoryCombox.setPreferredSize(new Dimension(100,20));
 
-        categoryCombox.addItem(Inter.getLocText("Chart-Use_None"));
+        categoryCombox.addItem(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_None"));
         categoryPane.add(GUICoreUtils.createBorderLayoutPane(new Component[]{categoryCombox,null,null,label1,null}));
 		categoryPane.setPreferredSize(new Dimension(246,30));
 		categoryPane.setBorder(BorderFactory.createEmptyBorder(0,24,10,15));
@@ -90,7 +90,7 @@ public class CategoryPlotTableDataContentPane extends AbstractTableDataContentPa
 	
     protected void refreshBoxListWithSelectTableData(List list) {
     	refreshBoxItems(categoryCombox, list);
-        categoryCombox.addItem(Inter.getLocText("Chart-Use_None"));
+        categoryCombox.addItem(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_None"));
 
     	seriesTypeComboxPane.refreshBoxListWithSelectTableData(list);
     }
@@ -100,7 +100,7 @@ public class CategoryPlotTableDataContentPane extends AbstractTableDataContentPa
      */
     public void clearAllBoxList(){
         clearBoxItems(categoryCombox);
-        categoryCombox.addItem(Inter.getLocText("Chart-Use_None"));
+        categoryCombox.addItem(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_None"));
         seriesTypeComboxPane.clearAllBoxList();
     }
 	
@@ -136,7 +136,7 @@ public class CategoryPlotTableDataContentPane extends AbstractTableDataContentPa
 		NormalTableDataDefinition data = (NormalTableDataDefinition)top;
 
         if(data == null || ComparatorUtils.equals(data.getCategoryName(), StringUtils.EMPTY)) {
-            categoryCombox.setSelectedItem(Inter.getLocText("Chart-Use_None"));
+            categoryCombox.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_None"));
         } else if(data!= null && !this.boxItemsContainsObject(categoryCombox,data.getCategoryName())){
 		     categoryCombox.setSelectedItem(null);
         }else {

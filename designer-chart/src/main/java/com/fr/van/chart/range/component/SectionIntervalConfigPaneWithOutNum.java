@@ -3,7 +3,7 @@ package com.fr.van.chart.range.component;
 import com.fr.design.gui.frpane.AbstractAttrNoScrollPane;
 import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.mainframe.chart.gui.style.series.MapColorPickerPaneWithFormula;
-import com.fr.general.Inter;
+
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 
 import javax.swing.JPanel;
@@ -48,12 +48,12 @@ public class SectionIntervalConfigPaneWithOutNum extends MapColorPickerPaneWithF
 
     @Override
     protected Component[][] createComponents() {
-        numLabel = new BoldFontTextLabel(Inter.getLocText("FR-Chart-Value_Divided_stage"));
+        numLabel = new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Value_Divided_stage"));
 
         setRegionVisible(false);
 
         return new Component[][]{
-                new Component[]{new BoldFontTextLabel(Inter.getLocText("Plugin-ChartF_RangeNum")),getDesignTypeButtonGroup()},
+                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_RangeNum")),getDesignTypeButtonGroup()},
                 new Component[]{numLabel, getRegionNumPane()},
         };
     }

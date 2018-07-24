@@ -8,7 +8,7 @@ import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.design.widget.WidgetBoundsPaneFactory;
 import com.fr.form.ui.container.WLayout;
-import com.fr.general.Inter;
+
 
 import java.awt.Rectangle;
 
@@ -30,10 +30,10 @@ public class WidgetAbsoluteBoundPane extends WidgetBoundPane {
         y = new UIBoundSpinner(0, Integer.MAX_VALUE, 1);
         width = new UIBoundSpinner(0, Integer.MAX_VALUE, 1);
         height = new UIBoundSpinner(0, Integer.MAX_VALUE, 1);
-        x.setGlobalName(Inter.getLocText("FR-Designer_Coords_And_Size"));
-        y.setGlobalName(Inter.getLocText("FR-Designer_Coords_And_Size"));
-        width.setGlobalName(Inter.getLocText("FR-Designer_Coords_And_Size"));
-        height.setGlobalName(Inter.getLocText("FR-Designer_Coords_And_Size"));
+        x.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Coords_And_Size"));
+        y.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Coords_And_Size"));
+        width.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Coords_And_Size"));
+        height.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Coords_And_Size"));
         this.add(WidgetBoundsPaneFactory.createAbsoluteBoundsPane(x, y, width, height));
     }
 

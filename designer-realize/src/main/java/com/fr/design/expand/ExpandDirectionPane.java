@@ -11,7 +11,7 @@ import com.fr.design.gui.ilable.UILabel;
 import javax.swing.JPanel;
 
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 import com.fr.report.cell.cellattr.CellExpandAttr;
 import com.fr.stable.Constants;
 import com.fr.stable.StringUtils;
@@ -37,9 +37,9 @@ public class ExpandDirectionPane extends JPanel {
         this.setLayout(new GridLayout(1, 3));
     	JPanel innerthis=FRGUIPaneFactory.createNormalFlowInnerContainer_M_Pane();
     	this.add(innerthis);
-        t2bRadioButton = new UIRadioButton(Inter.getLocText("Utils-Top_to_Bottom"));
-        l2rRadioButton = new UIRadioButton(Inter.getLocText("Utils-Left_to_Right"));
-        noneRadioButton = new UIRadioButton(Inter.getLocText("ExpandD-Not_Expand"));
+        t2bRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Utils-Top_to_Bottom"));
+        l2rRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Utils-Left_to_Right"));
+        noneRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("ExpandD-Not_Expand"));
         ButtonGroup bg = new ButtonGroup();
         bg.add(t2bRadioButton);
         bg.add(l2rRadioButton);

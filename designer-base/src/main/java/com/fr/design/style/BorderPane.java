@@ -34,7 +34,7 @@ import com.fr.design.gui.icombobox.LineComboBox;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.VerticalFlowLayout;
 import com.fr.design.dialog.BasicPane;
-import com.fr.general.Inter;
+
 import com.fr.stable.Constants;
 import com.fr.stable.CoreConstants;
 import com.fr.design.style.color.ColorSelectBox;
@@ -97,18 +97,18 @@ public class BorderPane extends BasicPane {
 
 		JPanel centerPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 
-		centerPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("Preview"), null));
+		centerPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Preview"), null));
 		JPanel borderAllControlPane = FRGUIPaneFactory.createCenterFlowInnerContainer_S_Pane();
 		centerPane.add(borderAllControlPane, BorderLayout.NORTH);
 		borderAllControlPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 4, 0));
 		borderAllControlPane.add(new UILabel(" "));
 		// Button reseting borders
-		borderAllControlPane.add(createVerButtonPane(NO_BORDERS, Inter.getLocText("No")));
+		borderAllControlPane.add(createVerButtonPane(NO_BORDERS, com.fr.design.i18n.Toolkit.i18nText("No")));
 		// Button setting all borders to active with
 		// current color and current style excepting inside borders
-		borderAllControlPane.add(createVerButtonPane(EXTERNAL_BORDERS, Inter.getLocText("External")));
+		borderAllControlPane.add(createVerButtonPane(EXTERNAL_BORDERS, com.fr.design.i18n.Toolkit.i18nText("External")));
 
-		borderAllControlPane.add(createVerButtonPane(INSIDE_BORDERS, Inter.getLocText("Inside")));
+		borderAllControlPane.add(createVerButtonPane(INSIDE_BORDERS, com.fr.design.i18n.Toolkit.i18nText("Inside")));
 
 		// Control
 		JPanel borderPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
@@ -148,16 +148,16 @@ public class BorderPane extends BasicPane {
 
 		JPanel northPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 
-		northPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("Line"), null));
+		northPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Line"), null));
 		JPanel rightTopPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		northPane.add(rightTopPane, BorderLayout.NORTH);
 		JPanel first = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-		first.add(new UILabel(Inter.getLocText("Style") + ":"));
+		first.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Style") + ":"));
 		first.add(this.currentLineCombo);
 		rightTopPane.add(first, BorderLayout.NORTH);
 
 		JPanel second = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-		second.add(new UILabel(Inter.getLocText("Color") + ":"));
+		second.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Color") + ":"));
 
 		second.add(this.currentLineColorPane);
 		rightTopPane.add(second, BorderLayout.CENTER);
@@ -216,7 +216,7 @@ public class BorderPane extends BasicPane {
 
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("Border");
+		return com.fr.design.i18n.Toolkit.i18nText("Border");
 	}
 
 	// p:populate Style

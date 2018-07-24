@@ -10,7 +10,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.data.CalculateComboBox;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.structure.data.StructureTableDefinition;
 
 import javax.swing.BorderFactory;
@@ -45,12 +45,12 @@ public class StructurePlotTableDataContentPane extends AbstractTableDataContentP
         calculateCombox = new CalculateComboBox();
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Node_Name")), nodeName},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Node_Name")), nodeName},
                 new Component[]{new UILabel("id"), nodeId},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Parent_ID")), parenrId},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_MultiPie_Series_Name")), seriesName},
-                new Component[]{new UILabel(Inter.getLocText("Chart-Series_Value")), nodeValue},
-                new Component[]{new UILabel(Inter.getLocText("Chart-Summary_Method")), calculateCombox}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Parent_ID")), parenrId},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_MultiPie_Series_Name")), seriesName},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Series_Value")), nodeValue},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Summary_Method")), calculateCombox}
         };
 
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components,rowSize,columnSize,24,6);

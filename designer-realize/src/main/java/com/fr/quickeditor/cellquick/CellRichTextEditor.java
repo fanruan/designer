@@ -5,7 +5,7 @@ import com.fr.design.actions.insert.cell.RichTextCellAction;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.Inter;
+
 import com.fr.quickeditor.CellQuickEditor;
 
 import javax.swing.JComponent;
@@ -46,7 +46,7 @@ public class CellRichTextEditor extends CellQuickEditor {
     @Override
     protected void refreshDetails() {
         RichTextCellAction subReportCellAction = new RichTextCellAction(tc);
-        subReportCellAction.setName(Inter.getLocText("Edit"));
+        subReportCellAction.setName(com.fr.design.i18n.Toolkit.i18nText("Edit"));
         subReportCellAction.setSmallIcon(null);
         richTextButton.setAction(subReportCellAction);
     }

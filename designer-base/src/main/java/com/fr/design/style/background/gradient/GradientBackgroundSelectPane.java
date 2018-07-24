@@ -11,7 +11,7 @@ import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.Background;
-import com.fr.general.Inter;
+
 import com.fr.design.style.AlphaPane;
 import com.fr.design.style.background.BackgroundPane4BoxChange;
 
@@ -24,8 +24,8 @@ import com.fr.design.style.background.BackgroundPane4BoxChange;
 public class GradientBackgroundSelectPane extends BackgroundPane4BoxChange {
 	private static final long serialVersionUID = -2762854865690293473L;
 	
-	private static final String LEFT_2_RIGHT = Inter.getLocText("PageSetup-Landscape");
-	private static final String TOP_2_BOTTOM = Inter.getLocText("PageSetup-Portrait");
+	private static final String LEFT_2_RIGHT = com.fr.design.i18n.Toolkit.i18nText("PageSetup-Landscape");
+	private static final String TOP_2_BOTTOM = com.fr.design.i18n.Toolkit.i18nText("PageSetup-Portrait");
 	
 	private static final String[] COLOR_DIRECTIONS = {
 		LEFT_2_RIGHT, TOP_2_BOTTOM
@@ -58,12 +58,12 @@ public class GradientBackgroundSelectPane extends BackgroundPane4BoxChange {
 		JPanel secondFloorPane = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
 		mainPane.add(secondFloorPane);
 		
-		secondFloorPane.add(new UILabel(Inter.getLocText(new String[]{"Gradient", "Filed"}) + ":"));
+		secondFloorPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Style_Background_Gradient_Area") + ":"));
 		
 		changeBox = new GradientChangeBoxPane();
 		secondFloorPane.add(changeBox);
 		
-		secondFloorPane.add(repeatShow = new UICheckBox(Inter.getLocText(new String[]{"Repeat", "Show"})));
+		secondFloorPane.add(repeatShow = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Style_Background_Gradient_Repeat_Show")));
 	}
 	
 	public void populate(Background background) {
@@ -112,7 +112,7 @@ public class GradientBackgroundSelectPane extends BackgroundPane4BoxChange {
 	
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText(new String[]{"Choose", "Gradient-Color"});
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Style_Background_Choose_Gradient_Color");
 	}
 
 }

@@ -16,7 +16,7 @@ import com.fr.design.menu.KeySetUtils;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.selection.SelectionListener;
 import com.fr.design.style.StylePane;
-import com.fr.general.Inter;
+
 import com.fr.stable.StringUtils;
 import com.fr.stable.pinyin.PinyinHelper;
 
@@ -81,7 +81,7 @@ public class GlobalStyleMenuDef extends MenuDef {
             createdMenu.add(useMenuItem);
         }
         createdMenu.addSeparator();
-        createdMenu.add(new CustomStyleAction(Inter.getLocText("FR-Engine_Custom")));
+        createdMenu.add(new CustomStyleAction(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Custom")));
     }
 
     /**
@@ -137,7 +137,7 @@ public class GlobalStyleMenuDef extends MenuDef {
          * @param e 事件
          */
         public void actionPerformed(ActionEvent e) {
-            CellElementPropertyPane.getInstance().GoToPane(new String[]{Inter.getLocText("FR-Engine_Style"), Inter.getLocText("FR-Engine_Custom")});
+            CellElementPropertyPane.getInstance().GoToPane(new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Style"), com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Custom")});
         }
 
     }
@@ -178,7 +178,7 @@ public class GlobalStyleMenuDef extends MenuDef {
             }
 
             stylePane.updateGlobalStyle(getEditingComponent());
-            CellElementPropertyPane.getInstance().GoToPane(Inter.getLocText("FR-Designer-Widget_Style"));
+            CellElementPropertyPane.getInstance().GoToPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget_Style"));
             return true;
         }
 

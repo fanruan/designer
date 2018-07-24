@@ -1,6 +1,6 @@
 package com.fr.design.chart.axis;
 
-import com.fr.general.Inter;
+
 import com.fr.general.NameObject;
 import com.fr.stable.Nameable;
 import com.fr.chart.chartattr.ChartAlertValue;
@@ -15,14 +15,14 @@ public class ChartAlertLinePane extends JListControlPane {
 
     public NameableCreator[] createNameableCreators() {
         return new NameableCreator[]{
-                new NameObjectCreator(Inter.getLocText("ChartF-Alert-Line"),
+                new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("ChartF-Alert-Line"),
                         ChartAlertValue.class, ChartAlertValuePane.class)
         };
     }
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText(new String[]{"Edit", "ChartF-Alert-Line"});
+        return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Edit", "ChartF-Alert-Line"});
     }
 
     public void populate(ChartAlertValue[] alertList) {

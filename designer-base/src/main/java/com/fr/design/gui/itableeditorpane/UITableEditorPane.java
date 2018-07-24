@@ -7,7 +7,7 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import javax.swing.event.TableModelListener;
@@ -106,7 +106,7 @@ public class UITableEditorPane<T> extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("TableData_Dynamic_Parameter_Setting");
+        return com.fr.design.i18n.Toolkit.i18nText("TableData_Dynamic_Parameter_Setting");
     }
 
     public void populate(T[] objs) {

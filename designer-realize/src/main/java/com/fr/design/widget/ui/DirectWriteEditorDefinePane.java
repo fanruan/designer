@@ -4,7 +4,7 @@ import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.form.ui.DirectWriteEditor;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,7 +23,7 @@ public abstract class DirectWriteEditorDefinePane<T extends DirectWriteEditor> e
 	protected JPanel setFirstContentPane() {
 		JPanel contentPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		contentPane.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 0));
-		directWriteCheckBox = new UICheckBox(Inter.getLocText("Form-Allow_Edit"), false);
+		directWriteCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Form-Allow_Edit"), false);
 		directWriteCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
 		waterMarkDictPane = new WaterMarkDictPane();

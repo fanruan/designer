@@ -1,6 +1,6 @@
 package com.fr.design.actions.columnrow;
 
-import com.fr.general.Inter;
+
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.grid.selection.CellSelection;
 import com.fr.report.elementcase.ElementCase;
@@ -10,7 +10,7 @@ public class RowHideAction extends AbstractColumnRowIndexAction {
 
 	public RowHideAction(ElementCasePane t, int indexOfColumnOrRow) {
 		super(t, indexOfColumnOrRow);
-		this.setName(Inter.getLocText("Hide"));
+		this.setName(com.fr.design.i18n.Toolkit.i18nText("Hide"));
 	}
 
 	@Override

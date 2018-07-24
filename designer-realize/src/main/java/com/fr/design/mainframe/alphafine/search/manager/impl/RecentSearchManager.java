@@ -9,7 +9,7 @@ import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.search.manager.fun.AlphaFineSearchProvider;
 import com.fr.design.mainframe.toolbar.UpdateActionManager;
-import com.fr.general.Inter;
+
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
@@ -76,7 +76,7 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
         this.modelList = new SearchResult();
         recentModelList = getRecentModelList(searchText);
         if (recentModelList != null && recentModelList.size() > 0) {
-            modelList.add(new MoreModel(Inter.getLocText("FR-Designer_AlphaFine_Latest")));
+            modelList.add(new MoreModel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_AlphaFine_Latest")));
         }
         modelList.addAll(recentModelList);
         return modelList;

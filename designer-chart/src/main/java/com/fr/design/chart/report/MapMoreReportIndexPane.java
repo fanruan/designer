@@ -14,7 +14,7 @@ import com.fr.design.gui.frpane.UICorrelationPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itable.UITableEditor;
 import com.fr.design.gui.itextfield.UITextField;
-import com.fr.general.Inter;
+
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 
@@ -52,13 +52,13 @@ public class MapMoreReportIndexPane extends BasicBeanPane<MapSingleLayerReportDe
 		this.add(northPane, BorderLayout.NORTH);
 		northPane.setLayout(new FlowLayout(FlowLayout.LEFT));
 		
-		northPane.add(new UILabel(Inter.getLocText("Area_Name") + ":"));
+		northPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Area_Name") + ":"));
 		
 		areaNamePane = new TinyFormulaPane();
 		areaNamePane.setPreferredSize(new Dimension(120, 20));
 		northPane.add(areaNamePane);
 		
-		tabPane = new UICorrelationPane(new String[]{Inter.getLocText(new String[]{"Filed", "Title"}), Inter.getLocText("Area_Value")}){
+		tabPane = new UICorrelationPane(new String[]{com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Filed", "Title"}), com.fr.design.i18n.Toolkit.i18nText("Area_Value")}){
 			public UITableEditor createUITableEditor() {
 				return new InnerTableEditor();
 			}

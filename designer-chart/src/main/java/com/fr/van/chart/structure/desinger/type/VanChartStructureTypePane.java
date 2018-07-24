@@ -3,7 +3,7 @@ package com.fr.van.chart.structure.desinger.type;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.base.VanChartTools;
 import com.fr.plugin.chart.structure.StructureIndependentVanChart;
 import com.fr.plugin.chart.structure.VanChartStructurePlot;
@@ -26,9 +26,9 @@ public class VanChartStructureTypePane extends AbstractVanChartTypePane {
     @Override
     protected String[] getTypeTipName() {
         return new String[]{
-                Inter.getLocText("Plugin-ChartF_Vertical_Structure"),
-                Inter.getLocText("Plugin-ChartF_Horizontal_Structure"),
-                Inter.getLocText("Plugin-ChartF_Radial_Structure")
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Vertical_Structure"),
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Horizontal_Structure"),
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Radial_Structure")
         };
     }
 
@@ -44,7 +44,7 @@ public class VanChartStructureTypePane extends AbstractVanChartTypePane {
      */
     @Override
     public String title4PopupWindow() {
-        return Inter.getLocText("Plugin-ChartF_NewStructure");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewStructure");
     }
     
     protected Plot getSelectedClonedPlot(){

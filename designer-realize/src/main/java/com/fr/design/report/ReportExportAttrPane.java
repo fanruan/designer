@@ -6,7 +6,7 @@ import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.fun.ExportAttrTabProvider;
 import com.fr.design.gui.frpane.UITabbedPane;
-import com.fr.general.Inter;
+
 import com.fr.io.attr.ReportExportAttr;
 
 import java.util.ArrayList;
@@ -41,7 +41,7 @@ public class ReportExportAttrPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("ReportD-Excel_Export");
+        return com.fr.design.i18n.Toolkit.i18nText("ReportD-Excel_Export");
     }
 
     public void populate(ReportExportAttr reportExportAttr) {

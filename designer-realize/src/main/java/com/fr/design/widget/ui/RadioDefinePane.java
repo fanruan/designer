@@ -5,7 +5,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.form.ui.Radio;
 import com.fr.general.FRFont;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +21,7 @@ public class RadioDefinePane extends AbstractDataModify<Radio> {
 		UILabel infoLabel = new UILabel();
         FRFont frFont = FRContext.getDefaultValues().getFRFont();
         infoLabel.setFont(new Font(frFont.getFamily(), Font.BOLD, 24));
-	    infoLabel.setText(Inter.getLocText(
+	    infoLabel.setText(com.fr.design.i18n.Toolkit.i18nText(
 				"No_Editor_Property_Definition") + ".");
 	    infoLabel.setHorizontalAlignment(SwingConstants.CENTER);
 	    

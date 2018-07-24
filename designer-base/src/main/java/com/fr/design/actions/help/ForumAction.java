@@ -8,7 +8,7 @@ import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.menu.MenuKeySet;
-import com.fr.general.Inter;
+
 import com.fr.general.CloudCenter;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
@@ -48,7 +48,7 @@ public class ForumAction extends UpdateAction {
         try {
             Desktop.getDesktop().browse(new URI(url));
         } catch (IOException exp) {
-            JOptionPane.showMessageDialog(null, Inter.getLocText("Set_default_browser"));
+            JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Set_default_browser"));
             FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
         } catch (URISyntaxException exp) {
             FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
@@ -66,7 +66,7 @@ public class ForumAction extends UpdateAction {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("Forum");
+            return com.fr.design.i18n.Toolkit.i18nText("Forum");
         }
 
         @Override

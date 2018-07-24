@@ -13,7 +13,7 @@ import com.fr.design.designer.creator.XCreator;
 import com.fr.form.event.Listener;
 import com.fr.design.form.javascript.FormEmailPane;
 import com.fr.form.ui.Widget;
-import com.fr.general.Inter;
+
 import com.fr.general.NameObject;
 import com.fr.stable.Nameable;
 
@@ -32,7 +32,7 @@ public class EventPropertyTable extends UIListControlPane {
 
 	@Override
 	public String getAddItemText() {
-		return Inter.getLocText("FR-Designer_Add_Event");
+		return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Add_Event");
 	}
 
 	public static class WidgetEventListenerUpdatePane extends ListenerUpdatePane {
@@ -47,7 +47,7 @@ public class EventPropertyTable extends UIListControlPane {
 
 				@Override
 				protected String title4PopupWindow() {
-					return Inter.getLocText("Set_Callback_Function");
+					return com.fr.design.i18n.Toolkit.i18nText("Set_Callback_Function");
 				}
 				@Override
 				protected EmailPane initEmaiPane() {
@@ -72,7 +72,7 @@ public class EventPropertyTable extends UIListControlPane {
 	}
 
 	private String switchLang(String eventName)	{
-		return Inter.getLocText("FR-Engine_Event_" + eventName);
+		return com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Event_" + eventName);
 	}
 
 	/**

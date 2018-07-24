@@ -9,7 +9,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.HyperlinkGroupPaneActionImpl;
-import com.fr.general.Inter;
+
 import com.fr.js.*;
 import com.fr.report.cell.cellattr.highlight.HighlightAction;
 import com.fr.report.cell.cellattr.highlight.HyperlinkHighlightAction;
@@ -33,7 +33,7 @@ public class HyperlinkPane extends ConditionAttrSingleConditionPane<HighlightAct
 
     public HyperlinkPane(final ConditionAttributesPane conditionAttributesPane) {
         super(conditionAttributesPane);
-        hyperlinkButton = new UIButton(Inter.getLocText("FR-Designer_Edit"));
+        hyperlinkButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit"));
         hyperlinkButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 NameJavaScriptGroup nameHyperlinks = jsGroup;
@@ -51,21 +51,21 @@ public class HyperlinkPane extends ConditionAttrSingleConditionPane<HighlightAct
             }
         });
         hyperlinkButton.setEnabled(false);
-        UILabel hyperlinkLabel = new UILabel(Inter.getLocText(new String[]{"Hyperlink", "Type"}) + ":");
+        UILabel hyperlinkLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Hyperlink", "Type"}) + ":");
         typeField = new UITextField(12);
         typeField.setEditable(false);
         this.add(hyperlinkLabel);
         this.add(typeField);
 
         this.add(hyperlinkButton);
-        useHyperlink = new UICheckBox(Inter.getLocText(new String[]{"Use", "Links"}));
+        useHyperlink = new UICheckBox(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Use", "Links"}));
         useHyperlink.addActionListener(l);
         this.add(useHyperlink);
     }
 
     @Override
     public String nameForPopupMenuItem() {
-        return Inter.getLocText("FR-Designer_Hyperlink");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Hyperlink");
     }
 
     @Override
@@ -92,17 +92,17 @@ public class HyperlinkPane extends ConditionAttrSingleConditionPane<HighlightAct
         if (jsGroup == null) {
             this.typeField.setText("");
         } else if (jsGroup.size() > 1) {
-            this.typeField.setText(Inter.getLocText("FR-Designer_HyperLink_Must_Alone_Reset") + "!");
+            this.typeField.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_HyperLink_Must_Alone_Reset") + "!");
         } else if (jsGroup.size() == 1) {
             JavaScript js = jsGroup.getNameHyperlink(0).getJavaScript();
             if (js instanceof JavaScriptImpl) {
                 this.typeField.setText("JavaScript");
             } else if (js instanceof ReportletHyperlink) {
-                this.typeField.setText(Inter.getLocText(new String[]{"Report", "Links"}));
+                this.typeField.setText(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Report", "Links"}));
             } else if (js instanceof WebHyperlink) {
-                this.typeField.setText(Inter.getLocText("Hyperlink-Web_link"));
+                this.typeField.setText(com.fr.design.i18n.Toolkit.i18nText("Hyperlink-Web_link"));
             } else if (js instanceof EmailJavaScript) {
-                this.typeField.setText(Inter.getLocText(new String[]{"Email", "Links"}));
+                this.typeField.setText(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Email", "Links"}));
             }
 
         }

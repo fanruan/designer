@@ -4,7 +4,7 @@ import com.fr.design.gui.frpane.UINumberDragPane;
 import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.mainframe.chart.gui.ColorSelectBoxWithOutTransparent;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.range.GradualIntervalConfig;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 import com.fr.van.chart.designer.style.axis.component.MinMaxValuePaneWithOutTick;
@@ -73,8 +73,8 @@ public class GradualIntervalConfigPane extends JPanel{
     protected Component[][] getPaneComponents(){
         return new Component[][]{
                 new Component[]{minMaxValuePane, null},
-                new Component[]{new BoldFontTextLabel(Inter.getLocText(new String[]{"FR-Chart-Color_Subject", "FR-Chart-Color_Color"})), colorSelectBox},
-                new Component[]{new BoldFontTextLabel(Inter.getLocText("FR-Chart-Value_Divided_stage")), numberDragPane},
+                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"FR-Chart-Color_Subject", "FR-Chart-Color_Color"})), colorSelectBox},
+                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Value_Divided_stage")), numberDragPane},
                 new Component[]{null, legendGradientBar},
         };
     }
@@ -82,7 +82,7 @@ public class GradualIntervalConfigPane extends JPanel{
     protected Component[][] getPaneComponentsWithOutTheme(){
         return new Component[][]{
                 new Component[]{minMaxValuePane, null},
-                new Component[]{new BoldFontTextLabel(Inter.getLocText("FR-Chart-Value_Divided_stage")), numberDragPane},
+                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Value_Divided_stage")), numberDragPane},
                 new Component[]{null, legendGradientBar},
         };
     }

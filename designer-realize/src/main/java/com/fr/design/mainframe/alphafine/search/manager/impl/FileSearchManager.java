@@ -11,7 +11,7 @@ import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.search.manager.fun.AlphaFineSearchProvider;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StableUtils;
@@ -81,7 +81,7 @@ public class FileSearchManager implements AlphaFineSearchProvider {
         this.moreModelList = new SearchResult();
         this.searchText = dealWithSearchText(searchText);
         if (StringUtils.isBlank(this.searchText) || ComparatorUtils.equals(this.searchText, DS_NAME)) {
-            lessModelList.add(new MoreModel(Inter.getLocText("FR-Designer_Templates")));
+            lessModelList.add(new MoreModel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Templates")));
             return lessModelList;
         }
         fileNodes = new ArrayList<>();
@@ -91,7 +91,7 @@ public class FileSearchManager implements AlphaFineSearchProvider {
         isContainFrm = true;
         doSearch(this.searchText, true);
         if (stopSearch) {
-            lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Templates"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"), true, CellType.FILE));
+            lessModelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Templates"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_AlphaFine_ShowAll"), true, CellType.FILE));
             lessModelList.addAll(filterModelList.subList(0, AlphaFineConstants.SHOW_SIZE));
             stopSearch = false;
             return this.lessModelList;
@@ -99,7 +99,7 @@ public class FileSearchManager implements AlphaFineSearchProvider {
         if (filterModelList.isEmpty()) {
             return new SearchResult();
         }
-        lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Templates"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"), false, CellType.FILE));
+        lessModelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Templates"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_AlphaFine_ShowAll"), false, CellType.FILE));
         lessModelList.addAll(filterModelList);
         return lessModelList;
     }

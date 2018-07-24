@@ -17,7 +17,7 @@ import com.fr.file.FileFILE;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
 import com.fr.general.GeneralContext;
-import com.fr.general.Inter;
+
 import com.fr.general.http.HttpClient;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ArrayUtils;
@@ -236,7 +236,7 @@ public class DesignUtils {
 
         //先初始化的设计器locale, 后初始化lookandfeel.如果顺序改了, 这边也要调整.
         Locale designerLocale = FRContext.getLocale();
-        String file = Inter.getLocText("FR-Designer_File");
+        String file = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_File");
         char displayChar = file.charAt(0);
         if (!guiFRFont.canDisplay(displayChar)) {
             //如果不能用默认的语言显示字体, 比如想在英文系统里用中文设计器
@@ -246,7 +246,7 @@ public class DesignUtils {
                 //比如想在中文或英文系统里用韩文设计器
                 guiFRFont = getNamedFont("Dialog");
                 if (!guiFRFont.canDisplay(displayChar)) {
-                    FRContext.getLogger().error(Inter.getLocText("FR-Base_SimSun_Not_Found"));
+                    FRContext.getLogger().error(com.fr.design.i18n.Toolkit.i18nText("FR-Base_SimSun_Not_Found"));
                 }
             }
         }
@@ -461,7 +461,7 @@ public class DesignUtils {
             } else if (ComparatorUtils.equals(message, RemoteDeziConstants.INVALID_USER)) {
                 throw new EnvException(RemoteDeziConstants.INVALID_USER);
             } else if (ComparatorUtils.equals(message, RemoteDeziConstants.FILE_LOCKED)) {
-                JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer_file-is-locked"));
+                JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_file-is-locked"));
                 return null;
             } else if (message.startsWith(RemoteDeziConstants.RUNTIME_ERROR_PREFIX)) {
             }

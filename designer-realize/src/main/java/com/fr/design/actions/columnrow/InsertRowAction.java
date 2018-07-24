@@ -7,7 +7,7 @@ import com.fr.base.BaseUtils;
 import com.fr.design.actions.CellSelectionAction;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.menu.MenuKeySet;
-import com.fr.general.Inter;
+
 import com.fr.grid.selection.CellSelection;
 import com.fr.report.elementcase.ElementCase;
 
@@ -37,7 +37,7 @@ public class InsertRowAction extends CellSelectionAction {
 
 		@Override
 		public String getMenuName() {
-			return Inter.getLocText("Row");
+			return com.fr.design.i18n.Toolkit.i18nText("Row");
 		}
 
 		@Override

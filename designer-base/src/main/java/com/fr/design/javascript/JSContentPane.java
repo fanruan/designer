@@ -16,7 +16,7 @@ import com.fr.design.javascript.beautify.JavaScriptFormatHelper;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.IOUtils;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -35,9 +35,9 @@ public class JSContentPane extends BasicPane {
         funNameLabel = new UILabel();
         this.setFunctionTitle(args);
 
-        UILabel label = new UILabel(Inter.getLocText("FR-Designer_Format_JavaScript"), IOUtils.readIcon("com/fr/design/images/edit/format.png"), SwingConstants.LEFT);
+        UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Format_JavaScript"), IOUtils.readIcon("com/fr/design/images/edit/format.png"), SwingConstants.LEFT);
         label.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        label.setToolTipText(Inter.getLocText("FR-Designer_Format_JavaScript"));
+        label.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Format_JavaScript"));
         label.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {

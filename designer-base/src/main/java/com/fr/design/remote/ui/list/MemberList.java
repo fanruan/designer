@@ -7,6 +7,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.ListSelectionModel;
 import java.awt.Color;
+import java.awt.Point;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -14,6 +15,12 @@ import java.awt.event.MouseEvent;
 import java.util.Vector;
 
 public abstract class MemberList extends JList<RemoteDesignMember> {
+    static final int TRIGGER_AREA_X = 270;
+    static final int TRIGGER_AREA_Y_EACH = 25;
+
+    static final int TRIGGER_AREA_WIDTH = 25;
+    static final int TRIGGER_AREA_HEIGHT = 25;
+
 
     public MemberList(DefaultListModel<RemoteDesignMember> dataModel) {
         super(dataModel);
@@ -79,7 +86,13 @@ public abstract class MemberList extends JList<RemoteDesignMember> {
 
     abstract protected void displaySelected();
 
-    abstract protected boolean shouldDisplaySelected(MouseEvent e);
-
-
+    protected boolean shouldDisplaySelected(MouseEvent e) {
+        Point point = e.getPoint();
+        int rX = point.x;
+        int rY = point.y;
+        int index = this.getSelectedIndex();
+        int x = TRIGGER_AREA_X;
+        int y = TRIGGER_AREA_Y_EACH * index;
+        return x <= rX && rX <= x + TRIGGER_AREA_WIDTH && y <= rY && rY <= y + TRIGGER_AREA_HEIGHT;
+    }
 }

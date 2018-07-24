@@ -4,7 +4,7 @@ import com.fr.chart.base.DataSeriesCondition;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.backgroundpane.ImageBackgroundQuickPane;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.base.AttrSeriesImageBackground;
 
 import javax.swing.JPanel;
@@ -21,7 +21,7 @@ public class VanChartSeriesImageBackgroundConditionPane extends AbstractNormalMu
 
     @Override
     protected String getItemLabelString() {
-        return Inter.getLocText("Plugin-ChartF_FilledWithImage");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_FilledWithImage");
     }
 
     @Override
@@ -39,7 +39,7 @@ public class VanChartSeriesImageBackgroundConditionPane extends AbstractNormalMu
      * @return item的名称
      */
     public String nameForPopupMenuItem() {
-        return Inter.getLocText("Plugin-ChartF_FilledWithImage");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_FilledWithImage");
     }
 
     @Override

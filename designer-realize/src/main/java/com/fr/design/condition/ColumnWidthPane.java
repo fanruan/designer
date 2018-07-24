@@ -1,6 +1,6 @@
 package com.fr.design.condition;
 
-import com.fr.general.Inter;
+
 import com.fr.report.cell.cellattr.highlight.ColWidthHighlightAction;
 import com.fr.report.cell.cellattr.highlight.HighlightAction;
 import com.fr.stable.unit.UNIT;
@@ -13,7 +13,7 @@ import com.fr.stable.unit.UNIT;
 public class ColumnWidthPane extends WHPane {
 
     public ColumnWidthPane(ConditionAttributesPane conditionAttributesPane) {
-        super(conditionAttributesPane, Inter.getLocText("Utils-Column_Width"));
+        super(conditionAttributesPane, com.fr.design.i18n.Toolkit.i18nText("Utils-Column_Width"));
     }
 
     @Override

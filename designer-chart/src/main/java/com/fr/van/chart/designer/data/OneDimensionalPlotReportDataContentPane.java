@@ -2,7 +2,7 @@ package com.fr.van.chart.designer.data;
 
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.report.MeterPlotReportDataContentPane;
-import com.fr.general.Inter;
+
 
 
 /**
@@ -16,11 +16,11 @@ public class OneDimensionalPlotReportDataContentPane extends MeterPlotReportData
 
     @Override
     protected String getCateNameString() {
-        return Inter.getLocText("FR-Chart-Series_Name");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Series_Name");
     }
 
     @Override
     protected String getNValueString() {
-        return Inter.getLocText("Chart-Series_Value");
+        return com.fr.design.i18n.Toolkit.i18nText("Chart-Series_Value");
     }
 }

@@ -1,7 +1,7 @@
 package com.fr.design.editor.editor;
 
 import com.fr.design.gui.icombobox.UIComboBoxRenderer;
-import com.fr.general.Inter;
+
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
 
@@ -23,7 +23,7 @@ public class ColumnNameEditor extends ColumnIndexEditor {
     }
 
     public ColumnNameEditor(String[] columnNames) {
-        this(columnNames, Inter.getLocText("ColumnName"));
+        this(columnNames, com.fr.design.i18n.Toolkit.i18nText("ColumnName"));
     }
 
     public ColumnNameEditor(final String[] columnNames, String name) {

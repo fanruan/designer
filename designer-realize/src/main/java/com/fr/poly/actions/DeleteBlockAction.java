@@ -11,7 +11,7 @@ import javax.swing.KeyStroke;
 import com.fr.base.BaseUtils;
 import com.fr.design.actions.TemplateComponentActionInterface;
 import com.fr.design.actions.UpdateAction;
-import com.fr.general.Inter;
+
 import com.fr.poly.PolyDesigner;
 
 /**
@@ -22,7 +22,7 @@ public class DeleteBlockAction extends UpdateAction implements TemplateComponent
 
 	public DeleteBlockAction(PolyDesigner pd) {
 		this.pd = pd;
-		this.setName(Inter.getLocText("M_Edit-Delete"));
+		this.setName(com.fr.design.i18n.Toolkit.i18nText("M_Edit-Delete"));
 		this.setMnemonic('D');
 		this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0));
 		this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_report/delete.png"));

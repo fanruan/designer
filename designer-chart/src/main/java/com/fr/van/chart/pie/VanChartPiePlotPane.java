@@ -4,7 +4,7 @@ package com.fr.van.chart.pie;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.PiePlot4VanChart;
 import com.fr.plugin.chart.pie.PieIndependentVanChart;
 import com.fr.van.chart.designer.type.AbstractVanChartTypePane;
@@ -13,7 +13,7 @@ import com.fr.van.chart.designer.type.AbstractVanChartTypePane;
  * 饼图(新特性) 属性表 选择类型 布局界面.
  */
 public class VanChartPiePlotPane extends AbstractVanChartTypePane {
-    public static final String TITLE = Inter.getLocText("Plugin-ChartF_NewPie");
+    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewPie");
 
     private static final long serialVersionUID = 6163246902689597259L;
 
@@ -28,9 +28,9 @@ public class VanChartPiePlotPane extends AbstractVanChartTypePane {
     @Override
     protected String[] getTypeTipName() {
         return new String[]{
-                Inter.getLocText("I-PieStyle_Normal"),
-                Inter.getLocText("Plugin-ChartF_SameArcPie"),
-                Inter.getLocText("Plugin-ChartF_DifferentArcPie")
+                com.fr.design.i18n.Toolkit.i18nText("I-PieStyle_Normal"),
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_SameArcPie"),
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_DifferentArcPie")
         };
     }
 
@@ -39,7 +39,7 @@ public class VanChartPiePlotPane extends AbstractVanChartTypePane {
      * @return 界面标题
      */
     public String title4PopupWindow() {
-        return Inter.getLocText("Plugin-ChartF_NewPie");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewPie");
     }
 
     /**

@@ -1,7 +1,7 @@
 package com.fr.van.chart.designer.style.background.radar;
 
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.general.Inter;
+
 import com.fr.van.chart.designer.style.background.VanChartAlertValuePane;
 
 import java.awt.Component;
@@ -14,9 +14,9 @@ public class VanChartRadarAlertValuePane extends VanChartAlertValuePane {
 
     protected Component[][] getTopPaneComponents() {
         return new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Chart-Use_Value")),alertValue},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_LineStyle")),alertLineStyle},
-                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Color_Color")),alertLineColor},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Value")),alertValue},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_LineStyle")),alertLineStyle},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Color_Color")),alertLineColor},
         };
     }
 

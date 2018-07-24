@@ -7,7 +7,7 @@ import com.fr.design.gui.itextarea.UITextArea;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.file.filetree.IOFileNodeFilter;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,7 +33,7 @@ public class ReportletPane extends BasicPane {
         textPane.setLineWrap(true);
 
         textPane.setFont(FRContext.getDefaultValues().getFRFont().deriveFont(Font.BOLD, 12));
-        textPane.setText(Inter.getLocText("Schedule-The_selected_file_must_be_end_with_filter"));
+        textPane.setText(com.fr.design.i18n.Toolkit.i18nText("Schedule-The_selected_file_must_be_end_with_filter"));
 
         JPanel centerPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         this.add(centerPane, BorderLayout.CENTER);
@@ -65,10 +65,10 @@ public class ReportletPane extends BasicPane {
     private void switchCardPane(boolean switch2Class) {
         if (switch2Class) {
             card.show(cardPane, "CLASS");
-            switchButton.setText(Inter.getLocText("Utils-Switch_To_Template_Reportlet"));
+            switchButton.setText(com.fr.design.i18n.Toolkit.i18nText("Utils-Switch_To_Template_Reportlet"));
         } else {
             card.show(cardPane, "TEMPLATE");
-            switchButton.setText(Inter.getLocText("Utils-Switch_To_Class_Reportlet"));
+            switchButton.setText(com.fr.design.i18n.Toolkit.i18nText("Utils-Switch_To_Class_Reportlet"));
         }
     }
 
@@ -80,7 +80,7 @@ public class ReportletPane extends BasicPane {
     public void checkValid() throws Exception {
         String path = this.getSelectedReportletPath();
         if (path == null) {
-            throw new Exception(Inter.getLocText("Function-The_selected_file_cannot_be_null"));
+            throw new Exception(com.fr.design.i18n.Toolkit.i18nText("Function-The_selected_file_cannot_be_null"));
         }
     }
 
@@ -96,7 +96,7 @@ public class ReportletPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("Reportlet");
+        return com.fr.design.i18n.Toolkit.i18nText("Reportlet");
     }
 
     /*

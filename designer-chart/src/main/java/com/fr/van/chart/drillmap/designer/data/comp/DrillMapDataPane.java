@@ -1,6 +1,5 @@
 package com.fr.van.chart.drillmap.designer.data.comp;
 
-import com.fr.base.chart.BaseChart;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.design.beans.BasicBeanPane;
@@ -8,12 +7,12 @@ import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.gui.frpane.UIComboBoxPane;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.drillmap.data.DrillMapDefinition;
 import com.fr.plugin.chart.type.MapType;
 import com.fr.van.chart.map.designer.data.MapDataPaneHelper;
 
-import java.awt.BorderLayout;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,11 +101,7 @@ public class DrillMapDataPane extends BasicBeanPane<ChartCollection> {
         }
         if(dataDefinitionType.getSelectedIndex() == 0){
             drillMapDefinition.setFromBottomData(true);
-            ChartCollection temp = new ChartCollection(new Chart()){
-                @Override
-                public void addFunctionRecord(BaseChart chart) {
-                }
-            };
+            ChartCollection temp = new ChartCollection(new Chart());
             bottomDataDefinitionPane.updateBean(temp);
             drillMapDefinition.setBottomDataDefinition(temp.getSelectedChart().getFilterDefinition());
         } else {
@@ -117,6 +112,6 @@ public class DrillMapDataPane extends BasicBeanPane<ChartCollection> {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("Chart-Use_Data");
+        return com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Data");
     }
 }

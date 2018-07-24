@@ -2,7 +2,7 @@ package com.fr.design.report.freeze;
 
 import com.fr.design.gui.ilable.UILabel;
 import javax.swing.SwingConstants;
-import com.fr.general.Inter;
+
 import com.fr.stable.FT;
 import com.fr.stable.StableUtils;
 
@@ -10,10 +10,10 @@ public class FreezeWriteColPane extends FreezeAndRepeatPane {
 
 	public FreezeWriteColPane() {
 
-		start = new UILabel(Inter.getLocText(new String[]{"Frozen", "N.O."}) + " A", SwingConstants.CENTER);
+		start = new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Frozen", "N.O."}) + " A", SwingConstants.CENTER);
 		end = new ColSpinner(1,Integer.MAX_VALUE,1,1);
 	    super.initComponent();
-		this.add(new UILabel(Inter.getLocText("Column")));
+		this.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Column")));
 	}
 
 
@@ -25,7 +25,7 @@ public class FreezeWriteColPane extends FreezeAndRepeatPane {
 
 	@Override
 	public void populateBean(FT ob) {
-		((UILabel)start).setText(Inter.getLocText(new String[]{"Frozen", "N.O."}) + StableUtils.convertIntToABC(ob.getFrom()));
+		((UILabel)start).setText(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Frozen", "N.O."}) + StableUtils.convertIntToABC(ob.getFrom()));
 		((ColSpinner)end).setValue((ob.getTo() + 1));
 	}
 
@@ -36,6 +36,6 @@ public class FreezeWriteColPane extends FreezeAndRepeatPane {
 
 	@Override
 	public String getLabeshow() {
-		return Inter.getLocText("ColumnTo");
+		return com.fr.design.i18n.Toolkit.i18nText("ColumnTo");
 	}
 }

@@ -7,7 +7,7 @@ import com.fr.design.formula.TinyFormulaPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.map.data.VanMapReportDefinition;
 
 import javax.swing.BorderFactory;
@@ -36,7 +36,7 @@ public class VanAreaMapPlotReportDataContentPane extends AbstractReportDataConte
             protected void initLayout() {
                 this.setLayout(new BorderLayout(4, 0));
 
-                UILabel label = new UILabel(Inter.getLocText("FR-Chart-Area_Name"));
+                UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Area_Name"));
                 label.setPreferredSize(new Dimension(75, 20));
                 this.add(label, BorderLayout.WEST);
 
@@ -58,8 +58,8 @@ public class VanAreaMapPlotReportDataContentPane extends AbstractReportDataConte
     @Override
     protected String[] columnNames() {
         return new String[]{
-                Inter.getLocText("FR-Chart-Series_Name"),
-                Inter.getLocText("Chart-Series_Value")
+                com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Series_Name"),
+                com.fr.design.i18n.Toolkit.i18nText("Chart-Series_Value")
         };
     }
 

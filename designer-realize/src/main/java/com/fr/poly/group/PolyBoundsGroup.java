@@ -10,7 +10,7 @@ import com.fr.base.ScreenResolution;
 import com.fr.design.beans.GroupModel;
 import com.fr.design.mainframe.widget.editors.IntegerPropertyEditor;
 import com.fr.design.mainframe.widget.editors.PropertyCellEditor;
-import com.fr.general.Inter;
+
 import com.fr.report.poly.PolyWorkSheet;
 import com.fr.report.poly.TemplateBlock;
 import com.fr.stable.unit.UnitRectangle;
@@ -33,7 +33,7 @@ public class PolyBoundsGroup implements GroupModel {
 
 	@Override
 	public String getGroupName() {
-		return Inter.getLocText("Form-Component_Bounds");
+		return com.fr.design.i18n.Toolkit.i18nText("Form-Component_Bounds");
 	}
 
 	@Override
@@ -58,13 +58,13 @@ public class PolyBoundsGroup implements GroupModel {
 		if (column == 0) {
 			switch (row) {
 			case 0:
-				return Inter.getLocText("X-Coordinate");
+				return com.fr.design.i18n.Toolkit.i18nText("X-Coordinate");
 			case 1:
-				return Inter.getLocText("Y-Coordinate");
+				return com.fr.design.i18n.Toolkit.i18nText("Y-Coordinate");
 			case 2:
-				return Inter.getLocText("Tree-Width");
+				return com.fr.design.i18n.Toolkit.i18nText("Tree-Width");
 			default:
-				return Inter.getLocText("Tree-Height");
+				return com.fr.design.i18n.Toolkit.i18nText("Tree-Height");
 			}
 		} else {
 			switch (row) {

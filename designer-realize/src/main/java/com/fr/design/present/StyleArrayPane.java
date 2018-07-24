@@ -10,7 +10,7 @@ import com.fr.design.gui.ilist.ListModelElement;
 import com.fr.design.gui.ilist.ModNameActionListener;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.style.StylePane;
-import com.fr.general.Inter;
+
 import com.fr.general.NameObject;
 import com.fr.stable.Nameable;
 
@@ -38,7 +38,7 @@ public class StyleArrayPane extends JListControlPane {
 	 * @return 样式设置组件
 	 */
 	public NameableCreator[] createNameableCreators() {
-		return new NameableCreator[] { new AbstractNameableCreator(Inter.getLocText("FR-Engine_Style_Name"), Style.class, StylePane.class) {
+		return new NameableCreator[] { new AbstractNameableCreator(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Style_Name"), Style.class, StylePane.class) {
 			public NameObject createNameable(UnrepeatedNameHelper helper) {
 				// 返回参数设置面板.
 				return new NameObject(helper.createUnrepeatedName("H"), Style.getInstance());
@@ -58,7 +58,7 @@ public class StyleArrayPane extends JListControlPane {
 
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("ServerM-Predefined_Styles");
+		return com.fr.design.i18n.Toolkit.i18nText("ServerM-Predefined_Styles");
 	}
 
 	/**

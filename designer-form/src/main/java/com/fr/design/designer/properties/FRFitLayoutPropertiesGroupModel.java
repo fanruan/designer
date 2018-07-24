@@ -18,7 +18,7 @@ import com.fr.form.ui.container.WAbsoluteLayout;
 import com.fr.form.ui.container.WBodyLayoutType;
 import com.fr.form.ui.container.WFitLayout;
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.Inter;
+
 
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellEditor;
@@ -59,7 +59,7 @@ public class FRFitLayoutPropertiesGroupModel implements GroupModel {
 	 */
 	@Override
 	public String getGroupName() {
-		return Inter.getLocText("FR-Designer_Layout");
+		return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Layout");
 	}
 
 	@Override
@@ -111,11 +111,11 @@ public class FRFitLayoutPropertiesGroupModel implements GroupModel {
 		if (column == 0) {
             switch (row) {
                 case 0:
-                    return Inter.getLocText("FR-Designer_Attr_Layout_Type");
+                    return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Attr_Layout_Type");
 				case 1:
-					return Inter.getLocText("FR-Designer_Component_Scale");
+					return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Component_Scale");
 				default:
-                    return Inter.getLocText("FR-Designer_Component_Interval");
+                    return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Component_Interval");
             }
         } else {
             switch (row) {

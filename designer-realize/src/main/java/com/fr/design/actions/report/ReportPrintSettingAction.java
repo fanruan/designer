@@ -10,7 +10,7 @@ import com.fr.design.mainframe.JWorkBook;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.design.webattr.printsettings.ReportPrintSettingPane;
 import com.fr.general.IOUtils;
-import com.fr.general.Inter;
+
 import com.fr.main.impl.WorkBook;
 import com.fr.report.core.ReportUtils;
 
@@ -63,7 +63,7 @@ public class ReportPrintSettingAction extends JWorkBookAction {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("FR-Designer_Print_Setting");
+            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Print_Setting");
         }
 
         @Override

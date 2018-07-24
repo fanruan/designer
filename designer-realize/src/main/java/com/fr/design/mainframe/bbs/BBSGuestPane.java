@@ -8,7 +8,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.Inter;
+
 import com.fr.stable.StringUtils;
 import com.fr.start.BBSGuestPaneProvider;
 
@@ -65,7 +65,7 @@ public class BBSGuestPane extends JPanel implements BBSGuestPaneProvider{
 	
 	private JPanel initInfoPane(){
 		JPanel infoPane = FRGUIPaneFactory.createBorderLayout_S_Pane(); 
-		UILabel infoNorthLabel = new UILabel(Inter.getLocText("FR-Designer_Thank_guest"));
+		UILabel infoNorthLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Thank_guest"));
 		UILabel centerLabel = new UILabel(StringUtils.BLANK);
 		infoPane.add(infoNorthLabel, BorderLayout.NORTH);
 		infoPane.add(centerLabel, BorderLayout.CENTER);

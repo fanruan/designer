@@ -15,7 +15,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.xcombox.MarkerComboBox;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.Inter;
+
 import com.fr.stable.CoreConstants;
 
 import java.awt.*;
@@ -27,12 +27,12 @@ import java.util.List;
  */
 public class CustomDefaultSeriesPane extends BasicPane{
 
-    private static final String BAR = Inter.getLocText("ChartF-Column");
-    private static final String BAR_STACK = Inter.getLocText("I-BarStyle_NormalStack");
-    private static final String BAR3D = Inter.getLocText("FR-Chart-Bar3D_Chart");
-    private static final String BAR3D_STACK = Inter.getLocText("FR-Chart-Bar3DStack_Chart");
-    private static final String LINE = Inter.getLocText("I-LineStyle_Line");
-    private static final String AREA_STACK = Inter.getLocText("I-AreaStyle_Stack");
+    private static final String BAR = com.fr.design.i18n.Toolkit.i18nText("ChartF-Column");
+    private static final String BAR_STACK = com.fr.design.i18n.Toolkit.i18nText("I-BarStyle_NormalStack");
+    private static final String BAR3D = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Bar3D_Chart");
+    private static final String BAR3D_STACK = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Bar3DStack_Chart");
+    private static final String LINE = com.fr.design.i18n.Toolkit.i18nText("I-LineStyle_Line");
+    private static final String AREA_STACK = com.fr.design.i18n.Toolkit.i18nText("I-AreaStyle_Stack");
 
     private UIComboBoxPane boxPane;
 
@@ -147,8 +147,8 @@ public class CustomDefaultSeriesPane extends BasicPane{
             double[] columnSize = {p, f};
             double[] rowSize = { p, p};
             Component[][] components = new Component[][]{
-                    new Component[]{new UILabel(Inter.getLocText("FR-Chart-Series_Gap")), seriesGap},
-                    new Component[]{new UILabel(Inter.getLocText("FR-Chart-Category_Gap")), categoryGap}
+                    new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Series_Gap")), seriesGap},
+                    new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Category_Gap")), categoryGap}
             };
 
             this.add(TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize), BorderLayout.NORTH);
@@ -237,10 +237,10 @@ public class CustomDefaultSeriesPane extends BasicPane{
         public CustomLineDefaultSeriesPane(){
             this.setLayout(new BorderLayout());
 
-            isCurve = new UICheckBox(Inter.getLocText("Chart_Curve"));
+            isCurve = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart_Curve"));
             lineStyle = new LineComboBox(CoreConstants.STRIKE_LINE_STYLE_ARRAY_4_CHART);
             markerPane = new MarkerComboBox(MarkerFactory.getMarkerArray());
-            String[] nameArray = {Inter.getLocText("Chart_Null_Value_Break"), Inter.getLocText("Chart_Null_Value_Continue")};
+            String[] nameArray = {com.fr.design.i18n.Toolkit.i18nText("Chart_Null_Value_Break"), com.fr.design.i18n.Toolkit.i18nText("Chart_Null_Value_Continue")};
             Boolean[] valueArray = {true, false};
             isNullValueBreak = new UIButtonGroup<Boolean>(nameArray, valueArray);
             double p = TableLayout.PREFERRED;
@@ -248,10 +248,10 @@ public class CustomDefaultSeriesPane extends BasicPane{
             double[] columnSize = { p, f };
             double[] rowSize = { p,p,p,p};
             Component[][] components = new Component[][]{
-                    new Component[]{new BoldFontTextLabel(Inter.getLocText("Chart_Line_Style")),isCurve},
-                    new Component[]{new BoldFontTextLabel(Inter.getLocText("Line-Style")),lineStyle},
-                    new Component[]{new BoldFontTextLabel(Inter.getLocText("FR-Chart-Marker_Type")), markerPane},
-                    new Component[]{new BoldFontTextLabel(Inter.getLocText("Null_Value_Show")), isNullValueBreak}
+                    new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Chart_Line_Style")),isCurve},
+                    new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Line-Style")),lineStyle},
+                    new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Marker_Type")), markerPane},
+                    new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Null_Value_Show")), isNullValueBreak}
             };
 
             this.add(TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize), BorderLayout.NORTH);
@@ -309,7 +309,7 @@ public class CustomDefaultSeriesPane extends BasicPane{
 
             this.setLayout(new BorderLayout());
 
-            isCurve = new UICheckBox(Inter.getLocText("FR-Chart-Curve_Line"));
+            isCurve = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Curve_Line"));
             markerPane = new MarkerComboBox(MarkerFactory.getMarkerArray());
 
             double p = TableLayout.PREFERRED;
@@ -317,8 +317,8 @@ public class CustomDefaultSeriesPane extends BasicPane{
             double[] columnSize = { p,f };
             double[] rowSize = { p,p };
             Component[][] components = new Component[][]{
-                    new Component[]{new UILabel(Inter.getLocText("FR-Chart-Line_Style")),isCurve},
-                    new Component[]{new BoldFontTextLabel(Inter.getLocText("FR-Chart-Marker_Type")), markerPane}
+                    new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Line_Style")),isCurve},
+                    new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Marker_Type")), markerPane}
             };
 
             this.add(TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize), BorderLayout.NORTH);

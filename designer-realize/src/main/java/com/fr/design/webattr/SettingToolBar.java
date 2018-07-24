@@ -15,7 +15,7 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
-import com.fr.general.Inter;
+
 import com.fr.design.utils.gui.GUICoreUtils;
 
 public  class SettingToolBar extends JPanel {
@@ -31,10 +31,10 @@ public  class SettingToolBar extends JPanel {
 		this.add(new UILabel(name));
 		this.toolBarPane = toolBarPane;
 		setButton = GUICoreUtils.createTransparentButton(setIcon, setIcon, setIcon);
-		setButton.setToolTipText(Inter.getLocText("Edit_Button_ToolBar"));
+		setButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Edit_Button_ToolBar"));
 		setButton.setAction(new SetAction());
 		delButton = GUICoreUtils.createTransparentButton(delIcon, delIcon, delIcon);
-		delButton.setToolTipText(Inter.getLocText("Remove_Button_ToolBar"));
+		delButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Remove_Button_ToolBar"));
 		delButton.setAction(new DelAction());
 		this.add(setButton);
 		this.add(delButton);

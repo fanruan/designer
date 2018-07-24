@@ -9,7 +9,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.style.ChartAccColorPane;
 import com.fr.design.style.background.gradient.FixedGradientBar;
-import com.fr.general.Inter;
+
 
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
@@ -53,8 +53,8 @@ public class ChartPreFillStylePane extends BasicBeanPane<ChartColorMatching> {
 
         JPanel buttonPane = new JPanel();
         buttonPane.setLayout(new FlowLayout(FlowLayout.LEFT));
-        buttonPane.add(accButton = new UIButton(Inter.getLocText("FR-Designer_Chart_Acc_Set")));
-        buttonPane.add(gradientButton = new UIButton(Inter.getLocText("FR-Designer_Gradient-Color")));
+        buttonPane.add(accButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Chart_Acc_Set")));
+        buttonPane.add(gradientButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Gradient-Color")));
         customPane.add(buttonPane, BorderLayout.NORTH);
 
         changeColorSetPane = new JPanel(cardLayout = new CardLayout());
@@ -74,7 +74,7 @@ public class ChartPreFillStylePane extends BasicBeanPane<ChartColorMatching> {
         double[] columnSize = {p, p};
         double[] rowSize = {p, p, p};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(" " + Inter.getLocText("ColorMatch")), null},
+                new Component[]{new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("ColorMatch")), null},
                 new Component[]{null, customPane},
         };
 
@@ -105,7 +105,7 @@ public class ChartPreFillStylePane extends BasicBeanPane<ChartColorMatching> {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("ServerM-Predefined_Styles");
+        return com.fr.design.i18n.Toolkit.i18nText("ServerM-Predefined_Styles");
     }
 
     public void populateBean(ChartColorMatching condition) {

@@ -6,7 +6,7 @@ import com.fr.design.condition.ConditionAttrSingleConditionPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.style.color.ColorSelectBox;
-import com.fr.general.Inter;
+
 
 /**
 * @author richie
@@ -25,7 +25,7 @@ public class LabelColorPane extends ConditionAttrSingleConditionPane<DataSeriesC
 
     public LabelColorPane(ConditionAttributesPane conditionAttributesPane, boolean isRemove) {
         super(conditionAttributesPane, isRemove);
-        nameLabel = new UILabel(Inter.getLocText("ChartF-Background_Color"));
+        nameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("ChartF-Background_Color"));
         colorSelectionPane = new ColorSelectBox(80);
 
         if (isRemove) {
@@ -41,7 +41,7 @@ public class LabelColorPane extends ConditionAttrSingleConditionPane<DataSeriesC
      */
     @Override
     public String nameForPopupMenuItem() {
-        return Inter.getLocText("Color");
+        return com.fr.design.i18n.Toolkit.i18nText("Color");
     }
 
     @Override

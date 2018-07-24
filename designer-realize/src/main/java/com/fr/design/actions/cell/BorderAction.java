@@ -12,7 +12,7 @@ import com.fr.base.CellBorderStyle;
 import com.fr.design.actions.ElementCaseAction;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.style.BorderUtils;
-import com.fr.general.Inter;
+
 import com.fr.design.mainframe.ElementCasePane;
 
 /**
@@ -25,7 +25,7 @@ public class BorderAction extends ElementCaseAction implements ChangeListener {
     public BorderAction(ElementCasePane t) {
         super(t);
 
-        this.setName(Inter.getLocText("M_Format_A-Border"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("M_Format_A-Border"));
     }
 
     public void stateChanged(ChangeEvent e) {

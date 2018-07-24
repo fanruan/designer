@@ -2,7 +2,7 @@ package com.fr.van.chart.map.designer.other.condition.item;
 
 import com.fr.chart.base.DataSeriesCondition;
 import com.fr.design.condition.ConditionAttributesPane;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.base.VanChartAttrMarker;
 import com.fr.van.chart.designer.other.condition.item.AbstractNormalMultiLineConditionPane;
 import com.fr.van.chart.map.designer.style.series.VanChartMapScatterMarkerPane;
@@ -21,7 +21,7 @@ public class VanChartCommonMarkerConditionPane extends AbstractNormalMultiLineCo
 
     @Override
     protected String getItemLabelString() {
-        return Inter.getLocText("Plugin-ChartF_Marker");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Marker");
     }
 
     @Override
@@ -37,7 +37,7 @@ public class VanChartCommonMarkerConditionPane extends AbstractNormalMultiLineCo
      */
     @Override
     public String nameForPopupMenuItem() {
-        return Inter.getLocText("Plugin-ChartF_Marker");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Marker");
     }
 
     @Override

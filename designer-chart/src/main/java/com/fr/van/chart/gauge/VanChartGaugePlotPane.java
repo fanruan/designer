@@ -3,7 +3,7 @@ package com.fr.van.chart.gauge;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.gauge.GaugeIndependentVanChart;
 import com.fr.plugin.chart.gauge.VanChartGaugePlot;
 import com.fr.van.chart.designer.type.AbstractVanChartTypePane;
@@ -12,7 +12,7 @@ import com.fr.van.chart.designer.type.AbstractVanChartTypePane;
  * Created by Mitisky on 15/11/27.
  */
 public class VanChartGaugePlotPane extends AbstractVanChartTypePane {
-    public static final String TITLE = Inter.getLocText("Plugin-ChartF_NewGauge");
+    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewGauge");
 
     private static final long serialVersionUID = -4599483879031804911L;
 
@@ -28,11 +28,11 @@ public class VanChartGaugePlotPane extends AbstractVanChartTypePane {
 
     @Override
     protected String[] getTypeTipName() {
-        return new String[]{Inter.getLocText("Plugin-ChartF_Gauge_Pointer"),
-                Inter.getLocText("Plugin-ChartF_Gauge_Pointer180"),
-                Inter.getLocText("Plugin-ChartF_Gauge_Ring"),
-                Inter.getLocText("Plugin-ChartF_Gauge_Slot"),
-                Inter.getLocText("Plugin-ChartF_Gauge_Cuvette")
+        return new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Gauge_Pointer"),
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Gauge_Pointer180"),
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Gauge_Ring"),
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Gauge_Slot"),
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Gauge_Cuvette")
         };
     }
 
@@ -41,7 +41,7 @@ public class VanChartGaugePlotPane extends AbstractVanChartTypePane {
      * @return 界面标题
      */
     public String title4PopupWindow() {
-        return Inter.getLocText("Plugin-ChartF_NewGauge");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewGauge");
     }
 
     protected Plot getSelectedClonedPlot(){

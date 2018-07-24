@@ -18,7 +18,7 @@ import com.fr.design.dialog.BasicPane;
 import com.fr.design.editor.editor.IntegerEditor;
 import com.fr.file.filter.ChooseFileFilter;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
@@ -74,9 +74,9 @@ public class JDBCDefPane extends JPanel {
 	private IntegerEditor DBCP_MAX_WAIT = new IntegerEditor();
 	private UITextField DBCP_VALIDATION_QUERY = new UITextField();
 
-	private UIComboBox DBCP_TESTONBORROW = new UIComboBox(new String[]{Inter.getLocText("No"), Inter.getLocText("Yes")});
-	private UIComboBox DBCP_TESTONRETURN = new UIComboBox(new String[]{Inter.getLocText("No"), Inter.getLocText("Yes")});
-	private UIComboBox DBCP_TESTWHILEIDLE = new UIComboBox(new String[]{Inter.getLocText("No"), Inter.getLocText("Yes")});
+	private UIComboBox DBCP_TESTONBORROW = new UIComboBox(new String[]{com.fr.design.i18n.Toolkit.i18nText("No"), com.fr.design.i18n.Toolkit.i18nText("Yes")});
+	private UIComboBox DBCP_TESTONRETURN = new UIComboBox(new String[]{com.fr.design.i18n.Toolkit.i18nText("No"), com.fr.design.i18n.Toolkit.i18nText("Yes")});
+	private UIComboBox DBCP_TESTWHILEIDLE = new UIComboBox(new String[]{com.fr.design.i18n.Toolkit.i18nText("No"), com.fr.design.i18n.Toolkit.i18nText("Yes")});
 
 	private IntegerEditor DBCP_TIMEBETWEENEVICTIONRUNSMILLS = new IntegerEditor();
 	private IntegerEditor DBCP_NUMTESTSPEREVICTIONRUN = new IntegerEditor();
@@ -104,13 +104,13 @@ public class JDBCDefPane extends JPanel {
 		userNameTextField.setName(USER_NAME);
 		passwordTextField = new UIPassWordField(15);
 		dbtypeButton = new UIButton(".");
-		dbtypeButton.setToolTipText(Inter.getLocText("Click-Get_Default_URL"));
+		dbtypeButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Click-Get_Default_URL"));
 		dbtypeButton.addActionListener(dbtypeButtonActionListener);
 
 		double p = TableLayout.PREFERRED;
 		double f = TableLayout.FILL;
 		JPanel dbtypePane = FRGUIPaneFactory.createRightFlowInnerContainer_S_Pane();
-		dbtypePane.add(new UILabel((Inter.getLocText("Database") + ":")));
+		dbtypePane.add(new UILabel((com.fr.design.i18n.Toolkit.i18nText("Database") + ":")));
 		JPanel dbtypeComPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
 		Component[][] dbtypeComComponents = {{dbtypeComboBox}};
 		double[] dbtypeRowSize = {p};
@@ -118,7 +118,7 @@ public class JDBCDefPane extends JPanel {
 		dbtypeComPane = TableLayoutHelper.createTableLayoutPane(dbtypeComComponents, dbtypeRowSize, dbtypeColumnSize);
 
 		JPanel driverPane = FRGUIPaneFactory.createRightFlowInnerContainer_S_Pane();
-		driverPane.add(new UILabel(Inter.getLocText("Driver") + ":"));
+		driverPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Driver") + ":"));
 
 		JPanel urlPane = FRGUIPaneFactory.createRightFlowInnerContainer_S_Pane();
 		urlPane.add(new UILabel("URL:"));
@@ -129,15 +129,15 @@ public class JDBCDefPane extends JPanel {
 		urlComPane = TableLayoutHelper.createCommonTableLayoutPane(urlComComponents, urlRowSize, urlColumnSize, 4);
 
 		JPanel userPane = FRGUIPaneFactory.createRightFlowInnerContainer_S_Pane();
-		userPane.add(new UILabel(Inter.getLocText("Username") + ":"));
+		userPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Username") + ":"));
 		JPanel userComPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-		Component[][] userComComponents = {{userNameTextField, new UILabel(Inter.getLocText("Password") + ":"), passwordTextField}};
+		Component[][] userComComponents = {{userNameTextField, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Password") + ":"), passwordTextField}};
 		double[] userRowSize = {p};
 		double[] userColumnSize = {f, p, f};
 		userComPane = TableLayoutHelper.createCommonTableLayoutPane(userComComponents, userRowSize, userColumnSize, 4);
 
 		JPanel passwordPane = FRGUIPaneFactory.createRightFlowInnerContainer_S_Pane();
-		passwordPane.add(new UILabel(Inter.getLocText("Password") + ":"));
+		passwordPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Password") + ":"));
 
 		Component[][] components = {{dbtypePane, dbtypeComPane}, {driverPane, driverComboBox}, {urlPane, urlComPane}, {userPane, userComPane},};
 
@@ -148,7 +148,7 @@ public class JDBCDefPane extends JPanel {
 		JPanel southPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		innerthis.add(southPanel);
 		southPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 4, 20));
-		ActionLabel actionLabel = new ActionLabel(Inter.getLocText("ConnectionPool_Attr"));
+		ActionLabel actionLabel = new ActionLabel(com.fr.design.i18n.Toolkit.i18nText("ConnectionPool_Attr"));
 		southPanel.add(actionLabel, BorderLayout.EAST);
 		actionLabel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
@@ -289,7 +289,7 @@ public class JDBCDefPane extends JPanel {
 					if (ComparatorUtils.equals(dbtypeComboBox.getSelectedItem(), ("Access"))) {
 						// ben:这个能不能换种处理方案- -
 						JFileChooser filechooser = new JFileChooser();
-						filechooser.setDialogTitle(Inter.getLocText("Open"));
+						filechooser.setDialogTitle(com.fr.design.i18n.Toolkit.i18nText("Open"));
 						filechooser.setMultiSelectionEnabled(false);
 						filechooser.addChoosableFileFilter(new ChooseFileFilter(new String[]{"accdb", "mdb"}, "Microsoft Office Access"));
 						int result = filechooser.showOpenDialog(DesignerContext.getDesignerFrame());
@@ -331,19 +331,19 @@ public class JDBCDefPane extends JPanel {
 			double[] rowSize = {f, f, f, f, f, f, f, f, f, f, f, f};
 			double[] columnSize = {f, f};
 			Component[][] comps = {
-					{new UILabel(Inter.getLocText("DBCP_INITIAL_SIZE") + ":", SwingConstants.RIGHT), DBCP_INITIAL_SIZE},
-					{new UILabel(Inter.getLocText("DBCP_MAX_ACTIVE") + ":", SwingConstants.RIGHT), DBCP_MAX_ACTIVE},
-					{new UILabel(Inter.getLocText("DBCP_MAX_IDLE") + ":", SwingConstants.RIGHT), DBCP_MAX_IDLE},
-					{new UILabel(Inter.getLocText("DBCP_MIN_IDLE") + ":", SwingConstants.RIGHT), DBCP_MIN_IDLE},
-					{new UILabel(Inter.getLocText(new String[] {"DBCP_MAX_WAIT", "Milliseconds"},new String[] {"(", "):"}) , SwingConstants.RIGHT), DBCP_MAX_WAIT},
-					{new UILabel(Inter.getLocText("DBCP_VALIDATION_QUERY") + ":", SwingConstants.RIGHT), DBCP_VALIDATION_QUERY},
-					{new UILabel(Inter.getLocText("DBCP_TEST_ON_BORROW") + ":", SwingConstants.RIGHT), DBCP_TESTONBORROW},
-					{new UILabel(Inter.getLocText("DBCP_TEST_ON_RETURN") + ":", SwingConstants.RIGHT), DBCP_TESTONRETURN},
-					{new UILabel(Inter.getLocText("DBCP_TEST_WHILE_IDLE") + ":", SwingConstants.RIGHT), DBCP_TESTWHILEIDLE},
-					{new UILabel(Inter.getLocText(new String[] {"DBCP_TIME_BETWEEN_EVICTIONRUNSMILLIS", "Milliseconds"}, new String[] {"(", "):"}), SwingConstants.RIGHT),
+					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("DBCP_INITIAL_SIZE") + ":", SwingConstants.RIGHT), DBCP_INITIAL_SIZE},
+					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("DBCP_MAX_ACTIVE") + ":", SwingConstants.RIGHT), DBCP_MAX_ACTIVE},
+					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("DBCP_MAX_IDLE") + ":", SwingConstants.RIGHT), DBCP_MAX_IDLE},
+					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("DBCP_MIN_IDLE") + ":", SwingConstants.RIGHT), DBCP_MIN_IDLE},
+					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Connection_Pool_Max_Wait_Time") + ":" , SwingConstants.RIGHT), DBCP_MAX_WAIT},
+					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("DBCP_VALIDATION_QUERY") + ":", SwingConstants.RIGHT), DBCP_VALIDATION_QUERY},
+					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("DBCP_TEST_ON_BORROW") + ":", SwingConstants.RIGHT), DBCP_TESTONBORROW},
+					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("DBCP_TEST_ON_RETURN") + ":", SwingConstants.RIGHT), DBCP_TESTONRETURN},
+					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("DBCP_TEST_WHILE_IDLE") + ":", SwingConstants.RIGHT), DBCP_TESTWHILEIDLE},
+					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Connection_Pool_Evictionruns_millis") + ":", SwingConstants.RIGHT),
 							DBCP_TIMEBETWEENEVICTIONRUNSMILLS},
-					{new UILabel(Inter.getLocText("DBCP_NUM_TEST_PER_EVCTION_RUN") + ":", SwingConstants.RIGHT), DBCP_NUMTESTSPEREVICTIONRUN},
-					{new UILabel(Inter.getLocText(new String[] {"DBCP_MIN_EVICTABLE_IDLE_TIMEMILLIS", "Sche-Second"}, new String[] {"(", "):"}) , SwingConstants.RIGHT),
+					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("DBCP_NUM_TEST_PER_EVCTION_RUN") + ":", SwingConstants.RIGHT), DBCP_NUMTESTSPEREVICTIONRUN},
+					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Connection_Pool_Mix_Evictable_Idle_Time_Millis") + ":" , SwingConstants.RIGHT),
 							DBCP_MINEVICTABLEIDLETIMEMILLIS}};
 
 			JPanel contextPane = TableLayoutHelper.createGapTableLayoutPane(comps, rowSize, columnSize, 10, 4);
@@ -353,7 +353,7 @@ public class JDBCDefPane extends JPanel {
 
 		@Override
 		protected String title4PopupWindow() {
-			return Inter.getLocText("ConnectionPool_Attr");
+			return com.fr.design.i18n.Toolkit.i18nText("ConnectionPool_Attr");
 		}
 	}
 

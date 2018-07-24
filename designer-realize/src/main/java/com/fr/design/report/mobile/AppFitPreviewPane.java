@@ -5,7 +5,7 @@ import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.IOUtils;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -69,6 +69,6 @@ public class AppFitPreviewPane extends BasicPane{
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("FR-Plugin_Preview");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Plugin_Preview");
     }
 }

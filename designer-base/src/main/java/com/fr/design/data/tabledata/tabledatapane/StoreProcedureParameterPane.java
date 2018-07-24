@@ -13,7 +13,7 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.Inter;
+
 import com.fr.general.NameObject;
 
 import javax.swing.*;
@@ -29,13 +29,13 @@ public class StoreProcedureParameterPane extends BasicPane {
 	};
 
 	private static NameObject[] nameAndValue = new NameObject[]{
-		new NameObject(Inter.getLocText("Cursor"), StoreProcedureConstants.CURSOR),
-		new NameObject(Inter.getLocText("Parameter-String"), StoreProcedureConstants.VARCHAR),
-		new NameObject(Inter.getLocText("Integer"), StoreProcedureConstants.INTEGER),
-		new NameObject(Inter.getLocText("Double"), StoreProcedureConstants.DECIMAL),
-		new NameObject(Inter.getLocText("Date"), StoreProcedureConstants.DATE),
-		new NameObject(Inter.getLocText("Parameter-Boolean"), StoreProcedureConstants.BOOLEAN),
-		new NameObject(Inter.getLocText("Formula"), StoreProcedureConstants.FORMULA),
+		new NameObject(com.fr.design.i18n.Toolkit.i18nText("Cursor"), StoreProcedureConstants.CURSOR),
+		new NameObject(com.fr.design.i18n.Toolkit.i18nText("Parameter-String"), StoreProcedureConstants.VARCHAR),
+		new NameObject(com.fr.design.i18n.Toolkit.i18nText("Integer"), StoreProcedureConstants.INTEGER),
+		new NameObject(com.fr.design.i18n.Toolkit.i18nText("Double"), StoreProcedureConstants.DECIMAL),
+		new NameObject(com.fr.design.i18n.Toolkit.i18nText("Date"), StoreProcedureConstants.DATE),
+		new NameObject(com.fr.design.i18n.Toolkit.i18nText("Parameter-Boolean"), StoreProcedureConstants.BOOLEAN),
+		new NameObject(com.fr.design.i18n.Toolkit.i18nText("Formula"), StoreProcedureConstants.FORMULA),
 		new NameObject("IN",StoreProcedureConstants.IN),
 		new NameObject("OUT",StoreProcedureConstants.OUT),
 		new NameObject("INOUT",StoreProcedureConstants.INOUT)
@@ -61,7 +61,7 @@ public class StoreProcedureParameterPane extends BasicPane {
 	public void checkValid() throws Exception{
 		StoreProcedureParameter spp=this.update();
     	if(spp.getSchema()!= StoreProcedureConstants.OUT && spp.getType() == StoreProcedureConstants.CURSOR){
-    		throw new Exception(Inter.getLocText("IN_and_INOUT_type_not_as_cursor"));
+    		throw new Exception(com.fr.design.i18n.Toolkit.i18nText("IN_and_INOUT_type_not_as_cursor"));
     	}
 	}
 	
@@ -71,11 +71,11 @@ public class StoreProcedureParameterPane extends BasicPane {
 		schemaCombo = new UIComboBox();
 	    initUIComboBox(schemaCombo, schemaName);
 		JPanel namePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-		namePane.add(new UILabel("     " + Inter.getLocText("Name") + ":"), BorderLayout.WEST);
+		namePane.add(new UILabel("     " + com.fr.design.i18n.Toolkit.i18nText("Name") + ":"), BorderLayout.WEST);
 		nameField = new UITextField(10);
 		namePane.add(nameField, BorderLayout.CENTER);
 		namePane.add(new UILabel("     "), BorderLayout.EAST);
-		valuePane.add(new UILabel("   " + Inter.getLocText("CellWrite-InsertRow_DEFAULT") + ":"), BorderLayout.WEST);
+		valuePane.add(new UILabel("   " + com.fr.design.i18n.Toolkit.i18nText("CellWrite-InsertRow_DEFAULT") + ":"), BorderLayout.WEST);
 		valuePane.add(valueEditPane, BorderLayout.CENTER);
 		valuePane.add(new UILabel("     "), BorderLayout.EAST);
 		Component[][] components = {{null},
@@ -95,7 +95,7 @@ public class StoreProcedureParameterPane extends BasicPane {
 	
 	private JPanel addPane(String s, int i, UIComboBox combo){		  
 	      JPanel pane = FRGUIPaneFactory.createBorderLayout_S_Pane();   
-	      pane.add(new UILabel("     " + Inter.getLocText(s) + ":"), BorderLayout.WEST);
+	      pane.add(new UILabel("     " + com.fr.design.i18n.Toolkit.i18nText(s) + ":"), BorderLayout.WEST);
 	      combo.setSelectedIndex(i);
 	      pane.add(combo, BorderLayout.CENTER);  
 	      pane.add(new UILabel("     "), BorderLayout.EAST);
@@ -105,7 +105,7 @@ public class StoreProcedureParameterPane extends BasicPane {
 	
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("Parameter");
+		return com.fr.design.i18n.Toolkit.i18nText("Parameter");
 	}
 	
 	public void populate(StoreProcedureParameter stpParameter) {
@@ -124,24 +124,24 @@ public class StoreProcedureParameterPane extends BasicPane {
 		Object value = valueEditPane.update();
 		String type = "";
 		if(value instanceof CursorEditor)
-			type=Inter.getLocText("Cursor");
+			type=com.fr.design.i18n.Toolkit.i18nText("Cursor");
 		else if(value instanceof String ){
 			if(((String) value).length() > 0 && ((String) value).charAt(0) == '=')
-				type = Inter.getLocText("Formula");
+				type = com.fr.design.i18n.Toolkit.i18nText("Formula");
 			else
-				type = Inter.getLocText("Parameter-String");
+				type = com.fr.design.i18n.Toolkit.i18nText("Parameter-String");
 		}else if(value instanceof Integer)
-			type = Inter.getLocText("Integer");
+			type = com.fr.design.i18n.Toolkit.i18nText("Integer");
 		else if(value instanceof Double)
-			type = Inter.getLocText("Double");
+			type = com.fr.design.i18n.Toolkit.i18nText("Double");
 		else if(value instanceof Date)
-			type = Inter.getLocText("Date");
+			type = com.fr.design.i18n.Toolkit.i18nText("Date");
 		else if(value instanceof Boolean)
-			type = Inter.getLocText("Parameter-Boolean");
+			type = com.fr.design.i18n.Toolkit.i18nText("Parameter-Boolean");
 		else if(value instanceof BaseFormula)
-			type = Inter.getLocText("Formula");
+			type = com.fr.design.i18n.Toolkit.i18nText("Formula");
 		else 
-			type = Inter.getLocText("Parameter-String");
+			type = com.fr.design.i18n.Toolkit.i18nText("Parameter-String");
 		int typeVl = getInfo4Value(type);
 		p.setType(typeVl);
 		String schema = (String)schemaCombo.getSelectedItem();

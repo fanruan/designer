@@ -8,7 +8,6 @@ import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
 import com.fr.general.NameObject;
 import com.fr.stable.Nameable;
 import com.fr.stable.StringUtils;
@@ -33,18 +32,14 @@ public class EnvListPane extends JListControlPane {
                 String[] allListNames = nameableList.getAllNames();
                 allListNames[nameableList.getSelectedIndex()] = StringUtils.EMPTY;
                 if (StringUtils.isEmpty(tempName)) {
-                    String[] warning = new String[]{"NOT_NULL_Des", "Please_Rename"};
-                    String[] sign = new String[]{",", "!"};
                     nameableList.stopEditing();
-                    JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(EnvListPane.this), Inter.getLocText(warning, sign));
+                    JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(EnvListPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Workspace_Empty_Name_Warn_Text"));
                     setWarnigText(editingIndex);
                     return;
                 }
                 if (!ComparatorUtils.equals(tempName, selectedName) && isNameRepeted(new List[]{Arrays.asList(allListNames)}, tempName)) {
-                    String[] waning = new String[]{"already_exists", "Utils-Report_Runtime_Env", "Please_Rename"};
-                    String[] sign = new String[]{"", tempName + ",", "!"};
                     nameableList.stopEditing();
-                    JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(EnvListPane.this), Inter.getLocText(waning, sign));
+                    JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(EnvListPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Workspace_Duplicate_Name_Warn_Text", tempName));
                     setWarnigText(editingIndex);
                 }
             }
@@ -58,16 +53,16 @@ public class EnvListPane extends JListControlPane {
      */
     @Override
     public NameableCreator[] createNameableCreators() {
-        NameableCreator local = new NameObjectCreator(Inter.getLocText("FR-Engine-Local_Workspace"), "com/fr/design/images/data/bind/localconnect.png",
+        NameableCreator local = new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("FR-Engine-Local_Workspace"), "com/fr/design/images/data/bind/localconnect.png",
                 LocalDesignerWorkspaceInfo.class, LocalEnvPane.class);
-        NameableCreator remote = new NameObjectCreator(Inter.getLocText("Env-Remote_Server"), "com/fr/design/images/data/bind/distanceconnect.png",
-            RemoteDesignerWorkspaceInfo.class, RemoteEnvPane.class);
+        NameableCreator remote = new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Env-Remote_Server"), "com/fr/design/images/data/bind/distanceconnect.png",
+                RemoteDesignerWorkspaceInfo.class, RemoteEnvPane.class);
         return new NameableCreator[]{local, remote};
     }
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("Env-Configure_Workspace");
+        return com.fr.design.i18n.Toolkit.i18nText("Env-Configure_Workspace");
     }
 
     /**

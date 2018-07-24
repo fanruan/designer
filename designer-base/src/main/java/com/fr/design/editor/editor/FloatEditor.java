@@ -1,7 +1,7 @@
 package com.fr.design.editor.editor;
 
 import com.fr.base.Utils;
-import com.fr.general.Inter;
+
 
 /**
  * 单精度型编辑器
@@ -16,7 +16,7 @@ public class FloatEditor extends NumberEditor<Float> {
 	}
 
 	public FloatEditor(Float value) {
-		super(value, Inter.getLocText("Parameter-Float"));
+		super(value, com.fr.design.i18n.Toolkit.i18nText("Parameter-Float"));
 	}
 
 	@Override

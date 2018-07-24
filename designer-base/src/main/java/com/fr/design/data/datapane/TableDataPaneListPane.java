@@ -10,14 +10,19 @@ import com.fr.design.gui.ilist.ListModelElement;
 import com.fr.file.ProcedureConfig;
 import com.fr.file.TableDataConfig;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
 import com.fr.general.NameObject;
 import com.fr.stable.Nameable;
 import com.fr.stable.StringUtils;
 import com.fr.stable.core.PropertyChangeAdapter;
 
 import javax.swing.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * TableDataList Pane.
@@ -40,29 +45,23 @@ public class TableDataPaneListPane extends JListControlPane implements TableData
                 String tempName = getEditingName();
                 Object editingType = getEditingType();
                 if (StringUtils.isEmpty(tempName)) {
-                    String[] warning = new String[]{"NOT_NULL_Des", "Please_Rename"};
-                    String[] sign = new String[]{",", "!"};
                     isNamePermitted = false;
                     nameableList.stopEditing();
-                    JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(TableDataPaneListPane.this), Inter.getLocText(warning, sign));
+                    JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(TableDataPaneListPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Table_Data_Empty_Name_Tips"));
                     setWarnigText(editingIndex);
                     return;
                 }
 
                 if (!ComparatorUtils.equals(tempName, selectedName)
                         && isNameRepeted(new List[]{Arrays.asList(allDSNames), Arrays.asList(allListNames)}, tempName)) {
-                    String[] waning = new String[]{"already_exists", "TableData", "Please_Rename"};
-                    String[] sign = new String[]{"", tempName + ",", "!"};
                     isNamePermitted = false;
                     nameableList.stopEditing();
-                    JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(TableDataPaneListPane.this), Inter.getLocText(waning, sign));
+                    JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(TableDataPaneListPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Table_Data_Duplicate_Name_Tips"));
                     setWarnigText(editingIndex);
                 } else if (editingType instanceof StoreProcedure && isIncludeUnderline(tempName)) {
-                    String[] datasource_underline = new String[]{"Datasource-Stored_Procedure", "Name", "can_not_include_underline"};
-                    String[] sign = new String[]{"", "", "!"};
                     isNamePermitted = false;
                     nameableList.stopEditing();
-                    JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(TableDataPaneListPane.this), Inter.getLocText(datasource_underline, sign));
+                    JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(TableDataPaneListPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Stored_Procedure_Name_Tips"));
                     setWarnigText(editingIndex);
                 }
                 if (nameableList.getSelectedValue() instanceof ListModelElement) {
@@ -246,9 +245,7 @@ public class TableDataPaneListPane extends JListControlPane implements TableData
             NameObject nameObject = (NameObject) tableDataArray[i];
 
             if (exsitTableDataNameList.contains(nameObject.getName())) {
-                String[] waring = new String[]{"TableData", "Error_TableDataNameRepeat"};
-                String[] sign = new String[]{": " + nameObject.getName()};
-                throw new Exception(Inter.getLocText(waring, sign));
+                throw new Exception(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Table_Data_Duplicate_Name_Tips", nameObject.getName()));
             }
 
             exsitTableDataNameList.add(nameObject.getName());

@@ -15,7 +15,7 @@ import com.fr.file.filetree.FileNode;
 import com.fr.file.filetree.IOFileNodeFilter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.IOUtils;
-import com.fr.general.Inter;
+
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.ProductConstants;
@@ -23,9 +23,13 @@ import com.fr.stable.StableUtils;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.workspace.WorkContext;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.ToolTipManager;
 import javax.swing.tree.DefaultMutableTreeNode;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Desktop;
+import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
@@ -59,9 +63,27 @@ public class TemplateTreePane extends JPanel implements FileOperations {
         scrollPane.setBorder(null);
         contentPane.add(scrollPane, BorderLayout.CENTER);
 
-        this.reportletsTree.addMouseListener(mouseFileTreeListener);// lx: add
-        // mouse
-        // listener
+        /*
+         * Tree.MouseAdapter
+         */
+        MouseListener mouseFileTreeListener = new MouseAdapter() {
+
+            @Override
+            public void mousePressed(MouseEvent evt) {
+                if (evt.getClickCount() == 2) {
+                    openSelectedReport();
+                }
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if (toobarStateChangeListener != null) {
+                    toobarStateChangeListener.stateChange();
+                }
+            }
+        };
+        // lx: add mouse listener
+        this.reportletsTree.addMouseListener(mouseFileTreeListener);
         this.reportletsTree.addKeyListener(new KeyListener() {
 
             @Override
@@ -102,42 +124,21 @@ public class TemplateTreePane extends JPanel implements FileOperations {
         reportletsTree.refreshEnv();
     }
 
-    /*
-     * Tree.MouseAdapter
-     */
-    MouseListener mouseFileTreeListener = new MouseAdapter() {
-
-        @Override
-        public void mousePressed(MouseEvent evt) {
-            if (SwingUtilities.isRightMouseButton(evt)) {
-                return;
-            } else if (evt.getClickCount() == 2) {
-                openSelectedReport();
-            }
-
-
-        }
-
-        public void mouseReleased(MouseEvent e) {
-            if (toobarStateChangeListener != null) {
-                toobarStateChangeListener.stateChange();
-            }
-        }
-    };
-
 
     /**
      * 打开选中的报表文件
      */
+    @Override
     public void openSelectedReport() {
         String reportPath = reportletsTree.getSelectedTemplatePath();
-        final String selectedFilePath = StableUtils.pathJoin(new String[]{ProjectConstants.REPORTLETS_NAME, reportPath});
+        final String selectedFilePath = StableUtils.pathJoin(ProjectConstants.REPORTLETS_NAME, reportPath);
         DesignerContext.getDesignerFrame().openTemplate(new FileNodeFILE(new FileNode(selectedFilePath, false)));
     }
 
     /**
      * 打开文件夹
      */
+    @Override
     public void openContainerFolder() {
         FileNode fn = TemplateTreePane.this.reportletsTree.getSelectedFileNode();
         String filePath = StableUtils.pathJoin(WorkContext.getCurrent().getPath(), fn.getEnvPath());
@@ -152,28 +153,30 @@ public class TemplateTreePane extends JPanel implements FileOperations {
     /**
      * 刷新
      */
+    @Override
     public void refresh() {
         reportletsTree.refresh();
-        FineLoggerFactory.getLogger().info(Inter.getLocText(new String[]{"File-tree", "Refresh_Successfully"}) + "!");
+        FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Template_File_Tree_Refresh_Successfully") + "!");
     }
 
     /**
      * 删除文件
      */
+    @Override
     public void deleteFile() {
         String[] reportPaths = reportletsTree.getSelectedTemplatePaths();
         if (reportPaths.length == 0) {
             return;
         }
-        if (JOptionPane.showConfirmDialog(null, Inter.getLocText("Confirm-Delete-File")) != JOptionPane.OK_OPTION) {
+        if (JOptionPane.showConfirmDialog(null, com.fr.design.i18n.Toolkit.i18nText("Confirm-Delete-File")) != JOptionPane.OK_OPTION) {
             return;
         }
         for (String reportPath : reportPaths) {
-            FileNodeFILE nodeFile = new FileNodeFILE(new FileNode(StableUtils.pathJoin(new String[]{ProjectConstants.REPORTLETS_NAME, reportPath}), false));
+            FileNodeFILE nodeFile = new FileNodeFILE(new FileNode(StableUtils.pathJoin(ProjectConstants.REPORTLETS_NAME, reportPath), false));
 
             if (nodeFile.isLocked()) {
-                if (JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("fileLocked_undeleted"),
-                        Inter.getLocText("Error"), JOptionPane.YES_OPTION, JOptionPane.ERROR_MESSAGE) == JOptionPane.YES_OPTION) {
+                if (JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("fileLocked_undeleted"),
+                        com.fr.design.i18n.Toolkit.i18nText("Error"), JOptionPane.YES_OPTION, JOptionPane.ERROR_MESSAGE) == JOptionPane.YES_OPTION) {
                     refreshDockingView();
                 }
                 break;
@@ -183,7 +186,7 @@ public class TemplateTreePane extends JPanel implements FileOperations {
                 FileAssistUtils.moveToTrash(nodeFile.getPath());
                 deleteHistory(path.replaceAll("/", "\\\\"));
             } else {
-                JOptionPane.showMessageDialog(this, Inter.getLocText("Warning-Template_Do_Not_Exsit"), ProductConstants.PRODUCT_NAME,
+                JOptionPane.showMessageDialog(this, com.fr.design.i18n.Toolkit.i18nText("Warning-Template_Do_Not_Exsit"), ProductConstants.PRODUCT_NAME,
                         JOptionPane.INFORMATION_MESSAGE);
             }
         }
@@ -226,6 +229,7 @@ public class TemplateTreePane extends JPanel implements FileOperations {
     }
 
 
+    @Override
     public String getSelectedTemplatePath() {
         return reportletsTree.getSelectedTemplatePath();
     }
@@ -242,6 +246,7 @@ public class TemplateTreePane extends JPanel implements FileOperations {
      * @param suffix  后缀名
      * @return 是否存在
      */
+    @Override
     public boolean isNameAlreadyExist(String newName, String oldName, String suffix) {
         boolean isNameAlreadyExist = false;
 

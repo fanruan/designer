@@ -6,7 +6,7 @@ import com.fr.design.mainframe.EastRegionContainerPane;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.roleAuthority.ReportAndFSManagePane;
 import com.fr.design.roleAuthority.RolesAlreadyEditedPane;
-import com.fr.general.Inter;
+
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.FloatSelection;
 import com.fr.grid.selection.Selection;
@@ -26,7 +26,7 @@ public class CleanAuthorityAction extends ElementCaseAction {
 
     public CleanAuthorityAction(ElementCasePane t) {
         super(t);
-        this.setName(Inter.getLocText(new String[]{"Clear", "DashBoard-Potence"}));
+        this.setName(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Clear", "DashBoard-Potence"}));
     }
 
 

@@ -3,7 +3,7 @@ package com.fr.van.chart.funnel.designer.type;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.base.VanChartTools;
 import com.fr.plugin.chart.funnel.FunnelIndependentVanChart;
 import com.fr.plugin.chart.funnel.VanChartFunnelPlot;
@@ -13,7 +13,7 @@ import com.fr.van.chart.designer.type.AbstractVanChartTypePane;
  * Created by Mitisky on 16/10/10.
  */
 public class VanChartFunnelTypePane extends AbstractVanChartTypePane {
-    public static final String TITLE = Inter.getLocText("Plugin-ChartF_NewFunnel");
+    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewFunnel");
 
     @Override
     protected String[] getTypeIconPath() {
@@ -25,7 +25,7 @@ public class VanChartFunnelTypePane extends AbstractVanChartTypePane {
     @Override
     protected String[] getTypeTipName() {
         return new String[]{
-                Inter.getLocText("FR-Chart-Type_Funnel")
+                com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Funnel")
         };
     }
 
@@ -46,7 +46,7 @@ public class VanChartFunnelTypePane extends AbstractVanChartTypePane {
      */
     @Override
     public String title4PopupWindow() {
-        return Inter.getLocText("Plugin-ChartF_NewFunnel");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewFunnel");
     }
 
     protected Plot getSelectedClonedPlot(){

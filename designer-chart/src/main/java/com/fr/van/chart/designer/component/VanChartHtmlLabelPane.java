@@ -13,7 +13,7 @@ import com.fr.design.gui.syntax.ui.rsyntaxtextarea.RSyntaxTextArea;
 import com.fr.design.gui.syntax.ui.rsyntaxtextarea.SyntaxConstants;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.base.VanChartHtmlLabel;
 import com.fr.van.chart.designer.style.VanChartStylePane;
 
@@ -55,7 +55,7 @@ public class VanChartHtmlLabelPane extends JPanel{
     }
 
     public VanChartHtmlLabelPane() {
-        useHtml = new UIToggleButton(Inter.getLocText("Plugin-ChartF_Html"));
+        useHtml = new UIToggleButton(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Html"));
         JPanel widthAndHeightPane = createWidthAndHeightPane();
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
@@ -125,9 +125,9 @@ public class VanChartHtmlLabelPane extends JPanel{
     }
 
     protected JPanel createWidthAndHeightPane() {
-        isCustomWidth = new UICheckBox(Inter.getLocText("Plugin-ChartF_Custom_Width"));
+        isCustomWidth = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Custom_Width"));
         customWidth = new UITextField(6);
-        isCustomHeight = new UICheckBox(Inter.getLocText("Plugin-ChartF_Custom_Height"));
+        isCustomHeight = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Custom_Height"));
         customHeight = new UITextField(6);
 
         isCustomWidth.addActionListener(new ActionListener() {

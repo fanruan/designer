@@ -13,7 +13,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.style.AbstractChartTabPane;
 import com.fr.design.mainframe.chart.gui.style.ThirdTabPane;
-import com.fr.general.Inter;
+
 import com.fr.stable.StringUtils;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 
@@ -109,7 +109,7 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
      * @return 返回标题.
      */
     public String title4PopupWindow() {
-        return Inter.getLocText("FR-Chart-Data_Filter");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_Filter");
     }
 
     /**
@@ -222,13 +222,13 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
         }
 
         protected JPanel initOtherPane() {
-            onlyPreData = new UICheckBox(Inter.getLocText("Plugin-ChartF_OnlyUseBeforeRecords"));
+            onlyPreData = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_OnlyUseBeforeRecords"));
             JPanel panel1 = new JPanel(new BorderLayout());
             JPanel panel2 = new JPanel(new BorderLayout());
             panel1.add(onlyPreData, BorderLayout.NORTH);
             preDataNum = new UITextField();
-            UILabel label = new UILabel(Inter.getLocText("Plugin-ChartF_RecordsNum"));
-            combineOther = new UICheckBox(Inter.getLocText("FR-Chart-Data_CombineOther"));
+            UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_RecordsNum"));
+            combineOther = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_CombineOther"));
             combineOther.setSelected(true);
             double p = TableLayout.PREFERRED;
             double f = TableLayout.FILL;
@@ -244,7 +244,7 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
             //默认不显示
             preDataNumPane.setVisible(false);
             panel1.add(preDataNumPane, BorderLayout.CENTER);
-            notShowNull = new UICheckBox(Inter.getLocText("FR-Chart-Data_NotShowCate"));
+            notShowNull = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_NotShowCate"));
             panel2.add(notShowNull, BorderLayout.NORTH);
 
             onlyPreData.addChangeListener(new ChangeListener() {
@@ -258,7 +258,7 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
                     fire();
                 }
             };
-            presentPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("FR-Chart-Style_Present") ,present);
+            presentPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Style_Present") ,present);
             panel2.add(presentPane, BorderLayout.SOUTH);
 
             double[] column = {f};
@@ -281,7 +281,7 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
          * 界面标题 "分类"
          */
         public String title4PopupWindow() {
-            return Inter.getLocText("FR-Chart-Style_Category");
+            return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Style_Category");
         }
 
         /**
@@ -397,13 +397,13 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
 
 
         protected JPanel initOtherPane() {
-            onlyPreData = new UICheckBox(Inter.getLocText("Plugin-ChartF_OnlyUseBeforeRecords"));
+            onlyPreData = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_OnlyUseBeforeRecords"));
             JPanel panel1 = new JPanel(new BorderLayout());
             JPanel panel2 = new JPanel(new BorderLayout());
             panel1.add(onlyPreData, BorderLayout.NORTH);
             preDataNum = new UITextField();
-            UILabel label = new UILabel(Inter.getLocText("Plugin-ChartF_RecordsNum"));
-            combineOther = new UICheckBox(Inter.getLocText("FR-Chart-Data_CombineOther"));
+            UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_RecordsNum"));
+            combineOther = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_CombineOther"));
             combineOther.setSelected(true);
             double p = TableLayout.PREFERRED;
             double f = TableLayout.FILL;
@@ -419,7 +419,7 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
             //默认不显示
             preDataNumPane.setVisible(false);
             panel1.add(preDataNumPane, BorderLayout.CENTER);
-            notShowNull = new UICheckBox(Inter.getLocText("FR-Chart-Data_NotShowSeries"));
+            notShowNull = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_NotShowSeries"));
             panel2.add(notShowNull, BorderLayout.NORTH);
 
             onlyPreData.addChangeListener(new ChangeListener() {
@@ -433,7 +433,7 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
                     fire();
                 }
             };
-            presentPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("FR-Chart-Style_Present") ,present);
+            presentPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Style_Present") ,present);
             panel2.add(presentPane, BorderLayout.SOUTH);
 
             double[] column = {f};
@@ -457,7 +457,7 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
          * 界面标题
          */
         public String title4PopupWindow() {
-            return Inter.getLocText("FR-Chart-Data_Series");
+            return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_Series");
         }
 
         /**

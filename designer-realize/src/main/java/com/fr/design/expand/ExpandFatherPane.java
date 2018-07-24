@@ -10,7 +10,7 @@ import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.selection.SelectionEvent;
 import com.fr.design.selection.SelectionListener;
-import com.fr.general.Inter;
+
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.Selection;
 import com.fr.report.cell.cellattr.CellExpandAttr;
@@ -39,9 +39,9 @@ public abstract class ExpandFatherPane extends JPanel implements GlobalNameObser
     public ExpandFatherPane() {
         this.setLayout(new BorderLayout(0, LayoutConstants.VGAP_SMALL));
         comboBox = new UIComboBox(new String[]{
-                Inter.getLocText("FR-Designer_None"),
-                Inter.getLocText("FR-Designer_DEFAULT"),
-                Inter.getLocText("FR-Designer_Custom")});
+                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_None"),
+                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_DEFAULT"),
+                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Custom")});
         cardLayout = new CardLayout();
         customPane = new JPanel(cardLayout);
         customParentColumnRowPane = new ColumnRowPane() {

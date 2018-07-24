@@ -5,7 +5,7 @@ import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.radar.VanChartRadarPlot;
 import com.fr.plugin.chart.type.RadarType;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
@@ -63,10 +63,10 @@ public class VanChartRadarSeriesPane extends VanChartAbstractPlotSeriesPane {
     }
 
     private JPanel createRadarTypePane() {
-        radarType = new UIButtonGroup<String>(new String[]{Inter.getLocText("Plugin-ChartF_Circle"), Inter.getLocText("Plugin-ChartF_Polygonal")},
+        radarType = new UIButtonGroup<String>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Circle"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Polygonal")},
                 new String[]{RadarType.CIRCLE.getType(), RadarType.POLYGON.getType()});
-        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_Shape"), radarType);
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Chart-Style_Present"), panel);
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Shape"), radarType);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Style_Present"), panel);
     }
 
     protected VanChartLineTypePane getLineTypePane() {

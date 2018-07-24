@@ -1,7 +1,7 @@
 package com.fr.design.gui.icombobox;
 
 import com.fr.base.SeparationConstants;
-import com.fr.general.Inter;
+
 
 public class DictionaryConstants {
 	// richer:正则表达式
@@ -17,16 +17,16 @@ public class DictionaryConstants {
 		"^\\d{6}$" };
 	
 	public final static String[] regexpsDisplays = new String[] {
-		Inter.getLocText("None"), 
-		Inter.getLocText("Required"),
-		Inter.getLocText("Length"), 
-		Inter.getLocText("Float"),
-		Inter.getLocText("Email"), 
-		Inter.getLocText("Phone"),
-		Inter.getLocText("MobilePhone"), 
-		Inter.getLocText("IDCard"),
-		Inter.getLocText("PostCode"),
-		Inter.getLocText("Custom")};
+		com.fr.design.i18n.Toolkit.i18nText("None"),
+		com.fr.design.i18n.Toolkit.i18nText("Required"),
+		com.fr.design.i18n.Toolkit.i18nText("Length"),
+		com.fr.design.i18n.Toolkit.i18nText("Float"),
+		com.fr.design.i18n.Toolkit.i18nText("Email"),
+		com.fr.design.i18n.Toolkit.i18nText("Phone"),
+		com.fr.design.i18n.Toolkit.i18nText("MobilePhone"),
+		com.fr.design.i18n.Toolkit.i18nText("IDCard"),
+		com.fr.design.i18n.Toolkit.i18nText("PostCode"),
+		com.fr.design.i18n.Toolkit.i18nText("Custom")};
 	
 	public final static int REG_NONE = 0;
 	public final static int REG_REQUIRED = 1;
@@ -45,9 +45,9 @@ public class DictionaryConstants {
 		};
 	
 	public static final String[] delimiterDisplays = new String[]{
-		Inter.getLocText("Form-Comma"),
-		Inter.getLocText("Form-Semicolon"),
-		Inter.getLocText("Form-Colon")
+		com.fr.design.i18n.Toolkit.i18nText("Form-Comma"),
+		com.fr.design.i18n.Toolkit.i18nText("Form-Semicolon"),
+		com.fr.design.i18n.Toolkit.i18nText("Form-Colon")
 		};
 	
 	public static final String[] symbols = new String[]{
@@ -55,9 +55,9 @@ public class DictionaryConstants {
 	};
 	
 	public static final String[] symbolDisplays = new String[]{
-		Inter.getLocText("None"),
-		Inter.getLocText("Form-Single_quote"),
-		Inter.getLocText("Form-Double_quotes")
+		com.fr.design.i18n.Toolkit.i18nText("None"),
+		com.fr.design.i18n.Toolkit.i18nText("Form-Single_quote"),
+		com.fr.design.i18n.Toolkit.i18nText("Form-Double_quotes")
 	};
 	// richer:文件类型选择器
 	public static final String[] fileTypes = new String[]{
@@ -77,7 +77,7 @@ public class DictionaryConstants {
 	};
 	
 	public static final String[] fileTypeDisplays = new String[]{
-		Inter.getLocText("Form-All_Files"),
+		com.fr.design.i18n.Toolkit.i18nText("Form-All_Files"),
 		"txt",
 		"pdf",
 		"jpg,png,gif",

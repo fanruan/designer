@@ -8,7 +8,7 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.wordcloud.data.WordCloudReportDefinition;
 
 import javax.swing.BorderFactory;
@@ -36,9 +36,9 @@ public class WordCloudPlotReportDataContentPane extends AbstractReportDataConten
         wordValue = new TinyFormulaPane();
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_MultiPie_Series_Name")), name},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Word_Name")), wordName},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Word_Value")), wordValue}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_MultiPie_Series_Name")), name},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Word_Name")), wordName},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Word_Value")), wordValue}
         };
 
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components,rowSize,columnSize,24,6);

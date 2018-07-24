@@ -17,7 +17,7 @@ import com.fr.design.designer.creator.XWFitLayout;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.roleAuthority.ReportAndFSManagePane;
 import com.fr.design.utils.ComponentUtils;
-import com.fr.general.Inter;
+
 import com.fr.page.WatermarkPainter;
 import com.fr.report.core.ReportUtils;
 import com.fr.stable.ArrayUtils;
@@ -170,7 +170,7 @@ public class FormDesignerUI extends ComponentUI {
                 x1 = x2 = bounds.x - designer.getArea().getHorizontalValue() + (k == 3 ? 0 : bounds.width);
                 text = Utils.objectToString(x1 + designer.getArea().getHorizontalValue());
             }
-            text += Inter.getLocText("FR-Designer_Indent-Pixel");
+            text += com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Indent-Pixel");
             g2d.setColor(XCreatorConstants.RESIZE_BOX_BORDER_COLOR);
             GraphHelper.drawString(g2d, text, x1 + 3, y1 + 10);
             GraphHelper.drawLine(g2d, x1, y1, x2, y2);

@@ -11,7 +11,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.base.AttrSeriesStackAndAxis;
 import com.fr.van.chart.designer.style.series.VanChartSeriesConditionPane;
 
@@ -50,7 +50,7 @@ public class VanChartCustomStackAndAxisConditionPane extends BasicBeanPane<Condi
         JPanel deployPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
         this.add(deployPane);
 
-        deployPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("Plugin-ChartF_Deploy") + ":", null));
+        deployPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Deploy") + ":", null));
         deployPane.add(createDeployPane());
 
         //条件界面
@@ -63,8 +63,8 @@ public class VanChartCustomStackAndAxisConditionPane extends BasicBeanPane<Condi
     }
 
     private JPanel createDeployPane() {
-        isStacked = new UIButtonGroup<Integer>(new String[]{Inter.getLocText("Plugin-ChartF_YES"), Inter.getLocText("Plugin-ChartF_NO")});
-        isPercentStacked = new UIButtonGroup<Integer>(new String[]{Inter.getLocText("Plugin-ChartF_YES"), Inter.getLocText("Plugin-ChartF_NO")});
+        isStacked = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_YES"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NO")});
+        isPercentStacked = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_YES"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NO")});
         double p = TableLayout.PREFERRED;
         double[] columnSize = {p, p};
         double[] rowSize = {p, p, p, p};
@@ -74,10 +74,10 @@ public class VanChartCustomStackAndAxisConditionPane extends BasicBeanPane<Condi
 
     protected Component[][] getDeployComponents() {
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("ChartF-X_Axis")), XAxis},
-                new Component[]{new UILabel(Inter.getLocText("ChartF-Y_Axis")), YAxis},
-                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Type_Stacked")), isStacked},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_PercentStacked")), isPercentStacked},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("ChartF-X_Axis")), XAxis},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("ChartF-Y_Axis")), YAxis},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Stacked")), isStacked},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_PercentStacked")), isPercentStacked},
         };
 
         isStacked.addActionListener(new ActionListener() {
@@ -91,7 +91,7 @@ public class VanChartCustomStackAndAxisConditionPane extends BasicBeanPane<Condi
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("Plugin-ChartF_StackAndSeries");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_StackAndSeries");
     }
 
     private void checkBox() {

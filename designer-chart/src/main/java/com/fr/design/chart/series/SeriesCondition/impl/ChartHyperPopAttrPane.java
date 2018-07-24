@@ -13,7 +13,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.Inter;
+
 import com.fr.stable.ParameterProvider;
 import com.fr.stable.StringUtils;
 
@@ -71,9 +71,9 @@ public class ChartHyperPopAttrPane extends AbstractChartAttrPane {
 		double[] rowSize = { p,p,p,p,p,p};
 
         Component[][] components = new Component[][]{
-                new Component[]{new BoldFontTextLabel(Inter.getLocText("FR-Designer-Widget-Style_Title") + ":", SwingConstants.RIGHT), titleField},
-                new Component[]{new BoldFontTextLabel(Inter.getLocText("FR-Designer_Width") + ":", SwingConstants.RIGHT), widthField},
-                new Component[]{new BoldFontTextLabel(Inter.getLocText("FR-Designer_Height") + ":", SwingConstants.RIGHT), heightField},
+                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget-Style_Title") + ":", SwingConstants.RIGHT), titleField},
+                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Width") + ":", SwingConstants.RIGHT), widthField},
+                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Height") + ":", SwingConstants.RIGHT), heightField},
         };
 
         widthField.setText(String.valueOf(DEFAULT_V_VALUE));
@@ -83,7 +83,7 @@ public class ChartHyperPopAttrPane extends AbstractChartAttrPane {
 		pane.add(northPane, BorderLayout.NORTH);
 		
 		parameterViewPane = new ReportletParameterViewPane(paraType, valueEditorPane, valueRenderPane);
-		parameterViewPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("FR-Designer_Parameter")));
+		parameterViewPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter")));
 		parameterViewPane.setPreferredSize(new Dimension(200, 200));
 		pane.add(parameterViewPane, BorderLayout.CENTER);
 
@@ -147,7 +147,7 @@ public class ChartHyperPopAttrPane extends AbstractChartAttrPane {
      * @return 标题
      */
 	public String title4PopupWindow() {
-		return Inter.getLocText("Plugin-ChartF_Hyperlink");
+		return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Hyperlink");
 	}
 
 }

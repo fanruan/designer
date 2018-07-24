@@ -7,7 +7,7 @@ import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.charttypes.BarIndependentChart;
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.Inter;
+
 
 /**
  * 条形图 属性表 选择类型 布局界面.
@@ -31,16 +31,16 @@ public class BarPlotPane extends AbstractBarPane{
 
     @Override
     protected String[] getTypeTipName() {
-        String bar = Inter.getLocText("FR-Chart-Type_Bar");
-        String stack = Inter.getLocText("FR-Chart-Type_Stacked");
-        String percent = Inter.getLocText("FR-Chart-Use_Percent");
-        String td = Inter.getLocText("FR-Chart-Chart_3D");
+        String bar = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Bar");
+        String stack = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Stacked");
+        String percent = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Use_Percent");
+        String td = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Chart_3D");
         return new String[]{
                 bar,
                 stack + bar,
                 percent + stack + bar,
                 td + bar,
-                td + bar + "(" + Inter.getLocText("FR-Chart-Direction_Horizontal") + ")",
+                td + bar + "(" + com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Direction_Horizontal") + ")",
                 td + stack + bar,
                 td + percent + stack + bar
         };
@@ -65,7 +65,7 @@ public class BarPlotPane extends AbstractBarPane{
      * @return 界面标题
 	 */
 	public String title4PopupWindow() {
-		return Inter.getLocText("FR-Chart-Type_Bar");
+		return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Bar");
 	}
 
     protected Plot getSelectedClonedPlot(){

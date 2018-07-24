@@ -11,7 +11,7 @@ import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.dialog.DialogActionAdapter;
-import com.fr.general.Inter;
+
 import com.fr.report.cell.CellElement;
 import com.fr.report.cell.TemplateCellElement;
 import com.fr.report.cell.cellattr.core.group.CustomGrouper;
@@ -31,7 +31,7 @@ public abstract class ResultSetGroupPane extends JPanel {
 	protected UIComboBox groupComboBox;
 	
 	protected ResultSetGroupPane(){
-		groupComboBox = new UIComboBox(new String[] {Inter.getLocText("Common"), Inter.getLocText("Continuum"), Inter.getLocText("Advanced")});
+		groupComboBox = new UIComboBox(new String[] {com.fr.design.i18n.Toolkit.i18nText("Common"), com.fr.design.i18n.Toolkit.i18nText("Continuum"), com.fr.design.i18n.Toolkit.i18nText("Advanced")});
 	}
 
 	abstract void populate(TemplateCellElement cellElement);

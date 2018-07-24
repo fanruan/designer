@@ -10,7 +10,7 @@ import com.fr.design.mainframe.DesignerBean;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -124,7 +124,7 @@ public class PredefinedStylePane extends FurtherBasicBeanPane<NameStyle> impleme
      * @return 标题
      */
     public String title4PopupWindow() {
-        return Inter.getLocText(new String[]{"PageSetup-Predefined", "Style"});
+        return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"PageSetup-Predefined", "Style"});
     }
 
     /**

@@ -2,7 +2,7 @@ package com.fr.design.mainframe.loghandler;
 
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.general.Inter;
+
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -56,7 +56,7 @@ public class LogMessageBar extends JPanel {
 		if (message == null) {
 			return;
 		}
-		messageLabel.setText(Inter.getLocText("Log") + " | " + message);
+		messageLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Log") + " | " + message);
 		repaint();
 	}
 

@@ -5,7 +5,7 @@ import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.style.FormatPane;
 import com.fr.design.layout.TableLayout;
-import com.fr.general.Inter;
+
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 import com.fr.van.chart.designer.component.VanChartHtmlLabelPaneWithOutWidthAndHeight;
 import com.fr.van.chart.designer.component.format.FormatPaneWithOutFont;
@@ -34,8 +34,8 @@ public class LegendLabelFormatPane extends JPanel{
     }
 
     public LegendLabelFormatPane(){
-        labelFormatStyle = new UIButtonGroup<Integer>(new String[]{Inter.getLocText("Plugin-ChartF_Common"),
-                Inter.getLocText("Plugin-ChartF_Custom")});
+        labelFormatStyle = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Common"),
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Custom")});
         labelFormat = new FormatPaneWithOutFont();
         htmlLabelPane = new VanChartHtmlLabelPaneWithOutWidthAndHeight();
         htmlLabelPane.setBorder(BorderFactory.createEmptyBorder(0, (int)TableLayout4VanChartHelper.DESCRIPTION_AREA_WIDTH + TableLayout4VanChartHelper.COMPONENT_INTERVAL,0,0));
@@ -51,8 +51,8 @@ public class LegendLabelFormatPane extends JPanel{
                 }
             }
         };
-        centerPane.add(labelFormat,Inter.getLocText("Plugin-ChartF_Common"));
-        centerPane.add(htmlLabelPane, Inter.getLocText("Plugin-ChartF_Custom"));
+        centerPane.add(labelFormat,com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Common"));
+        centerPane.add(htmlLabelPane, com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Custom"));
 
 
         double p = TableLayout.PREFERRED;
@@ -62,7 +62,7 @@ public class LegendLabelFormatPane extends JPanel{
         double[] rowSize = {p, p, p};
         Component[][] components = new Component[][]{
                 new Component[]{null,null},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Label_Format"), SwingConstants.LEFT), labelFormatStyle},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Label_Format"), SwingConstants.LEFT), labelFormatStyle},
                 new Component[]{centerPane,null},
         };
         JPanel contentPane = TableLayout4VanChartHelper.createGapTableLayoutPane(components,rowSize,columnSize);
@@ -74,7 +74,7 @@ public class LegendLabelFormatPane extends JPanel{
         });
         labelFormatStyle.setSelectedIndex(0);
 
-        JPanel panel =  TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Chart-Use_Format"), contentPane);
+        JPanel panel =  TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Format"), contentPane);
         this.setLayout(new BorderLayout());
         this.add(panel,BorderLayout.CENTER);
     }
@@ -86,9 +86,9 @@ public class LegendLabelFormatPane extends JPanel{
                 if(!populate) {
                     checkCustomLabelText();
                 }
-                cardLayout.show(centerPane,Inter.getLocText("Plugin-ChartF_Custom"));
+                cardLayout.show(centerPane,com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Custom"));
             } else {
-                cardLayout.show(centerPane, Inter.getLocText("Plugin-ChartF_Common"));
+                cardLayout.show(centerPane, com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Common"));
             }
         }
     }

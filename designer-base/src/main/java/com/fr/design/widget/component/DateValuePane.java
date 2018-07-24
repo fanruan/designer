@@ -8,7 +8,7 @@ import com.fr.design.editor.editor.FormulaEditor;
 import com.fr.design.editor.editor.NoneEditor;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -21,9 +21,9 @@ import java.awt.*;
 public class DateValuePane extends JPanel {
     private UIButtonGroup widgetValueHead;
     private Editor[] editor;
-    private static final String NONE_EDITOR_NAME = Inter.getLocText("None");
-    private static final String DATE_EDITOR_NAME = Inter.getLocText("Date");
-    private static final String FORMULA_EDITOR_NAME = Inter.getLocText("Parameter-Formula");
+    private static final String NONE_EDITOR_NAME = com.fr.design.i18n.Toolkit.i18nText("None");
+    private static final String DATE_EDITOR_NAME = com.fr.design.i18n.Toolkit.i18nText("Date");
+    private static final String FORMULA_EDITOR_NAME = com.fr.design.i18n.Toolkit.i18nText("Parameter-Formula");
 
 
     public DateValuePane() {
@@ -45,7 +45,7 @@ public class DateValuePane extends JPanel {
             @Override
             public void stateChanged(ChangeEvent e) {
                 int index = widgetValueHead.getSelectedIndex();
-                if (ComparatorUtils.equals(tabTitles[index], Inter.getLocText("None"))) {
+                if (ComparatorUtils.equals(tabTitles[index], com.fr.design.i18n.Toolkit.i18nText("None"))) {
                     customPane.setVisible(false);
                 } else {
                     customPane.setVisible(true);

@@ -1,6 +1,6 @@
 package com.fr.design.actions.columnrow;
 
-import com.fr.general.Inter;
+
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.Selection;
@@ -11,7 +11,7 @@ public class ResetRowHideAction extends AbstractColumnRowIndexAction {
 
 	public ResetRowHideAction(ElementCasePane t, int indexOfColumnOrRow) {
 		super(t, indexOfColumnOrRow);
-		this.setName(Inter.getLocText(new String[]{"MConfig-CancelButton", "Hide"}));
+		this.setName(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"MConfig-CancelButton", "Hide"}));
 	}
 
 	@Override

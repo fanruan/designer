@@ -12,7 +12,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.backgroundpane.*;
 import com.fr.general.Background;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -74,7 +74,7 @@ public class BackgroundPane extends AbstractBasicStylePane {
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Shape_Fill") + "     ", SwingConstants.LEFT),typeComboBox},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Shape_Fill") + "     ", SwingConstants.LEFT),typeComboBox},
                 new Component[]{null, centerPane}
         };
         double[] rowSize = {p, p, p};
@@ -133,7 +133,7 @@ public class BackgroundPane extends AbstractBasicStylePane {
      * @return 名称
      */
     public String title4PopupWindow() {
-        return Inter.getLocText("FR-Utils_Background");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Utils_Background");
     }
 
     /**

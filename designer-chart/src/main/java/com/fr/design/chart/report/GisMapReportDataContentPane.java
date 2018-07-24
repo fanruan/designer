@@ -18,7 +18,7 @@ import com.fr.design.gui.itable.UITableEditor;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.Inter;
+
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 
@@ -51,8 +51,8 @@ public class GisMapReportDataContentPane extends FurtherBasicBeanPane<GisMapRepo
 
     private void initCom() {
         this.setLayout(new BorderLayout(0, 0));
-        addressType = new UIButtonGroup<String>(new String[]{Inter.getLocText("Chart-Address"), Inter.getLocText("Chart-LngLat")});
-        lnglatOrder = new UIButtonGroup<String>(new String[]{Inter.getLocText("Chart-LngFirst"), Inter.getLocText("Chart-LatFirst")});
+        addressType = new UIButtonGroup<String>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Chart-Address"), com.fr.design.i18n.Toolkit.i18nText("Chart-LngLat")});
+        lnglatOrder = new UIButtonGroup<String>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Chart-LngFirst"), com.fr.design.i18n.Toolkit.i18nText("Chart-LatFirst")});
         addressPane = new TinyFormulaPane();
         addressNamePane = new TinyFormulaPane();
         double p = TableLayout.PREFERRED;
@@ -70,7 +70,7 @@ public class GisMapReportDataContentPane extends FurtherBasicBeanPane<GisMapRepo
                 }
             }
         };
-        orderPane.add(new UILabel(Inter.getLocText("Chart-LatLngOrder")), BorderLayout.WEST);
+        orderPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-LatLngOrder")), BorderLayout.WEST);
         orderPane.add(lnglatOrder, BorderLayout.CENTER);
         orderPane.setVisible(false);
         lnglatOrder.setSelectedIndex(0);
@@ -78,13 +78,13 @@ public class GisMapReportDataContentPane extends FurtherBasicBeanPane<GisMapRepo
         Component[][] components = new Component[][]{
                 new Component[]{addressType, addressPane},
                 new Component[]{orderPane, null},
-                new Component[]{new UILabel(" " +Inter.getLocText("Chart-Address-Name")+":", SwingConstants.RIGHT), addressNamePane},
+                new Component[]{new UILabel(" " +com.fr.design.i18n.Toolkit.i18nText("Chart-Address-Name")+":", SwingConstants.RIGHT), addressNamePane},
         };
         JPanel northPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
 
         this.add(northPane, BorderLayout.NORTH);
 
-        String[] columnNames = new String[]{Inter.getLocText(new String[]{"Filed", "Title"}), Inter.getLocText("Area_Value")};
+        String[] columnNames = new String[]{com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Filed", "Title"}), com.fr.design.i18n.Toolkit.i18nText("Area_Value")};
         seriesPane = new UICorrelationPane(columnNames) {
             public UITableEditor createUITableEditor() {
                 return new InnerTableEditor();
@@ -115,7 +115,7 @@ public class GisMapReportDataContentPane extends FurtherBasicBeanPane<GisMapRepo
      * @return  标题
      */
     public String title4PopupWindow() {
-        return Inter.getLocText("Cell");
+        return com.fr.design.i18n.Toolkit.i18nText("Cell");
     }
 
     @Override

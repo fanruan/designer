@@ -1,6 +1,5 @@
 package com.fr.van.chart.drillmap.designer.data.comp;
 
-import com.fr.base.chart.BaseChart;
 import com.fr.base.chart.chartdata.TopDefinitionProvider;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
@@ -9,7 +8,7 @@ import com.fr.design.dialog.MultiTabPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.drillmap.DrillMapHelper;
 import com.fr.plugin.chart.drillmap.VanChartDrillMapPlot;
 import com.fr.plugin.chart.drillmap.data.DrillMapDefinition;
@@ -18,7 +17,7 @@ import com.fr.plugin.chart.type.MapType;
 import com.fr.van.chart.map.designer.data.MapDataPaneHelper;
 
 import javax.swing.tree.DefaultMutableTreeNode;
-import java.awt.CardLayout;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +57,7 @@ public class EachLayerDataDefinitionPane extends MultiTabPane<ChartCollection> {
         List<BasicPane> paneList = new ArrayList<BasicPane>();
 
         for(int i = 1; i < depth + 1; i++){
-            String tile = String.format("%s%d%s", Inter.getLocText("Plugin-ChartF_Index1"), i, Inter.getLocText("Plugin-ChartF_Index3"));
+            String tile = String.format("%s%d%s", com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Index1"), i, com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Index3"));
 
             SingleLayerDataDefinitionPane pane = new SingleLayerDataDefinitionPane(tile, this.listener, this.parent);
             pane.setSupportCellData(parent.isSupportCellData());
@@ -116,11 +115,7 @@ public class EachLayerDataDefinitionPane extends MultiTabPane<ChartCollection> {
         List<TopDefinitionProvider> eachLayerDataDefinitionList = new ArrayList<TopDefinitionProvider>();
         for(BasicPane basicPane : paneList){
             if(basicPane instanceof SingleLayerDataDefinitionPane){
-                ChartCollection temp = new ChartCollection(new Chart()){
-                    @Override
-                    public void addFunctionRecord(BaseChart chart) {
-                    }
-                };
+                ChartCollection temp = new ChartCollection(new Chart());
                 ((SingleLayerDataDefinitionPane) basicPane).updateBean(temp);
                 eachLayerDataDefinitionList.add(temp.getSelectedChart().getFilterDefinition());
             }
@@ -146,7 +141,7 @@ public class EachLayerDataDefinitionPane extends MultiTabPane<ChartCollection> {
      */
     @Override
     public String title4PopupWindow() {
-        return Inter.getLocText("Plugin-ChartF_Each_Layer_Data_Special");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Each_Layer_Data_Special");
     }
 
     /**

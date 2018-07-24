@@ -7,7 +7,7 @@ import com.fr.chart.chartdata.TopDefinition;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.gantt.data.VanGanttTableDefinition;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
@@ -40,7 +40,7 @@ public class GanttTableDataProjectPane extends AbstractTableDataContentPane impl
         projectName = new ComboBoxWithButtonPane(){
             @Override
             protected String getTitleText() {
-                return Inter.getLocText("Plugin-ChartF_Project_Name");
+                return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Project_Name");
             }
 
             @Override

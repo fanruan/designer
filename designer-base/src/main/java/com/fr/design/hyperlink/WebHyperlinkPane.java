@@ -6,7 +6,7 @@ import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.itableeditorpane.ParameterTableModel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.Inter;
+
 import com.fr.js.WebHyperlink;
 import com.fr.stable.ParameterProvider;
 
@@ -42,16 +42,16 @@ public class WebHyperlinkPane extends AbstractHyperLinkPane<WebHyperlink> {
 
         parameterViewPane = new ReportletParameterViewPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
         this.add(parameterViewPane, BorderLayout.CENTER);
-        parameterViewPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("FR-Designer_Parameters"), null));
+        parameterViewPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameters"), null));
 
-        useCJKCheckBox = new UICheckBox(Inter.getLocText("Hyperlink-Use_CJK_to_encode_parameter"));
-        extendParametersCheckBox = new UICheckBox(Inter.getLocText("Hyperlink-Extends_Report_Parameters"));
+        useCJKCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Hyperlink-Use_CJK_to_encode_parameter"));
+        extendParametersCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Hyperlink-Extends_Report_Parameters"));
         this.add(GUICoreUtils.createFlowPane(new Component[]{useCJKCheckBox, extendParametersCheckBox}, FlowLayout.LEFT), BorderLayout.SOUTH);
     }
 
     @Override
     public String title4PopupWindow() {
-        return Inter.getLocText("Hyperlink-Web_link");
+        return com.fr.design.i18n.Toolkit.i18nText("Hyperlink-Web_link");
     }
 
     @Override

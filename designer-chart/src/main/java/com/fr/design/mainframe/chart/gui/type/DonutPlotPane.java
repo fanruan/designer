@@ -10,7 +10,7 @@ import com.fr.chart.chartattr.Donut3DPlot;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionCollection;
 import com.fr.chart.charttypes.DonutIndependentChart;
-import com.fr.general.Inter;
+
 import com.fr.stable.Constants;
 
 import java.awt.*;
@@ -35,10 +35,10 @@ public class DonutPlotPane extends AbstractChartTypePane{
 
     @Override
     protected String[] getTypeTipName() {
-        String donut = Inter.getLocText("FR-Chart-Type_Donut");
+        String donut = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Donut");
         return new String[]{
                 donut,
-                Inter.getLocText("FR-Chart-Chart_3D") + donut
+                com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Chart_3D") + donut
         };
     }
 
@@ -103,7 +103,7 @@ public class DonutPlotPane extends AbstractChartTypePane{
      * @return 标题
      */
     public String title4PopupWindow() {
-		return Inter.getLocText("FR-Chart-Type_Donut");
+		return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Donut");
 	}
 
     /**

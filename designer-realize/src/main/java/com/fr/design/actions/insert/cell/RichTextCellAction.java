@@ -5,7 +5,7 @@ import com.fr.design.actions.core.WorkBookSupportable;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.report.cell.cellattr.core.RichText;
 
 import javax.swing.KeyStroke;
@@ -60,7 +60,7 @@ public class RichTextCellAction extends AbstractCellAction implements WorkBookSu
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("FR-Designer_RichText");
+            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_RichText");
         }
 
         @Override

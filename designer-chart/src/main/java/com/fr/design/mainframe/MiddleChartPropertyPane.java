@@ -14,7 +14,7 @@ import com.fr.design.gui.frpane.UITitlePanel;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itabpane.TitleChangeListener;
 import com.fr.design.mainframe.chart.ChartEditPane;
-import com.fr.general.Inter;
+
 import com.fr.stable.StableUtils;
 
 import javax.swing.*;
@@ -65,7 +65,7 @@ public abstract class MiddleChartPropertyPane extends BaseChartPropertyPane{
 		chartEditPane.setContainer(container);
 		chartEditPane.addTitleChangeListener(titleListener);
 		String tabname = chartEditPane.getSelectedTabName();
-		nameLabel.setText(Inter.getLocText("Chart-Property_Table") + (tabname != null ? ('-' + chartEditPane.getSelectedTabName()) : ""));
+		nameLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Chart-Property_Table") + (tabname != null ? ('-' + chartEditPane.getSelectedTabName()) : ""));
 		resetChartEditPane();
 	}
 	
@@ -81,7 +81,7 @@ public abstract class MiddleChartPropertyPane extends BaseChartPropertyPane{
 		
 		@Override
 		public void fireTitleChange(String addName) {
-			nameLabel.setText(Inter.getLocText("Chart-Property_Table") + '-' + addName);
+			nameLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Chart-Property_Table") + '-' + addName);
 		}
 	};
 
@@ -118,7 +118,7 @@ public abstract class MiddleChartPropertyPane extends BaseChartPropertyPane{
 	 * 返回View的标题.
 	 */
 	public String getViewTitle() {
-		return Inter.getLocText("CellElement-Property_Table");
+		return com.fr.design.i18n.Toolkit.i18nText("CellElement-Property_Table");
 	}
 
 	/**

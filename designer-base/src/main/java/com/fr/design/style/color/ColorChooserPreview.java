@@ -3,7 +3,7 @@ package com.fr.design.style.color;
 import javax.swing.*;
 import java.awt.*;
 
-import com.fr.general.Inter;
+
 import sun.swing.SwingUtilities2;
 
 /**
@@ -196,7 +196,7 @@ public class ColorChooserPreview extends JPanel {
 
     private String getSampleText() {
         if (this.sampleText == null) {
-            this.sampleText = Inter.getLocText("FR-Designer_SampleText");
+            this.sampleText = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_SampleText");
         }
         return this.sampleText;
     }

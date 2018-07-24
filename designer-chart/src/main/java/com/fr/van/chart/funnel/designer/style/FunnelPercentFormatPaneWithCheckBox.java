@@ -1,6 +1,6 @@
 package com.fr.van.chart.funnel.designer.style;
 
-import com.fr.general.Inter;
+
 import com.fr.van.chart.designer.component.format.PercentFormatPaneWithCheckBox;
 import com.fr.van.chart.designer.style.VanChartStylePane;
 
@@ -15,6 +15,6 @@ public class FunnelPercentFormatPaneWithCheckBox extends PercentFormatPaneWithCh
     }
 
     protected String getCheckBoxText() {
-        return Inter.getLocText("Chart-Value_Conversion");
+        return com.fr.design.i18n.Toolkit.i18nText("Chart-Value_Conversion");
     }
 }

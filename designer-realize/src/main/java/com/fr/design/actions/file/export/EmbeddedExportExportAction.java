@@ -5,7 +5,7 @@ import com.fr.base.extension.FileExtension;
 import com.fr.design.mainframe.JWorkBook;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.file.filter.ChooseFileFilter;
-import com.fr.general.Inter;
+
 import com.fr.io.exporter.EmbeddedTableDataExporter;
 import com.fr.io.exporter.Exporter;
 
@@ -34,7 +34,7 @@ public class EmbeddedExportExportAction extends AbstractExportAction {
     @Override
     protected ChooseFileFilter getChooseFileFilter() {
         return new ChooseFileFilter(EnumSet.of(FileExtension.CPTX, FileExtension.CPT),
-                Inter.getLocText("Export-Template(embedded_data)"));
+                com.fr.design.i18n.Toolkit.i18nText("Export-Template(embedded_data)"));
     }
 
     @Override

@@ -13,7 +13,7 @@ import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.design.mainframe.chart.gui.type.ChartImagePane;
 import com.fr.general.Background;
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.Inter;
+
 import com.fr.js.NameJavaScriptGroup;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.base.VanChartTools;
@@ -43,8 +43,8 @@ public abstract class AbstractVanChartTypePane extends AbstractChartTypePane{
     }
 
     protected Component[][] getComponentsWithLargeData(JPanel typePane){
-        largeModelCheckBox = new UICheckBox(Inter.getLocText("Plugin-ChartF_OpenLargeDataModel"));
-        MultilineLabel prompt = new MultilineLabel(Inter.getLocText("Plugin-ChartF_LargeDataModelPrompt"));
+        largeModelCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_OpenLargeDataModel"));
+        MultilineLabel prompt = new MultilineLabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_LargeDataModelPrompt"));
         prompt.setForeground(Color.red);
         JPanel largeDataPane = new JPanel(new BorderLayout());
         largeDataPane.add(largeModelCheckBox, BorderLayout.CENTER);

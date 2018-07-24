@@ -9,7 +9,7 @@ import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrame;
-import com.fr.general.Inter;
+
 import com.fr.general.NameObject;
 import com.fr.stable.Nameable;
 import com.fr.transaction.Configurations;
@@ -33,14 +33,14 @@ public class ChartPreStyleManagerPane extends JListControlPane {
      */
 	public NameableCreator[] createNameableCreators() {
 		return new NameableCreator[]{
-				new NameObjectCreator(Inter.getLocText("FR-Designer_PreStyle"),
+				new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_PreStyle"),
 						ChartColorMatching.class, ChartPreStylePane.class)
 		};
 	}
 
 	@Override
 	protected String title4PopupWindow() {
-        return Inter.getLocText("FR-Designer_Chart-PreStyle");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Chart-PreStyle");
 	}
 	
 	public void populateBean() {

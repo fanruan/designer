@@ -8,7 +8,7 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.gui.itree.filetree.JFileTree;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.file.filter.OnlyShowDirectoryFileFilter;
-import com.fr.general.Inter;
+
 import com.fr.stable.StringUtils;
 
 import javax.swing.JPanel;
@@ -33,7 +33,7 @@ public class LocalEnvPane extends BasicBeanPane<LocalDesignerWorkspaceInfo> {
         JPanel northPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         this.add(northPane, BorderLayout.NORTH);
 
-        northPane.add(new UILabel(Inter.getLocText("Location") + ":"), BorderLayout.WEST);
+        northPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Location") + ":"), BorderLayout.WEST);
         northPane.add(pathTextField = new UITextField(), BorderLayout.CENTER);
 
         // 删除选择文件按钮 添加JFileTree
@@ -60,13 +60,13 @@ public class LocalEnvPane extends BasicBeanPane<LocalDesignerWorkspaceInfo> {
 
         UITextArea description = new UITextArea();
         centerPane.add(description, BorderLayout.SOUTH);
-        description.setText(Inter.getLocText("Env-Des1"));
+        description.setText(com.fr.design.i18n.Toolkit.i18nText("Env-Des1"));
         description.setEditable(false);
     }
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("Location");
+        return com.fr.design.i18n.Toolkit.i18nText("Location");
     }
 
     @Override

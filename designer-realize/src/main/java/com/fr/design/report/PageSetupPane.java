@@ -52,7 +52,7 @@ import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.dialog.BasicPane;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.report.core.ReportUtils;
 import com.fr.report.report.Report;
 import com.fr.report.stable.ReportConstants;
@@ -84,13 +84,13 @@ public class PageSetupPane extends BasicPane {
 
         pagePane = new PagePane();
         otherPane = new OtherPane();
-        centerTabbedPane.addTab(Inter.getLocText("PageSetup-Page"), pagePane);
-        centerTabbedPane.addTab(Inter.getLocText("Other"), otherPane);
+        centerTabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("PageSetup-Page"), pagePane);
+        centerTabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Other"), otherPane);
     }
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("Page_Setup");
+        return com.fr.design.i18n.Toolkit.i18nText("Page_Setup");
     }
 
     /**
@@ -159,20 +159,20 @@ public class PageSetupPane extends BasicPane {
             this.add(defaultPane, BorderLayout.NORTH);
             JPanel twoPane = FRGUIPaneFactory.createX_AXISBoxInnerContainer_S_Pane();
             twoPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-            JPanel orientationPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("PageSetup-Orientation"));
+            JPanel orientationPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("PageSetup-Orientation"));
             JPanel innerorientationPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_M_Pane();
             orientationPane.add(innerorientationPane);
             twoPane.add(orientationPane);
 
             JPanel portraitpanel = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-            portraitRadioButton = new UIRadioButton(Inter.getLocText("PageSetup-Portrait"));
+            portraitRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("PageSetup-Portrait"));
             portraitRadioButton.setMnemonic('t');
             portraitpanel.add(portraitRadioButton);
             innerorientationPane.add(portraitpanel);
             portraitRadioButton.addActionListener(previewListener);
 
             JPanel landscapepanel = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-            landscapeRadioButton = new UIRadioButton(Inter.getLocText("PageSetup-Landscape"));
+            landscapeRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("PageSetup-Landscape"));
             innerorientationPane.add(landscapepanel);
             landscapeRadioButton.setMnemonic('L');
             landscapepanel.add(landscapeRadioButton);
@@ -184,25 +184,25 @@ public class PageSetupPane extends BasicPane {
 
             portraitRadioButton.setSelected(true);
 
-            JPanel spp = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("Preview"));
+            JPanel spp = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Preview"));
             showPagePane = new ShowPagePane();
             spp.add(showPagePane);
             defaultPane.add(spp);
             defaultPane.add(twoPane);
 
             // paper size
-            JPanel paperSizePane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("PageSetup-Paper_Size"));
+            JPanel paperSizePane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("PageSetup-Paper_Size"));
             JPanel innerpaperSizePane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_M_Pane();
             paperSizePane.add(innerpaperSizePane);
             defaultPane.add(paperSizePane);
 
 
-            predefinedRadioButton = new UIRadioButton(Inter.getLocText("PageSetup-Predefined") + ":");
+            predefinedRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("PageSetup-Predefined") + ":");
             predefinedRadioButton.setMnemonic('P');
             predefinedRadioButton.addActionListener(previewListener);
 
 
-            customRadioButton = new UIRadioButton(Inter.getLocText("Custom") + ":");
+            customRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Custom") + ":");
             customRadioButton.setMnemonic('C');
             customRadioButton.addActionListener(previewListener);
 
@@ -214,7 +214,7 @@ public class PageSetupPane extends BasicPane {
             ((JSpinner.DefaultEditor) paperHeightSpinner.getEditor()).getTextField().setColumns(7);
             unitLabel = new UnitFieldPane.UnitLabel(Constants.UNIT_MM, paperHeightSpinner.getPreferredSize().height);
 
-            String[] inch = {Inter.getLocText("Unit_MM"), Inter.getLocText("Unit_INCH")};
+            String[] inch = {com.fr.design.i18n.Toolkit.i18nText("Unit_MM"), com.fr.design.i18n.Toolkit.i18nText("Unit_INCH")};
             switchInch = new UIComboBox(inch);
             switchInch.setEditable(false);
             switchInch.setSize(paperHeightSpinner.getPreferredSize().width, paperHeightSpinner.getPreferredSize().height);
@@ -259,7 +259,7 @@ public class PageSetupPane extends BasicPane {
 
 
             // peter:设置边距..
-            JPanel outermarginPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("PageSetup-Margin"));
+            JPanel outermarginPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("PageSetup-Margin"));
             JPanel marginPane = FRGUIPaneFactory.createX_AXISBoxInnerContainer_M_Pane();
             outermarginPane.add(marginPane);
             twoPane.add(outermarginPane);
@@ -277,12 +277,12 @@ public class PageSetupPane extends BasicPane {
 
             JPanel marginLeftTextPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
             marginLeftPane.add(marginLeftTextPane);
-            marginLeftTextPane.add(new UILabel(Inter.getLocText("Top") + ":"));
+            marginLeftTextPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Top") + ":"));
             marginTopUnitFieldPane = new UnitFieldPane(Constants.UNIT_MM);
             marginLeftTextPane.add(marginTopUnitFieldPane);
             JPanel marginLeftUnitPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
             marginLeftPane.add(marginLeftUnitPane);
-            marginLeftUnitPane.add(new UILabel(Inter.getLocText("Bottom") + ":"));
+            marginLeftUnitPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Bottom") + ":"));
             marginBottomUnitFieldPane = new UnitFieldPane(Constants.UNIT_MM);
             marginLeftUnitPane.add(marginBottomUnitFieldPane);
 
@@ -293,13 +293,13 @@ public class PageSetupPane extends BasicPane {
             // peter:这个一个垂直的上下的字符panel.
             JPanel marginRightTextPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
             marginRightPane.add(marginRightTextPane);
-            marginRightTextPane.add(new UILabel(Inter.getLocText("Left") + ":"));
+            marginRightTextPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Left") + ":"));
             marginLeftUnitFieldPane = new UnitFieldPane(Constants.UNIT_MM);
             marginRightTextPane.add(marginLeftUnitFieldPane);
 
             JPanel marginRightUnitPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
             marginRightPane.add(marginRightUnitPane);
-            marginRightUnitPane.add(new UILabel(Inter.getLocText("Right") + ":"));
+            marginRightUnitPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Right") + ":"));
             marginRightUnitFieldPane = new UnitFieldPane(Constants.UNIT_MM);
             marginRightUnitPane.add(marginRightUnitFieldPane);
 
@@ -311,7 +311,7 @@ public class PageSetupPane extends BasicPane {
             marginPane.add(zeroMarginWarn);
 
             // header and footer
-            JPanel outhfHeightPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("Height"));
+            JPanel outhfHeightPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Height"));
             JPanel hfHeightPane = FRGUIPaneFactory.createNormalFlowInnerContainer_M_Pane();
             defaultPane.add(outhfHeightPane);
             outhfHeightPane.add(hfHeightPane);
@@ -319,7 +319,7 @@ public class PageSetupPane extends BasicPane {
             // header height.
             JPanel headerHeightPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
             hfHeightPane.add(headerHeightPane);
-            headerHeightPane.add(new UILabel(Inter.getLocText("PageSetup-Header") + ":"));
+            headerHeightPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("PageSetup-Header") + ":"));
 
             headerUnitFieldPane = new UnitFieldPane(Constants.UNIT_MM);
             headerHeightPane.add(headerUnitFieldPane);
@@ -327,7 +327,7 @@ public class PageSetupPane extends BasicPane {
             // footer height.
             JPanel footerHeightPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
             hfHeightPane.add(footerHeightPane);
-            footerHeightPane.add(new UILabel(Inter.getLocText("PageSetup-Footer") + ":"));
+            footerHeightPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("PageSetup-Footer") + ":"));
 
             footerUnitFieldPane = new UnitFieldPane(Constants.UNIT_MM);
             footerHeightPane.add(footerUnitFieldPane);
@@ -643,19 +643,19 @@ public class PageSetupPane extends BasicPane {
                 sbuf.append('x');
                 sbuf.append(Utils.convertNumberStringToString(new Float(paperSize.getHeight().toCMValue4Scale2())));
                 sbuf.append(' ');
-                sbuf.append(Inter.getLocText("Unit_CM"));
+                sbuf.append(com.fr.design.i18n.Toolkit.i18nText("Unit_CM"));
             } else if (unitType == Constants.UNIT_INCH) {
                 sbuf.append(Utils.convertNumberStringToString(new Float(paperSize.getWidth().toINCHValue4Scale3())));
                 sbuf.append('x');
                 sbuf.append(Utils.convertNumberStringToString(new Float(paperSize.getHeight().toINCHValue4Scale3())));
                 sbuf.append(' ');
-                sbuf.append(Inter.getLocText("PageSetup-inches"));
+                sbuf.append(com.fr.design.i18n.Toolkit.i18nText("PageSetup-inches"));
             } else {
                 sbuf.append(Utils.convertNumberStringToString(new Float(paperSize.getWidth().toMMValue4Scale2())));
                 sbuf.append('x');
                 sbuf.append(Utils.convertNumberStringToString(new Float(paperSize.getHeight().toMMValue4Scale2())));
                 sbuf.append(' ');
-                sbuf.append(Inter.getLocText("PageSetup-mm"));
+                sbuf.append(com.fr.design.i18n.Toolkit.i18nText("PageSetup-mm"));
             }
             sbuf.append(']');
         }
@@ -844,7 +844,7 @@ public class PageSetupPane extends BasicPane {
                 boolean or = isOr || rightValue;
                 boolean isAnd = !topValue && !bottomValue && !leftValue ;
                 if (or && (zeroMarginWarn.getText()).endsWith("<br></html></body>")) {
-                    zeroMarginWarn.setText("<html><body>"+Inter.getLocText("zeroMarginWarn")+"</body></html>");
+                    zeroMarginWarn.setText("<html><body>"+com.fr.design.i18n.Toolkit.i18nText("zeroMarginWarn")+"</body></html>");
                 } else if (isAnd && !rightValue) {
                     StringBuffer temp = new StringBuffer();
                     for (int i = 0; i < NUM_11; i++) {
@@ -878,19 +878,19 @@ public class PageSetupPane extends BasicPane {
             this.add(defaultPane, BorderLayout.NORTH);
 
             // page order
-            JPanel outpageOrderPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("PageSetup-Page_Order"));
+            JPanel outpageOrderPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("PageSetup-Page_Order"));
             JPanel pageOrderPane = FRGUIPaneFactory.createNColumnGridInnerContainer_S_Pane(2);
             outpageOrderPane.add(pageOrderPane);
             defaultPane.add(outpageOrderPane);
 
 
             Icon topBottomIcon = BaseUtils.readIcon("/com/fr/base/images/dialog/pagesetup/down.png");
-            topBottomRadioButton = new UIRadioButton(Inter.getLocText("PageSetup-Top_to_bottom"));
+            topBottomRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("PageSetup-Top_to_bottom"));
             pageOrderPane.add(FRGUIPaneFactory.createIconRadio_S_Pane(topBottomIcon, topBottomRadioButton));
             topBottomRadioButton.setMnemonic('B');
 
             Icon leftRightIcon = BaseUtils.readIcon("/com/fr/base/images/dialog/pagesetup/over.png");
-            leftRightRadioButton = new UIRadioButton(Inter.getLocText("PageSetup-Left_to_right"));
+            leftRightRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("PageSetup-Left_to_right"));
             pageOrderPane.add(FRGUIPaneFactory.createIconRadio_S_Pane(leftRightIcon, leftRightRadioButton));
             leftRightRadioButton.setMnemonic('R');
 
@@ -901,15 +901,15 @@ public class PageSetupPane extends BasicPane {
             topBottomRadioButton.setSelected(true);
 
             // center on page
-            JPanel outcenterOnPagePane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("PageSetup-Placement_Center_on_Page"));
+            JPanel outcenterOnPagePane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("PageSetup-Placement_Center_on_Page"));
             JPanel centerOnPagePane = FRGUIPaneFactory.createNormalFlowInnerContainer_M_Pane();
             outcenterOnPagePane.add(centerOnPagePane);
             defaultPane.add(outcenterOnPagePane);
 
 
-            this.horizonalCenterCheckBox = new UICheckBox(Inter.getLocText("PageSetup-Horizontally"));
+            this.horizonalCenterCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("PageSetup-Horizontally"));
             this.horizonalCenterCheckBox.setMnemonic('H');
-            this.verticalCenterCheckBox = new UICheckBox(Inter.getLocText("PageSetup-Vertically"));
+            this.verticalCenterCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("PageSetup-Vertically"));
             this.verticalCenterCheckBox.setMnemonic('V');
 
             centerOnPagePane.add(GUICoreUtils.createFlowPane(horizonalCenterCheckBox, FlowLayout.CENTER));
@@ -919,7 +919,7 @@ public class PageSetupPane extends BasicPane {
             JPanel firstPaneNumberPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
             defaultPane.add(firstPaneNumberPane);
 
-            firstPaneNumberPane.add(new UILabel(Inter.getLocText("PageSetup-First_Page_Number") + ": "));
+            firstPaneNumberPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("PageSetup-First_Page_Number") + ": "));
             // marks: 这个地方必须为大于零的整数
             firstPageNumberSpinner = new UISpinner(1, Integer.MAX_VALUE, 1, 1);
             firstPaneNumberPane.add(firstPageNumberSpinner);
@@ -932,10 +932,10 @@ public class PageSetupPane extends BasicPane {
             printOptionPane.setBorder(BorderFactory.createEmptyBorder(4, 0, 0, 0));
 
             JPanel autoShrinkPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-            autoShrinkPane.add(new UILabel(Inter.getLocText("PageSetup-Shrink_to_fit_content")));
-            isShrinkToFit4None = new UIRadioButton(Inter.getLocText("No"));
-            isShrinkToFit4Height = new UIRadioButton(Inter.getLocText("Utils-Row_Height"));
-            isShrinkToFit4Width = new UIRadioButton(Inter.getLocText("Utils-Column_Width"));
+            autoShrinkPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("PageSetup-Shrink_to_fit_content")));
+            isShrinkToFit4None = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("No"));
+            isShrinkToFit4Height = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Utils-Row_Height"));
+            isShrinkToFit4Width = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Utils-Column_Width"));
 
             ButtonGroup bp = new ButtonGroup();
             autoShrinkPane.add(isShrinkToFit4None);

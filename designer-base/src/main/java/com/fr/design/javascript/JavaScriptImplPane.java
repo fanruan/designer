@@ -11,7 +11,7 @@ import com.fr.design.hyperlink.AbstractHyperLinkPane;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.scrollruler.ModLineBorder;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.Inter;
+
 import com.fr.js.JavaScriptImpl;
 import com.fr.stable.ParameterProvider;
 import com.fr.stable.StringUtils;
@@ -51,7 +51,7 @@ public class JavaScriptImplPane extends AbstractHyperLinkPane<JavaScriptImpl> {
 
     protected void initComponents() {
         parameterPane = new ReportletParameterViewPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
-        parameterPane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), Inter.getLocText("FR-Designer_Parameter")));
+        parameterPane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter")));
         parameterPane.addTableEditorListener(new TableModelListener() {
             public void tableChanged(TableModelEvent e) {
                 List<ParameterProvider> list = parameterPane.update();
@@ -62,7 +62,7 @@ public class JavaScriptImplPane extends AbstractHyperLinkPane<JavaScriptImpl> {
                     }
                     if (tempSet.contains(list.get(i).toString())) {
                         list.remove(i);
-                        JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText(new String[]{"Repeat", "Parameter_Name"}) + "!");
+                        JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Parameter_Duplicate_Name") + "!");
                         parameterChanger(list);
                         return;
                     }
@@ -72,7 +72,7 @@ public class JavaScriptImplPane extends AbstractHyperLinkPane<JavaScriptImpl> {
             }
         });
 
-        OneListTableModel<String> model = new OneListTableModel<String>(Inter.getLocText("ReportServerP-Import_JavaScript"), this) {
+        OneListTableModel<String> model = new OneListTableModel<String>(com.fr.design.i18n.Toolkit.i18nText("ReportServerP-Import_JavaScript"), this) {
 
             public UITableEditAction[] createAction() {
                 return new UITableEditAction[]{getAddAction(), new DeleteAction(this.component), new MoveUpAction(), new MoveDownAction()};
@@ -84,10 +84,10 @@ public class JavaScriptImplPane extends AbstractHyperLinkPane<JavaScriptImpl> {
             }
         };
         importedJsPane = new UITableEditorPane<String>(model);
-        importedJsPane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), Inter.getLocText("ReportServerP-Import_JavaScript")));
+        importedJsPane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), com.fr.design.i18n.Toolkit.i18nText("ReportServerP-Import_JavaScript")));
         importedJsPane.setPreferredSize(new Dimension(265, 150));
         jsPane = new JSContentPane(defaultArgs);
-        jsPane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), Inter.getLocText("FR-Designer_JavaScript")));
+        jsPane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_JavaScript")));
 
         parameterPane.setPreferredSize(new Dimension(265, 150));
         JPanel topPane = GUICoreUtils.createBorderLayoutPane(
@@ -125,7 +125,7 @@ public class JavaScriptImplPane extends AbstractHyperLinkPane<JavaScriptImpl> {
      * @return 标题.
      */
     public String title4PopupWindow() {
-        return Inter.getLocText("FR-Designer_JavaScript");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_JavaScript");
     }
 
     /**
@@ -196,7 +196,7 @@ public class JavaScriptImplPane extends AbstractHyperLinkPane<JavaScriptImpl> {
             itemNameTextField = new UITextField();
 
             JPanel topPane = GUICoreUtils.createBorderLayoutPane(
-                    GUICoreUtils.createNamedPane(itemNameTextField, Inter.getLocText("FR-Chart-Use_Name") + ":"), BorderLayout.NORTH,
+                    GUICoreUtils.createNamedPane(itemNameTextField, com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Use_Name") + ":"), BorderLayout.NORTH,
                     importedJsPane, BorderLayout.CENTER,
                     parameterPane, BorderLayout.EAST
             );

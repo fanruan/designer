@@ -3,7 +3,7 @@ package com.fr.design.mainframe.chart.gui.style.axis;
 import com.fr.chart.chartattr.Axis;
 import com.fr.chart.chartattr.ValueAxis;
 import com.fr.design.gui.icheckbox.UICheckBox;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +17,7 @@ public class ChartSecondValueNoFormulaPane extends ChartValueNoFormulaPane{
     protected JPanel aliagnZero4Second() {// 添加 0值对齐
         JPanel pane = new JPanel();
         pane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        pane.add(isAlignZeroValue = new UICheckBox(Inter.getLocText("Chart_AxisAlignZeroValueLine"), false));
+        pane.add(isAlignZeroValue = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart_AxisAlignZeroValueLine"), false));
         return pane;
     }
 
@@ -41,6 +41,6 @@ public class ChartSecondValueNoFormulaPane extends ChartValueNoFormulaPane{
      * @return 第二值轴
      */
     public String title4PopupWindow() {
-        return Inter.getLocText(new String[]{"Second", "Chart_F_Radar_Axis"});
+        return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Second", "Chart_F_Radar_Axis"});
     }
 }

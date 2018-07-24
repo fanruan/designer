@@ -9,7 +9,7 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
-import com.fr.general.Inter;
+
 import com.fr.general.NameObject;
 import com.fr.stable.Nameable;
 import com.fr.van.chart.designer.component.VanChartUIListControlPane;
@@ -30,14 +30,14 @@ public class VanChartConditionListControlPane extends VanChartUIListControlPane 
     public void populate(Nameable[] nameableArray, Class<? extends ConditionAttributesPane> showPane) {
         initComponentPane();
         this.setBorder(null);
-        NameObjectCreator[] creators = new NameObjectCreator[]{new NameObjectCreator(Inter.getLocText("Condition_Attributes"), ConditionAttr.class, showPane)};
+        NameObjectCreator[] creators = new NameObjectCreator[]{new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Condition_Attributes"), ConditionAttr.class, showPane)};
         refreshNameableCreator(creators);
         super.populate(nameableArray);
     }
 
     @Override
     public NameableCreator[] createNameableCreators() {
-        return new NameObjectCreator[]{new NameObjectCreator(Inter.getLocText("Condition_Attributes"), ConditionAttr.class, ChartTypeInterfaceManager.getInstance().getPlotConditionPane((Plot) plot).getClass())};
+        return new NameObjectCreator[]{new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Condition_Attributes"), ConditionAttr.class, ChartTypeInterfaceManager.getInstance().getPlotConditionPane((Plot) plot).getClass())};
     }
 
 
@@ -62,12 +62,12 @@ public class VanChartConditionListControlPane extends VanChartUIListControlPane 
 
     @Override
     public String getAddItemText() {
-        return Inter.getLocText("FR-Designer_Add_Condition");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Add_Condition");
     }
 
     @Override
     public String title4PopupWindow() {
-        return Inter.getLocText("Condition_Attributes");
+        return com.fr.design.i18n.Toolkit.i18nText("Condition_Attributes");
     }
 
 

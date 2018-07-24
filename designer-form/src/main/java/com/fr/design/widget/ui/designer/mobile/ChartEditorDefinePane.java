@@ -19,20 +19,12 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.WidgetPropertyPane;
-import com.fr.form.FormFunctionProcessor;
 import com.fr.form.ui.BaseChartEditor;
 import com.fr.form.ui.container.WFitLayout;
-import com.fr.general.Inter;
-import com.fr.plugin.ExtraClassManager;
-import com.fr.stable.fun.FunctionProcessor;
 
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -63,9 +55,9 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane {
         this.designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
         JPanel mobileSettingsPane;
         if (isInAbsoluteLayout()) {
-            mobileSettingsPane = getUnavailableTipPane(Inter.getLocText("FR-Designer_Tip_Chart_Adaptivity_Unavailable_In_Absolute_Layout"));
+            mobileSettingsPane = getUnavailableTipPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tip_Chart_Adaptivity_Unavailable_In_Absolute_Layout"));
         } else if (!isAppRelayout()) {
-            mobileSettingsPane = getUnavailableTipPane(Inter.getLocText("FR-Designer_Tip_Chart_Adaptivity_Unavailable"));
+            mobileSettingsPane = getUnavailableTipPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tip_Chart_Adaptivity_Unavailable"));
         } else {
             mobileSettingsPane = getMobileSettingsPane();
         }
@@ -104,12 +96,12 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane {
         tipLabel = new UILabel();
         tipLabel.setForeground(Color.gray);
         updateTipLabel();
-        allowFullCheckBox = new UICheckBox(Inter.getLocText("Fine-Designer_Allow_Full_Screen"));
+        allowFullCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Allow_Full_Screen"));
         allowFullCheckBox.setSelected(true);
 
         Component[][] components = new Component[][]{
-                new Component[] {new UILabel(Inter.getLocText("FR-Designer_Zoom_In_Logic"), SwingConstants.LEFT), new UILabel(ChartMobileFitAttrState.PROPORTION.description())},
-                new Component[] {new UILabel(Inter.getLocText("FR-Designer_Zoom_Out_Logic"), SwingConstants.LEFT), zoomOutComboBox},
+                new Component[] {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Zoom_In_Logic"), SwingConstants.LEFT), new UILabel(ChartMobileFitAttrState.PROPORTION.description())},
+                new Component[] {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Zoom_Out_Logic"), SwingConstants.LEFT), zoomOutComboBox},
                 new Component[] {tipLabel, null},
                 new Component[] {allowFullCheckBox}
         };
@@ -124,7 +116,7 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane {
         final JPanel panelWrapper = FRGUIPaneFactory.createBorderLayout_S_Pane();
         panelWrapper.add(panel, BorderLayout.NORTH);
 
-        return new UIExpandablePane(Inter.getLocText("FR-Designer_Chart_Adaptivity"), 280, 20, panelWrapper);
+        return new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Chart_Adaptivity"), 280, 20, panelWrapper);
     }
 
     private void initZoomOutComboBox() {
@@ -180,11 +172,7 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane {
                 updateTipLabel();
                 ChartMobileFitAttrState selectedAttr = (ChartMobileFitAttrState)((Item)e.getItem()).getValue();
                 if (selectedAttr.getState() != ChartMobileFitAttrState.AUTO.getState()) {
-                    // 功能埋点
-                    FunctionProcessor processor = ExtraClassManager.getInstance().getFunctionProcessor();
-                    if (processor != null) {
-                        processor.recordFunction(FormFunctionProcessor.MOBILE_CHART_ADAPTIVITY);
-                    }
+
                 }
             }
         });

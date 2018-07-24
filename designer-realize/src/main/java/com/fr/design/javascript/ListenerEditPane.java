@@ -24,7 +24,7 @@ import com.fr.design.mainframe.JTemplate;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.design.write.submit.DBManipulationPane;
 import com.fr.form.event.Listener;
-import com.fr.general.Inter;
+
 import com.fr.js.JavaScript;
 
 public class ListenerEditPane extends BasicBeanPane<Listener> {
@@ -42,11 +42,11 @@ public class ListenerEditPane extends BasicBeanPane<Listener> {
 	// 发送邮件
 	private EmailPane emailPane;
 	
-	private static final String JS = Inter.getLocText("FR-Designer_JavaScript");
-	private static final String FORMSUBMIT = Inter.getLocText("FR-Designer_JavaScript_Form_Submit");
-	private static final String DBCOMMIT = Inter.getLocText("FR-Designer_JavaScript_Commit_to_Database");
-	private static final String CUSTOMACTION= Inter.getLocText(new String[]{"FR-Designer_JavaScript_Custom", "FR-Designer_RWA_Submit"});
-	private static final String EMAIL = Inter.getLocText("FR-Designer_Email_sentEmail");
+	private static final String JS = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_JavaScript");
+	private static final String FORMSUBMIT = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_JavaScript_Form_Submit");
+	private static final String DBCOMMIT = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_JavaScript_Commit_to_Database");
+	private static final String CUSTOMACTION= com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"FR-Designer_JavaScript_Custom", "FR-Designer_RWA_Submit"});
+	private static final String EMAIL = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Email_sentEmail");
 	
 	private Listener listener;
 	
@@ -72,8 +72,8 @@ public class ListenerEditPane extends BasicBeanPane<Listener> {
 		String[] style = {JS, DBCOMMIT, CUSTOMACTION,EMAIL};
 		styleBox = new UIComboBox(style);
 		namePane.add(styleBox);
-		namePane = GUICoreUtils.createFlowPane(new Component[]{new UILabel("  " + Inter.getLocText("FR-Designer_Event_Name") + ":"), nameText, new UILabel("    " + Inter.getLocText("FR-Designer_Event_Type") + ":"), styleBox}, FlowLayout.LEFT);
-		namePane.setBorder(BorderFactory.createTitledBorder(Inter.getLocText("FR-Designer_Event_Name_Type")));
+		namePane = GUICoreUtils.createFlowPane(new Component[]{new UILabel("  " + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Event_Name") + ":"), nameText, new UILabel("    " + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Event_Type") + ":"), styleBox}, FlowLayout.LEFT);
+		namePane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Event_Name_Type")));
 		this.add(namePane, BorderLayout.NORTH);
 		card = new CardLayout();
 		hyperlinkPane = FRGUIPaneFactory.createCardLayout_S_Pane();
@@ -98,7 +98,7 @@ public class ListenerEditPane extends BasicBeanPane<Listener> {
 		cards.add(emailPane);
 		//其他事件
 		addOtherEvent();
-		hyperlinkPane.setBorder(BorderFactory.createTitledBorder(Inter.getLocText("FR-Designer_JavaScript_Set")));
+		hyperlinkPane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_JavaScript_Set")));
 		this.add(hyperlinkPane);
 		styleBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
@@ -131,7 +131,7 @@ public class ListenerEditPane extends BasicBeanPane<Listener> {
 	
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("FR-Designer_Event_Set");
+		return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Event_Set");
 	}
 	
 	@Override

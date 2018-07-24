@@ -8,6 +8,7 @@ import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.icombobox.UIComboBoxRenderer;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
@@ -17,7 +18,7 @@ import com.fr.design.widget.btn.ButtonConstants;
 import com.fr.form.ui.Button;
 import com.fr.form.ui.*;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.stable.ArrayUtils;
 
 import javax.swing.*;
@@ -80,7 +81,7 @@ public class WidgetPane extends AbstractAttrNoScrollPane implements ItemListener
         double[] columnSize = {p, p, f};
         double[] rowSize = {p};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText(new String[]{"FR-Designer_Selection", "FR-Designer_Widget"})), emptyLabel, editorTypeComboBox},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"FR-Designer_Selection", "FR-Designer_Widget"})), emptyLabel, editorTypeComboBox},
         };
         JPanel jPanel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
         return jPanel;
@@ -129,7 +130,7 @@ public class WidgetPane extends AbstractAttrNoScrollPane implements ItemListener
 
     @Override
     public String title4PopupWindow() {
-        return Inter.getLocText("FR-Designer_Widget");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget");
     }
 
     public void populate(Widget widget) {
@@ -176,8 +177,8 @@ public class WidgetPane extends AbstractAttrNoScrollPane implements ItemListener
 
     private static class EditorTypeComboBox extends UIComboBox {
 
-        private Item item = new Item(Inter.getLocText("Widget-User_Defined"),
-                Inter.getLocText("Widget-User_Defined"));
+        private Item item = new Item(com.fr.design.i18n.Toolkit.i18nText("Widget-User_Defined"),
+                com.fr.design.i18n.Toolkit.i18nText("Widget-User_Defined"));
 
         public EditorTypeComboBox(boolean userDefined) {
             this.setEditable(false);
@@ -187,8 +188,7 @@ public class WidgetPane extends AbstractAttrNoScrollPane implements ItemListener
                                                               Object value, int index, boolean isSelected,
                                                               boolean cellHasFocus) {
                     if (value == item) {
-                        UILabel label = new UILabel(Inter
-                                .getLocText("Widget-User_Defined")
+                        UILabel label = new UILabel(Toolkit.i18nText("Widget-User_Defined")
                                 + " ————");
                         label.setEnabled(false);
                         return label;

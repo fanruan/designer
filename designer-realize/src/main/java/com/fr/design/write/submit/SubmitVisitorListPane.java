@@ -15,7 +15,7 @@ import com.fr.design.scrollruler.ModLineBorder;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.Inter;
+
 import com.fr.general.NameObject;
 import com.fr.report.write.BuiltInSQLSubmiter;
 import com.fr.report.write.ReportWriteAttr;
@@ -46,12 +46,12 @@ public class SubmitVisitorListPane extends ObjectJControlPane {
      */
     public NameableCreator[] createNameableCreators() {
         return new NameableCreator[]{
-                new NameObjectCreator(Inter.getLocText("RWA-BuildIn_SQL"),
+                new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Submit_Type_Build_In_Sql"),
                         "/com/fr/web/images/reportlet.png",
                         BuiltInSQLSubmiter.class,
                         BuildInSQLPane.class),
                 new NameObjectCreator(
-                        Inter.getLocText(new String[]{"Custom", "RWA-Submit"}),
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Submit_Type_Custom"),
                         "/com/fr/web/images/reportlet.png",
                         WClassSubmiter.class,
                         CustomPane.class)
@@ -186,9 +186,9 @@ public class SubmitVisitorListPane extends ObjectJControlPane {
             }
             csjConfigComboBox = new UIComboBox(configTypes.toArray());
 
-            JPanel typePane = GUICoreUtils.createFlowPane(new Component[]{new UILabel(Inter.getLocText(new String[]{"Choose", "Type"}) + ":"), csjConfigComboBox},
+            JPanel typePane = GUICoreUtils.createFlowPane(new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Write_Choose_Submit_Type") + ":"), csjConfigComboBox},
                     FlowLayout.LEFT, 10);
-            typePane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), Inter.getLocText(new String[]{"Submit", "Type"})));
+            typePane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Write_Submit_Type")));
             this.add(typePane, BorderLayout.NORTH);
 
             this.add(customCardPane, BorderLayout.CENTER);

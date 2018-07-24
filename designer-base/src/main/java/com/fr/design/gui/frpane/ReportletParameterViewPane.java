@@ -12,7 +12,7 @@ import com.fr.design.gui.itableeditorpane.ParameterTableModel;
 import com.fr.design.gui.itableeditorpane.UITableEditAction;
 import com.fr.design.gui.itableeditorpane.UITableEditorPane;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.ParameterProvider;
 
@@ -95,7 +95,7 @@ public class ReportletParameterViewPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("Parameters");
+        return com.fr.design.i18n.Toolkit.i18nText("Parameters");
     }
 
     public void populate(ParameterProvider[] parameters) {

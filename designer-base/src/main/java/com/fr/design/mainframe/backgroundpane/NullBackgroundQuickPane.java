@@ -2,7 +2,7 @@ package com.fr.design.mainframe.backgroundpane;
 
 import com.fr.design.event.UIObserverListener;
 import com.fr.general.Background;
-import com.fr.general.Inter;
+
 
 import java.awt.*;
 
@@ -48,7 +48,7 @@ public class NullBackgroundQuickPane extends BackgroundQuickPane {
      * @return     名称
      */
 	public String title4PopupWindow() {
-		return Inter.getLocText("Background-Null");
+		return com.fr.design.i18n.Toolkit.i18nText("Background-Null");
 	}
 
 	@Override

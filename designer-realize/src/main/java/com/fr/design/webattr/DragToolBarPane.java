@@ -27,7 +27,7 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.gui.core.WidgetOption;
 import com.fr.form.ui.Widget;
-import com.fr.general.Inter;
+
 import com.fr.report.web.Location;
 import com.fr.report.web.ToolBarManager;
 
@@ -74,13 +74,13 @@ public class DragToolBarPane extends WidgetToolBarPane {
 		southToolBar.setPreferredSize(new Dimension(ImageObserver.WIDTH, 26));
 		southToolBar.setBackground(Color.lightGray);
 		JPanel northContentPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-		SettingToolBar top = new SettingToolBar(Inter.getLocText("ToolBar_Top"), northToolBar);
+		SettingToolBar top = new SettingToolBar(com.fr.design.i18n.Toolkit.i18nText("ToolBar_Top"), northToolBar);
 		northContentPane.add(top, BorderLayout.EAST);
 		northContentPane.add(northToolBar, BorderLayout.CENTER);
 		northContentPane.setBackground(Color.lightGray);
 
 		JPanel southContentPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-		SettingToolBar bottom = new SettingToolBar(Inter.getLocText("ToolBar_Bottom"), southToolBar);
+		SettingToolBar bottom = new SettingToolBar(com.fr.design.i18n.Toolkit.i18nText("ToolBar_Bottom"), southToolBar);
 		southContentPane.add(bottom, BorderLayout.EAST);
 		southContentPane.add(southToolBar, BorderLayout.CENTER);
 		southContentPane.setBackground(Color.lightGray);
@@ -93,7 +93,7 @@ public class DragToolBarPane extends WidgetToolBarPane {
 		this.add(new JScrollPane(movePane), BorderLayout.CENTER);
 
 		JPanel buttonPane = FRGUIPaneFactory.createCenterFlowInnerContainer_S_Pane();
-		UIButton defaultButton = new UIButton(Inter.getLocText("Use_Default_ToolBar"));
+		UIButton defaultButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Use_Default_ToolBar"));
 		defaultButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				southToolBar.removeAll();
@@ -112,7 +112,7 @@ public class DragToolBarPane extends WidgetToolBarPane {
 			}
 		});
 		buttonPane.add(defaultButton);
-		UIButton removeButton = new UIButton(Inter.getLocText("Remove_All_Button"));
+		UIButton removeButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Remove_All_Button"));
 		removeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				northToolBar.removeAll();
@@ -138,7 +138,7 @@ public class DragToolBarPane extends WidgetToolBarPane {
 
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText(new String[]{"ReportServerP-Toolbar", "Set"});
+		return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"ReportServerP-Toolbar", "Set"});
 	}
 
 	ListCellRenderer optionRenderer = new DefaultListCellRenderer() {

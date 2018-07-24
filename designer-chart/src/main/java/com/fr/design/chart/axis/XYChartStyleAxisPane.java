@@ -2,7 +2,7 @@ package com.fr.design.chart.axis;
 
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.mainframe.chart.gui.style.axis.ChartValuePane;
-import com.fr.general.Inter;
+
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,10 +17,10 @@ public class XYChartStyleAxisPane extends BinaryChartStyleAxisPane {
     }
 
     protected AxisStyleObject getXAxisPane(Plot plot) {
-        return new AxisStyleObject(Inter.getLocText("ChartF-X_Axis"), new ChartValuePane());
+        return new AxisStyleObject(com.fr.design.i18n.Toolkit.i18nText("ChartF-X_Axis"), new ChartValuePane());
     }
 
     protected AxisStyleObject getYAxisPane(Plot plot) {
-        return new AxisStyleObject(Inter.getLocText("ChartF-Y_Axis"), new ChartValuePane());
+        return new AxisStyleObject(com.fr.design.i18n.Toolkit.i18nText("ChartF-Y_Axis"), new ChartValuePane());
     }
 }

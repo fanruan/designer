@@ -10,7 +10,7 @@ import com.fr.data.util.function.SumFunction;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.Inter;
+
 
 /**
  * 公式选择.
@@ -19,9 +19,9 @@ import com.fr.general.Inter;
  */
 public class CalculateComboBox extends UIComboBox{
 
-	public static final String[] CALCULATE_ARRAY = {Inter.getLocText("DataFunction-None"), Inter.getLocText("DataFunction-Sum"),
-			Inter.getLocText("DataFunction-Average"), Inter.getLocText("DataFunction-Max"), 
-			Inter.getLocText("DataFunction-Min"), Inter.getLocText("DataFunction-Count")};
+	public static final String[] CALCULATE_ARRAY = {com.fr.design.i18n.Toolkit.i18nText("DataFunction-None"), com.fr.design.i18n.Toolkit.i18nText("DataFunction-Sum"),
+			com.fr.design.i18n.Toolkit.i18nText("DataFunction-Average"), com.fr.design.i18n.Toolkit.i18nText("DataFunction-Max"),
+			com.fr.design.i18n.Toolkit.i18nText("DataFunction-Min"), com.fr.design.i18n.Toolkit.i18nText("DataFunction-Count")};
 	public static final Class[] CLASS_ARRAY = {NoneFunction.class, SumFunction.class, AverageFunction.class, 
 			MaxFunction.class, MinFunction.class, CountFunction.class};
 	
@@ -31,7 +31,7 @@ public class CalculateComboBox extends UIComboBox{
 	}
 	
 	public void reset() {
-		this.setSelectedItem(Inter.getLocText("DataFunction-None"));
+		this.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("DataFunction-None"));
 	}
 	
 	/**

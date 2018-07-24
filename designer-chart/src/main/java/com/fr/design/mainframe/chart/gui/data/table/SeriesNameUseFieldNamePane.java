@@ -20,7 +20,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.data.CalculateComboBox;
 import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.Inter;
+
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
@@ -40,8 +40,8 @@ import java.util.List;
  * @version 创建时间：2012-12-26 下午04:39:46
  */
 public class SeriesNameUseFieldNamePane extends FurtherBasicBeanPane<ChartCollection> {
-    private static final String[] HEADS = {Inter.getLocText("FR-Chart-Field_Name"), Inter.getLocText("FR-Chart-Series_Name"), Inter.getLocText("FR-Chart-Data_Summary")};
-    private static final String[] HEADS_NO_SUMMARY = {Inter.getLocText("FR-Chart-Field_Name"), Inter.getLocText("FR-Chart-Series_Name")};
+    private static final String[] HEADS = {com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Field_Name"), com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Series_Name"), com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_Summary")};
+    private static final String[] HEADS_NO_SUMMARY = {com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Field_Name"), com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Series_Name")};
     private UICorrelationPane seriesDataPane;
     private List<String> field = new ArrayList<String>();
     private JPanel centerPane;
@@ -62,7 +62,7 @@ public class SeriesNameUseFieldNamePane extends FurtherBasicBeanPane<ChartCollec
                 return new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        String[] blank =heads.length == 3?new String[]{StringUtils.EMPTY, StringUtils.EMPTY, Inter.getLocText("FR-Chart-Data_None")}:
+                        String[] blank =heads.length == 3?new String[]{StringUtils.EMPTY, StringUtils.EMPTY, com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_None")}:
                                 new String[]{StringUtils.EMPTY, StringUtils.EMPTY};
                         tablePane.addLine(blank);
                         fireTargetChanged();
@@ -121,7 +121,7 @@ public class SeriesNameUseFieldNamePane extends FurtherBasicBeanPane<ChartCollec
      * @return 标题
      */
     public String title4PopupWindow() {
-        return Inter.getLocText(new String[]{"FR-Chart-Data_Use", "FR-Chart-Field_Name"});
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Enable_Field_Name");
     }
 
     /**

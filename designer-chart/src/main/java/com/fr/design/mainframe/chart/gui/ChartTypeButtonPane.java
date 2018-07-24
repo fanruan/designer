@@ -18,21 +18,12 @@ import com.fr.design.gui.imenutable.UIMenuNameableCreator;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.mainframe.chart.gui.ChartTypePane.ComboBoxPane;
 import com.fr.general.ComparatorUtils;
+
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.Rectangle;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -111,7 +102,7 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
     }
 
     private void initConfigCreator() {
-        configCreator = new UIMenuNameableCreator(Inter.getLocText("Chart-Change_Config_Attributes"), new AttrChangeConfig(), ChangeConfigPane.class);
+        configCreator = new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Chart-Change_Config_Attributes"), new AttrChangeConfig(), ChangeConfigPane.class);
     }
 
     private void initAddButton() {
@@ -140,7 +131,6 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
                 try {
                     Chart newChart = (Chart) chart.clone();
                     editingCollection.addNamedChart(name, newChart);
-                    editingCollection.addFunctionRecord(newChart);
                 } catch (CloneNotSupportedException e1) {
                     FineLoggerFactory.getLogger().error("Error in Clone");
                 }
@@ -185,7 +175,7 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
     private String getNewChartName() {
         int count = indexList.size() + 1;
         while (true) {
-            String name_test = Inter.getLocText("FR-Chart-Module_Name") + count;
+            String name_test = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Module_Name") + count;
             boolean repeated = false;
             for (int i = 0, len = indexList.size(); i < len; i++) {
                 ChartChangeButton nameable = indexList.get(i);
@@ -263,7 +253,7 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("FR-Chart-Types_Switch");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Types_Switch");
     }
 
     private void changeCollectionSelected(String name) {

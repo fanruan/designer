@@ -9,7 +9,7 @@ import com.fr.base.Style;
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.gui.frpane.UIComboBoxPane;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.design.mainframe.ElementCasePane;
 
 public class StylePane extends UIComboBoxPane<Style> {
@@ -18,7 +18,7 @@ public class StylePane extends UIComboBoxPane<Style> {
 
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("Style");
+		return com.fr.design.i18n.Toolkit.i18nText("Style");
 	}
 
 	@Override
@@ -52,7 +52,7 @@ public class StylePane extends UIComboBoxPane<Style> {
 	}
 
 	public void setSelctedByName(String id) {
-		jcb.setSelectedIndex(ComparatorUtils.equals(Inter.getLocText("Custom"),id)? 0 : 1);
+		jcb.setSelectedIndex(ComparatorUtils.equals(com.fr.design.i18n.Toolkit.i18nText("Custom"),id)? 0 : 1);
 	}
 
 	public Style updateStyle(Style style) {

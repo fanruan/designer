@@ -28,7 +28,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.style.BorderUtils;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
-import com.fr.general.Inter;
+
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.stable.Constants;
 import com.fr.design.style.BorderPane;
@@ -222,7 +222,7 @@ public class UIToolbarBorderButton extends UICombinationButton implements PopupH
 
 		@Override
 		protected String title4PopupWindow() {
-			return Inter.getLocText("Border");
+			return com.fr.design.i18n.Toolkit.i18nText("Border");
 		}
 	}
 	
@@ -291,11 +291,11 @@ public class UIToolbarBorderButton extends UICombinationButton implements PopupH
 					Constants.LINE_THIN, Color.black, Constants.LINE_NONE, Color.black, Constants.LINE_NONE),
 			new CellBorderStyle(Color.black, Constants.LINE_THICK, Color.black, Constants.LINE_THICK, Color.black, Constants.LINE_THICK, Color.black,
 					Constants.LINE_THICK, Color.black, Constants.LINE_NONE, Color.black, Constants.LINE_NONE) };
-	private static final String[] BorderStyleTooltips = { Inter.getLocText("NO_Border_Line"), Inter.getLocText("Bottom_Border_Line"),
-			Inter.getLocText("Left_Border_Line"), Inter.getLocText("Right_Border_Line"), Inter.getLocText("Double_Bottom_BorderLine"),
-			Inter.getLocText("Thick_Bottom_Border_Line"), Inter.getLocText("Top_Bottom_Border_Line"),
-			Inter.getLocText("Top_And_Double_Bottom_Border_Line"), Inter.getLocText("Top_And_Thick_Bottom_Border_Line"),
-			Inter.getLocText("All_Border_Line"), Inter.getLocText("Out_Border_Line"), Inter.getLocText("Out_Thick_Border_Line") };
+	private static final String[] BorderStyleTooltips = { com.fr.design.i18n.Toolkit.i18nText("NO_Border_Line"), com.fr.design.i18n.Toolkit.i18nText("Bottom_Border_Line"),
+			com.fr.design.i18n.Toolkit.i18nText("Left_Border_Line"), com.fr.design.i18n.Toolkit.i18nText("Right_Border_Line"), com.fr.design.i18n.Toolkit.i18nText("Double_Bottom_BorderLine"),
+			com.fr.design.i18n.Toolkit.i18nText("Thick_Bottom_Border_Line"), com.fr.design.i18n.Toolkit.i18nText("Top_Bottom_Border_Line"),
+			com.fr.design.i18n.Toolkit.i18nText("Top_And_Double_Bottom_Border_Line"), com.fr.design.i18n.Toolkit.i18nText("Top_And_Thick_Bottom_Border_Line"),
+			com.fr.design.i18n.Toolkit.i18nText("All_Border_Line"), com.fr.design.i18n.Toolkit.i18nText("Out_Border_Line"), com.fr.design.i18n.Toolkit.i18nText("Out_Thick_Border_Line") };
 
 	@Override
 	public void hidePopupMenu() {

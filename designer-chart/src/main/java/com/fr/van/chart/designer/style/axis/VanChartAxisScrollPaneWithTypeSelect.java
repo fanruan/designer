@@ -5,7 +5,7 @@ import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.gui.frpane.UIComboBoxPane;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.attr.axis.VanChartAxis;
 import com.fr.plugin.chart.attr.axis.VanChartTimeAxis;
 import com.fr.plugin.chart.attr.axis.VanChartValueAxis;
@@ -57,7 +57,7 @@ public class VanChartAxisScrollPaneWithTypeSelect extends AbstractVanChartScroll
 
             protected void initLayout() {
                 this.setLayout(new BorderLayout(0,6));
-                JPanel northPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_type"),jcb);
+                JPanel northPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_type"),jcb);
                 northPane.setBorder(BorderFactory.createEmptyBorder(0,5,0,0));
                 this.add(northPane, BorderLayout.NORTH);
                 this.add(cardPane, BorderLayout.CENTER);

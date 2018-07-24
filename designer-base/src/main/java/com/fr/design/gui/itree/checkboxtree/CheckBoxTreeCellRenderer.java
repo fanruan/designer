@@ -10,12 +10,17 @@ import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.JTree;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreePath;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.io.Serializable;
 
@@ -77,10 +82,10 @@ public class CheckBoxTreeCellRenderer extends NullPanel implements TreeCellRende
                 _checkBox.setEnabled(((CheckBoxTree) tree).isCheckBoxEnabled() && ((CheckBoxTree) tree).isCheckBoxEnabled(path));
                 if (selectionModel.isPathSelected(path, selectionModel.isDigIn())) {
                     _checkBox.setState(TristateCheckBox.SELECTED);
-                    _checkBox.setSelected(true);
+                } else if (selectionModel.isDigIn() && selectionModel.isPartiallySelected(path)) {
+                    _checkBox.setState(TristateCheckBox.DO_NOT_CARE);
                 } else {
-                    _checkBox.setState(selectionModel.isDigIn() && selectionModel.isPartiallySelected(path) ? null : TristateCheckBox.NOT_SELECTED);
-                    _checkBox.setSelected(false);
+                    _checkBox.setState(TristateCheckBox.NOT_SELECTED);
                 }
             }
         }

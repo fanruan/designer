@@ -14,7 +14,7 @@ import com.fr.design.condition.DSColumnSimpleLiteConditionPane;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.dialog.BasicPane;
-import com.fr.general.Inter;
+
 import com.fr.general.data.Condition;
 import com.fr.report.cell.CellElement;
 import com.fr.report.cell.cellattr.core.group.DSColumn;
@@ -53,19 +53,19 @@ public class DSColumnConditionsPane extends BasicPane {
 //            pane.setLayout(new BoxLayout(pane, BoxLayout.X_AXIS));
             pane.add(new UILabel(INSET_TEXT));
 
-            reselectExpandCheckBox = new UICheckBox(Inter.getLocText("BindColumn-Extend_the_conditions_of_fatherCell(Applied_to_the_data_contains_other_data)"), false);
+            reselectExpandCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("BindColumn-Extend_the_conditions_of_fatherCell(Applied_to_the_data_contains_other_data)"), false);
             pane.add(reselectExpandCheckBox);
             reselectExpandCheckBox.setSelected(true);
 
             JPanel reSelectPane = GUICoreUtils.createFlowPane(pane, FlowLayout.LEFT);
             this.add(reSelectPane, BorderLayout.NORTH);
-            reSelectPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("BindColumn-The_Conditions_of_FatherCell"), null));
+            reSelectPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("BindColumn-The_Conditions_of_FatherCell"), null));
         }
     }
 
     @Override
     public String title4PopupWindow() {
-        return Inter.getLocText("Filter");
+        return com.fr.design.i18n.Toolkit.i18nText("Filter");
     }
 
     public void populate(TableDataSource tds, CellElement cellElement) {

@@ -15,7 +15,7 @@ import com.fr.design.gui.xtable.ReportAppPropertyGroupModel;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.design.mainframe.widget.editors.InChangeBooleanEditor;
-import com.fr.general.Inter;
+
 
 /**
  * 将body的控件列表中再加入手机重布局选项
@@ -32,7 +32,7 @@ public class BodyAppRelayoutTable extends AbstractPropertyTable {
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
 		CRPropertyDescriptor[] propertyTableEditor = {
 				new CRPropertyDescriptor("appRelayout", this.xCreator.toData().getClass()).setEditorClass(InChangeBooleanEditor.class)
-						.setI18NName(Inter.getLocText("FR-Designer-App_ReLayout"))
+						.setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-App_ReLayout"))
 		};
 		return propertyTableEditor;
 	}
@@ -55,7 +55,7 @@ public class BodyAppRelayoutTable extends AbstractPropertyTable {
 			FRContext.getLogger().error(e.getMessage());
 		}
 
-		groups.add(new PropertyGroup(new ReportAppPropertyGroupModel(Inter.getLocText("FR-Designer_Properties_Mobile"), xCreator, propertyTableEditor, designer)));
+		groups.add(new PropertyGroup(new ReportAppPropertyGroupModel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Properties_Mobile"), xCreator, propertyTableEditor, designer)));
 
 		setModel(new BeanTableModel());
 		this.repaint();

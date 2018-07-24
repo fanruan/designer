@@ -22,7 +22,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UIBasicSpinner;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 import com.fr.design.utils.gui.GUICoreUtils;
 
 public class ConditionTrendLinePane extends BasicBeanPane<ConditionTrendLine> {
@@ -53,32 +53,32 @@ public class ConditionTrendLinePane extends BasicBeanPane<ConditionTrendLine> {
 		
 		JPanel namePane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
 		pane.add(namePane);
-		namePane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText(new String[]{"Chart_TrendLine" , "WF-Name"}), null));
-		namePane.add(new UILabel(Inter.getLocText(new String[]{"Define", "WF-Name"})));
+		namePane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Chart_TrendLine" , "WF-Name"}), null));
+		namePane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Define", "WF-Name"})));
 		namePane.add(nameLabel = new UITextField("", 6));
 		
 		pane.add(linePane = new BorderAttriPane());
-		linePane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText(new String[]{"Chart_Trend", "Line-Style"}), null));
+		linePane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Chart_Trend", "Line-Style"}), null));
 		
 		JPanel typePane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_S_Pane();
 		pane.add(typePane);
 		
-		typePane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText(new String[]{"Chart_Trend", "Type"}), null));
+		typePane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Chart_Trend", "Type"}), null));
 		
 		JPanel buttonPane = FRGUIPaneFactory.createBoxFlowInnerContainer_S_Pane();
 		typePane.add(buttonPane);
 		
-		buttonPane.add(exponentButton = new UIRadioButton(Inter.getLocText("Chart_Exponent")));
-		buttonPane.add(linearButton = new UIRadioButton(Inter.getLocText("Chart_Linear")));
-		buttonPane.add(logButton = new UIRadioButton(Inter.getLocText("Chart_Log")));
-		buttonPane.add(polynomialButton = new UIRadioButton(Inter.getLocText("Chart_Polynomial")));
-		buttonPane.add(powerButton = new UIRadioButton(Inter.getLocText("Chart_Power")));
+		buttonPane.add(exponentButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Chart_Exponent")));
+		buttonPane.add(linearButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Chart_Linear")));
+		buttonPane.add(logButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Chart_Log")));
+		buttonPane.add(polynomialButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Chart_Polynomial")));
+		buttonPane.add(powerButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Chart_Power")));
 		
 		JPanel maPane = FRGUIPaneFactory.createBoxFlowInnerContainer_S_Pane();
 		typePane.add(maPane);
 		
-		maPane.add(maButton = new UIRadioButton(Inter.getLocText("Chart_Move_Average")));
-		maPane.add(new UILabel(Inter.getLocText("cycle") + ":"));
+		maPane.add(maButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Chart_Move_Average")));
+		maPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("cycle") + ":"));
 		maPane.add(maSpinner = new UIBasicSpinner(new SpinnerNumberModel(2, 1, 999, 1)));
 		maSpinner.setEnabled(false);
 		
@@ -97,14 +97,14 @@ public class ConditionTrendLinePane extends BasicBeanPane<ConditionTrendLine> {
 	
 	private JPanel initExtendsPane() {
 		JPanel extendsPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();		// 前推倒推设置
-		extendsPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText(new String[]{"Chart_Trend", "Forecast"}), null));
+		extendsPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Chart_Trend", "Forecast"}), null));
 		
-		extendsPane.add(new UILabel(Inter.getLocText("Chart_TrendLine_Forward") + ":"));
+		extendsPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart_TrendLine_Forward") + ":"));
 		extendsPane.add(forwardLabel = new UITextField("0", 5));
-		extendsPane.add(new UILabel(Inter.getLocText("cycle")));
-		extendsPane.add(new UILabel(Inter.getLocText("Chart_TrendLine_Backward") + ":"));
+		extendsPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("cycle")));
+		extendsPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart_TrendLine_Backward") + ":"));
 		extendsPane.add(backwardLabel = new UITextField("0", 5));
-		extendsPane.add(new UILabel(Inter.getLocText("cycle")));
+		extendsPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("cycle")));
 		
 		return extendsPane;
 	}
@@ -127,7 +127,7 @@ public class ConditionTrendLinePane extends BasicBeanPane<ConditionTrendLine> {
 	
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("Chart_TrendLine");
+		return com.fr.design.i18n.Toolkit.i18nText("Chart_TrendLine");
 	}
 	
 	ActionListener listener = new ActionListener() {

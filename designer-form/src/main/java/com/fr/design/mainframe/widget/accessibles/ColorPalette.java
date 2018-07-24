@@ -15,16 +15,16 @@ import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 import javax.swing.border.Border;
 
-import com.fr.general.Inter;
+
 import com.fr.design.layout.FRGUIPaneFactory;
 
 public class ColorPalette extends JPopupMenu {
 
     private Border BLACK_BORDER = BorderFactory.createLineBorder(new Color(127, 157, 185));
-    private Object[] colors = new Object[]{new Object[]{Inter.getLocText("Black"), new Color(0, 0, 0)}, new Object[]{Inter.getLocText("Crimson"), new Color(128, 0, 0)}, new Object[]{Inter.getLocText("Red"), new Color(255, 0, 0)},
-        new Object[]{Inter.getLocText("Pink"), new Color(255, 0, 255)}, new Object[]{Inter.getLocText("Rose_Red"), new Color(255, 153, 204)}, new Object[]{Inter.getLocText("Brown"), new Color(153, 51, 0)},
-        new Object[]{Inter.getLocText("Orange"), new Color(255, 102, 0)}, new Object[]{Inter.getLocText("Light_Orange"), new Color(255, 153, 0)}, new Object[]{Inter.getLocText("Golden"), new Color(255, 204, 0)},
-        new Object[]{Inter.getLocText("Brown_Orange"), new Color(255, 204, 153)}, new Object[]{"", new Color(51, 51, 0)}, new Object[]{"", new Color(128, 128, 0)}, new Object[]{"", new Color(153, 204, 0)},
+    private Object[] colors = new Object[]{new Object[]{com.fr.design.i18n.Toolkit.i18nText("Black"), new Color(0, 0, 0)}, new Object[]{com.fr.design.i18n.Toolkit.i18nText("Crimson"), new Color(128, 0, 0)}, new Object[]{com.fr.design.i18n.Toolkit.i18nText("Red"), new Color(255, 0, 0)},
+        new Object[]{com.fr.design.i18n.Toolkit.i18nText("Pink"), new Color(255, 0, 255)}, new Object[]{com.fr.design.i18n.Toolkit.i18nText("Rose_Red"), new Color(255, 153, 204)}, new Object[]{com.fr.design.i18n.Toolkit.i18nText("Brown"), new Color(153, 51, 0)},
+        new Object[]{com.fr.design.i18n.Toolkit.i18nText("Orange"), new Color(255, 102, 0)}, new Object[]{com.fr.design.i18n.Toolkit.i18nText("Light_Orange"), new Color(255, 153, 0)}, new Object[]{com.fr.design.i18n.Toolkit.i18nText("Golden"), new Color(255, 204, 0)},
+        new Object[]{com.fr.design.i18n.Toolkit.i18nText("Brown_Orange"), new Color(255, 204, 153)}, new Object[]{"", new Color(51, 51, 0)}, new Object[]{"", new Color(128, 128, 0)}, new Object[]{"", new Color(153, 204, 0)},
         new Object[]{"", new Color(255, 255, 0)}, new Object[]{"", new Color(255, 255, 153)}, new Object[]{"", new Color(0, 51, 0)}, new Object[]{"", new Color(0, 128, 0)},
         new Object[]{"", new Color(51, 153, 102)}, new Object[]{"", new Color(172, 168, 153)}, new Object[]{"", new Color(204, 255, 204)}, new Object[]{"", new Color(0, 51, 102)},
         new Object[]{"", new Color(0, 128, 128)}, new Object[]{"", new Color(51, 204, 204)}, new Object[]{"", new Color(0, 255, 255)}, new Object[]{"", new Color(204, 255, 255)},
@@ -69,7 +69,7 @@ public class ColorPalette extends JPopupMenu {
         bottom_bar.setLayout(new /**/GridLayout(1, 1));
         bottom_bar.setBorderPainted(false);
         bottom_bar.setFloatable(false);
-        btnCustom = getBtn(Inter.getLocText("Custom") + "...");
+        btnCustom = getBtn(com.fr.design.i18n.Toolkit.i18nText("Custom") + "...");
         bottom_bar.add(btnCustom);
         return bottom_bar;
     }
@@ -113,7 +113,7 @@ public class ColorPalette extends JPopupMenu {
         top_bar.setOpaque(false);
         top_bar.setFloatable(false);
         top_bar.setLayout(new /**/GridLayout(1, 1));
-        btnDefault = getBtn(Inter.getLocText("Form-Restore_Default_Value"));
+        btnDefault = getBtn(com.fr.design.i18n.Toolkit.i18nText("Form-Restore_Default_Value"));
         top_bar.add(btnDefault);
         return top_bar;
     }

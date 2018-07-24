@@ -3,35 +3,29 @@
  */
 package com.fr.design.headerfooter;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.util.Hashtable;
-
-import javax.swing.BorderFactory;
-import javax.swing.DefaultListModel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-
 import com.fr.base.BaseUtils;
 import com.fr.base.PaperSize;
 import com.fr.base.ScreenResolution;
-import com.fr.page.ReportSettingsProvider;
+import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icombobox.UIComboBoxRenderer;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.dialog.BasicPane;
-import com.fr.general.Inter;
+import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.page.ReportSettingsProvider;
 import com.fr.report.core.ReportHF;
 import com.fr.report.stable.ReportConstants;
 import com.fr.stable.unit.FU;
 import com.fr.stable.unit.INCH;
 import com.fr.stable.unit.UNIT;
-import com.fr.design.utils.gui.GUICoreUtils;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import java.awt.*;
+import java.util.Hashtable;
 
 /**
  * Edit header or footer(the object Header and Footer).
@@ -80,8 +74,7 @@ public abstract class HeaderFooterPane extends BasicPane {
 		JPanel definePane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
 		centerPane.add(definePane, BorderLayout.NORTH);
 
-		defineCheckBox = new UICheckBox(Inter
-				.getLocText("HF-Whether_to_define_the_selected_type"), true);
+		defineCheckBox = new UICheckBox(Toolkit.i18nText("HF-Whether_to_define_the_selected_type"), true);
 		definePane.add(defineCheckBox);
 		defineCheckBox.addChangeListener(defineChangeListener);
 
@@ -103,8 +96,6 @@ public abstract class HeaderFooterPane extends BasicPane {
 
 	/**
 	 * update reportSettings
-	 *
-	 * @param reportSettings
 	 */
 	public UNIT updateReportSettings() {
 		return headerFooterEditPane.updateReportSettings();
@@ -211,15 +202,15 @@ public abstract class HeaderFooterPane extends BasicPane {
 						.setIcon(BaseUtils
 								.readIcon("/com/fr/base/images/oem/logo.png"));
 				if (reportHFType == ReportConstants.REPORTPAGE_DEFAULT) {
-					this.setText(Inter.getLocText("HF-Default_Page"));
+					this.setText(com.fr.design.i18n.Toolkit.i18nText("HF-Default_Page"));
 				} else if (reportHFType == ReportConstants.REPORTPAGE_FIRST) {
-					this.setText(Inter.getLocText("HF-First_Page"));
+					this.setText(com.fr.design.i18n.Toolkit.i18nText("HF-First_Page"));
 				} else if (reportHFType == ReportConstants.REPORTPAGE_LAST) {
-					this.setText(Inter.getLocText("Utils-Last_Page"));
+					this.setText(com.fr.design.i18n.Toolkit.i18nText("Utils-Last_Page"));
 				} else if (reportHFType == ReportConstants.REPORTPAGE_ODD) {
-					this.setText(Inter.getLocText("HF-Odd_Page"));
+					this.setText(com.fr.design.i18n.Toolkit.i18nText("HF-Odd_Page"));
 				} else if (reportHFType == ReportConstants.REPORTPAGE_EVEN) {
-					this.setText(Inter.getLocText("HF-Even_Page"));
+					this.setText(com.fr.design.i18n.Toolkit.i18nText("HF-Even_Page"));
 				}
 
 				if (reportHFHash != null) {

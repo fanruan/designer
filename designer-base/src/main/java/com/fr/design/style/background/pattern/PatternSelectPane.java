@@ -1,6 +1,6 @@
 package com.fr.design.style.background.pattern;
 
-import com.fr.general.Inter;
+
 import com.fr.design.style.background.BackgroundDetailPane;
 import com.fr.design.style.background.impl.PatternBackgroundPaneNoFore;
 import com.fr.design.style.background.BackgroundSelectPane;
@@ -28,7 +28,7 @@ public class PatternSelectPane extends BackgroundSelectPane {
 
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("Background-Pattern");
+		return com.fr.design.i18n.Toolkit.i18nText("Background-Pattern");
 	}
 
 }

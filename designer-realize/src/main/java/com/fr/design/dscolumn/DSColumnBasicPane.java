@@ -9,7 +9,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.Inter;
+
 import com.fr.report.cell.CellElement;
 import com.fr.report.cell.TemplateCellElement;
 import com.fr.report.cell.cellattr.CellExpandAttr;
@@ -65,19 +65,19 @@ public class DSColumnBasicPane extends BasicPane {
             selectDataColumnPane = new SelectedConfirmedDataColumnPane();
         }
 
-        selectDataColumnPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("Select_DataColumn"), null));
+        selectDataColumnPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Select_DataColumn"), null));
 
         if (setting > DSColumnPane.SETTING_DSRELATED) {
             conditionParentPane = new ConditionParentPane();
-            conditionParentPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("ParentCell_Setting"), null));
+            conditionParentPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("ParentCell_Setting"), null));
         }
 
         resultSetGroupPane = new ResultSetGroupPopUpPane(setting > DSColumnPane.SETTING_DSRELATED);
-        resultSetGroupPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("Data_Setting"), null));
+        resultSetGroupPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Data_Setting"), null));
 
         if (setting > DSColumnPane.SETTING_DSRELATED) {
             expandDirectionPane = new ExpandDirectionPane();
-            expandDirectionPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("ExpandD-Expand_Direction"), null));
+            expandDirectionPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("ExpandD-Expand_Direction"), null));
         }
 
         double[] rowSize = {TableLayout.PREFERRED, TableLayout.PREFERRED,
@@ -107,7 +107,7 @@ public class DSColumnBasicPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("Basic");
+        return com.fr.design.i18n.Toolkit.i18nText("Basic");
     }
 
     public void populate(TableDataSource source, TemplateCellElement cellElement) {

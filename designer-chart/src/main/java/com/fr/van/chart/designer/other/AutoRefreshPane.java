@@ -10,7 +10,7 @@ import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.TableLayout;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.base.RefreshMoreLabel;
 import com.fr.plugin.chart.vanchart.VanChart;
@@ -58,7 +58,7 @@ public class AutoRefreshPane extends BasicBeanPane<RefreshMoreLabel> {
 
     protected JPanel createContentPane() {
         JPanel content = new JPanel(new BorderLayout(0, 6));
-        moreLabel = new UIButtonGroup(new String[]{Inter.getLocText("Plugin-ChartF_Open"), Inter.getLocText("Plugin-ChartF_Close")});
+        moreLabel = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Open"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Close")});
         moreLabel.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -68,7 +68,7 @@ public class AutoRefreshPane extends BasicBeanPane<RefreshMoreLabel> {
 
         autoRefreshTime = new UISpinner(0, Integer.MAX_VALUE, 1, 0);
 
-        autoTooltip = new UICheckBox(Inter.getLocText("Plugin-ChartF_Auto_Tooltip"));
+        autoTooltip = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Auto_Tooltip"));
         autoTooltip.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -82,7 +82,7 @@ public class AutoRefreshPane extends BasicBeanPane<RefreshMoreLabel> {
         jPanel.add(autoTooltip, BorderLayout.CENTER);
         jPanel.add(tooltipSet, BorderLayout.EAST);
 
-        JPanel moreLabelPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_More_Label"), moreLabel);
+        JPanel moreLabelPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_More_Label"), moreLabel);
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
@@ -108,7 +108,7 @@ public class AutoRefreshPane extends BasicBeanPane<RefreshMoreLabel> {
     protected Component[][] initComponent(JPanel autoTooltipPane){
 
         return new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Time_Interval")), autoRefreshTime, new UILabel(Inter.getLocText("Chart-Time_Seconds"))},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Time_Interval")), autoRefreshTime, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Time_Seconds"))},
                 new Component[]{autoTooltip,null, tooltipSet},
         };
 

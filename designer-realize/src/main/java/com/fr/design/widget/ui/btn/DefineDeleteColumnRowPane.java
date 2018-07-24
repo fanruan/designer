@@ -10,7 +10,7 @@ import com.fr.design.dialog.BasicPane;
 import com.fr.design.editor.editor.ColumnRowEditor;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.Inter;
+
 import com.fr.report.web.button.write.DeleteRowButton;
 
 import java.awt.*;
@@ -35,10 +35,10 @@ public class DefineDeleteColumnRowPane extends BasicPane {
 		double rowSize[] = { p, p};
 		double columnSize[] = { p, f};
 		crEditor = new ColumnRowEditor();
-		UILabel messageLabel = new UILabel(Inter.getLocText("Append_Delete_Row_Message"));
+		UILabel messageLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Append_Delete_Row_Message"));
 		messageLabel.setForeground(new Color(0x8F8F92));
 		Component[][] components = {
-				{ new UILabel(Inter.getLocText(new String[]{"Specify", "Cell"})), crEditor },
+				{ new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Specify", "Cell"})), crEditor },
 				{ messageLabel, null}};
 		JPanel contentPane = TableLayoutHelper.createGapTableLayoutPane(components, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_L2, IntervalConstants.INTERVAL_L1);
 		contentPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
@@ -49,7 +49,7 @@ public class DefineDeleteColumnRowPane extends BasicPane {
 
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("Button");
+		return com.fr.design.i18n.Toolkit.i18nText("Button");
 	}
 
 	public void populate(DeleteRowButton btn) {

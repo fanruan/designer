@@ -11,7 +11,7 @@ import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.attr.axis.VanChartAxis;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.attr.plot.VanChartRectanglePlot;
@@ -74,7 +74,7 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
 
 
     public String title4PopupWindow() {
-        return Inter.getLocText("Chart-Interactive_Tab");
+        return com.fr.design.i18n.Toolkit.i18nText("Chart-Interactive_Tab");
     }
 
     @Override
@@ -114,20 +114,20 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
         if (!plot.isSupportZoomDirection()) {
             return null;
         }
-        zoomWidget = new UIButtonGroup(new String[]{Inter.getLocText("Plugin-ChartF_Open"), Inter.getLocText("Plugin-ChartF_Close")});
-        zoomResize = new UIButtonGroup(new String[]{Inter.getLocText("Plugin-ChartF_Change"), Inter.getLocText("Plugin-ChartF_Non_Adjustment")});
+        zoomWidget = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Open"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Close")});
+        zoomResize = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Change"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Non_Adjustment")});
         from = new TinyFormulaPane();
         to = new TinyFormulaPane();
         zoomType = new UIButtonGroup(getNameArray(), getValueArray());
-        zoomGesture = new UIButtonGroup(new String[]{Inter.getLocText("Plugin-ChartF_Open"), Inter.getLocText("Plugin-ChartF_Close")});
+        zoomGesture = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Open"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Close")});
 
-        JPanel zoomWidgetPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_ZoomWidget"), zoomWidget);
-        JPanel zoomGesturePane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_ZoomGesture"), zoomGesture);
+        JPanel zoomWidgetPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_ZoomWidget"), zoomWidget);
+        JPanel zoomGesturePane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_ZoomGesture"), zoomGesture);
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_WidgetBoundary")), zoomResize},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_From")), from},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_To")), to},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_WidgetBoundary")), zoomResize},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_From")), from},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_To")), to},
         };
 
         double f = TableLayout.FILL;
@@ -143,12 +143,12 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
                 checkZoomPane();
             }
         });
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Chart-Use_Zoom"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Zoom"), panel);
     }
 
 
     protected JPanel getzoomTypePane(UIButtonGroup zoomType) {
-        return TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_ZoomType"), zoomType);
+        return TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_ZoomType"), zoomType);
     }
 
     protected JPanel createZoomPaneContent(JPanel zoomWidgetPane, JPanel zoomGesturePane, JPanel changeEnablePane, JPanel zoomTypePane, VanChartPlot plot) {
@@ -165,8 +165,8 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
         if (!(plot.getAxisPlotType() == AxisPlotType.RECTANGLE)){
             return null;
         }
-        axisRotation = new UIButtonGroup<Integer>(new String[]{Inter.getLocText("Plugin-ChartF_Open"),
-                Inter.getLocText("Plugin-ChartF_Close")});
+        axisRotation = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Open"),
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Close")});
         axisRotation.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -175,15 +175,18 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
         });
         Component[][] components = new Component[][]{
                 new Component[]{null,null},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Reversal")),axisRotation}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Reversal")),axisRotation}
         };
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Axis"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Axis"), panel);
     }
 
     private void checkZoomEnabled() {
         if (zoomWidget != null && axisRotation != null) {
-            zoomWidget.setSelectedIndex(1);
+            if (axisRotation.getSelectedIndex() == 0) {
+                //只有开启坐标轴翻转，才需要将缩放控件强制关闭。
+                zoomWidget.setSelectedIndex(1);
+            }
             checkZoomPane();
             zoomWidget.setEnabled(axisRotation.getSelectedIndex() == 1);
         }
@@ -191,8 +194,8 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
 
 
     protected String[] getNameArray() {
-        return new String[]{Inter.getLocText("ChartF-X_Axis"), Inter.getLocText("ChartF-Y_Axis")
-                ,Inter.getLocText("Plugin-ChartF_XYAxis"),Inter.getLocText("Chart-Use_None")};
+        return new String[]{com.fr.design.i18n.Toolkit.i18nText("ChartF-X_Axis"), com.fr.design.i18n.Toolkit.i18nText("ChartF-Y_Axis")
+                ,com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_XYAxis"),com.fr.design.i18n.Toolkit.i18nText("Chart-Use_None")};
     }
 
     protected String[] getValueArray() {
@@ -202,15 +205,15 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
     }
 
     protected JPanel createToolBarPane(double[] row, double[] col){
-        isSort = new UICheckBox(Inter.getLocText("Plugin-ChartF_Sort"));
-        exportImages = new UICheckBox(Inter.getLocText("Plugin-ChartF_ExportImage"));
-        fullScreenDisplay = new UICheckBox(Inter.getLocText("Plugin-ChartF_FullScreenDisplay"));
-        collapse = new UIToggleButton(Inter.getLocText("Plugin-ChartF_Collapse"));
+        isSort = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Sort"));
+        exportImages = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_ExportImage"));
+        fullScreenDisplay = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_FullScreenDisplay"));
+        collapse = new UIToggleButton(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Collapse"));
 
         Component[][] components = createToolBarComponents();
 
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_ToolBar"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_ToolBar"), panel);
     }
 
     protected double[] getToolBarRowSize () {
@@ -220,33 +223,33 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
 
     protected Component[][] createToolBarComponents() {
         return new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Content")),isSort},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Content")),isSort},
                 new Component[]{null, exportImages},
                 new Component[]{null, fullScreenDisplay},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_layout")),collapse},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_layout")),collapse},
         };
     }
 
     protected Component[][] createToolBarComponentsWithOutSort() {
         return new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Content")), exportImages},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Content")), exportImages},
                 new Component[]{null, fullScreenDisplay},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_layout")),collapse}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_layout")),collapse}
         };
     }
 
 
     protected JPanel createAnimationPane(){
-        isChartAnimation = new UIButtonGroup(new String[]{Inter.getLocText("Plugin-ChartF_Open"), Inter.getLocText("Plugin-ChartF_Close")});
-        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_Animation_Effects"), isChartAnimation);
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Animation"), panel);
+        isChartAnimation = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Open"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Close")});
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Animation_Effects"), isChartAnimation);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Animation"), panel);
     }
 
     protected JPanel createAutoRefreshPane(VanChartPlot plot){
 
         autoRefreshPane = getMoreLabelPane(plot);
 
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Moniter_refresh"), autoRefreshPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Moniter_refresh"), autoRefreshPane);
     }
 
     protected AutoRefreshPane getMoreLabelPane(VanChartPlot plot) {
@@ -256,7 +259,7 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
 
     protected JPanel createHyperlinkPane() {
         superLink = new VanChartHyperLinkPane();
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("M_Insert-Hyperlink"), superLink);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("M_Insert-Hyperlink"), superLink);
     }
 
 

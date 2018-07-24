@@ -10,7 +10,7 @@ import javax.swing.KeyStroke;
 import com.fr.base.BaseUtils;
 import com.fr.design.actions.TemplateComponentAction;
 import com.fr.design.designer.TargetComponent;
-import com.fr.general.Inter;
+
 
 import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
 
@@ -24,7 +24,7 @@ public class CutAction extends TemplateComponentAction {
 	public CutAction(TargetComponent t) {
     	super(t);
     	
-        this.setName(Inter.getLocText("M_Edit-Cut"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("M_Edit-Cut"));
         this.setMnemonic('T');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_edit/cut.png"));
         this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, DEFAULT_MODIFIER));

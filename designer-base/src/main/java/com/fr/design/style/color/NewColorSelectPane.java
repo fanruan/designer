@@ -7,7 +7,7 @@ import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -57,7 +57,7 @@ public class NewColorSelectPane extends BasicPane implements ColorSelectable {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.setBorder(new UIRoundedBorder(UIConstants.LINE_COLOR, 1, 5));
         if (isSupportTransparent) {
-            UIButton transpanrentButton = new UIButton(Inter.getLocText("FR-Designer_ChartF-Transparency"));
+            UIButton transpanrentButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_ChartF-Transparency"));
             this.add(transpanrentButton, BorderLayout.NORTH);
             transpanrentButton.addActionListener(new ActionListener() {
 
@@ -94,7 +94,7 @@ public class NewColorSelectPane extends BasicPane implements ColorSelectable {
         centerPane.add(Box.createVerticalStrut(1));
 
         // mod by anchore 16/11/16
-        UIButton customButton = new UIButton(Inter.getLocText("FR-Designer-Basic_More_Color"));
+        UIButton customButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Basic_More_Color"));
 
         customButton.addMouseListener(new MouseAdapter() {
             @Override

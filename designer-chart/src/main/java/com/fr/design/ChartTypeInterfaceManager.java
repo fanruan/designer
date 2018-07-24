@@ -39,7 +39,7 @@ import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.form.ui.ChartEditor;
 import com.fr.general.IOUtils;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.PiePlot4VanChart;
 import com.fr.plugin.chart.area.VanChartAreaPlot;
 import com.fr.plugin.chart.bubble.VanChartBubblePlot;
@@ -131,7 +131,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
             }
             String iconPath = ChartTypeInterfaceManager.getInstance().getIconPath(plotID);
             Icon icon = IOUtils.readIcon(iconPath);
-            child[i] = new ChartWidgetOption(Inter.getLocText(typeName[i].getName()), icon, ChartEditor.class, rowChart[0]);
+            child[i] = new ChartWidgetOption(com.fr.design.i18n.Toolkit.i18nText(typeName[i].getName()), icon, ChartEditor.class, rowChart[0]);
             
             allCharts[i] = rowChart;
         }

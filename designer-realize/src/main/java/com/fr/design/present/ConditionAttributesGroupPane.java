@@ -14,7 +14,7 @@ import com.fr.design.condition.HighLightConditionAttributesPane;
 import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
-import com.fr.general.Inter;
+
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.Selection;
 import com.fr.report.cell.CellElement;
@@ -46,7 +46,7 @@ public class ConditionAttributesGroupPane extends UIListControlPane {
 
 	@Override
 	public NameableCreator[] createNameableCreators() {
-		return new NameableCreator[] { new NameObjectCreator(Inter.getLocText("Condition_Attributes"), DefaultHighlight.class, HighLightConditionAttributesPane.class) };
+		return new NameableCreator[] { new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Condition_Attributes"), DefaultHighlight.class, HighLightConditionAttributesPane.class) };
 	}
 
 	@Override
@@ -70,12 +70,12 @@ public class ConditionAttributesGroupPane extends UIListControlPane {
 
 	@Override
 	public String title4PopupWindow() {
-		return Inter.getLocText("Condition_Attributes");
+		return com.fr.design.i18n.Toolkit.i18nText("Condition_Attributes");
 	}
 
 	@Override
 	public String getAddItemText() {
-		return Inter.getLocText("FR-Designer_Add_Condition");
+		return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Add_Condition");
 	}
 
 	public void populate(ElementCasePane ePane) {

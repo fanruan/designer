@@ -2,7 +2,7 @@ package com.fr.design.mainframe.widget.ui;
 
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.form.ui.Widget;
-import com.fr.general.Inter;
+
 import javax.swing.BorderFactory;
 
 /**
@@ -16,8 +16,8 @@ public class FormBasicWidgetPropertyPane extends BasicSetVisiblePropertyPane {
     }
 
     public UICheckBox createOtherConfig() {
-        enableCheckBox = new UICheckBox(Inter.getLocText("Enabled"), true);
-        enableCheckBox.setGlobalName(Inter.getLocText("FR-Designer_Basic"));
+        enableCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Enabled"), true);
+        enableCheckBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Basic"));
 
         enableCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
         return enableCheckBox;

@@ -26,7 +26,7 @@ import com.fr.design.mainframe.ElementCasePane.Clear;
 import com.fr.design.selection.QuickEditor;
 import com.fr.design.utils.DesignUtils;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.report.cell.FloatElement;
 import com.fr.report.elementcase.TemplateElementCase;
 import com.fr.stable.ColumnRow;
@@ -77,7 +77,7 @@ public class FloatSelection extends Selection {
     @Override
     public boolean pasteCellElementsClip(CellElementsClip ceClip, ElementCasePane ePane) {
         Toolkit.getDefaultToolkit().beep();
-        DesignUtils.errorMessage(Inter.getLocText(new String[]{"Only_selected_cell_can_paste_only", "M_Insert-Cell"}));
+        DesignUtils.errorMessage(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Only_selected_cell_can_paste_only", "M_Insert-Cell"}));
 
         return false;
     }
@@ -85,7 +85,7 @@ public class FloatSelection extends Selection {
     @Override
     public boolean pasteString(String str, ElementCasePane ePane) {
         Toolkit.getDefaultToolkit().beep();
-        DesignUtils.errorMessage(Inter.getLocText(new String[]{"Only_selected_cell_can_paste_only", "Character"}));
+        DesignUtils.errorMessage(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Only_selected_cell_can_paste_only", "Character"}));
 //		return pasteOtherType(str, ePane);
         return false;
     }
