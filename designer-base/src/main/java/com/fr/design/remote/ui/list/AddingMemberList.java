@@ -3,8 +3,6 @@ package com.fr.design.remote.ui.list;
 import com.fr.workspace.server.authority.RemoteDesignMember;
 
 import javax.swing.DefaultListModel;
-import java.awt.Point;
-import java.awt.event.MouseEvent;
 import java.util.Vector;
 
 public class AddingMemberList extends MemberList {
@@ -35,19 +33,6 @@ public class AddingMemberList extends MemberList {
         revalidate();
         repaint();
         fireSelectedChange();
-    }
-
-    @Override
-    protected boolean shouldDisplaySelected(MouseEvent e) {
-        Point point = e.getPoint();
-        int rX = point.x;
-        int rY = point.y;
-        int index = this.getSelectedIndex();
-        int x = 270;
-        int y = 25 * index;
-        int width = 25;
-        int height = 25;
-        return x <= rX && rX <= x + width && y <= rY && rY <= y + height;
     }
 }
 
