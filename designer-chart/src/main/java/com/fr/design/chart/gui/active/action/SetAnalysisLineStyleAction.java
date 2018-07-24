@@ -11,7 +11,7 @@ public class SetAnalysisLineStyleAction extends ChartComponentAction{
 
 	public SetAnalysisLineStyleAction(ChartComponent chartComponent) {
 		super(chartComponent);
-		this.setName(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Set", "AnalysisLine"}));
+		this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Set_Analysis_Line"));
 	}
 
 	@Override
