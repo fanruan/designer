@@ -61,12 +61,12 @@ public class ChartAlertValuePane extends BasicBeanPane<ChartAlertValue> {
 		JPanel alertLinePane =FRGUIPaneFactory.createY_AXISBoxInnerContainer_S_Pane();
 		pane.add(alertLinePane);
 		
-		alertLinePane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"ChartF-Alert-Line", "Set"})));
+		alertLinePane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Alert_Line_Setting")));
 		
 		JPanel valuePane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
 		alertLinePane.add(valuePane);
 		
-		valuePane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"ChartF_Alert", "Value"}) + ":"));
+		valuePane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Alert_Value") + ":"));
 		
 		textField = new UITextField();
 		textField.setColumns(4);
@@ -88,14 +88,14 @@ public class ChartAlertValuePane extends BasicBeanPane<ChartAlertValue> {
 		JPanel lineStylePane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
 		alertLinePane.add(lineStylePane);
 		
-		lineStylePane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Line-Style") + ":"));
+		lineStylePane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Line_Style") + ":"));
 		lineCombo = new LineComboBox(CoreConstants.STRIKE_LINE_STYLE_ARRAY_4_CHART);
 		lineStylePane.add(lineCombo);
 		
 		JPanel lineColorPane =FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
 		alertLinePane.add(lineColorPane);
 		
-		lineColorPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"ChartF-Alert-Line", "Color"}) + ":"));
+		lineColorPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Alert_Line_Color") + ":"));
 		colorBox = new ColorSelectBox(80);
 		lineColorPane.add(colorBox);
 		
@@ -105,7 +105,7 @@ public class ChartAlertValuePane extends BasicBeanPane<ChartAlertValue> {
 		JPanel tipPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_S_Pane();
 		pane.add(tipPane);
 		
-		tipPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Chart_Alert_Tip") + ":", null));
+		tipPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Alert_Tip") + ":", null));
 		
 		JPanel centerPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
 		tipPane.add(centerPane);
@@ -130,10 +130,10 @@ public class ChartAlertValuePane extends BasicBeanPane<ChartAlertValue> {
 		double[] rowSize = {t, t, t, t, t};
 		double[] columnSize = {0.1, 0.2, 0.5, 0.2};
 		Component[][] components= {
-				{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Content") + ":"),  contentField = new UITextField(3)},
-				{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("FRFont") + ":"),  fontNameBox},
-				{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("FRFont-Size") + ":"),  fontSizeBox},
-				{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Layout") + ": "), leftButton = new UIRadioButton(getLeftName())},
+				{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Content") + ":"),  contentField = new UITextField(3)},
+				{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Font") + ":"),  fontNameBox},
+				{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Font_Size") + ":"),  fontSizeBox},
+				{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Layout") + ": "), leftButton = new UIRadioButton(getLeftName())},
 				{null,    null, 			rightButton = new UIRadioButton(getRightName())},
 				
 		};
@@ -148,16 +148,16 @@ public class ChartAlertValuePane extends BasicBeanPane<ChartAlertValue> {
 	}
 	
 	protected String getLeftName() {// 居左 居右
-		return com.fr.design.i18n.Toolkit.i18nText("Chart_Alert_Left");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_At_The_Left");
 	}
 	
 	protected String getRightName() {
-		return com.fr.design.i18n.Toolkit.i18nText("Chart_Alert_Right");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_At_The_Right");
 	}
 	
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("ChartF-Alert-Line");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Alert_Line");
 	}
 	
 	private void showFormulaPane() {
