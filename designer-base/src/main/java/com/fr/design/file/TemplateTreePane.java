@@ -4,7 +4,7 @@
 package com.fr.design.file;
 
 import com.fr.base.FRContext;
-import com.fr.base.io.FileAssistUtils;
+import com.fr.base.io.FileAssistUtilsOperator;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.itree.filetree.TemplateFileTree;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -183,7 +183,8 @@ public class TemplateTreePane extends JPanel implements FileOperations {
             }
             if (nodeFile.exists()) {
                 String path = StableUtils.pathJoin(nodeFile.getEnvPath(), nodeFile.getPath());
-                FileAssistUtils.moveToTrash(nodeFile.getPath());
+                FileAssistUtilsOperator fileAssistUtils = WorkContext.getCurrent().get(FileAssistUtilsOperator.class);
+                fileAssistUtils.moveToTrash(nodeFile.getPath());
                 deleteHistory(path.replaceAll("/", "\\\\"));
             } else {
                 JOptionPane.showMessageDialog(this, com.fr.design.i18n.Toolkit.i18nText("Warning-Template_Do_Not_Exsit"), ProductConstants.PRODUCT_NAME,
