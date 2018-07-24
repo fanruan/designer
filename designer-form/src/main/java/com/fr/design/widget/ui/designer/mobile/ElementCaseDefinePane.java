@@ -49,6 +49,7 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane{
     private UILabel maxHeightLabel;
     private UISpinner maxHeightSpinner; // 最大高度Spinner
     private AttributeChangeListener changeListener;
+    private UICheckBox allowFullCheckBox;
 
     public ElementCaseDefinePane (XCreator xCreator) {
         this.xCreator = xCreator;
@@ -84,17 +85,20 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane{
         maxHeightSpinner.setVisible(false);
         maxHeightLabel.setVisible(false);
 
+        allowFullCheckBox = new UICheckBox(Inter.getLocText("Fine-Designer_Allow_Full_Screen"));
+
         Component[][] components = new Component[][]{
                 new Component[] {new UILabel(Inter.getLocText("FR-Designer_Mobile-Horizontal"), SwingConstants.LEFT), hComboBox},
                 new Component[] {new UILabel(Inter.getLocText("FR-Designer_Mobile-Vertical"), SwingConstants.LEFT), vComboBox},
                 new Component[] {heightRestrictCheckBox, null},
+                new Component[] {allowFullCheckBox},
                 new Component[] {maxHeightLabel, maxHeightSpinner}
         };
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
-        double[] rowSize = {p, p, p, p};
+        double[] rowSize = {p, p, p, p, p};
         double[] columnSize = {p,f};
-        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}};
+        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
         final JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 30, LayoutConstants.VGAP_LARGE);
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         final JPanel panelWrapper = FRGUIPaneFactory.createBorderLayout_S_Pane();

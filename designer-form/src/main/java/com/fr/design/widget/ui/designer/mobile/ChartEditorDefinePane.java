@@ -10,6 +10,7 @@ import com.fr.design.designer.creator.XWAbsoluteLayout;
 import com.fr.design.designer.properties.items.Item;
 import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
+import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -50,6 +51,7 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane {
     private UIComboBox zoomOutComboBox;// 缩小逻辑下拉框
     private AttributeChangeListener changeListener;
     private UILabel tipLabel;
+    private UICheckBox allowFullCheckBox;//允许全屏
 
     public ChartEditorDefinePane(XCreator xCreator) {
         this.xCreator = xCreator;
@@ -102,18 +104,21 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane {
         tipLabel = new UILabel();
         tipLabel.setForeground(Color.gray);
         updateTipLabel();
+        allowFullCheckBox = new UICheckBox(Inter.getLocText("Fine-Designer_Allow_Full_Screen"));
+        allowFullCheckBox.setSelected(true);
 
         Component[][] components = new Component[][]{
                 new Component[] {new UILabel(Inter.getLocText("FR-Designer_Zoom_In_Logic"), SwingConstants.LEFT), new UILabel(ChartMobileFitAttrState.PROPORTION.description())},
                 new Component[] {new UILabel(Inter.getLocText("FR-Designer_Zoom_Out_Logic"), SwingConstants.LEFT), zoomOutComboBox},
-                new Component[] {tipLabel, null}
+                new Component[] {tipLabel, null},
+                new Component[] {allowFullCheckBox}
         };
 
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
-        double[] rowSize = {p, p, p};
+        double[] rowSize = {p, p, p, p};
         double[] columnSize = {p,f};
-        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}};
+        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}};
         final JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 30, LayoutConstants.VGAP_LARGE);
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         final JPanel panelWrapper = FRGUIPaneFactory.createBorderLayout_S_Pane();
