@@ -7,8 +7,8 @@ import com.fr.design.chart.series.SeriesCondition.DataSeriesConditionPane;
 import com.fr.plugin.chart.attr.EffectHelper;
 import com.fr.plugin.chart.base.AttrEffect;
 import com.fr.plugin.chart.base.AttrTooltip;
+import com.fr.plugin.chart.type.ConditionKeyType;
 import com.fr.plugin.chart.wordcloud.VanChartWordCloudPlot;
-import com.fr.plugin.chart.wordcloud.WordCloudDataPoint;
 import com.fr.van.chart.designer.other.condition.item.VanChartEffectConditionPane;
 import com.fr.van.chart.designer.other.condition.item.VanChartSeriesColorConditionPane;
 import com.fr.van.chart.designer.other.condition.item.VanChartTooltipConditionPane;
@@ -34,12 +34,8 @@ public class VanChartWordCloudConditionPane  extends DataSeriesConditionPane {
     protected ChartConditionPane createListConditionPane() {
         return new ChartConditionPane(){
             @Override
-            public String[] columns2Populate() {
-                return new String[]{
-                        WordCloudDataPoint.WORDNAME,
-                        WordCloudDataPoint.WORDNAMEINDEX,
-                        WordCloudDataPoint.WORDVALUE
-                };
+            protected ConditionKeyType[] conditionKeyTypes() {
+                return ConditionKeyType.WORD_CLOUD_CONDITION_KEY_TYPES;
             }
         };
     }
