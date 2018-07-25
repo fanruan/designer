@@ -99,7 +99,7 @@ public class MapDataPane extends DataContentsPane {
 						return list;
 					}
 					protected String title4PopupWindow() {
-						return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Chart-Map", "Data"});
+						return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Map_Data");
 					}
 				};
 				pane.add(mainPane, BorderLayout.CENTER);
@@ -127,7 +127,7 @@ public class MapDataPane extends DataContentsPane {
      * @return 标题
      */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Chart-Map", "Data"});
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Map_Data");
 	}
 
 	@Override

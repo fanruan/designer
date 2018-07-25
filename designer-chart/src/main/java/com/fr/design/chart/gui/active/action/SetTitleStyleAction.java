@@ -19,7 +19,7 @@ public class SetTitleStyleAction extends ChartComponentAction {
 
 	public SetTitleStyleAction(ChartComponent chartComponent) {
 		super(chartComponent);
-		this.setName(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Set", "Title", "Style"}));
+		this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Set_Title_Style"));
 	}
 
 	public void actionPerformed(ActionEvent e) {

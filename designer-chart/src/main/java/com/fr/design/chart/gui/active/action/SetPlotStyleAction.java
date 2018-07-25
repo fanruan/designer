@@ -19,7 +19,7 @@ public class SetPlotStyleAction extends ChartComponentAction {
 
     public SetPlotStyleAction(ChartComponent chartComponent) {
         super(chartComponent);
-        this.setName(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Set", "ChartF-Plot"}));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Set_Plot"));
     }
 
     public void actionPerformed(ActionEvent e) {

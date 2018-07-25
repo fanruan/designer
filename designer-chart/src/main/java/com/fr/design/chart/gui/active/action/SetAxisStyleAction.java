@@ -18,7 +18,7 @@ import com.fr.stable.StringUtils;
 public class SetAxisStyleAction extends ChartComponentAction {
     public SetAxisStyleAction(ChartComponent chartComponent) {
         super(chartComponent);
-        this.setName(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Set", "ChartF-Axis", "Format"}));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Set_Axis_Format"));
     }
 
     public void actionPerformed(ActionEvent e) {

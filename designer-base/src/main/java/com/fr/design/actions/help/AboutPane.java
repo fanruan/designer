@@ -81,7 +81,9 @@ public class AboutPane extends JPanel {
         contentPane.add(urlActionPane);
         contentPane.add(emailPane);
 
-        contentPane.add(getRemarkPane());
+        if (FRContext.getLocale().equals(Locale.CHINA) || FRContext.getLocale().equals(Locale.TAIWAN)){
+            contentPane.add(getRemarkPane());
+         }
 
         if (shouldShowThanks()) {
             addThankPane(contentPane);

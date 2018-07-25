@@ -19,8 +19,9 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogFormatter;
 import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
-
+import com.fr.general.Inter;
 import com.fr.general.xml.GeneralXMLTools;
+import com.fr.locale.InterProviderFactory;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.Constants;
 import com.fr.stable.EnvChangedListener;
@@ -55,6 +56,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.FileHandler;
@@ -698,6 +700,28 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
      */
     public int getLanguage() {
         return this.language;
+    }
+
+    /**
+     * 返回语言类型
+     */
+    public Locale getLocale() {
+        // 性能
+        if (language <= 1) {
+            return Locale.CHINA;
+        }
+        Locale[] locales = supportLocale();
+        if (language <= locales.length) {
+            return locales[language - 1];
+        }
+        return Locale.CHINA;
+    }
+
+    // 当前系统支持的语言
+    protected Locale[] supportLocale() {
+        Inter.getInstance();
+        Map<Locale, String> languageMap = InterProviderFactory.getProvider().getSupportLocaleMap();
+        return languageMap.keySet().toArray(new Locale[languageMap.size()]);
     }
 
     /**
