@@ -535,7 +535,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         if (!access) {
-            JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_No-Privilege") + "!", com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Message"), JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Template_Permission_Denied") + "!", com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Message"), JOptionPane.WARNING_MESSAGE);
             return false;
         }
         collectInfo();
@@ -585,7 +585,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
             if (!access) {
-                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_No-Privilege") + "!", com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Message"), JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Template_Permission_Denied") + "!", com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Message"), JOptionPane.WARNING_MESSAGE);
                 return false;
             }
             editingFILE = fileChooser.getSelectedFILE();
