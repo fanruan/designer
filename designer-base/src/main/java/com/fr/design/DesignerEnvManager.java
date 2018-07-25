@@ -710,7 +710,6 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         if (language <= 1) {
             return Locale.CHINA;
         }
-
         Locale[] locales = supportLocale();
         if (language <= locales.length) {
             return locales[language - 1];
