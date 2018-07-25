@@ -80,7 +80,7 @@ public class MapSinglePane extends FurtherBasicBeanPane<TopDefinitionProvider> {
 	 * 界面标题
 	 */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"SingleLayer", "Chart-Map"});
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Single_Layer_Map");
 	}
 
 	/**

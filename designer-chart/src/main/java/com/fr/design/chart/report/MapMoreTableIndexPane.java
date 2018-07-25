@@ -63,13 +63,14 @@ public class MapMoreTableIndexPane extends BasicBeanPane<MapSingleLayerTableDefi
 		this.add(northPane, BorderLayout.NORTH);
 		northPane.setLayout(new FlowLayout(FlowLayout.LEFT));
 		
-		northPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Area_Name") + ":"));
+		northPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Name") + ":"));
 		
 		areaNameBox = new UIComboBox();
 		areaNameBox.setPreferredSize(new Dimension(120, 20));
 		northPane.add(areaNameBox);
 		
-		tabPane = new UICorrelationPane(new String[]{com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Filed", "Title"}), com.fr.design.i18n.Toolkit.i18nText("Area_Value")}){
+		tabPane = new UICorrelationPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Title"),
+				com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Value")){
 			public UITableEditor createUITableEditor() {
 				return new InnerTableEditor();
 			}

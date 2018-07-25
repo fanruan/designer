@@ -50,12 +50,13 @@ public class MapReportDataSinglePane extends FurtherBasicBeanPane<MapSingleLayer
 		
 		northPane.setLayout(new FlowLayout(FlowLayout.CENTER));
 		
-		northPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Area_Name") + ":", SwingConstants.RIGHT));
+		northPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Name") + ":", SwingConstants.RIGHT));
 		areaNamePane = new TinyFormulaPane();
 		areaNamePane.setPreferredSize(new Dimension(120, 20));
 		northPane.add(areaNamePane);
 
-		String[] columnNames = new String[]{com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Filed", "Title"}), com.fr.design.i18n.Toolkit.i18nText("Area_Value")};
+		String[] columnNames = new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Title"),
+				com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Value")};
 		seriesPane = new UICorrelationPane(columnNames) {
 			public UITableEditor createUITableEditor() {
 				return new InnerTableEditor();
