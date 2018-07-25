@@ -8,8 +8,6 @@ import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.style.background.image.ImageFileChooser;
 import com.fr.design.style.background.image.ImagePreviewPane;
 import com.fr.design.utils.ImageUtils;
@@ -232,11 +230,5 @@ public class ChartEmptyDataStylePane extends AbstractAttrNoScrollPane {
         manager.setOpenEmptyDataStyle(emptyData.getSelectedIndex() == 0);
         manager.setCustomEmptyDataStyle(customRadioButton.isSelected());
         manager.setEmptyDataImage(emptyDataImage);
-
-        // 通知报表整个刷新.
-        DesignerFrame frame = DesignerContext.getDesignerFrame();
-        if (frame != null) {
-            frame.repaint();
-        }
     }
 }

@@ -2,17 +2,16 @@ package com.fr.van.chart.gantt.designer.other;
 
 import com.fr.chart.base.AttrAlpha;
 import com.fr.chart.base.AttrBackground;
-import com.fr.chart.base.ChartConstants;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.chart.series.SeriesCondition.ChartConditionPane;
 import com.fr.design.chart.series.SeriesCondition.DataSeriesConditionPane;
 import com.fr.design.chart.series.SeriesCondition.LabelAlphaPane;
 import com.fr.plugin.chart.base.AttrTooltip;
-import com.fr.plugin.chart.gantt.VanChartGanttDataPoint;
 import com.fr.plugin.chart.gantt.VanChartGanttPlot;
 import com.fr.plugin.chart.gantt.attr.AttrGanttLabel;
 import com.fr.plugin.chart.gantt.attr.AttrGanttTooltip;
 import com.fr.plugin.chart.gantt.attr.AttrGanttTooltipContent;
+import com.fr.plugin.chart.type.ConditionKeyType;
 import com.fr.van.chart.designer.other.condition.item.VanChartLabelConditionPane;
 import com.fr.van.chart.designer.other.condition.item.VanChartSeriesColorConditionPane;
 import com.fr.van.chart.designer.other.condition.item.VanChartTooltipConditionPane;
@@ -68,17 +67,8 @@ public class VanChartGanttConditionPane extends DataSeriesConditionPane {
     protected ChartConditionPane createListConditionPane() {
         return new ChartConditionPane(){
             @Override
-            public String[] columns2Populate() {
-                return new String[]{
-                        VanChartGanttDataPoint.PROJECT_NAME,
-                        VanChartGanttDataPoint.PROJECT_INDEX,
-                        ChartConstants.SERIES_NAME,
-                        ChartConstants.SERIES_INDEX,
-                        VanChartGanttDataPoint.START_TIME,
-                        VanChartGanttDataPoint.END_TIME,
-                        VanChartGanttDataPoint.PROGRESS,
-                        VanChartGanttDataPoint.LINK_ID
-                };
+            protected ConditionKeyType[] conditionKeyTypes() {
+                return ConditionKeyType.Gantt_CONDITION_KEY_TYPES;
             }
         };
     }

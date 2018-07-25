@@ -1,5 +1,6 @@
 package com.fr.design.module;
 
+import com.fr.base.ChartPreStyleConfig;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
@@ -7,7 +8,9 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.general.IOUtils;
-
+import com.fr.transaction.CallBackAdaptor;
+import com.fr.transaction.Configurations;
+import com.fr.transaction.WorkerFacade;
 
 import javax.swing.KeyStroke;
 import java.awt.event.ActionEvent;
@@ -38,11 +41,21 @@ public class ChartPreStyleAction extends UpdateAction {
 		dialog.addDialogActionListener(new DialogActionAdapter() {
 			@Override
 			public void doOk() {
-				pane.updateBean();
-			}                
-			
-			@Override
-			public void doCancel() {
+				Configurations.modify(new WorkerFacade(ChartPreStyleConfig.class) {
+					@Override
+					public void run() {
+						pane.updateBean();
+					}
+
+				}.addCallBack(new CallBackAdaptor() {
+					@Override
+					public void afterCommit() {
+						DesignerFrame frame = DesignerContext.getDesignerFrame();
+						if (frame != null) {
+							frame.repaint();
+						}
+					}
+				}));
 			}
         });
 
