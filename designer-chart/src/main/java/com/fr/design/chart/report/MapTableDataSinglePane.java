@@ -50,7 +50,7 @@ public class MapTableDataSinglePane extends FurtherBasicBeanPane<MapSingleLayerT
 
 		northPane.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-		UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Select_Data_Set") + ":", SwingConstants.RIGHT);
+		UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Tabledata_Select") + ":", SwingConstants.RIGHT);
 
 		northPane.add(fromTableData = new DatabaseTableDataPane(label) {
 			@Override
@@ -127,7 +127,7 @@ public class MapTableDataSinglePane extends FurtherBasicBeanPane<MapSingleLayerT
 	 * 界面弹出标题
 	 */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("DS-TableData");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Tabledata");
 	}
 
 	private void stopEditing() {

@@ -19,7 +19,6 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.utils.gui.GUICoreUtils;
-
 import com.fr.report.cell.CellElement;
 import com.fr.report.cell.TemplateCellElement;
 import com.fr.report.cell.cellattr.CellExpandAttr;
@@ -339,12 +338,10 @@ public class DSColumnAdvancedPane extends BasicPane {
                     + "  " + com.fr.design.i18n.Toolkit.i18nText("BindColumn-Even_Selected_(2,4,6...)")), FlowLayout.LEFT);
             JPanel specifyPane = GUICoreUtils.createFlowPane(new JComponent[]{
                     serialTextField, new UILabel(
-                    com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{
-                                    "Format", "BindColumn-Result_Serial_Number_Start_From_1", "Inner_Parameter", "Group_Count"},
-                            new String[]{": 1,2-3,5,8  ", ",", "$__count__"})
+                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_DSColumn_Result_Group_Format", "1,2-3,5,8", "$__count__")
             )
             }, FlowLayout.LEFT);
-            serialTextField.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("StyleFormat-Sample") + ":=JOINARRAY(GREPARRAY(RANGE($__count__), item!=4), \",\")");
+            serialTextField.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Format") + ":=JOINARRAY(GREPARRAY(RANGE($__count__), item!=4), \",\")");
             selectCountCardPane.add(undefinedPane, "UNDEFINE");
             selectCountCardPane.add(topFormulaPane, "TOP");
             selectCountCardPane.add(bottomFormulaPane, "BOTTOM");
@@ -408,18 +405,6 @@ public class DSColumnAdvancedPane extends BasicPane {
                 } else if (selectCountSelectIndex == SPECIFY.getValue()) {
                     selectCount.setSerial(this.serialTextField.getText());
                 }
-            }
-        }
-
-        private JFormattedTextField getTextField(JSpinner spinner) {
-            JComponent editor = spinner.getEditor();
-            if (editor instanceof JSpinner.DefaultEditor) {
-                return ((JSpinner.DefaultEditor) editor).getTextField();
-            } else {
-                System.err.println("Unexpected editor type: "
-                        + spinner.getEditor().getClass()
-                        + " isn't a descendant of DefaultEditor");
-                return null;
             }
         }
     }

@@ -53,8 +53,7 @@ class FormApp extends AbstractAppProvider {
         // peter:打开新报表.
         Form tpl = new Form();
         // richer:打开报表通知
-        FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"LOG-Is_Being_Openned", "LOG-Please_Wait"},
-            new String[]{"\"" + file.getName() + "\"" + ",", "..."}));
+        FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("file.getName()", file.getName()) + "...");
         try {
             tpl.readStream(file.asInputStream());
         } catch (Exception exp) {

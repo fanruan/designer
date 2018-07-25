@@ -18,8 +18,8 @@ import java.awt.*;
 public class ValueVerifierEditPane extends JPanel {
 	private UITableEditorPane<Object[]> tableEditorPane;
 	private final String[] columnNames = new String[] {
-			com.fr.design.i18n.Toolkit.i18nTextArray(new String[] {"Verify-Verify_Formula", "Verify-ToolTips"}, new String[] {"(", ")"}),
-			com.fr.design.i18n.Toolkit.i18nText("Verify-Error_Information") };
+			com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Formula_Verify"),
+			com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Formula_Verify_Warn_Text") };
 
 	public ValueVerifierEditPane() {
 		// ben:UITableEditorPane；
