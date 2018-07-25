@@ -29,7 +29,11 @@ public abstract class AbstractVanChartTypePane extends AbstractChartTypePane{
     private static final long serialVersionUID = 7743244512351499265L;
     private UICheckBox largeModelCheckBox;
 
-    protected Boolean samePlot;
+    private Boolean samePlot;
+
+    protected Boolean isSamePlot() {
+        return samePlot;
+    }
 
     //新图表暂时还没有平面3d，渐变高光等布局。
     @Override

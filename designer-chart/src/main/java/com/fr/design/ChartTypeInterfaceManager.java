@@ -93,7 +93,6 @@ import java.util.Map;
 
 import static com.fr.chart.charttypes.ChartTypeManager.CHART_PRIORITY;
 import static com.fr.chart.charttypes.ChartTypeManager.VAN_CHART_PRIORITY;
-import static com.fr.chart.charttypes.ChartTypeManager.enabledChart;
 
 /**
  * Created by eason on 14/12/29.
@@ -171,9 +170,6 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
 
     private static void readVanChart() {
 
-        if (chartTypeInterfaces.containsKey(VAN_CHART_PRIORITY)) {
-            return;
-        }
         addChartTypeInterface(VAN_CHART_PRIORITY, PiePlot4VanChart.VAN_CHART_PIE_PLOT, new PieIndependentVanChartInterface());
         addChartTypeInterface(VAN_CHART_PRIORITY, VanChartColumnPlot.VAN_CHART_COLUMN_PLOT_ID, new ColumnIndependentVanChartInterface());
         addChartTypeInterface(VAN_CHART_PRIORITY, VanChartColumnPlot.VAN_CHART_BAR_PLOT_ID, new BarIndependentVanChartInterface());
@@ -197,10 +193,6 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
     
     
     private static void readDefault() {
-        
-        if (chartTypeInterfaces.containsKey(CHART_PRIORITY)) {
-            return;
-        }
 
         addChartTypeInterface(CHART_PRIORITY, ChartConstants.COLUMN_CHART, new ColumnIndependentChartInterface());
         addChartTypeInterface(CHART_PRIORITY, ChartConstants.LINE_CHART, new LineIndependentChartInterface());
@@ -276,16 +268,14 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
                 Map.Entry<String, IndependentChartUIProvider> entry = iterator.next();
                 String plotID = entry.getKey();
 
-                if (enabledChart(plotID)) {
-                    AbstractChartTypePane pane = entry.getValue().getPlotTypePane();
-                    pane.setPlotID(plotID);
-                    paneList.add(pane);
+                AbstractChartTypePane pane = entry.getValue().getPlotTypePane();
+                pane.setPlotID(plotID);
+                paneList.add(pane);
 
-                    if (allChartTypePane.get(priority) == null) {
-                        allChartTypePane.put(priority, new LinkedHashMap<String, FurtherBasicBeanPane<? extends Chart>>());
-                    }
-                    allChartTypePane.get(priority).put(plotID, pane);
+                if (allChartTypePane.get(priority) == null) {
+                    allChartTypePane.put(priority, new LinkedHashMap<String, FurtherBasicBeanPane<? extends Chart>>());
                 }
+                allChartTypePane.get(priority).put(plotID, pane);
             }
         }
     }

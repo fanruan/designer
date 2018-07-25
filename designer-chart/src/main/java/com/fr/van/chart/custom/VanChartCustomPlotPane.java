@@ -154,12 +154,12 @@ public class VanChartCustomPlotPane extends AbstractVanChartTypePane {
                     isCustom = true;
 
                     //先重置自定义组合面板，如果不重置，无法获取选择顺序
-                    if (lastState == customChart.length - 1 && samePlot) {
+                    if (lastState == customChart.length - 1 && isSamePlot()) {
                         //更新数据配置，刪除已经不在的图表数据
                         dealCustomDefinition(chart);
 
                         customSelectPane.updateBean(chart);
-                    } else if (samePlot) {//如果是同一个图表切换过来，则重置面板
+                    } else if (isSamePlot()) {//如果是同一个图表切换过来，则重置面板
                         customSelectPane.populateBean(chart);
                     }
                 }
