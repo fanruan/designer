@@ -76,7 +76,7 @@ public class TutorialAction extends UpdateAction {
         }
     }
 
-    // 生成帮助文档 sitecenter key
+    // 生成帮助文档 sitecenter key, help.zh_CN.10
     protected String createDocKey() {
         String locale = FRContext.getLocale().toString();
         return CommonUtils.join(new String[]{ "help", locale, ProductConstants.MAIN_VERSION }, ".");
