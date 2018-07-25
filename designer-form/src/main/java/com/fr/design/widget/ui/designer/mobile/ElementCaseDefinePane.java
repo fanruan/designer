@@ -163,7 +163,6 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane{
                 break;
             case "allowFullCheckBox":
                 ((ElementCaseEditor)xCreator.toData()).setAllowFullScreen(allowFullCheckBox.isSelected());
-                break;
         }
     }
 
