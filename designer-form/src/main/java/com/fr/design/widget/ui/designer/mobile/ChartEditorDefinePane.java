@@ -97,7 +97,6 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane {
         tipLabel.setForeground(Color.gray);
         updateTipLabel();
         allowFullCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Allow_Full_Screen"));
-        allowFullCheckBox.setSelected(true);
 
         Component[][] components = new Component[][]{
                 new Component[] {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Zoom_In_Logic"), SwingConstants.LEFT), new UILabel(ChartMobileFitAttrState.PROPORTION.description())},
@@ -159,6 +158,8 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane {
         ChartMobileFitAttrStateProvider zoomOutAttr = chartEditor.getMobileAttr().getZoomOutAttr();
         this.zoomOutComboBox.setSelectedItem(new Item(zoomOutAttr.description(), zoomOutAttr));
         updateTipLabel();
+        boolean allowFullScreen = chartEditor.getMobileAttr().isAllowFullScreen();
+        this.allowFullCheckBox.setSelected(allowFullScreen);
 
         // 数据 populate 完成后，再设置监听
         this.bindListeners2Widgets();
@@ -184,6 +185,7 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane {
         ChartMobileAttrProvider mobileAttr = ((BaseChartEditor)xCreator.toData()).getMobileAttr();
         mobileAttr.setZoomInAttr(ChartMobileFitAttrState.PROPORTION);
         mobileAttr.setZoomOutAttr((ChartMobileFitAttrState)((Item)zoomOutComboBox.getSelectedItem()).getValue());
+        mobileAttr.setAllowFullScreen(allowFullCheckBox.isSelected());
         DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified(); // 触发设计器保存按钮亮起来
     }
 }

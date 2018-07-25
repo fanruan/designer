@@ -138,6 +138,7 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane{
         this.maxHeightLabel.setVisible(elementCaseEditor.isHeightRestrict());
         this.maxHeightSpinner.setVisible(elementCaseEditor.isHeightRestrict());
         this.maxHeightSpinner.setValue(elementCaseEditor.getHeightPercent());
+        this.allowFullCheckBox.setSelected(elementCaseEditor.isAllowFullScreen());
     }
 
     @Override
@@ -160,6 +161,9 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane{
             case "maxHeightSpinner":
                 ((ElementCaseEditor)xCreator.toData()).setHeightPercent(maxHeightSpinner.getValue());
                 break;
+            case "allowFullCheckBox":
+                ((ElementCaseEditor)xCreator.toData()).setAllowFullScreen(allowFullCheckBox.isSelected());
+                break;
         }
     }
 
@@ -168,6 +172,7 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane{
         this.vComboBox.setGlobalName("vComboBox");
         this.heightRestrictCheckBox.setGlobalName("heightRestrictCheckBox");
         this.maxHeightSpinner.setGlobalName("maxHeightSpinner");
+        this.allowFullCheckBox.setGlobalName("allowFullCheckBox");
     }
 
 }
