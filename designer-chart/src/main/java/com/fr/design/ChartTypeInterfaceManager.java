@@ -39,7 +39,6 @@ import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.form.ui.ChartEditor;
 import com.fr.general.IOUtils;
-
 import com.fr.plugin.chart.PiePlot4VanChart;
 import com.fr.plugin.chart.area.VanChartAreaPlot;
 import com.fr.plugin.chart.bubble.VanChartBubblePlot;
@@ -84,7 +83,7 @@ import com.fr.van.chart.structure.desinger.StructureIndependentVanChartInterface
 import com.fr.van.chart.treemap.TreeMapIndependentVanChartInterface;
 import com.fr.van.chart.wordcloud.designer.WordCloudIndependentVanChartInterface;
 
-import javax.swing.*;
+import javax.swing.Icon;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -92,7 +91,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.fr.chart.charttypes.ChartTypeManager.*;
+import static com.fr.chart.charttypes.ChartTypeManager.CHART_PRIORITY;
+import static com.fr.chart.charttypes.ChartTypeManager.VAN_CHART_PRIORITY;
+import static com.fr.chart.charttypes.ChartTypeManager.enabledChart;
 
 /**
  * Created by eason on 14/12/29.
@@ -254,17 +255,17 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
      *
      * @param paneList pane容器
      */
-    public void addPlotTypePaneList(List<FurtherBasicBeanPane<? extends Chart>> paneList) {
+    public void addPlotTypePaneList(List<FurtherBasicBeanPane<? extends Chart>> paneList, Map<String, Map<String, FurtherBasicBeanPane<? extends Chart>>> allChartTypePane) {
         
         List<Integer> priorityList = getPriorityInOrder();
         for (Integer aPriorityList : priorityList) {
             String priority = String.valueOf(aPriorityList);
-            addPlotTypePaneList(priority, paneList);
+            addPlotTypePaneList(priority, paneList, allChartTypePane);
         }
     }
 
 
-    public void addPlotTypePaneList(String priority, List<FurtherBasicBeanPane<? extends Chart>> paneList) {
+    public void addPlotTypePaneList(String priority, List<FurtherBasicBeanPane<? extends Chart>> paneList, Map<String, Map<String, FurtherBasicBeanPane<? extends Chart>>> allChartTypePane) {
 
         if (chartTypeInterfaces != null && chartTypeInterfaces.containsKey(priority)) {
 
@@ -279,19 +280,13 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
                     AbstractChartTypePane pane = entry.getValue().getPlotTypePane();
                     pane.setPlotID(plotID);
                     paneList.add(pane);
+
+                    if (allChartTypePane.get(priority) == null) {
+                        allChartTypePane.put(priority, new LinkedHashMap<String, FurtherBasicBeanPane<? extends Chart>>());
+                    }
+                    allChartTypePane.get(priority).put(plotID, pane);
                 }
             }
-        }
-    }
-
-
-    public void addPlotTypePaneList(List<FurtherBasicBeanPane<? extends Chart>> paneList,
-                                    String priority, String plotID) {
-        if (chartTypeInterfaces != null && chartTypeInterfaces.containsKey(priority) && chartTypeInterfaces.get(priority).containsKey(plotID)) {
-            IndependentChartUIProvider provider = chartTypeInterfaces.get(priority).get(plotID);
-            AbstractChartTypePane pane = provider.getPlotTypePane();
-            pane.setPlotID(plotID);
-            paneList.add(pane);
         }
     }
 
