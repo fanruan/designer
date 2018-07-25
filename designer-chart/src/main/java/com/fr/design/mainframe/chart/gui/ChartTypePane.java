@@ -208,18 +208,26 @@ public class ChartTypePane extends AbstractChartAttrPane{
 			Iterator<String> iterator = allChartTypePane.keySet().iterator();
 
 			while (iterator.hasNext()) {
-				addOnePriorityCards(iterator.next());
+				addOnePriorityCards(iterator.next(), false);
 			}
 		}
 
 		private void addOnePriorityCards(String priority) {
+			addOnePriorityCards(priority, true);
+		}
+
+		private void addOnePriorityCards(String priority, boolean ignore) {
 
 			Map<String, FurtherBasicBeanPane<? extends Chart>> map = allChartTypePane.get(priority);
 
 			Iterator<Map.Entry<String, FurtherBasicBeanPane<? extends Chart>>> iterator = map.entrySet().iterator();
 
 			while (iterator.hasNext()) {
-				cards.add(iterator.next().getValue());
+				Map.Entry<String, FurtherBasicBeanPane<? extends Chart>> entry = iterator.next();
+				String plotID = entry.getKey();
+				if (ignore || ChartTypeManager.enabledChart(plotID)) {
+					cards.add(entry.getValue());
+				}
 			}
 
 		}
