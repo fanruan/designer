@@ -236,6 +236,8 @@ public class SelectedDataColumnPane extends BasicPane {
         ps = dsColumn.getParameters();
 
         addListener();
+        //重新设置需要加载
+        columnNameComboBox.setLoaded(false);
     }
 
     /**

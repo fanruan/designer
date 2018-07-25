@@ -1,7 +1,6 @@
 package com.fr.plugin.chart.structure.desinger.other;
 
 import com.fr.chart.base.AttrBackground;
-import com.fr.chart.base.ChartConstants;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.chart.series.SeriesCondition.ChartConditionPane;
 import com.fr.design.chart.series.SeriesCondition.DataSeriesConditionPane;
@@ -9,11 +8,15 @@ import com.fr.plugin.chart.base.AttrFloatColor;
 import com.fr.plugin.chart.base.AttrLabel;
 import com.fr.plugin.chart.base.AttrNode;
 import com.fr.plugin.chart.base.AttrTooltip;
-import com.fr.plugin.chart.designer.other.condition.item.*;
-import com.fr.plugin.chart.structure.VanChartStructureDataPoint;
+import com.fr.plugin.chart.designer.other.condition.item.VanChartFloatColorConditionPane;
+import com.fr.plugin.chart.designer.other.condition.item.VanChartLabelConditionPane;
+import com.fr.plugin.chart.designer.other.condition.item.VanChartSeriesColorConditionPane;
+import com.fr.plugin.chart.designer.other.condition.item.VanChartStructureNodeConditionPane;
+import com.fr.plugin.chart.designer.other.condition.item.VanChartTooltipConditionPane;
 import com.fr.plugin.chart.structure.VanChartStructurePlot;
+import com.fr.plugin.chart.type.ConditionKeyType;
 
-import java.awt.*;
+import java.awt.Dimension;
 
 /**
  * Created by shine on 2017/2/15.
@@ -34,14 +37,8 @@ public class VanChartStructureConditionPane extends DataSeriesConditionPane {
     protected ChartConditionPane createListConditionPane() {
         return new ChartConditionPane(){
             @Override
-            public String[] columns2Populate() {
-                return new String[]{
-                        VanChartStructureDataPoint.NODEID,
-                        VanChartStructureDataPoint.PARENTID,
-                        VanChartStructureDataPoint.SERIESNAME,
-                        VanChartStructureDataPoint.NODENAME,
-                        ChartConstants.VALUE
-                };
+            protected ConditionKeyType[] conditionKeyTypes() {
+                return ConditionKeyType.STRUCTURE_CONDITION_KEY_TYPES;
             }
         };
     }

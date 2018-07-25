@@ -853,9 +853,10 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
      */
     @Override
     public void populateBean(Condition liteCondition) {
-    	if (liteCondition == null){
-    		return;
-    	}
+        // liteCondition = null 时清空显示
+//    	if (liteCondition == null){
+//    		return;
+//    	}
         // peter: 先删除所有的节点
         DefaultTreeModel defaultTreeModel = (DefaultTreeModel) this.conditionsTree.getModel();
         ExpandMutableTreeNode rootTreeNode = (ExpandMutableTreeNode) defaultTreeModel.getRoot();
@@ -896,7 +897,8 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
         if (liteCondition == null) {
             try {
                 defaultConditionPane.checkValid();
-            } catch (Exception e) {//not need
+            } catch (Exception ignored) {
+                //not need
             }
         }
     }

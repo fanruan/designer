@@ -2,7 +2,6 @@ package com.fr.plugin.chart.gantt.designer.other;
 
 import com.fr.chart.base.AttrAlpha;
 import com.fr.chart.base.AttrBackground;
-import com.fr.chart.base.ChartConstants;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.chart.series.SeriesCondition.ChartConditionPane;
 import com.fr.design.chart.series.SeriesCondition.DataSeriesConditionPane;
@@ -13,13 +12,13 @@ import com.fr.plugin.chart.designer.other.condition.item.VanChartSeriesColorCond
 import com.fr.plugin.chart.designer.other.condition.item.VanChartTooltipConditionPane;
 import com.fr.plugin.chart.designer.style.tooltip.VanChartPlotTooltipNoCheckPane;
 import com.fr.plugin.chart.designer.style.tooltip.VanChartPlotTooltipPane;
-import com.fr.plugin.chart.gantt.VanChartGanttDataPoint;
 import com.fr.plugin.chart.gantt.VanChartGanttPlot;
 import com.fr.plugin.chart.gantt.attr.AttrGanttLabel;
 import com.fr.plugin.chart.gantt.attr.AttrGanttTooltip;
 import com.fr.plugin.chart.gantt.attr.AttrGanttTooltipContent;
+import com.fr.plugin.chart.type.ConditionKeyType;
 
-import java.awt.*;
+import java.awt.Dimension;
 
 /**
  * Created by hufan on 2017/1/13.
@@ -68,17 +67,8 @@ public class VanChartGanttConditionPane extends DataSeriesConditionPane {
     protected ChartConditionPane createListConditionPane() {
         return new ChartConditionPane(){
             @Override
-            public String[] columns2Populate() {
-                return new String[]{
-                        VanChartGanttDataPoint.PROJECT_NAME,
-                        VanChartGanttDataPoint.PROJECT_INDEX,
-                        ChartConstants.SERIES_NAME,
-                        ChartConstants.SERIES_INDEX,
-                        VanChartGanttDataPoint.START_TIME,
-                        VanChartGanttDataPoint.END_TIME,
-                        VanChartGanttDataPoint.PROGRESS,
-                        VanChartGanttDataPoint.LINK_ID
-                };
+            protected ConditionKeyType[] conditionKeyTypes() {
+                return ConditionKeyType.Gantt_CONDITION_KEY_TYPES;
             }
         };
     }
