@@ -1,6 +1,6 @@
 package com.fr.design.env;
 
-import com.fr.locale.InterProviderFactory;
+import com.fr.design.i18n.Toolkit;
 import com.fr.stable.AssistUtils;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.Workspace;
@@ -36,7 +36,7 @@ public class RemoteWorkspace implements Workspace {
     @Override
     public String getDescription() {
         
-        return InterProviderFactory.getProvider().getLocText("Fine-Designer_Basic_Remote_Env");
+        return Toolkit.i18nText("Fine-Design_Basic_Remote_Env");
     }
     
     @Override

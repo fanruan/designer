@@ -1,5 +1,7 @@
 package com.fr.design.gui.ilist;
 
+import com.fr.design.gui.NameInspector;
+import com.fr.general.GeneralUtils;
 import com.fr.general.NameObject;
 import com.fr.base.Utils;
 import com.fr.design.gui.itextfield.UITextField;
@@ -32,6 +34,10 @@ public class JNameEdList extends UIList implements CellEditorListener {
     transient protected int editingIndex;
     private PropertyChangeAdapter editingListner;
     private java.util.List<ModNameActionListener> ll = new ArrayList<ModNameActionListener>();
+    /*
+     * 编辑第index个item
+     */
+    private String oldName;
 
     public JNameEdList(ListModel dataModel) {
         super(dataModel);
@@ -160,34 +166,27 @@ public class JNameEdList extends UIList implements CellEditorListener {
 
     public Object getType(int index) {
         Nameable nameable = ((ListModelElement) getModel().getElementAt(index)).wrapper;
-        if (nameable != null && nameable instanceof NameObject) {
+        if (nameable instanceof NameObject) {
             return ((NameObject) nameable).getObject();
         }
         return null;
     }
 
-
-    public void setWarnigText() {
-        setWarnigText(this.getSelectedIndex());
-    }
-
-    public void setWarnigText(int index) {
-        setNameAt(com.fr.design.i18n.Toolkit.i18nText("Please_Rename") + "!", index);
+    public void setIllegalIndex(int index) {
+        setNameAt(NameInspector.ILLEGAL_NAME_HOLDER, index);
         this.repaint();
     }
 
-    /*
-     * 设置index节点的名字
-     */
-    // b:edit改变name的时候怎么办？
     public void setNameAt(String name, int index) {
-        Nameable nameable = ((ListModelElement) getModel().getElementAt(index)).wrapper;
+        ListModelElement element = (ListModelElement) getModel().getElementAt(index);
+        modifyNameable(element.wrapper, name, index);
+    }
+
+    private void modifyNameable(Nameable nameable, String name, int index) {
         if (nameable != null) {
             String oldName = nameable.getName();
-
             if (isNameShouldNumber()) {
-                // kunsnat: 限制只能是数字(int型)
-                Number number = Utils.string2Number(name);
+                Number number = GeneralUtils.string2Number(name);
                 if (number == null) {
                     nameable.setName(oldName);
                 } else {
@@ -197,17 +196,11 @@ public class JNameEdList extends UIList implements CellEditorListener {
             } else {
                 nameable.setName(name);
             }
-
             for (int i = 0, len = ll.size(); i < len; i++) {
                 ll.get(i).nameModed(index, oldName, name);
             }
         }
     }
-
-    /*
-     * 编辑第index个item
-     */
-    private String oldName;
 
     /**
      * 编辑第index项
@@ -268,9 +261,8 @@ public class JNameEdList extends UIList implements CellEditorListener {
     private Component prepareEditor(ListCellEditor cellEditor, int index) {
         String name = getNameAt(index);
         boolean isSelected = this.isSelectedIndex(index);
-        Component comp = cellEditor.getListCellEditorComponent(this, name, isSelected, index);
 
-        return comp;
+        return cellEditor.getListCellEditorComponent(this, name, isSelected, index);
     }
 
     /*

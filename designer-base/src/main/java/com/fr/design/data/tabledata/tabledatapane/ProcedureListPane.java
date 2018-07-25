@@ -22,7 +22,7 @@ import java.util.List;
 public class ProcedureListPane extends JListControlPane {
 	public ProcedureListPane() {
 		super();
-		this.addEditingListner(new PropertyChangeAdapter() {
+		this.addEditingListener(new PropertyChangeAdapter() {
 			@Override
 			public void propertyChange() {
 				TableDataSource source = DesignTableDataManager.getEditingTableDataSource();
@@ -34,7 +34,7 @@ public class ProcedureListPane extends JListControlPane {
 				if(StringUtils.isEmpty(tempName)) {
 					nameableList.stopEditing();
 					//JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(ProcedureListPane.this), com.fr.design.i18n.Toolkit.i18nText("NOT_NULL_Des") + "," + com.fr.design.i18n.Toolkit.i18nText("Please_Rename") + "!");
-					setWarnigText(nameableList.getSelectedIndex());
+					setIllegalIndex(nameableList.getSelectedIndex());
 					return;
 				}
 				for(int i = 0; i < allDSNames.length; i++) {
@@ -42,7 +42,7 @@ public class ProcedureListPane extends JListControlPane {
 					if (ComparatorUtils.equals(dsname, tempName)) {
 //						JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(ProcedureListPane.this), com.fr.design.i18n.Toolkit.i18nText(new String[]{"already_exists", "TableData"})
 //								+ tempName + "," + com.fr.design.i18n.Toolkit.i18nText("Please_Rename") + "!");
-						setWarnigText(nameableList.getSelectedIndex());
+						setIllegalIndex(nameableList.getSelectedIndex());
 						break;
 					}
 				}

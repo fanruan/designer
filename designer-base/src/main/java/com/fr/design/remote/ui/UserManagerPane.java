@@ -6,6 +6,7 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.remote.ui.list.AddedMemberList;
@@ -138,7 +139,7 @@ public class UserManagerPane extends BasicPane {
             sync2AddedMembersFormAdded();
             // 不需要重复更新右侧列表显示 但是更新一下计数显示
             countLabel.setText(
-                    InterProviderFactory.getProvider().getLocText("Fine-Designer_Remote_Design_Selected_Member_Count",
+                    Toolkit.i18nText("Fine-Design_Remote_Design_Selected_Member_Count",
                             String.valueOf(addedMembers.size())
                     )
             );
@@ -206,7 +207,7 @@ public class UserManagerPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return InterProviderFactory.getProvider().getLocText("Fine-Designer_Remote_Design_Add_Member");
+        return Toolkit.i18nText("Fine-Design_Remote_Design_Add_Member");
     }
 
     private JPanel createLeftPanel() {
@@ -216,7 +217,7 @@ public class UserManagerPane extends BasicPane {
                 BorderFactory.createCompoundBorder(
                         new EmptyBorder(6, 0, 0, 0),
                         UITitledBorder.createBorderWithTitle(
-                                InterProviderFactory.getProvider().getLocText("Fine-Designer_Remote_Design_Decision_Member")
+                                Toolkit.i18nText("Fine-Design_Remote_Design_Decision_Member")
                         )
                 )
         );
@@ -228,7 +229,7 @@ public class UserManagerPane extends BasicPane {
         keyField.requestFocus();
         keyField.addKeyListener(keyFieldKeyListener);
         keyField.getDocument().addDocumentListener(documentListener);
-        keyButton.setText(InterProviderFactory.getProvider().getLocText("Fine-Designer_Remote_Design_Search"));
+        keyButton.setText(Toolkit.i18nText("Fine-Design_Remote_Design_Search"));
         keyButton.addActionListener(keyButtonActionListener);
         searchPanel.add(keyField);
         searchPanel.add(keyButton);
@@ -274,15 +275,14 @@ public class UserManagerPane extends BasicPane {
         content.setBorder(
                 BorderFactory.createCompoundBorder(
                         new EmptyBorder(6, 0, 0, 0),
-                        UITitledBorder.createBorderWithTitle(
-                                InterProviderFactory.getProvider().getLocText("Fine-Designer_Remote_Design_Selected_Member")
+                        UITitledBorder.createBorderWithTitle(Toolkit.i18nText("Fine-Design_Remote_Design_Selected_Member")
                         )
                 )
         );
 
         // 计数
         countLabel.setText(
-                InterProviderFactory.getProvider().getLocText("Fine-Designer_Remote_Design_Selected_Member_Count",
+                Toolkit.i18nText("Fine-Design_Remote_Design_Selected_Member_Count",
                         String.valueOf(addedMembers.size()))
         );
         countLabel.setBorder(BorderFactory.createEmptyBorder(7, 12, 8, 0));
@@ -328,7 +328,7 @@ public class UserManagerPane extends BasicPane {
         addedList.revalidate();
         addedList.repaint();
         countLabel.setText(
-                InterProviderFactory.getProvider().getLocText("Fine-Designer_Remote_Design_Selected_Member_Count",
+                Toolkit.i18nText("Fine-Design_Remote_Design_Selected_Member_Count",
                         String.valueOf(addedMembers.size())
                 ));
     }

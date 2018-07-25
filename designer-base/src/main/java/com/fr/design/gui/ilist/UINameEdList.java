@@ -166,16 +166,6 @@ public class UINameEdList extends UIList implements CellEditorListener {
         return null;
     }
 
-
-    public void setWarnigText() {
-        setWarnigText(this.getSelectedIndex());
-    }
-
-    public void setWarnigText(int index) {
-        setNameAt(com.fr.design.i18n.Toolkit.i18nText("Please_Rename") + "!", index);
-        this.repaint();
-    }
-
     /*
      * 设置index节点的名字
      */

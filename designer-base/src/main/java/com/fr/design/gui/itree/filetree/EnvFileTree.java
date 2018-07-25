@@ -5,10 +5,10 @@ import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itree.refreshabletree.ExpandMutableTreeNode;
 import com.fr.design.gui.itree.refreshabletree.RefreshableJTree;
+import com.fr.design.i18n.Toolkit;
 import com.fr.file.filetree.FileNode;
 import com.fr.file.filetree.FileNodeFilter;
 import com.fr.general.ComparatorUtils;
-import com.fr.locale.InterProviderFactory;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.StableUtils;
@@ -68,7 +68,7 @@ public class EnvFileTree extends RefreshableJTree {
                     String name = node.getName();
                     if (treeNode.hasFullAuthority()) {
                         if (lock != null && !node.getUserID().equals(lock)) {
-                            name = name + InterProviderFactory.getProvider().getLocText("Locked");
+                            name = name + Toolkit.i18nText("Fine-Design_Template_Status_Locked", "(", ")");
                             this.setIcon(FileTreeIcon.getIcon(node));
                         } else {
                             this.setIcon(FileTreeIcon.getIcon(node, false));

@@ -4,6 +4,7 @@ import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.base.TableData;
 import com.fr.data.TableDataSource;
+import com.fr.data.core.StoreProcedureAssist;
 import com.fr.data.impl.storeproc.StoreProcedure;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.actions.UpdateAction;
@@ -142,7 +143,7 @@ public abstract class BasicTableDataTreePane extends DockingView implements Resp
 
 
     private boolean isIncludeUnderline(String name) {
-        return ComparatorUtils.equals(name.indexOf(StoreProcedure.SPLIT), -1) ? false : true;
+        return ComparatorUtils.equals(name.indexOf(StoreProcedureAssist.GROUP_MARKER), -1) ? false : true;
     }
 
     public abstract TableDataTree getDataTree();

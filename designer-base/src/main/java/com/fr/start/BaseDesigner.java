@@ -9,6 +9,7 @@ import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.file.MutilTempalteTabPane;
 import com.fr.design.file.TemplateTreePane;
 import com.fr.design.fun.DesignerStartOpenFileProcessor;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDock;
@@ -18,7 +19,6 @@ import com.fr.file.FILE;
 import com.fr.file.FILEFactory;
 import com.fr.file.FileFILE;
 import com.fr.general.ComparatorUtils;
-import com.fr.locale.InterProviderFactory;
 import com.fr.log.FineLoggerFactory;
 import com.fr.module.ModuleEvent;
 import com.fr.stable.OperatingSystem;
@@ -41,7 +41,7 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
 
     private void init(String[] args) {
         //初始化
-        EventDispatcher.fire(ModuleEvent.MajorModuleStarting, InterProviderFactory.getProvider().getLocText("FR-Designer_Initializing"));
+        EventDispatcher.fire(ModuleEvent.MajorModuleStarting, Toolkit.i18nText("FR-Design_Initializing"));
         // 初始化look and feel.这个在预加载之前执行是因为lookAndFeel里的东西，预加载时也要用到
         DesignUtils.initLookAndFeel();
         // 初始化Log Handler
