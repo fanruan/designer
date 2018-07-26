@@ -49,6 +49,7 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane{
     private UILabel maxHeightLabel;
     private UISpinner maxHeightSpinner; // 最大高度Spinner
     private AttributeChangeListener changeListener;
+    private UICheckBox allowFullCheckBox;
 
     public ElementCaseDefinePane (XCreator xCreator) {
         this.xCreator = xCreator;
@@ -83,18 +84,20 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane{
         };
         maxHeightSpinner.setVisible(false);
         maxHeightLabel.setVisible(false);
+        allowFullCheckBox = new UICheckBox(Inter.getLocText("Fine-Designer_Allow_Full_Screen"));
 
         Component[][] components = new Component[][]{
                 new Component[] {new UILabel(Inter.getLocText("FR-Designer_Mobile-Horizontal"), SwingConstants.LEFT), hComboBox},
                 new Component[] {new UILabel(Inter.getLocText("FR-Designer_Mobile-Vertical"), SwingConstants.LEFT), vComboBox},
                 new Component[] {heightRestrictCheckBox, null},
+                new Component[] {allowFullCheckBox, null},
                 new Component[] {maxHeightLabel, maxHeightSpinner}
         };
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
-        double[] rowSize = {p, p, p, p};
+        double[] rowSize = {p, p, p, p, p};
         double[] columnSize = {p,f};
-        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}};
+        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
         final JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 30, LayoutConstants.VGAP_LARGE);
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         final JPanel panelWrapper = FRGUIPaneFactory.createBorderLayout_S_Pane();
@@ -128,12 +131,13 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane{
         this.designer = designer;
         this.addAttributeChangeListener(changeListener);
         ElementCaseEditor elementCaseEditor = (ElementCaseEditor)xCreator.toData();
-        this.hComboBox.setSelectedItem(new Item (elementCaseEditor.getHorziontalAttr().description(), elementCaseEditor.getHorziontalAttr()));
-        this.vComboBox.setSelectedItem(new Item (elementCaseEditor.getVerticalAttr().description(), elementCaseEditor.getVerticalAttr()));
+        this.hComboBox.setSelectedItem(new Item(elementCaseEditor.getHorziontalAttr().description(), elementCaseEditor.getHorziontalAttr()));
+        this.vComboBox.setSelectedItem(new Item(elementCaseEditor.getVerticalAttr().description(), elementCaseEditor.getVerticalAttr()));
         this.heightRestrictCheckBox.setSelected(elementCaseEditor.isHeightRestrict());
         this.maxHeightLabel.setVisible(elementCaseEditor.isHeightRestrict());
         this.maxHeightSpinner.setVisible(elementCaseEditor.isHeightRestrict());
         this.maxHeightSpinner.setValue(elementCaseEditor.getHeightPercent());
+        this.allowFullCheckBox.setSelected(elementCaseEditor.isAllowFullScreen());
     }
 
     @Override
@@ -156,6 +160,8 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane{
             case "maxHeightSpinner":
                 ((ElementCaseEditor)xCreator.toData()).setHeightPercent(maxHeightSpinner.getValue());
                 break;
+            case "allowFullCheckBox":
+                ((ElementCaseEditor)xCreator.toData()).setAllowFullScreen(allowFullCheckBox.isSelected());
         }
     }
 
@@ -164,6 +170,7 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane{
         this.vComboBox.setGlobalName("vComboBox");
         this.heightRestrictCheckBox.setGlobalName("heightRestrictCheckBox");
         this.maxHeightSpinner.setGlobalName("maxHeightSpinner");
+        this.allowFullCheckBox.setGlobalName("allowFullCheckBox");
     }
 
 }
