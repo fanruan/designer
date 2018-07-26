@@ -3,7 +3,7 @@ package com.fr.van.chart.designer.style;
 import com.fr.design.gui.frpane.AbstractAttrNoScrollPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.mainframe.chart.gui.style.series.MapColorPickerPaneWithFormula;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.type.LegendType;
 import com.fr.van.chart.range.component.GradualIntervalConfigPane;
 import com.fr.van.chart.range.component.GradualLegendPane;
@@ -34,8 +34,8 @@ public class HeatMapRangeLegendPane extends VanChartRangeLegendPane {
     @Override
     protected UIButtonGroup<LegendType> createLegendTypeButton(){
         return new UIButtonGroup<LegendType>(new String[]{
-                Inter.getLocText("Plugin-ChartF_Legend_Gradual"),
-                Inter.getLocText("Plugin-ChartF_Legend_Section")
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Legend_Gradual"),
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Legend_Section")
         }, new LegendType[]{LegendType.GRADUAL, LegendType.SECTION});
     }
 

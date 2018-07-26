@@ -4,7 +4,7 @@ import com.fr.chart.base.AttrContents;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 import com.fr.stable.Constants;
 
 import javax.swing.*;
@@ -22,8 +22,8 @@ public class BubbleDataLabelPane extends DataLabelPane {
     private UIButton outSideButton;
 
 	protected JPanel createJPanel4Position() {
-		insideButton = new UIButton(Inter.getLocText("Chart_Bubble_Inside"));
-		outSideButton = new UIButton(Inter.getLocText("Chart_Bubble_Outside"));
+		insideButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Chart_Bubble_Inside"));
+		outSideButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Chart_Bubble_Outside"));
 		
 		ButtonGroup bg = new ButtonGroup();
 		bg.add(insideButton);
@@ -32,7 +32,7 @@ public class BubbleDataLabelPane extends DataLabelPane {
 		outSideButton.setSelected(true);
 		
 		JPanel buttonPane = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
-		buttonPane.add(new UILabel(Inter.getLocText(new String[]{"Label", "Layout"}) + ":"));
+		buttonPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Label", "Layout"}) + ":"));
 		buttonPane.add(outSideButton);
 		buttonPane.add(insideButton);
 		

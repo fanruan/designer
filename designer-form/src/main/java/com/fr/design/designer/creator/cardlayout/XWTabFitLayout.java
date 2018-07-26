@@ -21,7 +21,7 @@ import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.form.ui.container.cardlayout.WTabFitLayout;
 import com.fr.general.Background;
-import com.fr.general.Inter;
+
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.core.PropertyChangeAdapter;
 
@@ -176,7 +176,7 @@ public class XWTabFitLayout extends XWFitLayout {
 	protected CRPropertyDescriptor[] getisnotCustomStyle() throws IntrospectionException {
 		return new CRPropertyDescriptor[]{
 				new CRPropertyDescriptor("customStyle", this.data.getClass()).setI18NName(
-						Inter.getLocText(new String[]{"Title", "Style"})).setEditorClass(
+						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Title_Style")).setEditorClass(
 						ButtonTypeEditor.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
 						.setPropertyChangeListener(new PropertyChangeAdapter() {
 					@Override
@@ -191,16 +191,16 @@ public class XWTabFitLayout extends XWFitLayout {
 	protected CRPropertyDescriptor creatNonListenerStyle(int i) throws IntrospectionException{
 		CRPropertyDescriptor[] crPropertyDescriptors = {
 				new CRPropertyDescriptor("customStyle", this.data.getClass()).setI18NName(
-						Inter.getLocText(new String[]{"Title", "Style"})).setEditorClass(
+						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Title_Style")).setEditorClass(
 						ButtonTypeEditor.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 				new CRPropertyDescriptor("initialBackground", this.data.getClass()).setEditorClass(
-						ImgBackgroundEditor.class).setI18NName(Inter.getLocText("FR-Designer_Background-Initial")).putKeyValue(
+						ImgBackgroundEditor.class).setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background-Initial")).putKeyValue(
 						XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 				new CRPropertyDescriptor("overBackground", this.data.getClass()).setEditorClass(
-						ImgBackgroundEditor.class).setI18NName(Inter.getLocText("FR-Designer_Background-Over")).putKeyValue(
+						ImgBackgroundEditor.class).setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background-Over")).putKeyValue(
 						XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 				new CRPropertyDescriptor("clickBackground", this.data.getClass()).setEditorClass(
-						ImgBackgroundEditor.class).setI18NName(Inter.getLocText("FR-Designer_Background-Click")).putKeyValue(
+						ImgBackgroundEditor.class).setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background-Click")).putKeyValue(
 						XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
 		};
 		return crPropertyDescriptors[i];

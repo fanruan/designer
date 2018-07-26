@@ -9,7 +9,7 @@ import com.fr.design.gui.ilable.UILabel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
-import com.fr.general.Inter;
+
 
 /**
  * @author richer
@@ -20,7 +20,7 @@ public class FRBorderLayoutConstraintsRenderer extends UILabel implements TableC
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         if (value != null) {
-            this.setText(Inter.getLocText("BorderLayout-" + value));
+            this.setText(com.fr.design.i18n.Toolkit.i18nText("BorderLayout-" + value));
         }
         return this;
     }

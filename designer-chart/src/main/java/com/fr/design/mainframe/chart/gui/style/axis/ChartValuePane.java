@@ -24,7 +24,7 @@ import com.fr.design.mainframe.chart.gui.style.ChartAxisLineStylePane;
 import com.fr.design.mainframe.chart.gui.style.ChartAxisTitleNoFormulaPane;
 import com.fr.design.mainframe.chart.gui.style.ChartAxisTitlePane;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.stable.Constants;
 import com.fr.stable.StringUtils;
 import com.fr.van.chart.designer.component.format.FormatPaneWithOutFont;
@@ -77,7 +77,7 @@ public class ChartValuePane extends ChartAxisUsePane<Axis>{
 
         axisLineStylePane = new ChartAxisLineStylePane();
         zeroPane = aliagnZero4Second();
-        axisReversed = new UICheckBox(Inter.getLocText("FR-Designer_AxisReversed"));
+        axisReversed = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_AxisReversed"));
         unitCombox = new UIComboBox(ChartConstants.UNIT_I18N_VALUES);
         formatPane = new FormatPaneWithOutFont();
         axisLabelPane = new ChartAxisLabelPane();
@@ -117,7 +117,7 @@ public class ChartValuePane extends ChartAxisUsePane<Axis>{
 				new Component[]{new JSeparator()},
 				new Component[]{axisLabelPane},
 				new Component[]{new JSeparator()},
-				new Component[]{new UILabel(Inter.getLocText(new String[]{"Value", "Define"}))},
+				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Value_Define"))},
                 new Component[]{dataPane},
         } ;
 
@@ -143,7 +143,7 @@ public class ChartValuePane extends ChartAxisUsePane<Axis>{
 				new Component[]{new JSeparator()},
 				new Component[]{axisLabelPane},
 				new Component[]{new JSeparator()},
-				new Component[]{new UILabel(Inter.getLocText(new String[]{"Value", "Define"}))},
+				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Value_Define"))},
                 new Component[]{dataPane},
         } ;
 
@@ -176,8 +176,8 @@ public class ChartValuePane extends ChartAxisUsePane<Axis>{
 	// 返回对数相关界面. 百分比 没有此界面.
 	protected JPanel addLogarithmicPane2ValuePane() {
         JPanel labelLogPane = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
-        labelLogPane.add(logBox = new UICheckBox(Inter.getLocText("FR-Designer_Logarithmic")+":"));
-        labelLogPane.add(new UILabel(Inter.getLocText("FR-Designer_Chart_Log_Base")));
+        labelLogPane.add(logBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Logarithmic")+":"));
+        labelLogPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Chart_Log_Base")));
 
         logBaseField = new UITextField(4);
         logBaseField.setText("10");
@@ -226,7 +226,7 @@ public class ChartValuePane extends ChartAxisUsePane<Axis>{
      * @return  返回标题.
 	 */
 	public String title4PopupWindow() {
-		return Inter.getLocText("FR-Designer_Chart_F_Radar_Axis");
+		return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Chart_F_Radar_Axis");
 	}
 	
 	@Override
@@ -335,7 +335,7 @@ public class ChartValuePane extends ChartAxisUsePane<Axis>{
 				new Component[]{new JSeparator()},
 				new Component[]{axisLabelPane},
 				new Component[]{new JSeparator()},
-				new Component[]{new UILabel(Inter.getLocText(new String[]{"Value", "Define"}))},
+				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Value_Define"))},
                 new Component[]{dataPane},
 
         } ;
@@ -360,7 +360,7 @@ public class ChartValuePane extends ChartAxisUsePane<Axis>{
 				new Component[]{new JSeparator()},
 				new Component[]{axisLabelPane},
 				new Component[]{new JSeparator()},
-				new Component[]{new UILabel(Inter.getLocText(new String[]{"Value", "Define"}))},
+				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Value_Define"))},
                 new Component[]{dataPane},
 
         } ;

@@ -4,7 +4,7 @@ import com.fr.base.BaseUtils;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.extra.WebViewDlgHelper;
 import com.fr.design.menu.MenuKeySet;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -36,7 +36,7 @@ public class PluginManagerAction extends UpdateAction {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("FR-Designer-Plugin_Manager");
+            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Manager");
         }
 
         @Override

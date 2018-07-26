@@ -6,7 +6,7 @@ package com.fr.design.style.background.image;
 import com.fr.base.BaseUtils;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.style.ChooseFileView;
-import com.fr.general.Inter;
+
 
 import javax.swing.filechooser.FileFilter;
 import java.awt.Component;
@@ -23,10 +23,10 @@ import java.util.Hashtable;
 public class ImageFileChooser extends ExpandFileChooser {
 
     public ImageFileChooser() {
-        super(Inter.getLocText("FR-Designer_Image_Compress"),Inter.getLocText("FR-Designer_Open"));
+        super(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Image_Compress"),com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Open"));
         ExampleFileFilter bothFilter = new ExampleFileFilter(
                 new String[]{"jpg", "gif", "png", "bmp"},
-                Inter.getLocText("Image-Image_Files"));
+                com.fr.design.i18n.Toolkit.i18nText("Image-Image_Files"));
         bothFilter.setExtensionListInDescription(true);
         this.addChoosableFileFilter(bothFilter);
         this.setAcceptAllFileFilterUsed(false);

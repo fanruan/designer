@@ -9,7 +9,7 @@ import com.fr.design.gui.icombobox.SortOrderComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,7 +38,7 @@ public abstract class SortFormulaPane extends JPanel {
         sortFormulaTextField = new UITextField(16);
         //Lance:添加一公式编辑器按钮
         sortFormulaTextFieldButton = new UIButton("...");
-        sortFormulaTextFieldButton.setToolTipText(Inter.getLocText("Formula") + "...");
+        sortFormulaTextFieldButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Formula") + "...");
         sortFormulaTextFieldButton.setPreferredSize(new Dimension(25, sortFormulaTextFieldButton.getPreferredSize().height));
         sortFormulaTextFieldButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
@@ -46,9 +46,9 @@ public abstract class SortFormulaPane extends JPanel {
             }
         });
 
-        this.add(GUICoreUtils.createFlowPane(new JComponent[]{new UILabel(InsetText), //new UILabel(Inter.getLocText("Select_sort_order") + ":"),
+        this.add(GUICoreUtils.createFlowPane(new JComponent[]{new UILabel(InsetText), //new UILabel(com.fr.design.i18n.Toolkit.i18nText("Select_sort_order") + ":"),
                 sortOrderComboBox, new UILabel(InsetText),
-                new UILabel(Inter.getLocText("Formula") + ":="), sortFormulaTextField, //selectButton,
+                new UILabel(com.fr.design.i18n.Toolkit.i18nText("Formula") + ":="), sortFormulaTextField, //selectButton,
                 sortFormulaTextFieldButton}, FlowLayout.LEFT));
     }
     

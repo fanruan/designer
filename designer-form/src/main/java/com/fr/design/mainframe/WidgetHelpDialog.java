@@ -3,7 +3,7 @@ package com.fr.design.mainframe;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.itextarea.UITextArea;
-import com.fr.general.Inter;
+
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -52,7 +52,7 @@ public class WidgetHelpDialog extends UIDialog {
         contentPane.setLayout(new BorderLayout());
         add(helpArea, BorderLayout.CENTER);
         this.applyClosingAction();
-        this.setTitle(Inter.getLocText("FR-Designer_Help"));
+        this.setTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Help"));
     }
 
     /**

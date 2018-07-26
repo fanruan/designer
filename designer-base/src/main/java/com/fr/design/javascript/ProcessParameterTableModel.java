@@ -12,7 +12,7 @@ import com.fr.design.editor.ValueEditorPane;
 import com.fr.design.editor.ValueEditorPaneFactory;
 import com.fr.design.editor.editor.Editor;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.stable.ParameterProvider;
 import com.fr.stable.project.ProjectConstants;
 
@@ -30,7 +30,7 @@ public class ProcessParameterTableModel extends UITableModelAdapter<ParameterPro
 	private static final long serialVersionUID = 1L;
 
 	public ProcessParameterTableModel() {
-		super(new String[] { Inter.getLocText("Parameter"), Inter.getLocText("Value") });
+		super(new String[] { com.fr.design.i18n.Toolkit.i18nText("Parameter"), com.fr.design.i18n.Toolkit.i18nText("Value") });
 		this.setColumnClass(new Class[] { JLabel.class, ParameterValueEditor.class });
 		this.setDefaultEditor(ParameterValueEditor.class, new ParameterValueEditor());
 		this.setDefaultRenderer(ParameterValueEditor.class, new ParameterValueRenderer());
@@ -102,7 +102,7 @@ public class ProcessParameterTableModel extends UITableModelAdapter<ParameterPro
 		
 		@Override
 		protected String title4PopupWindow() {
-			return Inter.getLocText("Parameter");
+			return com.fr.design.i18n.Toolkit.i18nText("Parameter");
 		}
 		
 		private String getEditFilePath() {
@@ -218,7 +218,7 @@ public class ProcessParameterTableModel extends UITableModelAdapter<ParameterPro
 		private UILabel disableLable;
 
 		public ParameterValueRenderer() {
-			disableLable = new UILabel(Inter.getLocText("Set-Parameter-Name"));
+			disableLable = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Set-Parameter-Name"));
 			disableLable.setHorizontalAlignment(SwingConstants.CENTER);
 		}
 

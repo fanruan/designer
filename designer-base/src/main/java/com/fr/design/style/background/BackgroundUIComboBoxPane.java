@@ -11,7 +11,7 @@ import com.fr.design.style.background.gradient.GradientBackgroundSelectPane;
 import com.fr.design.style.background.image.ImageSelectPane;
 import com.fr.design.style.color.ColorUIComboBoxPane;
 import com.fr.general.Background;
-import com.fr.general.Inter;
+
 
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
@@ -28,10 +28,10 @@ import java.awt.event.ItemListener;
 public class BackgroundUIComboBoxPane extends BasicPane {
     private static final long serialVersionUID = -3751191424737067321L;
 
-    protected static final String none = Inter.getLocText("DataFunction-None");
-    protected static final String color = Inter.getLocText("Colors");
-    protected static final String image = Inter.getLocText("Image");
-    protected static final String gradient = Inter.getLocText("Gradient-Color");
+    protected static final String none = com.fr.design.i18n.Toolkit.i18nText("DataFunction-None");
+    protected static final String color = com.fr.design.i18n.Toolkit.i18nText("Colors");
+    protected static final String image = com.fr.design.i18n.Toolkit.i18nText("Image");
+    protected static final String gradient = com.fr.design.i18n.Toolkit.i18nText("Gradient-Color");
 
     protected CardLayout cardLayout;
     protected JPanel layoutPane;
@@ -61,7 +61,7 @@ public class BackgroundUIComboBoxPane extends BasicPane {
         JPanel northPane = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
         labelPane.add(northPane, BorderLayout.NORTH);
 
-        northPane.add(new UILabel(Inter.getLocText(new String[]{"Background_Settings"}) + ":"));
+        northPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Style_Background_Setting") + ":"));
         northPane.add(selectBox);
 
         cardLayout = new CardLayout();
@@ -161,6 +161,6 @@ public class BackgroundUIComboBoxPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText(new String[]{"Background", "Set"});
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Style_Background_Setting");
     }
 }

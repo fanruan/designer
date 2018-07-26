@@ -8,7 +8,7 @@ import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.form.ui.Widget;
-import com.fr.general.Inter;
+
 
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
@@ -46,7 +46,7 @@ public class WidgetDefinePane extends AbstractDataModify<Widget> {
 
 
     public JPanel createExpandPane(PropertyGroupPane propertyGroupPane) {
-        JPanel jPanel = new UIExpandablePane(Inter.getLocText(propertyGroupPane.getGroupName()), 280, 24, propertyGroupPane);
+        JPanel jPanel = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText(propertyGroupPane.getGroupName()), 280, 24, propertyGroupPane);
         return jPanel;
     }
 

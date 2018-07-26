@@ -5,7 +5,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.file.ConnectionConfig;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,7 +28,7 @@ public class ConnectionManagerPane extends LoadingBasicPane implements Connectio
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("Server-Define_Data_Connection");
+        return com.fr.design.i18n.Toolkit.i18nText("Server-Define_Data_Connection");
     }
 
     public HashMap<String, String> getRenameMap() {

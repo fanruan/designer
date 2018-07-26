@@ -6,7 +6,7 @@ package com.fr.design.actions.file.export;
 import com.fr.base.ExcelUtils;
 import com.fr.design.mainframe.JWorkBook;
 import com.fr.file.filter.ChooseFileFilter;
-import com.fr.general.Inter;
+
 import com.fr.main.TemplateWorkBook;
 
 /**
@@ -26,7 +26,7 @@ public abstract class AbstractExcelExportAction extends AbstractExportAction {
     	if (hasLayerReport(tpl)) {
     		return new ChooseFileFilter(new String[]{"zip"}, "ZIP");
     	} else {
-    		return new ChooseFileFilter(new String[]{"xls", "xlsx"}, Inter.getLocText("Export-Excel"));
+    		return new ChooseFileFilter(new String[]{"xls", "xlsx"}, com.fr.design.i18n.Toolkit.i18nText("Export-Excel"));
     	}
     }
 

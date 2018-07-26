@@ -52,7 +52,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.general.Background;
-import com.fr.general.Inter;
+
 import com.fr.report.core.ReportHF;
 import com.fr.stable.Constants;
 import com.fr.stable.unit.CM;
@@ -100,7 +100,7 @@ public class HeaderFooterEditPane extends JPanel {
 
 		JPanel hfPreviewContentPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		centerPane.add(hfPreviewContentPane, BorderLayout.CENTER);
-		hfPreviewContentPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("Preview"),null));
+		hfPreviewContentPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Preview"),null));
 
 		hfPreviewPane = new HFPreviewPane();
 		scrollPreviewPane = new JScrollPane(hfPreviewPane);
@@ -132,9 +132,9 @@ public class HeaderFooterEditPane extends JPanel {
 		centerHFContainer.setContentChangeListener(contentChangeListener);
 		rightHFContainer.setContentChangeListener(contentChangeListener);
 
-		controlContentPane.add(createContainerSection(Inter.getLocText("HF-Left_Section") + ":", leftHFContainer));
-		controlContentPane.add(createContainerSection(Inter.getLocText("HF-Center_Section") + ":", centerHFContainer));
-		controlContentPane.add(createContainerSection(Inter.getLocText("HF-Right_Section") + ":", rightHFContainer));
+		controlContentPane.add(createContainerSection(com.fr.design.i18n.Toolkit.i18nText("HF-Left_Section") + ":", leftHFContainer));
+		controlContentPane.add(createContainerSection(com.fr.design.i18n.Toolkit.i18nText("HF-Center_Section") + ":", centerHFContainer));
+		controlContentPane.add(createContainerSection(com.fr.design.i18n.Toolkit.i18nText("HF-Right_Section") + ":", rightHFContainer));
 
 		//set current HFContainer
 		setCurrentHFContainer(leftHFContainer);
@@ -160,7 +160,7 @@ public class HeaderFooterEditPane extends JPanel {
 		toolbar.add(this.createHFInsertButton(new NewLineHFElement()));
 		toolbar.addSeparator(separatorDimension);        
 		UIButton customBackgroundButton = new UIButton();
-        customBackgroundButton.setToolTipText(Inter.getLocText("Background"));
+        customBackgroundButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Background"));
 		customBackgroundButton.set4ToolbarButton();
 		customBackgroundButton.setIcon(BaseUtils.readIcon("/com/fr/base/images/dialog/headerfooter/background.png"));
 		toolbar.add(customBackgroundButton);
@@ -180,24 +180,24 @@ public class HeaderFooterEditPane extends JPanel {
 				backgroundDialog.setVisible(true);
 			}
 		});
-		printBackgroundCheckBox = new UICheckBox(Inter.getLocText("ReportGUI-Print_Background"));
+		printBackgroundCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("ReportGUI-Print_Background"));
 		toolbar.add(printBackgroundCheckBox);
 
 		toolbar.addSeparator(separatorDimension);
 		
 		JPanel headerPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
 		headerUnitFieldPane = new AdjustHeightPane();
-		headerPane.add(new UILabel(Inter.getLocText("PageSetup-Header") + ":"));
+		headerPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("PageSetup-Header") + ":"));
 		headerPane.add(headerUnitFieldPane);
 
 		JPanel footerPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
 		footerUnitFieldPane = new AdjustHeightPane();
-		footerPane.add(new UILabel(Inter.getLocText("PageSetup-Footer") + ":"));
+		footerPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("PageSetup-Footer") + ":"));
 		footerPane.add(footerUnitFieldPane);
 
 		JPanel headerFooterPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
 		headFootUnitFieldPane = new AdjustHeightPane();
-		headerFooterPane.add(new UILabel(Inter.getLocText("Height") + ":"));
+		headerFooterPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Height") + ":"));
 		headerFooterPane.add(headFootUnitFieldPane);  
 		
 		toolbar.add(headerFooterPane);
@@ -634,11 +634,11 @@ public class HeaderFooterEditPane extends JPanel {
 
 		private void setUnitType(int unitType) {
 			if (unitType == Constants.UNIT_CM) {
-				unitLabel.setText(Inter.getLocText("Unit_CM"));
+				unitLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Unit_CM"));
 			} else if (unitType == Constants.UNIT_INCH) {
-				unitLabel.setText(Inter.getLocText("PageSetup-inches"));
+				unitLabel.setText(com.fr.design.i18n.Toolkit.i18nText("PageSetup-inches"));
 			} else {
-				unitLabel.setText(Inter.getLocText("PageSetup-mm"));
+				unitLabel.setText(com.fr.design.i18n.Toolkit.i18nText("PageSetup-mm"));
 			}
 
 			//ajust the heigt of unitLabel.

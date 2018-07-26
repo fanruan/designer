@@ -17,7 +17,7 @@ import com.fr.design.mainframe.widget.editors.DictionaryEditor;
 import com.fr.design.mainframe.widget.editors.WidgetValueEditor;
 import com.fr.design.mainframe.widget.renderer.DictionaryRenderer;
 import com.fr.form.ui.ComboBox;
-import com.fr.general.Inter;
+
 import com.fr.stable.ArrayUtils;
 
 /**
@@ -40,8 +40,8 @@ public class XComboBox extends XCustomWriteAbleRepeatEditor {
     public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
         return (CRPropertyDescriptor[]) ArrayUtils.addAll(
 				new CRPropertyDescriptor[]{
-						new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(Inter.getLocText(new String[]{"Widget", "Value"})).setEditorClass(WidgetValueEditor.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
-						new CRPropertyDescriptor("dictionary", this.data.getClass()).setI18NName(Inter.getLocText("FR-Designer_DS-Dictionary")).setEditorClass(DictionaryEditor.class).setRendererClass(DictionaryRenderer.class)
+						new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Value")).setEditorClass(WidgetValueEditor.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+						new CRPropertyDescriptor("dictionary", this.data.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_DS-Dictionary")).setEditorClass(DictionaryEditor.class).setRendererClass(DictionaryRenderer.class)
 								.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
 				}, super.supportedDescriptor());
     }

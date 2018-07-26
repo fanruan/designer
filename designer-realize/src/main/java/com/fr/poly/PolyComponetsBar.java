@@ -10,7 +10,7 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.itooltip.MultiLineToolTip;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.dnd.SerializableTransferable;
-import com.fr.general.Inter;
+
 import com.fr.report.poly.PolyECBlock;
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
@@ -38,11 +38,11 @@ public class PolyComponetsBar extends JToolBar {
 		setLayout(FRGUIPaneFactory.create1ColumnGridLayout());
         int typeLen = typeName.length < MAX_BAR_NUM ? typeName.length : MAX_BAR_NUM;
 		serIcons = new SerIcon[typeLen + 1];
-		serIcons[0] = new SerIcon(PolyECBlock.class, Inter.getLocText("Poly-Report_Block"), "Poly-Report_Block");
+		serIcons[0] = new SerIcon(PolyECBlock.class, com.fr.design.i18n.Toolkit.i18nText("Poly-Report_Block"), "Poly-Report_Block");
 		this.add(serIcons[0]);
 		for (int i = 0; i < typeLen; i++) {
 			BaseChart[] rowChart = BaseChartGetter.getStaticChartTypes(typeName[i].getPlotID());
-			serIcons[i + 1] = new SerIcon(rowChart[0], Inter.getLocText(typeName[i].getName()), typeName[i].getName());
+			serIcons[i + 1] = new SerIcon(rowChart[0], com.fr.design.i18n.Toolkit.i18nText(typeName[i].getName()), typeName[i].getName());
 			this.add(serIcons[i + 1]);
 		}
 

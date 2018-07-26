@@ -7,7 +7,7 @@ import com.fr.design.gui.frpane.UICorrelationPane;
 import com.fr.design.gui.itable.UITable;
 import com.fr.design.gui.itable.UITableEditor;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
-import com.fr.general.Inter;
+
 
 import javax.swing.event.ChangeEvent;
 import java.util.ArrayList;
@@ -21,14 +21,14 @@ import java.util.List;
  */
 public class GanttPlotReportDataContentPane extends AbstractReportDataContentPane {
 
-	private static final String STEP = Inter.getLocText("ChartF-Step");
-	private static final String START = Inter.getLocText("ChartF-PlansToBegin");
-	private static final String END = Inter.getLocText("ChartF-EndOfTheProject");
+	private static final String STEP = com.fr.design.i18n.Toolkit.i18nText("ChartF-Step");
+	private static final String START = com.fr.design.i18n.Toolkit.i18nText("ChartF-PlansToBegin");
+	private static final String END = com.fr.design.i18n.Toolkit.i18nText("ChartF-EndOfTheProject");
 	
-	private static final String RESTART = Inter.getLocText("ChartF-TheActualStart");
-	private static final String REEND = Inter.getLocText("ChartF-TheActualEnd");
-	private static final String PERCENT = Inter.getLocText("StyleFormat-Percent");
-	private static final String PRO = Inter.getLocText("Chart_Project");
+	private static final String RESTART = com.fr.design.i18n.Toolkit.i18nText("ChartF-TheActualStart");
+	private static final String REEND = com.fr.design.i18n.Toolkit.i18nText("ChartF-TheActualEnd");
+	private static final String PERCENT = com.fr.design.i18n.Toolkit.i18nText("StyleFormat-Percent");
+	private static final String PRO = com.fr.design.i18n.Toolkit.i18nText("Chart_Project");
 	
 	public GanttPlotReportDataContentPane(ChartDataPane parent) {
 		initEveryPane();

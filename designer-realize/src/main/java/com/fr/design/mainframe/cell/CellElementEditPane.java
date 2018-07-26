@@ -12,7 +12,7 @@ import com.fr.design.mainframe.cell.settingpane.*;
 import com.fr.design.utils.DesignUtils;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.Selection;
 import com.fr.report.cell.CellElement;
@@ -132,9 +132,9 @@ public class CellElementEditPane extends BasicPane {
     AttributeChangeListener listener = new AttributeChangeListener() {
         @Override
         public void attributeChange() {
-            boolean isChooseFatherPane = ComparatorUtils.equals(paneList.get(tabsHeaderIconPane.getSelectedIndex()).getGlobalName(), Inter.getLocText("FR-Designer_LeftParent")) ||
-                    ComparatorUtils.equals(paneList.get(tabsHeaderIconPane.getSelectedIndex()).getGlobalName(), Inter.getLocText("FR-Designer_ExpandD_Up_Father_Cell"));
-            boolean isChooseExpandPane = ComparatorUtils.equals(paneList.get(tabsHeaderIconPane.getSelectedIndex()).getGlobalName(), Inter.getLocText("FR-Designer_ExpandD_Expand_Direction"));
+            boolean isChooseFatherPane = ComparatorUtils.equals(paneList.get(tabsHeaderIconPane.getSelectedIndex()).getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_LeftParent")) ||
+                    ComparatorUtils.equals(paneList.get(tabsHeaderIconPane.getSelectedIndex()).getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_ExpandD_Up_Father_Cell"));
+            boolean isChooseExpandPane = ComparatorUtils.equals(paneList.get(tabsHeaderIconPane.getSelectedIndex()).getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_ExpandD_Expand_Direction"));
             if (isChooseExpandPane || isChooseFatherPane) {
                 ePane.setSupportDefaultParentCalculate(true);
             }
@@ -149,7 +149,7 @@ public class CellElementEditPane extends BasicPane {
                     ePane.fireTargetModified();
                 }
             } else {
-                DesignUtils.errorMessage(Inter.getLocText(new String[]{"FR-Designer_Not_use_a_cell_attribute_table_editing", "FR-Designer_Float_Element"}) + "!");
+                DesignUtils.errorMessage(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"FR-Designer_Not_use_a_cell_attribute_table_editing", "FR-Designer_Float_Element"}) + "!");
             }
             ePane.setSupportDefaultParentCalculate(false);
         }
@@ -170,7 +170,7 @@ public class CellElementEditPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("FR-Designer_CellElement_Property_Table");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_CellElement_Property_Table");
     }
 
     @Override

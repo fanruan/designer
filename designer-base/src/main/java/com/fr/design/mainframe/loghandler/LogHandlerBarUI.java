@@ -14,7 +14,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JComponent;
 import javax.swing.plaf.ComponentUI;
 
-import com.fr.general.Inter;
+
 
 public class LogHandlerBarUI extends ComponentUI implements MouseListener, FocusListener {
 	private static final Color DEFAULT_FOREGROUND = new Color(0, 0, 0);
@@ -100,9 +100,9 @@ public class LogHandlerBarUI extends ComponentUI implements MouseListener, Focus
 			g.drawString(button.getText(), textLeadingGap, y);
 		}
 
-		g.drawString(Inter.getLocText("NNormal") + '(' + button.getInfo() + ')', button.getWidth() - 310, y);
-		g.drawString(Inter.getLocText("Alert") + '(' + button.getError() + ')', button.getWidth() - 250, y);
-		g.drawString(Inter.getLocText("Seriously") + '(' + button.getServer() + ')', button.getWidth() - 190, y);
+		g.drawString(com.fr.design.i18n.Toolkit.i18nText("NNormal") + '(' + button.getInfo() + ')', button.getWidth() - 310, y);
+		g.drawString(com.fr.design.i18n.Toolkit.i18nText("Alert") + '(' + button.getError() + ')', button.getWidth() - 250, y);
+		g.drawString(com.fr.design.i18n.Toolkit.i18nText("Seriously") + '(' + button.getServer() + ')', button.getWidth() - 190, y);
 	}
 
     /**

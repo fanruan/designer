@@ -6,7 +6,7 @@ import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UINumberField;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 import com.fr.js.Hyperlink;
 
 import javax.swing.*;
@@ -46,18 +46,18 @@ public abstract class AbstractHyperNorthPane<T extends Hyperlink> extends BasicB
             }
         });
         JPanel targetFramePanel = new JPanel();
-        targetFramePanel.add(new UILabel(Inter.getLocText("Hyperlink-Link_Opened_in")));
+        targetFramePanel.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Hyperlink-Link_Opened_in")));
         targetFramePanel.add(targetFrameComboBox);
         targetFrameComboBox.setEditable(true);
         targetFrameComboBox.setPreferredSize(new Dimension(100, 20));
 
         final JPanel newWindowConfPane = new JPanel();
-        newWindowConfPane.add(new UILabel(Inter.getLocText("FR-Designer_Height") + ": "));
+        newWindowConfPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Height") + ": "));
         heightTextFiled = new UINumberField();
         heightTextFiled.setText(String.valueOf(DEFAULT_H_VALUE));
         heightTextFiled.setPreferredSize(new Dimension(40, 20));
         newWindowConfPane.add(heightTextFiled);
-        newWindowConfPane.add(new UILabel("  " + Inter.getLocText("FR-Designer_Width") + ": "));
+        newWindowConfPane.add(new UILabel("  " + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Width") + ": "));
         widthTextFiled = new UINumberField();
         widthTextFiled.setText(String.valueOf(DEFAULT_V_VALUE));
         widthTextFiled.setPreferredSize(new Dimension(40, 20));
@@ -80,7 +80,7 @@ public abstract class AbstractHyperNorthPane<T extends Hyperlink> extends BasicB
     }
 
     protected String[] getTargetFrames() {
-        return new String[]{Inter.getLocText("Hyperlink-New_Window"), Inter.getLocText("FR-Hyperlink_Dialog"), Inter.getLocText("Hyperlink-Self_Window")};
+        return new String[]{com.fr.design.i18n.Toolkit.i18nText("Hyperlink-New_Window"), com.fr.design.i18n.Toolkit.i18nText("FR-Hyperlink_Dialog"), com.fr.design.i18n.Toolkit.i18nText("Hyperlink-Self_Window")};
     }
 
     protected abstract JPanel setHeaderPanel();

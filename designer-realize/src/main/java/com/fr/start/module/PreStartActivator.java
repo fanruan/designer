@@ -1,11 +1,11 @@
 package com.fr.start.module;
 
-import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.RestartHelper;
 import com.fr.design.utils.DesignUtils;
 import com.fr.general.CloudCenter;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.GeneralContext;
 import com.fr.module.Activator;
 import com.fr.stable.ProductConstants;
 
@@ -64,7 +64,7 @@ public class PreStartActivator extends Activator {
 
     private void initLanguage() {
         //这两句的位置不能随便调换，因为会影响语言切换的问题
-        FRContext.setLanguage(DesignerEnvManager.getEnvManager(false).getLanguage());
+        GeneralContext.setLocale(DesignerEnvManager.getEnvManager(false).getLocale());
     }
 
     @Override

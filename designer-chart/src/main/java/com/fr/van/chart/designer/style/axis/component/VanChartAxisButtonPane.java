@@ -8,7 +8,7 @@ import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.VanChartAttrHelper;
 import com.fr.plugin.chart.attr.axis.VanChartAxis;
 import com.fr.plugin.chart.attr.plot.VanChartAxisPlot;
@@ -105,7 +105,7 @@ public class VanChartAxisButtonPane extends BasicBeanPane<VanChartAxisPlot> {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("FR-Chart-Types_Switch");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Types_Switch");
     }
 
     @Override

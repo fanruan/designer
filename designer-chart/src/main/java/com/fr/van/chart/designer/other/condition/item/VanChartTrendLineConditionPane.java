@@ -2,7 +2,7 @@ package com.fr.van.chart.designer.other.condition.item;
 
 import com.fr.chart.base.DataSeriesCondition;
 import com.fr.design.condition.ConditionAttributesPane;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.base.VanChartAttrTrendLine;
 import com.fr.van.chart.designer.component.VanChartTrendLinePane;
 
@@ -16,7 +16,7 @@ public class VanChartTrendLineConditionPane extends AbstractNormalMultiLineCondi
 
     @Override
     protected String getItemLabelString() {
-        return Inter.getLocText("Chart-Trend_Line");
+        return com.fr.design.i18n.Toolkit.i18nText("Chart-Trend_Line");
     }
 
     @Override
@@ -34,7 +34,7 @@ public class VanChartTrendLineConditionPane extends AbstractNormalMultiLineCondi
      * @return item的名称
      */
     public String nameForPopupMenuItem() {
-        return Inter.getLocText("Chart-Trend_Line");
+        return com.fr.design.i18n.Toolkit.i18nText("Chart-Trend_Line");
     }
 
     @Override

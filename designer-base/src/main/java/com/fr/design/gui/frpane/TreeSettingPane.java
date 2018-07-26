@@ -16,7 +16,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.form.ui.TreeComboBoxEditor;
 import com.fr.form.ui.TreeEditor;
 import com.fr.form.ui.tree.LayerConfig;
-import com.fr.general.Inter;
+
 import com.fr.general.NameObject;
 
 import javax.swing.*;
@@ -42,8 +42,8 @@ public class TreeSettingPane extends BasicPane implements DataCreatorUI {
 	 */
 	private static final long serialVersionUID = 1762889323082827111L;
 
-	private String[] buildWay = new String[]{Inter.getLocText("FR-Designer_DataTable-Build"),
-		Inter.getLocText("FR-Designer_Auto-Build"), Inter.getLocText("FR-Designer_Layer-Build")};
+	private String[] buildWay = new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Designer_DataTable-Build"),
+		com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Auto-Build"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Layer-Build")};
 
 	public TreeSettingPane(boolean isEditor) {
 		this.initComponents(isEditor);
@@ -53,7 +53,7 @@ public class TreeSettingPane extends BasicPane implements DataCreatorUI {
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
 		JPanel buildWayPanel= FRGUIPaneFactory.createMediumHGapFlowInnerContainer_M_Pane();
 		buildWayPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		UILabel buildWayLabel = new UILabel(Inter.getLocText("FR-Designer_Build-Way") + " ：");
+		UILabel buildWayLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Build-Way") + " ：");
 		buildWayPanel.add(buildWayLabel);
 		buildBox = new UIComboBox(buildWay);
 		buildBox.addItemListener(new ItemListener() {
@@ -99,7 +99,7 @@ public class TreeSettingPane extends BasicPane implements DataCreatorUI {
 
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("FR-Designer_Create_Tree");
+		return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Create_Tree");
 	}
 
 	@Override
@@ -108,7 +108,7 @@ public class TreeSettingPane extends BasicPane implements DataCreatorUI {
 	}
 
 	NameableCreator treeNode = new NameObjectCreator(
-		Inter.getLocText("FR-Designer_Gradation"),
+		com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Gradation"),
 		"/com/fr/design/images/data/source/jdbcTableData.png",
 		TreeNodeAttr.class);
 

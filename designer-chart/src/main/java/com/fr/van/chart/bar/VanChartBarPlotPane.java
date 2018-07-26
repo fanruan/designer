@@ -3,7 +3,7 @@ package com.fr.van.chart.bar;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.bar.BarIndependentVanChart;
 import com.fr.plugin.chart.column.VanChartColumnPlot;
 import com.fr.van.chart.designer.type.AbstractVanChartTypePane;
@@ -12,7 +12,7 @@ import com.fr.van.chart.designer.type.AbstractVanChartTypePane;
  * Created by Mitisky on 15/10/20.
  */
 public class VanChartBarPlotPane extends AbstractVanChartTypePane {
-    public static final String TITLE = Inter.getLocText("Plugin-ChartF_NewBar");
+    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewBar");
 
     private static final long serialVersionUID = 2879689884048643002L;
 
@@ -27,14 +27,14 @@ public class VanChartBarPlotPane extends AbstractVanChartTypePane {
 
     @Override
     protected String[] getTypeTipName() {
-        String bar = Inter.getLocText("FR-Chart-Type_Bar");
-        String stack = Inter.getLocText("FR-Chart-Type_Stacked");
-        String percent = Inter.getLocText("FR-Chart-Use_Percent");
+        String bar = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Bar");
+        String stack = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Stacked");
+        String percent = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Use_Percent");
         return new String[]{
                 bar,
                 stack + bar,
                 percent + stack + bar,
-                Inter.getLocText("FR-Chart-Mode_Custom")
+                com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Mode_Custom")
         };
     }
 
@@ -43,7 +43,7 @@ public class VanChartBarPlotPane extends AbstractVanChartTypePane {
      * @return 界面标题
      */
     public String title4PopupWindow() {
-        return Inter.getLocText("Plugin-ChartF_NewBar");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewBar");
     }
 
 

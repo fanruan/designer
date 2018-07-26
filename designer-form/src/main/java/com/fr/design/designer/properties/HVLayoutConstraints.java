@@ -6,7 +6,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
-import com.fr.general.Inter;
+
 import com.fr.design.mainframe.widget.editors.IntegerPropertyEditor;
 import com.fr.design.mainframe.widget.editors.PropertyCellEditor;
 import com.fr.design.designer.beans.ConstraintsGroupModel;
@@ -33,7 +33,7 @@ public abstract class HVLayoutConstraints implements ConstraintsGroupModel {
 
     @Override
     public String getGroupName() {
-        return Inter.getLocText("Layout_Constraints");
+        return com.fr.design.i18n.Toolkit.i18nText("Layout_Constraints");
     }
 
     @Override

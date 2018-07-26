@@ -13,7 +13,7 @@ import com.fr.design.formula.TinyFormulaPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.ChartDataFilterPane;
-import com.fr.general.Inter;
+
 import com.fr.stable.StringUtils;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 
@@ -54,7 +54,7 @@ public class CategoryPlotMoreCateReportDataContentPane extends CategoryPlotRepor
 
 	public CategoryPlotMoreCateReportDataContentPane(ChartDataPane parent) {
 		initEveryPane();
-		categoryName = initCategoryBox(Inter.getLocText("FR-Chart-Category_Name"));
+		categoryName = initCategoryBox(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Category_Name"));
 
 		JPanel catePane = new JPanel();
 		catePane.setLayout(new BorderLayout(2, 2));
@@ -76,7 +76,7 @@ public class CategoryPlotMoreCateReportDataContentPane extends CategoryPlotRepor
 
 		this.add(catePane, "0,0,2,0");
 		filterPane = new ChartDataFilterPane(new Bar2DPlot(), parent);
-		JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Chart-Data_Filter"),filterPane);
+		JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_Filter"),filterPane);
 		panel.setBorder(getSidesBorder());
 		filterPane.setBorder(getFilterPaneBorder());
 		this.add(panel, "0,6,2,4");

@@ -11,7 +11,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.form.event.Listener;
-import com.fr.general.Inter;
+
 import com.fr.report.web.Location;
 import com.fr.report.web.ToolBarManager;
 import com.fr.report.web.WebContent;
@@ -30,12 +30,12 @@ import java.util.List;
 public class ViewToolBarPane extends AbstractEditToolBarPane {
 	private EventPane eventPane;
 	
-	private UICheckBox isUseToolBarCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Use_ToolBar"));
-	private UIButton editToolBarButton = new UIButton(Inter.getLocText("FR-Designer_Edit"));
-	private UILabel showListenersLabel = new UILabel(Inter.getLocText("Form-Editing_Listeners") + ":");
-	private UICheckBox sortCheckBox = new UICheckBox(Inter.getLocText("FR-Engine-Sort_Sort"));
-	private UICheckBox conditonFilterBox = new UICheckBox(Inter.getLocText("FR-Engine-Selection_Filter"));
-	private UICheckBox listFilterBox = new UICheckBox(Inter.getLocText("FR-Engine-List_Filter"));
+	private UICheckBox isUseToolBarCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Use_ToolBar"));
+	private UIButton editToolBarButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit"));
+	private UILabel showListenersLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Form-Editing_Listeners") + ":");
+	private UICheckBox sortCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Engine-Sort_Sort"));
+	private UICheckBox conditonFilterBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Engine-Selection_Filter"));
+	private UICheckBox listFilterBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Engine-List_Filter"));
 	
 	public ViewToolBarPane() {
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
@@ -84,7 +84,7 @@ public class ViewToolBarPane extends AbstractEditToolBarPane {
 	
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("M-Data_Analysis_Settings");
+		return com.fr.design.i18n.Toolkit.i18nText("M-Data_Analysis_Settings");
 	}
 
 	@Override

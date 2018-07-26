@@ -13,7 +13,7 @@ import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.gui.frpane.UIComboBoxPane;
 import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.mainframe.chart.gui.data.DataContentsPane;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -87,7 +87,7 @@ public class MapDataPane extends DataContentsPane {
 					protected void initLayout() {
 						this.setLayout(new BorderLayout(0, 6));
 						JPanel northPane = new JPanel(new FlowLayout(FlowLayout.LEFT));
-						northPane.add(new BoldFontTextLabel(Inter.getLocText("FR-Chart-Map_ShowWay") + ":"));
+						northPane.add(new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Map_ShowWay") + ":"));
 						northPane.add(jcb);
 						this.add(northPane, BorderLayout.NORTH);
 						this.add(cardPane, BorderLayout.CENTER);
@@ -99,7 +99,7 @@ public class MapDataPane extends DataContentsPane {
 						return list;
 					}
 					protected String title4PopupWindow() {
-						return Inter.getLocText(new String[]{"Chart-Map", "Data"});
+						return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Map_Data");
 					}
 				};
 				pane.add(mainPane, BorderLayout.CENTER);
@@ -127,7 +127,7 @@ public class MapDataPane extends DataContentsPane {
      * @return 标题
      */
 	public String title4PopupWindow() {
-		return Inter.getLocText(new String[]{"Chart-Map", "Data"});
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Map_Data");
 	}
 
 	@Override

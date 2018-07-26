@@ -10,7 +10,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.form.ui.Widget;
-import com.fr.general.Inter;
+
 import com.fr.report.web.Location;
 import com.fr.report.web.ToolBarManager;
 import com.fr.stable.ArrayUtils;
@@ -37,7 +37,7 @@ public class ToolBarDragPane extends WidgetToolBarPane {
 	private int row = 7;
 	private DefaultTableModel toolbarButtonTableModel;
 	private JTable layoutTable;
-	private UICheckBox isUseToolBarCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Use_ToolBar") + ":"); // 是否使用工具栏
+	private UICheckBox isUseToolBarCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Use_ToolBar") + ":"); // 是否使用工具栏
 	private boolean isEnabled;
 
 	public ToolBarDragPane() {
@@ -49,7 +49,7 @@ public class ToolBarDragPane extends WidgetToolBarPane {
 		toolbarButtonTableModel = new TableModel(row ,COLUMN);
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
 		JPanel north = FRGUIPaneFactory.createBorderLayout_S_Pane();
-		UIButton defaultButton = new UIButton(Inter.getLocText("FR-Designer_Restore_Default"));
+		UIButton defaultButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Restore_Default"));
 		// 恢复默认按钮
 		defaultButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -98,7 +98,7 @@ public class ToolBarDragPane extends WidgetToolBarPane {
 					northToolBar.validate();
 					northToolBar.repaint();
 				} else {
-					JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("FR-Designer_ChooseOneButton"));
+					JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_ChooseOneButton"));
 				}
 			}
 		});
@@ -122,7 +122,7 @@ public class ToolBarDragPane extends WidgetToolBarPane {
 					southToolBar.validate();
 					southToolBar.repaint();
 				} else {
-					JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("FR-Designer_ChooseOneButton"));
+					JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_ChooseOneButton"));
 				}
 			}
 		});
@@ -143,13 +143,13 @@ public class ToolBarDragPane extends WidgetToolBarPane {
 		southToolBar.setBackground(Color.lightGray);
 		JPanel movePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		JPanel northContentPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-		SettingToolBar top = new SettingToolBar(Inter.getLocText("FR-Designer_ToolBar_Top"), northToolBar);
+		SettingToolBar top = new SettingToolBar(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_ToolBar_Top"), northToolBar);
 		northContentPane.add(top, BorderLayout.EAST);
 		northContentPane.add(northToolBar, BorderLayout.CENTER);
 		northContentPane.setBackground(Color.lightGray);
 
 		JPanel southContentPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-		SettingToolBar bottom = new SettingToolBar(Inter.getLocText("FR-Designer_ToolBar_Bottom"), southToolBar);
+		SettingToolBar bottom = new SettingToolBar(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_ToolBar_Bottom"), southToolBar);
 		southContentPane.add(bottom, BorderLayout.EAST);
 		southContentPane.add(southToolBar, BorderLayout.CENTER);
 		southContentPane.setBackground(Color.lightGray);
@@ -169,7 +169,7 @@ public class ToolBarDragPane extends WidgetToolBarPane {
 		layoutTable.setColumnSelectionAllowed(false);
 		layoutTable.setRowSelectionAllowed(false);
 		layoutTable.setBackground(Color.WHITE);
-		int columnWidth = Integer.parseInt(Inter.getLocText("FR-Designer_LayoutTable_Column_Width"));
+		int columnWidth = Integer.parseInt(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_LayoutTable_Column_Width"));
 		for (int i = 0; i < layoutTable.getColumnModel().getColumnCount(); i++) {
 			layoutTable.getColumnModel().getColumn(i).setPreferredWidth(columnWidth);
 		}
@@ -256,7 +256,7 @@ public class ToolBarDragPane extends WidgetToolBarPane {
 
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText(new String[]{"ReportServerP-Toolbar", "Set"});
+		return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"ReportServerP-Toolbar", "Set"});
 	}
 
 	public void setCheckBoxSelected(boolean b) {

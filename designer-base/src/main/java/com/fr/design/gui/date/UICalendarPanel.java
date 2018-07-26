@@ -8,7 +8,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUIPaintUtils;
-import com.fr.general.Inter;
+
 import com.fr.stable.Constants;
 import com.fr.stable.StringUtils;
 
@@ -45,8 +45,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class UICalendarPanel extends JPanel {
-    private static final Font FONT_SONG = new Font(Inter.getLocText("Song_TypeFace"),0,12);
-    private static final Font FONT_BLACK = new Font(Inter.getLocText("Black_Font"),0,12);
+    private static final Font FONT_SONG = new Font(com.fr.design.i18n.Toolkit.i18nText("Song_TypeFace"),0,12);
+    private static final Font FONT_BLACK = new Font(com.fr.design.i18n.Toolkit.i18nText("Black_Font"),0,12);
     private static final int WEEKDAY_COUNT = 7;
     private static final int TOTAL_DAYS_COUNT = 42;
 
@@ -161,9 +161,9 @@ public class UICalendarPanel extends JPanel {
         pWeeks.setPreferredSize(new Dimension(216, 22));
         pWeeks.setBackground(new Color(0xFFFFFF));
         pWeeks.setOpaque(true);
-        String[] strWeeks = new String[] {StringUtils.EMPTY, Inter.getLocText("Sun"), Inter.getLocText("Mon"),
-                Inter.getLocText("Tue"),Inter.getLocText("Wed"),Inter.getLocText("Thu"),
-                Inter.getLocText("Fri"),Inter.getLocText("Sat")
+        String[] strWeeks = new String[] {StringUtils.EMPTY, com.fr.design.i18n.Toolkit.i18nText("Sun"), com.fr.design.i18n.Toolkit.i18nText("Mon"),
+                com.fr.design.i18n.Toolkit.i18nText("Tue"),com.fr.design.i18n.Toolkit.i18nText("Wed"),com.fr.design.i18n.Toolkit.i18nText("Thu"),
+                com.fr.design.i18n.Toolkit.i18nText("Fri"),com.fr.design.i18n.Toolkit.i18nText("Sat")
         };
         for (int i = 1; i <= WEEKDAY_COUNT; i++) {
             UILabel label = new UILabel();
@@ -202,7 +202,7 @@ public class UICalendarPanel extends JPanel {
         sPane.setPreferredSize(new Dimension(216, 30));
         sPane.setBackground(Color.WHITE);
         sPane.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 6));
-        UILabel timeLabel = new UILabel(Inter.getLocText("Time") + ":");
+        UILabel timeLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Time") + ":");
         timeLabel.setBorder(BorderFactory.createEmptyBorder(0,9,0,5));
         timeLabel.setFont(FONT_SONG);
         sPane.add(timeLabel);
@@ -213,7 +213,7 @@ public class UICalendarPanel extends JPanel {
         gap.setPreferredSize(new Dimension(26,1));
         sPane.add(gap);
 
-        UIButton okButton = new UIButton(Inter.getLocText("OK")) {
+        UIButton okButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("OK")) {
             public Dimension getPreferredSize() {
                 return new Dimension(32,18);
             }

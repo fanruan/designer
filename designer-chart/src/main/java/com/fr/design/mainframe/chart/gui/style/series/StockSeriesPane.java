@@ -8,7 +8,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.style.ChartFillStylePane;
-import com.fr.general.Inter;
+
 import com.fr.stable.CoreConstants;
 import com.fr.design.style.color.ColorSelectBox;
 
@@ -49,17 +49,17 @@ public class StockSeriesPane extends AbstractPlotSeriesPane {
 		double[] columnSize = { p,f };
 		double[] rowSize = { p,p,p,p,p,p,p,p,p};
         Component[][] components = new Component[][]{
-        		new Component[]{new BoldFontTextLabel(Inter.getLocText("UpBarBorderStyleAndColor")), null},
-        		new Component[]{new BoldFontTextLabel(Inter.getLocText(new String[]{"Border", "Line-Style"})), upLineBox},
-        		new Component[]{new BoldFontTextLabel(Inter.getLocText("Border-Color")), upBorderColor},
-        		new Component[]{new BoldFontTextLabel(Inter.getLocText(new String[]{"Background", "Color"})), upBackColor},
+        		new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("UpBarBorderStyleAndColor")), null},
+        		new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Border_Line_Style")), upLineBox},
+        		new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Border-Color")), upBorderColor},
+        		new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Border_Line_Style")), upBackColor},
         		
                 new Component[]{new JSeparator(),null},
                 
-            	new Component[]{new BoldFontTextLabel(Inter.getLocText("DownBarBorderStyleAndColor")), null},
-        		new Component[]{new BoldFontTextLabel(Inter.getLocText(new String[]{"Border", "Line-Style"})), downLineBox},
-        		new Component[]{new BoldFontTextLabel(Inter.getLocText("Border-Color")), downBorderColor},
-        		new Component[]{new BoldFontTextLabel(Inter.getLocText(new String[]{"Background", "Color"})), downBackColor},
+            	new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("DownBarBorderStyleAndColor")), null},
+        		new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Border_Line_Style")), downLineBox},
+        		new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Border-Color")), downBorderColor},
+        		new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Border_Line_Style")), downBackColor},
                 
         } ;
         JPanel pane = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);

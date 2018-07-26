@@ -18,7 +18,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.ElementCasePane;
-import com.fr.general.Inter;
+
 import com.fr.general.data.TableDataColumn;
 import com.fr.report.cell.CellElement;
 import com.fr.report.cell.TemplateCellElement;
@@ -153,8 +153,8 @@ public class SelectedDataColumnPane extends BasicPane {
         };
         columnNameComboBox.setEditable(true);
         double p = TableLayout.PREFERRED;
-        UILabel dsLabel = new UILabel(Inter.getLocText("TableData") + ":");
-        UILabel dcLabel = new UILabel(Inter.getLocText("DataColumn") + ":");
+        UILabel dsLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("TableData") + ":");
+        UILabel dcLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("DataColumn") + ":");
         if (showParameterButton) {
             dsLabel.setPreferredSize(new Dimension(200, 25));
             dcLabel.setPreferredSize(new Dimension(200, 25));
@@ -193,9 +193,9 @@ public class SelectedDataColumnPane extends BasicPane {
         columnNameComboBox.setEditable(true);
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
-        UILabel dsLabel = new UILabel(Inter.getLocText("TableData"));
-        UILabel dpLabel = new UILabel(Inter.getLocText("FR-Designer_Dynamic_Parameter"));
-        UILabel dcLabel = new UILabel(Inter.getLocText("DataColumn"));
+        UILabel dsLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("TableData"));
+        UILabel dpLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Dynamic_Parameter"));
+        UILabel dcLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("DataColumn"));
         dsLabel.setPreferredSize(new Dimension(60, 20));
         dpLabel.setPreferredSize(new Dimension(60, 20));
         dcLabel.setPreferredSize(new Dimension(60, 20));
@@ -342,7 +342,7 @@ public class SelectedDataColumnPane extends BasicPane {
 
     private void initParameterButton() {
         editorPane = new UITableEditorPane<>(new ParameterTableModel());
-        paramButton = new UIButton(Inter.getLocText("TableData_Dynamic_Parameter_Setting"));
+        paramButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("TableData_Dynamic_Parameter_Setting"));
         paramButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 BasicDialog paramDialog = editorPane.showSmallWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
@@ -361,7 +361,7 @@ public class SelectedDataColumnPane extends BasicPane {
 
     private void initVerticalParameterButton() {
         editorPane = new UITableEditorPane<>(new ParameterTableModel());
-        paramButton = new UIButton(Inter.getLocText("FR-Designer-Basic_Dynamic_Parameter_Injection"));
+        paramButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Basic_Dynamic_Parameter_Injection"));
         paramButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

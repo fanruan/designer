@@ -1,7 +1,7 @@
 package com.fr.design.extra;
 
 import com.fr.design.dialog.BasicPane;
-import com.fr.general.Inter;
+
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -26,6 +26,6 @@ public class ShopManagerPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("FR-Designer-Plugin_Manager");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Manager");
     }
 }

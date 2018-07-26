@@ -13,7 +13,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.widget.mobile.WidgetMobilePane;
 import com.fr.form.ui.MultiFileEditor;
 import com.fr.form.ui.Widget;
-import com.fr.general.Inter;
+
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -26,8 +26,8 @@ import java.awt.Component;
  */
 public class MultiFileEditorMobilePane extends WidgetMobilePane {
     private static final Item[] ITEMS = {
-            new Item(Inter.getLocText("FR-Designer_Take_Photos_And_Choose_From_Album"), FileUploadModeState.TAKE_PHOTOS_AND_CHOOSE_FROM_ALBUM),
-            new Item(Inter.getLocText("FR-Designer_Only_Take_Photos"), FileUploadModeState.ONLY_TAKE_PHOTOS)
+            new Item(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Take_Photos_And_Choose_From_Album"), FileUploadModeState.TAKE_PHOTOS_AND_CHOOSE_FROM_ALBUM),
+            new Item(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Only_Take_Photos"), FileUploadModeState.ONLY_TAKE_PHOTOS)
     };
 
     private UIComboBox uploadModeComboBox;// 上传方式下拉框
@@ -62,7 +62,7 @@ public class MultiFileEditorMobilePane extends WidgetMobilePane {
 
         // 以后可能会扩展
         Component[][] components = new Component[][]{
-                new Component[] {new UILabel(Inter.getLocText("FR-Designer_Upload_Mode"), SwingConstants.LEFT), uploadModeComboBox}
+                new Component[] {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Upload_Mode"), SwingConstants.LEFT), uploadModeComboBox}
         };
 
         double f = TableLayout.FILL;
@@ -75,7 +75,7 @@ public class MultiFileEditorMobilePane extends WidgetMobilePane {
         final JPanel panelWrapper = FRGUIPaneFactory.createBorderLayout_S_Pane();
         panelWrapper.add(panel, BorderLayout.NORTH);
 
-        return new UIExpandablePane(Inter.getLocText("FR-Designer_Terminal"), 280, 20, panelWrapper);
+        return new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Terminal"), 280, 20, panelWrapper);
     }
 
     private void initUploadModeComboBox() {

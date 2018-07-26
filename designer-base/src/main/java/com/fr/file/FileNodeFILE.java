@@ -7,7 +7,7 @@ import com.fr.design.gui.itree.filetree.FileNodeComparator;
 import com.fr.design.gui.itree.filetree.FileTreeIcon;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.workspace.resource.WorkResourceOutputStream;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CoreConstants;
@@ -100,7 +100,7 @@ public class FileNodeFILE implements FILE {
         }
     
         if (ComparatorUtils.equals(node.getEnvPath(), ProjectConstants.REPORTLETS_NAME)) {
-            return Inter.getLocText("Utils-Report_Runtime_Env");
+            return com.fr.design.i18n.Toolkit.i18nText("Utils-Report_Runtime_Env");
         } else {
             return node.getName();
         }

@@ -15,7 +15,7 @@ import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.mainframe.widget.editors.WidgetValueEditor;
 import com.fr.form.ui.CheckBox;
 import com.fr.form.ui.WidgetValue;
-import com.fr.general.Inter;
+
 import com.fr.stable.ArrayUtils;
 
 /**
@@ -31,7 +31,7 @@ public class XCheckBox extends XWidgetCreator {
     @Override
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
 		return (CRPropertyDescriptor[]) ArrayUtils.addAll(super.supportedDescriptor(), new CRPropertyDescriptor[] {
-				new CRPropertyDescriptor("text", this.data.getClass()).setI18NName(Inter.getLocText("Text"))
+				new CRPropertyDescriptor("text", this.data.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Text"))
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
 						.setPropertyChangeListener(new PropertyChangeAdapter() {
 
@@ -41,7 +41,7 @@ public class XCheckBox extends XWidgetCreator {
 							}
 						}),
 				new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(
-						Inter.getLocText(new String[]{"Widget", "Value"})).setEditorClass(WidgetValueEditor.class)
+						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Value")).setEditorClass(WidgetValueEditor.class)
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
 						.setPropertyChangeListener(new PropertyChangeAdapter() {
 
@@ -54,7 +54,7 @@ public class XCheckBox extends XWidgetCreator {
 							}
 						}),
 				new CRPropertyDescriptor("fontSize", this.data.getClass(), "getFontSize", "setFontSize")
-						.setI18NName(Inter.getLocText(new String[]{"FRFont", "FRFont-Size"}))
+						.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Style_Font_Size"))
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
 		});
 	}

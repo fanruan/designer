@@ -26,7 +26,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
-import com.fr.general.Inter;
+
 import com.fr.js.NameJavaScriptGroup;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.Constants;
@@ -69,10 +69,10 @@ public abstract class AbstractChartTypePane extends FurtherBasicBeanPane<Chart>{
 
     protected String[] getNormalLayoutTipName() {
         return new String[] {
-                Inter.getLocText("FR-Chart-Style_TopDownShade"),
-                Inter.getLocText("FR-Chart-Style_Transparent"),
-                Inter.getLocText("FR-Chart-Style_Plane3D"),
-                Inter.getLocText("FR-Chart-Style_GradientHighlight")
+                com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Style_TopDownShade"),
+                com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Style_Transparent"),
+                com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Style_Plane3D"),
+                com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Style_GradientHighlight")
         };
     }
 
@@ -108,7 +108,7 @@ public abstract class AbstractChartTypePane extends FurtherBasicBeanPane<Chart>{
         if(styleList != null && !styleList.isEmpty()) {
             Component[][] styleComp = new Component[][]{
                     new Component[]{new JSeparator()},
-                    new Component[]{new BoldFontTextLabel(Inter.getLocText("FR-Chart_Layout"))},
+                    new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart_Layout"))},
                     new Component[]{layoutPane},
             };
             stylePane = TableLayoutHelper.createTableLayoutPane(styleComp,rowSize,columnSize);
@@ -180,22 +180,22 @@ public abstract class AbstractChartTypePane extends FurtherBasicBeanPane<Chart>{
             String styleName = chart.getPlot().getPlotFillStyle().getFillStyleName();
 
             switch (plotStyle){
-                case ChartConstants.STYLE_SHADE: if(ComparatorUtils.equals(Inter.getLocText("FR-Chart-Style_Retro"), styleName)){
+                case ChartConstants.STYLE_SHADE: if(ComparatorUtils.equals(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Style_Retro"), styleName)){
                     styleList.get(STYLE_SHADE).isPressing = true;
                     lastStyleIndex = STYLE_SHADE;
                 }
                     break;
-                case ChartConstants.STYLE_TRANSPARENT:if(ComparatorUtils.equals(Inter.getLocText("FR-Chart-Style_Fresh"), styleName)){
+                case ChartConstants.STYLE_TRANSPARENT:if(ComparatorUtils.equals(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Style_Fresh"), styleName)){
                     styleList.get(STYLE_TRANSPARENT).isPressing = true;
                     lastStyleIndex = STYLE_TRANSPARENT;
                 }
                     break;
-                case ChartConstants.STYLE_3D: if(ComparatorUtils.equals(Inter.getLocText("FR-Chart-Style_Bright"), styleName)){
+                case ChartConstants.STYLE_3D: if(ComparatorUtils.equals(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Style_Bright"), styleName)){
                     styleList.get(STYLE_PLANE3D).isPressing = true;
                     lastStyleIndex = STYLE_PLANE3D;
                 }
                     break;
-                case ChartConstants.STYLE_OUTER:if(ComparatorUtils.equals(Inter.getLocText("FR-Chart-Style_Bright"), styleName)){
+                case ChartConstants.STYLE_OUTER:if(ComparatorUtils.equals(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Style_Bright"), styleName)){
                     styleList.get(STYLE_HIGHLIGHT).isPressing = true;
                     lastStyleIndex = STYLE_HIGHLIGHT;
                 }
@@ -229,16 +229,16 @@ public abstract class AbstractChartTypePane extends FurtherBasicBeanPane<Chart>{
         Object preStyle = null;
         String name = "";
         if(styleList.get(STYLE_SHADE).isPressing){
-            name = Inter.getLocText("FR-Chart-Style_Retro");
+            name = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Style_Retro");
             preStyle = manager.getPreStyle(name);
         }else if(styleList.get(STYLE_TRANSPARENT).isPressing){
-            name = Inter.getLocText("FR-Chart-Style_Fresh");
+            name = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Style_Fresh");
             preStyle = manager.getPreStyle(name);
         }else if(styleList.get(STYLE_PLANE3D).isPressing){
-            name = Inter.getLocText("FR-Chart-Style_Bright");
+            name = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Style_Bright");
             preStyle = manager.getPreStyle(name);
         }else if(styleList.get(STYLE_HIGHLIGHT).isPressing){
-            name = Inter.getLocText("FR-Chart-Style_Bright");
+            name = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Style_Bright");
             preStyle = manager.getPreStyle(name);
         }
         if(preStyle == null){

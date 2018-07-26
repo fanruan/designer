@@ -12,7 +12,7 @@ import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.VanChartAttrHelper;
 import com.fr.plugin.chart.attr.plot.VanChartRectanglePlot;
 import com.fr.plugin.chart.base.VanChartConstants;
@@ -50,7 +50,7 @@ public class VanChartDataSheetPane extends AbstractVanChartScrollPane<Chart> {
         }
 
         private void initComponents() {
-            isShowDataSheet = new UICheckBox(Inter.getLocText("Plugin-ChartF_Show_Data_Sheet"));
+            isShowDataSheet = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Show_Data_Sheet"));
             dataSheetPane = createDataSheetPane();
 
             double p = TableLayout.PREFERRED;
@@ -94,9 +94,9 @@ public class VanChartDataSheetPane extends AbstractVanChartScrollPane<Chart> {
         double[] columnSize = {d, e};
         double[] rowSize = {p,p,p};
         Component[][] components = new Component[][]{
-                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Base_Format"),formatPane),null},
-                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Designer-Widget_Style"),textAttrPane),null},
-                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Border"),borderPane),null},
+                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Base_Format"),formatPane),null},
+                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget_Style"),textAttrPane),null},
+                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Border"),borderPane),null},
         };
 
         return TableLayout4VanChartHelper.createGapTableLayoutPane(components,rowSize,columnSize);

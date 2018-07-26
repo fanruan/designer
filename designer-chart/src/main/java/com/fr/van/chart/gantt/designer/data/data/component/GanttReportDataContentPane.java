@@ -7,7 +7,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.gantt.data.VanGanttReportDefinition;
 import com.fr.van.chart.gantt.designer.data.data.GanttDataPaneHelper;
 
@@ -40,17 +40,17 @@ public class GanttReportDataContentPane extends AbstractReportDataContentPane{
     }
 
     private void initAllComponent() {
-        seriesName = createTinyFormulaPaneWithTitle(Inter.getLocText("Chart-Series_Name"));
+        seriesName = createTinyFormulaPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Chart-Series_Name"));
 
-        startTime = createTinyFormulaPaneWithTitle(Inter.getLocText("Plugin-ChartF_Start_Time"));
+        startTime = createTinyFormulaPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Start_Time"));
 
-        endTime = createTinyFormulaPaneWithTitle(Inter.getLocText("Plugin-ChartF_End_Time"));
+        endTime = createTinyFormulaPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_End_Time"));
 
-        markerTime = createTinyFormulaPaneWithTitle(Inter.getLocText("Plugin-ChartF_Marker_Time"));
+        markerTime = createTinyFormulaPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Marker_Time"));
 
-        progress = createTinyFormulaPaneWithTitle(Inter.getLocText("Plugin-ChartF_Process"));
+        progress = createTinyFormulaPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Process"));
 
-        linkID = createTinyFormulaPaneWithTitle(Inter.getLocText("Plugin-ChartF_Task_ID"));
+        linkID = createTinyFormulaPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Task_ID"));
     }
 
     private TinyFormulaPane createTinyFormulaPaneWithTitle(final String title) {

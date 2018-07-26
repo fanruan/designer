@@ -19,7 +19,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.editor.ValueEditorPane;
 import com.fr.design.editor.ValueEditorPaneFactory;
-import com.fr.general.Inter;
+
 import com.fr.stable.StringUtils;
 
 public class ObjectLiteConditionPane extends LiteConditionPane<ObjectCondition> {
@@ -79,7 +79,7 @@ public class ObjectLiteConditionPane extends LiteConditionPane<ObjectCondition> 
 
 			conditionValuePane = ValueEditorPaneFactory.createAllValueEditorPane();
 
-			Component[][] components = { { new UILabel(Inter.getLocText("FR-Designer_ConditionB-Operator") + ":"), new UILabel() },
+			Component[][] components = { { new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_ConditionB-Operator") + ":"), new UILabel() },
 					{ conditionOPComboBox, conditionValuePane } };
 
 			double p = TableLayout.PREFERRED;

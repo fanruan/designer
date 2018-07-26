@@ -3,7 +3,7 @@ package com.fr.design.mainframe.chart.gui.type;
 import com.fr.chart.base.ChartConstants;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.charttypes.CustomIndependentChart;
-import com.fr.general.Inter;
+
 
 /**
  * 组合图 属性表 图表类型 界面.
@@ -26,7 +26,7 @@ public class CustomPlotPane extends AbstractChartTypePane {
 	@Override
 	protected String[] getTypeTipName() {
 		return new String[]{
-				Inter.getLocText("ChartF-Comb_Chart")
+				com.fr.design.i18n.Toolkit.i18nText("ChartF-Comb_Chart")
 		};
 	}
 
@@ -45,7 +45,7 @@ public class CustomPlotPane extends AbstractChartTypePane {
      * @return 界面标题
 	 */
 	public String title4PopupWindow() {
-		return Inter.getLocText("ChartF-Comb_Chart");
+		return com.fr.design.i18n.Toolkit.i18nText("ChartF-Comb_Chart");
 	}
 
 	/**

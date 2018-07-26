@@ -10,7 +10,7 @@ import com.fr.design.widget.ui.designer.component.PaddingBoundPane;
 import com.fr.form.ui.ElementCaseEditor;
 import com.fr.form.web.FormToolBarManager;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -36,7 +36,7 @@ public class ElementEditorDefinePane extends WTitleLayoutDefinePane<ElementCaseE
         elementCaseToolBarEditor = new AccessibleElementCaseToolBarEditor();
         Component[][] components = new Component[][]{
                 new Component[]{paddingBoundPane, null},
-                new Component[]{new UILabel(Inter.getLocText("Form-EC_toolbar")), elementCaseToolBarEditor},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Form-EC_toolbar")), elementCaseToolBarEditor},
         };
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W0, IntervalConstants.INTERVAL_L1);
         panel.setBorder(BorderFactory.createEmptyBorder(5, 0, 10, 0));
@@ -49,7 +49,7 @@ public class ElementEditorDefinePane extends WTitleLayoutDefinePane<ElementCaseE
 
     protected ElementCaseEditor updateSubBean() {
         ElementCaseEditor elementCaseEditor = (ElementCaseEditor) creator.toData();
-        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_Layout-Padding"))) {
+        if (ComparatorUtils.equals(getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Layout-Padding"))) {
             paddingBoundPane.update(elementCaseEditor);
         }
         elementCaseEditor.setToolBars((FormToolBarManager[]) elementCaseToolBarEditor.getValue());

@@ -20,7 +20,7 @@ import javax.swing.KeyStroke;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 import com.fr.stable.ProductConstants;
 import com.fr.design.utils.gui.GUICoreUtils;
 
@@ -42,14 +42,14 @@ public class AboutDialog extends JDialog implements ActionListener {
         JPanel defaultPane=FRGUIPaneFactory.createBorderLayout_L_Pane();
         this.setContentPane(defaultPane);
 
-        okButton = new UIButton(Inter.getLocText("OK"));
+        okButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("OK"));
         okButton.addActionListener(this);
 
         tabbedPane = new UITabbedPane();
         sysPane = new SystemInfoPane();
 
-        tabbedPane.addTab(Inter.getLocText("About"), aboutPanel);
-        tabbedPane.addTab(Inter.getLocText("System"), sysPane);
+        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("About"), aboutPanel);
+        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("System"), sysPane);
 
         buttonPanel = FRGUIPaneFactory.createRightFlowInnerContainer_S_Pane();
         buttonPanel.add(okButton);

@@ -18,7 +18,7 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -41,17 +41,17 @@ public class TimeSwitchPane extends JPanel implements UIObserver {
     private static final int TICK_WIDTH = 84;
     private static final int TICK_HEIGHT = 20;
     private static final int COM_GAP =5;
-    private static final String YEAR = Inter.getLocText("Year");
-    private static final String MONTH =Inter.getLocText("Month");
-    private static final String DAY =Inter.getLocText("Sun");
-    private static final String HOUR = Inter.getLocText("Sche-Hour");
-    private static final String MINUTE = Inter.getLocText("Sche-Minute");
-    private static final String SECOND = Inter.getLocText("Sche-Second");
+    private static final String YEAR = com.fr.design.i18n.Toolkit.i18nText("Year");
+    private static final String MONTH =com.fr.design.i18n.Toolkit.i18nText("Month");
+    private static final String DAY =com.fr.design.i18n.Toolkit.i18nText("Sun");
+    private static final String HOUR = com.fr.design.i18n.Toolkit.i18nText("Sche-Hour");
+    private static final String MINUTE = com.fr.design.i18n.Toolkit.i18nText("Sche-Minute");
+    private static final String SECOND = com.fr.design.i18n.Toolkit.i18nText("Sche-Second");
 
     private static String[] TYPES = new String[]{
-    	Inter.getLocText("Year"), Inter.getLocText("Month"), Inter.getLocText("Sun"),
-    	Inter.getLocText("Sche-Hour"), Inter.getLocText("Sche-Minute"),
-    	Inter.getLocText("Sche-Second")
+    	com.fr.design.i18n.Toolkit.i18nText("Year"), com.fr.design.i18n.Toolkit.i18nText("Month"), com.fr.design.i18n.Toolkit.i18nText("Sun"),
+    	com.fr.design.i18n.Toolkit.i18nText("Sche-Hour"), com.fr.design.i18n.Toolkit.i18nText("Sche-Minute"),
+    	com.fr.design.i18n.Toolkit.i18nText("Sche-Second")
     };
 
     private static Map<String, Integer> VALUES = new HashMap<String, Integer>();
@@ -66,12 +66,12 @@ public class TimeSwitchPane extends JPanel implements UIObserver {
 
     private static Map<Integer, String> INTS = new HashMap<Integer, String>();
     static {
-    	INTS.put(ChartConstants.YEAR_TYPE, Inter.getLocText("Year"));
-    	INTS.put(ChartConstants.MONTH_TYPE, Inter.getLocText("Month"));
-    	INTS.put(ChartConstants.DAY_TYPE, Inter.getLocText("Sun"));
-    	INTS.put(ChartConstants.HOUR_TYPE, Inter.getLocText("Sche-Hour"));
-    	INTS.put(ChartConstants.MINUTE_TYPE, Inter.getLocText("Sche-Minute"));
-    	INTS.put(ChartConstants.SECOND_TYPE, Inter.getLocText("Sche-Second"));
+    	INTS.put(ChartConstants.YEAR_TYPE, com.fr.design.i18n.Toolkit.i18nText("Year"));
+    	INTS.put(ChartConstants.MONTH_TYPE, com.fr.design.i18n.Toolkit.i18nText("Month"));
+    	INTS.put(ChartConstants.DAY_TYPE, com.fr.design.i18n.Toolkit.i18nText("Sun"));
+    	INTS.put(ChartConstants.HOUR_TYPE, com.fr.design.i18n.Toolkit.i18nText("Sche-Hour"));
+    	INTS.put(ChartConstants.MINUTE_TYPE, com.fr.design.i18n.Toolkit.i18nText("Sche-Minute"));
+    	INTS.put(ChartConstants.SECOND_TYPE, com.fr.design.i18n.Toolkit.i18nText("Sche-Second"));
     }
 
     private UIButton addButton;

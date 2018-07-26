@@ -8,7 +8,7 @@ import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -32,9 +32,9 @@ public class TrendLinePane extends ConditionAttrSingleConditionPane<DataSeriesCo
 
     public TrendLinePane(ConditionAttributesPane conditionAttributesPane, boolean isRemove) {
         super(conditionAttributesPane, isRemove);
-        nameLabel = new UILabel(Inter.getLocText("Chart_TrendLine"));
+        nameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart_TrendLine"));
 
-        editTrendLineButton = new UIButton(Inter.getLocText(new String[]{"Edit", "Chart_TrendLine"}));
+        editTrendLineButton = new UIButton(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Edit", "Chart_TrendLine"}));
         editTrendLineButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 final TrendLineControlPane controlPane = new TrendLineControlPane();
@@ -58,7 +58,7 @@ public class TrendLinePane extends ConditionAttrSingleConditionPane<DataSeriesCo
 
     @Override
     public String nameForPopupMenuItem() {
-        return Inter.getLocText("Chart_TrendLine");
+        return com.fr.design.i18n.Toolkit.i18nText("Chart_TrendLine");
     }
 
     public void populate(DataSeriesCondition condition) {

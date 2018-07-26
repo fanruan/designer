@@ -35,7 +35,7 @@ import com.fr.design.menu.SeparatorDef;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.general.sql.SqlUtils;
 import com.fr.script.Calculator;
 import com.fr.stable.ArrayUtils;
@@ -54,8 +54,8 @@ import java.util.List;
 
 public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 	private static final int BOTTOM = 6;
-	private static final String PREVIEW_BUTTON = Inter.getLocText("FR-Designer_Preview");
-    private static final String REFRESH_BUTTON = Inter.getLocText("FR-Designer_Refresh");
+	private static final String PREVIEW_BUTTON = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Preview");
+    private static final String REFRESH_BUTTON = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Refresh");
 	private ConnectionTableProcedurePane connectionTableProcedurePane;
 	private UITableEditorPane<ParameterProvider> editorPane;
 
@@ -133,7 +133,7 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 
 		JPanel paraMeanPane = new JPanel(new BorderLayout());
 		paraMeanPane.setPreferredSize(new Dimension(680, 90));
-		UILabel paraMean = new UILabel(Inter.getLocText("FR-Designer-Datasource-Param_DES"));
+		UILabel paraMean = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Datasource-Param_DES"));
 		paraMeanPane.add(paraMean, BorderLayout.CENTER);
 
 
@@ -171,7 +171,7 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("FR-Designer-DS-Database_Query");
+		return com.fr.design.i18n.Toolkit.i18nText("FR-Designer-DS-Database_Query");
 	}
 
 	private void refresh() {
@@ -195,7 +195,7 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 			toolBarDef.addShortCut(SeparatorDef.DEFAULT);
 			toolBarDef.addShortCut(dbTableDataMenuHandler.createQueryAction());
 		}
-		isShareCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Is_Share_DBTableData"));
+		isShareCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Is_Share_DBTableData"));
 		isShareCheckBox.setBackground(Color.WHITE);
 		maxPanel = new MaxMemRowCountPanel();
 		maxPanel.setBorder(null);
@@ -271,10 +271,10 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 		String dbName = this.connectionTableProcedurePane.getSelectedDatabaseConnnectonName();
 		if (StringUtils.isBlank(dbName) || StringUtils.isBlank(this.sqlTextPane.getText())) {
 			try {
-				throw new Exception(Inter.getLocText("FR-Designer_Connect_SQL_Cannot_Null") + ".");
+				throw new Exception(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Connect_SQL_Cannot_Null") + ".");
 			} catch (Exception e) {
 				// JOptionPane.showMessageDialog(DBTableDataPane.this,
-				// Inter.getLocText("Connect_SQL_Cannot_Null") + ".");
+				// com.fr.design.i18n.Toolkit.i18nText("Connect_SQL_Cannot_Null") + ".");
 			}
 		}
 
@@ -328,13 +328,13 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 
 	private class EditPageQueryAction extends UpdateAction {
 		public EditPageQueryAction() {
-			this.setName(Inter.getLocText("FR-Designer-LayerPageReport_PageQuery"));
+			this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-LayerPageReport_PageQuery"));
 			this.setMnemonic('L');
 			this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_file/text.png"));
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			final QueryPane pane = new QueryPane(Inter.getLocText("FR-Designer-LayerPageReport_Define_PageQuerySQL"));
+			final QueryPane pane = new QueryPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-LayerPageReport_Define_PageQuerySQL"));
 			pane.populate(pageQuery);
 			BasicDialog dialog = pane.showWindow(DesignerContext.getDesignerFrame());
 			dialog.addDialogActionListener(new DialogActionAdapter() {

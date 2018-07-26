@@ -7,7 +7,7 @@ import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionAttr;
 import com.fr.chart.chartglyph.ConditionCollection;
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.base.VanChartTools;
 import com.fr.plugin.chart.base.VanChartZoom;
 import com.fr.plugin.chart.bubble.BubbleIndependentVanChart;
@@ -20,7 +20,7 @@ import com.fr.van.chart.designer.type.AbstractVanChartTypePane;
  * Created by Mitisky on 16/3/31.
  */
 public class VanChartBubblePlotPane extends AbstractVanChartTypePane {
-    public static final String TITLE = Inter.getLocText("Plugin-ChartF_NewBubble");;
+    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewBubble");;
 
     private static final long serialVersionUID = -3481633368542654247L;
 
@@ -38,8 +38,8 @@ public class VanChartBubblePlotPane extends AbstractVanChartTypePane {
     @Override
     protected String[] getTypeTipName() {
         return new String[]{
-                Inter.getLocText("FR-Chart-Chart_BubbleChart"),
-                Inter.getLocText("Plugin-ChartF_NewForceBubble")
+                com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Chart_BubbleChart"),
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewForceBubble")
         };
     }
 
@@ -48,7 +48,7 @@ public class VanChartBubblePlotPane extends AbstractVanChartTypePane {
      * @return 界面标题
      */
     public String title4PopupWindow() {
-        return Inter.getLocText("Plugin-ChartF_NewBubble");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewBubble");
     }
 
 

@@ -14,7 +14,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.style.ChartBeautyPane;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,7 +36,7 @@ public class AreaSeriesPane extends AbstractPlotSeriesPane{
 	@Override
 	protected JPanel getContentInPlotType() {
         stylePane = new ChartBeautyPane();
-		isCurve = new UICheckBox(Inter.getLocText("FR-Chart-Curve_Line"));
+		isCurve = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Curve_Line"));
         markerPane = new MarkerComboBox(MarkerFactory.getMarkerArray());
 
 		double p = TableLayout.PREFERRED;
@@ -46,8 +46,8 @@ public class AreaSeriesPane extends AbstractPlotSeriesPane{
         Component[][] components = new Component[][]{
                 new Component[]{stylePane, null},
                 new Component[]{new JSeparator(), null},
-                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Line_Style")),isCurve},
-                new Component[]{new BoldFontTextLabel(Inter.getLocText("FR-Chart-Marker_Type")), markerPane}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Line_Style")),isCurve},
+                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Marker_Type")), markerPane}
         }  ;
         return TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
 	}

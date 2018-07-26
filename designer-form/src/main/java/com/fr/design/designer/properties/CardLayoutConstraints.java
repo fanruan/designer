@@ -11,7 +11,7 @@ import com.fr.design.designer.creator.XWidgetCreator;
 import com.fr.design.designer.creator.cardlayout.XWCardLayout;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WCardLayout;
-import com.fr.general.Inter;
+
 
 public class CardLayoutConstraints implements ConstraintsGroupModel {
 
@@ -31,7 +31,7 @@ public class CardLayoutConstraints implements ConstraintsGroupModel {
 
 	@Override
 	public String getGroupName() {
-		return Inter.getLocText("FR-Designer_Layout_Constraints");
+		return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Layout_Constraints");
 	}
 
 	@Override
@@ -52,7 +52,7 @@ public class CardLayoutConstraints implements ConstraintsGroupModel {
 	@Override
 	public Object getValue(int row, int column) {
 		if (column == 0) {
-			return Inter.getLocText("FR-Designer_Layout-Index");
+			return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Layout-Index");
 		} else {
 			return layout.getWidgetIndex(widget) + 1;
 		}

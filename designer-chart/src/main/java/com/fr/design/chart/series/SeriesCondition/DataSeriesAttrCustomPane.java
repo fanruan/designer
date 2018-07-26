@@ -1,6 +1,6 @@
 package com.fr.design.chart.series.SeriesCondition;
 
-import com.fr.general.Inter;
+
 import com.fr.chart.chartglyph.CustomAttr;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
@@ -19,7 +19,7 @@ public class DataSeriesAttrCustomPane extends DataSeriesAttrPane {
 	
 	public NameableCreator[] createNameableCreators() {
 		return new NameableCreator[] {
-				new NameObjectCreator(Inter.getLocText("Condition_Attributes"), CustomAttr.class, DataSeriesCustomConditionPane.class)
+				new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Condition_Attributes"), CustomAttr.class, DataSeriesCustomConditionPane.class)
 		};
 	}
 }

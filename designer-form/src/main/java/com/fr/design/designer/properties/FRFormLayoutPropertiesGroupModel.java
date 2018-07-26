@@ -9,7 +9,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
-import com.fr.general.Inter;
+
 import com.fr.design.beans.GroupModel;
 import com.fr.design.mainframe.widget.editors.IntegerPropertyEditor;
 import com.fr.design.mainframe.widget.editors.PropertyCellEditor;
@@ -30,7 +30,7 @@ public class FRFormLayoutPropertiesGroupModel implements GroupModel{
     
     @Override
     public String getGroupName() {
-        return Inter.getLocText("Form-Component_Bounds");
+        return com.fr.design.i18n.Toolkit.i18nText("Form-Component_Bounds");
     }
 
     @Override

@@ -7,7 +7,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UIBasicSpinner;
 import com.fr.design.gui.style.DefaultIndentationUnitProcessor;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.Inter;
+
 import com.fr.report.cell.cellattr.highlight.HighlightAction;
 import com.fr.report.cell.cellattr.highlight.PaddingHighlightAction;
 
@@ -28,10 +28,10 @@ public class PaddingPane extends ConditionAttrSingleConditionPane<HighlightActio
 
     public PaddingPane(ConditionAttributesPane conditionAttributesPane) {
         super(conditionAttributesPane);
-        paddingLeft = new UILabel(Inter.getLocText("Style-Left_Indent") + ":");
+        paddingLeft = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Style-Left_Indent") + ":");
         paddingLeftSpinner = new UIBasicSpinner(new SpinnerNumberModel(2, 0, Integer.MAX_VALUE, 1));
         GUICoreUtils.setColumnForSpinner(paddingLeftSpinner, 5);
-        paddingRight = new UILabel(Inter.getLocText("Style-Right_Indent") + ":");
+        paddingRight = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Style-Right_Indent") + ":");
         paddingRightSpinner = new UIBasicSpinner(new SpinnerNumberModel(2, 0, Integer.MAX_VALUE, 1));
         GUICoreUtils.setColumnForSpinner(paddingRightSpinner, 5);
         this.add(paddingLeft);
@@ -39,9 +39,9 @@ public class PaddingPane extends ConditionAttrSingleConditionPane<HighlightActio
         this.add(paddingRight);
         this.add(paddingRightSpinner);
         this.paddingScopeComboBox = new UIComboBox(new String[] {
-                Inter.getLocText("Utils-Current_Cell"),
-                Inter.getLocText("Utils-Current_Row"),
-                Inter.getLocText("Utils-Current_Column") });
+                com.fr.design.i18n.Toolkit.i18nText("Utils-Current_Cell"),
+                com.fr.design.i18n.Toolkit.i18nText("Utils-Current_Row"),
+                com.fr.design.i18n.Toolkit.i18nText("Utils-Current_Column") });
         this.add(this.paddingScopeComboBox);
         this.paddingLeftSpinner.setValue(new Integer(0));
         this.paddingRightSpinner.setValue(new Integer(0));
@@ -58,7 +58,7 @@ public class PaddingPane extends ConditionAttrSingleConditionPane<HighlightActio
      */
     @Override
     public String nameForPopupMenuItem() {
-        return Inter.getLocText("FR-Designer_Sytle-Indentation");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Sytle-Indentation");
     }
 
     @Override

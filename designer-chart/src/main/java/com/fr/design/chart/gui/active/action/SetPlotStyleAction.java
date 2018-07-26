@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import com.fr.design.chart.gui.ChartComponent;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.design.module.DesignModuleFactory;
-import com.fr.general.Inter;
+
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,7 +19,7 @@ public class SetPlotStyleAction extends ChartComponentAction {
 
     public SetPlotStyleAction(ChartComponent chartComponent) {
         super(chartComponent);
-        this.setName(Inter.getLocText(new String[]{"Set", "ChartF-Plot"}));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Set_Plot"));
     }
 
     public void actionPerformed(ActionEvent e) {

@@ -18,7 +18,7 @@ import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
-import com.fr.general.Inter;
+
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.Constants;
 import com.fr.stable.StableUtils;
@@ -123,7 +123,7 @@ public class HistoryTemplateListPane extends JPanel implements FileOperations, C
         try {
             historyList.remove(contains(selected));
             selected.getEditingFILE().closeTemplate();
-            FineLoggerFactory.getLogger().info(Inter.getLocText(new String[]{"Template", "alraedy_close"}, new String[]{selected.getEditingFILE().getName(), "."}));
+            FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Template_Closed_Warn_Text", selected.getEditingFILE().getName()));
             MutilTempalteTabPane.getInstance().refreshOpenedTemplate(historyList);
         } catch (Exception e) {
             FRContext.getLogger().error(e.getMessage(), e);

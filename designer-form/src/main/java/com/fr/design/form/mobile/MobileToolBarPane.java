@@ -5,7 +5,7 @@ import com.fr.design.dialog.mobile.MobileRadioCheckPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.form.main.mobile.FormMobileAttr;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,7 +28,7 @@ public class MobileToolBarPane extends BasicBeanPane<FormMobileAttr> {
 
         UILabel uiLabel = new UILabel("html5");
         uiLabel.setBorder(BorderFactory.createEmptyBorder(5, 15, 10, 15));
-        this.refreshCheckPane = new MobileRadioCheckPane(Inter.getLocText("FR-Designer_Mobile-Refresh"));
+        this.refreshCheckPane = new MobileRadioCheckPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Mobile-Refresh"));
 
         toobarsPane.add(uiLabel, BorderLayout.WEST);
         toobarsPane.add(refreshCheckPane, BorderLayout.EAST);
@@ -58,7 +58,7 @@ public class MobileToolBarPane extends BasicBeanPane<FormMobileAttr> {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("FR-Designer_Mobile-ToolBar");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Mobile-ToolBar");
     }
 
 }

@@ -11,7 +11,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.menu.MenuDef;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -66,7 +66,7 @@ public class ReportFloatPane extends JPanel {
         double[] columnSize = {p, p, p, f};
         double[] rowSize = {p};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(), new UILabel(Inter.getLocText("FR-Designer_Add_FloatElement")), emptyLabel, toolBarPane},
+                new Component[]{new UILabel(), new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Add_FloatElement")), emptyLabel, toolBarPane},
         };
         JPanel leftTopPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
         leftTopPane.setBorder(BorderFactory.createEmptyBorder(12, 5, 0, 15));
@@ -76,7 +76,7 @@ public class ReportFloatPane extends JPanel {
     private void initInsertToolBar() {
         insertFloatMenu = new MenuDef(true);
         insertFloatMenu.setName(KeySetUtils.INSERT_FLOAT.getMenuKeySetName());
-        insertFloatMenu.setTooltip(Inter.getLocText("FR-Designer_T_Insert_Float"));
+        insertFloatMenu.setTooltip(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_T_Insert_Float"));
         insertFloatMenu.setIconPath("com/fr/design/images/control/addPopup.png");
         JTemplate editingTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
         JComponent currentElementCasePane = editingTemplate.getCurrentElementCasePane();

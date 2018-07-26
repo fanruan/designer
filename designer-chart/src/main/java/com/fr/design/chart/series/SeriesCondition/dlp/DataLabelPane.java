@@ -10,7 +10,7 @@ import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 import com.fr.stable.Constants;
 import com.fr.stable.StringUtils;
 
@@ -69,9 +69,9 @@ public class DataLabelPane extends TooltipContentsPane {
 
     protected Component[] createComponents4ShowSeriesName() {
         if (showSeriesNameCB == null) {
-            showSeriesNameCB = new UICheckBox(Inter.getLocText(new String[]{"ChartF-Series", "WF-Name"}));
+            showSeriesNameCB = new UICheckBox(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"ChartF-Series", "WF-Name"}));
         }
-        return new Component[]{new UILabel(Inter.getLocText(new String[]{"Label", "Include"}) + ":"), showSeriesNameCB};
+        return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Label", "Include"}) + ":"), showSeriesNameCB};
     }
 
     protected Component[] createComponents4ShowCategoryName() {
@@ -82,7 +82,7 @@ public class DataLabelPane extends TooltipContentsPane {
     }
 
     protected String getCategoryString(){
-        return Inter.getLocText(new String[]{"StyleFormat-Category", "WF-Name"});
+        return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"StyleFormat-Category", "WF-Name"});
     }
    
 
@@ -96,7 +96,7 @@ public class DataLabelPane extends TooltipContentsPane {
         }
         delimiterBox.setPreferredSize(new Dimension(70, 20));
         JPanel boxPane = FRGUIPaneFactory.createBoxFlowInnerContainer_S_Pane();
-        boxPane.add(new UILabel(Inter.getLocText("Form-Delimiter") + ":"));
+        boxPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Form-Delimiter") + ":"));
         boxPane.add(delimiterBox);
         return boxPane;
     }
@@ -105,18 +105,18 @@ public class DataLabelPane extends TooltipContentsPane {
         JPanel labelStylePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         JPanel westPane = FRGUIPaneFactory.createBoxFlowInnerContainer_S_Pane();
         labelStylePane.add(westPane, BorderLayout.WEST);
-        westPane.add(new UILabel(Inter.getLocText(new String[]{"Label", "FRFont"}) + ":"));
+        westPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Label", "FRFont"}) + ":"));
         labelStylePane.add(stylePane = new DataLabelStylePane(), BorderLayout.CENTER);
         return labelStylePane;
     }
 
     protected JPanel createJPanel4Position() {
         // 标签位置:上下左右中.
-        bottomButton = new UIRadioButton(Inter.getLocText("StyleAlignment-Bottom"));
-        leftButton = new UIRadioButton(Inter.getLocText("StyleAlignment-Left"));
-        rigtButton = new UIRadioButton(Inter.getLocText("StyleAlignment-Right"));
-        topButton = new UIRadioButton(Inter.getLocText("StyleAlignment-Top"));
-        centerButton = new UIRadioButton(Inter.getLocText("Center"));
+        bottomButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Bottom"));
+        leftButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Left"));
+        rigtButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Right"));
+        topButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Top"));
+        centerButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Center"));
 
         ButtonGroup bg = new ButtonGroup();
         bg.add(bottomButton);
@@ -127,7 +127,7 @@ public class DataLabelPane extends TooltipContentsPane {
         topButton.setSelected(true);
         
         JPanel buttonPane = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
-        buttonPane.add(new UILabel(Inter.getLocText(new String[]{"Label", "Layout"}) + ":"));
+        buttonPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Label", "Layout"}) + ":"));
         buttonPane.add(bottomButton);
         buttonPane.add(leftButton);
         buttonPane.add(rigtButton);

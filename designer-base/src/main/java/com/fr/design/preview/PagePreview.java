@@ -2,7 +2,7 @@ package com.fr.design.preview;
 
 import com.fr.base.io.IOFile;
 import com.fr.design.fun.impl.AbstractPreviewProvider;
-import com.fr.general.Inter;
+
 
 /**
  * @author richie
@@ -12,7 +12,7 @@ import com.fr.general.Inter;
 public class PagePreview extends AbstractPreviewProvider {
     @Override
     public String nameForPopupItem() {
-        return Inter.getLocText("M-Page_Preview");
+        return com.fr.design.i18n.Toolkit.i18nText("M-Page_Preview");
     }
 
     @Override

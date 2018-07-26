@@ -7,7 +7,7 @@ import com.fr.base.BaseUtils;
 import com.fr.design.actions.core.WorkBookSupportable;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.menu.MenuKeySet;
-import com.fr.general.Inter;
+
 import com.fr.report.cell.painter.BiasTextPainter;
 
 import javax.swing.KeyStroke;
@@ -42,7 +42,7 @@ public class BiasCellAction extends AbstractCellAction implements WorkBookSuppor
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M_Insert-Slope_Line");
+            return com.fr.design.i18n.Toolkit.i18nText("M_Insert-Slope_Line");
         }
 
         @Override

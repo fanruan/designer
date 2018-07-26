@@ -18,7 +18,7 @@ import com.fr.design.gui.itableeditorpane.UITableEditAction;
 import com.fr.design.gui.itableeditorpane.UITableEditorPane;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.script.Calculator;
 import com.fr.stable.ParameterProvider;
 import com.fr.stable.StringUtils;
@@ -66,7 +66,7 @@ public class MultiTDTableDataPane extends AbstractTableDataPane<MultiTDTableData
         jpanel.setLayout(new BorderLayout());
 
         JPanel northPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        UILabel chooseTableData = new UILabel(Inter.getLocText(new String[]{"Select_Data_Set", "Merge"}));
+        UILabel chooseTableData = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Tabledata_Select_To_Merge"));
         UIButton previewButton = new UIButton();
         previewButton.setIcon(BaseUtils.readIcon("/com/fr/web/images/preview.png"));
         previewButton.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
@@ -88,7 +88,7 @@ public class MultiTDTableDataPane extends AbstractTableDataPane<MultiTDTableData
     }
 
     private void initAllBarPane(String multiName) {
-        UILabel headLabel = new UILabel(Inter.getLocText("Multi_nam_formula"));
+        UILabel headLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Multi_nam_formula"));
         setResMap();
         int len = resMap.size();
         // 10个正好不会出现滚动条
@@ -131,7 +131,7 @@ public class MultiTDTableDataPane extends AbstractTableDataPane<MultiTDTableData
             public UITableEditAction[] createAction() {
                 return new UITableEditAction[]{new RefreshAction()};
             }
-        }, " " + Inter.getLocText(new String[]{"DS-TableData", "DEFAULT", "Parameter"}));
+        }, " " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Tabledata_Default_Parameter"));
 
         jpanel.add(editorPane, BorderLayout.CENTER);
 
@@ -140,7 +140,7 @@ public class MultiTDTableDataPane extends AbstractTableDataPane<MultiTDTableData
 
     private class RefreshAction extends UITableEditAction {
         public RefreshAction() {
-            this.setName(Inter.getLocText("Refresh"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Refresh"));
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/refresh.png"));
         }
 
@@ -190,7 +190,7 @@ public class MultiTDTableDataPane extends AbstractTableDataPane<MultiTDTableData
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("DS-Relation_TableData");
+        return com.fr.design.i18n.Toolkit.i18nText("DS-Relation_TableData");
     }
 
     @Override
@@ -307,7 +307,7 @@ public class MultiTDTableDataPane extends AbstractTableDataPane<MultiTDTableData
             formulaButton.setEnabled(false);
             formulaButton.setPreferredSize(new Dimension(25, 23));
             formulaButton.addActionListener(getFormulaActionListener());
-            rightPanel.add(new UILabel(Inter.getLocText("Conditions_formula") + " ="));
+            rightPanel.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Conditions_formula") + " ="));
             rightPanel.add(formulaContentTextField);
             rightPanel.add(formulaButton);
 

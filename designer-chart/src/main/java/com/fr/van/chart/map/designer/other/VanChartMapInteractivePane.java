@@ -1,7 +1,7 @@
 package com.fr.van.chart.map.designer.other;
 
 import com.fr.chart.chartattr.Plot;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.map.VanChartMapPlot;
 import com.fr.plugin.chart.type.MapType;
@@ -23,7 +23,7 @@ public class VanChartMapInteractivePane extends VanChartInteractivePaneWithMapZo
     @Override
     protected JPanel createHyperlinkPane() {
         hyperlinkPane = new VanChartMapHyperLinkPane();
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("M_Insert-Hyperlink"), hyperlinkPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("M_Insert-Hyperlink"), hyperlinkPane);
     }
     @Override
     protected void populateHyperlink(Plot plot) {

@@ -10,7 +10,7 @@ import com.fr.design.editor.ValueEditorPaneFactory;
 import com.fr.design.editor.editor.Editor;
 import com.fr.design.editor.editor.FormulaEditor;
 import com.fr.design.editor.editor.TextEditor;
-import com.fr.general.Inter;
+
 
 /**
  * 简要提供 文本和公式两种编辑器
@@ -21,7 +21,7 @@ public class MapReportRenderer extends DefaultTableCellRenderer {
 	private ValueEditorPane cellEditor;
 	
 	public MapReportRenderer() {
-		Editor[] editors = new Editor[]{new TextEditor(), new FormulaEditor(Inter.getLocText("Parameter-Formula"))};
+		Editor[] editors = new Editor[]{new TextEditor(), new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Parameter-Formula"))};
 		cellEditor = ValueEditorPaneFactory.createValueEditorPane(editors);
 	}
 	

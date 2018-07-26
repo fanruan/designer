@@ -7,7 +7,7 @@ import com.fr.design.data.tabledata.wrapper.TableDataWrapper;
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.chart.gui.data.DatabaseTableDataPane;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,7 +33,7 @@ public class MapTableCubeDataPane extends FurtherBasicBeanPane<MapMoreLayerTable
 
 		pane.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-		UILabel label = new UILabel(Inter.getLocText("Select_Data_Set") + ":", SwingConstants.RIGHT);
+		UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Tabledata_Select") + ":", SwingConstants.RIGHT);
 
 		dataFromBox = new DatabaseTableDataPane(label) {
 			protected void userEvent() {
@@ -77,7 +77,7 @@ public class MapTableCubeDataPane extends FurtherBasicBeanPane<MapMoreLayerTable
      * @return  返回标题.
 	 */
 	public String title4PopupWindow() {
-		return Inter.getLocText("DS-TableData");
+		return com.fr.design.i18n.Toolkit.i18nText("DS-TableData");
 	}
 
 	@Override

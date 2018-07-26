@@ -4,7 +4,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
-import com.fr.general.Inter;
+
 import com.fr.design.beans.GroupModel;
 import com.fr.design.mainframe.widget.editors.IntegerPropertyEditor;
 import com.fr.design.mainframe.widget.editors.PropertyCellEditor;
@@ -32,7 +32,7 @@ public class CardLayoutPropertiesGroupModel implements GroupModel {
 
     @Override
     public String getGroupName() {
-        return Inter.getLocText("FR-Engine-Tab_Layout_Widget_Size");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Engine-Tab_Layout_Widget_Size");
     }
 
     @Override
@@ -69,9 +69,9 @@ public class CardLayoutPropertiesGroupModel implements GroupModel {
         if (column == 0) {
             switch (row) {
                 case 0:
-                    return Inter.getLocText("FR-Engine-Tab_Layout_Width");
+                    return com.fr.design.i18n.Toolkit.i18nText("FR-Engine-Tab_Layout_Width");
                 default:
-                	return Inter.getLocText("FR-Engine-Tab_Layout_Height");
+                	return com.fr.design.i18n.Toolkit.i18nText("FR-Engine-Tab_Layout_Height");
                 
                 	
             }

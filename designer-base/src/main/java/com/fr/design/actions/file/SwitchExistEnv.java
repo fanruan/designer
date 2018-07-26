@@ -15,7 +15,7 @@ import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
 import com.fr.design.utils.DesignUtils;
 import com.fr.general.GeneralContext;
-import com.fr.general.Inter;
+
 import com.fr.stable.EnvChangedListener;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.WorkContextCallback;
@@ -109,7 +109,7 @@ public class SwitchExistEnv extends MenuDef {
             try {
                 workspace = DesignerWorkspaceGenerator.generate(selectedEnv);
                 if (workspace == null) {
-                    JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText(new String[]{"FR-Designer_M-SwitchWorkspace", "Failed"}),
+                    JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Switch_Workspace_Failed"),
                             null, 0, UIManager.getIcon("OptionPane.errorIcon"));
                     return;
                 }
@@ -125,7 +125,7 @@ public class SwitchExistEnv extends MenuDef {
                     }
                 });
             } catch (AuthException exception) {
-                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("Fine-Designer_Basic_Remote_Connect_Auth_Failed"),
+                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Basic_Remote_Connect_Auth_Failed"),
                         null, 0, UIManager.getIcon("OptionPane.errorIcon"));
             }
         }

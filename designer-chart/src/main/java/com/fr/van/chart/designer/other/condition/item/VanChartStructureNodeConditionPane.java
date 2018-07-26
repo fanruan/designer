@@ -2,7 +2,7 @@ package com.fr.van.chart.designer.other.condition.item;
 
 import com.fr.chart.base.DataSeriesCondition;
 import com.fr.design.condition.ConditionAttributesPane;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.base.AttrNode;
 import com.fr.van.chart.structure.desinger.style.StructureNodeStylePane;
 
@@ -17,7 +17,7 @@ public class VanChartStructureNodeConditionPane extends AbstractNormalMultiLineC
 
     @Override
     protected String getItemLabelString() {
-        return Inter.getLocText("Plugin-ChartF_Node");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Node");
     }
 
     @Override
@@ -35,7 +35,7 @@ public class VanChartStructureNodeConditionPane extends AbstractNormalMultiLineC
      * @return item的名称
      */
     public String nameForPopupMenuItem() {
-        return Inter.getLocText("Plugin-ChartF_Node");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Node");
     }
 
     @Override

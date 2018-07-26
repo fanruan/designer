@@ -14,7 +14,7 @@ import com.fr.base.Style;
 import com.fr.base.background.ColorBackground;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.style.color.UIToolbarColorButton;
 
@@ -25,7 +25,7 @@ public class StyleBackgroundAction extends AbstractStyleAction implements Change
 	public StyleBackgroundAction(ElementCasePane t) {
 		super(t);
 		
-        this.setName(Inter.getLocText("Background"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Background"));
     }
 
     public void stateChanged(ChangeEvent evt) {

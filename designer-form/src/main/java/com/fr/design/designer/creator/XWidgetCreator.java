@@ -6,9 +6,10 @@ package com.fr.design.designer.creator;
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.design.form.util.XCreatorConstants;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.form.ui.Widget;
-import com.fr.general.Inter;
+
 import com.fr.stable.core.PropertyChangeAdapter;
 
 import javax.swing.*;
@@ -37,9 +38,8 @@ public abstract class XWidgetCreator extends XCreator {
      */
     public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
         return new CRPropertyDescriptor[]{
-                new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Inter
-                        .getLocText("Form-Widget_Name")),
-                new CRPropertyDescriptor("enabled", this.data.getClass()).setI18NName(Inter.getLocText("FR-Designer_Enabled"))
+                new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Toolkit.i18nText("Form-Widget_Name")),
+                new CRPropertyDescriptor("enabled", this.data.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Enabled"))
                         .setPropertyChangeListener(new PropertyChangeAdapter() {
 
                     @Override
@@ -48,7 +48,7 @@ public abstract class XWidgetCreator extends XCreator {
                     }
                 }),
                 new CRPropertyDescriptor("visible", this.data.getClass()).setI18NName(
-                        Inter.getLocText("FR-Designer_Widget-Visible")).setPropertyChangeListener(new PropertyChangeAdapter() {
+                        com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget-Visible")).setPropertyChangeListener(new PropertyChangeAdapter() {
 
                     @Override
                     public void propertyChange() {
@@ -56,7 +56,7 @@ public abstract class XWidgetCreator extends XCreator {
                     }
                 }),
                 new CRPropertyDescriptor("labelName", this.data.getClass(), "getLabelName", "setLabelName")
-                        .setI18NName(Inter.getLocText("FR-Designer_Label_Name"))
+                        .setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Label_Name"))
                         .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
         };
 
@@ -172,7 +172,7 @@ public abstract class XWidgetCreator extends XCreator {
      */
     public void ChangeCreatorName(FormDesigner designer, XCreator creator) {
         String oldName = creator.toData().getWidgetName();
-        String value = JOptionPane.showInputDialog(designer, Inter.getLocText("Form-Change_Widget_Name_Discription"), oldName);
+        String value = JOptionPane.showInputDialog(designer, com.fr.design.i18n.Toolkit.i18nText("Form-Change_Widget_Name_Discription"), oldName);
         if (value != null) {
             designer.renameCreator(creator, value);
         }

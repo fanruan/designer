@@ -3,7 +3,7 @@ package com.fr.design.mainframe.widget.accessibles;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.Inter;
+
 import com.fr.general.cardtag.BannerTemplateStyle;
 import com.fr.general.cardtag.BookMarkTemplateStyle;
 import com.fr.general.cardtag.CardTemplateStyle;
@@ -54,7 +54,7 @@ public class TemplateStylePane extends BasicPane {
         JPanel centerPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
         westPane.setPreferredSize(new Dimension(100, 500));
         centerPane.setPreferredSize(new Dimension(300, 500));
-        centerPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("Preview"), null));
+        centerPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Preview"), null));
         centerPane.add(previewPane);
         styleList.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
@@ -79,7 +79,7 @@ public class TemplateStylePane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("FR-Designer_Tab_Style_Template");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tab_Style_Template");
     }
 
     public void populate(TemplateStyle templateStyle) {

@@ -6,7 +6,7 @@ package com.fr.poly.creator;
 import com.fr.base.BaseUtils;
 import com.fr.design.actions.edit.HyperlinkAction;
 import com.fr.design.menu.KeySetUtils;
-import com.fr.general.Inter;
+
 import com.fr.page.ReportSettingsProvider;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.actions.cell.*;
@@ -119,7 +119,7 @@ public class ECBlockPane extends PolyElementCasePane {
 
     // 插入菜单
     private MenuDef createInsertMenuDef() {
-        MenuDef menuDef = new MenuDef(Inter.getLocText("FR-Designer_M-Insert"), 'I');
+        MenuDef menuDef = new MenuDef(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_M-Insert"), 'I');
         // 单元格菜单
         menuDef.addShortCut(DeprecatedActionManager.getCellMenu(this));
 

@@ -6,7 +6,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.base.AttrTooltip;
 import com.fr.van.chart.designer.PlotFactory;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
@@ -73,8 +73,8 @@ public class VanChartPlotRefreshTooltipPane extends VanChartPlotTooltipNoCheckPa
                 new Component[]{refreshTooltipContentPane,null},
                 new Component[]{initDurationPane(),null},
                 new Component[]{createLabelStylePane(),null},
-                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Border"),borderPane),null},
-                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Background"), backgroundPane),null},
+                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Border"),borderPane),null},
+                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Background"), backgroundPane),null},
 
         };
         return components;
@@ -96,11 +96,11 @@ public class VanChartPlotRefreshTooltipPane extends VanChartPlotTooltipNoCheckPa
 
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Duration_Time")), duration},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Duration_Time")), duration},
         };
 
         JPanel temp = TableLayout4VanChartHelper.createGapTableLayoutPane(components, rowSize, columnSize);
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Time"), temp);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Time"), temp);
 
     }
 

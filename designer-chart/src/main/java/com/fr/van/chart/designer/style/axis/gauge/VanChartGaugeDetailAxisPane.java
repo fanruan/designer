@@ -6,7 +6,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.design.style.color.ColorSelectBox;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.attr.axis.VanChartAxis;
 import com.fr.plugin.chart.attr.axis.VanChartGaugeAxis;
 import com.fr.plugin.chart.gauge.VanChartGaugePlot;
@@ -77,13 +77,13 @@ public class VanChartGaugeDetailAxisPane extends VanChartValueAxisPane {
     }
 
     protected JPanel createLabelPane(double[] row, double[] col){
-        showLabel = new UIButtonGroup(new String[]{Inter.getLocText("Chart-Use_Show"), Inter.getLocText("Plugin-ChartF_Hidden")});
+        showLabel = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Show"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Hidden")});
         labelTextAttrPane = getChartTextAttrPane();
         labelPanel = new JPanel(new BorderLayout());
         labelPanel.add(labelTextAttrPane);
         labelPanel.setBorder(BorderFactory.createEmptyBorder(0,15,0,0));
         JPanel panel = new JPanel(new BorderLayout(0, 6));
-        panel.add(TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_AxisLabel"), showLabel), BorderLayout.NORTH);
+        panel.add(TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AxisLabel"), showLabel), BorderLayout.NORTH);
         panel.add(labelPanel, BorderLayout.CENTER);
         showLabel.addActionListener(new ActionListener() {
             @Override
@@ -108,18 +108,18 @@ public class VanChartGaugeDetailAxisPane extends VanChartValueAxisPane {
                 minMaxValuePane = new VanChartMinMaxValuePane();
                 break;
         }
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_ValueDefinition"), minMaxValuePane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_ValueDefinition"), minMaxValuePane);
     }
 
     private JPanel createTickColorPane(double[] row, double[] col){
         mainTickColor = new ColorSelectBox(100);
         secTickColor = new ColorSelectBox(100);
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_MainGraduationLine")), mainTickColor},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_SecondGraduationLine")), secTickColor},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_MainGraduationLine")), mainTickColor},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_SecondGraduationLine")), secTickColor},
         };
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components, row, col);
-        JPanel jPanel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_TickColor"), panel);
+        JPanel jPanel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_TickColor"), panel);
         panel.setBorder(BorderFactory.createEmptyBorder(10,10,0,15));
         return jPanel;
     }

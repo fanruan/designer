@@ -5,7 +5,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.style.background.BackgroundDetailPane;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Background;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import javax.swing.event.ChangeListener;
@@ -19,7 +19,7 @@ public class NullBackgroundPane extends BackgroundDetailPane {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
 
         UILabel centerLabel = new UILabel(
-            Inter.getLocText("Background-Background_is_NULL") + "...");
+            com.fr.design.i18n.Toolkit.i18nText("Background-Background_is_NULL") + "...");
         this.add(centerLabel);
         centerLabel.setHorizontalAlignment(SwingConstants.CENTER);
         centerLabel.setBorder(BorderFactory.createLineBorder(GUICoreUtils.getTitleLineBorderColor()));

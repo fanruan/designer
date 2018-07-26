@@ -9,7 +9,7 @@ import com.fr.general.CommonIOUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
-import com.fr.general.Inter;
+
 import com.fr.general.CloudCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONObject;
@@ -64,8 +64,8 @@ public class WebViewDlgHelper {
             if (!file.exists()) {
                 int rv = JOptionPane.showConfirmDialog(
                         null,
-                        Inter.getLocText("FR-Designer-Plugin_Shop_Need_Install"),
-                        Inter.getLocText("FR-Designer-Plugin_Warning"),
+                        com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Shop_Need_Install"),
+                        com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"),
                         JOptionPane.OK_CANCEL_OPTION,
                         JOptionPane.INFORMATION_MESSAGE
                 );
@@ -81,8 +81,8 @@ public class WebViewDlgHelper {
             } else {
                 int rv = JOptionPane.showConfirmDialog(
                         null,
-                        Inter.getLocText("Fine-Plugin_Shop_Need_Install_Version"),
-                        Inter.getLocText("FR-Designer-Plugin_Warning"),
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Plugin_Shop_Need_Install_Version"),
+                        com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"),
                         JOptionPane.OK_CANCEL_OPTION,
                         JOptionPane.INFORMATION_MESSAGE
                 );
@@ -96,7 +96,7 @@ public class WebViewDlgHelper {
             BasicPane traditionalStorePane = new BasicPane() {
                 @Override
                 protected String title4PopupWindow() {
-                    return Inter.getLocText("FR-Designer-Plugin_Manager");
+                    return com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Manager");
                 }
             };
             traditionalStorePane.setLayout(new BorderLayout());
@@ -201,8 +201,8 @@ public class WebViewDlgHelper {
     private static void confirmDownLoadShopJS() {
         int rv = JOptionPane.showConfirmDialog(
                 null,
-                Inter.getLocText("FR-Designer-Plugin_Shop_Need_Install"),
-                Inter.getLocText("FR-Designer-Plugin_Warning"),
+                com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Shop_Need_Install"),
+                com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"),
                 JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.INFORMATION_MESSAGE
         );
@@ -249,8 +249,8 @@ public class WebViewDlgHelper {
         UITabbedPane tabbedPane = new UITabbedPane();
         PluginInstalledPane installedPane = new PluginInstalledPane();
         tabbedPane.addTab(installedPane.tabTitle(), installedPane);
-        tabbedPane.addTab(Inter.getLocText("FR-Designer-Plugin_Update"), new PluginUpdatePane(tabbedPane));
-        tabbedPane.addTab(Inter.getLocText("FR-Designer-Plugin_All_Plugins"), new PluginFromStorePane(tabbedPane));
+        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Update"), new PluginUpdatePane(tabbedPane));
+        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_All_Plugins"), new PluginFromStorePane(tabbedPane));
         return tabbedPane;
     }
 
@@ -266,7 +266,7 @@ public class WebViewDlgHelper {
                         }
                     });
                 } catch (PluginVerifyException e) {
-                    JOptionPane.showMessageDialog(null, e.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, e.getMessage(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
                     return false;
                 } catch (Exception e) {
                     FineLoggerFactory.getLogger().error(e.getMessage(), e);
@@ -282,7 +282,7 @@ public class WebViewDlgHelper {
                     if (get()) {
                         IOUtils.unzip(new File(StableUtils.pathJoin(PluginConstants.DOWNLOAD_PATH, PluginConstants.TEMP_FILE)), installHome);
                         PluginStoreConstants.refreshProps();    // 下载完刷新一下版本号等
-                        JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Shop_Installed"), Inter.getLocText("FR-Designer_Tooltips"), JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Shop_Installed"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tooltips"), JOptionPane.INFORMATION_MESSAGE);
                     }
                 } catch (InterruptedException | ExecutionException e) {
                     FineLoggerFactory.getLogger().error(e.getMessage(), e);
@@ -305,8 +305,8 @@ public class WebViewDlgHelper {
                     if (!ComparatorUtils.equals(isLatest, LATEST)) {
                         int rv = JOptionPane.showConfirmDialog(
                                 null,
-                                Inter.getLocText("FR-Designer-Plugin_Shop_Need_Update"),
-                                Inter.getLocText("FR-Designer-Plugin_Warning"),
+                                com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Shop_Need_Update"),
+                                com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"),
                                 JOptionPane.OK_CANCEL_OPTION,
                                 JOptionPane.INFORMATION_MESSAGE
                         );

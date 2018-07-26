@@ -9,7 +9,7 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.file.FILE;
 import com.fr.file.FILEChooserPane;
 import com.fr.file.filter.ChooseFileFilter;
-import com.fr.general.Inter;
+
 import com.fr.stable.CoreConstants;
 
 //august：按理说，这个只有一列 就不该用jtable。不过这样总比之前用ArrayTableModel好
@@ -64,7 +64,7 @@ public abstract class OneListTableModel<T> extends UITableModelAdapter<T> {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			super.actionPerformed(e);
-			FILEChooserPane fileChooser = FILEChooserPane.getInstance(false, false, true, new ChooseFileFilter("js", "javascript" + Inter.getLocText("File")));
+			FILEChooserPane fileChooser = FILEChooserPane.getInstance(false, false, true, new ChooseFileFilter("js", "javascript" + com.fr.design.i18n.Toolkit.i18nText("File")));
 			if(fileChooser.showOpenDialog(DesignerContext.getDesignerFrame()) == FILEChooserPane.OK_OPTION) {
 				final FILE file = fileChooser.getSelectedFILE();
 				if(file == null) {
@@ -90,7 +90,7 @@ public abstract class OneListTableModel<T> extends UITableModelAdapter<T> {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			super.actionPerformed(e);
-			FILEChooserPane fileChooser = FILEChooserPane.getInstance(false, false, true, new ChooseFileFilter("css", "css" + Inter.getLocText("File")));
+			FILEChooserPane fileChooser = FILEChooserPane.getInstance(false, false, true, new ChooseFileFilter("css", "css" + com.fr.design.i18n.Toolkit.i18nText("File")));
 			if(fileChooser.showOpenDialog(DesignerContext.getDesignerFrame()) == FILEChooserPane.OK_OPTION) {
 				final FILE file = fileChooser.getSelectedFILE();
 				if(file == null) {

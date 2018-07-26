@@ -10,7 +10,7 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.form.ui.tree.LayerConfig;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.general.NameObject;
 
 import javax.swing.*;
@@ -47,10 +47,10 @@ public class LayerDataControlPane extends ControlPane {
         configPane = new LayerDataConfigPane();
         //创建树结构及树控件
         JPanel leftPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(Inter.getLocText("FR-Designer_Root"));
+        DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Root"));
         defaultTreeModel = new DefaultTreeModel(rootNode);
         tree = new JTree(defaultTreeModel);
-        DefaultMutableTreeNode firstLayer = new DefaultMutableTreeNode(new NameObject(Inter.getLocText("FR-Designer_Gradation") + 1, new LayerConfig(1)));
+        DefaultMutableTreeNode firstLayer = new DefaultMutableTreeNode(new NameObject(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Gradation") + 1, new LayerConfig(1)));
         tree.setRootVisible(false);
         ((DefaultMutableTreeNode) defaultTreeModel.getRoot()).getLastLeaf().add(firstLayer);
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
@@ -143,7 +143,7 @@ public class LayerDataControlPane extends ControlPane {
 
         public AddTreeNodeAction() {
 
-            this.setName(Inter.getLocText("FR-Designer_Add"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Add"));
             this.setMnemonic('A');
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/base/images/cell/control/add.png"));
         }
@@ -157,7 +157,7 @@ public class LayerDataControlPane extends ControlPane {
             do {
                 nodeCount++;
             } while ((innerNode = innerNode.getNextNode()) != null);
-            NameObject nameable = new NameObject(Inter.getLocText("FR-Designer_Gradation") + nodeCount, new LayerConfig(nodeCount));
+            NameObject nameable = new NameObject(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Gradation") + nodeCount, new LayerConfig(nodeCount));
 
             node.getLastLeaf().add(new DefaultMutableTreeNode(nameable));
             defaultTreeModel.reload();
@@ -170,15 +170,15 @@ public class LayerDataControlPane extends ControlPane {
 
         public RemoveTreeNodeAction() {
 
-            this.setName(Inter.getLocText("FR-Designer_Remove"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Remove"));
             this.setMnemonic('R');
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/base/images/cell/control/remove.png"));
         }
 
         public void actionPerformed(ActionEvent e) {
             // TODO remove tree node
-            int val = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("Utils-Are_you_sure_to_remove_the_selected_item") + "?",
-                Inter.getLocText("FR-Designer_Remove"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+            int val = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Utils-Are_you_sure_to_remove_the_selected_item") + "?",
+                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Remove"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (val != JOptionPane.OK_OPTION) {
                 return;
             }
@@ -208,7 +208,7 @@ public class LayerDataControlPane extends ControlPane {
             for (int i = 0; i < count; i++) {
 
                 DefaultMutableTreeNode node4add = new DefaultMutableTreeNode(
-                    new NameObject(Inter.getLocText("FR-Designer_Gradation") + (i + 1), layerConfigs[i].clone()));
+                    new NameObject(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Gradation") + (i + 1), layerConfigs[i].clone()));
                 node4root.add(node4add);
                 node4root = node4add;
             }

@@ -15,7 +15,7 @@ import com.fr.chart.charttypes.ChartTypeManager;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.Inter;
+
 import com.fr.license.exception.RegistEditionException;
 import com.fr.license.function.VT4FR;
 
@@ -60,7 +60,7 @@ public class ChartTypePane extends ChartCommonWizardPane {
         mainTypeList = new JList(defaultListModel);
 
         for (int i = 0; i < typeName.length; i++) {
-            defaultListModel.insertElementAt(Inter.getLocText(typeName[i].getName()), i);
+            defaultListModel.insertElementAt(com.fr.design.i18n.Toolkit.i18nText(typeName[i].getName()), i);
         }
         mainTypeList.addListSelectionListener(listSelectionListener);
 
@@ -81,7 +81,7 @@ public class ChartTypePane extends ChartCommonWizardPane {
 
         JSplitPane spane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, typeScrollPane, subListPane);
         spane.setDividerLocation(120);
-        spane.setBorder(BorderFactory.createTitledBorder(Inter.getLocText("M-Popup_ChartType")));
+        spane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("M-Popup_ChartType")));
         this.add(spane);
 
         iconViewList.setSelectedIndex(0);
@@ -157,7 +157,7 @@ public class ChartTypePane extends ChartCommonWizardPane {
         Chart chart = ChartTypeManager.getInstance().getChartTypes(plotID)[iconViewList.getSelectedIndex()];
         if(chart.getPlot() != null){
             if(chart.getPlot() instanceof MapPlot && !supportMap()){
-                JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Chart-Map_Not_Supported"));
+                JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Map_Not_Supported"));
                 throw new RegistEditionException(VT4FR.ChartMap);
             }
 

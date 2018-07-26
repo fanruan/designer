@@ -16,7 +16,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.attr.VanChartTitle;
 import com.fr.plugin.chart.vanchart.VanChart;
 import com.fr.stable.Constants;
@@ -81,7 +81,7 @@ public class VanChartTitlePane extends AbstractVanChartScrollPane<VanChart> {
         }
 
         private void initComponents() {
-            isTitleVisible = new UICheckBox(Inter.getLocText("Chart-Title_Is_Visible"));
+            isTitleVisible = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Title_Is_Visible"));
             titlePane = createTitlePane();
 
             double p = TableLayout.PREFERRED;
@@ -119,7 +119,7 @@ public class VanChartTitlePane extends AbstractVanChartScrollPane<VanChart> {
                 new Component[]{createTitleContentPane(new double[]{p,p,p},column),null},
                 new Component[]{createTitlePositionPane(new double[]{p,p,p},column),null},
                 new Component[]{createTitleStylePane(),null},
-                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Background"), backgroundPane),null},
+                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Background"), backgroundPane),null},
                 new Component[]{createDisplayStrategy(),null}
         };
 
@@ -128,14 +128,14 @@ public class VanChartTitlePane extends AbstractVanChartScrollPane<VanChart> {
 
     private JPanel createTitleContentPane(double[] row, double[] col){
         titleContent = new TinyFormulaPane();
-        useHtml = new UIToggleButton(Inter.getLocText("Plugin-ChartF_Html"));
+        useHtml = new UIToggleButton(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Html"));
         Component[][] components = new Component[][]{
                 new Component[]{null ,null},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Text"), SwingConstants.LEFT), titleContent},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Text"), SwingConstants.LEFT), titleContent},
                 new Component[]{null ,useHtml},
         };
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components,row,col);
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Content"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Content"), panel);
     }
 
     private JPanel createTitlePositionPane(double[] row, double[] col){
@@ -145,12 +145,12 @@ public class VanChartTitlePane extends AbstractVanChartScrollPane<VanChart> {
         Integer[] alignment = new Integer[]{Constants.LEFT, Constants.CENTER, Constants.RIGHT};
 
         alignmentPane = new UIButtonGroup<Integer>(alignmentIconArray, alignment);
-        customFloatPositionButton = new UIToggleButton(Inter.getLocText("Plugin-ChartF_CustomFloatPosition"));
+        customFloatPositionButton = new UIToggleButton(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_CustomFloatPosition"));
         customFloatPositionButton.setEventBannded(true);
 
         Component[][] components = new Component[][]{
                 new Component[]{null,null},
-                new Component[]{new UILabel(Inter.getLocText("BorderLayout-Constraints"), SwingConstants.LEFT),alignmentPane},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("BorderLayout-Constraints"), SwingConstants.LEFT),alignmentPane},
                 new Component[]{null,customFloatPositionButton}
         };
 
@@ -159,20 +159,20 @@ public class VanChartTitlePane extends AbstractVanChartScrollPane<VanChart> {
         initPositionListener();
 
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components,row,col);
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Chart_Layout"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Chart_Layout"), panel);
     }
 
     private JPanel createTitleStylePane(){
         textAttrPane = new ChartTextAttrPane();
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Designer-Widget_Style"), textAttrPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget_Style"), textAttrPane);
     }
 
     private JPanel createDisplayStrategy(){
         maxProportion = new UISpinner(0,100,1,30);
-        limitSize = new UIButtonGroup<Integer>(new String[]{Inter.getLocText("Plugin-ChartF_Limit"),Inter.getLocText("Plugin-ChartF_NotLimit")});
+        limitSize = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Limit"),com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NotLimit")});
 
-        JPanel limitSizePane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_AreaSize"),limitSize);
-        maxProportionPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_MaxProportion"),maxProportion, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
+        JPanel limitSizePane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AreaSize"),limitSize);
+        maxProportionPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_MaxProportion"),maxProportion, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
         maxProportionPane.setBorder(BorderFactory.createEmptyBorder(0,12,0,0));
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(limitSizePane, BorderLayout.NORTH);
@@ -185,7 +185,7 @@ public class VanChartTitlePane extends AbstractVanChartScrollPane<VanChart> {
             }
         });
 
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_DisplayStrategy"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_DisplayStrategy"), panel);
     }
 
     private void initPositionListener(){

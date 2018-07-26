@@ -9,7 +9,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.backgroundpane.*;
 import com.fr.design.dialog.BasicPane;
 import com.fr.general.Background;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -75,7 +75,7 @@ public class ChartBackgroundPane extends BasicPane{
         Component[][] components = new Component[][]{
                 new Component[]{typeComboBox, null} ,
                 new Component[]{centerPane, null},
-                new Component[]{new UILabel(Inter.getLocText("Chart_Alpha_Int")), null},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart_Alpha_Int")), null},
                 new Component[]{null, transparent}
         };
         JPanel panel = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Background"}, components,rowSize,columnSize);

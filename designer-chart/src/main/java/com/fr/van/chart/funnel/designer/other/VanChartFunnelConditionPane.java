@@ -3,7 +3,6 @@ package com.fr.van.chart.funnel.designer.other;
 import com.fr.chart.base.AttrAlpha;
 import com.fr.chart.base.AttrBackground;
 import com.fr.chart.base.AttrBorder;
-import com.fr.chart.base.ChartConstants;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.chart.series.SeriesCondition.ChartConditionPane;
 import com.fr.design.chart.series.SeriesCondition.DataSeriesConditionPane;
@@ -15,6 +14,7 @@ import com.fr.plugin.chart.base.AttrFloatColor;
 import com.fr.plugin.chart.base.AttrLabel;
 import com.fr.plugin.chart.base.AttrTooltip;
 import com.fr.plugin.chart.funnel.VanChartFunnelPlot;
+import com.fr.plugin.chart.type.ConditionKeyType;
 import com.fr.van.chart.designer.other.condition.item.VanChartEffectConditionPane;
 import com.fr.van.chart.designer.other.condition.item.VanChartFloatColorConditionPane;
 import com.fr.van.chart.designer.other.condition.item.VanChartLabelConditionPane;
@@ -42,12 +42,8 @@ public class VanChartFunnelConditionPane extends DataSeriesConditionPane {
     protected ChartConditionPane createListConditionPane() {
         return new ChartConditionPane(){
             @Override
-            public String[] columns2Populate() {
-                return new String[]{
-                        ChartConstants.SERIES_INDEX,
-                        ChartConstants.SERIES_NAME,
-                        ChartConstants.VALUE
-                };
+            protected ConditionKeyType[] conditionKeyTypes() {
+                return ConditionKeyType.NORMAL2_CONDITION_KEY_TYPES;
             }
         };
     }

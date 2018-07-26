@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.gui.ibutton.UIButton;
-import com.fr.general.Inter;
+
 
 
 
@@ -17,7 +17,7 @@ public class PreviewLabel extends UIButton {
 	
 	public PreviewLabel(Previewable previewable) {
 		super(BaseUtils.readIcon("/com/fr/design/images/m_file/preview.png"));
-		this.setToolTipText(Inter.getLocText("Preview"));
+		this.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Preview"));
 		this.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		this.previewable = previewable;
 		this.addActionListener(new ActionListener() {

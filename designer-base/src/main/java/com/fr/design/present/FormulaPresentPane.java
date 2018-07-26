@@ -6,7 +6,7 @@ import com.fr.base.present.FormulaPresent;
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.formula.TinyFormulaPane;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 
 public class FormulaPresentPane extends FurtherBasicBeanPane<FormulaPresent> {
 	private TinyFormulaPane tinyFormulaPane;
@@ -23,7 +23,7 @@ public class FormulaPresentPane extends FurtherBasicBeanPane<FormulaPresent> {
 
 	@Override
 	public String title4PopupWindow() {
-		return Inter.getLocText("Present-Formula_Present");
+		return com.fr.design.i18n.Toolkit.i18nText("Present-Formula_Present");
 	}
 
 	@Override

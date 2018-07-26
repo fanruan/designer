@@ -20,7 +20,6 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.utils.DesignUtils;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
 
@@ -68,9 +67,9 @@ public class FeedBackPane extends BasicPane {
     private static final int TEL_MAX_LENGTH = 11;
     private static final String ALLOWED_INTEGER_TYPE = "0123456789";
     private SwingWorker worker;
-    private JDialog dlg = new JDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("Send"), true);
-    private UIButton ok = new UIButton(Inter.getLocText("OK"));
-    private UIButton cancle = new UIButton(Inter.getLocText("Cancel"));
+    private JDialog dlg = new JDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Send"), true);
+    private UIButton ok = new UIButton(com.fr.design.i18n.Toolkit.i18nText("OK"));
+    private UIButton cancle = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Cancel"));
     private int ifHasBeenWriten = 0;
     private UITextArea detailField;
     private boolean isSendSuccessful = false;
@@ -97,7 +96,7 @@ public class FeedBackPane extends BasicPane {
     public FeedBackPane() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         initDetailArea();
-        UILabel tip = new UILabel(Inter.getLocText("feedback_info"));
+        UILabel tip = new UILabel(com.fr.design.i18n.Toolkit.i18nText("feedback_info"));
         tip.setBorder(TIP_BORDER);
         this.add(tip, BorderLayout.NORTH);
         UIScrollPane scrollPane = new UIScrollPane(initDetailPane());
@@ -136,7 +135,7 @@ public class FeedBackPane extends BasicPane {
             }
         };
         this.detailField.setForeground(Color.gray);
-        this.detailField.setText(Inter.getLocText("feedback_tip"));
+        this.detailField.setText(com.fr.design.i18n.Toolkit.i18nText("feedback_tip"));
         detailField.addKeyListener(new KeyAdapter() {
 
             @Override
@@ -157,7 +156,7 @@ public class FeedBackPane extends BasicPane {
                 detailField.setForeground(Color.black);
                 String text = detailField.getText();
                 // 判断在中文输入状态是否还包含提示符 要删掉
-                String tip = Inter.getLocText("feedback_tip");
+                String tip = com.fr.design.i18n.Toolkit.i18nText("feedback_tip");
                 if (text.contains(tip)) {
                     text = text.substring(0, text.indexOf(tip));
                     detailField.setText(text);
@@ -180,11 +179,11 @@ public class FeedBackPane extends BasicPane {
 
     private JPanel initDetailPane() {
         double p = TableLayout.PREFERRED;
-        UILabel info = new UILabel(Inter.getLocText("detail_description") + ":");
+        UILabel info = new UILabel(com.fr.design.i18n.Toolkit.i18nText("detail_description") + ":");
         info.setBorder(INNER_LEFT_BORDER);
         JPanel contactPane = getContactPane();
         contactPane.setBorder(INNER_LEFT_BORDER);
-        UILabel contact = new UILabel(Inter.getLocText("contact_info") + ":");
+        UILabel contact = new UILabel(com.fr.design.i18n.Toolkit.i18nText("contact_info") + ":");
         contact.setBorder(INNER_LEFT_BORDER);
         JPanel jPanel = new JPanel();
         jPanel.add(detailField);
@@ -207,8 +206,8 @@ public class FeedBackPane extends BasicPane {
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel("QQ:", SwingConstants.RIGHT), qq},
-                new Component[]{new UILabel(Inter.getLocText("email") + ":", SwingConstants.RIGHT), email},
-                new Component[]{new UILabel(Inter.getLocText("mobile_number") + ":", SwingConstants.RIGHT), phone}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("email") + ":", SwingConstants.RIGHT), email},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("mobile_number") + ":", SwingConstants.RIGHT), phone}
         };
         double[] rowSize = {p, p, p};
         double[] columnSize = {p, p};
@@ -220,7 +219,7 @@ public class FeedBackPane extends BasicPane {
         JPanel controlPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         JPanel buttonsPane = new JPanel(new FlowLayout(FlowLayout.LEFT, GAP, 0));
         controlPane.add(buttonsPane, BorderLayout.EAST);
-        sendButton = new UIButton(Inter.getLocText("Send"));
+        sendButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Send"));
         buttonsPane.add(sendButton);
         buttonsPane.setBorder(SEND_BORDER);
         sendButton.addActionListener(new ActionListener() {
@@ -236,7 +235,7 @@ public class FeedBackPane extends BasicPane {
 
     private void doWithSendPane() {
         Object[] options = new Object[]{ok, cancle};
-        send = new JOptionPane(Inter.getLocText("sending"),
+        send = new JOptionPane(com.fr.design.i18n.Toolkit.i18nText("sending"),
                 JOptionPane.INFORMATION_MESSAGE, JOptionPane.OK_CANCEL_OPTION, null, options, options[0]);
         ok.setEnabled(false);
         ok.addActionListener(new ActionListener() {
@@ -247,7 +246,7 @@ public class FeedBackPane extends BasicPane {
                     feedbackDialog.dispose();
                 } else {
                     ok.setEnabled(false);
-                    send.setMessage(Inter.getLocText("sending"));
+                    send.setMessage(com.fr.design.i18n.Toolkit.i18nText("sending"));
                     setWorker(send);
                     worker.execute();
                 }
@@ -293,12 +292,9 @@ public class FeedBackPane extends BasicPane {
                     if (model) {
                         //发送成功
                         isSendSuccessful = true;
-                        send.setMessage(Inter.getLocText("HJS-Send_Successfully") + "!");
+                        send.setMessage(com.fr.design.i18n.Toolkit.i18nText("HJS-Send_Successfully") + "!");
                     } else {
                         isSendSuccessful = false;
-                        String[] message = new String[]{"HJS-Send_Failed", "try_resending"};
-                        String[] operator = new String[]{",", ""};
-                        send.setMessage(Inter.getLocText(message, operator));
                     }
                 } catch (Exception e) {
                     isSendSuccessful = false;
@@ -313,7 +309,7 @@ public class FeedBackPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("product_feedback");
+        return com.fr.design.i18n.Toolkit.i18nText("product_feedback");
     }
 
 

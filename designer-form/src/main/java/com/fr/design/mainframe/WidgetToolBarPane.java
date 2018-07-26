@@ -8,7 +8,7 @@ import com.fr.design.gui.core.WidgetOption;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.module.DesignModuleFactory;
-import com.fr.general.Inter;
+
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -133,7 +133,7 @@ public class WidgetToolBarPane extends BasicPane implements DesignToolbarProvide
     private void initFormButtons() {
         if (componentsList4Form.isEmpty()) {
             // 表单布局
-            this.componentsList4Form.add(new TitleLabel(Inter.getLocText("Form-Layout")));
+            this.componentsList4Form.add(new TitleLabel(com.fr.design.i18n.Toolkit.i18nText("Form-Layout")));
             WidgetOption[] containerWidgetArray = FormWidgetOption.getFormContainerInstance();
             for (WidgetOption no : containerWidgetArray) {
                 this.componentsList4Form.add(new ToolBarButton(no));
@@ -143,9 +143,9 @@ public class WidgetToolBarPane extends BasicPane implements DesignToolbarProvide
 
             // 这个条件说明是否加载了图表模块
             if (wo != null && wo.length > 0) {
-                this.componentsList4Form.add(new TitleLabel(Inter.getLocText("Chart")));
+                this.componentsList4Form.add(new TitleLabel(com.fr.design.i18n.Toolkit.i18nText("Chart")));
                 UIButton chartButton = new UIButton(BaseUtils.readIcon("com/fr/design/images/toolbarbtn/chart.png"));
-                chartButton.setToolTipText(Inter.getLocText("Click-Me"));
+                chartButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Click-Me"));
                 chartButton.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {

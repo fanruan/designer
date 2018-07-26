@@ -15,7 +15,7 @@ import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.FRFont;
 import com.fr.general.IOUtils;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.wordcloud.CloudShapeType;
 import com.fr.plugin.chart.wordcloud.VanChartWordCloudPlot;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
@@ -35,8 +35,8 @@ import java.awt.event.ItemListener;
  * Created by Mitisky on 16/11/29.
  */
 public class VanChartWordCloudSeriesPane extends VanChartAbstractPlotSeriesPane {
-    private static final String AUTO_FONT_SIZE = Inter.getLocText("Plugin-ChartF_Auto");
-    private static final String CUSTOM_FONT_SIZE = Inter.getLocText("Plugin-ChartF_Define_Size");
+    private static final String AUTO_FONT_SIZE = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Auto");
+    private static final String CUSTOM_FONT_SIZE = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Define_Size");
     private static final double MAX_ROTATION = 90;
     private static final double LABEL_SIZE = 65;
     private UIComboBox fontNameComboBox;
@@ -86,7 +86,7 @@ public class VanChartWordCloudSeriesPane extends VanChartAbstractPlotSeriesPane 
         maxRotation = new
                 UISpinner(-MAX_ROTATION,MAX_ROTATION,1,0);
         Component[][] centerComps = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Rotation_Angle")), minRotation,
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Rotation_Angle")), minRotation,
                         new UILabel("-"), maxRotation},
         };
         JPanel centerPanel = TableLayout4VanChartHelper.createGapTableLayoutPane(centerComps,centerR,centerC);
@@ -96,8 +96,8 @@ public class VanChartWordCloudSeriesPane extends VanChartAbstractPlotSeriesPane 
         fontNameComboBox = new UIComboBox(Utils.getAvailableFontFamilyNames4Report());
         defineFontSize = new UIButtonGroup(new String[]{AUTO_FONT_SIZE, CUSTOM_FONT_SIZE});
         Component[][] northComps = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Font")), fontNameComboBox},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Custom")), defineFontSize }
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Font")), fontNameComboBox},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Custom")), defineFontSize }
         };
         JPanel northPanel = TableLayout4VanChartHelper.createGapTableLayoutPane(northComps,northR,northC);
 
@@ -128,7 +128,7 @@ public class VanChartWordCloudSeriesPane extends VanChartAbstractPlotSeriesPane 
 
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, rowSize, columnSize);
 
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Chart-Style_Name"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Chart-Style_Name"), panel);
     }
 
     private JPanel createCloudShapePane() {
@@ -163,7 +163,7 @@ public class VanChartWordCloudSeriesPane extends VanChartAbstractPlotSeriesPane 
             }
         });
 
-        return TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_Shape"), panel);
+        return TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Shape"), panel);
     }
 
     private void checkImagePane() {

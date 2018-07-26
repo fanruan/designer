@@ -3,7 +3,7 @@ package com.fr.van.chart.radar;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.radar.RadarIndependentVanChart;
 import com.fr.plugin.chart.radar.VanChartRadarPlot;
 import com.fr.van.chart.designer.type.AbstractVanChartTypePane;
@@ -12,7 +12,7 @@ import com.fr.van.chart.designer.type.AbstractVanChartTypePane;
  * Created by Mitisky on 15/12/28.
  */
 public class VanChartRadarPlotPane  extends AbstractVanChartTypePane {
-    public static final String TITLE = Inter.getLocText("Plugin-ChartF_NewRadar");
+    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewRadar");
 
     private static final long serialVersionUID = -4599483879031804911L;
 
@@ -26,8 +26,8 @@ public class VanChartRadarPlotPane  extends AbstractVanChartTypePane {
     @Override
     protected String[] getTypeTipName() {
         return new String[]{
-                Inter.getLocText("Plugin-ChartF_Radar"),
-                Inter.getLocText("Plugin-ChartF_StackColumnTypeRadar")
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Radar"),
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_StackColumnTypeRadar")
         };
     }
 
@@ -36,7 +36,7 @@ public class VanChartRadarPlotPane  extends AbstractVanChartTypePane {
      * @return 界面标题
      */
     public String title4PopupWindow() {
-        return Inter.getLocText("Plugin-ChartF_NewRadar");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewRadar");
     }
 
     /**

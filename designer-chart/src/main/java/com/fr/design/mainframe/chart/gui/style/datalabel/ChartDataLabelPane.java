@@ -10,7 +10,7 @@ import com.fr.design.mainframe.chart.gui.style.ChartDataPointLabel4GisPane;
 import com.fr.design.mainframe.chart.gui.style.ChartDataPointLabel4MapPane;
 import com.fr.design.mainframe.chart.gui.style.ChartDatapointLabelPane;
 import com.fr.design.dialog.BasicScrollPane;
-import com.fr.general.Inter;
+
 import com.fr.stable.Constants;
 
 import javax.swing.*;
@@ -93,13 +93,13 @@ public class ChartDataLabelPane extends BasicScrollPane<Chart>{
 	protected String[] getLabelLocationNameArray() {
 		Plot plot = chart.getPlot();
 		if(plot instanceof BarPlot){
-			return new String[] {Inter.getLocText("BarInside"), Inter.getLocText("BarOutSide"), Inter.getLocText("Center")};
+			return new String[] {com.fr.design.i18n.Toolkit.i18nText("BarInside"), com.fr.design.i18n.Toolkit.i18nText("BarOutSide"), com.fr.design.i18n.Toolkit.i18nText("Center")};
 		}else if(plot instanceof PiePlot){
-            return new String[] {Inter.getLocText("Chart_In_Pie"), Inter.getLocText("Chart_Out_Pie")};
+            return new String[] {com.fr.design.i18n.Toolkit.i18nText("Chart_In_Pie"), com.fr.design.i18n.Toolkit.i18nText("Chart_Out_Pie")};
 		}else if(plot instanceof RangePlot){
-			return new String[]{Inter.getLocText("StyleAlignment-Top"), Inter.getLocText("StyleAlignment-Bottom"), Inter.getLocText("Center")};
+			return new String[]{com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Top"), com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Bottom"), com.fr.design.i18n.Toolkit.i18nText("Center")};
 		}else if(plot instanceof BubblePlot){
-			return new String[] {Inter.getLocText("Chart_Bubble_Inside"), Inter.getLocText("Chart_Bubble_Outside")};
+			return new String[] {com.fr.design.i18n.Toolkit.i18nText("Chart_Bubble_Inside"), com.fr.design.i18n.Toolkit.i18nText("Chart_Bubble_Outside")};
 		}else{
 			return new String[0];
 		}

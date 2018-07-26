@@ -8,7 +8,7 @@
  */
 package com.fr.design.gui.syntax.ui.rtextarea;
 
-import com.fr.general.Inter;
+
 
 import java.util.ResourceBundle;
 import javax.swing.Action;
@@ -49,8 +49,8 @@ public class RUndoManager extends UndoManager {
 	 */
 	public RUndoManager(RTextArea textArea) {
 		this.textArea = textArea;
-		cantUndoText = Inter.getLocText("Action.CantUndo.Name");
-		cantRedoText = Inter.getLocText("Action.CantRedo.Name");
+		cantUndoText = com.fr.design.i18n.Toolkit.i18nText("Action.CantUndo.Name");
+		cantRedoText = com.fr.design.i18n.Toolkit.i18nText("Action.CantRedo.Name");
 	}
 
 

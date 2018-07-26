@@ -9,7 +9,7 @@ import javax.swing.event.ChangeListener;
 
 import com.fr.base.background.GradientBackground;
 import com.fr.design.dialog.BasicPane;
-import com.fr.general.Inter;
+
 import com.fr.stable.Constants;
 import com.fr.design.style.CustomSelectBox;
 import com.fr.design.style.background.BackgroundJComponent;
@@ -63,7 +63,7 @@ public class GradientSelectBox extends BasicPane {
 	}
 
 	protected String title4PopupWindow() {
-		return Inter.getLocText("Gradient-Color");
+		return com.fr.design.i18n.Toolkit.i18nText("Gradient-Color");
 	}
 	
 	public void populate(GradientBackground background) {

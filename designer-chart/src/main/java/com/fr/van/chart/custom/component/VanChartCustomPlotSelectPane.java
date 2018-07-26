@@ -5,7 +5,7 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.attr.plot.VanChartRectanglePlot;
 import com.fr.plugin.chart.custom.CustomPlotFactory;
@@ -35,7 +35,7 @@ public class VanChartCustomPlotSelectPane extends BasicBeanPane<Chart> {
     private static final int CUSTOM_TYPE_NUM = 4;
 
 
-    public static final String MASSAGE = Inter.getLocText("Plugin-ChartF_At_Least_One_Chart");
+    public static final String MASSAGE = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_At_Least_One_Chart");
 
     private List<ChartImageCheckOutPane> customTypeList = new ArrayList<ChartImageCheckOutPane>();
 

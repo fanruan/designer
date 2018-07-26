@@ -9,7 +9,7 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.mainframe.chart.gui.data.CalculateComboBox;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.wordcloud.data.WordCloudTableDefinition;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 
@@ -43,10 +43,10 @@ public class WordCloudPlotTableDataContentPane extends AbstractTableDataContentP
 
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_MultiPie_Series_Name")), name},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Word_Name")), wordName},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Word_Value")), wordValue},
-                new Component[]{new UILabel(Inter.getLocText("Chart-Summary_Method")), calculateCombox}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_MultiPie_Series_Name")), name},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Word_Name")), wordName},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Word_Value")), wordValue},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Summary_Method")), calculateCombox}
         };
 
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components,rowSize,columnSize);

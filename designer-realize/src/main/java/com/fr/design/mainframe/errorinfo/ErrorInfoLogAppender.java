@@ -5,7 +5,7 @@ import com.fr.base.io.XMLReadHelper;
 import com.fr.config.MarketConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.general.SessionLocalManager;
-import com.fr.general.Inter;
+
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
@@ -78,7 +78,7 @@ public class ErrorInfoLogAppender extends AppenderSkeleton {
     }
 
     private String readLogID(String log) {
-        String errorCode = Inter.getLocText("FR-Engine_ErrorCode-Prefix");
+        String errorCode = com.fr.design.i18n.Toolkit.i18nText("FR-Engine_ErrorCode-Prefix");
         // 报错信息国际化不规范, 有些是中文分号, 有些是英文
         String[] matchs = log.split(errorCode + ".*?[:,：]");
         if (matchs.length <= 1) {

@@ -6,7 +6,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.present.StyleArrayPane;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,7 +23,7 @@ public class StyleManagerPane extends BasicPane {
 	
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("ServerM-Predefined_Styles");
+		return com.fr.design.i18n.Toolkit.i18nText("ServerM-Predefined_Styles");
 	}
 	
 	public void populate(ServerPreferenceConfig configManager) {

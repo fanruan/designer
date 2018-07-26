@@ -5,7 +5,7 @@ import com.fr.design.gui.core.WidgetOption;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.Inter;
+
 import com.fr.report.web.ToolBarManager;
 import com.fr.report.web.WebView;
 import com.fr.web.attr.ReportWebAttr;
@@ -27,14 +27,14 @@ public class ViewWebSettingPane extends WebSettingPane<WebView> {
 
     @Override
     protected JPanel createOtherSetPane() {
-        sortCheckBox = new UICheckBox(Inter.getLocText("FR-Engine-Sort_Sort"));
-        conditionFilterBox = new UICheckBox(Inter.getLocText("FR-Engine-Selection_Filter"));
-        listFilterBox = new UICheckBox(Inter.getLocText("FR-Engine-List_Filter"));
+        sortCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Engine-Sort_Sort"));
+        conditionFilterBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Engine-Selection_Filter"));
+        listFilterBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Engine-List_Filter"));
 
         sortCheckBox.setSelected(true);
         conditionFilterBox.setSelected(true);
         listFilterBox.setSelected(true);
-        return GUICoreUtils.createFlowPane(new Component[]{new UILabel(Inter.getLocText("FR-Engine_ViewPreview") + ":"),
+        return GUICoreUtils.createFlowPane(new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_ViewPreview") + ":"),
                 sortCheckBox, conditionFilterBox, listFilterBox}, FlowLayout.LEFT, 6);
     }
 

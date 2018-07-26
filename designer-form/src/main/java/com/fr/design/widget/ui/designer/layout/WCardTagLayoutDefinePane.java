@@ -23,7 +23,7 @@ import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.general.Background;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
-import com.fr.general.Inter;
+
 import com.fr.general.cardtag.TemplateStyle;
 
 import javax.swing.BorderFactory;
@@ -58,7 +58,7 @@ public class WCardTagLayoutDefinePane extends AbstractDataModify<WCardTagLayout>
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
 
-        UILabel fontLabel = new UILabel(Inter.getLocText("FR-Designer_Font"));
+        UILabel fontLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Font"));
         fontLabel.setVerticalAlignment(SwingConstants.TOP);
         frFontPane = new FRFontPane() {
             protected JPanel createRightPane() {
@@ -80,20 +80,20 @@ public class WCardTagLayoutDefinePane extends AbstractDataModify<WCardTagLayout>
                 return true;
             }
         };
-        displayPositionGroup.setGlobalName(Inter.getLocText("FR-Designer_Tab_Style_Template"));
+        displayPositionGroup.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tab_Style_Template"));
         textDirectionGroup = new UIButtonGroup(WTabTextDirection.getStringArray());
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Tab_Style_Template")), templateStyleEditor},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Tab_Display_Position")), displayPositionGroup},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Background")), backgroundEditor},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tab_Style_Template")), templateStyleEditor},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tab_Display_Position")), displayPositionGroup},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background")), backgroundEditor},
                 new Component[]{fontLabel, frFontPane},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_StyleAlignment_Text_Rotation")), textDirectionGroup}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_StyleAlignment_Text_Rotation")), textDirectionGroup}
         };
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
         JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         jPanel.add(panel, BorderLayout.CENTER);
-        UIExpandablePane advanceExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer_Advanced"), 280, 20, jPanel);
+        UIExpandablePane advanceExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Advanced"), 280, 20, jPanel);
         this.add(advanceExpandablePane, BorderLayout.CENTER);
     }
 
@@ -128,7 +128,7 @@ public class WCardTagLayoutDefinePane extends AbstractDataModify<WCardTagLayout>
         layoutBorderStyle.getTitle().setFrFont(frFontPane.update(frFont));
         WCardTagLayout layout = (WCardTagLayout) creator.toData();
         boolean isHori = displayPositionGroup.getSelectedIndex() == WTabDisplayPosition.TOP_POSITION.getType() || displayPositionGroup.getSelectedIndex() == WTabDisplayPosition.BOTTOM_POSITION.getType();
-        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_Tab_Style_Template"))) {
+        if (ComparatorUtils.equals(getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tab_Style_Template"))) {
             layout.setDisplayPosition(WTabDisplayPosition.parse(displayPositionGroup.getSelectedIndex()));
             textDirectionGroup.setSelectedIndex(isHori ? WTabTextDirection.TEXT_HORI_DERECTION.getType() : WTabTextDirection.TEXT_VER_DIRECTION.getType());
             layout.setHgap(isHori ? WCardTagLayout.DESIGNER_DEFAULT_GAP : 0);

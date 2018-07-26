@@ -17,7 +17,7 @@ import com.fr.form.share.SharableEditorProvider;
 import com.fr.form.share.ShareLoader;
 import com.fr.form.ui.SharableWidgetBindInfo;
 import com.fr.form.ui.Widget;
-import com.fr.general.Inter;
+
 import com.fr.stable.Constants;
 
 import javax.swing.*;
@@ -184,10 +184,10 @@ public class FormCreatorDropTarget extends DropTarget {
 
     private void promptUser(int x, int y, XLayoutContainer container) {
         if (!addingModel.getXCreator().canEnterIntoParaPane() && container.acceptType(XWParameterLayout.class)) {
-            promptButton.setText(Inter.getLocText("FR-Designer_Forbid_Drag_into_Para_Pane"));
+            promptButton.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Forbid_Drag_into_Para_Pane"));
             promptWidgetForbidEnter(x, y, container);
         } else if (!addingModel.getXCreator().canEnterIntoAdaptPane() && container.acceptType(XWFitLayout.class)) {
-            promptButton.setText(Inter.getLocText("FR-Designer_Forbid_Drag_into_Adapt_Pane"));
+            promptButton.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Forbid_Drag_into_Adapt_Pane"));
             promptWidgetForbidEnter(x, y, container);
         } else {
             cancelPromptWidgetForbidEnter();

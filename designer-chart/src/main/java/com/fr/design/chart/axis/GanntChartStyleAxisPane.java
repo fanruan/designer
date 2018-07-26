@@ -2,7 +2,7 @@ package com.fr.design.chart.axis;
 
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.mainframe.chart.gui.style.axis.ChartCategoryPane;
-import com.fr.general.Inter;
+
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,7 +19,7 @@ public class GanntChartStyleAxisPane extends BinaryChartStyleAxisPane {
     protected AxisStyleObject getXAxisPane(Plot plot) {
     	ChartCategoryPane categoryPane = new ChartCategoryPane();
     	categoryPane.getAxisValueTypePane().removeTextAxisPane();
-        return new AxisStyleObject(Inter.getLocText("Chart_Date_Axis"), categoryPane);
+        return new AxisStyleObject(com.fr.design.i18n.Toolkit.i18nText("Chart_Date_Axis"), categoryPane);
     }
 
     protected AxisStyleObject getYAxisPane(Plot plot) {

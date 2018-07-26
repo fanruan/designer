@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 import com.fr.design.Exception.ValidationException;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.icombobox.DictionaryComboBox;
-import com.fr.general.Inter;
+
 
 /**
  * @author richer
@@ -18,7 +18,7 @@ import com.fr.general.Inter;
  */
 public class AdjustModeEditor extends AbstractPropertyEditor {
 	public static final String[] AjustRowTypes = new String[] {
-		Inter.getLocText("No"), Inter.getLocText("Utils-Row_Height"), Inter.getLocText("Utils-Column_Width"), Inter.getLocText("Default")};
+		com.fr.design.i18n.Toolkit.i18nText("No"), com.fr.design.i18n.Toolkit.i18nText("Utils-Row_Height"), com.fr.design.i18n.Toolkit.i18nText("Utils-Column_Width"), com.fr.design.i18n.Toolkit.i18nText("Default")};
 
     private UIComboBox combobox;
 

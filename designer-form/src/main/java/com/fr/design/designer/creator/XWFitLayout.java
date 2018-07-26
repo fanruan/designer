@@ -25,7 +25,7 @@ import com.fr.form.ui.container.WFitLayout;
 import com.fr.form.ui.container.WLayout;
 import com.fr.general.FRScreen;
 import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
-import com.fr.general.Inter;
+
 import com.fr.stable.ArrayUtils;
 
 import javax.swing.JOptionPane;
@@ -986,7 +986,7 @@ public class XWFitLayout extends XLayoutContainer {
 			Rectangle bound = dealBound(rec, d, val, 0);
 			if (bound.width < minWidth || bound.height< minHeight) {
 				String widgetName = comp.toData().getWidgetName();
-				JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Engine_Invalid_Setting_Cause_Reach_Min_Widget_Size", widgetName));
+				JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Invalid_Setting_Cause_Reach_Min_Widget_Size", widgetName));
 				return false;
 			}
 		}

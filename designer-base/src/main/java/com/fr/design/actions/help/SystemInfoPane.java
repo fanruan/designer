@@ -12,7 +12,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 import com.fr.stable.ProductConstants;
 
 public class SystemInfoPane extends JPanel {
@@ -25,8 +25,8 @@ public class SystemInfoPane extends JPanel {
                 return false;
             }
         };
-        tableModel.addColumn(Inter.getLocText("Property"));
-        tableModel.addColumn(Inter.getLocText("Value"));
+        tableModel.addColumn(com.fr.design.i18n.Toolkit.i18nText("Property"));
+        tableModel.addColumn(com.fr.design.i18n.Toolkit.i18nText("Value"));
 
         Properties properties = System.getProperties();
         Object[] keys = new Object[properties.size()];

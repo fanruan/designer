@@ -25,7 +25,7 @@ import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Nameable;
 import com.fr.stable.StringUtils;
@@ -232,56 +232,6 @@ public abstract class UIListControlPane extends UIControlPane {
         isPopulating = false;
     }
 
-    /**
-     * 添加名字改变时的listener
-     *
-     * @param l 名字改变时的监听
-     */
-    public void addModNameActionListener(ModNameActionListener l) {
-        this.nameableList.addModNameActionListener(l);
-    }
-
-    /**
-     * 添加Editinglistener
-     *
-     * @param l 监听
-     */
-    public void addEditingListner(PropertyChangeAdapter l) {
-        this.nameableList.addEditingListner(l);
-    }
-
-    /*
-     * 刷新当前的选中的UpdatePane
-     */
-    protected void populateSelectedValue() {
-        ((JControlUpdatePane) UIListControlPane.this.controlUpdatePane).populate();
-    }
-
-    /**
-     * 根据name,选中UINameEdList中的item
-     */
-    public void setSelectedName(String name) {
-        DefaultListModel listModel = (DefaultListModel) this.nameableList.getModel();
-        for (int i = 0, len = listModel.getSize(); i < len; i++) {
-            Nameable item = ((ListModelElement) listModel.getElementAt(i)).wrapper;
-            if (ComparatorUtils.equals(name, item.getName())) {
-                this.nameableList.setSelectedIndex(i);
-                break;
-            }
-        }
-    }
-
-    public String getEditingName() {
-        return this.nameableList.getEditingName();
-    }
-
-    public Object getEditingType() {
-        return this.nameableList.getAllTypes()[editingIndex];
-    }
-
-    public void setWarnigText(int index) {
-        this.nameableList.setWarnigText(index);
-    }
 
     /**
      * 获取选中的名字
@@ -290,26 +240,6 @@ public abstract class UIListControlPane extends UIControlPane {
         ListModelElement el = (ListModelElement) this.nameableList.getSelectedValue();
 
         return el == null ? null : el.wrapper.getName();
-    }
-
-    protected boolean isNameRepeted(java.util.List[] list, String name) {
-        for (int i = 0; i < list.length; i++) {
-            if (list[i].contains(name)) {
-                isNameRepeated = true;
-                return true;
-            }
-        }
-        isNameRepeated = false;
-        return false;
-    }
-
-    /**
-     * 名字是否重复
-     *
-     * @return 重复则返回true
-     */
-    public boolean isNameRepeated() {
-        return isNameRepeated;
     }
 
     /**
@@ -337,7 +267,7 @@ public abstract class UIListControlPane extends UIControlPane {
      * @return 是则true
      */
     public boolean isContainsRename() {
-        String rename = Inter.getLocText("FR-Please_Rename") + "!";
+        String rename = com.fr.design.i18n.Toolkit.i18nText("FR-Please_Rename") + "!";
         String[] names = this.nameableList.getAllNames();
         for (int i = names.length - 1; i >= 0; i--) {
             if (ComparatorUtils.equals(names[i], rename)) {
@@ -457,7 +387,7 @@ public abstract class UIListControlPane extends UIControlPane {
 
         public AddItemUpdateAction(NameableCreator[] creators) {
             this.creator = creators[0];
-            this.setName(Inter.getLocText("FR-Action_Add"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Action_Add"));
             this.setMnemonic('A');
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/buttonicon/add.png"));
         }
@@ -513,7 +443,7 @@ public abstract class UIListControlPane extends UIControlPane {
     protected class AddItemMenuDef extends MenuDef {
         public AddItemMenuDef(NameableCreator[] creators) {
             super(true);
-            this.setName(Inter.getLocText("FR-Action_Add"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Action_Add"));
             this.setMnemonic('A');
             this.setIconPath("/com/fr/design/images/control/addPopup.png");
             wrapActionListener(creators);
@@ -539,8 +469,8 @@ public abstract class UIListControlPane extends UIControlPane {
                 if (!whetherAdd(creator.menuName())) {
                     continue;
                 }
-                boolean isTrue = ComparatorUtils.equals(creator.menuName(), Inter.getLocText("Datasource-Stored_Procedure")) ||
-                        ComparatorUtils.equals(creator.menuName(), Inter.getLocText("DS-Relation_TableData")) || ComparatorUtils.equals(creator.menuName(), Inter.getLocText("DS-Multi_Dimensional_Database"));
+                boolean isTrue = ComparatorUtils.equals(creator.menuName(), com.fr.design.i18n.Toolkit.i18nText("Datasource-Stored_Procedure")) ||
+                        ComparatorUtils.equals(creator.menuName(), com.fr.design.i18n.Toolkit.i18nText("DS-Relation_TableData")) || ComparatorUtils.equals(creator.menuName(), com.fr.design.i18n.Toolkit.i18nText("DS-Multi_Dimensional_Database"));
                 if (isTrue) {
                     this.addShortCut(new LineSeparator());
                 }
@@ -577,7 +507,7 @@ public abstract class UIListControlPane extends UIControlPane {
      */
     private class RemoveItemAction extends UpdateAction {
         public RemoveItemAction() {
-            this.setName(Inter.getLocText("FR-Action_Remove"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Action_Remove"));
             this.setMnemonic('R');
             this.setSmallIcon(BaseUtils
                     .readIcon("/com/fr/base/images/cell/control/remove.png"));
@@ -606,7 +536,7 @@ public abstract class UIListControlPane extends UIControlPane {
      */
     private class CopyItemAction extends UpdateAction {
         public CopyItemAction() {
-            this.setName(Inter.getLocText("FR-Action_Copy"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Action_Copy"));
             this.setMnemonic('C');
             this.setSmallIcon(BaseUtils
                     .readIcon("/com/fr/design/images/m_edit/copy.png"));
@@ -641,7 +571,7 @@ public abstract class UIListControlPane extends UIControlPane {
      */
     private class MoveUpItemAction extends UpdateAction {
         public MoveUpItemAction() {
-            this.setName(Inter.getLocText("Utils-Move_Up"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Utils-Move_Up"));
             this.setMnemonic('U');
             this.setSmallIcon(BaseUtils
                     .readIcon("/com/fr/design/images/control/up.png"));
@@ -674,7 +604,7 @@ public abstract class UIListControlPane extends UIControlPane {
      */
     private class MoveDownItemAction extends UpdateAction {
         public MoveDownItemAction() {
-            this.setName(Inter.getLocText("Utils-Move_Down"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Utils-Move_Down"));
             this.setMnemonic('D');
             this.setSmallIcon(BaseUtils
                     .readIcon("/com/fr/design/images/control/down.png"));
@@ -705,7 +635,7 @@ public abstract class UIListControlPane extends UIControlPane {
         private boolean isAtoZ = false;
 
         public SortItemAction() {
-            this.setName(Inter.getLocText("FR-Action_Sort"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Action_Sort"));
             this.setMnemonic('S');
             this.setSmallIcon(BaseUtils
                     .readIcon("/com/fr/design/images/control/sortAsc.png"));

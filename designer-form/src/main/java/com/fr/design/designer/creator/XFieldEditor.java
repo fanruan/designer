@@ -15,7 +15,7 @@ import com.fr.form.ui.FieldEditor;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.form.ui.TextEditor;
 import com.fr.form.ui.reg.RegExp;
-import com.fr.general.Inter;
+
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
 
@@ -40,13 +40,13 @@ public abstract class XFieldEditor extends XWidgetCreator {
 
     private CRPropertyDescriptor[] getCRPropertyDescriptor() throws IntrospectionException {
         CRPropertyDescriptor allowBlank = new CRPropertyDescriptor("allowBlank", this.data.getClass()).setI18NName(
-                Inter.getLocText("FR-Designer_Allow-Blank")).setEditorClass(InChangeBooleanEditor.class).putKeyValue(
+                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Allow-Blank")).setEditorClass(InChangeBooleanEditor.class).putKeyValue(
                 XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate");
         CRPropertyDescriptor blankErrorMsg = new CRPropertyDescriptor("errorMessage", this.data.getClass()).setI18NName(
-                Inter.getLocText("FR-Engine_Verify-Message"))
+                com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Verify-Message"))
                 .putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate");
         CRPropertyDescriptor fontSize = new CRPropertyDescriptor("fontSize", this.data.getClass(), "getFontSize", "setFontSize")
-                .setI18NName(Inter.getLocText("FR-Designer_Font-Size"))
+                .setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Font-Size"))
                 .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "FR-Designer_Advanced");
         return !((FieldEditor) toData()).isAllowBlank() ?
                 new CRPropertyDescriptor[]{allowBlank, blankErrorMsg, fontSize}

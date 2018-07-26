@@ -4,7 +4,7 @@ import com.fr.chart.chartattr.Plot;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
-import com.fr.general.Inter;
+
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 import com.fr.van.chart.designer.style.VanChartStylePane;
 
@@ -21,8 +21,8 @@ public class VanChartGaugeLabelDetailPane extends VanChartPlotLabelDetailPane {
     }
 
     protected JPanel createLabelStylePane(double[] row, double[] col, Plot plot) {
-        style = new UIButtonGroup<Integer>(new String[]{Inter.getLocText("Plugin-ChartF_Automatic"),
-                Inter.getLocText("Plugin-ChartF_Custom")});
+        style = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Automatic"),
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Custom")});
         textFontPane = initTextFontPane();
 
         initStyleListener();

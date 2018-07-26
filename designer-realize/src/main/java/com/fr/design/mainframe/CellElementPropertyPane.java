@@ -12,7 +12,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itabpane.TitleChangeListener;
 import com.fr.design.mainframe.cell.CellElementEditPane;
 import com.fr.general.GeneralContext;
-import com.fr.general.Inter;
+
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.FloatSelection;
 import com.fr.grid.selection.Selection;
@@ -89,7 +89,7 @@ public class CellElementPropertyPane extends DockingView {
 
         @Override
         public void fireTitleChange(String addName) {
-            title.setText(Inter.getLocText("FR-Designer_CellElement_Property_Table") + '-' + addName);
+            title.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_CellElement_Property_Table") + '-' + addName);
         }
     };
 
@@ -100,7 +100,7 @@ public class CellElementPropertyPane extends DockingView {
         cellElementEditPane = new CellElementEditPane();
         cellElementEditPane.addTitleChangeListner(titleListener);
         titlePane = new JPanel(new BorderLayout());
-        title = new UILabel(this.getViewTitle() + '-' + Inter.getLocText("ExpandD-Expand_Attribute")) {
+        title = new UILabel(this.getViewTitle() + '-' + com.fr.design.i18n.Toolkit.i18nText("ExpandD-Expand_Attribute")) {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -160,7 +160,7 @@ public class CellElementPropertyPane extends DockingView {
 
     @Override
     public String getViewTitle() {
-        return Inter.getLocText("FR-Designer_CellElement_Property_Table");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_CellElement_Property_Table");
     }
 
     @Override

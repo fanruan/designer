@@ -8,18 +8,17 @@ import com.fr.design.data.datapane.connect.ConnectionShowPane;
 import com.fr.design.data.datapane.connect.DatabaseConnectionPane;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.gui.NameInspector;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.file.ConnectionConfig;
 import com.fr.general.IOUtils;
-import com.fr.general.Inter;
-import com.fr.locale.InterProviderFactory;
 import com.fr.transaction.CallBackAdaptor;
 import com.fr.transaction.Configurations;
 import com.fr.transaction.WorkerFacade;
 
-import javax.swing.KeyStroke;
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.util.Map;
 
@@ -44,7 +43,7 @@ public class ConnectionListAction extends UpdateAction {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("Server-Define_Data_Connection");
+            return com.fr.design.i18n.Toolkit.i18nText("Server-Define_Data_Connection");
         }
 
         @Override
@@ -130,17 +129,9 @@ public class ConnectionListAction extends UpdateAction {
      */
     public static int isConnectionMapContainsRename(ConnectionConfig datasourceManager) {
         Map<String, Connection> tableDataMap = datasourceManager.getConnections();
-        String rename = InterProviderFactory.getProvider().getLocText("FR-Engine_Please_Rename") + "!";
-        if (tableDataMap.containsKey(rename)) {
-            return datasourceManager.getConnectionIndex(rename);
+        if (tableDataMap.containsKey(NameInspector.ILLEGAL_NAME_HOLDER)) {
+            return datasourceManager.getConnectionIndex(NameInspector.ILLEGAL_NAME_HOLDER);
         }
-        //todo  这边同上面和远程修改数据集属性有关先屏蔽
-//        for (int i = tableDataRenameIndex; i >= 1; i--) {
-//            rename = InterProviderFactory.getProvider().getLocText("FR-Engine_Please_Rename") + i + "!";
-//            if (nameTableDataMap.map.containsKey(rename)) {
-//                return nameTableDataMap.map.indexOf(rename);
-//            }
-//        }
         return -1;
     }
 

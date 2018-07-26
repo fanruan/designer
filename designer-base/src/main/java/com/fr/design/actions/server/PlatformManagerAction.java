@@ -4,7 +4,7 @@ import com.fr.base.BaseUtils;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.design.utils.DesignUtils;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -33,7 +33,7 @@ public class PlatformManagerAction extends UpdateAction {
 
 		@Override
 		public String getMenuName() {
-			return Inter.getLocText("M_Server-Platform_Manager");
+			return com.fr.design.i18n.Toolkit.i18nText("M_Server-Platform_Manager");
 		}
 
 		@Override

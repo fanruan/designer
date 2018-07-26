@@ -11,7 +11,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.form.ui.Widget;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.js.FormHyperlinkProvider;
 import com.fr.stable.bridge.StableFactory;
 
@@ -56,13 +56,13 @@ public class FormHyperlinkNorthPane extends BasicBeanPane<FormHyperlinkProvider>
         Component[][] components;
         if (!this.needRenamePane) {
             components = new Component[][]{
-                    {new UILabel(Inter.getLocText("FR-Designer_Form-Object")), targetFrameComboBox},
+                    {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form-Object")), targetFrameComboBox},
             };
         } else {
             itemNameTextField = new UITextField();
             components = new Component[][]{
-                    {new UILabel(Inter.getLocText("FR-Designer_Name_has_Colon")), itemNameTextField},
-                    {new UILabel(Inter.getLocText("FR-Designer_Form-Object")), targetFrameComboBox},
+                    {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Name_has_Colon")), itemNameTextField},
+                    {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form-Object")), targetFrameComboBox},
             };
         }
         JPanel northPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
@@ -99,7 +99,7 @@ public class FormHyperlinkNorthPane extends BasicBeanPane<FormHyperlinkProvider>
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("Hyperlink-Form_link");
+        return com.fr.design.i18n.Toolkit.i18nText("Hyperlink-Form_link");
     }
 
     @Override

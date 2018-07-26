@@ -18,7 +18,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.dialog.BasicPane;
 import com.fr.general.Background;
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.Inter;
+
 
 public class BackgroundPane extends BasicPane {
 
@@ -59,7 +59,7 @@ public class BackgroundPane extends BasicPane {
         for (Class<? extends Background> key : BackgroundFactory.kindsOfKey()) {
             BackgroundUIWrapper wrapper = BackgroundFactory.getWrapper(key);
             wrapper.setIndex(index++);
-            tabbedPane.addTab(Inter.getLocText(wrapper.getTitle()), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
+            tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText(wrapper.getTitle()), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
         }
     }
 
@@ -85,7 +85,7 @@ public class BackgroundPane extends BasicPane {
     
     @Override
     protected String title4PopupWindow() {
-    	return Inter.getLocText("Background");
+    	return com.fr.design.i18n.Toolkit.i18nText("Background");
     }
 
 

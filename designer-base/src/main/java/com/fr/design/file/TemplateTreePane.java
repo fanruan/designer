@@ -4,7 +4,7 @@
 package com.fr.design.file;
 
 import com.fr.base.FRContext;
-import com.fr.base.io.FileAssistUtils;
+import com.fr.base.io.FileAssistUtilsOperator;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.itree.filetree.TemplateFileTree;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -15,7 +15,7 @@ import com.fr.file.filetree.FileNode;
 import com.fr.file.filetree.IOFileNodeFilter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.IOUtils;
-import com.fr.general.Inter;
+
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.ProductConstants;
@@ -156,7 +156,7 @@ public class TemplateTreePane extends JPanel implements FileOperations {
     @Override
     public void refresh() {
         reportletsTree.refresh();
-        FineLoggerFactory.getLogger().info(Inter.getLocText(new String[]{"File-tree", "Refresh_Successfully"}) + "!");
+        FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Template_File_Tree_Refresh_Successfully") + "!");
     }
 
     /**
@@ -168,25 +168,26 @@ public class TemplateTreePane extends JPanel implements FileOperations {
         if (reportPaths.length == 0) {
             return;
         }
-        if (JOptionPane.showConfirmDialog(null, Inter.getLocText("Confirm-Delete-File")) != JOptionPane.OK_OPTION) {
+        if (JOptionPane.showConfirmDialog(null, com.fr.design.i18n.Toolkit.i18nText("Confirm-Delete-File")) != JOptionPane.OK_OPTION) {
             return;
         }
         for (String reportPath : reportPaths) {
             FileNodeFILE nodeFile = new FileNodeFILE(new FileNode(StableUtils.pathJoin(ProjectConstants.REPORTLETS_NAME, reportPath), false));
 
             if (nodeFile.isLocked()) {
-                if (JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("fileLocked_undeleted"),
-                        Inter.getLocText("Error"), JOptionPane.YES_OPTION, JOptionPane.ERROR_MESSAGE) == JOptionPane.YES_OPTION) {
+                if (JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("fileLocked_undeleted"),
+                        com.fr.design.i18n.Toolkit.i18nText("Error"), JOptionPane.YES_OPTION, JOptionPane.ERROR_MESSAGE) == JOptionPane.YES_OPTION) {
                     refreshDockingView();
                 }
                 break;
             }
             if (nodeFile.exists()) {
                 String path = StableUtils.pathJoin(nodeFile.getEnvPath(), nodeFile.getPath());
-                FileAssistUtils.moveToTrash(nodeFile.getPath());
+                FileAssistUtilsOperator fileAssistUtils = WorkContext.getCurrent().get(FileAssistUtilsOperator.class);
+                fileAssistUtils.moveToTrash(nodeFile.getPath());
                 deleteHistory(path.replaceAll("/", "\\\\"));
             } else {
-                JOptionPane.showMessageDialog(this, Inter.getLocText("Warning-Template_Do_Not_Exsit"), ProductConstants.PRODUCT_NAME,
+                JOptionPane.showMessageDialog(this, com.fr.design.i18n.Toolkit.i18nText("Warning-Template_Do_Not_Exsit"), ProductConstants.PRODUCT_NAME,
                         JOptionPane.INFORMATION_MESSAGE);
             }
         }

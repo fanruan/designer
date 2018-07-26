@@ -14,7 +14,7 @@ import com.fr.base.Style;
 import com.fr.base.core.StyleUtils;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.style.color.UIToolbarColorButton;
 
@@ -25,7 +25,7 @@ public class ReportFontForegroundAction extends AbstractStyleAction implements C
 	public ReportFontForegroundAction(ElementCasePane t) {
 		super(t);
 
-		this.setName(Inter.getLocText("Foreground"));
+		this.setName(com.fr.design.i18n.Toolkit.i18nText("Foreground"));
 	}
 
 	public void stateChanged(ChangeEvent evt) {

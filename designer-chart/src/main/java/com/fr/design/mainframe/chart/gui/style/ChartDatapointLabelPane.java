@@ -20,7 +20,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.general.FRFont;
-import com.fr.general.Inter;
+
 import com.fr.stable.Constants;
 import com.fr.stable.StringUtils;
 import com.fr.van.chart.designer.component.format.FormatPaneWithOutFont;
@@ -80,7 +80,7 @@ public class ChartDatapointLabelPane extends BasicPane{
 	public ChartDatapointLabelPane(String[] locationNameArray, Integer[] locationValueArray, Plot plot, ChartStylePane parent) {
 		this.parent = parent;
 		
-		isLabelShow = new UICheckBox(Inter.getLocText("FR-Chart-Chart_Label"));
+		isLabelShow = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Chart_Label"));
 		if(locationNameArray != null && locationNameArray.length > 0 
 				&& locationValueArray != null && locationValueArray.length > 0) {
 			nameValueMap.clear();
@@ -96,18 +96,18 @@ public class ChartDatapointLabelPane extends BasicPane{
         boolean isGuidline = plot.isSupportLeadLine();
 
         if(plot.isSupportCategoryFilter()) {
-		    isCategory = new UICheckBox(Inter.getLocText("Chart-Category_Name"));
+		    isCategory = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Category_Name"));
         }
-		isSeries = new UICheckBox(Inter.getLocText("Chart-Series_Name"));
-		isValue = new UICheckBox(Inter.getLocText("Chart-Use_Value"));
+		isSeries = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Series_Name"));
+		isValue = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Value"));
 		isValue.setSelected(true);
-		valueFormatButton = new UIButton(Inter.getLocText("Chart-Use_Format"));
+		valueFormatButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Format"));
 
         if(plot.isSupportValuePercent()) {
-		    isValuePercent = new UICheckBox(Inter.getLocText("Chart-Value_Percent"));
-		    valuePercentFormatButton = new UIButton(Inter.getLocText("Chart-Use_Format"));
+		    isValuePercent = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Value_Percent"));
+		    valuePercentFormatButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Format"));
 			if (plot.isShowAllDataPointLabel()) {
-				isValuePercent.setText(Inter.getLocText("Chart-Value_Conversion"));
+				isValuePercent.setText(com.fr.design.i18n.Toolkit.i18nText("Chart-Value_Conversion"));
 			}
         }
 
@@ -117,7 +117,7 @@ public class ChartDatapointLabelPane extends BasicPane{
 		textFontPane = new ChartTextAttrPane();
 		
 		if(isGuidline) {
-			isGuid = new UICheckBox(Inter.getLocText("ChartF-Show_GuidLine"));
+			isGuid = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("ChartF-Show_GuidLine"));
 		}
 
         if (plot.isShowAllDataPointLabel()) {
@@ -140,7 +140,7 @@ public class ChartDatapointLabelPane extends BasicPane{
 
 		if(positionBox != null) {
 			JPanel positionPane = new JPanel(new BorderLayout(LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM));
-			positionPane.add(new BoldFontTextLabel(Inter.getLocText("Chart-Layout_Position")), BorderLayout.WEST);
+			positionPane.add(new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Layout_Position")), BorderLayout.WEST);
 			positionPane.add(positionBox, BorderLayout.CENTER);
 			components[0] = new Component[]{positionPane, null};
             if(isGuidline) {
@@ -166,7 +166,7 @@ public class ChartDatapointLabelPane extends BasicPane{
 
         JPanel delimiterPane = new JPanel(new BorderLayout(LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM));
         if (plot.isSupportDelimiter()) {
-            delimiterPane.add(new BoldFontTextLabel(Inter.getLocText("FR-Chart-Delimiter_Symbol")), BorderLayout.WEST);
+            delimiterPane.add(new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Delimiter_Symbol")), BorderLayout.WEST);
             delimiterPane.add(divideComoBox, BorderLayout.CENTER);
         }
 		

@@ -4,7 +4,7 @@
 package com.fr.design.actions.columnrow;
 
 import com.fr.design.mainframe.ElementCasePane;
-import com.fr.general.Inter;
+
 import com.fr.grid.selection.CellSelection;
 import com.fr.report.elementcase.ElementCase;
 import com.fr.stable.unit.UNIT;
@@ -17,13 +17,13 @@ public class ColumnWidthAction extends ColumnRowSizingAction {
 	public ColumnWidthAction(ElementCasePane t, int indexOfColumnOrRow) {
 		super(t, indexOfColumnOrRow);
 		
-        this.setName(Inter.getLocText("Utils-Column_Width") + "...");
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Utils-Column_Width") + "...");
         this.setMnemonic('C');
     }
 	
 	@Override
 	protected String title4UnitInputPane() {
-		return Inter.getLocText("Utils-Column_Width");
+		return com.fr.design.i18n.Toolkit.i18nText("Utils-Column_Width");
 	}
     
     @Override

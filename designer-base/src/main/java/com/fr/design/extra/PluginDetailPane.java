@@ -1,7 +1,7 @@
 package com.fr.design.extra;
 
 import com.fr.design.dialog.BasicPane;
-import com.fr.general.Inter;
+
 import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.view.PluginView;
 import com.fr.stable.StringUtils;
@@ -26,7 +26,7 @@ public class PluginDetailPane extends BasicPane {
     public PluginDetailPane() {
         setLayout(new BorderLayout());
         PluginDescriptionLabel label = new PluginDescriptionLabel();
-        label.setText(Inter.getLocText("FR-Designer-Plugin_Plugin_Description"));
+        label.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Plugin_Description"));
         add(label, BorderLayout.NORTH);
 
         textPane = new JEditorPane();

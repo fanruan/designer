@@ -7,7 +7,7 @@ import com.fr.design.javascript.EmailPane;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
-import com.fr.general.Inter;
+
 import com.fr.js.EmailJavaScript;
 
 import javax.swing.*;
@@ -32,13 +32,13 @@ public class ChartEmailPane extends EmailPane{
 		JPanel contentPane;
 		if (supportExport) {
 			double[] rSizes = { preferred, preferred, preferred, preferred, preferred, fill, preferred, preferred};
-			showTplContent = new UICheckBox(Inter.getLocText("Email-Can_Preview_Report_Content"));
+			showTplContent = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Email-Can_Preview_Report_Content"));
 			contentPane = TableLayoutHelper.createCommonTableLayoutPane(new JComponent[][]{
 					{new UILabel(), tipsPane1},
-					createLinePane(Inter.getLocText("HJS-Mail_to"), maitoEditor = new UITextField()),
-					createLinePane(Inter.getLocText("HJS-CC_to"), ccEditor = new UITextField()),
-					createLinePane(Inter.getLocText("EmailPane-BCC"), bccEditor = new UITextField()),
-					createLinePane(Inter.getLocText("EmailPane-mailSubject"), titleEditor = new UITextField()),
+					createLinePane(com.fr.design.i18n.Toolkit.i18nText("HJS-Mail_to"), maitoEditor = new UITextField()),
+					createLinePane(com.fr.design.i18n.Toolkit.i18nText("HJS-CC_to"), ccEditor = new UITextField()),
+					createLinePane(com.fr.design.i18n.Toolkit.i18nText("EmailPane-BCC"), bccEditor = new UITextField()),
+					createLinePane(com.fr.design.i18n.Toolkit.i18nText("EmailPane-mailSubject"), titleEditor = new UITextField()),
 					{mainTextLabel, scrollPane},
 					{new UILabel(), showTplContent},
 					{new UILabel(), tipsPane2}},rSizes, columnSize, 6);
@@ -46,16 +46,16 @@ public class ChartEmailPane extends EmailPane{
 			double[] rSizes = { preferred, preferred, preferred, preferred, preferred, fill, preferred};
 			contentPane = TableLayoutHelper.createCommonTableLayoutPane(new JComponent[][]{
                     {new UILabel(), tipsPane1},
-                    createLinePane(Inter.getLocText("HJS-Mail_to"), maitoEditor = new UITextField()),
-                    createLinePane(Inter.getLocText("HJS-CC_to"), ccEditor = new UITextField()),
-                    createLinePane(Inter.getLocText("EmailPane-BCC"), bccEditor = new UITextField()),
-                    createLinePane(Inter.getLocText("EmailPane-mailSubject"), titleEditor = new UITextField()),
+                    createLinePane(com.fr.design.i18n.Toolkit.i18nText("HJS-Mail_to"), maitoEditor = new UITextField()),
+                    createLinePane(com.fr.design.i18n.Toolkit.i18nText("HJS-CC_to"), ccEditor = new UITextField()),
+                    createLinePane(com.fr.design.i18n.Toolkit.i18nText("EmailPane-BCC"), bccEditor = new UITextField()),
+                    createLinePane(com.fr.design.i18n.Toolkit.i18nText("EmailPane-mailSubject"), titleEditor = new UITextField()),
                     {mainTextLabel, scrollPane},
                     {new UILabel(), tipsPane2}},rSizes, columnSize, 8);
 		}
 		centerPane = new JPanel(new BorderLayout());
 		if (needRenamePane()) {
-			JPanel namePane = TableLayoutHelper.createCommonTableLayoutPane(new JComponent[][]{{new UILabel(Inter.getLocText("Name") + ":", SwingConstants.RIGHT), itemNameTextField},},
+			JPanel namePane = TableLayoutHelper.createCommonTableLayoutPane(new JComponent[][]{{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Name") + ":", SwingConstants.RIGHT), itemNameTextField},},
 					new double[] {preferred}, columnSize, 6);
 			centerPane.add(namePane, BorderLayout.NORTH);
 		}

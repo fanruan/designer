@@ -35,7 +35,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.dialog.BasicPane;
 import com.fr.general.DefaultValues;
 import com.fr.general.FRFont;
-import com.fr.general.Inter;
+
 import com.fr.stable.CoreConstants;
 import com.fr.design.style.color.ColorSelectBox;
 import com.fr.design.utils.gui.GUICoreUtils;
@@ -122,7 +122,7 @@ public class FRFontPane extends BasicPane {
         // underline pane
         JPanel underlinePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         listVBottomPane.add(underlinePane);
-        underlinePane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("FRFont-Underline"), null));
+        underlinePane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FRFont-Underline"), null));
 
         this.underlineCombo = new LineComboBox(CoreConstants.UNDERLINE_STYLE_ARRAY);
         this.underlineCombo.addActionListener(actionListener);
@@ -132,7 +132,7 @@ public class FRFontPane extends BasicPane {
         JPanel foregroundPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         listVBottomPane.add(foregroundPane);
 
-        foregroundPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("FRFont-Foreground"),null));
+        foregroundPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FRFont-Foreground"),null));
         foregroundColorPane = new ColorSelectBox(140);
         foregroundColorPane.addSelectChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
@@ -155,21 +155,21 @@ public class FRFontPane extends BasicPane {
         JPanel effectsPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         otherFontPane.add(effectsPane, BorderLayout.CENTER);
 //        effectsPane.setLayout(FRGUIPaneFactory.createBorderLayout());
-        effectsPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("FRFont-Effects"),null));
+        effectsPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FRFont-Effects"),null));
 
         JPanel effectsPane2 = FRGUIPaneFactory.createNColumnGridInnerContainer_S_Pane(1);
         effectsPane.add(effectsPane2, BorderLayout.NORTH);
 
-        isStrikethroughCheckBox = new UICheckBox(Inter.getLocText("FRFont-Strikethrough") + "  ");
+        isStrikethroughCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FRFont-Strikethrough") + "  ");
         isStrikethroughCheckBox.addChangeListener(changeListener);
         isStrikethroughCheckBox.setMnemonic('K');
-        isShadowCheckBox = new UICheckBox(Inter.getLocText("FRFont-Shadow"));
+        isShadowCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FRFont-Shadow"));
         isShadowCheckBox.addChangeListener(changeListener);
         isShadowCheckBox.setMnemonic('S');
-        isSuperscriptCheckBox = new UICheckBox(Inter.getLocText("FRFont-Superscript"));
+        isSuperscriptCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FRFont-Superscript"));
         isSuperscriptCheckBox.addChangeListener(changeListener);
         isSuperscriptCheckBox.setMnemonic('E');
-        isSubscriptCheckBox = new UICheckBox(Inter.getLocText("FRFont-Subscript"));
+        isSubscriptCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FRFont-Subscript"));
         isSubscriptCheckBox.addChangeListener(changeListener);
         isSubscriptCheckBox.setMnemonic('B');
 
@@ -186,7 +186,7 @@ public class FRFontPane extends BasicPane {
 
         // preview pane.
         preview = new FRFontPreviewArea();
-        preview.setBorder(BorderFactory.createTitledBorder(Inter.getLocText("Preview")));
+        preview.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Preview")));
         rightPane.add(preview, BorderLayout.CENTER);
 
         // Cannot select superscript and subscript in the same time.
@@ -277,7 +277,7 @@ public class FRFontPane extends BasicPane {
     
     @Override
     protected String title4PopupWindow() {
-    	return Inter.getLocText("Sytle-FRFont");
+    	return com.fr.design.i18n.Toolkit.i18nText("Sytle-FRFont");
     }
 
     /**

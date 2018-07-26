@@ -7,7 +7,7 @@ import com.fr.design.gui.itableeditorpane.UIArrayFormulaTableModel;
 import com.fr.design.gui.itableeditorpane.UITableEditorPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.GeneralUtils;
-import com.fr.general.Inter;
+
 import com.fr.report.write.ValueVerifier;
 import com.fr.stable.FormulaProvider;
 import com.fr.stable.StableUtils;
@@ -18,8 +18,8 @@ import java.awt.*;
 public class ValueVerifierEditPane extends JPanel {
 	private UITableEditorPane<Object[]> tableEditorPane;
 	private final String[] columnNames = new String[] {
-			Inter.getLocText(new String[] {"Verify-Verify_Formula", "Verify-ToolTips"}, new String[] {"(", ")"}),
-			Inter.getLocText("Verify-Error_Information") };
+			com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Formula_Verify"),
+			com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Formula_Verify_Warn_Text") };
 
 	public ValueVerifierEditPane() {
 		// ben:UITableEditorPane；

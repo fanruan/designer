@@ -12,7 +12,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.multilayer.data.MultiPieReportDataDefinition;
 
 import javax.swing.BorderFactory;
@@ -92,9 +92,9 @@ public class MultiPiePlotReportDataContentPane extends AbstractReportDataContent
         nameField.setPreferredSize(new Dimension(WD, HT));
 
         Component[][] components_north = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_MultiPie_Series_Name")), nameField},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_MultiPie_Series_Name")), nameField},
                 new Component[]{new JSeparator(), null},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Level_Number")), levelNumEdit},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Level_Number")), levelNumEdit},
         };
 
         return TableLayoutHelper.createTableLayoutPane(components_north, rowSize_north, columnSize_north);
@@ -131,13 +131,13 @@ public class MultiPiePlotReportDataContentPane extends AbstractReportDataContent
         Component[][] components_center = new Component[levelNum + 2][];
 
         for (int i = 0; i < levelNum; i++){
-            components_center[i] = new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Level") + String.valueOf(i+1)), levelNameList.get(i)};
+            components_center[i] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Level") + String.valueOf(i+1)), levelNameList.get(i)};
         }
 
         value = new TinyFormulaPane();
 
         components_center[levelNum] = new Component[]{new JSeparator(), null};
-        components_center[levelNum+1] = new Component[]{new UILabel(Inter.getLocText("FR-Chart_Bubble_Size")), value};
+        components_center[levelNum+1] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart_Bubble_Size")), value};
 
         registerListener4Center();
 

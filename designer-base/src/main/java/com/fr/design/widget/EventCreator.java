@@ -8,7 +8,7 @@ import com.fr.design.gui.ilist.ListModelElement;
 import com.fr.form.event.Listener;
 import com.fr.form.ui.FileEditor;
 import com.fr.form.ui.Widget;
-import com.fr.general.Inter;
+
 import com.fr.general.NameObject;
 import com.fr.stable.Nameable;
 
@@ -40,7 +40,7 @@ public class EventCreator extends NameableSelfCreator {
 	 */
 	public static final String switchLang(String eventName) {
 		try {
-			return Inter.getLocText("FR-Engine_Event_" + eventName);
+			return com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Event_" + eventName);
 		} catch (Exception e) {
 			FRContext.getLogger().error(e.getMessage(), e);
 			return eventName;

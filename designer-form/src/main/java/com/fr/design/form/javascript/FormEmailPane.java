@@ -7,7 +7,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.javascript.EmailPane;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.Inter;
+
 
 /**
  * 表单的邮件pane
@@ -23,10 +23,10 @@ public class FormEmailPane extends EmailPane{
         double[] columnSize = { preferred, fill};
         centerPane = TableLayoutHelper.createCommonTableLayoutPane(new JComponent[][]{
                 {new UILabel(), tipsPane1},
-                createLinePane(Inter.getLocText("HJS-Mail_to"), maitoEditor = new UITextField()),
-                createLinePane(Inter.getLocText("HJS-CC_to"), ccEditor = new UITextField()),
-                createLinePane(Inter.getLocText("EmailPane-BCC"), bccEditor = new UITextField()),
-                createLinePane(Inter.getLocText("EmailPane-mailSubject"), titleEditor = new UITextField()),
+                createLinePane(com.fr.design.i18n.Toolkit.i18nText("HJS-Mail_to"), maitoEditor = new UITextField()),
+                createLinePane(com.fr.design.i18n.Toolkit.i18nText("HJS-CC_to"), ccEditor = new UITextField()),
+                createLinePane(com.fr.design.i18n.Toolkit.i18nText("EmailPane-BCC"), bccEditor = new UITextField()),
+                createLinePane(com.fr.design.i18n.Toolkit.i18nText("EmailPane-mailSubject"), titleEditor = new UITextField()),
                 {mainTextLabel, scrollPane},
                 {new UILabel(), tipsPane2}},rowSize, columnSize, 7);
 	}

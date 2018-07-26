@@ -1,7 +1,7 @@
 package com.fr.design.gui.frpane;
 
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import javax.swing.plaf.TabbedPaneUI;
@@ -113,7 +113,7 @@ public class UITabbedPane extends JTabbedPane{
      * @param i tab索引
      */
     public void doRemoveTab(int i){
-        int re = JOptionPane.showConfirmDialog(SwingUtilities.getWindowAncestor(UITabbedPane.this), Inter.getLocText("sure_to_delete")+ "?", Inter.getLocText("Remove")
+        int re = JOptionPane.showConfirmDialog(SwingUtilities.getWindowAncestor(UITabbedPane.this), com.fr.design.i18n.Toolkit.i18nText("sure_to_delete")+ "?", com.fr.design.i18n.Toolkit.i18nText("Remove")
                 , JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (re == JOptionPane.OK_OPTION) {
             super.removeTabAt(i);

@@ -5,7 +5,7 @@ import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.base.AttrLabel;
 import com.fr.van.chart.designer.PlotFactory;
@@ -31,7 +31,7 @@ public class VanChartPlotLabelPane extends BasicPane {
     public VanChartPlotLabelPane(Plot plot, VanChartStylePane parent) {
         this.parent = parent;
         this.plot = plot;
-        isLabelShow = new UICheckBox(Inter.getLocText("Plugin-ChartF_UseLabel"));
+        isLabelShow = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_UseLabel"));
         labelPane = new JPanel(new BorderLayout(0, 4));
         createLabelPane();
         addComponents();

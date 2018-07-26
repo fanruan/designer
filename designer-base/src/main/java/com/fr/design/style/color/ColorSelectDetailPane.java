@@ -2,7 +2,7 @@ package com.fr.design.style.color;
 
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
@@ -56,7 +56,7 @@ public class ColorSelectDetailPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("FR-Designer_Select_Color");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Select_Color");
     }
 
     protected void initComponents() {
@@ -78,7 +78,7 @@ public class ColorSelectDetailPane extends BasicPane {
         this.add(selectedPanel, BorderLayout.NORTH);
 
         // 最近使用面板
-        recentUsePanel = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Used"));
+        recentUsePanel = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Used"));
         RecentUseColorPane recent = new RecentUseColorPane(selectedPanel);
         recentUsePanel.add(recent);
 
@@ -87,7 +87,7 @@ public class ColorSelectDetailPane extends BasicPane {
         selectedPanel.setPreviewPanel(new JPanel());
 
         // 预览
-        previewPanel = FRGUIPaneFactory.createTitledBorderPaneCenter(Inter.getLocText("FR-Designer_Preview"));
+        previewPanel = FRGUIPaneFactory.createTitledBorderPaneCenter(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Preview"));
         final ColorChooserPreview colorChooserPreview = new ColorChooserPreview();
         ColorSelectionModel model = selectedPanel.getSelectionModel();
         model.addChangeListener(new ChangeListener() {

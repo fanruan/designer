@@ -13,7 +13,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.style.background.gradient.FixedGradientBar;
-import com.fr.general.Inter;
+
 import com.fr.stable.StringUtils;
 
 import javax.swing.JPanel;
@@ -55,8 +55,8 @@ public class ChartFillStylePane extends BasicBeanPane<AttrFillStyle>{
 		
 		JPanel buttonPane = new JPanel();
 		buttonPane.setLayout(new FlowLayout(FlowLayout.LEFT));
-		buttonPane.add(accButton = new UIButton(Inter.getLocText("FR-Designer_Chart_Acc_Set")));
-		buttonPane.add(gradientButton = new UIButton(Inter.getLocText("FR-Designer_Gradient-Color")));
+		buttonPane.add(accButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Chart_Acc_Set")));
+		buttonPane.add(gradientButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Gradient-Color")));
 		customPane.add(buttonPane, BorderLayout.NORTH);
 		
 		changeColorSetPane = new JPanel(cardLayout = new CardLayout());
@@ -129,19 +129,19 @@ public class ChartFillStylePane extends BasicBeanPane<AttrFillStyle>{
 
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText(new String[]{"Chart", "Color"});
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Color");
 	}
 
     private String[] getNameObj() {
 		ChartPreStyleConfig config = ChartPreStyleConfig.getInstance();
         ArrayList<String> nameArr = new ArrayList<String>();
-        nameArr.add(Inter.getLocText("FR-Designer_DEFAULT"));
+        nameArr.add(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_DEFAULT"));
         Iterator keys = config.names();
         while (keys.hasNext()) {
             Object key = keys.next();
             nameArr.add(Utils.objectToString(key));
         }
-        nameArr.add(Inter.getLocText("FR-Designer_Custom"));
+        nameArr.add(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Custom"));
         return nameArr.toArray(new String[nameArr.size()]);
     }
 

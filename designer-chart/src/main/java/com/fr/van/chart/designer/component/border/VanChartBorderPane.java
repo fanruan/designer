@@ -8,7 +8,7 @@ import com.fr.design.gui.icombobox.LineComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.style.color.ColorSelectBox;
-import com.fr.general.Inter;
+
 import com.fr.stable.CoreConstants;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 
@@ -43,8 +43,8 @@ public class VanChartBorderPane extends BasicPane {
     protected Component[][] getUseComponent() {
         return new Component[][]{
                 new Component[]{null,null},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_LineStyle")),currentLineCombo},
-                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Color_Color")),currentLineColorPane},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_LineStyle")),currentLineCombo},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Color_Color")),currentLineColorPane},
         };
     }
 
