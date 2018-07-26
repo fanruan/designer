@@ -25,7 +25,7 @@ public class RemoteEnvURL implements FCloneable {
     /**
      * 默认端口
      */
-    private static final String DEFAULT_PORT = "8080";
+    private static final String DEFAULT_PORT = "8075";
     private static final String HTTPS = "https://";
     private static final String HTTP = "http://";
 
