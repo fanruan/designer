@@ -11,8 +11,10 @@ import com.fr.general.Inter;
 import com.fr.report.worksheet.WorkSheet;
 import com.fr.report.write.ReportWriteAttr;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
 
 public class ReportWriteAttrPane extends LoadingBasicPane {
 	private SubmitVisitorListPane submiterListPane;
@@ -22,7 +24,13 @@ public class ReportWriteAttrPane extends LoadingBasicPane {
 	private ElementCasePane ePane;
 	public ReportWriteAttrPane(ElementCasePane ePane){
 		this.ePane = ePane;
+		super.initPane();
 	}
+
+	protected void initPane(){
+
+	}
+
 
 	@Override
 	protected synchronized void initComponents(JPanel container) {
