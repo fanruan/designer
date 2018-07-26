@@ -222,22 +222,18 @@ public class TemplateFileTree extends EnvFileTree {
         String fileName = fileNode.getEnvPath();
         String[] auPaths = auPath.split(CoreConstants.SEPARATOR);
         String[] nodePaths = fileName.split(CoreConstants.SEPARATOR);
-
-        if (auPaths.length == nodePaths.length) {
+        // 待判断目录是有权限目录或者有权限目录的子目录，全部权限
+        if (auPaths.length <= nodePaths.length) {
             for (int i = 0; i < auPaths.length; i++) {
                 if (!auPaths[i].equals(nodePaths[i])) {
                     return false;
                 }
             }
             return fileNode.isDirectory();
-        } else {
-            int len = Math.min(auPaths.length, nodePaths.length);
-            for (int i = 0; i < len; i++) {
-                if (!auPaths[i].equals(nodePaths[i])) {
-                    return false;
-                }
-            }
-            return true;
+        }
+        // 其他情况半权限
+        else {
+            return false;
         }
     }
 
