@@ -1,13 +1,9 @@
 package com.fr.design.utils;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.EnvException;
 import com.fr.base.FRContext;
 import com.fr.base.FeedBackInfo;
 import com.fr.base.ServerConfig;
-import com.fr.base.Utils;
-import com.fr.base.remote.RemoteDeziConstants;
-import com.fr.dav.DavXMLUtils;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.fun.DesignerEnvProcessor;
@@ -17,8 +13,6 @@ import com.fr.file.FileFILE;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
 import com.fr.general.GeneralContext;
-
-import com.fr.general.http.HttpClient;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.CodeUtils;
@@ -32,16 +26,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URI;
@@ -417,61 +407,6 @@ public class DesignUtils {
      * @throws Exception 异常
      */
     public static boolean sendFeedBack(FeedBackInfo feedBackInfo) throws Exception {
-
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-
-        // 把tableData写成xml文件到out
-        DavXMLUtils.writeXMLFeedBackInfo(feedBackInfo, out);
-        InputStream input = postBytes2ServerB(out.toByteArray());
-        return input != null;
-
+        return true;
     }
-
-
-    private static InputStream postBytes2ServerB(byte[] bytes) throws Exception {
-        HttpClient client = new HttpClient("http://114.215.175.35:8080/WebReport/product_advice.jsp");
-        client.asGet();
-        client.setContent(bytes);
-        return execute4InputStream(client);
-    }
-
-
-    /**
-     * execute method之后,取返回的inputstream
-     */
-    private static ByteArrayInputStream execute4InputStream(HttpClient client) throws Exception {
-        int statusCode = client.getResponseCode();
-        if (statusCode != HttpURLConnection.HTTP_OK) {
-            throw new EnvException("Method failed: " + statusCode);
-        }
-        InputStream in = client.getResponseStream();
-        if (in == null) {
-            return null;
-        }
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        try {
-            Utils.copyBinaryTo(in, out);
-
-            // 看一下传过来的byte[]是不是DesignProcessor.INVALID,如果是的话,就抛Exception
-            byte[] bytes = out.toByteArray();
-            // carl：格式一致传中文
-            String message = new String(bytes, EncodeConstants.ENCODING_UTF_8);
-            if (ComparatorUtils.equals(message, RemoteDeziConstants.NO_SUCH_RESOURCE)) {
-                return null;
-            } else if (ComparatorUtils.equals(message, RemoteDeziConstants.INVALID_USER)) {
-                throw new EnvException(RemoteDeziConstants.INVALID_USER);
-            } else if (ComparatorUtils.equals(message, RemoteDeziConstants.FILE_LOCKED)) {
-                JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_file-is-locked"));
-                return null;
-            } else if (message.startsWith(RemoteDeziConstants.RUNTIME_ERROR_PREFIX)) {
-            }
-            return new ByteArrayInputStream(bytes);
-        } finally {
-            in.close();
-            out.close();
-            client.release();
-        }
-    }
-
-
 }
