@@ -2,11 +2,13 @@ package com.fr.design.data.datapane;
 
 import com.fr.base.TableData;
 import com.fr.data.TableDataSource;
+import com.fr.data.api.StoreProcedureAssist;
 import com.fr.data.impl.storeproc.StoreProcedure;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.ilist.ListModelElement;
+import com.fr.design.i18n.Toolkit;
 import com.fr.file.ProcedureConfig;
 import com.fr.file.TableDataConfig;
 import com.fr.general.ComparatorUtils;
@@ -34,7 +36,7 @@ public class TableDataPaneListPane extends JListControlPane implements TableData
     public TableDataPaneListPane() {
         super();
         dsNameChangedMap.clear();
-        this.addEditingListner(new PropertyChangeAdapter() {
+        this.addEditingListener(new PropertyChangeAdapter() {
             @Override
             public void propertyChange() {
                 isNamePermitted = true;
@@ -47,22 +49,22 @@ public class TableDataPaneListPane extends JListControlPane implements TableData
                 if (StringUtils.isEmpty(tempName)) {
                     isNamePermitted = false;
                     nameableList.stopEditing();
-                    JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(TableDataPaneListPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Table_Data_Empty_Name_Tips"));
-                    setWarnigText(editingIndex);
+                    JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(TableDataPaneListPane.this), Toolkit.i18nText("Fine-Design_Table_Data_Empty_Name_Tips"));
+                    setIllegalIndex(editingIndex);
                     return;
                 }
 
                 if (!ComparatorUtils.equals(tempName, selectedName)
-                        && isNameRepeted(new List[]{Arrays.asList(allDSNames), Arrays.asList(allListNames)}, tempName)) {
+                        && isNameRepeated(new List[]{Arrays.asList(allDSNames), Arrays.asList(allListNames)}, tempName)) {
                     isNamePermitted = false;
                     nameableList.stopEditing();
-                    JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(TableDataPaneListPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Table_Data_Duplicate_Name_Tips"));
-                    setWarnigText(editingIndex);
+                    JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(TableDataPaneListPane.this), Toolkit.i18nText("Fine-Design_Table_Data_Duplicate_Name_Tips", tempName));
+                    setIllegalIndex(editingIndex);
                 } else if (editingType instanceof StoreProcedure && isIncludeUnderline(tempName)) {
                     isNamePermitted = false;
                     nameableList.stopEditing();
-                    JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(TableDataPaneListPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Stored_Procedure_Name_Tips"));
-                    setWarnigText(editingIndex);
+                    JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(TableDataPaneListPane.this), Toolkit.i18nText("Fine-Design_Stored_Procedure_Name_Tips"));
+                    setIllegalIndex(editingIndex);
                 }
                 if (nameableList.getSelectedValue() instanceof ListModelElement) {
                     Nameable selected = ((ListModelElement) nameableList.getSelectedValue()).wrapper;
@@ -101,7 +103,7 @@ public class TableDataPaneListPane extends JListControlPane implements TableData
     }
 
     private boolean isIncludeUnderline(String name) {
-        return ComparatorUtils.equals(name.indexOf(StoreProcedure.SPLIT), -1) ? false : true;
+        return ComparatorUtils.equals(name.indexOf(StoreProcedureAssist.GROUP_MARKER), -1) ? false : true;
     }
 
     /**

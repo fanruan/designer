@@ -25,7 +25,7 @@ import java.util.List;
 public class EnvListPane extends JListControlPane {
     public EnvListPane() {
         super();
-        addEditingListner(new PropertyChangeAdapter() {
+        addEditingListener(new PropertyChangeAdapter() {
             @Override
             public void propertyChange() {
                 String tempName = getEditingName();
@@ -34,13 +34,13 @@ public class EnvListPane extends JListControlPane {
                 if (StringUtils.isEmpty(tempName)) {
                     nameableList.stopEditing();
                     JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(EnvListPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Workspace_Empty_Name_Warn_Text"));
-                    setWarnigText(editingIndex);
+                    setIllegalIndex(editingIndex);
                     return;
                 }
-                if (!ComparatorUtils.equals(tempName, selectedName) && isNameRepeted(new List[]{Arrays.asList(allListNames)}, tempName)) {
+                if (!ComparatorUtils.equals(tempName, selectedName) && isNameRepeated(new List[]{Arrays.asList(allListNames)}, tempName)) {
                     nameableList.stopEditing();
                     JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(EnvListPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Workspace_Duplicate_Name_Warn_Text", tempName));
-                    setWarnigText(editingIndex);
+                    setIllegalIndex(editingIndex);
                 }
             }
         });

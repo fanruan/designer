@@ -232,56 +232,6 @@ public abstract class UIListControlPane extends UIControlPane {
         isPopulating = false;
     }
 
-    /**
-     * 添加名字改变时的listener
-     *
-     * @param l 名字改变时的监听
-     */
-    public void addModNameActionListener(ModNameActionListener l) {
-        this.nameableList.addModNameActionListener(l);
-    }
-
-    /**
-     * 添加Editinglistener
-     *
-     * @param l 监听
-     */
-    public void addEditingListner(PropertyChangeAdapter l) {
-        this.nameableList.addEditingListner(l);
-    }
-
-    /*
-     * 刷新当前的选中的UpdatePane
-     */
-    protected void populateSelectedValue() {
-        ((JControlUpdatePane) UIListControlPane.this.controlUpdatePane).populate();
-    }
-
-    /**
-     * 根据name,选中UINameEdList中的item
-     */
-    public void setSelectedName(String name) {
-        DefaultListModel listModel = (DefaultListModel) this.nameableList.getModel();
-        for (int i = 0, len = listModel.getSize(); i < len; i++) {
-            Nameable item = ((ListModelElement) listModel.getElementAt(i)).wrapper;
-            if (ComparatorUtils.equals(name, item.getName())) {
-                this.nameableList.setSelectedIndex(i);
-                break;
-            }
-        }
-    }
-
-    public String getEditingName() {
-        return this.nameableList.getEditingName();
-    }
-
-    public Object getEditingType() {
-        return this.nameableList.getAllTypes()[editingIndex];
-    }
-
-    public void setWarnigText(int index) {
-        this.nameableList.setWarnigText(index);
-    }
 
     /**
      * 获取选中的名字
@@ -290,26 +240,6 @@ public abstract class UIListControlPane extends UIControlPane {
         ListModelElement el = (ListModelElement) this.nameableList.getSelectedValue();
 
         return el == null ? null : el.wrapper.getName();
-    }
-
-    protected boolean isNameRepeted(java.util.List[] list, String name) {
-        for (int i = 0; i < list.length; i++) {
-            if (list[i].contains(name)) {
-                isNameRepeated = true;
-                return true;
-            }
-        }
-        isNameRepeated = false;
-        return false;
-    }
-
-    /**
-     * 名字是否重复
-     *
-     * @return 重复则返回true
-     */
-    public boolean isNameRepeated() {
-        return isNameRepeated;
     }
 
     /**

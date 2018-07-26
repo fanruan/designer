@@ -8,6 +8,7 @@ import com.fr.design.fun.ConnectionProvider;
 import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
+import com.fr.design.i18n.Toolkit;
 import com.fr.file.ConnectionConfig;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.NameObject;
@@ -28,13 +29,13 @@ import java.util.Set;
  * Connection List Pane.
  */
 public class ConnectionListPane extends JListControlPane implements ConnectionShowPane {
-    public static final String TITLE_NAME = com.fr.design.i18n.Toolkit.i18nText("Server-Define_Data_Connection");
+    public static final String TITLE_NAME = Toolkit.i18nText("Server-Define_Data_Connection");
     private boolean isNamePermitted = true;
     private HashMap<String, String> renameMap = new HashMap<String, String>();
 
     public ConnectionListPane() {
         renameMap.clear();
-        this.addEditingListner(new PropertyChangeAdapter() {
+        this.addEditingListener(new PropertyChangeAdapter() {
             public void propertyChange() {
                 isNamePermitted = true;
                 String[] allListNames = nameableList.getAllNames();
@@ -43,17 +44,17 @@ public class ConnectionListPane extends JListControlPane implements ConnectionSh
                 if (StringUtils.isEmpty(tempName)) {
                     nameableList.stopEditing();
                     JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(ConnectionListPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Connection_Empty_Name"));
-                    setWarnigText(editingIndex);
+                    setIllegalIndex(editingIndex);
                     isNamePermitted = false;
                     return;
                 }
                 if (!ComparatorUtils.equals(tempName, selectedName)
-                        && isNameRepeted(new List[]{Arrays.asList(allListNames)}, tempName)) {
+                        && isNameRepeated(new List[]{Arrays.asList(allListNames)}, tempName)) {
                     isNamePermitted = false;
                     nameableList.stopEditing();
-                    String message = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Connection_Duplicate_Name", tempName);
+                    String message = Toolkit.i18nText("Fine-Design_Connection_Duplicate_Name", tempName);
                     JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(ConnectionListPane.this), message);
-                    setWarnigText(editingIndex);
+                    setIllegalIndex(editingIndex);
                 }
                 if (isNamePermitted && !ComparatorUtils.equals(tempName, selectedName)) {
                     rename(selectedName, tempName);
@@ -65,9 +66,7 @@ public class ConnectionListPane extends JListControlPane implements ConnectionSh
 
 
     protected void rename(String oldName, String newName) {
-        if (renameMap.containsKey(selectedName)) {
-            renameMap.remove(selectedName);
-        }
+        renameMap.remove(selectedName);
         renameMap.put(selectedName, newName);
     }
 

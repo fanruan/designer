@@ -28,7 +28,7 @@ public class ParameterArrayPane extends JListControlPane {
 			}
 
 		});
-		this.addEditingListner( new PropertyChangeAdapter() {
+		this.addEditingListener(new PropertyChangeAdapter() {
 			public void propertyChange() {
 				Parameter[] parameters = ParameterConfig.getInstance().getGlobalParameters();
 				String[] allListNames = nameableList.getAllNames();
@@ -37,15 +37,15 @@ public class ParameterArrayPane extends JListControlPane {
 				if (StringUtils.isEmpty(tempName)) {
 					nameableList.stopEditing();
 					JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(ParameterArrayPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Empty_Parameter_Name"));
-					setWarnigText(editingIndex);
+					setIllegalIndex(editingIndex);
 					return;
 				}
 				if (!ComparatorUtils.equals(tempName, selectedName)
-						&& isNameRepeted(new List[]{Arrays.asList(parameters), Arrays.asList(allListNames)}, tempName)) {
+						&& isNameRepeated(new List[]{Arrays.asList(parameters), Arrays.asList(allListNames)}, tempName)) {
 					nameableList.stopEditing();
 					JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(ParameterArrayPane.this),
 							com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Duplicate_Parameter_Name"));
-					setWarnigText(editingIndex);
+					setIllegalIndex(editingIndex);
 				}
 			}
 		});

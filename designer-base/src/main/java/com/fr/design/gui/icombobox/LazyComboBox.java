@@ -23,7 +23,7 @@ import java.util.concurrent.ExecutionException;
 public abstract class LazyComboBox extends UIComboBox implements PopupMenuListener {
 
     private static final int NUM = 80;
-    private static final String[] PENDING_CONTENT = new String[]{"", com.fr.design.i18n.Toolkit.i18nText("Loading") + "..."};
+    private static final String[] PENDING_CONTENT = new String[]{"", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Loading") + "..."};
 
     /**
      * 是否加载完成

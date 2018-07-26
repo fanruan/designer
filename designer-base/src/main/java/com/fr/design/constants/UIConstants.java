@@ -219,7 +219,7 @@ public interface UIConstants {
 
         @Override
         public String toString() {
-            return com.fr.design.i18n.Toolkit.i18nText("Loading") + "...";
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Loading") + "...";
         }
     };
     /**
