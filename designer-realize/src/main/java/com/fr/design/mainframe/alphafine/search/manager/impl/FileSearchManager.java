@@ -12,9 +12,7 @@ import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.search.manager.fun.AlphaFineSearchProvider;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
 import com.fr.json.JSONObject;
-import com.fr.locale.InterProviderFactory;
 import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
 
@@ -33,7 +31,7 @@ public class FileSearchManager implements AlphaFineSearchProvider {
     private SearchResult moreModelList;
     private String searchText;
     private FileNode[] fileNodes = null;
-    
+
     //停止搜索
     //隐藏的搜索功能，可根据特殊的字符标记判断搜索分类
     private boolean isContainCpt = true;
@@ -70,7 +68,7 @@ public class FileSearchManager implements AlphaFineSearchProvider {
         this.moreModelList = new SearchResult();
         this.searchText = dealWithSearchText(searchText);
         if (StringUtils.isBlank(this.searchText) || ComparatorUtils.equals(this.searchText, DS_NAME)) {
-            lessModelList.add(new MoreModel(InterProviderFactory.getProvider().getLocText("FR-Designer_Templates")));
+            lessModelList.add(new MoreModel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Templates")));
             return lessModelList;
         }
         AlphaFineHelper.checkCancel();
@@ -81,10 +79,10 @@ public class FileSearchManager implements AlphaFineSearchProvider {
         if (filterModelList.isEmpty()) {
             return new SearchResult();
         } else if (filterModelList.size() < AlphaFineConstants.SHOW_SIZE + 1) {
-            lessModelList.add(0, new MoreModel(InterProviderFactory.getProvider().getLocText("FR-Designer_Templates")));
+            lessModelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Templates")));
             lessModelList.addAll(filterModelList);
         } else {
-            lessModelList.add(0, new MoreModel(InterProviderFactory.getProvider().getLocText("FR-Designer_Templates"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"), true, CellType.FILE));
+            lessModelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Templates"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_AlphaFine_ShowAll"), true, CellType.FILE));
             lessModelList.addAll(filterModelList.subList(0, AlphaFineConstants.SHOW_SIZE));
             moreModelList.addAll(filterModelList.subList(AlphaFineConstants.SHOW_SIZE, filterModelList.size()));
 
