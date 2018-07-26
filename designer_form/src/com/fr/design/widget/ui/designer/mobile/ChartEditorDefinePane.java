@@ -10,6 +10,7 @@ import com.fr.design.designer.creator.XWAbsoluteLayout;
 import com.fr.design.designer.properties.items.Item;
 import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
+import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -20,6 +21,7 @@ import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.form.FormFunctionProcessor;
 import com.fr.form.ui.BaseChartEditor;
+import com.fr.form.ui.ChartEditor;
 import com.fr.form.ui.container.WFitLayout;
 import com.fr.general.Inter;
 import com.fr.plugin.ExtraClassManager;
@@ -46,6 +48,7 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane{
     private UIComboBox zoomOutComboBox;// 缩小逻辑下拉框
     private AttributeChangeListener changeListener;
     private UILabel tipLabel;
+    private UICheckBox allowFullCheckBox;//允许全屏
 
     public ChartEditorDefinePane (XCreator xCreator) {
         this.xCreator = xCreator;
@@ -98,18 +101,20 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane{
         tipLabel = new UILabel();
         tipLabel.setForeground(Color.gray);
         updateTipLabel();
+        allowFullCheckBox = new UICheckBox(Inter.getLocText("Fine-Designer_Allow_Full_Screen"));
 
         Component[][] components = new Component[][]{
                 new Component[] {new UILabel(Inter.getLocText("FR-Designer_Zoom_In_Logic"), SwingConstants.LEFT), new UILabel(ChartMobileFitAttrState.PROPORTION.description())},
                 new Component[] {new UILabel(Inter.getLocText("FR-Designer_Zoom_Out_Logic"), SwingConstants.LEFT), zoomOutComboBox},
-                new Component[] {tipLabel, null}
+                new Component[] {tipLabel, null},
+                new Component[] {allowFullCheckBox, null}
         };
 
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
-        double[] rowSize = {p, p, p};
+        double[] rowSize = {p, p, p, p};
         double[] columnSize = {p,f};
-        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}};
+        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}};
         final JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 30, LayoutConstants.VGAP_LARGE);
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         final JPanel panelWrapper = FRGUIPaneFactory.createBorderLayout_S_Pane();
@@ -154,10 +159,12 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane{
             return;
         }
 
-        BaseChartEditor chartEditor = (BaseChartEditor)xCreator.toData();
+        ChartEditor chartEditor = (ChartEditor)xCreator.toData();
         ChartMobileFitAttrStateProvider zoomOutAttr = chartEditor.getMobileAttr().getZoomOutAttr();
         this.zoomOutComboBox.setSelectedItem(new Item(zoomOutAttr.description(), zoomOutAttr));
         updateTipLabel();
+        boolean allowFullScreen = chartEditor.getMobileAttr().isAllowFullScreen();
+        this.allowFullCheckBox.setSelected(allowFullScreen);
 
         // 数据 populate 完成后，再设置监听
         this.bindListeners2Widgets();
@@ -186,7 +193,8 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane{
     public void update() {
         ChartMobileAttrProvider mobileAttr = ((BaseChartEditor)xCreator.toData()).getMobileAttr();
         mobileAttr.setZoomInAttr(ChartMobileFitAttrState.PROPORTION);
-        mobileAttr.setZoomOutAttr((ChartMobileFitAttrState)((Item)zoomOutComboBox.getSelectedItem()).getValue());
+        mobileAttr.setZoomOutAttr((ChartMobileFitAttrState) ((Item) zoomOutComboBox.getSelectedItem()).getValue());
+        mobileAttr.setAllowFullScreen(allowFullCheckBox.isSelected());
         DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified(); // 触发设计器保存按钮亮起来
     }
 }
