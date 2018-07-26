@@ -2,7 +2,7 @@ package com.fr.design.data.datapane;
 
 import com.fr.base.TableData;
 import com.fr.data.TableDataSource;
-import com.fr.data.core.StoreProcedureAssist;
+import com.fr.data.api.StoreProcedureAssist;
 import com.fr.data.impl.storeproc.StoreProcedure;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.gui.controlpane.JListControlPane;

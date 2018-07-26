@@ -4,7 +4,7 @@ import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.base.TableData;
 import com.fr.data.TableDataSource;
-import com.fr.data.core.StoreProcedureAssist;
+import com.fr.data.api.StoreProcedureAssist;
 import com.fr.data.impl.storeproc.StoreProcedure;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.actions.UpdateAction;
