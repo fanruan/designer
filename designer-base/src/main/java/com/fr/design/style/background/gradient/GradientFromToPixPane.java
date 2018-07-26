@@ -14,7 +14,7 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.gui.ispinner.UIBasicSpinner;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.dialog.BasicPane;
-import com.fr.general.Inter;
+
 
 /**
  * @author kunsnat E-mail:kunsnat@gmail.com
@@ -38,11 +38,11 @@ public class GradientFromToPixPane extends BasicPane {
 		startField.setHorizontalAlignment(UITextField.LEFT);
 		startField.setColumns(3);
 		
-		secondFloorPane.add(new UILabel("  " + Inter.getLocText("To") + "  "));
+		secondFloorPane.add(new UILabel("  " + com.fr.design.i18n.Toolkit.i18nText("To") + "  "));
 		
 		endPixSpinner = new UIBasicSpinner(new SpinnerNumberModel(1, 1, 9999, 1));
 		secondFloorPane.add(endPixSpinner);
-		secondFloorPane.add(new UILabel("(" + Inter.getLocText("Indent-Pixel") + ")"));
+		secondFloorPane.add(new UILabel("(" + com.fr.design.i18n.Toolkit.i18nText("Indent-Pixel") + ")"));
 		
 		JFormattedTextField endField = ((JSpinner.DefaultEditor)endPixSpinner.getEditor()).getTextField();
 		endField.setHorizontalAlignment(UITextField.LEFT);
@@ -61,7 +61,7 @@ public class GradientFromToPixPane extends BasicPane {
 
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText(new String[]{"Choose", "Gradient-Color"});
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Style_Background_Choose_Gradient_Color");
 	}
 
 }

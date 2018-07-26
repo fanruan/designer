@@ -14,7 +14,7 @@ import com.fr.design.editor.ValueEditorPaneFactory;
 import com.fr.design.editor.editor.Editor;
 import com.fr.design.editor.editor.FormulaEditor;
 import com.fr.design.editor.editor.TextEditor;
-import com.fr.general.Inter;
+
 
 /**
  * @author kunsnat E-mail:kunsnat@gmail.com
@@ -46,7 +46,7 @@ public class MapReportEditor extends AbstractCellEditor implements TableCellEdit
 		TextEditor textEidtor = new TextEditor();
 		initListeners(textEidtor);
 		
-		FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("Parameter-Formula"));
+		FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Parameter-Formula"));
 		initListeners(formulaEditor);
 		
 		Editor[] editors = new Editor[]{textEidtor, formulaEditor};

@@ -11,7 +11,7 @@ import com.fr.base.Utils;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.FRFont;
-import com.fr.general.Inter;
+
 import com.fr.design.utils.gui.GUICoreUtils;
 
 public class FontFamilyPane extends JPanel {
@@ -37,7 +37,7 @@ public class FontFamilyPane extends JPanel {
 
 //        familyPane.setLayout(FRGUIPaneFactory.createBorderLayout());
         familyPane.add(FRFontPane.createTextFieldListPane("", familyField, familyList), BorderLayout.CENTER);
-        familyPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("FRFont-Family"),null));
+        familyPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FRFont-Family"),null));
         
         this.add(familyPane);
     }

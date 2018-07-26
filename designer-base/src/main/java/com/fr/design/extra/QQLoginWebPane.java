@@ -168,7 +168,7 @@ public class QQLoginWebPane extends JFXPanel {
                 new Scene(
                         HBoxBuilder.create().styleClass("modal-dialog").children(
                                 LabelBuilder.create().text(msg).build(),
-                                ButtonBuilder.create().text(Inter.getLocText("FR-Designer-BBSLogin_Switch-Account")).defaultButton(true).onAction(new EventHandler<ActionEvent>() {
+                                ButtonBuilder.create().text(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-BBSLogin_Switch-Account")).defaultButton(true).onAction(new EventHandler<ActionEvent>() {
                                     @Override
                                     public void handle(ActionEvent actionEvent) {
                                         // take action and close the dialog.
@@ -177,7 +177,7 @@ public class QQLoginWebPane extends JFXPanel {
                                         dialog.close();
                                     }
                                 }).build(),
-                                ButtonBuilder.create().text(Inter.getLocText("FR-Engine_Cancel")).cancelButton(true).onAction(new EventHandler<ActionEvent>() {
+                                ButtonBuilder.create().text(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Cancel")).cancelButton(true).onAction(new EventHandler<ActionEvent>() {
                                     @Override
                                     public void handle(ActionEvent actionEvent) {
                                         // abort action and close the dialog.

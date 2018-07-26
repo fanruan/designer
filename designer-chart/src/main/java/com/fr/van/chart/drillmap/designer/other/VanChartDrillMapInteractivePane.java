@@ -6,7 +6,7 @@ import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.drillmap.VanChartDrillMapPlot;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
@@ -51,8 +51,8 @@ public class VanChartDrillMapInteractivePane extends VanChartInteractivePaneWith
     }
 
     private JPanel createDrillToolsPane() {
-        openOrClose = new UIButtonGroup(new String[]{Inter.getLocText("Plugin-ChartF_Open"), Inter.getLocText("Plugin-ChartF_Close")});
-        JPanel openOrClosePane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_Drill_Dir"), openOrClose);
+        openOrClose = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Open"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Close")});
+        JPanel openOrClosePane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Drill_Dir"), openOrClose);
         textAttrPane = new ChartTextAttrPane(){
 
             @Override
@@ -83,9 +83,9 @@ public class VanChartDrillMapInteractivePane extends VanChartInteractivePaneWith
         double[] rowSize = {p,p,p,p,p,p};
         Component[][] components = new Component[][]{
                 new Component[]{null},
-                new Component[]{createTitlePane(Inter.getLocText("Plugin-Chart_Character"), textAttrPane)},
-                new Component[]{createTitlePane(Inter.getLocText("Plugin-ChartF_Background"), backgroundPane)},
-                new Component[]{createTitlePane(Inter.getLocText("Plugin-ChartF_Select_Color"), selectBackgroundPane)},
+                new Component[]{createTitlePane(com.fr.design.i18n.Toolkit.i18nText("Plugin-Chart_Character"), textAttrPane)},
+                new Component[]{createTitlePane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Background"), backgroundPane)},
+                new Component[]{createTitlePane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Select_Color"), selectBackgroundPane)},
                 new Component[]{catalogSuperLink}
         };
         drillPane = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
@@ -101,7 +101,7 @@ public class VanChartDrillMapInteractivePane extends VanChartInteractivePaneWith
             }
         });
 
-        JPanel panel1 = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Drill"), panel);
+        JPanel panel1 = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Drill"), panel);
         panel.setBorder(BorderFactory.createEmptyBorder(10,5,0,0));
         return panel1;
     }

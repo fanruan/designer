@@ -28,7 +28,7 @@ import com.fr.design.menu.SeparatorDef;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.file.ConnectionConfig;
-import com.fr.general.Inter;
+
 import com.fr.script.Calculator;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
@@ -51,7 +51,7 @@ public class ProcedureDataPane extends AbstractTableDataPane<StoreProcedure> imp
             "com.mysql.jdbc.Driver",
             "org.gjt.mm.mysql.Driver"
     }; // 需要隐藏面板的数据库的驱动
-    private static final String PREVIEW_BUTTON = Inter.getLocText("FR-Designer_Preview");
+    private static final String PREVIEW_BUTTON = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Preview");
     private ConnectionTableProcedurePane connectionTableProcedurePane;
     private JPanel cardpane;
     private CardLayout cardLayout;
@@ -88,7 +88,7 @@ public class ProcedureDataPane extends AbstractTableDataPane<StoreProcedure> imp
         storeProcedureContextPane.setPreferredSize(new Dimension(680, 600));
 
         JPanel namePane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-        namePane.add(new UILabel(Inter.getLocText("FR-Designer_Datasource-Stored_Procedure") + ":"));
+        namePane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Datasource-Stored_Procedure") + ":"));
         namePane.add(queryText);
         inAutoeditorPane = new UITableEditorPane<StoreProcedureParameter>(new StoreProcedureTableModel());
         autoEditorPane = new UITableEditorPane<StoreProcedureParameter>(new AutoStoreProcedureTableModel());
@@ -153,7 +153,7 @@ public class ProcedureDataPane extends AbstractTableDataPane<StoreProcedure> imp
         toolBarDef.addShortCut(new PreviewAction());
         toolBarDef.addShortCut(new RefreshAction());
         toolBarDef.addShortCut(SeparatorDef.DEFAULT);
-        isShareCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Is_Share_DBTableData"));
+        isShareCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Is_Share_DBTableData"));
         maxPanel = new MaxMemRowCountPanel();
         maxPanel.setBorder(null);
         UIToolbar toolbar = ToolBarDef.createJToolBar();
@@ -170,7 +170,7 @@ public class ProcedureDataPane extends AbstractTableDataPane<StoreProcedure> imp
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("FR-Designer_Datasource-Stored_Procedure");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Datasource-Stored_Procedure");
     }
 
     @Override
@@ -196,7 +196,7 @@ public class ProcedureDataPane extends AbstractTableDataPane<StoreProcedure> imp
                     warningLabel.setText(StringUtils.EMPTY);
                 } catch (Exception ex) {
                     if (ex instanceof SQLException) {
-                        warningLabel.setText(Inter.getLocText(new String[]{"Database", "Datasource-Connection_failed"}));
+                        warningLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Database_Connection_Failed"));
                     } else {
                         warningLabel.setText(ex.getMessage());
                     }
@@ -237,9 +237,9 @@ public class ProcedureDataPane extends AbstractTableDataPane<StoreProcedure> imp
 
         if (StringUtils.isBlank(dbName)) {
             try {
-                throw new Exception(Inter.getLocText("FR-Designer_Connect_SQL_Cannot_Null") + ".");
+                throw new Exception(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Connect_SQL_Cannot_Null") + ".");
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(ProcedureDataPane.this, Inter.getLocText("FR-Designer_Connect_SQL_Cannot_Null") + ".");
+                JOptionPane.showMessageDialog(ProcedureDataPane.this, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Connect_SQL_Cannot_Null") + ".");
             }
         }
 
@@ -319,7 +319,7 @@ public class ProcedureDataPane extends AbstractTableDataPane<StoreProcedure> imp
             storeProcedureContext.setText(procedureText);
             warningLabel.setText("");
         } catch (Exception e) {
-            warningLabel.setText(Inter.getLocText(new String[]{"Database", "Datasource-Connection_failed"}));
+            warningLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Database_Connection_Failed"));
             storeProcedureContext.setText("");
             editorPane.populate(new StoreProcedureParameter[0]);
         }
@@ -357,7 +357,7 @@ public class ProcedureDataPane extends AbstractTableDataPane<StoreProcedure> imp
 
     protected class RefreshAction extends UITableEditAction {
         public RefreshAction() {
-            this.setName(Inter.getLocText("FR-Designer_Refresh"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Refresh"));
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/refresh.png"));
         }
 

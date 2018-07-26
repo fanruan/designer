@@ -1,7 +1,7 @@
 package com.fr.design.extra.exe.callback;
 
 import com.fr.design.extra.PluginOperateUtils;
-import com.fr.general.Inter;
+
 import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.manage.control.AbstractDealPreTaskCallback;
 import com.fr.plugin.manage.control.PluginTask;
@@ -31,12 +31,12 @@ public class UpdateOnlineCallback extends AbstractDealPreTaskCallback {
         String pluginInfo = PluginOperateUtils.getSuccessInfo(result);
         if (result.isSuccess()) {
             jsCallback.execute("success");
-            FineLoggerFactory.getLogger().info(pluginInfo + Inter.getLocText("FR-Plugin_Update_Success"));
-            JOptionPane.showMessageDialog(null,pluginInfo + Inter.getLocText("FR-Plugin_Update_Success"));
+            FineLoggerFactory.getLogger().info(pluginInfo + com.fr.design.i18n.Toolkit.i18nText("FR-Plugin_Update_Success"));
+            JOptionPane.showMessageDialog(null,pluginInfo + com.fr.design.i18n.Toolkit.i18nText("FR-Plugin_Update_Success"));
         } else {
             jsCallback.execute("failed");
-            FineLoggerFactory.getLogger().info(Inter.getLocText("FR-Plugin_Update_Failed"));
-            JOptionPane.showMessageDialog(null, pluginInfo, Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+            FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("FR-Plugin_Update_Failed"));
+            JOptionPane.showMessageDialog(null, pluginInfo, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
         }
     }
 }

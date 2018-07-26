@@ -24,7 +24,7 @@ import javax.swing.event.ListSelectionListener;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 import com.fr.stable.StringUtils;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.design.utils.gui.JListUtils;
@@ -57,11 +57,11 @@ public abstract class EditingStringListPane extends BasicBeanPane<List<String>> 
 
 		});
 
-		addButton = new UIButton(Inter.getLocText("Add"));
-		editButton = new UIButton(Inter.getLocText("Modify"));
-		removeButton = new UIButton(Inter.getLocText("Remove"));
-		moveUpButton = new UIButton(Inter.getLocText("Utils-Move_Up"));
-		moveDownButton = new UIButton(Inter.getLocText("Utils-Move_Down"));
+		addButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Add"));
+		editButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Modify"));
+		removeButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Remove"));
+		moveUpButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Utils-Move_Up"));
+		moveDownButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Utils-Move_Down"));
 
 		JPanel eastPane = FRGUIPaneFactory.createNColumnGridInnerContainer_S_Pane(1);
 		eastPane.add(editButton);
@@ -129,7 +129,7 @@ public abstract class EditingStringListPane extends BasicBeanPane<List<String>> 
 						setAddEnabled(false);
 					}
 				} else {
-					JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(EditingStringListPane.this), newvalue + Inter.getLocText("Already_exists_not_add_repeat")+"!");
+					JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(EditingStringListPane.this), newvalue + com.fr.design.i18n.Toolkit.i18nText("Already_exists_not_add_repeat")+"!");
 				}
 			}
 		});
@@ -151,7 +151,7 @@ public abstract class EditingStringListPane extends BasicBeanPane<List<String>> 
 			public void actionPerformed(ActionEvent e) {
 				Object selected = jlist.getSelectedValue();
 				if (selected != null) {
-					int re = JOptionPane.showConfirmDialog(SwingUtilities.getWindowAncestor(EditingStringListPane.this), Inter.getLocText("sure_to_delete") + selected.toString() + "?");
+					int re = JOptionPane.showConfirmDialog(SwingUtilities.getWindowAncestor(EditingStringListPane.this), com.fr.design.i18n.Toolkit.i18nText("sure_to_delete") + selected.toString() + "?");
 					if (re == JOptionPane.OK_OPTION) {
 						JListUtils.removeSelectedListItems(jlist);
 					}

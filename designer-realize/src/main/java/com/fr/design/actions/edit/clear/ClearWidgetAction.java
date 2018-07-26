@@ -1,6 +1,6 @@
 package com.fr.design.actions.edit.clear;
 
-import com.fr.general.Inter;
+
 import com.fr.design.mainframe.ElementCasePane;
 
 //:jackie 用于清除控件
@@ -12,7 +12,7 @@ public class ClearWidgetAction extends ClearAction {
 	public ClearWidgetAction(ElementCasePane t) {
 		super(t);
 		
-        this.setName(Inter.getLocText("Widget"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Widget"));
         this.setMnemonic('W');
     }
 

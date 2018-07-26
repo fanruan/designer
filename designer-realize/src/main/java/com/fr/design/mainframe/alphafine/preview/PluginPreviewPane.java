@@ -3,7 +3,7 @@ package com.fr.design.mainframe.alphafine.preview;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.CellType;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -49,7 +49,7 @@ public class PluginPreviewPane extends JPanel {
         nameLabel.setBackground(AlphaFineConstants.BLUE);
         nameLabel.setBorder(BorderFactory.createEmptyBorder(20, 20, 10, 20));
         line.setBorder(BorderFactory.createEmptyBorder(20, 0, 10, 0));
-        String price0 = price == 0 ? Inter.getLocText("FR-Designer-Collect_Information_free") : "￥" + String.valueOf(price);
+        String price0 = price == 0 ? com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Collect_Information_free") : "￥" + String.valueOf(price);
         UILabel priceLabel = new UILabel(price0);
         priceLabel.setForeground(AlphaFineConstants.RED);
         priceLabel.setFont(AlphaFineConstants.MEDIUM_FONT);

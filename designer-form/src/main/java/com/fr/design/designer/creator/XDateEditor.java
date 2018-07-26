@@ -21,7 +21,7 @@ import com.fr.design.mainframe.widget.renderer.DateCellRenderer;
 import com.fr.form.ui.DateEditor;
 import com.fr.form.ui.WidgetValue;
 import com.fr.general.DateUtils;
-import com.fr.general.Inter;
+
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.core.PropertyChangeAdapter;
@@ -50,7 +50,7 @@ public class XDateEditor extends XDirectWriteEditor {
         CRPropertyDescriptor[] tempt = (CRPropertyDescriptor[]) ArrayUtils.addAll(
                 new CRPropertyDescriptor[]{
                         new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(
-                                Inter.getLocText(new String[]{"Widget", "Value"})).setEditorClass(
+                                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Value")).setEditorClass(
                                 WidgetValueEditor.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
                                 "Advanced").setPropertyChangeListener(new PropertyChangeAdapter() {
 
@@ -62,19 +62,19 @@ public class XDateEditor extends XDirectWriteEditor {
         return (CRPropertyDescriptor[]) ArrayUtils.addAll(tempt,
                 new CRPropertyDescriptor[]{
                         new CRPropertyDescriptor("formatText", this.data.getClass()).setI18NName(
-                                Inter.getLocText("FR-Engine_Format")).setEditorClass(formatClass()).setRendererClass(
+                                com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Format")).setEditorClass(formatClass()).setRendererClass(
                                 DateCellRenderer.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                         new CRPropertyDescriptor("startDate", this.data.getClass()).setI18NName(
-                                Inter.getLocText("FR-Designer_Start-Date")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
+                                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Start-Date")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
                                 "Advanced").setEditorClass(DateRangeEditor.class),
                         new CRPropertyDescriptor("endDate", this.data.getClass()).setI18NName(
-                                Inter.getLocText("FR-Designer_End-Date")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
+                                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_End-Date")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
                                 "Advanced").setEditorClass(DateRangeEditor.class),
                         new CRPropertyDescriptor("waterMark", this.data.getClass()).setI18NName(
-                                Inter.getLocText("FR-Designer_WaterMark")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
+                                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WaterMark")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
                                 "Advanced"),
                         new CRPropertyDescriptor("returnDate", this.data.getClass()).setI18NName(
-                                Inter.getLocText("FR-Designer_Return-Date")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
+                                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Return-Date")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
                                 "Advanced")
                 });
     }

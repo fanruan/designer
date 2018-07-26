@@ -16,7 +16,7 @@ import javax.swing.table.TableCellRenderer;
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.design.mainframe.DesignerContext;
-import com.fr.general.Inter;
+
 
 /**
  * 用来处理TableEditorPane的model
@@ -183,7 +183,7 @@ public abstract class UITableModelAdapter<T extends Object> extends AbstractTabl
 
 	protected abstract class AddTableRowAction extends UITableEditAction {
 		public AddTableRowAction() {
-			this.setName(Inter.getLocText("Insert"));
+			this.setName(com.fr.design.i18n.Toolkit.i18nText("Insert"));
 			this.setSmallIcon(BaseUtils.readIcon("/com/fr/base/images/cell/control/add.png"));
 		}
 
@@ -200,7 +200,7 @@ public abstract class UITableModelAdapter<T extends Object> extends AbstractTabl
 	protected abstract class EditAction extends UITableEditAction {
 
 		public EditAction() {
-			this.setName(Inter.getLocText("Edit"));
+			this.setName(com.fr.design.i18n.Toolkit.i18nText("Edit"));
 			this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/edit.png"));
 		}
 
@@ -208,7 +208,7 @@ public abstract class UITableModelAdapter<T extends Object> extends AbstractTabl
 		public void actionPerformed(ActionEvent e) {
 			final int selectedRow = table.getSelectedRow();
 			if (selectedRow > table.getRowCount() - 1 || selectedRow < 0) {
-				JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("no-alternatives"));
+				JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("no-alternatives"));
 				return;
 			}
 			stopCellEditing();
@@ -221,12 +221,12 @@ public abstract class UITableModelAdapter<T extends Object> extends AbstractTabl
 
 		private Component component = null;
 		public DeleteAction() {
-			this.setName(Inter.getLocText("Delete"));
+			this.setName(com.fr.design.i18n.Toolkit.i18nText("Delete"));
 			this.setSmallIcon(BaseUtils.readIcon("/com/fr/base/images/cell/control/remove.png"));
 		}
 		
 		public DeleteAction(Component component){
-			this.setName(Inter.getLocText("Delete"));
+			this.setName(com.fr.design.i18n.Toolkit.i18nText("Delete"));
 			this.setSmallIcon(BaseUtils.readIcon("/com/fr/base/images/cell/control/remove.png"));
 			this.component = component;
 		}
@@ -235,7 +235,7 @@ public abstract class UITableModelAdapter<T extends Object> extends AbstractTabl
 		public void actionPerformed(ActionEvent e) {
 			int[] selectedRow = table.getSelectedRows();
 			if (ismultiSelected()) {
-				JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),Inter.getLocText(new String[]{"The_current_list_is_empty", "Or-you", "Privilege-Selected_None_Of_Any_Items"}));
+				JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Multiple_Select_Warn_Text"));
 				return;
 			}
 			if (table.getCellEditor() != null) {
@@ -253,7 +253,7 @@ public abstract class UITableModelAdapter<T extends Object> extends AbstractTabl
 				component = DesignerContext.getDesignerFrame();
 			}
 			int val = JOptionPane.showConfirmDialog(component,
-					Inter.getLocText("Utils-Are_you_sure_to_remove_the_selected_item") + "?", Inter.getLocText("Remove"),
+					com.fr.design.i18n.Toolkit.i18nText("Utils-Are_you_sure_to_remove_the_selected_item") + "?", com.fr.design.i18n.Toolkit.i18nText("Remove"),
 					JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if (val != JOptionPane.OK_OPTION) {
 				return;
@@ -282,7 +282,7 @@ public abstract class UITableModelAdapter<T extends Object> extends AbstractTabl
 
 	protected class MoveUpAction extends UITableEditAction {
 		public MoveUpAction() {
-			this.setName(Inter.getLocText("Utils-Move_Up"));
+			this.setName(com.fr.design.i18n.Toolkit.i18nText("Utils-Move_Up"));
 			this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/up.png"));
 		}
 
@@ -306,7 +306,7 @@ public abstract class UITableModelAdapter<T extends Object> extends AbstractTabl
 	protected class MoveDownAction extends UITableEditAction {
 
 		public MoveDownAction() {
-			this.setName(Inter.getLocText("Utils-Move_Down"));
+			this.setName(com.fr.design.i18n.Toolkit.i18nText("Utils-Move_Down"));
 			this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/down.png"));
 		}
 

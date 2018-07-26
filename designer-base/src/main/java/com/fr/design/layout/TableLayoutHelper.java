@@ -4,8 +4,10 @@ package com.fr.design.layout;
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.Inter;
+import com.fr.stable.StringUtils;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -351,8 +353,12 @@ public class TableLayoutHelper {
         double f = TableLayout.FILL;
         double[] column = {LayoutConstants.CHART_ATTR_TOMARGIN, f};
         double[] row = {p, p};
+        StringBuilder resultText = new StringBuilder();
+        for (String text : title) {
+            resultText.append(Toolkit.i18nText(text));
+        }
         Component[][] comp = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText(title)), null},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText(resultText.toString())), null},
                 new Component[]{null, secondMenu},
         };
         return createTableLayoutPane(comp, row, column);

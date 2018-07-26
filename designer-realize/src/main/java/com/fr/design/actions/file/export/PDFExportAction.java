@@ -8,7 +8,7 @@ import com.fr.base.extension.FileExtension;
 import com.fr.design.mainframe.JWorkBook;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.file.filter.ChooseFileFilter;
-import com.fr.general.Inter;
+
 import com.fr.io.exporter.Exporter;
 import com.fr.web.core.reserve.PDFExporterFactory;
 
@@ -35,7 +35,7 @@ public class PDFExportAction extends AbstractExportAction {
 
     @Override
 	protected ChooseFileFilter getChooseFileFilter() {
-        return new ChooseFileFilter(FileExtension.PDF, Inter.getLocText("FR-Designer_Export-PDF"));
+        return new ChooseFileFilter(FileExtension.PDF, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Export-PDF"));
     }
 
     @Override

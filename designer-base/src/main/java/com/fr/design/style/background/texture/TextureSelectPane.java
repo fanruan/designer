@@ -1,6 +1,6 @@
 package com.fr.design.style.background.texture;
 
-import com.fr.general.Inter;
+
 import com.fr.design.style.background.BackgroundDetailPane;
 import com.fr.design.style.background.impl.TextureBackgroundPane;
 import com.fr.design.style.background.BackgroundSelectPane;
@@ -27,6 +27,6 @@ public class TextureSelectPane extends BackgroundSelectPane {
 	
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("Background-Texture");
+		return com.fr.design.i18n.Toolkit.i18nText("Background-Texture");
 	}
 }

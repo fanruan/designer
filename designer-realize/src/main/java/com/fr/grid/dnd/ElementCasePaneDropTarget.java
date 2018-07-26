@@ -17,7 +17,7 @@ import com.fr.base.FRContext;
 import com.fr.design.actions.ToggleButtonUpdateAction;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.gui.ibutton.UIToggleButton;
-import com.fr.general.Inter;
+
 import com.fr.general.data.TableDataColumn;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.grid.Grid;
@@ -122,13 +122,13 @@ public class ElementCasePaneDropTarget extends DropTargetAdapter {
         public SortAction(int i) {
             direction = i;
             if (i == LEFT_2_RIGHT) {
-                this.setName(Inter.getLocText("Utils-Left_to_Right_a"));
+                this.setName(com.fr.design.i18n.Toolkit.i18nText("Utils-Left_to_Right_a"));
             } else if (i == RIGHT_2_LEFT) {
-                this.setName(Inter.getLocText("Utils-Right_to_Left"));
+                this.setName(com.fr.design.i18n.Toolkit.i18nText("Utils-Right_to_Left"));
             } else if (i == TOP_2_BOTTOM) {
-                this.setName(Inter.getLocText("Utils-Top_to_Bottom_a"));
+                this.setName(com.fr.design.i18n.Toolkit.i18nText("Utils-Top_to_Bottom_a"));
             } else if (i == BOTTOM_2_TOP) {
-                this.setName(Inter.getLocText("Utils-Bottom_to_Top"));
+                this.setName(com.fr.design.i18n.Toolkit.i18nText("Utils-Bottom_to_Top"));
             }
             this.setMnemonic('S');
         }
@@ -194,13 +194,13 @@ public class ElementCasePaneDropTarget extends DropTargetAdapter {
             if (direction == RIGHT_2_LEFT) {
                 int k = cs.getColumn() - columnCount + 1;
                 if (k < 0) {
-                    JOptionPane.showMessageDialog(ePane, Inter.getLocText("Utils-Beyond_the_left_side_of_Border"));
+                    JOptionPane.showMessageDialog(ePane, com.fr.design.i18n.Toolkit.i18nText("Utils-Beyond_the_left_side_of_Border"));
                     return false;
                 }
             } else if (direction == BOTTOM_2_TOP) {
                 int k = cs.getRow() - columnCount + 1;
                 if (k < 0) {
-                    JOptionPane.showMessageDialog(ePane, Inter.getLocText("Utils-Beyond_the_top_side_of_Border"));
+                    JOptionPane.showMessageDialog(ePane, com.fr.design.i18n.Toolkit.i18nText("Utils-Beyond_the_top_side_of_Border"));
                     return false;
                 }
             }
@@ -208,12 +208,12 @@ public class ElementCasePaneDropTarget extends DropTargetAdapter {
             if (ePane.mustInVisibleRange()) {
                 if (direction == LEFT_2_RIGHT) {
                     if (!GridUtils.canMove(ePane, cs.getColumn() + columnCount - 1, cs.getRow())) {
-                        JOptionPane.showMessageDialog(ePane, Inter.getLocText("Utils-Beyond_the_right_side_of_Border"));
+                        JOptionPane.showMessageDialog(ePane, com.fr.design.i18n.Toolkit.i18nText("Utils-Beyond_the_right_side_of_Border"));
                         return false;
                     }
                 } else if (direction == TOP_2_BOTTOM) {
                     if (!GridUtils.canMove(ePane, cs.getRow(), cs.getColumn() + columnCount - 1)) {
-                        JOptionPane.showMessageDialog(ePane, Inter.getLocText("Utils-Beyond_the_bottom_side_of_Border"));
+                        JOptionPane.showMessageDialog(ePane, com.fr.design.i18n.Toolkit.i18nText("Utils-Beyond_the_bottom_side_of_Border"));
                         return false;
                     }
                 }

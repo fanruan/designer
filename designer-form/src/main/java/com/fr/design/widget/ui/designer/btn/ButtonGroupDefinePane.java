@@ -12,7 +12,7 @@ import com.fr.design.widget.ui.designer.ButtonGroupDictPane;
 import com.fr.design.widget.ui.designer.FieldEditorDefinePane;
 import com.fr.design.widget.ui.designer.component.FormWidgetValuePane;
 import com.fr.form.ui.ButtonGroup;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -35,16 +35,16 @@ public abstract class ButtonGroupDefinePane<T extends ButtonGroup> extends Field
         JPanel advancePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         dictionaryEditor = new AccessibleDictionaryEditor();
         buttonGroupDictPane = new ButtonGroupDictPane();
-        UILabel widgetValueLabel = new UILabel(Inter.getLocText("FR-Designer-Estate_Widget_Value"));
+        UILabel widgetValueLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Estate_Widget_Value"));
         widgetValueLabel.setVerticalAlignment(SwingConstants.TOP);
         formWidgetValuePane = new FormWidgetValuePane(creator.toData(), false);
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Label_Name")), labelNameTextField},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Label_Name")), labelNameTextField},
                 new Component[]{widgetValueLabel, formWidgetValuePane},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_DS-Dictionary")), dictionaryEditor},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_FRFont")), fontSizePane},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_DS-Dictionary")), dictionaryEditor},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont")), fontSizePane},
                 new Component[]{buttonGroupDictPane, null}
         };
         double[] rowSize = {p, p, p, p, p, p, p};

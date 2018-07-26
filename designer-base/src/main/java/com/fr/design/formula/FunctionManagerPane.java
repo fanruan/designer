@@ -16,7 +16,7 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.file.FunctionConfig;
-import com.fr.general.Inter;
+
 import com.fr.general.NameObject;
 import com.fr.stable.Nameable;
 import com.fr.stable.project.ProjectConstants;
@@ -44,7 +44,7 @@ public class FunctionManagerPane extends BasicPane {
     
     @Override
     protected String title4PopupWindow() {
-    	return Inter.getLocText("Function-Function_Manager");
+    	return com.fr.design.i18n.Toolkit.i18nText("Function-Function_Manager");
     }
 
     /**
@@ -94,7 +94,7 @@ public class FunctionManagerPane extends BasicPane {
 
         @Override
         public NameableCreator[] createNameableCreators() {
-            NameableCreator funcDef = new NameObjectCreator(Inter.getLocText("FR-Designer_Function"), FunctionDef.class,
+            NameableCreator funcDef = new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Function"), FunctionDef.class,
             		FunctionContentPane.class);
             return new NameableCreator[]{funcDef};
         }
@@ -123,7 +123,7 @@ public class FunctionManagerPane extends BasicPane {
             JPanel reportletNamePane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
             classNameTextField = new UITextField(25);
             reportletNamePane.add(classNameTextField);
-            UIButton browserButton = new UIButton(Inter.getLocText("FR-Designer_Select"));
+            UIButton browserButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Select"));
             browserButton.setPreferredSize(new Dimension(browserButton.getPreferredSize().width,  classNameTextField.getPreferredSize().height));
             reportletNamePane.add(browserButton);
             browserButton.addActionListener(new ActionListener() {
@@ -138,11 +138,11 @@ public class FunctionManagerPane extends BasicPane {
 	                    }).setVisible(true);
                 }
             });
-            UIButton editorButton = new UIButton(Inter.getLocText("FR-Designer_Edit"));
+            UIButton editorButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit"));
             editorButton.setPreferredSize(new Dimension(editorButton.getPreferredSize().width, classNameTextField.getPreferredSize().height));
             reportletNamePane.add(editorButton);
             editorButton.addActionListener(createEditorButtonActionListener());
-            northPane.add(GUICoreUtils.createFlowPane(new Component[]{new UILabel(Inter.getLocText("DS-Class_Name") + ":"),
+            northPane.add(GUICoreUtils.createFlowPane(new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("DS-Class_Name") + ":"),
                     reportletNamePane}, FlowLayout.LEFT));
             DescriptionTextArea descriptionArea = new DescriptionTextArea();
             descriptionArea.setWrapStyleWord(true);
@@ -151,12 +151,12 @@ public class FunctionManagerPane extends BasicPane {
 
             String path1 = getEscapePath(File.separator + ProjectConstants.WEBINF_NAME + File.separator + ProjectConstants.CLASSES_NAME);
             String path2 = getEscapePath(WorkContext.getCurrent().getPath() + File.separator + ProjectConstants.CLASSES_NAME);
-            descriptionArea.setText(Inter.getLocText("FR-Designer_Function_Description_Area_Text", path1, path2));
+            descriptionArea.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Function_Description_Area_Text", path1, path2));
 
             JPanel descriptionPane = FRGUIPaneFactory.createBorderLayout_S_Pane();  //Description Pane
             this.add(descriptionPane, BorderLayout.SOUTH);
             descriptionPane.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
-            descriptionPane.add(new UILabel(Inter.getLocText("FR-Designer_Description") + ":"), BorderLayout.NORTH);
+            descriptionPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Description") + ":"), BorderLayout.NORTH);
             this.descriptionTextArea = new UITextArea(6, 24);
             descriptionPane.add(new JScrollPane(this.descriptionTextArea), BorderLayout.CENTER);
         }

@@ -9,7 +9,7 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.present.PresentPane;
-import com.fr.general.Inter;
+
 import com.fr.report.cell.cellattr.NormalPresent;
 import com.fr.report.cell.cellattr.PresentConstants;
 import com.fr.report.cell.cellattr.highlight.HighlightAction;
@@ -34,13 +34,13 @@ public class PresentHighlightPane extends ConditionAttrSingleConditionPane<Highl
 
     public PresentHighlightPane(final ConditionAttributesPane conditionAttributesPane) {
         super(conditionAttributesPane);
-        this.add(new UILabel(Inter.getLocText("FR-Designer_Present") + ":"));
+        this.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Present") + ":"));
 
-        String[] typeArray = {PresentConstants.NORMAL, Inter.getLocText(new String[]{"Other", "Present"})};
+        String[] typeArray = {PresentConstants.NORMAL, com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Other", "Present"})};
         presentComboBox = new UIComboBox(typeArray);
         this.add(presentComboBox);
 
-        editButton = new UIButton(Inter.getLocText("FR-Designer_Edit"));
+        editButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit"));
 //			this.add(this.valueTextField);
 //			this.add(editButton);
 
@@ -88,7 +88,7 @@ public class PresentHighlightPane extends ConditionAttrSingleConditionPane<Highl
 
     @Override
     public String nameForPopupMenuItem() {
-        return Inter.getLocText("FR-Designer_Present");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Present");
     }
 
     @Override

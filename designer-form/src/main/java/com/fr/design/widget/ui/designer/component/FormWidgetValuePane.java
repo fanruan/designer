@@ -10,7 +10,7 @@ import com.fr.design.mainframe.widget.editors.ServerDataTableEditor;
 import com.fr.form.ui.DataControl;
 import com.fr.form.ui.WidgetValue;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -48,7 +48,7 @@ public class FormWidgetValuePane extends JPanel {
             index = 0;
             widgetValueHead.setSelectedIndex(index);
         }
-        if (ComparatorUtils.equals(editor[index].getName(), Inter.getLocText("FR-Designer_Widget_Field"))) {
+        if (ComparatorUtils.equals(editor[index].getName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget_Field"))) {
             customPane.setPreferredSize(new Dimension(100, 47));
         } else {
             customPane.setPreferredSize(new Dimension(100, 20));
@@ -69,7 +69,7 @@ public class FormWidgetValuePane extends JPanel {
             case DataControl.TYPE_NUMBER:
                 return new DoubleEditor();
             case DataControl.TYPE_FORMULA:
-                return new FormulaEditor(Inter.getLocText("Parameter-Formula"));
+                return new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Parameter-Formula"));
             case DataControl.TYPE_DATABINDING:
                 return onlyServer ? new ServerDataBindingEditor() : new DataBindingEditor();
             case DataControl.TYPE_STRING:
@@ -77,7 +77,7 @@ public class FormWidgetValuePane extends JPanel {
             case DataControl.TYPE_BOOLEAN:
                 return new BooleanEditor(false);
             case DataControl.TYPE_DATE:
-                return new DateEditor(true, Inter.getLocText("Date"));
+                return new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("Date"));
             case DataControl.TYPE_TABLEDATA:
                 return onlyServer ? new ServerDataTableEditor() : new DataTableEditor();
             default:

@@ -9,7 +9,7 @@ import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
-import com.fr.general.Inter;
+
 import com.fr.report.cell.CellElement;
 import com.fr.report.cell.cellattr.CellGUIAttr;
 import com.fr.report.cell.cellattr.core.RichChar;
@@ -61,7 +61,7 @@ public class RichTextPane extends BasicPane {
     
     @Override
     protected String title4PopupWindow() {
-    	return Inter.getLocText("FR-Designer_RichTextEditor");
+    	return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_RichTextEditor");
     }
 
     /**

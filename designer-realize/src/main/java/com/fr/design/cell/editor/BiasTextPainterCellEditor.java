@@ -25,7 +25,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.grid.Grid;
 import com.fr.report.cell.TemplateCellElement;
@@ -121,7 +121,7 @@ public class BiasTextPainterCellEditor extends AbstractCellEditor {
             centerPane.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
             centerPane.add(textPane, BorderLayout.CENTER);
 
-            UILabel formulaLabel = new UILabel(Inter.getLocText(new String[] {"BiasD-Input_Slope_Line_text_separated_by_'|'", "Example"}, new String[] {" ",  ": Season|Product"}) );
+            UILabel formulaLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Slope_Line_Tip", "'|'", "Season|Product"));
             textPane.add(formulaLabel, BorderLayout.NORTH);
             formulaLabel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 0));
 
@@ -136,8 +136,8 @@ public class BiasTextPainterCellEditor extends AbstractCellEditor {
 
             JPanel choicePane = FRGUIPaneFactory.createX_AXISBoxInnerContainer_S_Pane();
 
-            choice1 = new UIRadioButton((Inter.getLocText("BiasD-From-upper_left_to_lower_right")));
-            choice2 = new UIRadioButton((Inter.getLocText("BiasD-From-lower_left_to_upper_right")));
+            choice1 = new UIRadioButton((com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Slope_Line_Upper_Left_To_Lower_Right")));
+            choice2 = new UIRadioButton((com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Slope_Line_Lower_Left_To_Upper_Right")));
             choice1.addActionListener(leftUp);
             choice2.addActionListener(leftDown);
 
@@ -154,7 +154,7 @@ public class BiasTextPainterCellEditor extends AbstractCellEditor {
         
         @Override
         protected String title4PopupWindow() {
-        	return Inter.getLocText("BiasD-Slope_Line");
+        	return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Slope_Line");
         }
         
         public void populate(BiasTextPainter biasTextPainter) {

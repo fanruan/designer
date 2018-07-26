@@ -20,7 +20,7 @@ import com.fr.form.event.Listener;
 import com.fr.form.ui.Widget;
 import com.fr.grid.selection.Selection;
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.Inter;
+
 import com.fr.general.NameObject;
 import com.fr.grid.GridUtils;
 import com.fr.grid.selection.CellSelection;
@@ -49,7 +49,7 @@ public class WidgetEventPane extends ObjectUIControlPane {
 
     @Override
     public String getAddItemText() {
-        return Inter.getLocText("FR-Designer_Add_Event");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Add_Event");
     }
 
     /**
@@ -69,7 +69,7 @@ public class WidgetEventPane extends ObjectUIControlPane {
 
 	@Override
     protected String title4PopupWindow() {
-    	return Inter.getLocText("Event");
+    	return com.fr.design.i18n.Toolkit.i18nText("Event");
     }
     
     public static class WidgetEventListenerUpdatePane extends ListenerUpdatePane {
@@ -107,7 +107,7 @@ public class WidgetEventPane extends ObjectUIControlPane {
 
 				@Override
 				protected String title4PopupWindow() {
-					return Inter.getLocText("Set_Callback_Function");
+					return com.fr.design.i18n.Toolkit.i18nText("Set_Callback_Function");
 				}
 				
 				@Override

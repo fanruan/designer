@@ -98,13 +98,13 @@ public class BBSLoginDialog extends UIDialog {
     }
 
     private void initComponents(JPanel contentPane) {
-        this.setTitle(Inter.getLocText("FR-Designer-BBSLogin_Login-Title"));
-        tipLabel = new UILabel(Inter.getLocText("FR-Designer-BBSLogin_Login-Failure-Tip"));
-        userLabel = new UILabel(Inter.getLocText("FR-Designer-BBSLogin_Account") + ":");
-        passLabel = new UILabel(Inter.getLocText("FR-Designer-BBSLogin_Password") + ":");
+        this.setTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-BBSLogin_Login-Title"));
+        tipLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-BBSLogin_Login-Failure-Tip"));
+        userLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-BBSLogin_Account") + ":");
+        passLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-BBSLogin_Password") + ":");
         nameField = new UITextField();
         passField = new UIPassWordField();
-        loginButton = new UIButton(Inter.getLocText("FR-Designer-BBSLogin_Login"));
+        loginButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-BBSLogin_Login"));
         passwordReset = getURLActionLabel(CloudCenter.getInstance().acquireUrlByKind("bbs.reset"));
         registerLabel = getURLActionLabel(CloudCenter.getInstance().acquireUrlByKind("bbs.register"));
         loginButton.addActionListener(new ActionListener() {
@@ -216,19 +216,19 @@ public class BBSLoginDialog extends UIDialog {
 
     // 登录失败
     private void loginFailure() {
-        setLoginFailureTxt(Inter.getLocText("FR-Designer-BBSLogin_Login-Failure-Tip"));
+        setLoginFailureTxt(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-BBSLogin_Login-Failure-Tip"));
     }
 
     private void tipForUsernameEmpty() {
-        setLoginFailureTxt(Inter.getLocText("FR-Designer-BBSLogin_Username-Empty-Tip"));
+        setLoginFailureTxt(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-BBSLogin_Username-Empty-Tip"));
     }
 
     public void showTipForDownloadPluginWithoutLogin() {
-        setLoginFailureTxt(Inter.getLocText("FR-Designer-BBSLogin_Download-Unlogin-Tip"));
+        setLoginFailureTxt(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-BBSLogin_Download-Unlogin-Tip"));
     }
 
     private void tipForPasswordEmpty() {
-        setLoginFailureTxt(Inter.getLocText("FR-Designer-BBSLogin_Password-Empty-Tip"));
+        setLoginFailureTxt(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-BBSLogin_Password-Empty-Tip"));
     }
 
     private void setLoginFailureTxt(String errorTxt) {
@@ -240,7 +240,7 @@ public class BBSLoginDialog extends UIDialog {
 
     // 连接失败
     private void connectionFailue() {
-        setLoginFailureTxt(Inter.getLocText("FR-Designer-BBSLogin_Connection-Failure"));
+        setLoginFailureTxt(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-BBSLogin_Connection-Failure"));
     }
 
     /**
@@ -304,9 +304,9 @@ public class BBSLoginDialog extends UIDialog {
     private BoxCenterAligmentPane getURLActionLabel(final String url) {
         ActionLabel actionLabel = new ActionLabel(url);
         if (ComparatorUtils.equals(url, CloudCenter.getInstance().acquireUrlByKind("bbs.reset"))) {
-            actionLabel.setText(Inter.getLocText("FR-Designer-BBSLogin_Forgot-Password"));
+            actionLabel.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-BBSLogin_Forgot-Password"));
         } else {
-            actionLabel.setText(Inter.getLocText("FR-Designer-BBSLogin_Register-Account"));
+            actionLabel.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-BBSLogin_Register-Account"));
         }
 
         actionLabel.addActionListener(new ActionListener() {

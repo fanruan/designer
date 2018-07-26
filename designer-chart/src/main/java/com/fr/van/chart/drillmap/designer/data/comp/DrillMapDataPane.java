@@ -7,7 +7,7 @@ import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.gui.frpane.UIComboBoxPane;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.drillmap.data.DrillMapDefinition;
 import com.fr.plugin.chart.type.MapType;
 import com.fr.van.chart.map.designer.data.MapDataPaneHelper;
@@ -112,6 +112,6 @@ public class DrillMapDataPane extends BasicBeanPane<ChartCollection> {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("Chart-Use_Data");
+        return com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Data");
     }
 }

@@ -14,7 +14,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.editor.ValueEditorPane;
 import com.fr.design.editor.ValueEditorPaneFactory;
-import com.fr.general.Inter;
+
 
 public class ParameterPane extends BasicBeanPane<Parameter> {
 	/*
@@ -46,8 +46,8 @@ public class ParameterPane extends BasicBeanPane<Parameter> {
 
 		// richer:要排列显示的控件
 		Component[][] components = {{null},
-				{ null, new UILabel(Inter.getLocText("Name") + ":"),textFieldPanel },
-				{ null, new UILabel(Inter.getLocText("Utils-Default_Value") + ":"),valueEditor }
+				{ null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Name") + ":"),textFieldPanel },
+				{ null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Utils-Default_Value") + ":"),valueEditor }
 				};
 		double p =TableLayout.PREFERRED;
 		double f =TableLayout.FILL;
@@ -65,7 +65,7 @@ public class ParameterPane extends BasicBeanPane<Parameter> {
 	
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("Parameter");
+		return com.fr.design.i18n.Toolkit.i18nText("Parameter");
 	}
 
 	@Override

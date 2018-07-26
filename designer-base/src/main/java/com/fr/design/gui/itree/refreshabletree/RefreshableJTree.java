@@ -3,6 +3,7 @@ package com.fr.design.gui.itree.refreshabletree;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.itooltip.UIToolTip;
 import com.fr.design.gui.itree.checkboxtree.CheckBoxTree;
+import com.fr.design.i18n.Toolkit;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.NameObject;
 import com.fr.locale.InterProviderFactory;
@@ -36,7 +37,7 @@ public abstract class RefreshableJTree extends CheckBoxTree {
 
         @Override
         public String toString() {
-            return InterProviderFactory.getProvider().getLocText("Loading") + "...";
+            return Toolkit.i18nText("Fine-Design_Loading") + "...";
         }
     };
 

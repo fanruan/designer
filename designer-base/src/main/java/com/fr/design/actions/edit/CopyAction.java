@@ -6,7 +6,7 @@ package com.fr.design.actions.edit;
 import com.fr.base.BaseUtils;
 import com.fr.design.actions.TemplateComponentAction;
 import com.fr.design.designer.TargetComponent;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
@@ -20,7 +20,7 @@ public class CopyAction extends TemplateComponentAction {
     public CopyAction(TargetComponent t) {
         super(t);
 
-        this.setName(Inter.getLocText("M_Edit-Copy"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("M_Edit-Copy"));
         this.setMnemonic('C');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_edit/copy.png"));
         this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, DEFAULT_MODIFIER));

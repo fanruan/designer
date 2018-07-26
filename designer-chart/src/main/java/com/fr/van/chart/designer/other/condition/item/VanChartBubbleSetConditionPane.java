@@ -2,7 +2,7 @@ package com.fr.van.chart.designer.other.condition.item;
 
 import com.fr.chart.base.DataSeriesCondition;
 import com.fr.design.condition.ConditionAttributesPane;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.bubble.attr.VanChartAttrBubble;
 import com.fr.van.chart.bubble.component.VanChartBubblePane;
 
@@ -18,7 +18,7 @@ public class VanChartBubbleSetConditionPane extends AbstractNormalMultiLineCondi
 
     @Override
     protected String getItemLabelString() {
-        return Inter.getLocText("Plugin-ChartF_Bubble");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Bubble");
     }
 
     @Override
@@ -37,7 +37,7 @@ public class VanChartBubbleSetConditionPane extends AbstractNormalMultiLineCondi
      */
     @Override
     public String nameForPopupMenuItem() {
-        return Inter.getLocText("Plugin-ChartF_Bubble");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Bubble");
     }
 
     @Override

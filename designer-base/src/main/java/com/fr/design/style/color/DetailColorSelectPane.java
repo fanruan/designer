@@ -22,7 +22,7 @@ import com.fr.base.GraphHelper;
 import com.fr.design.border.UITitledBorder;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.dialog.BasicPane;
-import com.fr.general.Inter;
+
 
 /**
  * The detail color select pane.
@@ -36,7 +36,7 @@ public class DetailColorSelectPane extends BasicPane {
         this.setBorder(BorderFactory.createEmptyBorder(4, 4, 0, 4));
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
 
-        JPanel titledefaultPane=FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("Color"));
+        JPanel titledefaultPane=FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Color"));
         JPanel defaultPane =FRGUIPaneFactory.createX_AXISBoxInnerContainer_S_Pane();
         this.add(titledefaultPane, BorderLayout.WEST);
         titledefaultPane.add(defaultPane);
@@ -72,7 +72,7 @@ public class DetailColorSelectPane extends BasicPane {
                 this.getFont().getStyle(), this.getFont().getSize() + 4));
         colorPreviewLabel.setBorder(BorderFactory.createEmptyBorder(0, 2, 2, 2));
         colorPreviewPane.add(colorPreviewLabel, BorderLayout.CENTER);
-        UITitledBorder explainBorder = UITitledBorder.createBorderWithTitle(Inter.getLocText("Preview"));
+        UITitledBorder explainBorder = UITitledBorder.createBorderWithTitle(com.fr.design.i18n.Toolkit.i18nText("Preview"));
         colorPreviewPane.setBorder(explainBorder);
 
         this.addChangeListener(colorPreviewLabelChangeListener);

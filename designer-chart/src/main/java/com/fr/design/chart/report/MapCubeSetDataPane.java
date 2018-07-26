@@ -10,7 +10,7 @@ import com.fr.design.editor.editor.TextEditor;
 import com.fr.design.gui.itableeditorpane.UIArrayTableModel;
 import com.fr.design.gui.itableeditorpane.UITableEditorPane;
 import com.fr.design.gui.xcombox.ComboBoxUseEditor;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -36,7 +36,7 @@ public class MapCubeSetDataPane extends BasicBeanPane<List>{
 	private void initCom() {
 		this.setLayout(new BorderLayout(0, 0));
 		
-		UIArrayTableModel model = new UIArrayTableModel(new String[]{Inter.getLocText("FR-Chart-Area_Name"), Inter.getLocText("FR-Chart-Drill_Map")}, new int[] {}) {
+		UIArrayTableModel model = new UIArrayTableModel(new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Area_Name"), com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Drill_Map")}, new int[] {}) {
 			public boolean isCellEditable(int row, int col) {
 				return col != 0;
 			}
@@ -77,7 +77,7 @@ public class MapCubeSetDataPane extends BasicBeanPane<List>{
 
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("FR-Chart-Drill_Setting");
+		return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Drill_Setting");
 	}
 	
 	/**

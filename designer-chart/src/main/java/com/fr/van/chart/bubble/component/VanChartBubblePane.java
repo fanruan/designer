@@ -6,7 +6,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.bubble.attr.VanChartAttrBubble;
 
 import javax.swing.JPanel;
@@ -26,10 +26,10 @@ public class VanChartBubblePane extends BasicBeanPane<VanChartAttrBubble> {
     public VanChartBubblePane(){
         minDiameter = new UISpinner(0,Double.MAX_VALUE,1,0);
         maxDiameter = new UISpinner(0,Double.MAX_VALUE,1,0);
-        shadow = new UIButtonGroup<Integer>(new String[]{Inter.getLocText("Plugin-ChartF_Open"),
-                Inter.getLocText("Plugin-ChartF_Close")});
-        displayNegative = new UIButtonGroup<Integer>(new String[]{Inter.getLocText("Plugin-ChartF_Open"),
-                Inter.getLocText("Plugin-ChartF_Close")});
+        shadow = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Open"),
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Close")});
+        displayNegative = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Open"),
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Close")});
 
 
 
@@ -49,10 +49,10 @@ public class VanChartBubblePane extends BasicBeanPane<VanChartAttrBubble> {
     protected Component[][] getComponent () {
         return new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_MinDiameter")), minDiameter},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_MaxDiameter")), maxDiameter},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Shadow")), shadow},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_DisplayNegative")), displayNegative},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_MinDiameter")), minDiameter},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_MaxDiameter")), maxDiameter},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Shadow")), shadow},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_DisplayNegative")), displayNegative},
 
         };
     }
@@ -78,6 +78,6 @@ public class VanChartBubblePane extends BasicBeanPane<VanChartAttrBubble> {
 
     @Override
     public String title4PopupWindow() {
-        return Inter.getLocText("Plugin-ChartF_Bubble");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Bubble");
     }
 }

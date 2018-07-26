@@ -9,7 +9,7 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.style.background.image.ImageFileChooser;
 import com.fr.design.style.background.image.ImagePreviewPane;
-import com.fr.general.Inter;
+
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -40,7 +40,7 @@ public class ImagePane extends BasicPane {
 
 //        previewPane.setLayout(FRGUIPaneFactory.createBorderLayout());
         if (hasPreviewBorder) {
-            previewPane.setBorder(BorderFactory.createTitledBorder(Inter.getLocText("Preview")));
+            previewPane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Preview")));
         }
 
         imagePreviewPane = new ImagePreviewPane();
@@ -56,7 +56,7 @@ public class ImagePane extends BasicPane {
         } else {
             rightPane.setBorder(BorderFactory.createEmptyBorder(4, 2, 0, 2));
         }
-        UIButton selectImageButton = new UIButton(Inter.getLocText("Image-Select_Picture"));
+        UIButton selectImageButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Image-Select_Picture"));
         rightPane.add(selectImageButton, BorderLayout.NORTH);
         selectImageButton.addActionListener(selectPictureActionListener);
 

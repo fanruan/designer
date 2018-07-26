@@ -4,7 +4,7 @@
 package com.fr.design.constants;
 
 import com.fr.base.BaseUtils;
-import com.fr.general.Inter;
+
 import com.fr.stable.Constants;
 
 import javax.swing.*;
@@ -219,7 +219,7 @@ public interface UIConstants {
 
         @Override
         public String toString() {
-            return Inter.getLocText("Loading") + "...";
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Loading") + "...";
         }
     };
     /**
@@ -228,7 +228,7 @@ public interface UIConstants {
     public static final Object CONNECTION_FAILED = new Object() {
 
         public String toString() {
-            return Inter.getLocText(new String[]{"Database", "Datasource-Connection_failed"}) + "!";
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Database_Connection_Failed") + "!";
         }
     };
 

@@ -7,7 +7,7 @@ import com.fr.base.BaseUtils;
 import com.fr.base.Style;
 import com.fr.base.core.StyleUtils;
 import com.fr.general.FRFont;
-import com.fr.general.Inter;
+
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.stable.Constants;
 
@@ -23,7 +23,7 @@ public class ReportFontUnderlineAction extends ReportFontBoldAction {
     public ReportFontUnderlineAction(ElementCasePane t) {
 		super(t);
 
-		this.setName(Inter.getLocText("FRFont-Underline"));
+		this.setName(com.fr.design.i18n.Toolkit.i18nText("FRFont-Underline"));
 		this.setSmallIcon(ICONS, true);
 	}
 

@@ -14,7 +14,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.file.FILE;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.stable.CodeUtils;
 import com.fr.stable.StringUtils;
 import com.fr.design.utils.gui.GUICoreUtils;
@@ -33,7 +33,7 @@ public class DecodeDialog {
 		
 		jd = new JDialog();
 		jd.setLayout(null);
-		UILabel newNameLable = new UILabel(Inter.getLocText("ECP_input_pwd"));
+		UILabel newNameLable = new UILabel(com.fr.design.i18n.Toolkit.i18nText("ECP_input_pwd"));
 		newNameLable.setBounds(20, 10, 130, 30);
 		jt = new UITextField(StringUtils.EMPTY);
 		jt.selectAll();
@@ -46,7 +46,7 @@ public class DecodeDialog {
 		hintsLabel.setForeground(Color.RED);
 		hintsLabel.setVisible(false);
 
-		confirmButton = new UIButton(Inter.getLocText("Confirm"));
+		confirmButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Confirm"));
 		confirmButton.setBounds(180, 90, 60, 25);
 		confirmButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -57,13 +57,13 @@ public class DecodeDialog {
 					DesignerEnvManager.getEnvManager().setEncryptionKey(CodeUtils.passwordEncode(key));
 				}else{
 					isPwdRight = false;
-					hintsLabel.setText(Inter.getLocText("ECP_re_input"));
+					hintsLabel.setText(com.fr.design.i18n.Toolkit.i18nText("ECP_re_input"));
 					hintsLabel.setVisible(true);
 				}
 			}
 		});
 
-		UIButton cancelButton = new UIButton(Inter.getLocText("Cancel"));
+		UIButton cancelButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Cancel"));
 		cancelButton.setBounds(250, 90, 60, 25);
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -76,7 +76,7 @@ public class DecodeDialog {
 		jd.add(hintsLabel);
 		jd.setSize(340, 180);
 		jd.setModal(true);
-		jd.setTitle(Inter.getLocText("ECP_decode"));
+		jd.setTitle(com.fr.design.i18n.Toolkit.i18nText("ECP_decode"));
 		jd.setResizable(false);
 		jd.setAlwaysOnTop(true);
 		jd.setIconImage(BaseUtils.readImage("/com/fr/base/images/oem/logo.png"));

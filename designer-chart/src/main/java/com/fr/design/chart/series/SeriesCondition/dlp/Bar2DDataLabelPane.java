@@ -7,7 +7,7 @@ import com.fr.chart.base.AttrContents;
 import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 import com.fr.stable.Constants;
 
 /**
@@ -25,9 +25,9 @@ public class Bar2DDataLabelPane extends DataLabelPane {
     private UIRadioButton outSideButton;
 
     protected JPanel createJPanel4Position() {
-        centerButton = new UIRadioButton(Inter.getLocText("FR-Designer-StyleAlignment_Center"));
-        insideButton = new UIRadioButton(Inter.getLocText("FR-Chart_DataLabelInside"));
-        outSideButton = new UIRadioButton(Inter.getLocText("FR-Chart_DataLabelOutSide"));
+        centerButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Center"));
+        insideButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Chart_DataLabelInside"));
+        outSideButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Chart_DataLabelOutSide"));
 
         ButtonGroup bg = new ButtonGroup();
         bg.add(insideButton);
@@ -37,7 +37,7 @@ public class Bar2DDataLabelPane extends DataLabelPane {
         outSideButton.setSelected(true);
         
         JPanel buttonPane = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
-        buttonPane.add(new UILabel(Inter.getLocText(new String[]{"Label", "Layout"}) + ":"));
+        buttonPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Label", "Layout"}) + ":"));
         buttonPane.add(outSideButton);
         buttonPane.add(insideButton);
         buttonPane.add(centerButton);

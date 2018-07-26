@@ -2,7 +2,7 @@ package com.fr.van.chart.custom.other;
 
 import com.fr.chart.chartattr.Chart;
 import com.fr.design.dialog.BasicScrollPane;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.custom.VanChartCustomPlot;
 
 import javax.swing.JPanel;
@@ -66,6 +66,6 @@ public class VanChartCustomConditionAttrPane extends BasicScrollPane<Chart> {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("Chart-Condition_Display");
+        return com.fr.design.i18n.Toolkit.i18nText("Chart-Condition_Display");
     }
 }

@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import com.fr.design.chart.gui.ChartComponent;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.design.module.DesignModuleFactory;
-import com.fr.general.Inter;
+
 import com.fr.stable.StringUtils;
 
 /**
@@ -18,7 +18,7 @@ import com.fr.stable.StringUtils;
 public class SetAxisStyleAction extends ChartComponentAction {
     public SetAxisStyleAction(ChartComponent chartComponent) {
         super(chartComponent);
-        this.setName(Inter.getLocText(new String[]{"Set", "ChartF-Axis", "Format"}));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Set_Axis_Format"));
     }
 
     public void actionPerformed(ActionEvent e) {

@@ -1,7 +1,7 @@
 package com.fr.design.chart.axis;
 
 import com.fr.chart.chartattr.Plot;
-import com.fr.general.Inter;
+
 
 public class CustomChartStyleAxisPane extends TernaryChartStyleAxisPane {
 	
@@ -10,10 +10,10 @@ public class CustomChartStyleAxisPane extends TernaryChartStyleAxisPane {
 	}
 
 	protected String getValueAxisName() {
-    	return Inter.getLocText("Main_Axis");
+    	return com.fr.design.i18n.Toolkit.i18nText("Main_Axis");
     }
     
     protected String getSecondValueAxisName() {
-    	return Inter.getLocText("Second_Axis");
+    	return com.fr.design.i18n.Toolkit.i18nText("Second_Axis");
     }
 }

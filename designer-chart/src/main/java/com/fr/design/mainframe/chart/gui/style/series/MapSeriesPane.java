@@ -15,7 +15,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.style.ChartFillStylePane;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
@@ -52,7 +52,7 @@ public class MapSeriesPane extends AbstractPlotSeriesPane{
 
 	@Override
 	protected JPanel getContentInPlotType() {
-		isHeatMap = new UICheckBox(Inter.getLocText("FR-Chart-Heat_Map"));
+		isHeatMap = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Heat_Map"));
 		isHeatMap.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				checkHeatMapAreaTitles();
@@ -69,8 +69,8 @@ public class MapSeriesPane extends AbstractPlotSeriesPane{
 		double[] rowSize = { p, p, p, p, p};
         Component[][] components = new Component[][]{
 				new Component[]{isHeatMap, null},
-				new Component[]{new UILabel(Inter.getLocText("Chart-Data_Configuration")), areaTitles},
-                new Component[]{new UILabel(Inter.getLocText("ChartF_ValueRange_MatchColor")),null},
+				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Data_Configuration")), areaTitles},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("ChartF_ValueRange_MatchColor")),null},
                 new Component[]{colorPickPane,null},
         } ;
 

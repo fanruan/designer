@@ -5,7 +5,7 @@ import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.UpdateAction;
 import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
-import com.fr.general.Inter;
+
 import com.fr.start.ServerStarter;
 import com.fr.workspace.WorkContext;
 
@@ -18,7 +18,7 @@ public class ChartMapEditorAction extends UpdateAction {
 
     public ChartMapEditorAction(){
         this.setSmallIcon(IOUtils.readIcon("/com/fr/van/chart/map/images/mapData.png"));
-        this.setName(Inter.getLocText("Plugin-ChartF_Map_Data"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Map_Data"));
     }
 
     public void actionPerformed(ActionEvent evt) {

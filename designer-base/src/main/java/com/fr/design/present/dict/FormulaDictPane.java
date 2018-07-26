@@ -9,7 +9,7 @@ import com.fr.design.editor.editor.FormulaEditor;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.Inter;
+
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
@@ -46,7 +46,7 @@ public class FormulaDictPane extends FurtherBasicBeanPane<FormulaDictionary> {
         double[] rowSize = {p, p, p};
         int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}};
 
-        UILabel tag = new UILabel(Inter.getLocText("FR-Designer-Formula_Dictionary_Display_Examples_Html"));
+        UILabel tag = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Formula_Dictionary_Display_Examples_Html"));
         tag.setForeground(new Color(143, 143, 146));
         tag.setPreferredSize(new Dimension(225, 80));
         JPanel t = new JPanel(new BorderLayout());
@@ -63,8 +63,8 @@ public class FormulaDictPane extends FurtherBasicBeanPane<FormulaDictionary> {
 
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Actual_Value"), UILabel.LEFT), keyFormulaContainer},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Display_Value"), UILabel.LEFT), valueFormulaContainer},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Actual_Value"), UILabel.LEFT), keyFormulaContainer},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Display_Value"), UILabel.LEFT), valueFormulaContainer},
                 new Component[]{tag, null}
         };
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_LARGE, LayoutConstants.VGAP_LARGE);
@@ -81,7 +81,7 @@ public class FormulaDictPane extends FurtherBasicBeanPane<FormulaDictionary> {
 
     @Override
     public String title4PopupWindow() {
-        return Inter.getLocText("FR-Designer_Formula");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Formula");
     }
 
     @Override

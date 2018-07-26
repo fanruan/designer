@@ -11,7 +11,7 @@ import com.fr.chart.charttypes.MapIndependentChart;
 import com.fr.design.chart.series.PlotSeries.MapGroupExtensionPane;
 import com.fr.design.chart.series.PlotStyle.ChartSelectDemoPane;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -50,10 +50,10 @@ public class MapPlotPane extends AbstractChartTypePane {
 	@Override
 	protected String[] getTypeTipName() {
 		return new String[]{
-				Inter.getLocText("FR-Chart-Map_Normal"),
-				Inter.getLocText("FR-Chart-Map_Bubble"),
-				Inter.getLocText("FR-Chart-Map_Pie"),
-				Inter.getLocText("FR-Chart-Map_Column")
+				com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Map_Normal"),
+				com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Map_Bubble"),
+				com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Map_Pie"),
+				com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Map_Column")
 		};
 	}
 
@@ -72,7 +72,7 @@ public class MapPlotPane extends AbstractChartTypePane {
      * @return 界面标题
 	 */
 	public String title4PopupWindow() {
-		return Inter.getLocText("FR-Chart-Map_Map");
+		return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Map_Map");
 	}
 
 	/**

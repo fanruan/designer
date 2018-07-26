@@ -10,7 +10,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
 import com.fr.design.style.color.ColorSelectBox;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.attr.plot.VanChartLabelPositionPlot;
 import com.fr.plugin.chart.base.AttrLabelDetail;
 import com.fr.plugin.chart.base.AttrTooltipContent;
@@ -118,23 +118,23 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
             }
 
             position = new UIButtonGroup<Integer>(names, values);
-            autoAdjust = new UIButtonGroup<Boolean>(new String[]{Inter.getLocText("Plugin-ChartF_On"), Inter.getLocText("Plugin-ChartF_Off")}, new Boolean[]{true, false});
+            autoAdjust = new UIButtonGroup<Boolean>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_On"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Off")}, new Boolean[]{true, false});
 
 
             Component[][] comps = new Component[2][2];
 
             comps[0] = new Component[]{null,null};
-            comps[1] = new Component[]{new UILabel(Inter.getLocText("Chart-Layout_Position"), SwingConstants.LEFT), position};
+            comps[1] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Layout_Position"), SwingConstants.LEFT), position};
 
             JPanel panel =new JPanel(new BorderLayout());
             panel.add(getLabelPositionPane(comps,row,col),BorderLayout.CENTER);
             if(plot.isSupportLeadLine()){
-                tractionLine = new UIToggleButton(Inter.getLocText("ChartF-Show_GuidLine"));
+                tractionLine = new UIToggleButton(com.fr.design.i18n.Toolkit.i18nText("ChartF-Show_GuidLine"));
                 tractionLinePane = TableLayout4VanChartHelper.createGapTableLayoutPane("",tractionLine);
                 panel.add(tractionLinePane, BorderLayout.SOUTH);
                 initPositionListener();
             } else if(PlotFactory.plotAutoAdjustLabelPosition(plot)){
-                panel.add(TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_Auto_Adjust"),autoAdjust), BorderLayout.SOUTH);
+                panel.add(TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Auto_Adjust"),autoAdjust), BorderLayout.SOUTH);
             }
             return panel;
         }
@@ -143,7 +143,7 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
 
     protected JPanel getLabelPositionPane (Component[][] comps, double[] row, double[] col){
         JPanel panel = TableLayoutHelper.createTableLayoutPane(comps,row,col);
-        return createTableLayoutPaneWithTitle(Inter.getLocText("FR-Chart_Layout"), panel);
+        return createTableLayoutPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Chart_Layout"), panel);
     }
 
 
@@ -157,14 +157,14 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
     }
 
     protected JPanel createLabelStylePane(double[] row, double[] col, Plot plot) {
-        style = new UIButtonGroup<Integer>(new String[]{Inter.getLocText("Plugin-ChartF_Automatic"),
-                Inter.getLocText("Plugin-ChartF_Custom")});
+        style = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Automatic"),
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Custom")});
         textFontPane =initTextFontPane();
 
         initStyleListener();
 
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(getLabelStyleComponents(plot),row,col);
-        return createTableLayoutPaneWithTitle(Inter.getLocText("FR-Designer-Widget_Style"), panel);
+        return createTableLayoutPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget_Style"), panel);
     }
 
     protected ChartTextAttrPane initTextFontPane () {
@@ -180,7 +180,7 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
     }
 
     protected Component[][] getLabelStyleComponents(Plot plot) {
-        UILabel text = new UILabel(Inter.getLocText("Plugin-Chart_Character"), SwingConstants.LEFT);
+        UILabel text = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-Chart_Character"), SwingConstants.LEFT);
         return new Component[][]{
                 new Component[]{null,null},
                 new Component[]{text,style},
@@ -199,7 +199,7 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
 
     protected JPanel createBackgroundColorPane() {
         backgroundColor = new ColorSelectBox(100);
-        return createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_Background"), backgroundColor);
+        return createTableLayoutPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Background"), backgroundColor);
     }
 
     protected String title4PopupWindow() {

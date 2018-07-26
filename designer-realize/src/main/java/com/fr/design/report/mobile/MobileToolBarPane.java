@@ -4,7 +4,7 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.dialog.mobile.MobileRadioCheckPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 import com.fr.report.mobile.ElementCaseMobileAttr;
 
 import javax.swing.*;
@@ -31,8 +31,8 @@ public class MobileToolBarPane extends BasicBeanPane<ElementCaseMobileAttr> {
 
         UILabel uiLabel = new UILabel("html5");
         uiLabel.setBorder(BorderFactory.createEmptyBorder(5, 15, 10, 15));
-        zoomCheckPane = new MobileRadioCheckPane(Inter.getLocText("FR-Designer_Mobile-Zoom"));
-        refreshCheckPane = new MobileRadioCheckPane(Inter.getLocText("FR-Designer_Mobile-Refresh"));
+        zoomCheckPane = new MobileRadioCheckPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Mobile-Zoom"));
+        refreshCheckPane = new MobileRadioCheckPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Mobile-Refresh"));
 
         toobarsPane.add(uiLabel, BorderLayout.WEST);
         toobarsPane.add(zoomCheckPane, BorderLayout.CENTER);
@@ -65,6 +65,6 @@ public class MobileToolBarPane extends BasicBeanPane<ElementCaseMobileAttr> {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("FR-Designer_Mobile-ToolBar");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Mobile-ToolBar");
     }
 }

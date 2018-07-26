@@ -6,7 +6,7 @@ import com.fr.design.gui.frpane.UIBubbleFloatPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.style.FormatPane;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.base.format.AttrTooltipFormat;
 import com.fr.stable.Constants;
 
@@ -41,7 +41,7 @@ public abstract class VanChartFormatPaneWithCheckBox extends JPanel{
 
         this.setLayout(new BorderLayout());
         isSelectedBox = new UICheckBox(getCheckBoxText());
-        formatButton = new UIButton(Inter.getLocText("Chart-Use_Format"));
+        formatButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Format"));
         this.add(isSelectedBox, BorderLayout.CENTER);
         this.add(formatButton, BorderLayout.EAST);
 

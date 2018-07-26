@@ -22,7 +22,7 @@ import com.fr.form.ui.Button;
 import com.fr.form.web.button.Export;
 import com.fr.general.Background;
 import com.fr.general.IOUtils;
-import com.fr.general.Inter;
+
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
@@ -125,12 +125,12 @@ public class FormEditToolBar extends BasicPane {
         this.add(splitPane);
         list.addListSelectionListener(listSelectionListener);
         JPanel backgroundPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-        UIButton bgButton = new UIButton(Inter.getLocText("FR-Designer-Output_Background_Set"));
-        defaultCheckBox = new UICheckBox(Inter.getLocText("FR-Designer-Output_Default_Background"));
+        UIButton bgButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Output_Background_Set"));
+        defaultCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Output_Default_Background"));
         bgButton.addActionListener(actioner);
         backgroundPane.add(defaultCheckBox);
         backgroundPane.add(bgButton);
-        backgroundPane.setBorder(BorderFactory.createTitledBorder(Inter.getLocText("FR-Designer-Output_Background_Set")));
+        backgroundPane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Output_Background_Set")));
         this.add(backgroundPane, BorderLayout.SOUTH);
     }
 
@@ -149,7 +149,7 @@ public class FormEditToolBar extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("FR-Designer_Edit");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit");
     }
 
     public void populate(FormToolBar ftoolbar) {
@@ -208,7 +208,7 @@ public class FormEditToolBar extends BasicPane {
 
     private class MoveUpItemAction extends UpdateAction {
         public MoveUpItemAction() {
-            this.setName(Inter.getLocText("Utils-Move_Up"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Utils-Move_Up"));
             this.setMnemonic('U');
             this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/control/up.png"));
         }
@@ -239,7 +239,7 @@ public class FormEditToolBar extends BasicPane {
 
     private class MoveDownItemAction extends UpdateAction {
         public MoveDownItemAction() {
-            this.setName(Inter.getLocText("Utils-Move_Down"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Utils-Move_Down"));
             this.setMnemonic('D');
             this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/control/down.png"));
         }
@@ -274,7 +274,7 @@ public class FormEditToolBar extends BasicPane {
 
     public class RemoveAction extends UpdateAction {
         public RemoveAction() {
-            this.setName(Inter.getLocText("FR-Designer_Delete"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Delete"));
             this.setSmallIcon(IOUtils.readIcon("/com/fr/base/images/cell/control/remove.png"));
         }
 
@@ -287,7 +287,7 @@ public class FormEditToolBar extends BasicPane {
             if (i < 0 || !(listModel.getElementAt(i) instanceof FormToolBarButton)) {
                 return;
             }
-            int val = JOptionPane.showConfirmDialog(FormEditToolBar.this, Inter.getLocText("FR-Designer_Are_You_Sure_To_Delete_The_Data") + "?", "Message", JOptionPane.YES_NO_OPTION);
+            int val = JOptionPane.showConfirmDialog(FormEditToolBar.this, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Are_You_Sure_To_Delete_The_Data") + "?", "Message", JOptionPane.YES_NO_OPTION);
             if (val != JOptionPane.YES_OPTION) {
                 return;
             }
@@ -321,8 +321,8 @@ public class FormEditToolBar extends BasicPane {
         public void initComponents() {
             this.setLayout(FRGUIPaneFactory.createBorderLayout());
             JPanel north = FRGUIPaneFactory.createBorderLayout_S_Pane();
-            icon = new UICheckBox(Inter.getLocText("FR-Designer_Show_Icon"));
-            text = new UICheckBox(Inter.getLocText("FR-Designer_Show_Text"));
+            icon = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Show_Icon"));
+            text = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Show_Text"));
 
             north.add(icon, BorderLayout.NORTH);
             north.add(text, BorderLayout.CENTER);
@@ -335,13 +335,14 @@ public class FormEditToolBar extends BasicPane {
             double rowSize[] = {p, p};
             double columnSize[] = {p, p};
 
-            Component[][] coms = new Component[][]{{new UILabel(Inter.getLocText(new String[]{"Widget", "Printer-Alias"}) + ":"), nameField}, {new UILabel(Inter.getLocText(new String[]{"Widget", "Icon"}) + ":"), iconPane}};
+            Component[][] coms = new Component[][]{{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Alias_Name") + ":"), nameField},
+                    {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Icon") + ":"), iconPane}};
 
             JPanel nameIconPane = TableLayoutHelper.createTableLayoutPane(coms, rowSize, columnSize);
 
             north.add(nameIconPane, BorderLayout.SOUTH);
 
-            north.setBorder(BorderFactory.createTitledBorder(Inter.getLocText(new String[]{"Form-Button", "Property", "Set"})));
+            north.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Button_Setting")));
             this.add(north, BorderLayout.NORTH);
             JPanel none = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
             centerPane = FRGUIPaneFactory.createCardLayout_S_Pane();
@@ -358,9 +359,9 @@ public class FormEditToolBar extends BasicPane {
         private JPanel getCustomPane() {
             JPanel customPane = FRGUIPaneFactory.createCenterFlowInnerContainer_S_Pane();
 
-            button = new UIButton(Inter.getLocText("FR-Designer_User_Defined_Event"));
+            button = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_User_Defined_Event"));
             customPane.add(button);
-            customPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("FR-Designer_Edit") + "JS", null));
+            customPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit") + "JS", null));
             button.addActionListener(l);
             return customPane;
         }
@@ -368,14 +369,14 @@ public class FormEditToolBar extends BasicPane {
         private JPanel getExport() {
             JPanel export = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
             // export.setLayout(new BoxLayout(export, BoxLayout.Y_AXIS));
-            excelP = new UICheckBox(Inter.getLocText("FR-Designer-Output_Excel_Page"));
-            excelO = new UICheckBox(Inter.getLocText("FR-Designer-Output_Excel_Simple"));
+            excelP = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Output_Excel_Page"));
+            excelO = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Output_Excel_Simple"));
             export.add(excelP);
             export.add(Box.createVerticalStrut(2));
             export.add(excelO);
             export.add(Box.createVerticalStrut(2));
 
-            export.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText(new String[]{"Form-Button", "Property", "Set"}), null));
+            export.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Button_Setting"), null));
             return export;
         }
 

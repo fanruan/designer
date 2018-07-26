@@ -5,7 +5,7 @@ import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.designer.creator.cardlayout.XWCardTagLayout;
 import com.fr.design.form.layout.FRBorderLayout;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 
 import javax.swing.JOptionPane;
 import java.awt.BorderLayout;
@@ -47,13 +47,13 @@ public class FRCardMainBorderLayoutAdapter extends FRBorderLayoutAdapter {
         if (ComparatorUtils.equals(constraints, BorderLayout.NORTH) || ComparatorUtils.equals(constraints, BorderLayout.SOUTH)) {
             int containerHeight = container.getHeight();
             if (rectangle.height > containerHeight) {
-                JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Beyond_Tablayout_Bounds"));
+                JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Beyond_Tablayout_Bounds"));
                 return true;
             }
         } else if (ComparatorUtils.equals(constraints, BorderLayout.EAST) || ComparatorUtils.equals(constraints, BorderLayout.WEST)) {
             int containerWidth = container.getWidth();
             if (rectangle.width > containerWidth) {
-                JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Beyond_Tablayout_Bounds"));
+                JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Beyond_Tablayout_Bounds"));
                 return true;
             }
         }

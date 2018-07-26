@@ -9,7 +9,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.backgroundpane.GradientBackgroundQuickPane;
 import com.fr.design.style.background.gradient.FixedGradientBar;
 import com.fr.general.Background;
-import com.fr.general.Inter;
+
 
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
@@ -32,7 +32,7 @@ public class VanChartGradientPane extends GradientBackgroundQuickPane {
     }
 
     protected void constructPane(){
-        String[] textArray = {Inter.getLocText("Utils-Left_to_Right"), Inter.getLocText("Utils-Top_to_Bottom")};
+        String[] textArray = {com.fr.design.i18n.Toolkit.i18nText("Utils-Left_to_Right"), com.fr.design.i18n.Toolkit.i18nText("Utils-Top_to_Bottom")};
         Integer[] valueArray = {GradientBackground.LEFT2RIGHT, GradientBackground.TOP2BOTTOM};
         directionPane = new UIButtonGroup<Integer>(textArray, valueArray);
         directionPane.setSelectedIndex(0);
@@ -45,7 +45,7 @@ public class VanChartGradientPane extends GradientBackgroundQuickPane {
 
         Component[][] components = new Component[][]{
                 new Component[]{gradientBar, null},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-Chart_Gradient_Direction")),directionPane},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-Chart_Gradient_Direction")),directionPane},
         };
         JPanel Gradient = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
         this.setLayout(new BorderLayout());
@@ -99,7 +99,7 @@ public class VanChartGradientPane extends GradientBackgroundQuickPane {
      * @return     名称
      */
     public String title4PopupWindow() {
-        return Inter.getLocText("Plugin-Chart_Gradient_Color");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-Chart_Gradient_Color");
     }
 
 }

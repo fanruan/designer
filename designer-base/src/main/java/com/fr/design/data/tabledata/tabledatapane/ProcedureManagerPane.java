@@ -5,7 +5,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.file.ProcedureConfig;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,7 +22,7 @@ public class ProcedureManagerPane extends LoadingBasicPane {
 	
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("Datasource-Stored_Procedure");
+		return com.fr.design.i18n.Toolkit.i18nText("Datasource-Stored_Procedure");
 	}
 
 	public void populate(ProcedureConfig procedureConfig) {

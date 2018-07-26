@@ -15,7 +15,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.editor.ValueEditorPane;
 import com.fr.design.editor.ValueEditorPaneFactory;
-import com.fr.general.Inter;
+
 
 /**
  * 模板的参数添加面板
@@ -30,7 +30,7 @@ public class TemplateParameterPane extends BasicPane {
     }
 
     public void initComponents() {
-        this.setBorder(BorderFactory.createTitledBorder(Inter.getLocText("Parameter")));
+        this.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Parameter")));
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
 
         JPanel northPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
@@ -39,8 +39,8 @@ public class TemplateParameterPane extends BasicPane {
 
         JPanel defaultPane = FRGUIPaneFactory.createNormalFlowInnerContainer_M_Pane();
         northPane.add(defaultPane, BorderLayout.CENTER);
-        UILabel nameLabel = new UILabel(Inter.getLocText("Name") + ":");
-        UILabel valueLabel = new UILabel(Inter.getLocText("Value") + ":");
+        UILabel nameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Name") + ":");
+        UILabel valueLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Value") + ":");
 
         nameTextField = new UITextField(12);       
         valuePane = ValueEditorPaneFactory.createBasicValueEditorPane();
@@ -55,7 +55,7 @@ public class TemplateParameterPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-    	return Inter.getLocText("Parameter");
+    	return com.fr.design.i18n.Toolkit.i18nText("Parameter");
     }
 
     public void populate(Parameter parameter) {
@@ -82,7 +82,7 @@ public class TemplateParameterPane extends BasicPane {
     public void checkValid() throws Exception {
         Parameter parameter = this.update();
         if (parameter.getName() == null || parameter.getName().trim().length() <= 0) {
-            throw new Exception(Inter.getLocText("ParameterD-Parameter_name_cannot_be_null") + ".");
+            throw new Exception(com.fr.design.i18n.Toolkit.i18nText("ParameterD-Parameter_name_cannot_be_null") + ".");
         }
         this.valuePane.checkValid();
     }

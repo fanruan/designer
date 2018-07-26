@@ -13,7 +13,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.Inter;
+
 import com.fr.js.ReportletHyperlink;
 import com.fr.stable.StringUtils;
 
@@ -65,7 +65,7 @@ public class ReporletHyperNorthPane extends AbstractHyperNorthPane<ReportletHype
         reportPathTextField = new UITextField(20);
         reportletNamePane.add(reportPathTextField, BorderLayout.CENTER);
 
-        browserButton = new UIButton(Inter.getLocText("FR-Designer_Select"));
+        browserButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Select"));
         browserButton.setPreferredSize(new Dimension(browserButton.getPreferredSize().width, 20));
         reportletNamePane.add(browserButton, BorderLayout.EAST);
         browserButton.addActionListener(new ActionListener() {
@@ -86,13 +86,13 @@ public class ReporletHyperNorthPane extends AbstractHyperNorthPane<ReportletHype
         Component[][] components;
         if (!this.needRenamePane) {
             components = new Component[][]{
-                    {new UILabel(" " + Inter.getLocText("FR-Hyperlink_Reportlet") + ":"), reportletNamePane},
+                    {new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("FR-Hyperlink_Reportlet") + ":"), reportletNamePane},
             };
         } else {
             itemNameTextField = new UITextField();
             components = new Component[][]{
-                    {new UILabel(" " + Inter.getLocText("FR-Designer-Hyperlink_Name") + ":"), itemNameTextField},
-                    {new UILabel(" " + Inter.getLocText("FR-Hyperlink_Reportlet") + ":"), reportletNamePane},
+                    {new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Hyperlink_Name") + ":"), itemNameTextField},
+                    {new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("FR-Hyperlink_Reportlet") + ":"), reportletNamePane},
             };
         }
         JPanel northPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
@@ -151,7 +151,7 @@ public class ReporletHyperNorthPane extends AbstractHyperNorthPane<ReportletHype
 
     private class FakeTipAction extends UpdateAction {
         public FakeTipAction() {
-            this.setName(Inter.getLocText(new String[]{"Choose", "Reportlet"}));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Template_Select"));
         }
 
         public void actionPerformed(ActionEvent e) {
@@ -164,14 +164,14 @@ public class ReporletHyperNorthPane extends AbstractHyperNorthPane<ReportletHype
         double p = TableLayout.PREFERRED;
         double[] rowSize = {p, p, p};
         double[] columnSize = {p, TableLayout.FILL};
-        showParameterInterface = new UICheckBox(Inter.getLocText(new String[]{"Display", "Reportlet", "ParameterD-Parameter_Interface"}));
+        showParameterInterface = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Parameter_UI_Display"));
         JPanel showParameterPanel = new JPanel();
         showParameterPanel.add(new UILabel());
         showParameterPanel.add(showParameterInterface);
 
         postComboBox = new UIComboBox(new String[]{"GET", "POST"});
         JPanel postPanel = new JPanel();
-        postPanel.add(new UILabel(Inter.getLocText("Reportlet-Parameter_Type")));
+        postPanel.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Reportlet-Parameter_Type")));
         postPanel.add(postComboBox);
         Component[][] components = {{postPanel},
                 {showParameterPanel},

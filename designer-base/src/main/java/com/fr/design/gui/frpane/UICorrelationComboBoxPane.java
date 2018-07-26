@@ -18,7 +18,7 @@ import com.fr.design.hyperlink.WebHyperlinkPane;
 import com.fr.design.javascript.EmailPane;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.js.AbstractJavaScript;
 import com.fr.js.EmailJavaScript;
 import com.fr.js.ReportletHyperlink;
@@ -377,13 +377,13 @@ public class UICorrelationComboBoxPane extends JPanel implements UIObserver {
         JPanel content = (JPanel) jf.getContentPane();
         content.setLayout(new BorderLayout());
         List<UIMenuNameableCreator> data = new ArrayList<UIMenuNameableCreator>();
-        UIMenuNameableCreator reportlet = new UIMenuNameableCreator(Inter.getLocText("FR-Hyperlink_Reportlet"),
+        UIMenuNameableCreator reportlet = new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("FR-Hyperlink_Reportlet"),
                 new ReportletHyperlink(), ReportletHyperlinkPane.class);
 
-        UIMenuNameableCreator email = new UIMenuNameableCreator(Inter.getLocText("FR-Designer_Email"),
+        UIMenuNameableCreator email = new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Email"),
                 new EmailJavaScript(), EmailPane.class);
 
-        UIMenuNameableCreator web = new UIMenuNameableCreator(Inter.getLocText("Hyperlink-Web_link"),
+        UIMenuNameableCreator web = new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Hyperlink-Web_link"),
                 new WebHyperlink(), WebHyperlinkPane.class);
         data.add(reportlet);
         data.add(email);

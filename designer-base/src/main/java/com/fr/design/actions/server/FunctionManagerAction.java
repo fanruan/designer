@@ -13,7 +13,7 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.file.FunctionConfig;
 import com.fr.general.IOUtils;
-import com.fr.general.Inter;
+
 import com.fr.transaction.Configurations;
 import com.fr.transaction.Worker;
 
@@ -76,7 +76,7 @@ public class FunctionManagerAction extends UpdateAction {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M_Server-Function_Manager");
+            return com.fr.design.i18n.Toolkit.i18nText("M_Server-Function_Manager");
         }
 
         @Override

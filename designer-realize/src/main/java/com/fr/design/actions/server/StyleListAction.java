@@ -9,7 +9,7 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.general.IOUtils;
-import com.fr.general.Inter;
+
 import com.fr.transaction.Configurations;
 import com.fr.transaction.Worker;
 
@@ -73,7 +73,7 @@ public class StyleListAction extends UpdateAction {
 
 		@Override
 		public String getMenuName() {
-			return Inter.getLocText("ServerM-Predefined_Styles");
+			return com.fr.design.i18n.Toolkit.i18nText("ServerM-Predefined_Styles");
 		}
 
 		@Override

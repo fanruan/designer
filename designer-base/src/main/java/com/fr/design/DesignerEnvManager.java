@@ -21,6 +21,7 @@ import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.general.xml.GeneralXMLTools;
+import com.fr.locale.InterProviderFactory;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.Constants;
 import com.fr.stable.EnvChangedListener;
@@ -55,6 +56,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.FileHandler;
@@ -205,7 +207,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         }
         String installHome = StableUtils.getInstallHome();
         if (installHome != null && !".".equals(installHome)) {
-            String name = Inter.getLocText("FR-Engine_DEFAULT");
+            String name = com.fr.design.i18n.Toolkit.i18nText("FR-Engine_DEFAULT");
             String envPath = designerEnvManager.getDefaultenvPath(installHome);
             designerEnvManager.putEnv(name, LocalDesignerWorkspaceInfo.create(name, envPath));
             designerEnvManager.setCurEnvName(name);
@@ -507,7 +509,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 return env;
             }
         }
-        String name = Inter.getLocText(new String[]{"Default", "Utils-Report_Runtime_Env"});
+        String name = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Workspace_Default");
         LocalDesignerWorkspaceInfo newDefaultEnv = LocalDesignerWorkspaceInfo.create(name, defaultenvPath);
         this.putEnv(name, newDefaultEnv);
         return newDefaultEnv;
@@ -530,7 +532,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 }
             }
         }
-        return Inter.getLocText(new String[]{"Default", "Utils-Report_Runtime_Env"});
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Workspace_Default");
     }
 
 
@@ -698,6 +700,28 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
      */
     public int getLanguage() {
         return this.language;
+    }
+
+    /**
+     * 返回语言类型
+     */
+    public Locale getLocale() {
+        // 性能
+        if (language <= 1) {
+            return Locale.CHINA;
+        }
+        Locale[] locales = supportLocale();
+        if (language <= locales.length) {
+            return locales[language - 1];
+        }
+        return Locale.CHINA;
+    }
+
+    // 当前系统支持的语言
+    protected Locale[] supportLocale() {
+        Inter.getInstance();
+        Map<Locale, String> languageMap = InterProviderFactory.getProvider().getSupportLocaleMap();
+        return languageMap.keySet().toArray(new Locale[languageMap.size()]);
     }
 
     /**
@@ -1459,7 +1483,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         if ((tmpVal = reader.getAttrAsString("webinfLocation", null)) != null) {
             // marks:兼容6.1的
             // marks:设置默认的目录.
-            String curReportServerName = Inter.getLocText("Server-Embedded_Server");
+            String curReportServerName = com.fr.design.i18n.Toolkit.i18nText("Server-Embedded_Server");
             LocalDesignerWorkspaceInfo reportServer = LocalDesignerWorkspaceInfo.create(curReportServerName, tmpVal);
 
             this.putEnv(curReportServerName, reportServer);

@@ -31,7 +31,7 @@ import com.fr.design.mainframe.alphafine.search.manager.impl.RecommendSearchMana
 import com.fr.form.main.Form;
 import com.fr.form.main.FormIO;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.general.http.HttpClient;
 import com.fr.io.TemplateWorkBookIO;
 import com.fr.io.exporter.ImageExporter;
@@ -81,7 +81,7 @@ public class AlphaFineDialog extends UIDialog {
     private static final String DS_NAME = "dsname=\"";
     private static final String PLUGIN_MARK_SHORT = "k:4 ";
     private static final String PLUGIN_MARK = "k:shop ";
-    private static final String PLACE_HOLDER = Inter.getLocText("FR-Designer_AlphaFine");
+    private static final String PLACE_HOLDER = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_AlphaFine");
     private static final int MAX_SHOW_SIZE = 12;
 
     private AlphaFineTextField searchTextField;
@@ -356,7 +356,7 @@ public class AlphaFineDialog extends UIDialog {
      */
     private void removeLeftPane() {
         if (searchListModel.isEmpty() && defaultPane == null) {
-            defaultPane = new NoResultPane(Inter.getLocText("FR-Designer-AlphaFine_NO_Result"), AlphaFineConstants.IMAGE_URL + "no_result.png");
+            defaultPane = new NoResultPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-AlphaFine_NO_Result"), AlphaFineConstants.IMAGE_URL + "no_result.png");
             searchResultPane.remove(leftSearchResultPane);
             searchResultPane.add(defaultPane, BorderLayout.WEST);
             refreshContainer();
@@ -568,7 +568,7 @@ public class AlphaFineDialog extends UIDialog {
                 break;
             case ACTION:
                 rightSearchResultPane.removeAll();
-                rightSearchResultPane.add(new NoResultPane(Inter.getLocText("FR-Designer_NoResult"), AlphaFineConstants.IMAGE_URL + "noresult.png"));
+                rightSearchResultPane.add(new NoResultPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_NoResult"), AlphaFineConstants.IMAGE_URL + "noresult.png"));
                 validate();
                 repaint();
                 break;
@@ -635,12 +635,12 @@ public class AlphaFineDialog extends UIDialog {
     }
 
     private void dealWithMoreOrLessResult(int index, MoreModel selectedValue) {
-        if (ComparatorUtils.equals(Inter.getLocText("FR-Designer_AlphaFine_ShowAll"), selectedValue.getContent())) {
-            selectedValue.setContent(Inter.getLocText("FR-Designer_AlphaFine_ShowLess"));
+        if (ComparatorUtils.equals(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_AlphaFine_ShowAll"), selectedValue.getContent())) {
+            selectedValue.setContent(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_AlphaFine_ShowLess"));
 
             rebuildShowMoreList(index, selectedValue);
         } else {
-            selectedValue.setContent(Inter.getLocText("FR-Designer_AlphaFine_ShowAll"));
+            selectedValue.setContent(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_AlphaFine_ShowAll"));
             rebuildShowMoreList(index, selectedValue);
         }
     }
@@ -810,7 +810,7 @@ public class AlphaFineDialog extends UIDialog {
      * @param selectedValue
      */
     private void rebuildShowMoreList(final int index, final MoreModel selectedValue) {
-        if ((selectedValue).getContent().equals(Inter.getLocText("FR-Designer_AlphaFine_ShowLess"))) {
+        if ((selectedValue).getContent().equals(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_AlphaFine_ShowLess"))) {
             splitLabel.setIcon(new ImageIcon(getClass().getResource(AlphaFineConstants.IMAGE_URL + "bigloading.gif")));
             if (this.searchWorker != null && !this.searchWorker.isDone()) {
                 this.searchWorker.cancel(true);

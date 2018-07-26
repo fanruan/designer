@@ -18,7 +18,7 @@ import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
 import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.form.ui.container.cardlayout.WCardTitleLayout;
 import com.fr.form.ui.container.cardlayout.WTabFitLayout;
-import com.fr.general.Inter;
+
 
 /**
  * tab布局tabFit属性表
@@ -51,7 +51,7 @@ public class FRTabFitLayoutPropertiesGroupModel extends FRFitLayoutPropertiesGro
 	 */
 	@Override
 	public String getGroupName() {
-		return Inter.getLocText("FR-Designer_Current_tab");
+		return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Current_tab");
 	}
 
 	@Override
@@ -79,9 +79,9 @@ public class FRTabFitLayoutPropertiesGroupModel extends FRFitLayoutPropertiesGro
 		if (column == PROPERTY_NAME_COLUMN) {
             switch (row) {
                 case 0:
-                    return Inter.getLocText("FR-Designer_Component_Interval");
+                    return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Component_Interval");
                 default :
-                    return Inter.getLocText("FR-Engine_Tab_Layout_Title");
+                    return com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Tab_Layout_Title");
             }
         } else {
             switch (row) {

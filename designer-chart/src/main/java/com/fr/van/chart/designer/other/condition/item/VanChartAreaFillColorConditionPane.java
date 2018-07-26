@@ -4,7 +4,7 @@ import com.fr.chart.base.ChartConstants;
 import com.fr.chart.base.DataSeriesCondition;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.condition.ConditionAttributesPane;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.base.AttrAreaSeriesFillColorBackground;
 import com.fr.van.chart.designer.component.VanChartAreaSeriesFillColorPane;
 
@@ -20,7 +20,7 @@ public class VanChartAreaFillColorConditionPane  extends AbstractNormalMultiLine
 
     @Override
     protected String getItemLabelString() {
-        return Inter.getLocText("Plugin-ChartF_FillColor");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_FillColor");
     }
 
     @Override
@@ -43,7 +43,7 @@ public class VanChartAreaFillColorConditionPane  extends AbstractNormalMultiLine
      * @return item的名称
      */
     public String nameForPopupMenuItem() {
-        return Inter.getLocText("Plugin-ChartF_FillColor");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_FillColor");
     }
 
     @Override

@@ -15,7 +15,7 @@ import javax.swing.SwingConstants;
 import com.fr.base.Parameter;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.ibutton.UIButton;
-import com.fr.general.Inter;
+
 
 /**
  * 参数点击动作条
@@ -48,12 +48,12 @@ public class ParameterToolBarPane extends BasicBeanPane<Parameter[]> {
 				return new Dimension(super.getPreferredSize().width, 18);
 			}
 		};
-		label.setText(Inter.getLocText("FR-Following_parameters_are_not_generated") + ":");
+		label.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Following_parameters_are_not_generated") + ":");
 		label.setHorizontalAlignment(SwingConstants.LEFT);
 		label.setBorder(BorderFactory.createEmptyBorder(0, LABEL_PADDING_LEFT, 0, 0));
 		this.add(label);
 
-		addAll = new UIButton(Inter.getLocText("FR-Designer_Add_all"));
+		addAll = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Add_all"));
 		this.add(addAll);
 
 	}

@@ -14,7 +14,7 @@ import com.fr.design.mainframe.chart.gui.style.ChartAxisTitleNoFormulaPane;
 import com.fr.design.mainframe.chart.gui.style.ChartAxisTitlePane;
 import com.fr.design.mainframe.chart.gui.style.ChartAxisValueTypePane;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.Inter;
+
 import com.fr.stable.Constants;
 import com.fr.van.chart.designer.component.format.FormatPaneWithOutFont;
 
@@ -52,7 +52,7 @@ public class ChartCategoryPane extends ChartAxisUsePane<Axis>{
 			axisLineStylePane = new ChartAxisLineStylePane();
 			formatPane = new FormatPaneWithOutFont();
 			axisLabelPane = new ChartAxisLabelPane();
-			axisReversed = new UICheckBox(Inter.getLocText("AxisReversed"));
+			axisReversed = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("AxisReversed"));
             this.setLayout(new BorderLayout());
             this.add(isSupportLineStyle() ? getPaneWithLineStyle() : getPaneWithOutLineStyle(),BorderLayout.CENTER);
 		}
@@ -123,7 +123,7 @@ public class ChartCategoryPane extends ChartAxisUsePane<Axis>{
 	 * @return 标题
 	 */
 	public String title4PopupWindow() {
-		return Inter.getLocText("ChartF-Category_Axis");
+		return com.fr.design.i18n.Toolkit.i18nText("ChartF-Category_Axis");
 	}
 
 	@Override

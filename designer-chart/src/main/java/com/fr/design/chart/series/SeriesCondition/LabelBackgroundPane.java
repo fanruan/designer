@@ -11,7 +11,7 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.style.background.BackgroundPane;
 import com.fr.design.style.background.BackgroundPreviewLabel;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,10 +32,10 @@ public class LabelBackgroundPane extends ConditionAttrSingleConditionPane<DataSe
 
     public LabelBackgroundPane(final ConditionAttributesPane conditionAttributesPane) {
         super(conditionAttributesPane, true);
-        backgroundLabel = new UILabel(Inter.getLocText("Background"));
+        backgroundLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Background"));
         this.backgroundPreviewPane = new BackgroundPreviewLabel();
         this.backgroundPreviewPane.setPreferredSize(new Dimension(80, 20));
-        UIButton editBackgroundButton = new UIButton(Inter.getLocText("Edit"));
+        UIButton editBackgroundButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Edit"));
         MouseAdapter mouseListener = new MouseAdapter() {
             public void mousePressed(MouseEvent evt) {
                 final BackgroundPane backgroundPane = new BackgroundPane();
@@ -61,7 +61,7 @@ public class LabelBackgroundPane extends ConditionAttrSingleConditionPane<DataSe
 
     @Override
     public String nameForPopupMenuItem() {
-        return Inter.getLocText("ChartF-Background_Color");
+        return com.fr.design.i18n.Toolkit.i18nText("ChartF-Background_Color");
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.fr.design.actions.cell;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.menu.KeySetUtils;
-import com.fr.general.Inter;
+
 
 public class CellExpandAttrAction extends  CellAttributeTableAction{
 
@@ -18,7 +18,7 @@ public class CellExpandAttrAction extends  CellAttributeTableAction{
 
 	@Override
 	public String getID() {
-		return Inter.getLocText("ExpandD-Expand_Attribute");
+		return com.fr.design.i18n.Toolkit.i18nText("ExpandD-Expand_Attribute");
 	}
 
 }

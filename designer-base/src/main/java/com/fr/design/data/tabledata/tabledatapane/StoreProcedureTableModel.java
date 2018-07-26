@@ -13,12 +13,12 @@ import com.fr.design.gui.itableeditorpane.UITableModelAdapter;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
-import com.fr.general.Inter;
+
 
 public class StoreProcedureTableModel extends UITableModelAdapter<StoreProcedureParameter> {
 
 	public StoreProcedureTableModel() {
-		super(new String[] { Inter.getLocText("Parameter"), Inter.getLocText("Type"), Inter.getLocText("Model"), Inter.getLocText("Value") });
+		super(new String[] { com.fr.design.i18n.Toolkit.i18nText("Parameter"), com.fr.design.i18n.Toolkit.i18nText("Type"), com.fr.design.i18n.Toolkit.i18nText("Model"), com.fr.design.i18n.Toolkit.i18nText("Value") });
 		if (shouldResponseDoubleClickAction()) {
             table.addMouseListener(new MouseAdapter() {
 
@@ -36,7 +36,7 @@ public class StoreProcedureTableModel extends UITableModelAdapter<StoreProcedure
 
                     final StoreProcedureParameterPane pane = new StoreProcedureParameterPane();
                     pane.populate(spp);
-                    pane.setBorder(BorderFactory.createTitledBorder(Inter.getLocText("Parameter")));
+                    pane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Parameter")));
                     BasicDialog stpEditDialog = pane.showWindow(DesignerContext.getDesignerFrame());
                     stpEditDialog.addDialogActionListener(new DialogActionAdapter() {
 
@@ -90,7 +90,7 @@ public class StoreProcedureTableModel extends UITableModelAdapter<StoreProcedure
 			StoreProcedureParameter para = new StoreProcedureParameter();
 			final StoreProcedureParameterPane pane = new StoreProcedureParameterPane();
 			pane.populate(para);
-			pane.setBorder(BorderFactory.createTitledBorder(Inter.getLocText("Parameter")));
+			pane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Parameter")));
 			BasicDialog stpEditDialog = pane.showWindow(DesignerContext.getDesignerFrame());
 			stpEditDialog.addDialogActionListener(new DialogActionAdapter() {
 
@@ -112,7 +112,7 @@ public class StoreProcedureTableModel extends UITableModelAdapter<StoreProcedure
 			StoreProcedureParameter para = getSelectedValue();
 			final StoreProcedureParameterPane pane = new StoreProcedureParameterPane();
 			pane.populate(para);
-			pane.setBorder(BorderFactory.createTitledBorder(Inter.getLocText("Parameter")));
+			pane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Parameter")));
 			BasicDialog stpEditDialog = pane.showWindow(DesignerContext.getDesignerFrame());
 			stpEditDialog.addDialogActionListener(new DialogActionAdapter() {
 

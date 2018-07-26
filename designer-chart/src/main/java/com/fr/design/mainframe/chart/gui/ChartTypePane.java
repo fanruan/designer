@@ -26,7 +26,10 @@ import java.awt.CardLayout;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 图表 属性表, 类型选择 界面.
@@ -121,10 +124,13 @@ public class ChartTypePane extends AbstractChartAttrPane{
 	}
 	
 	class ComboBoxPane extends UIComboBoxPane<Chart>{
+		private Map<String, Map<String, FurtherBasicBeanPane<? extends Chart>>> allChartTypePane;
+
 		@Override
 		protected List<FurtherBasicBeanPane<? extends Chart>> initPaneList() {
 			List<FurtherBasicBeanPane<? extends Chart>> paneList = new ArrayList<FurtherBasicBeanPane<? extends Chart>>();
-			ChartTypeInterfaceManager.getInstance().addPlotTypePaneList(paneList);
+			allChartTypePane = new LinkedHashMap<String, Map<String, FurtherBasicBeanPane<? extends Chart>>>();
+			ChartTypeInterfaceManager.getInstance().addPlotTypePaneList(paneList, allChartTypePane);
 			return paneList;
 		}
 
@@ -198,7 +204,41 @@ public class ChartTypePane extends AbstractChartAttrPane{
 			});
 		}
 
-		public void relayout(ChartCollection collection){
+		private void addAllCards() {
+			Iterator<String> iterator = allChartTypePane.keySet().iterator();
+
+			while (iterator.hasNext()) {
+				addOnePriorityCards(iterator.next(), false);
+			}
+		}
+
+		private void addOnePriorityCards(String priority) {
+			addOnePriorityCards(priority, true);
+		}
+
+		private void addOnePriorityCards(String priority, boolean ignore) {
+
+			Map<String, FurtherBasicBeanPane<? extends Chart>> map = allChartTypePane.get(priority);
+
+			Iterator<Map.Entry<String, FurtherBasicBeanPane<? extends Chart>>> iterator = map.entrySet().iterator();
+
+			while (iterator.hasNext()) {
+				Map.Entry<String, FurtherBasicBeanPane<? extends Chart>> entry = iterator.next();
+				String plotID = entry.getKey();
+				if (ignore || ChartTypeManager.enabledChart(plotID)) {
+					cards.add(entry.getValue());
+				}
+			}
+
+		}
+
+		private void addOnePlotIDCards(String priority, String plotID) {
+			cards.add(allChartTypePane.get(priority).get(plotID));
+		}
+
+		//因为饼图（新特性）把（新特性）去掉了，和老的饼图同名，下拉框选项和typePane不能一一对应了
+		//处理办法：这边除了重构 下拉项选项和cardNames 还需要把cards重构下（不需要init pane，只需要我需要的拿出来就好了）
+		private void relayout(ChartCollection collection){
 			//重构需要重构下拉框选项和cardNames
 			Chart chart = collection.getSelectedChart();
 			String priority = chart.getPriority();
@@ -210,12 +250,12 @@ public class ChartTypePane extends AbstractChartAttrPane{
 			cards.clear();
 			if (enabledChart) {
 				if (collection.getState() == SwitchState.DEFAULT) {
-					ChartTypeInterfaceManager.getInstance().addPlotTypePaneList(cards);
+					addAllCards();
 				} else {
-					ChartTypeInterfaceManager.getInstance().addPlotTypePaneList(priority, cards);
+					addOnePriorityCards(priority);
 				}
 			} else {
-				ChartTypeInterfaceManager.getInstance().addPlotTypePaneList(cards, priority, plotID);
+				addOnePlotIDCards(priority, plotID);
 			}
 
 			//下拉框重构开始。为了防止重构是触发update

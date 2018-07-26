@@ -24,7 +24,7 @@ import com.fr.design.javascript.JavaScriptImplPane;
 import com.fr.design.javascript.ParameterJavaScriptPane;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.Inter;
+
 import com.fr.general.NameObject;
 import com.fr.js.EmailJavaScript;
 import com.fr.js.FormHyperlinkProvider;
@@ -102,12 +102,12 @@ public class VanChartHyperLinkPane extends VanChartUIListControlPane {
      * @return 返回标题字符串.
      */
     public String title4PopupWindow() {
-        return Inter.getLocText("FR-Designer_Hyperlink");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Hyperlink");
     }
 
     @Override
     protected String getAddItemText() {
-        return Inter.getLocText("FR-Designer_Add_Hyperlink");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Add_Hyperlink");
     }
 
     @Override
@@ -236,24 +236,24 @@ public class VanChartHyperLinkPane extends VanChartUIListControlPane {
     protected java.util.List<UIMenuNameableCreator> refreshList(HashMap map) {
         java.util.List<UIMenuNameableCreator> list = new ArrayList<UIMenuNameableCreator>();
 
-        list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Link_Reportlet"),
+        list.add(new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Chart-Link_Reportlet"),
                 new ReportletHyperlink(), getUseMap(map, ReportletHyperlink.class)));
-        list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Link_Mail"), new EmailJavaScript(), VanChartEmailPane.class));
-        list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Link_Web"),
+        list.add(new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Chart-Link_Mail"), new EmailJavaScript(), VanChartEmailPane.class));
+        list.add(new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Chart-Link_Web"),
                 new WebHyperlink(), getUseMap(map, WebHyperlink.class)));
-        list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Link_Dynamic_Parameters"),
+        list.add(new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Chart-Link_Dynamic_Parameters"),
                 new ParameterJavaScript(), getUseMap(map, ParameterJavaScript.class)));
         list.add(new UIMenuNameableCreator("JavaScript", new JavaScriptImpl(), getUseMap(map, JavaScriptImpl.class)));
 
-        list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Float_Chart"),
+        list.add(new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Chart-Float_Chart"),
                 new ChartHyperPoplink(), getUseMap(map, ChartHyperPoplink.class)));
-        list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Link_Cell"),
+        list.add(new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Chart-Link_Cell"),
                 new ChartHyperRelateCellLink(), getUseMap(map, ChartHyperRelateCellLink.class)));
-        list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Link_Float"),
+        list.add(new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Chart-Link_Float"),
                 new ChartHyperRelateFloatLink(), getUseMap(map, ChartHyperRelateFloatLink.class)));
 
         FormHyperlinkProvider hyperlink = StableFactory.getMarkedInstanceObjectFromClass(FormHyperlinkProvider.XML_TAG, FormHyperlinkProvider.class);
-        list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Link_Form"),
+        list.add(new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Chart-Link_Form"),
                 hyperlink, getUseMap(map, FormHyperlinkProvider.class)));
 
         return list;

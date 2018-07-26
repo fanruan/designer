@@ -1,7 +1,7 @@
 package com.fr.design.chart.comp;
 
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.general.Inter;
+
 import com.fr.stable.Constants;
 import com.fr.stable.CoreConstants;
 import com.fr.design.gui.icombobox.LineComboBox;
@@ -16,7 +16,7 @@ public class BorderAttriPane extends BasicPane  {
     private ColorSelectBox colorSelectBox;
 
     public BorderAttriPane() {
-    	this(Inter.getLocText("Line-Style"), Inter.getLocText("Color"));
+    	this(com.fr.design.i18n.Toolkit.i18nText("Line-Style"), com.fr.design.i18n.Toolkit.i18nText("Color"));
     }
     
     public BorderAttriPane(String lineString, String colorSting) {

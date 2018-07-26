@@ -21,7 +21,7 @@ import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.general.GeneralUtils;
-import com.fr.general.Inter;
+
 import com.fr.stable.ArrayUtils;
 
 import javax.swing.*;
@@ -431,7 +431,7 @@ public class UIGroupExtensionPane extends BasicPane {
 					};
 					isPressOnDelete = true;
 					bp.setLayout(new BorderLayout());
-					bp.add(new BoldFontTextLabel(Inter.getLocText(new String[]{"Delete", "Chart-Map"}) + "?", SwingConstants.CENTER));
+					bp.add(new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Delete", "Chart-Map"}) + "?", SwingConstants.CENTER));
 
                     clearLastListSelection(list);
 

@@ -8,7 +8,7 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 import com.fr.general.NameObject;
 import com.fr.stable.ListMap;
 
@@ -29,7 +29,7 @@ public class ObjectProperiesPane extends BasicBeanPane<ListMap> {
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
 		
 		JPanel buttonPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-		this.addButton = new UIButton(Inter.getLocText("Add") + " " +Inter.getLocText("Property"));
+		this.addButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Add") + " " +com.fr.design.i18n.Toolkit.i18nText("Property"));
 		buttonPane.add(this.addButton, BorderLayout.WEST);
 		this.add(buttonPane, BorderLayout.NORTH);
 		
@@ -124,16 +124,16 @@ public class ObjectProperiesPane extends BasicBeanPane<ListMap> {
 			this.setLayout(FRGUIPaneFactory.createLabelFlowLayout());
 			
 			UIButton cancel  = new UIButton(BaseUtils.readIcon("/com/fr/base/images/cell/control/remove.png"));
-			cancel.setToolTipText(Inter.getLocText("Remove"));
+			cancel.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Remove"));
 			cancel.addActionListener(cancleListener);
 			cancel.setMargin(new Insets(0, 0, 0, 0));
 			this.add(cancel);
 			
-			this.add(new UILabel(Inter.getLocText("Name")+":"));
+			this.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Name")+":"));
 			this.nameField = new UITextField(6);
 			this.add(this.nameField);
 			
-			this.add(new UILabel(Inter.getLocText("Value")+ ":"));
+			this.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Value")+ ":"));
 			this.valueEditorPane = ValueEditorPaneFactory.createExtendedValueEditorPane();
 			this.add(this.valueEditorPane);
 		}

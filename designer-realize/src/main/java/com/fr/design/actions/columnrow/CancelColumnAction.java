@@ -2,7 +2,7 @@ package com.fr.design.actions.columnrow;
 
 import com.fr.page.ReportPageAttrProvider;
 import com.fr.design.actions.CellSelectionAction;
-import com.fr.general.Inter;
+
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.grid.selection.CellSelection;
 import com.fr.report.elementcase.ElementCase;
@@ -11,7 +11,7 @@ public class CancelColumnAction extends CellSelectionAction{
 	public CancelColumnAction(ElementCasePane t) {
 		super(t);
 		
-		this.setName(Inter.getLocText("Cancel_Repeat_Attributes"));
+		this.setName(com.fr.design.i18n.Toolkit.i18nText("Cancel_Repeat_Attributes"));
 	}
 	
 	@Override

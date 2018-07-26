@@ -12,7 +12,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.style.color.ColorSelectBox;
 import com.fr.general.Background;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -57,8 +57,8 @@ public class PatternBackgroundQuickPane extends BackgroundQuickPane {
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Foreground"), UILabel.LEFT), foregroundColorPane},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Background"), UILabel.LEFT), backgroundColorPane},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Foreground"), UILabel.LEFT), foregroundColorPane},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background"), UILabel.LEFT), backgroundColorPane},
         };
         double[] rowSize = {p, p, p};
         double[] columnSize = {p, f};
@@ -213,7 +213,7 @@ public class PatternBackgroundQuickPane extends BackgroundQuickPane {
 
     @Override
     public String title4PopupWindow() {
-        return Inter.getLocText("FR-Designer_Background-Pattern");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background-Pattern");
     }
 
     @Override

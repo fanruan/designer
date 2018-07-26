@@ -27,7 +27,7 @@ import com.fr.base.core.StyleUtils;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.FloatSelection;
@@ -69,7 +69,7 @@ public class StylePane extends BasicBeanPane<Style> implements ChangeListener {
 
 		previewPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		this.add(previewPane, BorderLayout.NORTH);
-		previewPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("Preview"), null));
+		previewPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Preview"), null));
 
 		previewArea = new PreivewArea();
 		previewPane.add(previewArea, BorderLayout.CENTER);
@@ -80,11 +80,11 @@ public class StylePane extends BasicBeanPane<Style> implements ChangeListener {
 		UITabbedPane mainTabbedPane = new UITabbedPane();
 		this.add(mainTabbedPane, BorderLayout.CENTER);
 
-		mainTabbedPane.addTab(Inter.getLocText("Format"), this.getFormatPane());
-		mainTabbedPane.addTab(Inter.getLocText("Alignment"), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
-		mainTabbedPane.addTab(Inter.getLocText("Sytle-FRFont"), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
-		mainTabbedPane.addTab(Inter.getLocText("Border"), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
-		mainTabbedPane.addTab(Inter.getLocText("Background"), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
+		mainTabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Format"), this.getFormatPane());
+		mainTabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Alignment"), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
+		mainTabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Sytle-FRFont"), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
+		mainTabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Border"), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
+		mainTabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Background"), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
 
 		mainTabbedPane.addChangeListener(tabChangeActionListener);
 		this.setPreferredSize(new Dimension(450, 480));
@@ -92,7 +92,7 @@ public class StylePane extends BasicBeanPane<Style> implements ChangeListener {
 
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("Style");
+		return com.fr.design.i18n.Toolkit.i18nText("Style");
 	}
 
 	public void stateChanged(ChangeEvent e) {

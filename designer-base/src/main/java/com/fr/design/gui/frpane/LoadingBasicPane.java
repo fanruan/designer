@@ -7,14 +7,10 @@ import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.LayoutUtils;
-import com.fr.locale.InterProviderFactory;
 
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import javax.swing.SwingConstants;
-import javax.swing.SwingWorker;
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * @author richer
@@ -27,10 +23,6 @@ public abstract class LoadingBasicPane extends BasicPane {
     private JProgressBar progressBar;
     public LoadingBasicPane() {
         initCards();
-        initPane();
-    }
-
-    protected void initPane(){
         new SwingWorker<Integer, Void>() {
 
             @Override
@@ -50,14 +42,11 @@ public abstract class LoadingBasicPane extends BasicPane {
     }
 
 
-
     private void initCards() {
         card = new CardLayout();
         setLayout(card);
         JPanel loadingDisPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        String[] message = {"Loading","Please-Wait"};
-        String[] operator = {",","..."};
-        UILabel loadingPane = new UILabel(InterProviderFactory.getProvider().getLocText(message,operator) , SwingConstants.CENTER);
+        UILabel loadingPane = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Loading_And_Waiting") , SwingConstants.CENTER);
         loadingDisPane.add(loadingPane, BorderLayout.CENTER);
         progressBar = new JProgressBar();
         progressBar.setIndeterminate(true);

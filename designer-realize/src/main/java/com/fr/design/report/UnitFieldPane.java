@@ -15,7 +15,7 @@ import javax.swing.SpinnerNumberModel;
 
 import com.fr.design.gui.ispinner.UIBasicSpinner;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 import com.fr.stable.Constants;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.unit.CM;
@@ -48,11 +48,11 @@ public class UnitFieldPane extends JPanel {
 
         public void setUnitType(int unitType) {
             if (unitType == Constants.UNIT_CM) {
-                this.setText(Inter.getLocText("FR-Designer_Unit_CM"));
+                this.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Unit_CM"));
             } else if (unitType == Constants.UNIT_INCH) {
-                this.setText(Inter.getLocText("FR-Designer_Unit_INCH"));
+                this.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Unit_INCH"));
             } else {
-                this.setText(Inter.getLocText("FR-Designer_Unit_MM"));
+                this.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Unit_MM"));
             }
 
             //ajust the heigt of unitLabel.

@@ -10,7 +10,7 @@ import com.fr.base.BaseUtils;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.mainframe.CellElementPropertyPane;
 import com.fr.design.menu.KeySetUtils;
-import com.fr.general.Inter;
+
 
 public class StyleAction extends UpdateAction {
 
@@ -27,7 +27,7 @@ public class StyleAction extends UpdateAction {
      * @param e 事件
      */
 	public void actionPerformed(ActionEvent e) {
-		CellElementPropertyPane.getInstance().GoToPane(new String[] { Inter.getLocText("Style"), Inter.getLocText("Custom") });
+		CellElementPropertyPane.getInstance().GoToPane(new String[] { com.fr.design.i18n.Toolkit.i18nText("Style"), com.fr.design.i18n.Toolkit.i18nText("Custom") });
 	}
 
 }

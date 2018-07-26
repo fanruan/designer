@@ -9,7 +9,7 @@ import com.fr.design.style.background.impl.ColorBackgroundPane;
 import com.fr.design.style.background.impl.ImageBackgroundPane;
 import com.fr.design.style.background.impl.NullBackgroundPane;
 import com.fr.general.Background;
-import com.fr.general.Inter;
+
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -29,11 +29,11 @@ public class BackgroundCardSwitchButtonPane extends BackgroundButtonPane {
 
     private static void registerCardSwitchBtnBackground(Map<Class<? extends Background>, BackgroundUIWrapper> map) {
         map.put(ColorBackground.class, BackgroundUIWrapper.create()
-                .setType(ColorBackgroundPane.class).setTitle(Inter.getLocText("FR-Designer_Background_Color")));
+                .setType(ColorBackgroundPane.class).setTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background_Color")));
         map.put(ImageFileBackground.class, BackgroundUIWrapper.create()
-                .setType(ImageBackgroundPane.class).setTitle(Inter.getLocText("FR-Designer_Background_Image")));
+                .setType(ImageBackgroundPane.class).setTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background_Image")));
         map.put(GradientBackground.class, BackgroundUIWrapper.create()
-                .setType(GradientBackgroundPane.class).setTitle(Inter.getLocText("FR-Designer_Background_Gradient_Color")));
+                .setType(GradientBackgroundPane.class).setTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background_Gradient_Color")));
 
     }
 
@@ -47,7 +47,7 @@ public class BackgroundCardSwitchButtonPane extends BackgroundButtonPane {
         for (Class<? extends Background> key : cardSwitchButton.keySet()) {
             BackgroundUIWrapper wrapper = cardSwitchButton.get(key);
             wrapper.setIndex(index++);
-            tabbedPane.addTab(Inter.getLocText(wrapper.getTitle()), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
+            tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText(wrapper.getTitle()), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
         }
     }
 

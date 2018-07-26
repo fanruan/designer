@@ -23,7 +23,7 @@ import com.fr.design.style.color.ColorFactory;
 import com.fr.design.style.color.ColorSelectBox;
 import com.fr.design.style.color.ColorSelectable;
 import com.fr.general.FRFont;
-import com.fr.general.Inter;
+
 import com.fr.stable.Constants;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.StringUtils;
@@ -684,7 +684,7 @@ public abstract class GUICoreUtils{
 			return false;
 		}
 
-		int returnVal = JOptionPane.showConfirmDialog(ancestorWindow, Inter.getLocText("Utils-Are_you_sure_to_remove_the_selected_item") + "?", Inter.getLocText("Remove"),
+		int returnVal = JOptionPane.showConfirmDialog(ancestorWindow, com.fr.design.i18n.Toolkit.i18nText("Utils-Are_you_sure_to_remove_the_selected_item") + "?", com.fr.design.i18n.Toolkit.i18nText("Remove"),
 				JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 		if (returnVal == JOptionPane.OK_OPTION) {
 			int minSelectedIndex = nodeList.getMinSelectionIndex();

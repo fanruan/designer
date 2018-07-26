@@ -2,7 +2,7 @@ package com.fr.van.chart.custom.style;
 
 import com.fr.chart.chartattr.Chart;
 import com.fr.design.dialog.BasicScrollPane;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.custom.VanChartCustomPlot;
 import com.fr.van.chart.designer.style.VanChartStylePane;
 
@@ -68,6 +68,6 @@ public class VanChartCustomTooltipPane extends BasicScrollPane<Chart> {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("Plugin-Chart_Tooltip");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-Chart_Tooltip");
     }
 }

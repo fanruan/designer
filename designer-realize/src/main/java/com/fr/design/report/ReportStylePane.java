@@ -5,7 +5,7 @@ import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.style.StylePane;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -27,18 +27,18 @@ public class ReportStylePane extends StylePane {
 				}
 
 				JPopupMenu popupMenu = new JPopupMenu();
-				UIMenuItem menuItem = new UIMenuItem(Inter.getLocText("FR-Designer_Save_As_Global_Style"));
+				UIMenuItem menuItem = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Save_As_Global_Style"));
 				popupMenu.add(menuItem);
 				menuItem.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						String name = JOptionPane.showInputDialog(getParent(), Inter.getLocText("FR-Designer_Input_The_Name_Of_Gloabel_Style"));
+						String name = JOptionPane.showInputDialog(getParent(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Input_The_Name_Of_Gloabel_Style"));
 						if (ComparatorUtils.equals(name, "")) {
 							return;
 						}
 						if (ServerPreferenceConfig.getInstance().getStyle(name) == null) {
 							ServerPreferenceConfig.getInstance().putStyle(name, ReportStylePane.this.updateBean());
 						} else {
-							JOptionPane.showMessageDialog(getParent(), Inter.getLocText("FR-Designer_This_Name_Has_Exsit") + "!", Inter.getLocText("FR-Designer_Warning"), JOptionPane.WARNING_MESSAGE);
+							JOptionPane.showMessageDialog(getParent(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_This_Name_Has_Exsit") + "!", com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Warning"), JOptionPane.WARNING_MESSAGE);
 						}
 					}
 				});

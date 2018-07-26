@@ -13,7 +13,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.Inter;
+
 import com.fr.stable.Nameable;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 
@@ -181,7 +181,7 @@ public abstract class VanChartUIListControlPane extends UIListControlPane implem
         }
 
         private void addCancelButton(JPanel buttonsPane) {
-            cancelButton = new UIButton(Inter.getLocText("Cancel"));
+            cancelButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Cancel"));
             buttonsPane.add(cancelButton);
             cancelButton.addActionListener(new ActionListener() {
 
@@ -192,7 +192,7 @@ public abstract class VanChartUIListControlPane extends UIListControlPane implem
         }
 
         private void addOkButton(JPanel buttonsPane) {
-            okButton = new UIButton(Inter.getLocText("OK"));
+            okButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("OK"));
             buttonsPane.add(okButton);
             okButton.addActionListener(new ActionListener() {
 

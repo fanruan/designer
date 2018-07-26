@@ -14,7 +14,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrNoColorPane;
 import com.fr.design.dialog.BasicScrollPane;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -87,12 +87,12 @@ public class ChartLabelFontPane extends BasicScrollPane<Chart> {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("Label");
+        return com.fr.design.i18n.Toolkit.i18nText("Label");
     }
 
     private class ContentPane extends JPanel {
-        private UILabel value = new UILabel(Inter.getLocText("Value"));
-        private UILabel unit = new UILabel(Inter.getLocText("ChartF-Units"));
+        private UILabel value = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Value"));
+        private UILabel unit = new UILabel(com.fr.design.i18n.Toolkit.i18nText("ChartF-Units"));
 
         public ContentPane() {
             this.initComponents();
@@ -108,7 +108,7 @@ public class ChartLabelFontPane extends BasicScrollPane<Chart> {
             valueTextAttrPane = new ChartTextAttrNoColorPane();
             unitTextAttrPane = new ChartTextAttrNoColorPane();
             cateTextAttrPane = new ChartTextAttrNoColorPane();
-            categoryName = new UICheckBox(Inter.getLocText(new String[]{"StyleFormat-Category", "WF-Name"}));
+            categoryName = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Category_Name"));
             categoryName.setSelected(true);
             categoryName.addActionListener(new ActionListener() {
                 @Override

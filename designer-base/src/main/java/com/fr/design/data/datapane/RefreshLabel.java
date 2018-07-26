@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.gui.ibutton.UIButton;
-import com.fr.general.Inter;
+
 
 
 
@@ -19,7 +19,7 @@ public class RefreshLabel extends UIButton {
 		
 		this.refreshable = refreshable;
 		
-		this.setToolTipText(Inter.getLocText("Refresh_Database"));
+		this.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Refresh_Database"));
 		this.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		this.addActionListener(new ActionListener() {
 			

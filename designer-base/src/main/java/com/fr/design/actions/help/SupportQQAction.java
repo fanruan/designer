@@ -7,7 +7,7 @@ package com.fr.design.actions.help;
 import com.fr.base.BaseUtils;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.menu.MenuKeySet;
-import com.fr.general.Inter;
+
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ProductConstants;
 
@@ -37,7 +37,7 @@ public class SupportQQAction extends UpdateAction {
         try {
             Desktop.getDesktop().browse(new URI(ProductConstants.SUPPORT_QQ));
         } catch (IOException exp) {
-            JOptionPane.showMessageDialog(null, Inter.getLocText("Set_default_browser"));
+            JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Set_default_browser"));
             FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
         } catch (URISyntaxException exp) {
             FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
@@ -52,7 +52,7 @@ public class SupportQQAction extends UpdateAction {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("Support_QQ");
+            return com.fr.design.i18n.Toolkit.i18nText("Support_QQ");
         }
 
         @Override

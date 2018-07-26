@@ -8,7 +8,7 @@ import com.fr.chart.chartdata.TopDefinition;
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.gui.frpane.UIComboBoxPane;
 import com.fr.design.gui.ilable.BoldFontTextLabel;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,7 +38,7 @@ public class MapSinglePane extends FurtherBasicBeanPane<TopDefinitionProvider> {
 			protected void initLayout() {
 				this.setLayout(new BorderLayout(0, 6));
 				JPanel northPane = new JPanel(new FlowLayout(FlowLayout.LEFT));
-				northPane.add(new BoldFontTextLabel(Inter.getLocText("ChartF-Data-Resource") + ":"));
+				northPane.add(new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("ChartF-Data-Resource") + ":"));
 				northPane.add(jcb);
 				
 				this.add(northPane, BorderLayout.NORTH);
@@ -57,7 +57,7 @@ public class MapSinglePane extends FurtherBasicBeanPane<TopDefinitionProvider> {
 
 			@Override
 			protected String title4PopupWindow() {
-				return Inter.getLocText("Data_Setting");
+				return com.fr.design.i18n.Toolkit.i18nText("Data_Setting");
 			}
 		}, BorderLayout.CENTER);
 	}
@@ -80,7 +80,7 @@ public class MapSinglePane extends FurtherBasicBeanPane<TopDefinitionProvider> {
 	 * 界面标题
 	 */
 	public String title4PopupWindow() {
-		return Inter.getLocText(new String[]{"SingleLayer", "Chart-Map"});
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Single_Layer_Map");
 	}
 
 	/**

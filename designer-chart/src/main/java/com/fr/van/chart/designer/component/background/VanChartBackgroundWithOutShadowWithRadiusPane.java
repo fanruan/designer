@@ -3,7 +3,7 @@ package com.fr.van.chart.designer.component.background;
 import com.fr.chart.chartglyph.GeneralInfo;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
-import com.fr.general.Inter;
+
 
 import java.awt.Component;
 
@@ -23,10 +23,10 @@ public class VanChartBackgroundWithOutShadowWithRadiusPane extends VanChartBackg
         radius = new UISpinner(0,1000,1,0);
         return  new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Shape_Fill")), typeComboBox},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Shape_Fill")), typeComboBox},
                 new Component[]{null, centerPane},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Alpha")), transparent},
-                new Component[]{new UILabel(Inter.getLocText("plugin-ChartF_Radius")),radius}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Alpha")), transparent},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("plugin-ChartF_Radius")),radius}
         };
     }
 

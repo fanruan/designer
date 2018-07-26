@@ -8,7 +8,7 @@ import com.fr.base.GraphHelper;
 import com.fr.base.Style;
 import com.fr.design.gui.iscrollbar.UIScrollBar;
 import com.fr.general.ImageWithSuffix;
-import com.fr.general.Inter;
+
 import com.fr.stable.CoreGraphHelper;
 
 import javax.swing.JComponent;
@@ -108,7 +108,7 @@ public class ImagePreviewPane extends JComponent implements Scrollable, ImagePre
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (isLoading) {
-            g.drawString(Inter.getLocText("FR-Designer_Image_Loading"), getWidth() / 2 - 25, getHeight() / 2);
+            g.drawString(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Image_Loading"), getWidth() / 2 - 25, getHeight() / 2);
             return;
         }
         if (this.getImage() != null) { //draw image.

@@ -7,7 +7,7 @@ import com.fr.design.gui.icombobox.UIComboBoxRenderer;
 import com.fr.design.gui.style.FormatPane;
 import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.area.VanChartAreaPlot;
 import com.fr.plugin.chart.bubble.VanChartBubblePlot;
 import com.fr.plugin.chart.column.VanChartColumnPlot;
@@ -343,7 +343,7 @@ public class PlotFactory {
                         JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                         if (value instanceof Integer) {
                             String text = ComparatorUtils.equals(value, FormatField.FormatContents.NULL)
-                                    ? Inter.getLocText("Plugin-ChartF_Auto")
+                                    ? com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Auto")
                                     : FormatField.getInstance().getName((Integer) value);
                             label.setText(" " + text);
                         }

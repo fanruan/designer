@@ -14,7 +14,7 @@ import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.design.report.SelectImagePane;
-import com.fr.general.Inter;
+
 import com.fr.grid.Grid;
 import com.fr.grid.selection.FloatSelection;
 import com.fr.report.ReportHelper;
@@ -50,7 +50,7 @@ public class ImageFloatAction extends ElementCaseAction {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("FR-Designer_Insert_Image");
+            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Insert_Image");
         }
 
         @Override

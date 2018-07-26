@@ -15,7 +15,7 @@ import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.CalculateComboBox;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.multilayer.data.MultiPieValueDefinition;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
@@ -71,7 +71,7 @@ public class MultiPiePlotTableDataContentPane extends AbstractTableDataContentPa
         for (int i = 0; i < levelNum; i++){
             levelNameList.add(new UIComboBox());
             levelNameList.get(i).setPreferredSize(new Dimension(WD, HT));
-            levelNameList.get(i).addItem(Inter.getLocText("Chart-Use_None"));
+            levelNameList.get(i).addItem(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_None"));
         }
     }
 
@@ -102,7 +102,7 @@ public class MultiPiePlotTableDataContentPane extends AbstractTableDataContentPa
         Component[][] components_center = new Component[levelNum + 3][];
 
         for (int i = 0; i < levelNum; i++){
-            components_center[i] = new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Level") + String.valueOf(i+1)), levelNameList.get(i)};
+            components_center[i] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Level") + String.valueOf(i+1)), levelNameList.get(i)};
         }
 
         value = new UIComboBox();
@@ -112,8 +112,8 @@ public class MultiPiePlotTableDataContentPane extends AbstractTableDataContentPa
         calculateCombox.setPreferredSize(new Dimension(WD, HT));
 
         components_center[levelNum] = new Component[]{getJSeparator(), null};
-        components_center[levelNum+1] = new Component[]{new UILabel(Inter.getLocText("FR-Chart_Bubble_Size")), value};
-        components_center[levelNum+2] = new Component[]{new UILabel(Inter.getLocText("Chart-Summary_Method")), calculateCombox};
+        components_center[levelNum+1] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart_Bubble_Size")), value};
+        components_center[levelNum+2] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Summary_Method")), calculateCombox};
 
 
         initCenterItemListener();
@@ -180,9 +180,9 @@ public class MultiPiePlotTableDataContentPane extends AbstractTableDataContentPa
         nameField = new UITextField();
 
         Component[][] components_north = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_MultiPie_Series_Name")), nameField},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_MultiPie_Series_Name")), nameField},
                 new Component[]{getJSeparator(),null },
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Level_Number")), levelNumEdit},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Level_Number")), levelNumEdit},
         };
 
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components_north, rowSize_north, columnSize_north);
@@ -242,7 +242,7 @@ public class MultiPiePlotTableDataContentPane extends AbstractTableDataContentPa
         columnNameList = list;
         for (int i = 0; i < levelNum; i++) {
             refreshBoxItems(levelNameList.get(i), list);
-            levelNameList.get(i).addItem(Inter.getLocText("Chart-Use_None"));
+            levelNameList.get(i).addItem(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_None"));
         }
         refreshBoxItems(value, list);
     }
@@ -326,7 +326,7 @@ public class MultiPiePlotTableDataContentPane extends AbstractTableDataContentPa
 
         for (int i = 0; i < levelNameList.size(); i++){
             if(!definition.hasLevelIndex(i) || ComparatorUtils.equals(levelColumnNameList.get(i), StringUtils.EMPTY)) {
-                levelNameList.get(i).setSelectedItem(Inter.getLocText("Chart-Use_None"));
+                levelNameList.get(i).setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_None"));
             } else if(definition.hasLevelIndex(i) && !this.boxItemsContainsObject(levelNameList.get(i),levelColumnNameList.get(i))){
                 levelNameList.get(i).setSelectedItem(null);
             }else {

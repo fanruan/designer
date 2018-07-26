@@ -14,12 +14,13 @@ import com.fr.design.data.tabledata.ResponseDataSourceChange;
 import com.fr.design.data.tabledata.tabledatapane.TableDataManagerPane;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.gui.NameInspector;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.file.ProcedureConfig;
 import com.fr.file.TableDataConfig;
-import com.fr.general.Inter;
+
 import com.fr.locale.InterProviderFactory;
 import com.fr.transaction.CallBackAdaptor;
 import com.fr.transaction.Configurations;
@@ -52,7 +53,7 @@ public class GlobalTableDataAction extends UpdateAction implements ResponseDataS
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("DS-Server_TableData");
+            return com.fr.design.i18n.Toolkit.i18nText("DS-Server_TableData");
         }
 
         @Override
@@ -128,14 +129,6 @@ public class GlobalTableDataAction extends UpdateAction implements ResponseDataS
         globalTableDataDialog.setVisible(true);
     }
 
-    /**
-     * 是否正常更新完datasourceManager
-     *
-     * @param datasourceManager
-     * @param tableDataManagerPane
-     * @param databaseListDialog
-     * @return
-     */
     private boolean doWithDatasourceManager(TableDataConfig datasourceManager, TableDataManagerPane tableDataManagerPane, BasicDialog databaseListDialog) {
         boolean isFailed = false;
 //
@@ -156,17 +149,9 @@ public class GlobalTableDataAction extends UpdateAction implements ResponseDataS
      */
     public int isTableDataMapContainsRename(TableDataConfig datasourceManager) {
         Map<String, TableData> tableDataMap = datasourceManager.getTableDatas();
-        String rename = InterProviderFactory.getProvider().getLocText("FR-Engine_Please_Rename") + "!";
-        if (tableDataMap.containsKey(rename)) {
-            return datasourceManager.getTableDataIndex(rename);
+        if (tableDataMap.containsKey(NameInspector.ILLEGAL_NAME_HOLDER)) {
+            return datasourceManager.getTableDataIndex(NameInspector.ILLEGAL_NAME_HOLDER);
         }
-        //todo  这边同上面和远程修改数据集属性有关先屏蔽
-//        for (int i = tableDataRenameIndex; i >= 1; i--) {
-//            rename = InterProviderFactory.getProvider().getLocText("FR-Engine_Please_Rename") + i + "!";
-//            if (nameTableDataMap.map.containsKey(rename)) {
-//                return nameTableDataMap.map.indexOf(rename);
-//            }
-//        }
         return -1;
     }
 

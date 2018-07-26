@@ -7,7 +7,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
-import com.fr.general.Inter;
+
 import com.fr.design.mainframe.widget.editors.IntegerPropertyEditor;
 import com.fr.design.mainframe.widget.editors.PropertyCellEditor;
 import com.fr.design.designer.beans.ConstraintsGroupModel;
@@ -36,7 +36,7 @@ public class BoundsGroupModel implements ConstraintsGroupModel {
 
     @Override
     public String getGroupName() {
-        return Inter.getLocText("Form-Component_Bounds");
+        return com.fr.design.i18n.Toolkit.i18nText("Form-Component_Bounds");
     }
 
     @Override
@@ -59,13 +59,13 @@ public class BoundsGroupModel implements ConstraintsGroupModel {
         if (column == 0) {
             switch (row) {
                 case 0:
-                    return Inter.getLocText("FR-Designer_X_Coordinate");
+                    return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_X_Coordinate");
                 case 1:
-                    return Inter.getLocText("FR-Designer_Y_Coordinate");
+                    return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Y_Coordinate");
                 case 2:
-                    return Inter.getLocText("FR-Designer_Widget_Width");
+                    return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget_Width");
                 default:
-                    return Inter.getLocText("FR-Designer_Widget_Height");
+                    return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget_Height");
             }
         } else {
             switch (row) {
@@ -107,7 +107,7 @@ public class BoundsGroupModel implements ConstraintsGroupModel {
 				break;
 			case 3:
                 if(v < MINHEIGHT){
-                    JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer_Min_Height") + "21");
+                    JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Min_Height") + "21");
                     v = component.getHeight();
                 }
 				if (bounds.height == v){

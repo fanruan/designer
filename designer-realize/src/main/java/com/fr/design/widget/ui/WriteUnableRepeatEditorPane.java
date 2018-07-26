@@ -11,7 +11,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.form.ui.WriteUnableRepeatEditor;
-import com.fr.general.Inter;
+
 
 public abstract class WriteUnableRepeatEditorPane<E extends WriteUnableRepeatEditor> extends FieldEditorDefinePane<WriteUnableRepeatEditor> {
 	// richer:是否去除重复的值
@@ -24,7 +24,7 @@ public abstract class WriteUnableRepeatEditorPane<E extends WriteUnableRepeatEdi
 	@Override
 	protected JPanel setFirstContentPane() {
 		JPanel contentPane = FRGUIPaneFactory.createYBoxEmptyBorderPane();
-		removeRepeatCheckBox = new UICheckBox(Inter.getLocText("Form-Remove_Repeat_Data"), false);
+		removeRepeatCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Form-Remove_Repeat_Data"), false);
 		removeRepeatCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
 		Component[] dicPane = createDicPane();

@@ -6,7 +6,7 @@ import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.form.ui.ComboBox;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,14 +20,14 @@ public class ComboBoxDefinePane extends DictEditorDefinePane<ComboBox> {
 	}
 
 	public UICheckBox createRepeatCheckBox(){
-		removeRepeatCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Widget_No_Repeat"));
+		removeRepeatCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget_No_Repeat"));
 		removeRepeatCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		return removeRepeatCheckBox;
 	}
 
 	public Component[] createWaterMarkPane() {
 		waterMarkField = new UITextField();
-		return new Component[]{new UILabel(Inter.getLocText("FR-Designer_WaterMark")), waterMarkField};
+		return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WaterMark")), waterMarkField};
 	}
 
 	protected  void populateSubDictionaryEditorBean(ComboBox ob){

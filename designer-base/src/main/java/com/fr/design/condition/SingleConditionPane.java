@@ -9,7 +9,7 @@ import com.fr.base.BaseUtils;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.dialog.BasicPane;
-import com.fr.general.Inter;
+
 
 public abstract class SingleConditionPane<T> extends BasicPane {
 	private static final long serialVersionUID = -4274960170813368817L;
@@ -26,7 +26,7 @@ public abstract class SingleConditionPane<T> extends BasicPane {
 			
 			if(cancel == null) {
 				cancel  = new UIButton(BaseUtils.readIcon("/com/fr/base/images/cell/control/remove.png"));
-				cancel.setToolTipText(Inter.getLocText("FR-Action_Remove"));
+				cancel.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Action_Remove"));
 				cancel.addActionListener(cancleListener);
 				cancel.setMargin(new Insets(0, 0, 0, 0));
 			}

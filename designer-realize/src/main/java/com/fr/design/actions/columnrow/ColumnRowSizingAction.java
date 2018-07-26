@@ -8,7 +8,7 @@ import com.fr.design.gui.frpane.UnitInputPane;
 import com.fr.design.gui.frpane.UnitInputPane.ValueNotChangeException;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.dialog.DialogActionAdapter;
-import com.fr.general.Inter;
+
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.grid.selection.CellSelection;
 import com.fr.report.elementcase.ElementCase;
@@ -78,16 +78,16 @@ public abstract class ColumnRowSizingAction extends AbstractColumnRowIndexAction
         float va;
         if (unitType == Constants.UNIT_CM) {
             va = unit.toCMValue4Scale2();
-            uPane.setUnitText(Inter.getLocText("Unit_CM"));
+            uPane.setUnitText(com.fr.design.i18n.Toolkit.i18nText("Unit_CM"));
         } else if (unitType == Constants.UNIT_INCH) {
             va = unit.toINCHValue4Scale3();
-            uPane.setUnitText(Inter.getLocText("Unit_INCH"));
+            uPane.setUnitText(com.fr.design.i18n.Toolkit.i18nText("Unit_INCH"));
         } else if (unitType == Constants.UNIT_PT) {
             va = unit.toPTValue4Scale2();
-            uPane.setUnitText(Inter.getLocText("Unit_PT"));
+            uPane.setUnitText(com.fr.design.i18n.Toolkit.i18nText("Unit_PT"));
         } else {
             va = unit.toMMValue4Scale2();
-            uPane.setUnitText(Inter.getLocText("Unit_MM"));
+            uPane.setUnitText(com.fr.design.i18n.Toolkit.i18nText("Unit_MM"));
         }
 
         uPane.populate(va);

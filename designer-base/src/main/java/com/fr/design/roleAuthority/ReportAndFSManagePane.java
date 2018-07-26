@@ -13,7 +13,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DockingView;
 import com.fr.design.menu.ToolBarDef;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -161,8 +161,8 @@ public class ReportAndFSManagePane extends DockingView implements Prepare4DataSo
      */
     private void checkChanges() {
         //如若有变化，则弹出下面的对话框
-        int returnVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("FR-Designer_Role_changed_isRefresh") + "?",
-                Inter.getLocText("FR-Designer_Refresh"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+        int returnVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Role_changed_isRefresh") + "?",
+                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Refresh"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
         if (returnVal == JOptionPane.OK_OPTION) {
             roleTree.refreshTreeNode();
             expandTree(roleTree, true);
@@ -184,7 +184,7 @@ public class ReportAndFSManagePane extends DockingView implements Prepare4DataSo
     private void initbuttonGroup() {
     
         Icon[] iconArray = new Icon[]{BaseUtils.readIcon("/com/fr/web/images/platform/demo.png")};
-        String[] textArray = new String[]{Inter.getLocText("FR-Designer_FS_Name")};
+        String[] textArray = new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FS_Name")};
         buttonGroup = new UIHeadGroup(iconArray, textArray) {
             public void tabChanged(int index) {
                 roleTree.setEditable(false);
@@ -277,7 +277,7 @@ public class ReportAndFSManagePane extends DockingView implements Prepare4DataSo
 
 //	private class AddAction extends UpdateAction {
 //		public AddAction() {
-//			this.setName(Inter.getLocText("Add"));
+//			this.setName(com.fr.design.i18n.Toolkit.i18nText("Add"));
 //			this.setSmallIcon(BaseUtils.readIcon("/com/fr/base/images/cell/control/add.png"));
 //		}
 //
@@ -288,7 +288,7 @@ public class ReportAndFSManagePane extends DockingView implements Prepare4DataSo
 //			DefaultTreeModel treeModel = (DefaultTreeModel) roleTree.getModel();
 //			ExpandMutableTreeNode root = (ExpandMutableTreeNode) treeModel.getRoot();
 //			ExpandMutableTreeNode parentNode = (ExpandMutableTreeNode) root.getChildAt(0);
-//			String newName = Inter.getLocText("newNode") + (++newIndex);
+//			String newName = com.fr.design.i18n.Toolkit.i18nText("newNode") + (++newIndex);
 //			parentNode.add(new ExpandMutableTreeNode(newName));
 //			op.addAction(newName);
 //			roleTree.updateUI();
@@ -298,7 +298,7 @@ public class ReportAndFSManagePane extends DockingView implements Prepare4DataSo
 //					AuthorityControlFilter pf = AuthorityRoleDAOManager.getAuthControlFilter(true);
 //					
 //					if (AuthorityRoleDAOManager.getAuthorityAllocation(pf, newName) != null) {
-//						newName = Inter.getLocText("newNode") + (++newIndex);
+//						newName = com.fr.design.i18n.Toolkit.i18nText("newNode") + (++newIndex);
 //						roleTree.refreshTreeNode();
 //						expandTree(roleTree, true);
 //					}
@@ -316,7 +316,7 @@ public class ReportAndFSManagePane extends DockingView implements Prepare4DataSo
 //	private class RemoveAction extends UpdateAction {
 //
 //		public RemoveAction() {
-//			this.setName(Inter.getLocText("Remove"));
+//			this.setName(com.fr.design.i18n.Toolkit.i18nText("Remove"));
 //			this.setSmallIcon(UIConstants.CLEAR_ICON);
 //		}
 //
@@ -330,8 +330,8 @@ public class ReportAndFSManagePane extends DockingView implements Prepare4DataSo
 //				return;
 //			}
 //
-//			int returnVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("Utils-Are_you_sure_to_remove_the_selected_item") + ":" + selectedNO.getName() + "?",
-//					Inter.getLocText("Remove"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+//			int returnVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Utils-Are_you_sure_to_remove_the_selected_item") + ":" + selectedNO.getName() + "?",
+//					com.fr.design.i18n.Toolkit.i18nText("Remove"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 //			if (returnVal == JOptionPane.OK_OPTION) {
 //				op.removeAction(selectedNO.getName());
 //
@@ -360,7 +360,7 @@ public class ReportAndFSManagePane extends DockingView implements Prepare4DataSo
     private class RefreshAction extends UpdateAction {
 
         public RefreshAction() {
-            this.setName(Inter.getLocText("FR-Designer_Refresh"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Refresh"));
             this.setSmallIcon(UIConstants.REFRESH_ICON);
         }
 
@@ -402,7 +402,7 @@ public class ReportAndFSManagePane extends DockingView implements Prepare4DataSo
 //
 //		public boolean isCellEditable(EventObject anEvent) {
 //			NameObject no = ReportAndFSManagePane.this.roleTree.getSelectedNameObject();
-//			return !(no.getName() == Inter.getLocText("Role"));
+//			return !(no.getName() == com.fr.design.i18n.Toolkit.i18nText("Role"));
 //		}
 //
 //		@Override
@@ -438,7 +438,7 @@ public class ReportAndFSManagePane extends DockingView implements Prepare4DataSo
 //			}
 //			
 //			if (currentText.isEmpty() || isContained) {
-//				JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("RoleName_Can_Not_Be_Null") + "！");
+//				JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("RoleName_Can_Not_Be_Null") + "！");
 //				roleTree.refreshTreeNode();
 //				expandTree(roleTree, true);
 //				delegate.setValue(oldName);

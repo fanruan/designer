@@ -7,7 +7,7 @@ import com.fr.design.actions.CellSelectionAction;
 import com.fr.design.dscolumn.DSColumnBasicPane;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
-import com.fr.general.Inter;
+
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.grid.selection.CellSelection;
 import com.fr.report.cell.DefaultTemplateCellElement;
@@ -20,7 +20,7 @@ public class DSColumnBasicAction extends CellSelectionAction {
 	public DSColumnBasicAction(ElementCasePane t) {
 		super(t);
 		
-        this.setName(Inter.getLocText("Basic"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Basic"));
         // this.setMnemonic('B');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/expand/cellAttr.gif"));
     }

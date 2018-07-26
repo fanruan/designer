@@ -5,7 +5,7 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
-import com.fr.general.Inter;
+
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 
 import javax.swing.JPanel;
@@ -28,7 +28,7 @@ public class VanChartBeautyPane extends BasicBeanPane<Integer> {
         double[] columnSize = {f, e};
         double[] rowSize = {p};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-Chart_Style")), styleBox},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-Chart_Style")), styleBox},
         } ;
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, rowSize, columnSize);
         this.setLayout(new BorderLayout());
@@ -36,8 +36,8 @@ public class VanChartBeautyPane extends BasicBeanPane<Integer> {
     }
 
     protected String[] getNameArray(){
-        return new String[]{Inter.getLocText("Chart-Default_Name"),
-                Inter.getLocText("Plugin-Chart_TopDownShade")
+        return new String[]{com.fr.design.i18n.Toolkit.i18nText("Chart-Default_Name"),
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-Chart_TopDownShade")
         };
     }
     @Override

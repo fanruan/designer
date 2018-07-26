@@ -13,7 +13,7 @@ import com.fr.design.utils.gui.GUIPaintUtils;
 import com.fr.file.FILE;
 import com.fr.file.FileNodeFILE;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.Constants;
 import com.fr.stable.OperatingSystem;
@@ -166,14 +166,14 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
         this.addMouseMotionListener(this);
         this.setBorder(null);
         this.setForeground(new Color(58, 56, 58));
-        this.setFont(new Font(Inter.getLocText("FR-Designer_Song_TypeFace"), 0, 12));
+        this.setFont(new Font(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Song_TypeFace"), 0, 12));
         openedTemplate = HistoryTemplateListPane.getInstance().getHistoryList();
         selectedIndex = openedTemplate.size() - 1;
         Toolkit.getDefaultToolkit().addAWTEventListener(awt, AWTEvent.MOUSE_EVENT_MASK);
     }
 
     private UIMenuItem initCloseOther() {
-        UIMenuItem closeOther = new UIMenuItem(Inter.getLocText("FR-Designer_FS_Close_Other_Templates"));
+        UIMenuItem closeOther = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FS_Close_Other_Templates"));
         setListDownItemPreferredSize(closeOther);
         closeOther.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -674,8 +674,8 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
                 //如果在权限编辑情况下，不允许切换到表单类型的工作簿
                 if (BaseUtils.isAuthorityEditing() && !openedTemplate.get(selectedIndex).isJWorkBook()) {
                     DesignerContext.getDesignerFrame().addAndActivateJTemplate(openedTemplate.get(tempSelectedIndex));
-                    JOptionPane.showMessageDialog(this, Inter.getLocText("FR-Designer_Form-AuthorityEdited_Cannot_be_Supported")
-                            + "!", Inter.getLocText("FR-Designer_Alert"), JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(this, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form-AuthorityEdited_Cannot_be_Supported")
+                            + "!", com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Alert"), JOptionPane.WARNING_MESSAGE);
                     this.repaint();
                     return;
                 }
@@ -714,11 +714,11 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
 
         if (!specifiedTemplate.isALLSaved()) {
             specifiedTemplate.stopEditing();
-            int returnVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("Utils-Would_you_like_to_save") + " \"" + specifiedTemplate.getEditingFILE() + "\" ?",
+            int returnVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Utils-Would_you_like_to_save") + " \"" + specifiedTemplate.getEditingFILE() + "\" ?",
                     ProductConstants.PRODUCT_NAME, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (returnVal == JOptionPane.YES_OPTION && specifiedTemplate.saveTemplate()) {
                 specifiedTemplate.saveTemplate();
-                FineLoggerFactory.getLogger().info(Inter.getLocText(new String[]{"Template", "already-saved"}, new String[]{specifiedTemplate.getEditingFILE().getName(), "."}));
+                FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Template_Already_Saved", specifiedTemplate.getEditingFILE().getName()));
             }
         }
         HistoryTemplateListPane.getInstance().closeSelectedReport(specifiedTemplate);

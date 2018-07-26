@@ -16,7 +16,7 @@ import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
-import com.fr.general.Inter;
+
 
 public class BubbleSeriesPane extends AbstractPlotSeriesPane{
 	protected UIButtonGroup<Integer> bubbleMean;
@@ -51,12 +51,12 @@ public class BubbleSeriesPane extends AbstractPlotSeriesPane{
 	}
 
 	protected void initCom(){
-		String[] nameArray = {Inter.getLocText(new String[]{"Chart_Bubble", "Chart_Area"}),
-				Inter.getLocText("Bubble-Width")};
+		String[] nameArray = {com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Chart_Bubble", "Chart_Area"}),
+				com.fr.design.i18n.Toolkit.i18nText("Bubble-Width")};
 		Integer[] valueArray = {BubblePlot.BUBBLE_AREA, BubblePlot.BUBBLE_WIDTH};
 		bubbleMean = new UIButtonGroup<Integer>(nameArray, valueArray);
 		zoomTime = new UITextField();
-		isMinus = new UICheckBox(Inter.getLocText(new String[]{"Display", "Chart_Negative_Bubble"}));
+		isMinus = new UICheckBox(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Display", "Chart_Negative_Bubble"}));
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public class BubbleSeriesPane extends AbstractPlotSeriesPane{
         Component[][] components = new Component[][]{
                 new Component[]{bubbleMean,null},
                 new Component[]{new JSeparator(),null},
-                new Component[]{new BoldFontTextLabel(Inter.getLocText("Chart_Change_Bubble_Size")),zoomTime},
+                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Chart_Change_Bubble_Size")),zoomTime},
                 new Component[]{isMinus,null}
         } ;
         JPanel pane = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);

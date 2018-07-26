@@ -6,7 +6,7 @@ import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dscolumn.DSColumnConditionsPane;
 import com.fr.design.mainframe.ElementCasePane;
-import com.fr.general.Inter;
+
 import com.fr.report.cell.TemplateCellElement;
 
 /**
@@ -20,14 +20,14 @@ public class DSColumnConditionAction extends AbstractCellElementAction {
 
     public DSColumnConditionAction() {
         super();
-        this.setName(Inter.getLocText("Filter"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Filter"));
         this.setMnemonic('E');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/expand/cellAttr.gif"));
     }
 
     public DSColumnConditionAction(ElementCasePane t) {
         super(t);
-        this.setName(Inter.getLocText("Filter"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Filter"));
         this.setMnemonic('E');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/expand/cellAttr.gif"));
     }

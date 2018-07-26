@@ -1,6 +1,6 @@
 package com.fr.design.chart.series.SeriesCondition;
 
-import com.fr.chart.base.ChartConstants;
+import com.fr.plugin.chart.type.ConditionKeyType;
 
 /**
  * 地图的条件 参数下拉.
@@ -9,10 +9,8 @@ import com.fr.chart.base.ChartConstants;
  */
 public class MapPlotChartConditionPane extends ChartConditionPane {
 
-	  public String[] columns2Populate() {
-	        return new String[]{
-	                ChartConstants.AREA_NAME,
-	                ChartConstants.AREA_VALUE
-	        };
-	    }
+	@Override
+	protected ConditionKeyType[] conditionKeyTypes() {
+		return ConditionKeyType.OLD_MAP_CONDITION_KEY_TYPES;
+	}
 }

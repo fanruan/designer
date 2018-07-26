@@ -12,7 +12,7 @@ import com.fr.base.GraphHelper;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.itable.UITableUI;
 import com.fr.design.mainframe.DesignerContext;
-import com.fr.general.Inter;
+
 import com.fr.stable.StringUtils;
 
 public class UIMenuTableUI extends UITableUI{
@@ -74,8 +74,8 @@ public class UIMenuTableUI extends UITableUI{
 			@Override
 			public void mousePressed(MouseEvent e) {
 				if (e.getX() >= table.getWidth() - 20) {
-					int val = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("Utils-Are_you_sure_to_remove_the_selected_item") + "?",
-							Inter.getLocText("Remove"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+					int val = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Utils-Are_you_sure_to_remove_the_selected_item") + "?",
+							com.fr.design.i18n.Toolkit.i18nText("Remove"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 					if (val == JOptionPane.OK_OPTION) {
 						uiTable.removeLine(table.rowAtPoint(e.getPoint()));
 						uiTable.fireTargetChanged();

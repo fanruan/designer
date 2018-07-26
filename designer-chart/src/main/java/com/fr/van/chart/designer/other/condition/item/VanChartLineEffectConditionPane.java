@@ -2,7 +2,7 @@ package com.fr.van.chart.designer.other.condition.item;
 
 import com.fr.chart.base.DataSeriesCondition;
 import com.fr.design.condition.ConditionAttributesPane;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.base.AttrEffect;
 import com.fr.plugin.chart.map.line.condition.AttrLineEffect;
 import com.fr.van.chart.designer.style.series.VanChartEffectPane;
@@ -24,7 +24,7 @@ public class VanChartLineEffectConditionPane extends VanChartEffectConditionPane
 
     @Override
     public String nameForPopupMenuItem() {
-        return Inter.getLocText("Plugin-ChartF_Line_Map_Animation");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Line_Map_Animation");
     }
 
     @Override

@@ -12,7 +12,7 @@ import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.style.color.ColorSelectBox;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.VanChartAttrHelper;
 import com.fr.plugin.chart.base.AttrBorderWithAlpha;
 import com.fr.plugin.chart.base.AttrEffect;
@@ -51,9 +51,9 @@ import java.awt.event.ItemListener;
  * 地图-系列界面
  */
 public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
-    private static final String AREA_STRING = Inter.getLocText("Plugin-ChartF_Area");
-    private static final String POINT_STRING = Inter.getLocText("Plugin-ChartF_Point");
-    private static final String LINE_STRING = Inter.getLocText("Plugin-ChartF_Flow");
+    private static final String AREA_STRING = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Area");
+    private static final String POINT_STRING = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Point");
+    private static final String LINE_STRING = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Flow");
 
     private static final String[] MARKER_TYPES = new String[]{MapMarkerType.DEFAULT.toLocalString(),
             MapMarkerType.COMMON.toLocalString(), MapMarkerType.BUBBLE.toLocalString(), MapMarkerType.IMAGE.toLocalString()};
@@ -173,7 +173,7 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
 
         Component[][] components = new Component[][]{
                 new Component[]{getColorPane()},
-                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Border"), borderWithAlphaPane)},
+                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Border"), borderWithAlphaPane)},
         };
 
         return TableLayoutHelper.createTableLayoutPane(components, row, col);
@@ -182,7 +182,7 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
     protected JPanel createNullValueColorPane() {
         nullValueColorBox = new ColorSelectBox(80);
 
-        return TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_NULL_Value_Color"), nullValueColorBox);
+        return TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NULL_Value_Color"), nullValueColorBox);
     }
 
     private JPanel createPointPane() {
@@ -193,7 +193,7 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
         double[] col = {f};
 
         Component[][] components = new Component[][]{
-                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle((Inter.getLocText("Plugin-ChartF_Color")), createPointAlphaPane())},
+                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle((com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Color")), createPointAlphaPane())},
                 new Component[]{createMarkerComPane()},
                 new Component[]{createLargeDataModelPane()},
                 new Component[]{createPointEffectPane()},
@@ -227,29 +227,29 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
                 checkLineMapLarge();
             }
         });
-        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_Large_Model"), lineMapLargeDataModelGroup);
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Large_Model"), lineMapLargeDataModelGroup);
         return createLargeDataModelPane(panel);
     }
 
     private Component createCurvePane() {
         curvePane = new VanChartCurvePane();
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Curve"), curvePane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Curve"), curvePane);
     }
 
     private Component createAnimationPane() {
         lineMapEffectPane = new VanChartLineMapEffectPane();
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Animation"), lineMapEffectPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Animation"), lineMapEffectPane);
     }
 
     //不透明度
     private JPanel createPointAlphaPane() {
         pointAlphaPane = new UINumberDragPane(0, 100);
-        return TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_Alpha"), pointAlphaPane);
+        return TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Alpha"), pointAlphaPane);
     }
 
     private JPanel createPointEffectPane() {
         pointEffectPane = new VanChartEffectPane();
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Animation"), pointEffectPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Animation"), pointEffectPane);
     }
 
     private JPanel createMarkerComPane() {
@@ -292,11 +292,11 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
             }
         });
 
-        JPanel northPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_Point_Style"), markerTypeCom);
+        JPanel northPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Point_Style"), markerTypeCom);
         JPanel markerPane = new JPanel(new BorderLayout(0, 6));
         markerPane.add(northPane, BorderLayout.NORTH);
         markerPane.add(cardPane, BorderLayout.CENTER);
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Marker"), markerPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Marker"), markerPane);
     }
 
     private JPanel createCustomPane(Plot plot) {

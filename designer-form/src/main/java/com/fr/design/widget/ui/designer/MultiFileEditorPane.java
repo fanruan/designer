@@ -12,7 +12,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.widget.ui.designer.component.FontSizeComboPane;
 import com.fr.form.ui.MultiFileEditor;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,7 +36,7 @@ public class MultiFileEditorPane extends FieldEditorDefinePane<MultiFileEditor> 
 	@Override
 	protected JPanel setFirstContentPane() {
 		acceptType = new DictionaryComboBox(DictionaryConstants.acceptTypes, DictionaryConstants.fileTypeDisplays);
-		singleFileCheckBox = new UICheckBox(Inter.getLocText("SINGLE_FILE_UPLOAD"));
+		singleFileCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("SINGLE_FILE_UPLOAD"));
 		singleFileCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		fileSizeField = new UISpinner(0, Integer.MAX_VALUE, 1, -1);
 		fileSizeField.setPreferredSize(new Dimension(140, 20));
@@ -54,9 +54,9 @@ public class MultiFileEditorPane extends FieldEditorDefinePane<MultiFileEditor> 
 		double p = TableLayout.PREFERRED;
 		Component[][] components = new Component[][]{
 				new Component[]{singleFileCheckBox, null },
-				new Component[]{new UILabel(Inter.getLocText("File-Allow_Upload_Files")), acceptType},
-				new Component[]{new UILabel( Inter.getLocText("File-File_Size_Limit")), fileSizePane},
-				new Component[]{new UILabel( Inter.getLocText("FR-Designer_Font-Size")), fontSizeField}
+				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("File-Allow_Upload_Files")), acceptType},
+				new Component[]{new UILabel( com.fr.design.i18n.Toolkit.i18nText("File-File_Size_Limit")), fileSizePane},
+				new Component[]{new UILabel( com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Font-Size")), fontSizeField}
 		};
 		double[] rowSize = {p, p, p, p};
 		double[] columnSize = {p,f};

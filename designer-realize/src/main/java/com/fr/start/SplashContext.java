@@ -5,7 +5,7 @@ import com.fr.design.mainframe.bbs.BBSConstants;
 import com.fr.event.Event;
 import com.fr.event.EventDispatcher;
 import com.fr.event.Listener;
-import com.fr.general.Inter;
+
 import com.fr.module.ModuleEvent;
 import com.fr.stable.StringUtils;
 
@@ -125,7 +125,7 @@ public class SplashContext {
      */
     private void showThanks() {
         if (shouldShowThanks()) {
-            updateThanksLog(Inter.getLocText("FR-Designer_Thanks-To") + GUEST);
+            updateThanksLog(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Thanks-To") + GUEST);
         }
     }
 

@@ -1,6 +1,6 @@
 package com.fr.design.mainframe.widget.wrappers;
 
-import com.fr.general.Inter;
+
 import com.fr.stable.ParameterProvider;
 import com.fr.stable.StringUtils;
 import com.fr.design.Exception.ValidationException;
@@ -14,7 +14,7 @@ public class ParameterWrapper implements Encoder, Decoder {
         if (v == null) {
             return StringUtils.EMPTY;
         }
-        return Inter.getLocText("Total") + ((ParameterProvider[]) v).length + Inter.getLocText("Parameters");
+        return com.fr.design.i18n.Toolkit.i18nText("Total") + ((ParameterProvider[]) v).length + com.fr.design.i18n.Toolkit.i18nText("Parameters");
     }
 
     @Override

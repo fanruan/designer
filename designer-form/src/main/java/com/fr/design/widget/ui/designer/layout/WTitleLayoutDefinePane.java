@@ -12,7 +12,7 @@ import com.fr.design.widget.ui.designer.AbstractDataModify;
 import com.fr.form.ui.AbstractBorderStyleWidget;
 import com.fr.form.ui.LayoutBorderStyle;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -41,7 +41,7 @@ public abstract class WTitleLayoutDefinePane<T extends AbstractBorderStyleWidget
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 1}};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Style")), borderStyleEditor}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Style")), borderStyleEditor}
         };
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W3, IntervalConstants.INTERVAL_L1);
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
@@ -50,7 +50,7 @@ public abstract class WTitleLayoutDefinePane<T extends AbstractBorderStyleWidget
         if(centerPane!=null){
             advancePane.add(centerPane, BorderLayout.CENTER);
         }
-        UIExpandablePane advanceExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer_Advanced"), 280, 20, advancePane);
+        UIExpandablePane advanceExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Advanced"), 280, 20, advancePane);
 
         this.add(advanceExpandablePane);
 

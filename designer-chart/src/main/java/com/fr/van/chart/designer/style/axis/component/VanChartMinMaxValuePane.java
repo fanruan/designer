@@ -2,7 +2,7 @@ package com.fr.van.chart.designer.style.axis.component;
 
 import com.fr.design.chart.ChartSwingUtils;
 import com.fr.design.chart.axis.MinMaxValuePane;
-import com.fr.general.Inter;
+
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 
 import javax.swing.BorderFactory;
@@ -60,10 +60,10 @@ public class VanChartMinMaxValuePane extends MinMaxValuePane {
     @Override
     protected Component[][] getPanelComponents() {
 
-        minPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("FR-Chart-Data_Min"),minValueField, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
-        maxPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("FR-Chart-Data_Max"),maxValueField, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
-        mainPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_MainType"),mainUnitField, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
-        secPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_SecType"),secUnitField, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
+        minPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_Min"),minValueField, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
+        maxPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_Max"),maxValueField, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
+        mainPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_MainType"),mainUnitField, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
+        secPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_SecType"),secUnitField, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
 
         minPane.setBorder(BorderFactory.createEmptyBorder(0,COMPONENT_INTERVAL,0,0));
         maxPane.setBorder(BorderFactory.createEmptyBorder(0,COMPONENT_INTERVAL,0,0));

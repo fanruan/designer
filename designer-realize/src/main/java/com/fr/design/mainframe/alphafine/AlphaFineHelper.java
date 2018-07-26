@@ -9,7 +9,7 @@ import com.fr.design.mainframe.alphafine.component.AlphaFineDialog;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.search.manager.impl.RecentSearchManager;
 import com.fr.design.mainframe.alphafine.search.manager.impl.RecommendSearchManager;
-import com.fr.general.Inter;
+
 import com.fr.general.ProcessCanceledException;
 import com.fr.stable.StringUtils;
 
@@ -19,7 +19,7 @@ import java.util.List;
  * Created by XiaXiang on 2017/5/8.
  */
 public class AlphaFineHelper {
-    public static final NoResultModel NO_CONNECTION_MODEL = new NoResultModel(Inter.getLocText("FR-Designer_ConnectionFailed"));
+    public static final NoResultModel NO_CONNECTION_MODEL = new NoResultModel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_ConnectionFailed"));
     private static AlphaFineDialog alphaFineDialog;
 
     /**

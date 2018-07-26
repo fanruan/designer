@@ -8,7 +8,7 @@ import com.fr.design.gui.frpane.UIComboBoxPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.Inter;
+
 import com.fr.van.chart.designer.AbstractVanChartScrollPane;
 
 import javax.swing.BorderFactory;
@@ -64,7 +64,7 @@ public class NormalChartDataPane extends DataContentsPane {
 						this.setLayout(new BorderLayout(LayoutConstants.HGAP_LARGE,6));
 						JPanel northPane = new JPanel(new BorderLayout(LayoutConstants.HGAP_LARGE,0));
 						northPane.add(jcb, BorderLayout.CENTER);
-                        UILabel label1 = new UILabel(Inter.getLocText("Chart-Data_Resource"));
+                        UILabel label1 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Data_Resource"));
                         label1.setPreferredSize(new Dimension(ChartDataPane.LABEL_WIDTH,ChartDataPane.LABEL_HEIGHT));
                         northPane.add(GUICoreUtils.createBorderLayoutPane(new Component[]{jcb, null, null, label1, null}));
 						northPane.setBorder(BorderFactory.createEmptyBorder(0,5,0,8));

@@ -2,7 +2,7 @@ package com.fr.van.chart.drillmap.designer.type;
 
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.base.VanChartTools;
 import com.fr.plugin.chart.drillmap.DrillMapIndependentVanChart;
 import com.fr.plugin.chart.drillmap.VanChartDrillMapPlot;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
  */
 public class VanChartDrillMapPlotPane extends VanChartMapPlotPane {
 
-    public static final String TITLE = Inter.getLocText("Plugin-ChartF_Drill_Map");
+    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Drill_Map");
 
     @Override
     protected String[] getTypeIconPath() {
@@ -41,9 +41,9 @@ public class VanChartDrillMapPlotPane extends VanChartMapPlotPane {
     @Override
     protected String[] getTypeTipName() {
         return new String[]{
-                Inter.getLocText("Plugin-ChartF_AreaMap"),
-                Inter.getLocText("Plugin-ChartF_PointMap"),
-                Inter.getLocText("Plugin-ChartF_CustomDrillMap")
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AreaMap"),
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_PointMap"),
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_CustomDrillMap")
         };
     }
 
@@ -74,7 +74,7 @@ public class VanChartDrillMapPlotPane extends VanChartMapPlotPane {
      */
     @Override
     public String title4PopupWindow() {
-        return Inter.getLocText("Plugin-ChartF_Drill_Map");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Drill_Map");
     }
 
 

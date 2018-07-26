@@ -21,7 +21,7 @@ import com.fr.design.dialog.BasicPane;
 import com.fr.file.FILE;
 import com.fr.file.FILEChooserPane;
 import com.fr.file.filter.ChooseFileFilter;
-import com.fr.general.Inter;
+
 import com.fr.stable.CoreConstants;
 import com.fr.stable.StringUtils;
 import com.fr.web.attr.ReportWebAttr;
@@ -40,14 +40,14 @@ public class WebCssPane extends BasicPane {
 		localText = new UITextField();
 		localText.setPreferredSize(new Dimension(450, 20));
 		localText.setEditable(false);
-		chooseFile = new UIButton(Inter.getLocText("Selection"));
+		chooseFile = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Selection"));
 		chooseFile.setPreferredSize(new Dimension(75, 23));
 		chooseFile.addActionListener(chooseFileListener);
-		northPane.add(new UILabel(Inter.getLocText("Disk_File") + ":"), FlowLayout.LEFT);
+		northPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Disk_File") + ":"), FlowLayout.LEFT);
 		northPane.add(localText, FlowLayout.CENTER);
 		northPane.add(chooseFile, FlowLayout.RIGHT);
 		outnorth.add(northPane,BorderLayout.NORTH);
-		UILabel infor = new UILabel(Inter.getLocText("CSS_warning"));
+		UILabel infor = new UILabel(com.fr.design.i18n.Toolkit.i18nText("CSS_warning"));
 		infor.setForeground(new Color(207, 42, 39));
 		outnorth.add(infor,BorderLayout.CENTER);
 		this.add(outnorth, BorderLayout.NORTH);
@@ -72,7 +72,7 @@ public class WebCssPane extends BasicPane {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			FILEChooserPane fileChooser = FILEChooserPane.getInstance(false, false, true,
-					new ChooseFileFilter("css", "css" + Inter.getLocText("File")));
+					new ChooseFileFilter("css", "css" + com.fr.design.i18n.Toolkit.i18nText("File")));
 
 			if (fileChooser.showOpenDialog(DesignerContext.getDesignerFrame()) == FILEChooserPane.OK_OPTION) {
 				final FILE file = fileChooser.getSelectedFILE();
@@ -95,7 +95,7 @@ public class WebCssPane extends BasicPane {
 
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("ReportServerP-Import_Css");
+		return com.fr.design.i18n.Toolkit.i18nText("ReportServerP-Import_Css");
 	}
 
 	public void populate(ReportWebAttr reportWebAttr) {

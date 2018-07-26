@@ -8,7 +8,7 @@ import com.fr.base.extension.FileExtension;
 import com.fr.design.mainframe.JWorkBook;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.file.filter.ChooseFileFilter;
-import com.fr.general.Inter;
+
 import com.fr.io.exporter.Exporter;
 import com.fr.io.exporter.SVGExporter;
 
@@ -35,7 +35,7 @@ public class SVGExportAction extends AbstractExportAction {
 
     @Override
     protected ChooseFileFilter getChooseFileFilter() {
-        return new ChooseFileFilter(FileExtension.SVG, Inter.getLocText("Export-SVG"));
+        return new ChooseFileFilter(FileExtension.SVG, com.fr.design.i18n.Toolkit.i18nText("Export-SVG"));
     }
 
     @Override

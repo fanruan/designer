@@ -6,7 +6,7 @@ import com.fr.design.gui.ilable.UILabel;
 import javax.swing.JPanel;
 
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 
 
 /**
@@ -25,7 +25,7 @@ public class ColumnRowVerticalPane extends ColumnRowPane {
 		this.add(pane, BorderLayout.NORTH);
 		
 		JPanel colPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-		colPane.add(new UILabel(Inter.getLocText("Column") + ":"));
+		colPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Column") + ":"));
 		pane.add(colPane);
 		
 		initColSpinner();
@@ -34,7 +34,7 @@ public class ColumnRowVerticalPane extends ColumnRowPane {
 		JPanel rowPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
 		pane.add(rowPane);
 		
-		rowPane.add(new UILabel(Inter.getLocText("Row") + ":"));
+		rowPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Row") + ":"));
 		initRowSpinner();
 		rowPane.add(rowSpinner);
 		

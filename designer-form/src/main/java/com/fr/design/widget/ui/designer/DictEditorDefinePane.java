@@ -5,7 +5,7 @@ import com.fr.design.designer.creator.XCreator;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.widget.accessibles.AccessibleDictionaryEditor;
 import com.fr.form.ui.DictContainedCustomWriteAbleEditor;
-import com.fr.general.Inter;
+
 
 import java.awt.*;
 
@@ -23,7 +23,7 @@ public abstract class DictEditorDefinePane<T extends DictContainedCustomWriteAbl
 
     protected Component[] createDictPane(){
         dictionaryEditor = new AccessibleDictionaryEditor();
-        return new Component[]{new UILabel(Inter.getLocText("FR-Designer_DS-Dictionary")), dictionaryEditor};
+        return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_DS-Dictionary")), dictionaryEditor};
     }
 
     @Override

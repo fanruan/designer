@@ -16,7 +16,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.form.ui.CheckBoxGroup;
 import com.fr.form.ui.ComboCheckBox;
-import com.fr.general.Inter;
+
 
 public class CheckBoxDictPane extends JPanel {
 	
@@ -35,13 +35,13 @@ public class CheckBoxDictPane extends JPanel {
 		endComboBox = new DictionaryComboBox(DictionaryConstants.symbols, DictionaryConstants.symbolDisplays);
 		endComboBox.setEditable(true);
 		Component[][] components = new Component[][]{
-				new Component[]{new UILabel(Inter.getLocText("Form-Delimiter")), delimiterComboBox},
-				new Component[]{new UILabel(Inter.getLocText("ComboCheckBox-Start_Symbol")),startComboBox},
-				new Component[]{new UILabel(Inter.getLocText("ComboCheckBox-End_Symbol")),endComboBox}
+				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Form-Delimiter")), delimiterComboBox},
+				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("ComboCheckBox-Start_Symbol")),startComboBox},
+				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("ComboCheckBox-End_Symbol")),endComboBox}
 		};
 		returnStringPane = TableLayoutHelper.createGapTableLayoutPane(components, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W2, IntervalConstants.INTERVAL_L1);
 
-		returnTypeComboBox = new UIButtonGroup(new String[]{Inter.getLocText("Widget-Array"), Inter.getLocText("String")});
+		returnTypeComboBox = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Widget-Array"), com.fr.design.i18n.Toolkit.i18nText("String")});
 		returnTypeComboBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -49,7 +49,7 @@ public class CheckBoxDictPane extends JPanel {
 			}
 		});
 		JPanel headPane = TableLayoutHelper.createGapTableLayoutPane(
-				new Component[][]{new Component[]{new UILabel(Inter.getLocText("Widget-Date_Selector_Return_Type")), returnTypeComboBox}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_L2, IntervalConstants.INTERVAL_L1);
+				new Component[][]{new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Widget-Date_Selector_Return_Type")), returnTypeComboBox}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_L2, IntervalConstants.INTERVAL_L1);
 		JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		jPanel.add(headPane, BorderLayout.NORTH);
 		jPanel.add(returnStringPane, BorderLayout.CENTER);

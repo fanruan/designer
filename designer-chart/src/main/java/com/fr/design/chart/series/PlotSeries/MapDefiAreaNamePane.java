@@ -15,7 +15,7 @@ import com.fr.design.gui.itableeditorpane.UIArrayTableModel;
 import com.fr.design.gui.itableeditorpane.UITableEditorPane;
 import com.fr.design.gui.xcombox.ComboBoxUseEditor;
 import com.fr.design.mainframe.chart.gui.data.DatabaseTableDataPane;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -67,7 +67,7 @@ public class MapDefiAreaNamePane extends BasicBeanPane<String> implements Abstrc
 
 		northPane.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-		UILabel lable = new UILabel(Inter.getLocText("Chart-DS_TableData") + ":", SwingConstants.RIGHT);
+		UILabel lable = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-DS_TableData") + ":", SwingConstants.RIGHT);
 
 		// 数据集, 字段, 数据列表, 使用该数据进行自动命名
 		tableDataBox = new DatabaseTableDataPane(lable) {
@@ -83,10 +83,10 @@ public class MapDefiAreaNamePane extends BasicBeanPane<String> implements Abstrc
 		columnBox.setPreferredSize(new Dimension(40, 20));
 		columnBox.addItemListener(columnChange);
 
-		northPane.add(new UILabel(Inter.getLocText("FR-Chart-Map_Field")+":"));
+		northPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Map_Field")+":"));
 		northPane.add(columnBox);
 
-		tableEditorModel = new UIArrayTableModel(new String[]{Inter.getLocText("FR-Chart-Map_Use_Field"), Inter.getLocText("FR-Chart-Area_Name")}, new int[]{}) {
+		tableEditorModel = new UIArrayTableModel(new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Map_Use_Field"), com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Area_Name")}, new int[]{}) {
 			public boolean isCellEditable(int row, int col) {
 				return col != 0;
 			}
@@ -158,7 +158,7 @@ public class MapDefiAreaNamePane extends BasicBeanPane<String> implements Abstrc
 
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText(new String[]{"Define", "Area_Name"});
+		return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Define", "Area_Name"});
 	}
 
 	/**

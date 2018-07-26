@@ -6,7 +6,7 @@ import com.fr.design.extra.PluginConstants;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.IOUtils;
-import com.fr.general.Inter;
+
 import com.fr.general.CloudCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.plugin.chart.DownloadSourcesEvent;
@@ -56,10 +56,10 @@ public class DownloadOnlineSourcesHelper implements DownloadSourcesEvent {
         this.addSiteInfo("plugin.phantomjs", ChartConstants.PHANTOMJS_URL, PHANTOM_MB);
     }
 
-    private static final double MAP_JSON_MB = 3.8 * 1024 * 1024;
+    private static final double MAP_JSON_MB = 4.5 * 1024 * 1024;
 
     public void addMapJSONSiteInfo() {
-        this.addSiteInfo("map.json", ChartConstants.MAP_JSON_URL, MAP_JSON_MB);
+        this.addSiteInfo("map10.json", ChartConstants.MAP_JSON_URL, MAP_JSON_MB);
     }
 
     public void addSiteInfo(String siteKind, String localDir, double megaBits) {
@@ -79,7 +79,7 @@ public class DownloadOnlineSourcesHelper implements DownloadSourcesEvent {
 
     public void installOnline() {
 
-        int choose = JOptionPane.showConfirmDialog(null, Inter.getLocText("FR-Designer-Download_Online_Sources"), null, JOptionPane.YES_NO_OPTION);
+        int choose = JOptionPane.showConfirmDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Download_Online_Sources"), null, JOptionPane.YES_NO_OPTION);
 
         if (choose == JOptionPane.OK_OPTION) {
             initDialog();
@@ -174,7 +174,7 @@ public class DownloadOnlineSourcesHelper implements DownloadSourcesEvent {
         setProgress(0);
 
         dialog = new JDialog();
-        dialog.setTitle(Inter.getLocText("FR-Designer-Dependence_Install_Online"));
+        dialog.setTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Dependence_Install_Online"));
 
         JPanel contentPane = new JPanel(new BorderLayout());
         contentPane.add(label, BorderLayout.CENTER);
@@ -202,13 +202,13 @@ public class DownloadOnlineSourcesHelper implements DownloadSourcesEvent {
         dialog.dispose();
 
         if (result) {
-            int choose = JOptionPane.showConfirmDialog(null, Inter.getLocText("FR-Designer_Work_After_Restart_Designer"), null, JOptionPane.YES_NO_OPTION);
+            int choose = JOptionPane.showConfirmDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Work_After_Restart_Designer"), null, JOptionPane.YES_NO_OPTION);
 
             if (choose == JOptionPane.OK_OPTION) {
                 RestartHelper.restart();
             }
         } else {
-            JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Dependence_Install_Failed"));
+            JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Dependence_Install_Failed"));
         }
     }
 

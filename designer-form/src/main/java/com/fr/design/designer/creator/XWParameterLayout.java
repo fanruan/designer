@@ -9,6 +9,7 @@ import com.fr.design.designer.beans.adapters.layout.FRParameterLayoutAdapter;
 import com.fr.design.designer.properties.mobile.ParaMobilePropertyUI;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.fun.WidgetPropertyUIProvider;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.widget.editors.BackgroundEditor;
 import com.fr.design.mainframe.widget.editors.BooleanEditor;
 import com.fr.design.mainframe.widget.editors.WidgetDisplayPosition;
@@ -18,7 +19,7 @@ import com.fr.form.ui.container.WBorderLayout;
 import com.fr.form.ui.container.WFitLayout;
 import com.fr.form.ui.container.WParameterLayout;
 import com.fr.general.Background;
-import com.fr.general.Inter;
+
 import com.fr.design.fun.ParameterWindowEditorProcessor;
 import com.fr.stable.ArrayUtils;
 
@@ -58,19 +59,18 @@ public class XWParameterLayout extends XWAbsoluteLayout {
      */
     public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
         CRPropertyDescriptor[] propertyTableEditor = new CRPropertyDescriptor[]{
-                new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Inter
-                        .getLocText("FR-Designer_Form-Widget_Name")),
+                new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Toolkit.i18nText("FR-Designer_Form-Widget_Name")),
                 new CRPropertyDescriptor("background", this.data.getClass()).setEditorClass(BackgroundEditor.class)
-                        .setRendererClass(BackgroundRenderer.class).setI18NName(Inter.getLocText("Background"))
+                        .setRendererClass(BackgroundRenderer.class).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Background"))
                         .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                 new CRPropertyDescriptor("delayDisplayContent", this.data.getClass()).setEditorClass(BooleanEditor.class)
-                        .setI18NName(Inter.getLocText("FR-Designer_DisplayNothingBeforeQuery"))
+                        .setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_DisplayNothingBeforeQuery"))
                         .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                 new CRPropertyDescriptor("position", this.data.getClass()).setEditorClass(WidgetDisplayPosition.class)
-                        .setRendererClass(WidgetDisplayPositionRender.class).setI18NName(Inter.getLocText("FR-Designer_WidgetDisplyPosition"))
+                        .setRendererClass(WidgetDisplayPositionRender.class).setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WidgetDisplyPosition"))
                         .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                 new CRPropertyDescriptor("useParamsTemplate", this.data.getClass()).setEditorClass(BooleanEditor.class)
-                        .setI18NName(Inter.getLocText("FR-Designer_Use_Params_Template"))
+                        .setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Use_Params_Template"))
                         .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
         };
 

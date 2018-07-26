@@ -12,7 +12,7 @@ import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
@@ -39,7 +39,7 @@ public class ChartPreStylePane extends BasicBeanPane<ChartColorMatching> {
 		JPanel pane = new JPanel();
 		pane.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-		pane.add(new BoldFontTextLabel(Inter.getLocText("FR-Designer_Preview")));
+		pane.add(new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Preview")));
 
         JPanel boxPane = new JPanel();
         boxPane.setLayout(new BorderLayout());
@@ -103,7 +103,7 @@ public class ChartPreStylePane extends BasicBeanPane<ChartColorMatching> {
 
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("ServerM-Predefined_Styles");
+		return com.fr.design.i18n.Toolkit.i18nText("ServerM-Predefined_Styles");
 	}
 
 }

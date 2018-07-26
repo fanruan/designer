@@ -29,7 +29,7 @@ import com.fr.design.gui.itable.UIDefaultTableCellEditor;
 import com.fr.design.gui.itable.UITable;
 import com.fr.design.gui.itable.UITableEditor;
 import com.fr.design.gui.itextfield.UITextField;
-import com.fr.general.Inter;
+
 import com.fr.design.utils.gui.GUICoreUtils;
 
 /**
@@ -386,7 +386,7 @@ public class UICorrelationPane extends JPanel implements UIObserver {
      */
     public static void main(String... args) {
         JFrame jf = new JFrame("test");
-        final String[] columnNames = {Inter.getLocText("Actual_Value"), Inter.getLocText("Display_Value")};
+        final String[] columnNames = {com.fr.design.i18n.Toolkit.i18nText("Actual_Value"), com.fr.design.i18n.Toolkit.i18nText("Display_Value")};
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel content = (JPanel) jf.getContentPane();
         content.setLayout(new BorderLayout());

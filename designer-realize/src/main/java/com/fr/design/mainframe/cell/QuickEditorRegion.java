@@ -2,7 +2,7 @@ package com.fr.design.mainframe.cell;
 
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.selection.QuickEditor;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,7 +32,7 @@ public class QuickEditorRegion extends JPanel {
     public static JPanel getEmptyEditor() {
         if (EMPTY == null) {
             EMPTY = new JPanel(new BorderLayout());
-            UILabel content = new UILabel(Inter.getLocText(new String[]{"DataFunction-None", "HJS-Message", "Form-Widget_Property_Table"}) + "!");
+            UILabel content = new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"DataFunction-None", "HJS-Message", "Form-Widget_Property_Table"}) + "!");
             content.setBorder(BorderFactory.createEmptyBorder(0, 70, 0, 0));
             EMPTY.add(content, BorderLayout.CENTER);
         }

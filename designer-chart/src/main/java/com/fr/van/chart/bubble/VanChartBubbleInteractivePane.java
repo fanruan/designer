@@ -1,7 +1,7 @@
 package com.fr.van.chart.bubble;
 
 import com.fr.chart.chartattr.Plot;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.base.VanChartConstants;
 import com.fr.plugin.chart.bubble.VanChartBubblePlot;
 import com.fr.van.chart.designer.other.VanChartInteractivePaneWithOutSort;
@@ -13,7 +13,7 @@ public class VanChartBubbleInteractivePane extends VanChartInteractivePaneWithOu
     protected String[] getNameArray() {
         Plot plot = chart.getPlot();
         if(plot instanceof VanChartBubblePlot && ((VanChartBubblePlot) plot).isForceBubble()) {
-            return new String[]{Inter.getLocText("Plugin-ChartF_XYAxis"), Inter.getLocText("Chart-Use_None")};
+            return new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_XYAxis"), com.fr.design.i18n.Toolkit.i18nText("Chart-Use_None")};
         }
         return super.getNameArray();
     }

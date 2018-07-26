@@ -8,7 +8,7 @@ import com.fr.design.event.UIObserverListener;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.Background;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -150,15 +150,15 @@ public class TextureBackgroundQuickPane extends BackgroundQuickPane {
 			TextureBackground.WOVEN_MAT_TEXTURE_PAINT, TextureBackground.WATER_DROPLETS_TEXTURE_PAINT, TextureBackground.PAPER_BAG_TEXTURE_PAINT, TextureBackground.FISH_FOSSIL_TEXTURE_PAINT,
 			TextureBackground.SAND_TEXTURE_PAINT, TextureBackground.CORK_TEXTURE_PAINT, TextureBackground.WALNUT_TEXTURE_PAINT, TextureBackground.OAK_TEXTURE_PAINT,
 			TextureBackground.MEDIUM_WOOD_TEXTURE_PAINT};
-	private static final String[] EMBED_TEXTURE_PAINT_DES_ARRAY = new String[]{Inter.getLocText("BackgroundTexture-Newsprint"), Inter.getLocText("BackgroundTexture-RecycledPaper"),
-			Inter.getLocText("BackgroundTexture-Parchment"), Inter.getLocText("BackgroundTexture-Stationery"), Inter.getLocText("BackgroundTexture-GreenMarble"),
-			Inter.getLocText("BackgroundTexture-WhiteMarble"), Inter.getLocText("BackgroundTexture-BrownMarble"), Inter.getLocText("BackgroundTexture-Granite"),
-			Inter.getLocText("BackgroundTexture-BlueTissuePaper"), Inter.getLocText("BackgroundTexture-PinkTissuePaper"), Inter.getLocText("BackgroundTexture-PurpleMesh"),
-			Inter.getLocText("BackgroundTexture-Bouquet"), Inter.getLocText("BackgroundTexture-Papyrus"), Inter.getLocText("BackgroundTexture-Canvas"),
-			Inter.getLocText("BackgroundTexture-Denim"), Inter.getLocText("BackgroundTexture-WovenMat"), Inter.getLocText("BackgroundTexture-WaterDroplets"),
-			Inter.getLocText("BackgroundTexture-PaperBag"), Inter.getLocText("BackgroundTexture-FishFossil"), Inter.getLocText("BackgroundTexture-Sand"),
-			Inter.getLocText("BackgroundTexture-Cork"), Inter.getLocText("BackgroundTexture-Walnut"), Inter.getLocText("BackgroundTexture-Oak"),
-			Inter.getLocText("BackgroundTexture-MediumWood")};
+	private static final String[] EMBED_TEXTURE_PAINT_DES_ARRAY = new String[]{com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-Newsprint"), com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-RecycledPaper"),
+			com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-Parchment"), com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-Stationery"), com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-GreenMarble"),
+			com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-WhiteMarble"), com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-BrownMarble"), com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-Granite"),
+			com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-BlueTissuePaper"), com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-PinkTissuePaper"), com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-PurpleMesh"),
+			com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-Bouquet"), com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-Papyrus"), com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-Canvas"),
+			com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-Denim"), com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-WovenMat"), com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-WaterDroplets"),
+			com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-PaperBag"), com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-FishFossil"), com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-Sand"),
+			com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-Cork"), com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-Walnut"), com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-Oak"),
+			com.fr.design.i18n.Toolkit.i18nText("BackgroundTexture-MediumWood")};
 
 	@Override
 	public boolean accept(Background background) {
@@ -167,7 +167,7 @@ public class TextureBackgroundQuickPane extends BackgroundQuickPane {
 
 	@Override
 	public String title4PopupWindow() {
-		return Inter.getLocText("Background-Texture");
+		return com.fr.design.i18n.Toolkit.i18nText("Background-Texture");
 	}
 
 	@Override

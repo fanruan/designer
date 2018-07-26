@@ -7,7 +7,7 @@ import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 import com.fr.general.NameObject;
 import com.fr.stable.Nameable;
 
@@ -30,13 +30,13 @@ public class ChartControlPane extends JListControlPane {
 	@Override
 	public NameableCreator[] createNameableCreators() {
 		return new NameableCreator[] {
-				new NameObjectCreator(Inter.getLocText("Chart"), Chart.class, ChartTypeUpdatePane.class)
+				new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Chart"), Chart.class, ChartTypeUpdatePane.class)
 		};
 	}
 	
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("Chart-Manage_Chart_Type");
+		return com.fr.design.i18n.Toolkit.i18nText("Chart-Manage_Chart_Type");
 	}
 	
 	public void populate(ChartCollection cc) {

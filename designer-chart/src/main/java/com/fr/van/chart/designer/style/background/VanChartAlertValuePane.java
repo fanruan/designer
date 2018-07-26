@@ -16,7 +16,7 @@ import com.fr.design.style.color.ColorSelectBox;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.FRFont;
 import com.fr.general.GeneralUtils;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.VanChartAttrHelper;
 import com.fr.plugin.chart.attr.axis.VanChartAlertValue;
 import com.fr.plugin.chart.base.VanChartConstants;
@@ -65,7 +65,7 @@ public class VanChartAlertValuePane extends BasicBeanPane<VanChartAlertValue> {
 
         alertLineStyle = new LineComboBox(VanChartConstants.ALERT_LINE_STYLE);
         alertLineColor = new ColorSelectBox(100);
-        alertTextPosition = new UIButtonGroup(new String[]{Inter.getLocText("Plugin-ChartF_AxisTop"),Inter.getLocText("Plugin-ChartF_AxisBottom")});
+        alertTextPosition = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AxisTop"),com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AxisBottom")});
         alertText = new TinyFormulaPane();
         //設置大小，防止文本過長導致界面“變形”
         alertText.setPreferredSize(new Dimension(TEXT_WD, HT));
@@ -82,12 +82,12 @@ public class VanChartAlertValuePane extends BasicBeanPane<VanChartAlertValue> {
         //警戒线设置
         JPanel top = FRGUIPaneFactory.createBorderLayout_L_Pane();
         this.add(top);
-        top.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("Plugin-ChartF_AlertSet") + ":", null));
+        top.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AlertSet") + ":", null));
         top.add(createTopPane());
         //提示文字
         JPanel bottom = FRGUIPaneFactory.createBorderLayout_L_Pane();
         this.add(bottom);
-        bottom.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("Plugin-ChartF_AlertText") + ":", null));
+        bottom.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AlertText") + ":", null));
         bottom.add(createBottomPane());
     }
 
@@ -103,10 +103,10 @@ public class VanChartAlertValuePane extends BasicBeanPane<VanChartAlertValue> {
 
     protected Component[][] getTopPaneComponents() {
         return new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Chart-Layout_Position")),alertAxis},
-                new Component[]{new UILabel(Inter.getLocText("Chart-Use_Value")),alertValue},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_LineStyle")),alertLineStyle},
-                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Color_Color")),alertLineColor},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Layout_Position")),alertAxis},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Value")),alertValue},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_LineStyle")),alertLineStyle},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Color_Color")),alertLineColor},
         };
     }
 
@@ -116,11 +116,11 @@ public class VanChartAlertValuePane extends BasicBeanPane<VanChartAlertValue> {
         double[] columnSize = {p,p};
         double[] rowSize = {p,p,p,p,p};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Chart-Layout_Position")),alertTextPosition},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Content")),alertText},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Font")),fontName},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer-FRFont_Size")),fontSize},
-                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Color_Color")),fontColor},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Layout_Position")),alertTextPosition},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Content")),alertText},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Font")),fontName},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-FRFont_Size")),fontSize},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Color_Color")),fontColor},
         };
 
         return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
@@ -129,15 +129,15 @@ public class VanChartAlertValuePane extends BasicBeanPane<VanChartAlertValue> {
     private void checkPositionPane() {
         boolean selectXAxis = VanChartAttrHelper.isXAxis(alertAxis.getSelectedItem().toString());
         if(selectXAxis){
-            alertTextPosition = new UIButtonGroup(new String[]{Inter.getLocText("Plugin-ChartF_AxisTop"),Inter.getLocText("Plugin-ChartF_AxisBottom")});
+            alertTextPosition = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AxisTop"),com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AxisBottom")});
         } else {
-            alertTextPosition = new UIButtonGroup(new String[]{Inter.getLocText("Plugin-ChartF_AlertLeft"),Inter.getLocText("Plugin-ChartF_AlertRight")});
+            alertTextPosition = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AlertLeft"),com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AlertRight")});
         }
         doLayoutPane();
     }
 
     protected String title4PopupWindow(){
-        return Inter.getLocText("Plugin-ChartF_AlertLine");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AlertLine");
     }
 
     public void populateBean(VanChartAlertValue chartAlertValue){

@@ -12,7 +12,7 @@ import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.Inter;
+
 import com.fr.stable.Constants;
 import com.fr.design.style.color.ColorSelectBox;
 
@@ -24,7 +24,7 @@ public class RadarAxisAreaPane extends ChartAxisAreaPane {
 
 	public RadarAxisAreaPane() {
 		horizontalColorPane = new ColorSelectBox(100);
-		isHorizontalGridLine = new UICheckBox(Inter.getLocText("Chart_Main_Grid"));
+		isHorizontalGridLine = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart_Main_Grid"));
 		gridColorPane = new ColorSelectBox(100);
 
 		double p = TableLayout.PREFERRED;
@@ -33,10 +33,10 @@ public class RadarAxisAreaPane extends ChartAxisAreaPane {
 		double[] rowSize = {p,p,p,p,p};
 
         Component[][] components = new Component[][]{
-                new Component[]{new BoldFontTextLabel(Inter.getLocText("Chart_Interval_Back") + ":"),horizontalColorPane},
+                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Chart_Interval_Back") + ":"),horizontalColorPane},
                 new Component[]{new JSeparator(),null},
-                new Component[]{new BoldFontTextLabel(Inter.getLocText("Chart_Main_Grid")),null},
-                new Component[]{new BoldFontTextLabel(Inter.getLocText("Color")),gridColorPane,}
+                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Chart_Main_Grid")),null},
+                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Color")),gridColorPane,}
         };
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
         this.setLayout(new BorderLayout());

@@ -4,7 +4,7 @@ import com.fr.base.FRContext;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -100,7 +100,7 @@ public abstract class UIDialog extends JDialog {
     }
 
     private void addCancelButton(JPanel buttonsPane) {
-        cancelButton = new UIButton(Inter.getLocText("Cancel"));
+        cancelButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Cancel"));
         cancelButton.setName(CANCEL_BUTTON);
         cancelButton.setMnemonic('C');
         buttonsPane.add(cancelButton);
@@ -113,7 +113,7 @@ public abstract class UIDialog extends JDialog {
     }
 
     private void addOkButton(JPanel buttonsPane) {
-        okButton = new UIButton(Inter.getLocText("OK"));
+        okButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("OK"));
         okButton.setName(OK_BUTTON);
         okButton.setMnemonic('O');
         buttonsPane.add(okButton);

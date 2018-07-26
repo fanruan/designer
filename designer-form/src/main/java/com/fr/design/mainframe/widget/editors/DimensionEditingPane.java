@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.dialog.BasicPane;
-import com.fr.general.Inter;
+
 
 public class DimensionEditingPane extends BasicPane {
 
@@ -24,8 +24,8 @@ public class DimensionEditingPane extends BasicPane {
 
     private void initComponents() {
         setLayout(new/**/ GridLayout(2, 1));
-        jLabel1 = new com.fr.design.gui.ilable.UILabel(Inter.getLocText("Widget-Width") + ":");
-        jLabel2 = new com.fr.design.gui.ilable.UILabel(Inter.getLocText("Widget-Height") + ":");
+        jLabel1 = new com.fr.design.gui.ilable.UILabel(com.fr.design.i18n.Toolkit.i18nText("Widget-Width") + ":");
+        jLabel2 = new com.fr.design.gui.ilable.UILabel(com.fr.design.i18n.Toolkit.i18nText("Widget-Height") + ":");
         spWidth = new UISpinner(0, Integer.MAX_VALUE, 1, 0);
         spHeight = new UISpinner(0, Integer.MAX_VALUE, 1, 0);
 
@@ -46,7 +46,7 @@ public class DimensionEditingPane extends BasicPane {
     
     @Override
     protected String title4PopupWindow() {
-    	return Inter.getLocText("Widget-Sizing");
+    	return com.fr.design.i18n.Toolkit.i18nText("Widget-Sizing");
     }
 
     public Dimension update() {

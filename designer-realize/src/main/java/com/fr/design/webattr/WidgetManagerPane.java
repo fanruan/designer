@@ -7,7 +7,7 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.widget.WidgetConfigPane;
 import com.fr.form.ui.WidgetInfoConfig;
-import com.fr.general.Inter;
+
 import com.fr.stable.project.ProjectConstants;
 
 import javax.swing.*;
@@ -28,7 +28,7 @@ public class WidgetManagerPane extends LoadingBasicPane {
     
     @Override
     protected String title4PopupWindow() {
-    	return Inter.getLocText("ServerM-Widget_Manager");
+    	return com.fr.design.i18n.Toolkit.i18nText("ServerM-Widget_Manager");
     }
 
 	public void populate(WidgetInfoConfig widgetManager) {

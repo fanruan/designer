@@ -5,7 +5,7 @@
 package com.fr.design.editor.editor;
 
 import com.fr.design.gui.icombobox.UIComboBoxRenderer;
-import com.fr.general.Inter;
+
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
 
@@ -34,7 +34,7 @@ public class XMLANameEditor extends ColumnIndexEditor{
      * @param columnNames 度量值
      */
     public XMLANameEditor(String[] columnNames) {
-        this(columnNames, Inter.getLocText("Measure"));
+        this(columnNames, com.fr.design.i18n.Toolkit.i18nText("Measure"));
     }
 
     /**

@@ -6,7 +6,7 @@ import java.awt.event.ItemListener;
 import com.fr.base.present.DictPresent;
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.present.dict.DictionaryPane;
-import com.fr.general.Inter;
+
 
 /**
  * 
@@ -24,7 +24,7 @@ public class DictPresentPane extends FurtherBasicBeanPane<DictPresent> {
 
 	@Override
 	public String title4PopupWindow() {
-		return Inter.getLocText("DS-Dictionary");
+		return com.fr.design.i18n.Toolkit.i18nText("DS-Dictionary");
 	}
 
 	@Override

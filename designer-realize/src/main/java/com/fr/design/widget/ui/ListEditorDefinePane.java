@@ -9,7 +9,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.widget.accessibles.AccessibleDictionaryEditor;
 import com.fr.form.ui.ListEditor;
-import com.fr.general.Inter;
+
 
 import java.awt.*;
 
@@ -28,14 +28,14 @@ public class ListEditorDefinePane extends WriteUnableRepeatEditorPane<ListEditor
 
 	protected Component[] createDicPane(){
 		dictPane = new AccessibleDictionaryEditor();
-		return new Component[]{new UILabel(Inter.getLocText("FR-Designer_DS-Dictionary")), dictPane};
+		return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_DS-Dictionary")), dictPane};
 	}
 
 
 	@Override
 	protected JPanel setThirdContentPane() {
 		JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
-		needHeadCheckBox = new UICheckBox(Inter.getLocText("List-Need_Head"));
+		needHeadCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("List-Need_Head"));
 		needHeadCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		jPanel.add(needHeadCheckBox, BorderLayout.CENTER);
 		jPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));

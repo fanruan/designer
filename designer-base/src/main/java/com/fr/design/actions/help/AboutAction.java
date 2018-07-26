@@ -6,7 +6,7 @@ package com.fr.design.actions.help;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.menu.MenuKeySet;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -39,7 +39,7 @@ public class AboutAction extends UpdateAction {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M_Help-About_Software");
+            return com.fr.design.i18n.Toolkit.i18nText("M_Help-About_Software");
         }
 
         @Override

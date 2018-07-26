@@ -1,7 +1,7 @@
 package com.fr.design.extra.exe.callback;
 
 import com.fr.design.extra.PluginOperateUtils;
-import com.fr.general.Inter;
+
 import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.context.PluginMarker;
 import com.fr.plugin.error.PluginErrorCode;
@@ -35,13 +35,13 @@ public class InstallOnlineCallback extends AbstractDealPreTaskCallback {
         String pluginInfo = PluginOperateUtils.getSuccessInfo(result);
         if (result.isSuccess()) {
             jsCallback.execute("success");
-            FineLoggerFactory.getLogger().info(pluginInfo + Inter.getLocText("FR-Plugin_Install_Success"));
-            JOptionPane.showMessageDialog(null, pluginInfo + Inter.getLocText("FR-Plugin_Install_Success"));
+            FineLoggerFactory.getLogger().info(pluginInfo + com.fr.design.i18n.Toolkit.i18nText("FR-Plugin_Install_Success"));
+            JOptionPane.showMessageDialog(null, pluginInfo + com.fr.design.i18n.Toolkit.i18nText("FR-Plugin_Install_Success"));
         } else if(result.errorCode() == PluginErrorCode.HasLowerPluginWhenInstall){
             int rv = JOptionPane.showOptionDialog(
                     null,
-                    Inter.getLocText("FR-Plugin_Has_Install_Lower"),
-                    Inter.getLocText("FR-Designer-Plugin_Warning"),
+                    com.fr.design.i18n.Toolkit.i18nText("FR-Plugin_Has_Install_Lower"),
+                    com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"),
                     JOptionPane.YES_NO_CANCEL_OPTION,
                     JOptionPane.INFORMATION_MESSAGE,
                     null,
@@ -55,8 +55,8 @@ public class InstallOnlineCallback extends AbstractDealPreTaskCallback {
             PluginOperateUtils.updatePluginOnline(pluginMarker, jsCallback);
         }else {
             jsCallback.execute("failed");
-            FineLoggerFactory.getLogger().info(Inter.getLocText("FR-Plugin_Install_Failed"));
-            JOptionPane.showMessageDialog(null, pluginInfo, Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+            FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("FR-Plugin_Install_Failed"));
+            JOptionPane.showMessageDialog(null, pluginInfo, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
         }
     }
 

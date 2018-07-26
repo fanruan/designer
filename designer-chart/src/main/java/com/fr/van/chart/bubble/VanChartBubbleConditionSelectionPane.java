@@ -1,22 +1,15 @@
 package com.fr.van.chart.bubble;
 
-import com.fr.chart.base.ChartConstants;
 import com.fr.design.chart.series.SeriesCondition.ChartConditionPane;
-import com.fr.plugin.chart.scatter.VanChartScatterDataPoint;
+import com.fr.plugin.chart.type.ConditionKeyType;
 
 /**
  * Created by Mitisky on 16/3/31.
  */
 public class VanChartBubbleConditionSelectionPane extends ChartConditionPane {
 
-
-    public String[] columns2Populate() {
-        return new String[]{
-                ChartConstants.SERIES_INDEX,
-                ChartConstants.SERIES_NAME,
-                VanChartScatterDataPoint.X,
-                VanChartScatterDataPoint.Y,
-                ChartConstants.VALUE
-        };
+    @Override
+    protected ConditionKeyType[] conditionKeyTypes() {
+        return ConditionKeyType.BUBBLE_CONDITION_KEY_TYPES;
     }
 }

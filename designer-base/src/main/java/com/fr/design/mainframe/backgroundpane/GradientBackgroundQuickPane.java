@@ -8,7 +8,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.style.background.gradient.GradientBar;
 import com.fr.general.Background;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -39,7 +39,7 @@ public class GradientBackgroundQuickPane extends BackgroundQuickPane {
     }
 
     private void constructPane(){
-        String[] textArray = {Inter.getLocText("Utils-Left_to_Right"), Inter.getLocText("Utils-Top_to_Bottom")};
+        String[] textArray = {com.fr.design.i18n.Toolkit.i18nText("Utils-Left_to_Right"), com.fr.design.i18n.Toolkit.i18nText("Utils-Top_to_Bottom")};
         Integer[] valueArray = {GradientBackground.LEFT2RIGHT, GradientBackground.TOP2BOTTOM};
         directionPane = new UIButtonGroup<Integer>(textArray, valueArray);
         directionPane.setSelectedIndex(0);
@@ -52,7 +52,7 @@ public class GradientBackgroundQuickPane extends BackgroundQuickPane {
 
         Component[][] components = new Component[][]{
                 new Component[]{gradientBar, null},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Gradient_Direction")), directionPane}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Gradient_Direction")), directionPane}
         };
         JPanel Gradient = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
         this.setLayout(new BorderLayout());
@@ -116,7 +116,7 @@ public class GradientBackgroundQuickPane extends BackgroundQuickPane {
 
 	@Override
 	public String title4PopupWindow() {
-		return Inter.getLocText("Gradient-Color");
+		return com.fr.design.i18n.Toolkit.i18nText("Gradient-Color");
 	}
 
 	@Override

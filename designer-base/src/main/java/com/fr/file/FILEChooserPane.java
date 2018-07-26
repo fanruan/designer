@@ -25,7 +25,7 @@ import com.fr.file.filter.ChooseFileFilter;
 import com.fr.file.filter.FILEFilter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
-import com.fr.general.Inter;
+
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.OperatingSystem;
@@ -243,11 +243,11 @@ public class FILEChooserPane extends BasicPane {
 
         // 用createTableLayoutPane布局下fileNamePane
         Component[][] coms = new Component[][]{
-                new Component[]{GUICoreUtils.createBorderPane(new UILabel(Inter.getLocText("Utils-File_name") + ":"), BorderLayout.WEST),
-                        fileNameTextField = new UIAutoCompletionField(), okButton = new UIButton(Inter.getLocText("Utils-Design-File_Open"))
+                new Component[]{GUICoreUtils.createBorderPane(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Utils-File_name") + ":"), BorderLayout.WEST),
+                        fileNameTextField = new UIAutoCompletionField(), okButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Utils-Design-File_Open"))
                 },
-                new Component[]{GUICoreUtils.createBorderPane(new UILabel(Inter.getLocText("Utils-File_type") + ":"), BorderLayout.WEST),
-                        postfixComboBox = new UIComboBox(), cancelButton = new UIButton(Inter.getLocText("Utils-Design-Action_Cancel"))
+                new Component[]{GUICoreUtils.createBorderPane(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Utils-File_type") + ":"), BorderLayout.WEST),
+                        postfixComboBox = new UIComboBox(), cancelButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Utils-Design-Action_Cancel"))
                 }};
 
         JPanel fileNamePane = TableLayoutHelper.createGapTableLayoutPane(coms, new double[]{TableLayout.PREFERRED, TableLayout.PREFERRED,
@@ -255,7 +255,7 @@ public class FILEChooserPane extends BasicPane {
         centerRightPane.add(fileNamePane, BorderLayout.SOUTH);
 
         Component[][] outComponents = new Component[][]{
-                new Component[]{GUICoreUtils.createBorderPane(new UILabel(Inter.getLocText("FR-App-File_Lookup_range") + ":"), BorderLayout.WEST), locationPane},
+                new Component[]{GUICoreUtils.createBorderPane(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-App-File_Lookup_range") + ":"), BorderLayout.WEST), locationPane},
                 new Component[]{centerLeftPanel, centerRightPane}};
         JPanel contentPane = TableLayoutHelper.createTableLayoutPane(outComponents, new double[]{TableLayout.PREFERRED, TableLayout.FILL},
                 new double[]{TableLayout.PREFERRED, TableLayout.FILL});
@@ -334,7 +334,7 @@ public class FILEChooserPane extends BasicPane {
     }
 
     protected String getEnvProjectName() {
-        return Inter.getLocText("Utils-Report-Env_Directory");
+        return com.fr.design.i18n.Toolkit.i18nText("Utils-Report-Env_Directory");
     }
 
     /**
@@ -541,48 +541,44 @@ public class FILEChooserPane extends BasicPane {
     protected void fileType() {
         String appName = ProductConstants.APP_NAME;
         JTemplate editing = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
-        if (FileExtension.CRT.matchExtension(suffix)) {
-            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.CRT, appName + Inter.getLocText(new String[]{"Utils-The-Chart", "FR-App-All_File"})));
-            return;
-        }
         if (editing == null || !editing.isChartBook()) {
             String[] fileSuffix_local = LocalFileNodes.FILE_TYPE;
             EnumSet<FileExtension> fileExtensions = EnumSet.of(FileExtension.CPT, FileExtension.CPTX, FileExtension.FRM, FileExtension.FRMX, FileExtension.CHT);
             if (type == JFileChooser.OPEN_DIALOG) {
                 if (WorkContext.getCurrent().isLocal()) { //本地连接
-                    this.addChooseFILEFilter(new ChooseFileFilter(fileSuffix_local, appName + Inter.getLocText(new String[]{"FR-App-Report_Template", "FR-App-All_File"})));
+                    this.addChooseFILEFilter(new ChooseFileFilter(fileSuffix_local, appName + com.fr.design.i18n.Toolkit.i18nText("Fine-Report_Template_File")));
                 } else {
-                    this.addChooseFILEFilter(new ChooseFileFilter(fileExtensions, appName + Inter.getLocText(new String[]{"FR-App-Report_Template", "FR-App-All_File"})));
+                    this.addChooseFILEFilter(new ChooseFileFilter(fileExtensions, appName + com.fr.design.i18n.Toolkit.i18nText("Fine-Report_Template_File")));
                 }
             }
 
             // ben:filefilter设置初值为cpt过滤
-            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.CPT, appName + Inter.getLocText(new String[]{"FR-App-Report_Template", "FR-App-All_File"})));
-            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.CPTX, appName + Inter.getLocText(new String[]{"FR-App-Report_Template", "FR-App-All_File"})));
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.CPT, appName + com.fr.design.i18n.Toolkit.i18nText("Fine-Report_Template_File")));
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.CPTX, appName + com.fr.design.i18n.Toolkit.i18nText("Fine-Report_Template_File")));
 
             // richer:form文件 daniel 改成三个字
-            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.FRM, appName + Inter.getLocText(new String[]{"FR-App-Template_Form", "FR-App-All_File"})));
-            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.FRMX, appName + Inter.getLocText(new String[]{"FR-App-Template_Form", "FR-App-All_File"})));
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.FRM, appName + com.fr.design.i18n.Toolkit.i18nText("Fine-Report_Template_File")));
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.FRMX, appName + com.fr.design.i18n.Toolkit.i18nText("Fine-Report_Template_File")));
         } else {
             if (type == JFileChooser.OPEN_DIALOG) {
-                this.addChooseFILEFilter(new ChooseFileFilter(EnumSet.of(FileExtension.XLS, FileExtension.XLSX), Inter.getLocText("Import-Excel_Source")));
+                this.addChooseFILEFilter(new ChooseFileFilter(EnumSet.of(FileExtension.XLS, FileExtension.XLSX), com.fr.design.i18n.Toolkit.i18nText("Import-Excel_Source")));
             }
         }
 
         // 添加 xls 文件类型过滤 kt
         if (WorkContext.getCurrent().isLocal()) {  //本地连接
-            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.XLS, Inter.getLocText("Import-Excel_Source")));
-            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.XLSX, Inter.getLocText("Import-Excel2007_Source")));
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.XLS, com.fr.design.i18n.Toolkit.i18nText("Import-Excel_Source")));
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.XLSX, com.fr.design.i18n.Toolkit.i18nText("Import-Excel2007_Source")));
         }
         if (FileExtension.PNG.matchExtension(suffix)) {
-            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.PNG, Inter.getLocText("FR-App-Export_png")));
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.PNG, com.fr.design.i18n.Toolkit.i18nText("FR-App-Export_png")));
         }
         if (type == JFileChooser.SAVE_DIALOG) {
-            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.PDF, Inter.getLocText("FR-Import-Export_PDF")));
-            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.SVG, Inter.getLocText("FR-Import-Export_SVG")));
-            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.CSV, Inter.getLocText("FR-Import-Export_CSV")));
-            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.DOC, Inter.getLocText("FR-Import-Export_Word")));
-            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.TXT, Inter.getLocText("FR-Import-Export_Text")));
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.PDF, com.fr.design.i18n.Toolkit.i18nText("FR-Import-Export_PDF")));
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.SVG, com.fr.design.i18n.Toolkit.i18nText("FR-Import-Export_SVG")));
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.CSV, com.fr.design.i18n.Toolkit.i18nText("FR-Import-Export_CSV")));
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.DOC, com.fr.design.i18n.Toolkit.i18nText("FR-Import-Export_Word")));
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.TXT, com.fr.design.i18n.Toolkit.i18nText("FR-Import-Export_Text")));
         }
 
     }
@@ -595,7 +591,7 @@ public class FILEChooserPane extends BasicPane {
         }
         if (WorkContext.getCurrent().isLocal()) {  //本地连接
             if (!showWebReport) {
-                defaultComboBoxModel.addElement(Inter.getLocText("FR-Utils-App_AllFiles") + "(*.*)");
+                defaultComboBoxModel.addElement(com.fr.design.i18n.Toolkit.i18nText("FR-Utils-App_AllFiles") + "(*.*)");
             }
         }
         // 默认选取的文件类型(.cpt)类型
@@ -651,7 +647,7 @@ public class FILEChooserPane extends BasicPane {
                     saveDictionary();
                     dialogExit();
                 } else {
-                    JOptionPane.showMessageDialog(this, Inter.getLocText("FR-App-Template_Report_Not_Exist"));
+                    JOptionPane.showMessageDialog(this, com.fr.design.i18n.Toolkit.i18nText("FR-App-Template_Report_Not_Exist"));
                     return;
                 }
             }
@@ -692,11 +688,11 @@ public class FILEChooserPane extends BasicPane {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         if (!access) {
-            JOptionPane.showMessageDialog(FILEChooserPane.this, Inter.getLocText("FR-App-Privilege_No") + "!", Inter.getLocText("FR-App-File_Message"), JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(FILEChooserPane.this, com.fr.design.i18n.Toolkit.i18nText("FR-App-Privilege_No") + "!", com.fr.design.i18n.Toolkit.i18nText("FR-App-File_Message"), JOptionPane.WARNING_MESSAGE);
             return;
         }
         if (selectedFile.exists()) {
-            int selVal = JOptionPane.showConfirmDialog(dialog, Inter.getLocText("FR-Utils-Would_you_like_to_cover_the_current_file") + " ?",
+            int selVal = JOptionPane.showConfirmDialog(dialog, com.fr.design.i18n.Toolkit.i18nText("FR-Utils-Would_you_like_to_cover_the_current_file") + " ?",
                     ProductConstants.PRODUCT_NAME, JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
             if (selVal == JOptionPane.YES_OPTION) {
                 returnValue = JOPTIONPANE_OK_OPTION;
@@ -745,7 +741,7 @@ public class FILEChooserPane extends BasicPane {
      * dialog的名字
      */
     private String dialogName() {
-        return type == JFileChooser.OPEN_DIALOG ? Inter.getLocText("Utils-Design-File_Open") : Inter.getLocText("FR-App-Template_Save");
+        return type == JFileChooser.OPEN_DIALOG ? com.fr.design.i18n.Toolkit.i18nText("Utils-Design-File_Open") : com.fr.design.i18n.Toolkit.i18nText("FR-App-Template_Save");
     }
 
     /*
@@ -1035,7 +1031,7 @@ public class FILEChooserPane extends BasicPane {
         // String okButtonText;
         // if (file != null && file.isDirectory()
         // && this.fileNameTextField.getText().length() == 0) {
-        // okButtonText = Inter.getLocText("Open");// + "(O)";
+        // okButtonText = com.fr.design.i18n.Toolkit.i18nText("Open");// + "(O)";
         // } else {
         // okButtonText = dialogName();
         // }
@@ -1410,11 +1406,11 @@ public class FILEChooserPane extends BasicPane {
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
             if (!access) {
-                JOptionPane.showMessageDialog(FILEChooserPane.this, Inter.getLocText("FR-App-Privilege_No") + "!", Inter.getLocText("FR-App-File_Message"), JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(FILEChooserPane.this, com.fr.design.i18n.Toolkit.i18nText("FR-App-Privilege_No") + "!", com.fr.design.i18n.Toolkit.i18nText("FR-App-File_Message"), JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
-            String res = JOptionPane.showInputDialog(Inter.getLocText("FR-Utils-Please_Input_a_New_Name"));
+            String res = JOptionPane.showInputDialog(com.fr.design.i18n.Toolkit.i18nText("FR-Utils-Please_Input_a_New_Name"));
             if (res != null) {
                 currentDirectory.createFolder(res);
 
@@ -1448,7 +1444,7 @@ public class FILEChooserPane extends BasicPane {
         folderButton.setEnabled(false);
         folderButton.setMargin(new Insets(0, 0, 0, 0));
         folderButton.setUI(new BasicButtonUI());
-        folderButton.setToolTipText(Inter.getLocText("FR-Utils-New_Folder"));
+        folderButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Utils-New_Folder"));
         folderButton.addActionListener(createFolderActionListener);
         return folderButton;
     }

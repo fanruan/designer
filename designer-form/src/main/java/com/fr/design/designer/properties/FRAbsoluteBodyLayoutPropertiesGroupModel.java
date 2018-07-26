@@ -12,7 +12,7 @@ import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WBodyLayoutType;
 import com.fr.log.FineLoggerFactory;
 import com.fr.general.FRScreen;
-import com.fr.general.Inter;
+
 
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
@@ -48,7 +48,7 @@ public class FRAbsoluteBodyLayoutPropertiesGroupModel extends FRAbsoluteLayoutPr
      */
     @Override
     public String getGroupName() {
-        return Inter.getLocText("FR-Designer_Attr_Layout");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Attr_Layout");
     }
 
     @Override
@@ -71,9 +71,9 @@ public class FRAbsoluteBodyLayoutPropertiesGroupModel extends FRAbsoluteLayoutPr
         if (column == 0) {
             switch (row) {
                 case 0:
-                    return Inter.getLocText("FR-Designer_Attr_Layout_Type");
+                    return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Attr_Layout_Type");
                 default:
-                    return Inter.getLocText("FR-Designer-Widget_Scaling_Mode");
+                    return com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget_Scaling_Mode");
             }
         } else {
             switch (row) {
