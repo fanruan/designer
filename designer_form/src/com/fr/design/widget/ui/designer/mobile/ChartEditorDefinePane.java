@@ -21,7 +21,6 @@ import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.form.FormFunctionProcessor;
 import com.fr.form.ui.BaseChartEditor;
-import com.fr.form.ui.ChartEditor;
 import com.fr.form.ui.container.WFitLayout;
 import com.fr.general.Inter;
 import com.fr.plugin.ExtraClassManager;
@@ -159,7 +158,7 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane{
             return;
         }
 
-        ChartEditor chartEditor = (ChartEditor)xCreator.toData();
+        BaseChartEditor chartEditor = (BaseChartEditor)xCreator.toData();
         ChartMobileFitAttrStateProvider zoomOutAttr = chartEditor.getMobileAttr().getZoomOutAttr();
         this.zoomOutComboBox.setSelectedItem(new Item(zoomOutAttr.description(), zoomOutAttr));
         updateTipLabel();
