@@ -79,7 +79,10 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
         if (!ComparatorUtils.equals(e.getLabelName(), labelNameTextField.getText())) {
             XCreator xCreator = designer.getSelectionModel().getSelection().getSelectedCreator();
             Widget selectedWidget = xCreator.toData();
-            ((WParameterLayout) designer.getParaComponent().toData()).setNameTagModified(selectedWidget.getWidgetName(), true);
+            XWParameterLayout parameterLayout = (XWParameterLayout) designer.getParaComponent();
+            if (parameterLayout != null) {
+                parameterLayout.toData().setNameTagModified(selectedWidget.getWidgetName(), true);
+            }
         }
         e.setLabelName(labelNameTextField.getText());
         return e;

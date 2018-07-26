@@ -9,8 +9,12 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.general.Inter;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.SwingConstants;
+import javax.swing.SwingWorker;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
 
 /**
  * @author richer
@@ -23,6 +27,10 @@ public abstract class LoadingBasicPane extends BasicPane {
     private JProgressBar progressBar;
     public LoadingBasicPane() {
         initCards();
+        initPane();
+    }
+
+    protected void initPane(){
         new SwingWorker<Integer, Void>() {
 
             @Override
