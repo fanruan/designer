@@ -56,10 +56,10 @@ public class DownloadOnlineSourcesHelper implements DownloadSourcesEvent {
         this.addSiteInfo("plugin.phantomjs", ChartConstants.PHANTOMJS_URL, PHANTOM_MB);
     }
 
-    private static final double MAP_JSON_MB = 3.8 * 1024 * 1024;
+    private static final double MAP_JSON_MB = 4.5 * 1024 * 1024;
 
     public void addMapJSONSiteInfo() {
-        this.addSiteInfo("map.json", ChartConstants.MAP_JSON_URL, MAP_JSON_MB);
+        this.addSiteInfo("map10.json", ChartConstants.MAP_JSON_URL, MAP_JSON_MB);
     }
 
     public void addSiteInfo(String siteKind, String localDir, double megaBits) {

@@ -18,12 +18,20 @@ import com.fr.design.gui.imenutable.UIMenuNameableCreator;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.mainframe.chart.gui.ChartTypePane.ComboBoxPane;
 import com.fr.general.ComparatorUtils;
-
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;

@@ -107,7 +107,7 @@ public class ImagePreviewPane extends JComponent implements Scrollable, ImagePre
     public void setImageWithSuffix(ImageWithSuffix image) {
         this.image = image;
         // need to reset the size of JViewPort.
-        if (this.image == null) {
+        if (this.image == null || this.image.getImage() == null) {
             if (this.getParent() instanceof JViewport) {
                 UIScrollBar tmpJScrollBar = new UIScrollBar(UIScrollBar.HORIZONTAL);
                 Dimension newDimension = new Dimension(this.getSize().width - tmpJScrollBar.getPreferredSize().height, this.getSize().height

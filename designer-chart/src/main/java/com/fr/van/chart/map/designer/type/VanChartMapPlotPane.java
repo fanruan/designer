@@ -113,7 +113,7 @@ public class VanChartMapPlotPane extends AbstractVanChartTypePane {
         Plot plot = chart.getPlot();
         if(plot instanceof VanChartMapPlot) {
             sourceChoosePane.updateBean((VanChartMapPlot) plot);
-            if(!samePlot || (typeChanged && samePlot)){
+            if(!isSamePlot() || (typeChanged && isSamePlot())){
                 resetAttr(plot);
             }
         }
