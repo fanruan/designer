@@ -28,6 +28,10 @@ public abstract class LoadingBasicPane extends BasicPane {
     private JProgressBar progressBar;
     public LoadingBasicPane() {
         initCards();
+        initPane();
+    }
+
+    protected void initPane(){
         new SwingWorker<Integer, Void>() {
 
             @Override
