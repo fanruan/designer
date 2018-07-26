@@ -17,11 +17,11 @@ public class RemoteEnvURL implements FCloneable {
     /**
      * 默认 web app name
      */
-    private static final String DEFAULT_WEB_APP_NAME = "WebReport";
+    private static final String DEFAULT_WEB_APP_NAME = "webroot";
     /**
      * 默认 servlet name
      */
-    private static final String DEFAULT_SERVLET_NAME = "ReportServer";
+    private static final String DEFAULT_SERVLET_NAME = "decision";
     /**
      * 默认端口
      */
