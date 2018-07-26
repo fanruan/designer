@@ -28,9 +28,11 @@ public class ReportWriteAttrPane extends LoadingBasicPane {
 	}
 	public ReportWriteAttrPane(ElementCasePane ePane){
 		this.ePane = ePane;
+		//REPORT-9958 这边需要赋值后再初始化面板
 		super.initPane();
 	}
 
+	@Override
 	protected void initPane(){
 
 	}
