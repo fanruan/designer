@@ -219,7 +219,7 @@ public class FileNodeFILE implements FILE {
         }
     
         try {
-            return WorkContext.getWorkResource().createFile(StableUtils.pathJoin(node.getEnvPath(), name));
+            return WorkContext.getWorkResource().createDirectory(StableUtils.pathJoin(node.getEnvPath(), name));
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
             return false;
