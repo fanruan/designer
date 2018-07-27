@@ -20,13 +20,14 @@ import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
+import com.fr.event.EventDispatcher;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.GeneralContext;
 import com.fr.plugin.ExtraClassManager;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.manage.PluginFilter;
 import com.fr.plugin.observer.PluginEvent;
 import com.fr.plugin.observer.PluginEventListener;
+import com.fr.plugin.observer.PluginEventType;
 import com.fr.report.fun.VerticalTextProcessor;
 import com.fr.report.fun.impl.DefaultVerticalTextProcessor;
 import com.fr.stable.Constants;
@@ -114,7 +115,13 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
         initOtherComponent();
         initAllNames();
 
-        GeneralContext.listenPluginRunningChanged(new PluginEventListener() {
+        addPluginListeners(PluginEventType.AfterRun);
+        addPluginListeners(PluginEventType.AfterStop);
+        refreshIndentationUnit();
+    }
+
+    private void addPluginListeners(PluginEventType type) {
+        EventDispatcher.listen(type, new PluginEventListener() {
 
             @Override
             public void on(PluginEvent event) {
@@ -127,7 +134,6 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
                 return context.contain(IndentationUnitProcessor.MARK_STRING);
             }
         });
-        refreshIndentationUnit();
     }
     private void refreshIndentationUnit() {
         this.indentationUnitProcessor = ExtraDesignClassManager.getInstance().getSingle(IndentationUnitProcessor.MARK_STRING);
