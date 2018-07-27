@@ -8,7 +8,7 @@ import java.util.Objects;
 /**
  * @author yaohwu
  */
-public class RemoteEnvURL implements FCloneable {
+public class RemoteWorkspaceURL implements FCloneable {
 
     /**
      * 默认 hostname
@@ -17,20 +17,20 @@ public class RemoteEnvURL implements FCloneable {
     /**
      * 默认 web app name
      */
-    private static final String DEFAULT_WEB_APP_NAME = "WebReport";
+    private static final String DEFAULT_WEB_APP_NAME = "webroot";
     /**
      * 默认 servlet name
      */
-    private static final String DEFAULT_SERVLET_NAME = "ReportServer";
+    private static final String DEFAULT_SERVLET_NAME = "decision";
     /**
      * 默认端口
      */
-    private static final String DEFAULT_PORT = "8080";
+    private static final String DEFAULT_PORT = "8075";
     private static final String HTTPS = "https://";
     private static final String HTTP = "http://";
 
-    public static final RemoteEnvURL DEFAULT_URL =
-            new RemoteEnvURL(
+    public static final RemoteWorkspaceURL DEFAULT_URL =
+            new RemoteWorkspaceURL(
                     false,
                     DEFAULT_HOST_NAME,
                     DEFAULT_PORT,
@@ -45,12 +45,12 @@ public class RemoteEnvURL implements FCloneable {
 
 
     /**
-     * 解析 url 字符串 生成 RemoteEnvURL 对象
+     * 解析 url 字符串 生成 RemoteWorkspaceURL 对象
      * url 字符串格式 (http(s)://)host(:port)/+web/+servlet/+(others)
      *
      * @param url x:x/x/x/x
      */
-    public RemoteEnvURL(String url) {
+    public RemoteWorkspaceURL(String url) {
 
         // 没有写协议名称 默认 使用 http 协议
         if (!url.startsWith(HTTPS) && !url.startsWith(HTTP)) {
@@ -102,12 +102,12 @@ public class RemoteEnvURL implements FCloneable {
         return DEFAULT_HOST_NAME.equals(host);
     }
 
-    public static RemoteEnvURL createDefaultURL() {
+    public static RemoteWorkspaceURL createDefaultURL() {
         return DEFAULT_URL.clone();
     }
 
 
-    public RemoteEnvURL(boolean isHttps, String host, String port, String web, String servlet) {
+    public RemoteWorkspaceURL(boolean isHttps, String host, String port, String web, String servlet) {
         this.isHttps = isHttps;
         this.host = host != null ? host.trim() : StringUtils.EMPTY;
         this.port = port != null ? port.trim() : StringUtils.EMPTY;
@@ -172,7 +172,7 @@ public class RemoteEnvURL implements FCloneable {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        RemoteEnvURL that = (RemoteEnvURL) o;
+        RemoteWorkspaceURL that = (RemoteWorkspaceURL) o;
         return isHttps == that.isHttps &&
                 Objects.equals(host, that.host) &&
                 Objects.equals(port, that.port) &&
@@ -188,7 +188,7 @@ public class RemoteEnvURL implements FCloneable {
 
     @Override
     public String toString() {
-        return "RemoteEnvURL{" +
+        return "RemoteWorkspaceURL{" +
                 "isHttps=" + isHttps +
                 ", host='" + host + '\'' +
                 ", port='" + port + '\'' +
@@ -198,10 +198,10 @@ public class RemoteEnvURL implements FCloneable {
     }
 
     @Override
-    public RemoteEnvURL clone() {
-        RemoteEnvURL cloned;
+    public RemoteWorkspaceURL clone() {
+        RemoteWorkspaceURL cloned;
         try {
-            cloned = (RemoteEnvURL) super.clone();
+            cloned = (RemoteWorkspaceURL) super.clone();
             return cloned;
         } catch (CloneNotSupportedException e) {
             // this shouldn't happen, since we are Cloneable

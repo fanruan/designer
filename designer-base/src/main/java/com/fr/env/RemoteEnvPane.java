@@ -23,7 +23,6 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
@@ -115,7 +114,7 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
     /**
      * 主机位置
      */
-    private RemoteEnvURL remoteEnvURL = new RemoteEnvURL("");
+    private RemoteWorkspaceURL remoteWorkspaceURL = new RemoteWorkspaceURL("");
     /**
      * https 配置面板
      */
@@ -189,7 +188,7 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
             fileChooserButton.setEnabled(isHttps);
             updateHttpsConfigPanel();
 
-            remoteEnvURL.setHttps(isHttps);
+            remoteWorkspaceURL.setHttps(isHttps);
             fillRemoteEnvURLField();
             fillIndividualField();
         }
@@ -267,9 +266,9 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
     public void populateBean(RemoteDesignerWorkspaceInfo ob) {
         WorkspaceConnection connection = ob.getConnection();
         if (connection != null) {
-            this.remoteEnvURL = Strings.isNullOrEmpty(connection.getUrl())
-                    ? RemoteEnvURL.createDefaultURL()
-                    : new RemoteEnvURL(connection.getUrl());
+            this.remoteWorkspaceURL = Strings.isNullOrEmpty(connection.getUrl())
+                    ? RemoteWorkspaceURL.createDefaultURL()
+                    : new RemoteWorkspaceURL(connection.getUrl());
             String username = fromNullable(connection.getUserName()).or(StringUtils.EMPTY);
             String pwd = fromNullable(connection.getPassword()).or(StringUtils.EMPTY);
             String certPath = fromNullable(connection.getCertPath()).or(StringUtils.EMPTY);
@@ -280,17 +279,17 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
             this.certSecretKeyInput.setText(certSecretKey);
 
         } else {
-            this.remoteEnvURL = RemoteEnvURL.createDefaultURL();
+            this.remoteWorkspaceURL = RemoteWorkspaceURL.createDefaultURL();
             this.usernameInput.setText(StringUtils.EMPTY);
             this.passwordInput.setText(StringUtils.EMPTY);
         }
 
         fillRemoteEnvURLField();
         fillIndividualField();
-        httpsCheckbox.setSelected(this.remoteEnvURL.getHttps());
+        httpsCheckbox.setSelected(this.remoteWorkspaceURL.getHttps());
 
-        DesignerEnvManager.getEnvManager().setHttps(this.remoteEnvURL.getHttps());
-        fileChooserButton.setEnabled(this.remoteEnvURL.getHttps());
+        DesignerEnvManager.getEnvManager().setHttps(this.remoteWorkspaceURL.getHttps());
+        fileChooserButton.setEnabled(this.remoteWorkspaceURL.getHttps());
         updateHttpsConfigPanel();
 
 
@@ -299,7 +298,7 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
     @Override
     public RemoteDesignerWorkspaceInfo updateBean() {
         WorkspaceConnection connection = new WorkspaceConnection(
-                this.remoteEnvURL.getURL(),
+                this.remoteWorkspaceURL.getURL(),
                 this.usernameInput.getText(),
                 new String(this.passwordInput.getPassword()),
                 this.certPathInput.getText(),
@@ -576,7 +575,7 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
      */
     private void fillRemoteEnvURLField() {
         remoteEnvURLInput.getDocument().removeDocumentListener(overallDocListener);
-        remoteEnvURLInput.setText(remoteEnvURL.getURL());
+        remoteEnvURLInput.setText(remoteWorkspaceURL.getURL());
         remoteEnvURLInput.getDocument().addDocumentListener(overallDocListener);
     }
 
@@ -584,14 +583,14 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
      * 自动填充子条目输入框
      */
     private void fillIndividualField() {
-        if (remoteEnvURL == null) {
+        if (remoteWorkspaceURL == null) {
             return;
         }
         disableSubDocListener();
-        hostNameInput.setText(remoteEnvURL.hasDefaultHostName() ? StringUtils.EMPTY : remoteEnvURL.getHost());
-        portInput.setText(remoteEnvURL.getPort());
-        webAppNameInput.setText(remoteEnvURL.getWeb());
-        servletNameInput.setText(remoteEnvURL.getServlet());
+        hostNameInput.setText(remoteWorkspaceURL.hasDefaultHostName() ? StringUtils.EMPTY : remoteWorkspaceURL.getHost());
+        portInput.setText(remoteWorkspaceURL.getPort());
+        webAppNameInput.setText(remoteWorkspaceURL.getWeb());
+        servletNameInput.setText(remoteWorkspaceURL.getServlet());
         enableSubDocListener();
     }
 
@@ -601,11 +600,11 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
         String port = portInput.getText();
         String web = webAppNameInput.getText();
         String servlet = servletNameInput.getText();
-        remoteEnvURL.setHttps(isHttps);
-        remoteEnvURL.setHost(host);
-        remoteEnvURL.setPort(port);
-        remoteEnvURL.setWeb(web);
-        remoteEnvURL.setServlet(servlet);
+        remoteWorkspaceURL.setHttps(isHttps);
+        remoteWorkspaceURL.setHost(host);
+        remoteWorkspaceURL.setPort(port);
+        remoteWorkspaceURL.setWeb(web);
+        remoteWorkspaceURL.setServlet(servlet);
     }
 
 
@@ -617,10 +616,10 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
     }
 
     private void actionURLInputChange() {
-        remoteEnvURL = new RemoteEnvURL(remoteEnvURLInput.getText());
+        remoteWorkspaceURL = new RemoteWorkspaceURL(remoteEnvURLInput.getText());
         fillIndividualField();
 
-        httpsCheckbox.setSelected(remoteEnvURL.getHttps());
+        httpsCheckbox.setSelected(remoteWorkspaceURL.getHttps());
         boolean isHttps = httpsCheckbox.isSelected();
         DesignerEnvManager.getEnvManager().setHttps(isHttps);
         fileChooserButton.setEnabled(isHttps);

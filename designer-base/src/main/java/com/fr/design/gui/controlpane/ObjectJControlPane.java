@@ -23,7 +23,10 @@ public abstract class ObjectJControlPane extends JListControlPane {
 
 	@Override
 	protected BasicBeanPane createPaneByCreators(NameableCreator creator) {
-		return Reflect.on(creator.getUpdatePane()).create(object).get();
+		try {
+			return Reflect.on(creator.getUpdatePane()).create(object).get();
+		} catch (Exception e) {
+			return super.createPaneByCreators(creator);
+		}
 	}
-
 }
