@@ -97,8 +97,7 @@ public class FormSelectionUtils {
         Rectangle rec = clipboard.getSelctionBounds();
         for (XCreator creator : clipboard.getSelectedCreators()) {
             try {
-                Widget copied = copyWidget(designer, creator);
-                XCreator copiedCreator = XCreatorUtils.createXCreator(copied, creator.getSize());
+                XCreator copiedCreator = copyXcreator(designer, creator);
                 // 获取位置
                 Point point = getPasteLocation((AbstractLayoutAdapter) adapter,
                         copiedCreator,
@@ -181,8 +180,7 @@ public class FormSelectionUtils {
 
     private static void relativePasteXCreator(FormDesigner designer, XCreator creator, LayoutAdapter adapter, Rectangle tabContainerRect, int x, int y) {
         try {
-            Widget copied = copyWidget(designer, creator);
-            XCreator copiedXCreator = XCreatorUtils.createXCreator(copied, creator.getSize());
+            XCreator copiedXCreator = copyXcreator(designer, creator);
             if (adapter.getClass().equals(FRTabFitLayoutAdapter.class)) {
                 if (!adapter.accept(copiedXCreator, x - tabContainerRect.x, y - tabContainerRect.y)) {
                     designer.showMessageDialog(Inter.getLocText("FR-Designer_Too_Small_To_Paste"));
@@ -235,19 +233,26 @@ public class FormSelectionUtils {
         return new Point(x, y);
     }
 
+    /**
+     * 拷贝组件
+     * @param designer designer
+     * @param xCreator 待拷贝的组件
+     * @return XCreator 拷贝的组件
+     */
+    private static XCreator copyXcreator(FormDesigner designer, XCreator xCreator) throws CloneNotSupportedException{
+        Widget copied = (Widget) xCreator.toData().clone();
+        XCreator copiedCreator = XCreatorUtils.createXCreator(copied, xCreator.getSize());
+        ArrayList<String> nameSpace = new ArrayList<>();
+        copyWidgetName(designer, nameSpace, copiedCreator);
+        return copiedCreator;
+    }
 
     /**
      * 拷贝组件
+     * @param formDesigner designer
+     * @param nameSpace 命名空间
+     * @param xCreator 拷贝的组件
      */
-    private static Widget copyWidget(FormDesigner formDesigner, XCreator xCreator) throws
-            CloneNotSupportedException {
-        ArrayList<String> nameSpace = new ArrayList<>();
-        //这边应该没必要再clone下widget,复制的时候已经clone过了
-        //重命名拷贝的组件
-        copyWidgetName(formDesigner, nameSpace, xCreator);
-        return xCreator.toData();
-    }
-
     private static void copyWidgetName(FormDesigner formDesigner, ArrayList<String> nameSpace, XCreator xCreator){
         String copyName = FormSelectionUtils.getCopiedName(formDesigner, xCreator.toData(), nameSpace);
         if (xCreator.toData() instanceof WTitleLayout) {
