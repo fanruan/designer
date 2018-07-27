@@ -103,7 +103,7 @@ public class TableDataPaneListPane extends JListControlPane implements TableData
     }
 
     private boolean isIncludeUnderline(String name) {
-        return ComparatorUtils.equals(name.indexOf(StoreProcedureAssist.GROUP_MARKER), -1) ? false : true;
+        return name.contains(StoreProcedureAssist.GROUP_MARKER);
     }
 
     /**
