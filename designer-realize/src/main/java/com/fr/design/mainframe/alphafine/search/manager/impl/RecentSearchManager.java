@@ -44,7 +44,7 @@ import java.util.List;
  * Created by XiaXiang on 2018/1/22.
  */
 public class RecentSearchManager implements AlphaFineSearchProvider {
-    private static final int MAX_SIZE = 3;
+    private static final int MAX_SIZE = 100;
     private static RecentSearchManager instance;
     IndexReader indexReader = null;
     IndexSearcher indexSearcher = null;
@@ -174,7 +174,7 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
             String searchField = "searchKey";
             Term term = new Term(searchField, key);
             Query query = new TermQuery(term);
-            TopFieldDocs docs = searcher.search(query, 100, sortKey);
+            TopFieldDocs docs = searcher.search(query, MAX_SIZE, sortKey);
             ScoreDoc[] scores = docs.scoreDocs;
             this.recentModelList = new SearchResult();
             //遍历结果
