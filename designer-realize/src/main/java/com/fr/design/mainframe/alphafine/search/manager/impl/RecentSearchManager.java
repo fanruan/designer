@@ -185,25 +185,23 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
                     UpdateAction action = UpdateActionManager.getUpdateActionManager().getActionByName(model.getName());
                     if (action != null) {
                         ((ActionModel) model).setAction(action);
-                        if (recentModelList.contains(model)) {
-                            continue;
-                        }
-                        recentModelList.add(model);
+                        addModel(model);
                     }
                 } else {
-                    if (recentModelList.contains(model)) {
-                        continue;
-                    }
-                    recentModelList.add(model);
+                    addModel(model);
                 }
-
-
             }
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error("local search error: " + e.getMessage());
             return recentModelList;
         }
         return recentModelList;
+    }
+
+    private void addModel(AlphaCellModel model) {
+        if (!recentModelList.contains(model)) {
+            recentModelList.add(model);
+        }
     }
 
 
