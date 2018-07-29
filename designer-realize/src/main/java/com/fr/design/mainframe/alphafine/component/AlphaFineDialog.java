@@ -28,10 +28,11 @@ import com.fr.design.mainframe.alphafine.search.manager.impl.FileSearchManager;
 import com.fr.design.mainframe.alphafine.search.manager.impl.PluginSearchManager;
 import com.fr.design.mainframe.alphafine.search.manager.impl.RecentSearchManager;
 import com.fr.design.mainframe.alphafine.search.manager.impl.RecommendSearchManager;
+import com.fr.design.mainframe.errorinfo.ErrorInfoUploader;
+import com.fr.design.mainframe.templateinfo.TemplateInfoCollector;
 import com.fr.form.main.Form;
 import com.fr.form.main.FormIO;
 import com.fr.general.ComparatorUtils;
-
 import com.fr.general.http.HttpClient;
 import com.fr.io.TemplateWorkBookIO;
 import com.fr.io.exporter.ImageExporter;
@@ -44,11 +45,28 @@ import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import java.awt.*;
+import java.awt.AWTEvent;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.Window;
 import java.awt.event.AWTEventListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -761,11 +779,18 @@ public class AlphaFineDialog extends UIDialog {
      *
      * @param cellModel
      */
-    private void saveLocalHistory(AlphaCellModel cellModel) {
-        RecentSearchManager searchManager = RecentSearchManager.getInstance();
-        searchManager.addModel(storeText, cellModel, cellModel.getSearchCount() + 1);
-        sendDataToServer(storeText, cellModel);
-
+    private void saveLocalHistory(final AlphaCellModel cellModel) {
+        Thread sendThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                RecentSearchManager searchManager = RecentSearchManager.getInstance();
+                searchManager.addModel(storeText, cellModel);
+                sendDataToServer(storeText, cellModel);
+                TemplateInfoCollector.getInstance().sendTemplateInfo();
+                ErrorInfoUploader.getInstance().sendErrorInfo();
+            }
+        });
+        sendThread.start();
     }
 
     /**
