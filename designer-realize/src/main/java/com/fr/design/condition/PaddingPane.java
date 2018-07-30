@@ -7,11 +7,15 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UIBasicSpinner;
 import com.fr.design.gui.style.DefaultIndentationUnitProcessor;
 import com.fr.design.utils.gui.GUICoreUtils;
-
+import com.fr.general.GeneralContext;
+import com.fr.plugin.context.PluginContext;
+import com.fr.plugin.manage.PluginFilter;
+import com.fr.plugin.observer.PluginEvent;
+import com.fr.plugin.observer.PluginEventListener;
 import com.fr.report.cell.cellattr.highlight.HighlightAction;
 import com.fr.report.cell.cellattr.highlight.PaddingHighlightAction;
 
-import javax.swing.*;
+import javax.swing.SpinnerNumberModel;
 
 /**
 * @author richie
@@ -45,7 +49,23 @@ public class PaddingPane extends ConditionAttrSingleConditionPane<HighlightActio
         this.add(this.paddingScopeComboBox);
         this.paddingLeftSpinner.setValue(new Integer(0));
         this.paddingRightSpinner.setValue(new Integer(0));
+        GeneralContext.listenPluginRunningChanged(new PluginEventListener() {
 
+            @Override
+            public void on(PluginEvent event) {
+                refreshIndentationUnit();
+            }
+        }, new PluginFilter() {
+
+            @Override
+            public boolean accept(PluginContext context) {
+                return context.contain(IndentationUnitProcessor.MARK_STRING);
+            }
+        });
+        refreshIndentationUnit();
+    }
+
+    private void refreshIndentationUnit() {
         this.indentationUnitProcessor = ExtraDesignClassManager.getInstance().getSingle(IndentationUnitProcessor.MARK_STRING);
         if (null == this.indentationUnitProcessor) {
             this.indentationUnitProcessor = new DefaultIndentationUnitProcessor();
