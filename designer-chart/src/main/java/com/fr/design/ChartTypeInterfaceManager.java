@@ -136,6 +136,15 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
             allCharts[i] = rowChart;
         }
 
+        //异步加载图片
+//        new Thread(new Runnable() {
+//
+//            @Override
+//            public void run() {
+//                initAllChartsDemoImage(allCharts);
+//            }
+//        }).start();
+
         return child;
     }
     
