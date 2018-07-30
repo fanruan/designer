@@ -43,6 +43,7 @@ import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.design.mainframe.WidgetToolBarPane;
 import com.fr.design.mainframe.actions.NewFormAction;
 import com.fr.design.mainframe.bbs.BBSGuestPane;
+import com.fr.design.mainframe.bbs.UserInfoPane;
 import com.fr.design.mainframe.form.FormECCompositeProvider;
 import com.fr.design.mainframe.form.FormECDesignerProvider;
 import com.fr.design.mainframe.form.FormElementCaseDesigner;
@@ -123,6 +124,7 @@ public class DesignerActivator extends Activator implements Prepare {
         preLoadPane();
         loadLogAppender();
         DesignerSocketIO.update();
+        UserInfoPane.getInstance().updateBBSUserInfo();
     }
 
     private void loadLogAppender() {
