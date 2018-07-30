@@ -6,6 +6,7 @@ import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XCreatorUtils;
 import com.fr.design.designer.creator.XLayoutContainer;
+import com.fr.design.designer.creator.XWAbsoluteBodyLayout;
 import com.fr.design.designer.creator.XWAbsoluteLayout;
 import com.fr.design.designer.creator.XWFitLayout;
 import com.fr.design.designer.creator.XWParameterLayout;
@@ -79,7 +80,7 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
 
     public WidgetBoundPane createWidgetBoundPane(XCreator xCreator) {
         XLayoutContainer xLayoutContainer = getParent(xCreator);
-        if (xLayoutContainer == null || xCreator.acceptType(XWParameterLayout.class) || xCreator.acceptType(XWAbsoluteLayout.class)) {
+        if (xLayoutContainer == null || xCreator.acceptType(XWParameterLayout.class) || xCreator.acceptType(XWAbsoluteBodyLayout.class)) {
             return null;
         } else if (xLayoutContainer.acceptType(XWAbsoluteLayout.class)) {
             return new WidgetAbsoluteBoundPane(xCreator);
