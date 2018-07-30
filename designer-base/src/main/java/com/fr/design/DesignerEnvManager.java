@@ -502,7 +502,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
      * 返回默认环境
      */
     public DesignerWorkspaceInfo getDefaultConfig() {
-        String installHome = "D:\\应用\\FineReport_10.0";// StableUtils.getInstallHome();
+        String installHome =  StableUtils.getInstallHome();
         String defaultenvPath = getDefaultenvPath(installHome);
         defaultenvPath = new File(defaultenvPath).getPath();
         Iterator<Entry<String, DesignerWorkspaceInfo>> entryIt = nameEnvMap.entrySet().iterator();
