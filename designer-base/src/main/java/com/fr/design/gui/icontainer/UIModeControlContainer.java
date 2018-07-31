@@ -1,6 +1,7 @@
 package com.fr.design.gui.icontainer;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
@@ -72,7 +73,7 @@ public class UIModeControlContainer extends JLayeredPane {
 
 
     public void needToShowCoverAndHidPane() {
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             this.remove(coverPane);
             this.remove(hidePane);
         } else {
@@ -115,7 +116,7 @@ public class UIModeControlContainer extends JLayeredPane {
             if (isHideMode || !upEditMode) {
                 return;
             }
-            if (BaseUtils.isAuthorityEditing()) {
+            if (DesignerMode.isAuthorityEditing()) {
                 return;
             }
             setCursor(Cursor.getPredefinedCursor(Cursor.N_RESIZE_CURSOR));
@@ -142,7 +143,7 @@ public class UIModeControlContainer extends JLayeredPane {
 
         @Override
         public void mouseDragged(MouseEvent e) {
-            if (BaseUtils.isAuthorityEditing()) {
+            if (DesignerMode.isAuthorityEditing()) {
                 return;
             }
             boolean notUpEditMode = isHideMode || !upEditMode;
@@ -183,7 +184,7 @@ public class UIModeControlContainer extends JLayeredPane {
                 setUpPaneHeight(0);
             }
 
-            if (BaseUtils.isAuthorityEditing() && isSheeetCovered) {
+            if (DesignerMode.isAuthorityEditing() && isSheeetCovered) {
                 sheetInvisibleCoverPane.setBounds(0, toolPaneY + toolPaneHeight + UIConstants.SIZE, getWidth(), getHeight() - toolPaneY - toolPaneHeight - sheetCorverGap);
                 UIModeControlContainer.this.add(sheetInvisibleCoverPane);
                 UIModeControlContainer.this.setLayer(sheetInvisibleCoverPane, 2);

@@ -1,6 +1,7 @@
 package com.fr.design.actions.file;
 
 import com.fr.base.extension.FileExtension;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.fun.PreviewProvider;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
@@ -15,6 +16,7 @@ import com.fr.stable.web.AbstractWebletCreator;
 
 import javax.swing.JOptionPane;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 public final class WebPreviewUtils {
@@ -34,6 +36,12 @@ public final class WebPreviewUtils {
             return;
         }
 
+        if (map == null || map == Collections.EMPTY_MAP) {
+            map = new HashMap<>();
+        }
+        if (DesignerMode.isVcsMode()) {
+            map.put("mode", DesignerMode.getMode().toString());
+        }
         DesignerContext.getDesignerFrame().refreshToolbar();
 
         jt.stopEditing();
