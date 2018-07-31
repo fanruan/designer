@@ -6,6 +6,7 @@ import com.fr.base.Parameter;
 import com.fr.base.ScreenResolution;
 import com.fr.base.io.BaseBook;
 import com.fr.base.iofile.attr.TemplateIdAttrMark;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignState;
 import com.fr.design.DesignerEnvManager;
@@ -32,6 +33,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.templateinfo.TemplateInfoCollector;
 import com.fr.design.mainframe.templateinfo.TemplateProcessInfo;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
+import com.fr.design.mainframe.toolbar.VcsScene;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.NameSeparator;
 import com.fr.design.menu.ShortCut;
@@ -274,7 +276,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
      * @return 是则返回true
      */
     public boolean isSaved() {
-        return BaseUtils.isAuthorityEditing() ? this.authoritySaved : this.saved;
+        return DesignerMode.isAuthorityEditing() ? this.authoritySaved : this.saved;
     }
 
     /**
@@ -297,7 +299,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
     }
 
     public void setSaved(boolean isSaved) {
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             authoritySaved = isSaved;
         } else {
             saved = isSaved;
@@ -308,7 +310,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
      * @return
      */
     public UndoManager getUndoManager() {
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             if (this.authorityUndoManager == null) {
                 this.authorityUndoManager = new UndoManager();
                 int limit = DesignerEnvManager.getEnvManager().getUndoLimit();
@@ -383,7 +385,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
             return;
         }
         //如果是在不同的模式下产生的
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             this.getUndoManager().addEdit(new UndoStateEdit(authorityUndoState, newState));
             authorityUndoState = newState;
         } else {
@@ -412,7 +414,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
     }
 
     private void fireSuperTargetModified() {
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             this.authoritySaved = false;
         } else {
             this.saved = false;
@@ -699,7 +701,9 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
      */
     @Override
     public ShortCut[] shortcut4FileMenu() {
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isVcsMode()) {
+            return VcsScene.shortcut4FileMenu(this);
+        } else if (DesignerMode.isAuthorityEditing()) {
             return new ShortCut[]{new SaveTemplateAction(this), new UndoAction(this), new RedoAction(this)};
         } else {
             return new ShortCut[]{new SaveTemplateAction(this), new SaveAsTemplateAction(this), new UndoAction(this), new RedoAction(this)};
@@ -716,12 +720,14 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
     public MenuDef[] menus4Target() {
         MenuDef tplMenu = new MenuDef(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_M-Template"), 'T');
         tplMenu.setAnchor(MenuHandler.TEMPLATE);
-        if (!BaseUtils.isAuthorityEditing()) {
+        if (!DesignerMode.isAuthorityEditing()) {
             tplMenu.addShortCut(new NameSeparator(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WorkBook")));
             tplMenu.addShortCut(new TableDataSourceAction(this));
             tplMenu.addShortCut(shortcut4TemplateMenu());
         }
+        if (!DesignerMode.isVcsMode()) {
         tplMenu.addShortCut(shortCuts4Authority());
+        }
 
         return new MenuDef[]{tplMenu};
     }

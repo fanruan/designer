@@ -5,6 +5,7 @@ package com.fr.design.mainframe.toolbar;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignState;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.UpdateAction;
@@ -42,6 +43,7 @@ import com.fr.design.gui.imenu.UIMenuBar;
 import com.fr.design.gui.itoolbar.UILargeToolbar;
 import com.fr.design.gui.itoolbar.UIToolbar;
 import com.fr.design.mainframe.JTemplate;
+import com.fr.design.mainframe.ToolBarNewTemplatePane;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
 import com.fr.design.menu.ShortCut;
@@ -60,8 +62,17 @@ import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
 import com.fr.workspace.WorkContext;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JComponent;
+import javax.swing.JMenuBar;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -319,10 +330,15 @@ public abstract class ToolBarMenuDock {
     }
 
     public MenuDef createFileMenuDef(ToolBarMenuDockPlus plus) {
+        if (DesignerMode.isVcsMode()) {
+            MenuDef menuDef = VcsScene.createFileMenuDef(plus);
+            insertMenu(menuDef, MenuHandler.FILE);
+            return menuDef;
+        }
         MenuDef menuDef = new MenuDef(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_File"), 'F');
 
         ShortCut[] scs = new ShortCut[0];
-        if (!BaseUtils.isAuthorityEditing()) {
+        if (!DesignerMode.isAuthorityEditing()) {
             scs = createNewFileShortCuts();
         }
         if (!ArrayUtils.isEmpty(scs)) {
@@ -353,13 +369,13 @@ public abstract class ToolBarMenuDock {
     }
 
     protected void addCloseCurrentTemplateAction(MenuDef menuDef) {
-        if (!BaseUtils.isAuthorityEditing()) {
+        if (!DesignerMode.isAuthorityEditing()) {
             menuDef.addShortCut(new CloseCurrentTemplateAction());
         }
     }
 
     protected void addPreferenceAction(MenuDef menuDef) {
-        if (!BaseUtils.isAuthorityEditing()) {
+        if (!DesignerMode.isAuthorityEditing()) {
             menuDef.addShortCut(new PreferenceAction());
         }
     }
@@ -395,7 +411,7 @@ public abstract class ToolBarMenuDock {
     protected MenuDef createServerMenuDef(ToolBarMenuDockPlus plus) {
         MenuDef menuDef = new MenuDef(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_M-Server"), 'S');
 
-        if (!BaseUtils.isAuthorityEditing()) {
+        if (!DesignerMode.isAuthorityEditing()) {
             menuDef.addShortCut(
                     new ConnectionListAction(),
                     createGlobalTDAction()
@@ -411,7 +427,7 @@ public abstract class ToolBarMenuDock {
             menuDef.addShortCut(new RemoteDesignAuthorityManagerAction());
         }
 
-        if (!BaseUtils.isAuthorityEditing()) {
+        if (!DesignerMode.isAuthorityEditing()) {
             if (shouldShowPlugin()) {
                 menuDef.addShortCut(
                         new PluginManagerAction()
@@ -433,7 +449,7 @@ public abstract class ToolBarMenuDock {
     }
 
     private boolean shouldShowRemotePermission() {
-    
+
         return WorkContext.getCurrent() != null && !WorkContext.getCurrent().isLocal() && WorkContext.getCurrent().isRoot();
     }
 
@@ -587,22 +603,7 @@ public abstract class ToolBarMenuDock {
     }
 
     public NewTemplatePane getNewTemplatePane() {
-        return new NewTemplatePane() {
-            @Override
-            public Icon getNew() {
-                return BaseUtils.readIcon("/com/fr/design/images/buttonicon/addicon.png");
-            }
-
-            @Override
-            public Icon getMouseOverNew() {
-                return BaseUtils.readIcon("/com/fr/design/images/buttonicon/add_press.png");
-            }
-
-            @Override
-            public Icon getMousePressNew() {
-                return BaseUtils.readIcon("/com/fr/design/images/buttonicon/add_press.png");
-            }
-        };
+        return ToolBarNewTemplatePane.getInstance();
     }
 
     protected void insertMenu(MenuDef menuDef, String anchor) {

@@ -1,6 +1,7 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.gui.core.WidgetOption;
@@ -102,7 +103,7 @@ public class FormToolBarButton extends JButton implements MouseListener {
         //该button只在报表块工具栏中使用，
         //parent只有FormToolBarPane一种，故可以直接强转
         final FormToolBarPane toolBarPane = (FormToolBarPane) this.getParent();
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             auhtorityMouseAction();
             return;
         }

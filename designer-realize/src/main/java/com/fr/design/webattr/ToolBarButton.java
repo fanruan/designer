@@ -1,6 +1,7 @@
 package com.fr.design.webattr;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.dialog.BasicDialog;
@@ -90,7 +91,7 @@ public class ToolBarButton extends UIButton implements MouseListener {
      * @param e 鼠标点击事件
      */
     public void mouseClicked(MouseEvent e) {
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             auhtorityMouseAction();
             return;
         }
