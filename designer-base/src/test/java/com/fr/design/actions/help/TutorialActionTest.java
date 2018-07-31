@@ -13,20 +13,17 @@ public class TutorialActionTest extends TestCase{
         TutorialAction action = new TutorialAction();
         GeneralContext.setLocale(Locale.US);
         String enKey = action.createDocKey();
-        assertTrue(enKey.indexOf(Locale.US.toString()) != -1);
-        assertTrue(enKey.indexOf(ProductConstants.MAIN_VERSION) != -1);
+        assertTrue(enKey.contains(Locale.US.toString()));
+        assertTrue(enKey.contains(ProductConstants.MAIN_VERSION));
 
         GeneralContext.setLocale(Locale.CHINA);
         String zhKey = action.createDocKey();
-        assertTrue(zhKey.indexOf(Locale.CHINA.toString()) != -1);
+        assertTrue(zhKey.contains(Locale.CHINA.toString()));
 
         Locale pt = new Locale("pt", "PT");
         GeneralContext.setLocale(pt);
         String ptKey = action.createDocKey();
-        assertTrue(ptKey.indexOf(pt.toString()) != -1);
-
-        GeneralContext.setLanguage(998);
-        assertTrue(action.createDocKey().indexOf(Locale.CHINA.toString()) != -1);
+        assertTrue(ptKey.contains(pt.toString()));
     }
 
     public void testServerOnline() {
