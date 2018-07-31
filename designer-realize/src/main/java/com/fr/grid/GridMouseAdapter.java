@@ -3,6 +3,7 @@ package com.fr.grid;
 import com.fr.base.BaseUtils;
 import com.fr.base.DynamicUnitList;
 import com.fr.base.ScreenResolution;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.common.inputevent.InputEventBaseOnOS;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.mainframe.DesignerContext;
@@ -157,7 +158,7 @@ public class GridMouseAdapter implements MouseListener, MouseWheelListener, Mous
      * 处理左击事件
      */
     private void doWithLeftButtonPressed(MouseEvent evt) {
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             grid.setEditable(false);
         }
 
@@ -188,10 +189,10 @@ public class GridMouseAdapter implements MouseListener, MouseWheelListener, Mous
         // 得到点击所在的column and row
         ColumnRow columnRow = GridUtils.getEventColumnRow_withresolution(reportPane, this.oldEvtX, this.oldEvtY, this.resolution);
         TemplateCellElement cellElement = report.getTemplateCellElement(columnRow.getColumn(), columnRow.getRow());
-        if (clickCount >= 2 && !BaseUtils.isAuthorityEditing()) {
+        if (clickCount >= 2 && !DesignerMode.isAuthorityEditing()) {
             grid.startEditing();
         }
-        if (clickCount == 1 && cellElement != null && cellElement.getWidget() != null && !BaseUtils.isAuthorityEditing()) {
+        if (clickCount == 1 && cellElement != null && cellElement.getWidget() != null && !DesignerMode.isAuthorityEditing()) {
             showWidetWindow(cellElement, report);
         }
         reportPane.repaint();
@@ -362,12 +363,12 @@ public class GridMouseAdapter implements MouseListener, MouseWheelListener, Mous
         }
         Selection selection = reportPane.getSelection();
 
-        if (selection instanceof FloatSelection && !BaseUtils.isAuthorityEditing()) {
+        if (selection instanceof FloatSelection && !DesignerMode.isAuthorityEditing()) {
             doWithFloatElementDragged(evtX, evtY, (FloatSelection) selection);
             grid.setDragType(GridUtils.DRAG_FLOAT);
-        } else if (grid.getDragType() == GridUtils.DRAG_CELLSELECTION_BOTTOMRIGHT_CORNER && !BaseUtils.isAuthorityEditing()) {
+        } else if (grid.getDragType() == GridUtils.DRAG_CELLSELECTION_BOTTOMRIGHT_CORNER && !DesignerMode.isAuthorityEditing()) {
             doWithCellElementDragged(evtX, evtY, (CellSelection) selection);
-        } else if (grid.getDragType() == GridUtils.DRAG_CELLSELECTION && !BaseUtils.isAuthorityEditing()) {
+        } else if (grid.getDragType() == GridUtils.DRAG_CELLSELECTION && !DesignerMode.isAuthorityEditing()) {
             // peter:获得调整过的Selected Column Row.
             ColumnRow selectedCellPoint = GridUtils.getAdjustEventColumnRow_withresolution(reportPane, evtX, evtY, resolution);
             if (selectedCellPoint.getColumn() != grid.getDragRectangle().x || selectedCellPoint.getRow() != grid.getDragRectangle().y) {

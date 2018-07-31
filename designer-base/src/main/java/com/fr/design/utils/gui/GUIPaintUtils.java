@@ -1,6 +1,7 @@
 package com.fr.design.utils.gui;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.constants.UIConstants;
 import com.fr.stable.Constants;
 
@@ -17,7 +18,7 @@ public class GUIPaintUtils {
     public static final void drawBorder(Graphics2D g2d, int x, int y, int width, int height, boolean isRound, int rectDirection, boolean isAuthorityEdited) {
         Color oldColor = g2d.getColor();
         Shape oldClip = g2d.getClip();
-        if (BaseUtils.isAuthorityEditing() && isAuthorityEdited) {
+        if (DesignerMode.isAuthorityEditing() && isAuthorityEdited) {
             g2d.setColor(UIConstants.AUTHORITY_LINE_COLOR);
         } else {
             g2d.setColor(UIConstants.POP_DIALOG_BORDER);
@@ -67,7 +68,7 @@ public class GUIPaintUtils {
 
     public static final void fillNormal(Graphics2D g2d, int x, int y, int width, int height, boolean isRound, int rectDirection, boolean isAuthorityEdited, boolean isPressedPainted, Color color) {
         GradientPaint gp;
-        if (BaseUtils.isAuthorityEditing() && isAuthorityEdited) {
+        if (DesignerMode.isAuthorityEditing() && isAuthorityEdited) {
             gp = new GradientPaint(1, 1, UIConstants.AUTHORITY_BLUE, 1, height - 1, UIConstants.AUTHORITY_DARK_BLUE);
         } else if (isPressedPainted) {
             gp = new GradientPaint(1, 1, color, 1, height - 1, color);
@@ -99,7 +100,7 @@ public class GUIPaintUtils {
         GradientPaint gp;
         if (hoverColor != null) {
             gp = new GradientPaint(1, 1, hoverColor, 1, height - 1, hoverColor);
-        } else if (BaseUtils.isAuthorityEditing() && isAuthorityEdited) {
+        } else if (DesignerMode.isAuthorityEditing() && isAuthorityEdited) {
             gp = new GradientPaint(1, 1, UIConstants.AUTHORITY_BLUE, 1, height - 1, UIConstants.HOVER_BLUE);
         } else if (isPressedPainted) {
             gp = new GradientPaint(1, 1, UIConstants.ATTRIBUTE_HOVER, 1, height - 1, UIConstants.ATTRIBUTE_HOVER);
@@ -129,7 +130,7 @@ public class GUIPaintUtils {
         Color oldColor = g2d.getColor();
         if (pressedColor != null) {
             g2d.setColor(pressedColor);
-        } else if (BaseUtils.isAuthorityEditing() && isAuthorityEdited) {
+        } else if (DesignerMode.isAuthorityEditing() && isAuthorityEdited) {
             g2d.setColor(UIConstants.AUTHORITY_PRESS_BLUE);
         } else {
             g2d.setColor(UIConstants.ATTRIBUTE_PRESS);

@@ -4,6 +4,7 @@ import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.base.Parameter;
 import com.fr.base.parameter.ParameterUI;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignState;
 import com.fr.design.actions.AllowAuthorityEditAction;
 import com.fr.design.actions.ExitAuthorityEditAction;
@@ -458,7 +459,7 @@ public class ParameterDefinitePane extends JPanel implements ToolBarMenuDockPlus
      * @return 文件菜单的子菜单
      */
     public ShortCut[] shortcut4FileMenu() {
-        return (ShortCut[]) ArrayUtils.addAll(BaseUtils.isAuthorityEditing() ?
+        return (ShortCut[]) ArrayUtils.addAll(DesignerMode.isAuthorityEditing() ?
                         new ShortCut[]{new SaveTemplateAction(HistoryTemplateListPane.getInstance().getCurrentEditingTemplate()),
                                 new UndoAction(HistoryTemplateListPane.getInstance().getCurrentEditingTemplate()),
                                 new RedoAction(HistoryTemplateListPane.getInstance().getCurrentEditingTemplate())} :
@@ -477,7 +478,7 @@ public class ParameterDefinitePane extends JPanel implements ToolBarMenuDockPlus
      */
     public MenuDef[] menus4Target() {
         MenuDef tplMenu = new MenuDef(KeySetUtils.TEMPLATE.getMenuKeySetName(),KeySetUtils.TEMPLATE.getMnemonic());
-        if (!BaseUtils.isAuthorityEditing()) {
+        if (!DesignerMode.isAuthorityEditing()) {
             tplMenu.addShortCut(new NameSeparator(com.fr.design.i18n.Toolkit.i18nText("FR-Utils_WorkBook")));
             tplMenu.addShortCut(new ReportParameterAction(workBook));
             tplMenu.addShortCut(new NameSeparator(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"DashBoard-Potence", "Edit"})));

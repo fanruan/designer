@@ -1,6 +1,7 @@
 package com.fr.design;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.workspace.WorkContext;
 
@@ -43,7 +44,7 @@ public class DesignState {
 //            designState += REMOTE;
 //        }
 //        isRoot = env != null && env.isRoot();
-        isAuthority = BaseUtils.isAuthorityEditing();
+        isAuthority = DesignerMode.isAuthorityEditing();
     }
 
     public int getDesignState() {

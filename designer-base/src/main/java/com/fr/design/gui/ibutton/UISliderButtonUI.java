@@ -13,6 +13,7 @@ import javax.swing.plaf.basic.BasicHTML;
 import javax.swing.text.View;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.roleAuthority.ReportAndFSManagePane;
 import com.fr.stable.Constants;
@@ -174,7 +175,7 @@ public class UISliderButtonUI extends BasicButtonUI {
 
     private void fillNormal(Graphics2D g2d, int x, int y, int width, int height, boolean isRound, int rectDirection, boolean isAuthorityEdited, boolean isPressedPainted) {
         GradientPaint gp;
-        if (BaseUtils.isAuthorityEditing() && isAuthorityEdited) {
+        if (DesignerMode.isAuthorityEditing() && isAuthorityEdited) {
             gp = new GradientPaint(1, 1, UIConstants.AUTHORITY_BLUE, 1, height - 1, UIConstants.AUTHORITY_DARK_BLUE);
         } else if (isPressedPainted) {
             gp = new GradientPaint(1, 1, UIConstants.SELECT_TAB, 1, height - 1, UIConstants.SELECT_TAB);
@@ -187,7 +188,7 @@ public class UISliderButtonUI extends BasicButtonUI {
 
     private void fillRollOver(Graphics2D g2d, int x, int y, int width, int height, boolean isRound, int rectDirection, boolean isAuthorityEdited, boolean isPressedPainted) {
         GradientPaint gp;
-        if (BaseUtils.isAuthorityEditing() && isAuthorityEdited) {
+        if (DesignerMode.isAuthorityEditing() && isAuthorityEdited) {
             gp = new GradientPaint(1, 1, UIConstants.AUTHORITY_BLUE, 1, height - 1, UIConstants.HOVER_BLUE);
         } else if (isPressedPainted) {
             gp = new GradientPaint(1, 1, UIConstants.POP_DIALOG_BORDER, 1, height - 1, UIConstants.POP_DIALOG_BORDER);
@@ -199,7 +200,7 @@ public class UISliderButtonUI extends BasicButtonUI {
 
     private void fillPressed(Graphics2D g2d, int x, int y, int width, int height, boolean isRound, int rectDirection, boolean isAuthorityEdited) {
         Color oldColor = g2d.getColor();
-        if (BaseUtils.isAuthorityEditing() && isAuthorityEdited) {
+        if (DesignerMode.isAuthorityEditing() && isAuthorityEdited) {
             g2d.setColor(UIConstants.AUTHORITY_PRESS_BLUE);
         } else {
             g2d.setColor(UIConstants.POP_DIALOG_BORDER);
