@@ -9,20 +9,17 @@ import com.fr.design.env.DesignerWorkspaceGenerator;
 import com.fr.design.env.DesignerWorkspaceInfo;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.mainframe.JTemplate;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
 import com.fr.design.utils.DesignUtils;
-import com.fr.event.EventDispatcher;
-import com.fr.general.GeneralContext;
-import com.fr.stable.EnvChangedListener;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.WorkContextCallback;
 import com.fr.workspace.Workspace;
 import com.fr.workspace.connect.AuthException;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import java.awt.event.ActionEvent;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -35,17 +32,6 @@ public class SwitchExistEnv extends MenuDef {
         this.setName(getMenuKeySet().getMenuName());
         this.setHasScrollSubMenu(true);
         initMenuDef();
-        JTemplate<?, ?> t = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
-        if (t != null) {
-            GeneralContext.addEnvWillChangedListener(
-                    t.getPath(),
-                    new EnvChangedListener() {
-                        public void envChanged() {
-                            SwitchExistEnv.this.clearShortCuts();
-                            initMenuDef();
-                        }
-                    });
-        }
     }
 
     private void initMenuDef() {
