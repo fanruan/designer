@@ -48,7 +48,7 @@ public class LabelAxisPositionPane extends ConditionAttrSingleConditionPane<Data
 
     @Override
     public String nameForPopupMenuItem() {
-        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design-Chart_MajorMinorAxis");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_MajorMinorAxis");
     }
 
     @Override

@@ -64,7 +64,7 @@ public class StructureNodeStylePane extends BasicBeanPane<AttrNode> {
         };
         JPanel panel1 = TableLayout4VanChartHelper.createGapTableLayoutPane(components1, rowSize, columnSize);
 
-        useImage = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_YES"),
+        useImage = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_YES"),
                 com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NO")});
         imagePane = new ImageBackgroundQuickPane(false);
         imagePane.setBorder(BorderFactory.createEmptyBorder(0,(int)TableLayout4VanChartHelper.DESCRIPTION_AREA_WIDTH + TableLayout4VanChartHelper.COMPONENT_INTERVAL,0,0));
