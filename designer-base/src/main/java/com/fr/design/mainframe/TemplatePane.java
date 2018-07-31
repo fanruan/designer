@@ -15,15 +15,26 @@ import com.fr.design.utils.DesignUtils;
 import com.fr.env.EnvListPane;
 import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
-
 import com.fr.stable.EnvChangedListener;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.WorkContextCallback;
 import com.fr.workspace.Workspace;
 import com.fr.workspace.connect.AuthException;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -132,7 +143,6 @@ public class TemplatePane extends JPanel implements MouseListener {
         final String selectedName = envListPane.updateEnvManager();
         DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
         DesignerWorkspaceInfo selectedEnv = envManager.getWorkspaceInfo(selectedName);
-        GeneralContext.fireEnvWillChangeListener();
         try {
             Workspace workspace = DesignerWorkspaceGenerator.generate(selectedEnv);
             if (workspace == null) {
