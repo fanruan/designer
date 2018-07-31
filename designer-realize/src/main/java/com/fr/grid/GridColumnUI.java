@@ -13,6 +13,7 @@ import com.fr.base.BaseUtils;
 import com.fr.base.DynamicUnitList;
 import com.fr.base.GraphHelper;
 import com.fr.base.ScreenResolution;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.cache.list.IntList;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.mainframe.ElementCasePane;
@@ -132,7 +133,7 @@ public class GridColumnUI extends ComponentUI {
     }
 
     private void drawAuthority(ElementCase elementCase, Graphics2D g2d, double tmpWidth1, double tmpIncreaseWidth, Dimension size, int i) {
-        boolean isAuthorityEdited = BaseUtils.isAuthorityEditing();
+        boolean isAuthorityEdited = DesignerMode.isAuthorityEditing();
         if (isAuthorityEdited) {
         	ColumnRowPrivilegeControl cpc = elementCase.getColumnPrivilegeControl(i);
         	String selectedRoles = ReportAndFSManagePane.getInstance().getRoleTree().getSelectedRoleName();

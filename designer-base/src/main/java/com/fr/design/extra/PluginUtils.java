@@ -229,7 +229,7 @@ public class PluginUtils {
                 jo.put("free", pluginContext.isFree());
                 jo.put("licDamaged", pluginContext.isLicDamaged());
                 jo.put("available", pluginContext.isAvailable());
-                jo.put("leftDays", String.valueOf(pluginContext.getLeftDays()));
+                jo.put("leftDays", pluginContext.getLeftDays());
                 jo.put("trial", pluginContext.isOnTrial());
                 jo.put("deadline", getDeadline(pluginContext));
                 jo.put("registerFailed", pluginContext.isRegisterFailed());

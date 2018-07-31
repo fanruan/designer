@@ -1,11 +1,10 @@
 package com.fr.start;
 
-import com.fr.base.FRContext;
 import com.fr.design.mainframe.bbs.BBSConstants;
 import com.fr.event.Event;
 import com.fr.event.EventDispatcher;
 import com.fr.event.Listener;
-
+import com.fr.general.GeneralContext;
 import com.fr.module.ModuleEvent;
 import com.fr.stable.StringUtils;
 
@@ -135,7 +134,7 @@ public class SplashContext {
     private boolean shouldShowThanks() {
         Locale[] hideLocales = {Locale.CHINA, Locale.TAIWAN};
         for (Locale loc : hideLocales) {
-            if (FRContext.getLocale().equals(loc)) {
+            if (GeneralContext.getLocale().equals(loc)) {
                 return true;
             }
         }

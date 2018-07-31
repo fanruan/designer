@@ -1,6 +1,7 @@
 package com.fr.design.gui.icontainer;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.stable.Constants;
@@ -443,7 +444,7 @@ public class UIResizableContainer extends JPanel {
                         containerWidth = toolPaneHeight;
                     }
                     refreshContainer();
-                    if (BaseUtils.isAuthorityEditing()) {
+                    if (DesignerMode.isAuthorityEditing()) {
                         DesignerContext.getDesignerFrame().doResize();
                     }
 
@@ -476,7 +477,7 @@ public class UIResizableContainer extends JPanel {
                             containerWidth = toolPaneHeight;
                         }
                         refreshContainer();
-                        if (BaseUtils.isAuthorityEditing()) {
+                        if (DesignerMode.isAuthorityEditing()) {
                             DesignerContext.getDesignerFrame().doResize();
                         }
                     }

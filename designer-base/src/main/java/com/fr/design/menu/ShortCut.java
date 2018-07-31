@@ -71,4 +71,11 @@ public abstract class ShortCut extends AbstractProvider implements Mutable {
     public void setMenuKeySet(MenuKeySet menuKeySet) {
         this.menuKeySet = menuKeySet;
     }
+
+    /**
+     * 权限编辑模式变更时候会调用这个方法
+     * @param isAuhtority
+     */
+    public void notifyFromAuhtorityChange(boolean isAuhtority) {
+    }
 }

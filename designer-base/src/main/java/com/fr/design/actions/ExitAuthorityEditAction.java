@@ -1,6 +1,7 @@
 package com.fr.design.actions;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.data.datapane.TableDataTreePane;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.designer.TargetComponent;
@@ -33,8 +34,8 @@ public class ExitAuthorityEditAction extends TemplateComponentAction {
 			return false;
 		}
 
-		if (BaseUtils.isAuthorityEditing()) {
-			BaseUtils.setAuthorityEditing(false);
+		if (DesignerMode.isAuthorityEditing()) {
+			DesignerMode.setMode(DesignerMode.NORMARL);
 			WestRegionContainerPane.getInstance().replaceDownPane(TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter()));
 			HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().refreshEastPropertiesPane();
 			DesignerContext.getDesignerFrame().resetToolkitByPlus(tc.getToolBarMenuDockPlus());

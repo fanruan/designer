@@ -2,6 +2,7 @@ package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
@@ -31,21 +32,30 @@ import com.fr.file.FILE;
 import com.fr.file.FileNodeFILE;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
-
 import com.fr.io.utils.ResourceIOUtils;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.workspace.WorkContext;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -59,6 +69,8 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
     private CardLayout card;
 
     private JPanel cardPane;
+
+    private java.util.List<FileToolbarStateChangeListener> otherToobarStateChangeListeners = new ArrayList<>();
 
     private FileOperations selectedOperation;
 
@@ -130,7 +142,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         HistoryTemplateListPane.getInstance().setCurrentEditingTemplate(jt);
         //处理自动新建的模板
         MutilTempalteTabPane.getInstance().doWithtemTemplate();
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             RolesAlreadyEditedPane.getInstance().refreshDockingView();
         }
 
@@ -244,6 +256,21 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
 
             selectedOperation.refresh();
             stateChange();
+
+        }
+    }
+
+    public void addToobarStateChangeListener(FileToolbarStateChangeListener toobarStateChangeListener) {
+        this.otherToobarStateChangeListeners.add(toobarStateChangeListener);
+    }
+
+    public void removeToobarStateChangeListener(FileToolbarStateChangeListener toobarStateChangeListener) {
+        this.otherToobarStateChangeListeners.remove(toobarStateChangeListener);
+    }
+
+    private void otherStateChange() {
+        for (FileToolbarStateChangeListener toobarStateChangeListener : otherToobarStateChangeListeners) {
+            toobarStateChangeListener.stateChange();
         }
     }
 
@@ -313,6 +340,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             delFileAction.setEnabled(true);
         }
 
+        otherStateChange();
     }
 
     /**
@@ -578,4 +606,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         return null;
     }
 
+    public FileOperations getSelectedOperation() {
+        return selectedOperation;
+    }
 }

@@ -3,6 +3,7 @@ package com.fr.design.mainframe;
 import com.fr.base.BaseUtils;
 import com.fr.base.PaperSize;
 import com.fr.base.Parameter;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignState;
 import com.fr.design.actions.core.WorkBookSupportable;
 import com.fr.design.actions.file.WebPreviewUtils;
@@ -55,7 +56,6 @@ import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WBorderLayout;
 import com.fr.form.ui.container.WLayout;
 import com.fr.general.ComparatorUtils;
-
 import com.fr.log.FineLoggerFactory;
 import com.fr.page.PaperSettingProvider;
 import com.fr.report.worksheet.FormElementCase;
@@ -141,7 +141,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         return processInfo;
     }
 
-    public FormECCompositeProvider getReportComposite(){
+    public FormECCompositeProvider getReportComposite() {
         return this.reportComposite;
     }
 
@@ -204,7 +204,8 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
      */
     public ShortCut[] shortcut4FileMenu() {
         return (ShortCut[]) ArrayUtils.addAll(
-                super.shortcut4FileMenu(), new ShortCut[]{this.createWorkBookExportMenu()}
+                super.shortcut4FileMenu(),
+                DesignerMode.isVcsMode() ? new ShortCut[0] : new ShortCut[]{this.createWorkBookExportMenu()}
         );
     }
 
@@ -257,6 +258,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         });
         formDesign.addDesignerEditListener(new DesignerEditListener() {
             private XComponent lastAffectedCreator;
+
             @Override
             public void fireCreatorModified(DesignerEvent evt) {
                 if (evt.getCreatorEventID() == DesignerEvent.CREATOR_CUTED) {
@@ -340,7 +342,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         }
         ParameterPropertyPane.getInstance().setAddParaPaneVisible(isAddParaPaneVisible(comp), this);
         editingComponent = comp.createToolPane(this, formDesign);
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             EastRegionContainerPane.getInstance().replaceWidgetSettingsPane(
                     ComparatorUtils.equals(editingComponent.getClass(), NoSupportAuthorityEdit.class) ? editingComponent : createAuthorityEditPane());
         } else {
@@ -578,7 +580,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
             throw new RuntimeException(e);
         }
 
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             this.authorityUndoState = u;
         } else {
             this.undoState = u;
@@ -653,7 +655,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
 
 
     public JPanel getEastUpPane() {
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             if (formDesign.isSupportAuthority()) {
                 return new AuthorityPropertyPane(this);
             } else {
@@ -717,7 +719,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         DesignerContext.getDesignerFrame().resetToolkitByPlus(JForm.this);
         //表单切换后拖不进去组件是因为找不到designer
         WidgetToolBarPane.getInstance(formDesign);
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             if (formDesign.isSupportAuthority()) {
                 EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.AUTHORITY_EDITION);
                 EastRegionContainerPane.getInstance().replaceAuthorityEditionPane(new AuthorityPropertyPane(this));
@@ -843,7 +845,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         Object[] designerArg = new Object[]{formDesign.getElementCase(), getTarget()};
         FormECDesignerProvider formECDesigner = StableFactory.getMarkedInstanceObjectFromClass(FormECDesignerProvider.XML_TAG, designerArg, designerClass, FormECDesignerProvider.class);
         // 如果是移动端专属模版，需要修改页面大小并显示边缘线
-        PaperSettingProvider paperSetting = ((FormElementCase)formECDesigner.getEditingElementCase()).getReportSettings().getPaperSetting();
+        PaperSettingProvider paperSetting = ((FormElementCase) formECDesigner.getEditingElementCase()).getReportSettings().getPaperSetting();
         paperSetting.setPaperSize(getTarget().getFormMobileAttr().isMobileOnly() ? PaperSize.PAPERSIZE_MOBILE : new PaperSize());
 
         return formECDesigner;
