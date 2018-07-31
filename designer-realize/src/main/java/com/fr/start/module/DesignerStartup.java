@@ -59,7 +59,7 @@ public class DesignerStartup extends Activator {
         service.shutdown();
         DesignerContext.getDesignerFrame().setVisible(true);
         //启动画面结束
-        SplashContext.getInstance().hide();
+//        SplashContext.getInstance().hide();
 
         DesignerContext.getDesignerFrame().getProgressDialog().setVisible(true);
         startSub(StartFinishActivator.class);
