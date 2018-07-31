@@ -115,7 +115,7 @@ public class FormDesignerUI extends ComponentUI {
     private void paintWatermark(Graphics2D g) {
         WatermarkAttr watermark = ReportUtils.getWatermarkFromAttrMarkFile(designer.getTarget());
         WatermarkPainter painter = WatermarkPainter.createPainter(watermark, designer.getResolution());
-        painter.paint(g, 0, designer.getParaHeight(), designer.getArea().getBounds());
+        painter.paint(g, 0, 0, designer.getArea().getBounds());
     }
 
     private int[] getActualLine(int i) {
