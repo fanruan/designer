@@ -8,21 +8,23 @@ import com.fr.base.FRContext;
 import com.fr.base.Utils;
 import com.fr.design.actions.help.alphafine.AlphaFineConfigManager;
 import com.fr.design.constants.UIConstants;
+import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.env.DesignerWorkspaceGenerator;
 import com.fr.design.env.DesignerWorkspaceInfo;
 import com.fr.design.env.DesignerWorkspaceType;
 import com.fr.design.env.LocalDesignerWorkspaceInfo;
 import com.fr.design.env.RemoteDesignerWorkspaceInfo;
+import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.style.color.ColorSelectConfigManager;
+import com.fr.design.utils.DesignUtils;
 import com.fr.file.FILEFactory;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogFormatter;
 import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
-import com.fr.general.Inter;
 import com.fr.general.xml.GeneralXMLTools;
-import com.fr.locale.InterProviderFactory;
 import com.fr.log.FineLoggerFactory;
+import com.fr.stable.CommonUtils;
 import com.fr.stable.Constants;
 import com.fr.stable.EnvChangedListener;
 import com.fr.stable.ListMap;
@@ -37,12 +39,12 @@ import com.fr.stable.xml.XMLTools;
 import com.fr.stable.xml.XMLWriter;
 import com.fr.stable.xml.XMLableReader;
 import com.fr.workspace.WorkContext;
+import com.fr.workspace.WorkContextCallback;
 import com.fr.workspace.connect.AuthException;
 
-import javax.swing.SwingWorker;
+import javax.swing.*;
 import javax.swing.SwingWorker.StateValue;
-import java.awt.Color;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -107,7 +109,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     private Color paginationLineColor = Color.black; // line color of paper
     private boolean supportCellEditorDef = false;
     private boolean isDragPermited = false;
-    private int language;
+    private Locale language = Locale.SIMPLIFIED_CHINESE;
     //2014-8-26默认显示全部, 因为以前的版本, 虽然是false, 实际上是显示所有表, 因此这边要兼容
     private boolean useOracleSystemSpace = true;
     private int cachingTemplateLimit = CACHINGTEMPLATE_LIMIT;
@@ -549,7 +551,18 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
             return;
         }
         try {
-            WorkContext.switchTo(DesignerWorkspaceGenerator.generate(getDefaultConfig()));
+            final String envName = getDefaultEnvName();
+            WorkContext.switchTo(DesignerWorkspaceGenerator.generate(getDefaultConfig()), new WorkContextCallback() {
+
+                @Override
+                public void done() {
+
+                    DesignerEnvManager.getEnvManager().setCurEnvName(envName);
+                    DesignUtils.refreshDesignerFrame();
+                    HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().refreshToolArea();
+                    DesignTableDataManager.fireDSChanged(new HashMap<String, String>());
+                }
+            });
         } catch (AuthException e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
@@ -698,37 +711,15 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     /**
      * 返回语言类型
      */
-    public int getLanguage() {
-        return this.language;
-    }
-
-    /**
-     * 返回语言类型
-     */
-    public Locale getLocale() {
-        // 性能
-        if (language <= 1) {
-            return Locale.CHINA;
-        }
-        Locale[] locales = supportLocale();
-        if (language <= locales.length) {
-            return locales[language - 1];
-        }
-        return Locale.CHINA;
-    }
-
-    // 当前系统支持的语言
-    protected Locale[] supportLocale() {
-        Inter.getInstance();
-        Map<Locale, String> languageMap = InterProviderFactory.getProvider().getSupportLocaleMap();
-        return languageMap.keySet().toArray(new Locale[languageMap.size()]);
+    public Locale getLanguage() {
+        return language;
     }
 
     /**
      * 设置语言参数
      */
-    public void setLanguage(int i) {
-        this.language = i;
+    public void setLanguage(Locale locale) {
+        this.language = locale;
     }
 
     /**
@@ -1295,7 +1286,34 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     private void readLanguage(XMLableReader reader) {
         String tmpVal;
         if ((tmpVal = reader.getElementValue()) != null) {
-            this.setLanguage(Integer.parseInt(tmpVal));
+            if (!CommonUtils.isNumber(tmpVal)) {
+                setLanguage(CommonUtils.stringToLocale(tmpVal));
+            } else {
+                // 用于兼容10.0之前的版本
+                int value = Integer.parseInt(tmpVal);
+                switch (value) {
+                    case 0:
+                        setLanguage(Locale.SIMPLIFIED_CHINESE);
+                        break;
+                    case 1:
+                        setLanguage(Locale.US);
+                        break;
+                    case 2:
+                        setLanguage(Locale.JAPAN);
+                        break;
+                    case 3:
+                        setLanguage(Locale.TRADITIONAL_CHINESE);
+                        break;
+                    case 4:
+                        setLanguage(Locale.KOREA);
+                        break;
+                    case 5:
+                        setLanguage(new Locale("pt", "PT"));
+                        break;
+                    default:
+                        setLanguage(Locale.SIMPLIFIED_CHINESE);
+                }
+            }
         }
     }
 
@@ -1351,6 +1369,34 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
 
     private void readRecentColor(XMLableReader reader) {
         reader.readXMLObject(this.configManager);
+    }
+
+    public String getUUID() {
+        return StringUtils.isEmpty(uuid) ? UUID.randomUUID().toString() : uuid;
+    }
+
+    public int getActiveKeyStatus() {
+        return activeKeyStatus;
+    }
+
+    public void setActiveKeyStatus(int activeKeyStatus) {
+        this.activeKeyStatus = activeKeyStatus;
+    }
+
+    public AlphaFineConfigManager getAlphaFineConfigManager() {
+        return alphaFineConfigManager;
+    }
+
+    public void setAlphaFineConfigManager(AlphaFineConfigManager alphaFineConfigManager) {
+        this.alphaFineConfigManager = alphaFineConfigManager;
+    }
+
+    public boolean isImageCompress() {
+        return imageCompress;
+    }
+
+    public void setImageCompress(boolean imageCompress) {
+        this.imageCompress = imageCompress;
     }
 
     /**
@@ -1625,17 +1671,6 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         }
     }
 
-    public String getUUID() {
-        return StringUtils.isEmpty(uuid) ? UUID.randomUUID().toString() : uuid;
-    }
-
-    public int getActiveKeyStatus() {
-        return activeKeyStatus;
-    }
-
-    public void setActiveKeyStatus(int activeKeyStatus) {
-        this.activeKeyStatus = activeKeyStatus;
-    }
 
     //写入uuid
     private void writeUUID(XMLPrintWriter writer) {
@@ -1799,7 +1834,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         writer.textNode("" + this.lastOpenFilePath);
         writer.end();
 
-        writer.startTAG("Language").textNode(String.valueOf(this.language)).end()
+        writer.startTAG("Language").textNode(CommonUtils.localeToString(language)).end()
                 .startTAG("JettyServerPort").textNode(String.valueOf(this.jettyServerPort)).end();
     }
 
@@ -1852,20 +1887,4 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 .end();
     }
 
-
-    public AlphaFineConfigManager getAlphaFineConfigManager() {
-        return alphaFineConfigManager;
-    }
-
-    public void setAlphaFineConfigManager(AlphaFineConfigManager alphaFineConfigManager) {
-        this.alphaFineConfigManager = alphaFineConfigManager;
-    }
-
-    public boolean isImageCompress() {
-        return imageCompress;
-    }
-
-    public void setImageCompress(boolean imageCompress) {
-        this.imageCompress = imageCompress;
-    }
 }

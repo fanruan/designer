@@ -1,6 +1,7 @@
 package com.fr.design.mainframe.alphafine.search.manager.impl;
 
 import com.fr.design.actions.UpdateAction;
+import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.CellType;
 import com.fr.design.mainframe.alphafine.cell.CellModelHelper;
 import com.fr.design.mainframe.alphafine.cell.model.ActionModel;
@@ -9,7 +10,6 @@ import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.search.manager.fun.AlphaFineSearchProvider;
 import com.fr.design.mainframe.toolbar.UpdateActionManager;
-
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
@@ -18,7 +18,7 @@ import com.fr.third.org.apache.lucene.analysis.Analyzer;
 import com.fr.third.org.apache.lucene.analysis.standard.StandardAnalyzer;
 import com.fr.third.org.apache.lucene.document.Document;
 import com.fr.third.org.apache.lucene.document.Field;
-import com.fr.third.org.apache.lucene.document.IntField;
+import com.fr.third.org.apache.lucene.document.LongField;
 import com.fr.third.org.apache.lucene.document.StringField;
 import com.fr.third.org.apache.lucene.index.DirectoryReader;
 import com.fr.third.org.apache.lucene.index.IndexReader;
@@ -44,7 +44,7 @@ import java.util.List;
  * Created by XiaXiang on 2018/1/22.
  */
 public class RecentSearchManager implements AlphaFineSearchProvider {
-    private static final int MAX_SIZE = 3;
+    private static final int MAX_SIZE = 100;
     private static RecentSearchManager instance;
     IndexReader indexReader = null;
     IndexSearcher indexSearcher = null;
@@ -77,8 +77,12 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
         recentModelList = getRecentModelList(searchText);
         if (recentModelList != null && recentModelList.size() > 0) {
             modelList.add(new MoreModel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_AlphaFine_Latest")));
+            if (recentModelList.size() > AlphaFineConstants.LATEST_SHOW_SIZE) {
+                modelList.addAll(recentModelList.subList(0, AlphaFineConstants.LATEST_SHOW_SIZE));
+            } else {
+                modelList.addAll(recentModelList);
+            }
         }
-        modelList.addAll(recentModelList);
         return modelList;
     }
 
@@ -126,15 +130,14 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
      *
      * @param searchKey
      * @param cellModel
-     * @param searchCount
      */
-    public void addModel(String searchKey, AlphaCellModel cellModel, int searchCount) {
+    public void addModel(String searchKey, AlphaCellModel cellModel) {
         try {
             initWriter();
             Document doc = new Document();
             doc.add(new StringField("searchKey", searchKey, Field.Store.YES));
             doc.add(new StringField("cellModel", cellModel.ModelToJson().toString(), Field.Store.YES));
-            doc.add(new IntField("searchCount", searchCount, Field.Store.YES));
+            doc.add(new LongField("time", System.currentTimeMillis(), Field.Store.YES));
             writeDoc(doc);
         } catch (JSONException e) {
             FineLoggerFactory.getLogger().error("add document error: " + e.getMessage());
@@ -170,7 +173,7 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
             IndexSearcher searcher = new IndexSearcher(indexReader);
             //构建排序字段
             SortField[] sortField = new SortField[1];
-            sortField[0] = new SortField("searchCount", SortField.Type.INT, true);
+            sortField[0] = new SortField("time", SortField.Type.LONG, true);
             Sort sortKey = new Sort(sortField);
             String searchField = "searchKey";
             Term term = new Term(searchField, key);
@@ -186,19 +189,23 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
                     UpdateAction action = UpdateActionManager.getUpdateActionManager().getActionByName(model.getName());
                     if (action != null) {
                         ((ActionModel) model).setAction(action);
-                        recentModelList.add(model);
+                        addModel(model);
                     }
                 } else {
-                    recentModelList.add(model);
+                    addModel(model);
                 }
-
-
             }
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error("local search error: " + e.getMessage());
             return recentModelList;
         }
         return recentModelList;
+    }
+
+    private void addModel(AlphaCellModel model) {
+        if (!recentModelList.contains(model)) {
+            recentModelList.add(model);
+        }
     }
 
 

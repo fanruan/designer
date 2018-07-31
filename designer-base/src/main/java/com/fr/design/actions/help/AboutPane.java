@@ -10,8 +10,8 @@ import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.CloudCenter;
+import com.fr.general.GeneralContext;
 import com.fr.general.GeneralUtils;
-
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
 import com.fr.stable.bridge.StableFactory;
@@ -72,18 +72,18 @@ public class AboutPane extends JPanel {
         addPhoneAndQQPane(contentPane);
 
         // 官网
-        JPanel urlActionPane = getURLActionPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Official_Website"), CloudCenter.getInstance().acquireUrlByKind("website." + FRContext.getLocale(), ProductConstants.WEBSITE_URL));
+        JPanel urlActionPane = getURLActionPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Official_Website"), CloudCenter.getInstance().acquireUrlByKind("website." + GeneralContext.getLocale(), ProductConstants.WEBSITE_URL));
 
         // 支持邮箱
         String defaultEmail = CloudCenter.getInstance().acquireUrlByKind("support.email", ProductConstants.SUPPORT_EMAIL);
-        JPanel emailPane = getEmailActionPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Support_Email"), CloudCenter.getInstance().acquireUrlByKind("support.email." + FRContext.getLocale(), defaultEmail));
+        JPanel emailPane = getEmailActionPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Support_Email"), CloudCenter.getInstance().acquireUrlByKind("support.email." + GeneralContext.getLocale(), defaultEmail));
 
         contentPane.add(urlActionPane);
         contentPane.add(emailPane);
 
-        if (FRContext.getLocale().equals(Locale.CHINA) || FRContext.getLocale().equals(Locale.TAIWAN)){
+        if (GeneralContext.getLocale().equals(Locale.CHINA) || GeneralContext.getLocale().equals(Locale.TAIWAN)) {
             contentPane.add(getRemarkPane());
-         }
+        }
 
         if (shouldShowThanks()) {
             addThankPane(contentPane);
@@ -93,13 +93,13 @@ public class AboutPane extends JPanel {
     private void addPhoneAndQQPane(JPanel contentPane) {
         BoxCenterAligmentPane boxCenterAlignmentPane;
         // 英文版不显示服务电话和QQ
-        if (FRContext.getLocale().equals(Locale.US)) {
+        if (GeneralContext.getLocale().equals(Locale.US)) {
             return;
         }
         boxCenterAlignmentPane = new BoxCenterAligmentPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Service_Phone") + CloudCenter.getInstance().acquireUrlByKind("service.phone." + FRContext.getLocale(), COMPANY_TELEPHONE));
         contentPane.add(boxCenterAlignmentPane);
         // 繁体版不显示QQ
-        if (FRContext.getLocale().equals(Locale.TAIWAN)) {
+        if (GeneralContext.getLocale().equals(Locale.TAIWAN)) {
             return;
         }
         boxCenterAlignmentPane = new BoxCenterAligmentPane("QQ: " + CloudCenter.getInstance().acquireUrlByKind("help.qq"));
@@ -110,17 +110,17 @@ public class AboutPane extends JPanel {
     private boolean shouldShowThanks() {
         Locale[] hideLocales = {Locale.US, Locale.KOREA, Locale.JAPAN};
         for (Locale loc : hideLocales) {
-            if (FRContext.getLocale().equals(loc)) {
+            if (GeneralContext.getLocale().equals(loc)) {
                 return false;
             }
         }
         return true;
     }
 
-    private JPanel getRemarkPane(){
-        String remark = com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_About_Remark_Info",PRESIDENT_PHONE);
+    private JPanel getRemarkPane() {
+        String remark = com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_About_Remark_Info", PRESIDENT_PHONE);
         UILabel label = new UILabel();
-        label.setSize(new Dimension(580,30));
+        label.setSize(new Dimension(580, 30));
 
         //用THML标签进行拼接，以实现自动换行
         StringBuilder builder = new StringBuilder("<html>");
@@ -139,12 +139,12 @@ public class AboutPane extends JPanel {
                     break;
                 }
             }
-            builder.append(chars, start, len-1).append("<br/>");
+            builder.append(chars, start, len - 1).append("<br/>");
             start = start + len - 1;
             len = 0;
         }
         //拼接剩余部分
-        builder.append(chars, start, remark.length()-start);
+        builder.append(chars, start, remark.length() - start);
         builder.append("</html>");
 
         JPanel jPanel = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
@@ -184,7 +184,7 @@ public class AboutPane extends JPanel {
                 StringUtils.BLANK, ProductConstants.RELEASE_VERSION, BUILD_PREFIX);
     }
 
-    private JPanel getEmailActionPane(final String desc, final String mailTo){
+    private JPanel getEmailActionPane(final String desc, final String mailTo) {
         ActionLabel emailLabel = new ActionLabel(mailTo);
 
         emailLabel.addActionListener(new ActionListener() {
@@ -204,7 +204,7 @@ public class AboutPane extends JPanel {
         return panel;
     }
 
-    private JPanel getURLActionPane(final String desc, final String url){
+    private JPanel getURLActionPane(final String desc, final String url) {
         ActionLabel actionLabel = new ActionLabel(url);
         actionLabel.addActionListener(new ActionListener() {
             @Override

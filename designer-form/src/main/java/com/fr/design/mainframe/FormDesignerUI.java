@@ -109,15 +109,13 @@ public class FormDesignerUI extends ComponentUI {
             // 当前正在添加的组件
             paintAddingBean(g, addingModel);
         }
-
-        paintWatermark((Graphics2D) g);
     }
 
     // 绘制水印
     private void paintWatermark(Graphics2D g) {
         WatermarkAttr watermark = ReportUtils.getWatermarkFromAttrMarkFile(designer.getTarget());
         WatermarkPainter painter = WatermarkPainter.createPainter(watermark, designer.getResolution());
-        painter.paint(g, 0, designer.getParaHeight(), designer.getArea().getBounds());
+        painter.paint(g, 0, 0, designer.getArea().getBounds());
     }
 
     private int[] getActualLine(int i) {
@@ -400,6 +398,7 @@ public class FormDesignerUI extends ComponentUI {
 //        g.drawImage(img,-designer.getArea().getHorizontalValue(),-designer.getArea().getVerticalValue() + designer.getParaHeight(), (int) (parent.getSize().width*time + designer.getArea().getHorizontalValue()), (int) (parent.getSize().height*time + designer.getArea().getVerticalValue()),null);
 
         designer.paintContent(clipg);
+        paintWatermark((Graphics2D) clipg);
         clipg.dispose();
 
         // 恢复双缓冲

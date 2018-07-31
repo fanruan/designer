@@ -20,15 +20,27 @@ import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
+import com.fr.event.EventDispatcher;
 import com.fr.general.ComparatorUtils;
-
 import com.fr.plugin.ExtraClassManager;
+import com.fr.plugin.context.PluginContext;
+import com.fr.plugin.manage.PluginFilter;
+import com.fr.plugin.observer.PluginEvent;
+import com.fr.plugin.observer.PluginEventListener;
+import com.fr.plugin.observer.PluginEventType;
 import com.fr.report.fun.VerticalTextProcessor;
 import com.fr.report.fun.impl.DefaultVerticalTextProcessor;
 import com.fr.stable.Constants;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
@@ -103,12 +115,32 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
         initOtherComponent();
         initAllNames();
 
-        indentationUnitProcessor = ExtraDesignClassManager.getInstance().getSingle(IndentationUnitProcessor.MARK_STRING);
-        if (null == indentationUnitProcessor) {
-            indentationUnitProcessor = new DefaultIndentationUnitProcessor();
-        }
+        addPluginListeners(PluginEventType.AfterRun);
+        addPluginListeners(PluginEventType.AfterStop);
+        refreshIndentationUnit();
     }
 
+    private void addPluginListeners(PluginEventType type) {
+        EventDispatcher.listen(type, new PluginEventListener() {
+
+            @Override
+            public void on(PluginEvent event) {
+                refreshIndentationUnit();
+            }
+        }, new PluginFilter() {
+
+            @Override
+            public boolean accept(PluginContext context) {
+                return context.contain(IndentationUnitProcessor.MARK_STRING);
+            }
+        });
+    }
+    private void refreshIndentationUnit() {
+        this.indentationUnitProcessor = ExtraDesignClassManager.getInstance().getSingle(IndentationUnitProcessor.MARK_STRING);
+        if (null == this.indentationUnitProcessor) {
+            this.indentationUnitProcessor = new DefaultIndentationUnitProcessor();
+        }
+    }
 
     private void initOtherComponent() {
         hPaneContainer.add(hAlignmentPane);

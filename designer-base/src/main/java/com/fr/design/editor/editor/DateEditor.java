@@ -6,9 +6,9 @@ package com.fr.design.editor.editor;
 import com.fr.base.FRContext;
 import com.fr.design.gui.date.UIDatePicker;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.general.GeneralContext;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -60,9 +60,9 @@ public class DateEditor extends Editor<Date> {
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
 		uiDatePicker = new UIDatePicker();
 		if (format) {
-			int dateStyle = (FRContext.getLocale() == Locale.ENGLISH
-					|| FRContext.getLocale() == Locale.US
-					|| FRContext.getLocale() == Locale.UK) ? uiDatePicker.STYLE_EN_DATE : uiDatePicker.STYLE_CN_DATE;
+			int dateStyle = (GeneralContext.getLocale() == Locale.ENGLISH
+					|| GeneralContext.getLocale() == Locale.US
+					|| GeneralContext.getLocale() == Locale.UK) ? uiDatePicker.STYLE_EN_DATE : uiDatePicker.STYLE_CN_DATE;
 			uiDatePicker.setStyle(dateStyle);
 			uiDatePicker.setEditable(false);
 		}

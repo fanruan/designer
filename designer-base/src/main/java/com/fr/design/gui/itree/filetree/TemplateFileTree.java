@@ -179,8 +179,9 @@ public class TemplateFileTree extends EnvFileTree {
 
     @Override
     protected ExpandMutableTreeNode[] loadChildTreeNodes(ExpandMutableTreeNode treeNode) {
+    
         FileNode[] fnArray = listFileNodes(treeNode);
-
+    
         return fileNodeArray2TreeNodeArray(fnArray);
     }
 
@@ -189,13 +190,14 @@ public class TemplateFileTree extends EnvFileTree {
      */
     private ExpandMutableTreeNode[] fileNodeArray2TreeNodeArray(FileNode[] fileNodes) {
         boolean isLocal = WorkContext.getCurrent().isLocal();
+        boolean isRoot = WorkContext.getCurrent().isRoot();
         ExpandMutableTreeNode[] res = new ExpandMutableTreeNode[fileNodes.length];
         for (int i = 0; i < res.length; i++) {
             FileNode fn = fileNodes[i];
             res[i] = new ExpandMutableTreeNode(fn);
             if (fn.isDirectory()) {
                 res[i].add(new ExpandMutableTreeNode());
-                if (isLocal || WorkContext.getCurrent().isRoot()) {
+                if (isLocal || isRoot) {
                     res[i].setFullAuthority(true);
                 } else {
                     boolean hasFullAuthority = isContained(fn);
@@ -203,7 +205,6 @@ public class TemplateFileTree extends EnvFileTree {
                 }
             }
         }
-
         return res;
     }
 
@@ -222,22 +223,18 @@ public class TemplateFileTree extends EnvFileTree {
         String fileName = fileNode.getEnvPath();
         String[] auPaths = auPath.split(CoreConstants.SEPARATOR);
         String[] nodePaths = fileName.split(CoreConstants.SEPARATOR);
-
-        if (auPaths.length == nodePaths.length) {
+        // 待判断目录是有权限目录或者有权限目录的子目录，全部权限
+        if (auPaths.length <= nodePaths.length) {
             for (int i = 0; i < auPaths.length; i++) {
                 if (!auPaths[i].equals(nodePaths[i])) {
                     return false;
                 }
             }
             return fileNode.isDirectory();
-        } else {
-            int len = Math.min(auPaths.length, nodePaths.length);
-            for (int i = 0; i < len; i++) {
-                if (!auPaths[i].equals(nodePaths[i])) {
-                    return false;
-                }
-            }
-            return true;
+        }
+        // 其他情况半权限
+        else {
+            return false;
         }
     }
 
@@ -273,6 +270,7 @@ public class TemplateFileTree extends EnvFileTree {
      * 求当前TreeNode下所有的FileNode.
      */
     private FileNode[] listFileNodes(ExpandMutableTreeNode currentTreeNode) {
+    
         if (currentTreeNode == null) {
             return new FileNode[0];
         }
@@ -280,6 +278,7 @@ public class TemplateFileTree extends EnvFileTree {
         Object object = currentTreeNode.getUserObject();
 
         if (object instanceof FileNode) {
+    
             return this.listFileNodes(((FileNode) object).getEnvPath());
         }
 

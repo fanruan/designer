@@ -12,19 +12,19 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.widget.ui.designer.AbstractDataModify;
-import com.fr.design.widget.ui.designer.component.WidgetBoundPane;
 import com.fr.form.ui.container.WAbsoluteLayout;
 
-
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Component;
 
 /**
  * Created by ibm on 2017/8/2.
  */
 public class FRAbsoluteLayoutDefinePane extends AbstractDataModify<WAbsoluteLayout> {
     protected UIComboBox comboBox;
-    private WidgetBoundPane boundPane;
 
     public FRAbsoluteLayoutDefinePane(XCreator xCreator) {
         super(xCreator);
@@ -34,17 +34,13 @@ public class FRAbsoluteLayoutDefinePane extends AbstractDataModify<WAbsoluteLayo
 
     public void initComponent() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        JPanel centerPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        boundPane = new WidgetBoundPane(creator);
-        centerPane.add(boundPane, BorderLayout.NORTH);
         initUIComboBox();
         JPanel thirdPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         JPanel jPanel = createThirdPane();
         jPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         thirdPane.add(jPanel, BorderLayout.CENTER);
         UIExpandablePane layoutExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget_Area_Scaling"), 280, 20, thirdPane);
-        centerPane.add(layoutExpandablePane, BorderLayout.CENTER);
-        this.add(centerPane, BorderLayout.CENTER);
+        this.add(layoutExpandablePane, BorderLayout.CENTER);
     }
 
     public JPanel createThirdPane() {
@@ -80,7 +76,6 @@ public class FRAbsoluteLayoutDefinePane extends AbstractDataModify<WAbsoluteLayo
     public void populateBean(WAbsoluteLayout ob) {
         populateSubPane(ob);
         comboBox.setSelectedIndex(ob.getCompState());
-        boundPane.populate();
     }
 
 
@@ -88,7 +83,6 @@ public class FRAbsoluteLayoutDefinePane extends AbstractDataModify<WAbsoluteLayo
     public WAbsoluteLayout updateBean() {
         WAbsoluteLayout wAbsoluteLayout = updateSubPane();
         wAbsoluteLayout.setCompState(comboBox.getSelectedIndex());
-        boundPane.update();
         return wAbsoluteLayout;
 
     }
