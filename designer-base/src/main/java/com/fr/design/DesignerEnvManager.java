@@ -559,7 +559,9 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
 
                     DesignerEnvManager.getEnvManager().setCurEnvName(envName);
                     DesignUtils.refreshDesignerFrame();
-                    HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().refreshToolArea();
+                    if(HistoryTemplateListPane.getInstance().getCurrentEditingTemplate() != null) {
+                        HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().refreshToolArea();
+                    }
                     DesignTableDataManager.fireDSChanged(new HashMap<String, String>());
                 }
             });
