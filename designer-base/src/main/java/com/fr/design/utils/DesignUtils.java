@@ -226,7 +226,7 @@ public class DesignUtils {
         }
 
         //先初始化的设计器locale, 后初始化lookandfeel.如果顺序改了, 这边也要调整.
-        Locale designerLocale = FRContext.getLocale();
+        Locale designerLocale = GeneralContext.getLocale();
         String file = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_File");
         char displayChar = file.charAt(0);
         if (!guiFRFont.canDisplay(displayChar)) {

@@ -13,12 +13,14 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.utils.DesignUtils;
 import com.fr.env.EnvListPane;
+import com.fr.event.EventDispatcher;
 import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
 import com.fr.stable.EnvChangedListener;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.WorkContextCallback;
 import com.fr.workspace.Workspace;
+import com.fr.workspace.WorkspaceEvent;
 import com.fr.workspace.connect.AuthException;
 
 import javax.swing.BorderFactory;

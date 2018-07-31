@@ -4,8 +4,8 @@ import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.menu.MenuKeySet;
-
 import com.fr.general.CloudCenter;
+import com.fr.general.GeneralContext;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
 
@@ -33,7 +33,7 @@ public class VideoAction extends UpdateAction
 	public void actionPerformed(ActionEvent arg0)
 	{
 		String url;
-		if (FRContext.getLocale().equals(Locale.US)) {
+		if (GeneralContext.getLocale().equals(Locale.US)) {
 			url = CloudCenter.getInstance().acquireUrlByKind("bbs.video.en");
 		} else {
 	  		url = CloudCenter.getInstance().acquireUrlByKind("bbs.video");

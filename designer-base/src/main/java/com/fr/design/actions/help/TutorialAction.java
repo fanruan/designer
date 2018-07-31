@@ -6,6 +6,7 @@ import com.fr.base.Utils;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.general.CloudCenter;
+import com.fr.general.GeneralContext;
 import com.fr.general.http.HttpToolbox;
 import com.fr.stable.CommonUtils;
 import com.fr.stable.ProductConstants;
@@ -78,7 +79,7 @@ public class TutorialAction extends UpdateAction {
 
     // 生成帮助文档 sitecenter key, help.zh_CN.10
     protected String createDocKey() {
-        String locale = FRContext.getLocale().toString();
+        String locale = GeneralContext.getLocale().toString();
         return CommonUtils.join(new String[]{ "help", locale, ProductConstants.MAIN_VERSION }, ".");
     }
 
