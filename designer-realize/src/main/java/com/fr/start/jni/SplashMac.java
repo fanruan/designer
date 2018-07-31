@@ -7,6 +7,7 @@ import com.fr.stable.StringUtils;
 import com.fr.start.SplashContext;
 import com.fr.start.SplashStrategy;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -24,6 +25,7 @@ public class SplashMac implements SplashStrategy {
 
 
     private SplashJNI jni;
+    private static final int EXILE = 10000;
 
     public SplashMac() {
         jni = new SplashJNI();
@@ -62,6 +64,11 @@ public class SplashMac implements SplashStrategy {
     @Override
     public void show() {
         if (jni != null) {
+            // mac下安装版模糊的hack
+            JFrame jFrame = new JFrame();
+            jFrame.setLocation(EXILE, EXILE);
+            jFrame.setVisible(true);
+            jFrame.setVisible(false);
             File splash = new File(StableUtils.pathJoin(ProductConstants.getEnvHome(), SplashContext.SPLASH_CACHE_NAME));
             String path = splash.exists() ? splash.getAbsolutePath() : loadResFromJar();
             jni.show(path);
