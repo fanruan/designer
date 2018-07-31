@@ -2,6 +2,7 @@ package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
@@ -68,13 +69,11 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
     private CardLayout card;
 
     private JPanel cardPane;
-    private java.util.List<FileToolbarStateChangeListener> otherToobarStateChangeListeners= new ArrayList<>();
 
-    public FileOperations getSelectedOperation() {
-        return selectedOperation;
-    }
+    private java.util.List<FileToolbarStateChangeListener> otherToobarStateChangeListeners = new ArrayList<>();
 
     private FileOperations selectedOperation;
+
     private UIToolbar toolBar;
 
     private OpenReportAction openReportAction = new OpenReportAction();
@@ -143,7 +142,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         HistoryTemplateListPane.getInstance().setCurrentEditingTemplate(jt);
         //处理自动新建的模板
         MutilTempalteTabPane.getInstance().doWithtemTemplate();
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             RolesAlreadyEditedPane.getInstance().refreshDockingView();
         }
 
@@ -263,7 +262,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
 
     public void addToobarStateChangeListener(FileToolbarStateChangeListener toobarStateChangeListener) {
         this.otherToobarStateChangeListeners.add(toobarStateChangeListener);
-        }
+    }
 
     public void removeToobarStateChangeListener(FileToolbarStateChangeListener toobarStateChangeListener) {
         this.otherToobarStateChangeListeners.remove(toobarStateChangeListener);
@@ -341,6 +340,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             delFileAction.setEnabled(true);
         }
 
+        otherStateChange();
     }
 
     /**
@@ -606,4 +606,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         return null;
     }
 
+    public FileOperations getSelectedOperation() {
+        return selectedOperation;
+    }
 }

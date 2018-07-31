@@ -7,6 +7,7 @@ import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.base.GraphHelper;
 import com.fr.base.ScreenResolution;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.common.inputevent.InputEventBaseOnOS;
 import com.fr.design.DesignState;
 import com.fr.design.DesignerEnvManager;
@@ -355,7 +356,7 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
         //聚合块不参加权限编辑
 
         if (selectElement == null) {
-            if (BaseUtils.isAuthorityEditing()) {
+            if (DesignerMode.isAuthorityEditing()) {
                 JTemplate jTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
                 if (jTemplate.isJWorkBook()) {
                     //清参数面板
@@ -715,7 +716,7 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
             initPolyBlocks();
             startEditing(blockName);
             if (selection == null) {
-                if (BaseUtils.isAuthorityEditing()) {
+                if (DesignerMode.isAuthorityEditing()) {
                     EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.AUTHORITY_EDITION_DISABLED);
                     EastRegionContainerPane.getInstance().replaceAuthorityEditionPane(new NoSupportAuthorityEdit());
                 } else {
@@ -870,7 +871,7 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
                 jt.setComposite();
             }
             DesignerContext.getDesignerFrame().resetToolkitByPlus(DesignerContext.getDesignerFrame().getSelectedJTemplate());
-            if (BaseUtils.isAuthorityEditing()) {
+            if (DesignerMode.isAuthorityEditing()) {
                 EastRegionContainerPane.getInstance().replaceDownPane(RolesAlreadyEditedPane.getInstance());
             } else if (isChooseBlock()) {
                 EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.POLY_CHART);

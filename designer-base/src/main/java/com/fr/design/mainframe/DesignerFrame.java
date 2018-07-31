@@ -306,7 +306,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
             public void componentResized(ComponentEvent e) {
 
                 reCalculateFrameSize();
-                if (BaseUtils.isAuthorityEditing()) {
+                if (DesignerMode.isAuthorityEditing()) {
                     doResize();
                 }
             }
@@ -529,7 +529,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
      */
     public void refreshDottedLine() {
 
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             populateAuthorityArea();
             populateCloseButton();
             addDottedLine();
@@ -592,7 +592,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         for (int i = 0; i < fixButtons.length; i++) {
             combineUp.add(fixButtons[i]);
         }
-        if (!BaseUtils.isAuthorityEditing()) {
+        if (!DesignerMode.isAuthorityEditing()) {
             combineUp.addSeparator(new Dimension(2, 16));
             if (toolbar4Form != null) {
                 for (int i = 0; i < toolbar4Form.length; i++) {
@@ -709,13 +709,13 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
      */
     public void needToAddAuhtorityPaint() {
 
-        newWorkBookPane.setButtonGray(BaseUtils.isAuthorityEditing());
+        newWorkBookPane.setButtonGray(DesignerMode.isAuthorityEditing());
 
         // 进入或退出权限编辑模式，通知插件
         Set<ShortCut> extraShortCuts = ExtraDesignClassManager.getInstance().getExtraShortCuts();
         for (ShortCut shortCut : extraShortCuts) {
             if (shortCut instanceof AbstractTemplateTreeShortCutProvider) {
-                ((AbstractTemplateTreeShortCutProvider) shortCut).notifyFromAuhtorityChange(BaseUtils.isAuthorityEditing());
+                ((AbstractTemplateTreeShortCutProvider) shortCut).notifyFromAuhtorityChange(DesignerMode.isAuthorityEditing());
             }
         }
     }

@@ -5,6 +5,7 @@ import com.fr.base.GraphHelper;
 import com.fr.base.ScreenResolution;
 import com.fr.base.Utils;
 import com.fr.base.iofile.attr.WatermarkAttr;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
@@ -84,7 +85,7 @@ public class FormDesignerUI extends ComponentUI {
 
         paintSelection(g);
 
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             paintAuthorityDetails(g, designer.getRootComponent());
         }
 

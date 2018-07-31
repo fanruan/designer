@@ -276,7 +276,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
      * @return 是则返回true
      */
     public boolean isSaved() {
-        return BaseUtils.isAuthorityEditing() ? this.authoritySaved : this.saved;
+        return DesignerMode.isAuthorityEditing() ? this.authoritySaved : this.saved;
     }
 
     /**
@@ -299,7 +299,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
     }
 
     public void setSaved(boolean isSaved) {
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             authoritySaved = isSaved;
         } else {
             saved = isSaved;
@@ -310,7 +310,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
      * @return
      */
     public UndoManager getUndoManager() {
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             if (this.authorityUndoManager == null) {
                 this.authorityUndoManager = new UndoManager();
                 int limit = DesignerEnvManager.getEnvManager().getUndoLimit();
@@ -385,7 +385,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
             return;
         }
         //如果是在不同的模式下产生的
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             this.getUndoManager().addEdit(new UndoStateEdit(authorityUndoState, newState));
             authorityUndoState = newState;
         } else {
@@ -414,7 +414,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
     }
 
     private void fireSuperTargetModified() {
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             this.authoritySaved = false;
         } else {
             this.saved = false;
@@ -720,7 +720,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
     public MenuDef[] menus4Target() {
         MenuDef tplMenu = new MenuDef(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_M-Template"), 'T');
         tplMenu.setAnchor(MenuHandler.TEMPLATE);
-        if (!BaseUtils.isAuthorityEditing()) {
+        if (!DesignerMode.isAuthorityEditing()) {
             tplMenu.addShortCut(new NameSeparator(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WorkBook")));
             tplMenu.addShortCut(new TableDataSourceAction(this));
             tplMenu.addShortCut(shortcut4TemplateMenu());

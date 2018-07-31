@@ -342,7 +342,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         }
         ParameterPropertyPane.getInstance().setAddParaPaneVisible(isAddParaPaneVisible(comp), this);
         editingComponent = comp.createToolPane(this, formDesign);
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             EastRegionContainerPane.getInstance().replaceWidgetSettingsPane(
                     ComparatorUtils.equals(editingComponent.getClass(), NoSupportAuthorityEdit.class) ? editingComponent : createAuthorityEditPane());
         } else {
@@ -580,7 +580,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
             throw new RuntimeException(e);
         }
 
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             this.authorityUndoState = u;
         } else {
             this.undoState = u;
@@ -655,7 +655,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
 
 
     public JPanel getEastUpPane() {
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             if (formDesign.isSupportAuthority()) {
                 return new AuthorityPropertyPane(this);
             } else {
@@ -719,7 +719,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         DesignerContext.getDesignerFrame().resetToolkitByPlus(JForm.this);
         //表单切换后拖不进去组件是因为找不到designer
         WidgetToolBarPane.getInstance(formDesign);
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             if (formDesign.isSupportAuthority()) {
                 EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.AUTHORITY_EDITION);
                 EastRegionContainerPane.getInstance().replaceAuthorityEditionPane(new AuthorityPropertyPane(this));

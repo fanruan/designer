@@ -286,7 +286,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
         if (this.getEditingElementCasePane() == null) {
             return JWorkBook.this;
         }
-        this.getEditingElementCasePane().getGrid().setEditable(!BaseUtils.isAuthorityEditing());
+        this.getEditingElementCasePane().getGrid().setEditable(!DesignerMode.isAuthorityEditing());
         centerPane.needToShowCoverAndHidPane();
         if (centerPane.isUpEditMode()) {
             return parameterPane;
@@ -317,7 +317,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
 
     @Override
     public JPanel getEastUpPane() {
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             return allowAuthorityUpPane();
         } else {
             return exitEastUpPane();
@@ -682,7 +682,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     public ShortCut[] shortCuts4Authority() {
         return new ShortCut[]{
                 new NameSeparator(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Permissions_Edition")),
-                BaseUtils.isAuthorityEditing() ? new ExitAuthorityEditAction(this) : new AllowAuthorityEditAction(this),
+                DesignerMode.isAuthorityEditing() ? new ExitAuthorityEditAction(this) : new AllowAuthorityEditAction(this),
         };
 
     }
@@ -728,7 +728,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     protected void applyUndoState(WorkBookUndoState u) {
         try {
             this.setTarget((WorkBook) u.getWorkBook().clone());
-            if (!BaseUtils.isAuthorityEditing()) {
+            if (!DesignerMode.isAuthorityEditing()) {
                 if (u.getAuthorityType() != BaseUndoState.NORMAL_STATE) {
                     applyAll(u);
                     this.undoState = u;
@@ -993,7 +993,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
                 }
             }
         }
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.AUTHORITY_EDITION);
             EastRegionContainerPane.getInstance().replaceAuthorityEditionPane(allowAuthorityUpPane());
             EastRegionContainerPane.getInstance().replaceConfiguredRolesPane(RolesAlreadyEditedPane.getInstance());

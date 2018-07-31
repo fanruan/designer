@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.KeyStroke;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.actions.TemplateComponentActionInterface;
 import com.fr.design.actions.UpdateAction;
 
@@ -30,7 +31,7 @@ public class DeleteBlockAction extends UpdateAction implements TemplateComponent
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (BaseUtils.isAuthorityEditing()) {
+		if (DesignerMode.isAuthorityEditing()) {
 			return;
 		}
 		final PolyDesigner designer = this.getEditingComponent();

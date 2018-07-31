@@ -12,6 +12,7 @@ import com.fr.base.BaseUtils;
 import com.fr.base.DynamicUnitList;
 import com.fr.base.GraphHelper;
 import com.fr.base.ScreenResolution;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.cache.list.IntList;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.mainframe.ElementCasePane;
@@ -137,7 +138,7 @@ public class GridRowUI extends ComponentUI {
     }
 
     private void drawAuthority(ElementCase elementCase, Graphics2D g2d, double tmpHeight1, double tmpIncreaseHeight, Dimension size, int i) {
-        boolean isAuthorityEdited = BaseUtils.isAuthorityEditing();
+        boolean isAuthorityEdited = DesignerMode.isAuthorityEditing();
         if (isAuthorityEdited) {
             ColumnRowPrivilegeControl cpc = elementCase.getRowPrivilegeControl(i);
             String selectedRoles = ReportAndFSManagePane.getInstance().getRoleTree().getSelectedRoleName();

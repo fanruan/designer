@@ -1,5 +1,6 @@
 package com.fr.design.mainframe.toolbar;
 
+import com.fr.base.BaseUtils;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.actions.edit.RedoAction;
 import com.fr.design.actions.edit.UndoAction;

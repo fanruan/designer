@@ -10,6 +10,7 @@ import com.fr.base.FRContext;
 import com.fr.base.Formula;
 import com.fr.base.ScreenResolution;
 import com.fr.base.Style;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignState;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
@@ -756,7 +757,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
      * @return 返回是否清除内容.
      */
     public boolean clearContents() {
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             return false;
         }
         boolean b = this.selection.clear(Clear.CONTENTS, this);
@@ -1043,7 +1044,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
      */
     public UIPopupMenu createRowPopupMenu(MouseEvent evt, int selectedRows) {
         UIPopupMenu popupMenu = new UIPopupMenu();
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             popupMenu.add(new CleanAuthorityAction(this).createMenuItem());
             return popupMenu;
         }
@@ -1136,7 +1137,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
     public UIPopupMenu createColumnPopupMenu(MouseEvent evt, int selectedColumn) {
         UIPopupMenu popupMenu = new UIPopupMenu();
 
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             popupMenu.add(new CleanAuthorityAction(this).createMenuItem());
             return popupMenu;
         }
@@ -1237,7 +1238,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
     public ShortCut[] shortCuts4Authority() {
         return new ShortCut[]{
                 new NameSeparator(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"DashBoard-Potence", "Edit"})),
-                BaseUtils.isAuthorityEditing() ? new ExitAuthorityEditAction(this) : new AllowAuthorityEditAction(this),
+                DesignerMode.isAuthorityEditing() ? new ExitAuthorityEditAction(this) : new AllowAuthorityEditAction(this),
         };
 
     }

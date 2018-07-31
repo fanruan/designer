@@ -5,6 +5,7 @@ package com.fr.poly.creator;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.ScreenResolution;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
@@ -136,7 +137,7 @@ public class ECBlockEditor extends BlockEditor<ECBlockPane, PolyECBlock> {
      */
     public void resetSelectionAndChooseState() {
         designer.setChooseType(SelectionType.INNER);
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             JTemplate jTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
             if (jTemplate.isJWorkBook()) {
                 //清参数面板
