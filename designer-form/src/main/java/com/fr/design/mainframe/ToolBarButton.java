@@ -1,6 +1,7 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.core.WidgetOption;
 import com.fr.design.designer.creator.XCreatorUtils;
@@ -70,7 +71,7 @@ public class ToolBarButton extends UIButton implements MouseListener, MouseMotio
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		if (BaseUtils.isAuthorityEditing()) {
+		if (DesignerMode.isAuthorityEditing()) {
 			return;
 		}
 		if (lastPressEvent == null) {

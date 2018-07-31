@@ -1,5 +1,6 @@
 package com.fr.design.mainframe;
 
+import com.fr.base.BaseUtils;
 import com.fr.base.Parameter;
 import com.fr.base.ScreenResolution;
 import com.fr.base.vcs.DesignerMode;

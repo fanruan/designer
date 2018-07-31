@@ -1,6 +1,5 @@
 package com.fr.start;
 
-import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.gui.ibutton.UIButton;
@@ -14,18 +13,12 @@ import com.fr.design.mainframe.ActiveKeyGenerator;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.CloudCenter;
 import com.fr.general.ComparatorUtils;
-
+import com.fr.general.GeneralContext;
 import com.fr.stable.OperatingSystem;
 
-import javax.swing.BorderFactory;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 import javax.swing.border.TitledBorder;
-import java.awt.BorderLayout;
-import java.awt.Desktop;
-import java.awt.Dimension;
-import java.awt.Frame;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -147,7 +140,7 @@ public class CollectUserInformationDialog extends UIDialog {
 
 
     private void getKeyAction() {
-        Locale locale = FRContext.getLocale();
+        Locale locale = GeneralContext.getLocale();
         String url = EN_LOGIN_HTML;
         if (ComparatorUtils.equals(locale, Locale.TAIWAN)) {
             url = TW_LOGIN_HTML;

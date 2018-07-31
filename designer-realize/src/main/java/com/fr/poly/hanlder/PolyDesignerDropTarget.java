@@ -19,6 +19,7 @@ import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.base.ScreenResolution;
 import com.fr.base.chart.BaseChart;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.grid.Grid;
 import com.fr.poly.PolyDesigner;
@@ -55,7 +56,7 @@ public class PolyDesignerDropTarget extends DropTargetAdapter {
 	 */
 	public void dragEnter(DropTargetDragEvent dtde) {
 
-		if (BaseUtils.isAuthorityEditing()) {
+		if (DesignerMode.isAuthorityEditing()) {
 			return;
 		}
 		// richer:避免在一次拖拽过程中重复查找

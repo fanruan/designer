@@ -11,6 +11,7 @@ import com.fr.base.Utils;
 import com.fr.base.background.ColorBackground;
 import com.fr.base.background.ImageFileBackground;
 import com.fr.base.iofile.attr.WatermarkAttr;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.mainframe.DesignerContext;
@@ -1060,7 +1061,7 @@ public class GridUI extends ComponentUI {
             throw new IllegalArgumentException("The component c to paint must be a Grid!");
         }
 
-        isAuthority = BaseUtils.isAuthorityEditing();
+        isAuthority = DesignerMode.isAuthorityEditing();
 
         Graphics2D g2d = (Graphics2D) g;
 
