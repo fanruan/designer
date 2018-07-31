@@ -6,7 +6,7 @@ import com.fr.chart.chartattr.Plot;
 import com.fr.design.mainframe.chart.gui.type.ChartImagePane;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.base.VanChartTools;
 import com.fr.plugin.chart.map.MapIndependentVanChart;
 import com.fr.plugin.chart.map.VanChartMapPlot;
@@ -20,7 +20,7 @@ import java.awt.Component;
  * Created by Mitisky on 16/5/4.
  */
 public class VanChartMapPlotPane extends AbstractVanChartTypePane {
-    public static final String TITLE = Inter.getLocText("Plugin-ChartF_NewMap");
+    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewMap");
 
     private VanChartMapSourceChoosePane sourceChoosePane;
 
@@ -36,10 +36,10 @@ public class VanChartMapPlotPane extends AbstractVanChartTypePane {
     @Override
     protected String[] getTypeTipName() {
         return new String[]{
-                Inter.getLocText("Plugin-ChartF_AreaMap"),
-                Inter.getLocText("Plugin-ChartF_PointMap"),
-                Inter.getLocText("Plugin-ChartF_LineMap"),
-                Inter.getLocText("Plugin-ChartF_CustomMap")
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AreaMap"),
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_PointMap"),
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_LineMap"),
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_CustomMap")
         };
     }
 
@@ -60,7 +60,7 @@ public class VanChartMapPlotPane extends AbstractVanChartTypePane {
      */
     @Override
     public String title4PopupWindow() {
-        return Inter.getLocText("Plugin-ChartF_NewMap");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewMap");
     }
 
     protected Component[][] getPaneComponents(JPanel typePane){
@@ -113,7 +113,7 @@ public class VanChartMapPlotPane extends AbstractVanChartTypePane {
         Plot plot = chart.getPlot();
         if(plot instanceof VanChartMapPlot) {
             sourceChoosePane.updateBean((VanChartMapPlot) plot);
-            if(!samePlot || (typeChanged && samePlot)){
+            if(!isSamePlot() || (typeChanged && isSamePlot())){
                 resetAttr(plot);
             }
         }

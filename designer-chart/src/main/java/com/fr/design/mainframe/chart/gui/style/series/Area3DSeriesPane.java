@@ -9,7 +9,7 @@ import com.fr.chart.chartattr.Plot;
 import com.fr.design.gui.frpane.UINumberDragPane;
 import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
-import com.fr.general.Inter;
+
 
 /**
  * 属性表, 三维面积图 图表样式-系列界面.
@@ -30,7 +30,7 @@ public class Area3DSeriesPane extends AbstractPlotSeriesPane {
 		JPanel pane = new JPanel();
 		pane.setLayout(new BorderLayout());
 		
-		pane.add(new BoldFontTextLabel(Inter.getLocText("Pitch_Percentage") + ":"), BorderLayout.WEST);
+		pane.add(new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Pitch_Percentage") + ":"), BorderLayout.WEST);
 		pane.add(gapPane = new UINumberDragPane(0, 500), BorderLayout.CENTER);
 		gapPane.populateBean(100.0);
 		

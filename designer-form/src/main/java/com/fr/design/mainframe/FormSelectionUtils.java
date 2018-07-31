@@ -18,7 +18,7 @@ import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WTitleLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.Inter;
+
 
 import java.awt.Component;
 import java.awt.Point;
@@ -105,7 +105,7 @@ public class FormSelectionUtils {
                         x + creator.getX() - rec.x + copiedCreator.getWidth() / 2,
                         y + creator.getY() - rec.y + copiedCreator.getHeight() / 2);
                 if (!adapter.accept(copiedCreator, point.x, point.y)) {
-                    designer.showMessageDialog(Inter.getLocText("FR-Designer_Too_Large_To_Paste"));
+                    designer.showMessageDialog(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Too_Large_To_Paste"));
                     return;
                 }
                 resetTabSub2RealSize(copiedCreator);
@@ -185,12 +185,12 @@ public class FormSelectionUtils {
             XCreator copiedXCreator = XCreatorUtils.createXCreator(copied, creator.getSize());
             if (adapter.getClass().equals(FRTabFitLayoutAdapter.class)) {
                 if (!adapter.accept(copiedXCreator, x - tabContainerRect.x, y - tabContainerRect.y)) {
-                    designer.showMessageDialog(Inter.getLocText("FR-Designer_Too_Small_To_Paste"));
+                    designer.showMessageDialog(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Too_Small_To_Paste"));
                     return;
                 }
             } else {
                 if (!adapter.accept(copiedXCreator, x, y)) {
-                    designer.showMessageDialog(Inter.getLocText("FR-Designer_Too_Small_To_Paste"));
+                    designer.showMessageDialog(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Too_Small_To_Paste"));
                     return;
                 }
             }

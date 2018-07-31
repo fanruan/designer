@@ -11,7 +11,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.widget.accessibles.AccessibleDictionaryEditor;
 import com.fr.design.widget.component.CheckBoxDictPane;
 import com.fr.form.ui.ComboCheckBox;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,14 +29,14 @@ public class ComboCheckBoxDefinePane extends CustomWritableRepeatEditorPane<Comb
 	protected JPanel setForthContentPane() {
 		dictPane = new AccessibleDictionaryEditor();
 		checkBoxDictPane = new CheckBoxDictPane();
-		supportTagCheckBox = new UICheckBox(Inter.getLocText("Form-SupportTag"), true);
+		supportTagCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Form-SupportTag"), true);
 		supportTagCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		JPanel advancePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		double f = TableLayout.FILL;
 		double p = TableLayout.PREFERRED;
 		Component[][] components = new Component[][]{
 				new Component[]{supportTagCheckBox,  null },
-				new Component[]{new UILabel(Inter.getLocText("FR-Designer_DS-Dictionary")),  dictPane },
+				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_DS-Dictionary")),  dictPane },
 				new Component[]{checkBoxDictPane,  null },
 
 		};

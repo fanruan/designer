@@ -1,24 +1,28 @@
 package com.fr.design.actions.help;
 
-import java.awt.Desktop;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-
-import javax.swing.KeyStroke;
-
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.base.Utils;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.general.CloudCenter;
-import com.fr.general.Inter;
-import com.fr.general.http.HttpClient;
-import com.fr.stable.OperatingSystem;
+import com.fr.general.http.HttpToolbox;
+import com.fr.stable.CommonUtils;
+import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
+import com.fr.stable.StringUtils;
+import com.fr.stable.os.OperatingSystem;
+import com.fr.third.org.apache.http.HttpStatus;
+import com.fr.third.org.apache.http.StatusLine;
+import com.fr.third.org.apache.http.client.methods.HttpGet;
+
+import javax.swing.KeyStroke;
+import java.awt.Desktop;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
 
 public class TutorialAction extends UpdateAction {
 	
@@ -56,25 +60,41 @@ public class TutorialAction extends UpdateAction {
      * @param evt 事件
      */
     public void actionPerformed(ActionEvent evt) {
-        String helpURL = CloudCenter.getInstance().acquireUrlByKind("help." + FRContext.getLocale());
-
-        if (helpURL != null) {
-            HttpClient client = new HttpClient(helpURL);
-            if(client.getResponseCode() != -1) {
-                try {
-                	 Desktop.getDesktop().browse(new URI(helpURL));
-                    return;
-                } catch (Exception e) {
-                    //出了异常的话, 依然打开本地教程
-                }
+        String helpURL = CloudCenter.getInstance().acquireUrlByKind(createDocKey());
+        if (isServerOnline(helpURL)) {
+            try {
+                Desktop.getDesktop().browse(new URI(helpURL));
+                return;
+            } catch (Exception e) {
             }
         }
 
-        if (OperatingSystem.isMacOS()) {
+        if (OperatingSystem.isUnix()) {
             nativeExcuteMacInstallHomePrograms("helptutorial.app");
-        }
-        else {
+        } else {
             Utils.nativeExcuteInstallHomePrograms("helptutorial.exe");
+        }
+    }
+
+    // 生成帮助文档 sitecenter key, help.zh_CN.10
+    protected String createDocKey() {
+        String locale = FRContext.getLocale().toString();
+        return CommonUtils.join(new String[]{ "help", locale, ProductConstants.MAIN_VERSION }, ".");
+    }
+
+    // 判断是否可以访问在线文档
+    protected boolean isServerOnline(String url) {
+        if (StringUtils.isEmpty(url)) {
+            return false;
+        }
+
+        HttpGet getHelp = new HttpGet(url);
+        try {
+            StatusLine statusLine = HttpToolbox.getHttpClient(url).execute(getHelp).getStatusLine();
+            return statusLine.getStatusCode() == HttpStatus.SC_OK;
+        } catch (Exception ignore) {
+            // 网络异常
+            return false;
         }
     }
 
@@ -86,7 +106,7 @@ public class TutorialAction extends UpdateAction {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("FR-Designer_COMMUNITY_HELP");
+            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_COMMUNITY_HELP");
         }
 
         @Override

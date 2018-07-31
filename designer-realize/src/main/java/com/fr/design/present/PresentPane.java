@@ -10,7 +10,7 @@ import com.fr.design.fun.PresentKindProvider;
 import com.fr.design.gui.frpane.UIComboBoxPane;
 import com.fr.design.gui.icombobox.DictionaryComboBox;
 import com.fr.design.gui.icombobox.UIComboBox;
-import com.fr.general.Inter;
+
 import com.fr.report.cell.cellattr.BarcodePresent;
 import com.fr.report.cell.cellattr.CurrencyLinePresent;
 
@@ -34,7 +34,7 @@ public class PresentPane extends UIComboBoxPane<Present> {
 
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("FR-Designer_Present");
+		return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Present");
 	}
 
 	public void setSelectedByName(String radioName) {

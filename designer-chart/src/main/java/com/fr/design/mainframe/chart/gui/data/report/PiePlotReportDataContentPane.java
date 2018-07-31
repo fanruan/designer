@@ -8,7 +8,7 @@ import com.fr.chart.chartdata.SeriesDefinition;
 import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.ChartDataFilterPane;
-import com.fr.general.Inter;
+
 
 import java.util.List;
 
@@ -24,15 +24,15 @@ public class PiePlotReportDataContentPane extends AbstractReportDataContentPane 
 	public PiePlotReportDataContentPane(ChartDataPane parent) {
 		initEveryPane();
 		
-		this.add(new BoldFontTextLabel(Inter.getLocText("FR-Chart-Data_Filter")), "0,4,2,4");
+		this.add(new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_Filter")), "0,4,2,4");
 		this.add(filterPane = new ChartDataFilterPane(new PiePlot(), parent), "0,6,2,4");
 	}
 	
 	@Override
 	protected String[] columnNames() {
 		return new String[]{
-				Inter.getLocText(new String[]{"Chart_Legend(Series)", "WF-Name"}),
-				Inter.getLocText(new String[]{"Chart_Legend(Series)", "Values"})
+				com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Legend_Name"),
+				com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Legend_Value")
 		};
 	}
 	

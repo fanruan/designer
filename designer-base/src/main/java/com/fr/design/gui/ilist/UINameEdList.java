@@ -2,7 +2,7 @@ package com.fr.design.gui.ilist;
 
 import com.fr.base.Utils;
 import com.fr.design.gui.itextfield.UITextField;
-import com.fr.general.Inter;
+
 import com.fr.general.NameObject;
 import com.fr.stable.Nameable;
 import com.fr.stable.StringUtils;
@@ -164,16 +164,6 @@ public class UINameEdList extends UIList implements CellEditorListener {
             return ((NameObject) nameable).getObject();
         }
         return null;
-    }
-
-
-    public void setWarnigText() {
-        setWarnigText(this.getSelectedIndex());
-    }
-
-    public void setWarnigText(int index) {
-        setNameAt(Inter.getLocText("Please_Rename") + "!", index);
-        this.repaint();
     }
 
     /*

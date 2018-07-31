@@ -6,7 +6,7 @@ package com.fr.design.menu;
 
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
@@ -33,7 +33,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M-Open_Report");
+            return com.fr.design.i18n.Toolkit.i18nText("M-Open_Report");
         }
 
         @Override
@@ -51,7 +51,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M-Open_Recent");
+            return com.fr.design.i18n.Toolkit.i18nText("M-Open_Recent");
         }
 
         @Override
@@ -68,7 +68,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("FR-Designer_Close");
+            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Close");
         }
 
         @Override
@@ -85,7 +85,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("FR-Designer_Save");
+            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Save");
         }
 
         @Override
@@ -102,7 +102,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M-Save_As");
+            return com.fr.design.i18n.Toolkit.i18nText("M-Save_As");
         }
 
         @Override
@@ -119,7 +119,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M_Edit-Undo");
+            return com.fr.design.i18n.Toolkit.i18nText("M_Edit-Undo");
         }
 
         @Override
@@ -136,7 +136,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M_Edit-Redo");
+            return com.fr.design.i18n.Toolkit.i18nText("M_Edit-Redo");
         }
 
         @Override
@@ -153,7 +153,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("FR-Designer_Export");
+            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Export");
         }
 
         @Override
@@ -170,7 +170,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M_File-Export-Excel");
+            return com.fr.design.i18n.Toolkit.i18nText("M_File-Export-Excel");
         }
 
         @Override
@@ -188,7 +188,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("FR-Engine_Export-Excel-Page");
+            return com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Export-Excel-Page");
         }
 
         @Override
@@ -206,7 +206,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("FR-Engine_Export-Excel-Simple");
+            return com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Export-Excel-Simple");
         }
 
         @Override
@@ -224,7 +224,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("FR-Engine_Export-Excel-PageToSheet");
+            return com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Export-Excel-PageToSheet");
         }
 
         @Override
@@ -241,7 +241,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M_File-Export-PDF");
+            return com.fr.design.i18n.Toolkit.i18nText("M_File-Export-PDF");
         }
 
         @Override
@@ -259,7 +259,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M_File-Export-Word");
+            return com.fr.design.i18n.Toolkit.i18nText("M_File-Export-Word");
         }
 
         @Override
@@ -277,7 +277,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M_File-Export-SVG");
+            return com.fr.design.i18n.Toolkit.i18nText("M_File-Export-SVG");
         }
 
         @Override
@@ -295,7 +295,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M_File-Export-CSV");
+            return com.fr.design.i18n.Toolkit.i18nText("M_File-Export-CSV");
         }
 
         @Override
@@ -313,7 +313,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M_File-Export-Text");
+            return com.fr.design.i18n.Toolkit.i18nText("M_File-Export-Text");
         }
 
         @Override
@@ -331,7 +331,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M_File-ExportT-Template(embedded_data)");
+            return com.fr.design.i18n.Toolkit.i18nText("M_File-ExportT-Template(embedded_data)");
         }
 
         @Override
@@ -341,58 +341,6 @@ public class KeySetUtils {
     };
 
 
-
-    public static final MenuKeySet IMAGE_EXPORT = new MenuKeySet() {
-        @Override
-        public char getMnemonic() {
-            return 'M';
-        }
-
-        @Override
-        public String getMenuName() {
-            return Inter.getLocText(new String[]{"Image","Format"});
-        }
-
-        @Override
-        public KeyStroke getKeyStroke() {
-            return KeyStroke.getKeyStroke(KeyEvent.VK_M, DEFAULT_MODIFIER);
-        }
-    };
-
-    public static final MenuKeySet EXPORT_CHART = new MenuKeySet() {
-        @Override
-        public char getMnemonic() {
-            return 'E';
-        }
-
-        @Override
-        public String getMenuName() {
-            return Inter.getLocText("FR-Designer_ExportAndOutput");
-        }
-
-        @Override
-        public KeyStroke getKeyStroke() {
-            return KeyStroke.getKeyStroke(KeyEvent.VK_E, DEFAULT_MODIFIER);
-        }
-    };
-
-    public static final MenuKeySet EXCEL_EXPORT_CHART = new MenuKeySet() {
-        @Override
-        public char getMnemonic() {
-            return 'E';
-        }
-
-        @Override
-        public String getMenuName() {
-            return "EXCEL" + Inter.getLocText("FR-Designer_ExportAndOutput");
-        }
-
-        @Override
-        public KeyStroke getKeyStroke() {
-            return KeyStroke.getKeyStroke(KeyEvent.VK_E, DEFAULT_MODIFIER);
-        }
-    };
-
     public static final MenuKeySet PREFERENCE = new MenuKeySet() {
         @Override
         public char getMnemonic() {
@@ -401,7 +349,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M_Window-Preference");
+            return com.fr.design.i18n.Toolkit.i18nText("M_Window-Preference");
         }
 
         @Override
@@ -418,7 +366,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("FR-Designer_M-SwitchWorkspace");
+            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_M-SwitchWorkspace");
         }
 
         @Override
@@ -435,7 +383,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("FR-Designer_M-Exit");
+            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_M-Exit");
         }
 
         @Override
@@ -453,7 +401,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("FR-Designer_M-Template");
+            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_M-Template");
         }
 
         @Override
@@ -471,7 +419,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("DS-Report_TableData");
+            return com.fr.design.i18n.Toolkit.i18nText("DS-Report_TableData");
         }
 
         @Override
@@ -488,7 +436,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("Report-Web_Attributes");
+            return com.fr.design.i18n.Toolkit.i18nText("Report-Web_Attributes");
         }
 
         @Override
@@ -506,7 +454,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("ReportD-Excel_Export");
+            return com.fr.design.i18n.Toolkit.i18nText("ReportD-Excel_Export");
         }
 
         @Override
@@ -523,7 +471,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M_Report-Report_Parameter");
+            return com.fr.design.i18n.Toolkit.i18nText("M_Report-Report_Parameter");
         }
 
         @Override
@@ -541,7 +489,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M-Page_Setup");
+            return com.fr.design.i18n.Toolkit.i18nText("M-Page_Setup");
         }
 
         @Override
@@ -558,7 +506,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M_Report-Report_Header");
+            return com.fr.design.i18n.Toolkit.i18nText("M_Report-Report_Header");
         }
 
         @Override
@@ -575,7 +523,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M_Report-Report_Footer");
+            return com.fr.design.i18n.Toolkit.i18nText("M_Report-Report_Footer");
         }
 
         @Override
@@ -592,7 +540,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("Fine-Designer_Report_Background");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Report_Background");
         }
 
         @Override
@@ -607,7 +555,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("FR-Designer_WaterMark");
+            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WaterMark");
         }
 
         @Override
@@ -625,7 +573,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("Report-Write_Attributes");
+            return com.fr.design.i18n.Toolkit.i18nText("Report-Write_Attributes");
         }
 
         @Override
@@ -642,7 +590,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M_Report-Report_Columns");
+            return com.fr.design.i18n.Toolkit.i18nText("M_Report-Report_Columns");
         }
 
         @Override
@@ -659,7 +607,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("FR-Designer_ReportColumns-Columns");
+            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_ReportColumns-Columns");
         }
 
         @Override
@@ -677,7 +625,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("FR-Designer_M-Repeat-Freeze");
+            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_M-Repeat-Freeze");
         }
 
         @Override
@@ -695,7 +643,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("FR-Engine_Frozen");
+            return com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Frozen");
         }
 
         @Override
@@ -713,7 +661,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText(new String[]{"Report_Engine", "Attribute"});
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Attribute");
         }
 
         @Override
@@ -730,14 +678,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-
-            // mod by anchore 16/11/16
-            if (ComparatorUtils.equals(Locale.JAPAN, GeneralContext.getLocale())) {
-                return Inter.getLocText(new String[]{"FR-Engine_RP_Authority_Edit", "Allow"});
-            } else {
-                return Inter.getLocText(new String[]{"Allow", "FR-Engine_RP_Authority_Edit"});
-            }
-            //return Inter.getLocText(new String[]{"Allow", "DashBoard-Potence", "Edit"});
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Authority_Edit_Status");
         }
 
         @Override
@@ -754,7 +695,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("FR-Designer_Cell");
+            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cell");
         }
 
         @Override
@@ -771,7 +712,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("FR-Designer_Expand");
+            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Expand");
         }
 
         @Override
@@ -788,7 +729,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("FR-Designer_Widget-Settings");
+            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget-Settings");
         }
 
         @Override
@@ -805,7 +746,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M_Format-Style");
+            return com.fr.design.i18n.Toolkit.i18nText("M_Format-Style");
         }
 
         @Override
@@ -822,7 +763,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("FR-Designer_Condition_Attributes");
+            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Condition_Attributes");
         }
 
         @Override
@@ -839,7 +780,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("FR-Chart-Style_Present");
+            return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Style_Present");
         }
 
         @Override
@@ -856,7 +797,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M_Format-Data_Map");
+            return com.fr.design.i18n.Toolkit.i18nText("M_Format-Data_Map");
         }
 
         @Override
@@ -873,7 +814,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("Present-Formula_Present");
+            return com.fr.design.i18n.Toolkit.i18nText("Present-Formula_Present");
         }
 
         @Override
@@ -890,7 +831,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M_Insert-Barcode");
+            return com.fr.design.i18n.Toolkit.i18nText("M_Insert-Barcode");
         }
 
         @Override
@@ -907,7 +848,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("FR-Designer_Currency_Line");
+            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Currency_Line");
         }
 
         @Override
@@ -925,7 +866,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("Present-No_Present");
+            return com.fr.design.i18n.Toolkit.i18nText("Present-No_Present");
         }
 
         @Override
@@ -942,7 +883,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M_Insert-Hyperlink");
+            return com.fr.design.i18n.Toolkit.i18nText("M_Insert-Hyperlink");
         }
 
         @Override
@@ -959,7 +900,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M_Edit-Merge_Cell");
+            return com.fr.design.i18n.Toolkit.i18nText("M_Edit-Merge_Cell");
         }
 
         @Override
@@ -976,7 +917,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M_Edit-Unmerge_Cell");
+            return com.fr.design.i18n.Toolkit.i18nText("M_Edit-Unmerge_Cell");
         }
 
         @Override
@@ -993,7 +934,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("FR-Designer_Other");
+            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Other");
         }
 
         @Override
@@ -1010,7 +951,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M_Insert-Cell");
+            return com.fr.design.i18n.Toolkit.i18nText("M_Insert-Cell");
         }
 
         @Override
@@ -1027,7 +968,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M_Insert-Data_Column");
+            return com.fr.design.i18n.Toolkit.i18nText("M_Insert-Data_Column");
         }
 
         @Override
@@ -1053,7 +994,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M_Insert-Float");
+            return com.fr.design.i18n.Toolkit.i18nText("M_Insert-Float");
         }
 
         @Override

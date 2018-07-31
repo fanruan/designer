@@ -5,7 +5,7 @@ import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.NormalChartDataPane;
-import com.fr.general.Inter;
+
 
 import java.awt.BorderLayout;
 
@@ -19,7 +19,7 @@ public class SingleLayerDataDefinitionPane extends FurtherBasicBeanPane<ChartCol
 
     //底层数据汇总
     public SingleLayerDataDefinitionPane(AttributeChangeListener listener, ChartDataPane parent) {
-        this(Inter.getLocText("Plugin-ChartF_Bottom_Data_Sum"), listener, parent);
+        this(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Bottom_Data_Sum"), listener, parent);
     }
 
     public SingleLayerDataDefinitionPane(String title, AttributeChangeListener listener, ChartDataPane parent) {

@@ -9,7 +9,7 @@ import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.ibutton.UIToggleButton;
 import com.fr.design.mainframe.ElementCasePane;
-import com.fr.general.Inter;
+
 import com.fr.grid.selection.FloatSelection;
 import com.fr.grid.selection.Selection;
 import com.fr.report.cell.FloatElement;
@@ -108,7 +108,7 @@ public class AlignmentAction extends ButtonGroupAction implements StyleActionInt
         UIButtonGroup<Integer> group = super.createToolBarComponent();
         if (group != null) {
             group.setForToolBarButtonGroup(true);
-            group.setAllToolTips(new String[]{Inter.getLocText("StyleAlignment-Left"), Inter.getLocText("Center"), Inter.getLocText("StyleAlignment-Right")});
+            group.setAllToolTips(new String[]{com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Left"), com.fr.design.i18n.Toolkit.i18nText("Center"), com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Right")});
         }
         for (int i = 0; i < 3; i++) {
             group.getButton(i).setRoundBorder(true, UIConstants.ARC);

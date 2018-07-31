@@ -1,6 +1,6 @@
 package com.fr.design.chart.series.SeriesCondition;
 
-import com.fr.chart.base.ChartConstants;
+import com.fr.plugin.chart.type.ConditionKeyType;
 
 
 /**
@@ -10,11 +10,8 @@ import com.fr.chart.base.ChartConstants;
  */
 public class PiePlotChartConditionPane extends ChartConditionPane {
 
-	  public String[] columns2Populate() {
-	        return new String[]{
-	                ChartConstants.SERIES_INDEX,
-	                ChartConstants.SERIES_NAME,
-	                ChartConstants.VALUE
-	        };
-	    }
+	@Override
+	protected ConditionKeyType[] conditionKeyTypes() {
+		return ConditionKeyType.NORMAL2_CONDITION_KEY_TYPES;
+	}
 }

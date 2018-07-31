@@ -7,7 +7,7 @@ import com.fr.design.gui.ipasswordfield.UIPassWordField;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.dialog.BasicPane;
-import com.fr.general.Inter;
+
 
 public class RemoteSignInPane extends BasicPane {
 	private UITextField userTextField;
@@ -22,9 +22,9 @@ public class RemoteSignInPane extends BasicPane {
 	public void initComponent(){
 		this.setLayout(FRGUIPaneFactory.create2ColumnGridLayout());
 		
-		userLabel = new UILabel(Inter.getLocText("Username")+":");
+		userLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Username")+":");
 		userTextField = new UITextField();
-		passLabel = new UILabel(Inter.getLocText("Password")+":");
+		passLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Password")+":");
 		passwordField = new UIPassWordField();
 		this.add(userLabel);
 		this.add(userTextField);

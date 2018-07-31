@@ -18,7 +18,7 @@ import javax.swing.undo.UndoableEdit;
 import com.fr.base.BaseUtils;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.menu.KeySetUtils;
-import com.fr.general.Inter;
+
 
 import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
 
@@ -142,7 +142,7 @@ public class UIAdvancedTextPane extends UITextPane {
 	
 	private class CutAction extends UpdateAction {
 		public CutAction() {
-	        setName(Inter.getLocText("M_Edit-Cut"));
+	        setName(com.fr.design.i18n.Toolkit.i18nText("M_Edit-Cut"));
 	        setMnemonic('T');
 	        setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_edit/cut.png"));
 	        setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, DEFAULT_MODIFIER));
@@ -161,7 +161,7 @@ public class UIAdvancedTextPane extends UITextPane {
 
 	private class CopyAction extends UpdateAction {
 		public CopyAction() {
-	        this.setName(Inter.getLocText("M_Edit-Copy"));
+	        this.setName(com.fr.design.i18n.Toolkit.i18nText("M_Edit-Copy"));
 	        this.setMnemonic('C');
 	        this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_edit/copy.png"));
 	        this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, DEFAULT_MODIFIER));
@@ -180,7 +180,7 @@ public class UIAdvancedTextPane extends UITextPane {
 
 	private class PasteAction extends UpdateAction {
 		public PasteAction() {
-	        this.setName(Inter.getLocText("M_Edit-Paste"));
+	        this.setName(com.fr.design.i18n.Toolkit.i18nText("M_Edit-Paste"));
 	        this.setMnemonic('P');
 	        this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_edit/paste.png"));
 	        this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, DEFAULT_MODIFIER));

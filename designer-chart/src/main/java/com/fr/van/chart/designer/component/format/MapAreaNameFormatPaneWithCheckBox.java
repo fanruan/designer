@@ -1,6 +1,6 @@
 package com.fr.van.chart.designer.component.format;
 
-import com.fr.general.Inter;
+
 import com.fr.van.chart.designer.style.VanChartStylePane;
 
 import javax.swing.JPanel;
@@ -16,6 +16,6 @@ public class MapAreaNameFormatPaneWithCheckBox extends CategoryNameFormatPaneWit
 
     @Override
     protected String getCheckBoxText() {
-        return Inter.getLocText("FR-Chart-Area_Name");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Area_Name");
     }
 }

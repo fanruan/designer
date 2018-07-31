@@ -9,7 +9,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JList;
 
 import com.fr.data.util.SortOrder;
-import com.fr.general.Inter;
+
 
 /**
  * Sort order combo box.
@@ -53,11 +53,11 @@ public class SortOrderComboBox extends UIComboBox {
                 SortOrder sortOrder = (SortOrder) value;
 
                 if (sortOrder.getOrder() == SortOrder.ASC) {
-                    this.setText(Inter.getLocText("Sort-Ascending"));
+                    this.setText(com.fr.design.i18n.Toolkit.i18nText("Sort-Ascending"));
                 } else if (sortOrder.getOrder() == SortOrder.DESC) {
-                    this.setText(Inter.getLocText("Sort-Descending"));
+                    this.setText(com.fr.design.i18n.Toolkit.i18nText("Sort-Descending"));
                 } else if (sortOrder.getOrder() == SortOrder.ORIGINAL) {
-                    this.setText(Inter.getLocText("Sort-Original"));
+                    this.setText(com.fr.design.i18n.Toolkit.i18nText("Sort-Original"));
                 }
             }
 

@@ -55,7 +55,7 @@ import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WBorderLayout;
 import com.fr.form.ui.container.WLayout;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.log.FineLoggerFactory;
 import com.fr.page.PaperSettingProvider;
 import com.fr.report.worksheet.FormElementCase;
@@ -643,9 +643,9 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
                 return dim;
             }
         };
-        UILabel uiLabel = new UILabel(Inter.getLocText(new String[]{"DashBoard-FormBook", "Privilege", "Edit"}));
+        UILabel uiLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Authority_Edit"));
         uiLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        uiLabel.setFont(new Font(Inter.getLocText("FR-Designer-All_MSBold"), 0, 14));
+        uiLabel.setFont(new Font(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-All_MSBold"), 0, 14));
         uiLabel.setForeground(new Color(150, 150, 150));
         panel.add(uiLabel, BorderLayout.CENTER);
         return panel;
@@ -691,7 +691,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
      * @return 菜单
      */
     public UIMenuItem[] createMenuItem4Preview() {
-        UIMenuItem form = new UIMenuItem(Inter.getLocText("M-Form_Preview"), UIConstants.RUN_SMALL_ICON);
+        UIMenuItem form = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("M-Form_Preview"), UIConstants.RUN_SMALL_ICON);
         form.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

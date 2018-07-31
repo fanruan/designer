@@ -8,15 +8,13 @@ import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.style.background.image.ImageFileChooser;
 import com.fr.design.style.background.image.ImagePreviewPane;
 import com.fr.design.utils.ImageUtils;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
-import com.fr.general.Inter;
+
 import com.fr.stable.CoreGraphHelper;
 import com.fr.stable.StringUtils;
 
@@ -74,7 +72,7 @@ public class ChartEmptyDataStylePane extends AbstractAttrNoScrollPane {
     }
 
     private JPanel creatNorthPane() {
-        emptyData = new UIButtonGroup(new String[]{Inter.getLocText("Plugin-ChartF_Open"), Inter.getLocText("Plugin-ChartF_Close")});
+        emptyData = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Open"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Close")});
         emptyData.setSelectedIndex(0);
         emptyData.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         emptyData.addActionListener(new ActionListener() {
@@ -85,7 +83,7 @@ public class ChartEmptyDataStylePane extends AbstractAttrNoScrollPane {
             }
         });
 
-        UILabel promptContent = new UILabel(Inter.getLocText("FR-Designer_Tip_Content"));
+        UILabel promptContent = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tip_Content"));
         JPanel northPane = GUICoreUtils.createFlowPane(new Component[]{promptContent, emptyData}, FlowLayout.LEFT, TEN, 0);
         northPane.setBorder(BorderFactory.createEmptyBorder(0, FIVE, 0, 0));
         return northPane;
@@ -98,7 +96,7 @@ public class ChartEmptyDataStylePane extends AbstractAttrNoScrollPane {
         JPanel previewContainerPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
         centerPane.add(previewContainerPane, BorderLayout.CENTER);
 
-        JPanel previewOwnerPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Preview"));
+        JPanel previewOwnerPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Preview"));
         previewOwnerPane.setLayout(new BorderLayout());
         previewContainerPane.add(previewOwnerPane, BorderLayout.CENTER);
         previewContainerPane.add(initSelectFilePane(), BorderLayout.EAST);
@@ -118,8 +116,8 @@ public class ChartEmptyDataStylePane extends AbstractAttrNoScrollPane {
 
         selectFilePane.setBorder(BorderFactory.createEmptyBorder(TEN, FIVE, 0, THIRTY));
 
-        defaultRadioButton = new UIRadioButton(Inter.getLocText("FR-Designer_DEFAULT"));
-        customRadioButton = new UIRadioButton(Inter.getLocText("FR-Designer-Widget-Style_Custom"));
+        defaultRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_DEFAULT"));
+        customRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget-Style_Custom"));
         ButtonGroup buttonGroup = new ButtonGroup();
         defaultRadioButton.setSelected(true);
         buttonGroup.add(defaultRadioButton);
@@ -133,7 +131,7 @@ public class ChartEmptyDataStylePane extends AbstractAttrNoScrollPane {
         jp.add(customRadioButton);
 
         selectPictureButton = new UIButton(
-                Inter.getLocText("FR-Designer_Background_Image_Select"));
+                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background_Image_Select"));
         selectPictureButton.addActionListener(getSelectPictureActionListener());
         jp.add(selectPictureButton);
 
@@ -212,7 +210,7 @@ public class ChartEmptyDataStylePane extends AbstractAttrNoScrollPane {
 
     @Override
     public String title4PopupWindow() {
-        return Inter.getLocText("FR-Designer_Chart_Empty_Data");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Chart_Empty_Data");
     }
 
     public void populateBean() {
@@ -232,11 +230,5 @@ public class ChartEmptyDataStylePane extends AbstractAttrNoScrollPane {
         manager.setOpenEmptyDataStyle(emptyData.getSelectedIndex() == 0);
         manager.setCustomEmptyDataStyle(customRadioButton.isSelected());
         manager.setEmptyDataImage(emptyDataImage);
-
-        // 通知报表整个刷新.
-        DesignerFrame frame = DesignerContext.getDesignerFrame();
-        if (frame != null) {
-            frame.repaint();
-        }
     }
 }

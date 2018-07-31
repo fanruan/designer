@@ -13,7 +13,7 @@ import com.fr.design.roleAuthority.ReportAndFSManagePane;
 import com.fr.design.roleAuthority.RolesAlreadyEditedPane;
 import com.fr.design.webattr.ToolBarButton;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import javax.swing.tree.TreePath;
@@ -40,7 +40,7 @@ public class AuthorityEditToolBarPane extends AuthorityPropertyPane {
         super(HistoryTemplateListPane.getInstance().getCurrentEditingTemplate());
         this.setLayout(new BorderLayout());
         this.setBorder(null);
-        UILabel authorityTitle = new UILabel(Inter.getLocText(new String[]{"FR-Designer_Permissions",
+        UILabel authorityTitle = new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"FR-Designer_Permissions",
                 "FR-Designer_Edit"})) {
             @Override
             public Dimension getPreferredSize() {
@@ -90,12 +90,12 @@ public class AuthorityEditToolBarPane extends AuthorityPropertyPane {
         private UILabel name = null;
         private JPanel checkPane = null;
         private List<ToolBarButton> buttonlists;
-        private UICheckBox buttonVisible = new UICheckBox(Inter.getLocText("FR-Designer_Widget_Visible"));
+        private UICheckBox buttonVisible = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget_Visible"));
         private ItemListener itemListener = new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
                 String selectedRole = ReportAndFSManagePane.getInstance().getRoleTree().getSelectedRoleName();
                 initSelectedPathArray();
-                if (ComparatorUtils.equals(selectedRole, Inter.getLocText("FR-Designer_Role")) || selectedRole ==
+                if (ComparatorUtils.equals(selectedRole, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Role")) || selectedRole ==
                         null || selectedPathArray == null) {
                     return;
                 }
@@ -170,8 +170,8 @@ public class AuthorityEditToolBarPane extends AuthorityPropertyPane {
             double[] columnSize = {p, f};
             int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}};
             Component[][] components = new Component[][]{
-                    new Component[]{new UILabel(" " + Inter.getLocText("FR-Designer_Type") + "        ", SwingConstants.LEFT), typePane},
-                    new Component[]{new UILabel(" " + Inter.getLocText("FR-Designer_WF_Name") + "        ", SwingConstants.LEFT), namePane},
+                    new Component[]{new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Type") + "        ", SwingConstants.LEFT), typePane},
+                    new Component[]{new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WF_Name") + "        ", SwingConstants.LEFT), namePane},
                     new Component[]{checkPane, null},
             };
 
@@ -208,7 +208,7 @@ public class AuthorityEditToolBarPane extends AuthorityPropertyPane {
             if (name.getText() == "") {
                 type.setText("");
             } else {
-                type.setText(Inter.getLocText(new String[]{"ReportServerP-Toolbar", "FR-Designer_Form_Button"}));
+                type.setText(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"ReportServerP-Toolbar", "FR-Designer_Form_Button"}));
             }
         }
 

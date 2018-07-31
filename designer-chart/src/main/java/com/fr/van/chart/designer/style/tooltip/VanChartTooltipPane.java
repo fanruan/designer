@@ -4,7 +4,7 @@ import com.fr.chart.base.DataSeriesCondition;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionAttr;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.base.AttrTooltip;
 import com.fr.van.chart.designer.AbstractVanChartScrollPane;
@@ -71,7 +71,7 @@ public class VanChartTooltipPane extends AbstractVanChartScrollPane<Chart> {
 
     @Override
     public String title4PopupWindow() {
-        return Inter.getLocText("Plugin-Chart_Tooltip");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-Chart_Tooltip");
     }
 
     protected VanChartPlotTooltipPane getTooltipPane(Plot plot) {

@@ -8,12 +8,15 @@ import com.fr.base.FRContext;
 import com.fr.base.Utils;
 import com.fr.design.actions.help.alphafine.AlphaFineConfigManager;
 import com.fr.design.constants.UIConstants;
+import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.env.DesignerWorkspaceGenerator;
 import com.fr.design.env.DesignerWorkspaceInfo;
 import com.fr.design.env.DesignerWorkspaceType;
 import com.fr.design.env.LocalDesignerWorkspaceInfo;
 import com.fr.design.env.RemoteDesignerWorkspaceInfo;
+import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.style.color.ColorSelectConfigManager;
+import com.fr.design.utils.DesignUtils;
 import com.fr.file.FILEFactory;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogFormatter;
@@ -21,6 +24,7 @@ import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.general.xml.GeneralXMLTools;
+import com.fr.locale.InterProviderFactory;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.Constants;
 import com.fr.stable.EnvChangedListener;
@@ -36,6 +40,7 @@ import com.fr.stable.xml.XMLTools;
 import com.fr.stable.xml.XMLWriter;
 import com.fr.stable.xml.XMLableReader;
 import com.fr.workspace.WorkContext;
+import com.fr.workspace.WorkContextCallback;
 import com.fr.workspace.connect.AuthException;
 
 import javax.swing.SwingWorker;
@@ -55,6 +60,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.FileHandler;
@@ -205,7 +211,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         }
         String installHome = StableUtils.getInstallHome();
         if (installHome != null && !".".equals(installHome)) {
-            String name = Inter.getLocText("FR-Engine_DEFAULT");
+            String name = com.fr.design.i18n.Toolkit.i18nText("FR-Engine_DEFAULT");
             String envPath = designerEnvManager.getDefaultenvPath(installHome);
             designerEnvManager.putEnv(name, LocalDesignerWorkspaceInfo.create(name, envPath));
             designerEnvManager.setCurEnvName(name);
@@ -496,7 +502,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
      * 返回默认环境
      */
     public DesignerWorkspaceInfo getDefaultConfig() {
-        String installHome = StableUtils.getInstallHome();
+        String installHome =  StableUtils.getInstallHome();
         String defaultenvPath = getDefaultenvPath(installHome);
         defaultenvPath = new File(defaultenvPath).getPath();
         Iterator<Entry<String, DesignerWorkspaceInfo>> entryIt = nameEnvMap.entrySet().iterator();
@@ -507,7 +513,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 return env;
             }
         }
-        String name = Inter.getLocText(new String[]{"Default", "Utils-Report_Runtime_Env"});
+        String name = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Workspace_Default");
         LocalDesignerWorkspaceInfo newDefaultEnv = LocalDesignerWorkspaceInfo.create(name, defaultenvPath);
         this.putEnv(name, newDefaultEnv);
         return newDefaultEnv;
@@ -530,7 +536,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 }
             }
         }
-        return Inter.getLocText(new String[]{"Default", "Utils-Report_Runtime_Env"});
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Workspace_Default");
     }
 
 
@@ -547,7 +553,18 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
             return;
         }
         try {
-            WorkContext.switchTo(DesignerWorkspaceGenerator.generate(getDefaultConfig()));
+            final String envName = getDefaultEnvName();
+            WorkContext.switchTo(DesignerWorkspaceGenerator.generate(getDefaultConfig()),new WorkContextCallback() {
+
+                @Override
+                public void done() {
+
+                    DesignerEnvManager.getEnvManager().setCurEnvName(envName);
+                    DesignUtils.refreshDesignerFrame();
+                    HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().refreshToolArea();
+                    DesignTableDataManager.fireDSChanged(new HashMap<String, String>());
+                }
+            });
         } catch (AuthException e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
@@ -698,6 +715,28 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
      */
     public int getLanguage() {
         return this.language;
+    }
+
+    /**
+     * 返回语言类型
+     */
+    public Locale getLocale() {
+        // 性能
+        if (language <= 1) {
+            return Locale.CHINA;
+        }
+        Locale[] locales = supportLocale();
+        if (language <= locales.length) {
+            return locales[language - 1];
+        }
+        return Locale.CHINA;
+    }
+
+    // 当前系统支持的语言
+    protected Locale[] supportLocale() {
+        Inter.getInstance();
+        Map<Locale, String> languageMap = InterProviderFactory.getProvider().getSupportLocaleMap();
+        return languageMap.keySet().toArray(new Locale[languageMap.size()]);
     }
 
     /**
@@ -1459,7 +1498,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         if ((tmpVal = reader.getAttrAsString("webinfLocation", null)) != null) {
             // marks:兼容6.1的
             // marks:设置默认的目录.
-            String curReportServerName = Inter.getLocText("Server-Embedded_Server");
+            String curReportServerName = com.fr.design.i18n.Toolkit.i18nText("Server-Embedded_Server");
             LocalDesignerWorkspaceInfo reportServer = LocalDesignerWorkspaceInfo.create(curReportServerName, tmpVal);
 
             this.putEnv(curReportServerName, reportServer);

@@ -12,11 +12,12 @@ import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.server.StyleListAction;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.DecodeDialog;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.file.FILE;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.io.utils.ResourceIOUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.main.impl.WorkBook;
@@ -46,14 +47,14 @@ class CptApp extends AbstractWorkBookApp {
         if (XMLEncryptUtils.isCptEncoded() &&
             !XMLEncryptUtils.checkVaild(DesignerEnvManager.getEnvManager().getEncryptionKey())) {
             if (!new DecodeDialog(file).isPwdRight()) {
-                FRContext.getLogger().error(Inter.getLocText("ECP-error_pwd"));
+                FRContext.getLogger().error(com.fr.design.i18n.Toolkit.i18nText("ECP-error_pwd"));
                 return new WorkBook();
             }
         }
         
         WorkBook tpl = new WorkBook();
         // richer:打开报表通知
-        FineLoggerFactory.getLogger().info(Inter.getLocText(new String[]{"LOG-Is_Being_Openned", "LOG-Please_Wait"}, new String[]{"\"" + file.getName() + "\"" + ",", "..."}));
+        FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Template_Opening_And_Waiting", file.getName()) + "...");
         TempNameStyle namestyle = TempNameStyle.getInstance();
         namestyle.clear();
         String checkStr = StringUtils.EMPTY;
@@ -61,8 +62,8 @@ class CptApp extends AbstractWorkBookApp {
             checkStr = ResourceIOUtils.inputStream2String(file.asInputStream());
             tpl.readStream(file.asInputStream());
         } catch (Exception exp) {
-            String errorMessage = ComparatorUtils.equals(RemoteDeziConstants.INVALID_USER, checkStr) ? Inter.getLocText("FR-Designer_No-Privilege")
-                : Inter.getLocText("NS-exception_readError");
+            String errorMessage = ComparatorUtils.equals(RemoteDeziConstants.INVALID_USER, checkStr) ? Toolkit.i18nText("Fine-Design_Template_Permission_Denied")
+                : com.fr.design.i18n.Toolkit.i18nText("NS-exception_readError");
             FineLoggerFactory.getLogger().error(errorMessage + file, exp);
         }
         checkNameStyle(namestyle);
@@ -91,13 +92,13 @@ class CptApp extends AbstractWorkBookApp {
         jd.setResizable(false);
         jd.setIconImage(BaseUtils.readImage("/com/fr/base/images/oem/logo.png"));
         String message = namelist.toString().replaceAll("\\[", "").replaceAll("\\]", "");
-        UILabel jl = new UILabel(Inter.getLocText(new String[]{"Current_custom_global", "Has_been_gone"}, new String[]{message}));
+        UILabel jl = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Template_Global_Style_Missed", message));
         jl.setHorizontalAlignment(SwingConstants.CENTER);
         jd.add(jl, BorderLayout.CENTER);
         JPanel jp = new JPanel();
         
         // ”是“按钮，点击之后将生成一个全局样式，并写入xml
-        UIButton confirmButton = new UIButton(Inter.getLocText("FR-Designer_Yes"));
+        UIButton confirmButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Yes"));
         confirmButton.addActionListener(new ActionListener() {
             
             @Override
@@ -115,7 +116,7 @@ class CptApp extends AbstractWorkBookApp {
             }
         });
         
-        UIButton noButton = new UIButton(Inter.getLocText("FR-Designer_No"));
+        UIButton noButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_No"));
         noButton.addActionListener(new ActionListener() {
             
             @Override
@@ -127,7 +128,7 @@ class CptApp extends AbstractWorkBookApp {
         
         jp.add(confirmButton);
         jp.add(noButton);
-        jd.setTitle(Inter.getLocText("FR-Custom_styles_lost"));
+        jd.setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Template_Custom_Style_Missed"));
         jd.add(jp, BorderLayout.SOUTH);
         GUICoreUtils.centerWindow(jd);
         jd.setVisible(true);

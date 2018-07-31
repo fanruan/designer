@@ -22,7 +22,7 @@ import com.fr.form.ui.WidgetConfig;
 import com.fr.form.ui.WidgetInfoConfig;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
-import com.fr.general.Inter;
+
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.injectable.PluginModule;
 import com.fr.plugin.manage.PluginFilter;
@@ -194,7 +194,7 @@ public class FormParaWidgetPane extends JPanel {
         JPanel paraPane = new JPanel(new FlowLayout());
         ToolBarButton paraButton = new paraButton(FormWidgetOption.PARAMETERCONTAINER);
         paraPane.add(paraButton);
-        add(createNormalCombinationPane(paraPane, Inter.getLocText("FR-Designer_Parameter")));
+        add(createNormalCombinationPane(paraPane, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter")));
         jSeparatorPara = createJSeparator();
         add(jSeparatorPara);
 
@@ -203,7 +203,7 @@ public class FormParaWidgetPane extends JPanel {
             layoutPane.add(new ToolBarButton(option));
         }
         layoutPane.add(new ToolBarButton(FormWidgetOption.ELEMENTCASE));
-        add(createNormalCombinationPane(layoutPane, Inter.getLocText("FR-Designer_Layout_Block_Blank")));
+        add(createNormalCombinationPane(layoutPane, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Layout_Block_Blank")));
         jSeparatorLayout = createJSeparator();
         add(jSeparatorLayout);
 
@@ -214,7 +214,7 @@ public class FormParaWidgetPane extends JPanel {
             for (int i = 0; i < COMMON_CHAR_NUM; i++) {
                 chartTypePane.add(new ToolBarButton(loadChartOptions()[i]));
             }
-            add(createChartCombinationPane(chartTypePane, Inter.getLocText("FR-Designer-Form-ToolBar_Chart")));
+            add(createChartCombinationPane(chartTypePane, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Form-ToolBar_Chart")));
             jSeparatorChart = createJSeparator();
             add(jSeparatorChart);
         }
@@ -229,7 +229,7 @@ public class FormParaWidgetPane extends JPanel {
         for (int i = 0; i < num; i++) {
             widgetPane.add(new ToolBarButton(predifinedwidgeList.get(i)));
         }
-        add(createWidgetCombinationPane(widgetPane, Inter.getLocText("FR-Designer-Form-ToolBar_Widget")));
+        add(createWidgetCombinationPane(widgetPane, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Form-ToolBar_Widget")));
         add(createJSeparator());
     }
 
@@ -277,7 +277,7 @@ public class FormParaWidgetPane extends JPanel {
         reportPane.add(jComponent, BorderLayout.CENTER);
         JPanel labelPane = new JPanel(new BorderLayout());
         UILabel label = new UILabel(typeName, UILabel.CENTER);
-        if (ComparatorUtils.equals(Inter.getLocText("FR-Designer_Parameter"), typeName)) {
+        if (ComparatorUtils.equals(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter"), typeName)) {
             paraLabel = label;
         }
         labelPane.add(label, BorderLayout.CENTER);

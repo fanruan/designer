@@ -1,9 +1,10 @@
 package com.fr.design.actions.help;
 
 import com.fr.base.BaseUtils;
+import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.menu.MenuKeySet;
-import com.fr.general.Inter;
+
 import com.fr.start.ServerStarter;
 
 import javax.swing.*;
@@ -23,6 +24,7 @@ public class WebDemoAction extends UpdateAction {
      * @param evt 事件
      */
     public void actionPerformed(ActionEvent evt) {
+        DesignerEnvManager.getEnvManager().setCurrentEnv2Default();
         ServerStarter.browserDemoURL();
     }
 
@@ -34,7 +36,7 @@ public class WebDemoAction extends UpdateAction {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("FR-Product_Demo");
+            return com.fr.design.i18n.Toolkit.i18nText("FR-Product_Demo");
         }
 
         @Override

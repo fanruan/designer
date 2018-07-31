@@ -3,7 +3,7 @@ package com.fr.van.chart.gantt.designer.type;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.gantt.GanttIndependentVanChart;
 import com.fr.plugin.chart.gantt.VanChartGanttPlot;
 import com.fr.van.chart.designer.type.AbstractVanChartTypePane;
@@ -12,7 +12,7 @@ import com.fr.van.chart.designer.type.AbstractVanChartTypePane;
  * Created by hufan on 2017/1/9.
  */
 public class VanChartGanttPlotPane extends AbstractVanChartTypePane {
-    public static final String TITLE = Inter.getLocText("Plugin-ChartF_NewGantt");
+    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewGantt");
     @Override
     protected String[] getTypeIconPath() {
         return new String[]{"/com/fr/van/chart/gantt/images/gantt.png"
@@ -22,7 +22,7 @@ public class VanChartGanttPlotPane extends AbstractVanChartTypePane {
     @Override
     protected String[] getTypeTipName() {
         return new String[]{
-                Inter.getLocText("Plugin-ChartF_GanttChart")
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_GanttChart")
         };
     }
 
@@ -36,7 +36,7 @@ public class VanChartGanttPlotPane extends AbstractVanChartTypePane {
      * @return 界面标题
      */
     public String title4PopupWindow() {
-        return Inter.getLocText("Plugin-ChartF_NewGantt");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewGantt");
     }
 
     public Chart getDefaultChart() {

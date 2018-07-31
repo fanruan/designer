@@ -11,7 +11,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.widget.ui.designer.component.FormWidgetValuePane;
 import com.fr.form.ui.TextEditor;
-import com.fr.general.Inter;
+
 import com.fr.stable.StringUtils;
 import javax.swing.*;
 import java.awt.*;
@@ -43,7 +43,7 @@ public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor>
             public void phoneRegChangeAction(RegPane.PhoneRegEvent e) {
                 if (StringUtils.isNotEmpty(e.getPhoneRegString())
                         && StringUtils.isEmpty(waterMarkDictPane.getText())) {
-                    waterMarkDictPane.setText(Inter.getLocText("Example") + ":" + e.getPhoneRegString());
+                    waterMarkDictPane.setText(com.fr.design.i18n.Toolkit.i18nText("Example") + ":" + e.getPhoneRegString());
                     regPane.addRegChangeListener(rl);
                 }
             }
@@ -61,13 +61,13 @@ public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor>
         formWidgetValuePane = new FormWidgetValuePane(creator.toData(), false);
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
-        UILabel widgetValueLabel = new UILabel(Inter.getLocText("FR-Designer-Estate_Widget_Value"), SwingConstants.LEFT);
+        UILabel widgetValueLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Estate_Widget_Value"), SwingConstants.LEFT);
         widgetValueLabel.setVerticalAlignment(SwingConstants.TOP);
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Label_Name")), labelNameTextField},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Label_Name")), labelNameTextField},
                 new Component[]{widgetValueLabel,  formWidgetValuePane},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_WaterMark"), SwingConstants.LEFT), waterMarkDictPane},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Font-Size"), SwingConstants.LEFT), fontSizePane}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WaterMark"), SwingConstants.LEFT), waterMarkDictPane},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Font-Size"), SwingConstants.LEFT), fontSizePane}
         };
         double[] rowSize = {p, p, p, p, p, p};
         double[] columnSize = {p,f};

@@ -2,7 +2,7 @@ package com.fr.design.present;
 
 import com.fr.base.present.Present;
 import com.fr.design.beans.FurtherBasicBeanPane;
-import com.fr.general.Inter;
+
 
 /**
  * 
@@ -18,7 +18,7 @@ public class NonePresentPane extends FurtherBasicBeanPane<Present> {
 
 	@Override
 	public String title4PopupWindow() {
-		return Inter.getLocText("Present-No_Present");
+		return com.fr.design.i18n.Toolkit.i18nText("Present-No_Present");
 	}
 	
 	public void reset() {

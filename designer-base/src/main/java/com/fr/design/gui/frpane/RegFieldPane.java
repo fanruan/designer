@@ -10,7 +10,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.form.ui.TextEditor;
 import com.fr.form.ui.reg.NoneReg;
 import com.fr.form.ui.reg.RegExp;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -73,7 +73,7 @@ public class RegFieldPane extends RegPane {
             this.setLayout(FRGUIPaneFactory.createBorderLayout());
             this.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L6, IntervalConstants.INTERVAL_L5, 0, 0));
             initRegErrorMsgField();
-            UILabel tipLabel = new UILabel(Inter.getLocText("FR-Designer_Widget_Error_Tip"));
+            UILabel tipLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget_Error_Tip"));
             tipLabel.setPreferredSize(new Dimension(60, 20));
             JPanel panel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{tipLabel, regErrorMsgField}}, TableLayoutHelper.FILL_LASTCOLUMN, 10, LayoutConstants.VGAP_MEDIUM);
             this.add(panel);

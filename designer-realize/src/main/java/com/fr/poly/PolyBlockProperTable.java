@@ -6,7 +6,7 @@ import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.mainframe.widget.BasicPropertyPane;
 import com.fr.design.widget.WidgetBoundsPaneFactory;
-import com.fr.general.Inter;
+
 import com.fr.poly.group.PolyBoundsGroup;
 import com.fr.report.poly.TemplateBlock;
 
@@ -33,7 +33,7 @@ public class PolyBlockProperTable extends JPanel {
 		this.setLayout(new BorderLayout());
 
 		blockPropertyPane = new BasicPropertyPane();
-		UIExpandablePane basicPane = new UIExpandablePane(Inter.getLocText("FR-Designer_Basic"), 280, 24, blockPropertyPane);
+		UIExpandablePane basicPane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Basic"), 280, 24, blockPropertyPane);
 		this.add(basicPane, BorderLayout.NORTH);
 
 		x = new UISpinner(0, MAX_SPINNER_VALUE, 1);

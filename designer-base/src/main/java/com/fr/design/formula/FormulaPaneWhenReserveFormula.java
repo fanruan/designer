@@ -2,7 +2,7 @@ package com.fr.design.formula;
 
 import com.fr.base.BaseFormula;
 import com.fr.design.gui.icheckbox.UICheckBox;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -25,7 +25,7 @@ public class FormulaPaneWhenReserveFormula extends FormulaPane {
     @Override
     protected void extendCheckBoxPane(JPanel checkBoxPane) {
         // peter:添加公式是否兼容Excel的属性
-        reserveCheckBox4Result = new UICheckBox(Inter.getLocText("FR-Designer_Export-Save-Formula"));
+        reserveCheckBox4Result = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Export-Save-Formula"));
         reserveCheckBox4Result.setSelected(false);
         reserveCheckBox4Result.addChangeListener(new ChangeListener() {
 
@@ -38,7 +38,7 @@ public class FormulaPaneWhenReserveFormula extends FormulaPane {
                 }
             }
         });
-        reserveCheckBox4Write = new UICheckBox(Inter.getLocText("FR-Designer_Write-Save-Formula"));
+        reserveCheckBox4Write = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Write-Save-Formula"));
         reserveCheckBox4Write.setSelected(false);
 
         checkBoxPane.add(reserveCheckBox4Result, BorderLayout.CENTER);

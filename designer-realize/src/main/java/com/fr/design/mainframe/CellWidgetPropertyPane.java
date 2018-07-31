@@ -8,7 +8,7 @@ import com.fr.design.widget.WidgetPane;
 import com.fr.form.ui.NoneWidget;
 import com.fr.form.ui.Widget;
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.Inter;
+
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.Selection;
 import com.fr.privilege.finegrain.WidgetPrivilegeControl;
@@ -56,7 +56,7 @@ public class CellWidgetPropertyPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("FR-Designer-Widget_Settings");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget_Settings");
     }
 
     public void populate(TemplateCellElement cellElement) {

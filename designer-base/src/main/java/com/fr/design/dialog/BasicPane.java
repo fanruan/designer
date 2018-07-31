@@ -2,7 +2,7 @@ package com.fr.design.dialog;
 
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
-import com.fr.general.Inter;
+
 import com.fr.stable.core.PropertyChangeAdapter;
 import com.fr.design.utils.gui.GUICoreUtils;
 
@@ -309,7 +309,7 @@ public abstract class BasicPane extends JPanel {
 
             nameTextField = new UITextField(30);
             JPanel northPane = new JPanel(new BorderLayout(4, 4));
-            northPane.add(new UILabel(Inter.getLocText("FR-Designer-Hyperlink_Name") + ":"), BorderLayout.WEST);
+            northPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Hyperlink_Name") + ":"), BorderLayout.WEST);
             northPane.add(nameTextField, BorderLayout.CENTER);
             northPane.add(showfield = new UILabel(" "), BorderLayout.EAST);
             showfield.setForeground(new Color(204, 0, 1));

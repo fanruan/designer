@@ -8,7 +8,7 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.icon.WarningIcon;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
 
@@ -113,7 +113,7 @@ public class TableDataNameObjectCreator extends NameObjectCreator {
      * @return 提示
      */
     public String createTooltip() {
-        return b ? Inter.getLocText("Connect_SQL_Cannot_Null") : null;
+        return b ? com.fr.design.i18n.Toolkit.i18nText("Connect_SQL_Cannot_Null") : null;
     }
 
     public String getPrefix() {

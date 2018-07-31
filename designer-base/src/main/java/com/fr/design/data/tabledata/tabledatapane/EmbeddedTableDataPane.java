@@ -32,7 +32,7 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.general.DateUtils;
-import com.fr.general.Inter;
+
 import com.fr.stable.StringUtils;
 
 
@@ -107,7 +107,7 @@ public class EmbeddedTableDataPane extends AbstractTableDataPane<EmbeddedTableDa
 
     private void initOtherNorthPaneComponents(JPanel northPane) {
         // 表结构设置
-        columnSetButton = new UIButton(Inter.getLocText(new String[]{"Table", "Design"}));
+        columnSetButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Tabledata_Embedded_Table_Design"));
         columnSetButton.setMnemonic('C');
         northPane.add(columnSetButton);
         columnSetButton.addActionListener(new ActionListener() {
@@ -134,7 +134,7 @@ public class EmbeddedTableDataPane extends AbstractTableDataPane<EmbeddedTableDa
         });
 
         // DataSourceEditor-Insert_Row
-        insertRowButton = new UIButton(Inter.getLocText("Utils-Insert_Row"));
+        insertRowButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Utils-Insert_Row"));
         insertRowButton.setMnemonic('I');
         northPane.add(insertRowButton);
         insertRowButton.addActionListener(new ActionListener() {
@@ -144,7 +144,7 @@ public class EmbeddedTableDataPane extends AbstractTableDataPane<EmbeddedTableDa
         });
 
         // DataSourceEditor-Remove_Row
-        removeRowButton = new UIButton(Inter.getLocText("Utils-Delete_Row"));
+        removeRowButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Utils-Delete_Row"));
         removeRowButton.setMnemonic('R');
         northPane.add(removeRowButton);
         removeRowButton.addActionListener(new ActionListener() {
@@ -157,7 +157,7 @@ public class EmbeddedTableDataPane extends AbstractTableDataPane<EmbeddedTableDa
 
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("DS-Embedded_TableData");
+		return com.fr.design.i18n.Toolkit.i18nText("DS-Embedded_TableData");
 	}
 
 

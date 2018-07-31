@@ -5,7 +5,7 @@ import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.DesignerContext;
-import com.fr.general.Inter;
+
 import com.fr.design.utils.gui.GUICoreUtils;
 
 import javax.swing.*;
@@ -262,7 +262,7 @@ public class UIModeControlContainer extends JLayeredPane {
         public HidePane() {
             setLayout(new FlowLayout(FlowLayout.CENTER, 10, -3));
             setBackground(UIConstants.NORMAL_BACKGROUND);
-            add(new UILabel("<html><font size='5' face='Microsoft YaHei' color='#999999999'><B>" + Inter.getLocText(new String[]{"Parameter", "Panel"}) + "</B></font></html>"));
+            add(new UILabel("<html><font size='5' face='Microsoft YaHei' color='#999999999'><B>" + com.fr.design.i18n.Toolkit.i18nText("Parameter Panel") + "</B></font></html>"));
             UIButton viewButton = new UIButton(UIConstants.VIEW_NORMAL_ICON, UIConstants.VIEW_PRESSED_ICON, UIConstants.VIEW_PRESSED_ICON) {
                 @Override
                 public Dimension getPreferredSize() {

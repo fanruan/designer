@@ -29,7 +29,7 @@ import com.fr.design.selection.Selectedable;
 import com.fr.design.selection.SelectionListener;
 import com.fr.form.FormElementCaseProvider;
 import com.fr.form.main.Form;
-import com.fr.general.Inter;
+
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.Selection;
 import com.fr.report.cell.CellElement;
@@ -93,7 +93,7 @@ public class FormElementCaseDesigner<T extends FormElementCaseProvider, E extend
     @Override
     public ShortCut[] shortCuts4Authority() {
         return new ShortCut[]{
-                new NameSeparator(Inter.getLocText(new String[]{"DashBoard-Potence", "Edit"})),
+                new NameSeparator(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"DashBoard-Potence", "Edit"})),
                 BaseUtils.isAuthorityEditing() ? new ExitAuthorityEditAction(this) : new AllowAuthorityEditAction(this),
         };
 

@@ -4,7 +4,7 @@ package com.fr.van.chart.designer.style;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.attr.VanChartLegend;
 import com.fr.plugin.chart.range.VanChartRangeLegend;
 import com.fr.plugin.chart.type.LegendType;
@@ -88,9 +88,9 @@ public class VanChartRangeLegendPane extends VanChartPlotLegendPane {
 
     protected UIButtonGroup<LegendType> createLegendTypeButton(){
         return new UIButtonGroup<LegendType>(new String[]{
-                Inter.getLocText("Plugin-ChartF_Legend_Ordinary"),
-                Inter.getLocText("Plugin-ChartF_Legend_Gradual"),
-                Inter.getLocText("Plugin-ChartF_Legend_Section")
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Legend_Ordinary"),
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Legend_Gradual"),
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Legend_Section")
         }, new LegendType[]{LegendType.ORDINARY, LegendType.GRADUAL, LegendType.SECTION});
     }
 
@@ -104,7 +104,7 @@ public class VanChartRangeLegendPane extends VanChartPlotLegendPane {
 
         initLegendTypeButtonListener();
 
-        JPanel legendTypeButtonWithTilePane = createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_Legend_Form"),legendTypeButton);
+        JPanel legendTypeButtonWithTilePane = createTableLayoutPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Legend_Form"),legendTypeButton);
         legendTypeButtonWithTilePane.setBorder(BorderFactory.createEmptyBorder(0,5,0,0));
 
         rangeLegendPane = createRangeLegendPane();

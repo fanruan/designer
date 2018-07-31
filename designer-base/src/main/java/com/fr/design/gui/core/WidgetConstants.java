@@ -1,6 +1,6 @@
 package com.fr.design.gui.core;
 
-import com.fr.general.Inter;
+
 
 public class WidgetConstants {
 	
@@ -39,7 +39,7 @@ public class WidgetConstants {
 	
 	// FileEditor
 //	public static final int FILE = 13;
-//	public static final String NAME_FILE = Inter.getLocText("File");
+//	public static final String NAME_FILE = com.fr.design.i18n.Toolkit.i18nText("File");
 	
 	public static final int BUTTON = 14;
 	
@@ -55,24 +55,24 @@ public class WidgetConstants {
 	public static final int MULTI_FILE = 19;
 	
 	// 默认控件
-	public static final String DEFAULT_WIDGETCONFIG = Inter.getLocText("Widget-Form_Widget_Config");
+	public static final String DEFAULT_WIDGETCONFIG = com.fr.design.i18n.Toolkit.i18nText("Widget-Form_Widget_Config");
 	
 	// 报表控件，与默认控件不同，比如label，table,SEARCH等，这里是不需要的
-	public static final String REPORT_WIDGETCONFIG = Inter.getLocText("Widget-Default_Widget_Config");
+	public static final String REPORT_WIDGETCONFIG = com.fr.design.i18n.Toolkit.i18nText("Widget-Default_Widget_Config");
 	
-	public static final String FORM_CHARTWIDGET = Inter.getLocText("Widget-Chart_Widget_Config");
+	public static final String FORM_CHARTWIDGET = com.fr.design.i18n.Toolkit.i18nText("Widget-Chart_Widget_Config");
 	
 	// 表单容器控件
-	public static final String FORM_WIDGETCONTAINER = Inter.getLocText("Widget-Form_Widget_Container");
+	public static final String FORM_WIDGETCONTAINER = com.fr.design.i18n.Toolkit.i18nText("Widget-Form_Widget_Container");
 	
-	public  static final String POLY_REPORT_WIDGET = Inter.getLocText("Poly-Report_Component");
+	public  static final String POLY_REPORT_WIDGET = com.fr.design.i18n.Toolkit.i18nText("Poly-Report_Component");
 	// 服务器预定义控件
-	public static final String USER_DEFINED_WIDGETCONFIG = Inter.getLocText("Widget-User_Defined_Widget_Config");
+	public static final String USER_DEFINED_WIDGETCONFIG = com.fr.design.i18n.Toolkit.i18nText("Widget-User_Defined_Widget_Config");
 	
 	// 服务器组合控件
-	public static final String COMB_WIDGETCONFIG = Inter.getLocText("Widget-Comb_Widget_Config");
+	public static final String COMB_WIDGETCONFIG = com.fr.design.i18n.Toolkit.i18nText("Widget-Comb_Widget_Config");
 	
 	// 服务器自定义控件
-	public static final String CUSTOM_WIDGETCONFIG = Inter.getLocText("Widget-Custom_Widget_Config");
+	public static final String CUSTOM_WIDGETCONFIG = com.fr.design.i18n.Toolkit.i18nText("Widget-Custom_Widget_Config");
 	
 }

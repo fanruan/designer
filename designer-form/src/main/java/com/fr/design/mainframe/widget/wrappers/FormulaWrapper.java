@@ -7,7 +7,7 @@ import com.fr.base.BaseFormula;
 import com.fr.design.Exception.ValidationException;
 import com.fr.design.designer.properties.Decoder;
 import com.fr.design.designer.properties.Encoder;
-import com.fr.general.Inter;
+
 import com.fr.stable.StringUtils;
 
 /**
@@ -40,6 +40,6 @@ public class FormulaWrapper implements Encoder, Decoder{
        if (txt.length() > 0 && txt.charAt(0) == '=') {
            return;
        }
-       throw new ValidationException(Inter.getLocText("Formula_Tips"));
+       throw new ValidationException(com.fr.design.i18n.Toolkit.i18nText("Formula_Tips"));
     }
 }

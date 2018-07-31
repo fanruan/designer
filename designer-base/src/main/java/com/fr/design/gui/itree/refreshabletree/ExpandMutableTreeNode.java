@@ -1,29 +1,46 @@
 package com.fr.design.gui.itree.refreshabletree;
 
+import com.fr.design.utils.gui.GUICoreUtils;
+
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
-
-import com.fr.design.utils.gui.GUICoreUtils;
 
 /**
  * Enhanced, expand state and get treepath from node.
  */
 public class ExpandMutableTreeNode extends DefaultMutableTreeNode {
-    private boolean isExpanded = false; //the expend state
-    
-    //默认显示:“正在加载”，如需要显示tree，则传入相应userobject
+    /**
+     * the expend state
+     */
+    private boolean isExpanded = false;
+
+
+    private boolean hasFullAuthority = true;
+
+    /**
+     * 默认显示:“正在加载”，如需要显示tree，则传入相应userobject
+     */
     public ExpandMutableTreeNode() {
-    	this(RefreshableJTree.PENDING);
+        this(RefreshableJTree.PENDING);
     }
 
     public ExpandMutableTreeNode(Object userObject) {
         this(userObject, false);
     }
-    
+
     public ExpandMutableTreeNode(Object userObject, boolean isExpanded) {
-    	super(userObject);
-    	this.setExpanded(isExpanded);
+        super(userObject);
+        this.setExpanded(isExpanded);
     }
+
+    public boolean hasFullAuthority() {
+        return hasFullAuthority;
+    }
+
+    public void setFullAuthority(boolean hasFullAuthority) {
+        this.hasFullAuthority = hasFullAuthority;
+    }
+
     public boolean isExpanded() {
         return this.isExpanded;
     }
@@ -36,12 +53,12 @@ public class ExpandMutableTreeNode extends DefaultMutableTreeNode {
      * 展开所有Expanded为true的TreeNode
      */
     public void expandCurrentTreeNode(JTree tree) {
-    	if (this.isExpanded) {
-        	tree.expandPath(GUICoreUtils.getTreePath(this));
+        if (this.isExpanded) {
+            tree.expandPath(GUICoreUtils.getTreePath(this));
             this.setExpanded(true);
-            
+
             this.expandSubTreeNodes(tree);
-    	}
+        }
     }
 
     /**
@@ -69,10 +86,10 @@ public class ExpandMutableTreeNode extends DefaultMutableTreeNode {
             }
         }
     }
-    
+
     public void addChildTreeNodes(ExpandMutableTreeNode[] newChildNodes) {
-    	for (int i = 0; i < newChildNodes.length; i ++) {
-			this.add(newChildNodes[i]);
-		}
+        for (int i = 0; i < newChildNodes.length; i++) {
+            this.add(newChildNodes[i]);
+        }
     }
 }

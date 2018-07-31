@@ -5,7 +5,7 @@ import com.fr.design.designer.TargetComponent;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -57,8 +57,8 @@ public abstract class AuthorityEditPane extends JPanel {
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(" " + Inter.getLocText("FR-Designer_Type") + "        ", SwingConstants.LEFT), typePane},
-                new Component[]{new UILabel(" " + Inter.getLocText("FR-Designer_WF_Name") + "        ", SwingConstants.LEFT), namePane},
+                new Component[]{new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Type") + "        ", SwingConstants.LEFT), typePane},
+                new Component[]{new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WF_Name") + "        ", SwingConstants.LEFT), namePane},
                 new Component[]{checkPane, null},
         };
 

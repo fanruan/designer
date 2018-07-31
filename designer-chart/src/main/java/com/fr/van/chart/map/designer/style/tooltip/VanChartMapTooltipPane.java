@@ -3,7 +3,7 @@ package com.fr.van.chart.map.designer.style.tooltip;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionAttr;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.map.VanChartMapPlot;
 import com.fr.plugin.chart.map.attr.AttrMapTooltip;
 import com.fr.van.chart.designer.AbstractVanChartScrollPane;
@@ -123,7 +123,7 @@ public class VanChartMapTooltipPane extends AbstractVanChartScrollPane<Chart> {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("Plugin-Chart_Tooltip");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-Chart_Tooltip");
     }
 }
 

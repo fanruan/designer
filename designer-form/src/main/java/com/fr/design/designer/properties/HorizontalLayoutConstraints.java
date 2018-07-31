@@ -5,7 +5,7 @@ package com.fr.design.designer.properties;
 
 import java.awt.Component;
 
-import com.fr.general.Inter;
+
 import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.designer.creator.XWHorizontalBoxLayout;
 import com.fr.form.ui.container.WHorizontalBoxLayout;
@@ -28,9 +28,9 @@ public class HorizontalLayoutConstraints extends HVLayoutConstraints{
         if (column == 0) {
             switch (row) {
                 case 0:
-                    return Inter.getLocText("Layout-Index");
+                    return com.fr.design.i18n.Toolkit.i18nText("Layout-Index");
                 default:
-                    return Inter.getLocText("Tree-Width");
+                    return com.fr.design.i18n.Toolkit.i18nText("Tree-Width");
             }
         } else {
             switch (row) {

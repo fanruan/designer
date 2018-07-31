@@ -10,7 +10,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.form.share.ShareLoader;
 import com.fr.form.ui.SharableWidgetBindInfo;
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.Inter;
+
 import com.fr.general.CloudCenter;
 import com.fr.share.ShareConstants;
 import com.fr.stable.ArrayUtils;
@@ -54,8 +54,8 @@ public class FormWidgetDetailPane extends FormDockView{
     private boolean isEdit;
     private CardLayout card;
 
-    private static final String REPORT_TAB = Inter.getLocText("FR-Engine_Report");
-    private static final String CHART_TAB = Inter.getLocText("FR-Designer-Form-ToolBar_Chart");
+    private static final String REPORT_TAB = com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Report");
+    private static final String CHART_TAB = com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Form-ToolBar_Chart");
 
     public static FormWidgetDetailPane getInstance() {
         if (HOLDER.singleton == null) {
@@ -80,7 +80,7 @@ public class FormWidgetDetailPane extends FormDockView{
     }
 
     public String getViewTitle() {
-        return Inter.getLocText("FR-Widget_Tree_And_Table");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Widget_Tree_And_Table");
     }
 
     @Override
@@ -141,7 +141,7 @@ public class FormWidgetDetailPane extends FormDockView{
 //        menutPanel.setPreferredSize(new Dimension(240, 48));
 
         menutPanelNorthPane = new JPanel(new BorderLayout());
-        menutPanelNorthPane.add(new UILabel(Inter.getLocText("FR-Designer_LocalWidget"),
+        menutPanelNorthPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_LocalWidget"),
                 SwingConstants.HORIZONTAL), BorderLayout.WEST);
         menutPanelNorthPane.add(initEditButtonPane(), BorderLayout.EAST);
         menutPanelNorthPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
@@ -174,7 +174,7 @@ public class FormWidgetDetailPane extends FormDockView{
      */
     private JPanel initResetButtonPane() {
         resetPanel = new JPanel();
-        resetButton = new UIButton(Inter.getLocText("FR-Designer_Reset"));
+        resetButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Reset"));
         resetPanel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
         resetButton.setBackground(Color.white);
         resetButton.setForeground(new Color(0x333334));
@@ -187,7 +187,7 @@ public class FormWidgetDetailPane extends FormDockView{
             }
         });
 
-        deleteButton = new UIButton(Inter.getLocText("FR-Designer_Remove_Item"));
+        deleteButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Remove_Item"));
         deleteButton.setBackground(Color.white);
         deleteButton.setForeground(new Color(0xeb1d1f));
         deleteButton.addActionListener(new ActionListener() {
@@ -197,12 +197,12 @@ public class FormWidgetDetailPane extends FormDockView{
                     refreshShareMoudule();
                     reuWidgetPanel.remove(deleteButton);
                     elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
-                    JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_Removed_Successful"));
+                    JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Share_Module_Removed_Successful"));
                     refreshDownPanel(false);
                     replaceButtonPanel(false);
                     refreshComboxData();
                 } else {
-                    JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_Removed_Failed"));
+                    JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Share_Module_Removed_Failed"));
                 }
 
             }
@@ -259,7 +259,7 @@ public class FormWidgetDetailPane extends FormDockView{
     private UIButton createRefreshButton() {
         return createToolButton(
                 BaseUtils.readIcon("/com/fr/design/form/images/refresh.png"),
-                Inter.getLocText("FR-Designer_Refresh"),
+                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Refresh"),
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -294,7 +294,7 @@ public class FormWidgetDetailPane extends FormDockView{
         UIButton downloadButton = new UIButton();
         downloadButton.setIcon(BaseUtils.readIcon("/com/fr/design/form/images/download icon.png"));
         downloadButton.set4ToolbarButton();
-        downloadButton.setToolTipText(Inter.getLocText("FR-Designer_Download_Template"));
+        downloadButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Download_Template"));
         downloadButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -306,7 +306,7 @@ public class FormWidgetDetailPane extends FormDockView{
                 try {
                     Desktop.getDesktop().browse(new URI(url));
                 } catch (IOException exp) {
-                    JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer_Set_default_browser"));
+                    JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Set_default_browser"));
                     FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
                 } catch (URISyntaxException exp) {
                     FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
@@ -325,14 +325,14 @@ public class FormWidgetDetailPane extends FormDockView{
     private UIButton createInstallButton() {
         return createToolButton(
                 BaseUtils.readIcon("/com/fr/design/form/images/install icon.png"),
-                Inter.getLocText("FR-Designer_Install_Template"),
+                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Install_Template"),
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         JFileChooser fileChooser = new JFileChooser();
                         fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
                         fileChooser.setFileFilter(new FileNameExtensionFilter(".reu", "reu"));
-                        int returnValue = fileChooser.showDialog(new UILabel(), Inter.getLocText("FR-Designer_Select"));
+                        int returnValue = fileChooser.showDialog(new UILabel(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Select"));
                         if (returnValue == JFileChooser.APPROVE_OPTION) {
                             final File chosenFile = fileChooser.getSelectedFile();
                             installFromDiskZipFile(chosenFile);
@@ -348,7 +348,7 @@ public class FormWidgetDetailPane extends FormDockView{
     private UIButton createDeleteButton() {
         return createToolButton(
                 BaseUtils.readIcon("/com/fr/design/form/images/delete icon.png"),
-                Inter.getLocText("FR-Designer_Delete_Template"),
+                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Delete_Template"),
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -378,12 +378,12 @@ public class FormWidgetDetailPane extends FormDockView{
                     elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
                     refreshDownPanel(false);
                     refreshComboxData();
-                    JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_OK"));
+                    JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Share_Module_OK"));
                 } else {
-                    JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_Error"));
+                    JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Share_Module_Error"));
                 }
             } catch (IOException e) {
-                JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_Error"));
+                JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Share_Module_Error"));
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
@@ -401,7 +401,7 @@ public class FormWidgetDetailPane extends FormDockView{
      * 获取报表块组件分类
      */
     public String[] getFormCategories() {
-        return ArrayUtils.addAll(new String[] {Inter.getLocText("FR-Designer_AllCategories")}, ShareLoader.getLoader().getModuleCategory());
+        return ArrayUtils.addAll(new String[] {com.fr.design.i18n.Toolkit.i18nText("FR-Designer_AllCategories")}, ShareLoader.getLoader().getModuleCategory());
     }
 
     public void refreshDownPanel(boolean isEdit) {

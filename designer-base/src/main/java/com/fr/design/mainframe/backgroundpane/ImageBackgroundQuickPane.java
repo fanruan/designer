@@ -13,7 +13,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.style.background.image.ImageFileChooser;
 import com.fr.general.Background;
-import com.fr.general.Inter;
+
 import com.fr.stable.Constants;
 
 import javax.swing.JPanel;
@@ -45,7 +45,7 @@ public class ImageBackgroundQuickPane extends BackgroundQuickPane {
 
     public ImageBackgroundQuickPane(boolean hasImageLayout) {
         this.setLayout(new BorderLayout(0, 4));
-        String[] nameArray = {Inter.getLocText("FR-Background_Image_Default"), Inter.getLocText("FR-Background_Image_Titled"), Inter.getLocText("FR-Background_Image_Extend"), Inter.getLocText("FR-Background_Image_Adjust")};
+        String[] nameArray = {com.fr.design.i18n.Toolkit.i18nText("FR-Background_Image_Default"), com.fr.design.i18n.Toolkit.i18nText("FR-Background_Image_Titled"), com.fr.design.i18n.Toolkit.i18nText("FR-Background_Image_Extend"), com.fr.design.i18n.Toolkit.i18nText("FR-Background_Image_Adjust")};
         Byte[] valueArray = {Constants.IMAGE_CENTER, Constants.IMAGE_TILED, Constants.IMAGE_EXTEND, Constants.IMAGE_ADJUST};
         imageLayoutPane = new UIButtonGroup<Byte>(nameArray, valueArray);
         imageLayoutPane.setSelectedIndex(0);
@@ -64,7 +64,7 @@ public class ImageBackgroundQuickPane extends BackgroundQuickPane {
         this.add(contentPane, BorderLayout.CENTER);
 
 
-        UIButton selectPictureButton = new UIButton(Inter.getLocText("Image-Select_Picture"));
+        UIButton selectPictureButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Image-Select_Picture"));
         selectPictureButton.addActionListener(selectPictureActionListener);
 
         if (hasImageLayout) {
@@ -174,7 +174,7 @@ public class ImageBackgroundQuickPane extends BackgroundQuickPane {
      */
     @Override
     public String title4PopupWindow() {
-        return Inter.getLocText("FR-Background_Image");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Background_Image");
     }
 
     @Override

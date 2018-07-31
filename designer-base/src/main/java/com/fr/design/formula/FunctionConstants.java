@@ -12,7 +12,7 @@ import com.fr.function.RANGE;
 import com.fr.function.SUM;
 import com.fr.function.TIME;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.plugin.ExtraClassManager;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.OperatingSystem;
@@ -78,7 +78,7 @@ public abstract class FunctionConstants {
     public static FunctionGroup PLUGIN = new FunctionGroup() {
         @Override
         public String getGroupName() {
-            return Inter.getLocText("FR-Base_Formula_Plugin");
+            return com.fr.design.i18n.Toolkit.i18nText("FR-Base_Formula_Plugin");
         }
 
         @Override
@@ -96,7 +96,7 @@ public abstract class FunctionConstants {
 	public static FunctionGroup CUSTOM = new FunctionGroup() {
 		@Override
 		public String getGroupName() {
-			return Inter.getLocText("FormulaD-Custom_Function");
+			return com.fr.design.i18n.Toolkit.i18nText("FormulaD-Custom_Function");
 		}
 		
 		@Override
@@ -117,25 +117,25 @@ public abstract class FunctionConstants {
 		}
 	};
 	
-	public static NameAndFunctionList COMMON = new NameAndFunctionList(Inter.getLocText("FormulaD-Most_Recently_Used"), new Function[] {
+	public static NameAndFunctionList COMMON = new NameAndFunctionList(com.fr.design.i18n.Toolkit.i18nText("FormulaD-Most_Recently_Used"), new Function[] {
 		new SUM(), new COUNT(), new AVERAGE(), new CHAR(), new DATE(), new MAX(), new MIN(), new TIME(), new RANGE()
 	});
 	
 	public static NameAndTypeAndFunctionList[] EMBFUNCTIONS = new NameAndTypeAndFunctionList[] {
-		new NameAndTypeAndFunctionList(Inter.getLocText("FormulaD-Math_&_Trig"), Function.MATH), 
-		new NameAndTypeAndFunctionList(Inter.getLocText("FR-Designer_FormulaD-Text"), Function.TEXT),
-		new NameAndTypeAndFunctionList(Inter.getLocText("FormulaD-Date_&_Time"), Function.DATETIME),
-		new NameAndTypeAndFunctionList(Inter.getLocText("FR-Designer_FormulaD-Logical"), Function.LOGIC),
-		new NameAndTypeAndFunctionList(Inter.getLocText("FR-Designer_FormulaD-Array"), Function.ARRAY),
-		new NameAndTypeAndFunctionList(Inter.getLocText("FR-Designer_FormulaD-Report"), Function.REPORT),
-		new NameAndTypeAndFunctionList(Inter.getLocText("FR-Designer_FormulaD-Other"), Function.OTHER),
-		new NameAndTypeAndFunctionList(Inter.getLocText(new String[]{"Level_coordinates", "FormulaD-Functions"}), Function.HA)
+		new NameAndTypeAndFunctionList(com.fr.design.i18n.Toolkit.i18nText("FormulaD-Math_&_Trig"), Function.MATH),
+		new NameAndTypeAndFunctionList(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FormulaD-Text"), Function.TEXT),
+		new NameAndTypeAndFunctionList(com.fr.design.i18n.Toolkit.i18nText("FormulaD-Date_&_Time"), Function.DATETIME),
+		new NameAndTypeAndFunctionList(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FormulaD-Logical"), Function.LOGIC),
+		new NameAndTypeAndFunctionList(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FormulaD-Array"), Function.ARRAY),
+		new NameAndTypeAndFunctionList(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FormulaD-Report"), Function.REPORT),
+		new NameAndTypeAndFunctionList(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FormulaD-Other"), Function.OTHER),
+		new NameAndTypeAndFunctionList(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Function_Type_Hierarchy"), Function.HA)
 	};
 	
 	public static FunctionGroup ALL = new FunctionGroup() {
 		@Override
 		public String getGroupName() {
-			return Inter.getLocText("FR-Designer_FormulaD-All");
+			return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FormulaD-All");
 		}
 		
 		@Override

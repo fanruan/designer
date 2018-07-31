@@ -23,7 +23,7 @@ import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.style.FormatPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.dialog.BasicPane;
-import com.fr.general.Inter;
+
 
 
 /**
@@ -61,7 +61,7 @@ public class FormatBox extends BasicPane {
 		typeBox.addItem(FormatField.getInstance().getName(FormatContents.TIME));
 		typeBox.addItem(FormatField.getInstance().getName(FormatContents.TEXT));
 		
-		pane.add(new UILabel(Inter.getLocText("Format") + ":"));
+		pane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Format") + ":"));
 		formatBox = new UIComboBox();
 		// kunsnat: 大小: 这个有的格式的大小需要很宽!
 		formatBox.setPreferredSize(new Dimension(150, 20));
@@ -69,7 +69,7 @@ public class FormatBox extends BasicPane {
 		formatBox.setEnabled(false);
 		pane.add(formatBox);
 		
-		pane.add(new UILabel(Inter.getLocText("StyleFormat-Sample") + ":"));
+		pane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("StyleFormat-Sample") + ":"));
 		pane.add(previewLabel = new UILabel(""));
 		
 		typeBox.addItemListener(typeListener);
@@ -172,7 +172,7 @@ public class FormatBox extends BasicPane {
 	
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("Style");
+		return com.fr.design.i18n.Toolkit.i18nText("Style");
 	}
 	
 	private void refreshLabelText() {

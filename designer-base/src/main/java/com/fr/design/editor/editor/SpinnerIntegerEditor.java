@@ -3,7 +3,7 @@ package com.fr.design.editor.editor;
 import com.fr.base.Utils;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 import com.fr.stable.StringUtils;
 
 import java.awt.*;
@@ -21,7 +21,7 @@ public class SpinnerIntegerEditor extends Editor<Integer> {
         spinner = new UISpinner(-Integer.MAX_VALUE, Integer.MAX_VALUE, 1, 0);
         this.add(spinner, BorderLayout.CENTER);
         this.spinner.addKeyListener(textKeyListener);
-        this.setName(Inter.getLocText("FR-Designer_Parameter_Integer"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter_Integer"));
     }
 
     @Override

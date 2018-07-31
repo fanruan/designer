@@ -14,7 +14,7 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.form.ui.FileEditor;
 import com.fr.design.form.util.XCreatorConstants;
-import com.fr.general.Inter;
+
 import com.fr.stable.ArrayUtils;
 
 /**
@@ -33,7 +33,7 @@ public class XFileUploader extends XFieldEditor {
             super.supportedDescriptor(),
             new CRPropertyDescriptor[]{
                 new CRPropertyDescriptor("allowTypes", this.data.getClass())
-                    .setI18NName(Inter.getLocText("File-Allow_Upload_Files"))
+                    .setI18NName(com.fr.design.i18n.Toolkit.i18nText("File-Allow_Upload_Files"))
                     .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
             });
     }

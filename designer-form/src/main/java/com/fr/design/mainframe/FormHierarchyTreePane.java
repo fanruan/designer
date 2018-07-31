@@ -17,7 +17,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.design.parameter.HierarchyTreePane;
-import com.fr.general.Inter;
+
 
 import javax.swing.Action;
 import javax.swing.BorderFactory;
@@ -66,7 +66,7 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 
 	@Override
 	public String getViewTitle() {
-		return Inter.getLocText("Form-Hierarchy_Tree");
+		return com.fr.design.i18n.Toolkit.i18nText("Form-Hierarchy_Tree");
 	}
 
 	@Override

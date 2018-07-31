@@ -10,7 +10,7 @@ import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.dialog.BasicPane;
 import com.fr.general.FRFont;
-import com.fr.general.Inter;
+
 import com.fr.design.style.FRFontPane;
 import com.fr.design.style.color.ColorSelectBox;
 
@@ -40,10 +40,10 @@ public class DataLabelStylePane extends BasicPane {
 		nameBox.setPreferredSize(new Dimension(80, 20));
 		
 		String[] styles = {
-				Inter.getLocText("FRFont-plain"),
-				Inter.getLocText("FRFont-bold"),
-				Inter.getLocText("FRFont-italic"),
-				Inter.getLocText("FRFont-bolditalic")};
+				com.fr.design.i18n.Toolkit.i18nText("FRFont-plain"),
+				com.fr.design.i18n.Toolkit.i18nText("FRFont-bold"),
+				com.fr.design.i18n.Toolkit.i18nText("FRFont-italic"),
+				com.fr.design.i18n.Toolkit.i18nText("FRFont-bolditalic")};
 		this.add(fontStyleBox = new UIComboBox(styles));
 		fontStyleBox.setPreferredSize(new Dimension(80, 20));
 		

@@ -11,7 +11,7 @@ import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.gui.frpane.UICorrelationComboBoxPane;
 import com.fr.design.gui.imenutable.UIMenuNameableCreator;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ public class ChartConditionAttrPane extends BasicScrollPane<Chart> {
      * @return 标题
      */
 	public String title4PopupWindow() {
-		return Inter.getLocText("Chart-Condition_Display");
+		return com.fr.design.i18n.Toolkit.i18nText("Chart-Condition_Display");
 	}
 	
 	@Override
@@ -49,9 +49,9 @@ public class ChartConditionAttrPane extends BasicScrollPane<Chart> {
 		List<UIMenuNameableCreator> list = new ArrayList<UIMenuNameableCreator>();
 		
 		if(plot instanceof CustomPlot) {
-			list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Condition_Attributes"), new CustomAttr(), showPane));
+			list.add(new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Chart-Condition_Attributes"), new CustomAttr(), showPane));
 		} else {
-			list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Condition_Attributes"), new ConditionAttr(), showPane));
+			list.add(new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Chart-Condition_Attributes"), new ConditionAttr(), showPane));
 		}
 		
 		conditionPane.refreshMenuAndAddMenuAction(list);

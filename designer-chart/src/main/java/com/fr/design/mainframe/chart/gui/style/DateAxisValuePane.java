@@ -23,7 +23,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.style.FormatBox;
 import com.fr.general.DateUtils;
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.Inter;
+
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
@@ -48,29 +48,29 @@ import java.util.regex.Pattern;
 public class DateAxisValuePane extends FurtherBasicBeanPane<CategoryAxis>{
 
     private static String[] TYPES = new String[]{
-    	Inter.getLocText("Year"), Inter.getLocText("Month"), Inter.getLocText("Sun"), 
-    	Inter.getLocText("Sche-Hour"), Inter.getLocText("Sche-Minute"),
-    	Inter.getLocText("Sche-Second")
+    	com.fr.design.i18n.Toolkit.i18nText("Year"), com.fr.design.i18n.Toolkit.i18nText("Month"), com.fr.design.i18n.Toolkit.i18nText("Sun"),
+    	com.fr.design.i18n.Toolkit.i18nText("Sche-Hour"), com.fr.design.i18n.Toolkit.i18nText("Sche-Minute"),
+    	com.fr.design.i18n.Toolkit.i18nText("Sche-Second")
     };
     
     private static Map<String, Integer> VALUES = new HashMap<String, Integer>();
     static {
-    	VALUES.put(Inter.getLocText("Year"), ChartConstants.YEAR_TYPE);
-    	VALUES.put(Inter.getLocText("Month"), ChartConstants.MONTH_TYPE);
-    	VALUES.put(Inter.getLocText("Sun"), ChartConstants.DAY_TYPE);
-    	VALUES.put(Inter.getLocText("Sche-Hour"), ChartConstants.HOUR_TYPE);
-    	VALUES.put(Inter.getLocText("Sche-Minute"), ChartConstants.MINUTE_TYPE);
-    	VALUES.put(Inter.getLocText("Sche-Second"), ChartConstants.SECOND_TYPE);
+    	VALUES.put(com.fr.design.i18n.Toolkit.i18nText("Year"), ChartConstants.YEAR_TYPE);
+    	VALUES.put(com.fr.design.i18n.Toolkit.i18nText("Month"), ChartConstants.MONTH_TYPE);
+    	VALUES.put(com.fr.design.i18n.Toolkit.i18nText("Sun"), ChartConstants.DAY_TYPE);
+    	VALUES.put(com.fr.design.i18n.Toolkit.i18nText("Sche-Hour"), ChartConstants.HOUR_TYPE);
+    	VALUES.put(com.fr.design.i18n.Toolkit.i18nText("Sche-Minute"), ChartConstants.MINUTE_TYPE);
+    	VALUES.put(com.fr.design.i18n.Toolkit.i18nText("Sche-Second"), ChartConstants.SECOND_TYPE);
     }
     
     private static Map<Integer, String> INTS = new HashMap<Integer, String>();
     static {
-    	INTS.put(ChartConstants.YEAR_TYPE, Inter.getLocText("Year"));
-    	INTS.put(ChartConstants.MONTH_TYPE, Inter.getLocText("Month"));
-    	INTS.put(ChartConstants.DAY_TYPE, Inter.getLocText("Sun"));
-    	INTS.put(ChartConstants.HOUR_TYPE, Inter.getLocText("Sche-Hour"));
-    	INTS.put(ChartConstants.MINUTE_TYPE, Inter.getLocText("Sche-Minute"));
-    	INTS.put(ChartConstants.SECOND_TYPE, Inter.getLocText("Sche-Second"));
+    	INTS.put(ChartConstants.YEAR_TYPE, com.fr.design.i18n.Toolkit.i18nText("Year"));
+    	INTS.put(ChartConstants.MONTH_TYPE, com.fr.design.i18n.Toolkit.i18nText("Month"));
+    	INTS.put(ChartConstants.DAY_TYPE, com.fr.design.i18n.Toolkit.i18nText("Sun"));
+    	INTS.put(ChartConstants.HOUR_TYPE, com.fr.design.i18n.Toolkit.i18nText("Sche-Hour"));
+    	INTS.put(ChartConstants.MINUTE_TYPE, com.fr.design.i18n.Toolkit.i18nText("Sche-Minute"));
+    	INTS.put(ChartConstants.SECOND_TYPE, com.fr.design.i18n.Toolkit.i18nText("Sche-Second"));
     }
    
     // 最大最小值
@@ -94,10 +94,10 @@ public class DateAxisValuePane extends FurtherBasicBeanPane<CategoryAxis>{
     
     private void initMin() {
     	// 最小值.
-        minCheckBox = new UICheckBox(Inter.getLocText("Min_Value"));
+        minCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Min_Value"));
         Date tmp = null;
-        DateEditor dateEditor = new DateEditor(tmp, true, Inter.getLocText("Date"), UIDatePicker.STYLE_CN_DATETIME1);
-        Editor formulaEditor = new FormulaEditor(Inter.getLocText("Parameter-Formula"));
+        DateEditor dateEditor = new DateEditor(tmp, true, com.fr.design.i18n.Toolkit.i18nText("Date"), UIDatePicker.STYLE_CN_DATETIME1);
+        Editor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Parameter-Formula"));
         Editor[] editor = new Editor[]{dateEditor, formulaEditor};
         minValueField = new ValueEditorPane(editor);
         minValueField.setEnabled(false);
@@ -110,10 +110,10 @@ public class DateAxisValuePane extends FurtherBasicBeanPane<CategoryAxis>{
     
     private void initMax() {
     	 // 最大值
-        maxCheckBox = new UICheckBox(Inter.getLocText("Max_Value"));
+        maxCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Max_Value"));
         Date tmp = null;
-        DateEditor dateEditor = new DateEditor(tmp, true, Inter.getLocText("Date"), UIDatePicker.STYLE_CN_DATETIME1);
-        Editor formulaEditor = new FormulaEditor(Inter.getLocText("Parameter-Formula"));
+        DateEditor dateEditor = new DateEditor(tmp, true, com.fr.design.i18n.Toolkit.i18nText("Date"), UIDatePicker.STYLE_CN_DATETIME1);
+        Editor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Parameter-Formula"));
         Editor[] editor = new Editor[]{dateEditor, formulaEditor};
         maxValueField = new ValueEditorPane(editor);
         maxValueField.setEnabled(false);
@@ -126,7 +126,7 @@ public class DateAxisValuePane extends FurtherBasicBeanPane<CategoryAxis>{
     
     private void initMain() {
     	// 主要刻度单位
-        mainTickBox = new UICheckBox(Inter.getLocText("MainGraduationUnit"));
+        mainTickBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("MainGraduationUnit"));
         mainUnitField = new UITextField();
         mainUnitField.setPreferredSize(new Dimension(30, 20));
         mainUnitField.setEditable(false);
@@ -238,7 +238,7 @@ public class DateAxisValuePane extends FurtherBasicBeanPane<CategoryAxis>{
 
 	@Override
 	public String title4PopupWindow() {
-		return Inter.getLocText("Chart_Date_Axis");
+		return com.fr.design.i18n.Toolkit.i18nText("Chart_Date_Axis");
 	}
 	
 	private void checkBoxUse() {
@@ -358,7 +358,7 @@ public class DateAxisValuePane extends FurtherBasicBeanPane<CategoryAxis>{
 			String tmp = DateUtils.getDate2LStr(toDate);
 			toDate = DateUtils.DATETIMEFORMAT2.parse(tmp);
 		} catch (ParseException e) {
-			FineLoggerFactory.getLogger().error(Inter.getLocText("Cannot_Get_Date"));
+			FineLoggerFactory.getLogger().error(com.fr.design.i18n.Toolkit.i18nText("Cannot_Get_Date"));
 		}
 		return toDate;
 	}

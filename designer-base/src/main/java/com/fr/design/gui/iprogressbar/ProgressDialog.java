@@ -5,7 +5,7 @@ import com.fr.design.dialog.UIDialog;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.FRFont;
-import com.fr.general.Inter;
+
 
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -48,7 +48,7 @@ public class ProgressDialog extends UIDialog {
         progressBar.setOpaque(false);
         progressBar.setBorder(null);
         panel.add(progressBar, BorderLayout.CENTER);
-        text = new UILabel(Inter.getLocText("Fine-Designer_Loading_Project"), JLabel.CENTER);
+        text = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Loading_Project"), JLabel.CENTER);
         FRFont font = FRFont.getInstance().applySize(14).applyForeground(new ColorUIResource(333334));
         text.setFont(font);
         panel.add(text, BorderLayout.SOUTH);

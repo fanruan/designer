@@ -2,7 +2,7 @@ package com.fr.design.write.submit;
 
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.fun.impl.AbstractSubmitProvider;
-import com.fr.general.Inter;
+
 
 public class DefaultSubmit extends AbstractSubmitProvider {
 
@@ -13,7 +13,7 @@ public class DefaultSubmit extends AbstractSubmitProvider {
 
     @Override
     public String dataForSubmit() {
-        return Inter.getLocText("FR-Designer_Submmit_WClass");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Submmit_WClass");
     }
 
     @Override

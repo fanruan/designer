@@ -14,7 +14,7 @@ import com.fr.design.mainframe.widget.editors.RegexEditor;
 import com.fr.design.mainframe.widget.editors.WidgetValueEditor;
 import com.fr.design.mainframe.widget.renderer.RegexCellRencerer;
 import com.fr.form.ui.Password;
-import com.fr.general.Inter;
+
 import com.fr.stable.ArrayUtils;
 
 /**
@@ -51,18 +51,18 @@ public class XPassword extends XWrapperedFieldEditor {
         CRPropertyDescriptor[] sup = (CRPropertyDescriptor[]) ArrayUtils.addAll(
                 new CRPropertyDescriptor[]{
                         new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(
-                                Inter.getLocText("FR-Designer-Estate_Widget_Value")).setEditorClass(
+                                com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Estate_Widget_Value")).setEditorClass(
                                 WidgetValueEditor.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "FR-Designer_Advanced")}
                 , super.supportedDescriptor());
         CRPropertyDescriptor regErrorMessage = new CRPropertyDescriptor("regErrorMessage", this.data.getClass()).setI18NName(
-                Inter.getLocText("FR-Engine_Verify-Message")).putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate");
+                com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Verify-Message")).putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate");
         CRPropertyDescriptor regex = new CRPropertyDescriptor("regex", this.data.getClass())
-                .setI18NName(Inter.getLocText("FR-Designer_Input_Rule"))
+                .setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Input_Rule"))
                 .setEditorClass(RegexEditor.RegexEditor4TextArea.class)
                 .putKeyValue("renderer", RegexCellRencerer.class)
                 .putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate");
         CRPropertyDescriptor waterMark = new CRPropertyDescriptor("waterMark", this.data.getClass())
-                .setI18NName(Inter.getLocText("FR-Designer_WaterMark"))
+                .setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WaterMark"))
                 .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "FR-Designer_Advanced");
         boolean displayRegField = true;
         displayRegField = isDisplayRegField(displayRegField);

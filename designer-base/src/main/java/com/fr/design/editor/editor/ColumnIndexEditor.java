@@ -1,7 +1,7 @@
 package com.fr.design.editor.editor;
 
 import com.fr.design.gui.icombobox.IntComboBox;
-import com.fr.general.Inter;
+
 
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -26,7 +26,7 @@ public class ColumnIndexEditor extends Editor<Object> {
      * @param value
      */
     public ColumnIndexEditor(int value) {
-        this(value, Inter.getLocText("Datasource-Column_Index"));
+        this(value, com.fr.design.i18n.Toolkit.i18nText("Datasource-Column_Index"));
     }
 
     public ColumnIndexEditor(int value, String name) {

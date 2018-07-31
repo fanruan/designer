@@ -8,7 +8,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.form.ui.NoneWidget;
 import com.fr.form.ui.Widget;
-import com.fr.general.Inter;
+
 import com.fr.design.utils.gui.GUICoreUtils;
 
 import javax.swing.BorderFactory;
@@ -25,16 +25,16 @@ public class BasicWidgetPropertySettingPane extends BasicPane {
 	
 	public BasicWidgetPropertySettingPane() {
 		this.setLayout(new BorderLayout());
-		enableCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Enabled"), true);
+		enableCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Enabled"), true);
 		enableCheckBox.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
-		visibleCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Widget-Visible"), true);
+		visibleCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget-Visible"), true);
 		visibleCheckBox.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
 		widgetNameComboBox = new ParameterTreeComboBox();
 		widgetNameComboBox.refreshTree();
 		double f = TableLayout.FILL;
 		double p = TableLayout.PREFERRED;
 		Component[][] components = new Component[][]{
-				new Component[]{new UILabel(Inter.getLocText("FR-Designer_Form-Widget_Name")), widgetNameComboBox},
+				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form-Widget_Name")), widgetNameComboBox},
 				new Component[]{enableCheckBox, null},
 				new Component[]{visibleCheckBox, null},
 		};

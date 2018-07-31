@@ -15,7 +15,7 @@ import com.fr.base.chart.BaseChartCollection;
 import com.fr.design.gui.chart.MiddleChartDialog;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.Inter;
+
 
 /**
  * 颜色选择器更多颜色对话框
@@ -92,8 +92,8 @@ public class ColorSelectDialog extends MiddleChartDialog{
     	
     	this.add(buttonPane, BorderLayout.SOUTH);
     	
-    	ok = new UIButton(Inter.getLocText("FR-Designer_Button_OK"));
-    	cancel = new UIButton(Inter.getLocText("FR-Designer_Button_Cancel"));
+    	ok = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Button_OK"));
+    	cancel = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Button_Cancel"));
     	
     	buttonPane.add(ok);
     	buttonPane.add(cancel);

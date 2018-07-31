@@ -5,7 +5,7 @@ import com.fr.design.event.UIObserverListener;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.style.color.NewColorSelectPane;
 import com.fr.general.Background;
-import com.fr.general.Inter;
+
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -84,7 +84,7 @@ public class ColorBackgroundQuickPane extends BackgroundQuickPane {
 	 * @return 同上
 	 */
 	public String title4PopupWindow() {
-		return Inter.getLocText("Color");
+		return com.fr.design.i18n.Toolkit.i18nText("Color");
 	}
 
 	@Override

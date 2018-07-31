@@ -18,7 +18,7 @@ import com.fr.form.FormElementCaseProvider;
 import com.fr.form.FormProvider;
 import com.fr.form.ui.ElementCaseEditor;
 import com.fr.form.ui.ElementCaseEditorProvider;
-import com.fr.general.Inter;
+
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.CoreGraphHelper;
 import com.fr.stable.core.PropertyChangeAdapter;
@@ -79,9 +79,9 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 
 		CRPropertyDescriptor[] propertyTableEditor = new CRPropertyDescriptor[]{
 				new CRPropertyDescriptor("widgetName", this.data.getClass())
-						.setI18NName(Inter.getLocText("Form-Widget_Name")),
+						.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Form-Widget_Name")),
 				new CRPropertyDescriptor("visible", this.data.getClass()).setI18NName(
-						Inter.getLocText("FR-Designer_Widget-Visible")).setPropertyChangeListener(new PropertyChangeAdapter() {
+						com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget-Visible")).setPropertyChangeListener(new PropertyChangeAdapter() {
 
 					@Override
 					public void propertyChange() {
@@ -90,7 +90,7 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 				}),
 				new CRPropertyDescriptor("borderStyle", this.data.getClass()).setEditorClass(
 						WLayoutBorderStyleEditor.class).setI18NName(
-						Inter.getLocText("FR-Designer-Widget_Style")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
+						com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget_Style")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
 						.setPropertyChangeListener(new PropertyChangeAdapter() {
 
 					@Override
@@ -99,10 +99,10 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 					}
 				}),
 				new CRPropertyDescriptor("margin", this.data.getClass()).setEditorClass(PaddingMarginEditor.class)
-						.setI18NName(Inter.getLocText("FR-Layout_Padding"))
+						.setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Layout_Padding"))
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 				new CRPropertyDescriptor("toolBars", this.data.getClass()).setEditorClass(ElementCaseToolBarEditor.class)
-						.setI18NName(Inter.getLocText("Form-EC_toolbar"))
+						.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Form-EC_toolbar"))
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
 		};
 		CRPropertyDescriptor[] extraTableEditor = getExtraTableEditor();

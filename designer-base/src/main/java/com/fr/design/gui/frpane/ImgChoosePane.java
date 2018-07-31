@@ -8,7 +8,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.style.background.image.ImageFileChooser;
 import com.fr.design.style.background.image.ImagePreviewPane;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -34,7 +34,7 @@ public class ImgChoosePane extends BasicPane {
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
 
 		JPanel previewContainner = new JPanel();
-		previewContainner.setBorder(BorderFactory.createTitledBorder(Inter.getLocText("Preview")));
+		previewContainner.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Preview")));
 
 		previewPane = new ImagePreviewPane();
 		previewContainner.add(previewPane);
@@ -46,10 +46,8 @@ public class ImgChoosePane extends BasicPane {
 				if (image == null) {
 					imgSizeLabel.setText("");
 				} else {
-//					imgSizeLabel.setText(Inter.getLocText("Size") + ": " + image.getWidth(null) + "px"
-//							+ image.getHeight(null) + Inter.getLocText("px"));
-					imgSizeLabel.setText(Inter.getLocText(new String[]{"Size", "px", "px"},
-							new String[]{": " + image.getWidth(null), image.getHeight(null) + ""}));
+					imgSizeLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Style_Size_Detail",
+							image.getWidth(null) + "x" + image.getHeight(null)));
 				}
 			}
 		});
@@ -75,7 +73,7 @@ public class ImgChoosePane extends BasicPane {
 	}
 
 	private void initButton() {
-		chooseButton = new UIButton(Inter.getLocText("Image-Select_Picture"));
+		chooseButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Image-Select_Picture"));
 		chooseButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -93,7 +91,7 @@ public class ImgChoosePane extends BasicPane {
 			}
 		});
 
-		clearButton = new UIButton(Inter.getLocText("Clear"));
+		clearButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Clear"));
 		clearButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				previewPane.setImage(null);
@@ -117,6 +115,6 @@ public class ImgChoosePane extends BasicPane {
 
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("Image");
+		return com.fr.design.i18n.Toolkit.i18nText("Image");
 	}
 }

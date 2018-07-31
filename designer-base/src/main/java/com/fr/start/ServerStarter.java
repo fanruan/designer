@@ -13,7 +13,7 @@ import com.fr.design.gui.itextarea.UITextArea;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
-import com.fr.general.Inter;
+
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.ProductConstants;
@@ -98,7 +98,7 @@ public class ServerStarter {
                 // win10 内存用到到80%左右的时候, Desktop.browser经常提示"存储空间不足, 无法处理改命令", 用rundll32可以打开.
                 Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + uri);
             } catch (IOException ee) {
-                JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer_Set_default_browser"));
+                JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Set_default_browser"));
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         } else {

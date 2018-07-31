@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import com.fr.base.background.PatternBackground;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.Background;
-import com.fr.general.Inter;
+
 import com.fr.design.style.background.BackgroundPane4BoxChange;
 import com.fr.design.style.color.ColorSelectBox;
 
@@ -31,9 +31,9 @@ public class PatternUIComboBoxPane extends BackgroundPane4BoxChange {
 		this.add(pane, BorderLayout.NORTH);
 		
 		pane.add(patternBox = new PatternSelectBox(80));
-		pane.add(new UILabel(Inter.getLocText("Foreground") + ":"));
+		pane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Foreground") + ":"));
 		pane.add(foreColor = new ColorSelectBox(80));
-		pane.add(new UILabel(Inter.getLocText("Background") + ":"));
+		pane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Background") + ":"));
 		pane.add(backColor = new ColorSelectBox(80));
 	}
 	

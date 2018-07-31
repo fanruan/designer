@@ -11,7 +11,7 @@ import com.fr.design.data.tabledata.wrapper.AbstractTableDataWrapper;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.editor.editor.Editor;
 import com.fr.form.data.DataTableConfig;
-import com.fr.general.Inter;
+
 
 import java.awt.*;
 import java.awt.event.ItemEvent;
@@ -24,7 +24,7 @@ public class DataTableEditor extends Editor<DataTableConfig> {
 
 	public DataTableEditor() {
 		this.initCompontents();
-		this.setName(Inter.getLocText("FieldBinding"));
+		this.setName(com.fr.design.i18n.Toolkit.i18nText("FieldBinding"));
 	}
 
 	private void initCompontents() {

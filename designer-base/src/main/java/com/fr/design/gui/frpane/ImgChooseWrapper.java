@@ -7,7 +7,7 @@ import com.fr.design.style.background.image.ImageFileChooser;
 import com.fr.design.style.background.image.ImagePreviewer;
 import com.fr.design.utils.ImageUtils;
 import com.fr.general.ImageWithSuffix;
-import com.fr.general.Inter;
+
 import com.fr.stable.CoreGraphHelper;
 import com.fr.stable.StringUtils;
 
@@ -148,7 +148,7 @@ public class ImgChooseWrapper {
             imageSizeLabel.setText(StringUtils.EMPTY);
         } else {
             imageSizeLabel.setText(selectImage.getWidth(null) + "x"
-                    + selectImage.getHeight(null) + Inter.getLocText("px"));
+                    + selectImage.getHeight(null) + com.fr.design.i18n.Toolkit.i18nText("px"));
         }
     }
 }

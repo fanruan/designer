@@ -3,7 +3,7 @@ package com.fr.van.chart.gantt.designer.style.tooltip;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.style.FormatPane;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.base.AttrTooltipContent;
 import com.fr.plugin.chart.base.format.AttrTooltipDurationFormat;
 import com.fr.plugin.chart.base.format.AttrTooltipFormat;
@@ -40,27 +40,27 @@ public class VanChartGanttTooltipContentPane extends VanChartTooltipContentPane 
         processesFormatPane = new VanChartFormatPaneWithCheckBox(parent, showOnPane){
             @Override
             protected String getCheckBoxText() {
-                return Inter.getLocText("Plugin-ChartF_Project_Name");
+                return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Project_Name");
             }
         };
         seriesNameFormatPane = new SeriesNameFormatPaneWithCheckBox(parent, showOnPane);
         startTimeFormatPane = new VanChartDateFormatPaneWithCheckBox(parent, showOnPane){
             @Override
             protected String getCheckBoxText() {
-                return Inter.getLocText("Plugin-ChartF_Start_Time");
+                return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Start_Time");
             }
         };
         endTimeFormatPane = new VanChartDateFormatPaneWithCheckBox(parent, showOnPane){
             @Override
             protected String getCheckBoxText() {
-                return Inter.getLocText("Plugin-ChartF_End_Time");
+                return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_End_Time");
             }
         };
         durationFormatPane = new VanChartFormatComBoxWithCheckBox();
         progressFormatPane = new VanChartFormatPaneWithCheckBox(parent, showOnPane){
             @Override
             protected String getCheckBoxText() {
-                return Inter.getLocText("Plugin-ChartF_Process");
+                return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Process");
             }
         };
     }
@@ -146,7 +146,7 @@ public class VanChartGanttTooltipContentPane extends VanChartTooltipContentPane 
 
         private VanChartFormatComBoxWithCheckBox() {
             this.setLayout(new BorderLayout());
-            isSelectedBox = new UICheckBox(Inter.getLocText("Plugin-ChartF_Duration_Time"));
+            isSelectedBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Duration_Time"));
             formatComBox = new UIComboBox(IntervalTimeFormat.getFormats());
             isSelectedBox.addMouseListener(new MouseListener() {
                 @Override

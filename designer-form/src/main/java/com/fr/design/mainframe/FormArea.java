@@ -25,7 +25,7 @@ import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.form.main.mobile.FormMobileAttr;
 import com.fr.form.ui.container.WBorderLayout;
 import com.fr.general.FRScreen;
-import com.fr.general.Inter;
+
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -156,7 +156,7 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
         slidePane = JFormSliderPane.getInstance();
         slidePane.setPreferredSize(new Dimension(200, 20));
 
-        JPanel resizePane = TableLayoutHelper.createCommonTableLayoutPane(new JComponent[][]{{ tipsPane, new UILabel(), widthPane, new UILabel(Inter.getLocText("FR-Designer_Indent-Pixel")), new UILabel("x"), heightPane, new UILabel(Inter.getLocText("FR-Designer_Indent-Pixel")), new UILabel(), slidePane }}, rowSize, columnSize, RESIZE_PANE_GAP);
+        JPanel resizePane = TableLayoutHelper.createCommonTableLayoutPane(new JComponent[][]{{ tipsPane, new UILabel(), widthPane, new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Indent-Pixel")), new UILabel("x"), heightPane, new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Indent-Pixel")), new UILabel(), slidePane }}, rowSize, columnSize, RESIZE_PANE_GAP);
         this.add(FormRulerLayout.BOTTOM, resizePane);
         setWidgetsConfig();
         // 先初始话滑块及对应事件，然后获取分辨率调整容器的显示大小

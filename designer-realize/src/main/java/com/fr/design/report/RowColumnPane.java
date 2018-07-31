@@ -15,7 +15,7 @@ import javax.swing.JSeparator;
 
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.dialog.BasicPane;
-import com.fr.general.Inter;
+
 
 /**
  * RowColumn dialog.
@@ -27,7 +27,7 @@ public class RowColumnPane extends BasicPane {
 
         JPanel topPane =FRGUIPaneFactory.createBorderLayout_S_Pane();
         this.add(topPane, BorderLayout.NORTH);
-        titleLabel = new UILabel(Inter.getLocText("Delete"));
+        titleLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Delete"));
         topPane.add(titleLabel, BorderLayout.WEST);
         JPanel separatorPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         separatorPane.add(new JSeparator());
@@ -38,9 +38,9 @@ public class RowColumnPane extends BasicPane {
         this.add(centerPane, BorderLayout.CENTER);
         centerPane.setBorder(BorderFactory.createEmptyBorder(6, 12, 6, 8));
 
-        entireRowRadioButton = new UIRadioButton(Inter.getLocText("EditRC-Entire_row"));
+        entireRowRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("EditRC-Entire_row"));
         entireRowRadioButton.setMnemonic('r');
-        entireColRadioButton = new UIRadioButton(Inter.getLocText("EditRC-Entire_column"));
+        entireColRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("EditRC-Entire_column"));
         entireColRadioButton.setMnemonic('c');
         entireRowRadioButton.setSelected(true);
 

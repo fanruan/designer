@@ -18,7 +18,7 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.gui.style.NumberDragBar;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -81,18 +81,18 @@ public class ChartAxisLabelPane extends BasicPane implements UIObserver{
     }
 
     private void initComponents() {
-        isLabelShow = new UICheckBox(Inter.getLocText("FR-Utils_Label"));
-        auto = new UICheckBox(Inter.getLocText(new String[]{"FR-App-All_Auto", "FR-Chart-Axis_labelInterval"}));
-        custom = new UICheckBox(Inter.getLocText(new String[]{"FR-App-All_Custom", "FR-Chart-Axis_labelInterval"}));
-        showWay = new UIComboBox(new String[]{Inter.getLocText("FR-Chart-Axis_labelInterval"),Inter.getLocText("FR-Chart-Axis_labelWrap")});
+        isLabelShow = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Utils_Label"));
+        auto = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Auto_Axis_Label_Interval"));
+        custom = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom_Axis_Label_Interval"));
+        showWay = new UIComboBox(new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Axis_labelInterval"),com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Axis_labelWrap")});
         customLabelSamleTime = new UITextField();
 
-        String[] nameObjects = {Inter.getLocText("FR-Chart_All_Normal"), Inter.getLocText("FR-Chart-Text_Vertical"), Inter.getLocText("FR-Chart-Text_Rotation")};
+        String[] nameObjects = {com.fr.design.i18n.Toolkit.i18nText("FR-Chart_All_Normal"), com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Text_Vertical"), com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Text_Rotation")};
         labelOrientationChoose = new UIComboBox(nameObjects);
         orientationBar = new NumberDragBar(-NUM90, NUM90);
         orientationSpinner = new UIBasicSpinner(new SpinnerNumberModel(0, -NUM90, NUM90, 1));
 
-        String[] sampleType = {Inter.getLocText("FR-App-All_Auto"), Inter.getLocText("FR-App-All_Custom")};
+        String[] sampleType = {com.fr.design.i18n.Toolkit.i18nText("FR-App-All_Auto"), com.fr.design.i18n.Toolkit.i18nText("FR-App-All_Custom")};
         labelSampleChoose = new UIComboBox(sampleType);
         customLabelSamleTime = new UITextField();
         checkCustomSampleField();
@@ -160,8 +160,8 @@ public class ChartAxisLabelPane extends BasicPane implements UIObserver{
         double[] rowSize = {p, p, p, p};
 
         Component[][] components = new Component[][]{
-                new Component[]{null, new UILabel(Inter.getLocText("FR-Chart-Axis_labelShowway")), showWay, null},
-                new Component[]{null, new UILabel(Inter.getLocText("StyleAlignment-Text_Rotation")), labelOrientationChoose, null},
+                new Component[]{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Axis_labelShowway")), showWay, null},
+                new Component[]{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Text_Rotation")), labelOrientationChoose, null},
                 new Component[]{null, orientationSpinner, orientationBar, null},
                 new Component[]{null, textAttrPane, null, null},
         };
@@ -214,7 +214,7 @@ public class ChartAxisLabelPane extends BasicPane implements UIObserver{
         double[] rowSize = {p};
 
         Component[][] components = new Component[][]{
-                new Component[]{null, new UILabel(Inter.getLocText("FR-Chart-Axis_labelShowway")), showWay, null}
+                new Component[]{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Axis_labelShowway")), showWay, null}
         };
         return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
     }
@@ -226,7 +226,7 @@ public class ChartAxisLabelPane extends BasicPane implements UIObserver{
         double[] rowSize = {p, p, p};
 
         Component[][] components = new Component[][]{
-                new Component[]{null, new UILabel(Inter.getLocText("StyleAlignment-Text_Rotation")), labelOrientationChoose, null},
+                new Component[]{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Text_Rotation")), labelOrientationChoose, null},
                 new Component[]{null, orientationSpinner, orientationBar, null},
                 new Component[]{null, textAttrPane, null, null},
         };
@@ -288,8 +288,8 @@ public class ChartAxisLabelPane extends BasicPane implements UIObserver{
         double[] rowSize = {p, p, p, p};
 
         Component[][] components = new Component[][]{
-                new Component[]{null,new UILabel(Inter.getLocText("ChartF-Label_Interval")), labelSampleChoose, customLabelSamleTime},
-                new Component[]{null,new UILabel(Inter.getLocText("StyleAlignment-Text_Rotation")), labelOrientationChoose, null},
+                new Component[]{null,new UILabel(com.fr.design.i18n.Toolkit.i18nText("ChartF-Label_Interval")), labelSampleChoose, customLabelSamleTime},
+                new Component[]{null,new UILabel(com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Text_Rotation")), labelOrientationChoose, null},
                 new Component[]{null,orientationSpinner, orientationBar, null},
                 new Component[]{null,textAttrPane, null, null},
         };
@@ -315,7 +315,7 @@ public class ChartAxisLabelPane extends BasicPane implements UIObserver{
      * 界面标签
      */
     protected String title4PopupWindow() {
-        return Inter.getLocText("ChartF-Tick_Label");
+        return com.fr.design.i18n.Toolkit.i18nText("ChartF-Tick_Label");
     }
 
     private int getLabelTextOrientationIndex(TextAttr textAttr) {

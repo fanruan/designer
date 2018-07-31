@@ -8,7 +8,7 @@ import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionCollection;
 import com.fr.chart.charttypes.AreaIndependentChart;
-import com.fr.general.Inter;
+
 
 /**
  * 面积图 属性表 选择类型 布局 界面.
@@ -33,10 +33,10 @@ public class AreaPlotPane extends AbstractChartTypePane{
 
 	@Override
 	protected String[] getTypeTipName() {
-		String area = Inter.getLocText("FR-Chart-Type_Area");
-		String stack = Inter.getLocText("FR-Chart-Type_Stacked");
-		String percent = Inter.getLocText("FR-Chart-Use_Percent");
-		String td = Inter.getLocText("FR-Chart-Chart_3D");
+		String area = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Area");
+		String stack = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Stacked");
+		String percent = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Use_Percent");
+		String td = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Chart_3D");
 		return new String[]{
 				stack + area,
 				percent + stack + area,
@@ -139,7 +139,7 @@ public class AreaPlotPane extends AbstractChartTypePane{
      * @return  界面标题
 	 */
 	public String title4PopupWindow() {
-		return Inter.getLocText("FR-Chart-Type_Area");
+		return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Area");
 	}
 
     public Chart getDefaultChart() {

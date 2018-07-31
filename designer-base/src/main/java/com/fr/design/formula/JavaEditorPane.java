@@ -8,7 +8,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.syntax.ui.rsyntaxtextarea.RSyntaxTextArea;
 import com.fr.design.gui.syntax.ui.rsyntaxtextarea.SyntaxConstants;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.JavaCompileInfo;
@@ -79,9 +79,9 @@ public class JavaEditorPane extends BasicPane {
 
         UIScrollPane jt = new UIScrollPane(javaText);
         JPanel toolbarPane = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        UIButton saveButton = new UIButton(Inter.getLocText("Save"));
+        UIButton saveButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Save"));
         saveButton.setAction(new SaveAction());
-        UIButton compileButton = new UIButton(Inter.getLocText("Compile"));
+        UIButton compileButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Compile"));
         compileButton.setAction(new CompilerAction());
         toolbarPane.add(saveButton);
         toolbarPane.add(compileButton);
@@ -90,7 +90,7 @@ public class JavaEditorPane extends BasicPane {
         this.add(jt, BorderLayout.CENTER);
         UILabel label = new UILabel();
         label.setText("<html><font color='red'>" +
-                Inter.getLocText(new String[]{"Attention", "Compile_Success_And_Then_Save"}, new String[]{":", "!"}) +
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Compile_Save_Attention") +
                 "</font></html>");
         label.setPreferredSize(new Dimension(label.getWidth(),label.getHeight() + 20));
         this.add(label, BorderLayout.SOUTH);
@@ -141,7 +141,7 @@ public class JavaEditorPane extends BasicPane {
 
     private class SaveAction extends AbstractAction { //新建文件命令
         public SaveAction() {
-            super(Inter.getLocText("Save"));
+            super(com.fr.design.i18n.Toolkit.i18nText("Save"));
         }
         public void actionPerformed(ActionEvent e) {
             saveTextToFile(javaText.getText());
@@ -157,18 +157,18 @@ public class JavaEditorPane extends BasicPane {
         }
         try {
             WorkContext.getWorkResource().write(StableUtils.pathJoin(ProjectConstants.CLASSES_NAME, getJavaPath()), text.getBytes(EncodeConstants.ENCODING_UTF_8));
-            JOptionPane.showMessageDialog(null, Inter.getLocText(new String[]{"Save", "Successfully"}) + "！");
+            JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Common_Save_Successfully") + "！");
             fireSaveActionListener();
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
-            JOptionPane.showMessageDialog(null, Inter.getLocText(new String[]{"Save", "Failed"}) + "！");
+            JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Common_Save_Failed") + "！");
         }
 
     }
 
     private class CompilerAction extends AbstractAction {
         public CompilerAction() {
-            super(Inter.getLocText("Compile"));
+            super(com.fr.design.i18n.Toolkit.i18nText("Compile"));
         }
         public void actionPerformed(ActionEvent e) {
             new SwingWorker<JavaCompileInfo, Void>() {
@@ -185,7 +185,7 @@ public class JavaEditorPane extends BasicPane {
                         className = info.getIntactClassName();
                         String message = info.getCompileMessage();
                         if (StringUtils.isEmpty(message)) {
-                            message = Inter.getLocText("Compile_Success") + "!";
+                            message = com.fr.design.i18n.Toolkit.i18nText("Compile_Success") + "!";
                         }
                         JOptionPane.showMessageDialog(null, message);
                     } catch (InterruptedException e1) {
@@ -199,7 +199,7 @@ public class JavaEditorPane extends BasicPane {
     }
 
     protected String title4PopupWindow() {
-        return Inter.getLocText("FormulaD-Custom_Function");
+        return com.fr.design.i18n.Toolkit.i18nText("FormulaD-Custom_Function");
     }
 
     public static final String DEFAULT_TABLEDATA_STRING = "package com.fr.data;\n" +

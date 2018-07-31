@@ -3,7 +3,7 @@ package com.fr.design.report.freeze;
 import com.fr.design.gui.ilable.UILabel;
 import javax.swing.SwingConstants;
 
-import com.fr.general.Inter;
+
 import com.fr.stable.FT;
 import com.fr.stable.StableUtils;
 
@@ -12,8 +12,8 @@ public class FreezePagePane extends FreezeAndRepeatPane {
 
 	public FreezePagePane(boolean isNumber) {
 		this.isNumber = isNumber;
-		start = new UILabel(isNumber ? Inter.getLocText(new String[]{"Frozen", "N.O."})+" 1" : Inter.getLocText(new String[]{"Frozen", "N.O."})+" A", SwingConstants.CENTER);
-		end = new UILabel(isNumber ? " 1"+Inter.getLocText("Row") : " A"+Inter.getLocText("Column"), SwingConstants.CENTER);
+		start = new UILabel(isNumber ? com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Frozen", "N.O."})+" 1" : com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Frozen", "N.O."})+" A", SwingConstants.CENTER);
+		end = new UILabel(isNumber ? " 1"+com.fr.design.i18n.Toolkit.i18nText("Row") : " A"+com.fr.design.i18n.Toolkit.i18nText("Column"), SwingConstants.CENTER);
 		super.initComponent();
 	}
 
@@ -25,9 +25,9 @@ public class FreezePagePane extends FreezeAndRepeatPane {
 	@Override
 	public void populateBean(FT ob) {
 		if (isNumber) {
-			((UILabel) end).setText(String.valueOf(ob.getTo() + 1)+Inter.getLocText("Row"));
+			((UILabel) end).setText(String.valueOf(ob.getTo() + 1)+com.fr.design.i18n.Toolkit.i18nText("Row"));
 		} else {
-			((UILabel) end).setText(StableUtils.convertIntToABC(ob.getTo() + 1)+Inter.getLocText("Column"));
+			((UILabel) end).setText(StableUtils.convertIntToABC(ob.getTo() + 1)+com.fr.design.i18n.Toolkit.i18nText("Column"));
 		}
 	}
 
@@ -42,6 +42,6 @@ public class FreezePagePane extends FreezeAndRepeatPane {
 
 	@Override
 	public String getLabeshow() {
-		return isNumber ? Inter.getLocText("RowTo") : Inter.getLocText("ColumnTo");
+		return isNumber ? com.fr.design.i18n.Toolkit.i18nText("RowTo") : com.fr.design.i18n.Toolkit.i18nText("ColumnTo");
 	}
 }

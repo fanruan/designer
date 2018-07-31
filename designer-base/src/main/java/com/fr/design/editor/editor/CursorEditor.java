@@ -5,17 +5,17 @@ import java.awt.Dimension;
 import com.fr.design.gui.ilable.UILabel;
 
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 //TODO:august what's this?
 public class CursorEditor extends Editor<CursorEditor> {
 	private UILabel label;
 	
 	public CursorEditor(){
 		this.setLayout(FRGUIPaneFactory.createCenterFlowLayout());
-		label = new UILabel(Inter.getLocText("Cursor"));
+		label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Cursor"));
 		this.add(label);
 		this.setPreferredSize(new Dimension(10,20));
-		this.setName(Inter.getLocText("Cursor"));
+		this.setName(com.fr.design.i18n.Toolkit.i18nText("Cursor"));
 		this.setEnabled(false);
 	}
 
@@ -36,7 +36,7 @@ public class CursorEditor extends Editor<CursorEditor> {
 
 	@Override
 	public void setValue(CursorEditor value) {
-		label.setText(Inter.getLocText("Cursor"));
+		label.setText(com.fr.design.i18n.Toolkit.i18nText("Cursor"));
 	}
 
 }

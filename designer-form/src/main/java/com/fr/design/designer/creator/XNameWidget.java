@@ -3,11 +3,14 @@ package com.fr.design.designer.creator;
 import com.fr.base.BaseUtils;
 import com.fr.base.ScreenResolution;
 import com.fr.base.Style;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.widget.editors.NameWidgetComboboxEditor;
-import com.fr.form.ui.*;
+import com.fr.form.ui.NameWidget;
+import com.fr.form.ui.Widget;
+import com.fr.form.ui.WidgetConfig;
+import com.fr.form.ui.WidgetInfoConfig;
 import com.fr.general.FRFont;
-import com.fr.general.Inter;
 import com.fr.stable.core.PropertyChangeAdapter;
 
 import javax.swing.*;
@@ -33,7 +36,7 @@ public class XNameWidget extends XWidgetCreator {
 		super.paintComponent(g);
 		if (editor == null) {
 			Graphics2D g2d = (Graphics2D) g.create();
-			BaseUtils.drawStringStyleInRotation(g2d, this.getWidth(), this.getHeight(), Inter.getLocText("FR-Engine_NameWidget-Invalid"), Style.getInstance()
+			BaseUtils.drawStringStyleInRotation(g2d, this.getWidth(), this.getHeight(), com.fr.design.i18n.Toolkit.i18nText("FR-Engine_NameWidget-Invalid"), Style.getInstance()
 					.deriveHorizontalAlignment(SwingConstants.CENTER).deriveVerticalAlignment(SwingConstants.CENTER)
 					.deriveFRFont(FRFont.getInstance().applyForeground(Color.RED)), ScreenResolution
 					.getScreenResolution());
@@ -43,14 +46,12 @@ public class XNameWidget extends XWidgetCreator {
 	/**
 	 * 返回控件支持的属性表
 	 * @return 属性表
-	 * @throws 内省异常
 	 */
 	@Override
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
 		return new CRPropertyDescriptor[] {
-				new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Inter
-						.getLocText("Form-Widget_Name")),
-				new CRPropertyDescriptor("name", this.data.getClass()).setI18NName(Inter.getLocText("FR-Engine_NameWidget-Name")).setEditorClass(
+				new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Toolkit.i18nText("Form-Widget_Name")),
+				new CRPropertyDescriptor("name", this.data.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_NameWidget-Name")).setEditorClass(
 						NameWidgetComboboxEditor.class).setPropertyChangeListener(new PropertyChangeAdapter() {
 
 					@Override

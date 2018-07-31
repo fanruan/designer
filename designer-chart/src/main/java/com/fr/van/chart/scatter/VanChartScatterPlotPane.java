@@ -6,7 +6,7 @@ import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionAttr;
 import com.fr.chart.chartglyph.ConditionCollection;
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.base.VanChartAttrLine;
 import com.fr.plugin.chart.base.VanChartTools;
 import com.fr.plugin.chart.scatter.ScatterIndependentVanChart;
@@ -17,7 +17,7 @@ import com.fr.van.chart.designer.type.AbstractVanChartTypePane;
  * Created by Mitisky on 16/2/16.
  */
 public class VanChartScatterPlotPane extends AbstractVanChartTypePane {
-    public static final String TITLE = Inter.getLocText("Plugin-ChartF_NewScatter");
+    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewScatter");
 
     private static final long serialVersionUID = -3481633368542654247L;
 
@@ -30,7 +30,7 @@ public class VanChartScatterPlotPane extends AbstractVanChartTypePane {
     @Override
     protected String[] getTypeTipName() {
         return new String[]{
-                Inter.getLocText("FR-Chart-Type_XYScatter")
+                com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_XYScatter")
         };
     }
 
@@ -39,7 +39,7 @@ public class VanChartScatterPlotPane extends AbstractVanChartTypePane {
      * @return 界面标题
      */
     public String title4PopupWindow() {
-        return Inter.getLocText("Plugin-ChartF_NewScatter");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewScatter");
     }
 
     /**

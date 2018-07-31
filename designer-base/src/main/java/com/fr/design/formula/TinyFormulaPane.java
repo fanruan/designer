@@ -10,7 +10,7 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.mainframe.DesignerContext;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -35,11 +35,11 @@ public class TinyFormulaPane extends BasicBeanPane<String> implements UIObserver
 	protected void initComponents() {
 
 		formulaTextField = new UITextField();
-		formulaTextField.setGlobalName(Inter.getLocText("ExpandD-Sort_After_Expand"));
+		formulaTextField.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("ExpandD-Sort_After_Expand"));
 
 		// 添加一公式编辑器按钮
 		formulaTextFieldButton = new UIButton(BaseUtils.readIcon("/com/fr/design/images/m_insert/formula.png"));
-		formulaTextFieldButton.setToolTipText(Inter.getLocText("FR-Designer_Formula") + "...");
+		formulaTextFieldButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Formula") + "...");
 		formulaTextFieldButton.setPreferredSize(new Dimension(24, 20));
 		formulaTextFieldButton.setOpaque(false);
 		formulaTextFieldButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -107,7 +107,7 @@ public class TinyFormulaPane extends BasicBeanPane<String> implements UIObserver
 
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("Present-Formula_Present");
+		return com.fr.design.i18n.Toolkit.i18nText("Present-Formula_Present");
 	}
 
 	@Override

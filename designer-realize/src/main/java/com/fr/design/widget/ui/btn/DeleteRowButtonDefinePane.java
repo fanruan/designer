@@ -1,7 +1,7 @@
 package com.fr.design.widget.ui.btn;
 
 import com.fr.base.IconManager;
-import com.fr.general.Inter;
+
 import com.fr.report.web.button.write.DeleteRowButton;
 import com.fr.design.widget.btn.ButtonWithHotkeysDetailPane;
 
@@ -25,7 +25,7 @@ public class DeleteRowButtonDefinePane<T extends DeleteRowButton> extends Button
     @Override
     public DeleteRowButton createButton() {
         DeleteRowButton button = new DeleteRowButton();
-        button.setText(Inter.getLocText("Utils-Delete_Row"));
+        button.setText(com.fr.design.i18n.Toolkit.i18nText("Utils-Delete_Row"));
         button.setIconName(IconManager.DELETE.getName());
         return button;
     }

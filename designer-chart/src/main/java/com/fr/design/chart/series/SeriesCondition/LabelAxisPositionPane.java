@@ -8,7 +8,7 @@ import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 
 /**
 * @author richie
@@ -29,12 +29,12 @@ public class LabelAxisPositionPane extends ConditionAttrSingleConditionPane<Data
     public LabelAxisPositionPane(ConditionAttributesPane conditionAttributesPane, boolean isRemove) {
         super(conditionAttributesPane, isRemove);
 
-        nameLabel = new UILabel(Inter.getLocText(new String[]{"ChartF-Axis", "Selection"}));
+        nameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"ChartF-Axis", "Selection"}));
         if (isRemove) {
             this.add(nameLabel);
         }
 
-        String[] names = new String[]{Inter.getLocText("ChartF-MainAxis"), Inter.getLocText("ChartF-SecondAxis")};
+        String[] names = new String[]{com.fr.design.i18n.Toolkit.i18nText("ChartF-MainAxis"), com.fr.design.i18n.Toolkit.i18nText("ChartF-SecondAxis")};
         String[] values = new String[]{ChartAxisPosition.AXIS_LEFT.getAxisPosition(), ChartAxisPosition.AXIS_RIGHT.getAxisPosition()};
 
         positionGroup = new UIButtonGroup<String>(names, values);
@@ -48,7 +48,7 @@ public class LabelAxisPositionPane extends ConditionAttrSingleConditionPane<Data
 
     @Override
     public String nameForPopupMenuItem() {
-        return Inter.getLocText(new String[]{"Owner", "time(s)", "ChartF-Axis"});
+        return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Owner", "time(s)", "ChartF-Axis"});
     }
 
     @Override

@@ -39,7 +39,7 @@ import com.fr.design.utils.concurrent.ThreadFactoryBuilder;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.CloudCenter;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.module.Module;
 import com.fr.module.ModuleContext;
 import com.fr.stable.BuildContext;
@@ -352,8 +352,8 @@ public class Designer extends BaseDesigner {
         };
         run.setExtraPainted(false);
         run.set4Toolbar();
-        run.getUpButton().setToolTipText(Inter.getLocText("FR-Designer_Preview"));
-        run.getDownButton().setToolTipText(Inter.getLocText("FR-Designer_Dropdown-More-Preview"));
+        run.getUpButton().setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Preview"));
+        run.getDownButton().setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Dropdown-More-Preview"));
     }
 
     @Override
@@ -390,7 +390,7 @@ public class Designer extends BaseDesigner {
         if (BaseUtils.isAuthorityEditing()) {
             if (plus instanceof JWorkBook && plus.toolbars4Target() == null) {
                 //聚合块编辑
-                return super.polyToolBar(Inter.getLocText(new String[]{"Polybolck", "DashBoard-Potence", "Edit"}));
+                return super.polyToolBar(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Privilege_Poly_Block_Edit"));
             } else {
                 return plus.toolBar4Authority();
             }

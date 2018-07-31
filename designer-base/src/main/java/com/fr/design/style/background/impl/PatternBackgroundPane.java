@@ -6,7 +6,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.style.color.ColorSelectBox;
 import com.fr.general.Background;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -45,7 +45,7 @@ public class PatternBackgroundPane extends BPane {
     }
 
     protected String titleOfTypePane() {
-        return Inter.getLocText("Background-Pattern");
+        return com.fr.design.i18n.Toolkit.i18nText("Background-Pattern");
     }
     protected LayoutManager layoutOfTypePane(int nColumn) {
         return FRGUIPaneFactory.createNColumnGridLayout(nColumn);
@@ -63,7 +63,7 @@ public class PatternBackgroundPane extends BPane {
 
     protected void setChildrenOfContentPane(JPanel contentPane) {
         // colors
-        JPanel colorPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("Colors"));
+        JPanel colorPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Colors"));
         contentPane.add(colorPane);
 
         foregroundColorPane = new ColorSelectBox(80);
@@ -72,12 +72,12 @@ public class PatternBackgroundPane extends BPane {
         backgroundColorPane.setSelectObject(Color.black);
 
         colorPane.add(Box.createHorizontalStrut(2));
-        colorPane.add(this.createLabelColorPane(Inter.getLocText("Foreground")
+        colorPane.add(this.createLabelColorPane(com.fr.design.i18n.Toolkit.i18nText("Foreground")
             + ":", foregroundColorPane));
 
         colorPane.add(Box.createHorizontalStrut(8));
 
-        colorPane.add(this.createLabelColorPane(Inter.getLocText("Background")
+        colorPane.add(this.createLabelColorPane(com.fr.design.i18n.Toolkit.i18nText("Background")
             + ":", backgroundColorPane));
     }
 

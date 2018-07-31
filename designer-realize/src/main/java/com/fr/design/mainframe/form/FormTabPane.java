@@ -6,7 +6,7 @@ import com.fr.design.constants.UIConstants;
 
 import com.fr.design.mainframe.BaseJForm;
 import com.fr.form.FormElementCaseContainerProvider;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -61,7 +61,7 @@ public class FormTabPane extends JComponent implements MouseListener, MouseMotio
         super.paintComponent(g);
         Graphics2D  g2d = (Graphics2D) g;
         calculateECWidth();
-        paintFormTab(g2d, 0, Inter.getLocText("Form"), POLY_SHEET_ICON);
+        paintFormTab(g2d, 0, com.fr.design.i18n.Toolkit.i18nText("Form"), POLY_SHEET_ICON);
         paintECTab(g2d, formTabWidth, elementCase.getElementCaseContainerName(), WORK_SHEET_ICON);
     }
 

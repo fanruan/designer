@@ -18,7 +18,7 @@ import com.fr.design.mainframe.widget.editors.WidgetValueEditor;
 import com.fr.design.mainframe.widget.renderer.DictionaryRenderer;
 import com.fr.form.ui.CheckBoxGroup;
 import com.fr.design.form.util.XCreatorConstants;
-import com.fr.general.Inter;
+
 import com.fr.stable.ArrayUtils;
 
 
@@ -36,10 +36,10 @@ public class XCheckBoxGroup extends XFieldEditor {
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
 		CRPropertyDescriptor [] sup = (CRPropertyDescriptor[]) ArrayUtils.addAll(new CRPropertyDescriptor[] {
 				new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(
-						Inter.getLocText(new String[]{"Widget", "Value"})).setEditorClass(WidgetValueEditor.class)
+						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Value")).setEditorClass(WidgetValueEditor.class)
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 				new CRPropertyDescriptor("dictionary", this.data.getClass()).setI18NName(
-						Inter.getLocText("DS-Dictionary")).setEditorClass(DictionaryEditor.class).setRendererClass(
+						com.fr.design.i18n.Toolkit.i18nText("DS-Dictionary")).setEditorClass(DictionaryEditor.class).setRendererClass(
 						DictionaryRenderer.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")},super.supportedDescriptor());
 		CRPropertyDescriptor [] properties = (CRPropertyDescriptor[]) ArrayUtils.addAll(sup,getCRPropertyDescriptor());
 		return	properties;
@@ -47,26 +47,26 @@ public class XCheckBoxGroup extends XFieldEditor {
 
 	private CRPropertyDescriptor[] getCRPropertyDescriptor() throws IntrospectionException {
 		CRPropertyDescriptor[] crp = new CRPropertyDescriptor[] {
-				new CRPropertyDescriptor("adaptive", this.data.getClass()).setI18NName(Inter.getLocText("Adaptive"))
+				new CRPropertyDescriptor("adaptive", this.data.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Adaptive"))
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced").setEditorClass(InChangeBooleanEditor.class),
 				new CRPropertyDescriptor("chooseAll", this.data.getClass()).setI18NName(
-						Inter.getLocText(new String[]{"Provide", "Choose_All"})).putKeyValue(
+						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Choose_Type_All")).putKeyValue(
 						XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 				new CRPropertyDescriptor("returnString", this.data.getClass()).setI18NName(
-						Inter.getLocText("Return-String")).setEditorClass(InChangeBooleanEditor.class)
+						com.fr.design.i18n.Toolkit.i18nText("Return-String")).setEditorClass(InChangeBooleanEditor.class)
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced") };
 		if (((CheckBoxGroup) this.toData()).isReturnString()) {
 			crp = (CRPropertyDescriptor[]) ArrayUtils.addAll(crp, new CRPropertyDescriptor[] {
 					new CRPropertyDescriptor("delimiter", this.data.getClass()).setI18NName(
-							Inter.getLocText("Form-Delimiter")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+							com.fr.design.i18n.Toolkit.i18nText("Form-Delimiter")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 					new CRPropertyDescriptor("startSymbol", this.data.getClass()).setI18NName(
-							Inter.getLocText("ComboCheckBox-Start_Symbol")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+							com.fr.design.i18n.Toolkit.i18nText("ComboCheckBox-Start_Symbol")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 					new CRPropertyDescriptor("endSymbol", this.data.getClass()).setI18NName(
-							Inter.getLocText("ComboCheckBox-End_Symbol")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced") });
+							com.fr.design.i18n.Toolkit.i18nText("ComboCheckBox-End_Symbol")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced") });
 		}
 		if (!((CheckBoxGroup) this.toData()).isAdaptive()) {
 			crp = (CRPropertyDescriptor[]) ArrayUtils.add(crp, new CRPropertyDescriptor("columnsInRow", this.data
-					.getClass()).setI18NName(Inter.getLocText("Button-Group-Display-Columns")).putKeyValue(
+					.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Button-Group-Display-Columns")).putKeyValue(
 					XCreatorConstants.PROPERTY_CATEGORY, "Advanced"));
 		}
 		return crp;

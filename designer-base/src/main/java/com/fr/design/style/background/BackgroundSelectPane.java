@@ -12,7 +12,7 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.dialog.BasicPane;
 import com.fr.general.Background;
-import com.fr.general.Inter;
+
 
 /**
  * @author kunsnat E-mail:kunsnat@gmail.com
@@ -42,7 +42,7 @@ public abstract class BackgroundSelectPane extends BasicPane {
 		
 		this.add(backgroundPane, BorderLayout.CENTER);
 		
-		UIButton button = new UIButton(Inter.getLocText("Choose_None"));
+		UIButton button = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Choose_None"));
 		this.add(button, BorderLayout.SOUTH);
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

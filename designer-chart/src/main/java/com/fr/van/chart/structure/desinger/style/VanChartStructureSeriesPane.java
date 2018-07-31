@@ -10,7 +10,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.style.color.ColorSelectBox;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.base.AttrNode;
 import com.fr.plugin.chart.structure.VanChartStructurePlot;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
@@ -57,8 +57,8 @@ public class VanChartStructureSeriesPane extends VanChartAbstractPlotSeriesPane 
     private JPanel createLinkPane() {
         linkColor = new ColorSelectBox(100);
 
-        linkWidthType = new UIButtonGroup<Integer>(new String[]{Inter.getLocText("Plugin-ChartF_Automatic"),
-                Inter.getLocText("Plugin-ChartF_Custom")});
+        linkWidthType = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Automatic"),
+                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Custom")});
         linkWidth = new UISpinner(0,Double.MAX_VALUE,0.5,0);
         linkOpacity = new UINumberDragPane(0,100);
 
@@ -76,25 +76,25 @@ public class VanChartStructureSeriesPane extends VanChartAbstractPlotSeriesPane 
         double[] rowSize = {p,p,p,p};
 
         JPanel jPanel = new JPanel(new BorderLayout());
-        jPanel.add(TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("FR-Designer-Tree_Width")+"   ", linkWidthType), BorderLayout.NORTH);
+        jPanel.add(TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Tree_Width")+"   ", linkWidthType), BorderLayout.NORTH);
         linkWidthPane = TableLayout4VanChartHelper.createGapTableLayoutPane("         ", linkWidth);
         jPanel.add(linkWidthPane, BorderLayout.CENTER);
 
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Color_Color")), linkColor},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Color_Color")), linkColor},
                 new Component[]{jPanel, null},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Alpha")), linkOpacity}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Alpha")), linkOpacity}
         };
 
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
 
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Link"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Link"), panel);
     }
 
     private JPanel createNodePane() {
         nodeStylePane = new StructureNodeStylePane();
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Node"), nodeStylePane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Node"), nodeStylePane);
     }
 
     private void checkWidth() {

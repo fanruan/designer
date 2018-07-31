@@ -24,7 +24,7 @@ import javax.swing.event.ChangeListener;
 
 import com.fr.base.headerfooter.HFElement;
 import com.fr.base.headerfooter.NewLineHFElement;
-import com.fr.general.Inter;
+
 
 /**
  * The container of HFComponent.
@@ -285,8 +285,8 @@ public class HFContainer extends JPanel implements Scrollable {
             if (obj instanceof HFComponent) {
                 int returnVal = JOptionPane.showConfirmDialog(
                         SwingUtilities.getWindowAncestor(HFContainer.this),
-                        Inter.getLocText("HF-Are_you_sure_to_delete_it") + "?",
-                        Inter.getLocText("Delete"),
+                        com.fr.design.i18n.Toolkit.i18nText("HF-Are_you_sure_to_delete_it") + "?",
+                        com.fr.design.i18n.Toolkit.i18nText("Delete"),
                         JOptionPane.OK_CANCEL_OPTION,
                         JOptionPane.QUESTION_MESSAGE);
 

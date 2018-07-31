@@ -8,7 +8,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.style.ChartFillStylePane;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -91,7 +91,7 @@ public abstract class AbstractPlotSeriesPane extends BasicBeanPane<Plot>{
 	 * 界面标题.
 	 */
 	protected String title4PopupWindow() {
-		return Inter.getLocText("FR-Chart-Data_Series");
+		return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_Series");
 	}
 
 	/**

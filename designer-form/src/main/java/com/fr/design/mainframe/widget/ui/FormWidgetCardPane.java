@@ -6,6 +6,7 @@ import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XCreatorUtils;
 import com.fr.design.designer.creator.XLayoutContainer;
+import com.fr.design.designer.creator.XWAbsoluteBodyLayout;
 import com.fr.design.designer.creator.XWAbsoluteLayout;
 import com.fr.design.designer.creator.XWFitLayout;
 import com.fr.design.designer.creator.XWParameterLayout;
@@ -32,7 +33,7 @@ import com.fr.form.ui.container.WScaleLayout;
 import com.fr.form.ui.container.WTitleLayout;
 import com.fr.form.ui.widget.CRBoundsWidget;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.stable.StringUtils;
 
 import javax.swing.BorderFactory;
@@ -79,7 +80,7 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
 
     public WidgetBoundPane createWidgetBoundPane(XCreator xCreator) {
         XLayoutContainer xLayoutContainer = getParent(xCreator);
-        if (xLayoutContainer == null || xCreator.acceptType(XWParameterLayout.class) || xCreator.acceptType(XWAbsoluteLayout.class)) {
+        if (xLayoutContainer == null || xCreator.acceptType(XWParameterLayout.class) || xCreator.acceptType(XWAbsoluteBodyLayout.class)) {
             return null;
         } else if (xLayoutContainer.acceptType(XWAbsoluteLayout.class)) {
             return new WidgetAbsoluteBoundPane(xCreator);
@@ -151,7 +152,7 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
 
         widgetPropertyPane = WidgetBasicPropertyPaneFactory.createBasicPropertyPane(innerCreator);
 
-        UIExpandablePane uiExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer_Basic"), 280, 20, widgetPropertyPane);
+        UIExpandablePane uiExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Basic"), 280, 20, widgetPropertyPane);
 
         jPanel.add(uiExpandablePane, BorderLayout.NORTH);
 
@@ -211,11 +212,11 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
     public void updateCreator() {
         currentEditorDefinePane.setGlobalName(getGlobalName());
         Widget widget = currentEditorDefinePane.updateBean();
-        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_Basic")) && widgetPropertyPane != null) {
+        if (ComparatorUtils.equals(getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Basic")) && widgetPropertyPane != null) {
             UITextField widgetNameField = widgetPropertyPane.getWidgetNameField();
             if (designer.getTarget().isNameExist(widgetNameField.getText()) && !ComparatorUtils.equals(widgetNameField.getText(), widget.getWidgetName())) {
                 widgetNameField.setText(widget.getWidgetName());
-                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("FR-Designer_Form_Widget_Rename_Failure"), Inter.getLocText("FR-Designer_Joption_News"), JOptionPane.ERROR_MESSAGE, BaseUtils.readIcon("com/fr/design/form/images/joption_failure.png"));
+                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form_Widget_Rename_Failure"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Joption_News"), JOptionPane.ERROR_MESSAGE, BaseUtils.readIcon("com/fr/design/form/images/joption_failure.png"));
                 return;
             }
             widgetPropertyPane.update(widget);
@@ -228,7 +229,7 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
     }
 
     public void updateWidgetBound() {
-        if (widgetBoundPane != null && ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_Coords_And_Size"))) {
+        if (widgetBoundPane != null && ComparatorUtils.equals(getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Coords_And_Size"))) {
             widgetBoundPane.update();
             designer.getEditListenerTable().fireCreatorModified(DesignerEvent.CREATOR_RESIZED);
         }

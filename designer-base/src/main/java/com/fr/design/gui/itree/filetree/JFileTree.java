@@ -21,7 +21,7 @@ import javax.swing.tree.TreePath;
 
 import com.fr.base.BaseUtils;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.project.ProjectConstants;
 
@@ -43,7 +43,7 @@ public class JFileTree extends AbstractFileTree {
     private void init(FileFilter filter) {
         this.fileFilter = filter;
 
-        DefaultTreeModel m_model = new DefaultTreeModel(new DefaultMutableTreeNode(Inter.getLocText("My_Computer")));
+        DefaultTreeModel m_model = new DefaultTreeModel(new DefaultMutableTreeNode(com.fr.design.i18n.Toolkit.i18nText("My_Computer")));
         this.setModel(m_model);
         
         this.putClientProperty("JTree.lineStyle", "Angled");

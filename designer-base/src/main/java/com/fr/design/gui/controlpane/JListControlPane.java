@@ -9,42 +9,32 @@ import com.fr.design.data.tabledata.tabledatapane.GlobalTreeTableDataPane;
 import com.fr.design.data.tabledata.tabledatapane.MultiTDTableDataPane;
 import com.fr.design.data.tabledata.tabledatapane.TreeTableDataPane;
 import com.fr.design.gui.HyperlinkFilterHelper;
+import com.fr.design.gui.NameInspector;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilist.JNameEdList;
 import com.fr.design.gui.ilist.ListModelElement;
 import com.fr.design.gui.ilist.ModNameActionListener;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.menu.LineSeparator;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.ShortCut;
-import com.fr.design.menu.ToolBarDef;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+import com.fr.general.IOUtils;
+import com.fr.invoke.Reflect;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Nameable;
 import com.fr.stable.core.PropertyChangeAdapter;
 
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.DefaultListModel;
-import javax.swing.Icon;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.ListSelectionModel;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Component;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -207,7 +197,7 @@ public abstract class JListControlPane extends JControlPane {
      *
      * @param l 监听
      */
-    public void addEditingListner(PropertyChangeAdapter l) {
+    public void addEditingListener(PropertyChangeAdapter l) {
         this.nameableList.addEditingListner(l);
     }
 
@@ -240,8 +230,8 @@ public abstract class JListControlPane extends JControlPane {
         return this.nameableList.getAllTypes()[editingIndex];
     }
 
-    public void setWarnigText(int index) {
-        this.nameableList.setWarnigText(index);
+    public void setIllegalIndex(int index) {
+        this.nameableList.setIllegalIndex(index);
     }
 
     /**
@@ -253,7 +243,7 @@ public abstract class JListControlPane extends JControlPane {
         return el == null ? null : el.wrapper.getName();
     }
 
-    protected boolean isNameRepeted(java.util.List[] list, String name) {
+    protected boolean isNameRepeated(java.util.List[] list, String name) {
         for (int i = 0; i < list.length; i++) {
             if (list[i].contains(name)) {
                 isNameRepeated = true;
@@ -297,7 +287,7 @@ public abstract class JListControlPane extends JControlPane {
      * @return 是则true
      */
     public boolean isContainsRename() {
-        String rename = Inter.getLocText("FR-Please_Rename") + "!";
+        String rename = com.fr.design.i18n.Toolkit.i18nText("FR-Please_Rename") + "!";
         String[] names = this.nameableList.getAllNames();
         for (int i = names.length - 1; i >= 0; i--) {
             if (ComparatorUtils.equals(names[i], rename)) {
@@ -367,7 +357,7 @@ public abstract class JListControlPane extends JControlPane {
 
         public AddItemUpdateAction(NameableCreator[] creators) {
             this.creator = creators[0];
-            this.setName(Inter.getLocText("FR-Action_Add"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Action_Add"));
             this.setMnemonic('A');
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/buttonicon/add.png"));
         }
@@ -385,7 +375,7 @@ public abstract class JListControlPane extends JControlPane {
      */
     protected class AddItemMenuDef extends MenuDef {
         public AddItemMenuDef(NameableCreator[] creators) {
-            this.setName(Inter.getLocText("FR-Action_Add"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Action_Add"));
             this.setMnemonic('A');
             this.setIconPath("/com/fr/design/images/control/addPopup.png");
             wrapActionListener(creators);
@@ -396,8 +386,8 @@ public abstract class JListControlPane extends JControlPane {
                 if (filterNameableCreator(creator)) {
                     continue;
                 }
-                boolean isTrue = ComparatorUtils.equals(creator.menuName(), Inter.getLocText("Datasource-Stored_Procedure")) ||
-                        ComparatorUtils.equals(creator.menuName(), Inter.getLocText("DS-Relation_TableData")) || ComparatorUtils.equals(creator.menuName(), Inter.getLocText("DS-Multi_Dimensional_Database"));
+                boolean isTrue = ComparatorUtils.equals(creator.menuName(), com.fr.design.i18n.Toolkit.i18nText("Datasource-Stored_Procedure")) ||
+                        ComparatorUtils.equals(creator.menuName(), com.fr.design.i18n.Toolkit.i18nText("DS-Relation_TableData")) || ComparatorUtils.equals(creator.menuName(), com.fr.design.i18n.Toolkit.i18nText("DS-Multi_Dimensional_Database"));
                 if (isTrue) {
                     this.addShortCut(new LineSeparator());
                 }
@@ -430,7 +420,7 @@ public abstract class JListControlPane extends JControlPane {
      */
     private class RemoveItemAction extends UpdateAction {
         public RemoveItemAction() {
-            this.setName(Inter.getLocText("FR-Action_Remove"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Action_Remove"));
             this.setMnemonic('R');
             this.setSmallIcon(BaseUtils
                     .readIcon("/com/fr/base/images/cell/control/remove.png"));
@@ -458,7 +448,7 @@ public abstract class JListControlPane extends JControlPane {
      */
     private class CopyItemAction extends UpdateAction {
         public CopyItemAction() {
-            this.setName(Inter.getLocText("FR-Action_Copy"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Action_Copy"));
             this.setMnemonic('C');
             this.setSmallIcon(BaseUtils
                     .readIcon("/com/fr/design/images/m_edit/copy.png"));
@@ -493,7 +483,7 @@ public abstract class JListControlPane extends JControlPane {
      */
     private class MoveUpItemAction extends UpdateAction {
         public MoveUpItemAction() {
-            this.setName(Inter.getLocText("Utils-Move_Up"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Utils-Move_Up"));
             this.setMnemonic('U');
             this.setSmallIcon(BaseUtils
                     .readIcon("/com/fr/design/images/control/up.png"));
@@ -526,7 +516,7 @@ public abstract class JListControlPane extends JControlPane {
      */
     private class MoveDownItemAction extends UpdateAction {
         public MoveDownItemAction() {
-            this.setName(Inter.getLocText("Utils-Move_Down"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Utils-Move_Down"));
             this.setMnemonic('D');
             this.setSmallIcon(BaseUtils
                     .readIcon("/com/fr/design/images/control/down.png"));
@@ -557,7 +547,7 @@ public abstract class JListControlPane extends JControlPane {
         private boolean isAtoZ = false;
 
         public SortItemAction() {
-            this.setName(Inter.getLocText("FR-Action_Sort"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Action_Sort"));
             this.setMnemonic('S');
             this.setSmallIcon(BaseUtils
                     .readIcon("/com/fr/design/images/control/sortAsc.png"));
@@ -673,9 +663,6 @@ public abstract class JListControlPane extends JControlPane {
         }
     }
 
-    /*
-     * Nameable的ListCellRenerer
-     */
     private class NameableListCellRenderer extends
             DefaultListCellRenderer {
         @Override
@@ -685,12 +672,12 @@ public abstract class JListControlPane extends JControlPane {
                     cellHasFocus);
 
             if (value instanceof ListModelElement) {
-                Nameable wrappee = ((ListModelElement) value).wrapper;
-                this.setText(((ListModelElement) value).wrapper.getName());
-
+                ListModelElement element = ((ListModelElement) value);
+                Nameable nameable = element.wrapper;
+                this.setText(nameable.getName());
                 boolean iconSet = false;
                 for (NameableCreator creator : JListControlPane.this.creators()) {
-                    if (creator.menuIcon() != null && creator.acceptObject2Populate(wrappee) != null) {
+                    if (creator.menuIcon() != null && creator.acceptObject2Populate(nameable) != null) {
                         this.setIcon(creator.menuIcon());
                         this.setToolTipText(creator.createTooltip());
                         iconSet = true;
@@ -698,10 +685,9 @@ public abstract class JListControlPane extends JControlPane {
                     }
                 }
                 if (!iconSet) {
-                    this.setIcon(BaseUtils.readIcon("/com/fr/base/images/oem/cpt.png"));
+                    this.setIcon(IOUtils.readIcon("/com/fr/base/images/oem/cpt.png"));
                 }
             }
-
             return this;
         }
     }
@@ -736,52 +722,6 @@ public abstract class JListControlPane extends JControlPane {
         }
     }
 
-    public class SortEnableShortCut extends ShortCut4JControlPane {
-        public SortEnableShortCut(ShortCut shortCut) {
-            this.shortCut = shortCut;
-        }
-
-        /**
-         * 检查是否可用
-         */
-        @Override
-        public void checkEnable() {
-            this.shortCut.setEnabled(getModel().getSize() > 1);
-        }
-
-    }
-
-    public class MoveUpEnableShortCut extends ShortCut4JControlPane {
-        public MoveUpEnableShortCut(ShortCut shortCut) {
-            this.shortCut = shortCut;
-        }
-
-        /**
-         * 检查是否可用
-         */
-        @Override
-        public void checkEnable() {
-            this.shortCut.setEnabled(getModel().getSize() > 1
-                    && JListControlPane.this.nameableList.getSelectedIndex() > 0);
-        }
-
-    }
-
-    public class MoveDownEnableShortCut extends ShortCut4JControlPane {
-        public MoveDownEnableShortCut(ShortCut shortCut) {
-            this.shortCut = shortCut;
-        }
-
-        /**
-         * 检查是否可用
-         */
-        @Override
-        public void checkEnable() {
-            this.shortCut.setEnabled(getModel().getSize() > 1
-                    && JListControlPane.this.nameableList.getSelectedIndex() < JListControlPane.this.nameableList.getModel().getSize() - 1);
-        }
-
-    }
 
     private class JControlUpdatePane extends JPanel {
         private CardLayout card;
@@ -871,45 +811,11 @@ public abstract class JListControlPane extends JControlPane {
     }
 
     protected BasicBeanPane createPaneByCreators(NameableCreator creator) {
-        try {
-            return creator.getUpdatePane().newInstance();
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
+        return Reflect.on(creator.getUpdatePane()).create().get();
     }
 
-    protected BasicBeanPane createPaneByCreators(NameableCreator creator, String string) {
-        Constructor constructor = null;
-        try {
-            constructor = creator.getUpdatePane().getDeclaredConstructor(new Class[]{String.class});
-            constructor.setAccessible(true);
-            return (BasicBeanPane) constructor.newInstance(string);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } catch (InvocationTargetException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
-
-    // 选项添加个数有限制等情况下 要求能控制快捷按钮的状态
-    protected void setToolbarDefEnable(int shortCutIndex, int itemIndex, boolean enabled) {
-        ToolBarDef toolbarDef = getToolbarDef();
-        if (toolbarDef.getShortCutCount() > shortCutIndex) {
-            ShortCut sc = toolbarDef.getShortCut(shortCutIndex);
-            if (sc instanceof AddItemMenuDef) {
-                AddItemMenuDef am = (AddItemMenuDef) sc;
-                if (am.getShortCutCount() > itemIndex) {
-                    am.getShortCut(itemIndex).setEnabled(enabled);
-                }
-            }
-        }
+    private BasicBeanPane createPaneByCreators(NameableCreator creator, String string) {
+        return Reflect.on(creator.getUpdatePane()).create(string).get();
     }
 
     /**

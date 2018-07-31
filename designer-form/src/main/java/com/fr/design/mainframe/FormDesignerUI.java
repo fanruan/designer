@@ -17,7 +17,7 @@ import com.fr.design.designer.creator.XWFitLayout;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.roleAuthority.ReportAndFSManagePane;
 import com.fr.design.utils.ComponentUtils;
-import com.fr.general.Inter;
+
 import com.fr.page.WatermarkPainter;
 import com.fr.report.core.ReportUtils;
 import com.fr.stable.ArrayUtils;
@@ -109,8 +109,6 @@ public class FormDesignerUI extends ComponentUI {
             // 当前正在添加的组件
             paintAddingBean(g, addingModel);
         }
-
-        paintWatermark((Graphics2D) g);
     }
 
     // 绘制水印
@@ -170,7 +168,7 @@ public class FormDesignerUI extends ComponentUI {
                 x1 = x2 = bounds.x - designer.getArea().getHorizontalValue() + (k == 3 ? 0 : bounds.width);
                 text = Utils.objectToString(x1 + designer.getArea().getHorizontalValue());
             }
-            text += Inter.getLocText("FR-Designer_Indent-Pixel");
+            text += com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Indent-Pixel");
             g2d.setColor(XCreatorConstants.RESIZE_BOX_BORDER_COLOR);
             GraphHelper.drawString(g2d, text, x1 + 3, y1 + 10);
             GraphHelper.drawLine(g2d, x1, y1, x2, y2);
@@ -400,6 +398,7 @@ public class FormDesignerUI extends ComponentUI {
 //        g.drawImage(img,-designer.getArea().getHorizontalValue(),-designer.getArea().getVerticalValue() + designer.getParaHeight(), (int) (parent.getSize().width*time + designer.getArea().getHorizontalValue()), (int) (parent.getSize().height*time + designer.getArea().getVerticalValue()),null);
 
         designer.paintContent(clipg);
+        paintWatermark((Graphics2D) clipg);
         clipg.dispose();
 
         // 恢复双缓冲

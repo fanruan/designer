@@ -4,7 +4,7 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.form.main.mobile.FormMobileAttr;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -63,6 +63,6 @@ public class FormMobileAttrPane extends BasicBeanPane<FormMobileAttr>{
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("FR-Designer_Mobile-Attr");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Mobile-Attr");
     }
 }

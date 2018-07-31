@@ -37,7 +37,7 @@ import com.fr.design.mainframe.JTemplate;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.report.RowColumnPane;
 import com.fr.design.selection.QuickEditor;
-import com.fr.general.Inter;
+
 import com.fr.grid.GridUtils;
 import com.fr.report.cell.CellElement;
 import com.fr.report.cell.DefaultTemplateCellElement;
@@ -384,7 +384,7 @@ public class CellSelection extends Selection {
         TemplateElementCase ec = ePane.getEditingElementCase();
         Iterator cells = ec.intersect(column, row, columnSpan, rowSpan);
         if (cells.hasNext()) { // alex:有两个以上的格子在这个区域内
-            int returnValue = JOptionPane.showConfirmDialog(SwingUtilities.getWindowAncestor(ePane), Inter.getLocText("Des-Merger_Cell"), Inter.getLocText("Utils-Merge_Cell"),
+            int returnValue = JOptionPane.showConfirmDialog(SwingUtilities.getWindowAncestor(ePane), com.fr.design.i18n.Toolkit.i18nText("Des-Merger_Cell"), com.fr.design.i18n.Toolkit.i18nText("Utils-Merge_Cell"),
                     JOptionPane.OK_CANCEL_OPTION);
             if (returnValue != JOptionPane.OK_OPTION) {
                 return false;
@@ -484,7 +484,7 @@ public class CellSelection extends Selection {
                 styleMenu.add(useMenuItem);
             }
             styleMenu.addSeparator();
-            styleMenu.add(new GlobalStyleMenuDef.CustomStyleAction(Inter.getLocText("FR-Designer_Custom")));
+            styleMenu.add(new GlobalStyleMenuDef.CustomStyleAction(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Custom")));
             popup.add(styleMenu);
         } else {
             popup.add(new StyleAction().createMenuItem());
@@ -654,7 +654,7 @@ public class CellSelection extends Selection {
     public boolean triggerDeleteAction(ElementCasePane ePane) {
         final TemplateElementCase ec = ePane.getEditingElementCase();
         final RowColumnPane rcPane = new RowColumnPane();
-        rcPane.setTitle(Inter.getLocText("FR-Designer_Delete"));
+        rcPane.setTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Delete"));
         rcPane.showWindow(SwingUtilities.getWindowAncestor(ePane), new DialogActionAdapter() {
 
             @Override

@@ -3,7 +3,7 @@ package com.fr.design.editor.editor;
 import com.fr.base.Parameter;
 import com.fr.design.gui.icombobox.ParameterComboBox;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 
 import java.awt.*;
 
@@ -28,7 +28,7 @@ public class ParameterEditor extends Editor<Parameter> {
 		this.add(parameterCombobox, BorderLayout.CENTER);
 
 		this.setValue(parameter);
-		this.setName(Inter.getLocText("Parameter"));
+		this.setName(com.fr.design.i18n.Toolkit.i18nText("Parameter"));
 	}
 
 	@Override

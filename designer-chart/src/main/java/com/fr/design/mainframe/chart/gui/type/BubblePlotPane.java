@@ -4,7 +4,7 @@ import com.fr.chart.base.ChartConstants;
 import com.fr.chart.chartattr.BubblePlot;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.charttypes.BubbleIndependentChart;
-import com.fr.general.Inter;
+
 
 /**
  * 气泡图 属性表 选择类型 布局界面.
@@ -25,7 +25,7 @@ public class BubblePlotPane extends AbstractChartTypePane {
 	@Override
 	protected String[] getTypeTipName() {
 		return new String[]{
-				Inter.getLocText("FR-Chart-Chart_BubbleChart")
+				com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Chart_BubbleChart")
 		};
 	}
 
@@ -44,7 +44,7 @@ public class BubblePlotPane extends AbstractChartTypePane {
      * @return 界面标题
 	 */
 	public String title4PopupWindow() {
-		return Inter.getLocText("FR-Chart-Chart_BubbleChart");
+		return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Chart_BubbleChart");
 	}
 
 	/**

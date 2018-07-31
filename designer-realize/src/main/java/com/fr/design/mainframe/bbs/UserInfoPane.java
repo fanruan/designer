@@ -4,18 +4,14 @@
 package com.fr.design.mainframe.bbs;
 
 import com.fr.base.FRContext;
-import com.fr.config.BaseDBEnv;
 import com.fr.config.MarketConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.general.DateUtils;
-import com.fr.general.GeneralContext;
-import com.fr.general.Inter;
-import com.fr.stable.EnvChangedListener;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -73,7 +69,6 @@ public class UserInfoPane extends BasicPane {
         this.userInfoLabel = new UserInfoLabel(this);
 
         this.markUnSignIn();
-        addEnvChangedListener();
         autoPushLoginDialog();
 
         this.add(userInfoLabel, BorderLayout.CENTER);
@@ -92,7 +87,7 @@ public class UserInfoPane extends BasicPane {
      * 标志未登录状态, 面板设置为灰色
      */
     public void markUnSignIn() {
-        this.userInfoLabel.setText(Inter.getLocText("FR-Base_UnSignIn"));
+        this.userInfoLabel.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Base_UnSignIn"));
         this.userInfoLabel.setOpaque(true);
         this.userInfoLabel.setBackground(UN_LOGIN_BACKGROUND);
         this.userInfoLabel.resetUserName();
@@ -115,20 +110,13 @@ public class UserInfoPane extends BasicPane {
         return StringUtils.EMPTY;
     }
 
-    private void addEnvChangedListener() {
-        GeneralContext.addEnvChangedListener(new EnvChangedListener() {
-            @Override
-            public void envChanged() {
-                if (BaseDBEnv.isDBEnvAvailable()) {
-                    String username = MarketConfig.getInstance().getBbsUsername();
-                    if (StringUtils.isEmpty(username)) {
-                        markUnSignIn();
-                    } else {
-                        markSignIn(username);
-                    }
-                }
-            }
-        });
+    public void updateBBSUserInfo(){
+        String username = MarketConfig.getInstance().getBbsUsername();
+        if (StringUtils.isEmpty(username)) {
+            markUnSignIn();
+        } else {
+            markSignIn(username);
+        }
     }
 
 
@@ -154,7 +142,7 @@ public class UserInfoPane extends BasicPane {
                 return dayNew - dayOld;
             }
         } catch (ParseException e) {
-            FRContext.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage());
         }
         return 1;
     }

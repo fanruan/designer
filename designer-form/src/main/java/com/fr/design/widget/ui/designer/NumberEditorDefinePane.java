@@ -10,7 +10,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.widget.component.NumberEditorValidatePane;
 import com.fr.design.widget.ui.designer.component.FormWidgetValuePane;
 import com.fr.form.ui.NumberEditor;
-import com.fr.general.Inter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,16 +38,16 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
     protected JPanel setFirstContentPane() {
         // richer:数字的允许直接编辑没有意义
         waterMarkDictPane = new WaterMarkDictPane();
-        UILabel widgetValueLabel = new UILabel(Inter.getLocText("FR-Designer-Estate_Widget_Value"));
+        UILabel widgetValueLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Estate_Widget_Value"));
         widgetValueLabel.setVerticalAlignment(SwingConstants.TOP);
         formWidgetValuePane = new FormWidgetValuePane(creator.toData(), false);
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Label_Name")), labelNameTextField},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Label_Name")), labelNameTextField},
                 new Component[]{widgetValueLabel,  formWidgetValuePane},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_WaterMark")), waterMarkDictPane},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Font-Size")), fontSizePane}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WaterMark")), waterMarkDictPane},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Font-Size")), fontSizePane}
         };
         double[] rowSize = {p, p, p, p, p, p};
         double[] columnSize = {p,f};

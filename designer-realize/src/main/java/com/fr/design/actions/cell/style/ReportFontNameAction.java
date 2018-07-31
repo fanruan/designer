@@ -14,7 +14,7 @@ import com.fr.base.core.StyleUtils;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
-import com.fr.general.Inter;
+
 import com.fr.design.mainframe.ElementCasePane;
 
 /**
@@ -24,7 +24,7 @@ public class ReportFontNameAction extends AbstractStyleAction {
 	public ReportFontNameAction(ElementCasePane t) {
 		super(t);
 		
-        this.setName(Inter.getLocText("FRFont-Family"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("FRFont-Family"));
     }
 
     @Override

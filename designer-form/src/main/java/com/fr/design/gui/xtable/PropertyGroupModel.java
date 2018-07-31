@@ -8,7 +8,7 @@ import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.widget.editors.ExtendedPropertyEditor;
 import com.fr.design.mainframe.widget.editors.PropertyCellEditor;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
+
 import com.fr.report.stable.FormConstants;
 
 import java.beans.PropertyChangeEvent;
@@ -80,7 +80,7 @@ public class PropertyGroupModel extends AbstractPropertyGroupModel {
      */
     @Override
     public String getGroupName() {
-        return Inter.getLocText(groupName);
+        return com.fr.design.i18n.Toolkit.i18nText(groupName);
     }
 
     /**

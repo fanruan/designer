@@ -13,7 +13,7 @@ import com.fr.design.widget.mobile.WidgetMobilePane;
 import com.fr.design.widget.ui.BasicWidgetPropertySettingPane;
 import com.fr.form.event.Listener;
 import com.fr.form.ui.Widget;
-import com.fr.general.Inter;
+
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -74,7 +74,7 @@ public class CellWidgetCardPane extends BasicPane {
             }
         };
         widgetPropertyPane = new BasicWidgetPropertySettingPane();
-        UIExpandablePane uiExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer_Basic"), 280, 24, widgetPropertyPane);
+        UIExpandablePane uiExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Basic"), 280, 24, widgetPropertyPane);
         attriTabPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
         attriTabPane.add(uiExpandablePane, BorderLayout.NORTH);
         attriCardPane = FRGUIPaneFactory.createCardLayout_S_Pane();
@@ -93,13 +93,13 @@ public class CellWidgetCardPane extends BasicPane {
         mobileTabPane.add(mobileCardPane, BorderLayout.CENTER);
         mobileCardLayout = (CardLayout) mobileCardPane.getLayout();
 
-        center.add(basicScrollPane, Inter.getLocText("FR-Designer_Attribute"));
-        center.add(eventTabPane, Inter.getLocText("FR-Designer_Event"));
-        center.add(mobileTabPane, Inter.getLocText("FR-Widget_Mobile_Terminal"));
+        center.add(basicScrollPane, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Attribute"));
+        center.add(eventTabPane, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Event"));
+        center.add(mobileTabPane, com.fr.design.i18n.Toolkit.i18nText("FR-Widget_Mobile_Terminal"));
         initPaneList();
 
 
-        final String[] tabTitles = new String[]{Inter.getLocText("FR-Designer_Attribute"), Inter.getLocText("FR-Designer_Event"), Inter.getLocText("FR-Widget_Mobile_Terminal")};
+        final String[] tabTitles = new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Attribute"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Event"), com.fr.design.i18n.Toolkit.i18nText("FR-Widget_Mobile_Terminal")};
         tabsHeaderIconPane = new UIHeadGroup(tabTitles) {
             @Override
             public void tabChanged(int index) {

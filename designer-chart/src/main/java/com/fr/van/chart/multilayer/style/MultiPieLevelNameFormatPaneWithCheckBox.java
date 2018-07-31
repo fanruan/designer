@@ -1,6 +1,6 @@
 package com.fr.van.chart.multilayer.style;
 
-import com.fr.general.Inter;
+
 import com.fr.van.chart.designer.component.format.CategoryNameFormatPaneWithCheckBox;
 import com.fr.van.chart.designer.style.VanChartStylePane;
 
@@ -16,6 +16,6 @@ public class MultiPieLevelNameFormatPaneWithCheckBox extends CategoryNameFormatP
 
     @Override
     protected String getCheckBoxText() {
-        return Inter.getLocText("Plugin-ChartF_Level_Name");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Level_Name");
     }
 }

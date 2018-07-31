@@ -3,7 +3,7 @@ package com.fr.design.chart.series.SeriesCondition.dlp;
 import java.awt.Component;
 
 import com.fr.design.gui.icheckbox.UICheckBox;
-import com.fr.general.Inter;
+
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,7 +19,7 @@ public class GanttDataLabelPane extends DataLabelPane {
 
     protected Component[] createComponents4ShowCategoryName() {
         if (showCategoryNameCB == null) {
-            showCategoryNameCB = new UICheckBox(Inter.getLocText("Chart_Step_Name"));
+            showCategoryNameCB = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart_Step_Name"));
         }
         return new Component[]{null, showCategoryNameCB};
     }

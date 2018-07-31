@@ -7,7 +7,7 @@ import com.fr.base.BaseUtils;
 import com.fr.base.Style;
 import com.fr.base.core.StyleUtils;
 import com.fr.general.FRFont;
-import com.fr.general.Inter;
+
 import com.fr.design.mainframe.ElementCasePane;
 
 import javax.swing.*;
@@ -22,7 +22,7 @@ public class ReportFontItalicAction extends ReportFontBoldAction {
     public ReportFontItalicAction(ElementCasePane t) {
 		super(t);
 
-		this.setName(Inter.getLocText("FR-Designer-FRFont_Italic"));
+		this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-FRFont_Italic"));
 		this.setSmallIcon(ICONS, true);
 	}
 

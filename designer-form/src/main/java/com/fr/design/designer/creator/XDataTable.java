@@ -13,7 +13,7 @@ import com.fr.design.designer.beans.events.DesignerEditor;
 import com.fr.form.data.DataTableConfig;
 import com.fr.form.ui.DataTable;
 import com.fr.form.ui.WidgetValue;
-import com.fr.general.Inter;
+
 import com.fr.stable.ArrayUtils;
 import com.fr.design.utils.gui.LayoutUtils;
 
@@ -34,7 +34,7 @@ public class XDataTable extends XWidgetCreator{
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
 		return (CRPropertyDescriptor[]) ArrayUtils.addAll(super.supportedDescriptor(),
 				new CRPropertyDescriptor[] { new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(
-						Inter.getLocText(new String[]{"Widget", "Value"})).setEditorClass(WidgetValueEditor.class)
+						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Value")).setEditorClass(WidgetValueEditor.class)
 						.setPropertyChangeListener(new PropertyChangeAdapter() {
 
 							@Override

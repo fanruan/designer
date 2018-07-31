@@ -11,7 +11,7 @@ import com.fr.chart.chartattr.RangePlot;
 import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.gui.ispinner.UIBasicSpinner;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
-import com.fr.general.Inter;
+
 
 public class RangeSeriesPane extends AbstractPlotSeriesPane{
 
@@ -37,7 +37,7 @@ public class RangeSeriesPane extends AbstractPlotSeriesPane{
 	protected JPanel getContentInPlotType() {
 		seriesWidthSpinner = new UIBasicSpinner(new SpinnerNumberModel(0, 0, 100, 1));
 		JPanel pane = new JPanel(new BorderLayout());
-		pane.add(new BoldFontTextLabel(Inter.getLocText(new String[]{"ChartF-Series", "Tree-Width"})),BorderLayout.WEST);
+		pane.add(new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Width")),BorderLayout.WEST);
 		pane.add(seriesWidthSpinner, BorderLayout.CENTER);
 		return pane;
 	}

@@ -9,7 +9,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.widget.accessibles.AccessibleImgBackgroundEditor;
 import com.fr.form.ui.Widget;
-import com.fr.general.Inter;
+
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -34,7 +34,7 @@ public abstract class BackgroundCompPane<T extends Widget> extends BasicPane {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         UILabel headLabel = createUILable();
         initBackgroundEditor();
-        String [] titles = new String[]{Inter.getLocText("FR-Designer_DEFAULT"), Inter.getLocText("FR-Designer_Custom")};
+        String [] titles = new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Designer_DEFAULT"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Custom")};
 
         double f = TableLayout.FILL;
         final double p = TableLayout.PREFERRED;
@@ -42,8 +42,8 @@ public abstract class BackgroundCompPane<T extends Widget> extends BasicPane {
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 1},{1, 1},{1, 1}};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Background-Initial")), initialBackgroundEditor},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Background-Over")), overBackgroundEditor},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background-Initial")), initialBackgroundEditor},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background-Over")), overBackgroundEditor},
                 new Component[]{getClickLabel(), clickBackgroundEditor},
         };
         panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
@@ -64,11 +64,11 @@ public abstract class BackgroundCompPane<T extends Widget> extends BasicPane {
     }
 
     protected UILabel getClickLabel(){
-        return new UILabel(Inter.getLocText("FR-Designer_Background-Click"));
+        return new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background-Click"));
     }
 
     protected UILabel createUILable(){
-        return new UILabel(Inter.getLocText("FR-Designer_Background"));
+        return new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background"));
     }
 
     public void update(T e){

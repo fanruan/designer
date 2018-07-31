@@ -1,6 +1,6 @@
 package com.fr.van.chart.wordcloud.designer.style;
 
-import com.fr.general.Inter;
+
 import com.fr.van.chart.designer.component.format.ChangedPercentFormatPaneWithCheckBox;
 import com.fr.van.chart.designer.component.format.ChangedValueFormatPaneWithCheckBox;
 import com.fr.van.chart.designer.style.VanChartStylePane;
@@ -23,7 +23,7 @@ public class VanChartWordCloudRefreshTootipContentPane extends VanChartWordCloud
         changedValueFormatPane = new ChangedValueFormatPaneWithCheckBox(parent, showOnPane){
             @Override
             protected String getCheckBoxText() {
-                return Inter.getLocText("Plugin-ChartF_Change_Word_Value");
+                return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Change_Word_Value");
             }
         };
 

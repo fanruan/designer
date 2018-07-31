@@ -7,6 +7,7 @@ import com.fr.base.FRContext;
 import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.form.layout.FRLayoutManager;
 import com.fr.design.form.util.XCreatorConstants;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.widget.editors.PaddingMarginEditor;
 import com.fr.design.mainframe.widget.editors.WLayoutBorderStyleEditor;
@@ -14,7 +15,6 @@ import com.fr.design.parameter.ParameterBridge;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WLayout;
 import com.fr.general.Background;
-import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.core.PropertyChangeAdapter;
 
@@ -63,11 +63,10 @@ public abstract class XLayoutContainer extends XBorderStyleWidgetCreator impleme
      */
     public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
         return new CRPropertyDescriptor[]{
-                new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Inter
-                        .getLocText("FR-Designer_Form-Widget_Name")),
+                new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Toolkit.i18nText("FR-Designer_Form-Widget_Name")),
                 new CRPropertyDescriptor("borderStyle", this.data.getClass()).setEditorClass(
                         WLayoutBorderStyleEditor.class).setI18NName(
-                        Inter.getLocText("FR-Engine_Style")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
+                        com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Style")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
                         .setPropertyChangeListener(new PropertyChangeAdapter() {
 
                     @Override
@@ -76,7 +75,7 @@ public abstract class XLayoutContainer extends XBorderStyleWidgetCreator impleme
                     }
                 }),
                 new CRPropertyDescriptor("margin", this.data.getClass()).setEditorClass(PaddingMarginEditor.class)
-                        .setI18NName(Inter.getLocText("FR-Designer_Layout-Padding"))
+                        .setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Layout-Padding"))
                         .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
         };
     }
@@ -88,8 +87,7 @@ public abstract class XLayoutContainer extends XBorderStyleWidgetCreator impleme
      * @throws IntrospectionException
      */
     public CRPropertyDescriptor createWidgetNameDescriptor() throws IntrospectionException {
-        return new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Inter
-                .getLocText("FR-Designer_Form-Widget_Name"));
+        return new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Toolkit.i18nText("FR-Designer_Form-Widget_Name"));
     }
 
     /**
@@ -100,7 +98,7 @@ public abstract class XLayoutContainer extends XBorderStyleWidgetCreator impleme
      */
     public CRPropertyDescriptor createMarginDescriptor() throws IntrospectionException {
         return new CRPropertyDescriptor("margin", this.data.getClass()).setEditorClass(PaddingMarginEditor.class)
-                .setI18NName(Inter.getLocText("FR-Designer_Layout-Padding"))
+                .setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Layout-Padding"))
                 .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced");
     }
 

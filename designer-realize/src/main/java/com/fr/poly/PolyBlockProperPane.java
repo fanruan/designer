@@ -5,7 +5,7 @@ import java.awt.BorderLayout;
 import javax.swing.Icon;
 
 import com.fr.design.mainframe.DockingView;
-import com.fr.general.Inter;
+
 /**
  * 聚合报表的聚合块属性编辑docking
  * @editor zhou
@@ -42,7 +42,7 @@ public class PolyBlockProperPane extends DockingView {
 
 	@Override
 	public String getViewTitle() {
-		return Inter.getLocText("Form-Widget_Property_Table");
+		return com.fr.design.i18n.Toolkit.i18nText("Form-Widget_Property_Table");
 	}
 
 	@Override

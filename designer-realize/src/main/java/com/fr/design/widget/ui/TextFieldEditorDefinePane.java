@@ -5,7 +5,7 @@ import com.fr.design.gui.frpane.RegPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.form.ui.TextEditor;
 import com.fr.form.ui.reg.RegExp;
-import com.fr.general.Inter;
+
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
@@ -36,7 +36,7 @@ public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor>
             public void phoneRegChangeAction(RegPane.PhoneRegEvent e) {
                 if (StringUtils.isNotEmpty(e.getPhoneRegString())
                         && StringUtils.isEmpty(waterMarkDictPane.getWaterMark())) {
-                    waterMarkDictPane.setWaterMark(Inter.getLocText("Example") + ":" + e.getPhoneRegString());
+                    waterMarkDictPane.setWaterMark(com.fr.design.i18n.Toolkit.i18nText("Example") + ":" + e.getPhoneRegString());
                     regPane.addRegChangeListener(rl);
                 }
             }

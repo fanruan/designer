@@ -3,7 +3,7 @@ package com.fr.design.condition;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.style.color.ColorSelectBox;
-import com.fr.general.Inter;
+
 import com.fr.report.cell.cellattr.highlight.ForegroundHighlightAction;
 import com.fr.report.cell.cellattr.highlight.HighlightAction;
 
@@ -22,21 +22,21 @@ public class ForeGroundPane extends ConditionAttrSingleConditionPane<HighlightAc
 
     public ForeGroundPane(ConditionAttributesPane conditionAttributesPane) {
         super(conditionAttributesPane);
-        foregroundLabel = new UILabel(Inter.getLocText("FR-Designer_Foreground") + ":");
+        foregroundLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Foreground") + ":");
         this.foregroundColorPane = new ColorSelectBox(80);
         this.add(foregroundLabel);
         this.add(this.foregroundColorPane);
         this.foreScopeComboBox = new UIComboBox(new String[] {
-                Inter.getLocText("Utils-Current_Cell"),
-                Inter.getLocText("Utils-Current_Row"),
-                Inter.getLocText("Utils-Current_Column") });
+                com.fr.design.i18n.Toolkit.i18nText("Utils-Current_Cell"),
+                com.fr.design.i18n.Toolkit.i18nText("Utils-Current_Row"),
+                com.fr.design.i18n.Toolkit.i18nText("Utils-Current_Column") });
         this.add(this.foreScopeComboBox);
         this.foregroundColorPane.setSelectObject(Color.black);
     }
 
     @Override
     public String nameForPopupMenuItem() {
-        return Inter.getLocText("FR-Designer_Foreground");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Foreground");
     }
 
     @Override

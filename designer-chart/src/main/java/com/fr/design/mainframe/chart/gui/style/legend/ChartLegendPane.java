@@ -15,7 +15,7 @@ import com.fr.design.mainframe.chart.gui.style.ChartBackgroundNoImagePane;
 import com.fr.design.mainframe.chart.gui.style.ChartBorderPane;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
 import com.fr.design.dialog.BasicScrollPane;
-import com.fr.general.Inter;
+
 import com.fr.stable.Constants;
 
 import javax.swing.*;
@@ -52,12 +52,12 @@ public class ChartLegendPane extends BasicScrollPane<Chart>{
 		}
 
 		private void initComponents(){
-			isLegendVisible = new UICheckBox(Inter.getLocText("Chart_Legend_Is_Visible"));
+			isLegendVisible = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart_Legend_Is_Visible"));
 			textAttrPane = new ChartTextAttrPane();
 			borderPane = new ChartBorderPane();
 			
-			String[] textArray = {Inter.getLocText("StyleAlignment-Top"), Inter.getLocText("StyleAlignment-Bottom"),
-					Inter.getLocText("StyleAlignment-Left"), Inter.getLocText("StyleAlignment-Right"), Inter.getLocText("Right_Top")};
+			String[] textArray = {com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Top"), com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Bottom"),
+					com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Left"), com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Right"), com.fr.design.i18n.Toolkit.i18nText("Right_Top")};
 			Integer[] valueArray = {Constants.TOP, Constants.BOTTOM, Constants.LEFT, Constants.RIGHT, Constants.RIGHT_TOP};
             Icon[] iconArray = {BaseUtils.readIcon("/com/fr/design/images/chart/ChartLegend/layout_top.png"),
                                 BaseUtils.readIcon("/com/fr/design/images/chart/ChartLegend/layout_bottom.png"),
@@ -78,7 +78,7 @@ public class ChartLegendPane extends BasicScrollPane<Chart>{
             Component[][] components = new Component[][]{
                     new Component[]{null,textAttrPane},
                     new Component[]{new JSeparator(),null},
-                    new Component[]{new BoldFontTextLabel(Inter.getLocText("Layout")),location} ,
+                    new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Layout")),location} ,
                     new Component[]{new JSeparator(),null},
                     new Component[]{borderPane,null},
                     new Component[]{backgroundPane,null}

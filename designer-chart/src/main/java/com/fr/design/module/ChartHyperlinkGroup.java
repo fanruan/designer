@@ -10,7 +10,7 @@ import com.fr.design.chart.series.SeriesCondition.impl.FormHyperlinkPane;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.frpane.BaseHyperlinkGroup;
-import com.fr.general.Inter;
+
 import com.fr.js.FormHyperlinkProvider;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.bridge.StableFactory;
@@ -32,10 +32,10 @@ public class ChartHyperlinkGroup extends BaseHyperlinkGroup {
         FormHyperlinkProvider formHyperlink = StableFactory.getMarkedInstanceObjectFromClass(FormHyperlinkProvider.XML_TAG, FormHyperlinkProvider.class);
 
         NameableCreator[] realted4CharthyperUse = {
-                new NameObjectCreator(Inter.getLocText("FR-Designer_Chart_Float_chart"), ChartHyperPoplink.class, ChartHyperPoplinkPane.ChartNoRename.class),
-                new NameObjectCreator(Inter.getLocText("FR-Designer_Chart_Cell"), ChartHyperRelateCellLink.class, ChartHyperRelateCellLinkPane.ChartNoRename.class),
-                new NameObjectCreator(Inter.getLocText("FR-Designer_Chart_Float"), ChartHyperRelateFloatLink.class, ChartHyperRelateFloatLinkPane.ChartNoRename.class),
-                new NameObjectCreator(Inter.getLocText("FR-Designer_Hyperlink-Form_link"), formHyperlink.getClass(), FormHyperlinkPane.class)};
+                new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Chart_Float_chart"), ChartHyperPoplink.class, ChartHyperPoplinkPane.ChartNoRename.class),
+                new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Chart_Cell"), ChartHyperRelateCellLink.class, ChartHyperRelateCellLinkPane.ChartNoRename.class),
+                new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Chart_Float"), ChartHyperRelateFloatLink.class, ChartHyperRelateFloatLinkPane.ChartNoRename.class),
+                new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Hyperlink-Form_link"), formHyperlink.getClass(), FormHyperlinkPane.class)};
         return (NameableCreator[]) ArrayUtils.addAll(super.getHyperlinkCreators(), realted4CharthyperUse);
 
     }

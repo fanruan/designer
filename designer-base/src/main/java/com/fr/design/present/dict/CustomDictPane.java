@@ -11,12 +11,12 @@ import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.gui.frpane.UICorrelationPane;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Inter;
+
 import com.fr.stable.StringUtils;
 
 public class CustomDictPane extends FurtherBasicBeanPane<CustomDictionary> {
 	private static final long serialVersionUID = 1L;
-	private String[] columnNames = {Inter.getLocText("Actual_Value"), Inter.getLocText("Display_Value")}; // 字典列名key,value
+	private String[] columnNames = {com.fr.design.i18n.Toolkit.i18nText("Actual_Value"), com.fr.design.i18n.Toolkit.i18nText("Display_Value")}; // 字典列名key,value
 
 	private CustomDictCorrelationPane correlationPane;
 
@@ -72,7 +72,7 @@ public class CustomDictPane extends FurtherBasicBeanPane<CustomDictionary> {
 
 	@Override
 	public String title4PopupWindow() {
-		return Inter.getLocText("Datasource-User_Defined");
+		return com.fr.design.i18n.Toolkit.i18nText("Datasource-User_Defined");
 	}
 
 	@Override

@@ -18,7 +18,7 @@ import com.fr.design.mainframe.widget.editors.ParameterEditor;
 import com.fr.design.mainframe.widget.renderer.ParameterRenderer;
 import com.fr.form.ui.IframeEditor;
 import com.fr.design.form.util.XCreatorConstants;
-import com.fr.general.Inter;
+
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
 
@@ -35,7 +35,7 @@ public class XIframeEditor extends XWidgetCreator {
     @Override
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
 		return (CRPropertyDescriptor[]) ArrayUtils.addAll(super.supportedDescriptor(), new CRPropertyDescriptor[] {
-				new CRPropertyDescriptor("src", this.data.getClass()).setI18NName(Inter.getLocText("Form-Url"))
+				new CRPropertyDescriptor("src", this.data.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Form-Url"))
 						.setPropertyChangeListener(new PropertyChangeAdapter() {
 
 							@Override
@@ -44,13 +44,13 @@ public class XIframeEditor extends XWidgetCreator {
 							}
 						}),
 				new CRPropertyDescriptor("overflowx", this.data.getClass()).setI18NName(
-						Inter.getLocText("Preference-Horizontal_Scroll_Bar_Visible")).putKeyValue(
+						com.fr.design.i18n.Toolkit.i18nText("Preference-Horizontal_Scroll_Bar_Visible")).putKeyValue(
 						XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 				new CRPropertyDescriptor("overflowy", this.data.getClass()).setI18NName(
-						Inter.getLocText("Preference-Vertical_Scroll_Bar_Visible")).putKeyValue(
+						com.fr.design.i18n.Toolkit.i18nText("Preference-Vertical_Scroll_Bar_Visible")).putKeyValue(
 						XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 				new CRPropertyDescriptor("parameters", this.data.getClass())
-						.setI18NName(Inter.getLocText("Parameters")).setEditorClass(ParameterEditor.class)
+						.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Parameters")).setEditorClass(ParameterEditor.class)
 						.setRendererClass(ParameterRenderer.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
 								"Advanced") });
 	}

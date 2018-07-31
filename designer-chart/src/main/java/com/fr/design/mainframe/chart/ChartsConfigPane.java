@@ -2,7 +2,7 @@ package com.fr.design.mainframe.chart;
 
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartattr.Charts;
-import com.fr.general.Inter;
+
 import com.fr.stable.StableUtils;
 
 import javax.swing.*;
@@ -12,7 +12,7 @@ import javax.swing.*;
  */
 public abstract class ChartsConfigPane <T extends Charts> extends AbstractChartAttrPane {
 
-    public final static String CHART_STYLE_TITLE = Inter.getLocText("Chart-Style_Name");
+    public final static String CHART_STYLE_TITLE = com.fr.design.i18n.Toolkit.i18nText("Chart-Style_Name");
 
     public abstract Class<? extends Charts> acceptType();
 

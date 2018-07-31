@@ -7,7 +7,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.gantt.data.VanGanttLinkTableDefinition;
 import com.fr.stable.StringUtils;
 import com.fr.van.chart.gantt.designer.data.data.GanttDataPaneHelper;
@@ -53,9 +53,9 @@ public class GanttLinkTableDataContentPane extends AbstractTableDataContentPane 
         double[] col = {p,f};
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Start_Task_ID")), startTaskIDComboBox},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_End_Task_ID")), endTaskIDComboBox},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Link_Type")), linkTypeComboBox}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Start_Task_ID")), startTaskIDComboBox},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_End_Task_ID")), endTaskIDComboBox},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Link_Type")), linkTypeComboBox}
         };
 
         return TableLayoutHelper.createGapTableLayoutPane(components, row, col,24,6);

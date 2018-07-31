@@ -2,7 +2,7 @@ package com.fr.design.extra.exe.callback;
 
 import com.fr.design.extra.PluginOperateUtils;
 import com.fr.design.extra.PluginUtils;
-import com.fr.general.Inter;
+
 import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.context.PluginMarker;
 import com.fr.plugin.error.PluginErrorCode;
@@ -37,13 +37,13 @@ public class UpdateFromDiskCallback extends AbstractPluginTaskCallback {
     public void done(PluginTaskResult result) {
         if (result.isSuccess()) {
             jsCallback.execute("success");
-            FineLoggerFactory.getLogger().info(Inter.getLocText("FR-Plugin_Update_Success"));
-            JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Plugin_Update_Success"));
+            FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("FR-Plugin_Update_Success"));
+            JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Plugin_Update_Success"));
         } else if (result.errorCode() == PluginErrorCode.NeedDealWithPluginDependency) {
             int rv = JOptionPane.showOptionDialog(
                     null,
-                    Inter.getLocText(Inter.getLocText("FR-Plugin_Update_Dependence")),
-                    Inter.getLocText("FR-Designer-Plugin_Warning"),
+                    com.fr.design.i18n.Toolkit.i18nText(com.fr.design.i18n.Toolkit.i18nText("FR-Plugin_Update_Dependence")),
+                    com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"),
                     JOptionPane.YES_NO_CANCEL_OPTION,
                     JOptionPane.INFORMATION_MESSAGE,
                     null,
@@ -62,8 +62,8 @@ public class UpdateFromDiskCallback extends AbstractPluginTaskCallback {
         } else if(result.errorCode() == PluginErrorCode.NoPluginToUpdate){
             int rv = JOptionPane.showOptionDialog(
                     null,
-                    Inter.getLocText("FR-Plugin_No_Plugin_Update"),
-                    Inter.getLocText("FR-Designer-Plugin_Warning"),
+                    com.fr.design.i18n.Toolkit.i18nText("FR-Plugin_No_Plugin_Update"),
+                    com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"),
                     JOptionPane.YES_NO_CANCEL_OPTION,
                     JOptionPane.INFORMATION_MESSAGE,
                     null,
@@ -76,8 +76,8 @@ public class UpdateFromDiskCallback extends AbstractPluginTaskCallback {
             PluginOperateUtils.installPluginFromDisk(zipFile, jsCallback);
         }else {
             jsCallback.execute("failed");
-            FineLoggerFactory.getLogger().info(Inter.getLocText("FR-Plugin_Update_Failed"));
-            JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+            FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("FR-Plugin_Update_Failed"));
+            JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
         }
     }
 }

@@ -5,7 +5,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.backgroundpane.ColorBackgroundQuickPane;
 import com.fr.design.mainframe.backgroundpane.NullBackgroundQuickPane;
-import com.fr.general.Inter;
+
 
 import javax.swing.JPanel;
 import java.awt.Component;
@@ -37,7 +37,7 @@ public class VanChartBackgroundPaneWithOutImageAndShadow extends VanChartBackgro
              */
             @Override
             public String title4PopupWindow() {
-                return Inter.getLocText("Chart-Default_Name");
+                return com.fr.design.i18n.Toolkit.i18nText("Chart-Default_Name");
             }
         });
         paneList.add(new ColorBackgroundQuickPane());
@@ -49,7 +49,7 @@ public class VanChartBackgroundPaneWithOutImageAndShadow extends VanChartBackgro
         return new Component[][]{
                 new Component[]{typeComboBox, null},
                 new Component[]{centerPane, null},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Alpha")), transparent},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Alpha")), transparent},
         };
     }
 

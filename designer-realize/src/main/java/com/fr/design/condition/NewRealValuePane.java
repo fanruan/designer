@@ -3,7 +3,7 @@ package com.fr.design.condition;
 import com.fr.design.editor.ValueEditorPane;
 import com.fr.design.editor.ValueEditorPaneFactory;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.general.Inter;
+
 import com.fr.report.cell.cellattr.highlight.HighlightAction;
 import com.fr.report.cell.cellattr.highlight.ValueHighlightAction;
 
@@ -17,14 +17,14 @@ public class NewRealValuePane extends ConditionAttrSingleConditionPane<Highlight
 
     public NewRealValuePane(ConditionAttributesPane conditionAttributesPane) {
         super(conditionAttributesPane);
-        this.add(new UILabel(Inter.getLocText("FR-Designer_New_Value") + ":"));
+        this.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_New_Value") + ":"));
         valueEditor = ValueEditorPaneFactory.createBasicValueEditorPane();
         this.add(valueEditor);
     }
 
     @Override
     public String nameForPopupMenuItem() {
-        return Inter.getLocText("FR-Designer_New_Value");
+        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_New_Value");
     }
 
     @Override

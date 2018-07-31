@@ -3,7 +3,7 @@
  */
 package com.fr.design.mainframe.widget.wrappers;
 
-import com.fr.general.Inter;
+
 import com.fr.base.background.ColorBackground;
 import com.fr.base.background.GradientBackground;
 import com.fr.base.background.ImageFileBackground;
@@ -25,17 +25,17 @@ public class BackgroundWrapper implements Encoder, Decoder {
     @Override
     public String encode(Object v) {
         if (v instanceof ColorBackground) {
-            return Inter.getLocText("Color");
+            return com.fr.design.i18n.Toolkit.i18nText("Color");
         } else if (v instanceof TextureBackground) {
-            return Inter.getLocText("Background-Texture");
+            return com.fr.design.i18n.Toolkit.i18nText("Background-Texture");
         } else if (v instanceof PatternBackground) {
-            return Inter.getLocText("Background-Pattern");
+            return com.fr.design.i18n.Toolkit.i18nText("Background-Pattern");
         } else if (v instanceof ImageFileBackground) {
-            return Inter.getLocText("Image");
+            return com.fr.design.i18n.Toolkit.i18nText("Image");
         } else if (v instanceof GradientBackground) {
-            return Inter.getLocText("Gradient-Color");
+            return com.fr.design.i18n.Toolkit.i18nText("Gradient-Color");
         } else {
-            return Inter.getLocText("None");
+            return com.fr.design.i18n.Toolkit.i18nText("None");
         }
     }
 

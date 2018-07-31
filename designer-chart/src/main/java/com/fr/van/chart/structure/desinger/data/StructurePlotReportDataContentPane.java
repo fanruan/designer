@@ -8,7 +8,7 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.structure.data.StructureReportDefinition;
 
 import javax.swing.BorderFactory;
@@ -40,11 +40,11 @@ public class StructurePlotReportDataContentPane extends AbstractReportDataConten
         nodeValue = new TinyFormulaPane();
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Node_Name")), nodeName},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Node_Name")), nodeName},
                 new Component[]{new UILabel("id"), nodeID},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Parent_ID")), parentID},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_MultiPie_Series_Name")), seriesName},
-                new Component[]{new UILabel(Inter.getLocText("Chart-Series_Value")), nodeValue},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Parent_ID")), parentID},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_MultiPie_Series_Name")), seriesName},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Series_Value")), nodeValue},
         };
 
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components,rowSize,columnSize,24,6);

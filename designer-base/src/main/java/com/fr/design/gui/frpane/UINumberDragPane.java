@@ -11,7 +11,7 @@ import com.fr.design.event.GlobalNameListener;
 import com.fr.design.event.GlobalNameObserver;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.gui.style.NumberDragBar;
-import com.fr.general.Inter;
+
 
 public class UINumberDragPane extends BasicBeanPane<Double> implements GlobalNameObserver {
 	private static final long serialVersionUID = -8681716725163358249L;
@@ -36,7 +36,7 @@ public class UINumberDragPane extends BasicBeanPane<Double> implements GlobalNam
 	public UINumberDragPane(double minValue, double maxValue, double dierta) {
 		dragBar = new NumberDragBar((int) minValue, (int) maxValue);
 		spinner = new UISpinner(minValue, maxValue, dierta, minValue);
-		spinner.setGlobalName(Inter.getLocText("StyleAlignment-Text_Rotation"));
+		spinner.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Text_Rotation"));
 		this.setLayout(new BorderLayout(4, 0));
 		this.add(spinner, BorderLayout.EAST);
 		this.add(dragBar, BorderLayout.CENTER);

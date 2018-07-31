@@ -30,7 +30,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.dialog.BasicScrollPane;
-import com.fr.general.Inter;
+
 import com.fr.stable.Constants;
 
 /**
@@ -109,7 +109,7 @@ public class ChartAnalysisLinePane extends BasicScrollPane<Chart>{
 	
 	private JPanel createAlertLinePane(String[] title, boolean first){
 		List<UIMenuNameableCreator> list = new ArrayList<UIMenuNameableCreator>();
-    	list.add(new UIMenuNameableCreator(Inter.getLocText("ChartF-Alert-Line"), new ChartAlertValue(), ChartAlertValuePane.class));
+    	list.add(new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("ChartF-Alert-Line"), new ChartAlertValue(), ChartAlertValuePane.class));
     	if(first){
     		xAlertPane = new UICorrelationComboBoxPane(list);
     	}else{
@@ -164,9 +164,9 @@ public class ChartAnalysisLinePane extends BasicScrollPane<Chart>{
 		boolean useLeftRight = numberAxis.getPosition() == Constants.LEFT || numberAxis.getPosition() == Constants.RIGHT;
 		List<UIMenuNameableCreator> menuList = new ArrayList<UIMenuNameableCreator>();
 		if(useLeftRight) {
-			menuList.add(new UIMenuNameableCreator(Inter.getLocText("ChartF-Alert-Line"), new ChartAlertValue(), ChartAlertValuePane.class));
+			menuList.add(new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("ChartF-Alert-Line"), new ChartAlertValue(), ChartAlertValuePane.class));
 		} else {
-			menuList.add(new UIMenuNameableCreator(Inter.getLocText("ChartF-Alert-Line"), new ChartAlertValue(), ChartAlertValueInTopBottomPane.class));
+			menuList.add(new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("ChartF-Alert-Line"), new ChartAlertValue(), ChartAlertValueInTopBottomPane.class));
 		}
 		editAlertPane.refreshMenuAndAddMenuAction(menuList);
 		
@@ -274,7 +274,7 @@ public class ChartAnalysisLinePane extends BasicScrollPane<Chart>{
 		lineInfo.setAttrLineColor(new AttrColor(Color.gray));
 		trendLine.setLineStyleInfo(lineInfo);
 		conditionLine.setLine(trendLine);
-		list.add(new UIMenuNameableCreator(Inter.getLocText("Chart_TrendLine"), conditionLine, ConditionTrendLinePane.class));
+		list.add(new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Chart_TrendLine"), conditionLine, ConditionTrendLinePane.class));
 		trendLinePane = new UICorrelationComboBoxPane(list);
 		
 	}

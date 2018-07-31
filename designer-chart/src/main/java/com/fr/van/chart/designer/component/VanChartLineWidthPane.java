@@ -2,7 +2,7 @@ package com.fr.van.chart.designer.component;
 
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.Inter;
+
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 
 import javax.swing.JPanel;
@@ -21,8 +21,8 @@ public class VanChartLineWidthPane extends VanChartLineTypePane {
 
         Component[][] components = new Component[][]{
                 new Component[]{null,null},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_LineStyle")), lineWidth},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Null_Value_Break")), nullValueBreak},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_LineStyle")), lineWidth},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Null_Value_Break")), nullValueBreak},
         };
 
         return TableLayoutHelper.createTableLayoutPane(components, row, col);

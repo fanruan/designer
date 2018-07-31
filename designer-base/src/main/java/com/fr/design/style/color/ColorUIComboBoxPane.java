@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 import com.fr.base.background.ColorBackground;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.Background;
-import com.fr.general.Inter;
+
 import com.fr.design.style.AlphaPane;
 import com.fr.design.style.background.BackgroundPane4BoxChange;
 
@@ -53,7 +53,7 @@ public class ColorUIComboBoxPane extends BackgroundPane4BoxChange {
 
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("Color");
+		return com.fr.design.i18n.Toolkit.i18nText("Color");
 	}
 
 }

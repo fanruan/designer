@@ -4,7 +4,7 @@ import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.frpane.UINumberDragPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
-import com.fr.general.Inter;
+
 import com.fr.plugin.chart.VanChartAttrHelper;
 import com.fr.plugin.chart.base.AttrAreaSeriesFillColorBackground;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
@@ -31,14 +31,14 @@ public class VanChartAreaSeriesFillColorPane extends BasicPane {
             protected Component[][] getPaneComponents() {
                 return  new Component[][]{
                         new Component[]{null, null},
-                        new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_FillColor")), typeComboBox},
+                        new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_FillColor")), typeComboBox},
                         new Component[]{null, centerPane},
                 };
             }
         };
         transparent = new UINumberDragPane(0, 100);
 
-        JPanel transparentPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-Chart_Alpha"), transparent);
+        JPanel transparentPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-Chart_Alpha"), transparent);
 
         this.setLayout(new BorderLayout());
         this.add(fillColorPane, BorderLayout.NORTH);
@@ -46,7 +46,7 @@ public class VanChartAreaSeriesFillColorPane extends BasicPane {
     }
 
     protected String title4PopupWindow(){
-        return Inter.getLocText("Plugin-ChartF_FillColor");
+        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_FillColor");
     }
 
     public void populate(AttrAreaSeriesFillColorBackground fillColorBackground) {
