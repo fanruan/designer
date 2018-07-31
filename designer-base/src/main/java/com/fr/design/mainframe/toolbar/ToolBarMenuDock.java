@@ -50,7 +50,6 @@ import com.fr.design.remote.action.RemoteDesignAuthorityManagerAction;
 import com.fr.design.utils.ThemeUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
-
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.context.PluginRuntime;
 import com.fr.plugin.manage.PluginFilter;
@@ -224,7 +223,7 @@ public abstract class ToolBarMenuDock {
         // 添加帮助菜单
         menuList.add(createHelpMenuDef());
 
-        if (FRContext.getLocale() == Locale.CHINA || FRContext.getLocale() == Locale.TAIWAN) {
+        if (GeneralContext.getLocale() == Locale.CHINA || GeneralContext.getLocale() == Locale.TAIWAN) {
             // 添加社区菜单
             addCommunityMenuDef(menuList);
         }
@@ -272,7 +271,7 @@ public abstract class ToolBarMenuDock {
     }
 
     public void addCommunityMenuDef(java.util.List<MenuDef> menuList) {
-        Locale locale = FRContext.getLocale();
+        Locale locale = GeneralContext.getLocale();
         Locale[] locales = supportCommunityLocales();
         for (int i = 0; i < locales.length; i++) {
             if (locale.equals(locales[i])) {
@@ -451,7 +450,7 @@ public abstract class ToolBarMenuDock {
         java.util.List<ShortCut> shortCuts = new ArrayList<ShortCut>();
         shortCuts.add(new WebDemoAction());
         // 英文，把 video 和帮助文档放到 Help 下面
-        if (FRContext.getLocale().equals(Locale.US)) {
+        if (GeneralContext.getLocale().equals(Locale.US)) {
             shortCuts.add(new VideoAction());
             shortCuts.add(new TutorialAction());
         }

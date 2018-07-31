@@ -64,7 +64,7 @@ public class PreStartActivator extends Activator {
 
     private void initLanguage() {
         //这两句的位置不能随便调换，因为会影响语言切换的问题
-        GeneralContext.setLocale(DesignerEnvManager.getEnvManager(false).getLocale());
+        GeneralContext.setLocale(DesignerEnvManager.getEnvManager(false).getLanguage());
     }
 
     @Override
