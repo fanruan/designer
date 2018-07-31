@@ -150,6 +150,11 @@ public class Designer extends BaseDesigner {
 
     private static SplashStrategy createSplash() {
         // 这里可以开接口加载自定义启动画面
+        if (OperatingSystem.isWindows()) {
+            return new SplashFx();
+        } else if (OperatingSystem.isMacOS()) {
+            return new SplashMac();
+        }
         return new SplashFx();
     }
 
