@@ -5,6 +5,7 @@ import com.fr.base.DynamicUnitList;
 import com.fr.base.FRContext;
 import com.fr.base.Parameter;
 import com.fr.base.ScreenResolution;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.AllowAuthorityEditAction;
@@ -632,9 +633,11 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      */
     @Override
     public ShortCut[] shortcut4FileMenu() {
-        return (ShortCut[]) ArrayUtils.addAll(
-                super.shortcut4FileMenu(),
-            BaseUtils.isAuthorityEditing() || (!WorkContext.getCurrent().isLocal()) ? new ShortCut[0] : new ShortCut[]{this.createWorkBookExportMenu()}
+        boolean showWorkBookExportMenu = DesignerMode.isVcsMode()
+                || DesignerMode.isAuthorityEditing()
+                || !WorkContext.getCurrent().isLocal();
+        return (ShortCut[]) ArrayUtils.addAll(super.shortcut4FileMenu(),
+                showWorkBookExportMenu ? new ShortCut[0] : new ShortCut[]{this.createWorkBookExportMenu()}
         );
     }
 

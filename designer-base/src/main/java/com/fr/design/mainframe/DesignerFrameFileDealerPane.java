@@ -31,21 +31,30 @@ import com.fr.file.FILE;
 import com.fr.file.FileNodeFILE;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
-
 import com.fr.io.utils.ResourceIOUtils;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.workspace.WorkContext;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -59,9 +68,13 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
     private CardLayout card;
 
     private JPanel cardPane;
+    private java.util.List<FileToolbarStateChangeListener> otherToobarStateChangeListeners= new ArrayList<>();
+
+    public FileOperations getSelectedOperation() {
+        return selectedOperation;
+    }
 
     private FileOperations selectedOperation;
-
     private UIToolbar toolBar;
 
     private OpenReportAction openReportAction = new OpenReportAction();
@@ -244,6 +257,21 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
 
             selectedOperation.refresh();
             stateChange();
+
+        }
+    }
+
+    public void addToobarStateChangeListener(FileToolbarStateChangeListener toobarStateChangeListener) {
+        this.otherToobarStateChangeListeners.add(toobarStateChangeListener);
+        }
+
+    public void removeToobarStateChangeListener(FileToolbarStateChangeListener toobarStateChangeListener) {
+        this.otherToobarStateChangeListeners.remove(toobarStateChangeListener);
+    }
+
+    private void otherStateChange() {
+        for (FileToolbarStateChangeListener toobarStateChangeListener : otherToobarStateChangeListeners) {
+            toobarStateChangeListener.stateChange();
         }
     }
 

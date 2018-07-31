@@ -6,6 +6,7 @@ import com.fr.base.Parameter;
 import com.fr.base.ScreenResolution;
 import com.fr.base.io.BaseBook;
 import com.fr.base.iofile.attr.TemplateIdAttrMark;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignState;
 import com.fr.design.DesignerEnvManager;
@@ -32,6 +33,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.templateinfo.TemplateInfoCollector;
 import com.fr.design.mainframe.templateinfo.TemplateProcessInfo;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
+import com.fr.design.mainframe.toolbar.VcsScene;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.NameSeparator;
 import com.fr.design.menu.ShortCut;
@@ -699,7 +701,9 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
      */
     @Override
     public ShortCut[] shortcut4FileMenu() {
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isVcsMode()) {
+            return VcsScene.shortcut4FileMenu(this);
+        } else if (DesignerMode.isAuthorityEditing()) {
             return new ShortCut[]{new SaveTemplateAction(this), new UndoAction(this), new RedoAction(this)};
         } else {
             return new ShortCut[]{new SaveTemplateAction(this), new SaveAsTemplateAction(this), new UndoAction(this), new RedoAction(this)};
@@ -721,7 +725,9 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
             tplMenu.addShortCut(new TableDataSourceAction(this));
             tplMenu.addShortCut(shortcut4TemplateMenu());
         }
+        if (!DesignerMode.isVcsMode()) {
         tplMenu.addShortCut(shortCuts4Authority());
+        }
 
         return new MenuDef[]{tplMenu};
     }
