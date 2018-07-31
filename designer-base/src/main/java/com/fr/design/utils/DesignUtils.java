@@ -128,6 +128,7 @@ public class DesignUtils {
                         String line = null;
                         while ((line = reader.readLine()) != null) {
                             if (line.startsWith("demo")) {
+                                DesignerEnvManager.getEnvManager().setCurrentEnv2Default();
                                 ServerStarter.browserDemoURL();
                             } else if (StringUtils.isNotEmpty(line)) {
                                 File f = new File(line);

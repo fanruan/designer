@@ -1,6 +1,7 @@
 package com.fr.design.actions.help;
 
 import com.fr.base.BaseUtils;
+import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.menu.MenuKeySet;
 
@@ -23,6 +24,7 @@ public class WebDemoAction extends UpdateAction {
      * @param evt 事件
      */
     public void actionPerformed(ActionEvent evt) {
+        DesignerEnvManager.getEnvManager().setCurrentEnv2Default();
         ServerStarter.browserDemoURL();
     }
 
