@@ -5,6 +5,7 @@ import com.fr.base.DynamicUnitList;
 import com.fr.base.FRContext;
 import com.fr.base.Parameter;
 import com.fr.base.ScreenResolution;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.AllowAuthorityEditAction;
@@ -285,7 +286,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
         if (this.getEditingElementCasePane() == null) {
             return JWorkBook.this;
         }
-        this.getEditingElementCasePane().getGrid().setEditable(!BaseUtils.isAuthorityEditing());
+        this.getEditingElementCasePane().getGrid().setEditable(!DesignerMode.isAuthorityEditing());
         centerPane.needToShowCoverAndHidPane();
         if (centerPane.isUpEditMode()) {
             return parameterPane;
@@ -316,7 +317,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
 
     @Override
     public JPanel getEastUpPane() {
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             return allowAuthorityUpPane();
         } else {
             return exitEastUpPane();
@@ -632,9 +633,11 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      */
     @Override
     public ShortCut[] shortcut4FileMenu() {
-        return (ShortCut[]) ArrayUtils.addAll(
-                super.shortcut4FileMenu(),
-            BaseUtils.isAuthorityEditing() || (!WorkContext.getCurrent().isLocal()) ? new ShortCut[0] : new ShortCut[]{this.createWorkBookExportMenu()}
+        boolean showWorkBookExportMenu = DesignerMode.isVcsMode()
+                || DesignerMode.isAuthorityEditing()
+                || !WorkContext.getCurrent().isLocal();
+        return (ShortCut[]) ArrayUtils.addAll(super.shortcut4FileMenu(),
+                showWorkBookExportMenu ? new ShortCut[0] : new ShortCut[]{this.createWorkBookExportMenu()}
         );
     }
 
@@ -679,7 +682,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     public ShortCut[] shortCuts4Authority() {
         return new ShortCut[]{
                 new NameSeparator(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Permissions_Edition")),
-                BaseUtils.isAuthorityEditing() ? new ExitAuthorityEditAction(this) : new AllowAuthorityEditAction(this),
+                DesignerMode.isAuthorityEditing() ? new ExitAuthorityEditAction(this) : new AllowAuthorityEditAction(this),
         };
 
     }
@@ -725,7 +728,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     protected void applyUndoState(WorkBookUndoState u) {
         try {
             this.setTarget((WorkBook) u.getWorkBook().clone());
-            if (!BaseUtils.isAuthorityEditing()) {
+            if (!DesignerMode.isAuthorityEditing()) {
                 if (u.getAuthorityType() != BaseUndoState.NORMAL_STATE) {
                     applyAll(u);
                     this.undoState = u;
@@ -990,7 +993,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
                 }
             }
         }
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.AUTHORITY_EDITION);
             EastRegionContainerPane.getInstance().replaceAuthorityEditionPane(allowAuthorityUpPane());
             EastRegionContainerPane.getInstance().replaceConfiguredRolesPane(RolesAlreadyEditedPane.getInstance());

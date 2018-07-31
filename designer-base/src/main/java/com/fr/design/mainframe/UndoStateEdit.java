@@ -2,6 +2,7 @@ package com.fr.design.mainframe;
 
 
 import com.fr.base.BaseUtils;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.roleAuthority.RolesAlreadyEditedPane;
 
 
@@ -52,7 +53,7 @@ public class UndoStateEdit extends AbstractUndoableEdit {
         if (this.old != null) {
             this.old.applyState();
         }
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             RolesAlreadyEditedPane.getInstance().refreshDockingView();
         }
     }
@@ -67,7 +68,7 @@ public class UndoStateEdit extends AbstractUndoableEdit {
         if (this.cur != null) {
             this.cur.applyState();
         }
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             RolesAlreadyEditedPane.getInstance().refreshDockingView();
         }
     }

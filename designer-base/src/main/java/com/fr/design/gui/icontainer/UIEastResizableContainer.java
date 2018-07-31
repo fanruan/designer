@@ -1,6 +1,7 @@
 package com.fr.design.gui.icontainer;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.mainframe.DesignerContext;
@@ -281,7 +282,7 @@ public class UIEastResizableContainer extends JPanel {
                         }
                         onResize();
                         refreshContainer();
-                        if (BaseUtils.isAuthorityEditing()) {
+                        if (DesignerMode.isAuthorityEditing()) {
                             DesignerContext.getDesignerFrame().doResize();
                         }
                     }

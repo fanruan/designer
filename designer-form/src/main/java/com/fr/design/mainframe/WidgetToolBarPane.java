@@ -1,6 +1,7 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.bridge.DesignToolbarProvider;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.core.FormWidgetOption;
@@ -122,7 +123,7 @@ public class WidgetToolBarPane extends BasicPane implements DesignToolbarProvide
 
     private void checkEnable() {
         for (JComponent comp : componentsList4Form) {
-            comp.setEnabled(!BaseUtils.isAuthorityEditing());
+            comp.setEnabled(!DesignerMode.isAuthorityEditing());
         }
     }
 
@@ -149,7 +150,7 @@ public class WidgetToolBarPane extends BasicPane implements DesignToolbarProvide
                 chartButton.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        if (BaseUtils.isAuthorityEditing()) {
+                        if (DesignerMode.isAuthorityEditing()) {
                             return;
                         }
                         if (chartWindow == null) {

@@ -4,6 +4,7 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignState;
 import com.fr.design.DesignerEnvManager;
@@ -22,6 +23,7 @@ import com.fr.design.file.NewTemplatePane;
 import com.fr.design.file.SaveSomeTemplatePane;
 import com.fr.design.file.TemplateTreePane;
 import com.fr.design.fun.TitlePlaceProcessor;
+import com.fr.design.fun.impl.AbstractTemplateTreeShortCutProvider;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.imenu.UIMenuHighLight;
 import com.fr.design.gui.iprogressbar.ProgressDialog;
@@ -32,6 +34,7 @@ import com.fr.design.mainframe.loghandler.LogMessageBar;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDock;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.menu.MenuManager;
+import com.fr.design.menu.ShortCut;
 import com.fr.design.utils.DesignUtils;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.file.FILE;
@@ -97,6 +100,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 public class DesignerFrame extends JFrame implements JTemplateActionListener, TargetModifiedListener {
 
@@ -218,9 +222,8 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         }
 
         public void mouseReleased(MouseEvent e) {
-
-            if (BaseUtils.isAuthorityEditing()) {
-                BaseUtils.setAuthorityEditing(false);
+            if (DesignerMode.isAuthorityEditing()) {
+                DesignerMode.setMode(DesignerMode.NORMARL);
                 WestRegionContainerPane.getInstance().replaceDownPane(
                         TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter()));
                 HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().refreshEastPropertiesPane();
@@ -303,7 +306,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
             public void componentResized(ComponentEvent e) {
 
                 reCalculateFrameSize();
-                if (BaseUtils.isAuthorityEditing()) {
+                if (DesignerMode.isAuthorityEditing()) {
                     doResize();
                 }
             }
@@ -526,7 +529,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
      */
     public void refreshDottedLine() {
 
-        if (BaseUtils.isAuthorityEditing()) {
+        if (DesignerMode.isAuthorityEditing()) {
             populateAuthorityArea();
             populateCloseButton();
             addDottedLine();
@@ -589,7 +592,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         for (int i = 0; i < fixButtons.length; i++) {
             combineUp.add(fixButtons[i]);
         }
-        if (!BaseUtils.isAuthorityEditing()) {
+        if (!DesignerMode.isAuthorityEditing()) {
             combineUp.addSeparator(new Dimension(2, 16));
             if (toolbar4Form != null) {
                 for (int i = 0; i < toolbar4Form.length; i++) {
@@ -706,7 +709,15 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
      */
     public void needToAddAuhtorityPaint() {
 
-        newWorkBookPane.setButtonGray(BaseUtils.isAuthorityEditing());
+        newWorkBookPane.setButtonGray(DesignerMode.isAuthorityEditing());
+
+        // 进入或退出权限编辑模式，通知插件
+        Set<ShortCut> extraShortCuts = ExtraDesignClassManager.getInstance().getExtraShortCuts();
+        for (ShortCut shortCut : extraShortCuts) {
+            if (shortCut instanceof AbstractTemplateTreeShortCutProvider) {
+                ((AbstractTemplateTreeShortCutProvider) shortCut).notifyFromAuhtorityChange(DesignerMode.isAuthorityEditing());
+            }
+        }
     }
 
     /**
@@ -797,6 +808,11 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         TemplateTreePane.getInstance().refreshDockingView();
         DesignTableDataManager.clearGlobalDs();
         EastRegionContainerPane.getInstance().refreshDownPane();
+
+        JTemplate template = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+        if (template != null) {
+            template.refreshToolArea();
+        }
     }
 
     /**
