@@ -41,6 +41,6 @@ public class ChartSecondValueNoFormulaPane extends ChartValueNoFormulaPane{
      * @return 第二值轴
      */
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_SecondValueAxis");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design-Chart_SecondValueAxis");
     }
 }
