@@ -553,7 +553,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
             return;
         }
         try {
-            String envName = getDefaultEnvName();
+            final String envName = getDefaultEnvName();
             WorkContext.switchTo(DesignerWorkspaceGenerator.generate(getDefaultConfig()),new WorkContextCallback() {
 
                 @Override
