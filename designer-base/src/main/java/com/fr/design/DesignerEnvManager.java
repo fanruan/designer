@@ -1294,7 +1294,10 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 // 用于兼容10.0之前的版本
                 int value = Integer.parseInt(tmpVal);
                 switch (value) {
+                    //原来0、1都是中文
                     case 0:
+                        setLanguage(Locale.SIMPLIFIED_CHINESE);
+                        break;
                     case 1:
                         setLanguage(Locale.SIMPLIFIED_CHINESE);
                         break;
