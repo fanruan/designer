@@ -102,10 +102,10 @@ public class Designer extends BaseDesigner {
         }
 
         preloadResource();
-//
-//        SplashContext.getInstance().registerSplash(createSplash());
-//
-//        SplashContext.getInstance().show();
+
+        SplashContext.getInstance().registerSplash(createSplash());
+
+        SplashContext.getInstance().show();
         Module designerRoot = ModuleContext.parseRoot("designer-startup.xml");
         //传递启动参数
         designerRoot.setSingleton(StartupArgs.class, new StartupArgs(args));
