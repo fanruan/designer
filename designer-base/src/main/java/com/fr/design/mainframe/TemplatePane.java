@@ -147,7 +147,13 @@ public class TemplatePane extends JPanel implements MouseListener {
         DesignerWorkspaceInfo selectedEnv = envManager.getWorkspaceInfo(selectedName);
         try {
             Workspace workspace = DesignerWorkspaceGenerator.generate(selectedEnv);
+            boolean checkValid = true;
             if (workspace == null) {
+                checkValid = false;
+            }else {
+                checkValid = selectedEnv.checkValid();
+            }
+            if (!checkValid) {
                 JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Switch_Workspace_Failed"),
                         null, 0, UIManager.getIcon("OptionPane.errorIcon"));
                 return false;
