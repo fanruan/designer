@@ -231,7 +231,7 @@ public class VanChartPlotLegendPane extends BasicPane {
 
     protected JPanel createDisplayStrategy(){
         maxProportion = new UISpinner(0,100,1,30);
-        limitSize = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Limit"),com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NotLimit")});
+        limitSize = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Limit"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_NotLimit")});
         limitSizeTitle = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_MaxProportion"));
 
 
@@ -252,7 +252,7 @@ public class VanChartPlotLegendPane extends BasicPane {
     }
 
     private JPanel createHighlightPane(){
-        highlightButton = new UIButtonGroup<Boolean>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_On"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Off")}, new Boolean[]{true, false});
+        highlightButton = new UIButtonGroup<Boolean>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_On"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Off")}, new Boolean[]{true, false});
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;

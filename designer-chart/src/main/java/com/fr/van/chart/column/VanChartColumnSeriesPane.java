@@ -70,12 +70,12 @@ public class VanChartColumnSeriesPane extends VanChartAbstractPlotSeriesPane {
     }
 
     private JPanel createSeriesStylePane(double[] row, double[] col) {
-        isFixedWidth = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_YES"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NO")});
+        isFixedWidth = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_YES"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_NO")});
         columnWidth = new UISpinner(0,1000,1,0);
         columnWidth.setBorder(BorderFactory.createEmptyBorder(0, (int)TableLayout4VanChartHelper.DESCRIPTION_AREA_WIDTH + TableLayout4VanChartHelper.COMPONENT_INTERVAL,0,0));
         seriesGap = new UINumberDragPane(-100, 100);
         categoryGap = new UINumberDragPane(0, 100);
-        isFillWithImage = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_YES"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NO")});
+        isFillWithImage = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_YES"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_NO")});
         imagePane = new ImageBackgroundQuickPane(false);
         imagePane.setBorder(BorderFactory.createEmptyBorder(0,(int)TableLayout4VanChartHelper.DESCRIPTION_AREA_WIDTH + TableLayout4VanChartHelper.COMPONENT_INTERVAL,0,0));
 

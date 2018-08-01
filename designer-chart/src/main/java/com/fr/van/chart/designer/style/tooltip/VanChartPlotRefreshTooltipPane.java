@@ -100,7 +100,7 @@ public class VanChartPlotRefreshTooltipPane extends VanChartPlotTooltipNoCheckPa
         };
 
         JPanel temp = TableLayout4VanChartHelper.createGapTableLayoutPane(components, rowSize, columnSize);
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Time"), temp);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Time"), temp);
 
     }
 

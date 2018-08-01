@@ -16,7 +16,7 @@ public class StartAndEndNameFormatPaneWithCheckBox extends CategoryNameFormatPan
 
     @Override
     protected String getCheckBoxText() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Start_And_End");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Start_And_End");
     }
 
 

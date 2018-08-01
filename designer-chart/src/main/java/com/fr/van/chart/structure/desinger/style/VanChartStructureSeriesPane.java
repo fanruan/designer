@@ -94,7 +94,7 @@ public class VanChartStructureSeriesPane extends VanChartAbstractPlotSeriesPane 
 
     private JPanel createNodePane() {
         nodeStylePane = new StructureNodeStylePane();
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Node"), nodeStylePane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Node"), nodeStylePane);
     }
 
     private void checkWidth() {

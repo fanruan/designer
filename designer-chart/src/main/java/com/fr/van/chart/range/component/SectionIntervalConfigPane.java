@@ -30,7 +30,7 @@ public class SectionIntervalConfigPane extends MapColorPickerPaneWithFormula {
                 new Component[]{null,null},
                 new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"FR-Chart-Color_Subject", "FR-Chart-Color_Color"})), getFillStyleCombox()},
                 new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Value_Divided_stage")), getRegionNumPane()},
-                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_RangeNum")),getDesignTypeButtonGroup()},
+                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_RangeNum")),getDesignTypeButtonGroup()},
 
         };
     }

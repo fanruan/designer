@@ -42,7 +42,7 @@ public class VanChartMarkerBackgroundPane extends VanChartBackgroundPane {
         paneList.add(new NullBackgroundQuickPane(){
             @Override
             public String title4PopupWindow() {
-                return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_SeriesColor");
+                return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_SeriesColor");
             }
 
         });

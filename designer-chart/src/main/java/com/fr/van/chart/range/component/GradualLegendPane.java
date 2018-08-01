@@ -27,7 +27,7 @@ public class GradualLegendPane extends JPanel{
     }
     private void initComponents() {
         intervalConfigPane = createGradualIntervalConfigPane();
-        JPanel intervalConfigPaneWithTitle = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Section_Config"),intervalConfigPane);
+        JPanel intervalConfigPaneWithTitle = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Section_Config"),intervalConfigPane);
         labelFormPane = new LegendLabelFormatPane();
 
         double p = TableLayout.PREFERRED;
