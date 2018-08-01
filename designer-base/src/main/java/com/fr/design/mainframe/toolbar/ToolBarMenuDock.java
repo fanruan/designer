@@ -234,7 +234,7 @@ public abstract class ToolBarMenuDock {
         // 添加帮助菜单
         menuList.add(createHelpMenuDef());
 
-        if (GeneralContext.getLocale() == Locale.CHINA || GeneralContext.getLocale() == Locale.TAIWAN) {
+        if (GeneralContext.getLocale().equals(Locale.CHINA) || GeneralContext.getLocale().equals(Locale.TAIWAN)) {
             // 添加社区菜单
             addCommunityMenuDef(menuList);
         }

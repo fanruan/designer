@@ -1,11 +1,15 @@
 package com.fr.design.env;
 
+import com.fr.base.EnvException;
+import com.fr.general.ComparatorUtils;
 import com.fr.general.NameObject;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.xml.XMLPrintWriter;
 import com.fr.stable.xml.XMLableReader;
 import com.fr.workspace.connect.WorkspaceConnection;
+
+import java.io.File;
 
 /**
  * Created by juhaoyu on 2018/6/15.
@@ -68,5 +72,15 @@ public class LocalDesignerWorkspaceInfo implements DesignerWorkspaceInfo {
         LocalDesignerWorkspaceInfo object = (LocalDesignerWorkspaceInfo)super.clone();
 
         return  object;
+    }
+
+    @Override
+    public boolean checkValid(){
+        File file = new File(this.path);
+        if(!file.isDirectory() || !ComparatorUtils.equals(file.getName(), "WEB-INF")) {
+            return false;
+        }
+
+        return true;
     }
 }
