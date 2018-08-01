@@ -1295,21 +1295,22 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 int value = Integer.parseInt(tmpVal);
                 switch (value) {
                     case 0:
+                    case 1:
                         setLanguage(Locale.SIMPLIFIED_CHINESE);
                         break;
-                    case 1:
+                    case 2:
                         setLanguage(Locale.US);
                         break;
-                    case 2:
+                    case 3:
                         setLanguage(Locale.JAPAN);
                         break;
-                    case 3:
+                    case 4:
                         setLanguage(Locale.TRADITIONAL_CHINESE);
                         break;
-                    case 4:
+                    case 5:
                         setLanguage(Locale.KOREA);
                         break;
-                    case 5:
+                    case 6:
                         setLanguage(new Locale("pt", "PT"));
                         break;
                     default:
