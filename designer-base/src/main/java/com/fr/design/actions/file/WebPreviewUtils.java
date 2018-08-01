@@ -9,7 +9,6 @@ import com.fr.design.utils.DesignUtils;
 import com.fr.file.FILE;
 import com.fr.file.FileNodeFILE;
 import com.fr.general.GeneralUtils;
-
 import com.fr.general.web.ParameterConstants;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.stable.web.AbstractWebletCreator;
@@ -82,27 +81,27 @@ public final class WebPreviewUtils {
             String path = currentTemplate.getPath();
             if (path.startsWith(ProjectConstants.REPORTLETS_NAME)) {
                 path = path.substring(ProjectConstants.REPORTLETS_NAME.length() + 1);
-
-                java.util.List<String> parameterNameList = new java.util.ArrayList<String>();
-                java.util.List<String> parameterValueList = new java.util.ArrayList<String>();
-
-                // 暂时屏蔽cptx直接访问
-                if (path.endsWith(FileExtension.CPTX.getSuffix())) {
-                    path = path.substring(0, path.length() - 1);
-                    parameterNameList.add(AbstractWebletCreator.FORMAT);
-                    parameterValueList.add(AbstractWebletCreator.X);
-                }
-
-                parameterNameList.add(actionType);
-                parameterValueList.add(path);
-                if (map != null) {
-                    for (String key : map.keySet()) {
-                        parameterNameList.add(key);
-                        parameterValueList.add(GeneralUtils.objectToString(map.get(key)));
-                    }
-                }
-                DesignUtils.visitEnvServerByParameters(baseRoute, parameterNameList.toArray(new String[parameterNameList.size()]), parameterValueList.toArray(new String[parameterValueList.size()]));
             }
+
+            java.util.List<String> parameterNameList = new java.util.ArrayList<String>();
+            java.util.List<String> parameterValueList = new java.util.ArrayList<String>();
+
+            // 暂时屏蔽cptx直接访问
+            if (path.endsWith(FileExtension.CPTX.getSuffix())) {
+                path = path.substring(0, path.length() - 1);
+                parameterNameList.add(AbstractWebletCreator.FORMAT);
+                parameterValueList.add(AbstractWebletCreator.X);
+            }
+
+            parameterNameList.add(actionType);
+            parameterValueList.add(path);
+            if (map != null) {
+                for (String key : map.keySet()) {
+                    parameterNameList.add(key);
+                    parameterValueList.add(GeneralUtils.objectToString(map.get(key)));
+                }
+            }
+            DesignUtils.visitEnvServerByParameters(baseRoute, parameterNameList.toArray(new String[parameterNameList.size()]), parameterValueList.toArray(new String[parameterValueList.size()]));
         } else {
             int selVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Web_Preview_Message"),
                     com.fr.design.i18n.Toolkit.i18nText("Preview_ToolTips"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);

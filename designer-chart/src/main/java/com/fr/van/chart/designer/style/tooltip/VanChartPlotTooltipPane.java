@@ -141,7 +141,7 @@ public class VanChartPlotTooltipPane extends BasicPane {
     protected JPanel createDisplayStrategy(Plot plot) {
         showAllSeries = new UICheckBox(getShowAllSeriesLabelText());
         followMouse = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_FollowMouse"),
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NotFollowMouse")});
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_NotFollowMouse")});
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
@@ -149,7 +149,7 @@ public class VanChartPlotTooltipPane extends BasicPane {
         double[] rowSize = { p,p,p};
         Component[][] components = new Component[3][2];
         components[0] = new Component[]{null,null};
-        components[1] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Prompt_Box")),followMouse};
+        components[1] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Prompt_Box")),followMouse};
 
         if(plot.isSupportTooltipSeriesType() && hasTooltipSeriesType()){
             components[2] = new Component[]{showAllSeries,null};
@@ -159,7 +159,7 @@ public class VanChartPlotTooltipPane extends BasicPane {
     }
 
     protected String getShowAllSeriesLabelText() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_ShowAllSeries");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_ShowAllSeries");
     };
 
     protected boolean hasTooltipSeriesType() {

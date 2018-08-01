@@ -32,9 +32,9 @@ public class LineMapLongLatAreaPane extends LineMapAreaPane {
         areaPane = new LongLatAreaPane(parentPane){
             protected Component[][] getComponent () {
                 return new Component[][]{
-                        new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Plugin-ChartF_Start", "Plugin-ChartF_Longitude"})), longitudeCom},
-                        new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Plugin-ChartF_Start", "Plugin-ChartF_Latitude"})), latitudeCom},
-                        new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Plugin-ChartF_Start", "FR-Chart-Area_Name"})), areaNameCom}
+                        new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Fine-Design_Chart_Start", "Plugin-ChartF_Longitude"})), longitudeCom},
+                        new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Fine-Design_Chart_Start", "Plugin-ChartF_Latitude"})), latitudeCom},
+                        new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Fine-Design_Chart_Start", "FR-Chart-Area_Name"})), areaNameCom}
                 };
             }
         };

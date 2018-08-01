@@ -26,7 +26,7 @@ public class SectionLegendPane extends JPanel{
 
     private void initComponents() {
         intervalConfigPane = createSectionIntervalConfigPane(this.parent);
-        JPanel intervalConfigPaneWithTitle = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Section_Config"), intervalConfigPane);
+        JPanel intervalConfigPaneWithTitle = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Section_Config"), intervalConfigPane);
         labelFormPane = new LegendLabelFormatPane(){
             @Override
             protected void checkCustomLabelText() {

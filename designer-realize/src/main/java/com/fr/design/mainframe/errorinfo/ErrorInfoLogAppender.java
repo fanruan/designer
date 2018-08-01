@@ -4,7 +4,7 @@ import com.fr.base.io.IOFile;
 import com.fr.base.io.XMLReadHelper;
 import com.fr.config.MarketConfig;
 import com.fr.design.DesignerEnvManager;
-import com.fr.general.SessionLocalManager;
+import com.fr.web.session.SessionLocalManager;
 
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;

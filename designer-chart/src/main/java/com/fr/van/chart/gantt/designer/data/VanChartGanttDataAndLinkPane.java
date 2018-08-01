@@ -50,7 +50,7 @@ public class VanChartGanttDataAndLinkPane extends MultiTabPane<ChartCollection> 
 
             @Override
             public String title4PopupWindow() {
-                return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Task_Link");
+                return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Task_Link");
             }
         };
 

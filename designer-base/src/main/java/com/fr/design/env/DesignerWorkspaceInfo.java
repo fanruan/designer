@@ -11,4 +11,6 @@ public interface DesignerWorkspaceInfo extends XMLable {
     String getPath();
 
     WorkspaceConnection getConnection();
+
+    boolean checkValid();
 }

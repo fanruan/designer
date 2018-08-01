@@ -17,7 +17,7 @@ public class VanChartStructureNodeConditionPane extends AbstractNormalMultiLineC
 
     @Override
     protected String getItemLabelString() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Node");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Node");
     }
 
     @Override
@@ -35,7 +35,7 @@ public class VanChartStructureNodeConditionPane extends AbstractNormalMultiLineC
      * @return item的名称
      */
     public String nameForPopupMenuItem() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Node");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Node");
     }
 
     @Override

@@ -38,8 +38,8 @@ public class VanChartFloatPositionPane extends BasicBeanPane<Chart> {
         double[] columnSize = {p, f};
         double[] rowSize = {p,p};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("plugin-ChartF_positionX")+": "),floatPosition_x},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("plugin-ChartF_positionY")+": "),floatPosition_y}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_positionX")+": "),floatPosition_x},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_positionY")+": "),floatPosition_y}
         };
 
         return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);

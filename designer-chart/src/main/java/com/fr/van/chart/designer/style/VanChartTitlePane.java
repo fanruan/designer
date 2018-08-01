@@ -169,7 +169,7 @@ public class VanChartTitlePane extends AbstractVanChartScrollPane<VanChart> {
 
     private JPanel createDisplayStrategy(){
         maxProportion = new UISpinner(0,100,1,30);
-        limitSize = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Limit"),com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NotLimit")});
+        limitSize = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Limit"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_NotLimit")});
 
         JPanel limitSizePane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AreaSize"),limitSize);
         maxProportionPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_MaxProportion"),maxProportion, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);

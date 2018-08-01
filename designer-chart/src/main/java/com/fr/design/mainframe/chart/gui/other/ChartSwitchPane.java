@@ -34,7 +34,7 @@ public class ChartSwitchPane extends AbstractAttrNoScrollPane{
 		JPanel pane = new JPanel();
 		pane.setLayout(new BorderLayout());
 		
-		changeButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Switch"));
+		changeButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Switch"));
 		
 		pane.add(changeButton, BorderLayout.NORTH);
 		

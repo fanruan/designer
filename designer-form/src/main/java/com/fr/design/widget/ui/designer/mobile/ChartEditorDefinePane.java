@@ -87,6 +87,8 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane {
         unavailableTipLabel.setText("<html>" + tipText + "<html>");
         unavailableTipLabel.setForeground(Color.gray);
         panel.add(unavailableTipLabel, BorderLayout.NORTH);
+        allowFullCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Allow_Full_Screen"));
+        panel.add(allowFullCheckBox);
         return panel;
     }
 
@@ -150,19 +152,20 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane {
     public void populate(FormDesigner designer) {
         this.designer = designer;
 
+        BaseChartEditor chartEditor = (BaseChartEditor)xCreator.toData();
+        boolean allowFullScreen = chartEditor.getMobileAttr().isAllowFullScreen();
+        this.allowFullCheckBox.setSelected(allowFullScreen);
+        this.bindListeners2Widgets();
+        this.addAttributeChangeListener(changeListener);
+
         if (!isAppRelayout() || isInAbsoluteLayout()) {
             return;
         }
 
-        BaseChartEditor chartEditor = (BaseChartEditor)xCreator.toData();
         ChartMobileFitAttrStateProvider zoomOutAttr = chartEditor.getMobileAttr().getZoomOutAttr();
         this.zoomOutComboBox.setSelectedItem(new Item(zoomOutAttr.description(), zoomOutAttr));
         updateTipLabel();
-        boolean allowFullScreen = chartEditor.getMobileAttr().isAllowFullScreen();
-        this.allowFullCheckBox.setSelected(allowFullScreen);
 
-        // 数据 populate 完成后，再设置监听
-        this.bindListeners2Widgets();
         this.zoomOutComboBox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
@@ -171,21 +174,24 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane {
                     return;
                 }
                 updateTipLabel();
-                ChartMobileFitAttrState selectedAttr = (ChartMobileFitAttrState)((Item)e.getItem()).getValue();
+                ChartMobileFitAttrState selectedAttr = (ChartMobileFitAttrState) ((Item) e.getItem()).getValue();
                 if (selectedAttr.getState() != ChartMobileFitAttrState.AUTO.getState()) {
 
                 }
             }
         });
-        this.addAttributeChangeListener(changeListener);
     }
 
     @Override
     public void update() {
         ChartMobileAttrProvider mobileAttr = ((BaseChartEditor)xCreator.toData()).getMobileAttr();
-        mobileAttr.setZoomInAttr(ChartMobileFitAttrState.PROPORTION);
-        mobileAttr.setZoomOutAttr((ChartMobileFitAttrState)((Item)zoomOutComboBox.getSelectedItem()).getValue());
-        mobileAttr.setAllowFullScreen(allowFullCheckBox.isSelected());
+        if(zoomOutComboBox != null) {
+            mobileAttr.setZoomInAttr(ChartMobileFitAttrState.PROPORTION);
+            mobileAttr.setZoomOutAttr((ChartMobileFitAttrState) ((Item) zoomOutComboBox.getSelectedItem()).getValue());
+            mobileAttr.setAllowFullScreen(allowFullCheckBox.isSelected());
+        }else {
+            mobileAttr.setAllowFullScreen(allowFullCheckBox.isSelected());
+        }
         DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified(); // 触发设计器保存按钮亮起来
     }
 }

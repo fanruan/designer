@@ -97,7 +97,7 @@ public class DrillMapLayerPane extends BasicScrollPane<ChartCollection> {
         rowSize[0] = p;
         detailComps[0] = new Component[]{
                 new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-Chart_Descriptor")),
-                new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Zoom_Layer")),
+                new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Zoom_Layer")),
                 new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Layer_Map_Type"))
         };
         for (int i = 0; i < depth; i++) {

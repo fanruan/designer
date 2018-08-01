@@ -4,7 +4,7 @@ import com.fr.base.io.XMLEncryptUtils;
 import com.fr.design.gui.itree.filetree.FileComparator;
 import com.fr.design.gui.itree.filetree.FileTreeIcon;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.SessionLocalManager;
+import com.fr.web.session.SessionLocalManager;
 import com.fr.stable.StableUtils;
 import com.fr.stable.project.ProjectConstants;
 
