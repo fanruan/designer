@@ -11,8 +11,10 @@ import com.fr.general.Inter;
 import com.fr.report.worksheet.WorkSheet;
 import com.fr.report.write.ReportWriteAttr;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
 
 public class ReportWriteAttrPane extends LoadingBasicPane {
 	private SubmitVisitorListPane submiterListPane;
@@ -22,7 +24,15 @@ public class ReportWriteAttrPane extends LoadingBasicPane {
 	private ElementCasePane ePane;
 	public ReportWriteAttrPane(ElementCasePane ePane){
 		this.ePane = ePane;
+		//REPORT-9958 这边需要赋值后再初始化面板
+		super.initPane();
 	}
+
+	@Override
+	protected void initPane(){
+
+	}
+
 
 	@Override
 	protected synchronized void initComponents(JPanel container) {

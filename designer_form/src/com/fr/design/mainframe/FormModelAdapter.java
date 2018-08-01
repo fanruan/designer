@@ -1,11 +1,15 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.Parameter;
+import com.fr.base.TableData;
+import com.fr.data.TableDataSource;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.form.main.Form;
 import com.fr.form.main.WidgetGatherAdapter;
 import com.fr.form.ui.*;
+import com.fr.script.Calculator;
+import com.fr.stable.ParameterProvider;
 import com.fr.stable.js.WidgetName;
 
 import java.util.ArrayList;
@@ -95,6 +99,30 @@ public class FormModelAdapter extends DesignModelAdapter<Form, BaseJForm> {
 		}, Widget.class);
 		
 		return linkAbleList.toArray(new Widget[linkAbleList.size()]);
+	}
+
+	// 报表参数
+	@Override
+	public Parameter[] getReportParameters() {
+		Parameter[] rpa = this.getBook().getTemplateParameters();
+		return rpa == null ? new Parameter[0] : rpa;
+	}
+
+	// 数据源参数
+	@Override
+	public Parameter[] getTableDataParameters() {
+		TableDataSource source = this.getBook();
+		Calculator c = Calculator.createCalculator();
+		c.setAttribute(TableDataSource.KEY, source);
+		java.util.List<ParameterProvider> list = new java.util.ArrayList<ParameterProvider>();
+		java.util.Iterator<String> nameIt = this.getBook().getTableDataNameIterator();
+		while (nameIt.hasNext()) {
+			TableData td = source.getTableData(nameIt.next());
+			if (td.getParameters(c) != null) {
+				list.addAll(java.util.Arrays.asList(td.getParameters(c)));
+			}
+		}
+		return list.toArray(new Parameter[list.size()]);
 	}
 
 	@Override
