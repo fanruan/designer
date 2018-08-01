@@ -104,7 +104,7 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
         JPanel centerPanel = TableLayoutHelper.createTableLayoutPane(getDiffComponentsWithGaugeStyle(), row, col);
         panel.add(centerPanel, BorderLayout.CENTER);
         if(rotate != null){
-            JPanel panel1 = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Rotation_Direction"), rotate);
+            JPanel panel1 = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Rotation_Direction"), rotate);
             panel.add(panel1, BorderLayout.NORTH);
         }
         return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget_Style"), panel);
@@ -159,17 +159,17 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
 
     private Component[] getNeedleColor() {
         needleColor = new ColorSelectBox(120);
-        return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Needle")),needleColor};
+        return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Needle")),needleColor};
     }
 
     private Component[] getPaneBackgroundColor() {
         paneBackgroundColor = new ColorSelectBox(120);
-        return  new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_PaneBackground")),paneBackgroundColor};
+        return  new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_PaneBackground")),paneBackgroundColor};
     }
 
     private Component[] getSlotBackgroundColor() {
         slotBackgroundColor = new ColorSelectBox(120);
-        return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_SlotBackground")),slotBackgroundColor};
+        return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_SlotBackground")),slotBackgroundColor};
     }
 
     private void initRotate() {
@@ -183,7 +183,7 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
 
     private JPanel createGaugeBandsPane() {
         colorPickerPane = new ColorPickerPaneWithFormula(parentPane, "meterString");
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Range"), colorPickerPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Range"), colorPickerPane);
     }
 
 

@@ -116,10 +116,10 @@ public class VanChartGaugeDetailAxisPane extends VanChartValueAxisPane {
         secTickColor = new ColorSelectBox(100);
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_MainGraduationLine")), mainTickColor},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_SecondGraduationLine")), secTickColor},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_SecondGraduationLine")), secTickColor},
         };
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components, row, col);
-        JPanel jPanel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_TickColor"), panel);
+        JPanel jPanel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_TickColor"), panel);
         panel.setBorder(BorderFactory.createEmptyBorder(10,10,0,15));
         return jPanel;
     }

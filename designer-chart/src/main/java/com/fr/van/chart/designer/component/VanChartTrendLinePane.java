@@ -59,12 +59,12 @@ public class VanChartTrendLinePane extends BasicPane{
         };
         JPanel periodPane = TableLayoutHelper.createTableLayoutPane(periodComps, r, c);
 
-        UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Period"));
+        UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Period"));
         label.setVerticalAlignment(SwingConstants.TOP);
 
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Name")), trendLineName},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Name")), trendLineName},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_LineStyle")), trendLineStyle},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Color_Color")), trendLineColor},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_type")), trendLineType},

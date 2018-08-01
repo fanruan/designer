@@ -182,7 +182,7 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
     protected JPanel createNullValueColorPane() {
         nullValueColorBox = new ColorSelectBox(80);
 
-        return TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NULL_Value_Color"), nullValueColorBox);
+        return TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_NULL_Value_Color"), nullValueColorBox);
     }
 
     private JPanel createPointPane() {
@@ -292,7 +292,7 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
             }
         });
 
-        JPanel northPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Point_Style"), markerTypeCom);
+        JPanel northPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Point_Style"), markerTypeCom);
         JPanel markerPane = new JPanel(new BorderLayout(0, 6));
         markerPane.add(northPane, BorderLayout.NORTH);
         markerPane.add(cardPane, BorderLayout.CENTER);

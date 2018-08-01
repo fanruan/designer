@@ -50,7 +50,7 @@ public class VanChartDataSheetPane extends AbstractVanChartScrollPane<Chart> {
         }
 
         private void initComponents() {
-            isShowDataSheet = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Show_Data_Sheet"));
+            isShowDataSheet = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Show_Data_Sheet"));
             dataSheetPane = createDataSheetPane();
 
             double p = TableLayout.PREFERRED;

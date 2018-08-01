@@ -20,7 +20,7 @@ public class VanChartScatterLineTypePane extends VanChartLineTypePane {
 
     @Override
     protected void createLineStyle() {
-        String[] textArray = new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NormalLine"),
+        String[] textArray = new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_NormalLine"),
                                             com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_CurveLine")};
         lineStyle = new UIButtonGroup<LineStyle>(textArray, new LineStyle[]{LineStyle.NORMAL, LineStyle.CURVE});
     }

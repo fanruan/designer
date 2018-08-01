@@ -81,7 +81,7 @@ public class VanChartCustomAxisTabPane extends VanChartCustomPlotTabPane<VanChar
             JPanel pane = paneList.get(paneList.size() - 1);
 
             //获取点的tooltip作为标题
-            NameArray[paneList.size() - 1] = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Rectangular_Coordinate_System");
+            NameArray[paneList.size() - 1] = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Rectangular_Coordinate_System");
             centerPane.add(pane, NameArray[paneList.size() - 1]);
         }
     }

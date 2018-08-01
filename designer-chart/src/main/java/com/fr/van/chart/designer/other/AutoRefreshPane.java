@@ -58,7 +58,7 @@ public class AutoRefreshPane extends BasicBeanPane<RefreshMoreLabel> {
 
     protected JPanel createContentPane() {
         JPanel content = new JPanel(new BorderLayout(0, 6));
-        moreLabel = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Open"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Close")});
+        moreLabel = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Open"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Close")});
         moreLabel.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -108,7 +108,7 @@ public class AutoRefreshPane extends BasicBeanPane<RefreshMoreLabel> {
     protected Component[][] initComponent(JPanel autoTooltipPane){
 
         return new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Time_Interval")), autoRefreshTime, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Time_Seconds"))},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Time_Interval")), autoRefreshTime, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Time_Seconds"))},
                 new Component[]{autoTooltip,null, tooltipSet},
         };
 

@@ -64,7 +64,7 @@ public class VanChartCustomIntervalBackgroundPane extends BasicBeanPane<VanChart
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_TopValue")),topValue},
         };
         JPanel temp = TableLayoutHelper.createTableLayoutPane(rangeComponents, rowSize, columnSize);
-        JPanel rangePane = TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Range"), temp);
+        JPanel rangePane = TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Range"), temp);
 
         Component[][] styleComponents = new Component[][]{
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Color_Color")),color},

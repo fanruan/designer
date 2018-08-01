@@ -95,14 +95,14 @@ public class VanChartBackgroundPane extends BasicPane {
     }
 
     protected Component[][] getPaneComponents() {
-        shadow = new UIButtonGroup<Boolean>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_On"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Off")}, new Boolean[]{true, false});
+        shadow = new UIButtonGroup<Boolean>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_On"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Off")}, new Boolean[]{true, false});
 
         return  new Component[][]{
                 new Component[]{null, null},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Shape_Fill")), typeComboBox},
                 new Component[]{null, centerPane},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Alpha")), transparent},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Shadow")), shadow},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Shadow")), shadow},
         };
     }
 

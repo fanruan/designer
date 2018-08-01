@@ -51,7 +51,7 @@ public class VanChartDrillMapInteractivePane extends VanChartInteractivePaneWith
     }
 
     private JPanel createDrillToolsPane() {
-        openOrClose = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Open"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Close")});
+        openOrClose = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Open"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Close")});
         JPanel openOrClosePane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Drill_Dir"), openOrClose);
         textAttrPane = new ChartTextAttrPane(){
 
@@ -85,7 +85,7 @@ public class VanChartDrillMapInteractivePane extends VanChartInteractivePaneWith
                 new Component[]{null},
                 new Component[]{createTitlePane(com.fr.design.i18n.Toolkit.i18nText("Plugin-Chart_Character"), textAttrPane)},
                 new Component[]{createTitlePane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Background"), backgroundPane)},
-                new Component[]{createTitlePane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Select_Color"), selectBackgroundPane)},
+                new Component[]{createTitlePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Select_Color"), selectBackgroundPane)},
                 new Component[]{catalogSuperLink}
         };
         drillPane = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);

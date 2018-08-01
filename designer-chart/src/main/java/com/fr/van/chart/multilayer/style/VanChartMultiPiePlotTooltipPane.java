@@ -17,6 +17,6 @@ public class VanChartMultiPiePlotTooltipPane extends VanChartPlotTooltipPane {
 
     @Override
     protected String getShowAllSeriesLabelText() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_ShowAllLevel");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_ShowAllLevel");
     }
 }

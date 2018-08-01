@@ -33,7 +33,7 @@ public class GanttLinkReportDataContentPane extends AbstractReportDataContentPan
         this.add(panel, BorderLayout.CENTER);    }
 
     private void initAllComponent() {
-        startTaskID = createTinyFormulaPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Start_Task_ID"));
+        startTaskID = createTinyFormulaPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Start_Task_ID"));
 
         endTaskID = createTinyFormulaPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_End_Task_ID"));
 

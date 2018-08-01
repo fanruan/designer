@@ -28,7 +28,7 @@ public class VanChartEffectPane extends BasicBeanPane<AttrEffect> {
     }
 
     public VanChartEffectPane(boolean hasEnabledChoose){
-        enabledButton = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Open"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Close")});
+        enabledButton = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Open"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Close")});
 
         enabledButton.addChangeListener(new ChangeListener() {
             @Override
