@@ -76,6 +76,7 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
@@ -812,7 +813,7 @@ public class RemoteEnv extends AbstractEnv {
         if (input == null) {
             return null;
         }
-        return DavXMLUtils.readXMLFileSchema(input);
+        return (String[]) new ObjectInputStream(input).readObject();
     }
 
     /**
