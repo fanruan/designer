@@ -1,5 +1,6 @@
 package com.fr.design.utils;
 
+import com.fr.base.BaseUtils;
 import com.fr.general.ComparatorUtils;
 
 import javax.swing.*;
@@ -150,5 +151,19 @@ public class ComponentUtils {
             }
         }
         return false;
+    }
+
+    /**
+     * 截取图片的指定区域作为一个图标
+     *
+     * @param image  原始的图片
+     * @param startx 截取的横向起始位置
+     * @param starty 截取的纵向起始位置
+     * @param width  截取的图标的宽度
+     * @param height 截取的图标的高度
+     * @return 图标
+     */
+    public static ImageIcon createIcon(Image image, int startx, int starty, int width, int height) {
+        return BaseUtils.createIcon(image, startx, starty, width, height);
     }
 }
