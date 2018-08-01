@@ -12,6 +12,7 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIColorButton;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icombobox.UIComboBox;
+import com.fr.design.gui.icombobox.UIDictionaryComboBox;
 import com.fr.design.gui.ilable.ActionLabel;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
@@ -23,7 +24,6 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
-
 import com.fr.general.log.Log4jConfig;
 import com.fr.locale.InterProviderFactory;
 import com.fr.third.apache.log4j.Level;
@@ -32,14 +32,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Map;
 
@@ -87,9 +84,7 @@ public class PreferencePane extends BasicPane {
     private static final String DISPLAY_MINUS = "-";
 
     private static final Level[] LOG = {Level.FATAL, Level.ERROR, Level.WARN, Level.INFO, Level.DEBUG};
-    private static java.util.List<String> LANGUAGE = new ArrayList<>();
 
-    private static int designerEnvLanguageIndex; // 打开设置对话框时，设计器使用的语言
     private boolean languageChanged; // 是否修改了设计器语言设置
     //设置是否支持undo
     private UICheckBox supportUndoCheckBox;
@@ -114,7 +109,8 @@ public class PreferencePane extends BasicPane {
 
     private UITextField logExportDirectoryField;
 
-    private UIComboBox logLevelComboBox, languageComboBox, pageLengthComboBox, reportLengthComboBox;
+    private UIComboBox logLevelComboBox, pageLengthComboBox, reportLengthComboBox;
+    private UIDictionaryComboBox<Locale> languageComboBox;
     private IntegerEditor portEditor;
     private UITextField jdkHomeTextField;
     private UICheckBox oracleSpace;
@@ -123,18 +119,8 @@ public class PreferencePane extends BasicPane {
 
     public PreferencePane() {
         this.initComponents();
-        this.initLanguageItems();
     }
 
-    // 语言选项
-    private void initLanguageItems() {
-        LANGUAGE.clear();
-        Map<Locale, String> map = InterProviderFactory.getProvider().getSupportLocaleMap();
-        LANGUAGE.add(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Language_Default"));
-        for (Locale locale : map.keySet()) {
-            LANGUAGE.add(getLocaledLanguage(map.get(locale), locale));
-        }
-    }
 
     protected void initComponents() {
         JPanel contentPane = this;
@@ -180,13 +166,6 @@ public class PreferencePane extends BasicPane {
         spaceUpPane.add(createMemoryPane(), BorderLayout.CENTER);
         spaceUpPane.add(improvePane, BorderLayout.SOUTH);
         advancePane.add(spaceUpPane);
-    }
-
-    private static String getLocaledLanguage(String key, Locale locale) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(com.fr.design.i18n.Toolkit.i18nText(key)).append("(");
-        sb.append(com.fr.design.i18n.Toolkit.i18nText(key)).append(")");
-        return sb.toString();
     }
 
     private void createFunctionPane(JPanel generalPane) {
@@ -379,8 +358,9 @@ public class PreferencePane extends BasicPane {
         JPanel LanguagePane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Choose_Language"));
         generalPane.add(languageAndDashBoard_pane);
         languageAndDashBoard_pane.add(LanguagePane);
-        languageComboBox = new UIComboBox(LANGUAGE.toArray());
-        languageComboBox.setFont(FRFont.getInstance("Dialog", Font.PLAIN, 12));//为了在中文系统中显示韩文
+
+        languageComboBox = createLanguageComboBox();
+
         ActionLabel languageLabel = new ActionLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Designer_Language"));
         languageLabel.addActionListener(new ActionListener() {
             @Override
@@ -402,14 +382,24 @@ public class PreferencePane extends BasicPane {
         Component[][] components = {
                 {languageLabel, languageComboBox, noticeLabel},
         };
-        languageComboBox.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                //Inter.fr = ResourceBundle.getBundle("com/fr/general/locale/fr", Locale.US);
-            }
-        });
         JPanel choosePane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
         LanguagePane.add(choosePane);
+    }
+
+    private UIDictionaryComboBox<Locale> createLanguageComboBox() {
+        Map<Locale, String> map = InterProviderFactory.getProvider().getSupportLocaleMap();
+        int size = map.size();
+        Locale[] keys = new Locale[size];
+        String[] values = new String[size];
+        int i = 0;
+        for (Map.Entry<Locale, String> entry : map.entrySet()) {
+            keys[i] = entry.getKey();
+            values[i] = com.fr.design.i18n.Toolkit.i18nText(entry.getValue());
+            i++;
+        }
+        UIDictionaryComboBox<Locale> languageComboBox = new UIDictionaryComboBox<>(keys, values);
+        languageComboBox.setFont(FRFont.getInstance("Dialog", Font.PLAIN, 12));//为了在中文系统中显示韩文
+        return languageComboBox;
     }
 
     private String getDisplayShortCut(String shotrCut) {
@@ -506,7 +496,7 @@ public class PreferencePane extends BasicPane {
         JPanel memoryPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Preference_CachingTemplate"));
         UILabel memoryLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Preference_MaxCachingTemplate"));
         UILabel memoryTipLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Preference_CachingTemplateTip"));
-        memoryTipLabel.setBorder(BorderFactory.createEmptyBorder( 0, CACHING_GAP, 0, 0));
+        memoryTipLabel.setBorder(BorderFactory.createEmptyBorder(0, CACHING_GAP, 0, 0));
         cachingTemplateSpinner = new UISpinner(0, CACHING_MAX, 1, CACHING_DEFAULT);
         JPanel memorySpace = new JPanel(FRGUIPaneFactory.createLeftZeroLayout());
         memorySpace.add(memoryLabel);
@@ -564,8 +554,8 @@ public class PreferencePane extends BasicPane {
 
         this.logLevelComboBox.setSelectedItem(Log4jConfig.getInstance().getRootLevel());
 
-        this.languageComboBox.setSelectedItem(LANGUAGE.get(designerEnvManager.getLanguage()));
-        designerEnvLanguageIndex = designerEnvManager.getLanguage();
+        this.languageComboBox.setSelectedItem(designerEnvManager.getLanguage());
+
         this.pageLengthComboBox.setSelectedIndex(designerEnvManager.getPageLengthUnit());
         this.reportLengthComboBox.setSelectedIndex(designerEnvManager.getReportLengthUnit());
 
@@ -625,7 +615,7 @@ public class PreferencePane extends BasicPane {
 
         designerEnvManager.setPaginationLineColor(paginationLineColorTBButton.getColor());
 
-        designerEnvManager.setLanguage(getLanguageInt());
+        designerEnvManager.setLanguage(languageComboBox.getSelectedItem());
 
         designerEnvManager.setPageLengthUnit((short) pageLengthComboBox.getSelectedIndex());
         designerEnvManager.setReportLengthUnit((short) reportLengthComboBox.getSelectedIndex());
@@ -637,7 +627,6 @@ public class PreferencePane extends BasicPane {
         designerEnvManager.setOracleSystemSpace(this.oracleSpace.isSelected());
         designerEnvManager.setCachingTemplateLimit((int) this.cachingTemplateSpinner.getValue());
         designerEnvManager.setJoinProductImprove(this.joinProductImprove.isSelected());
-//		designerEnvManager.setAutoBackUp(this.autoBackUp.isSelected());
 
         designerEnvManager.setUndoLimit(maxUndoLimit.getSelectedIndex() * SELECTED_INDEX_5);
         if (maxUndoLimit.getSelectedIndex() == SELECTED_INDEX_5) {
@@ -646,21 +635,6 @@ public class PreferencePane extends BasicPane {
 
         Log4jConfig.getInstance().setRootLevel(((Level) logLevelComboBox.getSelectedItem()));
 
-    }
-
-    /*
-     * 得到所选语言的int值
-     */
-    private int getLanguageInt() {
-        int l = 0;
-        String lang = (String) this.languageComboBox.getSelectedItem();
-        for (int i = 0; i < LANGUAGE.size(); i++) {
-            if (ComparatorUtils.equals(lang, LANGUAGE.get(i))) {
-                l = i;
-                break;
-            }
-        }
-        return l;
     }
 
 
@@ -689,11 +663,7 @@ public class PreferencePane extends BasicPane {
         return showWindow(window, new DialogActionAdapter() {
             @Override
             public void doOk() {
-                if (languageComboBox.getSelectedIndex() != designerEnvLanguageIndex) {
-                    languageChanged = true;
-                } else {
-                    languageChanged = false;
-                }
+                languageChanged = !ComparatorUtils.equals(languageComboBox.getSelectedItem(), DesignerEnvManager.getEnvManager(false).getLanguage());
             }
         });
     }

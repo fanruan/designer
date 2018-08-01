@@ -1,6 +1,6 @@
 package com.fr.design.formula;
 
-import com.fr.base.FRContext;
+import com.fr.general.GeneralContext;
 import com.fr.script.CalculatorEmbeddedFunction;
 import com.fr.stable.StringUtils;
 import com.fr.stable.script.Function;
@@ -10,29 +10,29 @@ import java.util.Locale;
 public class FunctionNAD extends AbstractNameAndDescription {
 
 
-	private Function fn;
-	
-	FunctionNAD(Function fn) {
-		this.fn = fn;
-	}
-	
-	public String getName() {
-		return fn == null ? StringUtils.EMPTY : fn.getClass().getSimpleName();
-	}
-	
-	public String getDesc() {
-		if (fn == null) {
-			return StringUtils.EMPTY;
-		}
-		Locale locale = FRContext.getLocale();
-		String describtion = fn.getDescription(locale);
-		if (describtion.startsWith(CalculatorEmbeddedFunction.LOCALE_PREFIX)) {
-			// 老的自定义函数兼容, 没有重写getDescription
-			return Locale.CHINA.equals(locale) ? fn.getCN() : fn.getEN();
-		}
+    private Function fn;
 
-		return describtion;
-	}
+    FunctionNAD(Function fn) {
+        this.fn = fn;
+    }
+
+    public String getName() {
+        return fn == null ? StringUtils.EMPTY : fn.getClass().getSimpleName();
+    }
+
+    public String getDesc() {
+        if (fn == null) {
+            return StringUtils.EMPTY;
+        }
+        Locale locale = GeneralContext.getLocale();
+        String describtion = fn.getDescription(locale);
+        if (describtion.startsWith(CalculatorEmbeddedFunction.LOCALE_PREFIX)) {
+            // 老的自定义函数兼容, 没有重写getDescription
+            return Locale.CHINA.equals(locale) ? fn.getCN() : fn.getEN();
+        }
+
+        return describtion;
+    }
 
     @Override
     public String searchResult(String keyWord, boolean findDescription) {

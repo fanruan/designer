@@ -114,7 +114,6 @@ public class HistoryTemplateListPane extends JPanel implements FileOperations, C
     public void closeSelectedReport(JTemplate<?, ?> selected) {
         DesignModuleFactory.clearChartPropertyPane();
         DesignTableDataManager.closeTemplate(selected);
-        GeneralContext.removeEnvWillChangedListener(selected.getPath());
         if (contains(selected) == -1) {
             return;
         }
@@ -139,7 +138,6 @@ public class HistoryTemplateListPane extends JPanel implements FileOperations, C
     public void closeVirtualSelectedReport(JTemplate<?, ?> selected) {
         DesignModuleFactory.clearChartPropertyPane();
         DesignTableDataManager.closeTemplate(selected);
-        GeneralContext.removeEnvWillChangedListener(selected.getPath());
         if (contains(selected) == -1) {
             return;
         }

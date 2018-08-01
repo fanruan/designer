@@ -20,6 +20,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.utils.gui.GUICoreUtils;
 
+import com.fr.log.FineLoggerFactory;
 import com.fr.parser.FRLexer;
 import com.fr.parser.FRParser;
 import com.fr.stable.EncodeConstants;
@@ -774,7 +775,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
                             desBuf = getText((TextUserObject) selectedValue, path);
                         }
                     } catch (IOException exp) {
-                        FRContext.getLogger().error(exp.getMessage(), exp);
+                        FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
                     }
                     descriptionTextArea.setText(desBuf.toString());
                     descriptionTextArea.moveCaretPosition(0);
