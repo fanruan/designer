@@ -447,7 +447,7 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
         wmsLayerPane.removeAll();
         for(int i =0; i < size; i++){
             rowSize[i] = TableLayout.PREFERRED;
-            comps[i][0] = i == 0 ? new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_WMS_Layers"), SwingConstants.RIGHT) : null;
+            comps[i][0] = i == 0 ? new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_WMS_Layers"), SwingConstants.RIGHT) : null;
             WMSLayer layer = wmsLayers.get(i);
             UICheckBox checkBox = new UICheckBox(layer.getLayer());
             checkBox.registerChangeListener(listener);
@@ -479,8 +479,8 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
 
         Component[][] comps = new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Zoom_Layer")), zoomLevel},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_View_Center")), viewCenterCom},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Zoom_Layer")), zoomLevel},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_View_Center")), viewCenterCom},
         };
         final JPanel northPane = TableLayout4VanChartHelper.createGapTableLayoutPane(comps,rowSize,columnSize);
 

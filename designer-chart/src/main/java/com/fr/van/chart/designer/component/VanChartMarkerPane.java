@@ -32,7 +32,7 @@ public class VanChartMarkerPane extends BasicPane {
     public VanChartMarkerPane() {
         this.setLayout(new BorderLayout(0, 4));
 
-        String[] array = new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Rule"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Custom")};
+        String[] array = new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Rule"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Custom")};
         commonORCustom = new UIButtonGroup<String>(array, array);
 
         commonORCustom.addChangeListener(new ChangeListener() {
@@ -57,7 +57,7 @@ public class VanChartMarkerPane extends BasicPane {
                 }
             }
         };
-        centerPane.add(commonMarkerPane, com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Rule"));
+        centerPane.add(commonMarkerPane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Rule"));
         centerPane.add(imageMarkerPane, com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Custom"));
 
         layoutComponents();
@@ -86,7 +86,7 @@ public class VanChartMarkerPane extends BasicPane {
     }
 
     protected void layoutComponents() {
-        this.add(TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Point_Style"), commonORCustom), BorderLayout.NORTH);
+        this.add(TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Point_Style"), commonORCustom), BorderLayout.NORTH);
         this.add(centerPane, BorderLayout.CENTER);
     }
 

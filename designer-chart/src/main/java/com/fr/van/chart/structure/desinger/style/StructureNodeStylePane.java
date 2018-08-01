@@ -50,7 +50,7 @@ public class StructureNodeStylePane extends BasicBeanPane<AttrNode> {
         nodeOpacity = new UINumberDragPane(0,100);
 
         JPanel jPanel = new JPanel(new BorderLayout());
-        jPanel.add(TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Node_Radius"), nodeRadiusType), BorderLayout.NORTH);
+        jPanel.add(TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Node_Radius"), nodeRadiusType), BorderLayout.NORTH);
         nodeRadiusPane = TableLayout4VanChartHelper.createGapTableLayoutPane("", nodeRadius);
         jPanel.add(nodeRadiusPane, BorderLayout.CENTER);
 
@@ -64,8 +64,8 @@ public class StructureNodeStylePane extends BasicBeanPane<AttrNode> {
         };
         JPanel panel1 = TableLayout4VanChartHelper.createGapTableLayoutPane(components1, rowSize, columnSize);
 
-        useImage = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_YES"),
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NO")});
+        useImage = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_YES"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_NO")});
         imagePane = new ImageBackgroundQuickPane(false);
         imagePane.setBorder(BorderFactory.createEmptyBorder(0,(int)TableLayout4VanChartHelper.DESCRIPTION_AREA_WIDTH + TableLayout4VanChartHelper.COMPONENT_INTERVAL,0,0));
         Component[][] components = new Component[][]{

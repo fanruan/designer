@@ -68,7 +68,7 @@ public class GanttProcessAxisPane extends AbstractVanChartScrollPane<VanChart> {
     private Component createVerticalHeaderPane() {
         verticalHeaderPane = new GanttAxisStylePane();
 
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Vertical_Table"), verticalHeaderPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Vertical_Table"), verticalHeaderPane);
     }
 
     private Component createHorizontalProportionPane() {
@@ -134,6 +134,6 @@ public class GanttProcessAxisPane extends AbstractVanChartScrollPane<VanChart> {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Project_Axis");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Project_Axis");
     }
 }

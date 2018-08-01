@@ -63,8 +63,8 @@ public class VanChartCustomStackAndAxisConditionPane extends BasicBeanPane<Condi
     }
 
     private JPanel createDeployPane() {
-        isStacked = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_YES"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NO")});
-        isPercentStacked = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_YES"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NO")});
+        isStacked = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_YES"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_NO")});
+        isPercentStacked = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_YES"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_NO")});
         double p = TableLayout.PREFERRED;
         double[] columnSize = {p, p};
         double[] rowSize = {p, p, p, p};
@@ -77,7 +77,7 @@ public class VanChartCustomStackAndAxisConditionPane extends BasicBeanPane<Condi
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("ChartF-X_Axis")), XAxis},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("ChartF-Y_Axis")), YAxis},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Stacked")), isStacked},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_PercentStacked")), isPercentStacked},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_PercentStacked")), isPercentStacked},
         };
 
         isStacked.addActionListener(new ActionListener() {

@@ -58,7 +58,7 @@ public class GanttTableDataContentPane extends AbstractTableDataContentPane{
 
         taskIDComboBox = new UIComboBox();
         taskIDComboBox.addItem(NONE);
-        taskIDComboBox.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Task_ID_Tooltip"));
+        taskIDComboBox.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Task_ID_Tooltip"));
     }
 
     private JPanel getContentPane(){

@@ -86,7 +86,7 @@ public class VanChartWordCloudSeriesPane extends VanChartAbstractPlotSeriesPane 
         maxRotation = new
                 UISpinner(-MAX_ROTATION,MAX_ROTATION,1,0);
         Component[][] centerComps = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Rotation_Angle")), minRotation,
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Rotation_Angle")), minRotation,
                         new UILabel("-"), maxRotation},
         };
         JPanel centerPanel = TableLayout4VanChartHelper.createGapTableLayoutPane(centerComps,centerR,centerC);
@@ -163,7 +163,7 @@ public class VanChartWordCloudSeriesPane extends VanChartAbstractPlotSeriesPane 
             }
         });
 
-        return TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Shape"), panel);
+        return TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Shape"), panel);
     }
 
     private void checkImagePane() {

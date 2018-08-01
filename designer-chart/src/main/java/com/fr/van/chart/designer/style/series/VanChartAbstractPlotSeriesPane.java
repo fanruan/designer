@@ -164,7 +164,7 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
     //半径界面
     protected JPanel createRadiusPane() {
         radiusPane = initRadiusPane();
-        radiusPaneWithTitle = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Radius_Set"), radiusPane);
+        radiusPaneWithTitle = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Radius_Set"), radiusPane);
         return ((VanChartPlot)plot).isInCustom() ? null : radiusPaneWithTitle;
     }
 
@@ -235,7 +235,7 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
     }
 
     protected UIButtonGroup<DataProcessor> createLargeDataModelGroup() {
-        String[] strings = new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Open"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Close")};
+        String[] strings = new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Open"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Close")};
         DataProcessor[] values = new DataProcessor[]{new LargeDataModel(), new NormalDataModel()};
         return new UIButtonGroup<DataProcessor>(strings, values);
     }

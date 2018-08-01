@@ -31,7 +31,7 @@ public class VanChartLineTypePane extends BasicPane {
 
         createLineStyle();
 
-        nullValueBreak = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Open"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Close")});
+        nullValueBreak = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Open"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Close")});
 
         this.setLayout(new BorderLayout());
         double p = TableLayout.PREFERRED;
@@ -40,8 +40,8 @@ public class VanChartLineTypePane extends BasicPane {
     }
 
     protected void createLineStyle() {
-        String[] textArray = new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NormalLine"),
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_StepLine"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_CurveLine")};
+        String[] textArray = new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_NormalLine"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_StepLine"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_CurveLine")};
         lineStyle = new UIButtonGroup<LineStyle>(textArray, LineStyle.values());
     }
 
@@ -54,7 +54,7 @@ public class VanChartLineTypePane extends BasicPane {
                 new Component[]{null,null},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_LineStyle")),lineWidth},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Style_Present")),lineStyle},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Null_Value_Break")),nullValueBreak},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Null_Value_Break")),nullValueBreak},
         };
 
         return TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
