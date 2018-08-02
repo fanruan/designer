@@ -44,7 +44,7 @@ public class VanChartEffectConditionPane extends AbstractNormalMultiLineConditio
 
     @Override
     public String nameForPopupMenuItem() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Flash_Animation");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Flash_Animation");
     }
 
     @Override

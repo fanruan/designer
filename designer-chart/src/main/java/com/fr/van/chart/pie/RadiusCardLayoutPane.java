@@ -40,7 +40,7 @@ public class RadiusCardLayoutPane extends BasicBeanPane<Plot> {
 
         Map<String, Component> paneList = new HashMap<String, Component>();
 
-        radiusType = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Auto"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Fixed")});
+        radiusType = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Auto"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Fixed")});
         radius = new UISpinner(MIN_RADIUS, MAX_RADIUS, 1, 100);
 
         radiusContent = new JPanel(new BorderLayout());

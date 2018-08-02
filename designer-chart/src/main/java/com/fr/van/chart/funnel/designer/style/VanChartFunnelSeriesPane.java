@@ -50,7 +50,7 @@ public class VanChartFunnelSeriesPane extends VanChartAbstractPlotSeriesPane {
     }
 
     private JPanel createFunnelStylePane() {
-        useSameSlantAngle = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_UseSameSlantAngle"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_UseDiffSlantAngle")});
+        useSameSlantAngle = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Same_Slant_Angle"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Diff_Slant_Angle")});
         sort = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AutoSort"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Origin")});
 
         double p = TableLayout.PREFERRED;
@@ -60,7 +60,7 @@ public class VanChartFunnelSeriesPane extends VanChartAbstractPlotSeriesPane {
         double[] rowSize = {p,p,p};
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Continuity")), useSameSlantAngle},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Continuity")), useSameSlantAngle},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sort")), sort},
         };
 

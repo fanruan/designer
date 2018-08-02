@@ -57,7 +57,7 @@ public class GanttTimeAxisPane extends AbstractVanChartScrollPane<VanChart> {
     private Component createDownHeadPane() {
         downHeadPane = new GanttAxisStylePane();
 
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Down_Head_Table"),downHeadPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Down_Head_Table"),downHeadPane);
     }
 
     private Component createUpHeadPane() {
@@ -67,9 +67,9 @@ public class GanttTimeAxisPane extends AbstractVanChartScrollPane<VanChart> {
     }
 
     private Component createConditionConfigPane() {
-        timeZoom = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Open"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Close")});
+        timeZoom = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Open"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Close")});
         initialLevel = new UIComboBox(ZOOM_LEVELS);
-        weekendTooltip = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Open"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Close")});
+        weekendTooltip = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Open"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Close")});
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
@@ -80,13 +80,13 @@ public class GanttTimeAxisPane extends AbstractVanChartScrollPane<VanChart> {
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Time_Zoom")), timeZoom},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Initial_Level")), initialLevel},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Initial_Level")), initialLevel},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Weekend_Tooltip")), weekendTooltip}
         };
 
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
 
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Condition_Config"),panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Condition_Config"),panel);
     }
 
     @Override

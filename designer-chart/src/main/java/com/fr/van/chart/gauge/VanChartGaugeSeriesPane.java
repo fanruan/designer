@@ -149,12 +149,12 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
 
     private Component[] getHingeColor() {
         hingeColor = new ColorSelectBox(120);
-        return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Hinge")),hingeColor};
+        return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Hinge")),hingeColor};
     }
 
     private Component[] getHingeBackgroundColor() {
         hingeBackgroundColor = new ColorSelectBox(120);
-        return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_HingeBackground")),hingeBackgroundColor};
+        return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Hinge_Background")),hingeBackgroundColor};
     }
 
     private Component[] getNeedleColor() {
@@ -164,21 +164,21 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
 
     private Component[] getPaneBackgroundColor() {
         paneBackgroundColor = new ColorSelectBox(120);
-        return  new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_PaneBackground")),paneBackgroundColor};
+        return  new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Pane_Background")),paneBackgroundColor};
     }
 
     private Component[] getSlotBackgroundColor() {
         slotBackgroundColor = new ColorSelectBox(120);
-        return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_SlotBackground")),slotBackgroundColor};
+        return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Slot_Background")),slotBackgroundColor};
     }
 
     private void initRotate() {
-        rotate = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AntiClockWise"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_ClockWise")});
+        rotate = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AntiClockWise"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_ClockWise")});
     }
 
     private Component[] getInnerPaneBackgroundColor() {
         innerPaneBackgroundColor = new ColorSelectBox(120);
-        return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_InnerPaneBackground")),innerPaneBackgroundColor};
+        return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Inner_Pane_Background")),innerPaneBackgroundColor};
     }
 
     private JPanel createGaugeBandsPane() {

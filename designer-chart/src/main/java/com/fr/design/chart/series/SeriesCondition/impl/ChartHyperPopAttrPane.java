@@ -147,7 +147,7 @@ public class ChartHyperPopAttrPane extends AbstractChartAttrPane {
      * @return 标题
      */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Hyperlink");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Hyperlink");
 	}
 
 }

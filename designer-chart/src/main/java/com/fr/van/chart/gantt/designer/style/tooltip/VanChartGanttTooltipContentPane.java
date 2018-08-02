@@ -146,7 +146,7 @@ public class VanChartGanttTooltipContentPane extends VanChartTooltipContentPane 
 
         private VanChartFormatComBoxWithCheckBox() {
             this.setLayout(new BorderLayout());
-            isSelectedBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Duration_Time"));
+            isSelectedBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Duration_Time"));
             formatComBox = new UIComboBox(IntervalTimeFormat.getFormats());
             isSelectedBox.addMouseListener(new MouseListener() {
                 @Override

@@ -32,7 +32,7 @@ public class VanChartMarkerPane extends BasicPane {
     public VanChartMarkerPane() {
         this.setLayout(new BorderLayout(0, 4));
 
-        String[] array = new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Rule"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Custom")};
+        String[] array = new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Rule"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom")};
         commonORCustom = new UIButtonGroup<String>(array, array);
 
         commonORCustom.addChangeListener(new ChangeListener() {
@@ -58,7 +58,7 @@ public class VanChartMarkerPane extends BasicPane {
             }
         };
         centerPane.add(commonMarkerPane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Rule"));
-        centerPane.add(imageMarkerPane, com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Custom"));
+        centerPane.add(imageMarkerPane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom"));
 
         layoutComponents();
     }
@@ -99,7 +99,7 @@ public class VanChartMarkerPane extends BasicPane {
     }
 
     protected String title4PopupWindow(){
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Marker");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Marker");
     }
 
     public void populate(VanChartAttrMarker marker) {

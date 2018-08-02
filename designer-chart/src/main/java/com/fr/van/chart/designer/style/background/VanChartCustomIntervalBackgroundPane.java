@@ -42,7 +42,7 @@ public class VanChartCustomIntervalBackgroundPane extends BasicBeanPane<VanChart
         JPanel top = FRGUIPaneFactory.createBorderLayout_L_Pane();
         this.removeAll();
         this.add(top);
-        top.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_CustomIntervalBackground") + ":", null));
+        top.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom_Interval_Background") + ":", null));
         top.add(createContentPane());
     }
 
@@ -87,7 +87,7 @@ public class VanChartCustomIntervalBackgroundPane extends BasicBeanPane<VanChart
     }
 
     protected String title4PopupWindow(){
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_CustomIntervalBackground");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom_Interval_Background");
     }
 
     public void populateBean(VanChartCustomIntervalBackground customIntervalBackground){

@@ -131,7 +131,7 @@ public class VanChartCommonMarkerPane extends BasicBeanPane<VanChartAttrMarker> 
     protected Component[][] getUseComponent() {
         return  new Component[][]{
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_type")), markerPane},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_FillColor")), markerFillColor},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Fill_Color")), markerFillColor},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Radius")), radius},
         };
     }

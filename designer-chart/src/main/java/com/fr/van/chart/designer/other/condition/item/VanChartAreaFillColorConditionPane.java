@@ -20,7 +20,7 @@ public class VanChartAreaFillColorConditionPane  extends AbstractNormalMultiLine
 
     @Override
     protected String getItemLabelString() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_FillColor");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Fill_Color");
     }
 
     @Override
@@ -43,7 +43,7 @@ public class VanChartAreaFillColorConditionPane  extends AbstractNormalMultiLine
      * @return item的名称
      */
     public String nameForPopupMenuItem() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_FillColor");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Fill_Color");
     }
 
     @Override

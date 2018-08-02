@@ -107,7 +107,7 @@ public class VanChartPlotTooltipPane extends BasicPane {
     }
 
     protected JPanel createLabelStylePane() {
-        style = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Automatic"),com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Custom")});
+        style = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Automatic"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom")});
         textFontPane = new ChartTextAttrPane() {
             protected Component[][] getComponents(JPanel buttonPane) {
                 return new Component[][]{
@@ -140,8 +140,8 @@ public class VanChartPlotTooltipPane extends BasicPane {
 
     protected JPanel createDisplayStrategy(Plot plot) {
         showAllSeries = new UICheckBox(getShowAllSeriesLabelText());
-        followMouse = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_FollowMouse"),
-                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_NotFollowMouse")});
+        followMouse = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Follow_Mouse"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Not_Follow_Mouse")});
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
@@ -155,11 +155,11 @@ public class VanChartPlotTooltipPane extends BasicPane {
             components[2] = new Component[]{showAllSeries,null};
         }
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components,rowSize,columnSize);
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_DisplayStrategy"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Display_Strategy"), panel);
     }
 
     protected String getShowAllSeriesLabelText() {
-        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_ShowAllSeries");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Show_All_Series");
     };
 
     protected boolean hasTooltipSeriesType() {

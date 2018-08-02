@@ -25,7 +25,7 @@ public class VanChartSeriesColorConditionPane extends ConditionAttrSingleConditi
 
     public VanChartSeriesColorConditionPane(ConditionAttributesPane conditionAttributesPane, boolean isRemove) {
         super(conditionAttributesPane, isRemove);
-        nameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("plugin-ChartF_MatchColor"));
+        nameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Match_Color"));
         colorSelectionPane = new ColorSelectBox(80);
 
         if (isRemove) {
@@ -40,7 +40,7 @@ public class VanChartSeriesColorConditionPane extends ConditionAttrSingleConditi
      * @return item的名称
      */
     public String nameForPopupMenuItem() {
-        return com.fr.design.i18n.Toolkit.i18nText("plugin-ChartF_MatchColor");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Match_Color");
     }
 
     @Override

@@ -13,11 +13,11 @@ public class VanChartBubbleMarkerConditionPane extends VanChartBubbleSetConditio
     }
 
     protected String getItemLabelString() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Marker");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Marker");
     }
 
     public String nameForPopupMenuItem() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Marker");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Marker");
     }
 
 

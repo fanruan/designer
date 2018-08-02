@@ -50,7 +50,7 @@ public class VanChartCustomStackAndAxisConditionPane extends BasicBeanPane<Condi
         JPanel deployPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
         this.add(deployPane);
 
-        deployPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Deploy") + ":", null));
+        deployPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Deploy") + ":", null));
         deployPane.add(createDeployPane());
 
         //条件界面
@@ -77,7 +77,7 @@ public class VanChartCustomStackAndAxisConditionPane extends BasicBeanPane<Condi
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("ChartF-X_Axis")), XAxis},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("ChartF-Y_Axis")), YAxis},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Stacked")), isStacked},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_PercentStacked")), isPercentStacked},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Percent_Stacked")), isPercentStacked},
         };
 
         isStacked.addActionListener(new ActionListener() {

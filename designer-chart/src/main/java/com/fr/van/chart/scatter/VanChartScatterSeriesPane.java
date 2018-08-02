@@ -64,7 +64,7 @@ public class VanChartScatterSeriesPane extends VanChartAbstractPlotSeriesPane{
 
             @Override
             public String getPaneTitle(){
-                return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Custom_Axis");
+                return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom_Axis");
             }
         };
         stackAndAxisEditExpandablePane =  TableLayout4VanChartHelper.createExpandablePaneWithTitle(stackAndAxisEditPane.getPaneTitle(), stackAndAxisEditPane);
