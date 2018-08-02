@@ -86,4 +86,11 @@ public class RemoteDesignerWorkspaceInfo implements DesignerWorkspaceInfo {
         object.connection = (WorkspaceConnection) StableUtils.cloneObject(this.connection);
         return object;
     }
+
+
+    @Override
+    public boolean checkValid(){
+
+        return true;
+    }
 }
