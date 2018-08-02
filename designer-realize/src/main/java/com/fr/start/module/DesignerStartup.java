@@ -35,6 +35,7 @@ public class DesignerStartup extends Activator {
         final Designer designer = new Designer(args);
 
         startSub(DesignerWorkspaceProvider.class);
+        registerEnvListener();
         //启动env
         startSub(EnvBasedModule.class);
 
@@ -48,7 +49,6 @@ public class DesignerStartup extends Activator {
             }
         }
         ExecutorService service = Executors.newSingleThreadExecutor();
-        registerEnvListener();
         service.submit(new Runnable() {
             @Override
             public void run() {
