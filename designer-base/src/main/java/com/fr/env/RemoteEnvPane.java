@@ -395,8 +395,20 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
      * 设置 app 和 servlet 默认值
      */
     private void setDefaultAppAndServlet() {
-        webAppNameInput.setText(FRContext.getCommonOperator().getAppName());
-        servletNameInput.setText(ServerConfig.getInstance().getServletName());
+        String appName;
+        String servletName;
+        try {
+            appName = FRContext.getCommonOperator().getAppName();
+        } catch (Exception ignored) {
+            appName = RemoteWorkspaceURL.DEFAULT_WEB_APP_NAME;
+        }
+        try {
+            servletName = ServerConfig.getInstance().getServletName();
+        } catch (Exception ignored) {
+            servletName = RemoteWorkspaceURL.DEFAULT_SERVLET_NAME;
+        }
+        webAppNameInput.setText(appName);
+        servletNameInput.setText(servletName);
     }
 
 
