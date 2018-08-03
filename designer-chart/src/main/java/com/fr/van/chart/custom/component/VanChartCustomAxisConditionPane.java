@@ -28,7 +28,7 @@ public class VanChartCustomAxisConditionPane extends VanChartCustomStackAndAxisC
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Custom_Axis");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom_Axis");
     }
 
 

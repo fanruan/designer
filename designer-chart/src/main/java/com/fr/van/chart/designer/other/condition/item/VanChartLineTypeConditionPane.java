@@ -17,7 +17,7 @@ public class VanChartLineTypeConditionPane extends AbstractNormalMultiLineCondit
 
     @Override
     protected String getItemLabelString() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_LineStyle");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Line_Style");
     }
 
     @Override
@@ -39,7 +39,7 @@ public class VanChartLineTypeConditionPane extends AbstractNormalMultiLineCondit
      * @return item的名称
      */
     public String nameForPopupMenuItem() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_LineStyle");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Line_Style");
     }
 
     @Override

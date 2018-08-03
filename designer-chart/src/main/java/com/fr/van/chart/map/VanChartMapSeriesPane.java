@@ -53,7 +53,7 @@ import java.awt.event.ItemListener;
 public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
     private static final String AREA_STRING = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Area");
     private static final String POINT_STRING = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Point");
-    private static final String LINE_STRING = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Flow");
+    private static final String LINE_STRING = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Flow");
 
     private static final String[] MARKER_TYPES = new String[]{MapMarkerType.DEFAULT.toLocalString(),
             MapMarkerType.COMMON.toLocalString(), MapMarkerType.BUBBLE.toLocalString(), MapMarkerType.IMAGE.toLocalString()};
@@ -193,7 +193,7 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
         double[] col = {f};
 
         Component[][] components = new Component[][]{
-                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle((com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Color")), createPointAlphaPane())},
+                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle((com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Color")), createPointAlphaPane())},
                 new Component[]{createMarkerComPane()},
                 new Component[]{createLargeDataModelPane()},
                 new Component[]{createPointEffectPane()},
@@ -227,13 +227,13 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
                 checkLineMapLarge();
             }
         });
-        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Large_Model"), lineMapLargeDataModelGroup);
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Large_Model"), lineMapLargeDataModelGroup);
         return createLargeDataModelPane(panel);
     }
 
     private Component createCurvePane() {
         curvePane = new VanChartCurvePane();
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Curve"), curvePane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Curve"), curvePane);
     }
 
     private Component createAnimationPane() {
@@ -296,7 +296,7 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
         JPanel markerPane = new JPanel(new BorderLayout(0, 6));
         markerPane.add(northPane, BorderLayout.NORTH);
         markerPane.add(cardPane, BorderLayout.CENTER);
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Marker"), markerPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Marker"), markerPane);
     }
 
     private JPanel createCustomPane(Plot plot) {

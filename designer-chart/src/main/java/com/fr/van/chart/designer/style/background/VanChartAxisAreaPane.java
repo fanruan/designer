@@ -89,7 +89,7 @@ public class VanChartAxisAreaPane extends BasicBeanPane<Plot> {
     }
 
     protected JPanel createIntervalPane(double[] row, double[] col) {
-        isDefaultIntervalBackground = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Default_Interval"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_CustomIntervalBackground")});
+        isDefaultIntervalBackground = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Default_Interval"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom_Interval_Background")});
         horizontalColorBackground = new ColorSelectBox(100);
         verticalColorBackground = new ColorSelectBox(100);
         Component[][] components = getIntervalPaneComponents();
@@ -99,8 +99,8 @@ public class VanChartAxisAreaPane extends BasicBeanPane<Plot> {
 
         cardLayout = new CardLayout();
         centerPane = new JPanel(cardLayout);
-        centerPane.add(defaultPane, com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Default_Interval"));
-        centerPane.add(customIntervalBackground, com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_CustomIntervalBackground"));
+        centerPane.add(defaultPane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Default_Interval"));
+        centerPane.add(customIntervalBackground, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom_Interval_Background"));
         isDefaultIntervalBackground.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -111,7 +111,7 @@ public class VanChartAxisAreaPane extends BasicBeanPane<Plot> {
         JPanel panel1 = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Chart_Interval_Back"), isDefaultIntervalBackground);
         intervalPane.add(panel1, BorderLayout.NORTH);
         intervalPane.add(centerPane, BorderLayout.CENTER);
-        JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_IntervalBackground"), intervalPane);
+        JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Interval_Background"), intervalPane);
         intervalPane.setBorder(BorderFactory.createEmptyBorder(10, 5, 0, 0));
         return panel;
     }
@@ -130,9 +130,9 @@ public class VanChartAxisAreaPane extends BasicBeanPane<Plot> {
 
     private void checkCardPane() {
         if (isDefaultIntervalBackground.getSelectedIndex() == 0) {
-            cardLayout.show(centerPane, com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Default_Interval"));
+            cardLayout.show(centerPane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Default_Interval"));
         } else {
-            cardLayout.show(centerPane, com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_CustomIntervalBackground"));
+            cardLayout.show(centerPane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom_Interval_Background"));
         }
     }
 

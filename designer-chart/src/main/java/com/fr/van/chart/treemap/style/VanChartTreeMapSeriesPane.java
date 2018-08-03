@@ -21,8 +21,8 @@ public class VanChartTreeMapSeriesPane extends VanChartMultiPieSeriesPane {
 
     protected JPanel createSeriesStylePane(double[] row, double[] col) {
         supportDrill = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Open"),
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Close")});
-        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Drill"), supportDrill);
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Close")});
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Drill"), supportDrill);
         return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget_Style"), panel);
     }
 

@@ -49,7 +49,7 @@ public class VanChartCurveConditionPane extends AbstractNormalMultiLineCondition
     }
     @Override
     public String nameForPopupMenuItem() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Curve");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Curve");
     }
 
 }

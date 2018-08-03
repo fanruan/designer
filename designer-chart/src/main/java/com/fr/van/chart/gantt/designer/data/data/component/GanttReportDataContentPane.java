@@ -46,7 +46,7 @@ public class GanttReportDataContentPane extends AbstractReportDataContentPane{
 
         endTime = createTinyFormulaPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_End_Time"));
 
-        markerTime = createTinyFormulaPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Marker_Time"));
+        markerTime = createTinyFormulaPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Marker_Time"));
 
         progress = createTinyFormulaPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Process"));
 

@@ -72,7 +72,7 @@ public class ChartEmptyDataStylePane extends AbstractAttrNoScrollPane {
     }
 
     private JPanel creatNorthPane() {
-        emptyData = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Open"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Close")});
+        emptyData = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Open"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Close")});
         emptyData.setSelectedIndex(0);
         emptyData.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         emptyData.addActionListener(new ActionListener() {

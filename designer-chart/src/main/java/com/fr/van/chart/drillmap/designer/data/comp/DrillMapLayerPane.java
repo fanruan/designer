@@ -71,8 +71,8 @@ public class DrillMapLayerPane extends BasicScrollPane<ChartCollection> {
         double[] columnSize = {f};
         double[] rowSize = {p, p};
         Component[][] components = new Component[][]{
-                new Component[]{createTitlePane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Layer_Tree"), mapDataTreePanel)},
-                new Component[]{createTitlePane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Layer_Detail"), createLayerDetailPane())}
+                new Component[]{createTitlePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Layer_Tree"), mapDataTreePanel)},
+                new Component[]{createTitlePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Layer_Detail"), createLayerDetailPane())}
         };
 
         JPanel contentPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
@@ -98,12 +98,12 @@ public class DrillMapLayerPane extends BasicScrollPane<ChartCollection> {
         detailComps[0] = new Component[]{
                 new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-Chart_Descriptor")),
                 new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Zoom_Layer")),
-                new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Layer_Map_Type"))
+                new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Layer_Map_Type"))
         };
         for (int i = 0; i < depth; i++) {
             rowSize[i + 1] = p;
             int d = i + 1;
-            UILabel label = new UILabel(String.format("%s%d%s", com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Index1"), d, com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Index3")));
+            UILabel label = new UILabel(String.format("%s%d%s", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Index_Article"), d, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Index_Layer")));
             UIComboBox level = new UIComboBox(VanChartMapSourceChoosePane.ZOOM_LEVELS);
             level.setEnabled(i != 0);
             UIComboBox type = new UIComboBox(TEMP.get(oldMapType));

@@ -131,7 +131,7 @@ public class MultiPiePlotReportDataContentPane extends AbstractReportDataContent
         Component[][] components_center = new Component[levelNum + 2][];
 
         for (int i = 0; i < levelNum; i++){
-            components_center[i] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Level") + String.valueOf(i+1)), levelNameList.get(i)};
+            components_center[i] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Level") + String.valueOf(i+1)), levelNameList.get(i)};
         }
 
         value = new TinyFormulaPane();

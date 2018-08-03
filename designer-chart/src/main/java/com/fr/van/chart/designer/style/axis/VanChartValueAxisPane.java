@@ -68,7 +68,7 @@ public class VanChartValueAxisPane extends VanChartBaseAxisPane {
     protected JPanel createCommenValuePane(double[] row, double[] col){
         initMinMaxValuePane();
 
-        logBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Custom", "Plugin-ChartF_LogBaseValue"}));
+        logBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom_LogBase_Value"));
         logBaseField = new UITextField();
         logBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -82,7 +82,7 @@ public class VanChartValueAxisPane extends VanChartBaseAxisPane {
 //        logPane.add(logBaseField);
 
 
-        logPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_LogBaseValue"), logBaseField, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
+        logPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Log_Base_Value"), logBaseField, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
 
         logPane.setBorder(BorderFactory.createEmptyBorder(0, TableLayout4VanChartHelper.COMPONENT_INTERVAL, 0, 0));
 

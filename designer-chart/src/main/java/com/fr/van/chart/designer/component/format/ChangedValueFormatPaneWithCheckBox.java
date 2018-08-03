@@ -16,6 +16,6 @@ public class ChangedValueFormatPaneWithCheckBox extends VanChartFormatPaneWithCh
 
     @Override
     protected String getCheckBoxText() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Change_Value");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Change_Value");
     }
 }

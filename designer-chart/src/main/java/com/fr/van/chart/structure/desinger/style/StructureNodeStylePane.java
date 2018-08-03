@@ -43,7 +43,7 @@ public class StructureNodeStylePane extends BasicBeanPane<AttrNode> {
         double[] rowSize = {p, p, p, p, p};
 
         nodeRadiusType = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Automatic"),
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Custom")});
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom")});
         nodeRadius = new UISpinner(0,Double.MAX_VALUE,0.5,0);
         nodeBorderWidth = new UISpinner(0,Double.MAX_VALUE,0.5,0);
         nodeBorderColor = new VanChartMarkerBackgroundPane();
@@ -69,7 +69,7 @@ public class StructureNodeStylePane extends BasicBeanPane<AttrNode> {
         imagePane = new ImageBackgroundQuickPane(false);
         imagePane.setBorder(BorderFactory.createEmptyBorder(0,(int)TableLayout4VanChartHelper.DESCRIPTION_AREA_WIDTH + TableLayout4VanChartHelper.COMPONENT_INTERVAL,0,0));
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Filled_With_Image")),useImage},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Filled_With_Image")),useImage},
         };
         JPanel useImagePane = TableLayoutHelper.createTableLayoutPane(components, new double[]{p}, columnSize);
 

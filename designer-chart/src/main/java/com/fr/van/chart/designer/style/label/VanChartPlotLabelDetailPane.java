@@ -158,7 +158,7 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
 
     protected JPanel createLabelStylePane(double[] row, double[] col, Plot plot) {
         style = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Automatic"),
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Custom")});
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom")});
         textFontPane =initTextFontPane();
 
         initStyleListener();

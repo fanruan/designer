@@ -32,7 +32,7 @@ public class VanChartLineMapEffectPane extends VanChartEffectPane {
 
     public VanChartLineMapEffectPane() {
         super(true);
-        this.add(TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Line_Map_Animation"), enabledButton), BorderLayout.NORTH);
+        this.add(TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Line_Map_Animation"), enabledButton), BorderLayout.NORTH);
     }
 
     protected JPanel createContentPane() {
@@ -125,6 +125,6 @@ public class VanChartLineMapEffectPane extends VanChartEffectPane {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Line_Map_Animation");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Line_Map_Animation");
     }
 }

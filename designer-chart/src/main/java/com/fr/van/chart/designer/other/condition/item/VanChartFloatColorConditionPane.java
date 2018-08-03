@@ -23,7 +23,7 @@ public class VanChartFloatColorConditionPane extends ConditionAttrSingleConditio
 
     public VanChartFloatColorConditionPane(ConditionAttributesPane conditionAttributesPane, boolean isRemove) {
         super(conditionAttributesPane, isRemove);
-        UILabel nameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("plugin-ChartF_FloatColor"));
+        UILabel nameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Float_Color"));
         colorSelectionPane = new ColorSelectBox(80);
 
         if (isRemove) {
@@ -38,7 +38,7 @@ public class VanChartFloatColorConditionPane extends ConditionAttrSingleConditio
      */
     @Override
     public String nameForPopupMenuItem() {
-        return com.fr.design.i18n.Toolkit.i18nText("plugin-ChartF_FloatColor");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Float_Color");
     }
 
     @Override

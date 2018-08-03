@@ -36,7 +36,7 @@ import java.awt.event.ItemListener;
  */
 public class VanChartWordCloudSeriesPane extends VanChartAbstractPlotSeriesPane {
     private static final String AUTO_FONT_SIZE = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Auto");
-    private static final String CUSTOM_FONT_SIZE = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Define_Size");
+    private static final String CUSTOM_FONT_SIZE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Define_Size");
     private static final double MAX_ROTATION = 90;
     private static final double LABEL_SIZE = 65;
     private UIComboBox fontNameComboBox;
@@ -97,7 +97,7 @@ public class VanChartWordCloudSeriesPane extends VanChartAbstractPlotSeriesPane 
         defineFontSize = new UIButtonGroup(new String[]{AUTO_FONT_SIZE, CUSTOM_FONT_SIZE});
         Component[][] northComps = new Component[][]{
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Font")), fontNameComboBox},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Custom")), defineFontSize }
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom")), defineFontSize }
         };
         JPanel northPanel = TableLayout4VanChartHelper.createGapTableLayoutPane(northComps,northR,northC);
 

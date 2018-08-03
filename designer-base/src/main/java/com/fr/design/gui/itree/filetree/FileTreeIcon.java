@@ -37,6 +37,13 @@ public class FileTreeIcon {
     public static final Icon FRM_FILE_IMAGE_ICON = BaseUtils.readIcon("/com/fr/design/images/gui/frm.png");
     public static final Icon CHT_FILE_IMAGE_ICON = BaseUtils.readIcon("/com/fr/design/images/gui/cht.png");
 
+    public static final Icon MODERN_CPT_FILE_IMAGE_ICON =
+            BaseUtils.readIcon("/com/fr/design/images/gui/modern_style_cpt_file_icon_16x16.png");
+    public static final Icon MODERN_FRM_FILE_IMAGE_ICON =
+            BaseUtils.readIcon("/com/fr/design/images/gui/modern_style_frm_file_icon_16x16.png");
+    public static final Icon MODERN_CHT_FILE_IMAGE_ICON =
+            BaseUtils.readIcon("/com/fr/design/images/gui/modern_style_cht_file_icon_16x16.png");
+
     public static final LockIcon FOLDER_LOCK_ICON =
             new LockIcon(BaseUtils.readImage("/com/fr/design/images/gui/fold.png"));
     public static final LockIcon FILE_LOCK_ICON =
@@ -205,19 +212,19 @@ public class FileTreeIcon {
             if (isLocked) {
                 return FileTreeIcon.CPT_FILE_LOCK_ICON;
             } else {
-                return FileTreeIcon.CPT_FILE_IMAGE_ICON;
+                return FileTreeIcon.MODERN_CPT_FILE_IMAGE_ICON;
             }
         } else if (fileType == FRM_FILE) { //form frm
             if (isLocked) {
                 return FileTreeIcon.FRM_FILE_LOCK_ICON;
             } else {
-                return FileTreeIcon.FRM_FILE_IMAGE_ICON;
+                return FileTreeIcon.MODERN_FRM_FILE_IMAGE_ICON;
             }
         } else if (fileType == CHT_FILE) { //chart cht
             if (isLocked) {
                 return FileTreeIcon.CHT_FILE_LOCK_ICON;
             } else {
-                return FileTreeIcon.CHT_FILE_IMAGE_ICON;
+                return FileTreeIcon.MODERN_CHT_FILE_IMAGE_ICON;
             }
         } else {
             if (isLocked) {

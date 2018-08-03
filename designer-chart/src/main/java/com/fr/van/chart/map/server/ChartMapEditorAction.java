@@ -18,7 +18,7 @@ public class ChartMapEditorAction extends UpdateAction {
 
     public ChartMapEditorAction(){
         this.setSmallIcon(IOUtils.readIcon("/com/fr/van/chart/map/images/mapData.png"));
-        this.setName(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Map_Data"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Map_Data"));
     }
 
     public void actionPerformed(ActionEvent evt) {

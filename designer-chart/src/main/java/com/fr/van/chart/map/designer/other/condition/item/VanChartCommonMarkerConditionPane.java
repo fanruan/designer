@@ -21,7 +21,7 @@ public class VanChartCommonMarkerConditionPane extends AbstractNormalMultiLineCo
 
     @Override
     protected String getItemLabelString() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Marker");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Marker");
     }
 
     @Override
@@ -37,7 +37,7 @@ public class VanChartCommonMarkerConditionPane extends AbstractNormalMultiLineCo
      */
     @Override
     public String nameForPopupMenuItem() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Marker");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Marker");
     }
 
     @Override

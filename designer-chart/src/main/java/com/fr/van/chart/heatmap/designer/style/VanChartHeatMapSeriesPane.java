@@ -56,7 +56,7 @@ public class VanChartHeatMapSeriesPane extends VanChartMapSeriesPane {
      */
     @Override
     protected JPanel getContentInPlotType() {
-        final UIButtonGroup group = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_HeatPoint"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Background_Area")});
+        final UIButtonGroup group = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Heat_Point"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Background_Area")});
         group.setSelectedIndex(0);
 
         JPanel backgroundAreaPane = createAreaPane();
@@ -111,8 +111,8 @@ public class VanChartHeatMapSeriesPane extends VanChartMapSeriesPane {
 
         Component[][] components = new Component[][]{
                 new Component[]{null, null, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Heat_Map_Radius")), radius, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Heat_Map_Blur")), blur, new UILabel("%")}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Heat_Map_Radius")), radius, null},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Heat_Map_Blur")), blur, new UILabel("%")}
         };
 
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
@@ -134,8 +134,8 @@ public class VanChartHeatMapSeriesPane extends VanChartMapSeriesPane {
 
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Min")), minOpacity},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Max")), maxOpacity}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Min")), minOpacity},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Max")), maxOpacity}
         };
 
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);

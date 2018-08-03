@@ -91,7 +91,7 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
     private static final ZoomLevel[] BLUE_ZOOM_LEVELS =(ZoomLevel[]) ArrayUtils.subarray(ZOOM_LEVELS, 0, 34);
     private static final ZoomLevel[] GAODE_ZOOM_LEVELS =ArrayUtils.addAll(new ZoomLevel[]{ZoomLevel.AUTO}, (ZoomLevel[])ArrayUtils.subarray(ZOOM_LEVELS, 7, 38));
     private static final String AUTO_CENTER_STRING = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Automatic");
-    private static final String CUSTOM_CENTER_STRING = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Custom");
+    private static final String CUSTOM_CENTER_STRING = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom");
 
     private UILabel sourceTitleLabel;
     private FRTreeComboBox sourceComboBox;
@@ -172,7 +172,7 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
     }
 
     protected UILabel createSourceTitleLabel() {
-        return new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Map_Area"));
+        return new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Map_Area"));
     }
 
     private JPanel createMapSourcesPane() {
@@ -306,7 +306,7 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
             layerCardPane.add(pane, itemName);
         }
 
-        JPanel panel1 = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Gis_Layer"), gisLayer);
+        JPanel panel1 = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Gis_Layer"), gisLayer);
 
         panel.add(panel1, BorderLayout.CENTER);
         panel.add(layerCardPane, BorderLayout.SOUTH);
@@ -355,7 +355,7 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
 
 
         wmsUrl = new UITextArea();
-        connectButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Connect_WMP"));
+        connectButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Connect_WMP"));
 
         Component[][] comps = new Component[][]{
                 new Component[]{new UILabel("url"), wmsUrl, connectButton}
@@ -398,7 +398,7 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
 
                 @Override
                 protected void done() {
-                    connectButton.setText(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Connect_WMP"));
+                    connectButton.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Connect_WMP"));
                     if(list != null && list.size() > 0) {
                         resetWMSLayerPane(list);
                     } else {
@@ -418,7 +418,7 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                connectButton.setText(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Connecting_WMP"));
+                connectButton.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Connecting_WMP"));
             }
 
             @Override
@@ -512,7 +512,7 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
                 longAndLatPane.setVisible(!isAutoViewCenter());
             }
         });
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Map_Init_Status"), contentPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Map_Init_Status"), contentPane);
     }
 
     private boolean isAutoViewCenter() {
@@ -579,16 +579,16 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
         }
         switch (mapType){
             case CUSTOM:
-                sourceTitleLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Map_Area_And_Point"));
+                sourceTitleLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Map_Area_And_Point"));
                 break;
             case POINT:
-                sourceTitleLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Map_Point"));
+                sourceTitleLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Map_Point"));
                 break;
             case LINE:
-                sourceTitleLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Map_Point"));
+                sourceTitleLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Map_Point"));
                 break;
             default:
-                sourceTitleLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Map_Area"));
+                sourceTitleLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Map_Area"));
         }
 
     }

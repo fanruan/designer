@@ -9,6 +9,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
+import javax.swing.SwingConstants;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -43,15 +44,27 @@ public class AddingMemberListCellRender extends JPanel implements ListCellRender
         if (member.equals(RemoteDesignMember.DEFAULT_MEMBER)) {
             this.setLabelText(member.getUsername());
             check.setVisible(false);
+            fixLoadingDisplay();
         } else {
             this.setLabelText(member.getRealName() + "(" + member.getUsername() + ")");
             check.setVisible(true);
             check.setSelected(member.isSelected());
+            recoveryCommonDisplay();
         }
         return this;
     }
 
     private void setLabelText(String name) {
         label.setText(name);
+    }
+
+    private void fixLoadingDisplay() {
+        label.setIcon(null);
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+    }
+
+    private void recoveryCommonDisplay() {
+        label.setIcon(BaseUtils.readIcon("com/fr/design/remote/images/icon_Member_normal@1x.png"));
+        label.setHorizontalAlignment(SwingConstants.LEFT);
     }
 }
