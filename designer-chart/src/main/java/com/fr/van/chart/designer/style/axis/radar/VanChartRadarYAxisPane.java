@@ -60,15 +60,15 @@ public class VanChartRadarYAxisPane extends VanChartValueAxisPane {
         double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
         double[] columnSize = {f, e};
 
-        valueStyle = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_UnifiedComputing"),
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_RespectivelySpecified")});
+        valueStyle = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Unified_Computing"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Respectively_Specified")});
 
         JPanel commenPane = createCommenValuePane(new double[]{p, p, p}, columnSize);
         tableDataPane = new RadarTableDataPane();
 
         centerPane = new JPanel(new CardLayout());
-        centerPane.add(commenPane, com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_UnifiedComputing"));
-        centerPane.add(tableDataPane, com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_RespectivelySpecified"));
+        centerPane.add(commenPane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Unified_Computing"));
+        centerPane.add(tableDataPane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Respectively_Specified"));
 
         JPanel contentPane = new JPanel(new BorderLayout());
         contentPane.add(valueStyle, BorderLayout.NORTH);
@@ -101,9 +101,9 @@ public class VanChartRadarYAxisPane extends VanChartValueAxisPane {
         if (centerPane != null && valueStyle != null) {
             CardLayout cardLayout = (CardLayout) centerPane.getLayout();
             if (valueStyle.getSelectedIndex() == 0) {
-                cardLayout.show(centerPane, com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_UnifiedComputing"));
+                cardLayout.show(centerPane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Unified_Computing"));
             } else {
-                cardLayout.show(centerPane, com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_RespectivelySpecified"));
+                cardLayout.show(centerPane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Respectively_Specified"));
             }
         }
     }

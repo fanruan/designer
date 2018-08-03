@@ -70,17 +70,17 @@ public class VanChartColumnSeriesPane extends VanChartAbstractPlotSeriesPane {
     }
 
     private JPanel createSeriesStylePane(double[] row, double[] col) {
-        isFixedWidth = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_YES"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NO")});
+        isFixedWidth = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_YES"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_NO")});
         columnWidth = new UISpinner(0,1000,1,0);
         columnWidth.setBorder(BorderFactory.createEmptyBorder(0, (int)TableLayout4VanChartHelper.DESCRIPTION_AREA_WIDTH + TableLayout4VanChartHelper.COMPONENT_INTERVAL,0,0));
         seriesGap = new UINumberDragPane(-100, 100);
         categoryGap = new UINumberDragPane(0, 100);
-        isFillWithImage = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_YES"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NO")});
+        isFillWithImage = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_YES"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_NO")});
         imagePane = new ImageBackgroundQuickPane(false);
         imagePane.setBorder(BorderFactory.createEmptyBorder(0,(int)TableLayout4VanChartHelper.DESCRIPTION_AREA_WIDTH + TableLayout4VanChartHelper.COMPONENT_INTERVAL,0,0));
 
         JPanel panel1 = new JPanel(new BorderLayout());
-        JPanel isFixedWidthPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Fixed_Column_Width"),isFixedWidth);
+        JPanel isFixedWidthPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Fixed_Column_Width"),isFixedWidth);
         isFixedWidthPane.setBorder(BorderFactory.createEmptyBorder(0,0,6,0));
         panel1.add(isFixedWidthPane, BorderLayout.NORTH);
         panel1.add(columnWidth, BorderLayout.CENTER);
@@ -92,7 +92,7 @@ public class VanChartColumnSeriesPane extends VanChartAbstractPlotSeriesPane {
         JPanel panel2 = TableLayout4VanChartHelper.createGapTableLayoutPane(components2, row, col);
 
         Component[][] components3 = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Filled_With_Image")),isFillWithImage},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Filled_With_Image")),isFillWithImage},
         };
         JPanel panel3 = TableLayout4VanChartHelper.createGapTableLayoutPane(components3, row, col);
 

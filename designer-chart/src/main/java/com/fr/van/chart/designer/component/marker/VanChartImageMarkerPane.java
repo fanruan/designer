@@ -1,6 +1,5 @@
 package com.fr.van.chart.designer.component.marker;
 
-import com.fr.base.background.ImageBackground;
 import com.fr.base.background.ImageFileBackground;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.ilable.UILabel;
@@ -40,8 +39,8 @@ public class VanChartImageMarkerPane extends BasicBeanPane<VanChartAttrMarker> {
         double[] col = {p, f};
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Width")), width},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Height")), height},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Width")), width},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Height")), height},
         };
 
         JPanel sizePanel = TableLayoutHelper.createTableLayoutPane(components, row, col);
@@ -70,7 +69,7 @@ public class VanChartImageMarkerPane extends BasicBeanPane<VanChartAttrMarker> {
      */
     @Override
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Image_Map_Data");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Image_Map_Data");
     }
 
     @Override

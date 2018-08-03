@@ -70,7 +70,7 @@ public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
         double[] columnSize = {p, f};
         double[] rowSize = {p,p};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Change_Style")),configStyleButton},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Change_Style")),configStyleButton},
                 new Component[]{configPane, null},
         };
         return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
@@ -111,7 +111,7 @@ public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
 
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Arrow_Style")), switchStyleGroup, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Time_Interval")), timeInterval, new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Base-Time_Second"))},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Time_Interval")), timeInterval, new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Base-Time_Second"))},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Background")),colorSelectBox4carousel, null}
         };
 

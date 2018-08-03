@@ -26,10 +26,10 @@ public class VanChartBubblePane extends BasicBeanPane<VanChartAttrBubble> {
     public VanChartBubblePane(){
         minDiameter = new UISpinner(0,Double.MAX_VALUE,1,0);
         maxDiameter = new UISpinner(0,Double.MAX_VALUE,1,0);
-        shadow = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Open"),
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Close")});
-        displayNegative = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Open"),
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Close")});
+        shadow = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Open"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Close")});
+        displayNegative = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Open"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Close")});
 
 
 
@@ -49,10 +49,10 @@ public class VanChartBubblePane extends BasicBeanPane<VanChartAttrBubble> {
     protected Component[][] getComponent () {
         return new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_MinDiameter")), minDiameter},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_MaxDiameter")), maxDiameter},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Shadow")), shadow},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_DisplayNegative")), displayNegative},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Min_Diameter")), minDiameter},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Max_Diameter")), maxDiameter},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Shadow")), shadow},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Display_Negative")), displayNegative},
 
         };
     }

@@ -51,9 +51,9 @@ public class VanChartGanttSeriesPane extends VanChartAbstractPlotSeriesPane {
     }
 
     private JPanel createGanntStylePane(){
-        seriesNewLine = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Open"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Close")});
-        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Series_New_Line"),seriesNewLine);
-        JPanel ganntStylePane = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Style"), panel);
+        seriesNewLine = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Open"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Close")});
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_New_Line"),seriesNewLine);
+        JPanel ganntStylePane = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Style"), panel);
         return ganntStylePane;
     }
 
@@ -69,12 +69,12 @@ public class VanChartGanttSeriesPane extends VanChartAbstractPlotSeriesPane {
 
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_LineStyle")), lineWidth},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Line_Style")), lineWidth},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Color_Color")), colorSelect}
         };
 
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
-        JPanel linkLinePane = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Link_Line"), panel);
+        JPanel linkLinePane = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Link_Line"), panel);
         return linkLinePane;
     }
 
@@ -91,7 +91,7 @@ public class VanChartGanttSeriesPane extends VanChartAbstractPlotSeriesPane {
                 return new VanChartImageMarkerWithoutWidthAndHeightPane();
             }
         };
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Gannt_Marker"), markerPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Gannt_Marker"), markerPane);
     }
 
     @Override

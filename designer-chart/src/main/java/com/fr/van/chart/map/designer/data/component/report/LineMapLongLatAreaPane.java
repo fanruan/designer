@@ -15,9 +15,9 @@ public class LineMapLongLatAreaPane extends LineMapAreaPane {
         endAreaPane = new LongLatAreaPane(){
             protected Component[][] getComponent () {
                 return new Component[][]{
-                        new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Plugin-ChartF_End", "Plugin-ChartF_Longitude"})), longitude},
-                        new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Plugin-ChartF_End", "Plugin-ChartF_Latitude"})), latitude},
-                        new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Plugin-ChartF_End", "FR-Chart-Area_Name"})), areaName}
+                        new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_End_Longitude")), longitude},
+                        new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine_Design_Chart_End_Latitude")), latitude},
+                        new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_End_Area_Name")), areaName}
                 };
             }
         };
@@ -27,9 +27,9 @@ public class LineMapLongLatAreaPane extends LineMapAreaPane {
         areaPane = new LongLatAreaPane(){
             protected Component[][] getComponent () {
                 return new Component[][]{
-                        new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Plugin-ChartF_Start", "Plugin-ChartF_Longitude"})), longitude},
-                        new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Plugin-ChartF_Start", "Plugin-ChartF_Latitude"})), latitude},
-                        new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Plugin-ChartF_Start", "FR-Chart-Area_Name"})), areaName}
+                        new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Start_Longitude")), longitude},
+                        new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Start_Latitude")), latitude},
+                        new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Start_Area_Name")), areaName}
                 };
             }
         };

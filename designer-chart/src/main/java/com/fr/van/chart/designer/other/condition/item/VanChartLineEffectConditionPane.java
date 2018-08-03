@@ -24,7 +24,7 @@ public class VanChartLineEffectConditionPane extends VanChartEffectConditionPane
 
     @Override
     public String nameForPopupMenuItem() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Line_Map_Animation");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Line_Map_Animation");
     }
 
     @Override

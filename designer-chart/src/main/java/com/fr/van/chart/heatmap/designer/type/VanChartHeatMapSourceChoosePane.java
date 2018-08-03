@@ -10,6 +10,6 @@ import com.fr.van.chart.map.designer.type.VanChartMapSourceChoosePane;
 public class VanChartHeatMapSourceChoosePane extends VanChartMapSourceChoosePane {
     @Override
     protected UILabel createSourceTitleLabel() {
-        return new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Map_Area_And_Point"));
+        return new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Map_Area_And_Point"));
     }
 }

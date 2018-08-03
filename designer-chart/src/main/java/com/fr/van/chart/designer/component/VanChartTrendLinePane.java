@@ -54,18 +54,18 @@ public class VanChartTrendLinePane extends BasicPane{
         double[] r = {p, p};
         double[] c = {f, p, f, p};
         Component[][] periodComps = new Component[][]{
-                new Component[]{prePeriod, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Cycle")), afterPeriod, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Cycle"))},
+                new Component[]{prePeriod, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Cycle")), afterPeriod, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Cycle"))},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart_TrendLine_Forward")), null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_After_Period")), null},
         };
         JPanel periodPane = TableLayoutHelper.createTableLayoutPane(periodComps, r, c);
 
-        UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Period"));
+        UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Period"));
         label.setVerticalAlignment(SwingConstants.TOP);
 
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Name")), trendLineName},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_LineStyle")), trendLineStyle},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Name")), trendLineName},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Line_Style")), trendLineStyle},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Color_Color")), trendLineColor},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_type")), trendLineType},
                 new Component[]{label, periodPane}

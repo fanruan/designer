@@ -105,7 +105,7 @@ public class VanChartAlertValuePane extends BasicBeanPane<VanChartAlertValue> {
         return new Component[][]{
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Layout_Position")),alertAxis},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Value")),alertValue},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_LineStyle")),alertLineStyle},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Line_Style")),alertLineStyle},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Color_Color")),alertLineColor},
         };
     }
@@ -117,7 +117,7 @@ public class VanChartAlertValuePane extends BasicBeanPane<VanChartAlertValue> {
         double[] rowSize = {p,p,p,p,p};
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Layout_Position")),alertTextPosition},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Content")),alertText},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Content")),alertText},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Font")),fontName},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-FRFont_Size")),fontSize},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Color_Color")),fontColor},

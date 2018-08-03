@@ -42,7 +42,7 @@ public class FormatPaneWithNormalType extends FormatPaneWithOutFont {
     protected Component[][] getTypeComboBoxComponent (UIComboBox typeComboBox) {
         return new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_DataType"), SwingConstants.LEFT), typeComboBox},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_DataType"), SwingConstants.LEFT), typeComboBox},
 
         };
     }

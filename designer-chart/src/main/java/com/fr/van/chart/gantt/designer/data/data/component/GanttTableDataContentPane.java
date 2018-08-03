@@ -58,7 +58,7 @@ public class GanttTableDataContentPane extends AbstractTableDataContentPane{
 
         taskIDComboBox = new UIComboBox();
         taskIDComboBox.addItem(NONE);
-        taskIDComboBox.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Task_ID_Tooltip"));
+        taskIDComboBox.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Task_ID_Tooltip"));
     }
 
     private JPanel getContentPane(){
@@ -71,7 +71,7 @@ public class GanttTableDataContentPane extends AbstractTableDataContentPane{
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Series_Name")), seriesComboBox},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Start_Time")), startTimeComboBox},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_End_Time")), endTimeComboBox},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Marker_Time")), markerTimeComboBox},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Marker_Time")), markerTimeComboBox},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Process")), processComboBox},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Task_ID")), taskIDComboBox}
         };

@@ -114,7 +114,7 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
         JPanel panel = new JPanel(new BorderLayout());
         stylePane = createStylePane();
         setColorPaneContent(panel);
-        JPanel colorPane = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Color"), panel);
+        JPanel colorPane = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Color"), panel);
         panel.setBorder(BorderFactory.createEmptyBorder(10,5,0,0));
         return panel.getComponentCount() == 0 ? null : colorPane;
     }
@@ -135,7 +135,7 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
     //线
     protected JPanel createLineTypePane() {
         lineTypePane = getLineTypePane();
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Line"), lineTypePane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Line"), lineTypePane);
     }
 
     protected VanChartLineTypePane getLineTypePane() {
@@ -145,7 +145,7 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
     //标记点类型
     protected JPanel createMarkerPane() {
         markerPane = new VanChartMarkerPane();
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Marker"), markerPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Marker"), markerPane);
     }
 
     //填充颜色
@@ -164,7 +164,7 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
     //半径界面
     protected JPanel createRadiusPane() {
         radiusPane = initRadiusPane();
-        radiusPaneWithTitle = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Radius_Set"), radiusPane);
+        radiusPaneWithTitle = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Radius_Set"), radiusPane);
         return ((VanChartPlot)plot).isInCustom() ? null : radiusPaneWithTitle;
     }
 
@@ -176,7 +176,7 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
                 checkLarge();
             }
         });
-        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Large_Model"), largeDataModelGroup);
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Large_Model"), largeDataModelGroup);
         return createLargeDataModelPane(panel);
     }
 
@@ -230,12 +230,12 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
     }
 
     protected JPanel createLargeDataModelPane(JPanel jPanel) {
-        JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Large_Data"), jPanel);
+        JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Large_Data"), jPanel);
         return panel;
     }
 
     protected UIButtonGroup<DataProcessor> createLargeDataModelGroup() {
-        String[] strings = new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Open"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Close")};
+        String[] strings = new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Open"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Close")};
         DataProcessor[] values = new DataProcessor[]{new LargeDataModel(), new NormalDataModel()};
         return new UIButtonGroup<DataProcessor>(strings, values);
     }

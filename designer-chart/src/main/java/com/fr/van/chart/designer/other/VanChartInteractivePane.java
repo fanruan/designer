@@ -114,20 +114,20 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
         if (!plot.isSupportZoomDirection()) {
             return null;
         }
-        zoomWidget = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Open"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Close")});
-        zoomResize = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Change"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Non_Adjustment")});
+        zoomWidget = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Open"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Close")});
+        zoomResize = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Change"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Non_Adjustment")});
         from = new TinyFormulaPane();
         to = new TinyFormulaPane();
         zoomType = new UIButtonGroup(getNameArray(), getValueArray());
-        zoomGesture = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Open"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Close")});
+        zoomGesture = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Open"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Close")});
 
         JPanel zoomWidgetPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_ZoomWidget"), zoomWidget);
-        JPanel zoomGesturePane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_ZoomGesture"), zoomGesture);
+        JPanel zoomGesturePane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_ZoomGesture"), zoomGesture);
 
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_WidgetBoundary")), zoomResize},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_From")), from},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_To")), to},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_From")), from},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_To")), to},
         };
 
         double f = TableLayout.FILL;
@@ -165,8 +165,8 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
         if (!(plot.getAxisPlotType() == AxisPlotType.RECTANGLE)){
             return null;
         }
-        axisRotation = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Open"),
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Close")});
+        axisRotation = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Open"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Close")});
         axisRotation.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -175,7 +175,7 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
         });
         Component[][] components = new Component[][]{
                 new Component[]{null,null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Reversal")),axisRotation}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Reversal")),axisRotation}
         };
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
         return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Axis"), panel);
@@ -205,10 +205,10 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
     }
 
     protected JPanel createToolBarPane(double[] row, double[] col){
-        isSort = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Sort"));
-        exportImages = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_ExportImage"));
-        fullScreenDisplay = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_FullScreenDisplay"));
-        collapse = new UIToggleButton(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Collapse"));
+        isSort = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sort"));
+        exportImages = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Export_Image"));
+        fullScreenDisplay = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_FullScreen_Display"));
+        collapse = new UIToggleButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Collapse"));
 
         Component[][] components = createToolBarComponents();
 
@@ -223,24 +223,24 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
 
     protected Component[][] createToolBarComponents() {
         return new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Content")),isSort},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Content")),isSort},
                 new Component[]{null, exportImages},
                 new Component[]{null, fullScreenDisplay},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_layout")),collapse},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Layout")),collapse},
         };
     }
 
     protected Component[][] createToolBarComponentsWithOutSort() {
         return new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Content")), exportImages},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Content")), exportImages},
                 new Component[]{null, fullScreenDisplay},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_layout")),collapse}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Layout")),collapse}
         };
     }
 
 
     protected JPanel createAnimationPane(){
-        isChartAnimation = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Open"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Close")});
+        isChartAnimation = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Open"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Close")});
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Animation_Effects"), isChartAnimation);
         return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Animation"), panel);
     }
@@ -249,7 +249,7 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
 
         autoRefreshPane = getMoreLabelPane(plot);
 
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Moniter_refresh"), autoRefreshPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Moniter_refresh"), autoRefreshPane);
     }
 
     protected AutoRefreshPane getMoreLabelPane(VanChartPlot plot) {

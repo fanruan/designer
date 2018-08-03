@@ -62,8 +62,8 @@ public class VanChartMinMaxValuePane extends MinMaxValuePane {
 
         minPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_Min"),minValueField, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
         maxPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_Max"),maxValueField, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
-        mainPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_MainType"),mainUnitField, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
-        secPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_SecType"),secUnitField, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
+        mainPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Main_Type"),mainUnitField, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
+        secPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_SecType"),secUnitField, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
 
         minPane.setBorder(BorderFactory.createEmptyBorder(0,COMPONENT_INTERVAL,0,0));
         maxPane.setBorder(BorderFactory.createEmptyBorder(0,COMPONENT_INTERVAL,0,0));

@@ -56,8 +56,8 @@ public class VanChartTooltipContentPane extends BasicBeanPane<AttrTooltipContent
     }
 
     private JPanel createLabelContentPane() {
-        content = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Common"),
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Custom")});
+        content = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Common"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom")});
 
         initFormatPane(parent, showOnPane);
 
@@ -82,8 +82,8 @@ public class VanChartTooltipContentPane extends BasicBeanPane<AttrTooltipContent
                 }
             }
         };
-        centerPane.add(htmlLabelPane, com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Custom"));
-        centerPane.add(commonPanel,com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Common"));
+        centerPane.add(htmlLabelPane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom"));
+        centerPane.add(commonPanel,com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Common"));
 
         double[] column = {f, e};
         double[] row = {p,p,p};
@@ -102,7 +102,7 @@ public class VanChartTooltipContentPane extends BasicBeanPane<AttrTooltipContent
     }
 
     protected JPanel getLabelContentPane(JPanel contentPane) {
-        return createTableLayoutPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Content"), contentPane);
+        return createTableLayoutPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Content"), contentPane);
     }
 
     protected VanChartHtmlLabelPane createHtmlLabelPane() {
@@ -146,13 +146,13 @@ public class VanChartTooltipContentPane extends BasicBeanPane<AttrTooltipContent
     private void checkCardPane() {
         CardLayout cardLayout = (CardLayout) centerPane.getLayout();
         if (content.getSelectedIndex() == 1) {
-            cardLayout.show(centerPane,com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Custom"));
+            cardLayout.show(centerPane,com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom"));
             if(isDirty()){
                 setCustomFormatterText();
                 setDirty(false);
             }
         } else {
-            cardLayout.show(centerPane, com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Common"));
+            cardLayout.show(centerPane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Common"));
         }
     }
 

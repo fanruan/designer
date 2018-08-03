@@ -53,7 +53,7 @@ public class SectionIntervalConfigPaneWithOutNum extends MapColorPickerPaneWithF
         setRegionVisible(false);
 
         return new Component[][]{
-                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_RangeNum")),getDesignTypeButtonGroup()},
+                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Range_Num")),getDesignTypeButtonGroup()},
                 new Component[]{numLabel, getRegionNumPane()},
         };
     }

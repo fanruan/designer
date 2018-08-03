@@ -37,16 +37,16 @@ public class CustomPlotLocationPane extends BasicBeanPane<Plot>{
         yDirection = new UISpinner(0, 100, 1, 20);
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Position") + "(%):  " + com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_X_Direction"), SwingConstants.LEFT),xDirection},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Y_Direction"), SwingConstants.RIGHT),yDirection},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Radius") + "(px):   ",SwingConstants.LEFT),radius}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Position") + "(%):  " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_X_Direction"), SwingConstants.LEFT),xDirection},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Y_Direction"), SwingConstants.RIGHT),yDirection},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Radius") + "(px):   ",SwingConstants.LEFT),radius}
 
         };
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components, new double[]{-2, -2, -2}, new double[]{-2, -1});
 
         this.setLayout(new BorderLayout(0,0));
 
-        this.add(TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Location"), panel), BorderLayout.CENTER);
+        this.add(TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Location"), panel), BorderLayout.CENTER);
     }
 
     @Override

@@ -20,8 +20,8 @@ public class VanChartScatterLineTypePane extends VanChartLineTypePane {
 
     @Override
     protected void createLineStyle() {
-        String[] textArray = new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NormalLine"),
-                                            com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_CurveLine")};
+        String[] textArray = new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Normal_Line"),
+                                            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_CurveLine")};
         lineStyle = new UIButtonGroup<LineStyle>(textArray, new LineStyle[]{LineStyle.NORMAL, LineStyle.CURVE});
     }
 
@@ -32,7 +32,7 @@ public class VanChartScatterLineTypePane extends VanChartLineTypePane {
         double[] col = {f, e};
         Component[][] components = new Component[][]{
                 new Component[]{null,null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_LineStyle")), lineWidth},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Line_Style")), lineWidth},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Style_Present")), lineStyle},
         };
 

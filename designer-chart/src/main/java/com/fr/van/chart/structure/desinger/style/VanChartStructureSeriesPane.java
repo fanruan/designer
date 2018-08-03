@@ -58,7 +58,7 @@ public class VanChartStructureSeriesPane extends VanChartAbstractPlotSeriesPane 
         linkColor = new ColorSelectBox(100);
 
         linkWidthType = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Automatic"),
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Custom")});
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom")});
         linkWidth = new UISpinner(0,Double.MAX_VALUE,0.5,0);
         linkOpacity = new UINumberDragPane(0,100);
 
@@ -89,12 +89,12 @@ public class VanChartStructureSeriesPane extends VanChartAbstractPlotSeriesPane 
 
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
 
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Link"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Link"), panel);
     }
 
     private JPanel createNodePane() {
         nodeStylePane = new StructureNodeStylePane();
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Node"), nodeStylePane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Node"), nodeStylePane);
     }
 
     private void checkWidth() {

@@ -222,12 +222,12 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
         }
 
         protected JPanel initOtherPane() {
-            onlyPreData = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_OnlyUseBeforeRecords"));
+            onlyPreData = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Only_Use_Before_Records"));
             JPanel panel1 = new JPanel(new BorderLayout());
             JPanel panel2 = new JPanel(new BorderLayout());
             panel1.add(onlyPreData, BorderLayout.NORTH);
             preDataNum = new UITextField();
-            UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_RecordsNum"));
+            UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Records_Num"));
             combineOther = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_CombineOther"));
             combineOther.setSelected(true);
             double p = TableLayout.PREFERRED;
@@ -397,12 +397,12 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
 
 
         protected JPanel initOtherPane() {
-            onlyPreData = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_OnlyUseBeforeRecords"));
+            onlyPreData = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Only_Use_Before_Records"));
             JPanel panel1 = new JPanel(new BorderLayout());
             JPanel panel2 = new JPanel(new BorderLayout());
             panel1.add(onlyPreData, BorderLayout.NORTH);
             preDataNum = new UITextField();
-            UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_RecordsNum"));
+            UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Records_Num"));
             combineOther = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_CombineOther"));
             combineOther.setSelected(true);
             double p = TableLayout.PREFERRED;

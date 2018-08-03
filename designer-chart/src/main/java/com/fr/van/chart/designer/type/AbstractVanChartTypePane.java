@@ -47,8 +47,8 @@ public abstract class AbstractVanChartTypePane extends AbstractChartTypePane{
     }
 
     protected Component[][] getComponentsWithLargeData(JPanel typePane){
-        largeModelCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_OpenLargeDataModel"));
-        MultilineLabel prompt = new MultilineLabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_LargeDataModelPrompt"));
+        largeModelCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Open_Large_Data_Model"));
+        MultilineLabel prompt = new MultilineLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Large_Data_Model_Prompt"));
         prompt.setForeground(Color.red);
         JPanel largeDataPane = new JPanel(new BorderLayout());
         largeDataPane.add(largeModelCheckBox, BorderLayout.CENTER);

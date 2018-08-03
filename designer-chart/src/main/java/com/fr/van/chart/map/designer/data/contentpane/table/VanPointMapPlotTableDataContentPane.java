@@ -103,8 +103,8 @@ public class VanPointMapPlotTableDataContentPane extends VanAreaMapPlotTableData
                 }
             };
 
-            locationType = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Location_With_AreaName"),
-                    com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Location_With_LongAndLat")});
+            locationType = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Location_With_Area_Name"),
+                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Location_With_LongAndLat")});
 
             locationType.addChangeListener(new ChangeListener() {
                 @Override

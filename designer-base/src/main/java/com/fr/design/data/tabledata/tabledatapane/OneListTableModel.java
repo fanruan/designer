@@ -75,7 +75,7 @@ public abstract class OneListTableModel<T> extends UITableModelAdapter<T> {
 				if(!"js".equalsIgnoreCase(fileType)) {
 					return ;
 				}
-				String temp = file.getPath().substring(1);
+				String temp = file.getPath();
 				addRow((T) temp);
 				fireTableDataChanged();
 			}
@@ -101,7 +101,7 @@ public abstract class OneListTableModel<T> extends UITableModelAdapter<T> {
 				if(!"css".equalsIgnoreCase(fileType)) {
 					return ;
 				}
-				String temp = file.getPath().substring(1);
+				String temp = file.getPath();
 				addRow((T) temp);
 				fireTableDataChanged();
 			}

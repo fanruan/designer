@@ -31,7 +31,7 @@ public class VanChartAreaSeriesFillColorPane extends BasicPane {
             protected Component[][] getPaneComponents() {
                 return  new Component[][]{
                         new Component[]{null, null},
-                        new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_FillColor")), typeComboBox},
+                        new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Fill_Color")), typeComboBox},
                         new Component[]{null, centerPane},
                 };
             }
@@ -46,7 +46,7 @@ public class VanChartAreaSeriesFillColorPane extends BasicPane {
     }
 
     protected String title4PopupWindow(){
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_FillColor");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Fill_Color");
     }
 
     public void populate(AttrAreaSeriesFillColorBackground fillColorBackground) {

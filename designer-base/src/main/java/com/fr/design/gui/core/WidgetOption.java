@@ -155,7 +155,7 @@ public abstract class WidgetOption implements Serializable {
             Button.class);
 
     public static final WidgetOption FREEBUTTON = WidgetOptionFactory.createByWidgetClass(
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Type_Free_Button"), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/button_16.png"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Type_Button"), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/button_16.png"),
             FreeButton.class);
 
     public static final WidgetOption MULTI_FILEEDITOR = WidgetOptionFactory.createByWidgetClass(
