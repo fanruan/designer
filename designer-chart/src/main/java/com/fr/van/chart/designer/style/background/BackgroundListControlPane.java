@@ -37,7 +37,7 @@ public class BackgroundListControlPane extends VanChartUIListControlPane {
 
     @Override
     public String getAddItemText() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Add_Interval");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Add_Interval");
     }
 
     protected ShortCut4JControlPane[] createShortcuts() {

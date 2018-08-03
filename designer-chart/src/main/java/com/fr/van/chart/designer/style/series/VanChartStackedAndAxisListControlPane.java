@@ -9,7 +9,6 @@ import com.fr.design.gui.controlpane.ShortCut4JControlPane;
 
 import com.fr.general.NameObject;
 import com.fr.plugin.chart.attr.DefaultAxisHelper;
-import com.fr.plugin.chart.attr.axis.VanChartAxis;
 import com.fr.plugin.chart.attr.plot.VanChartRectanglePlot;
 import com.fr.plugin.chart.base.AttrSeriesStackAndAxis;
 import com.fr.stable.Nameable;
@@ -36,7 +35,7 @@ public class VanChartStackedAndAxisListControlPane extends VanChartUIListControl
     }
 
     protected String getAddItemText() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Add");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Add");
     }
 
     protected ShortCut4JControlPane[] createShortcuts() {

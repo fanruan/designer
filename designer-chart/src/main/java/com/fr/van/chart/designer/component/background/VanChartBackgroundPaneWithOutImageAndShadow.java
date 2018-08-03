@@ -49,7 +49,7 @@ public class VanChartBackgroundPaneWithOutImageAndShadow extends VanChartBackgro
         return new Component[][]{
                 new Component[]{typeComboBox, null},
                 new Component[]{centerPane, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Alpha")), transparent},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Alpha")), transparent},
         };
     }
 

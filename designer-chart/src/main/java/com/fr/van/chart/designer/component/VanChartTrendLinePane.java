@@ -55,7 +55,7 @@ public class VanChartTrendLinePane extends BasicPane{
         double[] c = {f, p, f, p};
         Component[][] periodComps = new Component[][]{
                 new Component[]{prePeriod, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Cycle")), afterPeriod, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Cycle"))},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart_TrendLine_Forward")), null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_After_Period")), null},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart_TrendLine_Forward")), null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_After_Period")), null},
         };
         JPanel periodPane = TableLayoutHelper.createTableLayoutPane(periodComps, r, c);
 

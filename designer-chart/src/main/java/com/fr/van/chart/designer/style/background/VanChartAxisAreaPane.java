@@ -79,7 +79,7 @@ public class VanChartAxisAreaPane extends BasicBeanPane<Plot> {
 
     protected JPanel createAlertLinePane() {
         alertLine = getAlertLinePane();
-        JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AlertLine"), alertLine);
+        JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Alert_Line"), alertLine);
         alertLine.setBorder(BorderFactory.createEmptyBorder(10, 5, 0, 0));
         return panel;
     }

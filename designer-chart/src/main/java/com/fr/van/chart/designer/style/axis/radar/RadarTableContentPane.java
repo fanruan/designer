@@ -53,7 +53,7 @@ public class RadarTableContentPane extends AbstractTableDataContentPane {
         double[] col = {p, f};
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Category") + ":", SwingConstants.RIGHT), categoryNameComboBox},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Category") + ":", SwingConstants.RIGHT), categoryNameComboBox},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Min_Value") + ":", SwingConstants.RIGHT), minValueComboBox},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Max_Value") + ":", SwingConstants.RIGHT), maxValueComboBox}
         };
@@ -121,7 +121,7 @@ public class RadarTableContentPane extends AbstractTableDataContentPane {
         maxValueComboBox.setEnabled(hasUse);
     }
     public void addAutoItem(){
-        Object autoItem = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Auto");
+        Object autoItem = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Auto");
         minValueComboBox.addItem(autoItem);
         maxValueComboBox.addItem(autoItem);
         minValueComboBox.setSelectedItem(autoItem);
