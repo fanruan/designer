@@ -1,5 +1,7 @@
 package com.fr.env;
 
+import com.fr.base.FRContext;
+import com.fr.base.ServerConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.border.UITitledBorder;
@@ -12,7 +14,7 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.scrollruler.ModLineBorder;
-
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
 import com.fr.third.guava.base.Strings;
 import com.fr.workspace.WorkContext;
@@ -193,6 +195,10 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
             fillIndividualField();
         }
     };
+    /**
+     * 测试链接对话框确定取消按钮面板
+     */
+    private JPanel dialogDownPane = new JPanel();
 
 
     public RemoteEnvPane() {
@@ -381,6 +387,16 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
                 new double[]{PREFERRED, PREFERRED, PREFERRED, PREFERRED},
                 new double[]{FILL}
         ));
+
+        setDefaultAppAndServlet();
+    }
+
+    /**
+     * 设置 app 和 servlet 默认值
+     */
+    private void setDefaultAppAndServlet() {
+        webAppNameInput.setText(FRContext.getCommonOperator().getAppName());
+        servletNameInput.setText(ServerConfig.getInstance().getServletName());
     }
 
 
@@ -512,21 +528,28 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
                     } else {
                         message.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Basic_Remote_Connect_Failed"));
                         uiLabel.setIcon(UIManager.getIcon("OptionPane.errorIcon"));
+
                     }
                 } catch (InterruptedException | ExecutionException e) {
+                    FineLoggerFactory.getLogger().error(e, e.getMessage());
                     message.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Basic_Remote_Connect_Failed"));
                     uiLabel.setIcon(UIManager.getIcon("OptionPane.errorIcon"));
                 }
+                dialogDownPane.remove(cancelButton);
+                dialogDownPane.revalidate();
+                dialogDownPane.repaint();
             }
         };
         worker.execute();
         initMessageDialog();
         okButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 dialog.dispose();
             }
         });
         cancelButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 dialog.dispose();
                 worker.cancel(true);
@@ -534,6 +557,7 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
         });
 
         dialog.addWindowListener(new WindowAdapter() {
+            @Override
             public void windowClosed(WindowEvent e) {
                 worker.cancel(true);
             }
@@ -554,17 +578,17 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
         okButton.setEnabled(false);
         JPanel jp = new JPanel();
         JPanel upPane = new JPanel();
-        JPanel downPane = new JPanel();
+        dialogDownPane = new JPanel();
         uiLabel = new UILabel(UIManager.getIcon("OptionPane.informationIcon"));
         upPane.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
         upPane.add(uiLabel);
         upPane.add(message);
-        downPane.setLayout(new FlowLayout(FlowLayout.CENTER, 6, 0));
-        downPane.add(okButton);
-        downPane.add(cancelButton);
+        dialogDownPane.setLayout(new FlowLayout(FlowLayout.CENTER, 6, 0));
+        dialogDownPane.add(okButton);
+        dialogDownPane.add(cancelButton);
         jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS));
         jp.add(upPane);
-        jp.add(downPane);
+        jp.add(dialogDownPane);
         dialog.add(jp);
         dialog.setResizable(false);
         dialog.setLocationRelativeTo(SwingUtilities.getWindowAncestor(RemoteEnvPane.this));
