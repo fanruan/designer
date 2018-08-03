@@ -54,8 +54,8 @@ public class GanttLinkTableDataContentPane extends AbstractTableDataContentPane 
 
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Start_Task_ID")), startTaskIDComboBox},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_End_Task_ID")), endTaskIDComboBox},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Link_Type")), linkTypeComboBox}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_End_Task_ID")), endTaskIDComboBox},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Link_Type")), linkTypeComboBox}
         };
 
         return TableLayoutHelper.createGapTableLayoutPane(components, row, col,24,6);

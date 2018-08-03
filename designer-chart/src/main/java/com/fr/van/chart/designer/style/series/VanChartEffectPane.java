@@ -28,7 +28,7 @@ public class VanChartEffectPane extends BasicBeanPane<AttrEffect> {
     }
 
     public VanChartEffectPane(boolean hasEnabledChoose){
-        enabledButton = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Open"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Close")});
+        enabledButton = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Open"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Close")});
 
         enabledButton.addChangeListener(new ChangeListener() {
             @Override
@@ -40,7 +40,7 @@ public class VanChartEffectPane extends BasicBeanPane<AttrEffect> {
         period = new UISpinner(0, Double.MAX_VALUE, 0.1, 0);
         content = createContentPane();
 
-        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Flash_Animation"),enabledButton);
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Flash_Animation"),enabledButton);
         this.setLayout(new BorderLayout(0, 5));
         if(hasEnabledChoose) {
             this.add(panel, BorderLayout.NORTH);
@@ -61,7 +61,7 @@ public class VanChartEffectPane extends BasicBeanPane<AttrEffect> {
     protected JPanel createPeriodPane(){
         JPanel periodPane = new JPanel();
         periodPane.setLayout(new BorderLayout(5, 0));
-        UILabel label1= new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Flash_Period"));
+        UILabel label1= new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Flash_Period"));
         label1.setPreferredSize(new Dimension((int)TableLayout4VanChartHelper.DESCRIPTION_AREA_WIDTH, 20));
         periodPane.add(label1, BorderLayout.WEST);
         periodPane.add(period, BorderLayout.CENTER);
@@ -90,6 +90,6 @@ public class VanChartEffectPane extends BasicBeanPane<AttrEffect> {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Flash_Animation");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Flash_Animation");
     }
 }

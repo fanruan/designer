@@ -34,8 +34,8 @@ public class HeatMapRangeLegendPane extends VanChartRangeLegendPane {
     @Override
     protected UIButtonGroup<LegendType> createLegendTypeButton(){
         return new UIButtonGroup<LegendType>(new String[]{
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Legend_Gradual"),
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Legend_Section")
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Legend_Gradual"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Legend_Section")
         }, new LegendType[]{LegendType.GRADUAL, LegendType.SECTION});
     }
 

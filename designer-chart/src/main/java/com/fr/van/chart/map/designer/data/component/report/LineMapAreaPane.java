@@ -30,7 +30,7 @@ public class LineMapAreaPane extends PointMapAreaPane {
         endAreaPane = new AreaPane(){
             protected Component[][] getComponent () {
                 return new Component[][]{
-                        new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Plugin-ChartF_End", "FR-Chart-Area_Name"})), areaName}
+                        new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_End_Area_Name")), areaName}
                 };
             }
         };
@@ -40,7 +40,7 @@ public class LineMapAreaPane extends PointMapAreaPane {
         areaPane =new AreaPane(){
             protected Component[][] getComponent () {
                 return new Component[][]{
-                        new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Fine-Design_Chart_Start", "FR-Chart-Area_Name"})), areaName}
+                        new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Start_Area_Name")), areaName}
                 };
             }
         };

@@ -46,7 +46,7 @@ public class CustomPlotLocationPane extends BasicBeanPane<Plot>{
 
         this.setLayout(new BorderLayout(0,0));
 
-        this.add(TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Location"), panel), BorderLayout.CENTER);
+        this.add(TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Location"), panel), BorderLayout.CENTER);
     }
 
     @Override

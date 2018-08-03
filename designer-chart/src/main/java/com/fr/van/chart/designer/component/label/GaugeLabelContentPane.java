@@ -16,7 +16,7 @@ public class GaugeLabelContentPane extends VanChartLabelContentPane {
     }
 
     protected String getLabelContentTitle() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Content");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Content");
     }
 
     protected JPanel getLabelContentPane(JPanel contentPane) {

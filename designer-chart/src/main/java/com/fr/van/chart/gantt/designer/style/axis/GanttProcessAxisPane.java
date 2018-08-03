@@ -56,13 +56,13 @@ public class GanttProcessAxisPane extends AbstractVanChartScrollPane<VanChart> {
     private Component createBodyPane() {
         bodyPane = new GanttAxisStylePane();
 
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Content"), bodyPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Content"), bodyPane);
     }
 
     private Component createHorizontalHeaderPane() {
         horizontalHeaderPane = new GanttAxisStylePane();
 
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Horizontal_Table"), horizontalHeaderPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Horizontal_Table"), horizontalHeaderPane);
     }
 
     private Component createVerticalHeaderPane() {
@@ -72,7 +72,7 @@ public class GanttProcessAxisPane extends AbstractVanChartScrollPane<VanChart> {
     }
 
     private Component createHorizontalProportionPane() {
-        typeButton = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Auto"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Custom")});
+        typeButton = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Auto"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom")});
         horizontalProportion = new UISpinner(0, 100, 1, 30);
 
         JPanel proportionPane = new JPanel(new BorderLayout(5, 0));
@@ -91,7 +91,7 @@ public class GanttProcessAxisPane extends AbstractVanChartScrollPane<VanChart> {
             }
         });
 
-        JPanel jPanel = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Horizontal_Proportion"), panel);
+        JPanel jPanel = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Horizontal_Proportion"), panel);
 
         return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Chart-DataFunction_Percent"), jPanel);
     }

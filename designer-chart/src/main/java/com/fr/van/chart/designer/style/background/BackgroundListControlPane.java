@@ -27,12 +27,12 @@ public class BackgroundListControlPane extends VanChartUIListControlPane {
     @Override
     public NameableCreator[] createNameableCreators() {
         return new BackgroundNameObjectCreator[]{new BackgroundNameObjectCreator(new String[]{com.fr.design.i18n.Toolkit.i18nText("ChartF-X_Axis"), com.fr.design.i18n.Toolkit.i18nText("ChartF-Y_Axis")},
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_CustomIntervalBackground"), VanChartAlertValue.class, VanChartAlertValuePane.class)};
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom_Interval_Background"), VanChartAlertValue.class, VanChartAlertValuePane.class)};
     }
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_CustomIntervalBackground");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom_Interval_Background");
     }
 
     @Override
@@ -55,7 +55,7 @@ public class BackgroundListControlPane extends VanChartUIListControlPane {
         List<VanChartAxis> yAxisList = rectanglePlot.getYAxisList();
         String[] axisNames = DefaultAxisHelper.getAllAxisNames(rectanglePlot);
 
-        BackgroundNameObjectCreator[] creators = {new BackgroundNameObjectCreator(getCustomIntervalBackgroundAxisName(axisNames), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_CustomIntervalBackground"), VanChartCustomIntervalBackground.class, getIntervalPaneClass())};
+        BackgroundNameObjectCreator[] creators = {new BackgroundNameObjectCreator(getCustomIntervalBackgroundAxisName(axisNames), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom_Interval_Background"), VanChartCustomIntervalBackground.class, getIntervalPaneClass())};
 
         refreshNameableCreator(creators);
 

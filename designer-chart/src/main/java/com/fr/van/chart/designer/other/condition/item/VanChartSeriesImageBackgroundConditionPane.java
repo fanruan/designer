@@ -21,7 +21,7 @@ public class VanChartSeriesImageBackgroundConditionPane extends AbstractNormalMu
 
     @Override
     protected String getItemLabelString() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_FilledWithImage");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Filled_With_Image");
     }
 
     @Override
@@ -39,7 +39,7 @@ public class VanChartSeriesImageBackgroundConditionPane extends AbstractNormalMu
      * @return item的名称
      */
     public String nameForPopupMenuItem() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_FilledWithImage");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Filled_With_Image");
     }
 
     @Override

@@ -55,7 +55,7 @@ public class VanChartHtmlLabelPane extends JPanel{
     }
 
     public VanChartHtmlLabelPane() {
-        useHtml = new UIToggleButton(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Html"));
+        useHtml = new UIToggleButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Html"));
         JPanel widthAndHeightPane = createWidthAndHeightPane();
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
@@ -125,9 +125,9 @@ public class VanChartHtmlLabelPane extends JPanel{
     }
 
     protected JPanel createWidthAndHeightPane() {
-        isCustomWidth = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Custom_Width"));
+        isCustomWidth = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom_Width"));
         customWidth = new UITextField(6);
-        isCustomHeight = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Custom_Height"));
+        isCustomHeight = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom_Height"));
         customHeight = new UITextField(6);
 
         isCustomWidth.addActionListener(new ActionListener() {

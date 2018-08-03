@@ -80,7 +80,7 @@ public class VanChartColumnSeriesPane extends VanChartAbstractPlotSeriesPane {
         imagePane.setBorder(BorderFactory.createEmptyBorder(0,(int)TableLayout4VanChartHelper.DESCRIPTION_AREA_WIDTH + TableLayout4VanChartHelper.COMPONENT_INTERVAL,0,0));
 
         JPanel panel1 = new JPanel(new BorderLayout());
-        JPanel isFixedWidthPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Fixed_Column_Width"),isFixedWidth);
+        JPanel isFixedWidthPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Fixed_Column_Width"),isFixedWidth);
         isFixedWidthPane.setBorder(BorderFactory.createEmptyBorder(0,0,6,0));
         panel1.add(isFixedWidthPane, BorderLayout.NORTH);
         panel1.add(columnWidth, BorderLayout.CENTER);
@@ -92,7 +92,7 @@ public class VanChartColumnSeriesPane extends VanChartAbstractPlotSeriesPane {
         JPanel panel2 = TableLayout4VanChartHelper.createGapTableLayoutPane(components2, row, col);
 
         Component[][] components3 = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Filled_With_Image")),isFillWithImage},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Filled_With_Image")),isFillWithImage},
         };
         JPanel panel3 = TableLayout4VanChartHelper.createGapTableLayoutPane(components3, row, col);
 

@@ -23,7 +23,7 @@ public class VanChartWordCloudRefreshTootipContentPane extends VanChartWordCloud
         changedValueFormatPane = new ChangedValueFormatPaneWithCheckBox(parent, showOnPane){
             @Override
             protected String getCheckBoxText() {
-                return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Change_Word_Value");
+                return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Change_Word_Value");
             }
         };
 

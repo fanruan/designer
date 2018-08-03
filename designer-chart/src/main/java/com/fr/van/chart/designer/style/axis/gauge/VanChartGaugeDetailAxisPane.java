@@ -77,7 +77,7 @@ public class VanChartGaugeDetailAxisPane extends VanChartValueAxisPane {
     }
 
     protected JPanel createLabelPane(double[] row, double[] col){
-        showLabel = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Show"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Hidden")});
+        showLabel = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Show"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Hidden")});
         labelTextAttrPane = getChartTextAttrPane();
         labelPanel = new JPanel(new BorderLayout());
         labelPanel.add(labelTextAttrPane);
@@ -115,8 +115,8 @@ public class VanChartGaugeDetailAxisPane extends VanChartValueAxisPane {
         mainTickColor = new ColorSelectBox(100);
         secTickColor = new ColorSelectBox(100);
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_MainGraduationLine")), mainTickColor},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_SecondGraduationLine")), secTickColor},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Main_Graduation_Line")), mainTickColor},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Second_Graduation_Line")), secTickColor},
         };
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components, row, col);
         JPanel jPanel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_TickColor"), panel);
