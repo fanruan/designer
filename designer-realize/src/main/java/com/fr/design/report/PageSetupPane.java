@@ -878,7 +878,7 @@ public class PageSetupPane extends BasicPane {
             this.add(defaultPane, BorderLayout.NORTH);
 
             // page order
-            JPanel outpageOrderPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("PageSetup-Page_Order"));
+            JPanel outpageOrderPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Page_Order"));
             JPanel pageOrderPane = FRGUIPaneFactory.createNColumnGridInnerContainer_S_Pane(2);
             outpageOrderPane.add(pageOrderPane);
             defaultPane.add(outpageOrderPane);
