@@ -14,7 +14,6 @@ import com.fr.design.remote.ui.list.AddedMemberListCellRender;
 import com.fr.design.remote.ui.list.AddingMemberList;
 import com.fr.design.remote.ui.list.AddingMemberListCellRender;
 import com.fr.design.remote.ui.list.MemberListSelectedChangeListener;
-import com.fr.locale.InterProviderFactory;
 import com.fr.stable.StringUtils;
 import com.fr.third.guava.collect.ImmutableList;
 import com.fr.workspace.WorkContext;
@@ -95,12 +94,15 @@ public class UserManagerPane extends BasicPane {
      * 输入框绑定事件
      */
     private KeyAdapter keyFieldKeyListener = new KeyAdapter() {
+
         @Override
-        public void keyReleased(KeyEvent e) {
+        public void keyPressed(KeyEvent e) {
             // 判断按下的键是否是回车键
-            // 对话框回车键绑定的是对话框的确定按钮，因此按确定没有办法搜索
+            // 对话框回车键绑定的是对话框的确定按钮
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                 searchAddingMembers(keyWord);
+                // has been processed
+                e.consume();
             }
         }
     };
@@ -351,8 +353,14 @@ public class UserManagerPane extends BasicPane {
                 addingMembers.clear();
                 String username = WorkContext.getConnector().currentUser();
                 synchronized (addingMembers) {
-                    addingMembers.addAll(WorkContext.getCurrent().get(DecisionOperator.class).getMembers(username, keyword));
+                    Collection<RemoteDesignMember> more = WorkContext.getCurrent().get(DecisionOperator.class).getMembers(username, keyword);
                     pageNum = 1;
+                    if (!more.isEmpty()) {
+                        addingMembers.addAll(more);
+                        if (more.size() >= DEFAULT_NUM_EACH_PAGE) {
+                            addingMembers.add(RemoteDesignMember.DEFAULT_MEMBER);
+                        }
+                    }
                 }
                 return addingMembers;
             }
@@ -372,12 +380,14 @@ public class UserManagerPane extends BasicPane {
             protected List<RemoteDesignMember> doInBackground() {
                 String username = WorkContext.getConnector().currentUser();
                 synchronized (addingMembers) {
+                    addingMembers.remove(RemoteDesignMember.DEFAULT_MEMBER);
                     Collection<RemoteDesignMember> more =
                             WorkContext.getCurrent().get(DecisionOperator.class).getMembers(username, keyword, pageNum + 1, count);
                     if (!more.isEmpty()) {
                         pageNum += 1;
+                        addingMembers.addAll(more);
+                        addingMembers.add(RemoteDesignMember.DEFAULT_MEMBER);
                     }
-                    addingMembers.addAll(more);
                 }
                 return addingMembers;
             }
