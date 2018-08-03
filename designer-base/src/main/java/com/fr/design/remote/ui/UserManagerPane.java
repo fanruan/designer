@@ -1,6 +1,7 @@
 package com.fr.design.remote.ui;
 
 import com.fr.design.border.UITitledBorder;
+import com.fr.design.constants.LayoutConstants;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icontainer.UIScrollPane;
@@ -193,15 +194,16 @@ public class UserManagerPane extends BasicPane {
 
 
     public UserManagerPane() {
-        this.setBorder(BorderFactory.createEmptyBorder());
+        this.setBorder(BorderFactory.createEmptyBorder(0,4,0,4));
         this.setLayout(new BorderLayout());
         this.add(
-                TableLayoutHelper.createTableLayoutPane(
+                TableLayoutHelper.createCommonTableLayoutPane(
                         new Component[][]{
                                 new Component[]{createLeftPanel(), createRightPanel()}
                         },
                         new double[]{TableLayout.FILL},
-                        new double[]{TableLayout.FILL, TableLayout.FILL}
+                        new double[]{TableLayout.FILL, TableLayout.FILL},
+                        LayoutConstants.VGAP_LARGE
                 ),
                 BorderLayout.CENTER);
     }
