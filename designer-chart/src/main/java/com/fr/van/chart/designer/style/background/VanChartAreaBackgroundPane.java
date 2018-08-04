@@ -48,8 +48,8 @@ public class VanChartAreaBackgroundPane extends AbstractVanChartScrollPane<Chart
         double[] columnSize = { f };
         double[] rowSize = {p,p,p};
         Component[][] components = new Component[][]{
-                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Border"),chartBorderPane)},
-                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Background"), chartBackgroundPane)},
+                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Border"),chartBorderPane)},
+                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Background"), chartBackgroundPane)},
         };
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
         contentPane.add(panel, BorderLayout.CENTER);
@@ -91,8 +91,8 @@ public class VanChartAreaBackgroundPane extends AbstractVanChartScrollPane<Chart
 
     protected Component[][] initComponents() {
         return new Component[][]{
-                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Border"),chartBorderPane)},
-                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Background"), chartBackgroundPane)},
+                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Border"),chartBorderPane)},
+                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Background"), chartBackgroundPane)},
                 new Component[]{chartAxisAreaPane}
         };
     }

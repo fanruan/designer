@@ -72,7 +72,7 @@ public class GanttProcessAxisPane extends AbstractVanChartScrollPane<VanChart> {
     }
 
     private Component createHorizontalProportionPane() {
-        typeButton = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Auto"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom")});
+        typeButton = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Auto"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom")});
         horizontalProportion = new UISpinner(0, 100, 1, 30);
 
         JPanel proportionPane = new JPanel(new BorderLayout(5, 0));

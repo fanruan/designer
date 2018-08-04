@@ -173,7 +173,7 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
     }
 
     private void initRotate() {
-        rotate = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AntiClockWise"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_ClockWise")});
+        rotate = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_AntiClockWise"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_ClockWise")});
     }
 
     private Component[] getInnerPaneBackgroundColor() {

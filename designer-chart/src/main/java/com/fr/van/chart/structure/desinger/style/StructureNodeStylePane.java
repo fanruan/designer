@@ -42,7 +42,7 @@ public class StructureNodeStylePane extends BasicBeanPane<AttrNode> {
         double[] columnSize = {f, e};
         double[] rowSize = {p, p, p, p, p};
 
-        nodeRadiusType = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Automatic"),
+        nodeRadiusType = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Automatic"),
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom")});
         nodeRadius = new UISpinner(0,Double.MAX_VALUE,0.5,0);
         nodeBorderWidth = new UISpinner(0,Double.MAX_VALUE,0.5,0);
@@ -57,9 +57,9 @@ public class StructureNodeStylePane extends BasicBeanPane<AttrNode> {
         Component[][] components1 = new Component[][]{
                 new Component[]{null, null},
                 new Component[]{jPanel, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Border_Width")), nodeBorderWidth},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Border_Width")), nodeBorderWidth},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget-Style_Border_Color")), nodeBorderColor},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Alpha")), nodeOpacity}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Alpha")), nodeOpacity}
 
         };
         JPanel panel1 = TableLayout4VanChartHelper.createGapTableLayoutPane(components1, rowSize, columnSize);
