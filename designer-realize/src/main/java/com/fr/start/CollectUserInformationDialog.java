@@ -95,7 +95,6 @@ public class CollectUserInformationDialog extends UIDialog {
         keyTextField = new UITextField();
         keyPane.add(keyTextField, BorderLayout.CENTER);
         keyTextField.setMaximumSize(new Dimension(keyTextField.getPreferredSize().width, 25));
-        macSystemHit(keyPane);
 
         UIButton getKeyButton = new UIButton(
                 com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Activate_Get_FR_Activation_Code"));
@@ -117,15 +116,6 @@ public class CollectUserInformationDialog extends UIDialog {
         this.setSize(480, 300);
         this.setModal(true);
         GUICoreUtils.centerWindow(this);
-    }
-
-    private void macSystemHit(JPanel keyPane) {
-        if (OperatingSystem.isMacOS()) {
-            UITextArea macHit = new UITextArea();
-            macHit.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Collect_OSXTips"));
-            macHit.setEditable(false);
-            keyPane.add(macHit, BorderLayout.SOUTH);
-        }
     }
 
     @Override
