@@ -56,6 +56,7 @@ public class CollectUserInformationDialog extends UIDialog {
                 message = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Activate_Activated_Successfully");
                 JOptionPane.showMessageDialog(CollectUserInformationDialog.this, message);
                 DesignerEnvManager.getEnvManager().setActivationKey(keyValue);
+                DesignerEnvManager.getEnvManager().saveXMLFile();
                 doOK();
             } else {
                 message = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Activate_Activation_Code_Invalid");
