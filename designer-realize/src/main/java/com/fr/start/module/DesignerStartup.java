@@ -4,7 +4,6 @@ package com.fr.start.module;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.event.Event;
 import com.fr.event.Listener;
-import com.fr.general.ComparatorUtils;
 import com.fr.module.Activator;
 import com.fr.record.analyzer.EnableMetrics;
 import com.fr.record.analyzer.Metrics;
@@ -61,16 +60,9 @@ public class DesignerStartup extends Activator {
     }
     
     private void browserDemo() {
-        
-        final String[] args = getModule().upFindSingleton(StartupArgs.class).get();
-        
-        if (args != null) {
-            for (String arg : args) {
-                if (ComparatorUtils.equals(arg, "demo")) {
-                    ServerStarter.browserDemoURL();
-                    break;
-                }
-            }
+    
+        if (getModule().leftFindSingleton(StartupArgs.class) != null && getModule().leftFindSingleton(StartupArgs.class).isDemo()) {
+            ServerStarter.browserDemoURL();
         }
     }
     

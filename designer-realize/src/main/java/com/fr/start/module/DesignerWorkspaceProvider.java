@@ -13,21 +13,14 @@ import com.fr.workspace.Workspace;
  * 设计器启动时的环境相关模块activator
  */
 public class DesignerWorkspaceProvider extends Activator {
-
+    
     @Override
     public void start() {
         //检查环境
         DesignerEnvManager.checkNameEnvMap();
-    
-        final String[] args = getModule().upFindSingleton(StartupArgs.class).get();
-    
-        if (args != null) {
-            for (String arg : args) {
-                if (ComparatorUtils.equals(arg, "demo")) {
-                    DesignerEnvManager.getEnvManager().setCurrentEnv2Default();
-                    break;
-                }
-            }
+        
+        if (getModule().leftFindSingleton(StartupArgs.class) != null && getModule().leftFindSingleton(StartupArgs.class).isDemo()) {
+            DesignerEnvManager.getEnvManager().setCurrentEnv2Default();
         } else {
             try {
                 String current = DesignerEnvManager.getEnvManager().getCurEnvName();
@@ -42,11 +35,12 @@ public class DesignerWorkspaceProvider extends Activator {
             }
         }
     }
-
-
+    
+    
     @Override
     public void stop() {
+    
     }
-
-
+    
+    
 }
