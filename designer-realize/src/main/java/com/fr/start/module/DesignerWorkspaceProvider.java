@@ -1,9 +1,12 @@
 package com.fr.start.module;
 
 import com.fr.design.DesignerEnvManager;
-
+import com.fr.design.env.DesignerWorkspaceGenerator;
+import com.fr.design.mainframe.TemplatePane;
+import com.fr.general.ComparatorUtils;
 import com.fr.module.Activator;
-import com.fr.start.EnvSwitcher;
+import com.fr.workspace.WorkContext;
+import com.fr.workspace.Workspace;
 
 /**
  * Created by juhaoyu on 2018/1/8.
@@ -15,18 +18,34 @@ public class DesignerWorkspaceProvider extends Activator {
     public void start() {
         //检查环境
         DesignerEnvManager.checkNameEnvMap();
-
-        EnvSwitcher switcher = new EnvSwitcher();
-        //设置好环境即可，具体跟环境有关的模块会自动调用
-        switcher.switch2LastEnv();
-        getRoot().setSingleton(EnvSwitcher.class, switcher);
+    
+        final String[] args = getModule().upFindSingleton(StartupArgs.class).get();
+    
+        if (args != null) {
+            for (String arg : args) {
+                if (ComparatorUtils.equals(arg, "demo")) {
+                    DesignerEnvManager.getEnvManager().setCurrentEnv2Default();
+                    break;
+                }
+            }
+        } else {
+            try {
+                String current = DesignerEnvManager.getEnvManager().getCurEnvName();
+                Workspace workspace = DesignerWorkspaceGenerator.generate(DesignerEnvManager.getEnvManager().getWorkspaceInfo(current));
+                if (workspace == null) {
+                    TemplatePane.getInstance().dealEvnExceptionWhenStartDesigner();
+                } else {
+                    WorkContext.switchTo(workspace);
+                }
+            } catch (Throwable e) {
+                TemplatePane.getInstance().dealEvnExceptionWhenStartDesigner();
+            }
+        }
     }
 
 
     @Override
     public void stop() {
-        //清空模块
-        getRoot().removeSingleton(EnvSwitcher.class);
     }
 
 
