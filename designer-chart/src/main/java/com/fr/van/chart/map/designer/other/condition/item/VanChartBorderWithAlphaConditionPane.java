@@ -21,7 +21,7 @@ public class VanChartBorderWithAlphaConditionPane extends AbstractNormalMultiLin
 
     @Override
     protected String getItemLabelString() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Border");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Border");
     }
 
     @Override
@@ -37,7 +37,7 @@ public class VanChartBorderWithAlphaConditionPane extends AbstractNormalMultiLin
      */
     @Override
     public String nameForPopupMenuItem() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Border");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Border");
     }
 
     @Override

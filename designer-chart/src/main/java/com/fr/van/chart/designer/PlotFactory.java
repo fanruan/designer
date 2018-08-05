@@ -343,7 +343,7 @@ public class PlotFactory {
                         JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                         if (value instanceof Integer) {
                             String text = ComparatorUtils.equals(value, FormatField.FormatContents.NULL)
-                                    ? com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Auto")
+                                    ? com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Auto")
                                     : FormatField.getInstance().getName((Integer) value);
                             label.setText(" " + text);
                         }

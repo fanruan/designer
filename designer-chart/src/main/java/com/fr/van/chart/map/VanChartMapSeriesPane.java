@@ -173,7 +173,7 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
 
         Component[][] components = new Component[][]{
                 new Component[]{getColorPane()},
-                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Border"), borderWithAlphaPane)},
+                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Border"), borderWithAlphaPane)},
         };
 
         return TableLayoutHelper.createTableLayoutPane(components, row, col);
@@ -238,18 +238,18 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
 
     private Component createAnimationPane() {
         lineMapEffectPane = new VanChartLineMapEffectPane();
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Animation"), lineMapEffectPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Animation"), lineMapEffectPane);
     }
 
     //不透明度
     private JPanel createPointAlphaPane() {
         pointAlphaPane = new UINumberDragPane(0, 100);
-        return TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Alpha"), pointAlphaPane);
+        return TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Alpha"), pointAlphaPane);
     }
 
     private JPanel createPointEffectPane() {
         pointEffectPane = new VanChartEffectPane();
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Animation"), pointEffectPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Animation"), pointEffectPane);
     }
 
     private JPanel createMarkerComPane() {

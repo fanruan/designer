@@ -31,10 +31,10 @@ public class VanChartGaugePlotLabelPane extends VanChartPlotLabelPane {
         String cateTitle, valueTitle = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Value_Label");
         switch (gaugeStyle){
             case POINTER:
-                cateTitle = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_CategoryLabel");
+                cateTitle = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Category_Label");
                 break;
             case POINTER_SEMI:
-                cateTitle = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_CategoryLabel");
+                cateTitle = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Category_Label");
                 break;
             default:
                 cateTitle = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Percent_Label");

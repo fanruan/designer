@@ -60,7 +60,7 @@ public class VanChartLineMapEffectPane extends VanChartEffectPane {
 
     private Component createAnimationSelectPane() {
         JPanel panel = new JPanel(new BorderLayout(5, 0));
-        UILabel label1 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Animation_Type"));
+        UILabel label1 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Animation_Type"));
         label1.setPreferredSize(new Dimension((int) TableLayout4VanChartHelper.DESCRIPTION_AREA_WIDTH, 20));
         panel.add(label1, BorderLayout.WEST);
         panel.add(animationType, BorderLayout.CENTER);

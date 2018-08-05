@@ -57,7 +57,7 @@ public class VanChartStructureSeriesPane extends VanChartAbstractPlotSeriesPane 
     private JPanel createLinkPane() {
         linkColor = new ColorSelectBox(100);
 
-        linkWidthType = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Automatic"),
+        linkWidthType = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Automatic"),
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom")});
         linkWidth = new UISpinner(0,Double.MAX_VALUE,0.5,0);
         linkOpacity = new UINumberDragPane(0,100);
@@ -84,7 +84,7 @@ public class VanChartStructureSeriesPane extends VanChartAbstractPlotSeriesPane 
                 new Component[]{null, null},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Color_Color")), linkColor},
                 new Component[]{jPanel, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Alpha")), linkOpacity}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Alpha")), linkOpacity}
         };
 
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);

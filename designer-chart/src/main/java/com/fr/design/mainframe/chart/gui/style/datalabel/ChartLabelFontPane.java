@@ -92,7 +92,7 @@ public class ChartLabelFontPane extends BasicScrollPane<Chart> {
 
     private class ContentPane extends JPanel {
         private UILabel value = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Value"));
-        private UILabel unit = new UILabel(com.fr.design.i18n.Toolkit.i18nText("ChartF-Units"));
+        private UILabel unit = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart-Units"));
 
         public ContentPane() {
             this.initComponents();
