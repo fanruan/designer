@@ -26,12 +26,12 @@ public class AlertLineListControlPane extends VanChartUIListControlPane {
     @Override
     public NameableCreator[] createNameableCreators() {
         return new ChartNameObjectCreator[]{new ChartNameObjectCreator(new String[]{com.fr.design.i18n.Toolkit.i18nText("ChartF-X_Axis"), com.fr.design.i18n.Toolkit.i18nText("ChartF-Y_Axis")},
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AlertLine"), VanChartAlertValue.class, VanChartAlertValuePane.class)};
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Alert_Line"), VanChartAlertValue.class, VanChartAlertValuePane.class)};
     }
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AlertLine");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Alert_Line");
     }
 
     protected String getAddItemText() {
@@ -53,7 +53,7 @@ public class AlertLineListControlPane extends VanChartUIListControlPane {
         List<VanChartAxis> yAxisList = rectanglePlot.getYAxisList();
         String[] axisNames = DefaultAxisHelper.getAllAxisNames(rectanglePlot);
 
-        ChartNameObjectCreator[] creators = {new ChartNameObjectCreator(getAlertAxisName(axisNames), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AlertLine"), VanChartAlertValue.class, getAlertPaneClass())};
+        ChartNameObjectCreator[] creators = {new ChartNameObjectCreator(getAlertAxisName(axisNames), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Alert_Line"), VanChartAlertValue.class, getAlertPaneClass())};
 
         refreshNameableCreator(creators);
 

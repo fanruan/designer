@@ -90,7 +90,7 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
     //深蓝和高德地图下拉框层级
     private static final ZoomLevel[] BLUE_ZOOM_LEVELS =(ZoomLevel[]) ArrayUtils.subarray(ZOOM_LEVELS, 0, 34);
     private static final ZoomLevel[] GAODE_ZOOM_LEVELS =ArrayUtils.addAll(new ZoomLevel[]{ZoomLevel.AUTO}, (ZoomLevel[])ArrayUtils.subarray(ZOOM_LEVELS, 7, 38));
-    private static final String AUTO_CENTER_STRING = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Automatic");
+    private static final String AUTO_CENTER_STRING = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Automatic");
     private static final String CUSTOM_CENTER_STRING = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom");
 
     private UILabel sourceTitleLabel;

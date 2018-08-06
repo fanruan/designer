@@ -119,7 +119,7 @@ public class VanChartTitlePane extends AbstractVanChartScrollPane<VanChart> {
                 new Component[]{createTitleContentPane(new double[]{p,p,p},column),null},
                 new Component[]{createTitlePositionPane(new double[]{p,p,p},column),null},
                 new Component[]{createTitleStylePane(),null},
-                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Background"), backgroundPane),null},
+                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Background"), backgroundPane),null},
                 new Component[]{createDisplayStrategy(),null}
         };
 
@@ -171,7 +171,7 @@ public class VanChartTitlePane extends AbstractVanChartScrollPane<VanChart> {
         maxProportion = new UISpinner(0,100,1,30);
         limitSize = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Limit"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Not_Limit")});
 
-        JPanel limitSizePane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AreaSize"),limitSize);
+        JPanel limitSizePane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Size"),limitSize);
         maxProportionPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Max_Proportion"),maxProportion, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
         maxProportionPane.setBorder(BorderFactory.createEmptyBorder(0,12,0,0));
         JPanel panel = new JPanel(new BorderLayout());

@@ -110,7 +110,7 @@ public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
         switchStyleGroup = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Show"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Hide")});
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Arrow_Style")), switchStyleGroup, null},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Arrow_Style")), switchStyleGroup, null},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Time_Interval")), timeInterval, new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Base-Time_Second"))},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Background")),colorSelectBox4carousel, null}
         };
@@ -160,8 +160,8 @@ public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
     }
 
     private void initButtonGroup() {
-        configStyleButton = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Button_Style"),
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Carousel_Style")});
+        configStyleButton = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Button_Style"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Carousel_Style")});
         configStyleButton.setPreferredSize(new Dimension(WIDTH * 2, (int) configStyleButton.getPreferredSize().getHeight()));
         configStyleButton.addActionListener(new ActionListener() {
             @Override

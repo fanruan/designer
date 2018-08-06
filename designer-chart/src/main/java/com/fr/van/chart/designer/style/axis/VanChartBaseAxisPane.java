@@ -165,7 +165,7 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
         labelTextAttrPane = getChartTextAttrPane();
 
         labelTextRotation = new UINumberDragPane(-ROTATION_MAX,ROTATION_MAX);
-        labelGapStyle = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Automatic"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Fixed")});
+        labelGapStyle = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Automatic"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Fixed")});
         labelGapValue = new UITextField();
         Component[][] gapComponents = new Component[][]{
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_TextRotation")), labelTextRotation},
@@ -182,7 +182,7 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
                 new Component[]{gapPanel,null},
         };
 
-        JPanel showLabelPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AxisLabel"),showLabel);
+        JPanel showLabelPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Label"),showLabel);
         labelPanel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
         labelPanel.setBorder(BorderFactory.createEmptyBorder(0,10,0,0));
         showLabel.addActionListener(new ActionListener() {
@@ -228,7 +228,7 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
         secondTick = new UIButtonGroup<AxisTickLineType>(strings, values);
 
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(getLineStylePaneComponents(), row, col);
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AxisLineStyle"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Line_Style"), panel);
     }
 
     protected LineComboBox createLineComboBox() {
@@ -250,7 +250,7 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
         reversed = new UIButtonGroup<Boolean>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_On"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Off")}, new Boolean[]{true, false});
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AxisLabel_Position")),position},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Label_Position")),position},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_AxisReversed")),reversed},
         } ;
 
@@ -260,9 +260,9 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
 
     private String[] getAxisPositionNameArray(boolean isXAxis){
         if(isXAxis){
-            return new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AxisTop"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AxisBottom"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AxisVerticalZero")};
+            return new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Top"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Bottom"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Vertical_Zero")};
         } else {
-            return new String[]{com.fr.design.i18n.Toolkit.i18nText("Chart-Layout_Left"), com.fr.design.i18n.Toolkit.i18nText("Chart-Layout_Right"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AxisVerticalZero")};
+            return new String[]{com.fr.design.i18n.Toolkit.i18nText("Chart-Layout_Left"), com.fr.design.i18n.Toolkit.i18nText("Chart-Layout_Right"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Vertical_Zero")};
         }
     }
 
@@ -278,7 +278,7 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
         maxProportion = new UISpinner(0,100,1,30);
         axisLimitSize = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Limit"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Not_Limit")});
 
-        JPanel limitSizePane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AreaSize"),axisLimitSize);
+        JPanel limitSizePane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Size"),axisLimitSize);
         maxProportionPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Max_Proportion"),maxProportion, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
         maxProportionPane.setBorder(BorderFactory.createEmptyBorder(0,12,0,0));
         JPanel panel = new JPanel(new BorderLayout());
@@ -314,7 +314,7 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
         double[] rowSize = {p,p,p};
         Component[][] components = new Component[][]{
                 new Component[]{null,null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AxisLabel_Format"), SwingConstants.LEFT), valueFormatStyle},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Label_Format"), SwingConstants.LEFT), valueFormatStyle},
                 new Component[]{null, centerPane},
         };
         JPanel contentPane = TableLayout4VanChartHelper.createGapTableLayoutPane(components,rowSize,columnSize);
@@ -403,7 +403,7 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
      */
     @Override
     public String title4PopupWindow(){
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_CategoryAxis");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Category_Axis");
     }
 
     /**

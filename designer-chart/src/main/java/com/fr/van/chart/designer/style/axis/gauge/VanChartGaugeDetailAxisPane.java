@@ -83,7 +83,7 @@ public class VanChartGaugeDetailAxisPane extends VanChartValueAxisPane {
         labelPanel.add(labelTextAttrPane);
         labelPanel.setBorder(BorderFactory.createEmptyBorder(0,15,0,0));
         JPanel panel = new JPanel(new BorderLayout(0, 6));
-        panel.add(TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AxisLabel"), showLabel), BorderLayout.NORTH);
+        panel.add(TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Label"), showLabel), BorderLayout.NORTH);
         panel.add(labelPanel, BorderLayout.CENTER);
         showLabel.addActionListener(new ActionListener() {
             @Override
