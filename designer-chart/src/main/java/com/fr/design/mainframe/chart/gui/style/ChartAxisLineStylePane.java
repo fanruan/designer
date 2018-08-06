@@ -33,7 +33,7 @@ public class ChartAxisLineStylePane extends BasicPane{
 		axisLineStyle = new LineComboBox(CoreConstants.LINE_STYLE_ARRAY_4_AXIS);
 		axisLineColor = new ColorSelectBox(100);
 		
-		String[] nameArray = {com.fr.design.i18n.Toolkit.i18nText("External"),com.fr.design.i18n.Toolkit.i18nText("Inside"),com.fr.design.i18n.Toolkit.i18nText("ChartF-Cross"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_None")};
+		String[] nameArray = {com.fr.design.i18n.Toolkit.i18nText("External"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Inner"),com.fr.design.i18n.Toolkit.i18nText("ChartF-Cross"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_None")};
 		Integer[] valueArray = {Constants.TICK_MARK_OUTSIDE, Constants.TICK_MARK_INSIDE, Constants.TICK_MARK_CROSS, Constants.TICK_MARK_NONE};
         Icon[] iconArray = {BaseUtils.readIcon("/com/fr/design/images/chart/ChartAxisLineStyle/external.png"),
                 BaseUtils.readIcon("/com/fr/design/images/chart/ChartAxisLineStyle/inside.png"),

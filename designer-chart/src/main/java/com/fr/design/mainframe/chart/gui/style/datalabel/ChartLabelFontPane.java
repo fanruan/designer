@@ -87,12 +87,12 @@ public class ChartLabelFontPane extends BasicScrollPane<Chart> {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Label");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Label");
     }
 
     private class ContentPane extends JPanel {
         private UILabel value = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Value"));
-        private UILabel unit = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart-Units"));
+        private UILabel unit = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Units"));
 
         public ContentPane() {
             this.initComponents();

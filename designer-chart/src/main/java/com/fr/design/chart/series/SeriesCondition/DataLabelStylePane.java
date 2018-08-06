@@ -40,10 +40,10 @@ public class DataLabelStylePane extends BasicPane {
 		nameBox.setPreferredSize(new Dimension(80, 20));
 		
 		String[] styles = {
-				com.fr.design.i18n.Toolkit.i18nText("FRFont-plain"),
-				com.fr.design.i18n.Toolkit.i18nText("FRFont-bold"),
-				com.fr.design.i18n.Toolkit.i18nText("FRFont-italic"),
-				com.fr.design.i18n.Toolkit.i18nText("FRFont-bolditalic")};
+				com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Font_Plain"),
+				com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Font_Bold"),
+				com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Font_Italic"),
+				com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Font_Bold_Italic")};
 		this.add(fontStyleBox = new UIComboBox(styles));
 		fontStyleBox.setPreferredSize(new Dimension(80, 20));
 		
@@ -66,7 +66,7 @@ public class DataLabelStylePane extends BasicPane {
 	
 	@Override
 	protected String title4PopupWindow() {
-		return "Label";
+		return "Fine-Design_Chart_Label";
 	}
 	
 	public void populate(AttrContents seriesAttrContents) {

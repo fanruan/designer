@@ -38,7 +38,7 @@ public class BubblePlotReportDataContentPane extends AbstractReportDataContentPa
 			com.fr.design.i18n.Toolkit.i18nText("Bubble-Series_Name"),
 			com.fr.design.i18n.Toolkit.i18nText("ChartF-X_Axis"),
 			com.fr.design.i18n.Toolkit.i18nText("ChartF-Y_Axis"),
-			com.fr.design.i18n.Toolkit.i18nText("FRFont-Size")
+			com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Font_Size")
 		};
 	}
 	

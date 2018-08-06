@@ -27,7 +27,7 @@ public class ReportFontSizeAction extends AbstractStyleAction {
 	public ReportFontSizeAction(ElementCasePane t) {
 		super(t);
 		
-        this.setName(com.fr.design.i18n.Toolkit.i18nText("FRFont-Size"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Font_Size"));
     }
 
 	/**

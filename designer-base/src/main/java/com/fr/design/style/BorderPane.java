@@ -108,7 +108,7 @@ public class BorderPane extends BasicPane {
 		// current color and current style excepting inside borders
 		borderAllControlPane.add(createVerButtonPane(EXTERNAL_BORDERS, com.fr.design.i18n.Toolkit.i18nText("External")));
 
-		borderAllControlPane.add(createVerButtonPane(INSIDE_BORDERS, com.fr.design.i18n.Toolkit.i18nText("Inside")));
+		borderAllControlPane.add(createVerButtonPane(INSIDE_BORDERS, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Inner")));
 
 		// Control
 		JPanel borderPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
