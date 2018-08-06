@@ -1,23 +1,75 @@
 package com.fr.design.widget;
 
-import com.fr.base.FRContext;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.gui.core.WidgetConstants;
 import com.fr.design.mainframe.FormDesigner;
-import com.fr.design.widget.ui.designer.WidgetDefinePane;
 import com.fr.design.parameter.RootDesignDefinePane;
-import com.fr.design.widget.ui.designer.*;
-import com.fr.design.widget.ui.designer.layout.*;
+import com.fr.design.widget.ui.designer.CheckBoxDefinePane;
+import com.fr.design.widget.ui.designer.CheckBoxGroupDefinePane;
+import com.fr.design.widget.ui.designer.ComboBoxDefinePane;
+import com.fr.design.widget.ui.designer.ComboCheckBoxDefinePane;
+import com.fr.design.widget.ui.designer.DateEditorDefinePane;
+import com.fr.design.widget.ui.designer.FreeButtonDefinePane;
+import com.fr.design.widget.ui.designer.IframeEditorDefinePane;
+import com.fr.design.widget.ui.designer.LabelDefinePane;
+import com.fr.design.widget.ui.designer.MultiFileEditorPane;
+import com.fr.design.widget.ui.designer.NoneWidgetDefinePane;
+import com.fr.design.widget.ui.designer.NumberEditorDefinePane;
+import com.fr.design.widget.ui.designer.PasswordDefinePane;
+import com.fr.design.widget.ui.designer.RadioDefinePane;
+import com.fr.design.widget.ui.designer.RadioGroupDefinePane;
+import com.fr.design.widget.ui.designer.TextAreaDefinePane;
+import com.fr.design.widget.ui.designer.TextFieldEditorDefinePane;
+import com.fr.design.widget.ui.designer.TreeComboBoxEditorDefinePane;
+import com.fr.design.widget.ui.designer.TreeEditorDefinePane;
+import com.fr.design.widget.ui.designer.UserEditorDefinePane;
+import com.fr.design.widget.ui.designer.WidgetDefinePane;
+import com.fr.design.widget.ui.designer.layout.BorderStyleWidgetDefinePane;
+import com.fr.design.widget.ui.designer.layout.ElementEditorDefinePane;
+import com.fr.design.widget.ui.designer.layout.FRAbsoluteBodyLayoutDefinePane;
+import com.fr.design.widget.ui.designer.layout.FRAbsoluteLayoutDefinePane;
+import com.fr.design.widget.ui.designer.layout.FRFitLayoutDefinePane;
+import com.fr.design.widget.ui.designer.layout.WCardLayoutDefinePane;
+import com.fr.design.widget.ui.designer.layout.WCardMainLayoutDefinePane;
+import com.fr.design.widget.ui.designer.layout.WCardTagLayoutDefinePane;
+import com.fr.design.widget.ui.designer.layout.WTabFitLayoutDefinePane;
 import com.fr.form.parameter.FormSubmitButton;
-import com.fr.form.ui.*;
-import com.fr.form.ui.container.*;
+import com.fr.form.ui.AbstractBorderStyleWidget;
+import com.fr.form.ui.Button;
+import com.fr.form.ui.CheckBox;
+import com.fr.form.ui.CheckBoxGroup;
+import com.fr.form.ui.ComboBox;
+import com.fr.form.ui.ComboCheckBox;
+import com.fr.form.ui.DateEditor;
+import com.fr.form.ui.ElementCaseEditor;
+import com.fr.form.ui.FreeButton;
+import com.fr.form.ui.IframeEditor;
+import com.fr.form.ui.Label;
+import com.fr.form.ui.MultiFileEditor;
+import com.fr.form.ui.NameWidget;
+import com.fr.form.ui.NoneWidget;
+import com.fr.form.ui.NumberEditor;
+import com.fr.form.ui.Password;
+import com.fr.form.ui.Radio;
+import com.fr.form.ui.RadioGroup;
+import com.fr.form.ui.TextArea;
+import com.fr.form.ui.TextEditor;
+import com.fr.form.ui.TreeComboBoxEditor;
+import com.fr.form.ui.TreeEditor;
+import com.fr.form.ui.Widget;
+import com.fr.form.ui.container.WAbsoluteBodyLayout;
+import com.fr.form.ui.container.WAbsoluteLayout;
+import com.fr.form.ui.container.WCardLayout;
+import com.fr.form.ui.container.WFitLayout;
+import com.fr.form.ui.container.WParameterLayout;
 import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
 import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.form.ui.container.cardlayout.WTabFitLayout;
+import com.fr.invoke.Reflect;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.bridge.BridgeMark;
 import com.fr.stable.bridge.StableFactory;
 
-import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,7 +97,6 @@ public class FormWidgetDefinePaneFactoryBase {
         defineMap.put(IframeEditor.class, new Appearance(IframeEditorDefinePane.class, WidgetConstants.IFRAME + ""));
         defineMap.put(TextEditor.class, new Appearance(TextFieldEditorDefinePane.class, WidgetConstants.TEXT + ""));
         defineMap.put(NameWidget.class, new Appearance(UserEditorDefinePane.class, "UserDefine"));
-        defineMap.put(ComboCheckBox.class, new Appearance(ComboCheckBoxDefinePane.class, WidgetConstants.COMBOCHECKBOX + ""));
         defineMap.put(ComboBox.class, new Appearance(ComboBoxDefinePane.class, WidgetConstants.COMBOBOX + ""));
         defineMap.put(RadioGroup.class, new Appearance(RadioGroupDefinePane.class, WidgetConstants.RADIOGROUP + ""));
         defineMap.put(CheckBoxGroup.class, new Appearance(CheckBoxGroupDefinePane.class, WidgetConstants.CHECKBOXGROUP + ""));
@@ -78,24 +129,23 @@ public class FormWidgetDefinePaneFactoryBase {
     }
 
     public static RN createWidgetDefinePane(XCreator creator, FormDesigner designer, Widget widget, Operator operator) {
-        if(isExtraXWidget(widget)){
+        if (isExtraXWidget(widget)) {
             WidgetDefinePane widgetDefinePane = new WidgetDefinePane(creator, designer);
             return new RN(widgetDefinePane, widgetDefinePane.title4PopupWindow());
         }
         Appearance dn = defineMap.get(widget.getClass());
         DataModify<Widget> definePane = null;
         try {
-            Constructor con =  dn.getDefineClass().getConstructor(XCreator.class);
-            definePane  = (DataModify)con.newInstance(creator);
+            definePane = Reflect.on(dn.getDefineClass()).create(creator).get();
             operator.did(definePane.dataUI(), dn.getDisplayName());
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         return new RN(definePane, dn.getDisplayName());
     }
 
-    public static boolean isExtraXWidget(Widget widget){
-        return  defineMap.get(widget.getClass()) == null;
+    public static boolean isExtraXWidget(Widget widget) {
+        return defineMap.get(widget.getClass()) == null;
     }
 
     public static class RN {
