@@ -173,6 +173,9 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
         if (value instanceof Integer) {
             state = (Integer) value;
         }
+        //todo 验证下
+        layout.setLayoutType(WBodyLayoutType.parse(state));
+        layout.setCompState(adaptComboBox.getSelectedIndex());
         try {
             if (state == WBodyLayoutType.ABSOLUTE.getTypeValue()) {
                 WAbsoluteBodyLayout wAbsoluteBodyLayout = new WAbsoluteBodyLayout("body");
@@ -201,9 +204,6 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
             FineLoggerFactory.getLogger().error(e.getMessage());
 
         }
-        //todo 验证下
-        layout.setLayoutType(WBodyLayoutType.parse(state));
-        layout.setCompState(adaptComboBox.getSelectedIndex());
 
         int intervelValue = (int)componentIntervel.getValue();
         if (xWFitLayout.canAddInterval(intervelValue)) {
