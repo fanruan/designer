@@ -48,7 +48,7 @@ public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connecti
         newCharSetComboBox = new UIComboBox(EncodeConstants.ALL_ENCODING_ARRAY);
         message = new UILabel();
         uiLabel = new UILabel();
-        okButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("OK"));
+        okButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_OK"));
         cancelButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Cancel"));
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         JPanel northPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();

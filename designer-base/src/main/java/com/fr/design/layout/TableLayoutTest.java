@@ -57,7 +57,7 @@ public class TableLayoutTest extends JFrame
         UITextField textfieldState   = new UITextField(2);
         UITextField textfieldZip     = new UITextField(5);
 
-        UIButton buttonOk = new UIButton("OK");
+        UIButton buttonOk = new UIButton("Fine-Design_Chart_OK");
         UIButton buttonCancel = new UIButton("Cancel");
         JPanel panelButton = new JPanel();
         panelButton.add(buttonOk);

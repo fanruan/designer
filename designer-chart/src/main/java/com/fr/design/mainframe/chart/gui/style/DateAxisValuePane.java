@@ -97,7 +97,7 @@ public class DateAxisValuePane extends FurtherBasicBeanPane<CategoryAxis>{
         minCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Min_Value"));
         Date tmp = null;
         DateEditor dateEditor = new DateEditor(tmp, true, com.fr.design.i18n.Toolkit.i18nText("Date"), UIDatePicker.STYLE_CN_DATETIME1);
-        Editor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Parameter-Formula"));
+        Editor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Parameter-Formula"));
         Editor[] editor = new Editor[]{dateEditor, formulaEditor};
         minValueField = new ValueEditorPane(editor);
         minValueField.setEnabled(false);
@@ -113,7 +113,7 @@ public class DateAxisValuePane extends FurtherBasicBeanPane<CategoryAxis>{
         maxCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Max_Value"));
         Date tmp = null;
         DateEditor dateEditor = new DateEditor(tmp, true, com.fr.design.i18n.Toolkit.i18nText("Date"), UIDatePicker.STYLE_CN_DATETIME1);
-        Editor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Parameter-Formula"));
+        Editor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Parameter-Formula"));
         Editor[] editor = new Editor[]{dateEditor, formulaEditor};
         maxValueField = new ValueEditorPane(editor);
         maxValueField.setEnabled(false);
@@ -126,7 +126,7 @@ public class DateAxisValuePane extends FurtherBasicBeanPane<CategoryAxis>{
     
     private void initMain() {
     	// 主要刻度单位
-        mainTickBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("MainGraduationUnit"));
+        mainTickBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Main_Graduation_Unit"));
         mainUnitField = new UITextField();
         mainUnitField.setPreferredSize(new Dimension(30, 20));
         mainUnitField.setEditable(false);

@@ -29,7 +29,7 @@ public class LabelLineStylePane extends ConditionAttrSingleConditionPane<DataSer
         super(conditionAttributesPane, isRemove);
 
 
-        nameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Line-Style") + ":");
+        nameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Line_Style") + ":");
         if (isRemove) {
             this.add(nameLabel);
         }
@@ -40,7 +40,7 @@ public class LabelLineStylePane extends ConditionAttrSingleConditionPane<DataSer
 
     @Override
     public String nameForPopupMenuItem() {
-        return com.fr.design.i18n.Toolkit.i18nText("Line-Style");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Line_Style");
     }
 
     @Override

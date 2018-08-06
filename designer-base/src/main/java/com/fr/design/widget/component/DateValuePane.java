@@ -21,9 +21,9 @@ import java.awt.*;
 public class DateValuePane extends JPanel {
     private UIButtonGroup widgetValueHead;
     private Editor[] editor;
-    private static final String NONE_EDITOR_NAME = com.fr.design.i18n.Toolkit.i18nText("None");
+    private static final String NONE_EDITOR_NAME = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_None");
     private static final String DATE_EDITOR_NAME = com.fr.design.i18n.Toolkit.i18nText("Date");
-    private static final String FORMULA_EDITOR_NAME = com.fr.design.i18n.Toolkit.i18nText("Parameter-Formula");
+    private static final String FORMULA_EDITOR_NAME = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Parameter-Formula");
 
 
     public DateValuePane() {
@@ -45,7 +45,7 @@ public class DateValuePane extends JPanel {
             @Override
             public void stateChanged(ChangeEvent e) {
                 int index = widgetValueHead.getSelectedIndex();
-                if (ComparatorUtils.equals(tabTitles[index], com.fr.design.i18n.Toolkit.i18nText("None"))) {
+                if (ComparatorUtils.equals(tabTitles[index], com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_None"))) {
                     customPane.setVisible(false);
                 } else {
                     customPane.setVisible(true);

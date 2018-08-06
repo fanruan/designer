@@ -433,7 +433,7 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
         } else if (selectionType == CellSelection.CHOOSE_COLUMN) {
             type.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Column"));
         } else {
-            type.setText(com.fr.design.i18n.Toolkit.i18nText("M_Insert-Float"));
+            type.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_M_Insert-Float"));
         }
     }
 

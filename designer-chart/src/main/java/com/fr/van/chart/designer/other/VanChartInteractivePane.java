@@ -259,7 +259,7 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
 
     protected JPanel createHyperlinkPane() {
         superLink = new VanChartHyperLinkPane();
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("M_Insert-Hyperlink"), superLink);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_M_Insert_Hyperlink"), superLink);
     }
 
 

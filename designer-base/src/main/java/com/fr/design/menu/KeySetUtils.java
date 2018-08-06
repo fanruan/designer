@@ -4,13 +4,9 @@
 
 package com.fr.design.menu;
 
-import com.fr.general.ComparatorUtils;
-import com.fr.general.GeneralContext;
-
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
-import java.util.Locale;
 
 import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
 
@@ -883,7 +879,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("M_Insert-Hyperlink");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_M_Insert_Hyperlink");
         }
 
         @Override
@@ -994,7 +990,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("M_Insert-Float");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_M_Insert-Float");
         }
 
         @Override

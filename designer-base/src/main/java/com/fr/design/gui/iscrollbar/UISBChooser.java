@@ -106,7 +106,7 @@ public class UISBChooser extends JDialog {
         JButton b = new JButton("Cancel");
         b.addActionListener(new CancelAction());
         p3.add(b);
-        b = new JButton("OK");
+        b = new JButton("Fine-Design_Chart_OK");
         getRootPane().setDefaultButton(b);
         b.addActionListener(new OKAction());
         p3.add(b);

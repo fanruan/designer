@@ -30,7 +30,7 @@ public class Area3DSeriesPane extends AbstractPlotSeriesPane {
 		JPanel pane = new JPanel();
 		pane.setLayout(new BorderLayout());
 		
-		pane.add(new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Pitch_Percentage") + ":"), BorderLayout.WEST);
+		pane.add(new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Pitch_Percentage") + ":"), BorderLayout.WEST);
 		pane.add(gapPane = new UINumberDragPane(0, 500), BorderLayout.CENTER);
 		gapPane.populateBean(100.0);
 		

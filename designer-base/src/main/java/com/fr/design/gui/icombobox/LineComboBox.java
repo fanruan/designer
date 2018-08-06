@@ -10,7 +10,6 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
-import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
 import javax.swing.DefaultComboBoxModel;
@@ -20,8 +19,6 @@ import javax.swing.JList;
 import com.fr.base.FRContext;
 import com.fr.base.GraphHelper;
 import com.fr.base.ScreenResolution;
-import com.fr.design.gui.icombobox.UIComboBox;
-import com.fr.design.gui.icombobox.UIComboBoxRenderer;
 import com.fr.general.FRFont;
 
 import com.fr.stable.Constants;
@@ -91,7 +88,7 @@ public class LineComboBox extends UIComboBox {
             FontMetrics fm = GraphHelper.getFontMetrics(rfont);
             if (style == Constants.LINE_NONE) {
                 //draw "none" string
-                GraphHelper.drawString(g2d, com.fr.design.i18n.Toolkit.i18nText("None"), 4, (d.height - fm.getHeight()) / 2 + fm.getAscent());
+                GraphHelper.drawString(g2d, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_None"), 4, (d.height - fm.getHeight()) / 2 + fm.getAscent());
             } else {
                 GraphHelper.drawLine(g2d, 4, d.height / 2, d.width - 8, d.height / 2, style);
             }

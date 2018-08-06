@@ -127,7 +127,7 @@ public class DataLabelPane extends TooltipContentsPane {
         topButton.setSelected(true);
         
         JPanel buttonPane = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
-        buttonPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Label", "Layout"}) + ":"));
+        buttonPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Label_Layout") + ":"));
         buttonPane.add(bottomButton);
         buttonPane.add(leftButton);
         buttonPane.add(rigtButton);

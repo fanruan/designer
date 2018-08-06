@@ -305,7 +305,7 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
                 ColumnRow columnRowEdit = ColumnRow.valueOf(columnRowTextField.getText());
                 // barry:检查输入是否正确
                 if (!ColumnRow.validate(columnRowEdit)) {
-                    Object[] options = {com.fr.design.i18n.Toolkit.i18nText("OK")};
+                    Object[] options = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_OK")};
                     JOptionPane.showOptionDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Please_Input_Letters+Numbers(A1,AA1,A11....)"), com.fr.design.i18n.Toolkit.i18nText("Warning"),
                             JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
                     // 重新选中当前的selection,把columnRowTextField

@@ -46,7 +46,7 @@ public class MapReportEditor extends AbstractCellEditor implements TableCellEdit
 		TextEditor textEidtor = new TextEditor();
 		initListeners(textEidtor);
 		
-		FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Parameter-Formula"));
+		FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Parameter-Formula"));
 		initListeners(formulaEditor);
 		
 		Editor[] editors = new Editor[]{textEidtor, formulaEditor};

@@ -21,7 +21,7 @@ public class MapReportRenderer extends DefaultTableCellRenderer {
 	private ValueEditorPane cellEditor;
 	
 	public MapReportRenderer() {
-		Editor[] editors = new Editor[]{new TextEditor(), new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Parameter-Formula"))};
+		Editor[] editors = new Editor[]{new TextEditor(), new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Parameter-Formula"))};
 		cellEditor = ValueEditorPaneFactory.createValueEditorPane(editors);
 	}
 	

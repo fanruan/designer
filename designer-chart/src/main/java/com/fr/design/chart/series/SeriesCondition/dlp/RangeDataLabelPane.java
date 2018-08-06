@@ -32,7 +32,7 @@ public class RangeDataLabelPane extends DataLabelPane {
 		topButton.setSelected(true);
 		
 		JPanel buttonPane = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
-		buttonPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Label", "Layout"}) + ":"));
+		buttonPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Label_Layout") + ":"));
 		buttonPane.add(topButton);
 		buttonPane.add(bottomButton);
 		buttonPane.add(centerButton);

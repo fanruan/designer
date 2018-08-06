@@ -68,7 +68,7 @@ public class FeedBackPane extends BasicPane {
     private static final String ALLOWED_INTEGER_TYPE = "0123456789";
     private SwingWorker worker;
     private JDialog dlg = new JDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Send"), true);
-    private UIButton ok = new UIButton(com.fr.design.i18n.Toolkit.i18nText("OK"));
+    private UIButton ok = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_OK"));
     private UIButton cancle = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Cancel"));
     private int ifHasBeenWriten = 0;
     private UITextArea detailField;

@@ -58,7 +58,7 @@ public class ConditionTrendLinePane extends BasicBeanPane<ConditionTrendLine> {
 		namePane.add(nameLabel = new UITextField("", 6));
 		
 		pane.add(linePane = new BorderAttriPane());
-		linePane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Chart_Trend", "Line-Style"}), null));
+		linePane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Trend_Line_Style"), null));
 		
 		JPanel typePane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_S_Pane();
 		pane.add(typePane);

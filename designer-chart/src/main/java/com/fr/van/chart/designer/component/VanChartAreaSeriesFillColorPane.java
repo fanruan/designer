@@ -38,7 +38,7 @@ public class VanChartAreaSeriesFillColorPane extends BasicPane {
         };
         transparent = new UINumberDragPane(0, 100);
 
-        JPanel transparentPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-Chart_Alpha"), transparent);
+        JPanel transparentPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Alpha"), transparent);
 
         this.setLayout(new BorderLayout());
         this.add(fillColorPane, BorderLayout.NORTH);

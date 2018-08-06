@@ -53,7 +53,7 @@ public class VanChartGanttSeriesPane extends VanChartAbstractPlotSeriesPane {
     private JPanel createGanntStylePane(){
         seriesNewLine = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Open"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Close")});
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_New_Line"),seriesNewLine);
-        JPanel ganntStylePane = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Style"), panel);
+        JPanel ganntStylePane = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Pattern"), panel);
         return ganntStylePane;
     }
 

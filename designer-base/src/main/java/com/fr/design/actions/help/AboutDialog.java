@@ -42,7 +42,7 @@ public class AboutDialog extends JDialog implements ActionListener {
         JPanel defaultPane=FRGUIPaneFactory.createBorderLayout_L_Pane();
         this.setContentPane(defaultPane);
 
-        okButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("OK"));
+        okButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_OK"));
         okButton.addActionListener(this);
 
         tabbedPane = new UITabbedPane();

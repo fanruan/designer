@@ -159,7 +159,7 @@ public class PageSetupPane extends BasicPane {
             this.add(defaultPane, BorderLayout.NORTH);
             JPanel twoPane = FRGUIPaneFactory.createX_AXISBoxInnerContainer_S_Pane();
             twoPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-            JPanel orientationPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("PageSetup-Orientation"));
+            JPanel orientationPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Page_Setup_Orientation"));
             JPanel innerorientationPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_M_Pane();
             orientationPane.add(innerorientationPane);
             twoPane.add(orientationPane);
