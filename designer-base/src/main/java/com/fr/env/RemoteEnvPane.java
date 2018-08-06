@@ -523,9 +523,7 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
                 DesignerEnvManager.getEnvManager().setCertificatePass(connection.getCertSecretKey());
                 try {
                     return WorkContext.getConnector().testConnection(connection);
-                } catch (AuthException e) {
-                    message.setText(Toolkit.i18nText("Fine-Designer_Basic_Remote_Connect_Auth_Failed"));
-                    uiLabel.setIcon(UIManager.getIcon("OptionPane.errorIcon"));
+                } catch (AuthException ignored) {
                     return null;
                 }
             }
@@ -534,13 +532,18 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
             protected void done() {
                 okButton.setEnabled(true);
                 try {
-                    if (get()) {
-                        message.setText(Toolkit.i18nText("Fine-Designer_Basic_Remote_Connect_Successful"));
-                        uiLabel.setIcon(UIManager.getIcon("OptionPane.informationIcon"));
-                    } else {
-                        message.setText(Toolkit.i18nText("Fine-Designer_Basic_Remote_Connect_Failed"));
+                    Boolean result = get();
+                    if (result == null) {
+                        message.setText(Toolkit.i18nText("Fine-Designer_Basic_Remote_Connect_Auth_Failed"));
                         uiLabel.setIcon(UIManager.getIcon("OptionPane.errorIcon"));
-
+                    } else {
+                        if (result) {
+                            message.setText(Toolkit.i18nText("Fine-Designer_Basic_Remote_Connect_Successful"));
+                            uiLabel.setIcon(UIManager.getIcon("OptionPane.informationIcon"));
+                        } else {
+                            message.setText(Toolkit.i18nText("Fine-Designer_Basic_Remote_Connect_Failed"));
+                            uiLabel.setIcon(UIManager.getIcon("OptionPane.errorIcon"));
+                        }
                     }
                 } catch (InterruptedException | ExecutionException e) {
                     FineLoggerFactory.getLogger().error(e, e.getMessage());
