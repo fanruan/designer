@@ -69,7 +69,7 @@ public class JTreeAutoBuildPane extends BasicPane implements Previewable, Editab
         this.add(selectTreeDataPanel, BorderLayout.NORTH);
 
         valuePane = ValueEditorPaneFactory.createValueEditorPane(new Editor[]{new OldColumnIndexEditor(com.fr.design.i18n.Toolkit.i18nText("Columns"))});
-        FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Parameter-Formula"));
+        FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Parameter_Formula"));
         formulaEditor.setEnabled(true);
         textPane = ValueEditorPaneFactory.createValueEditorPane(new Editor[]{new OldColumnIndexEditor(com.fr.design.i18n.Toolkit.i18nText("Columns")), formulaEditor});
         Component[][] coms = {
@@ -99,12 +99,12 @@ public class JTreeAutoBuildPane extends BasicPane implements Previewable, Editab
             String[] columnNames = new String[namelist.size()];
             namelist.toArray(columnNames);
             valuePane.setEditors(new Editor[]{new OldColumnIndexEditor(columnNames, com.fr.design.i18n.Toolkit.i18nText("ColumnName"))}, 1);
-            FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Parameter-Formula"));
+            FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Parameter_Formula"));
             formulaEditor.setEnabled(true);
             textPane.setEditors(new Editor[]{new OldColumnIndexEditor(columnNames, com.fr.design.i18n.Toolkit.i18nText("ColumnName")), formulaEditor}, 1);
         } catch (Exception e) {
             valuePane.setEditors(new Editor[]{new OldColumnIndexEditor(100, com.fr.design.i18n.Toolkit.i18nText("ColumnName"))}, 1);
-            FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Parameter-Formula"));
+            FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Parameter_Formula"));
             formulaEditor.setEnabled(true);
             textPane.setEditors(new Editor[]{new OldColumnIndexEditor(100, com.fr.design.i18n.Toolkit.i18nText("ColumnName")), formulaEditor}, 1);
         }
