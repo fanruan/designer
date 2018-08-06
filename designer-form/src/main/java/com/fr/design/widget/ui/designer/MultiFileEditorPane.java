@@ -54,8 +54,8 @@ public class MultiFileEditorPane extends FieldEditorDefinePane<MultiFileEditor> 
 		double p = TableLayout.PREFERRED;
 		Component[][] components = new Component[][]{
 				new Component[]{singleFileCheckBox, null },
-				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("File-Allow_Upload_Files")), acceptType},
-				new Component[]{new UILabel( com.fr.design.i18n.Toolkit.i18nText("File-File_Size_Limit")), fileSizePane},
+				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_File_Allow_Upload_Files")), acceptType},
+				new Component[]{new UILabel( com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_File_Size_Limit")), fileSizePane},
 				new Component[]{new UILabel( com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Font-Size")), fontSizeField}
 		};
 		double[] rowSize = {p, p, p, p};

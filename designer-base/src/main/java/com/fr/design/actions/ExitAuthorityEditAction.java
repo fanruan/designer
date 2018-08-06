@@ -18,7 +18,7 @@ public class ExitAuthorityEditAction extends TemplateComponentAction {
 
 	public ExitAuthorityEditAction(TargetComponent t) {
 		super(t);
-		this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Authority_Edit_Status_Exit"));
+		this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Authority_Edit_Status_Exit"));
 		this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_report/exit_authority_edit.png"));
 	}
 

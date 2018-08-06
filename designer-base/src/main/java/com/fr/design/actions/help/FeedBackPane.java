@@ -96,7 +96,7 @@ public class FeedBackPane extends BasicPane {
     public FeedBackPane() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         initDetailArea();
-        UILabel tip = new UILabel(com.fr.design.i18n.Toolkit.i18nText("feedback_info"));
+        UILabel tip = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Feedback_Info"));
         tip.setBorder(TIP_BORDER);
         this.add(tip, BorderLayout.NORTH);
         UIScrollPane scrollPane = new UIScrollPane(initDetailPane());
@@ -135,7 +135,7 @@ public class FeedBackPane extends BasicPane {
             }
         };
         this.detailField.setForeground(Color.gray);
-        this.detailField.setText(com.fr.design.i18n.Toolkit.i18nText("feedback_tip"));
+        this.detailField.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Feedback_Tip"));
         detailField.addKeyListener(new KeyAdapter() {
 
             @Override
@@ -156,7 +156,7 @@ public class FeedBackPane extends BasicPane {
                 detailField.setForeground(Color.black);
                 String text = detailField.getText();
                 // 判断在中文输入状态是否还包含提示符 要删掉
-                String tip = com.fr.design.i18n.Toolkit.i18nText("feedback_tip");
+                String tip = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Feedback_Tip");
                 if (text.contains(tip)) {
                     text = text.substring(0, text.indexOf(tip));
                     detailField.setText(text);

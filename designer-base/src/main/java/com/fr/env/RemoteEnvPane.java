@@ -66,7 +66,7 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
     private JDialog dialog;
     private UILabel message = new UILabel();
     private UIButton okButton = new UIButton(Toolkit.i18nText("Fine-Design_Report_OK"));
-    private UIButton cancelButton = new UIButton(Toolkit.i18nText("Fine-Design_Report_Cancel"));
+    private UIButton cancelButton = new UIButton(Toolkit.i18nText("Fine-Design_Basic_Cancel"));
     private UILabel uiLabel = new UILabel();
 
     /**

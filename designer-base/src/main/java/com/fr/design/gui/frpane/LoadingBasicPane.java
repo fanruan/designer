@@ -55,7 +55,7 @@ public abstract class LoadingBasicPane extends BasicPane {
         card = new CardLayout();
         setLayout(card);
         JPanel loadingDisPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        UILabel loadingPane = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Loading_And_Waiting") , SwingConstants.CENTER);
+        UILabel loadingPane = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Loading_And_Waiting") , SwingConstants.CENTER);
         loadingDisPane.add(loadingPane, BorderLayout.CENTER);
         progressBar = new JProgressBar();
         progressBar.setIndeterminate(true);
