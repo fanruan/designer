@@ -1,11 +1,9 @@
 package com.fr.start.module;
 
 
-import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.event.Event;
 import com.fr.event.Listener;
-import com.fr.general.ComparatorUtils;
 import com.fr.module.Activator;
 import com.fr.record.analyzer.EnableMetrics;
 import com.fr.record.analyzer.Metrics;
@@ -28,30 +26,25 @@ public class DesignerStartup extends Activator {
     @Override
     @Metrics
     public void start() {
+    
         startSub(PreStartActivator.class);
         //启动基础部分
         startSub(BasicActivator.class);
         final String[] args = getModule().upFindSingleton(StartupArgs.class).get();
         final Designer designer = new Designer(args);
-
+    
         startSub(DesignerWorkspaceProvider.class);
         registerEnvListener();
         //启动env
         startSub(EnvBasedModule.class);
-
-        if (args != null) {
-            for (String arg : args) {
-                if (ComparatorUtils.equals(arg, "demo")) {
-                    DesignerEnvManager.getEnvManager().setCurrentEnv2Default();
-                    ServerStarter.browserDemoURL();
-                    break;
-                }
-            }
-        }
+        //designer模块启动好后，查看demo
+        browserDemo();
         ExecutorService service = Executors.newSingleThreadExecutor();
         service.submit(new Runnable() {
+        
             @Override
             public void run() {
+            
                 designer.show(args);
                 DesignerContext.getDesignerFrame().getProgressDialog().dispose();
             }
@@ -60,11 +53,19 @@ public class DesignerStartup extends Activator {
         DesignerContext.getDesignerFrame().setVisible(true);
         //启动画面结束
         SplashContext.getInstance().hide();
-
+    
         DesignerContext.getDesignerFrame().getProgressDialog().setVisible(true);
         startSub(StartFinishActivator.class);
+    
     }
-
+    
+    private void browserDemo() {
+    
+        if (getModule().leftFindSingleton(StartupArgs.class) != null && getModule().leftFindSingleton(StartupArgs.class).isDemo()) {
+            ServerStarter.browserDemoURL();
+        }
+    }
+    
     /**
      * 切换环境时，重新启动所有相关模块
      */
