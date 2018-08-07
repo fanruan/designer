@@ -33,8 +33,8 @@ public class ReportColumnsPane extends BasicPane{
     private boolean isRepeate;
 
     private static final String[] COLUMN_ROW_TEXTS = {
-            com.fr.design.i18n.Toolkit.i18nText("FR-Base_Rows"),
-            com.fr.design.i18n.Toolkit.i18nText("FR-Base_Columns")
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Base_Rows"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Base_Columns")
     };
 
     private static final String[] SHOW_BLANK = {
@@ -83,7 +83,7 @@ public class ReportColumnsPane extends BasicPane{
         north.setPreferredSize(new Dimension(549, 59));
         north.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(11, 23, 6, 23), new UIRoundedBorder(new Color(204, 204, 204), 1, 10)));
         String[] textArray = new String[] {
-            com.fr.design.i18n.Toolkit.i18nText("FR-Base_TurnOn"), com.fr.design.i18n.Toolkit.i18nText("FR-Base_TurnOff")
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Base_TurnOn"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Base_TurnOff")
         };
 
         onOffButtonGroup = new UIButtonGroup(textArray) {
@@ -302,14 +302,14 @@ public class ReportColumnsPane extends BasicPane{
         repeatColDataTextField = new UITextField();
         repeatColDataTextField.setPreferredSize(new Dimension(107,24));
         rowPane.add(repeatColDataTextField);
-        rowPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Base_Format") + ": A2:D5 "));
+        rowPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Base_Format") + ": A2:D5 "));
         copyLabel = new UILabel(REPORT_COLUMN_RAPEAT[rowOrColumn] + ":");
         rowPane.add(copyLabel);
 
         copyTitleTextField = new UITextField();
         copyTitleTextField.setPreferredSize(new Dimension(107,24));
         rowPane.add(copyTitleTextField);
-        rowPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Base_Format") + ": 1,2-3,5,18"));
+        rowPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Base_Format") + ": 1,2-3,5,18"));
 
 
         return rowPane;

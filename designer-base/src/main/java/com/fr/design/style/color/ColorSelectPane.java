@@ -80,7 +80,7 @@ public class ColorSelectPane extends TransparentPane implements ColorSelectable 
 
         centerPane.add(Box.createVerticalStrut(1));
 
-        UIButton customButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Basic_More_Color"));
+        UIButton customButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_More_Color"));
 
         customButton.addMouseListener(new MouseAdapter() {
             @Override

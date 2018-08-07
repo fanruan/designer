@@ -124,7 +124,7 @@ public class PluginInstalledPane extends PluginAbstractViewPane {
                 null,
                 new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Basic_Restart_Designer"),
                         com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Basic_Restart_Designer_Later"),
-                        com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Basic_Cancel")
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cancel")
                 },
                 null
         );

@@ -61,7 +61,7 @@ public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor>
         formWidgetValuePane = new FormWidgetValuePane(creator.toData(), false);
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
-        UILabel widgetValueLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Estate_Widget_Value"), SwingConstants.LEFT);
+        UILabel widgetValueLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Estate_Widget_Value"), SwingConstants.LEFT);
         widgetValueLabel.setVerticalAlignment(SwingConstants.TOP);
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Label_Name")), labelNameTextField},

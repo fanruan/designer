@@ -45,7 +45,7 @@ public class ExitLabel extends UILabel{
 			menu.setOnlyText(true);
 			menu.setPopupSize(infoPane.getWidth(),infoPane.getHeight());
 			
-			UIMenuItem closeOther = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-BBSLogin_Switch-Account"));
+			UIMenuItem closeOther = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_BBSLogin_Switch_Account"));
 			closeOther.addMouseListener(new MouseAdapter() {
 				
 				public void mousePressed(MouseEvent e) {

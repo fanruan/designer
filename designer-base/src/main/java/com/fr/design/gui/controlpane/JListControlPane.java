@@ -9,12 +9,10 @@ import com.fr.design.data.tabledata.tabledatapane.GlobalTreeTableDataPane;
 import com.fr.design.data.tabledata.tabledatapane.MultiTDTableDataPane;
 import com.fr.design.data.tabledata.tabledatapane.TreeTableDataPane;
 import com.fr.design.gui.HyperlinkFilterHelper;
-import com.fr.design.gui.NameInspector;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilist.JNameEdList;
 import com.fr.design.gui.ilist.ListModelElement;
 import com.fr.design.gui.ilist.ModNameActionListener;
-import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.menu.LineSeparator;
 import com.fr.design.menu.MenuDef;
@@ -357,7 +355,7 @@ public abstract class JListControlPane extends JControlPane {
 
         public AddItemUpdateAction(NameableCreator[] creators) {
             this.creator = creators[0];
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Action_Add"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Action_Add"));
             this.setMnemonic('A');
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/buttonicon/add.png"));
         }
@@ -375,7 +373,7 @@ public abstract class JListControlPane extends JControlPane {
      */
     protected class AddItemMenuDef extends MenuDef {
         public AddItemMenuDef(NameableCreator[] creators) {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Action_Add"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Action_Add"));
             this.setMnemonic('A');
             this.setIconPath("/com/fr/design/images/control/addPopup.png");
             wrapActionListener(creators);
@@ -420,7 +418,7 @@ public abstract class JListControlPane extends JControlPane {
      */
     private class RemoveItemAction extends UpdateAction {
         public RemoveItemAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Action_Remove"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Action_Remove"));
             this.setMnemonic('R');
             this.setSmallIcon(BaseUtils
                     .readIcon("/com/fr/base/images/cell/control/remove.png"));
@@ -448,7 +446,7 @@ public abstract class JListControlPane extends JControlPane {
      */
     private class CopyItemAction extends UpdateAction {
         public CopyItemAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Action_Copy"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Action_Copy"));
             this.setMnemonic('C');
             this.setSmallIcon(BaseUtils
                     .readIcon("/com/fr/design/images/m_edit/copy.png"));
@@ -547,7 +545,7 @@ public abstract class JListControlPane extends JControlPane {
         private boolean isAtoZ = false;
 
         public SortItemAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Action_Sort"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Action_Sort"));
             this.setMnemonic('S');
             this.setSmallIcon(BaseUtils
                     .readIcon("/com/fr/design/images/control/sortAsc.png"));

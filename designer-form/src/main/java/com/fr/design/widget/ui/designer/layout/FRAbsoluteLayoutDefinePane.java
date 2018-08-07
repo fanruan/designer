@@ -39,7 +39,7 @@ public class FRAbsoluteLayoutDefinePane extends AbstractDataModify<WAbsoluteLayo
         JPanel jPanel = createThirdPane();
         jPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         thirdPane.add(jPanel, BorderLayout.CENTER);
-        UIExpandablePane layoutExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget_Area_Scaling"), 280, 20, thirdPane);
+        UIExpandablePane layoutExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_FormWidget_Area_Scaling"), 280, 20, thirdPane);
         this.add(layoutExpandablePane, BorderLayout.CENTER);
     }
 
@@ -50,7 +50,7 @@ public class FRAbsoluteLayoutDefinePane extends AbstractDataModify<WAbsoluteLayo
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 1}};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget_Scaling_Mode")), comboBox},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Scaling_Mode")), comboBox},
         };
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
 //        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));

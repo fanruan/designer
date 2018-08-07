@@ -1,10 +1,8 @@
 package com.fr.design.gui.itableeditorpane;
 
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import com.fr.base.BaseUtils;
+import com.fr.base.FRContext;
+import com.fr.design.mainframe.DesignerContext;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -12,10 +10,11 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
-
-import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
-import com.fr.design.mainframe.DesignerContext;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 
 /**
@@ -200,7 +199,7 @@ public abstract class UITableModelAdapter<T extends Object> extends AbstractTabl
 	protected abstract class EditAction extends UITableEditAction {
 
 		public EditAction() {
-			this.setName(com.fr.design.i18n.Toolkit.i18nText("Edit"));
+			this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Edit"));
 			this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/edit.png"));
 		}
 

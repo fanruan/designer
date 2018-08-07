@@ -292,7 +292,7 @@ public class UISimpleListControlPane extends BasicPane {
         private boolean isAtoZ = false;
 
         public SortItemAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Action_Sort"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Action_Sort"));
             this.setMnemonic('S');
             this.setSmallIcon(BaseUtils
                     .readIcon("/com/fr/design/images/control/sortAsc.png"));

@@ -21,8 +21,8 @@ public class ReportBackgroundPane extends BasicPane {
         backgroundPane = new BackgroundPane();
         this.add(backgroundPane, BorderLayout.CENTER);
 
-        isPrintBackgroundCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Print_Background"));
-        isExportBackgroundCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Export_Background"));
+        isPrintBackgroundCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Print_Background"));
+        isExportBackgroundCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Export_Background"));
         JPanel sourth = new JPanel();
         sourth.add(isExportBackgroundCheckBox);
         sourth.add(isPrintBackgroundCheckBox);
@@ -31,7 +31,7 @@ public class ReportBackgroundPane extends BasicPane {
     
     @Override
     protected String title4PopupWindow() {
-    	return com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Report_Background");
+    	return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Background");
     }
 
     /**

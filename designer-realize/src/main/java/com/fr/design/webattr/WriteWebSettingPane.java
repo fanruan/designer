@@ -56,7 +56,7 @@ public class WriteWebSettingPane extends WebSettingPane<WebWrite> {
         //sheet标签页显示位置
         topRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Top"));
         bottomRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Bottom"));
-        sheetShowLocationLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Sheet_Label_Page_Display_Position"), UILabel.LEFT);
+        sheetShowLocationLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Sheet_Label_Page_Display_Position"), UILabel.LEFT);
         ButtonGroup buttonGroup = new ButtonGroup();
         bottomRadioButton.setSelected(true);
         buttonGroup.add(topRadioButton);

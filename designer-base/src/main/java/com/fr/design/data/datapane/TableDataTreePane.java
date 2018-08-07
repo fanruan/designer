@@ -84,7 +84,7 @@ public class TableDataTreePane extends BasicTableDataTreePane {
         ToolTipManager.sharedInstance().registerComponent(dataTree);
         ToolTipManager.sharedInstance().setDismissDelay(3000);
         ToolTipManager.sharedInstance().setInitialDelay(0);
-        addMenuDef = new MenuDef(com.fr.design.i18n.Toolkit.i18nText("FR-Action_Add"));
+        addMenuDef = new MenuDef(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Action_Add"));
         addMenuDef.setIconPath(IconPathConstants.ADD_POPMENU_ICON_PATH);
 
         createAddMenuDef();
