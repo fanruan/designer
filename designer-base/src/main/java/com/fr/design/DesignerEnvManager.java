@@ -482,20 +482,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     public void setLastEastRegionContainerWidth(int eastRegionContainerWidth) {
         this.eastRegionContainerWidth = eastRegionContainerWidth;
     }
-
-
-    /**
-     * 判断当前环境是否为默认
-     *
-     * @return 是默认则返回true
-     */
-    public boolean isCurrentEnvDefault() {
-
-        DesignerWorkspaceInfo current = this.getWorkspaceInfo(curEnvName);
-        String defaultEnvPath = getDefaultenvPath(StableUtils.getInstallHome());
-        return ComparatorUtils.equals(defaultEnvPath, current.getPath());
-    }
-
+    
     /**
      * 返回默认环境
      */
