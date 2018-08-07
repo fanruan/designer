@@ -48,8 +48,8 @@ public class RUndoManager extends UndoManager {
 	 */
 	public RUndoManager(RTextArea textArea) {
 		this.textArea = textArea;
-		cantUndoText = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Action.CantUndo.Name");
-		cantRedoText = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Action.CantRedo.Name");
+		cantUndoText = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Action_Cant_Undo_Name");
+		cantRedoText = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Action_Cant_Redo_Name");
 	}
 
 

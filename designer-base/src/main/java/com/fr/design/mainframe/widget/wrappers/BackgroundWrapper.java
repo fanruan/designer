@@ -27,9 +27,9 @@ public class BackgroundWrapper implements Encoder, Decoder {
         if (v instanceof ColorBackground) {
             return com.fr.design.i18n.Toolkit.i18nText("Color");
         } else if (v instanceof TextureBackground) {
-            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background-Texture");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Texture");
         } else if (v instanceof PatternBackground) {
-            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background-Pattern");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Pattern");
         } else if (v instanceof ImageFileBackground) {
             return com.fr.design.i18n.Toolkit.i18nText("Image");
         } else if (v instanceof GradientBackground) {

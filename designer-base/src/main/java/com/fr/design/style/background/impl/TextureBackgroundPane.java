@@ -47,30 +47,30 @@ public class TextureBackgroundPane extends BPane {
         TextureBackground.MEDIUM_WOOD_TEXTURE_PAINT};
 
     private static final String[] EMBED_TEXTURE_PAINT_DES_ARRAY = new String[]{
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_BackgroundTexture-Newsprint"),
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_BackgroundTexture-RecycledPaper"),
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_BackgroundTexture-Parchment"),
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_BackgroundTexture-Stationery"),
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_BackgroundTexture-GreenMarble"),
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_BackgroundTexture-WhiteMarble"),
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_BackgroundTexture-BrownMarble"),
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_BackgroundTexture-Granite"),
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_BackgroundTexture-BlueTissuePaper"),
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_BackgroundTexture-PinkTissuePaper"),
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_BackgroundTexture-PurpleMesh"),
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_BackgroundTexture-Bouquet"),
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_BackgroundTexture-Papyrus"),
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_BackgroundTexture-Canvas"),
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_BackgroundTexture-Denim"),
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_BackgroundTexture-WovenMat"),
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_BackgroundTexture-WaterDroplets"),
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_BackgroundTexture-PaperBag"),
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_BackgroundTexture-FishFossil"),
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_BackgroundTexture-Sand"),
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_BackgroundTexture-Cork"),
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_BackgroundTexture-Walnut"),
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_BackgroundTexture-Oak"),
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_BackgroundTexture-MediumWood")
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Texture_Newsprint"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Texture_Recycled_Paper"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Texture_Parchment"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Texture_Stationery"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Texture_Green_Marble"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Texture_White_Marble"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Texture_Brown_Marble"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Texture_Granite"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Texture_Blue_Tissue_Paper"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Texture_Pink_Tissue_Paper"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Texture_Purple_Mesh"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Texture_Bouquet"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Texture_Papyrus"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Texture_Canvas"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Texture_Denim"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Texture_Woven_Mat"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Texture_Water_Droplets"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Texture_PaperBag"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Texture_FishFossil"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Texture_Sand"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Texture_Cork"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Texture_Walnut"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Texture_Oak"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Texture_Medium_Wood")
     };
 
     private TexturePaint texturePaint;
@@ -89,7 +89,7 @@ public class TextureBackgroundPane extends BPane {
     }
 
     protected String titleOfTypePane() {
-        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background-Texture");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Texture");
     }
     protected void setChildrenOfTypePane(JPanel typePane2) {
         ButtonGroup patternButtonGroup = new ButtonGroup();

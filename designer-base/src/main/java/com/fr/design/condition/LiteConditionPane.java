@@ -124,7 +124,7 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
             boolean result = isExistedInParentTreeNode(parentTreeNode, newJoinCondition);
             if (result) {
                 JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(LiteConditionPane.this),
-                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_BindColumn-This_Condition_has_been_existed"));
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_BindColumn_This_Condition_Has_Been_Existed"));
                 return;
             }
 

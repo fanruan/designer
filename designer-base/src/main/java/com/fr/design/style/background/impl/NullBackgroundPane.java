@@ -19,7 +19,7 @@ public class NullBackgroundPane extends BackgroundDetailPane {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
 
         UILabel centerLabel = new UILabel(
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background-Background_is_NULL") + "...");
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Background_Is_Null") + "...");
         this.add(centerLabel);
         centerLabel.setHorizontalAlignment(SwingConstants.CENTER);
         centerLabel.setBorder(BorderFactory.createLineBorder(GUICoreUtils.getTitleLineBorderColor()));
