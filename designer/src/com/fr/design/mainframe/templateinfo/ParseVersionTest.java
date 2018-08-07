@@ -1,5 +1,6 @@
 package com.fr.design.mainframe.templateinfo;
 
+import com.fr.invoke.Reflect;
 import com.fr.stable.StringUtils;
 import junit.framework.TestCase;
 
@@ -19,13 +20,7 @@ public class ParseVersionTest extends TestCase {
     private String parseVersion(String xmlDesignerVersion) throws Exception{
         String version = StringUtils.EMPTY;
         try {
-            Class reflect  = Class.forName("com.fr.design.mainframe.JTemplate");
-
-            Method method = reflect.getDeclaredMethod("parseVersion", String.class);
-            //取消访问私有方法的合法性检查
-            method.setAccessible(true);
-
-            version = (String) method.invoke(reflect, xmlDesignerVersion);
+            version = Reflect.on("com.fr.design.mainframe.JTemplate").call("parseVersion", xmlDesignerVersion).get();
 
         }catch (Exception e){
             throw e;
