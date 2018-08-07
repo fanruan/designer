@@ -116,7 +116,7 @@ class CptApp extends AbstractWorkBookApp {
             }
         });
         
-        UIButton noButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_No"));
+        UIButton noButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_No"));
         noButton.addActionListener(new ActionListener() {
             
             @Override

@@ -93,7 +93,7 @@ public abstract class CustomJobPane  extends BasicBeanPane {
 		this.add(objectProperiesPane, BorderLayout.CENTER);
 
 		UITextArea area = new UITextArea(2, 1);
-		area.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Extend_Class", "com.fr.data.AbstractSubmitTask"));
+		area.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Extend_Class", "com.fr.data.AbstractSubmitTask"));
 		JPanel dsPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		dsPane.add(area);
 		dsPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Custom_Job_Description"), null));

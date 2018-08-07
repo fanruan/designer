@@ -40,10 +40,10 @@ public class FormWebWidgetConstants {
             Next.class);
 
     // 导出成Excel 分页导出
-    public static final WidgetOption EXCELP = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Export_Excel_Page"),
+    public static final WidgetOption EXCELP = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Export_Excel_Page"),
             IOUtils.readIcon("/com/fr/web/images/excel.png"), ExcelP.class);
     // 导出成Excel 原样导出
-    public static final WidgetOption EXCELO = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Export_Excel_Simple"),
+    public static final WidgetOption EXCELO = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Export_Excel_Simple"),
             IOUtils.readIcon("/com/fr/web/images/excel.png"), ExcelO.class);
     // 导出
     public static final WidgetOption EXPORT = WidgetOptionFactory

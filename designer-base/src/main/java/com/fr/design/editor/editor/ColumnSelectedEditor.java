@@ -28,7 +28,7 @@ public class ColumnSelectedEditor extends Editor<SimpleDSColumn> {
 	protected String[] columnNames;
 
 	public ColumnSelectedEditor() {
-		this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_DS_Column"));
+		this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DS_Column"));
 		this.setLayout(FRGUIPaneFactory.createLeftZeroLayout());
 		tableDataComboBox = new TableDataComboBox(DesignTableDataManager.getEditingTableDataSource());
 		columnNames = new String[0];
