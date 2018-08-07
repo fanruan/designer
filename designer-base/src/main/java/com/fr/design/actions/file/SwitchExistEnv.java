@@ -13,6 +13,8 @@ import com.fr.design.menu.KeySetUtils;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
 import com.fr.design.utils.DesignUtils;
+import com.fr.license.exception.RegistEditionException;
+import com.fr.log.FineLoggerFactory;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.WorkContextCallback;
 import com.fr.workspace.Workspace;
@@ -114,9 +116,11 @@ public class SwitchExistEnv extends MenuDef {
             } catch (AuthException exception) {
                 JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Basic_Remote_Connect_Auth_Failed"),
                         null, 0, UIManager.getIcon("OptionPane.errorIcon"));
-            } catch (RemoteDesignVT4FRException e1) {
+            } catch (RegistEditionException exception) {
                 JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("FR-Lic_does_not_Support_Remote"),
                         null, 0, UIManager.getIcon("OptionPane.errorIcon"));
+            } catch (Exception exception) {
+                FineLoggerFactory.getLogger().error(exception.getMessage(), exception);
             }
         }
     }

@@ -11,7 +11,7 @@ import com.fr.workspace.connect.WorkspaceClient;
  */
 public class DesignerWorkspaceGenerator {
 
-    public static Workspace generate(DesignerWorkspaceInfo config) throws AuthException, RemoteDesignVT4FRException {
+    public static Workspace generate(DesignerWorkspaceInfo config) throws Exception {
 
         if (config == null || config.getType() == null) {
             return null;
