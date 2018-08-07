@@ -40,7 +40,6 @@ import com.fr.stable.xml.XMLWriter;
 import com.fr.stable.xml.XMLableReader;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.WorkContextCallback;
-import com.fr.workspace.connect.AuthException;
 
 import javax.swing.*;
 import javax.swing.SwingWorker.StateValue;
@@ -565,7 +564,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                     DesignTableDataManager.fireDSChanged(new HashMap<String, String>());
                 }
             });
-        } catch (AuthException e) {
+        } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }

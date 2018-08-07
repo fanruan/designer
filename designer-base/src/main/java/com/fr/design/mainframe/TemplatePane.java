@@ -20,6 +20,7 @@ import com.fr.workspace.WorkContext;
 import com.fr.workspace.WorkContextCallback;
 import com.fr.workspace.Workspace;
 import com.fr.workspace.connect.AuthException;
+import com.fr.workspace.connect.RemoteDesignVT4FRException;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -167,6 +168,9 @@ public class TemplatePane extends JPanel implements MouseListener {
             JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Basic_Remote_Connect_Auth_Failed"),
                     null, 0, UIManager.getIcon("OptionPane.errorIcon"));
             return false;
+        } catch (RemoteDesignVT4FRException e) {
+            JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("FR-Lic_does_not_Support_Remote"),
+                    null, 0, UIManager.getIcon("OptionPane.errorIcon"));
         }
         TemplateTreePane.getInstance().refreshDockingView();
         DesignModelAdapter<?, ?> model = DesignModelAdapter.getCurrentModelAdapter();

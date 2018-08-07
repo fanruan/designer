@@ -17,6 +17,7 @@ import com.fr.workspace.WorkContext;
 import com.fr.workspace.WorkContextCallback;
 import com.fr.workspace.Workspace;
 import com.fr.workspace.connect.AuthException;
+import com.fr.workspace.connect.RemoteDesignVT4FRException;
 
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -112,6 +113,9 @@ public class SwitchExistEnv extends MenuDef {
                 });
             } catch (AuthException exception) {
                 JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Basic_Remote_Connect_Auth_Failed"),
+                        null, 0, UIManager.getIcon("OptionPane.errorIcon"));
+            } catch (RemoteDesignVT4FRException e1) {
+                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("FR-Lic_does_not_Support_Remote"),
                         null, 0, UIManager.getIcon("OptionPane.errorIcon"));
             }
         }
