@@ -142,7 +142,7 @@ public class FunctionManagerPane extends BasicPane {
             editorButton.setPreferredSize(new Dimension(editorButton.getPreferredSize().width, classNameTextField.getPreferredSize().height));
             reportletNamePane.add(editorButton);
             editorButton.addActionListener(createEditorButtonActionListener());
-            northPane.add(GUICoreUtils.createFlowPane(new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("DS-Class_Name") + ":"),
+            northPane.add(GUICoreUtils.createFlowPane(new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DS_Class_Name") + ":"),
                     reportletNamePane}, FlowLayout.LEFT));
             DescriptionTextArea descriptionArea = new DescriptionTextArea();
             descriptionArea.setWrapStyleWord(true);

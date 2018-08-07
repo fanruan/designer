@@ -157,7 +157,7 @@ public class EmbeddedTableDataPane extends AbstractTableDataPane<EmbeddedTableDa
 
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("DS-Embedded_TableData");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DS_Embedded_TableData");
 	}
 
 

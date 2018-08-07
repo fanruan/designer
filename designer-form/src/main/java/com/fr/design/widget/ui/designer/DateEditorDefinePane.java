@@ -174,7 +174,7 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
                 String sample = simpleDateFormat.format(new Date());
                 Color c = Color.black;
                 if (!ArrayUtils.contains(FormatField.getInstance().getDateFormatArray(), text)) {
-                    sample += " " + com.fr.design.i18n.Toolkit.i18nText("DateFormat-Custom_Warning");
+                    sample += " " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DateFormat_Custom_Warning");
                     c = Color.red;
                 }
                 currentSamplelabel.setText(sample);

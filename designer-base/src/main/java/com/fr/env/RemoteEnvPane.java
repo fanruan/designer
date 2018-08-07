@@ -464,7 +464,7 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
             @Override
             public void mouseEntered(MouseEvent e) {
                 if (java.awt.Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_CAPS_LOCK)) {
-                    passwordInput.setToolTipText(Toolkit.i18nText("CapsLock"));
+                    passwordInput.setToolTipText(Toolkit.i18nText("Fine-Design_Basic_CapsLock"));
                 } else {
                     passwordInput.setToolTipText(null);
                 }
