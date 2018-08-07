@@ -45,7 +45,7 @@ public class PatternBackgroundPane extends BPane {
     }
 
     protected String titleOfTypePane() {
-        return com.fr.design.i18n.Toolkit.i18nText("Background-Pattern");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Pattern");
     }
     protected LayoutManager layoutOfTypePane(int nColumn) {
         return FRGUIPaneFactory.createNColumnGridLayout(nColumn);

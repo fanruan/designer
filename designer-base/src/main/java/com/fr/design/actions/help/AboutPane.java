@@ -58,7 +58,7 @@ public class AboutPane extends JPanel {
         BoxCenterAligmentPane boxCenterAlignmentPane = new BoxCenterAligmentPane(getCopyRight());
         contentPane.add(boxCenterAlignmentPane);
 
-        boxCenterAlignmentPane = new BoxCenterAligmentPane(com.fr.design.i18n.Toolkit.i18nText("About-All_Rights_Reserved"));
+        boxCenterAlignmentPane = new BoxCenterAligmentPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_About_All_Rights_Reserved"));
         contentPane.add(boxCenterAlignmentPane);
 
         contentPane.add(new BoxCenterAlignmentCopyablePane(
