@@ -32,7 +32,7 @@ public class ButtonConstants {
             com.fr.design.i18n.Toolkit.i18nText("Custom"),
             com.fr.design.i18n.Toolkit.i18nText("Utils-Insert_Row"),
             com.fr.design.i18n.Toolkit.i18nText("Utils-Delete_Row"),
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Button_Type_Parameter_Submit"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Button_Type_Parameter_Submit"),
             com.fr.design.i18n.Toolkit.i18nText("Widget-TreeNode")
     };
 

@@ -96,7 +96,7 @@ public class ReportletHyperlinkPane extends AbstractHyperLinkPane<ReportletHyper
 
     protected class HyperlinkParametersAction extends UITableEditAction {
         public HyperlinkParametersAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Template_Parameter"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Template_Parameter"));
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_report/p.gif"));
         }
 

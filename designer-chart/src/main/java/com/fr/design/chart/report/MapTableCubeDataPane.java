@@ -33,7 +33,7 @@ public class MapTableCubeDataPane extends FurtherBasicBeanPane<MapMoreLayerTable
 
 		pane.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-		UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Tabledata_Select") + ":", SwingConstants.RIGHT);
+		UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Tabledata_Select") + ":", SwingConstants.RIGHT);
 
 		dataFromBox = new DatabaseTableDataPane(label) {
 			protected void userEvent() {

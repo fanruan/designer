@@ -24,7 +24,7 @@ public class FormWebWidgetConstants {
 
     // 当前页/总页数
     public static final WidgetOption PAGENAVI = WidgetOptionFactory.createByWidgetClass(
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Page_Navi_Text"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Page_Navi_Text"),
             IOUtils.readIcon("/com/fr/web/images/pageNumber.png"), PageNavi.class);
     // 首页
     public static final WidgetOption FIRST = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_ReportServerP-First"), IOUtils.readIcon("/com/fr/web/images/first.png"),
@@ -40,16 +40,16 @@ public class FormWebWidgetConstants {
             Next.class);
 
     // 导出成Excel 分页导出
-    public static final WidgetOption EXCELP = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Export_Excel_Page"),
+    public static final WidgetOption EXCELP = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Export_Excel_Page"),
             IOUtils.readIcon("/com/fr/web/images/excel.png"), ExcelP.class);
     // 导出成Excel 原样导出
-    public static final WidgetOption EXCELO = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Export_Excel_Simple"),
+    public static final WidgetOption EXCELO = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Export_Excel_Simple"),
             IOUtils.readIcon("/com/fr/web/images/excel.png"), ExcelO.class);
     // 导出
     public static final WidgetOption EXPORT = WidgetOptionFactory
             .createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Export"), IOUtils.readIcon("/com/fr/web/images/export.png"), Export.class);
 
     public static final WidgetOption CUSTOM_BUTTON = WidgetOptionFactory
-            .createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Toolbar_Custom_Button"), CustomToolBarButton.class);
+            .createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Toolbar_Custom_Button"), CustomToolBarButton.class);
 
 }

@@ -40,7 +40,6 @@ import com.fr.stable.xml.XMLWriter;
 import com.fr.stable.xml.XMLableReader;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.WorkContextCallback;
-import com.fr.workspace.connect.AuthException;
 
 import javax.swing.*;
 import javax.swing.SwingWorker.StateValue;
@@ -482,20 +481,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     public void setLastEastRegionContainerWidth(int eastRegionContainerWidth) {
         this.eastRegionContainerWidth = eastRegionContainerWidth;
     }
-
-
-    /**
-     * 判断当前环境是否为默认
-     *
-     * @return 是默认则返回true
-     */
-    public boolean isCurrentEnvDefault() {
-
-        DesignerWorkspaceInfo current = this.getWorkspaceInfo(curEnvName);
-        String defaultEnvPath = getDefaultenvPath(StableUtils.getInstallHome());
-        return ComparatorUtils.equals(defaultEnvPath, current.getPath());
-    }
-
+    
     /**
      * 返回默认环境
      */
@@ -511,7 +497,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 return env;
             }
         }
-        String name = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Workspace_Default");
+        String name = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Workspace_Default");
         LocalDesignerWorkspaceInfo newDefaultEnv = LocalDesignerWorkspaceInfo.create(name, defaultenvPath);
         this.putEnv(name, newDefaultEnv);
         return newDefaultEnv;
@@ -534,7 +520,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 }
             }
         }
-        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Workspace_Default");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Workspace_Default");
     }
 
 
@@ -547,7 +533,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
      * 设置当前环境为默认
      */
     public void setCurrentEnv2Default() {
-    
+
         try {
             final String envName = getDefaultEnvName();
             WorkContext.switchTo(DesignerWorkspaceGenerator.generate(getDefaultConfig()), new WorkContextCallback() {
@@ -563,7 +549,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                     DesignTableDataManager.fireDSChanged(new HashMap<String, String>());
                 }
             });
-        } catch (AuthException e) {
+        } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }

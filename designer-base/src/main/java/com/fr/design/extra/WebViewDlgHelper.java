@@ -81,7 +81,7 @@ public class WebViewDlgHelper {
             } else {
                 int rv = JOptionPane.showConfirmDialog(
                         null,
-                        com.fr.design.i18n.Toolkit.i18nText("Fine-Plugin_Shop_Need_Install_Version"),
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Shop_Need_Install_Version"),
                         com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"),
                         JOptionPane.OK_CANCEL_OPTION,
                         JOptionPane.INFORMATION_MESSAGE

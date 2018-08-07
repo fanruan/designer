@@ -578,7 +578,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             if (selectedOperation.isNameAlreadyExist(userInput, oldName, suffix)) {
                 jt.selectAll();
                 // 如果文件名已存在，则灰掉确认按钮
-                hintsLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Template_File_Name_Duplicate", userInput));
+                hintsLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Template_File_Name_Duplicate", userInput));
                 hintsLabel.setVisible(true);
                 confirmButton.setEnabled(false);
             } else {

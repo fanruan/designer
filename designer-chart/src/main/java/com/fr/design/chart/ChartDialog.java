@@ -43,7 +43,7 @@ public class ChartDialog extends MiddleChartDialog {
 		this.setModal(true);
 		this.setLayout(new BorderLayout());
     	final ChartTypePane chartTypePane = new ChartTypePane();
-    	setTitle(com.fr.design.i18n.Toolkit.i18nText("M-Popup_ChartType"));
+    	setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_M_Popup_Chart_Type"));
 
         this.applyClosingAction();
         this.applyEscapeAction();
@@ -55,7 +55,7 @@ public class ChartDialog extends MiddleChartDialog {
     	
     	this.add(buttonPane, BorderLayout.SOUTH);
     	
-    	ok = new UIButton(com.fr.design.i18n.Toolkit.i18nText("OK"));
+    	ok = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_OK"));
     	cancel = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Cancel"));
     	
     	buttonPane.add(ok);

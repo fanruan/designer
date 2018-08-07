@@ -43,7 +43,7 @@ public class ConnectionListPane extends JListControlPane implements ConnectionSh
                 String tempName = getEditingName();
                 if (StringUtils.isEmpty(tempName)) {
                     nameableList.stopEditing();
-                    JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(ConnectionListPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Connection_Empty_Name"));
+                    JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(ConnectionListPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Connection_Empty_Name"));
                     setIllegalIndex(editingIndex);
                     isNamePermitted = false;
                     return;
@@ -52,7 +52,7 @@ public class ConnectionListPane extends JListControlPane implements ConnectionSh
                         && isNameRepeated(new List[]{Arrays.asList(allListNames)}, tempName)) {
                     isNamePermitted = false;
                     nameableList.stopEditing();
-                    String message = Toolkit.i18nText("Fine-Design_Connection_Duplicate_Name", tempName);
+                    String message = Toolkit.i18nText("Fine-Design_Basic_Connection_Duplicate_Name", tempName);
                     JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(ConnectionListPane.this), message);
                     setIllegalIndex(editingIndex);
                 }

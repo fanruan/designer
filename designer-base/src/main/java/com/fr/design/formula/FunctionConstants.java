@@ -78,7 +78,7 @@ public abstract class FunctionConstants {
     public static FunctionGroup PLUGIN = new FunctionGroup() {
         @Override
         public String getGroupName() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Base_Formula_Plugin");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Base_Formula_Plugin");
         }
 
         @Override
@@ -129,7 +129,7 @@ public abstract class FunctionConstants {
 		new NameAndTypeAndFunctionList(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FormulaD-Array"), Function.ARRAY),
 		new NameAndTypeAndFunctionList(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FormulaD-Report"), Function.REPORT),
 		new NameAndTypeAndFunctionList(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FormulaD-Other"), Function.OTHER),
-		new NameAndTypeAndFunctionList(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Function_Type_Hierarchy"), Function.HA)
+		new NameAndTypeAndFunctionList(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Function_Type_Hierarchy"), Function.HA)
 	};
 	
 	public static FunctionGroup ALL = new FunctionGroup() {

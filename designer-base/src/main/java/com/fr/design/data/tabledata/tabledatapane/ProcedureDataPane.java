@@ -196,7 +196,7 @@ public class ProcedureDataPane extends AbstractTableDataPane<StoreProcedure> imp
                     warningLabel.setText(StringUtils.EMPTY);
                 } catch (Exception ex) {
                     if (ex instanceof SQLException) {
-                        warningLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Database_Connection_Failed"));
+                        warningLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Connection_Failed"));
                     } else {
                         warningLabel.setText(ex.getMessage());
                     }
@@ -319,7 +319,7 @@ public class ProcedureDataPane extends AbstractTableDataPane<StoreProcedure> imp
             storeProcedureContext.setText(procedureText);
             warningLabel.setText("");
         } catch (Exception e) {
-            warningLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Database_Connection_Failed"));
+            warningLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Connection_Failed"));
             storeProcedureContext.setText("");
             editorPane.populate(new StoreProcedureParameter[0]);
         }

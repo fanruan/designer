@@ -36,7 +36,7 @@ public class Pie2DSeriesPane extends AbstractPlotSeriesPane {
     protected void initCom() {
         stylePane = new ChartBeautyPane();
         isSecondPlot = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart_Second_Plot"));
-        String[] nameArray = {com.fr.design.i18n.Toolkit.i18nText("PieStyle"), com.fr.design.i18n.Toolkit.i18nText("BarStyle")};
+        String[] nameArray = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_PieStyle"), com.fr.design.i18n.Toolkit.i18nText("BarStyle")};
         Integer[] valueArray = {0, 1};
         secondPlotType = new UIButtonGroup<Integer>(nameArray, valueArray);
         smallPercent = new UIBasicSpinner(new SpinnerNumberModel(5, 0, 100, 1));

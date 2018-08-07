@@ -17,7 +17,7 @@ public class ChartBeautyPane extends BasicBeanPane<Integer>{
 
 	public ChartBeautyPane() {
 		String[] nameArray = {com.fr.design.i18n.Toolkit.i18nText("Common"),
-                com.fr.design.i18n.Toolkit.i18nText("Plane3D"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Gradient_HighLight"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Plane3D"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Gradient_HighLight"),
                 com.fr.design.i18n.Toolkit.i18nText("TopDownShade"),com.fr.design.i18n.Toolkit.i18nText("Transparent")   //新加的两种风格，注意兼容处理
            };
 

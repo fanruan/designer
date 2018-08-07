@@ -1,6 +1,5 @@
 package com.fr.design.mainframe;
 
-import com.fr.base.BaseUtils;
 import com.fr.base.Parameter;
 import com.fr.base.ScreenResolution;
 import com.fr.base.vcs.DesignerMode;
@@ -358,7 +357,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     }
 
     private void addParaPaneTooltips() {
-        JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Form-Please_Drag_ParaPane"),
+        JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Please_Drag_ParaPane"),
                 com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tooltips"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
     }
 

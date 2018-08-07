@@ -238,7 +238,7 @@ public class HFAttributesEditDialog extends BasicPane {
     }
 
     private void addReportFontPaneToTab() {
-        this.tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("FRFont"), this.frFontPane);
+        this.tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Font"), this.frFontPane);
     }
 
     private void addFormatPaneToTab() {

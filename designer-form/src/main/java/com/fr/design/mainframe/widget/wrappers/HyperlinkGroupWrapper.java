@@ -26,10 +26,10 @@ public class HyperlinkGroupWrapper implements Encoder, Decoder {
     @Override
     public String encode(Object v) {
         if (v == null) {
-            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Hyperlink_Undefined");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Hyperlink_Undefined");
         }
         NameJavaScriptGroup group = (NameJavaScriptGroup)v;
-        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Hyperlink_Group_Count", group.size());
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Hyperlink_Group_Count", group.size());
     }
 
     @Override

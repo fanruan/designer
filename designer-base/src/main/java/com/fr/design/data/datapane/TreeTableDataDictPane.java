@@ -53,7 +53,7 @@ public class TreeTableDataDictPane extends BasicPane implements Previewable {
     public TreeTableDataDictPane(String treeName) {
         this.setLayout(new BorderLayout(5, 30));
         this.setBorder(BorderFactory.createEmptyBorder(20, 20, 0, 0));
-        selectTableDataLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_TableData_Select_One") + " :");
+        selectTableDataLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_TableData_Select_One") + " :");
         setTableDataNameComboBox(treeName);
         tableDataNameComboBox.setPreferredSize(new Dimension(180, 20));
         JPanel tableFlowPane = FRGUIPaneFactory.createBoxFlowInnerContainer_S_Pane();

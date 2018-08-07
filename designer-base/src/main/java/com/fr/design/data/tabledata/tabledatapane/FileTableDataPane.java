@@ -221,7 +221,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
                 FRContext.getLogger().error(e.getMessage(), e);
             }
             if (in == null) {
-                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Database_Connection_Failed"),
+                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Connection_Failed"),
                         null, 0, UIManager.getIcon("OptionPane.errorIcon"));
             } else {
                 JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Datasource-Connection_successfully"));
@@ -759,7 +759,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Tabledata_Type_File");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tabledata_Type_File");
     }
 
     private void preview() {

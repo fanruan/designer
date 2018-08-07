@@ -54,15 +54,15 @@ public class LabelDefinePane extends AbstractDataModify<Label> {
                 BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_right_normal.png"),};
         Integer[] hAlignment = new Integer[]{Constants.LEFT, Constants.CENTER, Constants.RIGHT};
         hAlignmentPane = new UIButtonGroup<Integer>(hAlignmentIconArray, hAlignment);
-        hAlignmentPane.setAllToolTips(new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Left")
-                , com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Center"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Right")});
+        hAlignmentPane.setAllToolTips(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_FormStyleAlignment_Left")
+                , com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_StyleAlignment_Center"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_StyleAlignment_Right")});
         frFontPane = new FRFontPane();
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         double[] rowSize = {p, p, p, p, p, p, p};
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 3}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
-        UILabel widgetValueLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Estate_Widget_Value"));
+        UILabel widgetValueLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Estate_Widget_Value"));
         widgetValueLabel.setVerticalAlignment(SwingConstants.TOP);
         UILabel fontLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Font-Size"));
         fontLabel.setVerticalAlignment(SwingConstants.TOP);

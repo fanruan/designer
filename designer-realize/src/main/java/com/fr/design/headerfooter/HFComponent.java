@@ -3,25 +3,6 @@
  */
 package com.fr.design.headerfooter;
 
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
-import javax.swing.BorderFactory;
-import javax.swing.Icon;
-import com.fr.design.gui.ilable.UILabel;
-import javax.swing.JPopupMenu;
-import javax.swing.JSeparator;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
 import com.fr.base.BaseUtils;
 import com.fr.base.headerfooter.DateHFElement;
 import com.fr.base.headerfooter.FormulaHFElement;
@@ -32,10 +13,27 @@ import com.fr.base.headerfooter.NumberOfPageHFElement;
 import com.fr.base.headerfooter.PageNumberHFElement;
 import com.fr.base.headerfooter.TextHFElement;
 import com.fr.base.headerfooter.TimeHFElement;
-import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.dialog.DialogActionAdapter;
-
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.utils.gui.GUICoreUtils;
+
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.JPopupMenu;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 /**
  * The basic HF edit component.
@@ -65,7 +63,7 @@ public class HFComponent extends UILabel implements MoveActionListener {
         //popup menu
         popupMenu = new JPopupMenu();
 
-        UIMenuItem editMenuItem = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("Edit") + "...");
+        UIMenuItem editMenuItem = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Edit") + "...");
         editMenuItem.setMnemonic('E');
         popupMenu.add(editMenuItem);
 

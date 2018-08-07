@@ -83,7 +83,7 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 	private JPanel createFormatPane(UIComboBox formatComboBox, UILabel sampleLabel){
 
 		JPanel previewPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-		TitledBorder titledBorder = new TitledBorder(new UIRoundedBorder(UIConstants.LINE_COLOR, 1, 5), com.fr.design.i18n.Toolkit.i18nText("FR-Base_StyleFormat_Sample"), 4, 2, this.getFont(), UIConstants.LINE_COLOR);
+		TitledBorder titledBorder = new TitledBorder(new UIRoundedBorder(UIConstants.LINE_COLOR, 1, 5), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Base_StyleFormat_Sample"), 4, 2, this.getFont(), UIConstants.LINE_COLOR);
 		previewPane.setBorder(titledBorder);
 
 		JPanel sampleLabelWrapper = new JPanel(new BorderLayout());

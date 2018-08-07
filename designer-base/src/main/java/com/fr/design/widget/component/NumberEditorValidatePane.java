@@ -3,7 +3,6 @@ package com.fr.design.widget.component;
 import com.fr.design.designer.IntervalConstants;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.ispinner.UIBasicSpinner;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -16,7 +15,6 @@ import com.fr.stable.StringUtils;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.text.DefaultFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -55,11 +53,11 @@ public class NumberEditorValidatePane extends JPanel {
 
     private void initComponent() {
         initListeners();
-        this.allowDecimalsCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Allow_Decimals"));
+        this.allowDecimalsCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Allow_Decimals"));
         allowDecimalsCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         this.allowDecimalsCheckBox.addActionListener(allowDecimalsListener);
         this.decimalLength = new UISpinner(0, Integer.MAX_VALUE, 1, 16);
-        this.allowNegativeCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Allow_Negative"));
+        this.allowNegativeCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Allow_Negative"));
         this.allowNegativeCheckBox.addActionListener(allowNegativeListener);
         allowNegativeCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         this.setMaxValueCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Need_Max_Value"), false);
@@ -77,7 +75,7 @@ public class NumberEditorValidatePane extends JPanel {
         JPanel errorMsgBorderPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         errorMsgBorderPane.setBorder(BorderFactory.createEmptyBorder(0, IntervalConstants.INTERVAL_L5, IntervalConstants.INTERVAL_L1, 0));
         errorMsgBorderPane.add(errorMsgTextFieldPane, BorderLayout.CENTER);
-        UILabel numberLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Decimal_Digits"));
+        UILabel numberLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Decimal_Digits"));
         limitNumberPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{numberLabel, decimalLength}}, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);
         limitNumberPane.setBorder(BorderFactory.createEmptyBorder(0, IntervalConstants.INTERVAL_L5, 0, 0));
         double f = TableLayout.FILL;

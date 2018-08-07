@@ -89,17 +89,17 @@ public class ReportWebWidgetConstants {
 
 
     // 导出成Excel 分页导出
-    public static final WidgetOption EXCELP = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Export_Excel_Page"),
+    public static final WidgetOption EXCELP = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Export_Excel_Page"),
             BaseUtils.readIcon("/com/fr/web/images/excel.png"), ExcelP.class);
     // 导出成Excel 原样导出
-    public static final WidgetOption EXCELO = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Export_Excel_Simple"),
+    public static final WidgetOption EXCELO = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Export_Excel_Simple"),
             BaseUtils.readIcon("/com/fr/web/images/excel.png"), ExcelO.class);
     // 导出成Excel 分页分Sheet导出
-    public static final WidgetOption EXCELS = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Export_Excel_Page_To_Sheet"),
+    public static final WidgetOption EXCELS = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Export_Excel_Page_To_Sheet"),
             BaseUtils.readIcon("/com/fr/web/images/excel.png"), ExcelS.class);
 
     // 导出成Word
-    public static final WidgetOption WORD = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Export_Word"), BaseUtils.readIcon("/com/fr/web/images/word.png"), Word.class);
+    public static final WidgetOption WORD = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Export_Word"), BaseUtils.readIcon("/com/fr/web/images/word.png"), Word.class);
     // 页面设置
     public static final WidgetOption PAGESETUP = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("PageSetup-Page_Setup"), BaseUtils.readIcon("/com/fr/web/images/pageSetup.png"), PageSetup.class);
     // 导出
@@ -107,7 +107,7 @@ public class ReportWebWidgetConstants {
             .createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Export"), BaseUtils.readIcon("/com/fr/web/images/export.png"), Export.class);
 
     // 当前页/总页数
-    public static final WidgetOption PAGENAVI = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Page_Navi_Text"),
+    public static final WidgetOption PAGENAVI = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Page_Navi_Text"),
             BaseUtils.readIcon("/com/fr/web/images/pageNumber.png"), PageNavi.class);
     // 首页
     public static final WidgetOption FIRST = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_ReportServerP-First"), BaseUtils.readIcon("/com/fr/web/images/first.png"),

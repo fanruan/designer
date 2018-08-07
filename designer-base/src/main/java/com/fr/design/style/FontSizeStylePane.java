@@ -32,13 +32,13 @@ public class FontSizeStylePane extends JPanel {
         this.add(fontVSizPane);
         
 //        fontVSizPane.setLayout(new BoxLayout(fontVSizPane, BoxLayout.X_AXIS));
-        fontVSizPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Style_Font_Size"), null));
+        fontVSizPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Font_Size"), null));
         
         String[] styles = {
-            com.fr.design.i18n.Toolkit.i18nText("FRFont-plain"),
-            com.fr.design.i18n.Toolkit.i18nText("FRFont-bold"),
-            com.fr.design.i18n.Toolkit.i18nText("FRFont-italic"),
-            com.fr.design.i18n.Toolkit.i18nText("FRFont-bolditalic")};
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Font_Plain"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Font_Bold"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Font_Italic"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Font_Bold_Italic")};
 
         styleField = new UITextField();
         styleField.setEditable(false);

@@ -57,7 +57,7 @@ public class RadarSeriesPane extends AbstractPlotSeriesPane{
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart_Line_Style")),isCurve},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Line_Style")),lineStyle },
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Marker_Type")), markerPane},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Null_Value_Show")),isNullValueBreak}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Null_Value_Show")),isNullValueBreak}
         } ;
         return TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
 	}

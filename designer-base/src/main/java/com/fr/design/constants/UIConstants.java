@@ -219,7 +219,7 @@ public interface UIConstants {
 
         @Override
         public String toString() {
-            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Loading") + "...";
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Loading") + "...";
         }
     };
     /**
@@ -228,7 +228,7 @@ public interface UIConstants {
     public static final Object CONNECTION_FAILED = new Object() {
 
         public String toString() {
-            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Database_Connection_Failed") + "!";
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Connection_Failed") + "!";
         }
     };
 

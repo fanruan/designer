@@ -154,7 +154,7 @@ public class PreferencePane extends BasicPane {
         createJdkHomePane(advancePane);
 
         JPanel oraclePane = FRGUIPaneFactory.createTitledBorderPane("Oracle" + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Oracle_All_Tables"));
-        oracleSpace = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Show_All_Oracle_Tables"));
+        oracleSpace = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Show_All_Oracle_Tables"));
         oraclePane.add(oracleSpace);
 
         JPanel improvePane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Product_improve"));
@@ -198,11 +198,11 @@ public class PreferencePane extends BasicPane {
 
     private void createEditPane(JPanel generalPane) {
         //samuel:编辑器设置
-        JPanel editPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Editor_Preference"));
+        JPanel editPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Editor_Preference"));
         generalPane.add(editPane);
 
         //设置是否支持将字符串编辑为公式
-        supportStringToFormulaBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Support_String_To_Formula"));
+        supportStringToFormulaBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Support_String_To_Formula"));
         editPane.add(supportStringToFormulaBox);
 
         //是否默认转化

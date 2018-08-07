@@ -25,7 +25,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 
 public class ClassTableDataPane extends AbstractTableDataPane<ClassTableData> {
     private UITextField classNameTextField;
@@ -64,7 +63,7 @@ public class ClassTableDataPane extends AbstractTableDataPane<ClassTableData> {
                 dlg.setVisible(true);
             }
         });
-        UIButton editButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Edit"));
+        UIButton editButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Edit"));
         editButton.setPreferredSize(new Dimension(
                 editButton.getPreferredSize().width,
                 classNameTextField.getPreferredSize().height));
@@ -93,7 +92,7 @@ public class ClassTableDataPane extends AbstractTableDataPane<ClassTableData> {
         		{new UILabel(com.fr.design.i18n.Toolkit.i18nText("DS-Class_Name") + ":"), reportletNamePane},
         		{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Function-The_class_must_implement_the_interface") + "\"com.fr.data.Tabledata\"")},
         		{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Example") + ":\"com.fr.data.impl.ArrayTableData\"")},
-                {null,new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Class_Location_Description", StableUtils.pathJoin(ProjectConstants.WEBINF_NAME, ProjectConstants.CLASSES_NAME)))}
+                {null,new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Class_Location_Description", StableUtils.pathJoin(ProjectConstants.WEBINF_NAME, ProjectConstants.CLASSES_NAME)))}
         };
         JPanel northPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
         this.add(northPane, BorderLayout.NORTH);

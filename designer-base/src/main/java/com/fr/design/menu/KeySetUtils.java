@@ -4,13 +4,9 @@
 
 package com.fr.design.menu;
 
-import com.fr.general.ComparatorUtils;
-import com.fr.general.GeneralContext;
-
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
-import java.util.Locale;
 
 import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
 
@@ -540,7 +536,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Report_Background");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Background");
         }
 
         @Override
@@ -661,7 +657,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Attribute");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Engine_Attribute");
         }
 
         @Override
@@ -678,7 +674,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Authority_Edit_Status");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Authority_Edit_Status");
         }
 
         @Override
@@ -883,7 +879,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("M_Insert-Hyperlink");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_M_Insert_Hyperlink");
         }
 
         @Override
@@ -994,7 +990,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("M_Insert-Float");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_M_Insert-Float");
         }
 
         @Override

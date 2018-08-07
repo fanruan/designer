@@ -34,7 +34,7 @@ public class ChartBorderPane extends BasicPane{
 		double[] columnSize = { p,f };
 		double[] rowSize = {p, p, p, p};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Line-Style")+":"),currentLineCombo},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Line_Style")+":"),currentLineCombo},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Color")+":"),currentLineColorPane},
                 new Component[]{null,isRoundBorder}
         } ;

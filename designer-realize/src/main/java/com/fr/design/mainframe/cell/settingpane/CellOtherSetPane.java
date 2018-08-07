@@ -130,7 +130,7 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
 
     private JPanel seniorPane() {
         // 插入行策略
-        insertRowPolicy = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Designer_CellWrite_InsertRow_NULL"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Estate_Default_Text"),
+        insertRowPolicy = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Designer_CellWrite_InsertRow_NULL"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Estate_Default_Text"),
                 com.fr.design.i18n.Toolkit.i18nText("FR-Designer_CellWrite_InsertRow_COPY")});
         defaultValuePane = new JPanel(new BorderLayout(4, 0));
         valueEditor = ValueEditorPaneFactory.createBasicValueEditorPane();

@@ -36,7 +36,7 @@ public class ParameterArrayPane extends JListControlPane {
 				String tempName = getEditingName();
 				if (StringUtils.isEmpty(tempName)) {
 					nameableList.stopEditing();
-					JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(ParameterArrayPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Empty_Parameter_Name"));
+					JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(ParameterArrayPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Empty_Parameter_Name"));
 					setIllegalIndex(editingIndex);
 					return;
 				}
@@ -44,7 +44,7 @@ public class ParameterArrayPane extends JListControlPane {
 						&& isNameRepeated(new List[]{Arrays.asList(parameters), Arrays.asList(allListNames)}, tempName)) {
 					nameableList.stopEditing();
 					JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(ParameterArrayPane.this),
-							com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Duplicate_Parameter_Name"));
+							com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Duplicate_Parameter_Name"));
 					setIllegalIndex(editingIndex);
 				}
 			}
