@@ -26,7 +26,7 @@ public abstract class SingleConditionPane<T> extends BasicPane {
 			
 			if(cancel == null) {
 				cancel  = new UIButton(BaseUtils.readIcon("/com/fr/base/images/cell/control/remove.png"));
-				cancel.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Action_Remove"));
+				cancel.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Action_Remove"));
 				cancel.addActionListener(cancleListener);
 				cancel.setMargin(new Insets(0, 0, 0, 0));
 			}

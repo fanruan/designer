@@ -144,14 +144,14 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
         barWidthContainer.add(barWidthSpinner);
         JPanel barHeightContainer = new JPanel(new BorderLayout());
         barHeightContainer.add(barHeightSpinner);
-        UILabel uiLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Tree_Width"), UILabel.RIGHT);
+        UILabel uiLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Tree_Width"), UILabel.RIGHT);
         uiLabel.setPreferredSize(typeSetLabel.getPreferredSize());
         JPanel drawingTextCheckBoxPane = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
         drawingTextCheckBox.setBorder(UIConstants.CELL_ATTR_ZEROBORDER);
         drawingTextCheckBoxPane.add(drawingTextCheckBox);
         Component[][] components_normal = new Component[][]{
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Barcode_Size"), UILabel.LEFT), barWidthContainer, barHeightContainer},
-                new Component[]{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Tree_Width"), UILabel.CENTER), new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Tree_Height"), UILabel.CENTER)},
+                new Component[]{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Tree_Width"), UILabel.CENTER), new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Tree_Height"), UILabel.CENTER)},
                 new Component[]{drawingTextCheckBoxPane, null, null}
         };
 

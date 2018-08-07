@@ -80,7 +80,7 @@ public class FRAbsoluteBodyLayoutDefinePane extends FRAbsoluteLayoutDefinePane {
         JPanel northPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Attr_Layout_Type")), layoutCombox}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
         JPanel centerPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget_Scaling_Mode")), comboBox}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Scaling_Mode")), comboBox}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
         jPanel.add(northPane, BorderLayout.NORTH);
         jPanel.add(centerPane, BorderLayout.CENTER);
         centerPane.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L1, IntervalConstants.INTERVAL_L5, 0, 0));

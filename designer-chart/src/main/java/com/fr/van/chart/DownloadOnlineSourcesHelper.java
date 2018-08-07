@@ -79,7 +79,7 @@ public class DownloadOnlineSourcesHelper implements DownloadSourcesEvent {
 
     public void installOnline() {
 
-        int choose = JOptionPane.showConfirmDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Download_Online_Sources"), null, JOptionPane.YES_NO_OPTION);
+        int choose = JOptionPane.showConfirmDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Download_Online_Sources"), null, JOptionPane.YES_NO_OPTION);
 
         if (choose == JOptionPane.OK_OPTION) {
             initDialog();
@@ -174,7 +174,7 @@ public class DownloadOnlineSourcesHelper implements DownloadSourcesEvent {
         setProgress(0);
 
         dialog = new JDialog();
-        dialog.setTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Dependence_Install_Online"));
+        dialog.setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Dependence_Install_Online"));
 
         JPanel contentPane = new JPanel(new BorderLayout());
         contentPane.add(label, BorderLayout.CENTER);
@@ -208,7 +208,7 @@ public class DownloadOnlineSourcesHelper implements DownloadSourcesEvent {
                 RestartHelper.restart();
             }
         } else {
-            JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Dependence_Install_Failed"));
+            JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Dependence_Install_Failed"));
         }
     }
 

@@ -374,7 +374,7 @@ public class AlphaFineDialog extends UIDialog {
      */
     private void removeLeftPane() {
         if (searchListModel.isEmpty() && defaultPane == null) {
-            defaultPane = new NoResultPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-AlphaFine_NO_Result"), AlphaFineConstants.IMAGE_URL + "no_result.png");
+            defaultPane = new NoResultPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_NO_Result"), AlphaFineConstants.IMAGE_URL + "no_result.png");
             searchResultPane.remove(leftSearchResultPane);
             searchResultPane.add(defaultPane, BorderLayout.WEST);
             refreshContainer();

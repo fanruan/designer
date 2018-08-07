@@ -70,11 +70,11 @@ public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connecti
             northPane.add(chartSetPane);
             chartSetPane.setBorder(BorderFactory.createTitledBorder(
                     new ModLineBorder(ModLineBorder.TOP),
-                    com.fr.design.i18n.Toolkit.i18nText("Datasource-Convert_Charset")
+                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Convert_Charset")
             ));
 
-            chartSetPane.add(GUICoreUtils.createNamedPane(originalCharSetComboBox, com.fr.design.i18n.Toolkit.i18nText("Datasource-Original_Charset") + ":"));
-            chartSetPane.add(GUICoreUtils.createNamedPane(newCharSetComboBox, com.fr.design.i18n.Toolkit.i18nText("Datasource-New_Charset") + ":"));
+            chartSetPane.add(GUICoreUtils.createNamedPane(originalCharSetComboBox, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Original_Charset") + ":"));
+            chartSetPane.add(GUICoreUtils.createNamedPane(newCharSetComboBox, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_New_Charset") + ":"));
         }
     }
 

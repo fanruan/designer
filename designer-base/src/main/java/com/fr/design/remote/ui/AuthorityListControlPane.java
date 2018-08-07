@@ -78,7 +78,7 @@ public class AuthorityListControlPane extends BasicPane {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.authorityCreators = new RemoteDesignAuthorityCreator[]{
                 new RemoteDesignAuthorityCreator(
-                        com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Remote_Design_User"),
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remote_Design_User"),
                         BaseUtils.readIcon("com/fr/design/remote/images/icon_Member_normal@1x.png"),
                         DesignAuthority.class,
                         AuthorityEditorPane.class)
@@ -470,7 +470,7 @@ public class AuthorityListControlPane extends BasicPane {
     private class AddItemUpdateAction extends UpdateAction {
 
         AddItemUpdateAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Action_Add"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Action_Add"));
             this.setMnemonic('A');
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/buttonicon/add.png"));
         }
@@ -511,7 +511,7 @@ public class AuthorityListControlPane extends BasicPane {
      */
     private class RemoveItemAction extends UpdateAction {
         RemoveItemAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Action_Remove"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Action_Remove"));
             this.setMnemonic('R');
             this.setSmallIcon(BaseUtils
                     .readIcon(IconPathConstants.TD_REMOVE_ICON_PATH));

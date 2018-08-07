@@ -42,7 +42,7 @@ public class CellSubReportEditor extends CellQuickEditor {
     @Override
     protected void refreshDetails() {
         SubReportCellAction subReportCellAction = new SubReportCellAction(tc);
-        subReportCellAction.setName(com.fr.design.i18n.Toolkit.i18nText("Edit"));
+        subReportCellAction.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Edit"));
         subReportCellAction.setSmallIcon(null);
         subReportButton.setAction(subReportCellAction);
     }

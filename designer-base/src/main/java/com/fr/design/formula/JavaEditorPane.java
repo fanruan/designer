@@ -185,7 +185,7 @@ public class JavaEditorPane extends BasicPane {
                         className = info.getIntactClassName();
                         String message = info.getCompileMessage();
                         if (StringUtils.isEmpty(message)) {
-                            message = com.fr.design.i18n.Toolkit.i18nText("Compile_Success") + "!";
+                            message = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Compile_Success") + "!";
                         }
                         JOptionPane.showMessageDialog(null, message);
                     } catch (InterruptedException e1) {

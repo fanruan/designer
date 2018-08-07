@@ -8,7 +8,6 @@ import javax.swing.event.ChangeEvent;
 
 import com.fr.data.impl.CustomDictionary;
 import com.fr.design.beans.FurtherBasicBeanPane;
-import com.fr.design.gui.frpane.UICorrelationPane;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 
@@ -72,7 +71,7 @@ public class CustomDictPane extends FurtherBasicBeanPane<CustomDictionary> {
 
 	@Override
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Datasource-User_Defined");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_User_Defined");
 	}
 
 	@Override

@@ -3,19 +3,21 @@
  */
 package com.fr.design.webattr;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.List;
+import com.fr.base.BaseUtils;
+import com.fr.design.dialog.BasicDialog;
+import com.fr.design.dialog.BasicPane;
+import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.icombobox.UIComboBox;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.general.GeneralUtils;
+import com.fr.report.web.Printer;
+import com.fr.stable.StringUtils;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
-import com.fr.design.gui.ilable.UILabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -24,18 +26,14 @@ import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
-import com.fr.base.BaseUtils;
-import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.gui.icombobox.UIComboBox;
-import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.dialog.BasicDialog;
-import com.fr.design.dialog.BasicPane;
-import com.fr.design.dialog.DialogActionAdapter;
-import com.fr.general.GeneralUtils;
-
-import com.fr.report.web.Printer;
-import com.fr.stable.StringUtils;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ServerPrinterPane extends BasicPane {
 	private JList printerList;
@@ -68,7 +66,7 @@ public class ServerPrinterPane extends BasicPane {
 
 		editButton = new UIButton(BaseUtils.readIcon("/com/fr/design/images/control/edit.png"));
 		editButton.addActionListener(editActionListener);
-		editButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Edit"));//"edit"
+		editButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Edit"));//"edit"
 		editButton.setPreferredSize(preferDimension);
 
 		removeButton = new UIButton(BaseUtils.readIcon("/com/fr/base/images/cell/control/remove.png"));

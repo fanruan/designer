@@ -78,7 +78,7 @@ public abstract class FunctionConstants {
     public static FunctionGroup PLUGIN = new FunctionGroup() {
         @Override
         public String getGroupName() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Base_Formula_Plugin");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Base_Formula_Plugin");
         }
 
         @Override

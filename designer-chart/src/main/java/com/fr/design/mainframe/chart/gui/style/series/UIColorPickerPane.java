@@ -44,7 +44,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UIColorPickerPane extends BasicPane implements UIObserver {
-	private static final int MARGIN_TOP = 10;
+	private static final int MARGIN_TOP = 7;
 	private static final int MARGIN_LEFT = 5;
 	private static final int COLORGROUP_MARGIN_LEFT = 20;
 	private static final int OFF_HEIGHT = 6;

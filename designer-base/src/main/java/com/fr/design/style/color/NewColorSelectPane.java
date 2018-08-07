@@ -94,7 +94,7 @@ public class NewColorSelectPane extends BasicPane implements ColorSelectable {
         centerPane.add(Box.createVerticalStrut(1));
 
         // mod by anchore 16/11/16
-        UIButton customButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Basic_More_Color"));
+        UIButton customButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_More_Color"));
 
         customButton.addMouseListener(new MouseAdapter() {
             @Override
