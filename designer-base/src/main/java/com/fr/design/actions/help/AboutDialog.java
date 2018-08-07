@@ -1,13 +1,10 @@
 package com.fr.design.actions.help;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Frame;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import com.fr.design.gui.frpane.UITabbedPane;
+import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.stable.ProductConstants;
 
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
@@ -16,13 +13,14 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
-
-import com.fr.design.gui.frpane.UITabbedPane;
-import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.layout.FRGUIPaneFactory;
-
-import com.fr.stable.ProductConstants;
-import com.fr.design.utils.gui.GUICoreUtils;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  * Dialog displaying information about the application.
@@ -48,7 +46,7 @@ public class AboutDialog extends JDialog implements ActionListener {
         tabbedPane = new UITabbedPane();
         sysPane = new SystemInfoPane();
 
-        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("About"), aboutPanel);
+        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_About"), aboutPanel);
         tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("System"), sysPane);
 
         buttonPanel = FRGUIPaneFactory.createRightFlowInnerContainer_S_Pane();

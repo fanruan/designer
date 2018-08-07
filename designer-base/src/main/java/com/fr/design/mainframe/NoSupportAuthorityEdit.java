@@ -22,7 +22,7 @@ public class NoSupportAuthorityEdit extends AuthorityEditPane {
         super(HistoryTemplateListPane.getInstance().getCurrentEditingTemplate());
         this.setLayout(new BorderLayout());
         this.setBorder(null);
-        UILabel title = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Privilege_Preference")) {
+        UILabel title = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Privilege_Preference")) {
             @Override
             public Dimension getPreferredSize() {
                 return new Dimension(super.getPreferredSize().width, TITLE_HEIGHT);

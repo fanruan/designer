@@ -106,7 +106,7 @@ public class BorderPane extends BasicPane {
 		borderAllControlPane.add(createVerButtonPane(NO_BORDERS, com.fr.design.i18n.Toolkit.i18nText("No")));
 		// Button setting all borders to active with
 		// current color and current style excepting inside borders
-		borderAllControlPane.add(createVerButtonPane(EXTERNAL_BORDERS, com.fr.design.i18n.Toolkit.i18nText("External")));
+		borderAllControlPane.add(createVerButtonPane(EXTERNAL_BORDERS, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_External")));
 
 		borderAllControlPane.add(createVerButtonPane(INSIDE_BORDERS, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Inner")));
 

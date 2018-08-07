@@ -80,7 +80,7 @@ public class DSColumnAdvancedPane extends BasicPane {
 
         JPanel multiNumPane = null;
         if (setting > DSColumnPane.SETTING_DSRELATED) {
-            multiNumPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fill_blank_Data"));
+            multiNumPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Fill_Blank_Data"));
             useMultiplyNumCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Column_Multiple"));
             multiNumPane.add(useMultiplyNumCheckBox);
             multiNumPane.add(new UILabel(InsetText));
@@ -338,10 +338,10 @@ public class DSColumnAdvancedPane extends BasicPane {
                     + "  " + com.fr.design.i18n.Toolkit.i18nText("BindColumn-Even_Selected_(2,4,6...)")), FlowLayout.LEFT);
             JPanel specifyPane = GUICoreUtils.createFlowPane(new JComponent[]{
                     serialTextField, new UILabel(
-                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_DSColumn_Result_Group_Format", "1,2-3,5,8", "$__count__")
+                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_DSColumn_Result_Group_Format", "1,2-3,5,8", "$__count__")
             )
             }, FlowLayout.LEFT);
-            serialTextField.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Format") + ":=JOINARRAY(GREPARRAY(RANGE($__count__), item!=4), \",\")");
+            serialTextField.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Format") + ":=JOINARRAY(GREPARRAY(RANGE($__count__), item!=4), \",\")");
             selectCountCardPane.add(undefinedPane, "UNDEFINE");
             selectCountCardPane.add(topFormulaPane, "TOP");
             selectCountCardPane.add(bottomFormulaPane, "BOTTOM");

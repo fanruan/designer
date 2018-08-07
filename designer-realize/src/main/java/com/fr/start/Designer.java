@@ -391,7 +391,7 @@ public class Designer extends BaseDesigner {
         if (DesignerMode.isAuthorityEditing()) {
             if (plus instanceof JWorkBook && plus.toolbars4Target() == null) {
                 //聚合块编辑
-                return super.polyToolBar(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Privilege_Poly_Block_Edit"));
+                return super.polyToolBar(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Privilege_Poly_Block_Edit"));
             } else {
                 return plus.toolBar4Authority();
             }

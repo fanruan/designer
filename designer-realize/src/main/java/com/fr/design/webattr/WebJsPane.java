@@ -1,39 +1,40 @@
 package com.fr.design.webattr;
 
+import com.fr.base.FRContext;
+import com.fr.design.dialog.BasicPane;
+import com.fr.design.gui.frpane.EditingStringListPane;
+import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.ibutton.UIRadioButton;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.mainframe.DesignerContext;
+import com.fr.file.FILE;
+import com.fr.file.FILEChooserPane;
+import com.fr.file.filter.ChooseFileFilter;
+import com.fr.stable.CoreConstants;
+import com.fr.stable.StringUtils;
+import com.fr.web.attr.ReportWebAttr;
+
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
-
-import com.fr.design.gui.ibutton.UIRadioButton;
-import com.fr.design.gui.ilable.UILabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-
-import com.fr.base.FRContext;
-import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.gui.itextfield.UITextField;
-import com.fr.design.gui.frpane.EditingStringListPane;
-import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.dialog.BasicPane;
-import com.fr.file.FILE;
-import com.fr.file.FILEChooserPane;
-import com.fr.file.filter.ChooseFileFilter;
-
-import com.fr.stable.CoreConstants;
-import com.fr.stable.StringUtils;
-import com.fr.web.attr.ReportWebAttr;
 
 public class WebJsPane extends BasicPane {
 	private UITextField localText;
@@ -160,7 +161,7 @@ public class WebJsPane extends BasicPane {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			FILEChooserPane fileChooser = FILEChooserPane.getInstance(false, false, true,
-					new ChooseFileFilter("js", "javascript" + com.fr.design.i18n.Toolkit.i18nText("File")));
+					new ChooseFileFilter("js", "javascript" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_File")));
 
 			if (fileChooser.showOpenDialog(DesignerContext.getDesignerFrame()) == FILEChooserPane.OK_OPTION) {
 				final FILE file = fileChooser.getSelectedFILE();
@@ -197,7 +198,7 @@ public class WebJsPane extends BasicPane {
 				FRContext.getLogger().error(e.getMessage(), e);
 			}
 			if (in == null) {
-				JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Database_Connection_Failed"));
+				JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Connection_Failed"));
 			} else {
 				JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Datasource-Connection_successfully"));
 				try {

@@ -6,7 +6,6 @@ import com.fr.design.gui.itree.checkboxtree.CheckBoxTree;
 import com.fr.design.i18n.Toolkit;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.NameObject;
-import com.fr.locale.InterProviderFactory;
 import com.fr.stable.StringUtils;
 
 import javax.swing.Icon;
@@ -37,7 +36,7 @@ public abstract class RefreshableJTree extends CheckBoxTree {
 
         @Override
         public String toString() {
-            return Toolkit.i18nText("Fine-Design_Loading") + "...";
+            return Toolkit.i18nText("Fine-Design_Basic_Loading") + "...";
         }
     };
 

@@ -674,7 +674,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Authority_Edit_Status");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Authority_Edit_Status");
         }
 
         @Override

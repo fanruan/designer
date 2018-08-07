@@ -335,15 +335,15 @@ public class JDBCDefPane extends JPanel {
 					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("DBCP_MAX_ACTIVE") + ":", SwingConstants.RIGHT), DBCP_MAX_ACTIVE},
 					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("DBCP_MAX_IDLE") + ":", SwingConstants.RIGHT), DBCP_MAX_IDLE},
 					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("DBCP_MIN_IDLE") + ":", SwingConstants.RIGHT), DBCP_MIN_IDLE},
-					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Connection_Pool_Max_Wait_Time") + ":" , SwingConstants.RIGHT), DBCP_MAX_WAIT},
+					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Connection_Pool_Max_Wait_Time") + ":" , SwingConstants.RIGHT), DBCP_MAX_WAIT},
 					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("DBCP_VALIDATION_QUERY") + ":", SwingConstants.RIGHT), DBCP_VALIDATION_QUERY},
 					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("DBCP_TEST_ON_BORROW") + ":", SwingConstants.RIGHT), DBCP_TESTONBORROW},
 					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("DBCP_TEST_ON_RETURN") + ":", SwingConstants.RIGHT), DBCP_TESTONRETURN},
 					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("DBCP_TEST_WHILE_IDLE") + ":", SwingConstants.RIGHT), DBCP_TESTWHILEIDLE},
-					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Connection_Pool_Evictionruns_millis") + ":", SwingConstants.RIGHT),
+					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Connection_Pool_Evictionruns_millis") + ":", SwingConstants.RIGHT),
 							DBCP_TIMEBETWEENEVICTIONRUNSMILLS},
 					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("DBCP_NUM_TEST_PER_EVCTION_RUN") + ":", SwingConstants.RIGHT), DBCP_NUMTESTSPEREVICTIONRUN},
-					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Connection_Pool_Mix_Evictable_Idle_Time_Millis") + ":" , SwingConstants.RIGHT),
+					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Connection_Pool_Mix_Evictable_Idle_Time_Millis") + ":" , SwingConstants.RIGHT),
 							DBCP_MINEVICTABLEIDLETIMEMILLIS}};
 
 			JPanel contextPane = TableLayoutHelper.createGapTableLayoutPane(comps, rowSize, columnSize, 10, 4);

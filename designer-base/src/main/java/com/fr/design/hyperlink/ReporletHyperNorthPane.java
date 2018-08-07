@@ -164,7 +164,7 @@ public class ReporletHyperNorthPane extends AbstractHyperNorthPane<ReportletHype
         double p = TableLayout.PREFERRED;
         double[] rowSize = {p, p, p};
         double[] columnSize = {p, TableLayout.FILL};
-        showParameterInterface = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Parameter_UI_Display"));
+        showParameterInterface = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter_UI_Display"));
         JPanel showParameterPanel = new JPanel();
         showParameterPanel.add(new UILabel());
         showParameterPanel.add(showParameterInterface);
