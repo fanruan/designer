@@ -152,6 +152,7 @@ public class FRFitLayoutPropertiesGroupModel implements GroupModel {
 						wAbsoluteBodyLayout.setCompState(WAbsoluteLayout.STATE_FIXED);
 						Component[] components = xfl.getComponents();
 						xfl.removeAll();
+						layout.resetStyle();
 						XWAbsoluteBodyLayout xwAbsoluteBodyLayout = new XWAbsoluteBodyLayout(wAbsoluteBodyLayout, new Dimension(0, 0));
 						xfl.getLayoutAdapter().addBean(xwAbsoluteBodyLayout, 0, 0);
 						for (Component component : components) {

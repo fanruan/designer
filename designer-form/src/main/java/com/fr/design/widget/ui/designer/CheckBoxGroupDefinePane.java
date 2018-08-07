@@ -39,7 +39,7 @@ public class CheckBoxGroupDefinePane extends ButtonGroupDefinePane<CheckBoxGroup
 
 
 	public JPanel createOtherPane(){
-		checkbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Choose_Type_All"));
+		checkbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Choose_Type_All"));
 		checkbox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		checkBoxDictPane = new CheckBoxDictPane();
 		double f = TableLayout.FILL;

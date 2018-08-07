@@ -56,7 +56,7 @@ public class VanChartHeatMapSeriesPane extends VanChartMapSeriesPane {
      */
     @Override
     protected JPanel getContentInPlotType() {
-        final UIButtonGroup group = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Heat_Point"), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Background_Area")});
+        final UIButtonGroup group = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Heat_Point"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Background_Area")});
         group.setSelectedIndex(0);
 
         JPanel backgroundAreaPane = createAreaPane();
@@ -140,7 +140,7 @@ public class VanChartHeatMapSeriesPane extends VanChartMapSeriesPane {
 
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
 
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Alpha"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Alpha"), panel);
     }
 
 

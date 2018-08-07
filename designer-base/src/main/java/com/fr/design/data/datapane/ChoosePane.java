@@ -455,7 +455,7 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
         }
         if (!connect) {
             DesignerFrame designerFrame = DesignerContext.getDesignerFrame();
-            JOptionPane.showMessageDialog(designerFrame, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Database_Connection_Failed"),
+            JOptionPane.showMessageDialog(designerFrame, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Connection_Failed"),
                     com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Failed"), JOptionPane.INFORMATION_MESSAGE);
             failedToFindTable();
             return null;

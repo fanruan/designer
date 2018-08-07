@@ -738,7 +738,7 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
                     ProductConstants.PRODUCT_NAME, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (returnVal == JOptionPane.YES_OPTION && specifiedTemplate.saveTemplate()) {
                 specifiedTemplate.saveTemplate();
-                FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Template_Already_Saved", specifiedTemplate.getEditingFILE().getName()));
+                FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Template_Already_Saved", specifiedTemplate.getEditingFILE().getName()));
             }
         }
         HistoryTemplateListPane.getInstance().closeSelectedReport(specifiedTemplate);

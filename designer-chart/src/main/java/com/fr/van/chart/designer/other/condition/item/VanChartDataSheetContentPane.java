@@ -33,12 +33,12 @@ public class VanChartDataSheetContentPane extends AbstractNormalMultiLineConditi
 
     @Override
     public String nameForPopupMenuItem() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-Chart_Data_Sheet");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Sheet");
     }
 
     @Override
     protected String getItemLabelString() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-Chart_Data_Sheet");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Sheet");
     }
 
     @Override

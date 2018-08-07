@@ -34,7 +34,7 @@ public class GradientBackgroundPane extends BackgroundDetailPane {
 	public GradientBackgroundPane() {
 
 		// bug 5452 简化GradientPane
-		JPanel jpanel = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Style_Background_Choose_Gradient_Color"));
+		JPanel jpanel = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Background_Choose_Gradient_Color"));
 		jpanel.setPreferredSize(new Dimension(450, 320));
 		jpanel.setLayout(new BorderLayout());
 

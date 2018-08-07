@@ -59,12 +59,12 @@ public class ChartHyperRelateFloatLinkPane extends AbstractHyperLinkPane<ChartHy
         floatNameBox.setPreferredSize(new Dimension(90, 20));
 
         JPanel pane = FRGUIPaneFactory.createBoxFlowInnerContainer_S_Pane();
-        pane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("M_Insert-Float") + ":"));
+        pane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_M_Insert-Float") + ":"));
         pane.add(floatNameBox);
 
         Border boder = new LineBorder(UIConstants.TITLED_BORDER_COLOR);
         Font font = null;
-        TitledBorder border = new TitledBorder(boder, com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Related", "M_Insert-Float"}), 4, 2, font, new Color(1, 159, 222));
+        TitledBorder border = new TitledBorder(boder, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_M_Insert_Float_Related"), 4, 2, font, new Color(1, 159, 222));
         // 圆角不行
         centerPane.setBorder(border);
 
@@ -144,7 +144,7 @@ public class ChartHyperRelateFloatLinkPane extends AbstractHyperLinkPane<ChartHy
 
     @Override
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Related", "M_Insert-Float"});
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_M_Insert_Float_Related");
     }
 
     public static class ChartNoRename extends ChartHyperRelateFloatLinkPane {

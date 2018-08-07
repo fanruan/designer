@@ -16,7 +16,7 @@ public class UIScrollMenuDemo extends JFrame {
         UIMenuBar menuBar = new UIMenuBar();
 
         // File Menu, F - Mnemonic
-        JMenu fileMenu = new JMenu("File");
+        JMenu fileMenu = new JMenu("Fine-Design_Basic_File");
         fileMenu.setMnemonic(KeyEvent.VK_F);
         menuBar.add(fileMenu);
 

@@ -94,8 +94,8 @@ public class VanChartPlotTooltipPane extends BasicPane {
         Component[][] components = new Component[][]{
                 new Component[]{tooltipContentPane,null},
                 new Component[]{createLabelStylePane(),null},
-                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Border"),borderPane),null},
-                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Background"), backgroundPane),null},
+                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Border"),borderPane),null},
+                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Background"), backgroundPane),null},
                 new Component[]{createDisplayStrategy(plot),null},
         };
         return components;
@@ -107,7 +107,7 @@ public class VanChartPlotTooltipPane extends BasicPane {
     }
 
     protected JPanel createLabelStylePane() {
-        style = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Automatic"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom")});
+        style = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Automatic"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom")});
         textFontPane = new ChartTextAttrPane() {
             protected Component[][] getComponents(JPanel buttonPane) {
                 return new Component[][]{
@@ -118,7 +118,7 @@ public class VanChartPlotTooltipPane extends BasicPane {
             }
         };
 
-        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-Chart_Character"), style);
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Character"), style);
         JPanel panel1 = new JPanel(new BorderLayout());
         panel1.add(panel, BorderLayout.CENTER);
         panel1.add(textFontPane, BorderLayout.SOUTH);

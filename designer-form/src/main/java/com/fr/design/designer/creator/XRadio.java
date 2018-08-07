@@ -34,7 +34,7 @@ public class XRadio extends XWidgetCreator {
 		return (CRPropertyDescriptor[]) ArrayUtils.addAll(super.supportedDescriptor(), new CRPropertyDescriptor[] {
 				new CRPropertyDescriptor("text", this.data.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Text")),
 				new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(
-						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Value")).setEditorClass(WidgetValueEditor.class)});
+						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Value")).setEditorClass(WidgetValueEditor.class)});
 	}
 
     @Override

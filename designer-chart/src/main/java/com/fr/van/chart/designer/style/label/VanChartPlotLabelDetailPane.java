@@ -134,7 +134,7 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
                 panel.add(tractionLinePane, BorderLayout.SOUTH);
                 initPositionListener();
             } else if(PlotFactory.plotAutoAdjustLabelPosition(plot)){
-                panel.add(TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Auto_Adjust"),autoAdjust), BorderLayout.SOUTH);
+                panel.add(TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Auto_Adjust"),autoAdjust), BorderLayout.SOUTH);
             }
             return panel;
         }
@@ -157,7 +157,7 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
     }
 
     protected JPanel createLabelStylePane(double[] row, double[] col, Plot plot) {
-        style = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Automatic"),
+        style = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Automatic"),
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom")});
         textFontPane =initTextFontPane();
 
@@ -180,7 +180,7 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
     }
 
     protected Component[][] getLabelStyleComponents(Plot plot) {
-        UILabel text = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-Chart_Character"), SwingConstants.LEFT);
+        UILabel text = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Character"), SwingConstants.LEFT);
         return new Component[][]{
                 new Component[]{null,null},
                 new Component[]{text,style},
@@ -199,7 +199,7 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
 
     protected JPanel createBackgroundColorPane() {
         backgroundColor = new ColorSelectBox(100);
-        return createTableLayoutPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Background"), backgroundColor);
+        return createTableLayoutPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Background"), backgroundColor);
     }
 
     protected String title4PopupWindow() {

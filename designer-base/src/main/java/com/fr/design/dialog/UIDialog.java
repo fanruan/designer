@@ -113,7 +113,7 @@ public abstract class UIDialog extends JDialog {
     }
 
     private void addOkButton(JPanel buttonsPane) {
-        okButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("OK"));
+        okButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_OK"));
         okButton.setName(OK_BUTTON);
         okButton.setMnemonic('O');
         buttonsPane.add(okButton);

@@ -35,7 +35,7 @@ import java.awt.event.ItemListener;
  * Created by Mitisky on 16/11/29.
  */
 public class VanChartWordCloudSeriesPane extends VanChartAbstractPlotSeriesPane {
-    private static final String AUTO_FONT_SIZE = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Auto");
+    private static final String AUTO_FONT_SIZE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Auto");
     private static final String CUSTOM_FONT_SIZE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Define_Size");
     private static final double MAX_ROTATION = 90;
     private static final double LABEL_SIZE = 65;

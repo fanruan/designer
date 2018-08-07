@@ -157,7 +157,7 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
     //边框（默认没有圆角）
     protected JPanel createBorderPane() {
         borderPane = createDiffBorderPane();
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Border"), borderPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Border"), borderPane);
 
     }
 
@@ -252,7 +252,7 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
     //不透明度
     protected JPanel createAlphaPane() {
         transparent = new UINumberDragPane(0, 100);
-        return TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Alpha"), transparent);
+        return TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Alpha"), transparent);
     }
 
     //堆积和坐标轴设置(自定义柱形图等用到)

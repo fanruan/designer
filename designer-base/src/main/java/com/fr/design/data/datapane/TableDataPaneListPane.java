@@ -49,7 +49,7 @@ public class TableDataPaneListPane extends JListControlPane implements TableData
                 if (StringUtils.isEmpty(tempName)) {
                     isNamePermitted = false;
                     nameableList.stopEditing();
-                    JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(TableDataPaneListPane.this), Toolkit.i18nText("Fine-Design_Table_Data_Empty_Name_Tips"));
+                    JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(TableDataPaneListPane.this), Toolkit.i18nText("Fine-Design_Basic_Table_Data_Empty_Name_Tips"));
                     setIllegalIndex(editingIndex);
                     return;
                 }
@@ -58,12 +58,12 @@ public class TableDataPaneListPane extends JListControlPane implements TableData
                         && isNameRepeated(new List[]{Arrays.asList(allDSNames), Arrays.asList(allListNames)}, tempName)) {
                     isNamePermitted = false;
                     nameableList.stopEditing();
-                    JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(TableDataPaneListPane.this), Toolkit.i18nText("Fine-Design_Table_Data_Duplicate_Name_Tips", tempName));
+                    JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(TableDataPaneListPane.this), Toolkit.i18nText("Fine-Design_Basic_Table_Data_Duplicate_Name_Tips", tempName));
                     setIllegalIndex(editingIndex);
                 } else if (editingType instanceof StoreProcedure && isIncludeUnderline(tempName)) {
                     isNamePermitted = false;
                     nameableList.stopEditing();
-                    JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(TableDataPaneListPane.this), Toolkit.i18nText("Fine-Design_Stored_Procedure_Name_Tips"));
+                    JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(TableDataPaneListPane.this), Toolkit.i18nText("Fine-Design_Basic_Stored_Procedure_Name_Tips"));
                     setIllegalIndex(editingIndex);
                 }
                 if (nameableList.getSelectedValue() instanceof ListModelElement) {
@@ -247,7 +247,7 @@ public class TableDataPaneListPane extends JListControlPane implements TableData
             NameObject nameObject = (NameObject) tableDataArray[i];
 
             if (exsitTableDataNameList.contains(nameObject.getName())) {
-                throw new Exception(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Table_Data_Duplicate_Name_Tips", nameObject.getName()));
+                throw new Exception(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Table_Data_Duplicate_Name_Tips", nameObject.getName()));
             }
 
             exsitTableDataNameList.add(nameObject.getName());

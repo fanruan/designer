@@ -169,7 +169,7 @@ public class ParameterTreeComboBox extends FRTreeComboBox {
 			}
 		}
 		if (!ArrayUtils.isEmpty(parameters)) {
-			groupList.add(new ParameterGroup(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Parameter_Source_Type_Server"), parameters));
+			groupList.add(new ParameterGroup(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter_Source_Type_Server"), parameters));
 		}
 		return groupList.toArray(new ParameterGroup[0]);
 

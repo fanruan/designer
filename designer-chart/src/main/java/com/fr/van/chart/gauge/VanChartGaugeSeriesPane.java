@@ -67,7 +67,7 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
 
     private JPanel createGaugeLayoutPane() {
         gaugeLayout = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Direction_Horizontal"), com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Direction_Vertical")});
-        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("PageSetup-Orientation"),gaugeLayout);
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Page_Setup_Orientation"),gaugeLayout);
         gaugeLayout.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -173,7 +173,7 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
     }
 
     private void initRotate() {
-        rotate = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AntiClockWise"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_ClockWise")});
+        rotate = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_AntiClockWise"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_ClockWise")});
     }
 
     private Component[] getInnerPaneBackgroundColor() {

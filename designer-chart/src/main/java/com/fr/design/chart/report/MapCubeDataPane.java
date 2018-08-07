@@ -45,7 +45,7 @@ public class MapCubeDataPane extends UIComboBoxPane<TopDefinitionProvider> {
 
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("LayerData");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Layer_Data");
 	}
 	
 	/**

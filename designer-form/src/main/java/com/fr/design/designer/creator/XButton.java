@@ -90,9 +90,9 @@ public class XButton extends XWidgetCreator {
     protected CRPropertyDescriptor creatNonListenerStyle(int i) throws IntrospectionException{
        CRPropertyDescriptor[] crPropertyDescriptors = {
                new CRPropertyDescriptor("text", this.data.getClass()).setI18NName(
-					   com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Button_Name")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+					   com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Button_Name")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                new CRPropertyDescriptor("customStyle", this.data.getClass()).setI18NName(
-                       com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Button_Style")).setEditorClass(
+                       com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Button_Style")).setEditorClass(
                        ButtonTypeEditor.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                new CRPropertyDescriptor("initialBackground", this.data.getClass()).setEditorClass(
                        ImgBackgroundEditor.class).setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background-Initial")).putKeyValue(
@@ -162,7 +162,7 @@ public class XButton extends XWidgetCreator {
     protected CRPropertyDescriptor[] getisnotCustomStyle() throws IntrospectionException {
 		return new CRPropertyDescriptor[]{
 			  new CRPropertyDescriptor("text", this.data.getClass())
-					  .setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Button_Name"))
+					  .setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Button_Name"))
 					  .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
 					  .setPropertyChangeListener(new PropertyChangeAdapter() {
 
@@ -172,7 +172,7 @@ public class XButton extends XWidgetCreator {
 						  }
 					  }),
 			  new CRPropertyDescriptor("customStyle", this.data.getClass()).setI18NName(
-					  com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Button_Style")).setEditorClass(
+					  com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Button_Style")).setEditorClass(
 					  ButtonTypeEditor.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
 					  .setPropertyChangeListener(new PropertyChangeAdapter() {
 

@@ -61,7 +61,7 @@ public class GradientFromToPixPane extends BasicPane {
 
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Style_Background_Choose_Gradient_Color");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Background_Choose_Gradient_Color");
 	}
 
 }

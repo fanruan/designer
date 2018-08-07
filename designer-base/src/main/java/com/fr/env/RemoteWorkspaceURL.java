@@ -11,17 +11,17 @@ import java.util.Objects;
 public class RemoteWorkspaceURL implements FCloneable {
 
     /**
-     * 默认 hostname
-     */
-    private static final String DEFAULT_HOST_NAME = "${IP}";
-    /**
      * 默认 web app name
      */
-    private static final String DEFAULT_WEB_APP_NAME = "webroot";
+    static final String DEFAULT_WEB_APP_NAME = "webroot";
     /**
      * 默认 servlet name
      */
-    private static final String DEFAULT_SERVLET_NAME = "decision";
+    static final String DEFAULT_SERVLET_NAME = "decision";
+    /**
+     * 默认 hostname
+     */
+    private static final String DEFAULT_HOST_NAME = "${IP}";
     /**
      * 默认端口
      */

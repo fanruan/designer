@@ -28,7 +28,7 @@ public class VanChartBeautyPane extends BasicBeanPane<Integer> {
         double[] columnSize = {f, e};
         double[] rowSize = {p};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-Chart_Style")), styleBox},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Style")), styleBox},
         } ;
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, rowSize, columnSize);
         this.setLayout(new BorderLayout());
@@ -37,7 +37,7 @@ public class VanChartBeautyPane extends BasicBeanPane<Integer> {
 
     protected String[] getNameArray(){
         return new String[]{com.fr.design.i18n.Toolkit.i18nText("Chart-Default_Name"),
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-Chart_TopDownShade")
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Top_Down_Shade")
         };
     }
     @Override

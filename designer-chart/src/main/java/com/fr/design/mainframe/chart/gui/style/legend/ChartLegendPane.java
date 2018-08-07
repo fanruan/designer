@@ -78,7 +78,7 @@ public class ChartLegendPane extends BasicScrollPane<Chart>{
             Component[][] components = new Component[][]{
                     new Component[]{null,textAttrPane},
                     new Component[]{new JSeparator(),null},
-                    new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Layout")),location} ,
+                    new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Layout")),location} ,
                     new Component[]{new JSeparator(),null},
                     new Component[]{borderPane,null},
                     new Component[]{backgroundPane,null}

@@ -24,7 +24,7 @@ public class DataTableEditor extends Editor<DataTableConfig> {
 
 	public DataTableEditor() {
 		this.initCompontents();
-		this.setName(com.fr.design.i18n.Toolkit.i18nText("FieldBinding"));
+		this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FieldBinding"));
 	}
 
 	private void initCompontents() {

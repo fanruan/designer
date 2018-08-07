@@ -178,7 +178,7 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Reversal")),axisRotation}
         };
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Axis"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis"), panel);
     }
 
     private void checkZoomEnabled() {
@@ -241,8 +241,8 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
 
     protected JPanel createAnimationPane(){
         isChartAnimation = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Open"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Close")});
-        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Animation_Effects"), isChartAnimation);
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Animation"), panel);
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Animation_Effects"), isChartAnimation);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Animation"), panel);
     }
 
     protected JPanel createAutoRefreshPane(VanChartPlot plot){
@@ -259,7 +259,7 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
 
     protected JPanel createHyperlinkPane() {
         superLink = new VanChartHyperLinkPane();
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("M_Insert-Hyperlink"), superLink);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_M_Insert_Hyperlink"), superLink);
     }
 
 

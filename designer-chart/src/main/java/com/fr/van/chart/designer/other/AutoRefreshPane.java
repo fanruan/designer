@@ -68,7 +68,7 @@ public class AutoRefreshPane extends BasicBeanPane<RefreshMoreLabel> {
 
         autoRefreshTime = new UISpinner(0, Integer.MAX_VALUE, 1, 0);
 
-        autoTooltip = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Auto_Tooltip"));
+        autoTooltip = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Auto_Tooltip"));
         autoTooltip.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {

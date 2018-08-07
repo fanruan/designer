@@ -81,7 +81,7 @@ public class TableDataPane extends FurtherBasicBeanPane<ChartCollection>{
 	 * @return 返回标题.
 	 */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Tabledata");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Tabledata");
 	}
 
 

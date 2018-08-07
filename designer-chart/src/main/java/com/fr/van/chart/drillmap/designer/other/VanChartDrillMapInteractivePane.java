@@ -83,8 +83,8 @@ public class VanChartDrillMapInteractivePane extends VanChartInteractivePaneWith
         double[] rowSize = {p,p,p,p,p,p};
         Component[][] components = new Component[][]{
                 new Component[]{null},
-                new Component[]{createTitlePane(com.fr.design.i18n.Toolkit.i18nText("Plugin-Chart_Character"), textAttrPane)},
-                new Component[]{createTitlePane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Background"), backgroundPane)},
+                new Component[]{createTitlePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Character"), textAttrPane)},
+                new Component[]{createTitlePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Background"), backgroundPane)},
                 new Component[]{createTitlePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Select_Color"), selectBackgroundPane)},
                 new Component[]{catalogSuperLink}
         };

@@ -65,7 +65,7 @@ public class VanChartAlertValuePane extends BasicBeanPane<VanChartAlertValue> {
 
         alertLineStyle = new LineComboBox(VanChartConstants.ALERT_LINE_STYLE);
         alertLineColor = new ColorSelectBox(100);
-        alertTextPosition = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AxisTop"),com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AxisBottom")});
+        alertTextPosition = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Top"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Bottom")});
         alertText = new TinyFormulaPane();
         //設置大小，防止文本過長導致界面“變形”
         alertText.setPreferredSize(new Dimension(TEXT_WD, HT));
@@ -82,12 +82,12 @@ public class VanChartAlertValuePane extends BasicBeanPane<VanChartAlertValue> {
         //警戒线设置
         JPanel top = FRGUIPaneFactory.createBorderLayout_L_Pane();
         this.add(top);
-        top.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AlertSet") + ":", null));
+        top.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Alert_Set") + ":", null));
         top.add(createTopPane());
         //提示文字
         JPanel bottom = FRGUIPaneFactory.createBorderLayout_L_Pane();
         this.add(bottom);
-        bottom.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AlertText") + ":", null));
+        bottom.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Alert_Text") + ":", null));
         bottom.add(createBottomPane());
     }
 
@@ -129,15 +129,15 @@ public class VanChartAlertValuePane extends BasicBeanPane<VanChartAlertValue> {
     private void checkPositionPane() {
         boolean selectXAxis = VanChartAttrHelper.isXAxis(alertAxis.getSelectedItem().toString());
         if(selectXAxis){
-            alertTextPosition = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AxisTop"),com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AxisBottom")});
+            alertTextPosition = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Top"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Bottom")});
         } else {
-            alertTextPosition = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AlertLeft"),com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AlertRight")});
+            alertTextPosition = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Alert_Left"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Alert_Right")});
         }
         doLayoutPane();
     }
 
     protected String title4PopupWindow(){
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AlertLine");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Alert_Line");
     }
 
     public void populateBean(VanChartAlertValue chartAlertValue){

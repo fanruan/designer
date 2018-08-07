@@ -213,7 +213,7 @@ public class UICalendarPanel extends JPanel {
         gap.setPreferredSize(new Dimension(26,1));
         sPane.add(gap);
 
-        UIButton okButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("OK")) {
+        UIButton okButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_OK")) {
             public Dimension getPreferredSize() {
                 return new Dimension(32,18);
             }
