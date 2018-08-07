@@ -880,13 +880,33 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
         String xmlDesignerVersion = getTarget().getXMLDesignerVersion();
         if (isHigherThanCurrent(xmlDesignerVersion)) {
             String[] message = new String[]{"Server-version-info", "Above"};
-            String[] sign = new String[]{StringUtils.parseVersion(xmlDesignerVersion)};
+            String[] sign = new String[]{this.parseVersion(xmlDesignerVersion)};
             String infor = Inter.getLocText(message, sign);
             String moreInfo = Inter.getLocText("FR-Designer_Server-version-tip-moreInfo");
             new InformationWarnPane(infor, moreInfo, Inter.getLocText("FR-Designer_Tooltips")).show();
             return true;
         }
         return false;
+    }
+
+    /**
+     * 转换版本号，之前是9.0显示为900，现显示为9.0.0
+     * @param xmlDesignerVersion
+     * @return  版本号
+     */
+    private String parseVersion(String xmlDesignerVersion){
+        String version = StringUtils.EMPTY;
+        for(int i = 0; i < xmlDesignerVersion.length(); i++){
+             //转为数字，A-Z从10开始，这里A要定义为0减10
+             int number = Character.getNumericValue(xmlDesignerVersion.charAt(i)) - 10;
+             version = version + number;
+             if(i < xmlDesignerVersion.length() - 1){
+                 version = version + ".";
+             }
+
+        }
+
+        return version;
     }
 
     /**
