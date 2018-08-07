@@ -50,7 +50,7 @@ public class AlphaPane extends JPanel {
 		alphaPane.setBorder(BorderFactory.createEmptyBorder());
 		this.add(alphaPane, BorderLayout.CENTER);
 		
-		alphaPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-Chart_Alpha") + ":"));
+		alphaPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Alpha") + ":"));
 		
 		alphaPane.add(alphaSlider = new UISlider(UISlider.HORIZONTAL, 0, ALPHA_FLOAT, START_VALUE));
 		alphaSlider.setPreferredSize(new Dimension(80, 20));

@@ -17,7 +17,7 @@ public class DictionaryConstants {
 		"^\\d{6}$" };
 	
 	public final static String[] regexpsDisplays = new String[] {
-		com.fr.design.i18n.Toolkit.i18nText("None"),
+		com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_None"),
 		com.fr.design.i18n.Toolkit.i18nText("Required"),
 		com.fr.design.i18n.Toolkit.i18nText("Length"),
 		com.fr.design.i18n.Toolkit.i18nText("Float"),
@@ -55,7 +55,7 @@ public class DictionaryConstants {
 	};
 	
 	public static final String[] symbolDisplays = new String[]{
-		com.fr.design.i18n.Toolkit.i18nText("None"),
+		com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_None"),
 		com.fr.design.i18n.Toolkit.i18nText("Form-Single_quote"),
 		com.fr.design.i18n.Toolkit.i18nText("Form-Double_quotes")
 	};

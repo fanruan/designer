@@ -244,7 +244,7 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
     //不透明度
     private JPanel createPointAlphaPane() {
         pointAlphaPane = new UINumberDragPane(0, 100);
-        return TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Alpha"), pointAlphaPane);
+        return TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Alpha"), pointAlphaPane);
     }
 
     private JPanel createPointEffectPane() {

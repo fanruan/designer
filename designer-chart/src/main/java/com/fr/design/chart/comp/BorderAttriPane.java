@@ -16,7 +16,7 @@ public class BorderAttriPane extends BasicPane  {
     private ColorSelectBox colorSelectBox;
 
     public BorderAttriPane() {
-    	this(com.fr.design.i18n.Toolkit.i18nText("Line-Style"), com.fr.design.i18n.Toolkit.i18nText("Color"));
+    	this(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Line_Style"), com.fr.design.i18n.Toolkit.i18nText("Color"));
     }
     
     public BorderAttriPane(String lineString, String colorSting) {

@@ -45,7 +45,7 @@ public class VanChartGradientPane extends GradientBackgroundQuickPane {
 
         Component[][] components = new Component[][]{
                 new Component[]{gradientBar, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-Chart_Gradient_Direction")),directionPane},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Gradient_Direction")),directionPane},
         };
         JPanel Gradient = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
         this.setLayout(new BorderLayout());
@@ -99,7 +99,7 @@ public class VanChartGradientPane extends GradientBackgroundQuickPane {
      * @return     名称
      */
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-Chart_Gradient_Color");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Gradient_Color");
     }
 
 }

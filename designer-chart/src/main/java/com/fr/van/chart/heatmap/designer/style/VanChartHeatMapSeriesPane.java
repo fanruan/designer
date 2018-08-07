@@ -140,7 +140,7 @@ public class VanChartHeatMapSeriesPane extends VanChartMapSeriesPane {
 
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
 
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Alpha"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Alpha"), panel);
     }
 
 
