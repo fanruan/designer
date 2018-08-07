@@ -164,7 +164,7 @@ public class TemplatePane extends JPanel implements MouseListener {
             }
             setJLabel(selectedName);
         } catch (AuthException e) {
-            JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Basic_Remote_Connect_Auth_Failed"),
+            JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remote_Connect_Auth_Failed"),
                     null, 0, UIManager.getIcon("OptionPane.errorIcon"));
             return false;
         }

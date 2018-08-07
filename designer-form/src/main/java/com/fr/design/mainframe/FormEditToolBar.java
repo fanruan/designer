@@ -125,12 +125,12 @@ public class FormEditToolBar extends BasicPane {
         this.add(splitPane);
         list.addListSelectionListener(listSelectionListener);
         JPanel backgroundPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-        UIButton bgButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Output_Background_Set"));
-        defaultCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Output_Default_Background"));
+        UIButton bgButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Output_Background_Set"));
+        defaultCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Output_Default_Background"));
         bgButton.addActionListener(actioner);
         backgroundPane.add(defaultCheckBox);
         backgroundPane.add(bgButton);
-        backgroundPane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Output_Background_Set")));
+        backgroundPane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Output_Background_Set")));
         this.add(backgroundPane, BorderLayout.SOUTH);
     }
 
@@ -369,8 +369,8 @@ public class FormEditToolBar extends BasicPane {
         private JPanel getExport() {
             JPanel export = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
             // export.setLayout(new BoxLayout(export, BoxLayout.Y_AXIS));
-            excelP = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Output_Excel_Page"));
-            excelO = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Output_Excel_Simple"));
+            excelP = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Output_Excel_Page"));
+            excelO = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Output_Excel_Simple"));
             export.add(excelP);
             export.add(Box.createVerticalStrut(2));
             export.add(excelO);

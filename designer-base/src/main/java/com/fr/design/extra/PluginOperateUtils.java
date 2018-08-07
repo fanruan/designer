@@ -169,7 +169,7 @@ public class PluginOperateUtils {
         String username = MarketConfig.getInstance().getBbsUsername();
         if (StringUtils.isEmpty(username)) {
             jsCallback.execute(StringUtils.EMPTY);
-            uiLabel.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Base_UnSignIn"));
+            uiLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Base_UnSignIn"));
         } else {
             uiLabel.setText(username);
             String result = username;

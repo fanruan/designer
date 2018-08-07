@@ -45,7 +45,7 @@ public class ImageBackgroundQuickPane extends BackgroundQuickPane {
 
     public ImageBackgroundQuickPane(boolean hasImageLayout) {
         this.setLayout(new BorderLayout(0, 4));
-        String[] nameArray = {com.fr.design.i18n.Toolkit.i18nText("FR-Background_Image_Default"), com.fr.design.i18n.Toolkit.i18nText("FR-Background_Image_Titled"), com.fr.design.i18n.Toolkit.i18nText("FR-Background_Image_Extend"), com.fr.design.i18n.Toolkit.i18nText("FR-Background_Image_Adjust")};
+        String[] nameArray = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Image_Default"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Image_Titled"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Image_Extend"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Image_Adjust")};
         Byte[] valueArray = {Constants.IMAGE_CENTER, Constants.IMAGE_TILED, Constants.IMAGE_EXTEND, Constants.IMAGE_ADJUST};
         imageLayoutPane = new UIButtonGroup<Byte>(nameArray, valueArray);
         imageLayoutPane.setSelectedIndex(0);
@@ -174,7 +174,7 @@ public class ImageBackgroundQuickPane extends BackgroundQuickPane {
      */
     @Override
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Background_Image");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Image");
     }
 
     @Override

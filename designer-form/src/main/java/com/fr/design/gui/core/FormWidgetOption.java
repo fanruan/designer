@@ -89,7 +89,7 @@ public class FormWidgetOption extends WidgetOption {
 	public static final WidgetOption VERTICALBOXLAYOUTCONTAINER = WidgetOptionFactory.createByWidgetClass(Toolkit.i18nText("FR-Designer_VerticalBoxLayout"), BaseUtils.readIcon("/com/fr/web/images/form/resources/boxlayout_v_16.png"),
 			WVerticalBoxLayout.class);
 	
-	public static final WidgetOption FITLAYOUTCONTAINER = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Layout_Adaptive_Layout"),
+	public static final WidgetOption FITLAYOUTCONTAINER = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Layout_Adaptive_Layout"),
 			BaseUtils.readIcon("/com/fr/web/images/form/resources/boxlayout_v_16.png"),
 			WFitLayout.class);
 

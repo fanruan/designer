@@ -48,13 +48,13 @@ public class WidgetCardTagBoundPane extends WidgetBoundPane {
         Rectangle rectangle = tabLayout.getBounds();
         if(ComparatorUtils.equals(displayPosition, WTabDisplayPosition.TOP_POSITION) || ComparatorUtils.equals(displayPosition, WTabDisplayPosition.BOTTOM_POSITION)){
             if(rectangle.height < size){
-                JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Beyond_Tablayout_Bounds"));
+                JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Beyond_Tablayout_Bounds"));
                 return;
             }
             parentBounds.height = size;
         }else{
             if(rectangle.width < size){
-                JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Beyond_Tablayout_Bounds"));
+                JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Beyond_Tablayout_Bounds"));
                 return;
             }
             parentBounds.width = size;

@@ -55,7 +55,7 @@ public class FormWidgetDetailPane extends FormDockView{
     private CardLayout card;
 
     private static final String REPORT_TAB = com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Report");
-    private static final String CHART_TAB = com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Form-ToolBar_Chart");
+    private static final String CHART_TAB = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_ToolBar_Chart");
 
     public static FormWidgetDetailPane getInstance() {
         if (HOLDER.singleton == null) {

@@ -38,7 +38,7 @@ public class CellImageQuickEditor extends CellQuickEditor {
     @Override
     public JComponent createCenterBody() {
         JPanel content = new JPanel(new BorderLayout());
-        UIButton editButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Edit"));
+        UIButton editButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Edit"));
         editButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

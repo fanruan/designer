@@ -50,8 +50,8 @@ public class AboutPane extends JPanel {
                 getBuildTitle(),
                 GeneralUtils.readFullBuildNO(),
                 new String[]{
-                        com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Basic_Copy_Build_NO"),
-                        com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Basic_Copy_Build_NO_OK")
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Copy_Build_NO"),
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Copy_Build_NO_OK")
                 });
         contentPane.add(buildCopyPane);
 
@@ -62,11 +62,11 @@ public class AboutPane extends JPanel {
         contentPane.add(boxCenterAlignmentPane);
 
         contentPane.add(new BoxCenterAlignmentCopyablePane(
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Basic_Activation_Key"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Activation_Key"),
                 DesignerEnvManager.getEnvManager().getActivationKey(),
                 new String[]{
-                        com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Basic_Copy_Activation_Key"),
-                        com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Basic_Activation_Key_Copy_OK")
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Copy_Activation_Key"),
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Activation_Key_Copy_OK")
                 }));
 
         addPhoneAndQQPane(contentPane);
@@ -118,7 +118,7 @@ public class AboutPane extends JPanel {
     }
 
     private JPanel getRemarkPane() {
-        String remark = com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_About_Remark_Info", PRESIDENT_PHONE);
+        String remark = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_About_Remark_Info", PRESIDENT_PHONE);
         UILabel label = new UILabel();
         label.setSize(new Dimension(580, 30));
 
