@@ -11,7 +11,11 @@ import com.fr.design.module.ChartHyperlinkGroup;
 import com.fr.design.module.ChartPreStyleAction;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.form.ui.ChartEditor;
+import com.fr.locale.InterMutableKey;
+import com.fr.locale.LocaleMarker;
+import com.fr.locale.LocaleScope;
 import com.fr.module.Activator;
+import com.fr.module.extension.Prepare;
 import com.fr.plugin.chart.vanchart.imgevent.design.DesignImageEvent;
 import com.fr.stable.bridge.StableFactory;
 import com.fr.stable.plugin.ExtraChartDesignClassManagerProvider;
@@ -21,7 +25,7 @@ import com.fr.van.chart.map.server.ChartMapEditorAction;
 /**
  * Created by juhaoyu on 2018/6/27.
  */
-public class ChartDesignerActivator extends Activator {
+public class ChartDesignerActivator extends Activator implements Prepare {
     
     @Override
     public void start() {
@@ -49,7 +53,12 @@ public class ChartDesignerActivator extends Activator {
         DesignImageEvent.registerDefaultCallbackEvent(HistoryTemplateListPane.getInstance());
         DesignImageEvent.registerDownloadSourcesEvent(new DownloadOnlineSourcesHelper());
     }
-    
+
+    @Override
+    public void prepare() {
+        addMutable(InterMutableKey.Path, LocaleMarker.create("com/fr/design/i18n/chart", LocaleScope.DESIGN));
+    }
+
     @Override
     public void stop() {
     
