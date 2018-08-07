@@ -15,6 +15,8 @@ import com.fr.design.utils.DesignUtils;
 import com.fr.env.EnvListPane;
 import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
+import com.fr.license.exception.RegistEditionException;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.EnvChangedListener;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.WorkContextCallback;
@@ -167,6 +169,11 @@ public class TemplatePane extends JPanel implements MouseListener {
             JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remote_Connect_Auth_Failed"),
                     null, 0, UIManager.getIcon("OptionPane.errorIcon"));
             return false;
+        } catch (RegistEditionException e) {
+            JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("FR-Lic_does_not_Support_Remote"),
+                    null, 0, UIManager.getIcon("OptionPane.errorIcon"));
+        } catch (Exception exception) {
+            FineLoggerFactory.getLogger().error(exception.getMessage(), exception);
         }
         TemplateTreePane.getInstance().refreshDockingView();
         DesignModelAdapter<?, ?> model = DesignModelAdapter.getCurrentModelAdapter();

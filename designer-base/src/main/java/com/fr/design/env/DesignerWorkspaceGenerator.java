@@ -2,7 +2,6 @@ package com.fr.design.env;
 
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.Workspace;
-import com.fr.workspace.connect.AuthException;
 import com.fr.workspace.connect.WorkspaceClient;
 
 /**
@@ -10,7 +9,7 @@ import com.fr.workspace.connect.WorkspaceClient;
  */
 public class DesignerWorkspaceGenerator {
 
-    public static Workspace generate(DesignerWorkspaceInfo config) throws AuthException {
+    public static Workspace generate(DesignerWorkspaceInfo config) throws Exception {
 
         if (config == null || config.getType() == null) {
             return null;
