@@ -69,7 +69,7 @@ public class FormWidgetValuePane extends JPanel {
             case DataControl.TYPE_NUMBER:
                 return new DoubleEditor();
             case DataControl.TYPE_FORMULA:
-                return new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Parameter_Formula"));
+                return new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Parameter_Formula"));
             case DataControl.TYPE_DATABINDING:
                 return onlyServer ? new ServerDataBindingEditor() : new DataBindingEditor();
             case DataControl.TYPE_STRING:

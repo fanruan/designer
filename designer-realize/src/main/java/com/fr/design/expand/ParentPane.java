@@ -117,9 +117,9 @@ public class ParentPane extends BasicPane {
 			}
 		});
 
-		noneParentText = new UITextField(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_None"));
+		noneParentText = new UITextField(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_None"));
 		noneParentText.setRectDirection(Constants.RIGHT);
-		parentCardPane.add("Fine-Design_Chart_None", noneParentText);
+		parentCardPane.add("Fine-Design_Report_None", noneParentText);
 		defaultParentText = new UITextField(com.fr.design.i18n.Toolkit.i18nText("Default"));
 		defaultParentText.setRectDirection(Constants.RIGHT);
 		parentCardPane.add("Default", defaultParentText);
@@ -174,7 +174,7 @@ public class ParentPane extends BasicPane {
 	private UIPopupMenu createPopMenu() {
 		UIPopupMenu pop = new UIPopupMenu();
 		pop.setOnlyText(true);
-		UIMenuItem noneItem = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_None"));
+		UIMenuItem noneItem = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_None"));
 		if (cellAttrPaneListener != null) {
 			noneItem.addActionListener(cellAttrPaneListener);
 		}
@@ -182,7 +182,7 @@ public class ParentPane extends BasicPane {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				cardLayout.show(parentCardPane, "Fine-Design_Chart_None");
+				cardLayout.show(parentCardPane, "Fine-Design_Report_None");
 
 			}
 		});
@@ -241,7 +241,7 @@ public class ParentPane extends BasicPane {
 			this.cardLayout.show(parentCardPane, "Custom");
 			this.customParentColumnRowPane.populate(columnRow);
 		} else {
-			this.cardLayout.show(parentCardPane, "Fine-Design_Chart_None");
+			this.cardLayout.show(parentCardPane, "Fine-Design_Report_None");
 			this.customParentColumnRowPane.populate(ColumnRow.valueOf(0, 0));
 		}
 	}

@@ -879,7 +879,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_M_Insert_Hyperlink");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_M_Insert_Hyperlink");
         }
 
         @Override
@@ -990,7 +990,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_M_Insert-Float");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_M_Insert-Float");
         }
 
         @Override

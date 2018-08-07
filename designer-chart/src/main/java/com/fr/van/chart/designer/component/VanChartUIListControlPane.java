@@ -192,7 +192,7 @@ public abstract class VanChartUIListControlPane extends UIListControlPane implem
         }
 
         private void addOkButton(JPanel buttonsPane) {
-            okButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_OK"));
+            okButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_OK"));
             buttonsPane.add(okButton);
             okButton.addActionListener(new ActionListener() {
 

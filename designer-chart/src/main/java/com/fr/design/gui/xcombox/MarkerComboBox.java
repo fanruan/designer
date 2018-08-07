@@ -73,7 +73,7 @@ public class MarkerComboBox extends UIComboBox {
 					g2d.setFont(rfont);
 					FontMetrics fm = GraphHelper.getFontMetrics(rfont);
 
-					GraphHelper.drawString(g2d, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_None"), 12, (d.height - fm.getHeight()) / 2 + fm.getAscent());
+					GraphHelper.drawString(g2d, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_None"), 12, (d.height - fm.getHeight()) / 2 + fm.getAscent());
 				} else {
 					if (marker.getBackground() == null) {
 						marker.setBackground(ColorBackground.getInstance(Color.black));

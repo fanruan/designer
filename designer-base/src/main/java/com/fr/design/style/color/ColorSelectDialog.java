@@ -98,7 +98,7 @@ public class ColorSelectDialog extends MiddleChartDialog{
     	buttonPane.add(ok);
     	buttonPane.add(cancel);
     	
-    	ok.setActionCommand("Fine-Design_Chart_OK");
+    	ok.setActionCommand("Fine-Design_Report_OK");
     	ok.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				seletePane.setColor(okListener.getColor());

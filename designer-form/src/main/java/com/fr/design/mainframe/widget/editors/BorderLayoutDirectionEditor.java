@@ -39,7 +39,7 @@ public class BorderLayoutDirectionEditor extends AbstractPropertyEditor {
 						setText(StringUtils.join("、", res));
 					}
 				} else {
-					setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_None"));
+					setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_None"));
 				}
 				return this;
 			}

@@ -55,7 +55,7 @@ public class ChartDialog extends MiddleChartDialog {
     	
     	this.add(buttonPane, BorderLayout.SOUTH);
     	
-    	ok = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_OK"));
+    	ok = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_OK"));
     	cancel = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Cancel"));
     	
     	buttonPane.add(ok);

@@ -34,7 +34,7 @@ public class ChartAxisLineStylePane extends BasicPane{
 		axisLineColor = new ColorSelectBox(100);
 		
 <<<<<<< HEAD
-		String[] nameArray = {com.fr.design.i18n.Toolkit.i18nText("External"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Inner"),com.fr.design.i18n.Toolkit.i18nText("ChartF-Cross"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_None")};
+		String[] nameArray = {com.fr.design.i18n.Toolkit.i18nText("External"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Inner"),com.fr.design.i18n.Toolkit.i18nText("ChartF-Cross"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_None")};
 =======
 		String[] nameArray = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_External"),com.fr.design.i18n.Toolkit.i18nText("Inside"),com.fr.design.i18n.Toolkit.i18nText("ChartF-Cross"),com.fr.design.i18n.Toolkit.i18nText("None")};
 >>>>>>> 4c1c2515a1aee68b5a9e8d9b51be5a4a9d3fb1d6

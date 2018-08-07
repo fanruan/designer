@@ -59,7 +59,7 @@ public class ChartHyperRelateFloatLinkPane extends AbstractHyperLinkPane<ChartHy
         floatNameBox.setPreferredSize(new Dimension(90, 20));
 
         JPanel pane = FRGUIPaneFactory.createBoxFlowInnerContainer_S_Pane();
-        pane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_M_Insert-Float") + ":"));
+        pane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_M_Insert-Float") + ":"));
         pane.add(floatNameBox);
 
         Border boder = new LineBorder(UIConstants.TITLED_BORDER_COLOR);

@@ -112,7 +112,7 @@ public class ExtendedOtherPane extends AbstractChartAttrPane {
 
     private JPanel createHyperlinkPane() {
         hyperLinkPane = new ExtendedChartHyperLinkPane();
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_M_Insert_Hyperlink"), hyperLinkPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_M_Insert_Hyperlink"), hyperLinkPane);
     }
 
     @Override
