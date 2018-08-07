@@ -60,7 +60,7 @@ public class LocalEnvPane extends BasicBeanPane<LocalDesignerWorkspaceInfo> {
 
         UITextArea description = new UITextArea();
         centerPane.add(description, BorderLayout.SOUTH);
-        description.setText(com.fr.design.i18n.Toolkit.i18nText("Env-Des1"));
+        description.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Env_Des1"));
         description.setEditable(false);
     }
 

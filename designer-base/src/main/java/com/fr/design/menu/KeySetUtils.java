@@ -415,7 +415,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("DS-Report_TableData");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DS_Report_TableData");
         }
 
         @Override

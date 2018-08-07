@@ -162,7 +162,7 @@ public class TableDataTreePane extends BasicTableDataTreePane {
     protected void initbuttonGroup() {
 //        Icon[] iconArray = {BaseUtils.readIcon("/com/fr/design/images/data/datasource.png"), BaseUtils.readIcon("/com/fr/design/images/data/dock/serverdatabase.png")};
         final Integer[] modeArray = {TEMPLATE_TABLE_DATA, SERVER_TABLE_DATA};
-        String[] textArray = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tabledata_Source_Type_Template"), com.fr.design.i18n.Toolkit.i18nText("DS-Server_TableData")};
+        String[] textArray = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tabledata_Source_Type_Template"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DS_Server_TableData")};
         buttonGroup = new UIHeadGroup(textArray) {
             public void tabChanged(int index) {
                 if (op != null) {

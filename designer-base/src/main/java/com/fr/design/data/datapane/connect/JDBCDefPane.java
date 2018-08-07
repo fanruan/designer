@@ -104,7 +104,7 @@ public class JDBCDefPane extends JPanel {
 		userNameTextField.setName(USER_NAME);
 		passwordTextField = new UIPassWordField(15);
 		dbtypeButton = new UIButton(".");
-		dbtypeButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Click-Get_Default_URL"));
+		dbtypeButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Click_Get_Default_URL"));
 		dbtypeButton.addActionListener(dbtypeButtonActionListener);
 
 		double p = TableLayout.PREFERRED;
@@ -148,7 +148,7 @@ public class JDBCDefPane extends JPanel {
 		JPanel southPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		innerthis.add(southPanel);
 		southPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 4, 20));
-		ActionLabel actionLabel = new ActionLabel(com.fr.design.i18n.Toolkit.i18nText("ConnectionPool_Attr"));
+		ActionLabel actionLabel = new ActionLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_ConnectionPool_Attr"));
 		southPanel.add(actionLabel, BorderLayout.EAST);
 		actionLabel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
@@ -331,18 +331,18 @@ public class JDBCDefPane extends JPanel {
 			double[] rowSize = {f, f, f, f, f, f, f, f, f, f, f, f};
 			double[] columnSize = {f, f};
 			Component[][] comps = {
-					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("DBCP_INITIAL_SIZE") + ":", SwingConstants.RIGHT), DBCP_INITIAL_SIZE},
-					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("DBCP_MAX_ACTIVE") + ":", SwingConstants.RIGHT), DBCP_MAX_ACTIVE},
-					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("DBCP_MAX_IDLE") + ":", SwingConstants.RIGHT), DBCP_MAX_IDLE},
-					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("DBCP_MIN_IDLE") + ":", SwingConstants.RIGHT), DBCP_MIN_IDLE},
+					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Dbcp_Initial_Size") + ":", SwingConstants.RIGHT), DBCP_INITIAL_SIZE},
+					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Dbcp_Max_Active") + ":", SwingConstants.RIGHT), DBCP_MAX_ACTIVE},
+					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Dbcp_Max_Idle") + ":", SwingConstants.RIGHT), DBCP_MAX_IDLE},
+					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Dbcp_Min_Idle") + ":", SwingConstants.RIGHT), DBCP_MIN_IDLE},
 					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Connection_Pool_Max_Wait_Time") + ":" , SwingConstants.RIGHT), DBCP_MAX_WAIT},
 					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("DBCP_VALIDATION_QUERY") + ":", SwingConstants.RIGHT), DBCP_VALIDATION_QUERY},
-					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("DBCP_TEST_ON_BORROW") + ":", SwingConstants.RIGHT), DBCP_TESTONBORROW},
-					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("DBCP_TEST_ON_RETURN") + ":", SwingConstants.RIGHT), DBCP_TESTONRETURN},
-					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("DBCP_TEST_WHILE_IDLE") + ":", SwingConstants.RIGHT), DBCP_TESTWHILEIDLE},
+					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Dbcp_Test_On_Borrow") + ":", SwingConstants.RIGHT), DBCP_TESTONBORROW},
+					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Dbcp_Test_On_Return") + ":", SwingConstants.RIGHT), DBCP_TESTONRETURN},
+					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Dbcp_Test_While_Idle") + ":", SwingConstants.RIGHT), DBCP_TESTWHILEIDLE},
 					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Connection_Pool_Evictionruns_millis") + ":", SwingConstants.RIGHT),
 							DBCP_TIMEBETWEENEVICTIONRUNSMILLS},
-					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("DBCP_NUM_TEST_PER_EVCTION_RUN") + ":", SwingConstants.RIGHT), DBCP_NUMTESTSPEREVICTIONRUN},
+					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Dbcp_Num_Test_Per_Evction_Run") + ":", SwingConstants.RIGHT), DBCP_NUMTESTSPEREVICTIONRUN},
 					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Connection_Pool_Mix_Evictable_Idle_Time_Millis") + ":" , SwingConstants.RIGHT),
 							DBCP_MINEVICTABLEIDLETIMEMILLIS}};
 
@@ -353,7 +353,7 @@ public class JDBCDefPane extends JPanel {
 
 		@Override
 		protected String title4PopupWindow() {
-			return com.fr.design.i18n.Toolkit.i18nText("ConnectionPool_Attr");
+			return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_ConnectionPool_Attr");
 		}
 	}
 

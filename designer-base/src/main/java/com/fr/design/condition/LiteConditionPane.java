@@ -464,13 +464,13 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
         moveDownButton.addActionListener(actionListener5);
 
         // peter:加括号
-        bracketButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("ConditionB-Add_bracket"));
+        bracketButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_ConditionB_Add_bracket"));
         buttonPane.add(bracketButton);
         bracketButton.setIcon(BaseUtils.readIcon("com/fr/design/images/condition/bracket.png"));
         bracketButton.addActionListener(actionListener6);
 
         // peter:去掉括号
-        unBracketButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("ConditionB-Remove_bracket"));
+        unBracketButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_ConditionB_Remove_bracket"));
         buttonPane.add(unBracketButton);
         unBracketButton.setIcon(BaseUtils.readIcon("com/fr/design/images/condition/unBracket.png"));
         unBracketButton.addActionListener(actionListener7);

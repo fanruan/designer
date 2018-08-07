@@ -108,7 +108,7 @@ public class TemplatePane extends JPanel implements MouseListener {
         editButton.setBorder(BorderFactory.createEmptyBorder(2, 0, 0, 10));
         editButton.setMargin(null);
         editButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        editButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Env-Configure_Workspace"));
+        editButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Env_Configure_Workspace"));
         this.add(new UILabel("   "), BorderLayout.WEST);
         this.add(editButton, BorderLayout.EAST);
         editButton.addActionListener(new ActionListener() {
