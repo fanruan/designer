@@ -20,14 +20,14 @@ public class DSColumnConditionAction extends AbstractCellElementAction {
 
     public DSColumnConditionAction() {
         super();
-        this.setName(com.fr.design.i18n.Toolkit.i18nText("Filter"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Filter"));
         this.setMnemonic('E');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/expand/cellAttr.gif"));
     }
 
     public DSColumnConditionAction(ElementCasePane t) {
         super(t);
-        this.setName(com.fr.design.i18n.Toolkit.i18nText("Filter"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Filter"));
         this.setMnemonic('E');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/expand/cellAttr.gif"));
     }

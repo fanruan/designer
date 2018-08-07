@@ -362,7 +362,7 @@ public class PreviewTablePane extends BasicPane {
                     boolean status = DataOperator.getInstance().testConnection(((DBTableData) tableData).getDatabase());
                     if (!status) {
                         connectionBar.close();
-                        throw new Exception(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Database_Connection_Failed"));
+                        throw new Exception(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Connection_Failed"));
                     }
                 }
                 connectionBar.close();

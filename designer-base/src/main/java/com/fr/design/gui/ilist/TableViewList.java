@@ -99,7 +99,7 @@ public class TableViewList extends UIList {
                     count--;
                 }
                 if (!status) {
-                    throw new Exception(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Database_Connection_Failed"));
+                    throw new Exception(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Connection_Failed"));
                 }
                 TableViewList.this.setModel(processDataInAnotherThread(databaseName, searchFilter, typesFilter));
                 return null;

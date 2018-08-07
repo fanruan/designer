@@ -198,7 +198,7 @@ public class PreferencePane extends BasicPane {
 
     private void createEditPane(JPanel generalPane) {
         //samuel:编辑器设置
-        JPanel editPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Editor_Preference"));
+        JPanel editPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Editor_Preference"));
         generalPane.add(editPane);
 
         //设置是否支持将字符串编辑为公式

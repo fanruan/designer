@@ -4,13 +4,9 @@
 
 package com.fr.design.menu;
 
-import com.fr.general.ComparatorUtils;
-import com.fr.general.GeneralContext;
-
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
-import java.util.Locale;
 
 import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
 
@@ -678,7 +674,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Authority_Edit_Status");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Authority_Edit_Status");
         }
 
         @Override

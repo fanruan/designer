@@ -477,7 +477,7 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
                 if (ComparatorUtils.equals(selected[i], keyColumnNameValueList.get(j).cn)) {
                     Object[] options = { com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Covered_All"), com.fr.design.i18n.Toolkit.i18nText("FR-Base_Yes"), com.fr.design.i18n.Toolkit.i18nText("FR-Base_No"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cover_None") };
                     returnValue = JOptionPane.showOptionDialog(DBManipulationPane.this,
-							com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Cover_Tips", keyColumnNameValueList.get(j).cn.name),
+							com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cover_Tips", keyColumnNameValueList.get(j).cn.name),
                             "", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
                     // Richie:全部覆盖
                     if (returnValue == 0) {

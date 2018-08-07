@@ -31,9 +31,9 @@ public class MinMaxValuePane extends JPanel {
     protected UITextField secUnitField;
 
 	public MinMaxValuePane() {
-		minCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Custom_Min_Value"));
+		minCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom_Min_Value"));
 		minValueField = new UITextField(6);
-		maxCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Custom_Max_Value"));
+		maxCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom_Max_Value"));
 		maxValueField = new UITextField(6);
 		isCustomMainUnitBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom_Main_Graduation_Unit"));
 		mainUnitField = new UITextField(6);
