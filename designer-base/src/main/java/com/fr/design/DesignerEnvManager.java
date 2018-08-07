@@ -533,7 +533,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
      * 设置当前环境为默认
      */
     public void setCurrentEnv2Default() {
-        
+
         try {
             final String envName = getDefaultEnvName();
             WorkContext.switchTo(DesignerWorkspaceGenerator.generate(getDefaultConfig()), new WorkContextCallback() {
