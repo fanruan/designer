@@ -889,15 +889,9 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
         return false;
     }
 
-    /**
-     * 转换版本号，之前是9.0显示为900，现显示为9.0.0
-     * @param xmlDesignerVersion
-     * @return  版本号
-     */
-    private String parseVersion(String xmlDesignerVersion){
-        String version = StringUtils.EMPTY;
+    private static String parseVersion(String xmlDesignerVersion){
+        String version = "";
         for(int i = 0; i < xmlDesignerVersion.length(); i++){
-             //转为数字，A-Z从10开始，这里A要定义为0减10
              int number = Character.getNumericValue(xmlDesignerVersion.charAt(i)) - 10;
              version = version + number;
              if(i < xmlDesignerVersion.length() - 1){
@@ -908,6 +902,7 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
 
         return version;
     }
+
 
     /**
      *

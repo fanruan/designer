@@ -3,6 +3,8 @@ package com.fr.design.mainframe.templateinfo;
 import com.fr.stable.StringUtils;
 import junit.framework.TestCase;
 
+import java.lang.reflect.Method;
+
 /**
  * Created by XINZAI on 2018/8/7.
  */
@@ -14,19 +16,23 @@ public class ParseVersionTest extends TestCase {
         assertEquals("8.1.2", parseVersion("IBC"));
     }
 
-    private String parseVersion(String xmlDesignerVersion){
+    private String parseVersion(String xmlDesignerVersion) throws Exception{
         String version = StringUtils.EMPTY;
-        for(int i = 0; i < xmlDesignerVersion.length(); i++){
-            //转为数字，A-Z从10开始，这里A要定义为0减10
-            int number = Character.getNumericValue(xmlDesignerVersion.charAt(i)) - 10;
-            version = version + number;
-            if(i < xmlDesignerVersion.length() - 1){
-                version = version + ".";
-            }
+        try {
+            Class reflect  = Class.forName("com.fr.design.mainframe.JTemplate");
 
+            Method method = reflect.getDeclaredMethod("parseVersion", String.class);
+            //取消访问私有方法的合法性检查
+            method.setAccessible(true);
+
+            version = (String) method.invoke(reflect, xmlDesignerVersion);
+
+        }catch (Exception e){
+            throw e;
         }
 
         return version;
     }
+
 }
 
