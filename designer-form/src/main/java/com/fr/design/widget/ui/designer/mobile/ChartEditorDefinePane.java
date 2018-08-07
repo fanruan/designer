@@ -87,7 +87,7 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane {
         unavailableTipLabel.setText("<html>" + tipText + "<html>");
         unavailableTipLabel.setForeground(Color.gray);
         panel.add(unavailableTipLabel, BorderLayout.NORTH);
-        allowFullCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Allow_Full_Screen"));
+        allowFullCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Allow_Full_Screen"));
         panel.add(allowFullCheckBox);
         return panel;
     }
@@ -98,7 +98,7 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane {
         tipLabel = new UILabel();
         tipLabel.setForeground(Color.gray);
         updateTipLabel();
-        allowFullCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Allow_Full_Screen"));
+        allowFullCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Allow_Full_Screen"));
 
         Component[][] components = new Component[][]{
                 new Component[] {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Zoom_In_Logic"), SwingConstants.LEFT), new UILabel(ChartMobileFitAttrState.PROPORTION.description())},

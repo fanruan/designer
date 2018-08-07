@@ -63,7 +63,7 @@ public class ClassTableDataPane extends AbstractTableDataPane<ClassTableData> {
                 dlg.setVisible(true);
             }
         });
-        UIButton editButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Edit"));
+        UIButton editButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Edit"));
         editButton.setPreferredSize(new Dimension(
                 editButton.getPreferredSize().width,
                 classNameTextField.getPreferredSize().height));

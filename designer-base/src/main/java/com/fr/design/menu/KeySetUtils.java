@@ -536,7 +536,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Report_Background");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Background");
         }
 
         @Override

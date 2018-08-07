@@ -76,7 +76,7 @@ public class VanChartStructureSeriesPane extends VanChartAbstractPlotSeriesPane 
         double[] rowSize = {p,p,p,p};
 
         JPanel jPanel = new JPanel(new BorderLayout());
-        jPanel.add(TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Tree_Width")+"   ", linkWidthType), BorderLayout.NORTH);
+        jPanel.add(TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Tree_Width")+"   ", linkWidthType), BorderLayout.NORTH);
         linkWidthPane = TableLayout4VanChartHelper.createGapTableLayoutPane("         ", linkWidth);
         jPanel.add(linkWidthPane, BorderLayout.CENTER);
 

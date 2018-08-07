@@ -556,7 +556,7 @@ public class PluginWebBridge {
     public void clearUserInfo() {
         MarketConfig.getInstance().setInShowBBsName(StringUtils.EMPTY);
         BBSLoginUtils.bbsLogout();
-        uiLabel.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Base_UnSignIn"));
+        uiLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Base_UnSignIn"));
     }
 
     public void getPackInfo(final JSObject callback){

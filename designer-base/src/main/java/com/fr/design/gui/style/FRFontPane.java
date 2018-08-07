@@ -16,7 +16,6 @@ import com.fr.design.gui.ibutton.UIColorButton;
 import com.fr.design.gui.ibutton.UIToggleButton;
 import com.fr.design.gui.icombobox.LineComboBox;
 import com.fr.design.gui.icombobox.UIComboBox;
-import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.utils.gui.GUICoreUtils;
@@ -140,7 +139,7 @@ public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObse
         if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont_Style"))) {
             frFont = frFont.applyStyle(fontSizeStyleComboBox.getSelectedIndex());
         }
-        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-FRFont_Size"))) {
+        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_FRFont_Size"))) {
             frFont = frFont.applySize(Float.parseFloat(fontSizeComboBox.getSelectedItem().toString()));
         }
         if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont_Foreground"))) {
@@ -154,7 +153,7 @@ public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObse
 
         }
 
-        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-FRFont_Line_Style"))) {
+        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_FRFont_Line_Style"))) {
             frFont = frFont.applyUnderline(this.underlineCombo.getSelectedLineStyle());
         }
 
@@ -267,12 +266,12 @@ public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObse
     private void initAllNames() {
         fontSizeStyleComboBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont_Style"));
         fontNameComboBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Name"));
-        fontSizeComboBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-FRFont_Size"));
+        fontSizeComboBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_FRFont_Size"));
         colorSelectPane.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont_Foreground"));
         italic.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont_italic"));
         bold.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont_bold"));
         underline.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont_Underline"));
-        underlineCombo.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-FRFont_Line_Style"));
+        underlineCombo.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_FRFont_Line_Style"));
         isStrikethroughCheckBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont_Strikethrough"));
         isShadowCheckBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont_Shadow"));
         superPane.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont_Superscript"));

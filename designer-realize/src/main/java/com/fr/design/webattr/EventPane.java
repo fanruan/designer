@@ -181,7 +181,7 @@ public class EventPane extends BasicPane {
 
 	public class EditAction extends UpdateAction {
 		public EditAction() {
-			this.setName(com.fr.design.i18n.Toolkit.i18nText("Edit"));
+			this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Edit"));
 			this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/edit.png"));
 		}
 

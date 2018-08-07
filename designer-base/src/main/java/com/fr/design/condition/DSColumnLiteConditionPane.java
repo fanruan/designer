@@ -1,40 +1,37 @@
 package com.fr.design.condition;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-
-import javax.swing.DefaultComboBoxModel;
-
-import com.fr.design.file.HistoryTemplateListPane;
-import com.fr.design.gui.ilable.UILabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.tree.TreePath;
-
 import com.fr.data.condition.CommonCondition;
-import com.fr.design.mainframe.JTemplate;
-import com.fr.general.ComparatorUtils;
-import com.fr.general.data.Condition;
 import com.fr.data.condition.JoinCondition;
 import com.fr.data.core.Compare;
 import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.formula.CustomVariableResolver;
-import com.fr.design.formula.VariableResolver;
-import com.fr.design.gui.icombobox.UIComboBox;
-import com.fr.design.gui.icombobox.UIComboBoxRenderer;
-import com.fr.design.gui.itree.refreshabletree.ExpandMutableTreeNode;
-import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.layout.TableLayout;
-import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.editor.ValueEditorPane;
 import com.fr.design.editor.ValueEditorPaneFactory;
 import com.fr.design.editor.editor.ColumnIndexEditor;
 import com.fr.design.editor.editor.ColumnNameEditor;
 import com.fr.design.editor.editor.Editor;
-
+import com.fr.design.file.HistoryTemplateListPane;
+import com.fr.design.formula.CustomVariableResolver;
+import com.fr.design.formula.VariableResolver;
+import com.fr.design.gui.icombobox.UIComboBox;
+import com.fr.design.gui.icombobox.UIComboBoxRenderer;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.itree.refreshabletree.ExpandMutableTreeNode;
+import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.mainframe.JTemplate;
+import com.fr.general.ComparatorUtils;
+import com.fr.general.data.Condition;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.tree.TreePath;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
 
 public class DSColumnLiteConditionPane extends LiteConditionPane<CommonCondition> {
 	/**
@@ -121,7 +118,7 @@ public class DSColumnLiteConditionPane extends LiteConditionPane<CommonCondition
 			keyColumnPane.setPreferredSize(new Dimension(175, keyColumnPane.getPreferredSize().height));
 			conditionOPComboBox.setPreferredSize(new Dimension(80, 20));
 			Component[][] components = {
-					{ new UILabel(com.fr.design.i18n.Toolkit.i18nText("Utils-Available_Columns") + ":"), new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-ConditionB_Operator") + ":"),
+					{ new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Available_Columns") + ":"), new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ConditionB_Operator") + ":"),
 							new UILabel() }, { keyColumnPane, conditionOPComboBox, conditionValuePane } };
 
 			double p = TableLayout.PREFERRED;

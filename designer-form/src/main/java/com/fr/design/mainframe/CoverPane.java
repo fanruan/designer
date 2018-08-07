@@ -42,7 +42,7 @@ public class CoverPane extends JPanel {
         setBackground(null);
         setOpaque(false);
 
-        editButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Edit"), IOUtils.readIcon(IconPathConstants.EDIT_ICON_PATH)) {
+        editButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Edit"), IOUtils.readIcon(IconPathConstants.EDIT_ICON_PATH)) {
             @Override
             public Dimension getPreferredSize() {
                 return new Dimension(60, 24);

@@ -108,7 +108,7 @@ public class AlphaFineConfigPane extends BasicPane {
         initFieldListener();
         northPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Open") + ":"));
         northPane.add(shortcutsField);
-        UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-AlphaFine_SetShortcuts"));
+        UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_AlphaFine_SetShortcuts"));
         label.setForeground(Color.RED);
         northPane.add(label);
         contentPane.add(northPane);

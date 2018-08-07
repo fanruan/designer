@@ -1,12 +1,11 @@
 package com.fr.design.data.datapane;
 
-import java.awt.Cursor;
-
-import com.fr.design.gui.ilable.UILabel;
-import javax.swing.JPanel;
-
 import com.fr.base.BaseUtils;
 import com.fr.design.data.datapane.FlashLookLabelMouseAdapter.ReleaseAction;
+import com.fr.design.gui.ilable.UILabel;
+
+import javax.swing.JPanel;
+import java.awt.Cursor;
 
 
 
@@ -16,7 +15,7 @@ public class EditOrNewLabel extends UILabel {
 	
 	public EditOrNewLabel(Editable editable, JPanel editPane) {
 		super(BaseUtils.readIcon("/com/fr/design/images/m_file/edit.png"));
-		this.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Edit"));
+		this.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Edit"));
 		this.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		this.editable = editable;
 		this.editTablePane = editPane;

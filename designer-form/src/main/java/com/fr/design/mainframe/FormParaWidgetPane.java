@@ -214,7 +214,7 @@ public class FormParaWidgetPane extends JPanel {
             for (int i = 0; i < COMMON_CHAR_NUM; i++) {
                 chartTypePane.add(new ToolBarButton(loadChartOptions()[i]));
             }
-            add(createChartCombinationPane(chartTypePane, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Form-ToolBar_Chart")));
+            add(createChartCombinationPane(chartTypePane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_ToolBar_Chart")));
             jSeparatorChart = createJSeparator();
             add(jSeparatorChart);
         }
@@ -229,7 +229,7 @@ public class FormParaWidgetPane extends JPanel {
         for (int i = 0; i < num; i++) {
             widgetPane.add(new ToolBarButton(predifinedwidgeList.get(i)));
         }
-        add(createWidgetCombinationPane(widgetPane, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Form-ToolBar_Widget")));
+        add(createWidgetCombinationPane(widgetPane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_ToolBar_Widget")));
         add(createJSeparator());
     }
 

@@ -46,7 +46,7 @@ public class CellRichTextEditor extends CellQuickEditor {
     @Override
     protected void refreshDetails() {
         RichTextCellAction subReportCellAction = new RichTextCellAction(tc);
-        subReportCellAction.setName(com.fr.design.i18n.Toolkit.i18nText("Edit"));
+        subReportCellAction.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Edit"));
         subReportCellAction.setSmallIcon(null);
         richTextButton.setAction(subReportCellAction);
     }
