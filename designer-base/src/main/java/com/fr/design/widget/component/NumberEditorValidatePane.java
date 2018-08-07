@@ -53,11 +53,11 @@ public class NumberEditorValidatePane extends JPanel {
 
     private void initComponent() {
         initListeners();
-        this.allowDecimalsCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Allow_Decimals"));
+        this.allowDecimalsCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Allow_Decimals"));
         allowDecimalsCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         this.allowDecimalsCheckBox.addActionListener(allowDecimalsListener);
         this.decimalLength = new UISpinner(0, Integer.MAX_VALUE, 1, 16);
-        this.allowNegativeCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Allow_Negative"));
+        this.allowNegativeCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Allow_Negative"));
         this.allowNegativeCheckBox.addActionListener(allowNegativeListener);
         allowNegativeCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         this.setMaxValueCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Need_Max_Value"), false);

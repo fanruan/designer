@@ -129,7 +129,7 @@ public abstract class EditingStringListPane extends BasicBeanPane<List<String>> 
 						setAddEnabled(false);
 					}
 				} else {
-					JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(EditingStringListPane.this), newvalue + com.fr.design.i18n.Toolkit.i18nText("Already_exists_not_add_repeat")+"!");
+					JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(EditingStringListPane.this), newvalue + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Already_exists_not_add_repeat")+"!");
 				}
 			}
 		});
