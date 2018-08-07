@@ -121,14 +121,14 @@ public abstract class BasicTableDataTreePane extends DockingView implements Resp
         dg.setButtonEnabled(true);
         String tempName = nPanel.getObjectName();
         if (StringUtils.isBlank(tempName)) {
-            nPanel.setShowText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Table_Data_Empty_Name_Tips"));
+            nPanel.setShowText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Table_Data_Empty_Name_Tips"));
             dg.setButtonEnabled(false);
         } else if (!ComparatorUtils.equals(oldName, tempName) && isDsNameRepeaded(tempName)) {
-            nPanel.setShowText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Table_Data_Duplicate_Name_Tips", tempName));
+            nPanel.setShowText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Table_Data_Duplicate_Name_Tips", tempName));
             dg.setButtonEnabled(false);
         } else if (isProcedureName(oldName)) {
             if (isIncludeUnderline(tempName)) {
-                nPanel.setShowText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Stored_Procedure_Name_Tips"));
+                nPanel.setShowText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Stored_Procedure_Name_Tips"));
                 dg.setButtonEnabled(false);
             }
         } else {

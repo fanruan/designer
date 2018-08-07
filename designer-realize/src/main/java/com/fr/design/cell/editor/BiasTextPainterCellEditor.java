@@ -3,34 +3,30 @@
  */
 package com.fr.design.cell.editor;
 
+import com.fr.design.dialog.BasicPane;
+import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.gui.ibutton.UIRadioButton;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.itextarea.UITextArea;
+import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.mainframe.ElementCasePane;
+import com.fr.general.ComparatorUtils;
+import com.fr.grid.Grid;
+import com.fr.report.cell.TemplateCellElement;
+import com.fr.report.cell.painter.BiasTextPainter;
+import com.fr.report.elementcase.TemplateElementCase;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.ButtonGroup;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.ButtonGroup;
-
-import com.fr.design.gui.ibutton.UIRadioButton;
-import com.fr.design.gui.ilable.UILabel;
-
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.SwingUtilities;
-
-import com.fr.design.gui.itextarea.UITextArea;
-import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.dialog.BasicPane;
-import com.fr.design.dialog.DialogActionAdapter;
-import com.fr.general.ComparatorUtils;
-
-import com.fr.design.mainframe.ElementCasePane;
-import com.fr.grid.Grid;
-import com.fr.report.cell.TemplateCellElement;
-import com.fr.report.cell.painter.BiasTextPainter;
-import com.fr.report.elementcase.TemplateElementCase;
 
 /**
  * BiasTextPainter
@@ -121,7 +117,7 @@ public class BiasTextPainterCellEditor extends AbstractCellEditor {
             centerPane.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
             centerPane.add(textPane, BorderLayout.CENTER);
 
-            UILabel formulaLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Slope_Line_Tip", "'|'", "Season|Product"));
+            UILabel formulaLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Slope_Line_Tip", "'|'", "Season|Product"));
             textPane.add(formulaLabel, BorderLayout.NORTH);
             formulaLabel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 0));
 
@@ -136,8 +132,8 @@ public class BiasTextPainterCellEditor extends AbstractCellEditor {
 
             JPanel choicePane = FRGUIPaneFactory.createX_AXISBoxInnerContainer_S_Pane();
 
-            choice1 = new UIRadioButton((com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Slope_Line_Upper_Left_To_Lower_Right")));
-            choice2 = new UIRadioButton((com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Slope_Line_Lower_Left_To_Upper_Right")));
+            choice1 = new UIRadioButton((com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Slope_Line_Upper_Left_To_Lower_Right")));
+            choice2 = new UIRadioButton((com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Slope_Line_Lower_Left_To_Upper_Right")));
             choice1.addActionListener(leftUp);
             choice2.addActionListener(leftDown);
 
@@ -154,7 +150,7 @@ public class BiasTextPainterCellEditor extends AbstractCellEditor {
         
         @Override
         protected String title4PopupWindow() {
-        	return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Slope_Line");
+        	return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Slope_Line");
         }
         
         public void populate(BiasTextPainter biasTextPainter) {

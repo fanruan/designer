@@ -106,10 +106,10 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
     private String subMitName;
 
 	private static final String[] DML_CONFIG_TYPES = new String[] {
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Write_Smart_Submit"),
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Write_Delete_Submit"),
-			com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Write_Smart_Submit"),
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Write_Update_Submit")};
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Write_Smart_Submit"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Write_Delete_Submit"),
+			com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Write_Smart_Submit"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Write_Update_Submit")};
 
 	/**
 	 * 无单元格。没有智能添加单元格等按钮
@@ -128,9 +128,9 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
 
 		dmlConfigComboBox = new UIComboBox(DML_CONFIG_TYPES);
 
-		JPanel typePane = GUICoreUtils.createFlowPane(new Component[] { new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Write_Choose_Submit_Type") + ":"), dmlConfigComboBox },
+		JPanel typePane = GUICoreUtils.createFlowPane(new Component[] { new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Write_Choose_Submit_Type") + ":"), dmlConfigComboBox },
 				FlowLayout.LEFT, 10);
-		typePane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Write_Submit_Type")));
+		typePane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Write_Submit_Type")));
 		northPane.add(typePane, BorderLayout.NORTH);
 
 		chooseTable = new ChoosePaneSupportFormula();

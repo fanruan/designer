@@ -46,7 +46,7 @@ public class ImgChoosePane extends BasicPane {
 				if (image == null) {
 					imgSizeLabel.setText("");
 				} else {
-					imgSizeLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Style_Size_Detail",
+					imgSizeLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Size_Detail",
 							image.getWidth(null) + "x" + image.getHeight(null)));
 				}
 			}

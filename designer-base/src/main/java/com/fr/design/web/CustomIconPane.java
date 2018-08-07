@@ -4,7 +4,6 @@ import com.fr.base.BaseUtils;
 import com.fr.base.GraphHelper;
 import com.fr.base.Icon;
 import com.fr.base.IconManager;
-import com.fr.design.constants.UIConstants;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.gui.ibutton.UIButton;
@@ -454,7 +453,7 @@ IconManager.DEFAULT_ICONHEIGHT, BufferedImage.TYPE_INT_ARGB);
 
         @Override
 	    protected String title4PopupWindow() {
-	    	return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Style_Add_Icon");
+	    	return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Add_Icon");
 	    }
 	    
 	    // 用户自定义的只有name 和 imgae两属性， path不要去管

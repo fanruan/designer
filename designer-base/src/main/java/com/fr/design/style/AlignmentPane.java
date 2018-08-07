@@ -158,12 +158,12 @@ public class AlignmentPane extends BasicPane {
         leftIndentSpinner = new UIBasicSpinner(new SpinnerNumberModel(new Integer(0), new Integer(0), maximum, new Integer(1)));
         leftIndentSpinner.addChangeListener(changeListener);
         GUICoreUtils.setColumnForSpinner(leftIndentSpinner, 3);
-        indentPane.add(this.createCenterFlowPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Style_Indent_Left"), leftIndentSpinner));
+        indentPane.add(this.createCenterFlowPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Indent_Left"), leftIndentSpinner));
 
         rightIndentSpinner = new UIBasicSpinner(new SpinnerNumberModel(new Integer(0), new Integer(0), maximum, new Integer(1)));
         rightIndentSpinner.addChangeListener(changeListener);
         GUICoreUtils.setColumnForSpinner(rightIndentSpinner, 3);
-        indentPane.add(this.createCenterFlowPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Style_Indent_Right") , rightIndentSpinner));
+        indentPane.add(this.createCenterFlowPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Indent_Right") , rightIndentSpinner));
         return indentPane;
     }
 

@@ -39,7 +39,7 @@ public class TreeTableDataPane extends AbstractTableDataPane<RecursionTableData>
 
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Tabledata_Type_Tree");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tabledata_Type_Tree");
 	}
 	
 }

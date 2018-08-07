@@ -107,7 +107,7 @@ public class ReportWebWidgetConstants {
             .createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Export"), BaseUtils.readIcon("/com/fr/web/images/export.png"), Export.class);
 
     // 当前页/总页数
-    public static final WidgetOption PAGENAVI = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Page_Navi_Text"),
+    public static final WidgetOption PAGENAVI = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Page_Navi_Text"),
             BaseUtils.readIcon("/com/fr/web/images/pageNumber.png"), PageNavi.class);
     // 首页
     public static final WidgetOption FIRST = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_ReportServerP-First"), BaseUtils.readIcon("/com/fr/web/images/first.png"),
