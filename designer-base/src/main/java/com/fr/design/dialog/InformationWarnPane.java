@@ -149,7 +149,7 @@ public class InformationWarnPane extends JPanel{
 		private JPanel createControlButtonPane() {
 			controlPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 
-			okButton = new UIButton("<html><font FACE='MicroSoft YaHei'>" + com.fr.design.i18n.Toolkit.i18nText("OK") + "</font></html>") {
+			okButton = new UIButton("<html><font FACE='MicroSoft YaHei'>" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_OK") + "</font></html>") {
 				@Override
 				public Dimension getPreferredSize() {
 					// TODO Auto-generated method stub

@@ -118,7 +118,7 @@ public class VanChartPlotTooltipPane extends BasicPane {
             }
         };
 
-        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-Chart_Character"), style);
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Character"), style);
         JPanel panel1 = new JPanel(new BorderLayout());
         panel1.add(panel, BorderLayout.CENTER);
         panel1.add(textFontPane, BorderLayout.SOUTH);

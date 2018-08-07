@@ -66,7 +66,7 @@ public class MultiTDTableDataPane extends AbstractTableDataPane<MultiTDTableData
         jpanel.setLayout(new BorderLayout());
 
         JPanel northPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        UILabel chooseTableData = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Tabledata_Select_To_Merge"));
+        UILabel chooseTableData = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tabledata_Select_To_Merge"));
         UIButton previewButton = new UIButton();
         previewButton.setIcon(BaseUtils.readIcon("/com/fr/web/images/preview.png"));
         previewButton.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
@@ -131,7 +131,7 @@ public class MultiTDTableDataPane extends AbstractTableDataPane<MultiTDTableData
             public UITableEditAction[] createAction() {
                 return new UITableEditAction[]{new RefreshAction()};
             }
-        }, " " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Tabledata_Default_Parameter"));
+        }, " " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tabledata_Default_Parameter"));
 
         jpanel.add(editorPane, BorderLayout.CENTER);
 

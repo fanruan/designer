@@ -220,7 +220,7 @@ public class ImageBackgroundPane extends BackgroundDetailPane {
             if (image == null) {
                 imageSizeLabel.setText("");
             } else {
-                imageSizeLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Style_Size_Detail", image.getWidth(null) + "x" + image.getHeight(null)));
+                imageSizeLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Size_Detail", image.getWidth(null) + "x" + image.getHeight(null)));
             }
         }
     };

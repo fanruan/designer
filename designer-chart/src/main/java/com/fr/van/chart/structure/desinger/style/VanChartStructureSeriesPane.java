@@ -84,7 +84,7 @@ public class VanChartStructureSeriesPane extends VanChartAbstractPlotSeriesPane 
                 new Component[]{null, null},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Color_Color")), linkColor},
                 new Component[]{jPanel, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Alpha")), linkOpacity}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Alpha")), linkOpacity}
         };
 
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);

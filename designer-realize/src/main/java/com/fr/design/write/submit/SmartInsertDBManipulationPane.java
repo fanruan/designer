@@ -526,7 +526,7 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
                     Object cv = ((ColumnValue) value).obj;
                     if (cv instanceof ColumnRowGroup && ((ColumnRowGroup) cv).getSize() >= CELL_GROUP_LIMIT) {
                         this.setText("[" +
-                                Toolkit.i18nText("Fine-Design_Write_Select_Cell_Count", ((ColumnRowGroup) cv).getSize())
+                                Toolkit.i18nText("Fine-Design_Report_Write_Select_Cell_Count", ((ColumnRowGroup) cv).getSize())
                                 + "]");
                         tip = cv.toString() + " " + tip;
                     } else if (cv != null) {

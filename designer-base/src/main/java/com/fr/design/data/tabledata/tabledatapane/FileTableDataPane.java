@@ -759,7 +759,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Tabledata_Type_File");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tabledata_Type_File");
     }
 
     private void preview() {

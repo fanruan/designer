@@ -26,7 +26,7 @@ public class ReportFontBoldAction extends AbstractStyleAction implements ToggleB
     public ReportFontBoldAction(ElementCasePane t) {
         super(t);
 
-        this.setName(com.fr.design.i18n.Toolkit.i18nText("FRFont-bold"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Font_Bold"));
         this.setSmallIcon(ICONS, true);
     }
 

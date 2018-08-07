@@ -95,7 +95,7 @@ public class SwitchExistEnv extends MenuDef {
                 workspace = DesignerWorkspaceGenerator.generate(selectedEnv);
                 boolean checkValid = workspace == null ? false : selectedEnv.checkValid();
                 if (!checkValid) {
-                    JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Switch_Workspace_Failed"),
+                    JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Switch_Workspace_Failed"),
                             null, 0, UIManager.getIcon("OptionPane.errorIcon"));
                     return;
                 }

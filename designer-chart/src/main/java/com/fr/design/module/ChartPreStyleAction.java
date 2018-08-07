@@ -72,7 +72,7 @@ public class ChartPreStyleAction extends UpdateAction {
 
 		@Override
 		public String getMenuName() {
-			return com.fr.design.i18n.Toolkit.i18nText("FR-Menu-Server_Chart_PreStyle");
+			return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Server_PreStyle");
 		}
 
 		@Override

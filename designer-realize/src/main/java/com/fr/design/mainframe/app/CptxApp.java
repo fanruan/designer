@@ -26,7 +26,7 @@ class CptxApp extends AbstractWorkBookApp {
     @Override
     public WorkBook asIOFile(FILE file) {
         
-        FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Template_Opening_And_Waiting", file.getName()) + "...");
+        FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Template_Opening_And_Waiting", file.getName()) + "...");
         WorkBookX tpl;
         InputStream inputStream;
         try {

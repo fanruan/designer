@@ -24,7 +24,7 @@ public class FormWebWidgetConstants {
 
     // 当前页/总页数
     public static final WidgetOption PAGENAVI = WidgetOptionFactory.createByWidgetClass(
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Page_Navi_Text"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Page_Navi_Text"),
             IOUtils.readIcon("/com/fr/web/images/pageNumber.png"), PageNavi.class);
     // 首页
     public static final WidgetOption FIRST = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_ReportServerP-First"), IOUtils.readIcon("/com/fr/web/images/first.png"),
@@ -50,6 +50,6 @@ public class FormWebWidgetConstants {
             .createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Export"), IOUtils.readIcon("/com/fr/web/images/export.png"), Export.class);
 
     public static final WidgetOption CUSTOM_BUTTON = WidgetOptionFactory
-            .createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Toolbar_Custom_Button"), CustomToolBarButton.class);
+            .createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Toolbar_Custom_Button"), CustomToolBarButton.class);
 
 }

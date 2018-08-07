@@ -3,20 +3,18 @@
  */
 package com.fr.design.designer.creator;
 
-import java.awt.Dimension;
-import java.beans.IntrospectionException;
-
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
-
 import com.fr.design.form.util.XCreatorConstants;
-import com.fr.stable.core.PropertyChangeAdapter;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.mainframe.widget.editors.WidgetValueEditor;
 import com.fr.form.ui.CheckBox;
 import com.fr.form.ui.WidgetValue;
-
 import com.fr.stable.ArrayUtils;
+import com.fr.stable.core.PropertyChangeAdapter;
+
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import java.awt.Dimension;
+import java.beans.IntrospectionException;
 
 /**
  * @author richer
@@ -41,7 +39,7 @@ public class XCheckBox extends XWidgetCreator {
 							}
 						}),
 				new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(
-						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Value")).setEditorClass(WidgetValueEditor.class)
+						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Value")).setEditorClass(WidgetValueEditor.class)
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
 						.setPropertyChangeListener(new PropertyChangeAdapter() {
 
@@ -54,7 +52,7 @@ public class XCheckBox extends XWidgetCreator {
 							}
 						}),
 				new CRPropertyDescriptor("fontSize", this.data.getClass(), "getFontSize", "setFontSize")
-						.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Style_Font_Size"))
+						.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Font_Size"))
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
 		});
 	}

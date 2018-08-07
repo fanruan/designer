@@ -176,7 +176,7 @@ public class XWTabFitLayout extends XWFitLayout {
 	protected CRPropertyDescriptor[] getisnotCustomStyle() throws IntrospectionException {
 		return new CRPropertyDescriptor[]{
 				new CRPropertyDescriptor("customStyle", this.data.getClass()).setI18NName(
-						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Title_Style")).setEditorClass(
+						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Title_Style")).setEditorClass(
 						ButtonTypeEditor.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
 						.setPropertyChangeListener(new PropertyChangeAdapter() {
 					@Override
@@ -191,7 +191,7 @@ public class XWTabFitLayout extends XWFitLayout {
 	protected CRPropertyDescriptor creatNonListenerStyle(int i) throws IntrospectionException{
 		CRPropertyDescriptor[] crPropertyDescriptors = {
 				new CRPropertyDescriptor("customStyle", this.data.getClass()).setI18NName(
-						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Title_Style")).setEditorClass(
+						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Title_Style")).setEditorClass(
 						ButtonTypeEditor.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 				new CRPropertyDescriptor("initialBackground", this.data.getClass()).setEditorClass(
 						ImgBackgroundEditor.class).setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background-Initial")).putKeyValue(

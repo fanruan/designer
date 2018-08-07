@@ -69,7 +69,7 @@ public class DataLabelPane extends TooltipContentsPane {
 
     protected Component[] createComponents4ShowSeriesName() {
         if (showSeriesNameCB == null) {
-            showSeriesNameCB = new UICheckBox(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"ChartF-Series", "WF-Name"}));
+            showSeriesNameCB = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Name"));
         }
         return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Label", "Include"}) + ":"), showSeriesNameCB};
     }
@@ -82,7 +82,7 @@ public class DataLabelPane extends TooltipContentsPane {
     }
 
     protected String getCategoryString(){
-        return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"StyleFormat-Category", "WF-Name"});
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Style_Format_Category_Name");
     }
    
 
@@ -105,7 +105,7 @@ public class DataLabelPane extends TooltipContentsPane {
         JPanel labelStylePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         JPanel westPane = FRGUIPaneFactory.createBoxFlowInnerContainer_S_Pane();
         labelStylePane.add(westPane, BorderLayout.WEST);
-        westPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Label", "FRFont"}) + ":"));
+        westPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Label_Font") + ":"));
         labelStylePane.add(stylePane = new DataLabelStylePane(), BorderLayout.CENTER);
         return labelStylePane;
     }
@@ -127,7 +127,7 @@ public class DataLabelPane extends TooltipContentsPane {
         topButton.setSelected(true);
         
         JPanel buttonPane = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
-        buttonPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Label", "Layout"}) + ":"));
+        buttonPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Label_Layout") + ":"));
         buttonPane.add(bottomButton);
         buttonPane.add(leftButton);
         buttonPane.add(rigtButton);

@@ -93,7 +93,7 @@ public class EmbeddedTableDataDefinedPane extends BasicPane{
 	
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Tabledata_Embedded_Column_Setting");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tabledata_Embedded_Column_Setting");
 	}
 	 
 	public void checkValid() throws Exception {
