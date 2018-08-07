@@ -657,7 +657,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Attribute");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Engine_Attribute");
         }
 
         @Override

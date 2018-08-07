@@ -3,13 +3,7 @@
  */
 package com.fr.design.designer.creator;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.beans.IntrospectionException;
-
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
-
+import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.widget.editors.DictionaryEditor;
@@ -17,9 +11,13 @@ import com.fr.design.mainframe.widget.editors.InChangeBooleanEditor;
 import com.fr.design.mainframe.widget.editors.WidgetValueEditor;
 import com.fr.design.mainframe.widget.renderer.DictionaryRenderer;
 import com.fr.form.ui.CheckBoxGroup;
-import com.fr.design.form.util.XCreatorConstants;
-
 import com.fr.stable.ArrayUtils;
+
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.beans.IntrospectionException;
 
 
 /**
@@ -36,7 +34,7 @@ public class XCheckBoxGroup extends XFieldEditor {
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
 		CRPropertyDescriptor [] sup = (CRPropertyDescriptor[]) ArrayUtils.addAll(new CRPropertyDescriptor[] {
 				new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(
-						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Value")).setEditorClass(WidgetValueEditor.class)
+						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Value")).setEditorClass(WidgetValueEditor.class)
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 				new CRPropertyDescriptor("dictionary", this.data.getClass()).setI18NName(
 						com.fr.design.i18n.Toolkit.i18nText("DS-Dictionary")).setEditorClass(DictionaryEditor.class).setRendererClass(
@@ -50,7 +48,7 @@ public class XCheckBoxGroup extends XFieldEditor {
 				new CRPropertyDescriptor("adaptive", this.data.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Adaptive"))
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced").setEditorClass(InChangeBooleanEditor.class),
 				new CRPropertyDescriptor("chooseAll", this.data.getClass()).setI18NName(
-						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Choose_Type_All")).putKeyValue(
+						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Choose_Type_All")).putKeyValue(
 						XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 				new CRPropertyDescriptor("returnString", this.data.getClass()).setI18NName(
 						com.fr.design.i18n.Toolkit.i18nText("Return-String")).setEditorClass(InChangeBooleanEditor.class)

@@ -156,7 +156,7 @@ public class TemplateTreePane extends JPanel implements FileOperations {
     @Override
     public void refresh() {
         reportletsTree.refresh();
-        FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Template_File_Tree_Refresh_Successfully") + "!");
+        FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Template_File_Tree_Refresh_Successfully") + "!");
     }
 
     /**

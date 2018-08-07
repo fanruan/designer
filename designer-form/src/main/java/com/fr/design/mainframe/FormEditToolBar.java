@@ -335,14 +335,14 @@ public class FormEditToolBar extends BasicPane {
             double rowSize[] = {p, p};
             double columnSize[] = {p, p};
 
-            Component[][] coms = new Component[][]{{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Alias_Name") + ":"), nameField},
-                    {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Icon") + ":"), iconPane}};
+            Component[][] coms = new Component[][]{{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Alias_Name") + ":"), nameField},
+                    {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Icon") + ":"), iconPane}};
 
             JPanel nameIconPane = TableLayoutHelper.createTableLayoutPane(coms, rowSize, columnSize);
 
             north.add(nameIconPane, BorderLayout.SOUTH);
 
-            north.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Button_Setting")));
+            north.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Button_Setting")));
             this.add(north, BorderLayout.NORTH);
             JPanel none = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
             centerPane = FRGUIPaneFactory.createCardLayout_S_Pane();
@@ -376,7 +376,7 @@ public class FormEditToolBar extends BasicPane {
             export.add(excelO);
             export.add(Box.createVerticalStrut(2));
 
-            export.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Button_Setting"), null));
+            export.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Button_Setting"), null));
             return export;
         }
 

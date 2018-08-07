@@ -54,7 +54,7 @@ class CptApp extends AbstractWorkBookApp {
         
         WorkBook tpl = new WorkBook();
         // richer:打开报表通知
-        FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Template_Opening_And_Waiting", file.getName()) + "...");
+        FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Template_Opening_And_Waiting", file.getName()) + "...");
         TempNameStyle namestyle = TempNameStyle.getInstance();
         namestyle.clear();
         String checkStr = StringUtils.EMPTY;
@@ -62,7 +62,7 @@ class CptApp extends AbstractWorkBookApp {
             checkStr = ResourceIOUtils.inputStream2String(file.asInputStream());
             tpl.readStream(file.asInputStream());
         } catch (Exception exp) {
-            String errorMessage = ComparatorUtils.equals(RemoteDeziConstants.INVALID_USER, checkStr) ? Toolkit.i18nText("Fine-Design_Template_Permission_Denied")
+            String errorMessage = ComparatorUtils.equals(RemoteDeziConstants.INVALID_USER, checkStr) ? Toolkit.i18nText("Fine-Design_Basic_Template_Permission_Denied")
                 : com.fr.design.i18n.Toolkit.i18nText("NS-exception_readError");
             FineLoggerFactory.getLogger().error(errorMessage + file, exp);
         }
@@ -92,13 +92,13 @@ class CptApp extends AbstractWorkBookApp {
         jd.setResizable(false);
         jd.setIconImage(BaseUtils.readImage("/com/fr/base/images/oem/logo.png"));
         String message = namelist.toString().replaceAll("\\[", "").replaceAll("\\]", "");
-        UILabel jl = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Template_Global_Style_Missed", message));
+        UILabel jl = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Template_Global_Style_Missed", message));
         jl.setHorizontalAlignment(SwingConstants.CENTER);
         jd.add(jl, BorderLayout.CENTER);
         JPanel jp = new JPanel();
         
         // ”是“按钮，点击之后将生成一个全局样式，并写入xml
-        UIButton confirmButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Yes"));
+        UIButton confirmButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Yes"));
         confirmButton.addActionListener(new ActionListener() {
             
             @Override
@@ -128,7 +128,7 @@ class CptApp extends AbstractWorkBookApp {
         
         jp.add(confirmButton);
         jp.add(noButton);
-        jd.setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Template_Custom_Style_Missed"));
+        jd.setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Template_Custom_Style_Missed"));
         jd.add(jp, BorderLayout.SOUTH);
         GUICoreUtils.centerWindow(jd);
         jd.setVisible(true);

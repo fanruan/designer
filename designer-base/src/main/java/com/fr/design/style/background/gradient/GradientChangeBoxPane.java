@@ -1,5 +1,18 @@
 package com.fr.design.style.background.gradient;
 
+import com.fr.base.background.GradientBackground;
+import com.fr.design.constants.UIConstants;
+import com.fr.design.dialog.BasicPane;
+import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.imenu.UIMenuItem;
+import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.i18n.Toolkit;
+import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.stable.Constants;
+
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Rectangle;
@@ -8,21 +21,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-
-import com.fr.base.background.GradientBackground;
-import com.fr.design.constants.UIConstants;
-import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.gui.imenu.UIMenuItem;
-import com.fr.design.gui.itextfield.UITextField;
-import com.fr.design.i18n.Toolkit;
-import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.dialog.BasicPane;
-
-import com.fr.stable.Constants;
-
 /**
  * @author kunsnat E-mail:kunsnat@gmail.com
  * @version 创建时间：2011-11-29 上午10:42:43
@@ -30,8 +28,8 @@ import com.fr.stable.Constants;
  */
 public class GradientChangeBoxPane extends BasicPane {
 	private static final long serialVersionUID = -6747468244414651602L;
-	private static final String CURRENT = Toolkit.i18nText("Fine-Design_Style_Background_Gradient_Current_Area");
-	private static final String CUSTOM = Toolkit.i18nText("Fine-Design_Style_Background_Gradient_Custom_Area");
+	private static final String CURRENT = Toolkit.i18nText("Fine-Design_Basic_Style_Background_Gradient_Current_Area");
+	private static final String CUSTOM = Toolkit.i18nText("Fine-Design_Basic_Style_Background_Gradient_Custom_Area");
 
 	private JPanel cardPane;
 	private CardLayout cardLayout;
@@ -124,7 +122,7 @@ public class GradientChangeBoxPane extends BasicPane {
 	
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Style_Background_Choose_Gradient_Color");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Background_Choose_Gradient_Color");
 	}
 
 }

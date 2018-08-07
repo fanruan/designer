@@ -28,12 +28,12 @@ public class SubmitJobListPane extends ObjectJControlPane {
 	public NameableCreator[] createNameableCreators() {
 		return new NameableCreator[] {
 			new NameObjectCreator(
-					com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Write_Submit_Event"),
+					com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Write_Submit_Event"),
 					"/com/fr/web/images/reportlet.png",
 					DMLConfigJob.class,
 					DMLJobPane.class),
 			new NameObjectCreator(
-					com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Write_Custom_Event"),
+					com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Write_Custom_Event"),
 					"/com/fr/web/images/reportlet.png",
 					ClassSubmitJob.class,
 					CustomSubmitJobPane.class)

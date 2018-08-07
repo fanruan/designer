@@ -511,7 +511,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 return env;
             }
         }
-        String name = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Workspace_Default");
+        String name = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Workspace_Default");
         LocalDesignerWorkspaceInfo newDefaultEnv = LocalDesignerWorkspaceInfo.create(name, defaultenvPath);
         this.putEnv(name, newDefaultEnv);
         return newDefaultEnv;
@@ -534,7 +534,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 }
             }
         }
-        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Workspace_Default");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Workspace_Default");
     }
 
 

@@ -126,7 +126,7 @@ public abstract class WidgetOption implements Serializable {
                 NUMBEREDITOR, TREECOMBOBOX, RADIOGROUP, CHECKBOXGROUP, TEXTAREA, PASSWORD, CHECKBOX, TREE, MULTI_FILEEDITOR};
     }
 
-    public static final WidgetOption DATEEDITOR = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Type_Date"),
+    public static final WidgetOption DATEEDITOR = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Type_Date"),
             BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/date_16.png"),
             DateEditor.class);
 
@@ -137,59 +137,59 @@ public abstract class WidgetOption implements Serializable {
             TreeComboBoxEditor.class);
 
     public static final WidgetOption CHECKBOXGROUP = WidgetOptionFactory.createByWidgetClass(
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Type_Checkbox_Group"), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/checkbox_group_16.png"), CheckBoxGroup.class);
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Type_Checkbox_Group"), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/checkbox_group_16.png"), CheckBoxGroup.class);
 
     public static final WidgetOption RADIOGROUP = WidgetOptionFactory.createByWidgetClass(
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Type_Radio_Group"), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/button_group_16.png"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Type_Radio_Group"), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/button_group_16.png"),
             RadioGroup.class);
 
     public static final WidgetOption NUMBEREDITOR = WidgetOptionFactory.createByWidgetClass(
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Type_Number"), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/number_field_16.png"), NumberEditor.class);
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Type_Number"), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/number_field_16.png"), NumberEditor.class);
 
     public static final WidgetOption LABEL = WidgetOptionFactory.createByWidgetClass(
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Type_Label"), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/label_16.png"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Type_Label"), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/label_16.png"),
             Label.class);
 
     public static final WidgetOption BUTTON = WidgetOptionFactory.createByWidgetClass(
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Type_Button"), BaseUtils.readIcon("/com/fr/web/images/form/resources/button_16.png"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Type_Button"), BaseUtils.readIcon("/com/fr/web/images/form/resources/button_16.png"),
             Button.class);
 
     public static final WidgetOption FREEBUTTON = WidgetOptionFactory.createByWidgetClass(
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Type_Button"), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/button_16.png"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Type_Button"), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/button_16.png"),
             FreeButton.class);
 
     public static final WidgetOption MULTI_FILEEDITOR = WidgetOptionFactory.createByWidgetClass(
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Type_File"), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/files_up.png"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Type_File"), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/files_up.png"),
             MultiFileEditor.class);
 
     public static final WidgetOption COMBOBOX = WidgetOptionFactory.createByWidgetClass(
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Type_Combo_Box"), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/combo_box_16.png"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Type_Combo_Box"), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/combo_box_16.png"),
             ComboBox.class);
 
     public static final WidgetOption COMBOCHECKBOX = WidgetOptionFactory.createByWidgetClass(
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Type_Combo_Checkbox"), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/combo_check_16.png"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Type_Combo_Checkbox"), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/combo_check_16.png"),
             ComboCheckBox.class);
 
     public static final WidgetOption CHECKBOX = WidgetOptionFactory.createByWidgetClass(
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Type_Checkbox"), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/check_box_16.png"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Type_Checkbox"), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/check_box_16.png"),
             CheckBox.class);
 
     public static final WidgetOption LIST = WidgetOptionFactory.createByWidgetClass(
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Type_List"), BaseUtils.readIcon("/com/fr/web/images/form/resources/list_16.png"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Type_List"), BaseUtils.readIcon("/com/fr/web/images/form/resources/list_16.png"),
             ListEditor.class);
 
 
     public static final WidgetOption TEXTEDITOR = WidgetOptionFactory.createByWidgetClass(
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Type_Text")
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Type_Text")
             , BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/text_field_16.png"),
             TextEditor.class);
 
     public static final WidgetOption TEXTAREA = WidgetOptionFactory.createByWidgetClass(
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Type_Textarea"), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/text_area_16.png"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Type_Textarea"), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/text_area_16.png"),
             TextArea.class);
 
     public static final WidgetOption PASSWORD = WidgetOptionFactory.createByWidgetClass(
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Type_Password"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Type_Password"),
             BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/password_field_16.png"), Password.class);
 
     public static final WidgetOption IFRAMEDITOR = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form-Iframe"), BaseUtils.readIcon("/com/fr/web/images/form/resources/iframe_16.png"),

@@ -151,7 +151,7 @@ public class ReporletHyperNorthPane extends AbstractHyperNorthPane<ReportletHype
 
     private class FakeTipAction extends UpdateAction {
         public FakeTipAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Template_Select"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Template_Select"));
         }
 
         public void actionPerformed(ActionEvent e) {
