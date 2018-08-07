@@ -28,7 +28,7 @@ public class DesignerWorkspaceProvider extends Activator {
                 String current = DesignerEnvManager.getEnvManager().getCurEnvName();
                 DesignerWorkspaceInfo workspaceInfo = DesignerEnvManager.getEnvManager().getWorkspaceInfo(current);
                 Workspace workspace = DesignerWorkspaceGenerator.generate(workspaceInfo);
-                boolean checkValid = workspace == null ? false : workspaceInfo.checkValid();
+                boolean checkValid = workspace != null && workspaceInfo.checkValid();
                 if (!checkValid) {
                     TemplatePane.getInstance().dealEvnExceptionWhenStartDesigner();
                 } else {
