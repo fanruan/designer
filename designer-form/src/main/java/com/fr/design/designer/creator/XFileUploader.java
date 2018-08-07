@@ -33,7 +33,7 @@ public class XFileUploader extends XFieldEditor {
             super.supportedDescriptor(),
             new CRPropertyDescriptor[]{
                 new CRPropertyDescriptor("allowTypes", this.data.getClass())
-                    .setI18NName(com.fr.design.i18n.Toolkit.i18nText("File-Allow_Upload_Files"))
+                    .setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_File_Allow_Upload_Files"))
                     .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
             });
     }

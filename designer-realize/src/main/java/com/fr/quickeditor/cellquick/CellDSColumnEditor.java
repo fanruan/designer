@@ -575,7 +575,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
 
             //补充空白数据
             JPanel multiNumPane = FRGUIPaneFactory.createYBoxEmptyBorderPane();
-            useMultiNumCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fill_blank_Data"));
+            useMultiNumCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Fill_Blank_Data"));
             JPanel checkBoxPane = new JPanel(new BorderLayout());
             checkBoxPane.add(useMultiNumCheckBox, BorderLayout.WEST);
             multiNumPane.add(checkBoxPane);

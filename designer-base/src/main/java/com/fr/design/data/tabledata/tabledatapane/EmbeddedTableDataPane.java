@@ -107,7 +107,7 @@ public class EmbeddedTableDataPane extends AbstractTableDataPane<EmbeddedTableDa
 
     private void initOtherNorthPaneComponents(JPanel northPane) {
         // 表结构设置
-        columnSetButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Tabledata_Embedded_Table_Design"));
+        columnSetButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tabledata_Embedded_Table_Design"));
         columnSetButton.setMnemonic('C');
         northPane.add(columnSetButton);
         columnSetButton.addActionListener(new ActionListener() {

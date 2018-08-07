@@ -18,7 +18,7 @@ public class SetChartStyleAciton extends ChartComponentAction {
 
     public SetChartStyleAciton(ChartComponent chartComponent) {
         super(chartComponent);
-        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Style"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Pattern"));
     }
 
     public void actionPerformed(ActionEvent e) {

@@ -25,7 +25,7 @@ public class DataLabelContentsPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return "Label";
+        return "Fine-Design_Chart_Label";
     }
 
     /**

@@ -1,24 +1,21 @@
 package com.fr.design.dscolumn;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-
-import com.fr.design.gui.ilable.UILabel;
-
-import javax.swing.JPanel;
-
-import com.fr.design.data.DesignTableDataManager;
 import com.fr.data.TableDataSource;
 import com.fr.design.condition.DSColumnLiteConditionPane;
 import com.fr.design.condition.DSColumnSimpleLiteConditionPane;
-import com.fr.design.gui.icheckbox.UICheckBox;
-import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.dialog.BasicPane;
-
+import com.fr.design.gui.icheckbox.UICheckBox;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.data.Condition;
 import com.fr.report.cell.CellElement;
 import com.fr.report.cell.cellattr.core.group.DSColumn;
-import com.fr.design.utils.gui.GUICoreUtils;
+
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 
 public class DSColumnConditionsPane extends BasicPane {
     //peter: Lite Condition.
@@ -65,7 +62,7 @@ public class DSColumnConditionsPane extends BasicPane {
 
     @Override
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Filter");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Filter");
     }
 
     public void populate(TableDataSource tds, CellElement cellElement) {

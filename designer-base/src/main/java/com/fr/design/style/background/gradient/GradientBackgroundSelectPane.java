@@ -1,19 +1,17 @@
 package com.fr.design.style.background.gradient;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-
-import com.fr.design.gui.ilable.UILabel;
-import javax.swing.JPanel;
-
 import com.fr.base.background.GradientBackground;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icombobox.UIComboBox;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Background;
-
 import com.fr.design.style.AlphaPane;
 import com.fr.design.style.background.BackgroundPane4BoxChange;
+import com.fr.general.Background;
+
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 
 /**
  * @author kunsnat E-mail:kunsnat@gmail.com
@@ -58,12 +56,12 @@ public class GradientBackgroundSelectPane extends BackgroundPane4BoxChange {
 		JPanel secondFloorPane = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
 		mainPane.add(secondFloorPane);
 		
-		secondFloorPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Style_Background_Gradient_Area") + ":"));
+		secondFloorPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Background_Gradient_Area") + ":"));
 		
 		changeBox = new GradientChangeBoxPane();
 		secondFloorPane.add(changeBox);
 		
-		secondFloorPane.add(repeatShow = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Style_Background_Gradient_Repeat_Show")));
+		secondFloorPane.add(repeatShow = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Background_Gradient_Repeat_Show")));
 	}
 	
 	public void populate(Background background) {
@@ -112,7 +110,7 @@ public class GradientBackgroundSelectPane extends BackgroundPane4BoxChange {
 	
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Style_Background_Choose_Gradient_Color");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Background_Choose_Gradient_Color");
 	}
 
 }

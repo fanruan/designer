@@ -295,7 +295,7 @@ public class PreviewTablePane extends BasicPane {
         try {
             int choiceColumn = Integer.parseInt(columnErrMessage.trim());
             int tatalColumn = Integer.parseInt(tatolColumnErrMessage.trim());
-            columnErrMessage = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Tabledata_Preview_Warn_Text", choiceColumn + 1, tatalColumn);
+            columnErrMessage = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tabledata_Preview_Warn_Text", choiceColumn + 1, tatalColumn);
         } catch (Exception e) {
             FRContext.getLogger().error(e.getMessage(), e);
             return;
@@ -362,7 +362,7 @@ public class PreviewTablePane extends BasicPane {
                     boolean status = DataOperator.getInstance().testConnection(((DBTableData) tableData).getDatabase());
                     if (!status) {
                         connectionBar.close();
-                        throw new Exception(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Database_Connection_Failed"));
+                        throw new Exception(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Connection_Failed"));
                     }
                 }
                 connectionBar.close();

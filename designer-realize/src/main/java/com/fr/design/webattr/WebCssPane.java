@@ -72,7 +72,7 @@ public class WebCssPane extends BasicPane {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			FILEChooserPane fileChooser = FILEChooserPane.getInstance(false, false, true,
-					new ChooseFileFilter("css", "css" + com.fr.design.i18n.Toolkit.i18nText("File")));
+					new ChooseFileFilter("css", "css" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_File")));
 
 			if (fileChooser.showOpenDialog(DesignerContext.getDesignerFrame()) == FILEChooserPane.OK_OPTION) {
 				final FILE file = fileChooser.getSelectedFILE();

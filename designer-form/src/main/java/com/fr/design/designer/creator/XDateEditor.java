@@ -50,7 +50,7 @@ public class XDateEditor extends XDirectWriteEditor {
         CRPropertyDescriptor[] tempt = (CRPropertyDescriptor[]) ArrayUtils.addAll(
                 new CRPropertyDescriptor[]{
                         new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(
-                                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Value")).setEditorClass(
+                                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Value")).setEditorClass(
                                 WidgetValueEditor.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
                                 "Advanced").setPropertyChangeListener(new PropertyChangeAdapter() {
 

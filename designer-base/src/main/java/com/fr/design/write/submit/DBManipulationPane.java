@@ -106,10 +106,10 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
     private String subMitName;
 
 	private static final String[] DML_CONFIG_TYPES = new String[] {
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Write_Smart_Submit"),
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Write_Delete_Submit"),
-			com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Write_Smart_Submit"),
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Write_Update_Submit")};
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Write_Smart_Submit"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Write_Delete_Submit"),
+			com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Write_Smart_Submit"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Write_Update_Submit")};
 
 	/**
 	 * 无单元格。没有智能添加单元格等按钮
@@ -128,9 +128,9 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
 
 		dmlConfigComboBox = new UIComboBox(DML_CONFIG_TYPES);
 
-		JPanel typePane = GUICoreUtils.createFlowPane(new Component[] { new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Write_Choose_Submit_Type") + ":"), dmlConfigComboBox },
+		JPanel typePane = GUICoreUtils.createFlowPane(new Component[] { new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Write_Choose_Submit_Type") + ":"), dmlConfigComboBox },
 				FlowLayout.LEFT, 10);
-		typePane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Write_Submit_Type")));
+		typePane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Write_Submit_Type")));
 		northPane.add(typePane, BorderLayout.NORTH);
 
 		chooseTable = new ChoosePaneSupportFormula();
@@ -477,7 +477,7 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
                 if (ComparatorUtils.equals(selected[i], keyColumnNameValueList.get(j).cn)) {
                     Object[] options = { com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Covered_All"), com.fr.design.i18n.Toolkit.i18nText("FR-Base_Yes"), com.fr.design.i18n.Toolkit.i18nText("FR-Base_No"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cover_None") };
                     returnValue = JOptionPane.showOptionDialog(DBManipulationPane.this,
-							com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Cover_Tips", keyColumnNameValueList.get(j).cn.name),
+							com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cover_Tips", keyColumnNameValueList.get(j).cn.name),
                             "", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
                     // Richie:全部覆盖
                     if (returnValue == 0) {

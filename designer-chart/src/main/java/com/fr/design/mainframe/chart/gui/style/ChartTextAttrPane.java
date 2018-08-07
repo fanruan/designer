@@ -165,7 +165,7 @@ public class ChartTextAttrPane extends BasicPane {
     }
 
     protected Component[][] getComponents(JPanel buttonPane) {
-        UILabel text = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-Chart_Character"), SwingConstants.LEFT);
+        UILabel text = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Character"), SwingConstants.LEFT);
         return new Component[][]{
                 new Component[]{null, null},
                 new Component[]{text, fontNameComboBox},

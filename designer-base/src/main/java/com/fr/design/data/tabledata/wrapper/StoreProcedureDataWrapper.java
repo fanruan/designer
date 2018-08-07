@@ -194,7 +194,7 @@ public final class StoreProcedureDataWrapper implements TableDataWrapper {
                     connectionBar.close();
                     // bug 61345 预览失败时，关闭窗口
                     dialog.setVisible(false);
-                    throw new Exception(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Database_Connection_Failed"));
+                    throw new Exception(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Connection_Failed"));
                 }
                 connectionBar.close();
                 storeProcedure.resetDataModelList();

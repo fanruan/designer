@@ -40,7 +40,6 @@ import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.file.FILE;
 import com.fr.file.FILEFactory;
 import com.fr.file.FileFILE;
-import com.fr.file.FileNodeFILE;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 
@@ -53,7 +52,6 @@ import com.fr.plugin.observer.PluginEventListener;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.ProductConstants;
-import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.image4j.codec.ico.ICODecoder;
 import com.fr.stable.project.ProjectConstants;
@@ -846,13 +844,13 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
                         JOptionPane.QUESTION_MESSAGE);
                 if (returnVal == JOptionPane.YES_OPTION && editingTemplate.saveTemplate()) {
                     editingTemplate.saveTemplate();
-                    FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Template_Already_Saved",
+                    FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Template_Already_Saved",
                             editingTemplate.getEditingFILE().getName()));
                 }
             } else {
                 if (editingTemplate.saveTemplate()) {
                     editingTemplate.saveTemplate();
-                    FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Template_Already_Saved",
+                    FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Template_Already_Saved",
                             editingTemplate.getEditingFILE().getName()));
                 }
             }
