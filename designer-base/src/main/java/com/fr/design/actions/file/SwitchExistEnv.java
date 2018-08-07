@@ -19,7 +19,6 @@ import com.fr.workspace.WorkContext;
 import com.fr.workspace.WorkContextCallback;
 import com.fr.workspace.Workspace;
 import com.fr.workspace.connect.AuthException;
-import com.fr.workspace.connect.RemoteDesignVT4FRException;
 
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
