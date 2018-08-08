@@ -27,7 +27,7 @@ import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.hyperlink.ReportletHyperlinkPane;
 import com.fr.design.hyperlink.WebHyperlinkPane;
-import com.fr.design.i18n.Toolkit;
+import com.fr.design.i18n.DesignI18nImpl;
 import com.fr.design.javascript.EmailPane;
 import com.fr.design.javascript.JavaScriptImplPane;
 import com.fr.design.javascript.ParameterJavaScriptPane;
@@ -124,7 +124,7 @@ public class DesignerActivator extends Activator {
         List<LocaleMarker> markers = rightCollectMutable(InterMutableKey.Path);
         for (LocaleMarker marker : markers) {
             if (marker.match(LocaleScope.DESIGN)) {
-                Toolkit.addResource(marker.getPath());
+                DesignI18nImpl.getInstance().addResource(marker.getPath());
             }
         }
         designerModuleStart();
