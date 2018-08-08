@@ -26,6 +26,6 @@ public class ShopManagerPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Manager");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Manager");
     }
 }

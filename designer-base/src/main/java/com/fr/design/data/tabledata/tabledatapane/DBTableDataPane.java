@@ -133,7 +133,7 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 
 		JPanel paraMeanPane = new JPanel(new BorderLayout());
 		paraMeanPane.setPreferredSize(new Dimension(680, 90));
-		UILabel paraMean = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Datasource-Param_DES"));
+		UILabel paraMean = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Param_DES"));
 		paraMeanPane.add(paraMean, BorderLayout.CENTER);
 
 
@@ -171,7 +171,7 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("FR-Designer-DS-Database_Query");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DS-Database_Query");
 	}
 
 	private void refresh() {
@@ -328,13 +328,13 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 
 	private class EditPageQueryAction extends UpdateAction {
 		public EditPageQueryAction() {
-			this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-LayerPageReport_PageQuery"));
+			this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Layer_Page_Report_Page_Query"));
 			this.setMnemonic('L');
 			this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_file/text.png"));
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			final QueryPane pane = new QueryPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-LayerPageReport_Define_PageQuerySQL"));
+			final QueryPane pane = new QueryPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Layer_Page_Report_Define_Page_Query_SQL"));
 			pane.populate(pageQuery);
 			BasicDialog dialog = pane.showWindow(DesignerContext.getDesignerFrame());
 			dialog.addDialogActionListener(new DialogActionAdapter() {

@@ -29,7 +29,7 @@ public class ParameterJavaScriptPane extends AbstractHyperLinkPane<ParameterJava
         this.add(parameterViewPane, BorderLayout.CENTER);
         if (needRenamePane()) {
             itemNameTextField = new UITextField();
-            this.add(GUICoreUtils.createNamedPane(itemNameTextField, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Hyperlink_Name") + ":"), BorderLayout.NORTH);
+            this.add(GUICoreUtils.createNamedPane(itemNameTextField, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Name") + ":"), BorderLayout.NORTH);
         }
     }
 
