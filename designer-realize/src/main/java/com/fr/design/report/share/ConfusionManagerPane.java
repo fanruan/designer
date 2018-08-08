@@ -32,7 +32,7 @@ public class ConfusionManagerPane extends JListControlPane {
 	 * 
 	 */
 	public NameableCreator[] createNameableCreators() {
-		NameableCreator local = new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_DS-TableData"),
+		NameableCreator local = new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_DS-TableData"),
 				"/com/fr/design/images/data/dock/serverdatatable.png", ConfusionInfo.class,
 				ConfusionTableDataPane.class);
 

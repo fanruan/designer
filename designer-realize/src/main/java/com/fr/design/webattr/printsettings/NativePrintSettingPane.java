@@ -161,7 +161,7 @@ public class NativePrintSettingPane extends JPanel {
         JPanel layoutSettingCheckPane = GUICoreUtils.createCheckboxAndDynamicPane(inheritPageLayoutSettingCheck, layoutSettingPane, true);
 
         // 页码标签
-        UILabel printAreaLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Engine-Page_Number") + ":");
+        UILabel printAreaLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Page_Number") + ":");
         JPanel printAreaLabelPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         printAreaLabelPane.add(printAreaLabel, BorderLayout.NORTH);
         printAreaLabel.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
@@ -265,7 +265,7 @@ public class NativePrintSettingPane extends JPanel {
     private JPanel getPrintAreaPane() {
         allPageRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_All_Pages"));
         currentPageRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Current_Page"));
-        customPageRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_HJS-Specified_Pages"));
+        customPageRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_HJS-Specified_Pages"));
         ButtonGroup group = new ButtonGroup();
         group.add(allPageRadioButton);
         group.add(currentPageRadioButton);

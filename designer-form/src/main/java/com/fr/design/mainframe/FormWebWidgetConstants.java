@@ -36,7 +36,7 @@ public class FormWebWidgetConstants {
     public static final WidgetOption PREVIOUS = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_ReportServerP_Previous"),
             IOUtils.readIcon("/com/fr/web/images/previous.png"), Previous.class);
     // 后一页
-    public static final WidgetOption NEXT = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_ReportServerP-Next"), IOUtils.readIcon("/com/fr/web/images/next.png"),
+    public static final WidgetOption NEXT = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_ReportServerP_Next"), IOUtils.readIcon("/com/fr/web/images/next.png"),
             Next.class);
 
     // 导出成Excel 分页导出
@@ -47,7 +47,7 @@ public class FormWebWidgetConstants {
             IOUtils.readIcon("/com/fr/web/images/excel.png"), ExcelO.class);
     // 导出
     public static final WidgetOption EXPORT = WidgetOptionFactory
-            .createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Export"), IOUtils.readIcon("/com/fr/web/images/export.png"), Export.class);
+            .createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Export"), IOUtils.readIcon("/com/fr/web/images/export.png"), Export.class);
 
     public static final WidgetOption CUSTOM_BUTTON = WidgetOptionFactory
             .createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Toolbar_Custom_Button"), CustomToolBarButton.class);

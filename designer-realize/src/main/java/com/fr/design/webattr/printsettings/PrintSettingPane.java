@@ -21,8 +21,8 @@ import java.awt.event.ItemListener;
  * Created by plough on 2018/3/1.
  */
 public class PrintSettingPane extends BasicPane {
-    private UIRadioButton noClientPrintRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_No_Client_Print"));
-    private UIRadioButton nativePrintRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Native_Print"));
+    private UIRadioButton noClientPrintRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_No_Client_Print"));
+    private UIRadioButton nativePrintRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Native_Print"));
 
     private NoClientPrintSettingPane noClientPrintSettingPane;
     private NativePrintSettingPane nativePrintSettingPane;
