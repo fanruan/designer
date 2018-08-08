@@ -25,8 +25,8 @@ public class WidgetBoundsPaneFactory {
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget_Size")), createRightPane(width, height)},
-                new Component[]{null, createRightPane(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Tree_Width"), SwingConstants.CENTER), new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Tree_Height"), SwingConstants.CENTER))},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Size")), createRightPane(width, height)},
+                new Component[]{null, createRightPane(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tree_Width"), SwingConstants.CENTER), new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tree_Height"), SwingConstants.CENTER))},
         };
         double[] rowSize = {p, p};
         double[] columnSize = {p, f};
@@ -57,8 +57,8 @@ public class WidgetBoundsPaneFactory {
                 new Component[]{null, createRightPane(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_X_Coordinate"), SwingConstants.CENTER), new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Y_Coordinate"), SwingConstants.CENTER))},
         };
         Component[][] centerComponents = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget_Size")), createRightPane(width, height)},
-                new Component[]{null, createRightPane(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Tree_Width"), SwingConstants.CENTER), new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Tree_Height"), SwingConstants.CENTER))},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Size")), createRightPane(width, height)},
+                new Component[]{null, createRightPane(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tree_Width"), SwingConstants.CENTER), new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tree_Height"), SwingConstants.CENTER))},
         };
         double[] rowSize = {p, p};
         double[] columnSize = {p, f};
@@ -79,7 +79,7 @@ public class WidgetBoundsPaneFactory {
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget_Size")), width},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Size")), width},
         };
         double[] rowSize = {p};
         double[] columnSize = {p, f};

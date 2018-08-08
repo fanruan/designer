@@ -30,7 +30,7 @@ public class VanChartBorderWithRadiusPane extends VanChartBorderPane {
                 new Component[]{null,null},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Line_Style")),currentLineCombo},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Color_Color")),currentLineColorPane},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("plugin-ChartF_Radius")),radius}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Radius")),radius}
         } ;
     }
 

@@ -56,7 +56,7 @@ public class VanChartBubblePlotTableDataContentPane extends AbstractTableDataCon
         double[] rowSize_north = {p, p, p, p};
 
         Component[][] components_north = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Series_Name")), seriesName},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Name")), seriesName},
                 new Component[]{new UILabel("x" ), xCombox},
                 new Component[]{new UILabel("y"), yCombox},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart_Bubble_Size")), bubbleSize},

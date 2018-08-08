@@ -30,7 +30,7 @@ public class VanChartColumnPlotPane extends AbstractVanChartTypePane {
     protected String[] getTypeTipName() {
         String column = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Column");
         String stack = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Stacked");
-        String percent = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Use_Percent");
+        String percent = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Percent");
         return new String[]{
                 column,
                 stack + column,

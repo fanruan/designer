@@ -118,7 +118,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
                 "floatelement", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.POLY, PropertyMode.POLY_CHART},
                 new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_FLOAT, PropertyMode.POLY_REPORT});
         // 控件设置
-        PropertyItem widgetSettings = new PropertyItem(KEY_WIDGET_SETTINGS, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget_Settings"),
+        PropertyItem widgetSettings = new PropertyItem(KEY_WIDGET_SETTINGS, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Settings"),
                 "widgetsettings", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.FORM, PropertyMode.POLY},
                 new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.FORM, PropertyMode.POLY_REPORT, PropertyMode.POLY_CHART});
         // 条件属性

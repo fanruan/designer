@@ -40,7 +40,7 @@ public class GanttReportDataContentPane extends AbstractReportDataContentPane{
     }
 
     private void initAllComponent() {
-        seriesName = createTinyFormulaPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Chart-Series_Name"));
+        seriesName = createTinyFormulaPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Name"));
 
         startTime = createTinyFormulaPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Start_Time"));
 

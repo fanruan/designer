@@ -18,6 +18,6 @@ public class SeriesNameFormatPaneWithCheckBox extends VanChartFormatPaneWithChec
 
     @Override
     protected String getCheckBoxText() {
-        return com.fr.design.i18n.Toolkit.i18nText("Chart-Series_Name");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Name");
     }
 }

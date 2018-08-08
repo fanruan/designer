@@ -51,7 +51,7 @@ public class ChartHyperRelateFloatLinkPane extends AbstractHyperLinkPane<ChartHy
 
         if (needRenamePane()) {
             itemNameTextField = new UITextField();
-            this.add(GUICoreUtils.createNamedPane(itemNameTextField, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Hyperlink_Name") + ":"), BorderLayout.NORTH);
+            this.add(GUICoreUtils.createNamedPane(itemNameTextField, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Name") + ":"), BorderLayout.NORTH);
         }
 
         this.add(centerPane, BorderLayout.CENTER);
