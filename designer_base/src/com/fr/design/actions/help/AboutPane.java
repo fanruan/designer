@@ -9,6 +9,7 @@ import com.fr.design.gui.ilable.ActionLabel;
 import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.general.GeneralContext;
 import com.fr.general.GeneralUtils;
 import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
@@ -33,7 +34,8 @@ public class AboutPane extends JPanel {
     private static final int DEFAULT_GAP = 12;
     private static final String COPYRIGHT_LABEL = "\u00A9 ";
     private static final String BUILD_PREFIX = "  Build #";
-    private static final String COMPANY_TELEPHONE = SiteCenter.getInstance().acquireUrlByKind("company_telephone");
+    private static final String COMPANY_TELEPHONE = SiteCenter.getInstance().acquireUrlByKind("help.compNo");
+    private static final String PRESIDENT_PHONE = SiteCenter.getInstance().acquireUrlByKind("help.PNo");
 
     public AboutPane() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
@@ -79,6 +81,11 @@ public class AboutPane extends JPanel {
 
         contentPane.add(urlActionPane);
         contentPane.add(emailPane);
+
+        if (GeneralContext.getLocale().equals(Locale.CHINA) || GeneralContext.getLocale().equals(Locale.TAIWAN)) {
+            contentPane.add(getRemarkPane());
+        }
+
         if (shouldShowThanks()) {
             addThankPane(contentPane);
         }
@@ -120,6 +127,43 @@ public class AboutPane extends JPanel {
 
         contentPane.add(Box.createVerticalStrut(DEFAULT_GAP));
         contentPane.add((Component) pane);
+    }
+
+    private JPanel getRemarkPane() {
+        String remark = Inter.getLocText("Fine-Designer_About_Remark_Info", PRESIDENT_PHONE);
+        UILabel label = new UILabel();
+        label.setSize(new Dimension(580, 30));
+
+        //用HTML标签进行拼接，以实现自动换行
+        StringBuilder builder = new StringBuilder("<html>");
+        char[] chars = remark.toCharArray();
+        //获取字体计算大小
+        FontMetrics fontMetrics = label.getFontMetrics(label.getFont());
+        int start = 0;
+        int len = 0;
+        while (start + len < remark.length()) {
+            while (true) {
+                len++;
+                if (start + len > remark.length())
+                    break;
+                if (fontMetrics.charsWidth(chars, start, len)
+                        > label.getWidth()) {
+                    break;
+                }
+            }
+            builder.append(chars, start, len - 1).append("<br/>");
+            start = start + len - 1;
+            len = 0;
+        }
+        //拼接剩余部分
+        builder.append(chars, start, remark.length() - start);
+        builder.append("</html>");
+
+        JPanel jPanel = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
+        label.setText(builder.toString());
+        jPanel.add(label);
+
+        return jPanel;
     }
 
     private String append(String... strs) {

@@ -880,7 +880,7 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
         String xmlDesignerVersion = getTarget().getXMLDesignerVersion();
         if (isHigherThanCurrent(xmlDesignerVersion)) {
             String[] message = new String[]{"Server-version-info", "Above"};
-            String[] sign = new String[]{StringUtils.parseVersion(xmlDesignerVersion)};
+            String[] sign = new String[]{this.parseVersion(xmlDesignerVersion)};
             String infor = Inter.getLocText(message, sign);
             String moreInfo = Inter.getLocText("FR-Designer_Server-version-tip-moreInfo");
             new InformationWarnPane(infor, moreInfo, Inter.getLocText("FR-Designer_Tooltips")).show();
@@ -888,6 +888,21 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
         }
         return false;
     }
+
+    private static String parseVersion(String xmlDesignerVersion){
+        String version = "";
+        for(int i = 0; i < xmlDesignerVersion.length(); i++){
+             int number = Character.getNumericValue(xmlDesignerVersion.charAt(i)) - 10;
+             version = version + number;
+             if(i < xmlDesignerVersion.length() - 1){
+                 version = version + ".";
+             }
+
+        }
+
+        return version;
+    }
+
 
     /**
      *
