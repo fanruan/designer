@@ -39,7 +39,9 @@ public class WidgetEventPane extends ObjectUIControlPane {
     public WidgetEventPane(ElementCasePane pane) {
         super(pane);
         this.setNameListEditable(false);
-        selection = pane.getSelection();
+        if(pane != null){
+            selection = pane.getSelection();
+        }
         setBorder(BorderFactory.createEmptyBorder(10, 0, 15, 0));
     }
 
