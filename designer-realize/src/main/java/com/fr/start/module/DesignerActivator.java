@@ -123,9 +123,9 @@ public class DesignerActivator extends Activator {
     public void start() {
         List<LocaleMarker> markers = rightCollectMutable(InterMutableKey.Path);
         for (LocaleMarker marker : markers) {
-            if (marker.match(LocaleScope.DESIGN)) {
+//            if (marker.match(LocaleScope.DESIGN)) {
                 Toolkit.addResource(marker.getPath());
-            }
+//            }
         }
         designerModuleStart();
         preLoadPane();
