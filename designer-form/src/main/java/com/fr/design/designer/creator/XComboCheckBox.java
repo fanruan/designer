@@ -41,10 +41,10 @@ public class XComboCheckBox extends XComboBox {
 						com.fr.design.i18n.Toolkit.i18nText("Return-String")).setEditorClass(InChangeBooleanEditor.class)
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 				new CRPropertyDescriptor("startSymbol", this.data.getClass()).setI18NName(
-						com.fr.design.i18n.Toolkit.i18nText("ComboCheckBox-Start_Symbol"))
+						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Combo_CheckBox_Start_Symbol"))
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 				new CRPropertyDescriptor("endSymbol", this.data.getClass()).setI18NName(
-						com.fr.design.i18n.Toolkit.i18nText("ComboCheckBox-End_Symbol"))
+						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Combo_CheckBox_End_Symbol"))
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced") });
 	}
 

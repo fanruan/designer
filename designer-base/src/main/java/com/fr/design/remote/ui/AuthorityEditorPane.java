@@ -31,7 +31,7 @@ public class AuthorityEditorPane extends BasicBeanPane<DesignAuthority> {
                 BorderFactory.createCompoundBorder(
                         new EmptyBorder(6, 0, 6, 6),
                         UITitledBorder.createBorderWithTitle(
-                                com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Remote_Design_Template_Authority_Config")
+                                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Template_Authority_Config")
                         )
                 )
         );
@@ -45,7 +45,7 @@ public class AuthorityEditorPane extends BasicBeanPane<DesignAuthority> {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Remote_Design_Configure_Authority");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Configure_Authority");
     }
 
     @Override

@@ -119,7 +119,7 @@ public class VanChartAlertValuePane extends BasicBeanPane<VanChartAlertValue> {
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Layout_Position")),alertTextPosition},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Content")),alertText},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Font")),fontName},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-FRFont_Size")),fontSize},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_FRFont_Size")),fontSize},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Color_Color")),fontColor},
         };
 

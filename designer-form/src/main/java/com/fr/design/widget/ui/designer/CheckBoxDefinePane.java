@@ -34,7 +34,7 @@ public class CheckBoxDefinePane extends AbstractDataModify<CheckBox> {
 		text = new UITextField();
 		fontSizePane = new FontSizeComboPane();
 		labelNameTextField = new UITextField();
-		UILabel widgetValueLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Estate_Widget_Value"));
+		UILabel widgetValueLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Estate_Widget_Value"));
 		widgetValueLabel.setVerticalAlignment(SwingConstants.TOP);
 		formWidgetValuePane = new FormWidgetValuePane(creator.toData(), false);
 		double f = TableLayout.FILL;

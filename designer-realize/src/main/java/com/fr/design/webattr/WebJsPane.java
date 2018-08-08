@@ -200,7 +200,7 @@ public class WebJsPane extends BasicPane {
 			if (in == null) {
 				JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Connection_Failed"));
 			} else {
-				JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Datasource-Connection_successfully"));
+				JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Connection_Successfully"));
 				try {
 					in.close();
 				} catch (IOException e) {

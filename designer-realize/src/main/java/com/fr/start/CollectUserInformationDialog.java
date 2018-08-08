@@ -6,7 +6,6 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextarea.DescriptionTextArea;
-import com.fr.design.gui.itextarea.UITextArea;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.ActiveKeyGenerator;
@@ -14,7 +13,6 @@ import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.CloudCenter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
-import com.fr.stable.OperatingSystem;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -106,7 +104,7 @@ public class CollectUserInformationDialog extends UIDialog {
         DescriptionTextArea descriptionTextArea = new DescriptionTextArea();
         descriptionTextArea.setRows(5);
         descriptionTextArea.setBorder(
-                BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Collect_Information_Description")));
+                BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Collect_Information_Description")));
         descriptionTextArea.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Activate_FR_Activation_Code_Description"));
         UIScrollPane scrollPane = new UIScrollPane(descriptionTextArea);
         scrollPane.setBorder(null);

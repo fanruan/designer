@@ -87,7 +87,7 @@ public class UserInfoPane extends BasicPane {
      * 标志未登录状态, 面板设置为灰色
      */
     public void markUnSignIn() {
-        this.userInfoLabel.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Base_UnSignIn"));
+        this.userInfoLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Base_UnSignIn"));
         this.userInfoLabel.setOpaque(true);
         this.userInfoLabel.setBackground(UN_LOGIN_BACKGROUND);
         this.userInfoLabel.resetUserName();

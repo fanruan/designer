@@ -33,7 +33,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JPopupMenu;
@@ -474,7 +473,7 @@ private boolean fractionalFontMetricsEnabled;
 	 */
 	protected void appendFoldingMenu(JPopupMenu popup) {
 		popup.addSeparator();
-		foldingMenu = new JMenu(com.fr.design.i18n.Toolkit.i18nText("ContextMenu.Folding"));
+		foldingMenu = new JMenu(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Context_Menu_Folding"));
 		foldingMenu.add(createPopupMenuItem(toggleCurrentFoldAction));
 		foldingMenu.add(createPopupMenuItem(collapseAllCommentFoldsAction));
 		foldingMenu.add(createPopupMenuItem(collapseAllFoldsAction));

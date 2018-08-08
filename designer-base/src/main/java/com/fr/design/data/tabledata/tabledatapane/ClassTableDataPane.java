@@ -63,7 +63,7 @@ public class ClassTableDataPane extends AbstractTableDataPane<ClassTableData> {
                 dlg.setVisible(true);
             }
         });
-        UIButton editButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Edit"));
+        UIButton editButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Edit"));
         editButton.setPreferredSize(new Dimension(
                 editButton.getPreferredSize().width,
                 classNameTextField.getPreferredSize().height));
@@ -89,7 +89,7 @@ public class ClassTableDataPane extends AbstractTableDataPane<ClassTableData> {
         });
 
         Component[][] components = {
-        		{new UILabel(com.fr.design.i18n.Toolkit.i18nText("DS-Class_Name") + ":"), reportletNamePane},
+        		{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DS_Class_Name") + ":"), reportletNamePane},
         		{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Function-The_class_must_implement_the_interface") + "\"com.fr.data.Tabledata\"")},
         		{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Example") + ":\"com.fr.data.impl.ArrayTableData\"")},
                 {null,new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Class_Location_Description", StableUtils.pathJoin(ProjectConstants.WEBINF_NAME, ProjectConstants.CLASSES_NAME)))}
@@ -154,7 +154,7 @@ public class ClassTableDataPane extends AbstractTableDataPane<ClassTableData> {
 
     @Override
     protected String title4PopupWindow() {
-    	return com.fr.design.i18n.Toolkit.i18nText("DS-Class_TableData");
+    	return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DS_Class_TableData");
     }
 
     @Override

@@ -25,7 +25,7 @@ public class Bar2DDataLabelPane extends DataLabelPane {
     private UIRadioButton outSideButton;
 
     protected JPanel createJPanel4Position() {
-        centerButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Center"));
+        centerButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_StyleAlignment_Center"));
         insideButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Chart_DataLabelInside"));
         outSideButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Chart_DataLabelOutSide"));
 

@@ -153,7 +153,7 @@ public class ValueEditorPane extends BasicPane implements UIObserver, GlobalName
             item.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     if (globalNameListener != null) {
-                        globalNameListener.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("CellWrite-InsertRow_Policy"));
+                        globalNameListener.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_CellWrite_InsertRow_Policy"));
                     }
                     Object oldValue = currentEditor.getValue();
                     setCurrentEditor(j);

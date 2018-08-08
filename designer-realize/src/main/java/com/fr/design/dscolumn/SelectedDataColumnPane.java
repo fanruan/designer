@@ -361,7 +361,7 @@ public class SelectedDataColumnPane extends BasicPane {
 
     private void initVerticalParameterButton() {
         editorPane = new UITableEditorPane<>(new ParameterTableModel());
-        paramButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Basic_Dynamic_Parameter_Injection"));
+        paramButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Dynamic_Parameter_Injection"));
         paramButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

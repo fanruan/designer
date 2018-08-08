@@ -224,7 +224,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
                 JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Connection_Failed"),
                         null, 0, UIManager.getIcon("OptionPane.errorIcon"));
             } else {
-                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Datasource-Connection_successfully"));
+                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Connection_Successfully"));
                 try {
                     in.close();
                 } catch (IOException e) {

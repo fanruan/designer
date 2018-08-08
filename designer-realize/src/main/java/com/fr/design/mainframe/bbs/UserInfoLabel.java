@@ -87,7 +87,7 @@ public class UserInfoLabel extends UILabel {
                 menu.setPopupSize(userInfoPane.getWidth(), userInfoPane.getHeight() * 3);
 
                 //私人消息
-                UIMenuItem priviteMessage = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-BBSLogin_Privite-Message"));
+                UIMenuItem priviteMessage = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_BBSLogin_Privite_Message"));
                 priviteMessage.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mousePressed(MouseEvent e) {
@@ -103,7 +103,7 @@ public class UserInfoLabel extends UILabel {
 
                 });
                 //切换账号
-                UIMenuItem closeOther = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-BBSLogin_Switch-Account"));
+                UIMenuItem closeOther = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_BBSLogin_Switch_Account"));
                 closeOther.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mousePressed(MouseEvent e) {

@@ -38,7 +38,7 @@ public class FRAbsoluteLayoutPropertiesGroupModel implements GroupModel {
      */
     @Override
     public String getGroupName() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget_Area_Scaling");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_FormWidget_Area_Scaling");
     }
 
     @Override
@@ -59,7 +59,7 @@ public class FRAbsoluteLayoutPropertiesGroupModel implements GroupModel {
     @Override
     public Object getValue(int row, int column) {
         if (column == 0) {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget_Scaling_Mode");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Scaling_Mode");
         } else {
             return layout.getCompState();
         }
