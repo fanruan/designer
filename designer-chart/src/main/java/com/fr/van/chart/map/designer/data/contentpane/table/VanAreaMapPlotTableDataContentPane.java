@@ -63,7 +63,7 @@ public class VanAreaMapPlotTableDataContentPane extends AbstractTableDataContent
     }
 
     protected JPanel createAreaNamePane() {
-        UILabel label = new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Area_Name"));
+        UILabel label = new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Name"));
         label.setPreferredSize(new Dimension(80, 20));
         areaNameCom.setPreferredSize(new Dimension(100, 20));
 

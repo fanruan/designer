@@ -41,7 +41,7 @@ public class ChartDataPointLabel4GisPane extends ChartDatapointLabelPane{
         isAddress.setSelected(true);
         isAddressName = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Address_Name"));
 
-        isDatapointValue = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Value"));
+        isDatapointValue = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Value"));
         valueFormatButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Format"));
 
         divideComoBox = new UIComboBox(ChartConstants.DELIMITERS);

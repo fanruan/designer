@@ -199,7 +199,7 @@ public class VanChartTimeAxisPane extends VanChartBaseAxisPane {
 
         private void initMin() {
             // 最小值.
-            minCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Custom", "Min_Value"}));
+            minCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom_Min_Value"));
             Date tmp = null;
             DateEditor dateEditor = new DateEditor(tmp, true, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Date"), UIDatePicker.STYLE_CN_DATETIME1);
             Editor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Formula"));
@@ -214,7 +214,7 @@ public class VanChartTimeAxisPane extends VanChartBaseAxisPane {
 
         private void initMax() {
             // 最大值
-            maxCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Custom", "Max_Value"}));
+            maxCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom_Max_Value"));
             Date tmp = null;
             DateEditor dateEditor = new DateEditor(tmp, true, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Date"), UIDatePicker.STYLE_CN_DATETIME1);
             Editor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Formula"));

@@ -401,7 +401,7 @@ public class LayoutBorderPane extends BasicPane {
     }
 
     protected JComponent[] getBorderCornerSpinnerComp(){
-        return new JComponent[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("plugin-ChartF_Radius")+":"),borderCornerSpinner};
+        return new JComponent[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Radius")+":"),borderCornerSpinner};
     }
 
     protected void switchBorderType(){

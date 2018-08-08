@@ -52,7 +52,7 @@ public class AreaPane extends AbstractTableDataContentPane {
 
     protected Component[][] getComponent () {
         return new Component[][]{
-                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Area_Name")), areaNameCom}
+                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Name")), areaNameCom}
         };
     }
 

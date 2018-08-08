@@ -50,7 +50,7 @@ public class VanChartPlotTooltipPane extends BasicPane {
     }
 
     protected  void addComponents(Plot plot) {
-        isTooltipShow = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_UseTooltip"));
+        isTooltipShow = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Tooltip"));
         tooltipPane = createTooltipPane(plot);
 
         double p = TableLayout.PREFERRED;

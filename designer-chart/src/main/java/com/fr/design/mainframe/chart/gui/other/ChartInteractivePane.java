@@ -154,7 +154,7 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
         isChartAnimation = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Animation_JSShow"));
         isSeriesDragEnable = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Series_Drag"));
 
-        isDatapointValue = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Value"));
+        isDatapointValue = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Value"));
         dataPointValueFormat = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Format"));
         isDatapointPercent = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Value_Percent"));
         dataPointPercentFormat = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Format"));
