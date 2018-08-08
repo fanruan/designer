@@ -168,7 +168,7 @@ public class LocalePane extends BasicPane {
     }
 
     private ResourceBundle loadResourceBundle(String dir, Locale locale) {
-        return ResourceBundle.getBundle(dir, locale, Inter.class.getClassLoader());
+        return IOUtils.getBundle(dir, locale, Inter.class);
     }
 
     private void initCustomProperties() throws Exception {
