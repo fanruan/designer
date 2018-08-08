@@ -175,12 +175,12 @@ public class AboutPane extends JPanel {
     }
 
     private String getCopyRight() {
-        return append(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_About_CopyRight"), COPYRIGHT_LABEL,
+        return append(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_About_CopyRight"), COPYRIGHT_LABEL,
                 ProductConstants.HISTORY, StringUtils.BLANK, CloudCenter.getInstance().acquireUrlByKind("company.name", ProductConstants.COMPANY_NAME));
     }
 
     private String getBuildTitle() {
-        return append(ProductConstants.APP_NAME, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_About_Version"),
+        return append(ProductConstants.APP_NAME, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_About_Version"),
                 StringUtils.BLANK, ProductConstants.RELEASE_VERSION, BUILD_PREFIX);
     }
 
