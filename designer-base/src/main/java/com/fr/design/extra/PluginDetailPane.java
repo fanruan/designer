@@ -26,7 +26,7 @@ public class PluginDetailPane extends BasicPane {
     public PluginDetailPane() {
         setLayout(new BorderLayout());
         PluginDescriptionLabel label = new PluginDescriptionLabel();
-        label.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Plugin_Description"));
+        label.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Plugin_Description"));
         add(label, BorderLayout.NORTH);
 
         textPane = new JEditorPane();

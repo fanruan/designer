@@ -291,7 +291,7 @@ public class ValueEditorPaneFactory {
                 formulaEditor,
                 new ParameterEditor(),
                 new ColumnRowEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cell")),
-                new ColumnRowGroupEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Cell_Group"))
+                new ColumnRowGroupEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cell_Group"))
         };
     }
 
@@ -303,7 +303,7 @@ public class ValueEditorPaneFactory {
     public static Editor<?>[] cellGroupEditor() {
         return new Editor[]{
                 new ColumnRowEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cell")),
-                new ColumnRowGroupEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Cell_Group"))
+                new ColumnRowGroupEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cell_Group"))
         };
     }
 
@@ -493,7 +493,7 @@ public class ValueEditorPaneFactory {
 
         JPanel paneLeft = FRGUIPaneFactory.createBorderLayout_S_Pane();
         pane.add(paneLeft);
-        paneLeft.add(new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Actual_Value") + ":"), BorderLayout.NORTH);
+        paneLeft.add(new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Actual_Value") + ":"), BorderLayout.NORTH);
         paneLeft.add(keyColumnPane, BorderLayout.CENTER);
 
         JPanel paneRight = FRGUIPaneFactory.createBorderLayout_S_Pane();

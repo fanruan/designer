@@ -91,7 +91,7 @@ public class ReporletHyperNorthPane extends AbstractHyperNorthPane<ReportletHype
         } else {
             itemNameTextField = new UITextField();
             components = new Component[][]{
-                    {new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Hyperlink_Name") + ":"), itemNameTextField},
+                    {new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Name") + ":"), itemNameTextField},
                     {new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("FR-Hyperlink_Reportlet") + ":"), reportletNamePane},
             };
         }

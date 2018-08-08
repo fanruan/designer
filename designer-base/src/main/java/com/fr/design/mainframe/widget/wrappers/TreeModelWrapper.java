@@ -25,7 +25,7 @@ public class TreeModelWrapper implements Encoder, Decoder {
         } else if (v instanceof NameObject) {
             return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_DataTable-Build");
         } else {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Auto-Build");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Auto_Build");
         }
     }
 
