@@ -87,7 +87,7 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
      */
     public JPanel createContentPane() {
         JPanel downPane = new JPanel(new BorderLayout());
-        downPane.add(new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Auto_Adjust_Size"), HEAD_WDITH, HEAD_HEIGTH, seniorPane()), BorderLayout.NORTH);
+        downPane.add(new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Auto_Adjust_Size"), HEAD_WDITH, HEAD_HEIGTH, seniorPane()), BorderLayout.NORTH);
         downPane.add(new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Pagination"), HEAD_WDITH, HEAD_HEIGTH, pagePane()), BorderLayout.CENTER);
         JPanel contentPane = new JPanel(new BorderLayout(0, 0));
         contentPane.add(new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Basic"), HEAD_WDITH, HEAD_HEIGTH, basicPane()), BorderLayout.NORTH);
@@ -99,8 +99,8 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
     private JPanel basicPane() {
         defaultAutoRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Follow_Paper_Settings"));
         noAutoRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_No_Auto_Adjust"));
-        autoHeightRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Auto_Adjust_Height"));
-        autoWidthRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Auto_Adjust_Width"));
+        autoHeightRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Auto_Adjust_Height"));
+        autoWidthRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Auto_Adjust_Width"));
         adjustRadioButtons = new UIRadioButton[]{
                 defaultAutoRadioButton, noAutoRadioButton, autoHeightRadioButton, autoWidthRadioButton
         };
@@ -289,8 +289,8 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
     private void initAllNames() {
         defaultAutoRadioButton.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Follow_Paper_Settings"));
         noAutoRadioButton.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_No_Auto_Adjust"));
-        autoHeightRadioButton.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Auto_Adjust_Height"));
-        autoWidthRadioButton.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Auto_Adjust_Width"));
+        autoHeightRadioButton.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Auto_Adjust_Height"));
+        autoWidthRadioButton.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Auto_Adjust_Width"));
         previewCellContent.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Preview"));
         printAndExportContent.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_CellWrite_Print_Content"));
         printAndExportBackground.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_CellWrite_Print_Background"));

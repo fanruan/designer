@@ -33,9 +33,9 @@ public class ViewToolBarPane extends AbstractEditToolBarPane {
 	private UICheckBox isUseToolBarCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Use_ToolBar"));
 	private UIButton editToolBarButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit"));
 	private UILabel showListenersLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Form-Editing_Listeners") + ":");
-	private UICheckBox sortCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Engine-Sort_Sort"));
-	private UICheckBox conditonFilterBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Engine-Selection_Filter"));
-	private UICheckBox listFilterBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Engine-List_Filter"));
+	private UICheckBox sortCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Sort_Sort"));
+	private UICheckBox conditonFilterBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Selection_Filter"));
+	private UICheckBox listFilterBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_List_Filter"));
 	
 	public ViewToolBarPane() {
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());

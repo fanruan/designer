@@ -34,7 +34,7 @@ public class CheckBoxDefinePane extends AbstractDataModify<CheckBox> {
         int[][] rowCount = {{1, 1}};
         JPanel pane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount,  IntervalConstants.INTERVAL_W3, IntervalConstants.INTERVAL_L1);
 
-        UIExpandablePane uiExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Advanced"), 280, 24, pane);
+        UIExpandablePane uiExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced"), 280, 24, pane);
         pane.setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 0));
 
         this.add(uiExpandablePane);

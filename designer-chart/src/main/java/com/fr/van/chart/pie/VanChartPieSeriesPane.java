@@ -67,7 +67,7 @@ public class VanChartPieSeriesPane extends VanChartAbstractPlotSeriesPane {
 
 
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget_Style"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Widget_Style"), panel);
     }
 
     public void populateBean(Plot plot) {

@@ -32,7 +32,7 @@ public class CardLayoutPropertiesGroupModel implements GroupModel {
 
     @Override
     public String getGroupName() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Engine-Tab_Layout_Widget_Size");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Engine_Tab_Layout_Widget_Size");
     }
 
     @Override
@@ -69,9 +69,9 @@ public class CardLayoutPropertiesGroupModel implements GroupModel {
         if (column == 0) {
             switch (row) {
                 case 0:
-                    return com.fr.design.i18n.Toolkit.i18nText("FR-Engine-Tab_Layout_Width");
+                    return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Tab_Layout_Width");
                 default:
-                	return com.fr.design.i18n.Toolkit.i18nText("FR-Engine-Tab_Layout_Height");
+                	return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Engine_Tab_Layout_Height");
                 
                 	
             }

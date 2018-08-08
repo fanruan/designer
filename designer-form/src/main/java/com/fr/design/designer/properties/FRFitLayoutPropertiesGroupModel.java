@@ -111,7 +111,7 @@ public class FRFitLayoutPropertiesGroupModel implements GroupModel {
 		if (column == 0) {
             switch (row) {
                 case 0:
-                    return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Attr_Layout_Type");
+                    return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Attr_Layout_Type");
 				case 1:
 					return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Component_Scale");
 				default:

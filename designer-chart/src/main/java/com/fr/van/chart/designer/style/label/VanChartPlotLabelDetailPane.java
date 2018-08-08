@@ -164,7 +164,7 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
         initStyleListener();
 
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(getLabelStyleComponents(plot),row,col);
-        return createTableLayoutPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget_Style"), panel);
+        return createTableLayoutPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Widget_Style"), panel);
     }
 
     protected ChartTextAttrPane initTextFontPane () {

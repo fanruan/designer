@@ -85,7 +85,7 @@ public class DocumentSearchManager implements AlphaFineSearchProvider {
                         lessModelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_COMMUNITY_HELP")));
                         lessModelList.addAll(searchResult);
                     } else {
-                        lessModelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_COMMUNITY_HELP"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_AlphaFine_ShowAll"), true, CellType.DOCUMENT));
+                        lessModelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_COMMUNITY_HELP"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_ShowAll"), true, CellType.DOCUMENT));
                         lessModelList.addAll(searchResult.subList(0, AlphaFineConstants.SHOW_SIZE));
                         moreModelList.addAll(searchResult.subList(AlphaFineConstants.SHOW_SIZE, searchResult.size()));
                     }

@@ -68,7 +68,7 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
     public void initComponent() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         JPanel advancePane = createAdvancePane();
-        UIExpandablePane advanceExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Advanced"), 280, 20, advancePane);
+        UIExpandablePane advanceExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced"), 280, 20, advancePane);
         this.add(advanceExpandablePane, BorderLayout.NORTH);
         UIExpandablePane layoutExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Layout"), 280, 20, createLayoutPane());
         this.add(layoutExpandablePane, BorderLayout.CENTER);
@@ -81,7 +81,7 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
         paddingBound = new PaddingBoundPane();
         JPanel jp2 = TableLayoutHelper.createGapTableLayoutPane(
                 new Component[][]{
-                    new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget_Style")), stylePane},
+                    new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Style")), stylePane},
                     new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WaterMark")), watermarkEditor}
                 }, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W3, IntervalConstants.INTERVAL_L1);
         jp2.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
@@ -101,7 +101,7 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 1}, {1, 1}};
         JPanel northPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Attr_Layout_Type")), layoutComboBox}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Attr_Layout_Type")), layoutComboBox}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
         northPane.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L1, 0, 0, 0));
 
         Component[][] components = new Component[][]{

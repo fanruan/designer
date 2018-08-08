@@ -33,11 +33,11 @@ public class BorderStyleWidgetDefinePane extends AbstractDataModify<AbstractBord
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         JPanel advancePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         JPanel jPanel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget_Style")), borderStyleEditor}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W3, IntervalConstants.INTERVAL_L1);
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Style")), borderStyleEditor}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W3, IntervalConstants.INTERVAL_L1);
         jPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         advancePane.add(jPanel, BorderLayout.CENTER);
 
-        UIExpandablePane layoutExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Advanced"), 280, 20, advancePane );
+        UIExpandablePane layoutExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced"), 280, 20, advancePane );
 
         this.add(layoutExpandablePane, BorderLayout.CENTER);
     }

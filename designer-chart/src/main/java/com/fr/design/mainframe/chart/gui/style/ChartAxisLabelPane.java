@@ -81,7 +81,7 @@ public class ChartAxisLabelPane extends BasicPane implements UIObserver{
     }
 
     private void initComponents() {
-        isLabelShow = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Utils_Label"));
+        isLabelShow = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Utils_Label"));
         auto = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Auto_Axis_Label_Interval"));
         custom = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom_Axis_Label_Interval"));
         showWay = new UIComboBox(new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Axis_labelInterval"),com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Axis_labelWrap")});

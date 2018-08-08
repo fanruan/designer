@@ -131,7 +131,7 @@ public class PluginSearchManager implements AlphaFineSearchProvider {
                         lessModelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Addon")));
                         lessModelList.addAll(searchResult);
                     } else {
-                        lessModelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Addon"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_AlphaFine_ShowAll"), true, CellType.PLUGIN));
+                        lessModelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Addon"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_ShowAll"), true, CellType.PLUGIN));
                         lessModelList.addAll(searchResult.subList(0, AlphaFineConstants.SHOW_SIZE));
                         moreModelList.addAll(searchResult.subList(AlphaFineConstants.SHOW_SIZE, searchResult.size()));
                     }

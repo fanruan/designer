@@ -3,26 +3,24 @@
  */
 package com.fr.design.designer.creator;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.beans.IntrospectionException;
-
-import javax.swing.JComponent;
-import javax.swing.SwingConstants;
-
 import com.fr.base.BaseUtils;
 import com.fr.base.ScreenResolution;
 import com.fr.base.Style;
+import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.mainframe.widget.editors.RegexEditor;
 import com.fr.design.mainframe.widget.editors.WidgetValueEditor;
 import com.fr.design.mainframe.widget.renderer.RegexCellRencerer;
 import com.fr.form.ui.TextArea;
-import com.fr.design.form.util.XCreatorConstants;
 import com.fr.general.FRFont;
-
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Constants;
+
+import javax.swing.JComponent;
+import javax.swing.SwingConstants;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.beans.IntrospectionException;
 
 /**
  * @author richer
@@ -40,15 +38,15 @@ public class XTextArea extends XFieldEditor {
                 new CRPropertyDescriptor[]{
                         new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(
                                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Estate_Widget_Value")).setEditorClass(
-                                WidgetValueEditor.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "FR-Designer_Advanced")}, super.supportedDescriptor());
+                                WidgetValueEditor.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Report_Advanced")}, super.supportedDescriptor());
         CRPropertyDescriptor regex = new CRPropertyDescriptor("regex", this.data.getClass()).setI18NName(
                 com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Input_Rule")).setEditorClass(RegexEditor.RegexEditor4TextArea.class)
                 .putKeyValue("renderer", RegexCellRencerer.class).putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate");
         CRPropertyDescriptor regErrorMessage = new CRPropertyDescriptor("regErrorMessage", this.data.getClass()).setI18NName(
-                com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Verify-Message")).putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate");
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Verify_Message")).putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate");
         CRPropertyDescriptor waterMark = new CRPropertyDescriptor("waterMark", this.data.getClass()).setI18NName(
                 com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WaterMark")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
-                "FR-Designer_Advanced");
+                "Fine-Design_Report_Advanced");
         boolean displayRegField = true;
         displayRegField = isDisplayRegField(displayRegField);
         return displayRegField ? (CRPropertyDescriptor[]) ArrayUtils.addAll(sup, new CRPropertyDescriptor[]{regex, regErrorMessage, waterMark}) :

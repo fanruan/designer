@@ -36,7 +36,7 @@ public class XNameWidget extends XWidgetCreator {
 		super.paintComponent(g);
 		if (editor == null) {
 			Graphics2D g2d = (Graphics2D) g.create();
-			BaseUtils.drawStringStyleInRotation(g2d, this.getWidth(), this.getHeight(), com.fr.design.i18n.Toolkit.i18nText("FR-Engine_NameWidget-Invalid"), Style.getInstance()
+			BaseUtils.drawStringStyleInRotation(g2d, this.getWidth(), this.getHeight(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Engine_NameWidget-Invalid"), Style.getInstance()
 					.deriveHorizontalAlignment(SwingConstants.CENTER).deriveVerticalAlignment(SwingConstants.CENTER)
 					.deriveFRFont(FRFont.getInstance().applyForeground(Color.RED)), ScreenResolution
 					.getScreenResolution());
@@ -51,7 +51,7 @@ public class XNameWidget extends XWidgetCreator {
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
 		return new CRPropertyDescriptor[] {
 				new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Toolkit.i18nText("Form-Widget_Name")),
-				new CRPropertyDescriptor("name", this.data.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_NameWidget-Name")).setEditorClass(
+				new CRPropertyDescriptor("name", this.data.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Engine_NameWidget-Name")).setEditorClass(
 						NameWidgetComboboxEditor.class).setPropertyChangeListener(new PropertyChangeAdapter() {
 
 					@Override
