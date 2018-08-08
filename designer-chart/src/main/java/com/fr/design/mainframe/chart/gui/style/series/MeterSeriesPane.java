@@ -43,7 +43,7 @@ public class MeterSeriesPane extends AbstractPlotSeriesPane {
     protected JPanel getContentInPlotType() {
         unit = new UITextField();
         angleMax = new UINumberDragPane(0, 360);
-        String[] orderUnit = new String[]{com.fr.design.i18n.Toolkit.i18nText("Ge"), com.fr.design.i18n.Toolkit.i18nText("Unit_Ten"), com.fr.design.i18n.Toolkit.i18nText("Unit_Hundred"),
+        String[] orderUnit = new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Unit_Ge"), com.fr.design.i18n.Toolkit.i18nText("Unit_Ten"), com.fr.design.i18n.Toolkit.i18nText("Unit_Hundred"),
                 com.fr.design.i18n.Toolkit.i18nText("Unit_Thousand"), com.fr.design.i18n.Toolkit.i18nText("Unit_Ten_Thousand")};
         order = new UIComboBox(orderUnit);
         colorPickerPane = createColorPickerPane();
