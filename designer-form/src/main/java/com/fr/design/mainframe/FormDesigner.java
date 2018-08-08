@@ -605,7 +605,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
         }
         if (this.getTarget().isNameExist(newName)) {
             JOptionPane.showMessageDialog(this, "\"" + newName + "\"" + com.fr.design.i18n.Toolkit.i18nText("Utils-has_been_existed")
-                    + "!", com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Alert"), JOptionPane.WARNING_MESSAGE);
+                    + "!", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Alert"), JOptionPane.WARNING_MESSAGE);
             return false;
         }
         creator.resetCreatorName(newName);
@@ -614,7 +614,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     }
 
     public void showMessageDialog(String message) {
-        JOptionPane.showMessageDialog(this, message, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Alert"), JOptionPane.WARNING_MESSAGE);
+        JOptionPane.showMessageDialog(this, message, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Alert"), JOptionPane.WARNING_MESSAGE);
         FormSelectionUtils.rebuildSelection(this);
         repaint();
     }

@@ -23,7 +23,7 @@ public class VanChartTreeMapSeriesPane extends VanChartMultiPieSeriesPane {
         supportDrill = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Open"),
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Close")});
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Drill"), supportDrill);
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget_Style"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Widget_Style"), panel);
     }
 
     protected void populatePieAttr() {

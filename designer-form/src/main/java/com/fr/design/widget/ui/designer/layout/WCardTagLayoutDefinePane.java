@@ -85,7 +85,7 @@ public class WCardTagLayoutDefinePane extends AbstractDataModify<WCardTagLayout>
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tab_Style_Template")), templateStyleEditor},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tab_Display_Position")), displayPositionGroup},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background")), backgroundEditor},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Base_Background")), backgroundEditor},
                 new Component[]{fontLabel, frFontPane},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_StyleAlignment_Text_Rotation")), textDirectionGroup}
         };
@@ -93,7 +93,7 @@ public class WCardTagLayoutDefinePane extends AbstractDataModify<WCardTagLayout>
         JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         jPanel.add(panel, BorderLayout.CENTER);
-        UIExpandablePane advanceExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Advanced"), 280, 20, jPanel);
+        UIExpandablePane advanceExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced"), 280, 20, jPanel);
         this.add(advanceExpandablePane, BorderLayout.CENTER);
     }
 

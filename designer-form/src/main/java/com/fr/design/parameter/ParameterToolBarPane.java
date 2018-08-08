@@ -1,5 +1,12 @@
 package com.fr.design.parameter;
 
+import com.fr.base.Parameter;
+import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.ilable.UILabel;
+
+import javax.swing.BorderFactory;
+import javax.swing.SwingConstants;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -7,14 +14,6 @@ import java.awt.LayoutManager;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
-
-import javax.swing.BorderFactory;
-import com.fr.design.gui.ilable.UILabel;
-import javax.swing.SwingConstants;
-
-import com.fr.base.Parameter;
-import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.gui.ibutton.UIButton;
 
 
 /**
@@ -48,12 +47,12 @@ public class ParameterToolBarPane extends BasicBeanPane<Parameter[]> {
 				return new Dimension(super.getPreferredSize().width, 18);
 			}
 		};
-		label.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Following_parameters_are_not_generated") + ":");
+		label.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Following_parameters_are_not_generated") + ":");
 		label.setHorizontalAlignment(SwingConstants.LEFT);
 		label.setBorder(BorderFactory.createEmptyBorder(0, LABEL_PADDING_LEFT, 0, 0));
 		this.add(label);
 
-		addAll = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Add_all"));
+		addAll = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Add_all"));
 		this.add(addAll);
 
 	}

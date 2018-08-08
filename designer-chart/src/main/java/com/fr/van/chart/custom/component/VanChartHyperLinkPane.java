@@ -107,7 +107,7 @@ public class VanChartHyperLinkPane extends VanChartUIListControlPane {
 
     @Override
     protected String getAddItemText() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Add_Hyperlink");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Add_Hyperlink");
     }
 
     @Override

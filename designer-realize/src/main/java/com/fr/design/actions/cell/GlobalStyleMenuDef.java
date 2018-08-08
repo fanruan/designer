@@ -137,7 +137,7 @@ public class GlobalStyleMenuDef extends MenuDef {
          * @param e 事件
          */
         public void actionPerformed(ActionEvent e) {
-            CellElementPropertyPane.getInstance().GoToPane(new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Style"), com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Custom")});
+            CellElementPropertyPane.getInstance().GoToPane(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Style"), com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Custom")});
         }
 
     }
@@ -178,7 +178,7 @@ public class GlobalStyleMenuDef extends MenuDef {
             }
 
             stylePane.updateGlobalStyle(getEditingComponent());
-            CellElementPropertyPane.getInstance().GoToPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget_Style"));
+            CellElementPropertyPane.getInstance().GoToPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Style"));
             return true;
         }
 

@@ -45,7 +45,7 @@ public class XTreeEditor extends XWidgetCreator {
                                 com.fr.design.i18n.Toolkit.i18nText("FR-Designer_DS-Dictionary")).setEditorClass(TreeModelEditor.class).setRendererClass(
                                 TreeModelRenderer.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                         new CRPropertyDescriptor("allowBlank", this.data.getClass()).setI18NName(
-                                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Allow_Blank")).setEditorClass(InChangeBooleanEditor.class)
+                                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Allow_Blank")).setEditorClass(InChangeBooleanEditor.class)
                                 .putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate"),
                         new CRPropertyDescriptor("errorMessage", this.data.getClass()).setI18NName(
                                 com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Verify-Message"))
@@ -59,7 +59,7 @@ public class XTreeEditor extends XWidgetCreator {
                         com.fr.design.i18n.Toolkit.i18nText("FR-Designer_DS-Dictionary")).setEditorClass(TreeModelEditor.class).setRendererClass(
                         TreeModelRenderer.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                 new CRPropertyDescriptor("allowBlank", this.data.getClass()).setI18NName(
-                        com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Allow_Blank")).setEditorClass(InChangeBooleanEditor.class).putKeyValue(
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Allow_Blank")).setEditorClass(InChangeBooleanEditor.class).putKeyValue(
                         XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate"),};
 
 		crp = this.addWaterMark(crp);

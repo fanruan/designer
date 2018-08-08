@@ -42,7 +42,7 @@ public class FRAbsoluteBodyLayoutPropertiesGroupModel extends FRAbsoluteLayoutPr
      */
     @Override
     public String getGroupName() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Attr_Layout");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Attr_Layout");
     }
 
     @Override
@@ -65,7 +65,7 @@ public class FRAbsoluteBodyLayoutPropertiesGroupModel extends FRAbsoluteLayoutPr
         if (column == 0) {
             switch (row) {
                 case 0:
-                    return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Attr_Layout_Type");
+                    return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Attr_Layout_Type");
                 default:
                     return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Scaling_Mode");
             }

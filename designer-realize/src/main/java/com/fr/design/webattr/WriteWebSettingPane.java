@@ -78,7 +78,7 @@ public class WriteWebSettingPane extends WebSettingPane<WebWrite> {
 
         showWidgets = new UICheckBox(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"FR-Engine_Event_showWidgets"}));
         showWidgets.setSelected(false);
-        isAutoStash = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Write_Auto_Stash"));
+        isAutoStash = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Write_Auto_Stash"));
         isAutoStash.setSelected(false);
         JPanel unloadCheckPane = GUICoreUtils.createFlowPane(new Component[]{unloadCheck, showWidgets, isAutoStash}, FlowLayout.LEFT);
         JPanel northPane = FRGUIPaneFactory.createNColumnGridInnerContainer_S_Pane(2);

@@ -81,7 +81,7 @@ public class FRTabFitLayoutPropertiesGroupModel extends FRFitLayoutPropertiesGro
                 case 0:
                     return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Component_Interval");
                 default :
-                    return com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Tab_Layout_Title");
+                    return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Tab_Layout_Title");
             }
         } else {
             switch (row) {

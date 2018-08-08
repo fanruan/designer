@@ -32,7 +32,7 @@ public class EventPropertyTable extends UIListControlPane {
 
 	@Override
 	public String getAddItemText() {
-		return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Add_Event");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Add_Event");
 	}
 
 	public static class WidgetEventListenerUpdatePane extends ListenerUpdatePane {

@@ -2,7 +2,6 @@ package com.fr.design.form.mobile;
 
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.designer.IntervalConstants;
-import com.fr.design.dialog.mobile.MobileRadioCheckPane;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
@@ -13,10 +12,7 @@ import com.fr.form.main.mobile.FormMobileAttr;
 
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Created by plough on 2018/1/4.
@@ -82,7 +78,7 @@ public class FormMobileTemplateSettingsPane extends BasicBeanPane<FormMobileAttr
         adaptivePropertyAutoMatchCheck.registerChangeListener(new UIObserverListener() {
             @Override
             public void doChange() {
-                adaptivePropertyAutoMatchCheck.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Adaptive_Property_Auto_Match"));
+                adaptivePropertyAutoMatchCheck.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Adaptive_Property_Auto_Match"));
             }
         });
         adaptivePropertyAutoMatchCheck.setSelected(true);
@@ -116,7 +112,7 @@ public class FormMobileTemplateSettingsPane extends BasicBeanPane<FormMobileAttr
 
     private JPanel getAdaptivePropertyAutoMatchDescPane() {
 
-        UILabel desc1 = createDescLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Adaptive_Property_Auto_Match_Desc"));
+        UILabel desc1 = createDescLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Adaptive_Property_Auto_Match_Desc"));
 
         JPanel panel = new JPanel(FRGUIPaneFactory.createBorderLayout());
         panel.add(desc1, BorderLayout.CENTER);

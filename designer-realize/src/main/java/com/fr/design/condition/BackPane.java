@@ -28,7 +28,7 @@ public class BackPane extends ConditionAttrSingleConditionPane<HighlightAction> 
 
     public BackPane(final ConditionAttributesPane conditionAttributesPane) {
         super(conditionAttributesPane);
-        backgroundLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background") + ":");
+        backgroundLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Base_Background") + ":");
         this.backgroundPreviewPane = new BackgroundPreviewLabel();
         this.backgroundPreviewPane.setPreferredSize(new Dimension(80, 20));
         UIButton editBackgroundButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit"));
@@ -60,7 +60,7 @@ public class BackPane extends ConditionAttrSingleConditionPane<HighlightAction> 
 
     @Override
     public String nameForPopupMenuItem() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Base_Background");
     }
 
 

@@ -73,7 +73,7 @@ public class NativePrintSettingPane extends JPanel {
         JPanel northPane = FRGUIPaneFactory.createNColumnGridInnerContainer_Pane(1, 0, 15);
         UILabel tipDownload = GUICoreUtils.createTipLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tip_Native_Print_Need_Client"));
         northPane.add(tipDownload);
-        isShowDialogCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Show_Print_Setting_Window_When_Printing"));
+        isShowDialogCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Show_Print_Setting_Window_When_Printing"));
         isShowDialogCheck.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
         UILabel tipCheck = GUICoreUtils.createTipLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tip_Use_Default_Settings"));
         JPanel checkPane =  GUICoreUtils.createFlowPane(new Component[] {
@@ -263,7 +263,7 @@ public class NativePrintSettingPane extends JPanel {
 
     // 页码范围
     private JPanel getPrintAreaPane() {
-        allPageRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_All_Pages"));
+        allPageRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_All_Pages"));
         currentPageRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Current_Page"));
         customPageRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_HJS-Specified_Pages"));
         ButtonGroup group = new ButtonGroup();

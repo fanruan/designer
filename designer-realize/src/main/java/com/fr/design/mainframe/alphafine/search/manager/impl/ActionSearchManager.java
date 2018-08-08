@@ -87,7 +87,7 @@ public class ActionSearchManager implements AlphaFineSearchProvider {
                 lessModelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Set")));
                 lessModelList.addAll(result);
             } else {
-                lessModelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Set"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_AlphaFine_ShowAll"), true, CellType.ACTION));
+                lessModelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Set"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_ShowAll"), true, CellType.ACTION));
                 lessModelList.addAll(result.subList(0, AlphaFineConstants.SHOW_SIZE));
                 moreModelList.addAll(result.subList(AlphaFineConstants.SHOW_SIZE, result.size()));
             }

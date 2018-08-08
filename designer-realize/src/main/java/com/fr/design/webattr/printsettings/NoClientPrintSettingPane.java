@@ -35,7 +35,7 @@ public class NoClientPrintSettingPane extends JPanel {
     private void initComponents() {
         JPanel printPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 
-        setMarginWhenPrintCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Set_Margin_When_Printing"));
+        setMarginWhenPrintCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Set_Margin_When_Printing"));
         setMarginWhenPrintCheck.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
         UILabel tipLabel = GUICoreUtils.createTipLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tip_Use_Default_Print_Margin"));
         JPanel northPane = GUICoreUtils.createFlowPane(new Component[] {

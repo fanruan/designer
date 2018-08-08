@@ -51,7 +51,7 @@ public class WTabFitLayoutDefinePane extends AbstractDataModify<WTabFitLayout> {
         advancePane.add(jPanel, BorderLayout.NORTH);
         advancePane.add(paddingBoundPane, BorderLayout.CENTER);
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        UIExpandablePane advanceExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Advanced"), 280, 20, advancePane);
+        UIExpandablePane advanceExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced"), 280, 20, advancePane);
         this.add(advanceExpandablePane, BorderLayout.NORTH);
         initLayoutComponent();
     }

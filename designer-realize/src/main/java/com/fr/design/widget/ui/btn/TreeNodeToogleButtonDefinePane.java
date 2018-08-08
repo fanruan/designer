@@ -40,7 +40,7 @@ public class TreeNodeToogleButtonDefinePane<T extends TreeNodeToggleButton> exte
         JPanel borderPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
         borderPanel.add(panel, BorderLayout.CENTER);
         panel.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L1, 0, 0, 0));
-        UIExpandablePane advancedPane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Advanced"), 280, 20, borderPanel);
+        UIExpandablePane advancedPane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced"), 280, 20, borderPanel);
         this.add(advancedPane);
 
     }

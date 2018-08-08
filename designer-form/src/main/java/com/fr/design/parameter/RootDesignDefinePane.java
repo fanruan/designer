@@ -58,7 +58,7 @@ public class RootDesignDefinePane extends AbstractDataModify<WParameterLayout> {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         designerWidth = new UISpinner(1, Integer.MAX_VALUE, 1);
         JPanel advancePane = createAdvancePane();
-        UIExpandablePane advanceExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Advanced"), 280, 20, advancePane);
+        UIExpandablePane advanceExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced"), 280, 20, advancePane);
         this.add(advanceExpandablePane, BorderLayout.NORTH);
         JPanel layoutPane = createBoundsPane();
         UIExpandablePane layoutExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Size"), 280, 20, layoutPane);
@@ -102,7 +102,7 @@ public class RootDesignDefinePane extends AbstractDataModify<WParameterLayout> {
         int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Label_Name")), labelNameTextField},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background")), background},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Base_Background")), background},
                 new Component[]{displayReport, null},
                 new Component[]{useParamsTemplate, null},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WidgetDisplyPosition")), hAlignmentPane}

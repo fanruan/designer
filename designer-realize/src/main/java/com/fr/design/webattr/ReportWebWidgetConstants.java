@@ -62,11 +62,11 @@ public class ReportWebWidgetConstants {
     }
 
     // 提交按钮
-    public static final WidgetOption SUBMIT = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Utils-Submit"), BaseUtils.readIcon("/com/fr/web/images/save.png"),
+    public static final WidgetOption SUBMIT = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Utils_Submit"), BaseUtils.readIcon("/com/fr/web/images/save.png"),
             Submit.class);
 
     // flash打印按钮
-    public static final WidgetOption FLASHPRINT = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Utils-Print[Client]"),
+    public static final WidgetOption FLASHPRINT = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Utils_Print[Client]"),
             BaseUtils.readIcon("/com/fr/web/images/flashPrint.png"), FlashPrint.class);
 
     // appletprint
@@ -78,7 +78,7 @@ public class ReportWebWidgetConstants {
             PDF.class);
 
     // 客户端PDF打印
-    public static final WidgetOption PDFPRINT = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Utils-Print[Client]"),
+    public static final WidgetOption PDFPRINT = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Utils_Print[Client]"),
             BaseUtils.readIcon("/com/fr/web/images/pdfPrint.png"), PDFPrint.class);
 
 
@@ -110,13 +110,13 @@ public class ReportWebWidgetConstants {
     public static final WidgetOption PAGENAVI = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Page_Navi_Text"),
             BaseUtils.readIcon("/com/fr/web/images/pageNumber.png"), PageNavi.class);
     // 首页
-    public static final WidgetOption FIRST = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_ReportServerP-First"), BaseUtils.readIcon("/com/fr/web/images/first.png"),
+    public static final WidgetOption FIRST = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_ReportServerP_First"), BaseUtils.readIcon("/com/fr/web/images/first.png"),
             First.class);
     // 末页
-    public static final WidgetOption LAST = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_ReportServerP-Last"), BaseUtils.readIcon("/com/fr/web/images/last.png"),
+    public static final WidgetOption LAST = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_ReportServerP_Last"), BaseUtils.readIcon("/com/fr/web/images/last.png"),
             Last.class);
     // 前一页
-    public static final WidgetOption PREVIOUS = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_ReportServerP-Previous"),
+    public static final WidgetOption PREVIOUS = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_ReportServerP_Previous"),
             BaseUtils.readIcon("/com/fr/web/images/previous.png"), Previous.class);
     // 后一页
     public static final WidgetOption NEXT = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_ReportServerP-Next"), BaseUtils.readIcon("/com/fr/web/images/next.png"),
@@ -146,7 +146,7 @@ public class ReportWebWidgetConstants {
     public static final WidgetOption IMPORTEXCELDATA_CUSTOMIZED = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine-Utils-Import_Excel_Data_Customized"),
             BaseUtils.readIcon("/com/fr/web/images/excel.png"), CustomizeImportExcelData.class);
     // 打印机偏移设置
-    public static final WidgetOption SETPRINTEROFFSET = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_SetPrinterOffset"), BaseUtils.readIcon("/com/fr/web/images/pianyi.png"), SetPrinterOffset.class);
+    public static final WidgetOption SETPRINTEROFFSET = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_SetPrinterOffset"), BaseUtils.readIcon("/com/fr/web/images/pianyi.png"), SetPrinterOffset.class);
 
     public static final WidgetOption CUSTOM_BUTTON = WidgetOptionFactory
             .createByWidgetClass(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Custom", "Form-Button"}), CustomToolBarButton.class);
