@@ -51,7 +51,7 @@ public class XYScatterPlotTableDataContentPane extends AbstractTableDataContentP
 		double[] rowSize = { p,p,p,p,p,p};
 
         Component[][] components = new Component[][]{
-                new Component[]{new BoldFontTextLabel(" " + com.fr.design.i18n.Toolkit.i18nText("Chart-Series_Name") + ":"),seriesName},
+                new Component[]{new BoldFontTextLabel(" " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Name") + ":"),seriesName},
                 new Component[]{new BoldFontTextLabel("  " + com.fr.design.i18n.Toolkit.i18nText("Chart-Scatter_Name") + "x" + ":"), xCombox},
                 new Component[]{new BoldFontTextLabel("  " + com.fr.design.i18n.Toolkit.i18nText("Chart-Scatter_Name") + "y" + ":"), yCombox},
                 new Component[]{new JSeparator(),null},

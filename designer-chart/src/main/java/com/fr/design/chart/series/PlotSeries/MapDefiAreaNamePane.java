@@ -86,7 +86,7 @@ public class MapDefiAreaNamePane extends BasicBeanPane<String> implements Abstrc
 		northPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Map_Field")+":"));
 		northPane.add(columnBox);
 
-		tableEditorModel = new UIArrayTableModel(new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Map_Use_Field"), com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Area_Name")}, new int[]{}) {
+		tableEditorModel = new UIArrayTableModel(new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Map_Use_Field"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Name")}, new int[]{}) {
 			public boolean isCellEditable(int row, int col) {
 				return col != 0;
 			}

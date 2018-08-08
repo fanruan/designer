@@ -33,7 +33,7 @@ public class BarPlotPane extends AbstractBarPane{
     protected String[] getTypeTipName() {
         String bar = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Bar");
         String stack = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Stacked");
-        String percent = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Use_Percent");
+        String percent = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Percent");
         String td = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Chart_3D");
         return new String[]{
                 bar,
