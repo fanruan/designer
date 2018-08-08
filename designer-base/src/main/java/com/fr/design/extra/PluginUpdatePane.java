@@ -155,7 +155,7 @@ public class PluginUpdatePane extends PluginAbstractLoadingViewPane<List<PluginV
      */
     @Override
     public String textForLoadingLabel() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Detecting_Update");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Detecting_Update");
     }
 
     protected void installFromDiskFile() {
@@ -199,7 +199,7 @@ public class PluginUpdatePane extends PluginAbstractLoadingViewPane<List<PluginV
             public void done(PluginTaskResult result) {
                 if (result.isSuccess()) {
                     FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Update_Success"));
-                    JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Install_Successful"));
+                    JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Install_Successful"));
                 } else {
                     JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
                 }

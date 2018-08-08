@@ -108,7 +108,7 @@ public class TableDataDictPane extends FurtherBasicBeanPane<TableDataDictionary>
 
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_DS_TableData") + "  ", UILabel.LEFT), firstLine},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Actual_Value") + "  ", UILabel.LEFT), keyColumnPane},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Actual_Value") + "  ", UILabel.LEFT), keyColumnPane},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Display_Value") + "  ", UILabel.LEFT), valueDictPane},
         };
 

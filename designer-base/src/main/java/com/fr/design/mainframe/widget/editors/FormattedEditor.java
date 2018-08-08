@@ -70,7 +70,7 @@ public class FormattedEditor extends AbstractPropertyEditor {
         try {
             format.parseObject(textField.getText());
         } catch (ParseException ex) {
-            throw new ValidationException(com.fr.design.i18n.Toolkit.i18nText("Format-Error") + "!");
+            throw new ValidationException(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Format_Error") + "!");
         }
     }
 }

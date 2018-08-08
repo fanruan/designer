@@ -206,7 +206,7 @@ public class PreferencePane extends BasicPane {
         editPane.add(supportStringToFormulaBox);
 
         //是否默认转化
-        defaultStringToFormulaBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Always"));
+        defaultStringToFormulaBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Always"));
 
         editPane.add(defaultStringToFormulaBox);
         //不支持转化则不能默认执行
@@ -650,7 +650,7 @@ public class PreferencePane extends BasicPane {
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.INFORMATION_MESSAGE,
                 null,
-                new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Basic_Restart_Designer"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Basic_Restart_Designer_Later")},
+                new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Restart_Designer"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Restart_Designer_Later")},
                 null
         );
         if (rv == JOptionPane.OK_OPTION) {

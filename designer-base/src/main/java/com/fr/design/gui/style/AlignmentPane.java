@@ -57,8 +57,8 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
     private static final String[] TEXT = {com.fr.design.i18n.Toolkit.i18nText("FR-Designer_StyleAlignment_Wrap_Text"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_StyleAlignment_Single_Line"),
             com.fr.design.i18n.Toolkit.i18nText("FR-Designer_StyleAlignment_Single_Line(Adjust_Font)"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_StyleAlignment_Multi_Line(Adjust_Font)")};
 
-    private static final String[] LAYOUT = {com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Layout_Default"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Layout_Image_Titled"),
-            com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Layout_Image_Extend"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Layout_Image_Adjust")};
+    private static final String[] LAYOUT = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Layout_Default"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Layout_Image_Titled"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Layout_Image_Extend"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Layout_Image_Adjust")};
 
     private JPanel hPaneContainer;
     private JPanel vPaneContainer;
@@ -101,8 +101,8 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
                 {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/defaultAlignment.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/defaultAlignment_white.png")}};
         Integer[] hAlignment = new Integer[]{Constants.LEFT, Constants.CENTER, Constants.RIGHT, Integer.valueOf(Constants.DISTRIBUTED), Constants.NULL};
         hAlignmentPane = new UIButtonGroup<Integer>(hAlignmentIconArray, hAlignment);
-        hAlignmentPane.setAllToolTips(new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Tooltips_Left"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Tooltips_Center"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Tooltips_Right"),
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Tooltips_Distributed"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Tooltips_DEFAULT")});
+        hAlignmentPane.setAllToolTips(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Tooltips_Left"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Tooltips_Center"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Tooltips_Right"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Tooltips_Distributed"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Tooltips_DEFAULT")});
         hPaneContainer = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         vPaneContainer = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
 
@@ -111,7 +111,7 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
                 {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/v_down_normal.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/v_down_normal_white.png")}};
         Integer[] vAlignment = new Integer[]{Constants.TOP, Constants.CENTER, Constants.BOTTOM};
         vAlignmentPane = new UIButtonGroup<Integer>(vAlignmentIconArray, vAlignment);
-        vAlignmentPane.setAllToolTips(new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Tooltips_Top"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Tooltips_Center"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Tooltips_Bottom")});
+        vAlignmentPane.setAllToolTips(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Tooltips_Top"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Tooltips_Center"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Tooltips_Bottom")});
         initOtherComponent();
         initAllNames();
 
@@ -257,13 +257,13 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
         lineSpaceSpinner.setPreferredSize(SPINNER_DIMENSION);
 
         JPanel indentationPane = new JPanel(new BorderLayout());
-        indentationPane.add(new UILabel((com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Style_Indentation")), SwingConstants.LEFT));
+        indentationPane.add(new UILabel((com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Style_Indentation")), SwingConstants.LEFT));
         indentationPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, GAP));
         JPanel partSpacingPane = new JPanel(new BorderLayout());
-        partSpacingPane.add(new UILabel((com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Style_PartSpacing")), SwingConstants.LEFT));
+        partSpacingPane.add(new UILabel((com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Style_Part_Spacing")), SwingConstants.LEFT));
         partSpacingPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, GAP));
         JPanel spacingPane = new JPanel(new BorderLayout());
-        spacingPane.add(new UILabel((com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Style_Spacing")), SwingConstants.LEFT));
+        spacingPane.add(new UILabel((com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Style_Spacing")), SwingConstants.LEFT));
         spacingPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, GAP));
 
         Component[][] components = new Component[][]{
@@ -296,7 +296,7 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
      * @return 标题
      */
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Style_Alignment");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Style_Alignment");
     }
 
     /**
