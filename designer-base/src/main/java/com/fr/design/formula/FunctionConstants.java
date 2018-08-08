@@ -96,7 +96,7 @@ public abstract class FunctionConstants {
 	public static FunctionGroup CUSTOM = new FunctionGroup() {
 		@Override
 		public String getGroupName() {
-			return com.fr.design.i18n.Toolkit.i18nText("FormulaD-Custom_Function");
+			return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FormulaD_Custom_Function");
 		}
 		
 		@Override
@@ -117,14 +117,14 @@ public abstract class FunctionConstants {
 		}
 	};
 	
-	public static NameAndFunctionList COMMON = new NameAndFunctionList(com.fr.design.i18n.Toolkit.i18nText("FormulaD-Most_Recently_Used"), new Function[] {
+	public static NameAndFunctionList COMMON = new NameAndFunctionList(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FormulaD_Most_Recently_Used"), new Function[] {
 		new SUM(), new COUNT(), new AVERAGE(), new CHAR(), new DATE(), new MAX(), new MIN(), new TIME(), new RANGE()
 	});
 	
 	public static NameAndTypeAndFunctionList[] EMBFUNCTIONS = new NameAndTypeAndFunctionList[] {
-		new NameAndTypeAndFunctionList(com.fr.design.i18n.Toolkit.i18nText("FormulaD-Math_&_Trig"), Function.MATH),
+		new NameAndTypeAndFunctionList(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FormulaD_Math_&_Trig"), Function.MATH),
 		new NameAndTypeAndFunctionList(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FormulaD-Text"), Function.TEXT),
-		new NameAndTypeAndFunctionList(com.fr.design.i18n.Toolkit.i18nText("FormulaD-Date_&_Time"), Function.DATETIME),
+		new NameAndTypeAndFunctionList(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FormulaD_Date_&_Time"), Function.DATETIME),
 		new NameAndTypeAndFunctionList(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FormulaD-Logical"), Function.LOGIC),
 		new NameAndTypeAndFunctionList(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FormulaD-Array"), Function.ARRAY),
 		new NameAndTypeAndFunctionList(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FormulaD-Report"), Function.REPORT),

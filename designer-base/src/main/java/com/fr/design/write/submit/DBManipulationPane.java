@@ -944,7 +944,7 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
 	}
 
 	protected abstract static class KeyColumnTableModel extends AbstractTableModel {
-        public static final String RAW_KEY = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Base_RWA-Key");
+        public static final String RAW_KEY = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Base_RWA_Key");
         public static final String COLUMN = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Base_Column");
         public static final String VALUE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Base_Value");
 

@@ -188,7 +188,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
         JPanel textPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         this.add(textPane, BorderLayout.CENTER);
         JPanel checkBoxandbuttonPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-        UILabel formulaLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FormulaD-Input_formula_in_the_text_area_below") + ":"
+        UILabel formulaLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FormulaD_Input_Formula_In_The_Text_Area_Below") + ":"
                 + "                         ");
         formulaLabel.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
         initFormulaTextArea();
@@ -201,7 +201,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
 
         initTipsPane();
 
-        UIButton checkValidButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FormulaD-Check_Valid"));
+        UIButton checkValidButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FormulaD_Check_Valid"));
         checkValidButton.addActionListener(checkValidActionListener);
 
         JPanel checkBoxPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
@@ -477,7 +477,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FormulaD-Formula_Definition");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FormulaD_Formula_Definition");
     }
 
     /**
@@ -568,7 +568,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
                         * 不需要eval
                         * TODO 但有个问题,有些函数的参数个数是有规定的,何以判别之
                         */
-                        (expression != null ? com.fr.design.i18n.Toolkit.i18nText("FormulaD-Valid_Formula") : com.fr.design.i18n.Toolkit.i18nText("FormulaD-Invalid_Formula")) + ".", ProductConstants.PRODUCT_NAME,
+                        (expression != null ? com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FormulaD_Valid_Formula") : com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FormulaD_Invalid_Formula")) + ".", ProductConstants.PRODUCT_NAME,
                         JOptionPane.INFORMATION_MESSAGE);
             }
         }
@@ -588,7 +588,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
             UIScrollPane functionTypeScrollPane = new UIScrollPane(functionTypeList);
             functionTypeScrollPane.setBorder(new UIRoundedBorder(UIConstants.LINE_COLOR, 1, UIConstants.ARC));
             functionTypeScrollPane.setPreferredSize(new Dimension(140, 200));
-            functionPane.add(this.createNamePane(com.fr.design.i18n.Toolkit.i18nText("FormulaD-Function_category") + ":", functionTypeScrollPane), BorderLayout.WEST);
+            functionPane.add(this.createNamePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FormulaD_Function_Category") + ":", functionTypeScrollPane), BorderLayout.WEST);
             initTypeListCellRenderer();
             initGroupTypeModel();
             initTypeListSelectionListener();
@@ -702,7 +702,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
             UIScrollPane functionNameScrollPane = new UIScrollPane(functionNameList);
             functionNameScrollPane.setPreferredSize(new Dimension(140, 200));
             functionPane.add(
-                    this.createNamePane(com.fr.design.i18n.Toolkit.i18nText("FormulaD-Function_name") + ":", functionNameScrollPane),
+                    this.createNamePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FormulaD_Function_Name") + ":", functionNameScrollPane),
                     BorderLayout.CENTER);
             functionNameScrollPane.setBorder(new UIRoundedBorder(UIConstants.LINE_COLOR, 1, UIConstants.ARC));
             initFunctionNameListCellRenderer();
@@ -924,7 +924,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
                 rootNode.add(bindCellNode);
             }
 
-            rootNode.add(new TextFolderUserObject(com.fr.design.i18n.Toolkit.i18nText("FormulaD-Data_Fields"),
+            rootNode.add(new TextFolderUserObject(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FormulaD_Data_Fields"),
                     BaseUtils.readIcon("/com/fr/design/images/dialog/table.png"),
                     variableResolver.resolveColumnNames()).createMutableTreeNode());
 
