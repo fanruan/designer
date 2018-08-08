@@ -15,7 +15,6 @@ import com.fr.design.gui.HyperlinkFilterHelper;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilist.ListModelElement;
-import com.fr.design.gui.ilist.ModNameActionListener;
 import com.fr.design.gui.ilist.UINameEdList;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
@@ -29,7 +28,6 @@ import com.fr.general.ComparatorUtils;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Nameable;
 import com.fr.stable.StringUtils;
-import com.fr.stable.core.PropertyChangeAdapter;
 
 import javax.swing.*;
 import javax.swing.event.ListDataEvent;
@@ -387,7 +385,7 @@ public abstract class UIListControlPane extends UIControlPane {
 
         public AddItemUpdateAction(NameableCreator[] creators) {
             this.creator = creators[0];
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Action_Add"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Action_Add"));
             this.setMnemonic('A');
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/buttonicon/add.png"));
         }
@@ -443,7 +441,7 @@ public abstract class UIListControlPane extends UIControlPane {
     protected class AddItemMenuDef extends MenuDef {
         public AddItemMenuDef(NameableCreator[] creators) {
             super(true);
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Action_Add"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Action_Add"));
             this.setMnemonic('A');
             this.setIconPath("/com/fr/design/images/control/addPopup.png");
             wrapActionListener(creators);
@@ -470,7 +468,7 @@ public abstract class UIListControlPane extends UIControlPane {
                     continue;
                 }
                 boolean isTrue = ComparatorUtils.equals(creator.menuName(), com.fr.design.i18n.Toolkit.i18nText("Datasource-Stored_Procedure")) ||
-                        ComparatorUtils.equals(creator.menuName(), com.fr.design.i18n.Toolkit.i18nText("DS-Relation_TableData")) || ComparatorUtils.equals(creator.menuName(), com.fr.design.i18n.Toolkit.i18nText("DS-Multi_Dimensional_Database"));
+                        ComparatorUtils.equals(creator.menuName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DS_Relation_TableData")) || ComparatorUtils.equals(creator.menuName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DS_Multi_Dimensional_Database"));
                 if (isTrue) {
                     this.addShortCut(new LineSeparator());
                 }
@@ -507,7 +505,7 @@ public abstract class UIListControlPane extends UIControlPane {
      */
     private class RemoveItemAction extends UpdateAction {
         public RemoveItemAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Action_Remove"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Action_Remove"));
             this.setMnemonic('R');
             this.setSmallIcon(BaseUtils
                     .readIcon("/com/fr/base/images/cell/control/remove.png"));
@@ -536,7 +534,7 @@ public abstract class UIListControlPane extends UIControlPane {
      */
     private class CopyItemAction extends UpdateAction {
         public CopyItemAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Action_Copy"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Action_Copy"));
             this.setMnemonic('C');
             this.setSmallIcon(BaseUtils
                     .readIcon("/com/fr/design/images/m_edit/copy.png"));
@@ -635,7 +633,7 @@ public abstract class UIListControlPane extends UIControlPane {
         private boolean isAtoZ = false;
 
         public SortItemAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Action_Sort"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Action_Sort"));
             this.setMnemonic('S');
             this.setSmallIcon(BaseUtils
                     .readIcon("/com/fr/design/images/control/sortAsc.png"));

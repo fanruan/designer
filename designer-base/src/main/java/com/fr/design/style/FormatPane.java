@@ -359,7 +359,7 @@ public class FormatPane extends BasicPane {
         		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(text);
         		String sample = simpleDateFormat.format(new Date());
         		if (!ArrayUtils.contains(FormatField.getInstance().getDateFormatArray(), text)) {
-        			sample += " " + com.fr.design.i18n.Toolkit.i18nText("DateFormat-Custom_Warning");
+        			sample += " " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DateFormat_Custom_Warning");
         			c = Color.red;
         		}
         		this.sampleLabel.setText(sample);

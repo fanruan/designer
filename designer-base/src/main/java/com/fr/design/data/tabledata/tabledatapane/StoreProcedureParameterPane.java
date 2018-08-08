@@ -75,7 +75,7 @@ public class StoreProcedureParameterPane extends BasicPane {
 		nameField = new UITextField(10);
 		namePane.add(nameField, BorderLayout.CENTER);
 		namePane.add(new UILabel("     "), BorderLayout.EAST);
-		valuePane.add(new UILabel("   " + com.fr.design.i18n.Toolkit.i18nText("CellWrite-InsertRow_DEFAULT") + ":"), BorderLayout.WEST);
+		valuePane.add(new UILabel("   " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_CellWrite_InsertRow_Default") + ":"), BorderLayout.WEST);
 		valuePane.add(valueEditPane, BorderLayout.CENTER);
 		valuePane.add(new UILabel("     "), BorderLayout.EAST);
 		Component[][] components = {{null},

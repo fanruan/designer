@@ -464,7 +464,7 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
             @Override
             public void mouseEntered(MouseEvent e) {
                 if (java.awt.Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_CAPS_LOCK)) {
-                    passwordInput.setToolTipText(Toolkit.i18nText("CapsLock"));
+                    passwordInput.setToolTipText(Toolkit.i18nText("Fine-Design_Basic_CapsLock"));
                 } else {
                     passwordInput.setToolTipText(null);
                 }
@@ -534,20 +534,20 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
                 try {
                     Boolean result = get();
                     if (result == null) {
-                        message.setText(Toolkit.i18nText("Fine-Designer_Basic_Remote_Connect_Auth_Failed"));
+                        message.setText(Toolkit.i18nText("Fine-Design_Basic_Remote_Connect_Auth_Failed"));
                         uiLabel.setIcon(UIManager.getIcon("OptionPane.errorIcon"));
                     } else {
                         if (result) {
-                            message.setText(Toolkit.i18nText("Fine-Designer_Basic_Remote_Connect_Successful"));
+                            message.setText(Toolkit.i18nText("Fine-Design_Basic_Remote_Connect_Successful"));
                             uiLabel.setIcon(UIManager.getIcon("OptionPane.informationIcon"));
                         } else {
-                            message.setText(Toolkit.i18nText("Fine-Designer_Basic_Remote_Connect_Failed"));
+                            message.setText(Toolkit.i18nText("Fine-Design_Basic_Remote_Connect_Failed"));
                             uiLabel.setIcon(UIManager.getIcon("OptionPane.errorIcon"));
                         }
                     }
                 } catch (InterruptedException | ExecutionException e) {
                     FineLoggerFactory.getLogger().error(e, e.getMessage());
-                    message.setText(Toolkit.i18nText("Fine-Designer_Basic_Remote_Connect_Failed"));
+                    message.setText(Toolkit.i18nText("Fine-Design_Basic_Remote_Connect_Failed"));
                     uiLabel.setIcon(UIManager.getIcon("OptionPane.errorIcon"));
                 }
                 dialogDownPane.remove(cancelButton);
@@ -583,7 +583,7 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
     }
 
     private void initMessageDialog() {
-        message.setText(Toolkit.i18nText("Fine-Designer_Basic_Remote_Env_Try") + "...");
+        message.setText(Toolkit.i18nText("Fine-Design_Basic_Remote_Env_Try") + "...");
         message.setBorder(BorderFactory.createEmptyBorder(8, 5, 0, 0));
         okButton.setEnabled(false);
 

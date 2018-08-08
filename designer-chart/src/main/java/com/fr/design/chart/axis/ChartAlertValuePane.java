@@ -131,8 +131,8 @@ public class ChartAlertValuePane extends BasicBeanPane<ChartAlertValue> {
 		double[] columnSize = {0.1, 0.2, 0.5, 0.2};
 		Component[][] components= {
 				{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Content") + ":"),  contentField = new UITextField(3)},
-				{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Font") + ":"),  fontNameBox},
-				{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Font_Size") + ":"),  fontSizeBox},
+				{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Font") + ":"),  fontNameBox},
+				{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Font_Size") + ":"),  fontSizeBox},
 				{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Layout") + ": "), leftButton = new UIRadioButton(getLeftName())},
 				{null,    null, 			rightButton = new UIRadioButton(getRightName())},
 				

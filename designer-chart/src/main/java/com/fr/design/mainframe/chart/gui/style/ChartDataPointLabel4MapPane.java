@@ -30,7 +30,7 @@ public class ChartDataPointLabel4MapPane extends ChartDatapointLabelPane {
 		this.parent = parent;
 		
 		isLabelShow = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Chart_Label"));
-		isCategory = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Area_Name"));
+		isCategory = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Name"));
 		isValue = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Area_Value"));
         valueFormatButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Format"));
 

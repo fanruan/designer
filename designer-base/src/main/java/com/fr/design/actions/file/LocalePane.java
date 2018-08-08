@@ -122,12 +122,14 @@ public class LocalePane extends BasicPane {
     private void initPredefinedProperties() {
     
         Map<Locale, String> supportLocaleMap = InterProviderFactory.getProvider().getSupportLocaleMap();
-    
-        Map<String, String> map;
+
+        // richie:暂时去掉设计器中国际化键值对的显示
+        Map<String, String> map = new HashMap<>();
         List<String> sortKeys = new ArrayList<String>();
     
-    
-        map = InterProviderFactory.getProvider().getLocalBundle(Locale.SIMPLIFIED_CHINESE).getMap();
+
+        //map = InterProviderFactory.getProvider().getLocalBundle(Locale.SIMPLIFIED_CHINESE).getMap();
+
         sortKeys.addAll(map.keySet());
         Collections.sort(sortKeys);
     

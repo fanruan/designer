@@ -32,7 +32,7 @@ public class FormatPaneWithOutFont extends FormatPane {
         typePane.setBorder(BorderFactory.createEmptyBorder());
         return new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Base_Format"), SwingConstants.LEFT), typePane},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Base_Format"), SwingConstants.LEFT), typePane},
                 new Component[]{null, centerPane},
         };
     }

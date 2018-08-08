@@ -237,7 +237,7 @@ public class DesignUtils {
                 //比如想在中文或英文系统里用韩文设计器
                 guiFRFont = getNamedFont("Dialog");
                 if (!guiFRFont.canDisplay(displayChar)) {
-                    FRContext.getLogger().error(com.fr.design.i18n.Toolkit.i18nText("FR-Base_SimSun_Not_Found"));
+                    FRContext.getLogger().error(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Base_SimSun_Not_Found"));
                 }
             }
         }

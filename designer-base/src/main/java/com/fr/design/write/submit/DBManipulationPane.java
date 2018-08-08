@@ -134,7 +134,7 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
 		northPane.add(typePane, BorderLayout.NORTH);
 
 		chooseTable = new ChoosePaneSupportFormula();
-		chooseTable.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), com.fr.design.i18n.Toolkit.i18nText("FR-Base_Table")));
+		chooseTable.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Base_Table")));
 		chooseTable.setTableNameComboBoxPopSize(160, 320);
 
 		northPane.add(chooseTable, BorderLayout.CENTER);
@@ -142,7 +142,7 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
 		// peter:编辑的TablePane
 		JPanel editTablePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		this.add(editTablePane, BorderLayout.CENTER);
-		editTablePane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), com.fr.design.i18n.Toolkit.i18nText("FR-Base_Value")));
+		editTablePane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Base_Value")));
 
 		keyColumnValuesTable = new KeyColumnNameValueTable();
 		editTablePane.add(new JScrollPane(this.keyColumnValuesTable), BorderLayout.CENTER);
@@ -183,11 +183,11 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
 
             UpdateCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("RWA-NotChange_Unmodified"));
             UIButton  helpButton = new UIButton(HEIP_ICON);
-            helpButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Base_Help"));
+            helpButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Base_Help"));
             helpButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    FormatExplanationPane formatExplanation = new FormatExplanationPane(com.fr.design.i18n.Toolkit.i18nText("FR-Base_Help"),com.fr.design.i18n.Toolkit.i18nText("FR-Designer_RWA-Help"), 12f);
+                    FormatExplanationPane formatExplanation = new FormatExplanationPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Base_Help"),com.fr.design.i18n.Toolkit.i18nText("FR-Designer_RWA-Help"), 12f);
                     BasicDialog dlg = formatExplanation.showMediumWindow(SwingUtilities.getWindowAncestor(DBManipulationPane.this),
                             new DialogActionAdapter(){});
                     dlg.setVisible(true);
@@ -309,7 +309,7 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
     protected void setBorderAndLayout(JPanel jPanel){
         jPanel.setLayout(FRGUIPaneFactory.createBorderLayout());
         jPanel.setBorder(BorderFactory.createTitledBorder(
-				new ModLineBorder(ModLineBorder.TOP), com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Submit_Condition")));
+				new ModLineBorder(ModLineBorder.TOP), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Submit_Condition")));
     }
 
     protected void addComponent(JPanel mainPane,JScrollPane addPane){
@@ -475,7 +475,7 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
             }
             for (int j = 0; j < keyColumnNameValueList.size(); j++) {
                 if (ComparatorUtils.equals(selected[i], keyColumnNameValueList.get(j).cn)) {
-                    Object[] options = { com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Covered_All"), com.fr.design.i18n.Toolkit.i18nText("FR-Base_Yes"), com.fr.design.i18n.Toolkit.i18nText("FR-Base_No"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cover_None") };
+                    Object[] options = { com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Covered_All"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Base_Yes"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Base_No"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cover_None") };
                     returnValue = JOptionPane.showOptionDialog(DBManipulationPane.this,
 							com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cover_Tips", keyColumnNameValueList.get(j).cn.name),
                             "", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
@@ -580,7 +580,7 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
 			}
 
 			int returnVal = JOptionPane.showConfirmDialog(SwingUtilities.getWindowAncestor(DBManipulationPane.this),
-					com.fr.design.i18n.Toolkit.i18nText("FR-Base_sure_remove_item") + "?", com.fr.design.i18n.Toolkit.i18nText("FR-Base_Remove"), JOptionPane.OK_CANCEL_OPTION,
+					com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Base_sure_remove_item") + "?", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Base_Remove"), JOptionPane.OK_CANCEL_OPTION,
 					JOptionPane.QUESTION_MESSAGE);
 			if (returnVal == JOptionPane.OK_OPTION) {
 				KeyColumnTableModel keyColumnNameValueTableModel = (KeyColumnTableModel)keyColumnValuesTable.getModel();
@@ -944,9 +944,9 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
 	}
 
 	protected abstract static class KeyColumnTableModel extends AbstractTableModel {
-        public static final String RAW_KEY = com.fr.design.i18n.Toolkit.i18nText("FR-Base_RWA-Key");
-        public static final String COLUMN = com.fr.design.i18n.Toolkit.i18nText("FR-Base_Column");
-        public static final String VALUE = com.fr.design.i18n.Toolkit.i18nText("FR-Base_Value");
+        public static final String RAW_KEY = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Base_RWA_Key");
+        public static final String COLUMN = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Base_Column");
+        public static final String VALUE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Base_Value");
 
         public static final String[] COLUMN_NAMES = new String[]{RAW_KEY, COLUMN, VALUE};
 

@@ -61,7 +61,7 @@ public class EmailPane extends FurtherBasicBeanPane<EmailJavaScript> {
     protected void initCenterPane(UILabel mainTextLabel, JScrollPane scrollPane, double fill, double preferred) {
     	double[] rowSize = { preferred, preferred, preferred, preferred, preferred, fill, preferred, preferred, preferred };
 		double[] columnSize = { preferred, fill};
-		showTplContent = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Email-Can_Preview_Report_Content"));
+		showTplContent = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Email_Can_Preview_Report_Content"));
     	centerPane = TableLayoutHelper.createCommonTableLayoutPane(new JComponent[][]{
                 {new UILabel(), tipsPane1},
                 createLinePane(com.fr.design.i18n.Toolkit.i18nText("HJS-Mail_to"), maitoEditor = new UITextField()),

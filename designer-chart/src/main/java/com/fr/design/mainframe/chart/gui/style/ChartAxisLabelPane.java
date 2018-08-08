@@ -92,7 +92,7 @@ public class ChartAxisLabelPane extends BasicPane implements UIObserver{
         orientationBar = new NumberDragBar(-NUM90, NUM90);
         orientationSpinner = new UIBasicSpinner(new SpinnerNumberModel(0, -NUM90, NUM90, 1));
 
-        String[] sampleType = {com.fr.design.i18n.Toolkit.i18nText("FR-App-All_Auto"), com.fr.design.i18n.Toolkit.i18nText("FR-App-All_Custom")};
+        String[] sampleType = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_App_All_Auto"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_App_All_Custom")};
         labelSampleChoose = new UIComboBox(sampleType);
         customLabelSamleTime = new UITextField();
         checkCustomSampleField();

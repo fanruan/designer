@@ -43,7 +43,7 @@ public class BodyMobileDefinePane extends MobileWidgetDefinePane {
     // 手机属性
     private UIExpandablePane getMobilePropertyPane() {
         JPanel panel = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        appRelayoutCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-App_ReLayout"), true);
+        appRelayoutCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_App_ReLayout"), true);
         appRelayoutCheck.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         panel.add(appRelayoutCheck);

@@ -68,7 +68,7 @@ public class FeedBackPane extends BasicPane {
     private static final String ALLOWED_INTEGER_TYPE = "0123456789";
     private SwingWorker worker;
     private JDialog dlg = new JDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Send"), true);
-    private UIButton ok = new UIButton(com.fr.design.i18n.Toolkit.i18nText("OK"));
+    private UIButton ok = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_OK"));
     private UIButton cancle = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Cancel"));
     private int ifHasBeenWriten = 0;
     private UITextArea detailField;
@@ -179,11 +179,11 @@ public class FeedBackPane extends BasicPane {
 
     private JPanel initDetailPane() {
         double p = TableLayout.PREFERRED;
-        UILabel info = new UILabel(com.fr.design.i18n.Toolkit.i18nText("detail_description") + ":");
+        UILabel info = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Detail_Description") + ":");
         info.setBorder(INNER_LEFT_BORDER);
         JPanel contactPane = getContactPane();
         contactPane.setBorder(INNER_LEFT_BORDER);
-        UILabel contact = new UILabel(com.fr.design.i18n.Toolkit.i18nText("contact_info") + ":");
+        UILabel contact = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Contact_Info") + ":");
         contact.setBorder(INNER_LEFT_BORDER);
         JPanel jPanel = new JPanel();
         jPanel.add(detailField);

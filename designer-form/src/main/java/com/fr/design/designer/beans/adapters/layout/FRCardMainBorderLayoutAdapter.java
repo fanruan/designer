@@ -47,13 +47,13 @@ public class FRCardMainBorderLayoutAdapter extends FRBorderLayoutAdapter {
         if (ComparatorUtils.equals(constraints, BorderLayout.NORTH) || ComparatorUtils.equals(constraints, BorderLayout.SOUTH)) {
             int containerHeight = container.getHeight();
             if (rectangle.height > containerHeight) {
-                JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Beyond_Tablayout_Bounds"));
+                JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Beyond_Tablayout_Bounds"));
                 return true;
             }
         } else if (ComparatorUtils.equals(constraints, BorderLayout.EAST) || ComparatorUtils.equals(constraints, BorderLayout.WEST)) {
             int containerWidth = container.getWidth();
             if (rectangle.width > containerWidth) {
-                JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Beyond_Tablayout_Bounds"));
+                JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Beyond_Tablayout_Bounds"));
                 return true;
             }
         }

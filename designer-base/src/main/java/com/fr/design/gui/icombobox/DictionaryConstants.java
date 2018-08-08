@@ -17,7 +17,7 @@ public class DictionaryConstants {
 		"^\\d{6}$" };
 	
 	public final static String[] regexpsDisplays = new String[] {
-		com.fr.design.i18n.Toolkit.i18nText("None"),
+		com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_None"),
 		com.fr.design.i18n.Toolkit.i18nText("Required"),
 		com.fr.design.i18n.Toolkit.i18nText("Length"),
 		com.fr.design.i18n.Toolkit.i18nText("Float"),
@@ -45,9 +45,9 @@ public class DictionaryConstants {
 		};
 	
 	public static final String[] delimiterDisplays = new String[]{
-		com.fr.design.i18n.Toolkit.i18nText("Form-Comma"),
-		com.fr.design.i18n.Toolkit.i18nText("Form-Semicolon"),
-		com.fr.design.i18n.Toolkit.i18nText("Form-Colon")
+		com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Form_Comma"),
+		com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Form_Semicolon"),
+		com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Form_Colon")
 		};
 	
 	public static final String[] symbols = new String[]{
@@ -55,9 +55,9 @@ public class DictionaryConstants {
 	};
 	
 	public static final String[] symbolDisplays = new String[]{
-		com.fr.design.i18n.Toolkit.i18nText("None"),
-		com.fr.design.i18n.Toolkit.i18nText("Form-Single_quote"),
-		com.fr.design.i18n.Toolkit.i18nText("Form-Double_quotes")
+		com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_None"),
+		com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Form_Single_Quote"),
+		com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Form_Double_Quotes")
 	};
 	// richer:文件类型选择器
 	public static final String[] fileTypes = new String[]{
@@ -77,7 +77,7 @@ public class DictionaryConstants {
 	};
 	
 	public static final String[] fileTypeDisplays = new String[]{
-		com.fr.design.i18n.Toolkit.i18nText("Form-All_Files"),
+		com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Form_All_Files"),
 		"txt",
 		"pdf",
 		"jpg,png,gif",

@@ -93,8 +93,8 @@ public class RootDesignDefinePane extends AbstractDataModify<WParameterLayout> {
                 BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_right_normal.png"),};
         Integer[] hAlignment = new Integer[]{FormConstants.LEFTPOSITION, FormConstants.CENTERPOSITION, FormConstants.RIGHTPOSITION};
         hAlignmentPane = new UIButtonGroup<Integer>(hAlignmentIconArray, hAlignment);
-        hAlignmentPane.setAllToolTips(new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Left")
-                , com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Center"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Right")});
+        hAlignmentPane.setAllToolTips(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_FormStyleAlignment_Left")
+                , com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_StyleAlignment_Center"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_StyleAlignment_Right")});
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         double[] rowSize = {p, p, p, p, p};

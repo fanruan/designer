@@ -31,7 +31,7 @@ public class TableDataCreatorProducer {
     }
 
     public TableDataNameObjectCreator[] createReportTableDataCreator() {
-        TableDataNameObjectCreator dataBase = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("DS-Database_Query"),
+        TableDataNameObjectCreator dataBase = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DS_Database_Query"),
                 "ds",
                 "/com/fr/design/images/data/database.png", DBTableData.class, DBTableDataPane.class);
         TableDataNameObjectCreator ds_Class = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tabledata_Type_Class"),

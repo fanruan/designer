@@ -88,7 +88,7 @@ public class PreviewTablePane extends BasicPane {
 
         JPanel maxPanel = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
         previewNumberPanel.add(maxPanel);
-        maxPanel.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Datasource-Maximum_Number_of_Preview_Rows") + ":"));
+        maxPanel.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Maximum_Number_of_Preview_Rows") + ":"));
 
         maxPreviewNumberField = new UINumberField();
         maxPanel.add(maxPreviewNumberField);

@@ -662,7 +662,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
                 String[] nameArray = {com.fr.design.i18n.Toolkit.i18nText("Sort-Original"), com.fr.design.i18n.Toolkit.i18nText("Sort-Ascending"), com.fr.design.i18n.Toolkit.i18nText("Sort-Descending")};
                 sortTypePane = new UIButtonGroup(iconArray);
                 sortTypePane.setAllToolTips(nameArray);
-                sortTypePane.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("ExpandD-Sort_After_Expand"));
+                sortTypePane.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_ExpandD_Sort_After_Expand"));
 
                 cardLayout = new CardLayout();
                 centerPane = new JPanel(cardLayout);

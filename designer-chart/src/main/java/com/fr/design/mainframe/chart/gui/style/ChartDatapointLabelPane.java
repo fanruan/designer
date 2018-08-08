@@ -98,8 +98,8 @@ public class ChartDatapointLabelPane extends BasicPane{
         if(plot.isSupportCategoryFilter()) {
 		    isCategory = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Category_Name"));
         }
-		isSeries = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Series_Name"));
-		isValue = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Value"));
+		isSeries = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Name"));
+		isValue = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Value"));
 		isValue.setSelected(true);
 		valueFormatButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Format"));
 

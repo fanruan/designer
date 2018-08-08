@@ -384,7 +384,7 @@ public class PluginWebBridge {
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.INFORMATION_MESSAGE,
                 null,
-                new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Basic_Restart_Designer"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Basic_Restart_Designer_Later")},
+                new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Restart_Designer"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Restart_Designer_Later")},
                 null
         );
         if (rv == JOptionPane.OK_OPTION) {
@@ -556,7 +556,7 @@ public class PluginWebBridge {
     public void clearUserInfo() {
         MarketConfig.getInstance().setInShowBBsName(StringUtils.EMPTY);
         BBSLoginUtils.bbsLogout();
-        uiLabel.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Base_UnSignIn"));
+        uiLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Base_UnSignIn"));
     }
 
     public void getPackInfo(final JSObject callback){

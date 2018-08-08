@@ -38,7 +38,7 @@ public class BackgroundPreviewLabel extends UILabel {
                     this.getSize().getWidth(), this.getSize().getHeight()));
             this.setText("");
         } else {
-            this.setText(com.fr.design.i18n.Toolkit.i18nText("Background-Background_is_NULL") + "...");
+            this.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Background_Is_Null") + "...");
         }
     }
 

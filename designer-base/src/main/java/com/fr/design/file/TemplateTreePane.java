@@ -168,7 +168,7 @@ public class TemplateTreePane extends JPanel implements FileOperations {
         if (reportPaths.length == 0) {
             return;
         }
-        if (JOptionPane.showConfirmDialog(null, com.fr.design.i18n.Toolkit.i18nText("Confirm-Delete-File")) != JOptionPane.OK_OPTION) {
+        if (JOptionPane.showConfirmDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Confirm_Delete_File")) != JOptionPane.OK_OPTION) {
             return;
         }
         for (String reportPath : reportPaths) {

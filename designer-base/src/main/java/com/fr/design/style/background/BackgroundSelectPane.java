@@ -42,7 +42,7 @@ public abstract class BackgroundSelectPane extends BasicPane {
 		
 		this.add(backgroundPane, BorderLayout.CENTER);
 		
-		UIButton button = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Choose_None"));
+		UIButton button = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Choose_None"));
 		this.add(button, BorderLayout.SOUTH);
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

@@ -48,7 +48,7 @@ public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connecti
         newCharSetComboBox = new UIComboBox(EncodeConstants.ALL_ENCODING_ARRAY);
         message = new UILabel();
         uiLabel = new UILabel();
-        okButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("OK"));
+        okButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_OK"));
         cancelButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Cancel"));
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         JPanel northPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
@@ -70,11 +70,11 @@ public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connecti
             northPane.add(chartSetPane);
             chartSetPane.setBorder(BorderFactory.createTitledBorder(
                     new ModLineBorder(ModLineBorder.TOP),
-                    com.fr.design.i18n.Toolkit.i18nText("Datasource-Convert_Charset")
+                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Convert_Charset")
             ));
 
-            chartSetPane.add(GUICoreUtils.createNamedPane(originalCharSetComboBox, com.fr.design.i18n.Toolkit.i18nText("Datasource-Original_Charset") + ":"));
-            chartSetPane.add(GUICoreUtils.createNamedPane(newCharSetComboBox, com.fr.design.i18n.Toolkit.i18nText("Datasource-New_Charset") + ":"));
+            chartSetPane.add(GUICoreUtils.createNamedPane(originalCharSetComboBox, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Original_Charset") + ":"));
+            chartSetPane.add(GUICoreUtils.createNamedPane(newCharSetComboBox, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_New_Charset") + ":"));
         }
     }
 

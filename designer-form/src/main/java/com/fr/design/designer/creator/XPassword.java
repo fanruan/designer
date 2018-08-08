@@ -51,7 +51,7 @@ public class XPassword extends XWrapperedFieldEditor {
         CRPropertyDescriptor[] sup = (CRPropertyDescriptor[]) ArrayUtils.addAll(
                 new CRPropertyDescriptor[]{
                         new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(
-                                com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Estate_Widget_Value")).setEditorClass(
+                                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Estate_Widget_Value")).setEditorClass(
                                 WidgetValueEditor.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "FR-Designer_Advanced")}
                 , super.supportedDescriptor());
         CRPropertyDescriptor regErrorMessage = new CRPropertyDescriptor("regErrorMessage", this.data.getClass()).setI18NName(

@@ -37,7 +37,7 @@ public class PluginsReaderFromStore {
             String charSet = EncodeConstants.ENCODING_UTF_8;
             resText = URLDecoder.decode(URLDecoder.decode(resText, charSet), charSet);
         } catch (Exception e) {
-            throw new Exception(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_PluginMarket_Coding"));
+            throw new Exception(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Plugin_Market_Coding"));
         }
         return parseResText(resText, plugins);
     }
@@ -75,7 +75,7 @@ public class PluginsReaderFromStore {
                     }
                 }
             } catch (JSONException e) {
-                throw new Exception(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Read_Plugin_List_Error"));
+                throw new Exception(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Read_Plugin_List_Error"));
             }
         }
         return new ArrayList<>(plugins);

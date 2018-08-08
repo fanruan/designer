@@ -58,8 +58,8 @@ public class StructureNodeStylePane extends BasicBeanPane<AttrNode> {
                 new Component[]{null, null},
                 new Component[]{jPanel, null},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Border_Width")), nodeBorderWidth},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget-Style_Border_Color")), nodeBorderColor},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Alpha")), nodeOpacity}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Style_Border_Color")), nodeBorderColor},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Alpha")), nodeOpacity}
 
         };
         JPanel panel1 = TableLayout4VanChartHelper.createGapTableLayoutPane(components1, rowSize, columnSize);

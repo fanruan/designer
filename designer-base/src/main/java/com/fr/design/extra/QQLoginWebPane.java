@@ -168,7 +168,7 @@ public class QQLoginWebPane extends JFXPanel {
                 new Scene(
                         HBoxBuilder.create().styleClass("modal-dialog").children(
                                 LabelBuilder.create().text(msg).build(),
-                                ButtonBuilder.create().text(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-BBSLogin_Switch-Account")).defaultButton(true).onAction(new EventHandler<ActionEvent>() {
+                                ButtonBuilder.create().text(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_BBSLogin_Switch_Account")).defaultButton(true).onAction(new EventHandler<ActionEvent>() {
                                     @Override
                                     public void handle(ActionEvent actionEvent) {
                                         // take action and close the dialog.

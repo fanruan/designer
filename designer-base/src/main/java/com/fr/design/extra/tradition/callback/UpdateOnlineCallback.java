@@ -32,7 +32,7 @@ public class UpdateOnlineCallback implements ProgressCallback {
     public void done(PluginTaskResult result){
         if (result.isSuccess()) {
             FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Update_Success"));
-            JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Install_Successful"));
+            JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Install_Successful"));
         } else if (result.errorCode() == PluginErrorCode.OperationNotSupport) {
             int rv = JOptionPane.showOptionDialog(
                     null,

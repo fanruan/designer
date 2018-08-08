@@ -31,7 +31,7 @@ public class VanChartPlotLabelPane extends BasicPane {
     public VanChartPlotLabelPane(Plot plot, VanChartStylePane parent) {
         this.parent = parent;
         this.plot = plot;
-        isLabelShow = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_UseLabel"));
+        isLabelShow = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Label"));
         labelPane = new JPanel(new BorderLayout(0, 4));
         createLabelPane();
         addComponents();
