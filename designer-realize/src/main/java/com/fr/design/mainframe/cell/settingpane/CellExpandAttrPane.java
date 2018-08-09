@@ -12,7 +12,6 @@ import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 
 import com.fr.report.cell.DefaultTemplateCellElement;
@@ -75,7 +74,7 @@ public class CellExpandAttrPane extends AbstractCellAttrPane {
         basicPane = new JPanel();
         seniorPane = new JPanel();
         basicPane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Basic"), 223, 24, basicPane());
-        seniorPane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Advanced"), 223, 24, seniorPane());
+        seniorPane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced"), 223, 24, seniorPane());
         layoutPane.add(basicPane, BorderLayout.NORTH);
         layoutPane.add(seniorPane, BorderLayout.CENTER);
         return layoutPane;
@@ -204,7 +203,7 @@ public class CellExpandAttrPane extends AbstractCellAttrPane {
             }
         }
 
-        if (ComparatorUtils.equals(getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("ExpandD-Sort_After_Expand"))) {
+        if (ComparatorUtils.equals(getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_ExpandD_Sort_After_Expand"))) {
             sortAfterExpand.update(cellExpandAttr);
         }
 

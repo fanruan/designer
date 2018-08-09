@@ -314,7 +314,7 @@ public class EditToolBar extends BasicPane {
 			if (i < 0 || !(listModel.getElementAt(i) instanceof ToolBarButton)) {
 				return;
 			}
-			int val = JOptionPane.showConfirmDialog(EditToolBar.this, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Are_You_Sure_To_Delete_The_Data") + "?", "Message", JOptionPane.YES_NO_OPTION);
+			int val = JOptionPane.showConfirmDialog(EditToolBar.this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Are_You_Sure_To_Delete_The_Data") + "?", "Message", JOptionPane.YES_NO_OPTION);
 			if (val != JOptionPane.YES_OPTION) {
 				return;
 			}
@@ -422,9 +422,9 @@ public class EditToolBar extends BasicPane {
 			JPanel export = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
 			// export.setLayout(new BoxLayout(export, BoxLayout.Y_AXIS));
 			pdf = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Output_PDF"));
-			excelP = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Output_Excel_Page"));
-			excelO = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Output_Excel_Simple"));
-			excelS = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Output_Excel_Sheet"));
+			excelP = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Output_Excel_Page"));
+			excelO = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Output_Excel_Simple"));
+			excelS = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Output_Excel_Sheet"));
 			word = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Output_Word"));
 			image = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Image"));
 			export.add(pdf);
@@ -461,7 +461,7 @@ public class EditToolBar extends BasicPane {
 		private JPanel getSubmitPane() {
 			isVerify = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Verify-Data_Verify"));
 			failSubmit = new UICheckBox(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Verify_Fail", "Still", "Submit"}));
-			isCurSheet = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Basic_Only_Submit_Current_Sheet"));
+			isCurSheet = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Only_Submit_Current_Sheet"));
 			JPanel submitPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_S_Pane();
 			submitPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Form-Button", "Property", "Set"}), null));
 			submitPane.add(isVerify);

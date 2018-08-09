@@ -56,7 +56,7 @@ public class ColorSelectDetailPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Select_Color");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Select_Color");
     }
 
     protected void initComponents() {
@@ -78,7 +78,7 @@ public class ColorSelectDetailPane extends BasicPane {
         this.add(selectedPanel, BorderLayout.NORTH);
 
         // 最近使用面板
-        recentUsePanel = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Used"));
+        recentUsePanel = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Used"));
         RecentUseColorPane recent = new RecentUseColorPane(selectedPanel);
         recentUsePanel.add(recent);
 

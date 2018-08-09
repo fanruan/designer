@@ -122,7 +122,7 @@ public class MapImageEditPane extends BasicBeanPane<String> {
 
 		UIScrollPane pane = new UIScrollPane(recordTable);
 		pane.setPreferredSize(new Dimension(150, 320));
-		pane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Filed", "WF-Name"})));
+		pane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Filed_Name")));
 
 		this.add(pane, BorderLayout.EAST);
 	}
@@ -480,7 +480,7 @@ public class MapImageEditPane extends BasicBeanPane<String> {
 			});
 			bg.setSize(NAME_EDIT_PANE_WIDTH, NAME_EDIT_PANE_HEIGHT);
 			bg.setLocation((int) (e.getLocationOnScreen().getX()) + LOCATIONOFFSET, (int) e.getLocationOnScreen().getY());
-			bg.setTitle(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Edit", "Filed", "WF-Name"}));
+			bg.setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Filed_Name_Edit"));
 			bg.setVisible(true);
 		}
 

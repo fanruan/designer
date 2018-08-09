@@ -255,7 +255,7 @@ public class FILEChooserPane extends BasicPane {
         centerRightPane.add(fileNamePane, BorderLayout.SOUTH);
 
         Component[][] outComponents = new Component[][]{
-                new Component[]{GUICoreUtils.createBorderPane(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-App-File_Lookup_range") + ":"), BorderLayout.WEST), locationPane},
+                new Component[]{GUICoreUtils.createBorderPane(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_App_File_Lookup_range") + ":"), BorderLayout.WEST), locationPane},
                 new Component[]{centerLeftPanel, centerRightPane}};
         JPanel contentPane = TableLayoutHelper.createTableLayoutPane(outComponents, new double[]{TableLayout.PREFERRED, TableLayout.FILL},
                 new double[]{TableLayout.PREFERRED, TableLayout.FILL});
@@ -546,19 +546,19 @@ public class FILEChooserPane extends BasicPane {
             EnumSet<FileExtension> fileExtensions = EnumSet.of(FileExtension.CPT, FileExtension.CPTX, FileExtension.FRM, FileExtension.FRMX, FileExtension.CHT);
             if (type == JFileChooser.OPEN_DIALOG) {
                 if (WorkContext.getCurrent().isLocal()) { //本地连接
-                    this.addChooseFILEFilter(new ChooseFileFilter(fileSuffix_local, appName + com.fr.design.i18n.Toolkit.i18nText("Fine-Report_Template_File")));
+                    this.addChooseFILEFilter(new ChooseFileFilter(fileSuffix_local, appName + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Template_File")));
                 } else {
-                    this.addChooseFILEFilter(new ChooseFileFilter(fileExtensions, appName + com.fr.design.i18n.Toolkit.i18nText("Fine-Report_Template_File")));
+                    this.addChooseFILEFilter(new ChooseFileFilter(fileExtensions, appName + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Template_File")));
                 }
             }
 
             // ben:filefilter设置初值为cpt过滤
-            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.CPT, appName + com.fr.design.i18n.Toolkit.i18nText("Fine-Report_Template_File")));
-            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.CPTX, appName + com.fr.design.i18n.Toolkit.i18nText("Fine-Report_Template_File")));
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.CPT, appName + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Template_File")));
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.CPTX, appName + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Template_File")));
 
             // richer:form文件 daniel 改成三个字
-            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.FRM, appName + com.fr.design.i18n.Toolkit.i18nText("Fine-Report_Template_File")));
-            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.FRMX, appName + com.fr.design.i18n.Toolkit.i18nText("Fine-Report_Template_File")));
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.FRM, appName + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Template_File")));
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.FRMX, appName + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Template_File")));
         } else {
             if (type == JFileChooser.OPEN_DIALOG) {
                 this.addChooseFILEFilter(new ChooseFileFilter(EnumSet.of(FileExtension.XLS, FileExtension.XLSX), com.fr.design.i18n.Toolkit.i18nText("Import-Excel_Source")));
@@ -571,7 +571,7 @@ public class FILEChooserPane extends BasicPane {
             this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.XLSX, com.fr.design.i18n.Toolkit.i18nText("Import-Excel2007_Source")));
         }
         if (FileExtension.PNG.matchExtension(suffix)) {
-            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.PNG, com.fr.design.i18n.Toolkit.i18nText("FR-App-Export_png")));
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.PNG, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_App_Export_png")));
         }
         if (type == JFileChooser.SAVE_DIALOG) {
             this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.PDF, com.fr.design.i18n.Toolkit.i18nText("FR-Import-Export_PDF")));
@@ -647,7 +647,7 @@ public class FILEChooserPane extends BasicPane {
                     saveDictionary();
                     dialogExit();
                 } else {
-                    JOptionPane.showMessageDialog(this, com.fr.design.i18n.Toolkit.i18nText("FR-App-Template_Report_Not_Exist"));
+                    JOptionPane.showMessageDialog(this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_App_Template_Report_Not_Exist"));
                     return;
                 }
             }
@@ -688,7 +688,7 @@ public class FILEChooserPane extends BasicPane {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         if (!access) {
-            JOptionPane.showMessageDialog(FILEChooserPane.this, com.fr.design.i18n.Toolkit.i18nText("FR-App-Privilege_No") + "!", com.fr.design.i18n.Toolkit.i18nText("FR-App-File_Message"), JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(FILEChooserPane.this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_App_Privilege_No") + "!", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_App_File_Message"), JOptionPane.WARNING_MESSAGE);
             return;
         }
         if (selectedFile.exists()) {
@@ -741,7 +741,7 @@ public class FILEChooserPane extends BasicPane {
      * dialog的名字
      */
     private String dialogName() {
-        return type == JFileChooser.OPEN_DIALOG ? com.fr.design.i18n.Toolkit.i18nText("Utils-Design-File_Open") : com.fr.design.i18n.Toolkit.i18nText("FR-App-Template_Save");
+        return type == JFileChooser.OPEN_DIALOG ? com.fr.design.i18n.Toolkit.i18nText("Utils-Design-File_Open") : com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_App_Template_Save");
     }
 
     /*
@@ -1406,7 +1406,7 @@ public class FILEChooserPane extends BasicPane {
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
             if (!access) {
-                JOptionPane.showMessageDialog(FILEChooserPane.this, com.fr.design.i18n.Toolkit.i18nText("FR-App-Privilege_No") + "!", com.fr.design.i18n.Toolkit.i18nText("FR-App-File_Message"), JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(FILEChooserPane.this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_App_Privilege_No") + "!", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_App_File_Message"), JOptionPane.WARNING_MESSAGE);
                 return;
             }
 

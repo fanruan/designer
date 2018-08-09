@@ -35,7 +35,7 @@ public class TinyFormulaPane extends BasicBeanPane<String> implements UIObserver
 	protected void initComponents() {
 
 		formulaTextField = new UITextField();
-		formulaTextField.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("ExpandD-Sort_After_Expand"));
+		formulaTextField.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_ExpandD_Sort_After_Expand"));
 
 		// 添加一公式编辑器按钮
 		formulaTextFieldButton = new UIButton(BaseUtils.readIcon("/com/fr/design/images/m_insert/formula.png"));

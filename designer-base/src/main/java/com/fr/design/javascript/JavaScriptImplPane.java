@@ -62,7 +62,7 @@ public class JavaScriptImplPane extends AbstractHyperLinkPane<JavaScriptImpl> {
                     }
                     if (tempSet.contains(list.get(i).toString())) {
                         list.remove(i);
-                        JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Parameter_Duplicate_Name") + "!");
+                        JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter_Duplicate_Name") + "!");
                         parameterChanger(list);
                         return;
                     }

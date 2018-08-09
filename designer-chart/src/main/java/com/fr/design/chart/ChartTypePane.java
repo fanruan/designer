@@ -81,7 +81,7 @@ public class ChartTypePane extends ChartCommonWizardPane {
 
         JSplitPane spane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, typeScrollPane, subListPane);
         spane.setDividerLocation(120);
-        spane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("M-Popup_ChartType")));
+        spane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_M_Popup_Chart_Type")));
         this.add(spane);
 
         iconViewList.setSelectedIndex(0);

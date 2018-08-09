@@ -317,8 +317,8 @@ public class LayoutBorderPane extends BasicPane {
             Constants.LINE_THICK, //3px
     };
 
-    public final static String[] BORDER_TYPE = new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget-Style_Standard"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget-Style_Custom")};
-    public final static String[] BORDER_STYLE= new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget-Style_Common"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget-Style_Shadow")};
+    public final static String[] BORDER_TYPE = new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Style_Standard"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Style_Custom")};
+    public final static String[] BORDER_STYLE= new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Style_Common"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Style_Shadow")};
 
     private final static Dimension BUTTON_SIZE = new Dimension(24, 20);
 
@@ -335,7 +335,7 @@ public class LayoutBorderPane extends BasicPane {
 
         JPanel centerPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         defaultPane.add(centerPane, BorderLayout.CENTER);
-        centerPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget-Style_Preview"), null));
+        centerPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Style_Preview"), null));
 
         JPanel borderPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         centerPane.add(borderPane, BorderLayout.CENTER);
@@ -381,27 +381,27 @@ public class LayoutBorderPane extends BasicPane {
         double[] columnSize = { p, MAX_WIDTH};
         JPanel rightTopContentPane = TableLayoutHelper.createCommonTableLayoutPane(new JComponent[][]{
                 getBorderTypeComp(),
-                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget-Style_Render_Style")), borderStyleCombo},
-                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget-Style_Border_Line")), currentLineCombo},
-                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget-Style_Border_Color")), buttonPane},
+                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Style_Render_Style")), borderStyleCombo},
+                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Style_Border_Line")), currentLineCombo},
+                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Style_Border_Color")), buttonPane},
                 getBorderCornerSpinnerComp(),
-                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget-Style_Body_Background")), backgroundPane},
-                {new UILabel(""),new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget-Style_Alpha"))},
+                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget-Style_Body_Background")), backgroundPane},
+                {new UILabel(""),new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget-Style_Alpha"))},
                 {new UILabel(""),transparencyPane},
         }, rowSize, columnSize, 10);
         rightTopContentPane.setBorder(BorderFactory.createEmptyBorder(15, 12, 10, 12));
         UIScrollPane rightTopPane = new UIScrollPane(rightTopContentPane);
-        rightTopPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget-Style_Frame"),null));
+        rightTopPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Style_Frame"),null));
         rightTopPane.setPreferredSize(rightTopPane.getPreferredSize());
         return  rightTopPane;
     }
 
     protected JComponent[] getBorderTypeComp(){
-        return new JComponent[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget-Style_Frame_Style")), borderTypeCombo};
+        return new JComponent[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Style_Frame_Style")), borderTypeCombo};
     }
 
     protected JComponent[] getBorderCornerSpinnerComp(){
-        return new JComponent[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("plugin-ChartF_Radius")+":"),borderCornerSpinner};
+        return new JComponent[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Radius")+":"),borderCornerSpinner};
     }
 
     protected void switchBorderType(){
@@ -438,14 +438,14 @@ public class LayoutBorderPane extends BasicPane {
         double[] rowSize = {p,p,p};
         double[] columnSize = { p, f};
         JPanel rightTopContentPane = TableLayoutHelper.createCommonTableLayoutPane(new JComponent[][]{
-                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget-Style_Body_Background")), backgroundPane},
-                {new UILabel(""),new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget-Style_Alpha"))},
+                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget-Style_Body_Background")), backgroundPane},
+                {new UILabel(""),new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget-Style_Alpha"))},
                 {new UILabel(""),transparencyPane},
         }, rowSize, columnSize, 10);
         rightTopContentPane.setBorder(BorderFactory.createEmptyBorder(15, 12, 10, 6));
         JPanel bodyRightTopPane =FRGUIPaneFactory.createBorderLayout_S_Pane();
         bodyRightTopPane.add(rightTopContentPane,BorderLayout.CENTER);
-        bodyRightTopPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget-Style_Frame"),null));
+        bodyRightTopPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Style_Frame"),null));
         return  bodyRightTopPane;
     }
 
@@ -463,8 +463,8 @@ public class LayoutBorderPane extends BasicPane {
                 BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_right_normal.png"),};
         Integer[] hAlignment = new Integer[]{Constants.LEFT, Constants.CENTER, Constants.RIGHT};
         hAlignmentPane = new UIButtonGroup<Integer>(hAlignmentIconArray, hAlignment);
-        hAlignmentPane.setAllToolTips(new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Left")
-                , com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Center"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Right")});
+        hAlignmentPane.setAllToolTips(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_FormStyleAlignment_Left")
+                , com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_StyleAlignment_Center"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_StyleAlignment_Right")});
         JPanel hPaneContainer = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         hPaneContainer.add(hAlignmentPane);
 
@@ -475,15 +475,15 @@ public class LayoutBorderPane extends BasicPane {
         double[] columnSize = { p, MAX_WIDTH};
 
         JPanel rightBottomContentPane = TableLayoutHelper.createCommonTableLayoutPane( new JComponent[][]{
-                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget-Style_Title_Content")), formulaPane},
-                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget-Style_Title_Format")), fontSizeTypePane},
+                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Style_Title_Content")), formulaPane},
+                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Style_Title_Format")), fontSizeTypePane},
                 {new UILabel(""), initFontButtonPane()},
-                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Alignment-Style")), hPaneContainer},
-                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget-Style_Title_Background")), titleBackgroundPane},
+                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Alignment-Style")), hPaneContainer},
+                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Style_Title_Background")), titleBackgroundPane},
         }, rowSize, columnSize, 10);
         rightBottomContentPane.setBorder(BorderFactory.createEmptyBorder(15, 12, 10, 12));
         titlePane =new UIScrollPane(rightBottomContentPane);
-        titlePane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget-Style_Title"),null));
+        titlePane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Style_Title"),null));
         titlePane.setVisible(false);
         return titlePane;
     }
@@ -520,20 +520,20 @@ public class LayoutBorderPane extends BasicPane {
     }
 
     protected void initAllNames() {
-        fontNameComboBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-FRFont_Family"));
-        fontSizeComboBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-FRFont_Size"));
-        colorSelectPane.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-FRFont_Foreground"));
-        italic.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-FRFont_Italic"));
-        bold.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-FRFont_Bold"));
-        underline.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-FRFont_Underline"));
-        underlineCombo.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-FRFont_Line_Style"));
+        fontNameComboBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_FRFont_Family"));
+        fontSizeComboBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_FRFont_Size"));
+        colorSelectPane.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_FRFont_Foreground"));
+        italic.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_FRFont_Italic"));
+        bold.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_FRFont_Bold"));
+        underline.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_FRFont_Underline"));
+        underlineCombo.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_FRFont_Line_Style"));
     }
 
     protected void setToolTips() {
-        colorSelectPane.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-FRFont_Foreground"));
-        italic.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-FRFont_Italic"));
-        bold.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-FRFont_Bold"));
-        underline.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-FRFont_Underline"));
+        colorSelectPane.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_FRFont_Foreground"));
+        italic.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_FRFont_Italic"));
+        bold.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_FRFont_Bold"));
+        underline.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_FRFont_Underline"));
     }
 
 
@@ -929,6 +929,6 @@ public class LayoutBorderPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget_Style");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Style");
     }
 }

@@ -22,7 +22,7 @@ public class ReportFontItalicAction extends ReportFontBoldAction {
     public ReportFontItalicAction(ElementCasePane t) {
 		super(t);
 
-		this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-FRFont_Italic"));
+		this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_FRFont_Italic"));
 		this.setSmallIcon(ICONS, true);
 	}
 

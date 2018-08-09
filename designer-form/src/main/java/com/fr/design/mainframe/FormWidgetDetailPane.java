@@ -54,8 +54,8 @@ public class FormWidgetDetailPane extends FormDockView{
     private boolean isEdit;
     private CardLayout card;
 
-    private static final String REPORT_TAB = com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Report");
-    private static final String CHART_TAB = com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Form-ToolBar_Chart");
+    private static final String REPORT_TAB = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Engine_Report");
+    private static final String CHART_TAB = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_ToolBar_Chart");
 
     public static FormWidgetDetailPane getInstance() {
         if (HOLDER.singleton == null) {
@@ -80,7 +80,7 @@ public class FormWidgetDetailPane extends FormDockView{
     }
 
     public String getViewTitle() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Widget_Tree_And_Table");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Tree_And_Table");
     }
 
     @Override
@@ -197,12 +197,12 @@ public class FormWidgetDetailPane extends FormDockView{
                     refreshShareMoudule();
                     reuWidgetPanel.remove(deleteButton);
                     elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
-                    JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Share_Module_Removed_Successful"));
+                    JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Share_Module_Removed_Successful"));
                     refreshDownPanel(false);
                     replaceButtonPanel(false);
                     refreshComboxData();
                 } else {
-                    JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Share_Module_Removed_Failed"));
+                    JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Share_Module_Removed_Failed"));
                 }
 
             }
@@ -378,12 +378,12 @@ public class FormWidgetDetailPane extends FormDockView{
                     elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
                     refreshDownPanel(false);
                     refreshComboxData();
-                    JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Share_Module_OK"));
+                    JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Share_Module_OK"));
                 } else {
-                    JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Share_Module_Error"));
+                    JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Share_Module_Error"));
                 }
             } catch (IOException e) {
-                JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Share_Module_Error"));
+                JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Share_Module_Error"));
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
@@ -401,7 +401,7 @@ public class FormWidgetDetailPane extends FormDockView{
      * 获取报表块组件分类
      */
     public String[] getFormCategories() {
-        return ArrayUtils.addAll(new String[] {com.fr.design.i18n.Toolkit.i18nText("FR-Designer_AllCategories")}, ShareLoader.getLoader().getModuleCategory());
+        return ArrayUtils.addAll(new String[] {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_AllCategories")}, ShareLoader.getLoader().getModuleCategory());
     }
 
     public void refreshDownPanel(boolean isEdit) {

@@ -31,25 +31,25 @@ public class TableDataCreatorProducer {
     }
 
     public TableDataNameObjectCreator[] createReportTableDataCreator() {
-        TableDataNameObjectCreator dataBase = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("DS-Database_Query"),
+        TableDataNameObjectCreator dataBase = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DS_Database_Query"),
                 "ds",
                 "/com/fr/design/images/data/database.png", DBTableData.class, DBTableDataPane.class);
-        TableDataNameObjectCreator ds_Class = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Tabledata_Type_Class"),
+        TableDataNameObjectCreator ds_Class = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tabledata_Type_Class"),
                 "/com/fr/design/images/data/source/classTableData.png", ClassTableData.class, ClassTableDataPane.class);
-        TableDataNameObjectCreator table = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Tabledata_Type_Embedded"),
+        TableDataNameObjectCreator table = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tabledata_Type_Embedded"),
                 "Embedded",
                 "/com/fr/design/images/data/dataTable.png", EmbeddedTableData.class, EmbeddedTableDataPane.class);
-        TableDataNameObjectCreator multiTable = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Tabledata_Type_Relation"),
+        TableDataNameObjectCreator multiTable = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tabledata_Type_Relation"),
                 "Multi",
                 "/com/fr/design/images/data/multi.png", ConditionTableData.class, MultiTDTableDataPane.class) {
             public boolean isNeedParameterWhenPopulateJControlPane() {
                 return true;
             }
         };
-        TableDataNameObjectCreator fileTable = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Tabledata_Type_File"),
+        TableDataNameObjectCreator fileTable = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tabledata_Type_File"),
                 "File",
                 "/com/fr/design/images/data/file.png", FileTableData.class, FileTableDataSmallHeightPane.class);
-        TableDataNameObjectCreator treeTable = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Tabledata_Type_Tree"),
+        TableDataNameObjectCreator treeTable = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tabledata_Type_Tree"),
                 "Tree",
                 "/com/fr/design/images/data/tree.png", RecursionTableData.class, TreeTableDataPane.class) {
             public boolean isNeedParameterWhenPopulateJControlPane() {
@@ -69,28 +69,28 @@ public class TableDataCreatorProducer {
     }
 
     public TableDataNameObjectCreator[] createServerTableDataCreator() {
-        TableDataNameObjectCreator dataBase = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Tabledata_Type_Database_Query"), "/com/fr/design/images/data/dock/serverdatabase.png", DBTableData.class,
+        TableDataNameObjectCreator dataBase = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tabledata_Type_Database_Query"), "/com/fr/design/images/data/dock/serverdatabase.png", DBTableData.class,
                 DBTableDataPane.class);
-        TableDataNameObjectCreator ds_Class = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Tabledata_Type_Class"), "/com/fr/design/images/data/dock/serverclasstabledata.png", ClassTableData.class,
+        TableDataNameObjectCreator ds_Class = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tabledata_Type_Class"), "/com/fr/design/images/data/dock/serverclasstabledata.png", ClassTableData.class,
                 ClassTableDataPane.class);
-        TableDataNameObjectCreator table = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Tabledata_Type_Embedded"), "/com/fr/design/images/data/dock/serverdatatable.png", EmbeddedTableData.class,
+        TableDataNameObjectCreator table = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tabledata_Type_Embedded"), "/com/fr/design/images/data/dock/serverdatatable.png", EmbeddedTableData.class,
                 EmbeddedTableDataPane.class);
-        TableDataNameObjectCreator fileTable = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Tabledata_Type_File"), "/com/fr/design/images/data/file.png", FileTableData.class,
+        TableDataNameObjectCreator fileTable = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tabledata_Type_File"), "/com/fr/design/images/data/file.png", FileTableData.class,
                 FileTableDataSmallPane.class);
 
-        TableDataNameObjectCreator treeTable = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Tabledata_Type_Tree"), "/com/fr/design/images/data/tree.png",
+        TableDataNameObjectCreator treeTable = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tabledata_Type_Tree"), "/com/fr/design/images/data/tree.png",
                 RecursionTableData.class, GlobalTreeTableDataPane.class) {
             public boolean isNeedParameterWhenPopulateJControlPane() {
                 return true;
             }
         };
-        TableDataNameObjectCreator multiTable = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Tabledata_Type_Relation"), "/com/fr/design/images/data/multi.png",
+        TableDataNameObjectCreator multiTable = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tabledata_Type_Relation"), "/com/fr/design/images/data/multi.png",
                 ConditionTableData.class, GlobalMultiTDTableDataPane.class) {
             public boolean isNeedParameterWhenPopulateJControlPane() {
                 return true;
             }
         };
-        TableDataNameObjectCreator storeProcedure = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Tabledata_Type_Stored_Procedure"), "/com/fr/design/images/data/store_procedure.png",
+        TableDataNameObjectCreator storeProcedure = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tabledata_Type_Stored_Procedure"), "/com/fr/design/images/data/store_procedure.png",
                 StoreProcedure.class, ProcedureDataPane.class) {
             public boolean shouldInsertSeparator() {
                 return true;

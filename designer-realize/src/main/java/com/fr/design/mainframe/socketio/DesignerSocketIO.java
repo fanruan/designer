@@ -15,7 +15,6 @@ import com.fr.third.guava.base.Optional;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.Workspace;
 import com.fr.workspace.base.WorkspaceConstants;
-import com.fr.workspace.engine.connector.FineWorkspaceConnector;
 import com.fr.workspace.engine.server.rpc.netty.RemoteCallClient;
 import com.fr.workspace.server.socket.SocketInfoOperator;
 import io.socket.client.IO;
@@ -81,7 +80,7 @@ public class DesignerSocketIO {
                 @Override
                 public void call(Object... objects) {
                     if (status != Status.Disconnecting) {
-                        JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Basic_Remote_Disconnected"),
+                        JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remote_Disconnected"),
                                 null, 0, UIManager.getIcon("OptionPane.errorIcon"));
                         TemplatePane.getInstance().editItems();
                     }

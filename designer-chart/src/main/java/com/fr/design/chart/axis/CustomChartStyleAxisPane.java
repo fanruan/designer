@@ -10,7 +10,7 @@ public class CustomChartStyleAxisPane extends TernaryChartStyleAxisPane {
 	}
 
 	protected String getValueAxisName() {
-    	return com.fr.design.i18n.Toolkit.i18nText("Main_Axis");
+    	return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Main_Axis");
     }
     
     protected String getSecondValueAxisName() {

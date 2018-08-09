@@ -3,21 +3,20 @@
  */
 package com.fr.design.mainframe.widget.editors;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.LayoutManager;
-
-import javax.swing.JPanel;
-
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.form.ui.PaddingMargin;
+
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.LayoutManager;
 
 
 /**
@@ -38,7 +37,7 @@ public class PaddingMarginPane extends BasicPane {
         contentPane = new JPanel(new GridLayout(2, 2, 4, 4));
         this.add(contentPane);
         JPanel topPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        topPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Base_Top") + " "), BorderLayout.WEST);
+        topPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Base_Top") + " "), BorderLayout.WEST);
         topSpinner = new UISpinner(MIN_VALUE, Integer.MAX_VALUE, 1, 0);
         topPane.add(topSpinner, BorderLayout.CENTER);
         UILabel topLabel = new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Indent-Pixel") + "  ");
@@ -46,7 +45,7 @@ public class PaddingMarginPane extends BasicPane {
         contentPane.add(topPane);
 
         JPanel leftPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        leftPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Base_Left") + " "), BorderLayout.WEST);
+        leftPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Base_Left") + " "), BorderLayout.WEST);
         leftSpinner = new UISpinner(MIN_VALUE, Integer.MAX_VALUE, 1, 0);
         leftPane.add(leftSpinner, BorderLayout.CENTER);
         UILabel leftLabel = new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Indent-Pixel") + "  ");
@@ -54,7 +53,7 @@ public class PaddingMarginPane extends BasicPane {
         contentPane.add(leftPane);
 
         JPanel bottomPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        bottomPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Base_Bottom") + " "), BorderLayout.WEST);
+        bottomPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Base_Bottom") + " "), BorderLayout.WEST);
         bottomSpinner = new UISpinner(MIN_VALUE, Integer.MAX_VALUE, 1, 0);
         bottomPane.add(bottomSpinner, BorderLayout.CENTER);
         UILabel bottomLabel = new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Indent-Pixel") + "  ");
@@ -62,7 +61,7 @@ public class PaddingMarginPane extends BasicPane {
         contentPane.add(bottomPane);
 
         JPanel rightPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        rightPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Base_Right") + " "), BorderLayout.WEST);
+        rightPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Base_Right") + " "), BorderLayout.WEST);
         rightSpinner = new UISpinner(MIN_VALUE, Integer.MAX_VALUE, 1, 0);
         rightPane.add(rightSpinner, BorderLayout.CENTER);
         UILabel rightLabel = new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Indent-Pixel") + "  ");
@@ -103,7 +102,7 @@ public class PaddingMarginPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-    	return com.fr.design.i18n.Toolkit.i18nText("FR-Base_Margin");
+    	return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Base_Margin");
     }
 
     public void populate(PaddingMargin pm) {

@@ -3,19 +3,17 @@
  */
 package com.fr.design.designer.creator;
 
-import java.awt.Dimension;
-import java.beans.IntrospectionException;
-
-import javax.swing.JComponent;
-
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.gui.ibutton.UIPasswordField;
 import com.fr.design.mainframe.widget.editors.RegexEditor;
 import com.fr.design.mainframe.widget.editors.WidgetValueEditor;
 import com.fr.design.mainframe.widget.renderer.RegexCellRencerer;
 import com.fr.form.ui.Password;
-
 import com.fr.stable.ArrayUtils;
+
+import javax.swing.JComponent;
+import java.awt.Dimension;
+import java.beans.IntrospectionException;
 
 /**
  * @author richer
@@ -51,11 +49,11 @@ public class XPassword extends XWrapperedFieldEditor {
         CRPropertyDescriptor[] sup = (CRPropertyDescriptor[]) ArrayUtils.addAll(
                 new CRPropertyDescriptor[]{
                         new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(
-                                com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Estate_Widget_Value")).setEditorClass(
-                                WidgetValueEditor.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "FR-Designer_Advanced")}
+                                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Estate_Widget_Value")).setEditorClass(
+                                WidgetValueEditor.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Report_Advanced")}
                 , super.supportedDescriptor());
         CRPropertyDescriptor regErrorMessage = new CRPropertyDescriptor("regErrorMessage", this.data.getClass()).setI18NName(
-                com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Verify-Message")).putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate");
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Verify_Message")).putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate");
         CRPropertyDescriptor regex = new CRPropertyDescriptor("regex", this.data.getClass())
                 .setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Input_Rule"))
                 .setEditorClass(RegexEditor.RegexEditor4TextArea.class)
@@ -63,7 +61,7 @@ public class XPassword extends XWrapperedFieldEditor {
                 .putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate");
         CRPropertyDescriptor waterMark = new CRPropertyDescriptor("waterMark", this.data.getClass())
                 .setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WaterMark"))
-                .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "FR-Designer_Advanced");
+                .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Report_Advanced");
         boolean displayRegField = true;
         displayRegField = isDisplayRegField(displayRegField);
         return displayRegField ? (CRPropertyDescriptor[]) ArrayUtils.addAll(sup, new CRPropertyDescriptor[]{regex, regErrorMessage, waterMark}) :

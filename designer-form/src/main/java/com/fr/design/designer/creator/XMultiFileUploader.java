@@ -40,10 +40,10 @@ public class XMultiFileUploader extends XFieldEditor {
                                 .setI18NName(com.fr.design.i18n.Toolkit.i18nText("SINGLE_FILE_UPLOAD"))
                                 .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                         new CRPropertyDescriptor("accept", this.data.getClass())
-                                .setI18NName(com.fr.design.i18n.Toolkit.i18nText("File-Allow_Upload_Files"))
+                                .setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_File_Allow_Upload_Files"))
                                 .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                         new CRPropertyDescriptor("maxSize", this.data.getClass())
-                                .setI18NName(com.fr.design.i18n.Toolkit.i18nText("File-File_Size_Limit"))
+                                .setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_File_Size_Limit"))
                                 .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
                 });
     }

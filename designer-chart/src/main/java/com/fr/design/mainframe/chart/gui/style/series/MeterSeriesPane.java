@@ -78,7 +78,7 @@ public class MeterSeriesPane extends AbstractPlotSeriesPane {
         JPanel orderPane = TableLayoutHelper.createTableLayoutPane(tmpComponent, rowSize, columnSize);
         Component[][] components = new Component[][]{
                 new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Chart_Needle_Max_Range") + ":", SwingUtilities.LEFT), angleMax},
-                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart-Units") + ":", SwingUtilities.LEFT), unit},
+                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Units") + ":", SwingUtilities.LEFT), unit},
                 new Component[]{new JSeparator(), null},
                 new Component[]{orderPane, null},
                 new Component[]{colorPickerPane, null},
@@ -90,7 +90,7 @@ public class MeterSeriesPane extends AbstractPlotSeriesPane {
                 return components;
             } else {
                 components = new Component[][]{
-                        new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart-Units") + ":", SwingUtilities.LEFT), unit},
+                        new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Units") + ":", SwingUtilities.LEFT), unit},
                         new Component[]{new JSeparator(), null},
                         new Component[]{orderPane, null},
                         new Component[]{colorPickerPane, null},

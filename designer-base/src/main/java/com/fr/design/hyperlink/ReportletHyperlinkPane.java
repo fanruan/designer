@@ -96,14 +96,14 @@ public class ReportletHyperlinkPane extends AbstractHyperLinkPane<ReportletHyper
 
     protected class HyperlinkParametersAction extends UITableEditAction {
         public HyperlinkParametersAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Template_Parameter"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Template_Parameter"));
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_report/p.gif"));
         }
 
         public void actionPerformed(ActionEvent e) {
             String tpl = northPane.getReportletName();
             if (StringUtils.isBlank(tpl)) {
-                JOptionPane.showMessageDialog(ReportletHyperlinkPane.this, com.fr.design.i18n.Toolkit.i18nText("FR-Hyperlink_Please_Select_Reportlet") + ".", com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Message"), JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(ReportletHyperlinkPane.this, com.fr.design.i18n.Toolkit.i18nText("FR-Hyperlink_Please_Select_Reportlet") + ".", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Message"), JOptionPane.WARNING_MESSAGE);
                 northPane.requestButtonFocus();
                 return;
             }

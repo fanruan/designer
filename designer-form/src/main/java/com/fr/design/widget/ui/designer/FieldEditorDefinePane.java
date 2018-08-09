@@ -37,7 +37,7 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
     protected void initComponents() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         labelNameTextField = new UITextField();
-        allowBlankCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Allow_Null"));
+        allowBlankCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Allow_Null"));
         allowBlankCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         fontSizePane = new FontSizeComboPane();
         errorMsgTextField = new UITextField();
@@ -46,7 +46,7 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
         jPanel.add(contentPane, BorderLayout.CENTER);
         contentPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         if (contentPane != null) {
-            UIExpandablePane uiExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Advanced"), 280, 20, jPanel);
+            UIExpandablePane uiExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced"), 280, 20, jPanel);
             this.add(uiExpandablePane, BorderLayout.NORTH);
         }
         this.addValidatePane();

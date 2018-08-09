@@ -136,7 +136,7 @@ public class FormatPane extends AbstractBasicStylePane  implements GlobalNameObs
     protected Component[][] getComponent (JPanel fontPane, JPanel centerPane, JPanel typePane) {
         return new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Base_Format"), SwingConstants.LEFT), typePane},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Base_Format"), SwingConstants.LEFT), typePane},
                 new Component[]{centerPane, null},
                 new Component[]{fontPane, frFontPane},
         };
@@ -158,7 +158,7 @@ public class FormatPane extends AbstractBasicStylePane  implements GlobalNameObs
     private void iniSampleLable() {
         Border innterborder = new UIRoundedBorder(UIConstants.LINE_COLOR, 1, 4);
         Font tmpFont = null;
-        Border border = BorderFactory.createTitledBorder(innterborder, com.fr.design.i18n.Toolkit.i18nText("FR-Base_StyleFormat_Sample"), TitledBorder.LEFT, 0, tmpFont, UIConstants.LINE_COLOR);
+        Border border = BorderFactory.createTitledBorder(innterborder, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Base_StyleFormat_Sample"), TitledBorder.LEFT, 0, tmpFont, UIConstants.LINE_COLOR);
         sampleLabel = new UILabel(FormatField.getInstance().getFormatValue()) {
 
             @Override

@@ -187,7 +187,7 @@ public class PreviewTableModel extends AbstractTableModel {
         if (o == null) {
             s = "?";
         } else if (o instanceof String) {
-            s = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter_String");
+            s = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter_String");
             if (!WorkContext.getCurrent().isLocal() && dataModel instanceof EmbeddedTDDataModel) {
                 Class clzz = ((EmbeddedTDDataModel) dataModel).getColumnClass(column);
                 if (clzz != null) {
@@ -199,7 +199,7 @@ public class PreviewTableModel extends AbstractTableModel {
                 }
             }
         } else if (o instanceof Integer) {
-            s = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Integer");
+            s = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Integer");
         } else if (o instanceof Double || o instanceof Float) {
             s = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Double");
         } else if (o instanceof java.sql.Date || o instanceof java.util.Date) {

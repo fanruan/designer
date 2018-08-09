@@ -47,11 +47,11 @@ public class ReportWebAttrPane extends LoadingBasicPane {
         tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Printers(Server)"), serverPrintPane = new ReportServerPrinterPane());
         
         tabbedPane.add(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Pagination_Setting"), pageWeb = new PageWebSettingPane());
-        tabbedPane.add(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Write_Setting"), writeWeb = new WriteWebSettingPane());
+        tabbedPane.add(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Write_Setting"), writeWeb = new WriteWebSettingPane());
         tabbedPane.add(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Data_Analysis_Settings"), viewWeb = new ViewWebSettingPane());
         
         tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Browser_Background"), backgroundPane = new BackgroundPane4Browser());
-        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Import_Css"), cssPane = new WebCssPane());
+        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Import_Css"), cssPane = new WebCssPane());
         tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Import_JavaScript"), jsPane = new WebJsPane());
     }
     

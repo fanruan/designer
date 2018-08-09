@@ -4,13 +4,9 @@
 
 package com.fr.design.menu;
 
-import com.fr.general.ComparatorUtils;
-import com.fr.general.GeneralContext;
-
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
-import java.util.Locale;
 
 import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
 
@@ -366,7 +362,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_M-SwitchWorkspace");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_M_Switch_Workspace");
         }
 
         @Override
@@ -383,7 +379,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_M-Exit");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_M_Exit");
         }
 
         @Override
@@ -401,7 +397,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_M-Template");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_M_Template");
         }
 
         @Override
@@ -419,7 +415,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("DS-Report_TableData");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DS_Report_TableData");
         }
 
         @Override
@@ -540,7 +536,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Report_Background");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Background");
         }
 
         @Override
@@ -625,7 +621,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_M-Repeat-Freeze");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_M_Repeat_Freeze");
         }
 
         @Override
@@ -661,7 +657,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Attribute");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Engine_Attribute");
         }
 
         @Override
@@ -678,7 +674,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Authority_Edit_Status");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Authority_Edit_Status");
         }
 
         @Override
@@ -763,7 +759,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Condition_Attributes");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Condition_Attributes");
         }
 
         @Override
@@ -848,7 +844,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Currency_Line");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Currency_Line");
         }
 
         @Override
@@ -883,7 +879,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("M_Insert-Hyperlink");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_M_Insert_Hyperlink");
         }
 
         @Override
@@ -994,7 +990,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("M_Insert-Float");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_M_Insert-Float");
         }
 
         @Override

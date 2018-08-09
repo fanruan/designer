@@ -8,12 +8,10 @@ import java.awt.event.ItemListener;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.icheckbox.UICheckBox;
-import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.AuthorityEditPane;
@@ -55,7 +53,7 @@ public class FormWidgetAuthorityEditPane extends AuthorityEditPane {
     private ItemListener usableItemListener = new ItemListener() {
         public void itemStateChanged(ItemEvent e) {
             String selectedRoles = ReportAndFSManagePane.getInstance().getRoleTree().getSelectedRoleName();
-            if (ComparatorUtils.equals(selectedRoles, com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Role"))) {
+            if (ComparatorUtils.equals(selectedRoles, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Role"))) {
                 return;
             }
             if (selectedRoles == null) {

@@ -14,7 +14,7 @@ public class ColumnBorderAttriPane extends BorderAttriPane {
     private UISpinner radius;
 
     public ColumnBorderAttriPane() {
-        this(com.fr.design.i18n.Toolkit.i18nText("plugin-ChartF_Radius"));
+        this(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Radius"));
     }
 
     public ColumnBorderAttriPane(String radiusString) {

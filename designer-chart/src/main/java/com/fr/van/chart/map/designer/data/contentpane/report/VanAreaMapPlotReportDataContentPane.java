@@ -36,7 +36,7 @@ public class VanAreaMapPlotReportDataContentPane extends AbstractReportDataConte
             protected void initLayout() {
                 this.setLayout(new BorderLayout(4, 0));
 
-                UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Area_Name"));
+                UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Name"));
                 label.setPreferredSize(new Dimension(75, 20));
                 this.add(label, BorderLayout.WEST);
 

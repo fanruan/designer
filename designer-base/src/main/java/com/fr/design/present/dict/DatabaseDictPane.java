@@ -77,7 +77,7 @@ public class DatabaseDictPane extends FurtherBasicBeanPane<DatabaseDictionary> i
 
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Actual_Value"), UILabel.LEFT), keyColumnPane},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Actual_Value"), UILabel.LEFT), keyColumnPane},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Display_Value"), UILabel.LEFT), valueDictPane}
         };
         JPanel dbDictPanel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, GAP_HUGER, LayoutConstants.VGAP_LARGE);
@@ -116,7 +116,7 @@ public class DatabaseDictPane extends FurtherBasicBeanPane<DatabaseDictionary> i
      *
      */
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Datasource_From_Database");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_From_Database");
     }
 
     public void populateBean(DatabaseDictionary dbDict) {

@@ -647,7 +647,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         };
         UILabel uiLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Authority_Edit"));
         uiLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        uiLabel.setFont(new Font(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-All_MSBold"), 0, 14));
+        uiLabel.setFont(new Font(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_All_MSBold"), 0, 14));
         uiLabel.setForeground(new Color(150, 150, 150));
         panel.add(uiLabel, BorderLayout.CENTER);
         return panel;

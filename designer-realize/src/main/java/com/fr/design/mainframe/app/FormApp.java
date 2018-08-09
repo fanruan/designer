@@ -44,7 +44,7 @@ class FormApp extends AbstractAppProvider {
         if (XMLEncryptUtils.isCptEncoded() &&
             !XMLEncryptUtils.checkVaild(DesignerEnvManager.getEnvManager().getEncryptionKey())) {
             if (!new DecodeDialog(file).isPwdRight()) {
-                FineLoggerFactory.getLogger().error(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_ECP_error_pwd"));
+                FineLoggerFactory.getLogger().error(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_ECP_Error_Password"));
                 return new Form();
             }
         }

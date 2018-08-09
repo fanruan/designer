@@ -133,7 +133,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
         // 最上面的pane，文件选择
         JPanel centerPanel = new JPanel();
         centerPanel.setPreferredSize(new Dimension(522, 200));
-        centerPanel.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-File_address")));
+        centerPanel.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_File_Address")));
         addToCenterPanel(centerPanel);
 
         // 下面的pane，参数面板
@@ -162,7 +162,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
     }
 
     private void addToCenterPanel(JPanel centerPanel){
-        localFileRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Local_file") + ":", true);
+        localFileRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Local_File") + ":", true);
         urlFileRadioButton = new UIRadioButton("URL:", false);
         ButtonGroup bg = new ButtonGroup();
         bg.add(localFileRadioButton);
@@ -199,7 +199,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
         centerPanel.add(filePath, BorderLayout.NORTH);
 
         // 中间的pane，提示信息
-        String tipContent = com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Type_Parameter") + "reportlets/excel/FineReport${abc}." + "txt" + "<br>"
+        String tipContent = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Type_Parameter") + "reportlets/excel/FineReport${abc}." + "txt" + "<br>"
                 + "http://192.168.100.120:8080/XXServer/Report/excel${abc}.jsp<br>" + "&nbsp</body> </html> ";
         tips = new UILabel(tipContent);
         centerPanel.add(tips, BorderLayout.CENTER);
@@ -209,7 +209,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
         public void actionPerformed(ActionEvent arg0) {
             String uri = ParameterHelper.analyze4Templatee( urlText.getText(), params);
             if (!checkURL(uri)) {
-                JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(FileTableDataPane.this), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Add_JS_warning"));
+                JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(FileTableDataPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Add_JS_warning"));
                 return;
             }
             params = getEditorPaneParameter();
@@ -221,10 +221,10 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
                 FRContext.getLogger().error(e.getMessage(), e);
             }
             if (in == null) {
-                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Database_Connection_Failed"),
+                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Connection_Failed"),
                         null, 0, UIManager.getIcon("OptionPane.errorIcon"));
             } else {
-                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Datasource-Connection_successfully"));
+                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Connection_Successfully"));
                 try {
                     in.close();
                 } catch (IOException e) {
@@ -257,7 +257,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
         controlPane.setLayout(new BorderLayout(8,8));
         controlPane.setPreferredSize(new Dimension(width, height));
         JPanel comboboxPanel = new JPanel(new BorderLayout(8,8));
-        encodeLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Encoding_Type") + ":");
+        encodeLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Encoding_Type") + ":");
         encodingComboBox = new UIComboBox(EncodeConstants.ALL_ENCODING_ARRAY);
         encodingComboBox.setSelectedIndex(4);
         encodingComboBox.setPreferredSize(new Dimension(90, 20));
@@ -288,7 +288,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
         JPanel northPane = new JPanel(new BorderLayout(8,8));
         controlPane.setLayout(new BorderLayout());
         controlPane.setPreferredSize(new Dimension(width,height));
-        needColumnNameCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-FirstRow_IS_ColumnName"), false);
+        needColumnNameCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FirstRow_IS_Column_Name"), false);
         needColumnNameCheckBox.setPreferredSize(new Dimension(checkBoxWidth, 20));
         northPane.add(needColumnNameCheckBox, BorderLayout.EAST);
         controlPane.add(northPane, BorderLayout.NORTH);
@@ -314,7 +314,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
         if (urlFileRadioButton.isSelected()) {
             String url = urlText.getText().trim();
             if (!checkURL(url)) {
-                throw new Exception(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Add_JS_warning"));
+                throw new Exception(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Add_JS_warning"));
             }
         }
 
@@ -347,14 +347,14 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
         double p = TableLayout.PREFERRED;
         double columnSize[] = {f, p, p};
         double rowSize[] = {B, B, B, B, B, B, B};
-        needColumnNameCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-FirstRow_IS_ColumnName"), true);
-        dismenberLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Dismenber") + ":");
-        tableDismemberRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_TableDismember"), false);
-        tableDismemberRadioButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_TableDismember"));
-        spaceDismenberRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Space"), true);
-        spaceDismenberRadioButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Space"));
-        commaDismenberRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_CommaDismenber"), false);
-        commaDismenberRadioButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_CommaDismenber"));
+        needColumnNameCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FirstRow_IS_Column_Name"), true);
+        dismenberLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Dismenber") + ":");
+        tableDismemberRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Table_Dismember"), false);
+        tableDismemberRadioButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Table_Dismember"));
+        spaceDismenberRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Space"), true);
+        spaceDismenberRadioButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Space"));
+        commaDismenberRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Comma_Dismenber"), false);
+        commaDismenberRadioButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Comma_Dismenber"));
         otherDismenberRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Other") + ":", false);
         otherDismenberRadioButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Other"));
         otherDismenberTextField = new UITextField(8);
@@ -374,8 +374,8 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
         bg2.add(spaceDismenberRadioButton);
         bg2.add(commaDismenberRadioButton);
         bg2.add(otherDismenberRadioButton);
-        igoreOneMoreDelimiterCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Series_Dismenber_As_Single"), true);
-        encodeLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Encoding_Type") + ":");
+        igoreOneMoreDelimiterCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Series_Dismenber_As_Single"), true);
+        encodeLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Encoding_Type") + ":");
         charsetComboBox = new UIComboBox(EncodeConstants.ALL_ENCODING_ARRAY);
         Component[][] comps = {
                 {encodeLabel,charsetComboBox,null},
@@ -475,7 +475,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
                 } else {
                     setPanel.add(textSetPanel(width,height), BorderLayout.NORTH);
                 }
-                String tipContent = com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Type_Parameter") + "reportlets/excel/FineReport${abc}." + getFileSuffixToString() + "<br>"
+                String tipContent = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Type_Parameter") + "reportlets/excel/FineReport${abc}." + getFileSuffixToString() + "<br>"
                         + "http://192.168.100.120:8080/XXServer/Report/excel${abc}.jsp<br>" + "&nbsp</body> </html> ";
                 tips.setText(tipContent);
                 setPanel.revalidate();
@@ -759,7 +759,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Tabledata_Type_File");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tabledata_Type_File");
     }
 
     private void preview() {
@@ -782,7 +782,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
             xmlNodeTree = new XMLNodeTree();
             this.add(new JScrollPane(xmlNodeTree));
 
-            keyPointLaber = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_KeyPoint") + ":");
+            keyPointLaber = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Key_Point") + ":");
             refreshAction = new RefreshParameterAction();
             ToolBarDef toolbarDef = new ToolBarDef();
             toolbarDef.addShortCut(refreshAction);
@@ -939,7 +939,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
         }
 
         private void loadedTreeModel(){
-            ExpandMutableTreeNode rootTreeNode = new ExpandMutableTreeNode(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_loadedTreeModel"));
+            ExpandMutableTreeNode rootTreeNode = new ExpandMutableTreeNode(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Loaded_Tree_Model"));
             rootTreeNode.setExpanded(false);
             rootTreeNode.setAllowsChildren(false);
             DefaultTreeModel loadedTreeModel = new DefaultTreeModel(rootTreeNode);

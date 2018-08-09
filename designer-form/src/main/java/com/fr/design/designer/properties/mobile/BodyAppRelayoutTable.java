@@ -1,6 +1,5 @@
 package com.fr.design.designer.properties.mobile;
 
-import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.beans.IntrospectionException;
 import java.util.ArrayList;
@@ -8,7 +7,6 @@ import java.util.ArrayList;
 import com.fr.base.FRContext;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.*;
-import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.gui.itable.AbstractPropertyTable;
 import com.fr.design.gui.itable.PropertyGroup;
 import com.fr.design.gui.xtable.ReportAppPropertyGroupModel;
@@ -32,7 +30,7 @@ public class BodyAppRelayoutTable extends AbstractPropertyTable {
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
 		CRPropertyDescriptor[] propertyTableEditor = {
 				new CRPropertyDescriptor("appRelayout", this.xCreator.toData().getClass()).setEditorClass(InChangeBooleanEditor.class)
-						.setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-App_ReLayout"))
+						.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_App_ReLayout"))
 		};
 		return propertyTableEditor;
 	}

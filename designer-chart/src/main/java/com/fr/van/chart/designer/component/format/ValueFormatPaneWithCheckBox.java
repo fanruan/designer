@@ -18,6 +18,6 @@ public class ValueFormatPaneWithCheckBox extends VanChartFormatPaneWithCheckBox 
 
     @Override
     protected String getCheckBoxText() {
-        return com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Value");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Value");
     }
 }

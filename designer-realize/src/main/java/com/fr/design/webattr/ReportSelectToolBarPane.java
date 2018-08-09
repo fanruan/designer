@@ -1,22 +1,21 @@
 package com.fr.design.webattr;
 
-import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.ButtonGroup;
-import javax.swing.JPanel;
-
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.layout.FRGUIPaneFactory;
 
+import javax.swing.ButtonGroup;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 
 public class ReportSelectToolBarPane<T> extends BasicBeanPane<T> {
 	private UIRadioButton reportRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("I_Want_To_Set_Single"));
 	private UIRadioButton serverRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Using_Server_Report_View_Settings"));
-	private UIButton serverEditButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Edit"));
+	private UIButton serverEditButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Edit"));
 	
 	EditToolBarPane<T> editToolBarPane;
 	

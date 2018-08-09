@@ -50,33 +50,33 @@ public class AboutPane extends JPanel {
                 getBuildTitle(),
                 GeneralUtils.readFullBuildNO(),
                 new String[]{
-                        com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Basic_Copy_Build_NO"),
-                        com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Basic_Copy_Build_NO_OK")
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Copy_Build_NO"),
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Copy_Build_NO_OK")
                 });
         contentPane.add(buildCopyPane);
 
         BoxCenterAligmentPane boxCenterAlignmentPane = new BoxCenterAligmentPane(getCopyRight());
         contentPane.add(boxCenterAlignmentPane);
 
-        boxCenterAlignmentPane = new BoxCenterAligmentPane(com.fr.design.i18n.Toolkit.i18nText("About-All_Rights_Reserved"));
+        boxCenterAlignmentPane = new BoxCenterAligmentPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_About_All_Rights_Reserved"));
         contentPane.add(boxCenterAlignmentPane);
 
         contentPane.add(new BoxCenterAlignmentCopyablePane(
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Basic_Activation_Key"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Activation_Key"),
                 DesignerEnvManager.getEnvManager().getActivationKey(),
                 new String[]{
-                        com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Basic_Copy_Activation_Key"),
-                        com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Basic_Activation_Key_Copy_OK")
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Copy_Activation_Key"),
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Activation_Key_Copy_OK")
                 }));
 
         addPhoneAndQQPane(contentPane);
 
         // 官网
-        JPanel urlActionPane = getURLActionPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Official_Website"), CloudCenter.getInstance().acquireUrlByKind("website." + GeneralContext.getLocale(), ProductConstants.WEBSITE_URL));
+        JPanel urlActionPane = getURLActionPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Official_Website"), CloudCenter.getInstance().acquireUrlByKind("website." + GeneralContext.getLocale(), ProductConstants.WEBSITE_URL));
 
         // 支持邮箱
         String defaultEmail = CloudCenter.getInstance().acquireUrlByKind("support.email", ProductConstants.SUPPORT_EMAIL);
-        JPanel emailPane = getEmailActionPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Support_Email"), CloudCenter.getInstance().acquireUrlByKind("support.email." + GeneralContext.getLocale(), defaultEmail));
+        JPanel emailPane = getEmailActionPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Support_Email"), CloudCenter.getInstance().acquireUrlByKind("support.email." + GeneralContext.getLocale(), defaultEmail));
 
         contentPane.add(urlActionPane);
         contentPane.add(emailPane);
@@ -96,7 +96,7 @@ public class AboutPane extends JPanel {
         if (GeneralContext.getLocale().equals(Locale.US)) {
             return;
         }
-        boxCenterAlignmentPane = new BoxCenterAligmentPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Service_Phone") + CloudCenter.getInstance().acquireUrlByKind("service.phone." + FRContext.getLocale(), COMPANY_TELEPHONE));
+        boxCenterAlignmentPane = new BoxCenterAligmentPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Service_Phone") + CloudCenter.getInstance().acquireUrlByKind("service.phone." + FRContext.getLocale(), COMPANY_TELEPHONE));
         contentPane.add(boxCenterAlignmentPane);
         // 繁体版不显示QQ
         if (GeneralContext.getLocale().equals(Locale.TAIWAN)) {
@@ -118,7 +118,7 @@ public class AboutPane extends JPanel {
     }
 
     private JPanel getRemarkPane() {
-        String remark = com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_About_Remark_Info", PRESIDENT_PHONE);
+        String remark = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_About_Remark_Info", PRESIDENT_PHONE);
         UILabel label = new UILabel();
         label.setSize(new Dimension(580, 30));
 
@@ -175,12 +175,12 @@ public class AboutPane extends JPanel {
     }
 
     private String getCopyRight() {
-        return append(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_About_CopyRight"), COPYRIGHT_LABEL,
+        return append(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_About_CopyRight"), COPYRIGHT_LABEL,
                 ProductConstants.HISTORY, StringUtils.BLANK, CloudCenter.getInstance().acquireUrlByKind("company.name", ProductConstants.COMPANY_NAME));
     }
 
     private String getBuildTitle() {
-        return append(ProductConstants.APP_NAME, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_About_Version"),
+        return append(ProductConstants.APP_NAME, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_About_Version"),
                 StringUtils.BLANK, ProductConstants.RELEASE_VERSION, BUILD_PREFIX);
     }
 

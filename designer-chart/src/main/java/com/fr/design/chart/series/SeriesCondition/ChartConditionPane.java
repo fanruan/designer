@@ -16,7 +16,6 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.Inter;
 import com.fr.plugin.chart.type.ConditionKeyType;
 import com.fr.stable.StringUtils;
 
@@ -84,7 +83,7 @@ public class ChartConditionPane extends LiteConditionPane<CommonCondition> {
             conditionKeyComboBox.setPreferredSize(new Dimension(175, conditionKeyComboBox.getPreferredSize().height));
             conditionOPComboBox.setPreferredSize(new Dimension(80, 20));
             Component[][] components = {
-                    {new UILabel(Inter.getLocText("Utils-Available_Columns") + ":"), new UILabel(Inter.getLocText("FR-ConditionB_Operator") + ":"),
+                    {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Available_Columns") + ":"), new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ConditionB_Operator") + ":"),
                             new UILabel()}, {conditionKeyComboBox, conditionOPComboBox, conditionValuePane}};
 
             double p = TableLayout.PREFERRED;

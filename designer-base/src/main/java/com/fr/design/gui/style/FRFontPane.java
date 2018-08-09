@@ -16,7 +16,6 @@ import com.fr.design.gui.ibutton.UIColorButton;
 import com.fr.design.gui.ibutton.UIToggleButton;
 import com.fr.design.gui.icombobox.LineComboBox;
 import com.fr.design.gui.icombobox.UIComboBox;
-import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.utils.gui.GUICoreUtils;
@@ -44,7 +43,7 @@ public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObse
     private static final Dimension BUTTON_SIZE = new Dimension(20, 18);
     private static final Dimension UNDER_LINE_SIZE = new Dimension(87, 20);
     private static final Dimension HIDE_SIZE = new Dimension(0, 0);
-    private final String[] fontSizeStyles = {com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont_plain"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont_bold"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont_italic"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont_bolditalic")};
+    private final String[] fontSizeStyles = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FR_Font_Plain"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FR_Font_Bold"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FR_Font_Italic"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FR_Font_Bolditalic")};
     private JPanel buttonPane;
     private JPanel isSuperOrSubPane;
     private UIComboBox fontNameComboBox;
@@ -137,31 +136,31 @@ public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObse
         if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Name"))) {
             frFont = frFont.applyName((String) fontNameComboBox.getSelectedItem());
         }
-        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont_Style"))) {
+        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FR_Font_Style"))) {
             frFont = frFont.applyStyle(fontSizeStyleComboBox.getSelectedIndex());
         }
-        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-FRFont_Size"))) {
+        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_FRFont_Size"))) {
             frFont = frFont.applySize(Float.parseFloat(fontSizeComboBox.getSelectedItem().toString()));
         }
-        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont_Foreground"))) {
+        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FR_Font_Foreground"))) {
             frFont = frFont.applyForeground(this.colorSelectPane.getColor());
         }
 
-        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont_Underline"))) {
+        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FR_Font_Underline"))) {
 
             int line = underline.isSelected() ? this.underlineCombo.getSelectedLineStyle() : Constants.LINE_NONE;
             frFont = frFont.applyUnderline(line);
 
         }
 
-        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-FRFont_Line_Style"))) {
+        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_FRFont_Line_Style"))) {
             frFont = frFont.applyUnderline(this.underlineCombo.getSelectedLineStyle());
         }
 
-        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont_Strikethrough"))) {
+        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FR_Font_Strikethrough"))) {
             frFont = frFont.applyStrikethrough(isStrikethroughCheckBox.isSelected());
         }
-        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont_Shadow"))) {
+        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FR_Font_Shadow"))) {
             frFont = frFont.applyShadow(isShadowCheckBox.isSelected());
         }
 
@@ -179,7 +178,7 @@ public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObse
     private FRFont updateSubSuperscript(FRFont frFont) {
         boolean isSuper = frFont.isSuperscript();
         boolean isSub = frFont.isSubscript();
-        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont_Superscript"))) {
+        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FR_Font_Superscript"))) {
             //如果上标没有选中,点击则选中上标，并且下标一定是不选中状态
             //如果上标选中，点击则取消选中上标，字体回复正常
             if (superPane.isSelected() && !isSuper) {
@@ -190,7 +189,7 @@ public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObse
                 frFont = frFont.applySuperscript(false);
             }
         }
-        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont_Subscript"))) {
+        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FR_Font_Subscript"))) {
             if (subPane.isSelected() && !isSub) {
                 frFont = frFont.applySubscript(true);
                 frFont = frFont.applySuperscript(false);
@@ -265,29 +264,29 @@ public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObse
     }
 
     private void initAllNames() {
-        fontSizeStyleComboBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont_Style"));
+        fontSizeStyleComboBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FR_Font_Style"));
         fontNameComboBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Name"));
-        fontSizeComboBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-FRFont_Size"));
-        colorSelectPane.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont_Foreground"));
-        italic.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont_italic"));
-        bold.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont_bold"));
-        underline.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont_Underline"));
-        underlineCombo.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-FRFont_Line_Style"));
-        isStrikethroughCheckBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont_Strikethrough"));
-        isShadowCheckBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont_Shadow"));
-        superPane.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont_Superscript"));
-        subPane.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont_Subscript"));
+        fontSizeComboBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_FRFont_Size"));
+        colorSelectPane.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FR_Font_Foreground"));
+        italic.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FR_Font_Italic"));
+        bold.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FR_Font_Bold"));
+        underline.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FR_Font_Underline"));
+        underlineCombo.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_FRFont_Line_Style"));
+        isStrikethroughCheckBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FR_Font_Strikethrough"));
+        isShadowCheckBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FR_Font_Shadow"));
+        superPane.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FR_Font_Superscript"));
+        subPane.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FR_Font_Subscript"));
     }
 
     private void setToolTips() {
-        colorSelectPane.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont_Foreground"));
-        italic.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont_italic"));
-        bold.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont_bold"));
-        underline.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont_Underline"));
-        isStrikethroughCheckBox.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont_Strikethrough"));
-        isShadowCheckBox.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont_Shadow"));
-        superPane.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont_Superscript"));
-        subPane.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont_Subscript"));
+        colorSelectPane.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FR_Font_Foreground"));
+        italic.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FR_Font_Italic"));
+        bold.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FR_Font_Bold"));
+        underline.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FR_Font_Underline"));
+        isStrikethroughCheckBox.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FR_Font_Strikethrough"));
+        isShadowCheckBox.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FR_Font_Shadow"));
+        superPane.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FR_Font_Superscript"));
+        subPane.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FR_Font_Subscript"));
     }
 
 

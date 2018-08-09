@@ -50,7 +50,7 @@ public class XDateEditor extends XDirectWriteEditor {
         CRPropertyDescriptor[] tempt = (CRPropertyDescriptor[]) ArrayUtils.addAll(
                 new CRPropertyDescriptor[]{
                         new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(
-                                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Widget_Value")).setEditorClass(
+                                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Value")).setEditorClass(
                                 WidgetValueEditor.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
                                 "Advanced").setPropertyChangeListener(new PropertyChangeAdapter() {
 
@@ -62,7 +62,7 @@ public class XDateEditor extends XDirectWriteEditor {
         return (CRPropertyDescriptor[]) ArrayUtils.addAll(tempt,
                 new CRPropertyDescriptor[]{
                         new CRPropertyDescriptor("formatText", this.data.getClass()).setI18NName(
-                                com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Format")).setEditorClass(formatClass()).setRendererClass(
+                                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Format")).setEditorClass(formatClass()).setRendererClass(
                                 DateCellRenderer.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                         new CRPropertyDescriptor("startDate", this.data.getClass()).setI18NName(
                                 com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Start-Date")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,

@@ -34,7 +34,7 @@ public class GradientBackgroundPane extends BackgroundDetailPane {
 	public GradientBackgroundPane() {
 
 		// bug 5452 简化GradientPane
-		JPanel jpanel = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Style_Background_Choose_Gradient_Color"));
+		JPanel jpanel = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Background_Choose_Gradient_Color"));
 		jpanel.setPreferredSize(new Dimension(450, 320));
 		jpanel.setLayout(new BorderLayout());
 
@@ -43,7 +43,7 @@ public class GradientBackgroundPane extends BackgroundDetailPane {
 		JPanel blankJp = new JPanel();
 		gradientBar = new GradientBar(4, 254);
 		blankJp.add(gradientBar);
-		UILabel jl = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Drag_To_Select_Gradient"));
+		UILabel jl = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Drag_To_Select_Gradient"));
 		jl.setHorizontalAlignment(SwingConstants.CENTER);
 		gradientPanel.add(jl, BorderLayout.NORTH);
 		gradientPanel.add(blankJp, BorderLayout.SOUTH);
@@ -53,14 +53,14 @@ public class GradientBackgroundPane extends BackgroundDetailPane {
 		JPanel innercenterPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
 		centerPane.add(new UILabel("           "));
 		centerPane.add(innercenterPane);
-		innercenterPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Gradient_Direction") + ":"));
+		innercenterPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Gradient_Direction") + ":"));
 
-		left2right = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_PageSetup_Horizontal"));
+		left2right = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Page_Setup_Horizontal"));
 		innercenterPane.add(left2right);
 		left2right.setSelected(true);
 		left2right.addActionListener(reviewListener);
 
-		top2bottom = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_PageSetup_Vertical"));
+		top2bottom = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Page_Setup_Vertical"));
 		innercenterPane.add(top2bottom);
 		top2bottom.addActionListener(reviewListener);
 

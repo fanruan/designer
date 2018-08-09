@@ -91,7 +91,7 @@ public class ReporletHyperNorthPane extends AbstractHyperNorthPane<ReportletHype
         } else {
             itemNameTextField = new UITextField();
             components = new Component[][]{
-                    {new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Hyperlink_Name") + ":"), itemNameTextField},
+                    {new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Name") + ":"), itemNameTextField},
                     {new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("FR-Hyperlink_Reportlet") + ":"), reportletNamePane},
             };
         }
@@ -151,7 +151,7 @@ public class ReporletHyperNorthPane extends AbstractHyperNorthPane<ReportletHype
 
     private class FakeTipAction extends UpdateAction {
         public FakeTipAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Template_Select"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Template_Select"));
         }
 
         public void actionPerformed(ActionEvent e) {
@@ -164,7 +164,7 @@ public class ReporletHyperNorthPane extends AbstractHyperNorthPane<ReportletHype
         double p = TableLayout.PREFERRED;
         double[] rowSize = {p, p, p};
         double[] columnSize = {p, TableLayout.FILL};
-        showParameterInterface = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Parameter_UI_Display"));
+        showParameterInterface = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter_UI_Display"));
         JPanel showParameterPanel = new JPanel();
         showParameterPanel.add(new UILabel());
         showParameterPanel.add(showParameterInterface);

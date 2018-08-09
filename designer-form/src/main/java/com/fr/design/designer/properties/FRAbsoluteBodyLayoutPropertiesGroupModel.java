@@ -2,22 +2,16 @@ package com.fr.design.designer.properties;
 
 import com.fr.design.designer.creator.*;
 import com.fr.design.designer.creator.cardlayout.XWCardMainBorderLayout;
-import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.FormDesigner;
-import com.fr.design.mainframe.FormSelectionUtils;
 import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.design.mainframe.widget.editors.LayoutTypeEditor;
-import com.fr.design.utils.gui.LayoutUtils;
-import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WBodyLayoutType;
 import com.fr.log.FineLoggerFactory;
-import com.fr.general.FRScreen;
 
 
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
-import java.awt.geom.Arc2D;
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -48,7 +42,7 @@ public class FRAbsoluteBodyLayoutPropertiesGroupModel extends FRAbsoluteLayoutPr
      */
     @Override
     public String getGroupName() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Attr_Layout");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Attr_Layout");
     }
 
     @Override
@@ -71,9 +65,9 @@ public class FRAbsoluteBodyLayoutPropertiesGroupModel extends FRAbsoluteLayoutPr
         if (column == 0) {
             switch (row) {
                 case 0:
-                    return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Attr_Layout_Type");
+                    return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Attr_Layout_Type");
                 default:
-                    return com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget_Scaling_Mode");
+                    return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Scaling_Mode");
             }
         } else {
             switch (row) {

@@ -88,7 +88,7 @@ public class ChartAlertValuePane extends BasicBeanPane<ChartAlertValue> {
 		JPanel lineStylePane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
 		alertLinePane.add(lineStylePane);
 		
-		lineStylePane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Line_Style") + ":"));
+		lineStylePane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Line_Style") + ":"));
 		lineCombo = new LineComboBox(CoreConstants.STRIKE_LINE_STYLE_ARRAY_4_CHART);
 		lineStylePane.add(lineCombo);
 		
@@ -130,10 +130,10 @@ public class ChartAlertValuePane extends BasicBeanPane<ChartAlertValue> {
 		double[] rowSize = {t, t, t, t, t};
 		double[] columnSize = {0.1, 0.2, 0.5, 0.2};
 		Component[][] components= {
-				{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Content") + ":"),  contentField = new UITextField(3)},
-				{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Font") + ":"),  fontNameBox},
-				{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Font_Size") + ":"),  fontSizeBox},
-				{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Layout") + ": "), leftButton = new UIRadioButton(getLeftName())},
+				{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Content") + ":"),  contentField = new UITextField(3)},
+				{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Font") + ":"),  fontNameBox},
+				{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Font_Size") + ":"),  fontSizeBox},
+				{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Layout") + ": "), leftButton = new UIRadioButton(getLeftName())},
 				{null,    null, 			rightButton = new UIRadioButton(getRightName())},
 				
 		};
@@ -148,11 +148,11 @@ public class ChartAlertValuePane extends BasicBeanPane<ChartAlertValue> {
 	}
 	
 	protected String getLeftName() {// 居左 居右
-		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_At_The_Left");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_At_The_Left");
 	}
 	
 	protected String getRightName() {
-		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_At_The_Right");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_At_The_Right");
 	}
 	
 	@Override

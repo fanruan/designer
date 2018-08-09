@@ -38,9 +38,9 @@ public class VerticalChoosePane extends ChoosePane implements DesignerBean {
         rs.add(tableNameComboBox, BorderLayout.CENTER);
         rs.add(GUICoreUtils.createFlowPane(new Component[]{new RefreshLabel(this), previewLabel}, FlowLayout.LEFT, LayoutConstants.HGAP_LARGE), BorderLayout.EAST);
         rs.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, -RIGHTBORDER));
-        UILabel l1 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Database"), UILabel.LEFT);
-        UILabel l2 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Model"), UILabel.LEFT);
-        UILabel l3 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Database_Select_Table"), UILabel.LEFT);
+        UILabel l1 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database"), UILabel.LEFT);
+        UILabel l2 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Model"), UILabel.LEFT);
+        UILabel l3 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Select_Table"), UILabel.LEFT);
 
         if (labelSize > 0) {
             Dimension pSize = new Dimension(labelSize, 20);

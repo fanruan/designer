@@ -13,7 +13,7 @@ public class TabMoveEndAction extends TabMoveAction {
 
     public TabMoveEndAction(FormDesigner t, XCardSwitchButton xCardSwitchButton) {
         super(t, xCardSwitchButton);
-        this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Move_Tab_End"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Move_Tab_End"));
         this.setSmallIcon(IOUtils.readIcon("com/fr/design/images/control/tab/end.png"));
     }
 

@@ -61,7 +61,7 @@ public class BackgroundUIComboBoxPane extends BasicPane {
         JPanel northPane = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
         labelPane.add(northPane, BorderLayout.NORTH);
 
-        northPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Style_Background_Setting") + ":"));
+        northPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Background_Setting") + ":"));
         northPane.add(selectBox);
 
         cardLayout = new CardLayout();
@@ -161,6 +161,6 @@ public class BackgroundUIComboBoxPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Style_Background_Setting");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Background_Setting");
     }
 }

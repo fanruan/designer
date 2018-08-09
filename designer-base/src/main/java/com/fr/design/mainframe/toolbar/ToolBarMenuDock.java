@@ -3,7 +3,6 @@
  */
 package com.fr.design.mainframe.toolbar;
 
-import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignState;
@@ -409,7 +408,7 @@ public abstract class ToolBarMenuDock {
     }
 
     protected MenuDef createServerMenuDef(ToolBarMenuDockPlus plus) {
-        MenuDef menuDef = new MenuDef(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_M-Server"), 'S');
+        MenuDef menuDef = new MenuDef(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic__M_Server"), 'S');
 
         if (!DesignerMode.isAuthorityEditing()) {
             menuDef.addShortCut(
@@ -549,7 +548,7 @@ public abstract class ToolBarMenuDock {
             return toolBar;
 
         } else {
-            return polyToolBar(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Polyblock_Edit"));
+            return polyToolBar(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Polyblock_Edit"));
         }
     }
 
@@ -564,7 +563,7 @@ public abstract class ToolBarMenuDock {
         };
         UILabel uiLabel = new UILabel(text);
         uiLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        uiLabel.setFont(new Font(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-All_MSBold"), 0, 14));
+        uiLabel.setFont(new Font(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_All_MSBold"), 0, 14));
         uiLabel.setForeground(new Color(150, 150, 150));
         panel.add(uiLabel, BorderLayout.CENTER);
         return panel;

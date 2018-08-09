@@ -27,6 +27,7 @@ import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.hyperlink.ReportletHyperlinkPane;
 import com.fr.design.hyperlink.WebHyperlinkPane;
+import com.fr.design.i18n.DesignI18nImpl;
 import com.fr.design.javascript.EmailPane;
 import com.fr.design.javascript.JavaScriptImplPane;
 import com.fr.design.javascript.ParameterJavaScriptPane;
@@ -58,7 +59,6 @@ import com.fr.design.parameter.WorkBookParameterReader;
 import com.fr.design.widget.ui.btn.FormSubmitButtonDetailPane;
 import com.fr.form.stable.ElementCaseThumbnailProcessor;
 import com.fr.form.ui.WidgetInfoConfig;
-
 import com.fr.general.ModuleContext;
 import com.fr.general.xml.GeneralXMLTools;
 import com.fr.js.EmailJavaScript;
@@ -67,10 +67,11 @@ import com.fr.js.ParameterJavaScript;
 import com.fr.js.ReportletHyperlink;
 import com.fr.js.WebHyperlink;
 import com.fr.locale.InterMutableKey;
+import com.fr.locale.LocaleMarker;
+import com.fr.locale.LocaleScope;
 import com.fr.log.FineLoggerFactory;
 import com.fr.log.LogHandler;
 import com.fr.module.Activator;
-import com.fr.module.extension.Prepare;
 import com.fr.quickeditor.cellquick.CellBiasTextPainterEditor;
 import com.fr.quickeditor.cellquick.CellDSColumnEditor;
 import com.fr.quickeditor.cellquick.CellFormulaQuickEditor;
@@ -114,12 +115,18 @@ import static com.fr.stable.module.Module.ENGINE_MODULE;
  * 触发原来的DesignerModule的启动
  * 之后慢慢将DesignerModule拆成Activator
  */
-public class DesignerActivator extends Activator implements Prepare {
+public class DesignerActivator extends Activator {
 
     private LogHandler<DesignerLogAppender> logHandler = null;
 
     @Override
     public void start() {
+        List<LocaleMarker> markers = rightCollectMutable(InterMutableKey.Path);
+        for (LocaleMarker marker : markers) {
+            if (marker.match(LocaleScope.DESIGN)) {
+                DesignI18nImpl.getInstance().addResource(marker.getPath());
+            }
+        }
         designerModuleStart();
         preLoadPane();
         loadLogAppender();
@@ -402,11 +409,5 @@ public class DesignerActivator extends Activator implements Prepare {
     public void stop() {
         unloadLogAppender();
         DesignerSocketIO.close();
-    }
-
-    @Override
-    public void prepare() {
-
-        addMutable(InterMutableKey.Path, "com/fr/design/i18n/main", "com/fr/design/i18n/chart");
     }
 }

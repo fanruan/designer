@@ -68,6 +68,6 @@ public class VanChartCustomTooltipPane extends BasicScrollPane<Chart> {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-Chart_Tooltip");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Tooltip");
     }
 }

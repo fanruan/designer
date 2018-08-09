@@ -86,11 +86,11 @@ public class DesignerLogHandler {
                 caption.clearMessage();
             }
         };
-        showInfo = new JCheckBoxMenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Log_Level_Info"), true);
+        showInfo = new JCheckBoxMenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Log_Level_Info"), true);
         showInfo.addItemListener(itemlistener);
-        showError = new JCheckBoxMenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Log_Level_Warn"), true);
+        showError = new JCheckBoxMenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Log_Level_Warn"), true);
         showError.addItemListener(itemlistener);
-        showServer = new JCheckBoxMenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Log_Level_Error"), true);
+        showServer = new JCheckBoxMenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Log_Level_Error"), true);
         showServer.addItemListener(itemlistener);
         caption.addSetListener(new ActionListener() {
 
@@ -148,7 +148,7 @@ public class DesignerLogHandler {
             jTextArea.setBackground(Color.WHITE);
 
             popup = new JPopupMenu();
-            selectAll = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Select_All"));
+            selectAll = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Select_All"));
             selectAll.addActionListener(popupListener);
             selectAll.setIcon(BaseUtils.readIcon("/com/fr/design/images/log/selectedall.png"));
             popup.add(selectAll);
@@ -158,7 +158,7 @@ public class DesignerLogHandler {
             copy.setIcon(BaseUtils.readIcon("/com/fr/design/images/m_edit/copy.png"));
             popup.add(copy);
 
-            clear = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Clear_All"));
+            clear = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Clear_All"));
             clear.addActionListener(popupListener);
             clear.setIcon(BaseUtils.readIcon("/com/fr/design/images/log/clear.png"));
             popup.add(clear);
@@ -265,9 +265,9 @@ public class DesignerLogHandler {
             if (style == ERROR_INT) {
                 str = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Alert") + ":" + str + "\n";
             } else if (style == WARN_INT) {
-                str = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Seriously") + ":" + str + "\n";
+                str = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Seriously") + ":" + str + "\n";
             } else {
-                str = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Normal") + ":" + str + "\n";
+                str = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Normal") + ":" + str + "\n";
             }
             return str;
         }

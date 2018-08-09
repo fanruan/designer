@@ -23,10 +23,10 @@ public class VanChartBackgroundWithOutShadowWithRadiusPane extends VanChartBackg
         radius = new UISpinner(0,1000,1,0);
         return  new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Shape_Fill")), typeComboBox},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Fill")), typeComboBox},
                 new Component[]{null, centerPane},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Alpha")), transparent},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("plugin-ChartF_Radius")),radius}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Alpha")), transparent},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Radius")),radius}
         };
     }
 

@@ -34,7 +34,7 @@ public class CheckBoxDefinePane extends AbstractDataModify<CheckBox> {
 		text = new UITextField();
 		fontSizePane = new FontSizeComboPane();
 		labelNameTextField = new UITextField();
-		UILabel widgetValueLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Estate_Widget_Value"));
+		UILabel widgetValueLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Estate_Widget_Value"));
 		widgetValueLabel.setVerticalAlignment(SwingConstants.TOP);
 		formWidgetValuePane = new FormWidgetValuePane(creator.toData(), false);
 		double f = TableLayout.FILL;
@@ -52,7 +52,7 @@ public class CheckBoxDefinePane extends AbstractDataModify<CheckBox> {
 		JPanel boundsPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
 		boundsPane.add(panel);
-		UIExpandablePane uiExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Advanced"), 280, 20, boundsPane);
+		UIExpandablePane uiExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced"), 280, 20, boundsPane);
 
 		this.add(uiExpandablePane);
 	}

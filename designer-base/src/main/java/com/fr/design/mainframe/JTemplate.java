@@ -1,6 +1,5 @@
 package com.fr.design.mainframe;
 
-import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.base.Parameter;
 import com.fr.base.ScreenResolution;
@@ -537,7 +536,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         if (!access) {
-            JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Template_Permission_Denied") + "!", com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Message"), JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Template_Permission_Denied") + "!", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Message"), JOptionPane.WARNING_MESSAGE);
             return false;
         }
         collectInfo();
@@ -587,7 +586,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
             if (!access) {
-                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Template_Permission_Denied") + "!", com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Message"), JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Template_Permission_Denied") + "!", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Message"), JOptionPane.WARNING_MESSAGE);
                 return false;
             }
             editingFILE = fileChooser.getSelectedFILE();
@@ -718,10 +717,10 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
      */
     @Override
     public MenuDef[] menus4Target() {
-        MenuDef tplMenu = new MenuDef(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_M-Template"), 'T');
+        MenuDef tplMenu = new MenuDef(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_M_Template"), 'T');
         tplMenu.setAnchor(MenuHandler.TEMPLATE);
         if (!DesignerMode.isAuthorityEditing()) {
-            tplMenu.addShortCut(new NameSeparator(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WorkBook")));
+            tplMenu.addShortCut(new NameSeparator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_WorkBook")));
             tplMenu.addShortCut(new TableDataSourceAction(this));
             tplMenu.addShortCut(shortcut4TemplateMenu());
         }
@@ -867,8 +866,8 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
     public boolean isNewDesigner() {
         String xmlDesignerVersion = getTarget().getXMLDesignerVersion();
         if (isLowerThanHBB(xmlDesignerVersion)) {
-            String info = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_open-new-form-tip");
-            String moreInfo = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Server-version-tip-moreInfo");
+            String info = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Open-New_Form_Tip");
+            String moreInfo = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Server_Version_Tip_More_Info");
             new InformationWarnPane(info, moreInfo, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tooltips")).show();
             return true;
         }
@@ -883,8 +882,8 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
     public boolean isOldDesigner() {
         String xmlDesignerVersion = getTarget().getXMLDesignerVersion();
         if (isHigherThanCurrent(xmlDesignerVersion)) {
-            String infor = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Template_Version_Not_Match", StringUtils.parseVersion(xmlDesignerVersion));
-            String moreInfo = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Server-version-tip-moreInfo");
+            String infor = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Template_Version_Not_Match", StringUtils.parseVersion(xmlDesignerVersion));
+            String moreInfo = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Server_Version_Tip_More_Info");
             new InformationWarnPane(infor, moreInfo, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tooltips")).show();
             return true;
         }

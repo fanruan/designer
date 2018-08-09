@@ -164,7 +164,7 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
         initStyleListener();
 
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(getLabelStyleComponents(plot),row,col);
-        return createTableLayoutPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget_Style"), panel);
+        return createTableLayoutPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Widget_Style"), panel);
     }
 
     protected ChartTextAttrPane initTextFontPane () {
@@ -180,7 +180,7 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
     }
 
     protected Component[][] getLabelStyleComponents(Plot plot) {
-        UILabel text = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-Chart_Character"), SwingConstants.LEFT);
+        UILabel text = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Character"), SwingConstants.LEFT);
         return new Component[][]{
                 new Component[]{null,null},
                 new Component[]{text,style},

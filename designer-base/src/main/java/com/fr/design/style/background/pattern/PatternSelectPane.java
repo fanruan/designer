@@ -28,7 +28,7 @@ public class PatternSelectPane extends BackgroundSelectPane {
 
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Background-Pattern");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Pattern");
 	}
 
 }

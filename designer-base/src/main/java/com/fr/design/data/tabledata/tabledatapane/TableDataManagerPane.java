@@ -6,8 +6,6 @@ import com.fr.design.data.datapane.TableDataPaneController;
 import com.fr.design.data.datapane.TableDataPaneListPane;
 import com.fr.design.fun.TableDataPaneProcessor;
 import com.fr.design.gui.frpane.LoadingBasicPane;
-import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.file.TableDataConfig;
 
@@ -62,7 +60,7 @@ public class TableDataManagerPane extends LoadingBasicPane {
 	
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("DS-Server_TableData");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DS_Server_TableData");
 	}
 
 	public void populate(TableDataConfig tableDataConfig) {

@@ -156,7 +156,7 @@ public class TemplateTreePane extends JPanel implements FileOperations {
     @Override
     public void refresh() {
         reportletsTree.refresh();
-        FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Template_File_Tree_Refresh_Successfully") + "!");
+        FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Template_File_Tree_Refresh_Successfully") + "!");
     }
 
     /**
@@ -168,14 +168,14 @@ public class TemplateTreePane extends JPanel implements FileOperations {
         if (reportPaths.length == 0) {
             return;
         }
-        if (JOptionPane.showConfirmDialog(null, com.fr.design.i18n.Toolkit.i18nText("Confirm-Delete-File")) != JOptionPane.OK_OPTION) {
+        if (JOptionPane.showConfirmDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Confirm_Delete_File")) != JOptionPane.OK_OPTION) {
             return;
         }
         for (String reportPath : reportPaths) {
             FileNodeFILE nodeFile = new FileNodeFILE(new FileNode(StableUtils.pathJoin(ProjectConstants.REPORTLETS_NAME, reportPath), false));
 
             if (nodeFile.isLocked()) {
-                if (JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("fileLocked_undeleted"),
+                if (JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FileLocked_Undeleted"),
                         com.fr.design.i18n.Toolkit.i18nText("Error"), JOptionPane.YES_OPTION, JOptionPane.ERROR_MESSAGE) == JOptionPane.YES_OPTION) {
                     refreshDockingView();
                 }

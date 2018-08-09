@@ -46,7 +46,7 @@ public class FormulaDictPane extends FurtherBasicBeanPane<FormulaDictionary> {
         double[] rowSize = {p, p, p};
         int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}};
 
-        UILabel tag = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Formula_Dictionary_Display_Examples_Html"));
+        UILabel tag = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Formula_Dictionary_Display_Examples_Html"));
         tag.setForeground(new Color(143, 143, 146));
         tag.setPreferredSize(new Dimension(225, 80));
         JPanel t = new JPanel(new BorderLayout());
@@ -63,7 +63,7 @@ public class FormulaDictPane extends FurtherBasicBeanPane<FormulaDictionary> {
 
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Actual_Value"), UILabel.LEFT), keyFormulaContainer},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Actual_Value"), UILabel.LEFT), keyFormulaContainer},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Display_Value"), UILabel.LEFT), valueFormulaContainer},
                 new Component[]{tag, null}
         };

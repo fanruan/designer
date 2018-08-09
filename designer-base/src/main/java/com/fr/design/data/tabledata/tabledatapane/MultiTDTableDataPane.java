@@ -66,7 +66,7 @@ public class MultiTDTableDataPane extends AbstractTableDataPane<MultiTDTableData
         jpanel.setLayout(new BorderLayout());
 
         JPanel northPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        UILabel chooseTableData = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Tabledata_Select_To_Merge"));
+        UILabel chooseTableData = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tabledata_Select_To_Merge"));
         UIButton previewButton = new UIButton();
         previewButton.setIcon(BaseUtils.readIcon("/com/fr/web/images/preview.png"));
         previewButton.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
@@ -131,7 +131,7 @@ public class MultiTDTableDataPane extends AbstractTableDataPane<MultiTDTableData
             public UITableEditAction[] createAction() {
                 return new UITableEditAction[]{new RefreshAction()};
             }
-        }, " " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Tabledata_Default_Parameter"));
+        }, " " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tabledata_Default_Parameter"));
 
         jpanel.add(editorPane, BorderLayout.CENTER);
 
@@ -190,7 +190,7 @@ public class MultiTDTableDataPane extends AbstractTableDataPane<MultiTDTableData
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("DS-Relation_TableData");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DS_Relation_TableData");
     }
 
     @Override
@@ -307,7 +307,7 @@ public class MultiTDTableDataPane extends AbstractTableDataPane<MultiTDTableData
             formulaButton.setEnabled(false);
             formulaButton.setPreferredSize(new Dimension(25, 23));
             formulaButton.addActionListener(getFormulaActionListener());
-            rightPanel.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Conditions_formula") + " ="));
+            rightPanel.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Conditions_Formula") + " ="));
             rightPanel.add(formulaContentTextField);
             rightPanel.add(formulaButton);
 

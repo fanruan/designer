@@ -94,7 +94,7 @@ public class FunctionManagerPane extends BasicPane {
 
         @Override
         public NameableCreator[] createNameableCreators() {
-            NameableCreator funcDef = new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Function"), FunctionDef.class,
+            NameableCreator funcDef = new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Function"), FunctionDef.class,
             		FunctionContentPane.class);
             return new NameableCreator[]{funcDef};
         }
@@ -142,7 +142,7 @@ public class FunctionManagerPane extends BasicPane {
             editorButton.setPreferredSize(new Dimension(editorButton.getPreferredSize().width, classNameTextField.getPreferredSize().height));
             reportletNamePane.add(editorButton);
             editorButton.addActionListener(createEditorButtonActionListener());
-            northPane.add(GUICoreUtils.createFlowPane(new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("DS-Class_Name") + ":"),
+            northPane.add(GUICoreUtils.createFlowPane(new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DS_Class_Name") + ":"),
                     reportletNamePane}, FlowLayout.LEFT));
             DescriptionTextArea descriptionArea = new DescriptionTextArea();
             descriptionArea.setWrapStyleWord(true);
@@ -151,12 +151,12 @@ public class FunctionManagerPane extends BasicPane {
 
             String path1 = getEscapePath(File.separator + ProjectConstants.WEBINF_NAME + File.separator + ProjectConstants.CLASSES_NAME);
             String path2 = getEscapePath(WorkContext.getCurrent().getPath() + File.separator + ProjectConstants.CLASSES_NAME);
-            descriptionArea.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Function_Description_Area_Text", path1, path2));
+            descriptionArea.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Function_Description_Area_Text", path1, path2));
 
             JPanel descriptionPane = FRGUIPaneFactory.createBorderLayout_S_Pane();  //Description Pane
             this.add(descriptionPane, BorderLayout.SOUTH);
             descriptionPane.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
-            descriptionPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Description") + ":"), BorderLayout.NORTH);
+            descriptionPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Description") + ":"), BorderLayout.NORTH);
             this.descriptionTextArea = new UITextArea(6, 24);
             descriptionPane.add(new JScrollPane(this.descriptionTextArea), BorderLayout.CENTER);
         }

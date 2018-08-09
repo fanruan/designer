@@ -21,7 +21,6 @@ import com.fr.design.menu.MenuKeySet;
 import com.fr.file.ProcedureConfig;
 import com.fr.file.TableDataConfig;
 
-import com.fr.locale.InterProviderFactory;
 import com.fr.transaction.CallBackAdaptor;
 import com.fr.transaction.Configurations;
 import com.fr.transaction.Worker;
@@ -53,7 +52,7 @@ public class GlobalTableDataAction extends UpdateAction implements ResponseDataS
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("DS-Server_TableData");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DS_Server_TableData");
         }
 
         @Override

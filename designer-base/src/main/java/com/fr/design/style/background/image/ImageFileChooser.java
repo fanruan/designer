@@ -23,7 +23,7 @@ import java.util.Hashtable;
 public class ImageFileChooser extends ExpandFileChooser {
 
     public ImageFileChooser() {
-        super(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Image_Compress"),com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Open"));
+        super(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Image_Compress"),com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Open"));
         ExampleFileFilter bothFilter = new ExampleFileFilter(
                 new String[]{"jpg", "gif", "png", "bmp"},
                 com.fr.design.i18n.Toolkit.i18nText("Image-Image_Files"));

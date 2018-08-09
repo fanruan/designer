@@ -23,7 +23,7 @@ public class VanChartMapInteractivePane extends VanChartInteractivePaneWithMapZo
     @Override
     protected JPanel createHyperlinkPane() {
         hyperlinkPane = new VanChartMapHyperLinkPane();
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("M_Insert-Hyperlink"), hyperlinkPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_M_Insert_Hyperlink"), hyperlinkPane);
     }
     @Override
     protected void populateHyperlink(Plot plot) {

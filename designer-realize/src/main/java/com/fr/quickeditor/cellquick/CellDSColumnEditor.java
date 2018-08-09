@@ -441,12 +441,12 @@ public class CellDSColumnEditor extends CellQuickEditor {
 
         @Override
         public String getIconPath() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Advanced");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced");
         }
 
         @Override
         public String title4PopupWindow() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Advanced");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced");
         }
 
 
@@ -575,7 +575,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
 
             //补充空白数据
             JPanel multiNumPane = FRGUIPaneFactory.createYBoxEmptyBorderPane();
-            useMultiNumCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fill_blank_Data"));
+            useMultiNumCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Fill_Blank_Data"));
             JPanel checkBoxPane = new JPanel(new BorderLayout());
             checkBoxPane.add(useMultiNumCheckBox, BorderLayout.WEST);
             multiNumPane.add(checkBoxPane);
@@ -662,7 +662,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
                 String[] nameArray = {com.fr.design.i18n.Toolkit.i18nText("Sort-Original"), com.fr.design.i18n.Toolkit.i18nText("Sort-Ascending"), com.fr.design.i18n.Toolkit.i18nText("Sort-Descending")};
                 sortTypePane = new UIButtonGroup(iconArray);
                 sortTypePane.setAllToolTips(nameArray);
-                sortTypePane.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("ExpandD-Sort_After_Expand"));
+                sortTypePane.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_ExpandD_Sort_After_Expand"));
 
                 cardLayout = new CardLayout();
                 centerPane = new JPanel(cardLayout);
