@@ -61,7 +61,7 @@ public class MeterSeriesPane extends AbstractPlotSeriesPane {
                 return 120;
             }
             protected int getColorgroupMarginLeft () {
-                return 20;
+                return 5;
             }
         };
     }
