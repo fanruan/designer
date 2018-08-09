@@ -251,7 +251,7 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Label_Position")),position},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_AxisReversed")),reversed},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_AxisReversed")),reversed},
         } ;
 
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);

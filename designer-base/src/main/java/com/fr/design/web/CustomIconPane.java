@@ -85,7 +85,7 @@ public class CustomIconPane extends BasicPane {
 		noNamePane.add(jsPane);
 		
 		DescriptionTextArea des = new DescriptionTextArea(2);
-		des.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Custom_Icon_Message1"));
+		des.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom_Icon_Message1"));
 		centerPane.add(des, BorderLayout.SOUTH);		
 		
 		this.add(centerPane, BorderLayout.CENTER);
@@ -143,7 +143,7 @@ public class CustomIconPane extends BasicPane {
 
 						}else {
 							// add failed
-							JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Custom_Icon_Message2"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tooltips"), JOptionPane.WARNING_MESSAGE);
+							JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom_Icon_Message2"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tooltips"), JOptionPane.WARNING_MESSAGE);
 						}
 					}
                 }).setVisible(true);
@@ -173,7 +173,7 @@ public class CustomIconPane extends BasicPane {
 				} else {
 					// remove failed
 					JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
-							com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Custom_Icon_Message2"),
+							com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom_Icon_Message2"),
 		    				com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tooltips"),
 							JOptionPane.WARNING_MESSAGE);
 				}
@@ -221,7 +221,7 @@ public class CustomIconPane extends BasicPane {
 							// 失败了再弄回去
 							iconManager.addIcon(oldIcon, true);
 							// edit failed
-							JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Custom_Icon_Message2"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tooltips"), JOptionPane.WARNING_MESSAGE);
+							JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom_Icon_Message2"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tooltips"), JOptionPane.WARNING_MESSAGE);
 						}
 					}
                 }).setVisible(true);
@@ -245,7 +245,7 @@ public class CustomIconPane extends BasicPane {
 	
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Custom_Icon_SelectIcon");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom_Icon_SelectIcon");
 	}
 
     /**
@@ -387,9 +387,9 @@ public class CustomIconPane extends BasicPane {
             double rowSize[] = {p, p};
             double columnSize[] = {p, p, p};
 
-            UIButton browseButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Custom_Icon_SelectIcon"));
+            UIButton browseButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom_Icon_SelectIcon"));
             browseButton.setPreferredSize(new Dimension(80, 25));
-            browseButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Click_this_button"));
+            browseButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Click_this_button"));
             nameTextField = new UITextField(20);
 
             browseButton.addActionListener(new ActionListener() {
@@ -409,7 +409,7 @@ public class CustomIconPane extends BasicPane {
                     }
                     if (WidgetInfoConfig.getInstance().getIconManager().contains(nameTextField.getText())) {
                         JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
-                                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Custom_Icon_Message3"),
+                                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom_Icon_Message3"),
                                 com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tooltips"),
                                 JOptionPane.WARNING_MESSAGE);
                     }

@@ -123,19 +123,19 @@ public abstract class FunctionConstants {
 	
 	public static NameAndTypeAndFunctionList[] EMBFUNCTIONS = new NameAndTypeAndFunctionList[] {
 		new NameAndTypeAndFunctionList(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FormulaD_Math_&_Trig"), Function.MATH),
-		new NameAndTypeAndFunctionList(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FormulaD-Text"), Function.TEXT),
+		new NameAndTypeAndFunctionList(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FormulaD_Text"), Function.TEXT),
 		new NameAndTypeAndFunctionList(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FormulaD_Date_&_Time"), Function.DATETIME),
-		new NameAndTypeAndFunctionList(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FormulaD-Logical"), Function.LOGIC),
-		new NameAndTypeAndFunctionList(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FormulaD-Array"), Function.ARRAY),
-		new NameAndTypeAndFunctionList(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FormulaD-Report"), Function.REPORT),
-		new NameAndTypeAndFunctionList(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FormulaD-Other"), Function.OTHER),
+		new NameAndTypeAndFunctionList(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FormulaD_Logical"), Function.LOGIC),
+		new NameAndTypeAndFunctionList(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FormulaD_Array"), Function.ARRAY),
+		new NameAndTypeAndFunctionList(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FormulaD_Report"), Function.REPORT),
+		new NameAndTypeAndFunctionList(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FormulaD_Other"), Function.OTHER),
 		new NameAndTypeAndFunctionList(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Function_Type_Hierarchy"), Function.HA)
 	};
 	
 	public static FunctionGroup ALL = new FunctionGroup() {
 		@Override
 		public String getGroupName() {
-			return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FormulaD-All");
+			return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FormulaD_All");
 		}
 		
 		@Override

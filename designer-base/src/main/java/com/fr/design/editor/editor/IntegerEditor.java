@@ -18,7 +18,7 @@ public class IntegerEditor extends NumberEditor<Integer> {
 	}
 
 	public IntegerEditor(Integer value) {
-		super(value, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter_Integer"));
+		super(value, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter_Integer"));
 	}
 
 	@Override

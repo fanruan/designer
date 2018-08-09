@@ -38,7 +38,7 @@ public class LabelDefinePane extends AbstractDataModify<Label> {
     public void initComponent() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         JPanel advancePane = createAdvancePane();
-        UIExpandablePane advanceExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Advanced"), 280, 20, advancePane);
+        UIExpandablePane advanceExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced"), 280, 20, advancePane);
         this.add(advanceExpandablePane, BorderLayout.CENTER);
     }
 

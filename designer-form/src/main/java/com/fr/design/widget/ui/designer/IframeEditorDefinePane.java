@@ -52,7 +52,7 @@ public class IframeEditorDefinePane extends AbstractDataModify<IframeEditor> {
 
 		contentPane.add(panel);
 
-		UIExpandablePane uiExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Advanced"), 280, 20, contentPane);
+		UIExpandablePane uiExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced"), 280, 20, contentPane);
 		this.add(uiExpandablePane, BorderLayout.NORTH);
 
 	}

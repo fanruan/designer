@@ -126,7 +126,7 @@ public class RepeatAndFreezeSettingPane extends BasicPane {
      * @date 2014-11-14-下午1:32:08
      */
     protected String getPageFrozenTitle() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Page-Frozen");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Page-Frozen");
     }
 
     /**
@@ -142,7 +142,7 @@ public class RepeatAndFreezeSettingPane extends BasicPane {
         JPanel pagecon = FRGUIPaneFactory.createNColumnGridInnerContainer_S_Pane(1);
         pagecon.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
         pagePanel.add(pagecon, BorderLayout.CENTER);
-        UILabel warningx = new UILabel("(" + com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Please_Set_Repeat_First") + ")");
+        UILabel warningx = new UILabel("(" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Please_Set_Repeat_First") + ")");
         warningx.setForeground(Color.red);
         pageLabelPanel.add(warningx);
 
@@ -201,7 +201,7 @@ public class RepeatAndFreezeSettingPane extends BasicPane {
 
     public RepeatAndFreezeSettingPane() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        JPanel outrepeatPanel = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Repeat"));
+        JPanel outrepeatPanel = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Repeat"));
         JPanel cenrepeatPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
         outrepeatPanel.add(cenrepeatPanel);
         JPanel outfreezePanel = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Frozen"));
@@ -213,7 +213,7 @@ public class RepeatAndFreezeSettingPane extends BasicPane {
 
         //自适应插件
         if (shouldShowTip()) {
-            JPanel infoPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Attention"));
+            JPanel infoPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Attention"));
             BoxCenterAligmentPane actionLabel = getURLActionLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form-Fit-Tip"));
             infoPane.add(actionLabel, BorderLayout.SOUTH);
             this.add(infoPane, BorderLayout.SOUTH);
@@ -222,8 +222,8 @@ public class RepeatAndFreezeSettingPane extends BasicPane {
         // 重复打印部分
         // 重复打印标题的起始行
         JPanel labelPanel = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-        labelPanel.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Select_the_repeated_row_and_column") + ":"));
-        UILabel warning = new UILabel("(" + com.fr.design.i18n.Toolkit.i18nText("FR-Engine_FreezeWarning1") + ")");
+        labelPanel.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Select_the_repeated_row_and_column") + ":"));
+        UILabel warning = new UILabel("(" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_FreezeWarning") + ")");
         warning.setForeground(Color.red);
         labelPanel.add(warning);
         cenrepeatPanel.add(labelPanel, BorderLayout.NORTH);
@@ -392,7 +392,7 @@ public class RepeatAndFreezeSettingPane extends BasicPane {
      * @date 2014-11-14-下午2:30:58
      */
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Repeat-Freeze");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Repeat-Freeze");
     }
 
     public void populate(ReportPageAttrProvider attribute) {

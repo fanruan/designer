@@ -62,7 +62,7 @@ public class VanChartConditionListControlPane extends VanChartUIListControlPane 
 
     @Override
     public String getAddItemText() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Add_Condition");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Add_Condition");
     }
 
     @Override

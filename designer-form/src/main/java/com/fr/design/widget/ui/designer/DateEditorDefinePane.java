@@ -53,7 +53,7 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
     @Override
     protected JPanel setFirstContentPane() {
         waterMarkDictPane = new WaterMarkDictPane();
-        UILabel formatLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Format"));
+        UILabel formatLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Format"));
         formatLabel.setVerticalAlignment(SwingConstants.TOP);
         UILabel widgetValueLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Estate_Widget_Value"));
         widgetValueLabel.setVerticalAlignment(SwingConstants.TOP);

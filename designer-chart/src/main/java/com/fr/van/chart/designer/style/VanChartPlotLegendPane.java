@@ -226,7 +226,7 @@ public class VanChartPlotLegendPane extends BasicPane {
 
     protected JPanel createTitleStylePane(){
         textAttrPane = new ChartTextAttrPane();
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget_Style"), textAttrPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Widget_Style"), textAttrPane);
     }
 
     protected JPanel createDisplayStrategy(){

@@ -47,7 +47,7 @@ public class LayerDataControlPane extends ControlPane {
         configPane = new LayerDataConfigPane();
         //创建树结构及树控件
         JPanel leftPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Root"));
+        DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Root"));
         defaultTreeModel = new DefaultTreeModel(rootNode);
         tree = new JTree(defaultTreeModel);
         DefaultMutableTreeNode firstLayer = new DefaultMutableTreeNode(new NameObject(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Gradation") + 1, new LayerConfig(1)));

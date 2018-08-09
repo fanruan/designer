@@ -25,7 +25,6 @@ import com.fr.stable.ArrayUtils;
 
 import java.awt.*;
 import java.beans.IntrospectionException;
-import java.beans.PropertyDescriptor;
 
 /**
  * 表单参数界面container
@@ -67,7 +66,7 @@ public class XWParameterLayout extends XWAbsoluteLayout {
                         .setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_DisplayNothingBeforeQuery"))
                         .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                 new CRPropertyDescriptor("position", this.data.getClass()).setEditorClass(WidgetDisplayPosition.class)
-                        .setRendererClass(WidgetDisplayPositionRender.class).setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WidgetDisplyPosition"))
+                        .setRendererClass(WidgetDisplayPositionRender.class).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Display_Position"))
                         .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                 new CRPropertyDescriptor("useParamsTemplate", this.data.getClass()).setEditorClass(BooleanEditor.class)
                         .setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Use_Params_Template"))

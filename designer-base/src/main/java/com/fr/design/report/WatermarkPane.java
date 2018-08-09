@@ -103,21 +103,21 @@ public class WatermarkPane extends BasicPane {
 
         colorPane = new NewColorSelectPane();
         JPanel colorLabelPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        colorLabelPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Text_Color")), BorderLayout.NORTH);
+        colorLabelPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Text_Color")), BorderLayout.NORTH);
 
         double p = TableLayout.PREFERRED;
         double[] rowSize = {p,p,p};
         double[] columnSize = { p, MAX_WIDTH};
 
         JPanel rightContentPane = TableLayoutHelper.createCommonTableLayoutPane( new JComponent[][]{
-                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Watermark_Text")), formulaPane},
-                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Font_Size")), fontSizeTypePane},
+                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Watermark_Text")), formulaPane},
+                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Font_Size")), fontSizeTypePane},
                 {colorLabelPane, colorPane},
         }, rowSize, columnSize, 10);
         rightContentPane.setBorder(BorderFactory.createEmptyBorder(15, 12, 10, 12));
 
         UIScrollPane configPane = new UIScrollPane(rightContentPane);
-        configPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Config"),null));
+        configPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Config"),null));
         return configPane;
     }
 

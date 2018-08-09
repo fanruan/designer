@@ -408,7 +408,7 @@ public abstract class ToolBarMenuDock {
     }
 
     protected MenuDef createServerMenuDef(ToolBarMenuDockPlus plus) {
-        MenuDef menuDef = new MenuDef(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_M-Server"), 'S');
+        MenuDef menuDef = new MenuDef(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic__M_Server"), 'S');
 
         if (!DesignerMode.isAuthorityEditing()) {
             menuDef.addShortCut(
@@ -548,7 +548,7 @@ public abstract class ToolBarMenuDock {
             return toolBar;
 
         } else {
-            return polyToolBar(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Polyblock_Edit"));
+            return polyToolBar(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Polyblock_Edit"));
         }
     }
 

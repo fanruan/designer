@@ -196,7 +196,7 @@ public class ColorChooserPreview extends JPanel {
 
     private String getSampleText() {
         if (this.sampleText == null) {
-            this.sampleText = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_SampleText");
+            this.sampleText = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Sample_Text");
         }
         return this.sampleText;
     }
