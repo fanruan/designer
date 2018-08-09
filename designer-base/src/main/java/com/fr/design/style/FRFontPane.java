@@ -132,7 +132,7 @@ public class FRFontPane extends BasicPane {
         JPanel foregroundPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         listVBottomPane.add(foregroundPane);
 
-        foregroundPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic__Font_Foreground"),null));
+        foregroundPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Font_Foreground"),null));
         foregroundColorPane = new ColorSelectBox(140);
         foregroundColorPane.addSelectChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
