@@ -4,10 +4,8 @@ package com.fr.design.widget;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.controlpane.ObjectUIControlPane;
 import com.fr.design.mainframe.CellWidgetPropertyPane;
-import com.fr.design.present.CellWriteAttrPane;
 import com.fr.design.write.submit.DBManipulationPane;
 import com.fr.design.write.submit.SmartInsertDBManipulationInWidgetEventPane;
 import com.fr.design.gui.controlpane.NameableCreator;
@@ -19,16 +17,9 @@ import com.fr.design.mainframe.JTemplate;
 import com.fr.form.event.Listener;
 import com.fr.form.ui.Widget;
 import com.fr.grid.selection.Selection;
-import com.fr.log.FineLoggerFactory;
 
 import com.fr.general.NameObject;
-import com.fr.grid.GridUtils;
 import com.fr.grid.selection.CellSelection;
-import com.fr.privilege.finegrain.WidgetPrivilegeControl;
-import com.fr.report.cell.DefaultTemplateCellElement;
-import com.fr.report.cell.TemplateCellElement;
-import com.fr.report.elementcase.TemplateElementCase;
-import com.fr.report.stable.ReportConstants;
 import com.fr.stable.Nameable;
 
 import javax.swing.*;
@@ -49,7 +40,7 @@ public class WidgetEventPane extends ObjectUIControlPane {
 
     @Override
     public String getAddItemText() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Add_Event");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Add_Event");
     }
 
     /**

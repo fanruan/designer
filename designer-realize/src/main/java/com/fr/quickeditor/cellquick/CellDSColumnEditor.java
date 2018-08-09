@@ -441,12 +441,12 @@ public class CellDSColumnEditor extends CellQuickEditor {
 
         @Override
         public String getIconPath() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Advanced");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced");
         }
 
         @Override
         public String title4PopupWindow() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Advanced");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced");
         }
 
 

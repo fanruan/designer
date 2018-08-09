@@ -61,7 +61,7 @@ public class BBSAction extends UpdateAction
 
 	        @Override
 	        public String getMenuName() {
-	            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_COMMUNITY_BBS");
+	            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Community_Bbs");
 	        }
 
 	        @Override

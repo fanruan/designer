@@ -42,8 +42,8 @@ public class TreeSettingPane extends BasicPane implements DataCreatorUI {
 	 */
 	private static final long serialVersionUID = 1762889323082827111L;
 
-	private String[] buildWay = new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Designer_DataTable-Build"),
-		com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Auto-Build"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Layer-Build")};
+	private String[] buildWay = new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DataTable_Build"),
+		com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Auto_Build"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Layer_Build")};
 
 	public TreeSettingPane(boolean isEditor) {
 		this.initComponents(isEditor);
@@ -53,7 +53,7 @@ public class TreeSettingPane extends BasicPane implements DataCreatorUI {
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
 		JPanel buildWayPanel= FRGUIPaneFactory.createMediumHGapFlowInnerContainer_M_Pane();
 		buildWayPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		UILabel buildWayLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Build-Way") + " ：");
+		UILabel buildWayLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Build_Way") + " ：");
 		buildWayPanel.add(buildWayLabel);
 		buildBox = new UIComboBox(buildWay);
 		buildBox.addItemListener(new ItemListener() {

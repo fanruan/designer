@@ -1,7 +1,6 @@
 package com.fr.design.chart.series.PlotSeries;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.base.MapHelper;
 import com.fr.base.MapXMLHelper;
 import com.fr.base.Utils;
@@ -22,7 +21,6 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrame;
 import com.fr.general.ComparatorUtils;
-
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.StableUtils;
@@ -30,9 +28,18 @@ import com.fr.stable.StringUtils;
 import com.fr.stable.SvgProvider;
 import com.fr.workspace.WorkContext;
 
-import javax.swing.*;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.event.ListSelectionEvent;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -259,7 +266,7 @@ public class MapGroupExtensionPane extends BasicPane implements UIObserver {
 	}
 
 	private JMenuItem createMarkerItem(final String oldName) {
-		JMenuItem editMarkerItem = new JMenuItem(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Edit", "Image", "Marker"}));
+		JMenuItem editMarkerItem = new JMenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Edit_Image_Marker"));
 		editMarkerItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				final MapCustomPane image = new MapCustomPane();
@@ -321,7 +328,7 @@ public class MapGroupExtensionPane extends BasicPane implements UIObserver {
 
 	private void showRenameWaring(String newName){
 		JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), "\"" + newName + "\"" + com.fr.design.i18n.Toolkit.i18nText("Utils-has_been_existed")
-				+ "!", com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Alert"), JOptionPane.WARNING_MESSAGE);
+				+ "!", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Alert"), JOptionPane.WARNING_MESSAGE);
 	}
 
 	private JMenuItem createRenameItem() {

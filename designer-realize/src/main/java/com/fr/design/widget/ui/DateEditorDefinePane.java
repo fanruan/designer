@@ -57,7 +57,7 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 
 		double f = TableLayout.FILL;
 		double p = TableLayout.PREFERRED;
-		UILabel formatLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Format"));
+		UILabel formatLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Format"));
 		formatLabel.setVerticalAlignment(SwingConstants.TOP);
 		UILabel startDateLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FS_Start_Date"));
 		startDateLabel.setVerticalAlignment(SwingConstants.TOP);

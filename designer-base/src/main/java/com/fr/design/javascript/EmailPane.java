@@ -39,9 +39,9 @@ public class EmailPane extends FurtherBasicBeanPane<EmailJavaScript> {
 		tipsPane1 = new UILabel();
 		tipsPane1.setHorizontalAlignment(SwingConstants.RIGHT);
 		tipsPane1.setForeground(Color.pink);
-		tipsPane2 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_EmailPane-tips"));
+		tipsPane2 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_EmailPane_Tips"));
 		
-		UILabel mainTextLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_EmailPane-mailContent") + ":");
+		UILabel mainTextLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_EmailPane_Mail_Content") + ":");
 		mainTextLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		mainTextLabel.setVerticalAlignment(SwingConstants.TOP);
 		JScrollPane scrollPane = new JScrollPane(mainTextEditor = new JTextArea());
@@ -66,8 +66,8 @@ public class EmailPane extends FurtherBasicBeanPane<EmailJavaScript> {
                 {new UILabel(), tipsPane1},
                 createLinePane(com.fr.design.i18n.Toolkit.i18nText("HJS-Mail_to"), maitoEditor = new UITextField()),
                 createLinePane(com.fr.design.i18n.Toolkit.i18nText("HJS-CC_to"), ccEditor = new UITextField()),
-                createLinePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_EmailPane-BCC"), bccEditor = new UITextField()),
-                createLinePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_EmailPane-mailSubject"), titleEditor = new UITextField()),
+                createLinePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_EmailPane_Bcc"), bccEditor = new UITextField()),
+                createLinePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_EmailPane_Mail_Subject"), titleEditor = new UITextField()),
                 {mainTextLabel, scrollPane},
                 {new UILabel(), showTplContent},
                 {new UILabel(), tipsPane2}},rowSize, columnSize, 8);
@@ -81,7 +81,7 @@ public class EmailPane extends FurtherBasicBeanPane<EmailJavaScript> {
 	}
 
 	protected void checkEmailConfig(boolean valid) {
-		tipsPane1.setText(valid ? StringUtils.BLANK : com.fr.design.i18n.Toolkit.i18nText("FR-Designer_EmailPane-warnings"));
+		tipsPane1.setText(valid ? StringUtils.BLANK : com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_EmailPane_Warnings"));
 		centerPane.setEnabled(valid);
 		mainTextEditor.setEnabled(valid);
 		mainTextEditor.setBackground(valid ? Color.WHITE : UIConstants.DEFAULT_BG_RULER);

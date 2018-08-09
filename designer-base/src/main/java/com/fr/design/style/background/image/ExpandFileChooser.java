@@ -55,7 +55,7 @@ public class ExpandFileChooser extends JFileChooser {
         bottomControlPanel.setPreferredSize(new Dimension(DEFAULT_WIDTH, 40));
 
         approve = new UIButton(approveText);
-        cancel = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Button-Cancel"));
+        cancel = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Button_Cancel"));
         if (StringUtils.isNotEmpty(checkBoxText)) {
             checkBox = new UICheckBox(checkBoxText);
             checkBox.setSelected(DesignerEnvManager.getEnvManager().isImageCompress());

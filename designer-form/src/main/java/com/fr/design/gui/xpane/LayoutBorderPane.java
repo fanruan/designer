@@ -401,7 +401,7 @@ public class LayoutBorderPane extends BasicPane {
     }
 
     protected JComponent[] getBorderCornerSpinnerComp(){
-        return new JComponent[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("plugin-ChartF_Radius")+":"),borderCornerSpinner};
+        return new JComponent[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Radius")+":"),borderCornerSpinner};
     }
 
     protected void switchBorderType(){
@@ -478,7 +478,7 @@ public class LayoutBorderPane extends BasicPane {
                 {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Style_Title_Content")), formulaPane},
                 {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Style_Title_Format")), fontSizeTypePane},
                 {new UILabel(""), initFontButtonPane()},
-                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Alignment-Style")), hPaneContainer},
+                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Alignment-Style")), hPaneContainer},
                 {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Style_Title_Background")), titleBackgroundPane},
         }, rowSize, columnSize, 10);
         rightBottomContentPane.setBorder(BorderFactory.createEmptyBorder(15, 12, 10, 12));
@@ -929,6 +929,6 @@ public class LayoutBorderPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget_Style");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Style");
     }
 }

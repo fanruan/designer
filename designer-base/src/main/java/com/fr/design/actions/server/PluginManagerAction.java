@@ -36,7 +36,7 @@ public class PluginManagerAction extends UpdateAction {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Manager");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Manager");
         }
 
         @Override

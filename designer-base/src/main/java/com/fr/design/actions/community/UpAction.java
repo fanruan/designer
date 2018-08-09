@@ -57,7 +57,7 @@ public class UpAction extends UpdateAction
 
 	        @Override
 	        public String getMenuName() {
-	            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_COMMUNITY_UPDATE");
+	            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Community_Update");
 	        }
 
 	        @Override

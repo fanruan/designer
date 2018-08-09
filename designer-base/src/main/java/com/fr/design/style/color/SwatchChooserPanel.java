@@ -577,7 +577,7 @@ public class SwatchChooserPanel extends AbstractColorChooserPanel{
 	   */
 	  public String getDisplayName()
 	  {
-	    return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Swatch");
+	    return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Swatch");
 	  }
 
 	  /**

@@ -22,7 +22,7 @@ public class QQLoginDialog extends UIDialog {
         setSize(DEFAULT_SHOP);
         GUICoreUtils.centerWindow(this);
         setResizable(false);
-        setTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Manager"));
+        setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Manager"));
     }
 
     @Override

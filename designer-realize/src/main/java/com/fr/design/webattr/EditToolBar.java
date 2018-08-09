@@ -314,7 +314,7 @@ public class EditToolBar extends BasicPane {
 			if (i < 0 || !(listModel.getElementAt(i) instanceof ToolBarButton)) {
 				return;
 			}
-			int val = JOptionPane.showConfirmDialog(EditToolBar.this, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Are_You_Sure_To_Delete_The_Data") + "?", "Message", JOptionPane.YES_NO_OPTION);
+			int val = JOptionPane.showConfirmDialog(EditToolBar.this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Are_You_Sure_To_Delete_The_Data") + "?", "Message", JOptionPane.YES_NO_OPTION);
 			if (val != JOptionPane.YES_OPTION) {
 				return;
 			}

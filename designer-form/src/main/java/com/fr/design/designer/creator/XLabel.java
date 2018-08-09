@@ -75,7 +75,7 @@ public class XLabel extends XWidgetCreator {
                                 com.fr.design.i18n.Toolkit.i18nText("FR-Designer_PageSetup-Vertically")).putKeyValue(
                                 XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                         new CRPropertyDescriptor("textalign", this.data.getClass()).setI18NName(
-                                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Alignment-Style")).setEditorClass(ItemCellEditor.class)
+                                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Alignment-Style")).setEditorClass(ItemCellEditor.class)
                                 .setRendererClass(LabelHorizontalAlignmentRenderer.class).putKeyValue(
                                 XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                         new CRPropertyDescriptor("font", this.data.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Font"))

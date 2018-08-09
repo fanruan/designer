@@ -78,10 +78,10 @@ public class ImageBackgroundPane extends BackgroundDetailPane {
         selectFilePane.add(layoutPane, BorderLayout.CENTER);
 
         //布局
-        defaultRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Layout_Default"));
-        tiledRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Layout_Image_Titled"));
-        extendRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Layout_Image_Extend"));
-        adjustRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Layout_Image_Adjust"));
+        defaultRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Layout_Default"));
+        tiledRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Layout_Image_Titled"));
+        extendRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Layout_Image_Extend"));
+        adjustRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Layout_Image_Adjust"));
 
         defaultRadioButton.addActionListener(layoutActionListener);
         tiledRadioButton.addActionListener(layoutActionListener);

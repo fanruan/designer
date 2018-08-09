@@ -82,7 +82,7 @@ public class FileSearchManager implements AlphaFineSearchProvider {
             lessModelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Templates")));
             lessModelList.addAll(filterModelList);
         } else {
-            lessModelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Templates"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_AlphaFine_ShowAll"), true, CellType.FILE));
+            lessModelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Templates"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_ShowAll"), true, CellType.FILE));
             lessModelList.addAll(filterModelList.subList(0, AlphaFineConstants.SHOW_SIZE));
             moreModelList.addAll(filterModelList.subList(AlphaFineConstants.SHOW_SIZE, filterModelList.size()));
 

@@ -107,7 +107,7 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
             JPanel panel1 = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Rotation_Direction"), rotate);
             panel.add(panel1, BorderLayout.NORTH);
         }
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget_Style"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Widget_Style"), panel);
     }
 
     private Component[][] getDiffComponentsWithGaugeStyle() {

@@ -52,7 +52,7 @@ public class GradientBackgroundQuickPane extends BackgroundQuickPane {
 
         Component[][] components = new Component[][]{
                 new Component[]{gradientBar, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Gradient_Direction")), directionPane}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Gradient_Direction")), directionPane}
         };
         JPanel Gradient = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
         this.setLayout(new BorderLayout());

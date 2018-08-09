@@ -229,7 +229,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
 
         public OpenFolderAction() {
 
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Show_in_Containing_Folder"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Show_In_Containing_Folder"));
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_file/view_folder.png"));
         }
 
@@ -281,7 +281,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
 
         public RenameAction() {
 
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Rename"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Rename"));
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/data/source/rename.png"));
         }
 
@@ -413,7 +413,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             jd = new JDialog();
             jd.setLayout(new GridLayout(2, 2));
             jd.setModal(true);
-            UILabel newNameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Enter-New-FileName"));
+            UILabel newNameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Enter_New_File_Name"));
             newNameLabel.setMinimumSize(new Dimension(150, 27));
             newNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
             jt = new UITextField(oldName);
@@ -487,7 +487,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             jd.add(btPanel);
 
             jd.setSize(380, 200);
-            jd.setTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Rename"));
+            jd.setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Rename"));
             jd.setResizable(false);
             jd.setAlwaysOnTop(true);
             jd.setIconImage(BaseUtils.readImage("/com/fr/base/images/oem/logo.png"));

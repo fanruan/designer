@@ -362,7 +362,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_M-SwitchWorkspace");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_M_Switch_Workspace");
         }
 
         @Override
@@ -379,7 +379,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_M-Exit");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_M_Exit");
         }
 
         @Override
@@ -397,7 +397,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_M-Template");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_M_Template");
         }
 
         @Override
@@ -621,7 +621,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_M-Repeat-Freeze");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_M_Repeat_Freeze");
         }
 
         @Override
@@ -759,7 +759,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Condition_Attributes");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Condition_Attributes");
         }
 
         @Override
@@ -844,7 +844,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Currency_Line");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Currency_Line");
         }
 
         @Override

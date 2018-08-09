@@ -220,13 +220,13 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
         final String[] tabTitles = new String[]{
                 com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Properties"),
                 com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Event"),
-                com.fr.design.i18n.Toolkit.i18nText("FR-Widget_Mobile_Terminal")
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Widget_Mobile_Terminal")
         };
         final CardLayout tabbedPane =  new CardLayout();
         final JPanel center = new JPanel(tabbedPane);
         center.add(formWidgetCardPane, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Properties"));
         center.add(eventTable, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Event"));
-        center.add(wsp, com.fr.design.i18n.Toolkit.i18nText("FR-Widget_Mobile_Terminal"));
+        center.add(wsp, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Widget_Mobile_Terminal"));
         this.add(center, BorderLayout.CENTER);
 
         tabsHeaderIconPane = new UIHeadGroup(tabTitles) {

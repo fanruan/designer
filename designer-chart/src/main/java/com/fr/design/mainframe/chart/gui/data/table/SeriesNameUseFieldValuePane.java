@@ -95,7 +95,7 @@ public class SeriesNameUseFieldValuePane extends FurtherBasicBeanPane<ChartColle
         double f = TableLayout.FILL;
         double[] columnSize = {f};
         double[] rowSize = {p, p, p, p};
-        UILabel Label1 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Series_Name"));
+        UILabel Label1 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Name"));
         Label1.setPreferredSize(new Dimension(75, 20));
         UILabel Label2 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Series_Value"));
         Label2.setPreferredSize(new Dimension(75, 20));

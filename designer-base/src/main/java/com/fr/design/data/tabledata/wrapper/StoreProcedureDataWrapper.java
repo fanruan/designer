@@ -79,7 +79,7 @@ public final class StoreProcedureDataWrapper implements TableDataWrapper {
                 getWorker().cancel(true);
             }
         });
-        loadingBar = new AutoProgressBar(dialog, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Loading_Data"), "", 0, 100) {
+        loadingBar = new AutoProgressBar(dialog, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Loading_Data"), "", 0, 100) {
             public void doMonitorCanceled() {
                 getDialog().setVisible(false);
                 getWorker().cancel(true);

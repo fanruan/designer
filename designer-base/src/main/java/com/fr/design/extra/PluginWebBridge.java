@@ -384,7 +384,7 @@ public class PluginWebBridge {
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.INFORMATION_MESSAGE,
                 null,
-                new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Basic_Restart_Designer"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Basic_Restart_Designer_Later")},
+                new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Restart_Designer"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Restart_Designer_Later")},
                 null
         );
         if (rv == JOptionPane.OK_OPTION) {

@@ -71,7 +71,7 @@ public class DataLabelPane extends TooltipContentsPane {
         if (showSeriesNameCB == null) {
             showSeriesNameCB = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Name"));
         }
-        return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Label", "Include"}) + ":"), showSeriesNameCB};
+        return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Label_Include") + ":"), showSeriesNameCB};
     }
 
     protected Component[] createComponents4ShowCategoryName() {

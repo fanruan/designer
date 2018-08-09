@@ -66,7 +66,7 @@ public class ReportFloatPane extends JPanel {
         double[] columnSize = {p, p, p, f};
         double[] rowSize = {p};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(), new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Add_FloatElement")), emptyLabel, toolBarPane},
+                new Component[]{new UILabel(), new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Add_FloatElement")), emptyLabel, toolBarPane},
         };
         JPanel leftTopPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
         leftTopPane.setBorder(BorderFactory.createEmptyBorder(12, 5, 0, 15));

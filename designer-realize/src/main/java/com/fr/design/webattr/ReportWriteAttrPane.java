@@ -53,7 +53,7 @@ public class ReportWriteAttrPane extends LoadingBasicPane {
 		}
 		writeShortCutsPane = new WriteShortCutsPane();
 
-		tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("FR-Utils_Submit"), submiterListPane);
+		tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Submit"), submiterListPane);
 		tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Verify-Data_Verify"), verifierListPane);
 		tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Writer-ShortCuts_Setting"), writeShortCutsPane);
 	}
