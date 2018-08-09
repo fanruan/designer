@@ -61,7 +61,7 @@ public class StoreProcedureParameterPane extends BasicPane {
 	public void checkValid() throws Exception{
 		StoreProcedureParameter spp=this.update();
     	if(spp.getSchema()!= StoreProcedureConstants.OUT && spp.getType() == StoreProcedureConstants.CURSOR){
-    		throw new Exception(com.fr.design.i18n.Toolkit.i18nText("IN_and_INOUT_type_not_as_cursor"));
+    		throw new Exception(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_In_And_Inout_Type_Not_As_Cursor"));
     	}
 	}
 	

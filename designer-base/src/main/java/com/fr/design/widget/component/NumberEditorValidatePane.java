@@ -60,12 +60,12 @@ public class NumberEditorValidatePane extends JPanel {
         this.allowNegativeCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Allow_Negative"));
         this.allowNegativeCheckBox.addActionListener(allowNegativeListener);
         allowNegativeCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        this.setMaxValueCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Need_Max_Value"), false);
+        this.setMaxValueCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Need_Max_Value"), false);
         setMaxValueCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         this.maxValueSpinner = new UISpinner(-Double.MAX_VALUE, Double.MAX_VALUE, 1D, 0D);
         this.setMaxValueCheckBox.addActionListener(setMaxListener);
         this.maxValueSpinner.addChangeListener(maxValueChangeListener);
-        this.setMinValueCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Need_Min_Value"), false);
+        this.setMinValueCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Need_Min_Value"), false);
         this.minValueSpinner = new UISpinner(-Double.MAX_VALUE, Double.MAX_VALUE, 1D, 0D);
         minValueSpinner.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         this.setMinValueCheckBox.addActionListener(setMinListener);

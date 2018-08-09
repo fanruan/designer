@@ -90,7 +90,7 @@ public class ClassTableDataPane extends AbstractTableDataPane<ClassTableData> {
 
         Component[][] components = {
         		{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DS_Class_Name") + ":"), reportletNamePane},
-        		{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Function-The_class_must_implement_the_interface") + "\"com.fr.data.Tabledata\"")},
+        		{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Function_The_Class_Must_Implement_The_Interface") + "\"com.fr.data.Tabledata\"")},
         		{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Example") + ":\"com.fr.data.impl.ArrayTableData\"")},
                 {null,new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Class_Location_Description", StableUtils.pathJoin(ProjectConstants.WEBINF_NAME, ProjectConstants.CLASSES_NAME)))}
         };

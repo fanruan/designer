@@ -152,7 +152,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         jt.requestFocus();
         jt.revert();
 
-        FRContext.getLogger().info("\"" + jt.getEditingFILE().getName() + "\"" + com.fr.design.i18n.Toolkit.i18nText("LOG-Has_Been_Openned") + "!");
+        FRContext.getLogger().info("\"" + jt.getEditingFILE().getName() + "\"" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_LOG_Has_Been_Openned") + "!");
     }
 
     /**

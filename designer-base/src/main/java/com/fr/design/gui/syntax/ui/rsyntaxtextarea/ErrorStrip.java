@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 import javax.swing.JComponent;
 import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
@@ -765,7 +764,7 @@ public class ErrorStrip extends JComponent {
 			}
 			else { // > 1
 				StringBuilder sb = new StringBuilder("<html>");
-				sb.append(com.fr.design.i18n.Toolkit.i18nText("MultipleMarkers"));
+				sb.append(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Multiple_Markers"));
 				sb.append("<br>");
 				for (int i=0; i<notices.size(); i++) {
 					ParserNotice pn = notices.get(i);

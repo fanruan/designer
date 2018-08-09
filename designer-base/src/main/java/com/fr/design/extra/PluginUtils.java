@@ -134,11 +134,11 @@ public class PluginUtils {
     }
 
     public static String pluginToHtml(PluginView pluginView) {
-        String pluginName = com.fr.design.i18n.Toolkit.i18nText("FR-Plugin-Plugin_Name");
-        String pluginVersion = com.fr.design.i18n.Toolkit.i18nText("FR-Plugin-Plugin_Version");
-        String startVersion = com.fr.design.i18n.Toolkit.i18nText("FR-Plugin-Start_Version");
-        String developer = com.fr.design.i18n.Toolkit.i18nText("FR-Plugin_Developer");
-        String desc = com.fr.design.i18n.Toolkit.i18nText("FR-Plugin-Function_Description");
+        String pluginName = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Plugin_Name");
+        String pluginVersion = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Version");
+        String startVersion = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Start_Version");
+        String developer = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Developer");
+        String desc = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Function_Description");
         String updateLog = com.fr.design.i18n.Toolkit.i18nText("FR-Plugin-Update_Log");
         Map<String, String> map = new HashMap<String, String>();
 

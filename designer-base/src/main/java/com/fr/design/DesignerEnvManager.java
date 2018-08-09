@@ -1519,7 +1519,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         if ((tmpVal = reader.getAttrAsString("webinfLocation", null)) != null) {
             // marks:兼容6.1的
             // marks:设置默认的目录.
-            String curReportServerName = com.fr.design.i18n.Toolkit.i18nText("Server-Embedded_Server");
+            String curReportServerName = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Server_Embedded_Server");
             LocalDesignerWorkspaceInfo reportServer = LocalDesignerWorkspaceInfo.create(curReportServerName, tmpVal);
 
             this.putEnv(curReportServerName, reportServer);

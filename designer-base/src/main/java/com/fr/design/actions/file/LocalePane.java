@@ -95,8 +95,8 @@ public class LocalePane extends BasicPane {
         });
 
 
-        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Preference-Predefined"), new UIScrollPane(predefinedTable));
-        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Preference-Custom"), new UIScrollPane(customTable));
+        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Predefined"), new UIScrollPane(predefinedTable));
+        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Custom"), new UIScrollPane(customTable));
 
         loadData();
     }
@@ -218,6 +218,6 @@ public class LocalePane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Preference-Locale");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Locale");
     }
 }

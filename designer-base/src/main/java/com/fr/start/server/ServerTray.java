@@ -38,7 +38,7 @@ public class ServerTray {
         listen();
         //p:首先构建右键菜单
         PopupMenu popup = new PopupMenu();
-        MenuItem manangeMenu = new MenuItem(com.fr.design.i18n.Toolkit.i18nText("Server-Open_Service_Manager"));
+        MenuItem manangeMenu = new MenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Server_Open_Service_Manager"));
         manangeMenu.addActionListener(new ActionListener() {
         
             public void actionPerformed(ActionEvent e) {
@@ -50,8 +50,8 @@ public class ServerTray {
                 serverManageFrame.toFront();//p:到第一个.
             }
         });
-        startMenu = new MenuItem(com.fr.design.i18n.Toolkit.i18nText("FR-Server_Embedded_Server_Start"));
-        stopMenu = new MenuItem(com.fr.design.i18n.Toolkit.i18nText("FR-Server_Embedded_Server_Stop"));
+        startMenu = new MenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Server_Embedded_Server_Start"));
+        stopMenu = new MenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Server_Embedded_Server_Stop"));
         MenuItem exitMenu = new MenuItem(com.fr.design.i18n.Toolkit.i18nText("Exit"));
         //创建打开监听器
         ActionListener startListener = new ActionListener() {
@@ -96,7 +96,7 @@ public class ServerTray {
         popup.add(exitMenu);
     
         //p:开始创建托盘.
-        trayIcon = new TrayIcon(trayStartedImage, com.fr.design.i18n.Toolkit.i18nText("Server-Embedded_Server"), popup);
+        trayIcon = new TrayIcon(trayStartedImage, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Server_Embedded_Server"), popup);
         trayIcon.setImageAutoSize(true);
         trayIcon.addMouseListener(new MouseAdapter() {
         

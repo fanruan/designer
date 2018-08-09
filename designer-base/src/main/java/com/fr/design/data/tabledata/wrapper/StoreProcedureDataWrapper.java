@@ -176,7 +176,7 @@ public final class StoreProcedureDataWrapper implements TableDataWrapper {
                 return null;
             }
         }.execute();
-        connectionBar = new AutoProgressBar(dialog, com.fr.design.i18n.Toolkit.i18nText("Utils-Now_create_connection"), "", 0, 100) {
+        connectionBar = new AutoProgressBar(dialog, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Now_Create_Connection"), "", 0, 100) {
             public void doMonitorCanceled() {
                 connectionBar.close();
                 worker.cancel(true);

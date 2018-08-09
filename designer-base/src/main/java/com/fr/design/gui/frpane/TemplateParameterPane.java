@@ -82,7 +82,7 @@ public class TemplateParameterPane extends BasicPane {
     public void checkValid() throws Exception {
         Parameter parameter = this.update();
         if (parameter.getName() == null || parameter.getName().trim().length() <= 0) {
-            throw new Exception(com.fr.design.i18n.Toolkit.i18nText("ParameterD-Parameter_name_cannot_be_null") + ".");
+            throw new Exception(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_ParameterD_Parameter_Name_Cannot_Be_Null") + ".");
         }
         this.valuePane.checkValid();
     }

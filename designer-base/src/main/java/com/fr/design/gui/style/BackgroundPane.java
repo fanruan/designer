@@ -131,7 +131,7 @@ public class BackgroundPane extends AbstractBasicStylePane {
      * @return 名称
      */
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Utils_Background");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Background");
     }
 
     /**
