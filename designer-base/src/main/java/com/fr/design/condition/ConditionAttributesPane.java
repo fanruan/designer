@@ -42,7 +42,7 @@ public abstract class ConditionAttributesPane<T> extends BasicBeanPane<T> {
         ToolBarDef toolbarDef = new ToolBarDef();
 
         menuDef = new CellHighlightAddMenuDef();
-        menuDef.setName(com.fr.design.i18n.Toolkit.i18nText("Highlight-Click_to_Choose_Property_To_Modify"));
+        menuDef.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Highlight_Click_to_Choose_Property_To_Modify"));
         menuDef.setIconPath("com/fr/design/images/control/addPopup.png");
 
         toolbarDef.addShortCut(menuDef);

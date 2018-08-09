@@ -1,8 +1,6 @@
 package com.fr.design.data.datapane.connect;
 
 import com.fr.design.gui.frpane.LoadingBasicPane;
-import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.file.ConnectionConfig;
 
@@ -28,7 +26,7 @@ public class ConnectionManagerPane extends LoadingBasicPane implements Connectio
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Server-Define_Data_Connection");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Server_Define_Data_Connection");
     }
 
     public HashMap<String, String> getRenameMap() {

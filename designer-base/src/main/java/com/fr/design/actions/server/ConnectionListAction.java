@@ -43,7 +43,7 @@ public class ConnectionListAction extends UpdateAction {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("Server-Define_Data_Connection");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Server_Define_Data_Connection");
         }
 
         @Override

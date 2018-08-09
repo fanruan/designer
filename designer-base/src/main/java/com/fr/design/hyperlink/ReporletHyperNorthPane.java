@@ -171,7 +171,7 @@ public class ReporletHyperNorthPane extends AbstractHyperNorthPane<ReportletHype
 
         postComboBox = new UIComboBox(new String[]{"GET", "POST"});
         JPanel postPanel = new JPanel();
-        postPanel.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Reportlet-Parameter_Type")));
+        postPanel.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Reportlet_Parameter_Type")));
         postPanel.add(postComboBox);
         Component[][] components = {{postPanel},
                 {showParameterPanel},

@@ -422,7 +422,7 @@ public abstract class BasicTableDataTreePane extends DockingView implements Resp
     protected class ConnectionTableAction extends com.fr.design.actions.server.ConnectionListAction {
 
         public ConnectionTableAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("Server-Define_Data_Connection"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Server_Define_Data_Connection"));
             this.setMnemonic('D');
             this.setSmallIcon(BaseUtils.readIcon(IconPathConstants.TD_CONNECTION_ICON_PATH));
         }

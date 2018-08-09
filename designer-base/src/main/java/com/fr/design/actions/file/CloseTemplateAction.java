@@ -19,7 +19,7 @@ public class CloseTemplateAction extends JTemplateAction<JTemplate<?, ?>> {
     public CloseTemplateAction(JTemplate<?, ?> jt) {
     	super(jt);
     	
-        this.setName(com.fr.design.i18n.Toolkit.i18nText("M-Close_Template"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_M_Close_Template"));
         this.setMnemonic('C');
     }
 

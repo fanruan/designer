@@ -92,7 +92,7 @@ public class FormatPane extends BasicPane {
         //left control pane
         JPanel leftControlPane =FRGUIPaneFactory.createNColumnGridInnerContainer_S_Pane(1);
         this.add(leftControlPane, BorderLayout.WEST);
-        leftControlPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("StyleFormat-Category"), null));
+        leftControlPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Format_Category"), null));
         initRadioButton();
         ButtonGroup categoryButtonGroup = new ButtonGroup();
         categoryButtonGroup.add(nullRadioButton);

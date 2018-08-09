@@ -218,7 +218,7 @@ public class ProcessParameterTableModel extends UITableModelAdapter<ParameterPro
 		private UILabel disableLable;
 
 		public ParameterValueRenderer() {
-			disableLable = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Set-Parameter-Name"));
+			disableLable = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Set_Paramete_Name"));
 			disableLable.setHorizontalAlignment(SwingConstants.CENTER);
 		}
 
