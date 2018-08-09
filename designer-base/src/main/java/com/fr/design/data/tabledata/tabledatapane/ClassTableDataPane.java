@@ -111,7 +111,7 @@ public class ClassTableDataPane extends AbstractTableDataPane<ClassTableData> {
                         new RemoveParaAction()
                 };
             }
-        }, " " + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_TableData-Default-Para"));
+        }, " " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_TableData_Default_Para"));
 
         jpanel.add(editorPane, BorderLayout.CENTER);
 

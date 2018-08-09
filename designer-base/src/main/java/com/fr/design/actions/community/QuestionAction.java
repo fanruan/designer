@@ -56,7 +56,7 @@ public void actionPerformed(ActionEvent arg0)
 
        @Override
        public String getMenuName() {
-           return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_COMMUNITY_QUESTIONS");
+           return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Community_Questions");
        }
 
        @Override

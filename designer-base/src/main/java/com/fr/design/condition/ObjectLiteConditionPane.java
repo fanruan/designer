@@ -79,7 +79,7 @@ public class ObjectLiteConditionPane extends LiteConditionPane<ObjectCondition> 
 
 			conditionValuePane = ValueEditorPaneFactory.createAllValueEditorPane();
 
-			Component[][] components = { { new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_ConditionB-Operator") + ":"), new UILabel() },
+			Component[][] components = { { new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_ConditionB_Operator") + ":"), new UILabel() },
 					{ conditionOPComboBox, conditionValuePane } };
 
 			double p = TableLayout.PREFERRED;

@@ -54,7 +54,7 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
     private static final int GAP = 23;
     private static final int VERGAP = 3;
     private static final Dimension SPINNER_DIMENSION = new Dimension(75, 20);
-    private static final String[] TEXT = {com.fr.design.i18n.Toolkit.i18nText("FR-Designer_StyleAlignment_Wrap_Text"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_StyleAlignment_Single_Line"),
+    private static final String[] TEXT = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Wrap_Text"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Single_Line"),
             com.fr.design.i18n.Toolkit.i18nText("FR-Designer_StyleAlignment_Single_Line(Adjust_Font)"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_StyleAlignment_Multi_Line(Adjust_Font)")};
 
     private static final String[] LAYOUT = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Layout_Default"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Layout_Image_Titled"),
@@ -173,7 +173,7 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
 
     private void initTextRotationCombox() {
         ArrayList<String> selectOption = new ArrayList<String>();
-        selectOption.add(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Custom-Angle"));
+        selectOption.add(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom_Angle"));
         VerticalTextProcessor processor = ExtraClassManager.getInstance().getSingle(VerticalTextProcessor.XML_TAG, DefaultVerticalTextProcessor.class);
         selectOption.addAll(Arrays.asList(processor.getComboxOption()));
 
@@ -183,15 +183,15 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
     private void initAllNames() {
         hAlignmentPane.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Pane_Horizontal"));
         vAlignmentPane.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Pane_Vertical"));
-        imageLayoutComboBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Image_Layout"));
-        textComboBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_StyleAlignment_Text_Style"));
+        imageLayoutComboBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Image_Layout"));
+        textComboBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Text_Style"));
         textRotationComboBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_StyleAlignment_Text_Rotation"));
         rotationPane.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_StyleAlignment_Text_Rotation"));
-        leftIndentSpinner.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Style_Left_Indent"));
-        rightIndentSpinner.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Style_Right_Indent"));
-        spaceBeforeSpinner.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Style_Spacing_Before"));
-        spaceAfterSpinner.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Style_Spacing_After"));
-        lineSpaceSpinner.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Style_Line_Spacing"));
+        leftIndentSpinner.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Left_Indent"));
+        rightIndentSpinner.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Right_Indent"));
+        spaceBeforeSpinner.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Spacing_Before"));
+        spaceAfterSpinner.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Spacing_After"));
+        lineSpaceSpinner.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Line_Spacing"));
     }
 
     private JPanel createPane() {
@@ -229,9 +229,9 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel((com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Image_Layout")) + "   ", SwingConstants.LEFT), imageLayoutComboBox},
+                new Component[]{new UILabel((com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Image_Layout")) + "   ", SwingConstants.LEFT), imageLayoutComboBox},
                 new Component[]{null, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_StyleAlignment_Text_Style") + "   ", SwingConstants.LEFT), textComboBox},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Text_Style") + "   ", SwingConstants.LEFT), textComboBox},
                 new Component[]{null, null},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_StyleAlignment_Text_Rotation") + "   ", SwingConstants.LEFT), textRotationComboBox},
                 new Component[]{null, rotationBarCC},
@@ -273,7 +273,7 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
                 new Component[]{null, null, null},
                 new Component[]{null, null, null},
                 new Component[]{partSpacingPane, creatSpinnerPane(spaceBeforeSpinner), creatSpinnerPane(spaceAfterSpinner)},
-                new Component[]{null, new UILabel((com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Front")), SwingConstants.CENTER), new UILabel((com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Behind")), SwingConstants.CENTER)},
+                new Component[]{null, new UILabel((com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Front")), SwingConstants.CENTER), new UILabel((com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Behind")), SwingConstants.CENTER)},
                 new Component[]{null, null, null},
                 new Component[]{null, null, null},
                 new Component[]{spacingPane, creatSpinnerPane(lineSpaceSpinner), null},
@@ -369,7 +369,7 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
             }
         }
 
-        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_StyleAlignment_Text_Style"))) {
+        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Text_Style"))) {
             if (ComparatorUtils.equals(this.textComboBox.getSelectedItem(), TEXT[0])) {
                 style = style.deriveTextStyle(Style.TEXTSTYLE_WRAPTEXT);
             } else if (ComparatorUtils.equals(this.textComboBox.getSelectedItem(), TEXT[1])) {
@@ -389,7 +389,7 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
 
 
     private Style updateImageLayout(Style style) {
-        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Image_Layout"))) {
+        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Image_Layout"))) {
             if (ComparatorUtils.equals(this.imageLayoutComboBox.getSelectedItem(), LAYOUT[1])) {
                 style = style.deriveImageLayout(Constants.IMAGE_TILED);
             } else if (ComparatorUtils.equals(this.imageLayoutComboBox.getSelectedItem(), LAYOUT[2])) {
@@ -419,21 +419,21 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
     }
 
     private Style updateOther(Style style) {
-        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Style_Left_Indent"))) {
+        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Left_Indent"))) {
             style = style.derivePaddingLeft(indentationUnitProcessor.paddingUnitGainFromSpinner((int) (this.leftIndentSpinner.getValue())));
         }
 
-        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Style_Right_Indent"))) {
+        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Right_Indent"))) {
             style = style.derivePaddingRight(indentationUnitProcessor.paddingUnitGainFromSpinner((int) (this.rightIndentSpinner.getValue())));
         }
         //间距
-        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Style_Spacing_Before"))) {
+        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Spacing_Before"))) {
             style = style.deriveSpacingBefore((int) (this.spaceBeforeSpinner.getValue()));
         }
-        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Style_Spacing_After"))) {
+        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Spacing_After"))) {
             style = style.deriveSpacingAfter((int) (this.spaceAfterSpinner.getValue()));
         }
-        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Style_Line_Spacing"))) {
+        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Line_Spacing"))) {
             style = style.deriveLineSpacing((int) (this.lineSpaceSpinner.getValue()));
         }
         return style;

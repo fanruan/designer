@@ -53,7 +53,7 @@ public class WidgetBoundsPaneFactory {
         double p = TableLayout.PREFERRED;
 
         Component[][] northComponents = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget_Position")), createRightPane(x, y)},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Position")), createRightPane(x, y)},
                 new Component[]{null, createRightPane(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_X_Coordinate"), SwingConstants.CENTER), new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Y_Coordinate"), SwingConstants.CENTER))},
         };
         Component[][] centerComponents = new Component[][]{

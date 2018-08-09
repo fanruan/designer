@@ -108,7 +108,7 @@ public class ImagePreviewPane extends JComponent implements Scrollable, ImagePre
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (isLoading) {
-            g.drawString(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Image_Loading"), getWidth() / 2 - 25, getHeight() / 2);
+            g.drawString(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Image_Loading"), getWidth() / 2 - 25, getHeight() / 2);
             return;
         }
         if (this.getImage() != null) { //draw image.
