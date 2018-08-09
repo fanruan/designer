@@ -392,7 +392,7 @@ public class LayerDependenceSettingPane extends JPanel implements ItemListener {
 
             String name;
             if (column == 0) {
-                name = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_layerIndex");
+                name = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Layer_Index");
             } else {
                 name = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_filedChosen");
             }

@@ -78,7 +78,7 @@ public class PreviewTablePane extends BasicPane {
 
         JPanel currentPreviewPanel = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
         previewNumberPanel.add(currentPreviewPanel);
-        currentPreviewPanel.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Current_Preview_Rows") + ":"));
+        currentPreviewPanel.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Current_Preview_Rows") + ":"));
 
         currentRowsField = new UINumberField();
         currentPreviewPanel.add(currentRowsField);
@@ -155,7 +155,7 @@ public class PreviewTablePane extends BasicPane {
         if (this.dialog == null) {
             this.dialog = this.showWindow(DesignerContext.getDesignerFrame());
         }
-        progressBar = new AutoProgressBar(this, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Loading_Data"), "", 0, 100) {
+        progressBar = new AutoProgressBar(this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Loading_Data"), "", 0, 100) {
             public void doMonitorCanceled() {
                 if (getWorker() != null) {
                     getWorker().cancel(true);

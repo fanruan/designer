@@ -79,7 +79,7 @@ public abstract class BasicTableDataTreePane extends DockingView implements Resp
      */
     @Override
     public String getViewTitle() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_TableData");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_TableData");
     }
 
     /**

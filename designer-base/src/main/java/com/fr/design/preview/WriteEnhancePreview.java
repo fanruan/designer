@@ -13,7 +13,7 @@ import java.util.Map;
 public class WriteEnhancePreview extends AbstractPreviewProvider {
     @Override
     public String nameForPopupItem() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Write_Enhance_Preview");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Write_Enhance_Preview");
     }
 
     @Override

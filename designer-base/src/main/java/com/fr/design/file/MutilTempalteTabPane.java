@@ -174,7 +174,7 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
     }
 
     private UIMenuItem initCloseOther() {
-        UIMenuItem closeOther = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FS_Close_Other_Templates"));
+        UIMenuItem closeOther = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FS_Close_Other_Templates"));
         setListDownItemPreferredSize(closeOther);
         closeOther.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -694,7 +694,7 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
                 //如果在权限编辑情况下，不允许切换到表单类型的工作簿
                 if (DesignerMode.isAuthorityEditing() && !openedTemplate.get(selectedIndex).isJWorkBook()) {
                     DesignerContext.getDesignerFrame().addAndActivateJTemplate(openedTemplate.get(tempSelectedIndex));
-                    JOptionPane.showMessageDialog(this, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form-AuthorityEdited_Cannot_be_Supported")
+                    JOptionPane.showMessageDialog(this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Form_Authority_Edited_Cannot_Be_Supported")
                             + "!", com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Alert"), JOptionPane.WARNING_MESSAGE);
                     this.repaint();
                     return;

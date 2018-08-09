@@ -348,13 +348,13 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
         double columnSize[] = {f, p, p};
         double rowSize[] = {B, B, B, B, B, B, B};
         needColumnNameCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FirstRow_IS_Column_Name"), true);
-        dismenberLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Dismenber") + ":");
-        tableDismemberRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_TableDismember"), false);
-        tableDismemberRadioButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_TableDismember"));
-        spaceDismenberRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Space"), true);
-        spaceDismenberRadioButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Space"));
-        commaDismenberRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_CommaDismenber"), false);
-        commaDismenberRadioButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_CommaDismenber"));
+        dismenberLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Dismenber") + ":");
+        tableDismemberRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Table_Dismember"), false);
+        tableDismemberRadioButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Table_Dismember"));
+        spaceDismenberRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Space"), true);
+        spaceDismenberRadioButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Space"));
+        commaDismenberRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Comma_Dismenber"), false);
+        commaDismenberRadioButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Comma_Dismenber"));
         otherDismenberRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Other") + ":", false);
         otherDismenberRadioButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Other"));
         otherDismenberTextField = new UITextField(8);
@@ -782,7 +782,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
             xmlNodeTree = new XMLNodeTree();
             this.add(new JScrollPane(xmlNodeTree));
 
-            keyPointLaber = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_KeyPoint") + ":");
+            keyPointLaber = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Key_Point") + ":");
             refreshAction = new RefreshParameterAction();
             ToolBarDef toolbarDef = new ToolBarDef();
             toolbarDef.addShortCut(refreshAction);
@@ -939,7 +939,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
         }
 
         private void loadedTreeModel(){
-            ExpandMutableTreeNode rootTreeNode = new ExpandMutableTreeNode(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_loadedTreeModel"));
+            ExpandMutableTreeNode rootTreeNode = new ExpandMutableTreeNode(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Loaded_Tree_Model"));
             rootTreeNode.setExpanded(false);
             rootTreeNode.setAllowsChildren(false);
             DefaultTreeModel loadedTreeModel = new DefaultTreeModel(rootTreeNode);

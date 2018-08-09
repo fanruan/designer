@@ -74,14 +74,14 @@ public abstract class JavaScriptActionPane extends UIComboBoxPane<JavaScript> {
      * @return 返回按钮对象
      */
     public UIButton createCallButton() {
-        UIButton callButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Set_Callback_Function"));
+        UIButton callButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Set_Callback_Function"));
         callButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 final JavaScriptActionPane callPane = new JavaScriptActionPane() {
                     @Override
                     protected String title4PopupWindow() {
-                        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Set_Callback_Function");
+                        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Set_Callback_Function");
                     }
 
                     @Override
@@ -152,7 +152,7 @@ public abstract class JavaScriptActionPane extends UIComboBoxPane<JavaScript> {
 
         @Override
         protected String title4PopupWindow() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Set_Callback_Function");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Set_Callback_Function");
         }
 
         @Override
@@ -180,7 +180,7 @@ public abstract class JavaScriptActionPane extends UIComboBoxPane<JavaScript> {
 
             @Override
             protected String title4PopupWindow() {
-                return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Set_Callback_Function");
+                return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Set_Callback_Function");
             }
 
             @Override

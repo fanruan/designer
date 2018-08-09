@@ -44,7 +44,7 @@ public class UndoStateEdit extends AbstractUndoableEdit {
         super.undo();
         if (cur.getAuthorityType() == BaseUndoState.AUTHORITY_STATE) {
             int returnVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Undo_All_Authority_Operations") + "?",
-                    com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Undo"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Undo"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (returnVal == JOptionPane.NO_OPTION) {
                 return;
             }

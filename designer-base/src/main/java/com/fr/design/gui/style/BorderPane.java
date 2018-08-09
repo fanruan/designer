@@ -18,8 +18,6 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.backgroundpane.ColorBackgroundQuickPane;
 import com.fr.design.style.color.NewColorSelectBox;
-import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.ComparatorUtils;
 
 import com.fr.stable.Constants;
 import com.fr.stable.CoreConstants;
@@ -80,12 +78,12 @@ public class BorderPane extends AbstractBasicStylePane implements GlobalNameObse
                 new Component[]{null, null},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Style") + "    ", SwingConstants.LEFT), currentLineCombo},
                 new Component[]{null, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Color") + "    ", SwingConstants.LEFT), currentLineColorPane},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Color") + "    ", SwingConstants.LEFT), currentLineColorPane},
                 new Component[]{null, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_outBorder") + "    ", SwingConstants.LEFT), outerToggleButton = new UIToggleButton(new Icon[]{BaseUtils.readIcon("com/fr/design/images/m_format/out.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/out_white.png")}, false)},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Out_Border") + "    ", SwingConstants.LEFT), outerToggleButton = new UIToggleButton(new Icon[]{BaseUtils.readIcon("com/fr/design/images/m_format/out.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/out_white.png")}, false)},
                 new Component[]{null, externalPane},
                 new Component[]{null, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_inBorder") + "    ", SwingConstants.LEFT), innerToggleButton = new UIToggleButton(new Icon[]{BaseUtils.readIcon("com/fr/design/images/m_format/in.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/in_white.png")}, false)},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_In_Border") + "    ", SwingConstants.LEFT), innerToggleButton = new UIToggleButton(new Icon[]{BaseUtils.readIcon("com/fr/design/images/m_format/in.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/in_white.png")}, false)},
                 new Component[]{null, insidePane},
                 new Component[]{null, null}
         };

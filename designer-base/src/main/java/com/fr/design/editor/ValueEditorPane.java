@@ -101,7 +101,7 @@ public class ValueEditorPane extends BasicPane implements UIObserver, GlobalName
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Values-Editor");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Values_Editor");
     }
 
     public Editor getCurrentEditor() {
@@ -283,7 +283,7 @@ public class ValueEditorPane extends BasicPane implements UIObserver, GlobalName
             DesignerEnvManager designerEnvManager = DesignerEnvManager.getEnvManager();
             if (designerEnvManager.isSupportStringToFormula()) {
                 if (!designerEnvManager.isDefaultStringToFormula()) {
-                    int returnValue = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit_String_To_Formula")
+                    int returnValue = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Edit_String_To_Formula")
                             + "?", com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tooltips"), JOptionPane.YES_NO_OPTION);
                     if (returnValue == JOptionPane.OK_OPTION) {
 

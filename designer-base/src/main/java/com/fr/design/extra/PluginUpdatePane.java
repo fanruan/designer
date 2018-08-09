@@ -56,13 +56,13 @@ public class PluginUpdatePane extends PluginAbstractLoadingViewPane<List<PluginV
 
             @Override
             public String textForInstallButton() {
-                return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Plugin_Normal_Update");
+                return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Normal_Update");
             }
 
 
             @Override
             public String textForInstallFromDiskButton() {
-                return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Plugin_Normal_Update_From_Local");
+                return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Normal_Update_From_Local");
             }
 
             @Override
@@ -104,13 +104,13 @@ public class PluginUpdatePane extends PluginAbstractLoadingViewPane<List<PluginV
 
             @Override
             public String textForInstallButton() {
-                return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Plugin_Normal_Update");
+                return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Normal_Update");
             }
 
 
             @Override
             public String textForInstallFromDiskButton() {
-                return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Plugin_Normal_Update_From_Local");
+                return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Normal_Update_From_Local");
             }
 
             @Override
@@ -214,7 +214,7 @@ public class PluginUpdatePane extends PluginAbstractLoadingViewPane<List<PluginV
      */
     @Override
     public String textForInstallFromDiskFileButton() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Plugin_Normal_Update_From_Local");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Normal_Update_From_Local");
     }
 
     @Override

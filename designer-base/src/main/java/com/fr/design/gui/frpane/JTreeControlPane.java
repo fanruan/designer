@@ -57,7 +57,7 @@ public class JTreeControlPane extends ControlPane {
         // LeftPane
         JPanel leftPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         JPanel northPane = FRGUIPaneFactory.createBoxFlowInnerContainer_S_Pane();
-        DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Root"));
+        DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Root"));
         defaultTreeModel = new DefaultTreeModel(rootNode);
         DefaultMutableTreeNode firstLayer = new DefaultMutableTreeNode(new NameObject(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Gradation") + 1, new TreeNodeAttr()));
         tree = new JTree(defaultTreeModel);
@@ -84,7 +84,7 @@ public class JTreeControlPane extends ControlPane {
         leftPane.add(toolBar, BorderLayout.NORTH);
 
 
-        isPerformanceFirst = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Performance_First"));
+        isPerformanceFirst = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Performance_First"));
         northPane.add(new UILabel("                 "));
         northPane.add(isPerformanceFirst);
         this.add(northPane, BorderLayout.NORTH);
