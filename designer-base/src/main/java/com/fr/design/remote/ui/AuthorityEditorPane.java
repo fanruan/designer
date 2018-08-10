@@ -38,7 +38,9 @@ public class AuthorityEditorPane extends BasicBeanPane<DesignAuthority> {
         IOFileNodeFilter filter = new IOFileNodeFilter(new String[]{".cpt", ".class", ".frm", ".form"});
         tree.setDigIn(true);
         tree.setFileNodeFilter(filter);
-        this.add(new UIScrollPane(tree), BorderLayout.CENTER);
+        UIScrollPane scrollPane = new UIScrollPane(tree);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
+        this.add(scrollPane, BorderLayout.CENTER);
         tree.refreshEnv();
 
     }
