@@ -58,7 +58,7 @@ public class StyleArrayPane extends JListControlPane {
 
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("ServerM-Predefined_Styles");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ServerM_Predefined_Styles");
 	}
 
 	/**

@@ -10,6 +10,6 @@ public class HorizontalSplitProperties extends VerticalSplitProperties {
 
 	@Override
 	public String getGroupName() {
-		return com.fr.design.i18n.Toolkit.i18nText("Horizontal-Split_Layout");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Horizontal_Split_Layout");
 	}
 }

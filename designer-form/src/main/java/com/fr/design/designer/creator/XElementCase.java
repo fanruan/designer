@@ -81,7 +81,7 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 				new CRPropertyDescriptor("widgetName", this.data.getClass())
 						.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Form-Widget_Name")),
 				new CRPropertyDescriptor("visible", this.data.getClass()).setI18NName(
-						com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget-Visible")).setPropertyChangeListener(new PropertyChangeAdapter() {
+						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Visible")).setPropertyChangeListener(new PropertyChangeAdapter() {
 
 					@Override
 					public void propertyChange() {

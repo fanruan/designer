@@ -51,7 +51,7 @@ public class BodyMobileDefinePane extends MobileWidgetDefinePane {
         final JPanel panelWrapper = FRGUIPaneFactory.createBorderLayout_S_Pane();
         panelWrapper.add(panel, BorderLayout.NORTH);
 
-        return new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Properties_Mobile"), 280, 20, panelWrapper);
+        return new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Properties_Mobile"), 280, 20, panelWrapper);
     }
 
     // 控件顺序
@@ -61,7 +61,7 @@ public class BodyMobileDefinePane extends MobileWidgetDefinePane {
         JPanel panelWrapper = FRGUIPaneFactory.createBorderLayout_S_Pane();
         panelWrapper.add(mobileWidgetListPane, BorderLayout.CENTER);
 
-        return new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WidgetOrder"), 280, 20, panelWrapper);
+        return new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Order"), 280, 20, panelWrapper);
     }
 
     private void bindListeners2Widgets() {

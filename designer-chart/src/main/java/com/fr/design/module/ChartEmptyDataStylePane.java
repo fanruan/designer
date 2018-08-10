@@ -83,7 +83,7 @@ public class ChartEmptyDataStylePane extends AbstractAttrNoScrollPane {
             }
         });
 
-        UILabel promptContent = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tip_Content"));
+        UILabel promptContent = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Tip_Content"));
         JPanel northPane = GUICoreUtils.createFlowPane(new Component[]{promptContent, emptyData}, FlowLayout.LEFT, TEN, 0);
         northPane.setBorder(BorderFactory.createEmptyBorder(0, FIVE, 0, 0));
         return northPane;
@@ -210,7 +210,7 @@ public class ChartEmptyDataStylePane extends AbstractAttrNoScrollPane {
 
     @Override
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Chart_Empty_Data");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Empty_Data");
     }
 
     public void populateBean() {

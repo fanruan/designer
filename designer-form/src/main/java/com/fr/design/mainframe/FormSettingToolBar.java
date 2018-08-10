@@ -29,10 +29,10 @@ public class FormSettingToolBar extends JPanel {
         this.add(new UILabel(name));
         this.toolBarPane = toolBarPane;
         setButton = GUICoreUtils.createTransparentButton(setIcon, setIcon, setIcon);
-        setButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit_Button_ToolBar"));
+        setButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Edit_Button_ToolBar"));
         setButton.setAction(new SetAction());
         delButton = GUICoreUtils.createTransparentButton(delIcon, delIcon, delIcon);
-        delButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Remove_Button_ToolBar"));
+        delButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Remove_Button_ToolBar"));
         delButton.setAction(new DelAction());
         this.add(setButton);
         this.add(delButton);

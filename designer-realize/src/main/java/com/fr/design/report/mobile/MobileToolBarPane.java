@@ -31,8 +31,8 @@ public class MobileToolBarPane extends BasicBeanPane<ElementCaseMobileAttr> {
 
         UILabel uiLabel = new UILabel("html5");
         uiLabel.setBorder(BorderFactory.createEmptyBorder(5, 15, 10, 15));
-        zoomCheckPane = new MobileRadioCheckPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Mobile-Zoom"));
-        refreshCheckPane = new MobileRadioCheckPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Mobile-Refresh"));
+        zoomCheckPane = new MobileRadioCheckPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Mobile_Zoom"));
+        refreshCheckPane = new MobileRadioCheckPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Mobile_Refresh"));
 
         toobarsPane.add(uiLabel, BorderLayout.WEST);
         toobarsPane.add(zoomCheckPane, BorderLayout.CENTER);
@@ -65,6 +65,6 @@ public class MobileToolBarPane extends BasicBeanPane<ElementCaseMobileAttr> {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Mobile-ToolBar");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Mobile_ToolBar");
     }
 }

@@ -39,7 +39,7 @@ public class FRAbsoluteLayoutDefinePane extends AbstractDataModify<WAbsoluteLayo
         JPanel jPanel = createThirdPane();
         jPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         thirdPane.add(jPanel, BorderLayout.CENTER);
-        UIExpandablePane layoutExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_FormWidget_Area_Scaling"), 280, 20, thirdPane);
+        UIExpandablePane layoutExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Area_Scaling"), 280, 20, thirdPane);
         this.add(layoutExpandablePane, BorderLayout.CENTER);
     }
 

@@ -5,15 +5,10 @@ import com.fr.base.BaseUtils;
 import com.fr.base.present.DictPresent;
 import com.fr.base.present.FormulaPresent;
 import com.fr.design.ExtraDesignClassManager;
-import com.fr.design.constants.UIConstants;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.actions.cell.NewPresentAction;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.actions.edit.clear.*;
-import com.fr.design.actions.edit.order.BringFloatElementForwardAction;
-import com.fr.design.actions.edit.order.BringFloatElementToFrontAction;
-import com.fr.design.actions.edit.order.SendFloatElementBackwardAction;
-import com.fr.design.actions.edit.order.SendFloatElementToBackAction;
 import com.fr.design.actions.columnrow.DeleteColumnAction;
 import com.fr.design.actions.columnrow.DeleteRowAction;
 import com.fr.design.actions.columnrow.InsertColumnAction;
@@ -33,7 +28,6 @@ import com.fr.design.selection.SelectionListener;
 import com.fr.report.cell.cellattr.BarcodePresent;
 import com.fr.report.cell.cellattr.CurrencyLinePresent;
 
-import javax.swing.*;
 import java.util.Set;
 
 /**
@@ -48,7 +42,7 @@ public class DeprecatedActionManager {
      * @return the clearReportPage menu.
      */
     public static UIMenu getClearMenu(ElementCasePane ePane) {
-        UIMenu clearMenu = new UIMenu(com.fr.design.i18n.Toolkit.i18nText("M_Edit-Clear"));
+        UIMenu clearMenu = new UIMenu(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_M_Edit_Clear"));
         clearMenu.setIcon(BaseUtils.readIcon("/com/fr/design/images/control/clear.png"));
         clearMenu.setMnemonic('a');
 
@@ -140,7 +134,7 @@ public class DeprecatedActionManager {
     }
 
     public static UIMenu getDeleteMenu(ElementCasePane ePane) {
-        UIMenu deleteMenu = new UIMenu(com.fr.design.i18n.Toolkit.i18nText("M_Edit-Delete"));
+        UIMenu deleteMenu = new UIMenu(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_M_Edit_Delete"));
         deleteMenu.setIcon(BaseUtils.readIcon("/com/fr/design/images/control/remove.png"));
         deleteMenu.setMnemonic('d');
         deleteMenu.add(new DeleteRowAction(ePane).createMenuItem());

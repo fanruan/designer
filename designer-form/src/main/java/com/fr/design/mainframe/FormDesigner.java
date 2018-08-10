@@ -69,7 +69,7 @@ import java.util.List;
  */
 public class FormDesigner extends TargetComponent<Form> implements TreeSelectionListener, InvocationHandler, BaseFormDesigner, ParaDefinitePane {
     protected static final ArrayList<String> NAME_ARRAY_LIST = new ArrayList<String>(
-            Arrays.asList(new String[]{com.fr.design.i18n.Toolkit.i18nText("M_Edit-Cut"), com.fr.design.i18n.Toolkit.i18nText("M_Edit-Copy"), com.fr.design.i18n.Toolkit.i18nText("M_Edit-Delete")})
+            Arrays.asList(new String[]{com.fr.design.i18n.Toolkit.i18nText("M_Edit-Cut"), com.fr.design.i18n.Toolkit.i18nText("M_Edit-Copy"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_M_Edit_Delete")})
     );
     //底层容器的默认大小
     protected static final Dimension LARGE_PREFERRED_SIZE = new Dimension(WBorderLayout.DEFAULT_WIDTH, WBorderLayout.DEFAULT_HEIGHT);
@@ -604,7 +604,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
             return false;
         }
         if (this.getTarget().isNameExist(newName)) {
-            JOptionPane.showMessageDialog(this, "\"" + newName + "\"" + com.fr.design.i18n.Toolkit.i18nText("Utils-has_been_existed")
+            JOptionPane.showMessageDialog(this, "\"" + newName + "\"" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Has_Been_Existed")
                     + "!", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Alert"), JOptionPane.WARNING_MESSAGE);
             return false;
         }

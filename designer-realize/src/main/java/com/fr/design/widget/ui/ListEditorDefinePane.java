@@ -35,7 +35,7 @@ public class ListEditorDefinePane extends WriteUnableRepeatEditorPane<ListEditor
 	@Override
 	protected JPanel setThirdContentPane() {
 		JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
-		needHeadCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("List-Need_Head"));
+		needHeadCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_List_Need_Head"));
 		needHeadCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		jPanel.add(needHeadCheckBox, BorderLayout.CENTER);
 		jPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));

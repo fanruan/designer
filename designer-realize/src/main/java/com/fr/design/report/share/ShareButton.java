@@ -58,7 +58,7 @@ public class ShareButton extends UIButton{
 	 */
 	public ShareButton() {
     	this.setIcon(BaseUtils.readIcon("/com/fr/design/images/m_edit/share.png"));
-    	this.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Share-Template"));
+    	this.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Share_Template"));
     	this.set4ToolbarButton();
     	this.addActionListener(shareListener);
 	}
@@ -109,7 +109,7 @@ public class ShareButton extends UIButton{
 			boolean isSharable = isSharable();
 			
 			//点击后当前编辑模板会跳转到内置数据集的share模板上进行混淆数据.
-			UIMenuItem directShare = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Share-Template"));
+			UIMenuItem directShare = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Share_Template"));
 			directShare.setEnabled(!isSharable);
 			directShare.setIcon(BaseUtils.readIcon("/com/fr/design/images/m_edit/directShare.png"));
             if (directShare.isEnabled()) {
@@ -117,7 +117,7 @@ public class ShareButton extends UIButton{
             }
 			
 			//默认必须是先点击分享模板, 然后跳转到导出内置数据集的模板上, 才可以点完成修改并分享
-			UIMenuItem modifyShare = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Finish-Modify-Share"));
+			UIMenuItem modifyShare = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Finish_Modify_Share"));
 			modifyShare.setEnabled(isSharable);
 			modifyShare.setIcon(BaseUtils.readIcon("/com/fr/design/images/m_edit/modifyShare.png"));
 			if (modifyShare.isEnabled()) {

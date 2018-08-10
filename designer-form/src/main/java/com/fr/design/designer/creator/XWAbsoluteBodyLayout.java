@@ -71,7 +71,7 @@ public class XWAbsoluteBodyLayout extends XWAbsoluteLayout {
     @Override
     public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
         return  new CRPropertyDescriptor[] {
-                new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Toolkit.i18nText("FR-Designer_Form-Widget_Name")),
+                new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Toolkit.i18nText("Fine-Design_Form-Widget_Name")),
                 new CRPropertyDescriptor("borderStyle", this.data.getClass()).setEditorClass(
                         WLayoutBorderStyleEditor.class).setI18NName(
                         com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Style")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")

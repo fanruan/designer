@@ -17,13 +17,13 @@ public class RowHeightAction extends ColumnRowSizingAction {
 	public RowHeightAction(ElementCasePane t, int indexOfColumnOrRow) {
 		super(t, indexOfColumnOrRow);
 		
-        this.setName(com.fr.design.i18n.Toolkit.i18nText("Utils-Row_Height") + "...");
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Row_Height") + "...");
         this.setMnemonic('R');
     }
 	
 	@Override
 	protected String title4UnitInputPane() {
-		return com.fr.design.i18n.Toolkit.i18nText("Utils-Row_Height");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Row_Height");
 	}
     
     @Override

@@ -5,12 +5,10 @@ import com.fr.design.dialog.BasicPane;
 import com.fr.design.fun.CellAttributeProvider;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.gui.ibutton.UIHeadGroup;
-import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itabpane.TitleChangeListener;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.mainframe.cell.settingpane.*;
 import com.fr.design.utils.DesignUtils;
-import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 
 import com.fr.grid.selection.CellSelection;
@@ -132,9 +130,9 @@ public class CellElementEditPane extends BasicPane {
     AttributeChangeListener listener = new AttributeChangeListener() {
         @Override
         public void attributeChange() {
-            boolean isChooseFatherPane = ComparatorUtils.equals(paneList.get(tabsHeaderIconPane.getSelectedIndex()).getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_LeftParent")) ||
-                    ComparatorUtils.equals(paneList.get(tabsHeaderIconPane.getSelectedIndex()).getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_ExpandD_Up_Father_Cell"));
-            boolean isChooseExpandPane = ComparatorUtils.equals(paneList.get(tabsHeaderIconPane.getSelectedIndex()).getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_ExpandD_Expand_Direction"));
+            boolean isChooseFatherPane = ComparatorUtils.equals(paneList.get(tabsHeaderIconPane.getSelectedIndex()).getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_LeftParent")) ||
+                    ComparatorUtils.equals(paneList.get(tabsHeaderIconPane.getSelectedIndex()).getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ExpandD_Up_Father_Cell"));
+            boolean isChooseExpandPane = ComparatorUtils.equals(paneList.get(tabsHeaderIconPane.getSelectedIndex()).getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ExpandD_Expand_Direction"));
             if (isChooseExpandPane || isChooseFatherPane) {
                 ePane.setSupportDefaultParentCalculate(true);
             }
@@ -170,7 +168,7 @@ public class CellElementEditPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_CellElement_Property_Table");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CellElement_Property_Table");
     }
 
     @Override

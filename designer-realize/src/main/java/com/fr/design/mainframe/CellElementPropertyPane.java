@@ -89,7 +89,7 @@ public class CellElementPropertyPane extends DockingView {
 
         @Override
         public void fireTitleChange(String addName) {
-            title.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_CellElement_Property_Table") + '-' + addName);
+            title.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CellElement_Property_Table") + '-' + addName);
         }
     };
 
@@ -160,7 +160,7 @@ public class CellElementPropertyPane extends DockingView {
 
     @Override
     public String getViewTitle() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_CellElement_Property_Table");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CellElement_Property_Table");
     }
 
     @Override

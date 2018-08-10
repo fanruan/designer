@@ -76,7 +76,7 @@ public class ReportFloatPane extends JPanel {
     private void initInsertToolBar() {
         insertFloatMenu = new MenuDef(true);
         insertFloatMenu.setName(KeySetUtils.INSERT_FLOAT.getMenuKeySetName());
-        insertFloatMenu.setTooltip(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_T_Insert_Float"));
+        insertFloatMenu.setTooltip(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_T_Insert_Float"));
         insertFloatMenu.setIconPath("com/fr/design/images/control/addPopup.png");
         JTemplate editingTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
         JComponent currentElementCasePane = editingTemplate.getCurrentElementCasePane();

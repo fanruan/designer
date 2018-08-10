@@ -194,7 +194,7 @@ public class SelectedDataColumnPane extends BasicPane {
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         UILabel dsLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("TableData"));
-        UILabel dpLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Dynamic_Parameter"));
+        UILabel dpLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Dynamic_Parameter"));
         UILabel dcLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("DataColumn"));
         dsLabel.setPreferredSize(new Dimension(60, 20));
         dpLabel.setPreferredSize(new Dimension(60, 20));

@@ -29,7 +29,7 @@ public class VerticalBoxProperties implements GroupModel {
 
     @Override
     public String getGroupName() {
-        return com.fr.design.i18n.Toolkit.i18nText("VerticalBoxLayout");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Vertical_Box_Layout_Duplicate");
     }
 
     @Override

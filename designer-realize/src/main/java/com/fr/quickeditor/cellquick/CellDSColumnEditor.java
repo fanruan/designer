@@ -251,7 +251,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
             groupPane.setListener(groupListener);
 
             double[] rowSize = {P}, columnSize = {P, F};
-            UILabel uiLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Filter_Conditions"));
+            UILabel uiLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Filter_Conditions"));
             uiLabel.setPreferredSize(LABEL_DIMENSION);
             condition = new DSColumnConditionAction();
             if (tc != null) {
@@ -669,7 +669,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
                 formulaField = new JFormulaField(DEFAULT_VALUE);
                 centerPane.add(new JPanel(), "none");
                 centerPane.add(formulaField, "content");
-                UILabel sortLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Sort-Sort_Order"));
+                UILabel sortLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Sort_Sort_Order"));
                 sortLabel.setPreferredSize(LABEL_DIMENSION);
                 sortTypePane.addChangeListener(new ChangeListener() {
                     @Override
@@ -881,20 +881,20 @@ public class CellDSColumnEditor extends CellQuickEditor {
 
                 //奇数 UILabel 占一行作为提示信息
                 setCardPane.add(new JPanel(), ODD.name());
-                MultilineLabel oddTip = new MultilineLabel(com.fr.design.i18n.Toolkit.i18nText("FS-Designer_DS_Filter_Odd_Tip"));
+                MultilineLabel oddTip = new MultilineLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_DS_Filter_Odd_Tip"));
                 oddTip.setForeground(TIP_FONT_COLOR);
                 tipCardPane.add(oddTip, ODD.name());
 
                 //偶数 UILabel 占一行作为提示信息
                 setCardPane.add(new JPanel(), EVEN.name());
-                MultilineLabel evenTip = new MultilineLabel(com.fr.design.i18n.Toolkit.i18nText("FS-Designer_DS_Filter_Even_Tip"));
+                MultilineLabel evenTip = new MultilineLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_DS_Filter_Even_Tip"));
                 evenTip.setForeground(TIP_FONT_COLOR);
                 tipCardPane.add(evenTip, EVEN.name());
 
                 //输入框占用右半边，提示信息占一行
                 serialTextField = new UITextField(16);
                 setCardPane.add(serialTextField, SPECIFY.name());
-                MultilineLabel specifyTip = new MultilineLabel(com.fr.design.i18n.Toolkit.i18nText("FS-Designer_DS_Filter_Specify_Tip"));
+                MultilineLabel specifyTip = new MultilineLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_DS_Filter_Specify_Tip"));
                 specifyTip.setForeground(TIP_FONT_COLOR);
                 tipCardPane.add(specifyTip, SPECIFY.name());
                 contentPane = TableLayoutHelper.createDiffVGapTableLayoutPane(new Component[][]{

@@ -140,7 +140,7 @@ public class ServerPrinterPane extends BasicPane {
 					}
 				}                
             });
-			printerDialog.setTitle(com.fr.design.i18n.Toolkit.i18nText("ReportServerP-Add_Printer") + "...");
+			printerDialog.setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportServerP_Add_Printer") + "...");
 			printerDialog.setVisible(true);
 		}
 	};
@@ -161,7 +161,7 @@ public class ServerPrinterPane extends BasicPane {
 				return;
 			}
 
-			int returnVal = JOptionPane.showConfirmDialog(ServerPrinterPane.this, com.fr.design.i18n.Toolkit.i18nText("ReportServerP-Are_you_sure_to_delete_the_selected_printer")
+			int returnVal = JOptionPane.showConfirmDialog(ServerPrinterPane.this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportServerP_Are_You_Sure_To_Delete_The_Selected_Printer")
 					+ "?", com.fr.design.i18n.Toolkit.i18nText("Remove"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if (returnVal == JOptionPane.OK_OPTION) {
 				((DefaultListModel) printerList.getModel()).remove(selectedIndex);
@@ -261,7 +261,7 @@ public class ServerPrinterPane extends BasicPane {
 			}                
         });
 		printersPane.populate(printerList.getSelectedValue().toString());
-		printerDialog.setTitle(com.fr.design.i18n.Toolkit.i18nText("ReportServerP-Edit_Printer") + "...");
+		printerDialog.setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportServerP_Edit_Printer") + "...");
 		printerDialog.setVisible(true);
 	}
 	public void populate(Printer printer) {
@@ -343,7 +343,7 @@ public class ServerPrinterPane extends BasicPane {
 		public void checkValid() throws Exception {
 			String printerName = printerCombo.getSelectedItem().toString();
 			if (StringUtils.isBlank(printerName)) {
-				throw new Exception(com.fr.design.i18n.Toolkit.i18nText("ReportServerP-The_name_of_printer_cannot_be_null") + ".");
+				throw new Exception(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportServerP_The_Name_Of_Printer_Cannot_Be_Null") + ".");
 			}
 		}
 

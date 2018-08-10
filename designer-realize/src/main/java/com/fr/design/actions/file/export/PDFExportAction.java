@@ -35,7 +35,7 @@ public class PDFExportAction extends AbstractExportAction {
 
     @Override
 	protected ChooseFileFilter getChooseFileFilter() {
-        return new ChooseFileFilter(FileExtension.PDF, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Export-PDF"));
+        return new ChooseFileFilter(FileExtension.PDF, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Export_PDF"));
     }
 
     @Override

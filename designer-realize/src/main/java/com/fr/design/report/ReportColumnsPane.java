@@ -38,13 +38,13 @@ public class ReportColumnsPane extends BasicPane{
     };
 
     private static final String[] SHOW_BLANK = {
-            com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Show_Blank_Row"),
-            com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Show_Blank_Column")
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Show_Blank_Row"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Show_Blank_Column")
     };
 
     private static final String[] REPORT_COLUMN_RAPEAT = {
-            com.fr.design.i18n.Toolkit.i18nText("FR-Designer_ReportColumns-Repeat_Row"),
-            com.fr.design.i18n.Toolkit.i18nText("FR-Designer_ReportColumns-Repeat_Column")
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Columns_Repeat_Row"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Columns_Repeat_Column")
     };
     
     private static final String FONT_NAME = "simsun";
@@ -120,7 +120,7 @@ public class ReportColumnsPane extends BasicPane{
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("ReportColumns-Report_Columns");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportColumns_Report_Columns");
     }
 
     private void checkEnable() {
@@ -190,10 +190,10 @@ public class ReportColumnsPane extends BasicPane{
         JPanel sampleLablePane = new JPanel(new GridLayout(1,2));
         sampleLablePane.setPreferredSize(new Dimension(524, 130));
         JPanel rPane = new JPanel();
-        UILabel rLabel = new UILabel(BaseUtils.readIcon("/com/fr/design/images/reportcolumns/" + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Row_Icon_File_Name")));
+        UILabel rLabel = new UILabel(BaseUtils.readIcon("/com/fr/design/images/reportcolumns/" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Row_Icon_File_Name")));
         rLabel.setBorder(BorderFactory.createEmptyBorder(5,45,0,49));
         rPane.add(rLabel);
-        rowButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("ReportColumns-Columns_horizontally"));
+        rowButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportColumns_Columns_Horizontally"));
         rowButton.addActionListener(rowChangeListener);
         rPane.add(rowButton);
         sampleLablePane.add(rPane);
@@ -201,7 +201,7 @@ public class ReportColumnsPane extends BasicPane{
         UILabel cLabel = new UILabel(BaseUtils.readIcon("/com/fr/design/images/reportcolumns/col.png"));
         cLabel.setBorder(BorderFactory.createEmptyBorder(5,49,0,49));
         cPane.add(cLabel);
-        colButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("ReportColumns-Columns_vertically"));
+        colButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportColumns_Columns_Vertically"));
         colButton.addActionListener(colChangeListener);
         cPane.add(colButton);
         sampleLablePane.add(cPane);
@@ -245,15 +245,15 @@ public class ReportColumnsPane extends BasicPane{
         RowMaxOrSetPane.setBorder(BorderFactory.createEmptyBorder(8, 5, 0, 0));
         RowMaxOrSetPane.setLayout(new FlowLayout(FlowLayout.LEFT,25,2));
         //marks:在多少行后开始分栏
-        maxRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("ReportColumns-Columns_after"));
+        maxRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportColumns_Columns_After"));
         maxNumberSpinner = new UIBasicSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1));
         GUICoreUtils.setColumnForSpinner(maxNumberSpinner, 6);
         maxRadioButton.addActionListener(maxBtnListener);
         maxUILabel = new UILabel(COLUMN_ROW_TEXTS[rowOrColumn] );
-        JPanel maxRowRadioPane = GUICoreUtils.createFlowPane(new JComponent[]{maxRadioButton, maxNumberSpinner, maxUILabel, new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_ReportColumns_Columns_Optional"))}, FlowLayout.CENTER);
+        JPanel maxRowRadioPane = GUICoreUtils.createFlowPane(new JComponent[]{maxRadioButton, maxNumberSpinner, maxUILabel, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Report_Columns_Columns_Optional"))}, FlowLayout.CENTER);
         RowMaxOrSetPane.add(maxRowRadioPane);
         //marks:分成多少行
-        toXRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("ReportColumns-Columns_to"));
+        toXRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportColumns_Columns_To"));
         toXRadioButton.addActionListener(toXBtnListener);
         toXSpinner = new UIBasicSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1));
         GUICoreUtils.setColumnForSpinner(toXSpinner, 6);

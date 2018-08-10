@@ -3,6 +3,49 @@
  */
 package com.fr.design.headerfooter;
 
+import com.fr.base.BaseUtils;
+import com.fr.base.GraphHelper;
+import com.fr.base.PaperSize;
+import com.fr.base.ScreenResolution;
+import com.fr.base.headerfooter.DateHFElement;
+import com.fr.base.headerfooter.FormulaHFElement;
+import com.fr.base.headerfooter.HFElement;
+import com.fr.base.headerfooter.ImageHFElement;
+import com.fr.base.headerfooter.NewLineHFElement;
+import com.fr.base.headerfooter.NumberOfPageHFElement;
+import com.fr.base.headerfooter.PageNumberHFElement;
+import com.fr.base.headerfooter.TextHFElement;
+import com.fr.base.headerfooter.TimeHFElement;
+import com.fr.design.DesignerEnvManager;
+import com.fr.design.dialog.BasicDialog;
+import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.icheckbox.UICheckBox;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.ispinner.UISpinner;
+import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.style.background.BackgroundPane;
+import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.general.Background;
+import com.fr.page.ReportSettingsProvider;
+import com.fr.report.core.ReportHF;
+import com.fr.stable.Constants;
+import com.fr.stable.unit.CM;
+import com.fr.stable.unit.FU;
+import com.fr.stable.unit.INCH;
+import com.fr.stable.unit.MM;
+import com.fr.stable.unit.UNIT;
+
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JToolBar;
+import javax.swing.JViewport;
+import javax.swing.Scrollable;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -16,52 +59,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Rectangle2D;
-
-import javax.swing.BorderFactory;
-
-import com.fr.base.headerfooter.DateHFElement;
-import com.fr.base.headerfooter.FormulaHFElement;
-import com.fr.base.headerfooter.HFElement;
-import com.fr.base.headerfooter.ImageHFElement;
-import com.fr.base.headerfooter.NewLineHFElement;
-import com.fr.base.headerfooter.NumberOfPageHFElement;
-import com.fr.base.headerfooter.PageNumberHFElement;
-import com.fr.base.headerfooter.TextHFElement;
-import com.fr.base.headerfooter.TimeHFElement;
-import com.fr.page.ReportSettingsProvider;
-import com.fr.design.gui.ilable.UILabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JToolBar;
-import javax.swing.JViewport;
-import javax.swing.Scrollable;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-import com.fr.base.BaseUtils;
-import com.fr.base.GraphHelper;
-import com.fr.base.PaperSize;
-import com.fr.base.ScreenResolution;
-import com.fr.design.DesignerEnvManager;
-import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.gui.icheckbox.UICheckBox;
-import com.fr.design.gui.ispinner.UISpinner;
-import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.dialog.BasicDialog;
-import com.fr.design.dialog.DialogActionAdapter;
-import com.fr.general.Background;
-
-import com.fr.report.core.ReportHF;
-import com.fr.stable.Constants;
-import com.fr.stable.unit.CM;
-import com.fr.stable.unit.FU;
-import com.fr.stable.unit.INCH;
-import com.fr.stable.unit.MM;
-import com.fr.stable.unit.UNIT;
-import com.fr.design.style.background.BackgroundPane;
-import com.fr.design.utils.gui.GUICoreUtils;
 
 /**
  * Edit header or footer(the object ReportHF).
@@ -132,9 +129,9 @@ public class HeaderFooterEditPane extends JPanel {
 		centerHFContainer.setContentChangeListener(contentChangeListener);
 		rightHFContainer.setContentChangeListener(contentChangeListener);
 
-		controlContentPane.add(createContainerSection(com.fr.design.i18n.Toolkit.i18nText("HF-Left_Section") + ":", leftHFContainer));
-		controlContentPane.add(createContainerSection(com.fr.design.i18n.Toolkit.i18nText("HF-Center_Section") + ":", centerHFContainer));
-		controlContentPane.add(createContainerSection(com.fr.design.i18n.Toolkit.i18nText("HF-Right_Section") + ":", rightHFContainer));
+		controlContentPane.add(createContainerSection(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_HF_Left_Section") + ":", leftHFContainer));
+		controlContentPane.add(createContainerSection(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_HF_Center_Section") + ":", centerHFContainer));
+		controlContentPane.add(createContainerSection(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_HF_Right_Section") + ":", rightHFContainer));
 
 		//set current HFContainer
 		setCurrentHFContainer(leftHFContainer);
@@ -180,19 +177,19 @@ public class HeaderFooterEditPane extends JPanel {
 				backgroundDialog.setVisible(true);
 			}
 		});
-		printBackgroundCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("ReportGUI-Print_Background"));
+		printBackgroundCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportGUI_Print_Background"));
 		toolbar.add(printBackgroundCheckBox);
 
 		toolbar.addSeparator(separatorDimension);
 		
 		JPanel headerPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
 		headerUnitFieldPane = new AdjustHeightPane();
-		headerPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("PageSetup-Header") + ":"));
+		headerPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_PageSetup_Header") + ":"));
 		headerPane.add(headerUnitFieldPane);
 
 		JPanel footerPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
 		footerUnitFieldPane = new AdjustHeightPane();
-		footerPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("PageSetup-Footer") + ":"));
+		footerPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_PageSetup_Footer") + ":"));
 		footerPane.add(footerUnitFieldPane);
 
 		JPanel headerFooterPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
@@ -634,7 +631,7 @@ public class HeaderFooterEditPane extends JPanel {
 
 		private void setUnitType(int unitType) {
 			if (unitType == Constants.UNIT_CM) {
-				unitLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Unit_CM"));
+				unitLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_CM"));
 			} else if (unitType == Constants.UNIT_INCH) {
 				unitLabel.setText(com.fr.design.i18n.Toolkit.i18nText("PageSetup-inches"));
 			} else {

@@ -177,8 +177,8 @@ public class WidgetPane extends AbstractAttrNoScrollPane implements ItemListener
 
     private static class EditorTypeComboBox extends UIComboBox {
 
-        private Item item = new Item(com.fr.design.i18n.Toolkit.i18nText("Widget-User_Defined"),
-                com.fr.design.i18n.Toolkit.i18nText("Widget-User_Defined"));
+        private Item item = new Item(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Widget_User_Defined"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Widget_User_Defined"));
 
         public EditorTypeComboBox(boolean userDefined) {
             this.setEditable(false);
@@ -188,7 +188,7 @@ public class WidgetPane extends AbstractAttrNoScrollPane implements ItemListener
                                                               Object value, int index, boolean isSelected,
                                                               boolean cellHasFocus) {
                     if (value == item) {
-                        UILabel label = new UILabel(Toolkit.i18nText("Widget-User_Defined")
+                        UILabel label = new UILabel(Toolkit.i18nText("Fine-Design_Report_Widget_User_Defined")
                                 + " ————");
                         label.setEnabled(false);
                         return label;

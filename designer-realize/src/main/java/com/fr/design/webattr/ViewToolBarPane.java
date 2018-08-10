@@ -30,7 +30,7 @@ import java.util.List;
 public class ViewToolBarPane extends AbstractEditToolBarPane {
 	private EventPane eventPane;
 	
-	private UICheckBox isUseToolBarCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Use_ToolBar"));
+	private UICheckBox isUseToolBarCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Use_ToolBar"));
 	private UIButton editToolBarButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit"));
 	private UILabel showListenersLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Form-Editing_Listeners") + ":");
 	private UICheckBox sortCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Sort_Sort"));
@@ -84,7 +84,7 @@ public class ViewToolBarPane extends AbstractEditToolBarPane {
 	
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("M-Data_Analysis_Settings");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_M_Data_Analysis_Settings");
 	}
 
 	@Override

@@ -248,7 +248,7 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
             @Override
             protected com.fr.data.impl.Connection doInBackground() {
                 schemaBox.setRefreshingModel(true);
-                schemaBox.addItem(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Loading") + "...");
+                schemaBox.addItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Loading") + "...");
                 schemaBox.setSelectedItem(null);
                 schemaBox.setRefreshingModel(false);
                 return getConnection();

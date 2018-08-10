@@ -25,16 +25,16 @@ public class BasicWidgetPropertySettingPane extends BasicPane {
 	
 	public BasicWidgetPropertySettingPane() {
 		this.setLayout(new BorderLayout());
-		enableCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Enabled"), true);
+		enableCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Enabled"), true);
 		enableCheckBox.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
-		visibleCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget-Visible"), true);
+		visibleCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Visible"), true);
 		visibleCheckBox.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
 		widgetNameComboBox = new ParameterTreeComboBox();
 		widgetNameComboBox.refreshTree();
 		double f = TableLayout.FILL;
 		double p = TableLayout.PREFERRED;
 		Component[][] components = new Component[][]{
-				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form-Widget_Name")), widgetNameComboBox},
+				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form-Widget_Name")), widgetNameComboBox},
 				new Component[]{enableCheckBox, null},
 				new Component[]{visibleCheckBox, null},
 		};

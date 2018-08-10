@@ -141,7 +141,7 @@ public class FormWidgetDetailPane extends FormDockView{
 //        menutPanel.setPreferredSize(new Dimension(240, 48));
 
         menutPanelNorthPane = new JPanel(new BorderLayout());
-        menutPanelNorthPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_LocalWidget"),
+        menutPanelNorthPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Local_Widget"),
                 SwingConstants.HORIZONTAL), BorderLayout.WEST);
         menutPanelNorthPane.add(initEditButtonPane(), BorderLayout.EAST);
         menutPanelNorthPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
@@ -174,7 +174,7 @@ public class FormWidgetDetailPane extends FormDockView{
      */
     private JPanel initResetButtonPane() {
         resetPanel = new JPanel();
-        resetButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Reset"));
+        resetButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Reset"));
         resetPanel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
         resetButton.setBackground(Color.white);
         resetButton.setForeground(new Color(0x333334));
@@ -187,7 +187,7 @@ public class FormWidgetDetailPane extends FormDockView{
             }
         });
 
-        deleteButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Remove_Item"));
+        deleteButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Remove_Item"));
         deleteButton.setBackground(Color.white);
         deleteButton.setForeground(new Color(0xeb1d1f));
         deleteButton.addActionListener(new ActionListener() {
@@ -294,7 +294,7 @@ public class FormWidgetDetailPane extends FormDockView{
         UIButton downloadButton = new UIButton();
         downloadButton.setIcon(BaseUtils.readIcon("/com/fr/design/form/images/download icon.png"));
         downloadButton.set4ToolbarButton();
-        downloadButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Download_Template"));
+        downloadButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Download_Template"));
         downloadButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -325,7 +325,7 @@ public class FormWidgetDetailPane extends FormDockView{
     private UIButton createInstallButton() {
         return createToolButton(
                 BaseUtils.readIcon("/com/fr/design/form/images/install icon.png"),
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Install_Template"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Install_Template"),
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -348,7 +348,7 @@ public class FormWidgetDetailPane extends FormDockView{
     private UIButton createDeleteButton() {
         return createToolButton(
                 BaseUtils.readIcon("/com/fr/design/form/images/delete icon.png"),
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Delete_Template"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Delete_Template"),
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {

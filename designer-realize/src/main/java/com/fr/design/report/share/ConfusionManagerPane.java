@@ -41,7 +41,7 @@ public class ConfusionManagerPane extends JListControlPane {
 
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Data-confusion");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Data-Confusion");
 	}
 
 	/**

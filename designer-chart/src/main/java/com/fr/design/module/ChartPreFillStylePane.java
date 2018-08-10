@@ -53,8 +53,8 @@ public class ChartPreFillStylePane extends BasicBeanPane<ChartColorMatching> {
 
         JPanel buttonPane = new JPanel();
         buttonPane.setLayout(new FlowLayout(FlowLayout.LEFT));
-        buttonPane.add(accButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Chart_Acc_Set")));
-        buttonPane.add(gradientButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Gradient-Color")));
+        buttonPane.add(accButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Acc_Set")));
+        buttonPane.add(gradientButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Gradient_Color")));
         customPane.add(buttonPane, BorderLayout.NORTH);
 
         changeColorSetPane = new JPanel(cardLayout = new CardLayout());
@@ -105,7 +105,7 @@ public class ChartPreFillStylePane extends BasicBeanPane<ChartColorMatching> {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("ServerM-Predefined_Styles");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ServerM_Predefined_Styles");
     }
 
     public void populateBean(ChartColorMatching condition) {

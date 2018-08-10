@@ -42,7 +42,7 @@ public class BiasCellAction extends AbstractCellAction implements WorkBookSuppor
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("M_Insert-Slope_Line");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_M_Insert_Slash");
         }
 
         @Override

@@ -39,7 +39,7 @@ public class ReportMobileTemplateSettingsPane extends BasicBeanPane<ElementCaseM
 
     private JPanel getMobileCanvasSizeCheckPane() {
         JPanel panel = new JPanel(FRGUIPaneFactory.createBorderLayout());
-        mobileCanvasSizeCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Set_Mobile_Canvas_Size"));
+        mobileCanvasSizeCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Set_Mobile_Canvas_Size"));
         panel.add(mobileCanvasSizeCheck, BorderLayout.NORTH);
         panel.add(getCanvasDescPane(), BorderLayout.CENTER);
         panel.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L1, 0, IntervalConstants.INTERVAL_L6, 0));
@@ -48,9 +48,9 @@ public class ReportMobileTemplateSettingsPane extends BasicBeanPane<ElementCaseM
 
     private JPanel getCanvasDescPane() {
 
-        UILabel desc1 = createDescLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Mobile_Screen_Match_Desc"));
-        UILabel desc2 = createDescLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Mobile_Screen_Zoom_In_Desc"));
-        UILabel desc3 = createDescLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Mobile_Screen_Zoom_Out_Desc"));
+        UILabel desc1 = createDescLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Mobile_Screen_Match_Desc"));
+        UILabel desc2 = createDescLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Mobile_Screen_Zoom_In_Desc"));
+        UILabel desc3 = createDescLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Mobile_Screen_Zoom_Out_Desc"));
 
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
@@ -97,6 +97,6 @@ public class ReportMobileTemplateSettingsPane extends BasicBeanPane<ElementCaseM
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Template_Settings");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Template_Settings");
     }
 }
