@@ -49,7 +49,6 @@ public class LayerReportPane extends BasicBeanPane<LayerReportAttr> {
 
 	protected void initComponents() {
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
-//		JPanel outlayerReportPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Report_Engine", "Attribute"}));
 		JPanel outlayerReportPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Report_Engine_Attribute"));
 		JPanel layerReportPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_M_Pane();
 		this.add(outlayerReportPane);
@@ -114,7 +113,6 @@ public class LayerReportPane extends BasicBeanPane<LayerReportAttr> {
 
 	@Override
 	protected String title4PopupWindow() {
-//		return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Report_Engine", "Attribute"});
 		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Report_Engine_Attribute");
 	}
 

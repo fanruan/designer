@@ -66,7 +66,6 @@ public class RepeatAndFreezeSettingPane extends BasicPane {
         JPanel soverlapRowStartPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
         useRepeatTitleRCheckBox = new UICheckBox();
         soverlapRowStartPane.add(useRepeatTitleRCheckBox);
-//        soverlapRowStartPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"PageSetup-Title_Start_Row", "From"})));
         soverlapRowStartPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Title_Start_Row_Form")));
         repeatTitleRowPane = new RepeatRowPane();
         soverlapRowStartPane.add(repeatTitleRowPane);
@@ -82,7 +81,6 @@ public class RepeatAndFreezeSettingPane extends BasicPane {
         JPanel soverlapColStartPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
         useRepeatTitleCCheckBox = new UICheckBox();
         soverlapColStartPane.add(useRepeatTitleCCheckBox);
-//        soverlapColStartPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"PageSetup-Title_Start_Column", "From"})));
         soverlapColStartPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Title_Start_Column_Form")));
         // 重复打印标题的结束列
         repeatTitleColPane = new RepeatColPane();
@@ -99,7 +97,6 @@ public class RepeatAndFreezeSettingPane extends BasicPane {
         JPanel foverlapRowStartPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
         useRepeatFinisRCheckBox = new UICheckBox();
         foverlapRowStartPane.add(useRepeatFinisRCheckBox);
-//        foverlapRowStartPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"PageSetup-Finis_Start_Row", "From"})));
         foverlapRowStartPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Finis_Start_Row_Form")));
         repeatFinisRowPane = new RepeatRowPane();
         foverlapRowStartPane.add(repeatFinisRowPane);
@@ -115,7 +112,6 @@ public class RepeatAndFreezeSettingPane extends BasicPane {
         JPanel foverlapColStartPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
         useRepeatFinisCCheckBox = new UICheckBox();
         foverlapColStartPane.add(useRepeatFinisCCheckBox);
-//        foverlapColStartPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"PageSetup-Finis_Start_Column", "From"})));
         foverlapColStartPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Finis_Start_Column_Form")));
         repeatFinisColPane = new RepeatColPane();
         foverlapColStartPane.add(repeatFinisColPane);
@@ -179,7 +175,6 @@ public class RepeatAndFreezeSettingPane extends BasicPane {
     private JPanel initWriteFrozenPane() {
         JPanel writePanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
         // 填报冻结
-//        UILabel writeLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Face_Write", "Frozen"}) + ":");
         UILabel writeLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Face_Write_Frozen") + ":");
         JPanel writeLabelPanel = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
         writeLabelPanel.add(writeLabel);

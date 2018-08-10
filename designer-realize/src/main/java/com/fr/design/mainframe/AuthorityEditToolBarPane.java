@@ -40,7 +40,6 @@ public class AuthorityEditToolBarPane extends AuthorityPropertyPane {
         super(HistoryTemplateListPane.getInstance().getCurrentEditingTemplate());
         this.setLayout(new BorderLayout());
         this.setBorder(null);
-//        UILabel authorityTitle = new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"FR-Designer_Permissions", "FR-Designer_Edit"})) {
         UILabel authorityTitle = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Permissions_Edit")) {
             @Override
             public Dimension getPreferredSize() {
@@ -208,7 +207,6 @@ public class AuthorityEditToolBarPane extends AuthorityPropertyPane {
             if (name.getText() == "") {
                 type.setText("");
             } else {
-//                type.setText(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"ReportServerP-Toolbar", "FR-Designer_Form_Button"}));
                 type.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Toolbar_Button"));
             }
         }

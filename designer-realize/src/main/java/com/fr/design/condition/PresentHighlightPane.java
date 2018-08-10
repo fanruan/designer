@@ -35,7 +35,6 @@ public class PresentHighlightPane extends ConditionAttrSingleConditionPane<Highl
         super(conditionAttributesPane);
         this.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Present") + ":"));
 
-//        String[] typeArray = {PresentConstants.NORMAL, com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Other", "Present"})};
         String[] typeArray = {PresentConstants.NORMAL, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Other_Present")};
         presentComboBox = new UIComboBox(typeArray);
         this.add(presentComboBox);

@@ -10,7 +10,6 @@ public class FreezeWriteColPane extends FreezeAndRepeatPane {
 
 	public FreezeWriteColPane() {
 
-//		start = new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Frozen", "N.O."}) + " A", SwingConstants.CENTER);
         start = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Frozen_N.O.") + " A", SwingConstants.CENTER);
 		end = new ColSpinner(1,Integer.MAX_VALUE,1,1);
 	    super.initComponent();
@@ -26,7 +25,6 @@ public class FreezeWriteColPane extends FreezeAndRepeatPane {
 
 	@Override
 	public void populateBean(FT ob) {
-//		((UILabel)start).setText(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Frozen", "N.O."}) + StableUtils.convertIntToABC(ob.getFrom()));
 		((UILabel)start).setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Frozen_N.O.") + StableUtils.convertIntToABC(ob.getFrom()));
 		((ColSpinner)end).setValue((ob.getTo() + 1));
 	}

@@ -47,7 +47,6 @@ public class DefineAppendColumnRowPane extends BasicPane {
 		UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Append_Delete_Row_Message"));
 		label.setForeground(new Color(0x8F8F92));
 		lpane.add(label);
-//		Component[][] components = { { new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Specify", "Cell"})), crEditor }, { rowCountLable, jNumberEditor } ,{lpane,null}};
 		Component[][] components = { { new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Specify_Cell")), crEditor }, { rowCountLable, jNumberEditor } ,{lpane,null}};
 		JPanel contentPane = TableLayoutHelper.createGapTableLayoutPane(components, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_L2, IntervalConstants.INTERVAL_L1);
 		contentPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));

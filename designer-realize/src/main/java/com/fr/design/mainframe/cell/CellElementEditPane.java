@@ -147,7 +147,6 @@ public class CellElementEditPane extends BasicPane {
                     ePane.fireTargetModified();
                 }
             } else {
-//                DesignUtils.errorMessage(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"FR-Designer_Not_use_a_cell_attribute_table_editing", "FR-Designer_Float_Element"}) + "!");
                 DesignUtils.errorMessage(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Float_Element_Edit_Tips") + "!");
             }
             ePane.setSupportDefaultParentCalculate(false);

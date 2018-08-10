@@ -18,7 +18,6 @@ public class EditFloatElementNameAction extends FloatSelectionAction {
 	public EditFloatElementNameAction(ElementCasePane t) {
 		super(t);
 		
-//		this.setName(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Set", "Float_Element_Name"}));
 		this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Set_Float_Element_Name"));
 	}
 	
@@ -57,7 +56,6 @@ public class EditFloatElementNameAction extends FloatSelectionAction {
     	
     	@Override
     	protected String title4PopupWindow() {
-//    		return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Set", "Float_Element_Name"});
 			return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Set_Float_Element_Name");
     	}
     	

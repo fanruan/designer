@@ -225,7 +225,6 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
     }
 
     private void initVersionComboBox() {
-//        String[] array = {com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Auto", "Choose"}), "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16"};
         String[] array = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Auto_Choose"), "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16"};
         initcombobox(this.RCodeVersionComboBox, array, 0);
     }

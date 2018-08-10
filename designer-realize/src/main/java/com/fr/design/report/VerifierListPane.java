@@ -34,7 +34,6 @@ public class VerifierListPane extends ObjectJControlPane {
      */
     public NameableCreator[] createNameableCreators() {
         NameableCreator[] creators = new NameableCreator[]{
-//                new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"BuildIn", "Verify"}),
                 new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_BuildIn_Verify"),
                         "/com/fr/web/images/reportlet.png",
                         ValueVerifier.class,
@@ -51,7 +50,6 @@ public class VerifierListPane extends ObjectJControlPane {
             });
         }
         creators = ArrayUtils.add(creators, new NameObjectCreator(
-//                com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Custom", "Verify"}),
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Custom_Verify"),
                 "/com/fr/web/images/reportlet.png",
                 WClassVerifier.class,

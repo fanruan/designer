@@ -51,7 +51,6 @@ public class ExcelExportPane extends BasicPane {
 		northPane.add(passwordPane);
 		passwordWritePane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
 		passwordPane.add(passwordWritePane);
-//		UILabel passwordLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"File", "Password"}) + ":");
 		UILabel passwordLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_File_Password") + ":");
 		passwordWritePane.add(passwordLabel);
 		passwordField = new UITextField(11);
@@ -70,10 +69,8 @@ public class ExcelExportPane extends BasicPane {
 
 
 		JPanel protectedWordPane =FRGUIPaneFactory.createNormalFlowInnerContainer_M_Pane();
-//		protectedWord = new UICheckBox(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Protected", "Password"}));
 		protectedWord = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Protected_Password"));
 		wordPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-//		wordPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Sheet", "Password"}) + ":"));
 		wordPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Sheet_Password") + ":"));
 		protectedField = new UITextField(11);
 		wordPane.add(protectedField);

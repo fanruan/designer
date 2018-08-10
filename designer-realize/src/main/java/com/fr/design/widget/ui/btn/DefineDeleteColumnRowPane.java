@@ -38,7 +38,6 @@ public class DefineDeleteColumnRowPane extends BasicPane {
 		UILabel messageLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Append_Delete_Row_Message"));
 		messageLabel.setForeground(new Color(0x8F8F92));
 		Component[][] components = {
-//				{ new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Specify", "Cell"})), crEditor },
 				{ new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Specify_Cell")), crEditor },
 				{ messageLabel, null}};
 		JPanel contentPane = TableLayoutHelper.createGapTableLayoutPane(components, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_L2, IntervalConstants.INTERVAL_L1);

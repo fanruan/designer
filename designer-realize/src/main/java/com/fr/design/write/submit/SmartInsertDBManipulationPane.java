@@ -82,12 +82,10 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
         @Override
         public NameableCreator[] createNameableCreators() {
             return new NameableCreator[]{
-//                    new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Submit", "Event"}),
                     new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Submit_Event"),
                             "/com/fr/web/images/reportlet.png",
                             DMLConfigJob.class,
                             SmartInsertDMLJobPane.class),
-//                    new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Custom", "Event"}),
                     new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Custom_Event"),
                             "/com/fr/web/images/reportlet.png",
                             ClassSubmitJob.class,
