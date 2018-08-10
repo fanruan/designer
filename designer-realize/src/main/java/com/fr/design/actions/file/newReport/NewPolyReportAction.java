@@ -16,7 +16,7 @@ import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_M
 public class NewPolyReportAction extends UpdateAction {
 
     public NewPolyReportAction() {
-        this.setName(com.fr.design.i18n.Toolkit.i18nText("M-New_Multi_Report"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_M_New_Multi_Report"));
         this.setMnemonic('F');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_file/formExport.png"));
         this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, DEFAULT_MODIFIER));

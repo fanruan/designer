@@ -149,7 +149,7 @@ public class ParameterTreeComboBox extends FRTreeComboBox {
 			// 数据源参数
 			parameters = model.getTableDataParameters();
 			if (!ArrayUtils.isEmpty(parameters)) {
-				groupList.add(new ParameterGroup(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Datasource-Parameter"), parameters));
+				groupList.add(new ParameterGroup(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Datasource_Parameter"), parameters));
 			}
 		}
 		

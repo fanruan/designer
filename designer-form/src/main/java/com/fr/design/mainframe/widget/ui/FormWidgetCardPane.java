@@ -216,7 +216,7 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
             UITextField widgetNameField = widgetPropertyPane.getWidgetNameField();
             if (designer.getTarget().isNameExist(widgetNameField.getText()) && !ComparatorUtils.equals(widgetNameField.getText(), widget.getWidgetName())) {
                 widgetNameField.setText(widget.getWidgetName());
-                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form_Widget_Rename_Failure"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Joption_News"), JOptionPane.ERROR_MESSAGE, BaseUtils.readIcon("com/fr/design/form/images/joption_failure.png"));
+                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Rename_Failure"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Joption_News"), JOptionPane.ERROR_MESSAGE, BaseUtils.readIcon("com/fr/design/form/images/joption_failure.png"));
                 return;
             }
             widgetPropertyPane.update(widget);

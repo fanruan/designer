@@ -19,7 +19,7 @@ public class SetLegendStyleAction extends ChartComponentAction {
 
     public SetLegendStyleAction(ChartComponent chartComponent) {
         super(chartComponent);
-        this.setName(com.fr.design.i18n.Toolkit.i18nText("Set_Legend_Sytle"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Set_Legend_Sytle"));
     }
 
     public void actionPerformed(ActionEvent e) {

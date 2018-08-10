@@ -354,7 +354,7 @@ public class Designer extends BaseDesigner {
         run.setExtraPainted(false);
         run.set4Toolbar();
         run.getUpButton().setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Preview"));
-        run.getDownButton().setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Dropdown-More-Preview"));
+        run.getDownButton().setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Dropdown_More_Preview"));
     }
 
     @Override

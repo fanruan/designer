@@ -1,6 +1,5 @@
 package com.fr.design.mainframe;
 
-import com.fr.base.BaseUtils;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignState;
 import com.fr.design.actions.UpdateAction;
@@ -147,7 +146,7 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
 
     // 插入菜单
     private MenuDef createInsertMenuDef() {
-        MenuDef menuDef = new MenuDef(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_M-Insert"), 'I');
+        MenuDef menuDef = new MenuDef(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_M_Insert"), 'I');
         menuDef.setAnchor(MenuHandler.INSERT);
         // 单元格菜单
         menuDef.addShortCut(DeprecatedActionManager.getCellMenu(this));

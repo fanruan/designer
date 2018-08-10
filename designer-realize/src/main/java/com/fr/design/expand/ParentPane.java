@@ -347,7 +347,7 @@ public class ParentPane extends BasicPane {
 
 		@Override
 		protected String title4PopupWindow() {
-			return com.fr.design.i18n.Toolkit.i18nText("RWA-Smart_Add_Cells");
+			return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_RWA_Smart_Add_Cells");
 		}
 	}
 }

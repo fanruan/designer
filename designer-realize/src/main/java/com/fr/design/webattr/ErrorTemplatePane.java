@@ -37,7 +37,7 @@ public class ErrorTemplatePane extends BasicBeanPane<String> {
 
         		{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Template_Parameters") + ":"), null},
         		{new UILabel("message" + ":"), new UILabel(com.fr.design.i18n.Toolkit.i18nText("Verify-Message"))},
-        		{new UILabel("charset" + ":"), new UILabel(com.fr.design.i18n.Toolkit.i18nText("Server_Charset"))},
+        		{new UILabel("charset" + ":"), new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Server_Charset"))},
         		{new UILabel("exception" + ":"), new UILabel(com.fr.design.i18n.Toolkit.i18nText("Exception_StackTrace"))}
         };
         JPanel northPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);

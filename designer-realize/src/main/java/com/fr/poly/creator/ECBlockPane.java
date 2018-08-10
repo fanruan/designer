@@ -3,7 +3,6 @@
  */
 package com.fr.poly.creator;
 
-import com.fr.base.BaseUtils;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.actions.edit.HyperlinkAction;
 import com.fr.design.menu.KeySetUtils;
@@ -120,7 +119,7 @@ public class ECBlockPane extends PolyElementCasePane {
 
     // 插入菜单
     private MenuDef createInsertMenuDef() {
-        MenuDef menuDef = new MenuDef(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_M-Insert"), 'I');
+        MenuDef menuDef = new MenuDef(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_M_Insert"), 'I');
         // 单元格菜单
         menuDef.addShortCut(DeprecatedActionManager.getCellMenu(this));
 

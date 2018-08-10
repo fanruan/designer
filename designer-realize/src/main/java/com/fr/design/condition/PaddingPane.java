@@ -32,10 +32,10 @@ public class PaddingPane extends ConditionAttrSingleConditionPane<HighlightActio
 
     public PaddingPane(ConditionAttributesPane conditionAttributesPane) {
         super(conditionAttributesPane);
-        paddingLeft = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Style-Left_Indent") + ":");
+        paddingLeft = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Style_Left_Indent") + ":");
         paddingLeftSpinner = new UIBasicSpinner(new SpinnerNumberModel(2, 0, Integer.MAX_VALUE, 1));
         GUICoreUtils.setColumnForSpinner(paddingLeftSpinner, 5);
-        paddingRight = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Style-Right_Indent") + ":");
+        paddingRight = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Style_Right_Indent") + ":");
         paddingRightSpinner = new UIBasicSpinner(new SpinnerNumberModel(2, 0, Integer.MAX_VALUE, 1));
         GUICoreUtils.setColumnForSpinner(paddingRightSpinner, 5);
         this.add(paddingLeft);

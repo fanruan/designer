@@ -44,7 +44,7 @@ public abstract class XFieldEditor extends XWidgetCreator {
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Verify_Message"))
                 .putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate");
         CRPropertyDescriptor fontSize = new CRPropertyDescriptor("fontSize", this.data.getClass(), "getFontSize", "setFontSize")
-                .setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Font-Size"))
+                .setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Font_Size"))
                 .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Report_Advanced");
         return !((FieldEditor) toData()).isAllowBlank() ?
                 new CRPropertyDescriptor[]{allowBlank, blankErrorMsg, fontSize}

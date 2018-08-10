@@ -1,17 +1,15 @@
 package com.fr.design.designer.properties;
 
-import java.awt.Rectangle;
-
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableCellRenderer;
-
-
+import com.fr.design.designer.beans.ConstraintsGroupModel;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.FormSelection;
 import com.fr.design.mainframe.widget.editors.IntegerPropertyEditor;
 import com.fr.design.mainframe.widget.editors.PropertyCellEditor;
-import com.fr.design.designer.beans.ConstraintsGroupModel;
+
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
+import java.awt.Rectangle;
 
 /**
  * 多个组件时候的属性组
@@ -58,9 +56,9 @@ public class MultiSelectionBoundsModel implements ConstraintsGroupModel {
 			case 1:
 				return com.fr.design.i18n.Toolkit.i18nText("Y-Coordinate");
 			case 2:
-				return com.fr.design.i18n.Toolkit.i18nText("Tree-Width");
+				return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Tree_Width");
 			default:
-				return com.fr.design.i18n.Toolkit.i18nText("Tree-Height");
+				return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Tree_Height");
 			}
 		} else {
 			Rectangle rec = designer.getSelectionModel().getSelection().getSelctionBounds();

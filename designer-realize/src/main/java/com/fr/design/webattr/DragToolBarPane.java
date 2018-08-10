@@ -1,15 +1,11 @@
 package com.fr.design.webattr;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.datatransfer.Transferable;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.image.ImageObserver;
+import com.fr.design.gui.core.WidgetOption;
+import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.form.ui.Widget;
+import com.fr.report.web.Location;
+import com.fr.report.web.ToolBarManager;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
@@ -22,14 +18,16 @@ import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
 import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
-
-import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.gui.core.WidgetOption;
-import com.fr.form.ui.Widget;
-
-import com.fr.report.web.Location;
-import com.fr.report.web.ToolBarManager;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.datatransfer.Transferable;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.image.ImageObserver;
 
 /**
  * richer:拖拽ToolBar button以实现自定义工具栏.服务器配置那儿的
@@ -74,13 +72,13 @@ public class DragToolBarPane extends WidgetToolBarPane {
 		southToolBar.setPreferredSize(new Dimension(ImageObserver.WIDTH, 26));
 		southToolBar.setBackground(Color.lightGray);
 		JPanel northContentPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-		SettingToolBar top = new SettingToolBar(com.fr.design.i18n.Toolkit.i18nText("ToolBar_Top"), northToolBar);
+		SettingToolBar top = new SettingToolBar(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ToolBar_Top"), northToolBar);
 		northContentPane.add(top, BorderLayout.EAST);
 		northContentPane.add(northToolBar, BorderLayout.CENTER);
 		northContentPane.setBackground(Color.lightGray);
 
 		JPanel southContentPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-		SettingToolBar bottom = new SettingToolBar(com.fr.design.i18n.Toolkit.i18nText("ToolBar_Bottom"), southToolBar);
+		SettingToolBar bottom = new SettingToolBar(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ToolBar_Bottom"), southToolBar);
 		southContentPane.add(bottom, BorderLayout.EAST);
 		southContentPane.add(southToolBar, BorderLayout.CENTER);
 		southContentPane.setBackground(Color.lightGray);
@@ -112,7 +110,7 @@ public class DragToolBarPane extends WidgetToolBarPane {
 			}
 		});
 		buttonPane.add(defaultButton);
-		UIButton removeButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Remove_All_Button"));
+		UIButton removeButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Remove_All_Button"));
 		removeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				northToolBar.removeAll();

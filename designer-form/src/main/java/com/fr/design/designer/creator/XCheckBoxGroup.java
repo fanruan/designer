@@ -51,7 +51,7 @@ public class XCheckBoxGroup extends XFieldEditor {
 						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Choose_Type_All")).putKeyValue(
 						XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 				new CRPropertyDescriptor("returnString", this.data.getClass()).setI18NName(
-						com.fr.design.i18n.Toolkit.i18nText("Return-String")).setEditorClass(InChangeBooleanEditor.class)
+						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Return_String")).setEditorClass(InChangeBooleanEditor.class)
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced") };
 		if (((CheckBoxGroup) this.toData()).isReturnString()) {
 			crp = (CRPropertyDescriptor[]) ArrayUtils.addAll(crp, new CRPropertyDescriptor[] {

@@ -63,7 +63,7 @@ public class ReportPrintSettingAction extends JWorkBookAction {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Print_Setting");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Print_Setting");
         }
 
         @Override

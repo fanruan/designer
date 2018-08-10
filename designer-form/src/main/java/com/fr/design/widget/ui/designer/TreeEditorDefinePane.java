@@ -43,10 +43,10 @@ public class TreeEditorDefinePane extends CustomWritableRepeatEditorPane<TreeEdi
         loadAsync = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Widget-Load_By_Async"));
         loadAsync.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
-        returnLeaf = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget_Return_Leaf"));
+        returnLeaf = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Return_Leaf"));
         returnLeaf.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
-        returnPath = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget_Return_Path"));
+        returnPath = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Return_Path"));
         returnPath.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
         double f = TableLayout.FILL;

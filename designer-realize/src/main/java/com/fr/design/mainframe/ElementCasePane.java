@@ -1308,7 +1308,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
     protected ToolBarDef createInsertToolBar() {
         MenuDef insertFloatMenu = new MenuDef();
         insertFloatMenu.setName(KeySetUtils.INSERT_FLOAT.getMenuKeySetName());
-        insertFloatMenu.setTooltip(com.fr.design.i18n.Toolkit.i18nText("T_Insert-Float"));
+        insertFloatMenu.setTooltip(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_T_Insert_Float"));
         insertFloatMenu.setIconPath("/com/fr/design/images/m_insert/floatPop.png");
 
         UpdateAction[] actions = ActionFactory.createFloatInsertAction(ElementCasePane.class, this);

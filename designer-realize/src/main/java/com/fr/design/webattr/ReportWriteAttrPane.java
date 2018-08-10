@@ -60,7 +60,7 @@ public class ReportWriteAttrPane extends LoadingBasicPane {
 
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("ReportD-Report_Write_Attributes");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportD_Report_Write_Attributes");
 	}
 
 	public void populate(WorkSheet report) {

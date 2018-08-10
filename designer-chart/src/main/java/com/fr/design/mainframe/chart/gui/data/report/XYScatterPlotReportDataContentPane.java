@@ -31,7 +31,7 @@ public class XYScatterPlotReportDataContentPane extends AbstractReportDataConten
 	
 	protected String[] columnNames() {
 		return new String[]{
-				com.fr.design.i18n.Toolkit.i18nText("Series_Name"),
+				com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Name"),
 				com.fr.design.i18n.Toolkit.i18nText("Chart_Scatter") + "x",
 				com.fr.design.i18n.Toolkit.i18nText("Chart_Scatter") + "y"
 		};

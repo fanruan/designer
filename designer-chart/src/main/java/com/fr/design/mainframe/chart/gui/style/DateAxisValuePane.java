@@ -49,8 +49,8 @@ public class DateAxisValuePane extends FurtherBasicBeanPane<CategoryAxis>{
 
     private static String[] TYPES = new String[]{
     	com.fr.design.i18n.Toolkit.i18nText("Year"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Month"), com.fr.design.i18n.Toolkit.i18nText("Sun"),
-    	com.fr.design.i18n.Toolkit.i18nText("Sche-Hour"), com.fr.design.i18n.Toolkit.i18nText("Sche-Minute"),
-    	com.fr.design.i18n.Toolkit.i18nText("Sche-Second")
+    	com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_ScheHour"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sche_Minute"),
+    	com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sche_Second")
     };
     
     private static Map<String, Integer> VALUES = new HashMap<String, Integer>();
@@ -58,9 +58,9 @@ public class DateAxisValuePane extends FurtherBasicBeanPane<CategoryAxis>{
     	VALUES.put(com.fr.design.i18n.Toolkit.i18nText("Year"), ChartConstants.YEAR_TYPE);
     	VALUES.put(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Month"), ChartConstants.MONTH_TYPE);
     	VALUES.put(com.fr.design.i18n.Toolkit.i18nText("Sun"), ChartConstants.DAY_TYPE);
-    	VALUES.put(com.fr.design.i18n.Toolkit.i18nText("Sche-Hour"), ChartConstants.HOUR_TYPE);
-    	VALUES.put(com.fr.design.i18n.Toolkit.i18nText("Sche-Minute"), ChartConstants.MINUTE_TYPE);
-    	VALUES.put(com.fr.design.i18n.Toolkit.i18nText("Sche-Second"), ChartConstants.SECOND_TYPE);
+    	VALUES.put(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_ScheHour"), ChartConstants.HOUR_TYPE);
+    	VALUES.put(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sche_Minute"), ChartConstants.MINUTE_TYPE);
+    	VALUES.put(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sche_Second"), ChartConstants.SECOND_TYPE);
     }
     
     private static Map<Integer, String> INTS = new HashMap<Integer, String>();
@@ -68,9 +68,9 @@ public class DateAxisValuePane extends FurtherBasicBeanPane<CategoryAxis>{
     	INTS.put(ChartConstants.YEAR_TYPE, com.fr.design.i18n.Toolkit.i18nText("Year"));
     	INTS.put(ChartConstants.MONTH_TYPE, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Month"));
     	INTS.put(ChartConstants.DAY_TYPE, com.fr.design.i18n.Toolkit.i18nText("Sun"));
-    	INTS.put(ChartConstants.HOUR_TYPE, com.fr.design.i18n.Toolkit.i18nText("Sche-Hour"));
-    	INTS.put(ChartConstants.MINUTE_TYPE, com.fr.design.i18n.Toolkit.i18nText("Sche-Minute"));
-    	INTS.put(ChartConstants.SECOND_TYPE, com.fr.design.i18n.Toolkit.i18nText("Sche-Second"));
+    	INTS.put(ChartConstants.HOUR_TYPE, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_ScheHour"));
+    	INTS.put(ChartConstants.MINUTE_TYPE, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sche_Minute"));
+    	INTS.put(ChartConstants.SECOND_TYPE, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sche_Second"));
     }
    
     // 最大最小值

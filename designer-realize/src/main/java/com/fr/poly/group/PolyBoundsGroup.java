@@ -1,19 +1,17 @@
 package com.fr.poly.group;
 
-import java.awt.Rectangle;
-
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableCellRenderer;
-
 import com.fr.base.ScreenResolution;
 import com.fr.design.beans.GroupModel;
 import com.fr.design.mainframe.widget.editors.IntegerPropertyEditor;
 import com.fr.design.mainframe.widget.editors.PropertyCellEditor;
-
 import com.fr.report.poly.PolyWorkSheet;
 import com.fr.report.poly.TemplateBlock;
 import com.fr.stable.unit.UnitRectangle;
+
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
+import java.awt.Rectangle;
 
 public class PolyBoundsGroup implements GroupModel {
 	private static final int DEFAULT_ROW_COUNT = 4;
@@ -62,9 +60,9 @@ public class PolyBoundsGroup implements GroupModel {
 			case 1:
 				return com.fr.design.i18n.Toolkit.i18nText("Y-Coordinate");
 			case 2:
-				return com.fr.design.i18n.Toolkit.i18nText("Tree-Width");
+				return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Tree_Width");
 			default:
-				return com.fr.design.i18n.Toolkit.i18nText("Tree-Height");
+				return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Tree_Height");
 			}
 		} else {
 			switch (row) {

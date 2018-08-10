@@ -92,7 +92,7 @@ public class HyperlinkPane extends ConditionAttrSingleConditionPane<HighlightAct
         if (jsGroup == null) {
             this.typeField.setText("");
         } else if (jsGroup.size() > 1) {
-            this.typeField.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_HyperLink_Must_Alone_Reset") + "!");
+            this.typeField.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_HyperLink_Must_Alone_Reset") + "!");
         } else if (jsGroup.size() == 1) {
             JavaScript js = jsGroup.getNameHyperlink(0).getJavaScript();
             if (js instanceof JavaScriptImpl) {

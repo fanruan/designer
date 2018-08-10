@@ -49,7 +49,7 @@ public class ElementEditorDefinePane extends WTitleLayoutDefinePane<ElementCaseE
 
     protected ElementCaseEditor updateSubBean() {
         ElementCaseEditor elementCaseEditor = (ElementCaseEditor) creator.toData();
-        if (ComparatorUtils.equals(getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Layout-Padding"))) {
+        if (ComparatorUtils.equals(getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Layout_Padding_Duplicate"))) {
             paddingBoundPane.update(elementCaseEditor);
         }
         elementCaseEditor.setToolBars((FormToolBarManager[]) elementCaseToolBarEditor.getValue());

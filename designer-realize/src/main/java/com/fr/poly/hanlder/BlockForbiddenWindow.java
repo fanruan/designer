@@ -22,7 +22,7 @@ public class BlockForbiddenWindow extends JWindow{
 	private static final int WIDTH = 150;
 	private static final int HEIGHT = 20;
 	
-    private UIButton promptButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Block-intersect"), BaseUtils.readIcon(IconPathConstants.FORBID_ICON_PATH));
+    private UIButton promptButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Block_Intersect"), BaseUtils.readIcon(IconPathConstants.FORBID_ICON_PATH));
 
 	/**
 	 * 构造函数

@@ -41,7 +41,7 @@ public abstract class ButtonGroupDefinePane<T extends ButtonGroup> extends Field
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Label_Name")), labelNameTextField},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Label_Name")), labelNameTextField},
                 new Component[]{widgetValueLabel, formWidgetValuePane},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_DS-Dictionary")), dictionaryEditor},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont")), fontSizePane},

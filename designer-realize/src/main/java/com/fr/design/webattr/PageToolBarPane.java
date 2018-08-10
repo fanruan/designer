@@ -30,16 +30,16 @@ import java.util.List;
 
 public class PageToolBarPane extends AbstractEditToolBarPane {
 	
-	private UIRadioButton centerRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Center_Display"));
-	private UIRadioButton leftRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Left_Display"));
+	private UIRadioButton centerRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Center_Display"));
+	private UIRadioButton leftRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Left_Display"));
 	
-	private UICheckBox isUseToolBarCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Use_ToolBar"));
+	private UICheckBox isUseToolBarCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Use_ToolBar"));
 	private UICheckBox isShowAsImageBox;
 	private UICheckBox isAutoScaleBox;
 	private UICheckBox isTDHeavyBox;
 	private EventPane eventPane;
 	
-	private UILabel showLocationLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Report_Show_Location") + ":");
+	private UILabel showLocationLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Show_Location") + ":");
 	private UILabel showListenersLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Form-Editing_Listeners") + ":");
  	
 	private UIButton editToolBarButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit"));
@@ -56,11 +56,11 @@ public class PageToolBarPane extends AbstractEditToolBarPane {
 		buttonGroup.add(leftRadioButton);
 		north.add(GUICoreUtils.createFlowPane(new Component[] {
 				showLocationLabel, new UILabel(" "), centerRadioButton, leftRadioButton}, FlowLayout.LEFT));
-		isShowAsImageBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Is_Paint_Page"));
+		isShowAsImageBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Is_Paint_Page"));
 		north.add(GUICoreUtils.createFlowPane(isShowAsImageBox, FlowLayout.LEFT));
-		isAutoScaleBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_IS_Auto_Scale"));
+		isAutoScaleBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_IS_Auto_Scale"));
 		north.add(GUICoreUtils.createFlowPane(isAutoScaleBox, FlowLayout.LEFT));
-		isTDHeavyBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_IS_TD_HEAVY_EXPORT"), false);
+		isTDHeavyBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_IS_TD_HEAVY_EXPORT"), false);
 		north.add(GUICoreUtils.createFlowPane(isTDHeavyBox, FlowLayout.LEFT));
 
 		editToolBarButton.addActionListener(editBtnListener);

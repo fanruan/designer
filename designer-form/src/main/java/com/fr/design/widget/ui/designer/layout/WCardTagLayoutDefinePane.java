@@ -58,7 +58,7 @@ public class WCardTagLayoutDefinePane extends AbstractDataModify<WCardTagLayout>
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
 
-        UILabel fontLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Font"));
+        UILabel fontLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Font"));
         fontLabel.setVerticalAlignment(SwingConstants.TOP);
         frFontPane = new FRFontPane() {
             protected JPanel createRightPane() {

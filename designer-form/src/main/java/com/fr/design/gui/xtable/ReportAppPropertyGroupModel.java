@@ -35,7 +35,7 @@ public class ReportAppPropertyGroupModel extends PropertyGroupModel {
             if (state > MAX_HEIGHT) {
             	//弹窗提示
                 JOptionPane.showMessageDialog(null,
-                        com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Mobile-Warning"),
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Mobile_Warning"),
                         com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tooltips"),
                         JOptionPane.PLAIN_MESSAGE);
                 return false;
