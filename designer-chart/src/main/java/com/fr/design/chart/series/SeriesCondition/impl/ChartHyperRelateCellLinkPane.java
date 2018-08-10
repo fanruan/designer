@@ -48,7 +48,7 @@ public class ChartHyperRelateCellLinkPane extends AbstractHyperLinkPane<ChartHyp
         JPanel centerPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
         this.add(centerPane, BorderLayout.CENTER);
 
-        centerPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Related", "FR-Designer_Cell"})));
+        centerPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Hyper_Related_Cell")));
 
         colRowPane = new ColumnRowVerticalPane();
         centerPane.add(colRowPane, BorderLayout.NORTH);
@@ -113,7 +113,7 @@ public class ChartHyperRelateCellLinkPane extends AbstractHyperLinkPane<ChartHyp
 
     @Override
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Related", "Cell"});
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Hyper_Related_Cell");
     }
 
     public static class ChartNoRename extends ChartHyperRelateCellLinkPane {
