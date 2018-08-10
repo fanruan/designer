@@ -46,7 +46,7 @@ public class FeedBackAction extends UpdateAction {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("product_feedback");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Product_Feedback");
         }
 
         @Override

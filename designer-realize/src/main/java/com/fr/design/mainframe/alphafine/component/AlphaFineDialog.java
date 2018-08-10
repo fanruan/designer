@@ -586,7 +586,7 @@ public class AlphaFineDialog extends UIDialog {
                 break;
             case ACTION:
                 rightSearchResultPane.removeAll();
-                rightSearchResultPane.add(new NoResultPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_NoResult"), AlphaFineConstants.IMAGE_URL + "noresult.png"));
+                rightSearchResultPane.add(new NoResultPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_No_Result"), AlphaFineConstants.IMAGE_URL + "noresult.png"));
                 validate();
                 repaint();
                 break;

@@ -46,7 +46,7 @@ public class CustomSeriesPane extends AbstractPlotSeriesPane {
         Component[][] components = new Component[][]{
         		new Component[]{stylePane},
         	    new Component[]{new JSeparator()},
-                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Series_Use_Default"))},
+                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Use_Default"))},
                 new Component[]{defaultSeriesStyle},
                 new Component[]{new JSeparator()},
                 new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Add_Series_Setting"), SwingConstants.LEFT)},

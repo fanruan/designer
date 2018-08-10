@@ -70,7 +70,7 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
         JPanel advancePane = createAdvancePane();
         UIExpandablePane advanceExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced"), 280, 20, advancePane);
         this.add(advanceExpandablePane, BorderLayout.NORTH);
-        UIExpandablePane layoutExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Layout"), 280, 20, createLayoutPane());
+        UIExpandablePane layoutExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Layout"), 280, 20, createLayoutPane());
         this.add(layoutExpandablePane, BorderLayout.CENTER);
     }
 
@@ -105,8 +105,8 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
         northPane.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L1, 0, 0, 0));
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Component_Scale")), adaptComboBox},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Component_Interval")), componentIntervel}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Component_Scale")), adaptComboBox},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Component_Interval")), componentIntervel}
         };
         JPanel centerPane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
         centerPane.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L1, IntervalConstants.INTERVAL_L5, 0, 0));
@@ -159,7 +159,7 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
     @Override
     public WFitLayout updateBean() {
         WFitLayout layout = (WFitLayout) creator.toData();
-        if (ComparatorUtils.equals(getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Layout-Padding"))) {
+        if (ComparatorUtils.equals(getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Layout_Padding_Duplicate"))) {
             paddingBound.update(layout);
         }
         LayoutBorderStyle borderStyle =  (LayoutBorderStyle) stylePane.getValue();

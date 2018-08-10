@@ -16,7 +16,7 @@ public class ClearAllAction extends ClearAction {
     public ClearAllAction(ElementCasePane t) {
 		super(t);
 		
-        this.setName(com.fr.design.i18n.Toolkit.i18nText("M_Edit-Clear_All"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_M_Edit_Clear_All"));
         this.setMnemonic('A');
     }
 

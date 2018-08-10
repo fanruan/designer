@@ -34,7 +34,7 @@ public class ChartPreStyleManagerPane extends JListControlPane {
 
 	@Override
 	protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Chart-PreStyle");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_PreStyle");
 	}
 	
 	public void populateBean() {

@@ -35,7 +35,7 @@ public class PDFExportPane extends BasicPane {
 		northPane.add(rowAndColumnPane);
 		
 		JPanel passwordPane =FRGUIPaneFactory.createNormalFlowInnerContainer_M_Pane();
-		isNeedPassword = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("IS_Need_Password"), false);
+		isNeedPassword = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_IS_Need_Password"), false);
 		passwordPane.add(isNeedPassword);
 		northPane.add(passwordPane);
 		passwordWritePane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();

@@ -40,7 +40,7 @@ public class ChartCellAction extends AbstractCellAction implements WorkBookSuppo
 
 		@Override
 		public String getMenuName() {
-			return com.fr.design.i18n.Toolkit.i18nText("M_Insert-Chart");
+			return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_M_Insert_Chart");
 		}
 
 		@Override

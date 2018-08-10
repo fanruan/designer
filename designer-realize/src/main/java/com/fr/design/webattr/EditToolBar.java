@@ -369,8 +369,8 @@ public class EditToolBar extends BasicPane {
 			exportToolBarProviders = set.toArray(new ExportToolBarProvider[set.size()]);
 			this.setLayout(FRGUIPaneFactory.createBorderLayout());
 			JPanel north = FRGUIPaneFactory.createBorderLayout_S_Pane();
-			icon = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Show_Icon"));
-			text = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Show_Text"));
+			icon = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Show_Icon"));
+			text = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Show_Text"));
 
 			north.add(icon, BorderLayout.NORTH);
 			north.add(text, BorderLayout.CENTER);
@@ -416,7 +416,7 @@ public class EditToolBar extends BasicPane {
 		private JPanel getCustomPane() {
 			JPanel customPane = FRGUIPaneFactory.createCenterFlowInnerContainer_S_Pane();
 
-			button = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_User_Defined_Event"));
+			button = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_User_Defined_Event"));
 			customPane.add(button);
 			customPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit") + "JS", null));
 			button.addActionListener(l);
@@ -426,12 +426,12 @@ public class EditToolBar extends BasicPane {
 		private JPanel getExport() {
 			JPanel export = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
 			// export.setLayout(new BoxLayout(export, BoxLayout.Y_AXIS));
-			pdf = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Output_PDF"));
+			pdf = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Output_PDF"));
 			excelP = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Output_Excel_Page"));
 			excelO = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Output_Excel_Simple"));
 			excelS = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Output_Excel_Sheet"));
-			word = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Output_Word"));
-			image = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Image"));
+			word = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Output_Word"));
+			image = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Image"));
 			export.add(pdf);
 			export.add(Box.createVerticalStrut(2));
 			export.add(excelP);

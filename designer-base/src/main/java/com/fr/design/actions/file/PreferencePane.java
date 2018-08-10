@@ -173,7 +173,7 @@ public class PreferencePane extends BasicPane {
         generalPane.add(functionPane);
 
         //添加supportUndo选择项
-        supportUndoCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Preference-Support_Undo"));
+        supportUndoCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Support_Undo"));
         functionPane.add(supportUndoCheckBox);
         //添加maxUndoLimit
         //String[] undoTimes = {"最大撤销次数","5次","10次","15次","20次","50次"};
@@ -192,7 +192,7 @@ public class PreferencePane extends BasicPane {
 
         //添加supportDefaultParentCalculate选择项
         supportDefaultParentCalculateCheckBox = new UICheckBox(
-                com.fr.design.i18n.Toolkit.i18nText("Preference-Support_Default_Parent_Calculate"));
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Support_Default_Parent_Calculate"));
         functionPane.add(supportDefaultParentCalculateCheckBox);
     }
 
@@ -216,7 +216,7 @@ public class PreferencePane extends BasicPane {
             }
         });
         JPanel keyStrokePane = new JPanel(new BorderLayout());
-        keyStrokePane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Support-Auto_Complete_Shortcut") + ":"), BorderLayout.WEST);
+        keyStrokePane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Support_Auto_Complete_Shortcut") + ":"), BorderLayout.WEST);
         shortCutLabel = new UILabel();
         keyStrokePane.add(shortCutLabel, BorderLayout.CENTER);
         editPane.add(keyStrokePane);
@@ -246,7 +246,7 @@ public class PreferencePane extends BasicPane {
             requestFocusInWindow();
             label = new UILabel(text);
             add(GUICoreUtils.createBorderLayoutPane(
-                    new UILabel(com.fr.design.i18n.Toolkit.i18nText("Support-Current_Auto_Complete_Shortcut") + ":"),
+                    new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Support_Current_Auto_Complete_Shortcut") + ":"),
                     BorderLayout.WEST,
                     label,
                     BorderLayout.CENTER),
@@ -280,24 +280,24 @@ public class PreferencePane extends BasicPane {
 
     private void createGuiOfGridPane(JPanel generalPane) {
         // GridPane
-        JPanel guiOfGridPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Preference-Setting_Grid"));
+        JPanel guiOfGridPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Setting_Grid"));
         generalPane.add(guiOfGridPane);
 
-        supportCellEditorDefCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Preference-Support_Cell_Editor_Definition"));
+        supportCellEditorDefCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Support_Cell_Editor_Definition"));
         guiOfGridPane.add(supportCellEditorDefCheckBox);
 
-        isDragPermitedCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Preference-Is_Drag_Permited"));
+        isDragPermitedCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Is_Drag_Permited"));
         guiOfGridPane.add(isDragPermitedCheckBox);
     }
 
     private void createColorSettingPane(JPanel generalPane) {
         // Color Setting Pane
-        JPanel colorSettingPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Preference-Setting_Colors"));
+        JPanel colorSettingPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Setting_Colors"));
         generalPane.add(colorSettingPane);
 
-        new UILabel(com.fr.design.i18n.Toolkit.i18nText("Preference-Grid_Line_Color"));
+        new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Grid_Line_Color"));
 
-        new UILabel(com.fr.design.i18n.Toolkit.i18nText("Preference-Pagination_Line_Color"));
+        new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Pagination_Line_Color"));
 
         gridLineColorTBButton = new UIColorButton(BaseUtils.readIcon("/com/fr/design/images/gui/color/foreground.png"));
         gridLineColorTBButton.setEnabled(this.isEnabled());
@@ -306,10 +306,10 @@ public class PreferencePane extends BasicPane {
         paginationLineColorTBButton.setEnabled(this.isEnabled());
 
         JPanel leftPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-        leftPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Preference-Grid_Line_Color") + ":"));
+        leftPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Grid_Line_Color") + ":"));
         leftPane.add(gridLineColorTBButton);
         JPanel rightPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-        rightPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Preference-Pagination_Line_Color") + ":"));
+        rightPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Pagination_Line_Color") + ":"));
         rightPane.add(paginationLineColorTBButton);
         colorSettingPane.add(leftPane);
         colorSettingPane.add(rightPane);
@@ -461,7 +461,7 @@ public class PreferencePane extends BasicPane {
         double rowSize[] = {p};
         double columnSize[] = {p, p, p};
 
-        JPanel serverPortPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Preference-JDK_Home"));
+        JPanel serverPortPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_JDK_Home"));
         advancePane.add(serverPortPane);
         jdkHomeTextField = new UITextField();
         UIButton chooseBtn = new UIButton("...");
@@ -484,7 +484,7 @@ public class PreferencePane extends BasicPane {
         });
         panel.setPreferredSize(new Dimension(300, 20));
         UILabel notiJlabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Work_After_Restart_Designer"));
-        UILabel serverPortLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Preference-JDK_Home") + ":");
+        UILabel serverPortLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_JDK_Home") + ":");
         Component[][] portComponents = {
                 {serverPortLabel, panel, notiJlabel},
         };
@@ -508,7 +508,7 @@ public class PreferencePane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("M_Window-Preference");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_M_Window_Preference");
     }
 
     /**

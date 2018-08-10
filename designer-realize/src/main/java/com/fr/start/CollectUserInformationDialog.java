@@ -161,7 +161,7 @@ public class CollectUserInformationDialog extends UIDialog {
         finishButton.setMnemonic('F');
         buttonsPane.add(finishButton);
         finishButton.addActionListener(verifyActionListener);
-        UIButton exitButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Utils-Exit_Designer"));
+        UIButton exitButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Exit_Designer"));
         exitButton.setMnemonic('E');
         buttonsPane.add(exitButton);
         exitButton.addActionListener(new ActionListener() {

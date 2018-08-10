@@ -25,7 +25,7 @@ public class DictionaryConstants {
 		com.fr.design.i18n.Toolkit.i18nText("Phone"),
 		com.fr.design.i18n.Toolkit.i18nText("MobilePhone"),
 		com.fr.design.i18n.Toolkit.i18nText("IDCard"),
-		com.fr.design.i18n.Toolkit.i18nText("PostCode"),
+		com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_PostCode"),
 		com.fr.design.i18n.Toolkit.i18nText("Custom")};
 	
 	public final static int REG_NONE = 0;

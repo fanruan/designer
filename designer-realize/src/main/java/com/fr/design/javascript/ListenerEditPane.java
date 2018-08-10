@@ -1,16 +1,5 @@
 package com.fr.design.javascript;
 
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Component;
-import java.awt.FlowLayout;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.util.*;
-
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.beans.FurtherBasicBeanPane;
@@ -24,8 +13,19 @@ import com.fr.design.mainframe.JTemplate;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.design.write.submit.DBManipulationPane;
 import com.fr.form.event.Listener;
-
 import com.fr.js.JavaScript;
+
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Component;
+import java.awt.FlowLayout;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class ListenerEditPane extends BasicBeanPane<Listener> {
 	private UITextField nameText;
@@ -43,8 +43,8 @@ public class ListenerEditPane extends BasicBeanPane<Listener> {
 	private EmailPane emailPane;
 	
 	private static final String JS = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_JavaScript");
-	private static final String FORMSUBMIT = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_JavaScript_Form_Submit");
-	private static final String DBCOMMIT = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_JavaScript_Commit_to_Database");
+    private static final String FORMSUBMIT = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_JavaScript_Form_Submit");
+    private static final String DBCOMMIT = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_JavaScript_Commit_To_Database");
 //	private static final String CUSTOMACTION= com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"FR-Designer_JavaScript_Custom", "FR-Designer_RWA_Submit"});
 	private static final String CUSTOMACTION= com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_JavaScript_Custom_Submit");
 	private static final String EMAIL = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Email_sentEmail");
@@ -73,8 +73,8 @@ public class ListenerEditPane extends BasicBeanPane<Listener> {
 		String[] style = {JS, DBCOMMIT, CUSTOMACTION,EMAIL};
 		styleBox = new UIComboBox(style);
 		namePane.add(styleBox);
-		namePane = GUICoreUtils.createFlowPane(new Component[]{new UILabel("  " + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Event_Name") + ":"), nameText, new UILabel("    " + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Event_Type") + ":"), styleBox}, FlowLayout.LEFT);
-		namePane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Event_Name_Type")));
+		namePane = GUICoreUtils.createFlowPane(new Component[]{new UILabel("  " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Event_Name") + ":"), nameText, new UILabel("    " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Event_Type") + ":"), styleBox}, FlowLayout.LEFT);
+		namePane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Event_Name_Type")));
 		this.add(namePane, BorderLayout.NORTH);
 		card = new CardLayout();
 		hyperlinkPane = FRGUIPaneFactory.createCardLayout_S_Pane();
@@ -99,7 +99,7 @@ public class ListenerEditPane extends BasicBeanPane<Listener> {
 		cards.add(emailPane);
 		//其他事件
 		addOtherEvent();
-		hyperlinkPane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_JavaScript_Set")));
+		hyperlinkPane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_JavaScript_Set")));
 		this.add(hyperlinkPane);
 		styleBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
@@ -132,7 +132,7 @@ public class ListenerEditPane extends BasicBeanPane<Listener> {
 	
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Event_Set");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Event_Set");
 	}
 	
 	@Override

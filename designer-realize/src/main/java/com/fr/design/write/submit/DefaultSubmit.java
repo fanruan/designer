@@ -13,7 +13,7 @@ public class DefaultSubmit extends AbstractSubmitProvider {
 
     @Override
     public String dataForSubmit() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Submmit_WClass");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Submmit_WClass");
     }
 
     @Override

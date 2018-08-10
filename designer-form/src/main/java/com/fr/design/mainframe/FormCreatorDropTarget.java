@@ -184,10 +184,10 @@ public class FormCreatorDropTarget extends DropTarget {
 
     private void promptUser(int x, int y, XLayoutContainer container) {
         if (!addingModel.getXCreator().canEnterIntoParaPane() && container.acceptType(XWParameterLayout.class)) {
-            promptButton.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Forbid_Drag_into_Para_Pane"));
+            promptButton.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Forbid_Drag_Into_Para_Pane"));
             promptWidgetForbidEnter(x, y, container);
         } else if (!addingModel.getXCreator().canEnterIntoAdaptPane() && container.acceptType(XWFitLayout.class)) {
-            promptButton.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Forbid_Drag_into_Adapt_Pane"));
+            promptButton.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Forbid_Drag_Into_Adapt_Pane"));
             promptWidgetForbidEnter(x, y, container);
         } else {
             cancelPromptWidgetForbidEnter();

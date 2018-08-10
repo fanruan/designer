@@ -239,7 +239,7 @@ public class ParameterTableModel extends UITableModelAdapter<ParameterProvider> 
 		}
 
 		public ParameterValueRenderer(ValueEditorPane valueEditorPane) {
-			disableLable = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Set-Parameter-Name"));
+			disableLable = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Set_Paramete_Name"));
 			disableLable.setForeground(Color.pink);
 			disableLable.setHorizontalAlignment(SwingConstants.CENTER);
 

@@ -80,7 +80,7 @@ public class LayerReportPane extends BasicBeanPane<LayerReportAttr> {
 		});
 
 		JPanel infoPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Attention"));
-		FRExplainLabel label = new FRExplainLabel(com.fr.design.i18n.Toolkit.i18nText("Layer_Report_Warnning_info"));
+		FRExplainLabel label = new FRExplainLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Layer_Report_Warnning_Info"));
         label.setPreferredSize(new Dimension(label.getPreferredSize().width, LABEL_HEIGHT));
 		infoPane.add(label);
 		layerReportPane.add(infoPane);
@@ -105,8 +105,8 @@ public class LayerReportPane extends BasicBeanPane<LayerReportAttr> {
         countPerPageEditor = new IntegerEditor(new Integer(30));
         countPerPageEditor.setPreferredSize(new Dimension(120,20));
         countPerPageEditor.setEnabled(false);
-        Component[][] components = {{new UILabel(com.fr.design.i18n.Toolkit.i18nText("LayerPageReport_PageEngine") + ":"), isPageQueryBox},
-                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("LayerPageReport_CountPerPage") + ":"), countPerPageEditor}};
+        Component[][] components = {{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_LayerPageReport_PageEngine") + ":"), isPageQueryBox},
+                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_LayerPageReport_Count_PerPage") + ":"), countPerPageEditor}};
         JPanel pageQueryPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
         pageQueryPane.setBorder(BorderFactory.createEmptyBorder(5, 15, 0, 0));
         return pageQueryPane;

@@ -109,7 +109,7 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
 
     public class BatchModCellAction extends UpdateAction {
         public BatchModCellAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("RWA-Batch_Modify_Cells"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_RWA_Batch_Modify_Cells"));
         }
 
         /**
@@ -121,14 +121,14 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
             BasicPane bPane = new BasicPane() {
                 @Override
                 protected String title4PopupWindow() {
-                    return com.fr.design.i18n.Toolkit.i18nText("RWA-Batch_Modify_Cells");
+                    return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_RWA_Batch_Modify_Cells");
                 }
             };
             bPane.setLayout(FRGUIPaneFactory.createBorderLayout());
             bPane.setBorder(BorderFactory.createEmptyBorder(TOP_PADDING, 0, 0, 0));
             final UIBasicSpinner columnSpinner = new UIBasicSpinner();
             final UIBasicSpinner rowSpinner = new UIBasicSpinner();
-            Component[][] coms = new Component[][]{{new UILabel(com.fr.design.i18n.Toolkit.i18nText("RWA-Row_Offset")), rowSpinner}, {new UILabel(com.fr.design.i18n.Toolkit.i18nText("RWA-Column_Offset")), columnSpinner}};
+            Component[][] coms = new Component[][]{{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_RWA_Row_Offset")), rowSpinner}, {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_RWA_Column_Offset")), columnSpinner}};
             double p = TableLayout.PREFERRED;
             double f = TableLayout.FILL;
             bPane.add(TableLayoutHelper.createTableLayoutPane(coms, new double[]{p, p}, new double[]{p, f}), BorderLayout.NORTH);
@@ -171,7 +171,7 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
 
     public class SmartAddCellAction extends UpdateAction {
         public SmartAddCellAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("RWA-Smart_Add_Cells"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_RWA_Smart_Add_Cells"));
         }
 
         /**
@@ -186,7 +186,7 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
 
     public class SmartAddCellGroupAction extends UpdateAction {
         public SmartAddCellGroupAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("RWA-Smart_Add_Cell_Group"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_RWA_Smart_Add_Cell_Group"));
         }
 
         /**
@@ -282,7 +282,7 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
                 if (groupLength < 0) {
                     groupLength = len;
                 } else if (len != groupLength) {
-                    throw new Exception(com.fr.design.i18n.Toolkit.i18nText("Report-Write_Attributes_Group_Warning"));
+                    throw new Exception(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Write_Attributes_Group_Warning"));
                 }
             }
         }
@@ -311,9 +311,9 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
         @Override
         protected String title4PopupWindow() {
             if (isCellGroup) {
-                return com.fr.design.i18n.Toolkit.i18nText("RWA-Smart_Add_Cell_Group");
+                return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_RWA_Smart_Add_Cell_Group");
             } else {
-                return com.fr.design.i18n.Toolkit.i18nText("RWA-Smart_Add_Cells");
+                return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_RWA_Smart_Add_Cells");
             }
         }
 
@@ -522,7 +522,7 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
-                String tip = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Double_Click_Edit_OR_Clear");
+                String tip = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Double_Click_Edit_OR_Clear");
 
                 if (value instanceof ColumnValue) {
                     Object cv = ((ColumnValue) value).obj;

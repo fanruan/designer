@@ -10,7 +10,6 @@ import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.present.PresentPane;
 
-import com.fr.report.cell.cellattr.NormalPresent;
 import com.fr.report.cell.cellattr.PresentConstants;
 import com.fr.report.cell.cellattr.highlight.HighlightAction;
 import com.fr.report.cell.cellattr.highlight.PresentHighlightAction;
@@ -34,7 +33,7 @@ public class PresentHighlightPane extends ConditionAttrSingleConditionPane<Highl
 
     public PresentHighlightPane(final ConditionAttributesPane conditionAttributesPane) {
         super(conditionAttributesPane);
-        this.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Present") + ":"));
+        this.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Present") + ":"));
 
 //        String[] typeArray = {PresentConstants.NORMAL, com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Other", "Present"})};
         String[] typeArray = {PresentConstants.NORMAL, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Other_Present")};
@@ -89,7 +88,7 @@ public class PresentHighlightPane extends ConditionAttrSingleConditionPane<Highl
 
     @Override
     public String nameForPopupMenuItem() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Present");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Present");
     }
 
     @Override

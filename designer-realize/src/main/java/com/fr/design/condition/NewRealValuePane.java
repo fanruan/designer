@@ -17,14 +17,14 @@ public class NewRealValuePane extends ConditionAttrSingleConditionPane<Highlight
 
     public NewRealValuePane(ConditionAttributesPane conditionAttributesPane) {
         super(conditionAttributesPane);
-        this.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_New_Value") + ":"));
+        this.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_New_Value") + ":"));
         valueEditor = ValueEditorPaneFactory.createBasicValueEditorPane();
         this.add(valueEditor);
     }
 
     @Override
     public String nameForPopupMenuItem() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_New_Value");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_New_Value");
     }
 
     @Override

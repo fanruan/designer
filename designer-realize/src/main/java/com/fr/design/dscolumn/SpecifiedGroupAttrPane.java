@@ -67,17 +67,17 @@ public class SpecifiedGroupAttrPane extends BasicPane {
             });
         }
 
-        @Override
-        public NameableCreator[] createNameableCreators() {
-            return new NameableCreator[]{
-                    new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Condition"), ConditionGroup.class, ConditionGroupDetailsPane.class)
-            };
-        }
-
-        @Override
-        protected String title4PopupWindow() {
-            return com.fr.design.i18n.Toolkit.i18nText("SpecifiedG-Specified_Group");
-        }
+		@Override
+		public NameableCreator[] createNameableCreators() {
+			return new NameableCreator[] {
+					new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Condition"), ConditionGroup.class, ConditionGroupDetailsPane.class)
+			};
+		}
+		
+		@Override
+		protected String title4PopupWindow() {
+			return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_SpecifiedG_Specified_Group");
+		}
     }
 
     public SpecifiedGroupAttrPane(String[] displayNames) {
@@ -103,8 +103,8 @@ public class SpecifiedGroupAttrPane extends BasicPane {
         });
 
         JPanel northPane = GUICoreUtils.createFlowPane(
-                new JComponent[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Select_Specified_Grouping") + ":"),
-                        specifiedComboBox}, FlowLayout.LEFT);
+        		new JComponent[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Select_Specified_Grouping") + ":"),
+        				specifiedComboBox}, FlowLayout.LEFT);
         this.add(northPane, BorderLayout.NORTH);
 
         cardLayout = new CardLayout();
@@ -119,14 +119,13 @@ public class SpecifiedGroupAttrPane extends BasicPane {
 
         JPanel southPane = FRGUIPaneFactory.createMediumHGapFlowInnerContainer_M_Pane();
         conditionsGroupPane.add(southPane, BorderLayout.SOUTH);
-        forceCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("SpecifiedG-Force_Group"));
-        moreCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("one_record_exists_in_many_groups"));
-        southPane.add(forceCheckBox);
-        southPane.add(moreCheckBox);
-        otherComboBox = new UIComboBox(new String[]{com.fr.design.i18n.Toolkit.i18nText("SpecifiedG-Discard_all_others"),
-                com.fr.design.i18n.Toolkit.i18nText("SpecifiedG-Leave_in_their_own_groups"), com.fr.design.i18n.Toolkit.i18nText("SpecifiedG-Put_all_others_together")});
+        forceCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_SpecifiedG-Force_Group"));
+        moreCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_One_Record_Exists_In_Many_Groups"));
+        southPane.add(forceCheckBox); southPane.add(moreCheckBox);
+        otherComboBox = new UIComboBox(new String[] {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_SpecifiedG-Discard_All_Others"),
+        		com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_SpecifiedG_Leave_In_Their_Own_Groups"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_SpecifiedG_Put_All_Others_Together")});
         otherComboBox.addItemListener(otherItemListener);
-        UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("OtherGroup_Name") + ":");
+        UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_OtherGroup_Name") + ":");
         otherTextField = new UITextField(8);
         southPane.add(otherComboBox);
         southPane.add(GUICoreUtils.createFlowPane(new Component[]{label, otherTextField}, FlowLayout.LEFT));
@@ -142,7 +141,7 @@ public class SpecifiedGroupAttrPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("SpecifiedG-Specified_Group");
+    	return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_SpecifiedG_Specified_Group");
     }
 
     /**
@@ -280,12 +279,12 @@ public class SpecifiedGroupAttrPane extends BasicPane {
             if (displayNames != null) {
                 liteConditionPane.populateColumns(displayNames);
             }
-        }
-
-        @Override
-        protected String title4PopupWindow() {
-            return com.fr.design.i18n.Toolkit.i18nText("SpecifiedG-Specified_Group");
-        }
+    	}
+    	
+    	@Override
+    	protected String title4PopupWindow() {
+    		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_SpecifiedG_Specified_Group");
+    	}
 
         @Override
         public ConditionGroup updateBean() {
@@ -303,25 +302,25 @@ public class SpecifiedGroupAttrPane extends BasicPane {
 
     private class FormulaGroupPane extends JPanel {
 
-        private String[] displayModeNames = {com.fr.design.i18n.Toolkit.i18nText("GROUPING_MODE"), com.fr.design.i18n.Toolkit.i18nText("LIST_MODE"),
-                com.fr.design.i18n.Toolkit.i18nText("CONTINUUM_MODE")};
-
-        private String InsertText = "    ";
-
-        private UIComboBox modeComboBox;
-        private UITextField valueField;
-        private JPanel southPane;
-
-        public FormulaGroupPane() {
-            this.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("D-Dispaly_Divide_Result_Set_into_Groups")));
-            this.setLayout(FRGUIPaneFactory.createM_BorderLayout());
-            JPanel contentPane = FRGUIPaneFactory.createNColumnGridInnerContainer_S_Pane(1);
-            this.add(contentPane, BorderLayout.NORTH);
-
-            JPanel northPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-            northPane.setLayout(FRGUIPaneFactory.createBorderLayout());
-            contentPane.add(northPane);
-            modeComboBox = new UIComboBox(displayModeNames);
+	    private String[] displayModeNames = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_GROUPING_MODE"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_LIST_MODE"),
+	    		com.fr.design.i18n.Toolkit.i18nText("CONTINUUM_MODE")};
+	    
+	    private String InsertText = "    ";
+	    
+	    private UIComboBox modeComboBox;
+    	private UITextField valueField;
+    	private JPanel southPane;
+    	
+    	public FormulaGroupPane() {
+    		this.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("D-Dispaly_Divide_Result_Set_into_Groups")));
+    		this.setLayout(FRGUIPaneFactory.createM_BorderLayout());
+    		JPanel contentPane = FRGUIPaneFactory.createNColumnGridInnerContainer_S_Pane(1);
+    		this.add(contentPane, BorderLayout.NORTH);
+    		
+    		JPanel northPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+    		northPane.setLayout(FRGUIPaneFactory.createBorderLayout());
+    		contentPane.add(northPane);
+    		modeComboBox = new UIComboBox(displayModeNames);
 
             northPane.add(GUICoreUtils.createFlowPane(new JComponent[]{new UILabel(InsertText), new UILabel(com.fr.design.i18n.Toolkit.i18nText("Display_Modes") + ":  "),
                     modeComboBox}, FlowLayout.LEFT), BorderLayout.WEST);

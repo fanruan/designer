@@ -385,7 +385,7 @@ public class CellSelection extends Selection {
         TemplateElementCase ec = ePane.getEditingElementCase();
         Iterator cells = ec.intersect(column, row, columnSpan, rowSpan);
         if (cells.hasNext()) { // alex:有两个以上的格子在这个区域内
-            int returnValue = JOptionPane.showConfirmDialog(SwingUtilities.getWindowAncestor(ePane), com.fr.design.i18n.Toolkit.i18nText("Des-Merger_Cell"), com.fr.design.i18n.Toolkit.i18nText("Utils-Merge_Cell"),
+            int returnValue = JOptionPane.showConfirmDialog(SwingUtilities.getWindowAncestor(ePane), com.fr.design.i18n.Toolkit.i18nText("Des-Merger_Cell"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Merge_Cell"),
                     JOptionPane.OK_CANCEL_OPTION);
             if (returnValue != JOptionPane.OK_OPTION) {
                 return false;

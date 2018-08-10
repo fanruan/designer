@@ -19,7 +19,7 @@ public class RefreshLabel extends UIButton {
 		
 		this.refreshable = refreshable;
 		
-		this.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Refresh_Database"));
+		this.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Refresh_Database"));
 		this.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		this.addActionListener(new ActionListener() {
 			

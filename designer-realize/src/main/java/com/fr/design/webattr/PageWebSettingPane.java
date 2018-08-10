@@ -1,27 +1,23 @@
 package com.fr.design.webattr;
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import javax.swing.ButtonGroup;
-
 import com.fr.design.ExtraDesignClassManager;
+import com.fr.design.gui.core.WidgetOption;
 import com.fr.design.gui.ibutton.UIRadioButton;
-import com.fr.design.gui.ilable.UILabel;
-
-import javax.swing.JPanel;
-
 import com.fr.design.gui.icheckbox.UICheckBox;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.gui.core.WidgetOption;
-
 import com.fr.report.web.ToolBarManager;
 import com.fr.report.web.WebPage;
 import com.fr.web.attr.ReportWebAttr;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JPanel;
+import java.awt.Component;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class PageWebSettingPane extends WebSettingPane<WebPage> {
 	private UIRadioButton centerRadioButton;
@@ -36,8 +32,8 @@ public class PageWebSettingPane extends WebSettingPane<WebPage> {
 
 	@Override
 	protected JPanel createOtherSetPane() {
-		centerRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Center_Display"));
-		leftRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Left_Display"));
+		centerRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Center_Display"));
+		leftRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Left_Display"));
 		ButtonGroup buttonGroup = new ButtonGroup();
 		leftRadioButton.setSelected(true);
 		buttonGroup.add(centerRadioButton);
@@ -45,15 +41,15 @@ public class PageWebSettingPane extends WebSettingPane<WebPage> {
 		JPanel buttonpane = new JPanel(FRGUIPaneFactory.createBoxFlowLayout());
 		buttonpane.add(centerRadioButton);
 		buttonpane.add(leftRadioButton);
-		isShowAsImageBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Is_Paint_Page"));
-		isAutoScaleBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_IS_Auto_Scale"));
-		isTDHeavyBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_IS_TD_HEAVY_EXPORT"), false);
+		isShowAsImageBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Is_Paint_Page"));
+		isAutoScaleBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_IS_Auto_Scale"));
+		isTDHeavyBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_IS_TD_HEAVY_EXPORT"), false);
 		double p = TableLayout.PREFERRED;
 		double[] columnSize = { p,p,p};
 		double[] rowSize = { p, p,p,p };
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Report_Show_Location") + ":", UILabel.RIGHT), buttonpane,null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_PageSetup_Page") + ":", UILabel.RIGHT), isShowAsImageBox, isAutoScaleBox},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Show_Location") + ":", UILabel.RIGHT), buttonpane,null},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_PageSetup_Page") + ":", UILabel.RIGHT), isShowAsImageBox, isAutoScaleBox},
                 new Component[]{null, isTDHeavyBox, null}
         };
 

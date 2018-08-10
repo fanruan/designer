@@ -73,12 +73,12 @@ public class PluginControlPane extends BasicPane {
                     }
                     String extraInfo = "";
                     if (context.isLicDamaged()) {
-                        extraInfo = "(" + com.fr.design.i18n.Toolkit.i18nText("FR-Plugin-Plugin_Damaged") + ")";
+                        extraInfo = "(" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Plugin_Damaged") + ")";
                     } else if (!context.isFree()) {
                         if (context.isAvailable()) {
-                            extraInfo = "(" + (context.isOnTrial() ? com.fr.design.i18n.Toolkit.i18nText("FR-Plugin-Designer_Trial") : com.fr.design.i18n.Toolkit.i18nText("FR-Plugin-Designer_Authorized")) + context.getLeftDays() + com.fr.design.i18n.Toolkit.i18nText("FR-Plugin-Designer_Left") + ")";
+                            extraInfo = "(" + (context.isOnTrial() ? com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Designer_Trial") : com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Designer_Authorized")) + context.getLeftDays() + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Designer_Left") + ")";
                         } else {
-                            extraInfo = "(" + (context.isOnTrial() ? com.fr.design.i18n.Toolkit.i18nText("FR-Plugin-Designer_Trial") : com.fr.design.i18n.Toolkit.i18nText("FR-Plugin-Designer_Authorized")) + com.fr.design.i18n.Toolkit.i18nText("FR-Plugin-Designer_Expired") + ")";
+                            extraInfo = "(" + (context.isOnTrial() ? com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Designer_Trial") : com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Designer_Authorized")) + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Designer_Expired") + ")";
                         }
                     }
                     setText(((PluginView) value).getName() + extraInfo);

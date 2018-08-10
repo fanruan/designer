@@ -3,9 +3,6 @@
  */
 package com.fr.design.gui.icombobox;
 
-import com.fr.design.gui.icombobox.UIComboBox;
-import com.fr.design.gui.icombobox.UIComboBoxRenderer;
-
 import com.fr.stable.Constants;
 import com.fr.stable.StringUtils;
 
@@ -60,7 +57,7 @@ public class AlignmentComboBox extends UIComboBox {
 		} else if (alignment == Constants.RIGHT) { //4
 			return com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Right");
 		} else if (alignment == Constants.DISTRIBUTED) { //added by Kevin Wang 6
-			return com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Distibuted");
+			return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Distibuted");
 		} else {
 			return StringUtils.EMPTY;
 		}

@@ -88,7 +88,7 @@ public class PrintSettingPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Print_Setting");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Print_Setting");
     }
 
     public void populate(PrintSettingsAttrMark printSettings) {

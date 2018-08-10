@@ -103,7 +103,7 @@ public class ReportletHyperlinkPane extends AbstractHyperLinkPane<ReportletHyper
         public void actionPerformed(ActionEvent e) {
             String tpl = northPane.getReportletName();
             if (StringUtils.isBlank(tpl)) {
-                JOptionPane.showMessageDialog(ReportletHyperlinkPane.this, com.fr.design.i18n.Toolkit.i18nText("FR-Hyperlink_Please_Select_Reportlet") + ".", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Message"), JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(ReportletHyperlinkPane.this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Please_Select_Reportlet") + ".", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Message"), JOptionPane.WARNING_MESSAGE);
                 northPane.requestButtonFocus();
                 return;
             }

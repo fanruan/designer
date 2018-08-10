@@ -40,7 +40,7 @@ public class FormSubmitJavaScriptPane extends FurtherBasicBeanPane<FormSubmitJav
 		JPanel northPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		this.add(northPane, BorderLayout.NORTH);
 		JPanel firstLine = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-		UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Submit_Url") + ":");
+		UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Submit_Url") + ":");
 		firstLine.add(label);
 		urlTextField = new UITextField(25);
 		firstLine.add(urlTextField);
@@ -48,7 +48,7 @@ public class FormSubmitJavaScriptPane extends FurtherBasicBeanPane<FormSubmitJav
 		northPane.add(firstLine,BorderLayout.NORTH);
 		JPanel submitPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
 		northPane.add(submitPane,BorderLayout.CENTER);
-		submitPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Submit_Style") + ":"));
+		submitPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Submit_Style") + ":"));
 		asynComboBox = new UIComboBox(new String[]{ASYNCH, SYNCH});
 		submitPane.add(asynComboBox);
 		asynComboBox.addActionListener(new ActionListener(){

@@ -73,7 +73,7 @@ public class StyleListAction extends UpdateAction {
 
 		@Override
 		public String getMenuName() {
-			return com.fr.design.i18n.Toolkit.i18nText("ServerM-Predefined_Styles");
+			return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ServerM_Predefined_Styles");
 		}
 
 		@Override

@@ -54,7 +54,7 @@ public class DSColumnAdvancedPane extends BasicPane {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
 
         sortPane = new SortPane();
-        sortPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Sort-Sort_Order"), null));
+        sortPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Sort_Sort_Order"), null));
 
         if (setting > DSColumnPane.SETTING_DSRELATED) {
             selectCountPane = new SelectCountPane();

@@ -51,7 +51,7 @@ public class MaxMemRowCountPanel extends UIToolbar {
 		this.setFloatable(false);
 		this.setRollover(true);
 		this.setBackground(UIConstants.NORMAL_BACKGROUND);
-		String[] cacheList = { com.fr.design.i18n.Toolkit.i18nText("Save_All_Records_In_Memory"), com.fr.design.i18n.Toolkit.i18nText("Max-Mem-Row-Count") };
+		String[] cacheList = { com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Save_All_Records_In_Memory"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Max_Mem_Row_Count") };
 		switchCache = new UIComboBox(cacheList);
 		switchCache.addActionListener(switchStateL);
 		numberSpinner = new UISpinner(0, Integer.MAX_VALUE, 1);

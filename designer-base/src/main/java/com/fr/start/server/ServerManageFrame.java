@@ -126,7 +126,7 @@ public class ServerManageFrame extends JFrame {
 //		});
 		
 		this.setSize(420, 160);
-		this.setTitle(com.fr.design.i18n.Toolkit.i18nText("Server-Embedded_Server"));
+		this.setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Server_Embedded_Server"));
 		GUICoreUtils.centerWindow(this);
 	}
 

@@ -126,9 +126,9 @@ public class ReportWebWidgetConstants {
 
     public static final WidgetOption NEW_PRINT = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Print"), BaseUtils.readIcon("/com/fr/web/images/print.png"), NewPrint.class);
     public static final WidgetOption PRINT = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Print_Compatible"), BaseUtils.readIcon("/com/fr/web/images/print.png"), Print.class);
-    public static final WidgetOption APPENDCOLUMNROW = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Utils-Insert_Record"),
+    public static final WidgetOption APPENDCOLUMNROW = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Insert_Record"),
             BaseUtils.readIcon("/com/fr/web/images/appendRow.png"), AppendColumnRow.class);
-    public static final WidgetOption DELETECOLUMNROW = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Utils-Delete_Record"),
+    public static final WidgetOption DELETECOLUMNROW = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Delete_Record"),
             BaseUtils.readIcon("/com/fr/web/images/deleteRow.png"), DeleteColumnRow.class);
     public static final WidgetOption VERIFY = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Verify-Data_Verify"), BaseUtils.readIcon("/com/fr/web/images/verify.gif"),
             Verify.class);
@@ -136,7 +136,7 @@ public class ReportWebWidgetConstants {
             BaseUtils.readIcon("/com/fr/web/images/save2.png"), SubmitForcibly.class);
 
     // show cell value
-    public static final WidgetOption SHOWCELLVALUE = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Utils-Show_Cell_Value"),
+    public static final WidgetOption SHOWCELLVALUE = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Show_Cell_Value"),
             BaseUtils.readIcon("/com/fr/web/images/showValue.png"), ShowCellValue.class);
 
     // import excel data

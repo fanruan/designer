@@ -32,8 +32,8 @@ import com.fr.general.ComparatorUtils;
 public class FormWidgetAuthorityEditPane extends AuthorityEditPane {
     private FormDesigner designer;
     private Widget[] widgets = null;
-    private UICheckBox widgetVisible = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget_Visible"));
-    private UICheckBox widgetAvailable = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget_Enabled"));
+    private UICheckBox widgetVisible = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Visible"));
+    private UICheckBox widgetAvailable = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Enabled"));
     private ItemListener visibleItemListener = new ItemListener() {
         public void itemStateChanged(ItemEvent e) {
             String selectedRoles = ReportAndFSManagePane.getInstance().getRoleTree().getSelectedRoleName();

@@ -20,7 +20,7 @@ public class ComboBoxDefinePane extends DictEditorDefinePane<ComboBox> {
 	}
 
 	public UICheckBox createRepeatCheckBox(){
-		removeRepeatCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget_No_Repeat"));
+		removeRepeatCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_No_Repeat"));
 		removeRepeatCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		return removeRepeatCheckBox;
 	}

@@ -321,8 +321,8 @@ public class FormEditToolBar extends BasicPane {
         public void initComponents() {
             this.setLayout(FRGUIPaneFactory.createBorderLayout());
             JPanel north = FRGUIPaneFactory.createBorderLayout_S_Pane();
-            icon = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Show_Icon"));
-            text = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Show_Text"));
+            icon = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Show_Icon"));
+            text = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Show_Text"));
 
             north.add(icon, BorderLayout.NORTH);
             north.add(text, BorderLayout.CENTER);
@@ -359,7 +359,7 @@ public class FormEditToolBar extends BasicPane {
         private JPanel getCustomPane() {
             JPanel customPane = FRGUIPaneFactory.createCenterFlowInnerContainer_S_Pane();
 
-            button = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_User_Defined_Event"));
+            button = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_User_Defined_Event"));
             customPane.add(button);
             customPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit") + "JS", null));
             button.addActionListener(l);

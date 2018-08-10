@@ -168,7 +168,7 @@ public class ParameterInputPane extends BasicPane {
 				Object editorStringValue = editor.update();
 				if (editorStringValue == null || StringUtils.isEmpty(Utils.objectToString(editorStringValue))) {
 					valid = false;
-					error += parameterName + com.fr.design.i18n.Toolkit.i18nText("NOT_NULL_Des") + "\n";
+					error += parameterName + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Not_Null_Des") + "\n";
 				}
 			}
 			if (!valid) {

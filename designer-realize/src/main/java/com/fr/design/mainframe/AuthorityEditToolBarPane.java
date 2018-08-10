@@ -90,7 +90,7 @@ public class AuthorityEditToolBarPane extends AuthorityPropertyPane {
         private UILabel name = null;
         private JPanel checkPane = null;
         private List<ToolBarButton> buttonlists;
-        private UICheckBox buttonVisible = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget_Visible"));
+        private UICheckBox buttonVisible = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Visible"));
         private ItemListener itemListener = new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
                 String selectedRole = ReportAndFSManagePane.getInstance().getRoleTree().getSelectedRoleName();

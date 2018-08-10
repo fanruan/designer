@@ -7,8 +7,6 @@ import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.designer.creator.XWBorderLayout;
 import com.fr.design.designer.creator.XWFitLayout;
-import com.fr.design.event.TargetModifiedEvent;
-import com.fr.design.event.TargetModifiedListener;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UIBasicSpinner;
@@ -156,7 +154,7 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
         slidePane = JFormSliderPane.getInstance();
         slidePane.setPreferredSize(new Dimension(200, 20));
 
-        JPanel resizePane = TableLayoutHelper.createCommonTableLayoutPane(new JComponent[][]{{ tipsPane, new UILabel(), widthPane, new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Indent-Pixel")), new UILabel("x"), heightPane, new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Indent-Pixel")), new UILabel(), slidePane }}, rowSize, columnSize, RESIZE_PANE_GAP);
+        JPanel resizePane = TableLayoutHelper.createCommonTableLayoutPane(new JComponent[][]{{ tipsPane, new UILabel(), widthPane, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Indent_Pixel")), new UILabel("x"), heightPane, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Indent_Pixel")), new UILabel(), slidePane }}, rowSize, columnSize, RESIZE_PANE_GAP);
         this.add(FormRulerLayout.BOTTOM, resizePane);
         setWidgetsConfig();
         // 先初始话滑块及对应事件，然后获取分辨率调整容器的显示大小

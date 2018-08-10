@@ -43,7 +43,7 @@ public class JFileTree extends AbstractFileTree {
     private void init(FileFilter filter) {
         this.fileFilter = filter;
 
-        DefaultTreeModel m_model = new DefaultTreeModel(new DefaultMutableTreeNode(com.fr.design.i18n.Toolkit.i18nText("My_Computer")));
+        DefaultTreeModel m_model = new DefaultTreeModel(new DefaultMutableTreeNode(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_My_Computer")));
         this.setModel(m_model);
         
         this.putClientProperty("JTree.lineStyle", "Angled");

@@ -65,8 +65,8 @@ public class SubReportPane extends BasicPane {
 					if (chooseFILE != null && chooseFILE.exists()) {
 						pathTextField.setText(chooseFILE.prefix() + chooseFILE.getPath());
 					} else {
-						JOptionPane.showConfirmDialog(SubReportPane.this, com.fr.design.i18n.Toolkit.i18nText("Sub_Report_Message1"),
-								com.fr.design.i18n.Toolkit.i18nText("Sub_Report_ToolTips"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showConfirmDialog(SubReportPane.this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Sub_Report_Message1"),
+								com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Sub_Report_ToolTips"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
 			    		chooseFILE = null;
 						pathTextField.setText("");
 					}
@@ -89,7 +89,7 @@ public class SubReportPane extends BasicPane {
         centerPane.add(kcPane, BorderLayout.CENTER);
 		UITextArea description = new UITextArea(2, 1);
 		centerPane.add(description, BorderLayout.SOUTH);
-		description.setText(com.fr.design.i18n.Toolkit.i18nText("Sub_Report_Description"));
+		description.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Sub_Report_Description"));
 		description.setEditable(false);
 		description.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Attention"), null));
     }
