@@ -14,7 +14,7 @@ import java.awt.event.ActionListener;
 
 public class ReportSelectToolBarPane<T> extends BasicBeanPane<T> {
 	private UIRadioButton reportRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_I_Want_To_Set_Single"));
-	private UIRadioButton serverRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Using_Server_Report_View_Settings"));
+	private UIRadioButton serverRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Using_Server_Report_View_Settings"));
 	private UIButton serverEditButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Edit"));
 	
 	EditToolBarPane<T> editToolBarPane;

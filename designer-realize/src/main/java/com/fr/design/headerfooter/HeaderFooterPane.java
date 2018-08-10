@@ -206,7 +206,7 @@ public abstract class HeaderFooterPane extends BasicPane {
 				} else if (reportHFType == ReportConstants.REPORTPAGE_FIRST) {
 					this.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_HF_First_Page"));
 				} else if (reportHFType == ReportConstants.REPORTPAGE_LAST) {
-					this.setText(com.fr.design.i18n.Toolkit.i18nText("Utils-Last_Page"));
+					this.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Last_Page"));
 				} else if (reportHFType == ReportConstants.REPORTPAGE_ODD) {
 					this.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_HF_Odd_Page"));
 				} else if (reportHFType == ReportConstants.REPORTPAGE_EVEN) {

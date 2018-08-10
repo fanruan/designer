@@ -604,7 +604,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
             return false;
         }
         if (this.getTarget().isNameExist(newName)) {
-            JOptionPane.showMessageDialog(this, "\"" + newName + "\"" + com.fr.design.i18n.Toolkit.i18nText("Utils-has_been_existed")
+            JOptionPane.showMessageDialog(this, "\"" + newName + "\"" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Has_Been_Existed")
                     + "!", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Alert"), JOptionPane.WARNING_MESSAGE);
             return false;
         }

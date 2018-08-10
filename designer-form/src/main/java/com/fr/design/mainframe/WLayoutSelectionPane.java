@@ -76,11 +76,11 @@ public class WLayoutSelectionPane extends BasicPane {
         public BorderLayoutPane() {
             this.setLayout(new /* */ GridLayout(1, 4, 5, 5));
             KindPane b1 = new KindPane("/com/fr/web/images/form/layout_border_nc.png", new WBorderLayout(0, 0, new String[]{WBorderLayout.NORTH, WBorderLayout.CENTER}));
-            b1.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("WLayout-Border-LayoutContainer"));
+            b1.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_WLayout_Border_Layout_Container"));
             KindPane b2 = new KindPane("/com/fr/web/images/form/layout_border_ncw.png", new WBorderLayout(0, 0, new String[]{WBorderLayout.WEST, WBorderLayout.NORTH, WBorderLayout.CENTER}));
-            b2.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("WLayout-Border-ThreeContainer"));
+            b2.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_WLayout_Border_Three_Container"));
             KindPane b4 = new KindPane("/com/fr/web/images/form/layout_border_all.png", new WBorderLayout(0, 0));
-            b4.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("WLayout-Border-ToolTips"));
+            b4.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_WLayout_Border_ToolTips"));
             this.add(b1);
             this.add(b2);
             this.add(b4);
@@ -122,7 +122,7 @@ public class WLayoutSelectionPane extends BasicPane {
         public CardLayoutPane() {
             this.setLayout(new /* */ GridLayout(1, 4, 5, 5));
             KindPane b1 = new KindPane("/com/fr/web/images/form/layout_absolute_big.png", new WCardLayout());
-            b1.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("WLayout-Card-ToolTip"));
+            b1.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_WLayout_Card_ToolTip"));
             this.add(b1);
             this.add(new UILabel());
             this.add(new UILabel());

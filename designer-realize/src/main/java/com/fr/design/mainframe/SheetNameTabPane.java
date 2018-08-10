@@ -934,7 +934,7 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
                     // sheet名字的公式也需要做相应的变化.
                     reportComposite.repaint();
                 } else {
-                    JOptionPane.showMessageDialog(reportComposite, com.fr.design.i18n.Toolkit.i18nText("Utils-The_Name_has_been_existed"));
+                    JOptionPane.showMessageDialog(reportComposite, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_The_Name_Has_Been_Existed"));
                 }
             }
         }

@@ -1,25 +1,12 @@
 package com.fr.grid.dnd;
 
-import java.awt.Point;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.dnd.DropTarget;
-import java.awt.dnd.DropTargetAdapter;
-import java.awt.dnd.DropTargetContext;
-import java.awt.dnd.DropTargetDragEvent;
-import java.awt.dnd.DropTargetDropEvent;
-import java.awt.event.ActionEvent;
-
-import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
-
 import com.fr.base.FRContext;
 import com.fr.design.actions.ToggleButtonUpdateAction;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.gui.ibutton.UIToggleButton;
-
-import com.fr.general.data.TableDataColumn;
 import com.fr.design.mainframe.ElementCasePane;
+import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.general.data.TableDataColumn;
 import com.fr.grid.Grid;
 import com.fr.grid.GridUtils;
 import com.fr.grid.selection.CellSelection;
@@ -35,7 +22,18 @@ import com.fr.report.worksheet.FormElementCase;
 import com.fr.report.worksheet.WorkSheet;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Constants;
-import com.fr.design.utils.gui.GUICoreUtils;
+
+import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
+import java.awt.Point;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetAdapter;
+import java.awt.dnd.DropTargetContext;
+import java.awt.dnd.DropTargetDragEvent;
+import java.awt.dnd.DropTargetDropEvent;
+import java.awt.event.ActionEvent;
 
 /**
  * the class used for drop an element to the grid
@@ -122,13 +120,13 @@ public class ElementCasePaneDropTarget extends DropTargetAdapter {
         public SortAction(int i) {
             direction = i;
             if (i == LEFT_2_RIGHT) {
-                this.setName(com.fr.design.i18n.Toolkit.i18nText("Utils-Left_to_Right_a"));
+                this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Left_To_Right_Duplicate"));
             } else if (i == RIGHT_2_LEFT) {
-                this.setName(com.fr.design.i18n.Toolkit.i18nText("Utils-Right_to_Left"));
+                this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Right_to_Left"));
             } else if (i == TOP_2_BOTTOM) {
-                this.setName(com.fr.design.i18n.Toolkit.i18nText("Utils-Top_to_Bottom_a"));
+                this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Top_To_Bottom_Dupicate"));
             } else if (i == BOTTOM_2_TOP) {
-                this.setName(com.fr.design.i18n.Toolkit.i18nText("Utils-Bottom_to_Top"));
+                this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Bottom_To_Top"));
             }
             this.setMnemonic('S');
         }
@@ -194,13 +192,13 @@ public class ElementCasePaneDropTarget extends DropTargetAdapter {
             if (direction == RIGHT_2_LEFT) {
                 int k = cs.getColumn() - columnCount + 1;
                 if (k < 0) {
-                    JOptionPane.showMessageDialog(ePane, com.fr.design.i18n.Toolkit.i18nText("Utils-Beyond_the_left_side_of_Border"));
+                    JOptionPane.showMessageDialog(ePane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Beyond_The_Left_Side_Of_Border"));
                     return false;
                 }
             } else if (direction == BOTTOM_2_TOP) {
                 int k = cs.getRow() - columnCount + 1;
                 if (k < 0) {
-                    JOptionPane.showMessageDialog(ePane, com.fr.design.i18n.Toolkit.i18nText("Utils-Beyond_the_top_side_of_Border"));
+                    JOptionPane.showMessageDialog(ePane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Beyond_The_Top_Side_Of_Border"));
                     return false;
                 }
             }
@@ -208,12 +206,12 @@ public class ElementCasePaneDropTarget extends DropTargetAdapter {
             if (ePane.mustInVisibleRange()) {
                 if (direction == LEFT_2_RIGHT) {
                     if (!GridUtils.canMove(ePane, cs.getColumn() + columnCount - 1, cs.getRow())) {
-                        JOptionPane.showMessageDialog(ePane, com.fr.design.i18n.Toolkit.i18nText("Utils-Beyond_the_right_side_of_Border"));
+                        JOptionPane.showMessageDialog(ePane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Beyond_The_Right_Side_Of_Border"));
                         return false;
                     }
                 } else if (direction == TOP_2_BOTTOM) {
                     if (!GridUtils.canMove(ePane, cs.getRow(), cs.getColumn() + columnCount - 1)) {
-                        JOptionPane.showMessageDialog(ePane, com.fr.design.i18n.Toolkit.i18nText("Utils-Beyond_the_bottom_side_of_Border"));
+                        JOptionPane.showMessageDialog(ePane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Beyond_The_Bottom_Side_Of_Border"));
                         return false;
                     }
                 }

@@ -631,7 +631,7 @@ public class HeaderFooterEditPane extends JPanel {
 
 		private void setUnitType(int unitType) {
 			if (unitType == Constants.UNIT_CM) {
-				unitLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Unit_CM"));
+				unitLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_CM"));
 			} else if (unitType == Constants.UNIT_INCH) {
 				unitLabel.setText(com.fr.design.i18n.Toolkit.i18nText("PageSetup-inches"));
 			} else {

@@ -52,7 +52,7 @@ public class WebJsPane extends BasicPane {
 		this.setBorder(BorderFactory.createEmptyBorder(10, 5, 0, 0));
 
 		localFileRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Disk_File") + ":", true);
-		urlFileRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Url_location")+ ":", false);
+		urlFileRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Url_Location")+ ":", false);
 		ButtonGroup bg = new ButtonGroup();
 		bg.add(localFileRadioButton);
 		bg.add(urlFileRadioButton);

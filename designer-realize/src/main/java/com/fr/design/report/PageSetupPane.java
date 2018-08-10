@@ -214,7 +214,7 @@ public class PageSetupPane extends BasicPane {
             ((JSpinner.DefaultEditor) paperHeightSpinner.getEditor()).getTextField().setColumns(7);
             unitLabel = new UnitFieldPane.UnitLabel(Constants.UNIT_MM, paperHeightSpinner.getPreferredSize().height);
 
-            String[] inch = {com.fr.design.i18n.Toolkit.i18nText("Unit_MM"), com.fr.design.i18n.Toolkit.i18nText("Unit_INCH")};
+            String[] inch = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_MM"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_INCH")};
             switchInch = new UIComboBox(inch);
             switchInch.setEditable(false);
             switchInch.setSize(paperHeightSpinner.getPreferredSize().width, paperHeightSpinner.getPreferredSize().height);
@@ -643,7 +643,7 @@ public class PageSetupPane extends BasicPane {
                 sbuf.append('x');
                 sbuf.append(Utils.convertNumberStringToString(new Float(paperSize.getHeight().toCMValue4Scale2())));
                 sbuf.append(' ');
-                sbuf.append(com.fr.design.i18n.Toolkit.i18nText("Unit_CM"));
+                sbuf.append(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_CM"));
             } else if (unitType == Constants.UNIT_INCH) {
                 sbuf.append(Utils.convertNumberStringToString(new Float(paperSize.getWidth().toINCHValue4Scale3())));
                 sbuf.append('x');
@@ -844,7 +844,7 @@ public class PageSetupPane extends BasicPane {
                 boolean or = isOr || rightValue;
                 boolean isAnd = !topValue && !bottomValue && !leftValue ;
                 if (or && (zeroMarginWarn.getText()).endsWith("<br></html></body>")) {
-                    zeroMarginWarn.setText("<html><body>"+com.fr.design.i18n.Toolkit.i18nText("zeroMarginWarn")+"</body></html>");
+                    zeroMarginWarn.setText("<html><body>"+com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Zero_Margin_Warn")+"</body></html>");
                 } else if (isAnd && !rightValue) {
                     StringBuffer temp = new StringBuffer();
                     for (int i = 0; i < NUM_11; i++) {
@@ -934,8 +934,8 @@ public class PageSetupPane extends BasicPane {
             JPanel autoShrinkPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
             autoShrinkPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_PageSetup_Shrink_To_Fit_Content")));
             isShrinkToFit4None = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("No"));
-            isShrinkToFit4Height = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Utils-Row_Height"));
-            isShrinkToFit4Width = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Utils-Column_Width"));
+            isShrinkToFit4Height = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Row_Height"));
+            isShrinkToFit4Width = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Column_Width"));
 
             ButtonGroup bp = new ButtonGroup();
             autoShrinkPane.add(isShrinkToFit4None);

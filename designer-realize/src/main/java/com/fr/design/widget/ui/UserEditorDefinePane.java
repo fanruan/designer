@@ -23,7 +23,7 @@ public class UserEditorDefinePane extends AbstractDataModify<NameWidget> {
         FRFont frFont = FRContext.getDefaultValues().getFRFont();
         infoLabel.setFont(new Font(frFont.getFamily(), Font.BOLD, 24));
 	    infoLabel.setText(com.fr.design.i18n.Toolkit.i18nText(
-	    		"Widget-User_Defined_Editor") + ".");
+				"Fine-Design_Report_Widget_User_Defined_Editor") + ".");
 	    infoLabel.setHorizontalAlignment(SwingConstants.CENTER);
 	    
 		this.add(infoLabel, BorderLayout.CENTER);

@@ -54,8 +54,8 @@ public class EditReportServerParameterPane extends LoadingBasicPane {
         tabbedPane = new UITabbedPane();
         defaultPane.add(tabbedPane, BorderLayout.CENTER);
 
-        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("WEB-Pagination_Setting"), pagePane = new PageToolBarPane());
-        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("WEB-Write_Setting"), writePane = new WriteToolBarPane());
+        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_WEB_Pagination_Setting"), pagePane = new PageToolBarPane());
+        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_WEB_Write_Setting"), writePane = new WriteToolBarPane());
         tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_M_Data_Analysis_Settings"), viewPane = new ViewToolBarPane());
         tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportServerP_Import_Css"), cssPane = new WebCssPane());
         tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("ReportServerP-Import_JavaScript"), jsPane = new WebJsPane());

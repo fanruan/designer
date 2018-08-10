@@ -31,7 +31,7 @@ public class SheetAuthorityEditPane extends AuthorityEditPane {
     private static final int LEFT_GAP = 4;
     private static final int ALIGNMENT_GAP = -3;
 
-    private UICheckBox sheetVisible = new UICheckBox("sheet" + com.fr.design.i18n.Toolkit.i18nText("Widget-Visible"));
+    private UICheckBox sheetVisible = new UICheckBox("sheet" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Widget_Visible"));
     private WorkBook workBook = null;
     private int selectedIndex = -1;
     private JPanel typePane;

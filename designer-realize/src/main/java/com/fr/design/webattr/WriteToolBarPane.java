@@ -146,7 +146,7 @@ public class WriteToolBarPane extends AbstractEditToolBarPane {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("WEB-Write_Setting");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_WEB_Write_Setting");
     }
 
     @Override

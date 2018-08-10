@@ -91,7 +91,7 @@ public class DragToolBarPane extends WidgetToolBarPane {
 		this.add(new JScrollPane(movePane), BorderLayout.CENTER);
 
 		JPanel buttonPane = FRGUIPaneFactory.createCenterFlowInnerContainer_S_Pane();
-		UIButton defaultButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Use_Default_ToolBar"));
+		UIButton defaultButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Use_Default_ToolBar"));
 		defaultButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				southToolBar.removeAll();

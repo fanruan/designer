@@ -56,9 +56,9 @@ public class PolyBoundsGroup implements GroupModel {
 		if (column == 0) {
 			switch (row) {
 			case 0:
-				return com.fr.design.i18n.Toolkit.i18nText("X-Coordinate");
+				return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_X_Coordinate");
 			case 1:
-				return com.fr.design.i18n.Toolkit.i18nText("Y-Coordinate");
+				return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Y_Coordinate");
 			case 2:
 				return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Tree_Width");
 			default:

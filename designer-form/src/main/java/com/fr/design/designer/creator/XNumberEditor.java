@@ -73,7 +73,7 @@ public class XNumberEditor extends XWrapperedFieldEditor {
 								.setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WaterMark"))
 								.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 						new CRPropertyDescriptor("regErrorMessage", this.data.getClass())
-								.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Verify-Message"))
+								.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Verify_Message"))
 								.putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate")
 				});
 	}

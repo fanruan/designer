@@ -20,7 +20,7 @@ public class PagePane extends ConditionAttrSingleConditionPane<HighlightAction> 
         pageLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Pagination") + ":");
         this.add(pageLabel);
         this.pageComboBox = new UIComboBox(new String[] {
-                com.fr.design.i18n.Toolkit.i18nText("Utils-No_Pagination"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_No_Pagination"),
                 com.fr.design.i18n.Toolkit.i18nText("CellWrite-Page_After_Row"),
                 com.fr.design.i18n.Toolkit.i18nText("CellWrite-Page_Before_Row"),
                 com.fr.design.i18n.Toolkit.i18nText("CellWrite-Page_After_Column"),
