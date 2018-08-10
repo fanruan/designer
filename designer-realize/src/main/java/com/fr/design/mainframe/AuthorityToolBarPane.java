@@ -272,7 +272,6 @@ public class AuthorityToolBarPane<T extends WebContent> extends BasicBeanPane<Re
         this.remove(title);
         // 如果是空值就说明采用服务器配置了
         if (reportWebAttr == null || this.getWebContent(reportWebAttr) == null) {
-//            title = new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Server", "ReportServerP-Toolbar", "Choose_Role"}));
             title = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ServerToolbar_Choose_Role"));
             populateServerSettings();
             this.add(title, 0);

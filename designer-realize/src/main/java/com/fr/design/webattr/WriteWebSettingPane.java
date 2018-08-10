@@ -76,7 +76,6 @@ public class WriteWebSettingPane extends WebSettingPane<WebWrite> {
         unloadCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unload_Check"));
         unloadCheck.setSelected(true);
 
-//        showWidgets = new UICheckBox(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"FR-Engine_Event_showWidgets"}));
         showWidgets = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Event_Show_Widgets"));
         showWidgets.setSelected(false);
         isAutoStash = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Write_Auto_Stash"));
