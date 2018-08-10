@@ -481,7 +481,7 @@ public class ParameterDefinitePane extends JPanel implements ToolBarMenuDockPlus
         if (!DesignerMode.isAuthorityEditing()) {
             tplMenu.addShortCut(new NameSeparator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_WorkBook")));
             tplMenu.addShortCut(new ReportParameterAction(workBook));
-            tplMenu.addShortCut(new NameSeparator(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"DashBoard-Potence", "Edit"})));
+            tplMenu.addShortCut(new NameSeparator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Edit_DashBoard_Potence")));
             tplMenu.addShortCut(new AllowAuthorityEditAction(workBook));
         } else {
             tplMenu.addShortCut(new ExitAuthorityEditAction(workBook));

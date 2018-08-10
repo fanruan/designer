@@ -94,7 +94,7 @@ public class FormElementCaseDesigner<T extends FormElementCaseProvider, E extend
     @Override
     public ShortCut[] shortCuts4Authority() {
         return new ShortCut[]{
-                new NameSeparator(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"DashBoard-Potence", "Edit"})),
+                new NameSeparator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Edit_DashBoard_Potence")),
                 DesignerMode.isAuthorityEditing() ? new ExitAuthorityEditAction(this) : new AllowAuthorityEditAction(this),
         };
 

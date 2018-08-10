@@ -83,7 +83,7 @@ public class WidgetHighlightPane extends ConditionAttrSingleConditionPane<Highli
         box.setEnabled(false);
         this.add(widgetButton);
         widgetButton.setEnabled(false);
-        useWidget = new UICheckBox(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Use", "Widget"}));
+        useWidget = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Use_Widget"));
         this.add(useWidget);
         useWidget.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
