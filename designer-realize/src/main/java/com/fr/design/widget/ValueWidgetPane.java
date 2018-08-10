@@ -27,7 +27,7 @@ public class ValueWidgetPane extends WidgetPane {
 
 	public JPanel initNorthPane(){
 		JPanel northPane = super.initNorthPane();
-		label = new UILabel("     " + com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Widget", "Value"})+ ":");
+		label = new UILabel("     " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Widget_Value")+ ":");
 		label.setVisible(false);
 		widgetValuePane = new JPanel();
 		widgetValuePane.setLayout(FRGUIPaneFactory.createBorderLayout());

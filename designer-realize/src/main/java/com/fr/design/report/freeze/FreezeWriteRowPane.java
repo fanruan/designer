@@ -9,7 +9,7 @@ import com.fr.stable.StableUtils;
 public class FreezeWriteRowPane extends FreezeAndRepeatPane {
 
 	public FreezeWriteRowPane() {
-		start = new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Frozen", "N.O."}) + " 1", SwingConstants.CENTER);
+		start = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Frozen_N.O.") + " 1", SwingConstants.CENTER);
 		end =  new RowSpinner(1, Integer.MAX_VALUE, 1,1);
 		super.initComponent();
 		this.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Row")));
@@ -22,7 +22,7 @@ public class FreezeWriteRowPane extends FreezeAndRepeatPane {
 
 	@Override
 	public void populateBean(FT ob) {
-		((UILabel)start).setText(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Frozen", "N.O."}) + String.valueOf(ob.getFrom()));
+		((UILabel)start).setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Frozen_N.O.") + String.valueOf(ob.getFrom()));
 		((RowSpinner)end).setValue(ob.getTo() + 1);
 	}
 
