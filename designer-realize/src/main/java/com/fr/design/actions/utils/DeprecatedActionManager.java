@@ -145,7 +145,7 @@ public class DeprecatedActionManager {
     }
 
     public static UIMenu getInsertMenu(ElementCasePane ePane) {
-        UIMenu deleteMenu = new UIMenu(com.fr.design.i18n.Toolkit.i18nText("Insert") + "(I)");
+        UIMenu deleteMenu = new UIMenu(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Insert") + "(I)");
         deleteMenu.setIcon(BaseUtils.readIcon("/com/fr/base/images/cell/control/add.png"));
         deleteMenu.setMnemonic('i');
         deleteMenu.add(new InsertRowAction(ePane).createMenuItem());

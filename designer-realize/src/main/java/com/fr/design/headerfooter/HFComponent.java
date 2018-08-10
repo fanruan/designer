@@ -267,9 +267,9 @@ public class HFComponent extends UILabel implements MoveActionListener {
         } else if (hfElement.getClass().equals(DateHFElement.class)) {
             return com.fr.design.i18n.Toolkit.i18nText("Date");
         } else if (hfElement.getClass().equals(TimeHFElement.class)) {
-            return com.fr.design.i18n.Toolkit.i18nText("Time");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Time");
         } else if (hfElement.getClass().equals(ImageHFElement.class)) {
-            return com.fr.design.i18n.Toolkit.i18nText("Image");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Image");
         } else if (hfElement.getClass().equals(NewLineHFElement.class)) {
             return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_HF_New_Line");
         }

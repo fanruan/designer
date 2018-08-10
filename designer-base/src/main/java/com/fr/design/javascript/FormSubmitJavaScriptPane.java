@@ -1,32 +1,29 @@
 package com.fr.design.javascript;
 
+import com.fr.base.Parameter;
+import com.fr.design.beans.FurtherBasicBeanPane;
+import com.fr.design.gui.frpane.ReportletParameterViewPane;
+import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.icombobox.UIComboBox;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.scrollruler.ModLineBorder;
+import com.fr.general.ComparatorUtils;
+import com.fr.js.FormSubmitJavaScript;
+import com.fr.stable.ParameterProvider;
+
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-import javax.swing.BorderFactory;
-
-import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.gui.ilable.UILabel;
-import javax.swing.JPanel;
-
-import com.fr.base.Parameter;
-import com.fr.design.beans.FurtherBasicBeanPane;
-import com.fr.design.gui.frpane.ReportletParameterViewPane;
-import com.fr.design.gui.icombobox.UIComboBox;
-import com.fr.design.gui.itextfield.UITextField;
-import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.scrollruler.ModLineBorder;
-import com.fr.general.ComparatorUtils;
-
-import com.fr.js.FormSubmitJavaScript;
-import com.fr.stable.ParameterProvider;
-
 public class FormSubmitJavaScriptPane extends FurtherBasicBeanPane<FormSubmitJavaScript> {
-	public static final String ASYNCH = com.fr.design.i18n.Toolkit.i18nText("JavaScrit-Asynch");
-	public static final String SYNCH = com.fr.design.i18n.Toolkit.i18nText("JavaScript-Synch");
+	public static final String ASYNCH = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_JavaScript_Asynch");
+	public static final String SYNCH = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_JavaScript_Synch");
 	private UITextField urlTextField;
 	private UIComboBox asynComboBox;
 	private ReportletParameterViewPane pViewPane;
@@ -58,7 +55,7 @@ public class FormSubmitJavaScriptPane extends FurtherBasicBeanPane<FormSubmitJav
 		});
 		pViewPane = new ReportletParameterViewPane();
 		pViewPane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), com.fr.design.i18n.Toolkit.i18nText("Parameter")));
-		northPane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), com.fr.design.i18n.Toolkit.i18nText("Submit")));
+		northPane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), com.fr.design.i18n.Toolkit.i18nText("FIne-Design_Basic_Submit")));
 		
 		addCallbackButton = javaScriptActionPane.createCallButton();
 		
@@ -74,7 +71,7 @@ public class FormSubmitJavaScriptPane extends FurtherBasicBeanPane<FormSubmitJav
 	 *
 	 */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("JavaScript-Form_Submit");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_JavaScript_Form_Submit");
 	}
 
 	/**

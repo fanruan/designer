@@ -42,6 +42,6 @@ public class FreezePagePane extends FreezeAndRepeatPane {
 
 	@Override
 	public String getLabeshow() {
-		return isNumber ? com.fr.design.i18n.Toolkit.i18nText("RowTo") : com.fr.design.i18n.Toolkit.i18nText("ColumnTo");
+		return isNumber ? com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Row_To") : com.fr.design.i18n.Toolkit.i18nText("ColumnTo");
 	}
 }

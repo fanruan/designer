@@ -18,13 +18,13 @@ public class DictionaryConstants {
 	
 	public final static String[] regexpsDisplays = new String[] {
 		com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_None"),
-		com.fr.design.i18n.Toolkit.i18nText("Required"),
-		com.fr.design.i18n.Toolkit.i18nText("Length"),
+		com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Required"),
+		com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Length"),
 		com.fr.design.i18n.Toolkit.i18nText("Float"),
 		com.fr.design.i18n.Toolkit.i18nText("Email"),
 		com.fr.design.i18n.Toolkit.i18nText("Phone"),
 		com.fr.design.i18n.Toolkit.i18nText("MobilePhone"),
-		com.fr.design.i18n.Toolkit.i18nText("IDCard"),
+		com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_IDCard"),
 		com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_PostCode"),
 		com.fr.design.i18n.Toolkit.i18nText("Custom")};
 	

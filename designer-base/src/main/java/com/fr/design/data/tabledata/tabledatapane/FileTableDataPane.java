@@ -123,7 +123,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
         this.setLayout(new BorderLayout(gap,0));
         JPanel northPanel = new JPanel(new BorderLayout());
         JPanel type = new JPanel();
-        type.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Utils-File_type") + ":"));
+        type.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_File_Type") + ":"));
         String[] item = {"TXT", "Excel", "XML"};
         fileTypeComboBox = new UIComboBox(item);
         fileTypeComboBox.setPreferredSize(new Dimension(100, 20));

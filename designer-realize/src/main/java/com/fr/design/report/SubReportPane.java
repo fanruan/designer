@@ -82,7 +82,7 @@ public class SubReportPane extends BasicPane {
         centerPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Set", "Delivery", "Parameter"}),null));
         JPanel kcPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         kcPane.add(kvPane);
-        extend = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Hyperlink-Extends_Report_Parameters"));
+        extend = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Find-Design_Basic_Hyperlink_Extends_Report_Parameters"));
         kcPane.add(extend, BorderLayout.SOUTH);
         centerPane.add(kcPane, BorderLayout.CENTER);
 		UITextArea description = new UITextArea(2, 1);

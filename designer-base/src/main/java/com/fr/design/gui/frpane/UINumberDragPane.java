@@ -36,7 +36,7 @@ public class UINumberDragPane extends BasicBeanPane<Double> implements GlobalNam
 	public UINumberDragPane(double minValue, double maxValue, double dierta) {
 		dragBar = new NumberDragBar((int) minValue, (int) maxValue);
 		spinner = new UISpinner(minValue, maxValue, dierta, minValue);
-		spinner.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Text_Rotation"));
+		spinner.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Text_Rotation"));
 		this.setLayout(new BorderLayout(4, 0));
 		this.add(spinner, BorderLayout.EAST);
 		this.add(dragBar, BorderLayout.CENTER);

@@ -49,13 +49,13 @@ public class AlignmentComboBox extends UIComboBox {
 		if (alignment == Constants.CENTER) {//0
 			return com.fr.design.i18n.Toolkit.i18nText("Center");
 		} else if (alignment == Constants.TOP) {//1
-			return com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Top");
+			return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Top");
 		} else if (alignment == Constants.LEFT) {//2
-			return com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Left");
+			return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Left");
 		} else if (alignment == Constants.BOTTOM) {//3
-			return com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Bottom");
+			return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Bottom");
 		} else if (alignment == Constants.RIGHT) { //4
-			return com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Right");
+			return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Right");
 		} else if (alignment == Constants.DISTRIBUTED) { //added by Kevin Wang 6
 			return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Distibuted");
 		} else {

@@ -97,7 +97,7 @@ public class ChartDataLabelPane extends BasicScrollPane<Chart>{
 		}else if(plot instanceof PiePlot){
             return new String[] {com.fr.design.i18n.Toolkit.i18nText("Chart_In_Pie"), com.fr.design.i18n.Toolkit.i18nText("Chart_Out_Pie")};
 		}else if(plot instanceof RangePlot){
-			return new String[]{com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Top"), com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Bottom"), com.fr.design.i18n.Toolkit.i18nText("Center")};
+			return new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Top"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Bottom"), com.fr.design.i18n.Toolkit.i18nText("Center")};
 		}else if(plot instanceof BubblePlot){
 			return new String[] {com.fr.design.i18n.Toolkit.i18nText("Chart_Bubble_Inside"), com.fr.design.i18n.Toolkit.i18nText("Chart_Bubble_Outside")};
 		}else{

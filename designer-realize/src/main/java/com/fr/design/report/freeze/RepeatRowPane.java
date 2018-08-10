@@ -32,7 +32,7 @@ public class RepeatRowPane extends FreezeAndRepeatPane {
 
     @Override
     public String getLabeshow() {
-        return StringUtils.BLANK + com.fr.design.i18n.Toolkit.i18nText("RowTo") + StringUtils.BLANK;
+        return StringUtils.BLANK + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Row_To") + StringUtils.BLANK;
     }
 
 }

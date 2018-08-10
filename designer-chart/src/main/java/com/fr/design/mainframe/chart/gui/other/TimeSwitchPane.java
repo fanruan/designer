@@ -43,13 +43,13 @@ public class TimeSwitchPane extends JPanel implements UIObserver {
     private static final int COM_GAP =5;
     private static final String YEAR = com.fr.design.i18n.Toolkit.i18nText("Year");
     private static final String MONTH =com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Month");
-    private static final String DAY =com.fr.design.i18n.Toolkit.i18nText("Sun");
+    private static final String DAY =com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sun");
     private static final String HOUR = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_ScheHour");
     private static final String MINUTE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sche_Minute");
     private static final String SECOND = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sche_Second");
 
     private static String[] TYPES = new String[]{
-    	com.fr.design.i18n.Toolkit.i18nText("Year"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Month"), com.fr.design.i18n.Toolkit.i18nText("Sun"),
+    	com.fr.design.i18n.Toolkit.i18nText("Year"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Month"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sun"),
     	com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_ScheHour"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sche_Minute"),
     	com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sche_Second")
     };
@@ -68,7 +68,7 @@ public class TimeSwitchPane extends JPanel implements UIObserver {
     static {
     	INTS.put(ChartConstants.YEAR_TYPE, com.fr.design.i18n.Toolkit.i18nText("Year"));
     	INTS.put(ChartConstants.MONTH_TYPE, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Month"));
-    	INTS.put(ChartConstants.DAY_TYPE, com.fr.design.i18n.Toolkit.i18nText("Sun"));
+    	INTS.put(ChartConstants.DAY_TYPE, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sun"));
     	INTS.put(ChartConstants.HOUR_TYPE, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_ScheHour"));
     	INTS.put(ChartConstants.MINUTE_TYPE, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sche_Minute"));
     	INTS.put(ChartConstants.SECOND_TYPE, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sche_Second"));

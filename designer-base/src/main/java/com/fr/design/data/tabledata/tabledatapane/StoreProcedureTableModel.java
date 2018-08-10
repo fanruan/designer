@@ -18,7 +18,7 @@ import com.fr.design.dialog.DialogActionAdapter;
 public class StoreProcedureTableModel extends UITableModelAdapter<StoreProcedureParameter> {
 
 	public StoreProcedureTableModel() {
-		super(new String[] { com.fr.design.i18n.Toolkit.i18nText("Parameter"), com.fr.design.i18n.Toolkit.i18nText("Type"), com.fr.design.i18n.Toolkit.i18nText("Model"), com.fr.design.i18n.Toolkit.i18nText("Value") });
+		super(new String[] { com.fr.design.i18n.Toolkit.i18nText("Parameter"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Type"), com.fr.design.i18n.Toolkit.i18nText("Model"), com.fr.design.i18n.Toolkit.i18nText("Value") });
 		if (shouldResponseDoubleClickAction()) {
             table.addMouseListener(new MouseAdapter() {
 

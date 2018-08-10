@@ -130,9 +130,9 @@ public class ReportWebWidgetConstants {
             BaseUtils.readIcon("/com/fr/web/images/appendRow.png"), AppendColumnRow.class);
     public static final WidgetOption DELETECOLUMNROW = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Delete_Record"),
             BaseUtils.readIcon("/com/fr/web/images/deleteRow.png"), DeleteColumnRow.class);
-    public static final WidgetOption VERIFY = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Verify-Data_Verify"), BaseUtils.readIcon("/com/fr/web/images/verify.gif"),
+    public static final WidgetOption VERIFY = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Verify_Data_Verify"), BaseUtils.readIcon("/com/fr/web/images/verify.gif"),
             Verify.class);
-    public static final WidgetOption SUBMITFORCIBLY = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Utils-Submit_Forcibly"),
+    public static final WidgetOption SUBMITFORCIBLY = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Submit_Forcibly"),
             BaseUtils.readIcon("/com/fr/web/images/save2.png"), SubmitForcibly.class);
 
     // show cell value
@@ -140,7 +140,7 @@ public class ReportWebWidgetConstants {
             BaseUtils.readIcon("/com/fr/web/images/showValue.png"), ShowCellValue.class);
 
     // import excel data
-    public static final WidgetOption IMPORTEXCELDATA = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Utils-Import_Excel_Data"),
+    public static final WidgetOption IMPORTEXCELDATA = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Import_Excel_Data"),
             BaseUtils.readIcon("/com/fr/web/images/excel.png"), ImportExcelData.class);
     //自定义导入excel
     public static final WidgetOption IMPORTEXCELDATA_CUSTOMIZED = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Utils_Import_Excel_Data_Customized"),

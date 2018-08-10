@@ -48,7 +48,7 @@ import java.util.regex.Pattern;
 public class DateAxisValuePane extends FurtherBasicBeanPane<CategoryAxis>{
 
     private static String[] TYPES = new String[]{
-    	com.fr.design.i18n.Toolkit.i18nText("Year"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Month"), com.fr.design.i18n.Toolkit.i18nText("Sun"),
+    	com.fr.design.i18n.Toolkit.i18nText("Year"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Month"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sun"),
     	com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_ScheHour"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sche_Minute"),
     	com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sche_Second")
     };
@@ -57,7 +57,7 @@ public class DateAxisValuePane extends FurtherBasicBeanPane<CategoryAxis>{
     static {
     	VALUES.put(com.fr.design.i18n.Toolkit.i18nText("Year"), ChartConstants.YEAR_TYPE);
     	VALUES.put(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Month"), ChartConstants.MONTH_TYPE);
-    	VALUES.put(com.fr.design.i18n.Toolkit.i18nText("Sun"), ChartConstants.DAY_TYPE);
+    	VALUES.put(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sun"), ChartConstants.DAY_TYPE);
     	VALUES.put(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_ScheHour"), ChartConstants.HOUR_TYPE);
     	VALUES.put(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sche_Minute"), ChartConstants.MINUTE_TYPE);
     	VALUES.put(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sche_Second"), ChartConstants.SECOND_TYPE);
@@ -67,7 +67,7 @@ public class DateAxisValuePane extends FurtherBasicBeanPane<CategoryAxis>{
     static {
     	INTS.put(ChartConstants.YEAR_TYPE, com.fr.design.i18n.Toolkit.i18nText("Year"));
     	INTS.put(ChartConstants.MONTH_TYPE, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Month"));
-    	INTS.put(ChartConstants.DAY_TYPE, com.fr.design.i18n.Toolkit.i18nText("Sun"));
+    	INTS.put(ChartConstants.DAY_TYPE, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sun"));
     	INTS.put(ChartConstants.HOUR_TYPE, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_ScheHour"));
     	INTS.put(ChartConstants.MINUTE_TYPE, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sche_Minute"));
     	INTS.put(ChartConstants.SECOND_TYPE, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sche_Second"));

@@ -294,12 +294,12 @@ public class DSColumnAdvancedPane extends BasicPane {
             this.setLayout(FRGUIPaneFactory.createBorderLayout());
 
             selectCountComboBox = new UIComboBox(new String[]{
-                    com.fr.design.i18n.Toolkit.i18nText("Undefined"),
+                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Undefined"),
                     com.fr.design.i18n.Toolkit.i18nText("BindColumn-Top_N"),
                     com.fr.design.i18n.Toolkit.i18nText("BindColumn-Bottom_N"),
                     com.fr.design.i18n.Toolkit.i18nText("Odd"),
                     com.fr.design.i18n.Toolkit.i18nText("Even"),
-                    com.fr.design.i18n.Toolkit.i18nText("Specify"),});
+                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Specify"),});
             selectCountComboBox.addActionListener(new ActionListener() {
 
                 public void actionPerformed(ActionEvent evt) {
@@ -328,7 +328,7 @@ public class DSColumnAdvancedPane extends BasicPane {
 
             //not define pane
 
-            JPanel undefinedPane = GUICoreUtils.createFlowPane(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Undefined")), FlowLayout.LEFT);
+            JPanel undefinedPane = GUICoreUtils.createFlowPane(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Undefined")), FlowLayout.LEFT);
             topFormulaPane = new JFormulaField("-1");
             bottomFormulaPane = new JFormulaField("-1");
             serialTextField = new UITextField(18);

@@ -659,7 +659,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
                         IOUtils.readIcon("/com/fr/design/images/expand/asc.png"),
                         IOUtils.readIcon("/com/fr/design/images/expand/des.png")
                 };
-                String[] nameArray = {com.fr.design.i18n.Toolkit.i18nText("Sort-Original"), com.fr.design.i18n.Toolkit.i18nText("Sort-Ascending"), com.fr.design.i18n.Toolkit.i18nText("Sort-Descending")};
+                String[] nameArray = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Sort_Original"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Sort_Ascending"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Sort_Descending")};
                 sortTypePane = new UIButtonGroup(iconArray);
                 sortTypePane.setAllToolTips(nameArray);
                 sortTypePane.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_ExpandD_Sort_After_Expand"));
@@ -852,12 +852,12 @@ public class CellDSColumnEditor extends CellQuickEditor {
                 UILabel filterLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("BindColumn-Results_Filter"));
                 //结果集筛选下拉框
                 rsComboBox = new UIComboBox(new String[]{
-                        com.fr.design.i18n.Toolkit.i18nText("Undefined"),
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Undefined"),
                         com.fr.design.i18n.Toolkit.i18nText("BindColumn-Top_N"),
                         com.fr.design.i18n.Toolkit.i18nText("BindColumn-Bottom_N"),
                         com.fr.design.i18n.Toolkit.i18nText("Odd"),
                         com.fr.design.i18n.Toolkit.i18nText("Even"),
-                        com.fr.design.i18n.Toolkit.i18nText("Specify")
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Specify")
                 });
                 rsComboBox.addActionListener(actionListener);
                 //配置展示CardLayout

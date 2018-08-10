@@ -568,7 +568,7 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
 
 	protected class RemoveFieldAction extends UpdateAction {
 		public RemoveFieldAction() {
-			this.setName(com.fr.design.i18n.Toolkit.i18nText("RWA-Remove_Field"));
+			this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_RWA_Remove_Field"));
 		}
 
 		public void actionPerformed(ActionEvent evt) {

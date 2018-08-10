@@ -23,8 +23,8 @@ public class FormEmailPane extends EmailPane{
         double[] columnSize = { preferred, fill};
         centerPane = TableLayoutHelper.createCommonTableLayoutPane(new JComponent[][]{
                 {new UILabel(), tipsPane1},
-                createLinePane(com.fr.design.i18n.Toolkit.i18nText("HJS-Mail_to"), maitoEditor = new UITextField()),
-                createLinePane(com.fr.design.i18n.Toolkit.i18nText("HJS-CC_to"), ccEditor = new UITextField()),
+                createLinePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_HJS_Mail_to"), maitoEditor = new UITextField()),
+                createLinePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_HJS_CC_To"), ccEditor = new UITextField()),
                 createLinePane(com.fr.design.i18n.Toolkit.i18nText("EmailPane-BCC"), bccEditor = new UITextField()),
                 createLinePane(com.fr.design.i18n.Toolkit.i18nText("EmailPane-mailSubject"), titleEditor = new UITextField()),
                 {mainTextLabel, scrollPane},
