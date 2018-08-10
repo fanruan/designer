@@ -51,7 +51,7 @@ public class WebHyperlinkPane extends AbstractHyperLinkPane<WebHyperlink> {
 
     @Override
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Fine_Design_Basic_Hyperlink_Web_Link");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Web_Link");
     }
 
     @Override
