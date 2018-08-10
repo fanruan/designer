@@ -78,6 +78,6 @@ public class VanChartBubblePane extends BasicBeanPane<VanChartAttrBubble> {
 
     @Override
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Fine-Engine_Chart_Bubble");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Bubble");
     }
 }

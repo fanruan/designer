@@ -18,7 +18,7 @@ public class VanChartBubbleSetConditionPane extends AbstractNormalMultiLineCondi
 
     @Override
     protected String getItemLabelString() {
-        return com.fr.design.i18n.Toolkit.i18nText("Fine-Engine_Chart_Bubble");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Bubble");
     }
 
     @Override
@@ -37,7 +37,7 @@ public class VanChartBubbleSetConditionPane extends AbstractNormalMultiLineCondi
      */
     @Override
     public String nameForPopupMenuItem() {
-        return com.fr.design.i18n.Toolkit.i18nText("Fine-Engine_Chart_Bubble");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Bubble");
     }
 
     @Override

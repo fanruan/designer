@@ -78,7 +78,7 @@ public class VanChartBubbleSeriesPane extends VanChartAbstractPlotSeriesPane {
 
     private JPanel createBubblePane() {
         bubblePane = new VanChartBubblePane();
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Engine_Chart_Bubble"), bubblePane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Bubble"), bubblePane);
     }
 
     protected void populateCondition(ConditionAttr defaultAttr){
