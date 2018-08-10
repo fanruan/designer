@@ -40,7 +40,7 @@ public class WordExportPane extends BasicPane {
 		
         MultilineLabel wordLineLabel = new MultilineLabel();
         wordLineLabel.setPreferredSize(new Dimension(250, 100));
-        wordLineLabel.setText(com.fr.design.i18n.Toolkit.i18nText("alert_word"));
+        wordLineLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Alert_Word"));
         wordLineLabel.setForeground(Color.RED);
 		alertPane.add(wordLineLabel);
 		

@@ -218,7 +218,7 @@ public class MapGroupExtensionPane extends BasicPane implements UIObserver {
 	}
 
 	private JMenuItem createAreaItem(final String oldName) {
-		JMenuItem editFileItem = new JMenuItem(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Edit", "Image", "Filed"}));
+		JMenuItem editFileItem = new JMenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Edit_Image_Region"));
 		editFileItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				final MapCustomPane image = new MapCustomPane();

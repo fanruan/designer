@@ -184,7 +184,7 @@ public class AlignmentPane extends BasicPane {
 
     private JPanel getAlignment() {
         //algnment.
-        JPanel aligmentPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Alignment-Style"));
+        JPanel aligmentPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Alignment_Style"));
         JPanel horAlignmentPane = FRGUIPaneFactory.createMediumHGapFlowInnerContainer_M_Pane();
         //        aligmentPane.add(horAlignmentPane);
         horAlignmentComboBox = new AlignmentComboBox(CoreConstants.HORIZONTAL_ALIGNMENT_ARRAY);

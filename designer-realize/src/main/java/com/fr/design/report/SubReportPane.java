@@ -52,7 +52,7 @@ public class SubReportPane extends BasicPane {
 		UIButton browseButton = new UIButton("...");
 		northPane.add(browseButton, BorderLayout.EAST);
 		browseButton.setPreferredSize(new java.awt.Dimension(20, 20));
-		browseButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Click_this_button"));
+		browseButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Click_this_button"));
 		
 		browseButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

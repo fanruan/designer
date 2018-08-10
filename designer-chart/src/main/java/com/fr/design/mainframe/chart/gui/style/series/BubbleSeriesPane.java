@@ -52,7 +52,7 @@ public class BubbleSeriesPane extends AbstractPlotSeriesPane{
 
 	protected void initCom(){
 		String[] nameArray = {com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Chart_Bubble", "Chart_Area"}),
-				com.fr.design.i18n.Toolkit.i18nText("Bubble-Width")};
+				com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Bubble_Width")};
 		Integer[] valueArray = {BubblePlot.BUBBLE_AREA, BubblePlot.BUBBLE_WIDTH};
 		bubbleMean = new UIButtonGroup<Integer>(nameArray, valueArray);
 		zoomTime = new UITextField();

@@ -118,7 +118,7 @@ public abstract class MiddleChartPropertyPane extends BaseChartPropertyPane{
 	 * 返回View的标题.
 	 */
 	public String getViewTitle() {
-		return com.fr.design.i18n.Toolkit.i18nText("CellElement-Property_Table");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Cell_Element_Property_Table");
 	}
 
 	/**

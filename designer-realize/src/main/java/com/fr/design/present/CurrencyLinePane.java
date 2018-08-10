@@ -124,7 +124,7 @@ public class CurrencyLinePane extends FurtherBasicBeanPane<CurrencyLinePresent> 
      *    @return 同上
      */
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Currency_Line");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Currency_Line");
     }
 
     /**

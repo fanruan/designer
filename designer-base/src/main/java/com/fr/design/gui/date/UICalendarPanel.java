@@ -46,7 +46,7 @@ import java.util.Date;
 
 public class UICalendarPanel extends JPanel {
     private static final Font FONT_SONG = new Font(com.fr.design.i18n.Toolkit.i18nText("Song_TypeFace"),0,12);
-    private static final Font FONT_BLACK = new Font(com.fr.design.i18n.Toolkit.i18nText("Black_Font"),0,12);
+    private static final Font FONT_BLACK = new Font(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Black_Font"),0,12);
     private static final int WEEKDAY_COUNT = 7;
     private static final int TOTAL_DAYS_COUNT = 42;
 

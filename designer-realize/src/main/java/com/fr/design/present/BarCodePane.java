@@ -80,7 +80,7 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
         initVersionComboBox();
         initErrorCorrectComboBox();
 
-        drawingTextCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("BarCodeD-Drawing_Text"));
+        drawingTextCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Bar_CodeD_Drawing_Text"));
         drawingTextCheckBox.setSelected(true);
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;

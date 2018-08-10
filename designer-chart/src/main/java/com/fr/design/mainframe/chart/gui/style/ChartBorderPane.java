@@ -28,7 +28,7 @@ public class ChartBorderPane extends BasicPane{
 	private void initComponents() {
 		currentLineCombo = new LineComboBox(CoreConstants.STRIKE_LINE_STYLE_ARRAY_4_CHART);
 		currentLineColorPane = new ColorSelectBox(100);
-		isRoundBorder = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Border-Style-Radius"));
+		isRoundBorder = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Border_Style_Radius"));
 		double p = TableLayout.PREFERRED;
 		double f = TableLayout.FILL;
 		double[] columnSize = { p,f };

@@ -39,7 +39,7 @@ public class ExpandDirectionPane extends JPanel {
     	this.add(innerthis);
         t2bRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Utils-Top_to_Bottom"));
         l2rRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Utils-Left_to_Right"));
-        noneRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("ExpandD-Not_Expand"));
+        noneRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ExpandD_Not_Expand"));
         ButtonGroup bg = new ButtonGroup();
         bg.add(t2bRadioButton);
         bg.add(l2rRadioButton);
