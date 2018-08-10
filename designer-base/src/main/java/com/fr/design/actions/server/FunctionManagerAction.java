@@ -76,7 +76,7 @@ public class FunctionManagerAction extends UpdateAction {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("M_Server-Function_Manager");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_M_Server_Function_Manager");
         }
 
         @Override

@@ -132,7 +132,7 @@ public class FRFontPane extends BasicPane {
         JPanel foregroundPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         listVBottomPane.add(foregroundPane);
 
-        foregroundPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FRFont-Foreground"),null));
+        foregroundPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Font_Foreground"),null));
         foregroundColorPane = new ColorSelectBox(140);
         foregroundColorPane.addSelectChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
@@ -155,21 +155,21 @@ public class FRFontPane extends BasicPane {
         JPanel effectsPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         otherFontPane.add(effectsPane, BorderLayout.CENTER);
 //        effectsPane.setLayout(FRGUIPaneFactory.createBorderLayout());
-        effectsPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FRFont-Effects"),null));
+        effectsPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Font_Effects"),null));
 
         JPanel effectsPane2 = FRGUIPaneFactory.createNColumnGridInnerContainer_S_Pane(1);
         effectsPane.add(effectsPane2, BorderLayout.NORTH);
 
-        isStrikethroughCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FRFont-Strikethrough") + "  ");
+        isStrikethroughCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Font_Strikethrough") + "  ");
         isStrikethroughCheckBox.addChangeListener(changeListener);
         isStrikethroughCheckBox.setMnemonic('K');
-        isShadowCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FRFont-Shadow"));
+        isShadowCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Font_Shadow"));
         isShadowCheckBox.addChangeListener(changeListener);
         isShadowCheckBox.setMnemonic('S');
-        isSuperscriptCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FRFont-Superscript"));
+        isSuperscriptCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Font_Superscript"));
         isSuperscriptCheckBox.addChangeListener(changeListener);
         isSuperscriptCheckBox.setMnemonic('E');
-        isSubscriptCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FRFont-Subscript"));
+        isSubscriptCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Font_Subscript"));
         isSubscriptCheckBox.addChangeListener(changeListener);
         isSubscriptCheckBox.setMnemonic('B');
 

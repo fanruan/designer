@@ -314,7 +314,7 @@ public class PreviewTablePane extends BasicPane {
     }
 
     private void previewTableDataSQL() throws Exception {
-        connectionBar = new AutoProgressBar(this, com.fr.design.i18n.Toolkit.i18nText("Utils-Now_create_connection"), "", 0, 100) {
+        connectionBar = new AutoProgressBar(this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Now_Create_Connection"), "", 0, 100) {
             public void doMonitorCanceled() {
                 getWorker().cancel(true);
                 getDialog().setVisible(false);

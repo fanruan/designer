@@ -46,7 +46,7 @@ public class AlignmentPane extends BasicPane {
     //    private UIComboBox imageComboBox;
     private static final String[] IMAGE = {
             com.fr.design.i18n.Toolkit.i18nText("Default"),
-            com.fr.design.i18n.Toolkit.i18nText("Image-Extend")
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Image_Extend")
     };
     private UIBasicSpinner leftIndentSpinner;
     private UIBasicSpinner rightIndentSpinner;
@@ -100,8 +100,8 @@ public class AlignmentPane extends BasicPane {
         rotationSpinner.addChangeListener(changeListener);
         GUICoreUtils.setColumnForSpinner(rotationSpinner, 3);
         rotationPane.add(rotationSpinner);
-        rotationPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Degrees")));
-        rotationPane.add(new UILabel("(" + com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-between_-90_and_90") + ")"));
+        rotationPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Degrees")));
+        rotationPane.add(new UILabel("(" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Between_90_And_90") + ")"));
         contentPane.add(getIndentPane());
 
         //james:行间距离
@@ -111,12 +111,12 @@ public class AlignmentPane extends BasicPane {
     }
 
     private void initVerticalPane(JPanel isVerticalTextPanel){
-        isVerticalTextCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Vertical_Text"), false);
+        isVerticalTextCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Vertical_Text"), false);
         isVerticalTextCheckBox.addActionListener(actionListener);
         isVerticalTextCheckBox.addActionListener(actionListener1);
-        this.leftToRightRB = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Left_To_Right"));
+        this.leftToRightRB = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Left_To_Right"));
         this.leftToRightRB.addActionListener(actionListener);
-        this.rightToLeftRB = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Right_To_Left"));
+        this.rightToLeftRB = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Right_To_Left"));
         this.rightToLeftRB.addActionListener(actionListener);
 
         ButtonGroup directionBG = new ButtonGroup();
@@ -131,7 +131,7 @@ public class AlignmentPane extends BasicPane {
 
     private void initSpacingPane (JPanel spacingPane) {
         spacingPane.setLayout(new GridLayout(1, 3));
-        spacingPane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Style-Spacing") + ":"));
+        spacingPane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Spacing") + ":"));
 
         spacingBeforeSpinner = new UIBasicSpinner(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
         spacingBeforeSpinner.addChangeListener(changeListener);
@@ -189,7 +189,7 @@ public class AlignmentPane extends BasicPane {
         //        aligmentPane.add(horAlignmentPane);
         horAlignmentComboBox = new AlignmentComboBox(CoreConstants.HORIZONTAL_ALIGNMENT_ARRAY);
         horAlignmentComboBox.addActionListener(actionListener);
-        horAlignmentPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Horizontal")));
+        horAlignmentPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Horizontal")));
         horAlignmentPane.add(horAlignmentComboBox);
 
         JPanel verAlignmentPane = FRGUIPaneFactory.createMediumHGapFlowInnerContainer_M_Pane();
@@ -197,7 +197,7 @@ public class AlignmentPane extends BasicPane {
         aligmentPane.add(horAlignmentPane);
         verAlignmentComboBox = new AlignmentComboBox(CoreConstants.VERTICAL_ALIGNMENT_ARRAY);
         verAlignmentComboBox.addActionListener(actionListener);
-        verAlignmentPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Vertical")));
+        verAlignmentPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Vertical")));
         verAlignmentPane.add(verAlignmentComboBox);
         return aligmentPane;
     }
@@ -320,7 +320,7 @@ public class AlignmentPane extends BasicPane {
         int rotation = ((Integer) this.rotationSpinner.getValue()).intValue();
 
         if (rotation > NUM_90 || rotation < -NUM_90) {
-            throw new Exception(com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-The_value_of_rotation_must_between_-90_and_90_degrees") + ".");
+            throw new Exception(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_The_Value_Of_Rotation_Must_Between_90_And_90_Degrees") + ".");
         }
     }
 

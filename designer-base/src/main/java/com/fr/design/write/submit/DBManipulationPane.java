@@ -181,7 +181,7 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
             checkBoxUpdatePane.setPreferredSize(new Dimension(120,20));
             controlBtnPane.add(checkBoxUpdatePane);
 
-            UpdateCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("RWA-NotChange_Unmodified"));
+            UpdateCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_RWA_NotChange_Unmodified"));
             UIButton  helpButton = new UIButton(HEIP_ICON);
             helpButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Base_Help"));
             helpButton.addActionListener(new ActionListener() {
@@ -410,7 +410,7 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
 
 	protected class SmartAddFieldsAction extends UpdateAction {
 		public SmartAddFieldsAction() {
-			this.setName(com.fr.design.i18n.Toolkit.i18nText("RWA-Smart_Add_Fields"));
+			this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_RWA_Smart_Add_Fields"));
 		}
 
 		public void actionPerformed(ActionEvent evt) {
@@ -418,7 +418,7 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
 			BasicPane bPane = new BasicPane() {
 				@Override
 				protected String title4PopupWindow() {
-					return com.fr.design.i18n.Toolkit.i18nText("RWA-Smart_Add_Fields");
+					return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_RWA_Smart_Add_Fields");
 				}
 			};
 			bPane.setLayout(FRGUIPaneFactory.createBorderLayout());
@@ -551,7 +551,7 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
 
 	protected class AddFieldAction extends UpdateAction {
 		public AddFieldAction() {
-			this.setName(com.fr.design.i18n.Toolkit.i18nText("RWA-Add_Field"));
+			this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_RWA_Add_Field"));
 		}
 
 		public void actionPerformed(ActionEvent e) {

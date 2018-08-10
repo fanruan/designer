@@ -285,7 +285,7 @@ public abstract class JListControlPane extends JControlPane {
      * @return 是则true
      */
     public boolean isContainsRename() {
-        String rename = com.fr.design.i18n.Toolkit.i18nText("FR-Please_Rename") + "!";
+        String rename = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Please_Rename") + "!";
         String[] names = this.nameableList.getAllNames();
         for (int i = names.length - 1; i >= 0; i--) {
             if (ComparatorUtils.equals(names[i], rename)) {

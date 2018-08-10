@@ -207,7 +207,7 @@ public class FeedBackPane extends BasicPane {
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel("QQ:", SwingConstants.RIGHT), qq},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("email") + ":", SwingConstants.RIGHT), email},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("mobile_number") + ":", SwingConstants.RIGHT), phone}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Mobile_Number") + ":", SwingConstants.RIGHT), phone}
         };
         double[] rowSize = {p, p, p};
         double[] columnSize = {p, p};
@@ -292,7 +292,7 @@ public class FeedBackPane extends BasicPane {
                     if (model) {
                         //发送成功
                         isSendSuccessful = true;
-                        send.setMessage(com.fr.design.i18n.Toolkit.i18nText("HJS-Send_Successfully") + "!");
+                        send.setMessage(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_HJS_Send_Successfully") + "!");
                     } else {
                         isSendSuccessful = false;
                     }
@@ -309,7 +309,7 @@ public class FeedBackPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("product_feedback");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Product_Feedback");
     }
 
 

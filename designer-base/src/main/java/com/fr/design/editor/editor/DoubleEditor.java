@@ -16,7 +16,7 @@ public class DoubleEditor extends NumberEditor<Double> {
 	}
 
 	public DoubleEditor(Double value) {
-		super(value, com.fr.design.i18n.Toolkit.i18nText("Parameter-Double"));
+		super(value, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter_Double"));
 	}
 
 	@Override
