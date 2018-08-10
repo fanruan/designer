@@ -58,8 +58,9 @@ public class MeterSeriesPane extends AbstractPlotSeriesPane {
             protected double getEditAreaWidth () {
                 return 120;
             }
+            //旧仪表盘属性面板不够宽，适当缩短左侧边框
             protected int getColorgroupMarginLeft () {
-                return 20;
+                return 5;
             }
         };
     }
