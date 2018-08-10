@@ -56,7 +56,7 @@ public class ChartAxisTitlePane extends BasicPane{
         Component[][] components = new Component[][]{
                 new Component[]{null,axisTitleContentPane},
                 new Component[]{null,axisTitleAttrPane},
-                new Component[]{null,new UILabel(com.fr.design.i18n.Toolkit.i18nText("Alignment-Style"))},
+                new Component[]{null,new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Alignment_Style"))},
                 new Component[]{null,titleAlignmentPane,},
         };
         titlePane = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);

@@ -25,8 +25,8 @@ public class FormEmailPane extends EmailPane{
                 {new UILabel(), tipsPane1},
                 createLinePane(com.fr.design.i18n.Toolkit.i18nText("HJS-Mail_to"), maitoEditor = new UITextField()),
                 createLinePane(com.fr.design.i18n.Toolkit.i18nText("HJS-CC_to"), ccEditor = new UITextField()),
-                createLinePane(com.fr.design.i18n.Toolkit.i18nText("EmailPane-BCC"), bccEditor = new UITextField()),
-                createLinePane(com.fr.design.i18n.Toolkit.i18nText("EmailPane-mailSubject"), titleEditor = new UITextField()),
+                createLinePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Email_Pane_BCC"), bccEditor = new UITextField()),
+                createLinePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Email_Pane_Mail_Subject"), titleEditor = new UITextField()),
                 {mainTextLabel, scrollPane},
                 {new UILabel(), tipsPane2}},rowSize, columnSize, 7);
 	}

@@ -30,7 +30,7 @@ public class PageToSheetExcelExportAction extends AbstractExcelExportAction {
 
     @Override
     protected ChooseFileFilter getChooseFileFilter() {
-        return new ChooseFileFilter(FileExtension.XLS, com.fr.design.i18n.Toolkit.i18nText("Export-Excel"));
+        return new ChooseFileFilter(FileExtension.XLS, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Export_Excel"));
     }
 
     @Override

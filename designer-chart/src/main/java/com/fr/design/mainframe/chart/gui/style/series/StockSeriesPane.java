@@ -56,7 +56,7 @@ public class StockSeriesPane extends AbstractPlotSeriesPane {
         		
                 new Component[]{new JSeparator(),null},
                 
-            	new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("DownBarBorderStyleAndColor")), null},
+            	new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Down_Bar_Border_Style_And_Color")), null},
         		new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Border_Line_Style")), downLineBox},
         		new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Border-Color")), downBorderColor},
         		new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Border_Line_Style")), downBackColor},

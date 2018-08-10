@@ -41,10 +41,10 @@ public class DefineAppendColumnRowPane extends BasicPane {
 		crEditor = new ColumnRowEditor();
 		jNumberEditor = new UISpinner(0, 100 , 1, 0);
 
-		rowCountLable = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Edit-Row_Count"));
+		rowCountLable = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Edit_Row_Count"));
 		JPanel lpane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		lpane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Append_Delete_Row_Message"));
+		UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Append_Delete_Row_Message"));
 		label.setForeground(new Color(0x8F8F92));
 		lpane.add(label);
 		Component[][] components = { { new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Specify", "Cell"})), crEditor }, { rowCountLable, jNumberEditor } ,{lpane,null}};

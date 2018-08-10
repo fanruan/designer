@@ -11,7 +11,7 @@ public class CancelColumnAction extends CellSelectionAction{
 	public CancelColumnAction(ElementCasePane t) {
 		super(t);
 		
-		this.setName(com.fr.design.i18n.Toolkit.i18nText("Cancel_Repeat_Attributes"));
+		this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Cancel_Repeat_Attributes"));
 	}
 	
 	@Override

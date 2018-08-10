@@ -100,7 +100,7 @@ public class DeprecatedActionManager {
         formulaAction.setMnemonic('F');
         NewPresentAction barcodeAction = new NewPresentAction(ePane,  com.fr.design.i18n.Toolkit.i18nText("M_Insert-Barcode"), BarcodePresent.class.getName());
         barcodeAction.setMnemonic('B');
-        NewPresentAction currencyLineAction = new NewPresentAction(ePane, com.fr.design.i18n.Toolkit.i18nText("Currency_Line"), CurrencyLinePresent.class.getName());
+        NewPresentAction currencyLineAction = new NewPresentAction(ePane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Currency_Line"), CurrencyLinePresent.class.getName());
         currencyLineAction.setMnemonic('L');
         NewPresentAction nonePresentAction = new NewPresentAction(ePane, com.fr.design.i18n.Toolkit.i18nText("Present-No_Present"), "NOPRESENT");
         nonePresentAction.setMnemonic('N');
