@@ -150,7 +150,7 @@ public class VanChartTitlePane extends AbstractVanChartScrollPane<VanChart> {
 
         Component[][] components = new Component[][]{
                 new Component[]{null,null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("BorderLayout-Constraints"), SwingConstants.LEFT),alignmentPane},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_BorderLayout_Constraints"), SwingConstants.LEFT),alignmentPane},
                 new Component[]{null,customFloatPositionButton}
         };
 

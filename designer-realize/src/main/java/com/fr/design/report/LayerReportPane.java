@@ -54,7 +54,7 @@ public class LayerReportPane extends BasicBeanPane<LayerReportAttr> {
 		this.add(outlayerReportPane);
 		outlayerReportPane.add(layerReportPane);
 		JPanel isLayerReportBoxPanle = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-		isLayerReportBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Execute_Report_by_Layer_Engine"));
+		isLayerReportBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Execute_Report_by_Layer_Engine"));
 		isLayerReportBox.setSelected(false);
 		isLayerReportBoxPanle.add(isLayerReportBox);
 		layerReportPane.add(isLayerReportBoxPanle);
@@ -150,7 +150,7 @@ public class LayerReportPane extends BasicBeanPane<LayerReportAttr> {
 	public void checkValid() throws Exception {
 		if (isLayerReportBox.isSelected()) {
 			if (!ReportUtils.isLayerReportUsable(worksheet)) {
-				int value = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("After_Changed_Some_Attributes_Are_Different") + "?",
+				int value = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_After_Changed_Some_Attributes_Are_Different") + "?",
 						ProductConstants.PRODUCT_NAME, JOptionPane.YES_NO_OPTION);
 				if (value != JOptionPane.YES_OPTION) {
 					isLayerReportBox.setSelected(false);

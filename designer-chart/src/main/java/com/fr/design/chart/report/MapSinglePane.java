@@ -57,7 +57,7 @@ public class MapSinglePane extends FurtherBasicBeanPane<TopDefinitionProvider> {
 
 			@Override
 			protected String title4PopupWindow() {
-				return com.fr.design.i18n.Toolkit.i18nText("Data_Setting");
+				return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Setting");
 			}
 		}, BorderLayout.CENTER);
 	}

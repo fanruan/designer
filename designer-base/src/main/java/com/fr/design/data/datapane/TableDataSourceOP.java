@@ -100,7 +100,7 @@ public class TableDataSourceOP implements UserObjectOP<TableDataWrapper> {
     }
 
     private ExpandMutableTreeNode initTemplateDataNode(Map<String, TableDataWrapper> templateDataMap) {
-        ExpandMutableTreeNode templateNode = new ExpandMutableTreeNode(new NameObject(com.fr.design.i18n.Toolkit.i18nText("DS-TableData"), TEMPLATE_TABLE_DATA), true);
+        ExpandMutableTreeNode templateNode = new ExpandMutableTreeNode(new NameObject(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_DS_TableData"), TEMPLATE_TABLE_DATA), true);
         templateNode.addChildTreeNodes(getNodeArrayFromMap(templateDataMap));
         return templateNode;
     }

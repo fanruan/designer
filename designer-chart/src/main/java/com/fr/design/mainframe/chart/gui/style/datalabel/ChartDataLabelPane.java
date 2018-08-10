@@ -93,7 +93,7 @@ public class ChartDataLabelPane extends BasicScrollPane<Chart>{
 	protected String[] getLabelLocationNameArray() {
 		Plot plot = chart.getPlot();
 		if(plot instanceof BarPlot){
-			return new String[] {com.fr.design.i18n.Toolkit.i18nText("BarInside"), com.fr.design.i18n.Toolkit.i18nText("BarOutSide"), com.fr.design.i18n.Toolkit.i18nText("Center")};
+			return new String[] {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Bar_Inside"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Bar_Outside"), com.fr.design.i18n.Toolkit.i18nText("Center")};
 		}else if(plot instanceof PiePlot){
             return new String[] {com.fr.design.i18n.Toolkit.i18nText("Chart_In_Pie"), com.fr.design.i18n.Toolkit.i18nText("Chart_Out_Pie")};
 		}else if(plot instanceof RangePlot){

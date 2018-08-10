@@ -43,11 +43,11 @@ public class WebCssPane extends BasicPane {
 		chooseFile = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Selection"));
 		chooseFile.setPreferredSize(new Dimension(75, 23));
 		chooseFile.addActionListener(chooseFileListener);
-		northPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Disk_File") + ":"), FlowLayout.LEFT);
+		northPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Disk_File") + ":"), FlowLayout.LEFT);
 		northPane.add(localText, FlowLayout.CENTER);
 		northPane.add(chooseFile, FlowLayout.RIGHT);
 		outnorth.add(northPane,BorderLayout.NORTH);
-		UILabel infor = new UILabel(com.fr.design.i18n.Toolkit.i18nText("CSS_warning"));
+		UILabel infor = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CSS_Warning"));
 		infor.setForeground(new Color(207, 42, 39));
 		outnorth.add(infor,BorderLayout.CENTER);
 		this.add(outnorth, BorderLayout.NORTH);

@@ -274,7 +274,7 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 				throw new Exception(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Connect_SQL_Cannot_Null") + ".");
 			} catch (Exception e) {
 				// JOptionPane.showMessageDialog(DBTableDataPane.this,
-				// com.fr.design.i18n.Toolkit.i18nText("Connect_SQL_Cannot_Null") + ".");
+				// com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Connect_SQL_Cannot_Null") + ".");
 			}
 		}
 

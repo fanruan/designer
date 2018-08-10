@@ -35,7 +35,7 @@ public class SVGExportAction extends AbstractExportAction {
 
     @Override
     protected ChooseFileFilter getChooseFileFilter() {
-        return new ChooseFileFilter(FileExtension.SVG, com.fr.design.i18n.Toolkit.i18nText("Export-SVG"));
+        return new ChooseFileFilter(FileExtension.SVG, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Export_SVG"));
     }
 
     @Override

@@ -110,7 +110,7 @@ public class ChartTitlePaneNoFormula extends BasicScrollPane<Chart> {
         Component[][] components = new Component[][]{
                 new Component[]{null,titleContent,null},
                 new Component[]{null,textAttrPane,null},
-                new Component[]{null,new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Alignment-Style") + ":"),alignmentPane} ,
+                new Component[]{null,new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Alignment_Style") + ":"),alignmentPane} ,
         } ;
 
         return TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);

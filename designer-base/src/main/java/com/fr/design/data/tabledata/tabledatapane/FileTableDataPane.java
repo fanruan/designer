@@ -179,7 +179,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
         chooseFile = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Selection"));
         chooseFile.addActionListener(chooseFileListener);
 
-        testConnection = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Datasource-Test_Connection"));
+        testConnection = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Test_Connection"));
         testConnection.setEnabled(false);
         testConnection.addActionListener(testConnectionListener);// 测试连接按钮
 

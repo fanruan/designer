@@ -14,12 +14,12 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * 
+ *
  * @author jim
  *
  */
 public class ChartEmailPane extends EmailPane{
-	
+
 	private UITextField itemNameTextField;
 
 	@Override
@@ -37,8 +37,8 @@ public class ChartEmailPane extends EmailPane{
 					{new UILabel(), tipsPane1},
 					createLinePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_HJS_Mail_to"), maitoEditor = new UITextField()),
 					createLinePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_HJS_CC_To"), ccEditor = new UITextField()),
-					createLinePane(com.fr.design.i18n.Toolkit.i18nText("EmailPane-BCC"), bccEditor = new UITextField()),
-					createLinePane(com.fr.design.i18n.Toolkit.i18nText("EmailPane-mailSubject"), titleEditor = new UITextField()),
+					createLinePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Email_Pane_BCC"), bccEditor = new UITextField()),
+					createLinePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Email_Pane_Mail_Subject"), titleEditor = new UITextField()),
 					{mainTextLabel, scrollPane},
 					{new UILabel(), showTplContent},
 					{new UILabel(), tipsPane2}},rSizes, columnSize, 6);
@@ -48,8 +48,8 @@ public class ChartEmailPane extends EmailPane{
                     {new UILabel(), tipsPane1},
                     createLinePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_HJS_Mail_to"), maitoEditor = new UITextField()),
                     createLinePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_HJS_CC_To"), ccEditor = new UITextField()),
-                    createLinePane(com.fr.design.i18n.Toolkit.i18nText("EmailPane-BCC"), bccEditor = new UITextField()),
-                    createLinePane(com.fr.design.i18n.Toolkit.i18nText("EmailPane-mailSubject"), titleEditor = new UITextField()),
+                    createLinePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Email_Pane_BCC"), bccEditor = new UITextField()),
+                    createLinePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Email_Pane_Mail_Subject"), titleEditor = new UITextField()),
                     {mainTextLabel, scrollPane},
                     {new UILabel(), tipsPane2}},rSizes, columnSize, 8);
 		}
@@ -65,26 +65,26 @@ public class ChartEmailPane extends EmailPane{
 	protected boolean needRenamePane() {
 		return true;
 	}
-	
+
 	protected void checkEmailConfig(boolean valid) {
 		super.checkEmailConfig(valid);
 		if(itemNameTextField != null){
             itemNameTextField.setEnabled(valid);
         }
 	}
-	
+
 	public void populateBean(EmailJavaScript ob) {
         if(itemNameTextField != null){
             itemNameTextField.setName(ob == null ? null : ob.getItemName());
         }
         super.populateBean(ob);
 	}
-	
+
 	public void updateBean(EmailJavaScript email) {
         if(itemNameTextField != null){
             email.setItemName(itemNameTextField.getText());
         }
         super.updateBean(email);
 	}
-	
+
 }

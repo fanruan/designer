@@ -863,10 +863,10 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
             }
             int count = reportComposite.getEditingWorkBook().getReportCount();
             if (count <= 1) {
-                JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(reportComposite), com.fr.design.i18n.Toolkit.i18nText("At_least_one_visual_worksheet") + "！");
+                JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(reportComposite), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_At_Least_One_Visual_Worksheet") + "！");
                 return;
             }
-            int returnValue = JOptionPane.showConfirmDialog(SwingUtilities.getWindowAncestor(reportComposite), com.fr.design.i18n.Toolkit.i18nText("Des-Remove_WorkSheet"), ProductConstants.APP_NAME,
+            int returnValue = JOptionPane.showConfirmDialog(SwingUtilities.getWindowAncestor(reportComposite), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Des_Remove_Work_Sheet"), ProductConstants.APP_NAME,
                     JOptionPane.OK_CANCEL_OPTION);
             if (returnValue == JOptionPane.OK_OPTION) {
                 if (DesignerContext.getFormatState() != DesignerContext.FORMAT_STATE_NULL) {

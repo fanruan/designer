@@ -14,7 +14,7 @@ import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 /**
- * 
+ *
  * @editor zhou
  * @since 2012-3-23下午3:21:02
  */
@@ -36,7 +36,7 @@ public class ExpandDirectionPane extends JPanel {
     	this.add(innerthis);
         t2bRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Top_To_Bottom"));
         l2rRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FIne-Design_Report_Utils_Left_To_Right"));
-        noneRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("ExpandD-Not_Expand"));
+        noneRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ExpandD_Not_Expand"));
         ButtonGroup bg = new ButtonGroup();
         bg.add(t2bRadioButton);
         bg.add(l2rRadioButton);

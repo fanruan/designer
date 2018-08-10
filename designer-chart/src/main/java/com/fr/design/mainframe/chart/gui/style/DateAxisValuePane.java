@@ -358,7 +358,7 @@ public class DateAxisValuePane extends FurtherBasicBeanPane<CategoryAxis>{
 			String tmp = DateUtils.getDate2LStr(toDate);
 			toDate = DateUtils.DATETIMEFORMAT2.parse(tmp);
 		} catch (ParseException e) {
-			FineLoggerFactory.getLogger().error(com.fr.design.i18n.Toolkit.i18nText("Cannot_Get_Date"));
+			FineLoggerFactory.getLogger().error(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Cannot_Get_Date"));
 		}
 		return toDate;
 	}
