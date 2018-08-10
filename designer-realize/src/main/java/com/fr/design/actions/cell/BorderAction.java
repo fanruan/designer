@@ -25,7 +25,7 @@ public class BorderAction extends ElementCaseAction implements ChangeListener {
     public BorderAction(ElementCasePane t) {
         super(t);
 
-        this.setName(com.fr.design.i18n.Toolkit.i18nText("M_Format_A-Border"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_M_Format_A_Border"));
     }
 
     public void stateChanged(ChangeEvent e) {

@@ -1,20 +1,18 @@
 package com.fr.design.report;
 
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import com.fr.design.gui.ilable.UILabel;
-
-import javax.swing.*;
-
+import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.icheckbox.UICheckBox;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.dialog.BasicPane;
-
 import com.fr.io.attr.ExcelExportAttr;
 import com.fr.stable.StringUtils;
+
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ExcelExportPane extends BasicPane {
 	private UICheckBox isExportHidedRow;
@@ -40,15 +38,15 @@ public class ExcelExportPane extends BasicPane {
 		outnorthPane.add(northPane);
 		JPanel rowAndColumnPane =FRGUIPaneFactory.createNormalFlowInnerContainer_M_Pane();
 		northPane.add(rowAndColumnPane);
-		isExportHidedRow = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("ReportD-Export_Hided_Row"));
+		isExportHidedRow = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportD_Export_Hided_Row"));
 		isExportHidedRow.setSelected(false);
 		rowAndColumnPane.add(isExportHidedRow);
-		isExportHidenColumn = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("ReportD-Export_Hided_Column"));
+		isExportHidenColumn = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportD_Export_Hided_Column"));
 		isExportHidenColumn.setSelected(false);
 		rowAndColumnPane.add(isExportHidenColumn);
 		
 		JPanel passwordPane =FRGUIPaneFactory.createNormalFlowInnerContainer_M_Pane();
-		isNeedPassword = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("IS_Need_Password"), false);
+		isNeedPassword = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_IS_Need_Password"), false);
 		passwordPane.add(isNeedPassword);
 		northPane.add(passwordPane);
 		passwordWritePane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();

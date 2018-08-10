@@ -15,7 +15,7 @@ public class RowHeightPane extends WHPane {
     private UIBasicSpinner rowHeightSpinner;
 
     public RowHeightPane(ConditionAttributesPane conditionAttributesPane) {
-        super(conditionAttributesPane, com.fr.design.i18n.Toolkit.i18nText("Utils-Row_Height"));
+        super(conditionAttributesPane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Row_Height"));
     }
 
     @Override

@@ -55,9 +55,9 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane {
         this.designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
         JPanel mobileSettingsPane;
         if (isInAbsoluteLayout()) {
-            mobileSettingsPane = getUnavailableTipPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tip_Chart_Adaptivity_Unavailable_In_Absolute_Layout"));
+            mobileSettingsPane = getUnavailableTipPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Tip_Chart_Adaptivity_Unavailable_In_Absolute_Layout"));
         } else if (!isAppRelayout()) {
-            mobileSettingsPane = getUnavailableTipPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tip_Chart_Adaptivity_Unavailable"));
+            mobileSettingsPane = getUnavailableTipPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Tip_Chart_Adaptivity_Unavailable"));
         } else {
             mobileSettingsPane = getMobileSettingsPane();
         }
@@ -117,7 +117,7 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane {
         final JPanel panelWrapper = FRGUIPaneFactory.createBorderLayout_S_Pane();
         panelWrapper.add(panel, BorderLayout.NORTH);
 
-        return new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Chart_Adaptivity"), 280, 20, panelWrapper);
+        return new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Chart_Adaptivity"), 280, 20, panelWrapper);
     }
 
     private void initZoomOutComboBox() {

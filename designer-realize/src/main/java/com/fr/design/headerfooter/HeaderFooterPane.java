@@ -74,7 +74,7 @@ public abstract class HeaderFooterPane extends BasicPane {
 		JPanel definePane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
 		centerPane.add(definePane, BorderLayout.NORTH);
 
-		defineCheckBox = new UICheckBox(Toolkit.i18nText("HF-Whether_to_define_the_selected_type"), true);
+		defineCheckBox = new UICheckBox(Toolkit.i18nText("Fine-Design_Report_HF_Whether_To_Define_The_Selected_Type"), true);
 		definePane.add(defineCheckBox);
 		defineCheckBox.addChangeListener(defineChangeListener);
 
@@ -202,15 +202,15 @@ public abstract class HeaderFooterPane extends BasicPane {
 						.setIcon(BaseUtils
 								.readIcon("/com/fr/base/images/oem/logo.png"));
 				if (reportHFType == ReportConstants.REPORTPAGE_DEFAULT) {
-					this.setText(com.fr.design.i18n.Toolkit.i18nText("HF-Default_Page"));
+					this.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_HF_Default_Page"));
 				} else if (reportHFType == ReportConstants.REPORTPAGE_FIRST) {
-					this.setText(com.fr.design.i18n.Toolkit.i18nText("HF-First_Page"));
+					this.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_HF_First_Page"));
 				} else if (reportHFType == ReportConstants.REPORTPAGE_LAST) {
-					this.setText(com.fr.design.i18n.Toolkit.i18nText("Utils-Last_Page"));
+					this.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Last_Page"));
 				} else if (reportHFType == ReportConstants.REPORTPAGE_ODD) {
-					this.setText(com.fr.design.i18n.Toolkit.i18nText("HF-Odd_Page"));
+					this.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_HF_Odd_Page"));
 				} else if (reportHFType == ReportConstants.REPORTPAGE_EVEN) {
-					this.setText(com.fr.design.i18n.Toolkit.i18nText("HF-Even_Page"));
+					this.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_HF_Even_Page"));
 				}
 
 				if (reportHFHash != null) {

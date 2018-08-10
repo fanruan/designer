@@ -1,6 +1,5 @@
 package com.fr.design.mainframe;
 
-import com.fr.base.BaseUtils;
 import com.fr.base.GraphHelper;
 import com.fr.base.ScreenResolution;
 import com.fr.base.Utils;
@@ -169,7 +168,7 @@ public class FormDesignerUI extends ComponentUI {
                 x1 = x2 = bounds.x - designer.getArea().getHorizontalValue() + (k == 3 ? 0 : bounds.width);
                 text = Utils.objectToString(x1 + designer.getArea().getHorizontalValue());
             }
-            text += com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Indent-Pixel");
+            text += com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Indent_Pixel");
             g2d.setColor(XCreatorConstants.RESIZE_BOX_BORDER_COLOR);
             GraphHelper.drawString(g2d, text, x1 + 3, y1 + 10);
             GraphHelper.drawLine(g2d, x1, y1, x2, y2);

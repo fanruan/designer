@@ -211,7 +211,7 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
         double[] rowSize = {p, p};
         UILabel cellLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cell"));
         cellLabel.setPreferredSize(LABEL_DIMENSION);
-        UILabel insertContentLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Insert_Cell_Element"));
+        UILabel insertContentLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Insert_Cell_Element"));
         insertContentLabel.setPreferredSize(LABEL_DIMENSION);
         initCellElementEditComboBox();
         Component[][] components = new Component[][]{

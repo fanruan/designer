@@ -1,10 +1,20 @@
 package com.fr.design.actions.cell;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.GridLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import com.fr.base.BaseUtils;
+import com.fr.base.CellBorderStyle;
+import com.fr.design.dialog.BasicDialog;
+import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.ibutton.UICombinationButton;
+import com.fr.design.gui.ipoppane.PopupHider;
+import com.fr.design.icon.BorderIcon;
+import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.mainframe.ElementCasePane;
+import com.fr.design.style.BorderPane;
+import com.fr.design.style.BorderUtils;
+import com.fr.design.style.color.TransparentPane;
+import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.stable.Constants;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -17,23 +27,11 @@ import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
-
-import com.fr.base.BaseUtils;
-import com.fr.base.CellBorderStyle;
-import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.gui.ibutton.UICombinationButton;
-import com.fr.design.gui.ipoppane.PopupHider;
-import com.fr.design.icon.BorderIcon;
-import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.style.BorderUtils;
-import com.fr.design.dialog.BasicDialog;
-import com.fr.design.dialog.DialogActionAdapter;
-
-import com.fr.design.mainframe.ElementCasePane;
-import com.fr.stable.Constants;
-import com.fr.design.style.BorderPane;
-import com.fr.design.style.color.TransparentPane;
-import com.fr.design.utils.gui.GUICoreUtils;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * 这个Pane用来显示常用边框和设置自定义边框
@@ -291,11 +289,11 @@ public class UIToolbarBorderButton extends UICombinationButton implements PopupH
 					Constants.LINE_THIN, Color.black, Constants.LINE_NONE, Color.black, Constants.LINE_NONE),
 			new CellBorderStyle(Color.black, Constants.LINE_THICK, Color.black, Constants.LINE_THICK, Color.black, Constants.LINE_THICK, Color.black,
 					Constants.LINE_THICK, Color.black, Constants.LINE_NONE, Color.black, Constants.LINE_NONE) };
-	private static final String[] BorderStyleTooltips = { com.fr.design.i18n.Toolkit.i18nText("NO_Border_Line"), com.fr.design.i18n.Toolkit.i18nText("Bottom_Border_Line"),
-			com.fr.design.i18n.Toolkit.i18nText("Left_Border_Line"), com.fr.design.i18n.Toolkit.i18nText("Right_Border_Line"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Double_Bottom_BorderLine"),
-			com.fr.design.i18n.Toolkit.i18nText("Thick_Bottom_Border_Line"), com.fr.design.i18n.Toolkit.i18nText("Top_Bottom_Border_Line"),
-			com.fr.design.i18n.Toolkit.i18nText("Top_And_Double_Bottom_Border_Line"), com.fr.design.i18n.Toolkit.i18nText("Top_And_Thick_Bottom_Border_Line"),
-			com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_All_Border_Line"), com.fr.design.i18n.Toolkit.i18nText("Out_Border_Line"), com.fr.design.i18n.Toolkit.i18nText("Out_Thick_Border_Line") };
+	private static final String[] BorderStyleTooltips = { com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_No_Border_Line"), com.fr.design.i18n.Toolkit.i18nText("Bottom_Border_Line"),
+			com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Left_Border_Line"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Right_Border_Line"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Double_Bottom_BorderLine"),
+			com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Thick_Bottom_Border_Line"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Top_Bottom_Border_Line"),
+			com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Top_And_Double_Bottom_Border_Line"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Top_And_Thick_Bottom_Border_Line"),
+			com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_All_Border_Line"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Out_Border_Line"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Out_Thick_Border_Line") };
 
 	@Override
 	public void hidePopupMenu() {

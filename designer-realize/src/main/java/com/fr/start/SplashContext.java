@@ -124,7 +124,7 @@ public class SplashContext {
      */
     private void showThanks() {
         if (shouldShowThanks()) {
-            updateThanksLog(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Thanks-To") + GUEST);
+            updateThanksLog(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Thanks_To") + GUEST);
         }
     }
 

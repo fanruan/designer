@@ -36,7 +36,7 @@ public class MultiFileEditorPane extends FieldEditorDefinePane<MultiFileEditor> 
 	@Override
 	protected JPanel setFirstContentPane() {
 		acceptType = new DictionaryComboBox(DictionaryConstants.acceptTypes, DictionaryConstants.fileTypeDisplays);
-		singleFileCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("SINGLE_FILE_UPLOAD"));
+		singleFileCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Single_File_Upload"));
 		singleFileCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		fileSizeField = new UISpinner(0, Integer.MAX_VALUE, 1, -1);
 		fileSizeField.setPreferredSize(new Dimension(140, 20));
@@ -56,7 +56,7 @@ public class MultiFileEditorPane extends FieldEditorDefinePane<MultiFileEditor> 
 				new Component[]{singleFileCheckBox, null },
 				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_File_Allow_Upload_Files")), acceptType},
 				new Component[]{new UILabel( com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_File_Size_Limit")), fileSizePane},
-				new Component[]{new UILabel( com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Font-Size")), fontSizeField}
+				new Component[]{new UILabel( com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Font_Size")), fontSizeField}
 		};
 		double[] rowSize = {p, p, p, p};
 		double[] columnSize = {p,f};

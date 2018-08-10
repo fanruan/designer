@@ -65,11 +65,11 @@ public class DSColumnBasicPane extends BasicPane {
             selectDataColumnPane = new SelectedConfirmedDataColumnPane();
         }
 
-        selectDataColumnPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Select_DataColumn"), null));
+        selectDataColumnPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Select_Data_Column"), null));
 
         if (setting > DSColumnPane.SETTING_DSRELATED) {
             conditionParentPane = new ConditionParentPane();
-            conditionParentPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("ParentCell_Setting"), null));
+            conditionParentPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ParentCell_Setting"), null));
         }
 
         resultSetGroupPane = new ResultSetGroupPopUpPane(setting > DSColumnPane.SETTING_DSRELATED);

@@ -31,7 +31,7 @@ public class WordExportPane extends BasicPane {
 		outnorthPane.add(northPane);
 		
 		JPanel checkBoxPane =FRGUIPaneFactory.createNormalFlowInnerContainer_M_Pane();
-		isExportAsTable = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("is_need_word_adjust"), false);
+		isExportAsTable = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Is_Need_Word_Adjust"), false);
 		checkBoxPane.add(isExportAsTable);
 		
 		southPane = FRGUIPaneFactory.createNormalFlowInnerContainer_M_Pane();

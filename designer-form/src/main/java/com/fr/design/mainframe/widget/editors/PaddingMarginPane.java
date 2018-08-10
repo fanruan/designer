@@ -40,7 +40,7 @@ public class PaddingMarginPane extends BasicPane {
         topPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Base_Top") + " "), BorderLayout.WEST);
         topSpinner = new UISpinner(MIN_VALUE, Integer.MAX_VALUE, 1, 0);
         topPane.add(topSpinner, BorderLayout.CENTER);
-        UILabel topLabel = new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Indent-Pixel") + "  ");
+        UILabel topLabel = new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Indent_Pixel") + "  ");
         topPane.add(topLabel, BorderLayout.EAST);
         contentPane.add(topPane);
 
@@ -48,7 +48,7 @@ public class PaddingMarginPane extends BasicPane {
         leftPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Base_Left") + " "), BorderLayout.WEST);
         leftSpinner = new UISpinner(MIN_VALUE, Integer.MAX_VALUE, 1, 0);
         leftPane.add(leftSpinner, BorderLayout.CENTER);
-        UILabel leftLabel = new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Indent-Pixel") + "  ");
+        UILabel leftLabel = new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Indent_Pixel") + "  ");
         leftPane.add(leftLabel, BorderLayout.EAST);
         contentPane.add(leftPane);
 
@@ -56,7 +56,7 @@ public class PaddingMarginPane extends BasicPane {
         bottomPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Base_Bottom") + " "), BorderLayout.WEST);
         bottomSpinner = new UISpinner(MIN_VALUE, Integer.MAX_VALUE, 1, 0);
         bottomPane.add(bottomSpinner, BorderLayout.CENTER);
-        UILabel bottomLabel = new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Indent-Pixel") + "  ");
+        UILabel bottomLabel = new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Indent_Pixel") + "  ");
         bottomPane.add(bottomLabel, BorderLayout.EAST);
         contentPane.add(bottomPane);
 
@@ -64,7 +64,7 @@ public class PaddingMarginPane extends BasicPane {
         rightPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Base_Right") + " "), BorderLayout.WEST);
         rightSpinner = new UISpinner(MIN_VALUE, Integer.MAX_VALUE, 1, 0);
         rightPane.add(rightSpinner, BorderLayout.CENTER);
-        UILabel rightLabel = new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Indent-Pixel") + "  ");
+        UILabel rightLabel = new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Indent_Pixel") + "  ");
         rightPane.add(rightLabel, BorderLayout.EAST);
         contentPane.add(rightPane);
     }

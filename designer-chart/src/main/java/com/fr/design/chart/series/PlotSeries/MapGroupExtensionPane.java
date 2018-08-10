@@ -218,7 +218,7 @@ public class MapGroupExtensionPane extends BasicPane implements UIObserver {
 	}
 
 	private JMenuItem createAreaItem(final String oldName) {
-		JMenuItem editFileItem = new JMenuItem(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Edit", "Image", "Filed"}));
+		JMenuItem editFileItem = new JMenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Edit_Image_Region"));
 		editFileItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				final MapCustomPane image = new MapCustomPane();
@@ -327,7 +327,7 @@ public class MapGroupExtensionPane extends BasicPane implements UIObserver {
 	}
 
 	private void showRenameWaring(String newName){
-		JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), "\"" + newName + "\"" + com.fr.design.i18n.Toolkit.i18nText("Utils-has_been_existed")
+		JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), "\"" + newName + "\"" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Has_Been_Existed")
 				+ "!", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Alert"), JOptionPane.WARNING_MESSAGE);
 	}
 

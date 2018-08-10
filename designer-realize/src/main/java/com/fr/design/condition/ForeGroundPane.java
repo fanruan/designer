@@ -27,9 +27,9 @@ public class ForeGroundPane extends ConditionAttrSingleConditionPane<HighlightAc
         this.add(foregroundLabel);
         this.add(this.foregroundColorPane);
         this.foreScopeComboBox = new UIComboBox(new String[] {
-                com.fr.design.i18n.Toolkit.i18nText("Utils-Current_Cell"),
-                com.fr.design.i18n.Toolkit.i18nText("Utils-Current_Row"),
-                com.fr.design.i18n.Toolkit.i18nText("Utils-Current_Column") });
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Current_Cell"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Current_Row"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Current_Column") });
         this.add(this.foreScopeComboBox);
         this.foregroundColorPane.setSelectObject(Color.black);
     }

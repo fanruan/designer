@@ -29,7 +29,7 @@ public class FormatBrushAction extends ElementCaseAction {
 
     public FormatBrushAction(ElementCasePane t) {
         super(t);
-        this.setName(com.fr.design.i18n.Toolkit.i18nText("M_Edit-FormatBrush"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_M_Edit_FormatBrush"));
         this.setMnemonic('B');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_edit/formatBrush.png"));
         this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, DEFAULT_MODIFIER));
@@ -50,7 +50,7 @@ public class FormatBrushAction extends ElementCaseAction {
                 //判断是不是连续区域
                 //荣国是连续区域，那么这些长方形的长加起来应该等于
                 if (!isContinueArea()) {
-                    JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Can_not_use_FormatBursh"));
+                    JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Can_Not_Use_Format_Brush"));
                     ePane.setFormatState(DesignerContext.FORMAT_STATE_NULL);
                     ePane.getFormatBrush().setSelected(false);
                     return false;

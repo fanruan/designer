@@ -72,13 +72,13 @@ public class XLabel extends XWidgetCreator {
                                 com.fr.design.i18n.Toolkit.i18nText("FR-Designer_StyleAlignment-Wrap_Text")).putKeyValue(
                                 XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                         new CRPropertyDescriptor("verticalCenter", this.data.getClass()).setI18NName(
-                                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_PageSetup-Vertically")).putKeyValue(
+                                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Page_Setup_Vertically")).putKeyValue(
                                 XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                         new CRPropertyDescriptor("textalign", this.data.getClass()).setI18NName(
                                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Alignment-Style")).setEditorClass(ItemCellEditor.class)
                                 .setRendererClass(LabelHorizontalAlignmentRenderer.class).putKeyValue(
                                 XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
-                        new CRPropertyDescriptor("font", this.data.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Font"))
+                        new CRPropertyDescriptor("font", this.data.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Font"))
                                 .setEditorClass(FontEditor.class).setRendererClass(FontCellRenderer.class).putKeyValue(
                                 XCreatorConstants.PROPERTY_CATEGORY, "Advanced")});
     }

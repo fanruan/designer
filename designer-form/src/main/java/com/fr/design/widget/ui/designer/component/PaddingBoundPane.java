@@ -37,11 +37,11 @@ public class PaddingBoundPane extends BasicPane{
         bottom = new UISpinner(0, Integer.MAX_VALUE, 1, 0);
         left = new UISpinner(0, Integer.MAX_VALUE, 1, 0);
         right = new UISpinner(0, Integer.MAX_VALUE, 1, 0);
-        top.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Layout-Padding"));
-        bottom.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Layout-Padding"));
-        left.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Layout-Padding"));
-        right.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Layout-Padding"));
-        UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Layout-Padding"));
+        top.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Layout_Padding_Duplicate"));
+        bottom.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Layout_Padding_Duplicate"));
+        left.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Layout_Padding_Duplicate"));
+        right.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Layout_Padding_Duplicate"));
+        UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Layout_Padding_Duplicate"));
         label.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L1, 0, 0, 0));
         label.setVerticalAlignment(SwingConstants.TOP);
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
@@ -58,7 +58,7 @@ public class PaddingBoundPane extends BasicPane{
         int[][] rowCount = {{1, 1}, {1, 1}};
         Component[][] components1 = new Component[][]{
                 new Component[]{top, bottom},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Top"), SwingConstants.CENTER), new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Bottom"), SwingConstants.CENTER)}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Top"), SwingConstants.CENTER), new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Bottom"), SwingConstants.CENTER)}
         };
         Component[][] components2 = new Component[][]{
                 new Component[]{left, right},

@@ -52,7 +52,7 @@ public class WebJsPane extends BasicPane {
 		this.setBorder(BorderFactory.createEmptyBorder(10, 5, 0, 0));
 
 		localFileRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Disk_File") + ":", true);
-		urlFileRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Url_location")+ ":", false);
+		urlFileRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Url_Location")+ ":", false);
 		ButtonGroup bg = new ButtonGroup();
 		bg.add(localFileRadioButton);
 		bg.add(urlFileRadioButton);
@@ -70,7 +70,7 @@ public class WebJsPane extends BasicPane {
 		chooseFile = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Selection"));
 		chooseFile.addActionListener(chooseFileListener);
 
-		testConnection = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Test_URL"));
+		testConnection = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Test_URL"));
 		testConnection.setEnabled(false);
 		testConnection.addActionListener(testConnectionListener);// 测试连接按钮
 		
@@ -95,7 +95,7 @@ public class WebJsPane extends BasicPane {
 		northPane.add(localText);
 		northPane.add(chooseFile);
 		firstnorth.add(northPane,BorderLayout.NORTH);
-		infor1 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("JS_WARNING1"));
+		infor1 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_JS_WARNING1"));
 		infor1.setForeground(new Color(207, 42, 39));
 		firstnorth.add(infor1,BorderLayout.CENTER);
 
@@ -105,7 +105,7 @@ public class WebJsPane extends BasicPane {
 		centerPane.add(urlText);
 		centerPane.add(testConnection);
 		secondnorth.add(centerPane,BorderLayout.NORTH);
-		infor2 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("JS_WARNING2"));
+		infor2 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_JS_WARNING2"));
 		infor2.setForeground(new Color(207, 42, 39));
 		secondnorth.add(infor2,BorderLayout.CENTER);
 
@@ -125,7 +125,7 @@ public class WebJsPane extends BasicPane {
 					if (url.matches("^[a-zA-z]+://.+js")) {
 						return url;
 					} else {
-						JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(WebJsPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Add_JS_warning"));
+						JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(WebJsPane.this), com.fr.design.i18n.Toolkit.i18nText("Add_JS_warning"));
 						return "";
 					}
 				}
@@ -186,7 +186,7 @@ public class WebJsPane extends BasicPane {
 		public void actionPerformed(ActionEvent arg0) {
 			String uri = urlText.getText();
 			if (!uri.matches("^[a-zA-z]+://.+js")) {
-				JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(WebJsPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Add_JS_warning"));
+				JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(WebJsPane.this), com.fr.design.i18n.Toolkit.i18nText("Add_JS_warning"));
 				return;
 			}
 			InputStream in = null;
@@ -216,13 +216,13 @@ public class WebJsPane extends BasicPane {
 				localRadioSelectAction();
 				urlFileRadioButton.setForeground(new Color(143, 142, 139));
 				localFileRadioButton.setForeground(Color.black);
-				infor1.setText(com.fr.design.i18n.Toolkit.i18nText("JS_WARNING1"));
+				infor1.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_JS_WARNING1"));
 				infor2.setText(" ");
 			} else if (urlFileRadioButton.isSelected()) {
 				urlRadioSelectAction();
 				localFileRadioButton.setForeground(new Color(143, 142, 139));
 				urlFileRadioButton.setForeground(Color.black);
-				infor2.setText(com.fr.design.i18n.Toolkit.i18nText("JS_WARNING2"));
+				infor2.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_JS_WARNING2"));
 				infor1.setText(" ");
 			}
 			if (StringUtils.isEmpty(urlText.getText()) && StringUtils.isEmpty(localText.getText())) {

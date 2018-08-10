@@ -12,7 +12,6 @@ import com.fr.design.layout.FRGUIPaneFactory;
 
 import com.fr.grid.Grid;
 import com.fr.main.impl.WorkBook;
-import com.fr.poly.PolyDesigner;
 import com.fr.report.report.TemplateReport;
 
 import javax.swing.*;
@@ -107,7 +106,7 @@ public class ReportComponentComposite extends JComponent {
     protected void doAfterChange(int newIndex) {
         WorkBook workbook = getEditingWorkBook();
         if (workbook == null) {
-            FRContext.getLogger().error(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Read_failure") + "!");
+            FRContext.getLogger().error(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Read_Failure") + "!");
             //AUGUST:加个报错,不然测试总是SB的认为打不开一个坏的excel文件就是BUG，也不知道去检查下源文件。
             return;
         }

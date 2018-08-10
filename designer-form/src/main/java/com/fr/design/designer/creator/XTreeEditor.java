@@ -48,7 +48,7 @@ public class XTreeEditor extends XWidgetCreator {
                                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Allow_Blank")).setEditorClass(InChangeBooleanEditor.class)
                                 .putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate"),
                         new CRPropertyDescriptor("errorMessage", this.data.getClass()).setI18NName(
-                                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Verify-Message"))
+                                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Verify_Message"))
                                 .putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate"),
                 }
                 : new CRPropertyDescriptor[]{

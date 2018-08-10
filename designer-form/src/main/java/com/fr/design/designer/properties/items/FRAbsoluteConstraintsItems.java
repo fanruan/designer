@@ -9,8 +9,8 @@ import com.fr.form.ui.container.WAbsoluteLayout;
 public class FRAbsoluteConstraintsItems implements ItemProvider{
 
     public static final Item[] ITEMS = new Item[] {
-            new Item(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget_Scaling_Mode_Fit"), WAbsoluteLayout.STATE_FIT),
-            new Item(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget_Scaling_Mode_Fixed"), WAbsoluteLayout.STATE_FIXED)
+            new Item(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Scaling_Mode_Fit"), WAbsoluteLayout.STATE_FIT),
+            new Item(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Scaling_Mode_Fixed"), WAbsoluteLayout.STATE_FIXED)
     };
 
     public Item[] getItems() {

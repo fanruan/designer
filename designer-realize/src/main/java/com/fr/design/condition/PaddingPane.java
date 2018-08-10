@@ -32,10 +32,10 @@ public class PaddingPane extends ConditionAttrSingleConditionPane<HighlightActio
 
     public PaddingPane(ConditionAttributesPane conditionAttributesPane) {
         super(conditionAttributesPane);
-        paddingLeft = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Style-Left_Indent") + ":");
+        paddingLeft = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Style_Left_Indent") + ":");
         paddingLeftSpinner = new UIBasicSpinner(new SpinnerNumberModel(2, 0, Integer.MAX_VALUE, 1));
         GUICoreUtils.setColumnForSpinner(paddingLeftSpinner, 5);
-        paddingRight = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Style-Right_Indent") + ":");
+        paddingRight = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Style_Right_Indent") + ":");
         paddingRightSpinner = new UIBasicSpinner(new SpinnerNumberModel(2, 0, Integer.MAX_VALUE, 1));
         GUICoreUtils.setColumnForSpinner(paddingRightSpinner, 5);
         this.add(paddingLeft);
@@ -43,9 +43,9 @@ public class PaddingPane extends ConditionAttrSingleConditionPane<HighlightActio
         this.add(paddingRight);
         this.add(paddingRightSpinner);
         this.paddingScopeComboBox = new UIComboBox(new String[] {
-                com.fr.design.i18n.Toolkit.i18nText("Utils-Current_Cell"),
-                com.fr.design.i18n.Toolkit.i18nText("Utils-Current_Row"),
-                com.fr.design.i18n.Toolkit.i18nText("Utils-Current_Column") });
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Current_Cell"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Current_Row"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Current_Column") });
         this.add(this.paddingScopeComboBox);
         this.paddingLeftSpinner.setValue(new Integer(0));
         this.paddingRightSpinner.setValue(new Integer(0));

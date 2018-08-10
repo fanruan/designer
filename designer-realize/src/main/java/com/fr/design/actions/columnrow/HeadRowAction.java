@@ -8,7 +8,7 @@ public class HeadRowAction extends ColumnRowRepeatAction {
 	public HeadRowAction(ElementCasePane t) {
 		super(t);
 		
-        this.setName(com.fr.design.i18n.Toolkit.i18nText("Set_Row_Title_Start"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Set_Row_Title_Start"));
 //		this.setMnemonic('H');
     }
 	

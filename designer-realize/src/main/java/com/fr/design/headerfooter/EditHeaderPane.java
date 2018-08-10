@@ -14,7 +14,7 @@ public class EditHeaderPane extends HeaderFooterPane {
 	
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("HF-Edit_Header");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_HF_Edit_Header");
 	}
 
 	public void populate(ReportSettingsProvider reportSettings) {

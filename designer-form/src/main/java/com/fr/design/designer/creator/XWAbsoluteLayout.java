@@ -446,7 +446,7 @@ public class XWAbsoluteLayout extends XLayoutContainer {
     public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
         return new CRPropertyDescriptor[]{
                 new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(
-                        com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form-Widget_Name"))
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form-Widget_Name"))
         };
     }
 

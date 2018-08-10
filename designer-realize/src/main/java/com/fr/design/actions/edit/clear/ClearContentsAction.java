@@ -16,7 +16,7 @@ public class ClearContentsAction extends ClearAction {
 	public ClearContentsAction(ElementCasePane t) {
 		super(t);
 		
-        this.setName(com.fr.design.i18n.Toolkit.i18nText("M_Edit-Clear_Contents"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_M_Edit_Clear_Contents"));
         this.setMnemonic('C');
     }
 

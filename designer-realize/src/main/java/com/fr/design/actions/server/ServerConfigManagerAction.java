@@ -85,7 +85,7 @@ public class ServerConfigManagerAction extends UpdateAction {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("M_Server-Server_Config_Manager");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_M_Server_Server_Config_Manager");
         }
 
         @Override

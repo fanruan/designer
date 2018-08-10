@@ -107,7 +107,7 @@ public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
         double[] rowSize = {p, p, p};
         timeInterval = new UISpinner(MIN_TIME, MAX_TIME, 1, 0);
         colorSelectBox4carousel = new ColorSelectBoxWithOutTransparent(WIDTH);
-        switchStyleGroup = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Show"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Hide")});
+        switchStyleGroup = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Show"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Hide")});
 
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Arrow_Style")), switchStyleGroup, null},

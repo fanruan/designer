@@ -37,7 +37,7 @@ public class XMultiFileUploader extends XFieldEditor {
                 super.supportedDescriptor(),
                 new CRPropertyDescriptor[]{
                         new CRPropertyDescriptor("singleFile", this.data.getClass())
-                                .setI18NName(com.fr.design.i18n.Toolkit.i18nText("SINGLE_FILE_UPLOAD"))
+                                .setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Single_File_Upload"))
                                 .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                         new CRPropertyDescriptor("accept", this.data.getClass())
                                 .setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_File_Allow_Upload_Files"))

@@ -203,7 +203,7 @@ public class FormParaWidgetPane extends JPanel {
             layoutPane.add(new ToolBarButton(option));
         }
         layoutPane.add(new ToolBarButton(FormWidgetOption.ELEMENTCASE));
-        add(createNormalCombinationPane(layoutPane, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Layout_Block_Blank")));
+        add(createNormalCombinationPane(layoutPane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Layout_Block_Blank")));
         jSeparatorLayout = createJSeparator();
         add(jSeparatorLayout);
 

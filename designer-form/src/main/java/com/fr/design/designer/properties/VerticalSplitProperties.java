@@ -23,7 +23,7 @@ public class VerticalSplitProperties implements GroupModel {
 
 	@Override
 	public String getGroupName() {
-		return com.fr.design.i18n.Toolkit.i18nText("Vertical-Split_Layout");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Vertical_Split_Layout");
 	}
 
 	@Override

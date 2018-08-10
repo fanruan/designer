@@ -630,13 +630,13 @@ public class MapImageEditPane extends BasicBeanPane<String> {
 
 		@Override
 		protected String title4PopupWindow() {
-			return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Edit", "Image"});
+			return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Edit_Image");
 		}
 	}
 
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Edit", "Image"});
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Edit_Image");
 	}
 
 	/**

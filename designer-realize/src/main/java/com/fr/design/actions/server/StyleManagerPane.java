@@ -2,13 +2,10 @@ package com.fr.design.actions.server;
 
 import com.fr.config.ServerPreferenceConfig;
 import com.fr.design.dialog.BasicPane;
-import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.present.StyleArrayPane;
 
 
-import javax.swing.*;
 import java.awt.*;
 
 public class StyleManagerPane extends BasicPane {
@@ -23,7 +20,7 @@ public class StyleManagerPane extends BasicPane {
 	
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("ServerM-Predefined_Styles");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ServerM_Predefined_Styles");
 	}
 	
 	public void populate(ServerPreferenceConfig configManager) {
