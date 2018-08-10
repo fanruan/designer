@@ -1,17 +1,16 @@
 package com.fr.design.webattr;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-
-import javax.swing.BorderFactory;
-import com.fr.design.gui.ilable.UILabel;
-import javax.swing.JPanel;
-
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
+
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Component;
 
 
 
@@ -33,9 +32,9 @@ public class ErrorTemplatePane extends BasicBeanPane<String> {
         reportletNamePane.add(this.templateField);
 
         Component[][] components = {
-        		{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Template_Path") + ":"), reportletNamePane},
+        		{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Template_Path") + ":"), reportletNamePane},
 
-        		{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Template_Parameters") + ":"), null},
+        		{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Template_Parameters") + ":"), null},
         		{new UILabel("message" + ":"), new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Verify_Message"))},
         		{new UILabel("charset" + ":"), new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Server_Charset"))},
         		{new UILabel("exception" + ":"), new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Exception_Stack_Trace"))}

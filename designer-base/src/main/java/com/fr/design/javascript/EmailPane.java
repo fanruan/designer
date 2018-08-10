@@ -64,8 +64,8 @@ public class EmailPane extends FurtherBasicBeanPane<EmailJavaScript> {
 		showTplContent = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Email_Can_Preview_Report_Content"));
     	centerPane = TableLayoutHelper.createCommonTableLayoutPane(new JComponent[][]{
                 {new UILabel(), tipsPane1},
-                createLinePane(com.fr.design.i18n.Toolkit.i18nText("HJS-Mail_to"), maitoEditor = new UITextField()),
-                createLinePane(com.fr.design.i18n.Toolkit.i18nText("HJS-CC_to"), ccEditor = new UITextField()),
+                createLinePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_HJS_Mail_to"), maitoEditor = new UITextField()),
+                createLinePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_HJS_CC_To"), ccEditor = new UITextField()),
                 createLinePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_EmailPane_Bcc"), bccEditor = new UITextField()),
                 createLinePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_EmailPane_Mail_Subject"), titleEditor = new UITextField()),
                 {mainTextLabel, scrollPane},

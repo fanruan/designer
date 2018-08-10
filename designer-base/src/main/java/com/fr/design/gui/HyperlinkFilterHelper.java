@@ -53,7 +53,7 @@ public class HyperlinkFilterHelper {
     }
 
     private static boolean whetherAddFormLink(JTemplate jTemplate, String itemName) {
-        String formName = com.fr.design.i18n.Toolkit.i18nText("Hyperlink-Form_link");
+        String formName = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Form_Link");
         return !(jTemplate.isJWorkBook() && ComparatorUtils.equals(itemName, formName));
     }
 }

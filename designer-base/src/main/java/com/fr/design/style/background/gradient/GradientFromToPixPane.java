@@ -42,7 +42,7 @@ public class GradientFromToPixPane extends BasicPane {
 		
 		endPixSpinner = new UIBasicSpinner(new SpinnerNumberModel(1, 1, 9999, 1));
 		secondFloorPane.add(endPixSpinner);
-		secondFloorPane.add(new UILabel("(" + com.fr.design.i18n.Toolkit.i18nText("Indent-Pixel") + ")"));
+		secondFloorPane.add(new UILabel("(" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Indent_Pixel") + ")"));
 		
 		JFormattedTextField endField = ((JSpinner.DefaultEditor)endPixSpinner.getEditor()).getTextField();
 		endField.setHorizontalAlignment(UITextField.LEFT);

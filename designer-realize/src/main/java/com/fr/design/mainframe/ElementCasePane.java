@@ -4,7 +4,6 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseFormula;
-import com.fr.base.BaseUtils;
 import com.fr.base.DynamicUnitList;
 import com.fr.base.FRContext;
 import com.fr.base.Formula;
@@ -1049,9 +1048,9 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
             return popupMenu;
         }
 
-        InsertRowAction insertRowAction = new InsertRowAction(this, com.fr.design.i18n.Toolkit.i18nText("Utils-Insert_Row"));
+        InsertRowAction insertRowAction = new InsertRowAction(this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Insert_Row"));
 
-        DeleteRowAction deleteRowAction = new DeleteRowAction(this, com.fr.design.i18n.Toolkit.i18nText("Utils-Delete_Row"));
+        DeleteRowAction deleteRowAction = new DeleteRowAction(this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Delete_Row"));
 
         RowHeightAction rowHeightAction = new RowHeightAction(this, selectedRows);
 
@@ -1142,9 +1141,9 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
             return popupMenu;
         }
 
-        InsertColumnAction insertColumnAction = new InsertColumnAction(this, com.fr.design.i18n.Toolkit.i18nText("Utils-Insert_Column"));
+        InsertColumnAction insertColumnAction = new InsertColumnAction(this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Insert_Column"));
 
-        DeleteColumnAction deleteColumnAction = new DeleteColumnAction(this, com.fr.design.i18n.Toolkit.i18nText("Utils-Delete_Column"));
+        DeleteColumnAction deleteColumnAction = new DeleteColumnAction(this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Delete_Column"));
 
         ColumnWidthAction columnWidthAction = new ColumnWidthAction(this, selectedColumn);
 

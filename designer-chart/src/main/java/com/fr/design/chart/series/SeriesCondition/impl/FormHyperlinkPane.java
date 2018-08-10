@@ -44,7 +44,7 @@ public class FormHyperlinkPane extends AbstractHyperLinkPane<FormHyperlinkProvid
 
     @Override
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Hyperlink-Form_link");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Form_Link");
     }
 
     protected int getHyperlinkType() {

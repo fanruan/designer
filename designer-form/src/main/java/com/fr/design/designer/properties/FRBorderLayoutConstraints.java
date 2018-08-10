@@ -84,7 +84,7 @@ public class FRBorderLayoutConstraints implements ConstraintsGroupModel {
                 case 0:
                     return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_BorderLayout_Constraints");
                 case 1:
-                    return com.fr.design.i18n.Toolkit.i18nText("Title");
+                    return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Title");
                 default:
                     return getSizeDisplayName();
             }

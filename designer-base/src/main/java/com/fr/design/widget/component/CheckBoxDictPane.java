@@ -41,7 +41,7 @@ public class CheckBoxDictPane extends JPanel {
 		};
 		returnStringPane = TableLayoutHelper.createGapTableLayoutPane(components, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W2, IntervalConstants.INTERVAL_L1);
 
-		returnTypeComboBox = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Widget-Array"), com.fr.design.i18n.Toolkit.i18nText("String")});
+		returnTypeComboBox = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Array"), com.fr.design.i18n.Toolkit.i18nText("String")});
 		returnTypeComboBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -49,7 +49,7 @@ public class CheckBoxDictPane extends JPanel {
 			}
 		});
 		JPanel headPane = TableLayoutHelper.createGapTableLayoutPane(
-				new Component[][]{new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Widget-Date_Selector_Return_Type")), returnTypeComboBox}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_L2, IntervalConstants.INTERVAL_L1);
+				new Component[][]{new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Date_Selector_Return_Type")), returnTypeComboBox}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_L2, IntervalConstants.INTERVAL_L1);
 		JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		jPanel.add(headPane, BorderLayout.NORTH);
 		jPanel.add(returnStringPane, BorderLayout.CENTER);

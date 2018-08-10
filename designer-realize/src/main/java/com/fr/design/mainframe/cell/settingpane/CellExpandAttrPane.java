@@ -43,7 +43,7 @@ public class CellExpandAttrPane extends AbstractCellAttrPane {
      * @return
      */
     public JPanel createContentPane() {
-        String[] nameArray = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ExpandD_Not_Expand"), com.fr.design.i18n.Toolkit.i18nText("Utils-Top_to_Bottom"), com.fr.design.i18n.Toolkit.i18nText("Utils-Left_to_Right")};
+        String[] nameArray = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ExpandD_Not_Expand"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Top_To_Bottom"), com.fr.design.i18n.Toolkit.i18nText("FIne-Design_Report_Utils_Left_To_Right")};
         Icon[][] iconArray = {
                 {BaseUtils.readIcon("/com/fr/design/images/expand/none16x16.png"), BaseUtils.readIcon("/com/fr/design/images/expand/none16x16_selected@1x.png")},
                 {BaseUtils.readIcon("/com/fr/design/images/expand/vertical.png"), BaseUtils.readIcon("/com/fr/design/images/expand/vertical_selected@1x.png")},

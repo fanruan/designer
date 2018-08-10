@@ -161,9 +161,9 @@ public class UICalendarPanel extends JPanel {
         pWeeks.setPreferredSize(new Dimension(216, 22));
         pWeeks.setBackground(new Color(0xFFFFFF));
         pWeeks.setOpaque(true);
-        String[] strWeeks = new String[] {StringUtils.EMPTY, com.fr.design.i18n.Toolkit.i18nText("Sun"), com.fr.design.i18n.Toolkit.i18nText("Mon"),
-                com.fr.design.i18n.Toolkit.i18nText("Tue"),com.fr.design.i18n.Toolkit.i18nText("Wed"),com.fr.design.i18n.Toolkit.i18nText("Thu"),
-                com.fr.design.i18n.Toolkit.i18nText("Fri"),com.fr.design.i18n.Toolkit.i18nText("Sat")
+        String[] strWeeks = new String[] {StringUtils.EMPTY, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sun"), com.fr.design.i18n.Toolkit.i18nText("Mon"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tue"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Wed"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Thu"),
+                com.fr.design.i18n.Toolkit.i18nText("Fri"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Sat")
         };
         for (int i = 1; i <= WEEKDAY_COUNT; i++) {
             UILabel label = new UILabel();
@@ -202,7 +202,7 @@ public class UICalendarPanel extends JPanel {
         sPane.setPreferredSize(new Dimension(216, 30));
         sPane.setBackground(Color.WHITE);
         sPane.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 6));
-        UILabel timeLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Time") + ":");
+        UILabel timeLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Time") + ":");
         timeLabel.setBorder(BorderFactory.createEmptyBorder(0,9,0,5));
         timeLabel.setFont(FONT_SONG);
         sPane.add(timeLabel);

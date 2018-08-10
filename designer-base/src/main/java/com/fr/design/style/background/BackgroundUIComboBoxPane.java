@@ -30,8 +30,8 @@ public class BackgroundUIComboBoxPane extends BasicPane {
 
     protected static final String none = com.fr.design.i18n.Toolkit.i18nText("DataFunction-None");
     protected static final String color = com.fr.design.i18n.Toolkit.i18nText("Colors");
-    protected static final String image = com.fr.design.i18n.Toolkit.i18nText("Image");
-    protected static final String gradient = com.fr.design.i18n.Toolkit.i18nText("Gradient-Color");
+    protected static final String image = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Image");
+    protected static final String gradient = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Gradient_Color");
 
     protected CardLayout cardLayout;
     protected JPanel layoutPane;

@@ -47,7 +47,7 @@ public class ReportletHyperlinkPane extends AbstractHyperLinkPane<ReportletHyper
 
         parameterViewPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter"), null));
 
-        extendParametersCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Hyperlink-Extends_Report_Parameters"));
+        extendParametersCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Find-Design_Basic_Hyperlink_Extends_Report_Parameters"));
         this.add(GUICoreUtils.createFlowPane(extendParametersCheckBox, FlowLayout.LEFT), BorderLayout.SOUTH);
     }
 

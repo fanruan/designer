@@ -63,7 +63,7 @@ public class WLayoutSelectionPane extends BasicPane {
     
     @Override
     protected String title4PopupWindow() {
-    	return com.fr.design.i18n.Toolkit.i18nText("Widget-Form_Widget_Container");
+    	return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Form_Widget_Container");
     }
 
     @Override

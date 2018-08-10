@@ -37,10 +37,10 @@ public class TreeEditorDefinePane extends CustomWritableRepeatEditorPane<TreeEdi
 
 
     public JPanel createOtherPane() {
-        mutiSelect = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Tree-Mutiple_Selection_Or_Not"));
+        mutiSelect = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tree_Mutiple_Selection_Or_Not"));
         mutiSelect.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
-        loadAsync = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Widget-Load_By_Async"));
+        loadAsync = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Load_By_Async"));
         loadAsync.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
         returnLeaf = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Return_Leaf"));

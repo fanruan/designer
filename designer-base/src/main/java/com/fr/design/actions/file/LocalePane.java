@@ -146,7 +146,7 @@ public class LocalePane extends BasicPane {
         keyVector.addAll(sortKeys);
 
 
-        predefineTableModel.addColumn(com.fr.design.i18n.Toolkit.i18nText("Key"), keyVector);
+        predefineTableModel.addColumn(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Key"), keyVector);
         for (Map.Entry<Locale, Vector<String>> entry : data.entrySet()) {
             predefineTableModel.addColumn(entry.getKey().getDisplayName(), entry.getValue());
         }
@@ -161,7 +161,7 @@ public class LocalePane extends BasicPane {
 
         List<Properties> list = new ArrayList<Properties>();
         Set<String> keys = new HashSet<String>();
-        customTableModel.addColumn(com.fr.design.i18n.Toolkit.i18nText("Key"));
+        customTableModel.addColumn(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Key"));
         for (FileNode fileNode : fileNodes) {
             String fileName = fileNode.getName();
             if (fileName.endsWith(".properties")) {

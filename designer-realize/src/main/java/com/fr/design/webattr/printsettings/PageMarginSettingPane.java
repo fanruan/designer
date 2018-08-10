@@ -31,7 +31,7 @@ public class PageMarginSettingPane extends JPanel {
 
         JPanel marginLeftTextPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
         marginLeftPane.add(marginLeftTextPane);
-        marginLeftTextPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Top") + ":"));
+        marginLeftTextPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Top_Duplicate") + ":"));
         marginTopUnitFieldPane = new UnitFieldPane(Constants.UNIT_MM);
         marginLeftTextPane.add(marginTopUnitFieldPane);
         JPanel marginLeftUnitPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();

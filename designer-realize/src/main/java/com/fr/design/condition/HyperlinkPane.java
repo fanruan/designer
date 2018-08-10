@@ -100,7 +100,7 @@ public class HyperlinkPane extends ConditionAttrSingleConditionPane<HighlightAct
             } else if (js instanceof ReportletHyperlink) {
                 this.typeField.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Report_Links"));
             } else if (js instanceof WebHyperlink) {
-                this.typeField.setText(com.fr.design.i18n.Toolkit.i18nText("Hyperlink-Web_link"));
+                this.typeField.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Web_Link"));
             } else if (js instanceof EmailJavaScript) {
                 this.typeField.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Email_Links"));
             }

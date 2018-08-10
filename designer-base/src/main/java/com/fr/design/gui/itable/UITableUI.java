@@ -132,7 +132,7 @@ public class UITableUI extends BasicTableUI {
                     return;
                 }
                 if (!table.isEditing()) {
-                    int val = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Utils-Are_you_sure_to_remove_the_selected_item") + "?",
+                    int val = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Are_You_Sure_To_Remove_The_Selected_Item") + "?",
                             com.fr.design.i18n.Toolkit.i18nText("Remove"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
                     if (val == JOptionPane.OK_OPTION) {
                         ((UITable) table).removeLine(table.rowAtPoint(e.getPoint()));

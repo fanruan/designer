@@ -40,7 +40,7 @@ public class CommonPane extends JPanel {
         this.cacheValidateTimeEditor = new LongEditor();
 
         JComponent[][] comps = {
-				{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Title") + ":"), this.titleTextField, null},
+				{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Title") + ":"), this.titleTextField, null},
 				{new UILabel(com.fr.design.i18n.Toolkit.i18nText("CacheValidateTime") + ":"), this.cacheValidateTimeEditor, new UILabel("milliseconds")}
 		};
 

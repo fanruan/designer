@@ -55,8 +55,8 @@ public class DefaultAxisAreaPane extends ChartAxisAreaPane {
 		verticalColorPane = new ColorSelectBox(100);
 		
 		Component[][] components = new Component[][]{
-                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Utils-Left_to_Right") + ":"),horizontalColorPane},
-                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Utils-Top_to_Bottom") + ":"),verticalColorPane},
+                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("FIne-Design_Report_Utils_Left_To_Right") + ":"),horizontalColorPane},
+                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Top_To_Bottom") + ":"),verticalColorPane},
         };
 		
 		backgroundPane = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Chart_Interval_Back"}, components, rowSize, columnSize);
@@ -69,8 +69,8 @@ public class DefaultAxisAreaPane extends ChartAxisAreaPane {
 		double[] rowSize = {p,p};
 		double[] columnSize = { p, f };
 		
-		isVerticleGridLine = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Utils-Left_to_Right"));
-		isHorizontalGridLine = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Utils-Top_to_Bottom"));
+		isVerticleGridLine = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FIne-Design_Report_Utils_Left_To_Right"));
+		isHorizontalGridLine = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Top_To_Bottom"));
 		gridColorPane = new ColorSelectBox(100);
 		
 		JPanel container = TableLayoutHelper.createTableLayoutPane(new Component[][]{

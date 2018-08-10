@@ -41,7 +41,7 @@ public class MultiFileEditorPane extends FieldEditorDefinePane<MultiFileEditor> 
         fileSizeField.setPreferredSize(new Dimension(140, 20));
 
         JPanel fileSizePane = new JPanel(new BorderLayout());
-        UILabel fileTypeLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Utils-File_type"));
+        UILabel fileTypeLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_File_Type"));
         UILabel fileSizeLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Size_Limit"));
         fileSizePane.add(fileSizeField, BorderLayout.CENTER);
         fileSizePane.add(new UILabel(" KB"), BorderLayout.EAST);

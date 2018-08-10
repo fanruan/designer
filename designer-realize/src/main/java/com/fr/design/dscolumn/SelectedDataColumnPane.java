@@ -342,7 +342,7 @@ public class SelectedDataColumnPane extends BasicPane {
 
     private void initParameterButton() {
         editorPane = new UITableEditorPane<>(new ParameterTableModel());
-        paramButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("TableData_Dynamic_Parameter_Setting"));
+        paramButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_TableData_Dynamic_Parameter_Setting"));
         paramButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 BasicDialog paramDialog = editorPane.showSmallWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {

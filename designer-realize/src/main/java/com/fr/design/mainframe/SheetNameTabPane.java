@@ -769,7 +769,7 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
 
     protected abstract class SheetInsertAction extends UpdateAction {
         SheetInsertAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("Insert") + getTemplateReportType());
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Insert") + getTemplateReportType());
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/base/images/cell/control/add.png"));
         }
 

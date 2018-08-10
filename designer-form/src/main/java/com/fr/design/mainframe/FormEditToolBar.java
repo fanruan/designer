@@ -208,7 +208,7 @@ public class FormEditToolBar extends BasicPane {
 
     private class MoveUpItemAction extends UpdateAction {
         public MoveUpItemAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("Utils-Move_Up"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Move_Up"));
             this.setMnemonic('U');
             this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/control/up.png"));
         }
@@ -239,7 +239,7 @@ public class FormEditToolBar extends BasicPane {
 
     private class MoveDownItemAction extends UpdateAction {
         public MoveDownItemAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("Utils-Move_Down"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Move_Down"));
             this.setMnemonic('D');
             this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/control/down.png"));
         }

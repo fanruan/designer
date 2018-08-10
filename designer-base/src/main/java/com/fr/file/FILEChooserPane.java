@@ -246,7 +246,7 @@ public class FILEChooserPane extends BasicPane {
                 new Component[]{GUICoreUtils.createBorderPane(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_File_Name") + ":"), BorderLayout.WEST),
                         fileNameTextField = new UIAutoCompletionField(), okButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Design_File_Open"))
                 },
-                new Component[]{GUICoreUtils.createBorderPane(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Utils-File_type") + ":"), BorderLayout.WEST),
+                new Component[]{GUICoreUtils.createBorderPane(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_File_Type") + ":"), BorderLayout.WEST),
                         postfixComboBox = new UIComboBox(), cancelButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Design_Action_Cancel"))
                 }};
 

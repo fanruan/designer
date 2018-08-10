@@ -47,7 +47,7 @@ public class AboutDialog extends JDialog implements ActionListener {
         sysPane = new SystemInfoPane();
 
         tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_About"), aboutPanel);
-        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("System"), sysPane);
+        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("FIne-Design_Basic_System"), sysPane);
 
         buttonPanel = FRGUIPaneFactory.createRightFlowInnerContainer_S_Pane();
         buttonPanel.add(okButton);
