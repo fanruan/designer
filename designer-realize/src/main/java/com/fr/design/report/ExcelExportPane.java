@@ -52,7 +52,7 @@ public class ExcelExportPane extends BasicPane {
 		passwordWritePane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
 		passwordPane.add(passwordWritePane);
 //		UILabel passwordLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"File", "Password"}) + ":");
-		UILabel passwordLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_File_Password"));
+		UILabel passwordLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_File_Password") + ":");
 		passwordWritePane.add(passwordLabel);
 		passwordField = new UITextField(11);
 		passwordWritePane.add(passwordField);
