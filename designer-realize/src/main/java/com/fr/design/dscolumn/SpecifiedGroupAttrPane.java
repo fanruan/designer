@@ -321,8 +321,8 @@ public class SpecifiedGroupAttrPane extends BasicPane {
     		contentPane.add(northPane);
     		modeComboBox = new UIComboBox(displayModeNames);
 
-            northPane.add(GUICoreUtils.createFlowPane(new JComponent[]{new UILabel(InsertText), new UILabel(com.fr.design.i18n.Toolkit.i18nText("Display_Modes") + ":  "),
-                    modeComboBox}, FlowLayout.LEFT), BorderLayout.WEST);
+            northPane.add(GUICoreUtils.createFlowPane(new JComponent[] { new UILabel(InsertText), new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Display_Modes") + ":  "),
+                    modeComboBox }, FlowLayout.LEFT), BorderLayout.WEST);
 
             UILabel label = new UILabel("=");
             label.setFont(new Font("Dialog", Font.BOLD, 12));
