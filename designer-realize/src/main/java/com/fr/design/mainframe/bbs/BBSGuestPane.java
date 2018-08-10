@@ -65,7 +65,7 @@ public class BBSGuestPane extends JPanel implements BBSGuestPaneProvider{
 	
 	private JPanel initInfoPane(){
 		JPanel infoPane = FRGUIPaneFactory.createBorderLayout_S_Pane(); 
-		UILabel infoNorthLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Thank_guest"));
+		UILabel infoNorthLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Thank_Guest"));
 		UILabel centerLabel = new UILabel(StringUtils.BLANK);
 		infoPane.add(infoNorthLabel, BorderLayout.NORTH);
 		infoPane.add(centerLabel, BorderLayout.CENTER);

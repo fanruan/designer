@@ -52,7 +52,7 @@ public abstract class SmartJTablePane extends BasicPane {
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
 
 		// BasicPane的north放描述
-		this.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("RWA-Click_Cell_To_Edit_Value")), BorderLayout.NORTH);
+		this.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_RWA_Click_Cell_To_Edit_Value")), BorderLayout.NORTH);
 
 		// BasicPane的center放JTable
 		table = new JTable(model);

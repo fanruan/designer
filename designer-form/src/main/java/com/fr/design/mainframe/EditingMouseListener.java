@@ -105,7 +105,7 @@ public class EditingMouseListener extends MouseInputAdapter {
         this.designer = designer;
         stateModel = designer.getStateModel();
         selectionModel = designer.getSelectionModel();
-        UIButton promptButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Forbid_Drag_into_Adapt_Pane"), BaseUtils.readIcon(IconPathConstants.FORBID_ICON_PATH));
+        UIButton promptButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Forbid_Drag_Into_Adapt_Pane"), BaseUtils.readIcon(IconPathConstants.FORBID_ICON_PATH));
         this.promptWindow.add(promptButton);
     }
 

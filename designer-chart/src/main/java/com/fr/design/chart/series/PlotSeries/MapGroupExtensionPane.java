@@ -327,7 +327,7 @@ public class MapGroupExtensionPane extends BasicPane implements UIObserver {
 	}
 
 	private void showRenameWaring(String newName){
-		JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), "\"" + newName + "\"" + com.fr.design.i18n.Toolkit.i18nText("Utils-has_been_existed")
+		JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), "\"" + newName + "\"" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Has_Been_Existed")
 				+ "!", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Alert"), JOptionPane.WARNING_MESSAGE);
 	}
 

@@ -42,7 +42,7 @@ public class WriteWebSettingPane extends WebSettingPane<WebWrite> {
 
     @Override
     protected JPanel createOtherSetPane() {
-        colorBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Set_BG_Of_Current_Row") + ":");
+        colorBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Set_Background_Of_Current_Row") + ":");
         colorBox.setSelected(true);
         colorButton = new UIColorButton(BaseUtils.readIcon("/com/fr/design/images/gui/color/background.png"));
         colorBox.addActionListener(new ActionListener() {
@@ -54,8 +54,8 @@ public class WriteWebSettingPane extends WebSettingPane<WebWrite> {
         JPanel backgroundPane = GUICoreUtils.createFlowPane(new Component[]{colorBox, colorButton}, FlowLayout.LEFT);
 
         //sheet标签页显示位置
-        topRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Top"));
-        bottomRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Bottom"));
+        topRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Top"));
+        bottomRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Bottom"));
         sheetShowLocationLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Sheet_Label_Page_Display_Position"), UILabel.LEFT);
         ButtonGroup buttonGroup = new ButtonGroup();
         bottomRadioButton.setSelected(true);
@@ -64,16 +64,16 @@ public class WriteWebSettingPane extends WebSettingPane<WebWrite> {
         JPanel sheetPane = GUICoreUtils.createFlowPane(new Component[]{sheetShowLocationLabel, topRadioButton, bottomRadioButton}, FlowLayout.LEFT);
 
         //Sean: 报表显示位置since 706
-        rptShowLocationLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Report_Show_Location") + ":", UILabel.LEFT);
-        centerRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Center_Display"));
-        leftRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Left_Display"));
+        rptShowLocationLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Show_Location") + ":", UILabel.LEFT);
+        centerRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Center_Display"));
+        leftRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Left_Display"));
         ButtonGroup rptShowButtonGroup = new ButtonGroup();
         leftRadioButton.setSelected(true);
         rptShowButtonGroup.add(centerRadioButton);
         rptShowButtonGroup.add(leftRadioButton);
         JPanel showLocPane = GUICoreUtils.createFlowPane(new Component[]{rptShowLocationLabel, centerRadioButton, leftRadioButton}, FlowLayout.LEFT);
 
-        unloadCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Unload_Check"));
+        unloadCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unload_Check"));
         unloadCheck.setSelected(true);
 
         showWidgets = new UICheckBox(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"FR-Engine_Event_showWidgets"}));

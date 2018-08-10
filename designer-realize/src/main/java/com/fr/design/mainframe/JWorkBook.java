@@ -701,7 +701,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
                 new ReportMobileAttrAction(this),
                 new ReportPrintSettingAction(this),
                 new ReportWatermarkAction(this),
-                new NameSeparator(com.fr.design.i18n.Toolkit.i18nText("Utils-Current_Sheet")),
+                new NameSeparator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Current_Sheet")),
         }, this.reportComposite.getEditingReportComponent().shortcut4TemplateMenu());
     }
 

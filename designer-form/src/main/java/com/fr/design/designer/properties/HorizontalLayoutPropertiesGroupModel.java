@@ -37,7 +37,7 @@ public class HorizontalLayoutPropertiesGroupModel implements GroupModel {
 
     @Override
     public String getGroupName() {
-        return com.fr.design.i18n.Toolkit.i18nText("Layout-HBox");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Layout_Horizontal_Box");
     }
 
     @Override

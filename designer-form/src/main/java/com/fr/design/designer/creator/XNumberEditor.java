@@ -62,18 +62,18 @@ public class XNumberEditor extends XWrapperedFieldEditor {
 								.setEditorClass(InChangeBooleanEditor.class)
 								.putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate"),
 						new CRPropertyDescriptor("minValue", this.data.getClass())
-								.setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Min_Value"))
+								.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Min_Value"))
 								.setEditorClass(SpinnerMinNumberEditor.class)
 								.putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate"),
 						new CRPropertyDescriptor("maxValue", this.data.getClass())
-								.setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Max_Value"))
+								.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Max_Value"))
 								.setEditorClass(SpinnerMaxNumberEditor.class)
 								.putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate"),
 						new CRPropertyDescriptor("waterMark", this.data.getClass())
 								.setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WaterMark"))
 								.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 						new CRPropertyDescriptor("regErrorMessage", this.data.getClass())
-								.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Verify-Message"))
+								.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Verify_Message"))
 								.putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate")
 				});
 	}

@@ -25,7 +25,7 @@ public class TabFitLayoutBackgroundPane extends BackgroundCompPane<WTabFitLayout
 
     @Override
     protected UILabel getClickLabel(){
-        return new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background_Select"));
+        return new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Background_Select"));
     }
 
     @Override

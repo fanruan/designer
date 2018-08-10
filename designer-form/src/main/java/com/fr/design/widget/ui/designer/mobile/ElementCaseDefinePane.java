@@ -61,16 +61,16 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane{
         this.designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
         this.hComboBox = new UIComboBox(ITEMS);
         this.vComboBox = new UIComboBox(ITEMS);
-        this.heightRestrictCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Mobile-Height-Limit"));
-        this.maxHeightLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Mobile-Height-Percent"), SwingConstants.LEFT);
+        this.heightRestrictCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Mobile_Height_Limit"));
+        this.maxHeightLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Mobile_Height_Percent"), SwingConstants.LEFT);
         this.maxHeightSpinner = new UISpinner(0, MAX_HEIGHT_LIMIT, 0.01, 0.75) {
             public void setValue(double value) {
                 String warningText = StringUtils.EMPTY;
                 if (value > MAX_HEIGHT_LIMIT) {
-                    warningText = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Mobile-Warning");
+                    warningText = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Mobile_Warning");
                 } else if (value < 0) {
                     // 弹窗提示
-                    warningText = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Max_Height_Cannot_Be_Negative");
+                    warningText = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Max_Height_Cannot_Be_Negative");
                 }
                 if (StringUtils.isNotEmpty(warningText)) {
                     // 弹窗提示
@@ -88,8 +88,8 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane{
         allowFullCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Allow_Full_Screen"));
 
         Component[][] components = new Component[][]{
-                new Component[] {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Mobile-Horizontal"), SwingConstants.LEFT), hComboBox},
-                new Component[] {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Mobile-Vertical"), SwingConstants.LEFT), vComboBox},
+                new Component[] {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Mobile_Horizontal"), SwingConstants.LEFT), hComboBox},
+                new Component[] {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Mobile_Vertical"), SwingConstants.LEFT), vComboBox},
                 new Component[] {heightRestrictCheckBox, null},
                 new Component[] {allowFullCheckBox},
                 new Component[] {maxHeightLabel, maxHeightSpinner}
@@ -103,7 +103,7 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane{
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         final JPanel panelWrapper = FRGUIPaneFactory.createBorderLayout_S_Pane();
         panelWrapper.add(panel, BorderLayout.NORTH);
-        UIExpandablePane folderPane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Fit"), 280, 20, panelWrapper);
+        UIExpandablePane folderPane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Fit"), 280, 20, panelWrapper);
         this.add(folderPane, BorderLayout.NORTH);
         this.bingListeners2Widgets();
         this.setGlobalNames();

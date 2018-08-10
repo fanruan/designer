@@ -1,7 +1,6 @@
 package com.fr.design.widget.ui;
 
 import com.fr.base.FRContext;
-import com.fr.design.constants.LayoutConstants;
 import com.fr.design.designer.IntervalConstants;
 import com.fr.design.dialog.DialogActionListener;
 import com.fr.design.dialog.UIDialog;
@@ -47,8 +46,8 @@ public class IframeEditorDefinePane extends AbstractDataModify<IframeEditor> {
         JPanel contentPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
         contentPane.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 0));
         JPanel attr = FRGUIPaneFactory.createNormalFlowInnerContainer_M_Pane();
-        attr.add(horizontalCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Preference-Horizontal_Scroll_Bar_Visible")));
-        attr.add(verticalCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Preference-Vertical_Scroll_Bar_Visible")));
+        attr.add(horizontalCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Preference_Horizontal_Scroll_Bar_Visible")));
+        attr.add(verticalCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Preference_Vertical_Scroll_Bar_Visible")));
         contentPane.add(attr);
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;

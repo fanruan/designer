@@ -37,7 +37,7 @@ public class ConditionParentPane extends JPanel {
 		innerthis.add(eastPane);
 
 		eastPane.add(GUICoreUtils.createFlowPane(new JComponent[] {
-				new UILabel(com.fr.design.i18n.Toolkit.i18nText("LeftParent") + ": "),
+				new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Left_Parent") + ": "),
 				leftParentPane = new ParentPane(ParentPane.LEFT, listener) }, FlowLayout.LEFT));
 
 		eastPane.add(GUICoreUtils.createFlowPane(

@@ -150,7 +150,7 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
         drawingTextCheckBox.setBorder(UIConstants.CELL_ATTR_ZEROBORDER);
         drawingTextCheckBoxPane.add(drawingTextCheckBox);
         Component[][] components_normal = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Barcode_Size"), UILabel.LEFT), barWidthContainer, barHeightContainer},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Barcode_Size"), UILabel.LEFT), barWidthContainer, barHeightContainer},
                 new Component[]{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Tree_Width"), UILabel.CENTER), new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Tree_Height"), UILabel.CENTER)},
                 new Component[]{drawingTextCheckBoxPane, null, null}
         };
@@ -175,7 +175,7 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
         Component[][] components_special = new Component[][]{
                 new Component[]{uiLabel, RCodeVersionComboBox},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("RCodeErrorCorrect"), UILabel.LEFT), RCodeErrorCorrectComboBox},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("RCodeDrawPix"), UILabel.LEFT), RCodesizespinner}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_RCodeDrawPix"), UILabel.LEFT), RCodesizespinner}
         };
 
         JPanel specialPane = TableLayoutHelper.createGapTableLayoutPane(components_special, rowSize, columnSize, rowCount, LayoutConstants.VGAP_HUGER, LayoutConstants.VGAP_LARGE);
@@ -221,7 +221,7 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
      *
      */
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Highlight-Barcode");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Highlight_Barcode");
     }
 
     private void initVersionComboBox() {

@@ -463,7 +463,7 @@ public class LayoutBorderPane extends BasicPane {
                 BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_right_normal.png"),};
         Integer[] hAlignment = new Integer[]{Constants.LEFT, Constants.CENTER, Constants.RIGHT};
         hAlignmentPane = new UIButtonGroup<Integer>(hAlignmentIconArray, hAlignment);
-        hAlignmentPane.setAllToolTips(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_FormStyleAlignment_Left")
+        hAlignmentPane.setAllToolTips(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_StyleAlignment_Left")
                 , com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_StyleAlignment_Center"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_StyleAlignment_Right")});
         JPanel hPaneContainer = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         hPaneContainer.add(hAlignmentPane);

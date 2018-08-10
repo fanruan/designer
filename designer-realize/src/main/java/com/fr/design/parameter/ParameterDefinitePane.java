@@ -86,8 +86,8 @@ public class ParameterDefinitePane extends JPanel implements ToolBarMenuDockPlus
 
         setButton = new UIButton(BaseUtils.readIcon("com/fr/design/images/toolbarbtn/parametersetting.png"));
         setButton.set4ToolbarButton();
-        isshowWindowItem = new JCheckBoxMenuItem(com.fr.design.i18n.Toolkit.i18nText("ParameterD-Show_Parameter_Window"));
-        isdelayItem = new JCheckBoxMenuItem(com.fr.design.i18n.Toolkit.i18nText("ParameterD-Delay_Playing"));
+        isshowWindowItem = new JCheckBoxMenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ParameterD_Show_Parameter_Window"));
+        isdelayItem = new JCheckBoxMenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ParameterD_Delay_Playing"));
 
         initListeners();
     }

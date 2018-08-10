@@ -1,16 +1,15 @@
 package com.fr.design.designer.properties;
 
-import java.awt.Component;
-
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableCellRenderer;
-
 import com.fr.design.designer.beans.ConstraintsGroupModel;
 import com.fr.design.designer.creator.XWidgetCreator;
 import com.fr.design.designer.creator.cardlayout.XWCardLayout;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WCardLayout;
+
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
+import java.awt.Component;
 
 
 public class CardLayoutConstraints implements ConstraintsGroupModel {
@@ -31,7 +30,7 @@ public class CardLayoutConstraints implements ConstraintsGroupModel {
 
 	@Override
 	public String getGroupName() {
-		return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Layout_Constraints");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Layout_Constraints");
 	}
 
 	@Override
@@ -52,7 +51,7 @@ public class CardLayoutConstraints implements ConstraintsGroupModel {
 	@Override
 	public Object getValue(int row, int column) {
 		if (column == 0) {
-			return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Layout-Index");
+			return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Layout_Index");
 		} else {
 			return layout.getWidgetIndex(widget) + 1;
 		}

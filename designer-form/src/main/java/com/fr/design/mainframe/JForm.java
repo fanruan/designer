@@ -693,7 +693,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
      * @return 菜单
      */
     public UIMenuItem[] createMenuItem4Preview() {
-        UIMenuItem form = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("M-Form_Preview"), UIConstants.RUN_SMALL_ICON);
+        UIMenuItem form = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_M_Form_Preview"), UIConstants.RUN_SMALL_ICON);
         form.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

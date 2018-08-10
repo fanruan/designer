@@ -78,16 +78,16 @@ public abstract class ColumnRowSizingAction extends AbstractColumnRowIndexAction
         float va;
         if (unitType == Constants.UNIT_CM) {
             va = unit.toCMValue4Scale2();
-            uPane.setUnitText(com.fr.design.i18n.Toolkit.i18nText("Unit_CM"));
+            uPane.setUnitText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_CM"));
         } else if (unitType == Constants.UNIT_INCH) {
             va = unit.toINCHValue4Scale3();
-            uPane.setUnitText(com.fr.design.i18n.Toolkit.i18nText("Unit_INCH"));
+            uPane.setUnitText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_INCH"));
         } else if (unitType == Constants.UNIT_PT) {
             va = unit.toPTValue4Scale2();
-            uPane.setUnitText(com.fr.design.i18n.Toolkit.i18nText("Unit_PT"));
+            uPane.setUnitText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_PT"));
         } else {
             va = unit.toMMValue4Scale2();
-            uPane.setUnitText(com.fr.design.i18n.Toolkit.i18nText("Unit_MM"));
+            uPane.setUnitText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_MM"));
         }
 
         uPane.populate(va);

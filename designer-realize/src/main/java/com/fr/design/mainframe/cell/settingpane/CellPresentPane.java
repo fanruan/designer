@@ -43,7 +43,7 @@ public class CellPresentPane extends AbstractCellAttrPane {
     @Override
     public String getIconPath() {
 //		return "com/fr/design/images/data/source/dataDictionary.png";
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Present");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Present");
     }
 
     @Override

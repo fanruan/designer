@@ -180,7 +180,7 @@ public class XCardAddButton extends XButton {
     //新增时去tabFitLayout名字中最大的Index+1，防止重名
     private String getTabTitleName(WCardTagLayout layout){
     	int size = layout.getWidgetCount();
-    	String prefix = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Title");
+    	String prefix = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Title");
     	String newTextName = prefix + size;
 
 		for (int i = 0; i < size; i++) {

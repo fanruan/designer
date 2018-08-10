@@ -73,7 +73,7 @@ public class MeterSeriesPane extends AbstractPlotSeriesPane {
         double[] columnSize = {p, f};
         double[] rowSize = {p};
         Component[][] tmpComponent = new Component[][]{
-                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Pointer-A-Tick-Order") + ":", SwingUtilities.LEFT), order}
+                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Pointer_A_Tick_Order") + ":", SwingUtilities.LEFT), order}
         };
         JPanel orderPane = TableLayoutHelper.createTableLayoutPane(tmpComponent, rowSize, columnSize);
         Component[][] components = new Component[][]{

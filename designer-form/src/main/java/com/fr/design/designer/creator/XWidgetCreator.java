@@ -39,7 +39,7 @@ public abstract class XWidgetCreator extends XCreator {
     public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
         return new CRPropertyDescriptor[]{
                 new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Toolkit.i18nText("Form-Widget_Name")),
-                new CRPropertyDescriptor("enabled", this.data.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Enabled"))
+                new CRPropertyDescriptor("enabled", this.data.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Enabled"))
                         .setPropertyChangeListener(new PropertyChangeAdapter() {
 
                     @Override
@@ -48,7 +48,7 @@ public abstract class XWidgetCreator extends XCreator {
                     }
                 }),
                 new CRPropertyDescriptor("visible", this.data.getClass()).setI18NName(
-                        com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget-Visible")).setPropertyChangeListener(new PropertyChangeAdapter() {
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Visible")).setPropertyChangeListener(new PropertyChangeAdapter() {
 
                     @Override
                     public void propertyChange() {
@@ -56,7 +56,7 @@ public abstract class XWidgetCreator extends XCreator {
                     }
                 }),
                 new CRPropertyDescriptor("labelName", this.data.getClass(), "getLabelName", "setLabelName")
-                        .setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Label_Name"))
+                        .setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Label_Name"))
                         .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
         };
 

@@ -1,14 +1,13 @@
 package com.fr.design.mainframe.widget.editors;
 
+import com.fr.design.dialog.BasicPane;
+import com.fr.design.gui.ispinner.UISpinner;
+import com.fr.design.layout.FRGUIPaneFactory;
+
+import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-
-import javax.swing.JPanel;
-
-import com.fr.design.gui.ispinner.UISpinner;
-import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.dialog.BasicPane;
 
 
 public class DimensionEditingPane extends BasicPane {
@@ -24,8 +23,8 @@ public class DimensionEditingPane extends BasicPane {
 
     private void initComponents() {
         setLayout(new/**/ GridLayout(2, 1));
-        jLabel1 = new com.fr.design.gui.ilable.UILabel(com.fr.design.i18n.Toolkit.i18nText("Widget-Width") + ":");
-        jLabel2 = new com.fr.design.gui.ilable.UILabel(com.fr.design.i18n.Toolkit.i18nText("Widget-Height") + ":");
+        jLabel1 = new com.fr.design.gui.ilable.UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Widge_Width_Duplicate") + ":");
+        jLabel2 = new com.fr.design.gui.ilable.UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Widget_Height_Duplicate") + ":");
         spWidth = new UISpinner(0, Integer.MAX_VALUE, 1, 0);
         spHeight = new UISpinner(0, Integer.MAX_VALUE, 1, 0);
 
@@ -46,7 +45,7 @@ public class DimensionEditingPane extends BasicPane {
     
     @Override
     protected String title4PopupWindow() {
-    	return com.fr.design.i18n.Toolkit.i18nText("Widget-Sizing");
+    	return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Sizing");
     }
 
     public Dimension update() {

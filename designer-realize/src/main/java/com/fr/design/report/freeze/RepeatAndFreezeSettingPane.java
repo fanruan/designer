@@ -214,7 +214,7 @@ public class RepeatAndFreezeSettingPane extends BasicPane {
         //自适应插件
         if (shouldShowTip()) {
             JPanel infoPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Attention"));
-            BoxCenterAligmentPane actionLabel = getURLActionLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form-Fit-Tip"));
+            BoxCenterAligmentPane actionLabel = getURLActionLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_Fit_Tip"));
             infoPane.add(actionLabel, BorderLayout.SOUTH);
             this.add(infoPane, BorderLayout.SOUTH);
         }
@@ -577,9 +577,9 @@ public class RepeatAndFreezeSettingPane extends BasicPane {
 
             JPanel centerPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
             this.add(centerPane, BorderLayout.CENTER);
-            UILabel label1 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form-Frozen-Tip"));
+            UILabel label1 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_Frozen_Tip"));
             label1.setForeground(new Color(255, 0, 0));
-            UILabel label2 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form-Forzen-Speed"));
+            UILabel label2 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_Forzen_Speed"));
             label2.setForeground(new Color(255, 0, 0));
             this.textLabel = label;
             centerPane.add(label1);

@@ -98,7 +98,7 @@ public class WidgetEventPane extends ObjectUIControlPane {
 
 				@Override
 				protected String title4PopupWindow() {
-					return com.fr.design.i18n.Toolkit.i18nText("Set_Callback_Function");
+					return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Set_Callback_Function");
 				}
 				
 				@Override

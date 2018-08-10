@@ -17,13 +17,13 @@ public class ColumnWidthAction extends ColumnRowSizingAction {
 	public ColumnWidthAction(ElementCasePane t, int indexOfColumnOrRow) {
 		super(t, indexOfColumnOrRow);
 		
-        this.setName(com.fr.design.i18n.Toolkit.i18nText("Utils-Column_Width") + "...");
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Column_Width") + "...");
         this.setMnemonic('C');
     }
 	
 	@Override
 	protected String title4UnitInputPane() {
-		return com.fr.design.i18n.Toolkit.i18nText("Utils-Column_Width");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Column_Width");
 	}
     
     @Override

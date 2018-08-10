@@ -46,7 +46,7 @@ public abstract class ButtonDefinePane<T extends Button> extends AbstractDataMod
         backgroundLabel.setVerticalAlignment(SwingConstants.TOP);
         Component[][] n_components = {
                 {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Button-Name")), buttonNameTextField},
-                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Label_Name")), labelNameTextField},
+                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Label_Name")), labelNameTextField},
                 backgroundCompPane,
                 frFont,
                 {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Icon")), iconPane},
