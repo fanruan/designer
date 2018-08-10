@@ -88,7 +88,7 @@ public class SpecifiedGroupAttrPane extends BasicPane {
     protected void initComponents() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         specifiedComboBox = new UIComboBox(new String[] {
-        		com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Condition", "Group"}), com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Formula", "Group"})
+				com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Condition_Group"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Formula_Group")
         });
         
         specifiedComboBox.addItemListener(new ItemListener() {
@@ -359,7 +359,7 @@ public class SpecifiedGroupAttrPane extends BasicPane {
             });
             
             southPane = GUICoreUtils.createFlowPane(new JComponent[] {new UILabel(InsertText), //new UILabel(com.fr.design.i18n.Toolkit.i18nText("I-Message_FunctionGrouper_2")),
-            		new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Custom", "Value"}) + ": "), label, valueField, formulaButton}, FlowLayout.LEFT);
+					new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Custom_Value") + ": "), label, valueField, formulaButton}, FlowLayout.LEFT);
             contentPane.add(southPane);
     	}
     	
