@@ -59,7 +59,8 @@ public class CustomStylePane extends MultiTabPane<Style> {
      * @return
      */
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Custom", "Style"});
+//        return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Custom", "Style"});
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Custom_Style");
     }
 
     /**

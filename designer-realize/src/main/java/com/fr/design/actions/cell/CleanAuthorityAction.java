@@ -26,7 +26,8 @@ public class CleanAuthorityAction extends ElementCaseAction {
 
     public CleanAuthorityAction(ElementCasePane t) {
         super(t);
-        this.setName(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Clear", "DashBoard-Potence"}));
+//        this.setName(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Clear", "DashBoard-Potence"}));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Clear_DashBoard_Potence"));
     }
 
 

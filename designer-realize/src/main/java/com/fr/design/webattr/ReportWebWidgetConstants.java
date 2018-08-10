@@ -149,7 +149,8 @@ public class ReportWebWidgetConstants {
     public static final WidgetOption SETPRINTEROFFSET = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_SetPrinterOffset"), BaseUtils.readIcon("/com/fr/web/images/pianyi.png"), SetPrinterOffset.class);
 
     public static final WidgetOption CUSTOM_BUTTON = WidgetOptionFactory
-            .createByWidgetClass(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Custom", "Form-Button"}), CustomToolBarButton.class);
+//            .createByWidgetClass(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Custom", "Form-Button"}), CustomToolBarButton.class);
+            .createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Custom_Form_Button"), CustomToolBarButton.class);
 
     // 输出离线html报表
     public static final WidgetOption WRITEOFFLINEHTML = WidgetOptionFactory

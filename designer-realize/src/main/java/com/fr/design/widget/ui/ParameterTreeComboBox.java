@@ -171,7 +171,8 @@ public class ParameterTreeComboBox extends FRTreeComboBox {
 			}
 		}
 		if (!ArrayUtils.isEmpty(parameters)) {
-			groupList.add(new ParameterGroup(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Server", "Datasource-Datasource", "Parameter"}), parameters));
+//			groupList.add(new ParameterGroup(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Server", "Datasource-Datasource", "Parameter"}), parameters));
+			groupList.add(new ParameterGroup(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Server_Datasource_Parameter"), parameters));
 		}
 		return groupList.toArray(new ParameterGroup[0]);
 

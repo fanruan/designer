@@ -51,14 +51,16 @@ public class HyperlinkPane extends ConditionAttrSingleConditionPane<HighlightAct
             }
         });
         hyperlinkButton.setEnabled(false);
-        UILabel hyperlinkLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Hyperlink", "Type"}) + ":");
+//        UILabel hyperlinkLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Hyperlink", "Type"}) + ":");
+        UILabel hyperlinkLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Hyperlink_Type") + ":");
         typeField = new UITextField(12);
         typeField.setEditable(false);
         this.add(hyperlinkLabel);
         this.add(typeField);
 
         this.add(hyperlinkButton);
-        useHyperlink = new UICheckBox(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Use", "Links"}));
+//        useHyperlink = new UICheckBox(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Use", "Links"}));
+        useHyperlink = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Use_Links"));
         useHyperlink.addActionListener(l);
         this.add(useHyperlink);
     }
@@ -98,11 +100,13 @@ public class HyperlinkPane extends ConditionAttrSingleConditionPane<HighlightAct
             if (js instanceof JavaScriptImpl) {
                 this.typeField.setText("JavaScript");
             } else if (js instanceof ReportletHyperlink) {
-                this.typeField.setText(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Report", "Links"}));
+//                this.typeField.setText(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Report", "Links"}));
+                this.typeField.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Report_Links"));
             } else if (js instanceof WebHyperlink) {
                 this.typeField.setText(com.fr.design.i18n.Toolkit.i18nText("Hyperlink-Web_link"));
             } else if (js instanceof EmailJavaScript) {
-                this.typeField.setText(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Email", "Links"}));
+//                this.typeField.setText(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Email", "Links"}));
+                this.typeField.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Email_Links"));
             }
 
         }

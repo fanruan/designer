@@ -11,7 +11,8 @@ public class ResetColumnHideAction extends AbstractColumnRowIndexAction {
 
 	public ResetColumnHideAction(ElementCasePane t, int indexOfColumnOrRow) {
 		super(t, indexOfColumnOrRow);
-		this.setName(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"MConfig-CancelButton", "Hide"}));
+//		this.setName(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"MConfig-CancelButton", "Hide"}));
+		this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Cancel_Hide"));
 	}
 
 	@Override

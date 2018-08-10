@@ -73,7 +73,8 @@ public class WriteToolBarPane extends AbstractEditToolBarPane {
         rptButtonGroup.add(centerRadioButton);
         northPane.add(GUICoreUtils.createFlowPane(new Component[]{rptShowLocationLabel, centerRadioButton, leftRadioButton}, FlowLayout.LEFT));
 
-        colorBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Face_Write", "Current", "Edit", "Row", "Background", "Set"}) + ":");
+//        colorBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Face_Write", "Current", "Edit", "Row", "Background", "Set"}) + ":");
+        colorBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Set_Face_Write_Current_Edit_Row_Background") + ":");
         colorBox.setSelected(true);
         colorBox.addActionListener(colorListener);
         colorButton = new UIColorButton(BaseUtils.readIcon("/com/fr/design/images/gui/color/background.png"));

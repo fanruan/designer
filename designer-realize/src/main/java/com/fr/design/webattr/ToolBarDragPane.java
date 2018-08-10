@@ -256,7 +256,8 @@ public class ToolBarDragPane extends WidgetToolBarPane {
 
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"ReportServerP-Toolbar", "Set"});
+//		return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"ReportServerP-Toolbar", "Set"});
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Set_Toolbar");
 	}
 
 	public void setCheckBoxSelected(boolean b) {

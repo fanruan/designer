@@ -45,7 +45,8 @@ public class ListenerEditPane extends BasicBeanPane<Listener> {
 	private static final String JS = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_JavaScript");
 	private static final String FORMSUBMIT = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_JavaScript_Form_Submit");
 	private static final String DBCOMMIT = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_JavaScript_Commit_to_Database");
-	private static final String CUSTOMACTION= com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"FR-Designer_JavaScript_Custom", "FR-Designer_RWA_Submit"});
+//	private static final String CUSTOMACTION= com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"FR-Designer_JavaScript_Custom", "FR-Designer_RWA_Submit"});
+	private static final String CUSTOMACTION= com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_JavaScript_Custom_Submit");
 	private static final String EMAIL = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Email_sentEmail");
 	
 	private Listener listener;
