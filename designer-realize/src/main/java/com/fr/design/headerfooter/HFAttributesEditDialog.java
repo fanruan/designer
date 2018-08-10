@@ -246,7 +246,7 @@ public class HFAttributesEditDialog extends BasicPane {
     }
 
     private void addImagePaneToTab() {
-        this.tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Image"), this.imagePane);
+        this.tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Image"), this.imagePane);
     }
 
     private void addNewLinePaneToTab() {

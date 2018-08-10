@@ -45,7 +45,9 @@ public class AuthorityToolBarPane<T extends WebContent> extends BasicBeanPane<Re
     private static final int PRE_GAP = 9;
     private static final int COMBOX_WIDTH = 144;
 
-    private static final String[] CHOOSEITEM = new String[]{com.fr.design.i18n.Toolkit.i18nText("M-Page_Preview"), com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Face_Write", "PageSetup-Page"}), com.fr.design.i18n.Toolkit.i18nText("M-Data_Analysis")};
+    private static final String[] CHOOSEITEM = new String[]{com.fr.design.i18n.Toolkit.i18nText("M-Page_Preview"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Face_Write_Page"),
+            com.fr.design.i18n.Toolkit.i18nText("M-Data_Analysis")};
     private UIComboBox choseComboBox;
     private ToolBarPane toolBarPane;
     private AuthorityEditToolBarPane authorityEditToolBarPane = null;
@@ -128,7 +130,7 @@ public class AuthorityToolBarPane<T extends WebContent> extends BasicBeanPane<Re
     public AuthorityToolBarPane() {
         this.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 3));
         this.setBorder(BorderFactory.createEmptyBorder(0, PRE_GAP, 0, 0));
-        title = new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"ReportServerP-Toolbar", "Choose_Role"}));
+        title = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Toolbar_Choose_Role"));
         title.setHorizontalAlignment(SwingConstants.CENTER);
         this.add(title, 0);
         choseComboBox = new UIComboBox(CHOOSEITEM) {
@@ -182,8 +184,7 @@ public class AuthorityToolBarPane<T extends WebContent> extends BasicBeanPane<Re
      */
     private void checkToolBarPaneEnable() {
         List<ToolBarButton> toolBarButtons = toolBarPane.getToolBarButtons();
-        boolean isnotEnable = ComparatorUtils.equals(title.getText(), com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Server", "ReportServerP-Toolbar", "Choose_Role"}))
-                && !WorkContext.getCurrent().isRoot();
+        boolean isnotEnable = ComparatorUtils.equals(title.getText(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Server_Toolbar_Choose_Role"))&& !WorkContext.getCurrent().isRoot();
         for (ToolBarButton button : toolBarButtons) {
             button.setEnabled(!isnotEnable);
         }
@@ -271,14 +272,14 @@ public class AuthorityToolBarPane<T extends WebContent> extends BasicBeanPane<Re
         this.remove(title);
         // 如果是空值就说明采用服务器配置了
         if (reportWebAttr == null || this.getWebContent(reportWebAttr) == null) {
-            title = new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Server", "ReportServerP-Toolbar", "Choose_Role"}));
+            title = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ServerToolbar_Choose_Role"));
             populateServerSettings();
             this.add(title, 0);
             return;
         }
         // 模板设置
         T webContent = this.getWebContent(reportWebAttr);
-        title = new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"the_template", "ReportServerP-Toolbar", "Choose_Role"}));
+        title = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Template_Toolbar_Choose_Role"));
         this.add(title, 0);
         populate(webContent.getToolBarManagers());
     }

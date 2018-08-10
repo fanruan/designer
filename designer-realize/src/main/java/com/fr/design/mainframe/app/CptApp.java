@@ -47,7 +47,7 @@ class CptApp extends AbstractWorkBookApp {
         if (XMLEncryptUtils.isCptEncoded() &&
             !XMLEncryptUtils.checkVaild(DesignerEnvManager.getEnvManager().getEncryptionKey())) {
             if (!new DecodeDialog(file).isPwdRight()) {
-                FRContext.getLogger().error(com.fr.design.i18n.Toolkit.i18nText("ECP-error_pwd"));
+                FRContext.getLogger().error(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ECP_Error_Pwd"));
                 return new WorkBook();
             }
         }

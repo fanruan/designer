@@ -123,7 +123,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
         this.setLayout(new BorderLayout(gap,0));
         JPanel northPanel = new JPanel(new BorderLayout());
         JPanel type = new JPanel();
-        type.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Utils-File_type") + ":"));
+        type.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_File_Type") + ":"));
         String[] item = {"TXT", "Excel", "XML"};
         fileTypeComboBox = new UIComboBox(item);
         fileTypeComboBox.setPreferredSize(new Dimension(100, 20));
@@ -179,7 +179,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
         chooseFile = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Selection"));
         chooseFile.addActionListener(chooseFileListener);
 
-        testConnection = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Datasource-Test_Connection"));
+        testConnection = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Test_Connection"));
         testConnection.setEnabled(false);
         testConnection.addActionListener(testConnectionListener);// 测试连接按钮
 

@@ -79,7 +79,7 @@ public class JavaEditorPane extends BasicPane {
 
         UIScrollPane jt = new UIScrollPane(javaText);
         JPanel toolbarPane = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        UIButton saveButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Save"));
+        UIButton saveButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Save"));
         saveButton.setAction(new SaveAction());
         UIButton compileButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Compile"));
         compileButton.setAction(new CompilerAction());
@@ -141,7 +141,7 @@ public class JavaEditorPane extends BasicPane {
 
     private class SaveAction extends AbstractAction { //新建文件命令
         public SaveAction() {
-            super(com.fr.design.i18n.Toolkit.i18nText("Save"));
+            super(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Save"));
         }
         public void actionPerformed(ActionEvent e) {
             saveTextToFile(javaText.getText());

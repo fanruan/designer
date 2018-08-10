@@ -14,7 +14,7 @@ public class ParameterWrapper implements Encoder, Decoder {
         if (v == null) {
             return StringUtils.EMPTY;
         }
-        return com.fr.design.i18n.Toolkit.i18nText("Total") + ((ParameterProvider[]) v).length + com.fr.design.i18n.Toolkit.i18nText("Parameters");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Total") + ((ParameterProvider[]) v).length + com.fr.design.i18n.Toolkit.i18nText("Parameters");
     }
 
     @Override

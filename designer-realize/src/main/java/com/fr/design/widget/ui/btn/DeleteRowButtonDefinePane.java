@@ -25,7 +25,7 @@ public class DeleteRowButtonDefinePane<T extends DeleteRowButton> extends Button
     @Override
     public DeleteRowButton createButton() {
         DeleteRowButton button = new DeleteRowButton();
-        button.setText(com.fr.design.i18n.Toolkit.i18nText("Utils-Delete_Row"));
+        button.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Delete_Row"));
         button.setIconName(IconManager.DELETE.getName());
         return button;
     }

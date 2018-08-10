@@ -1,16 +1,13 @@
 package com.fr.design.gui.itree.refreshabletree;
 
-import java.awt.Color;
+import com.fr.data.impl.TreeAttr;
+import com.fr.design.dialog.BasicPane;
+import com.fr.design.gui.icheckbox.UICheckBox;
+import com.fr.design.layout.FRGUIPaneFactory;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import com.fr.design.gui.ilable.UILabel;
 import javax.swing.JPanel;
-
-import com.fr.data.impl.TreeAttr;
-import com.fr.design.gui.icheckbox.UICheckBox;
-import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.dialog.BasicPane;
 
 
 public class TreeRootPane extends BasicPane {
@@ -31,7 +28,7 @@ public class TreeRootPane extends BasicPane {
 
 		JPanel checkTypePane = FRGUIPaneFactory.createBoxFlowInnerContainer_S_Pane_First0();
 		checkTypePane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		checkTypeCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Tree-Mutiple_Selection_Or_Not"));
+		checkTypeCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tree_Mutiple_Selection_Or_Not"));
 		checkTypeCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
 		checkTypePane.add(checkTypeCheckBox);
@@ -39,7 +36,7 @@ public class TreeRootPane extends BasicPane {
 
 		JPanel loadTypePane = FRGUIPaneFactory.createBoxFlowInnerContainer_S_Pane_First0();
 		checkTypePane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		loadTypeCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Widget-Load_By_Async"));
+		loadTypeCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Load_By_Async"));
 		loadTypeCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
 		loadTypePane.add(loadTypeCheckBox);
@@ -47,14 +44,14 @@ public class TreeRootPane extends BasicPane {
 
 		JPanel leafSelectPane = FRGUIPaneFactory.createBoxFlowInnerContainer_S_Pane_First0();
 		checkTypePane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		leafSelectPane.add(layerTypeCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Tree-Select_Leaf_Only")));
+		leafSelectPane.add(layerTypeCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tree_Select_Leaf_Only")));
 		layerTypeCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
 		this.add(leafSelectPane);
 
         JPanel returnFullPathPane = FRGUIPaneFactory.createBoxFlowInnerContainer_S_Pane_First0();
 		checkTypePane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		returnFullPathPane.add(returnFullPathCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Tree-Return_Full_Path")));
+		returnFullPathPane.add(returnFullPathCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tree_Return_Full_Path")));
 		returnFullPathCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
 		this.add(returnFullPathPane);

@@ -1,13 +1,11 @@
 package com.fr.design.gui.frpane;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.List;
+import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.design.utils.gui.JListUtils;
+import com.fr.stable.StringUtils;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
@@ -20,14 +18,14 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
-import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.layout.FRGUIPaneFactory;
-
-import com.fr.stable.StringUtils;
-import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.design.utils.gui.JListUtils;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class EditingStringListPane extends BasicBeanPane<List<String>> {
 
@@ -60,8 +58,8 @@ public abstract class EditingStringListPane extends BasicBeanPane<List<String>> 
 		addButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Add"));
 		editButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Modify"));
 		removeButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Remove"));
-		moveUpButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Utils-Move_Up"));
-		moveDownButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Utils-Move_Down"));
+		moveUpButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Move_Up"));
+		moveDownButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Move_Down"));
 
 		JPanel eastPane = FRGUIPaneFactory.createNColumnGridInnerContainer_S_Pane(1);
 		eastPane.add(editButton);
@@ -151,7 +149,7 @@ public abstract class EditingStringListPane extends BasicBeanPane<List<String>> 
 			public void actionPerformed(ActionEvent e) {
 				Object selected = jlist.getSelectedValue();
 				if (selected != null) {
-					int re = JOptionPane.showConfirmDialog(SwingUtilities.getWindowAncestor(EditingStringListPane.this), com.fr.design.i18n.Toolkit.i18nText("sure_to_delete") + selected.toString() + "?");
+					int re = JOptionPane.showConfirmDialog(SwingUtilities.getWindowAncestor(EditingStringListPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Sure_To_Delete") + selected.toString() + "?");
 					if (re == JOptionPane.OK_OPTION) {
 						JListUtils.removeSelectedListItems(jlist);
 					}

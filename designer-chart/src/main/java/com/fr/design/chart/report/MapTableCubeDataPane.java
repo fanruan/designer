@@ -77,7 +77,7 @@ public class MapTableCubeDataPane extends FurtherBasicBeanPane<MapMoreLayerTable
      * @return  返回标题.
 	 */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("DS-TableData");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_DS_TableData");
 	}
 
 	@Override

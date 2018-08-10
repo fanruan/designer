@@ -14,7 +14,6 @@ import com.fr.design.style.background.image.ImagePreviewPane;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.SwingWorker;
 import java.awt.BorderLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -56,7 +55,7 @@ public class ImagePane extends BasicPane {
         } else {
             rightPane.setBorder(BorderFactory.createEmptyBorder(4, 2, 0, 2));
         }
-        UIButton selectImageButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Image-Select_Picture"));
+        UIButton selectImageButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Image_Select_Picture"));
         rightPane.add(selectImageButton, BorderLayout.NORTH);
         selectImageButton.addActionListener(selectPictureActionListener);
 

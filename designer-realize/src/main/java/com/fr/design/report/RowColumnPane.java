@@ -38,9 +38,9 @@ public class RowColumnPane extends BasicPane {
         this.add(centerPane, BorderLayout.CENTER);
         centerPane.setBorder(BorderFactory.createEmptyBorder(6, 12, 6, 8));
 
-        entireRowRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("EditRC-Entire_row"));
+        entireRowRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Edit_RC_Entire_Row"));
         entireRowRadioButton.setMnemonic('r');
-        entireColRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("EditRC-Entire_column"));
+        entireColRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Edit_RC-Entire_Column"));
         entireColRadioButton.setMnemonic('c');
         entireRowRadioButton.setSelected(true);
 

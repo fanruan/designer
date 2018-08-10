@@ -162,7 +162,7 @@ public class ChartAxisLabelPane extends BasicPane implements UIObserver{
 
         Component[][] components = new Component[][]{
                 new Component[]{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Axis_labelShowway")), showWay, null},
-                new Component[]{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Text_Rotation")), labelOrientationChoose, null},
+                new Component[]{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Text_Rotation")), labelOrientationChoose, null},
                 new Component[]{null, orientationSpinner, orientationBar, null},
                 new Component[]{null, textAttrPane, null, null},
         };
@@ -227,7 +227,7 @@ public class ChartAxisLabelPane extends BasicPane implements UIObserver{
         double[] rowSize = {p, p, p};
 
         Component[][] components = new Component[][]{
-                new Component[]{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Text_Rotation")), labelOrientationChoose, null},
+                new Component[]{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Text_Rotation")), labelOrientationChoose, null},
                 new Component[]{null, orientationSpinner, orientationBar, null},
                 new Component[]{null, textAttrPane, null, null},
         };
@@ -290,7 +290,7 @@ public class ChartAxisLabelPane extends BasicPane implements UIObserver{
 
         Component[][] components = new Component[][]{
                 new Component[]{null,new UILabel(com.fr.design.i18n.Toolkit.i18nText("ChartF-Label_Interval")), labelSampleChoose, customLabelSamleTime},
-                new Component[]{null,new UILabel(com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Text_Rotation")), labelOrientationChoose, null},
+                new Component[]{null,new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Text_Rotation")), labelOrientationChoose, null},
                 new Component[]{null,orientationSpinner, orientationBar, null},
                 new Component[]{null,textAttrPane, null, null},
         };

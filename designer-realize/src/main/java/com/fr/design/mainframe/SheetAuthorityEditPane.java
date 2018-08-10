@@ -41,7 +41,7 @@ public class SheetAuthorityEditPane extends AuthorityEditPane {
         @Override
         public void itemStateChanged(ItemEvent e) {
             String selectedRole = ReportAndFSManagePane.getInstance().getRoleTree().getSelectedRoleName();
-            if (ComparatorUtils.equals(selectedRole, com.fr.design.i18n.Toolkit.i18nText("Role"))) {
+            if (ComparatorUtils.equals(selectedRole, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Role"))) {
                 return;
             }
             if (selectedRole == null) {

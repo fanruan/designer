@@ -214,7 +214,7 @@ public class EmbeddedTableDataDefinedPane extends BasicPane{
         private String[] COLUMN_NAME = {
               	 "", 
               	 com.fr.design.i18n.Toolkit.i18nText("ColumnName"),
-              	 com.fr.design.i18n.Toolkit.i18nText("Type")
+              	 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Type")
               };
         private int sum = 0;
 

@@ -82,7 +82,7 @@ public class FormatPane extends BasicPane {
         //sample pane
         JPanel samplePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         this.add(samplePane, BorderLayout.NORTH);
-        samplePane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("StyleFormat-Sample"), null));
+        samplePane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_StyleFormat_Sample"), null));
         samplePane.setLayout(FRGUIPaneFactory.createBorderLayout());
         sampleLabel = new UILabel(FormatField.getInstance().getFormatValue());
         samplePane.add(sampleLabel, BorderLayout.CENTER);

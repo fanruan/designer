@@ -40,8 +40,7 @@ public class AuthorityEditToolBarPane extends AuthorityPropertyPane {
         super(HistoryTemplateListPane.getInstance().getCurrentEditingTemplate());
         this.setLayout(new BorderLayout());
         this.setBorder(null);
-        UILabel authorityTitle = new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"FR-Designer_Permissions",
-                "FR-Designer_Edit"})) {
+        UILabel authorityTitle = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Permissions_Edit")) {
             @Override
             public Dimension getPreferredSize() {
                 return new Dimension(super.getPreferredSize().width, TITLE_HEIGHT);
@@ -148,12 +147,12 @@ public class AuthorityEditToolBarPane extends AuthorityPropertyPane {
             type = new UILabel();
             typePane = new JPanel(new BorderLayout());
             typePane.add(type, BorderLayout.CENTER);
-            type.setBorder(BorderFactory.createEmptyBorder(0,LEFT_GAP,0,0));
+            type.setBorder(BorderFactory.createEmptyBorder(0, LEFT_GAP, 0, 0));
             typePane.setBorder(BorderFactory.createLineBorder(Color.lightGray));
             name = new UILabel();
             namePane = new JPanel(new BorderLayout());
             namePane.add(name, BorderLayout.CENTER);
-            name.setBorder(BorderFactory.createEmptyBorder(0,LEFT_GAP,0,0));
+            name.setBorder(BorderFactory.createEmptyBorder(0, LEFT_GAP, 0, 0));
             namePane.setBorder(BorderFactory.createLineBorder(Color.lightGray));
             checkPane = new JPanel();
             checkPane.setLayout(new BorderLayout());
@@ -208,7 +207,7 @@ public class AuthorityEditToolBarPane extends AuthorityPropertyPane {
             if (name.getText() == "") {
                 type.setText("");
             } else {
-                type.setText(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"ReportServerP-Toolbar", "FR-Designer_Form_Button"}));
+                type.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Toolbar_Button"));
             }
         }
 

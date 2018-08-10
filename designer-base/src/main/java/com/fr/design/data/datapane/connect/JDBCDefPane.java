@@ -129,7 +129,7 @@ public class JDBCDefPane extends JPanel {
 		urlComPane = TableLayoutHelper.createCommonTableLayoutPane(urlComComponents, urlRowSize, urlColumnSize, 4);
 
 		JPanel userPane = FRGUIPaneFactory.createRightFlowInnerContainer_S_Pane();
-		userPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Username") + ":"));
+		userPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_UserName") + ":"));
 		JPanel userComPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
 		Component[][] userComComponents = {{userNameTextField, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Password") + ":"), passwordTextField}};
 		double[] userRowSize = {p};

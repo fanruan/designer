@@ -26,7 +26,7 @@ public abstract class AbstractExcelExportAction extends AbstractExportAction {
     	if (hasLayerReport(tpl)) {
     		return new ChooseFileFilter(new String[]{"zip"}, "ZIP");
     	} else {
-    		return new ChooseFileFilter(new String[]{"xls", "xlsx"}, com.fr.design.i18n.Toolkit.i18nText("Export-Excel"));
+    		return new ChooseFileFilter(new String[]{"xls", "xlsx"}, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Export_Excel"));
     	}
     }
 

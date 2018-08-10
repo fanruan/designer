@@ -277,7 +277,7 @@ public class FRFontPane extends BasicPane {
     
     @Override
     protected String title4PopupWindow() {
-    	return com.fr.design.i18n.Toolkit.i18nText("Sytle-FRFont");
+    	return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Sytle_FRFont");
     }
 
     /**

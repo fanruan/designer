@@ -34,7 +34,7 @@ public class TextExportAction extends AbstractExportAction {
 
     @Override
     protected ChooseFileFilter getChooseFileFilter() {
-        return new ChooseFileFilter(FileExtension.TXT, com.fr.design.i18n.Toolkit.i18nText("Export-Text"));
+        return new ChooseFileFilter(FileExtension.TXT, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Export_Text"));
     }
 
     @Override

@@ -16,7 +16,7 @@ public class ConnectionAction extends UpdateAction implements ToggleButtonUpdate
 
 	public ConnectionAction(FormDesigner fd) {
 		this.fd = fd;
-		this.setName(com.fr.design.i18n.Toolkit.i18nText("Connectionline"));
+		this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Connecti_Online"));
 		this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/toolbarbtn/connector.png"));
 	}
 

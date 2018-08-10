@@ -73,7 +73,7 @@ public class ImgChoosePane extends BasicPane {
 	}
 
 	private void initButton() {
-		chooseButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Image-Select_Picture"));
+		chooseButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Image_Select_Picture"));
 		chooseButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -115,6 +115,6 @@ public class ImgChoosePane extends BasicPane {
 
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Image");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Image");
 	}
 }

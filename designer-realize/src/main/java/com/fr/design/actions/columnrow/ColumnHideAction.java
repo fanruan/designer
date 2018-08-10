@@ -10,7 +10,7 @@ public class ColumnHideAction extends AbstractColumnRowIndexAction {
 
 	public ColumnHideAction(ElementCasePane t, int indexOfColumnOrRow) {
 		super(t, indexOfColumnOrRow);
-		this.setName(com.fr.design.i18n.Toolkit.i18nText("Hide"));
+		this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Hide_Duplicate"));
 	}
 
 	@Override

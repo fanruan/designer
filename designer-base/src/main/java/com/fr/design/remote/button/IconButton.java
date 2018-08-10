@@ -19,7 +19,7 @@ public final class IconButton extends JButton {
         super(StringUtils.EMPTY);
         setContentAreaFilled(false);
         setFocusPainted(false);
-        setIcon(BaseUtils.readIcon("com/fr/design/remote/images/icon_Remove_x.png"));
+        setIcon(BaseUtils.readIcon("com/fr/design/remote/images/icon_tab_close_normal.png"));
         setBorder(null);
     }
 

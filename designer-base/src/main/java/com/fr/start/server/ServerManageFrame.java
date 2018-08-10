@@ -70,7 +70,7 @@ public class ServerManageFrame extends JFrame {
 		UIButton startButton = new UIButton();
 		startPane.add(startButton);
 		startButton.setIcon(BaseUtils.readIcon("/com/fr/design/images/server/start.png"));
-		startPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Server-Start")));
+		startPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Server_Start")));
 		startButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -87,7 +87,7 @@ public class ServerManageFrame extends JFrame {
 		UIButton stopButton = new UIButton();
 		stopPane.add(stopButton);
 		stopButton.setIcon(BaseUtils.readIcon("/com/fr/design/images/server/stop.png"));
-		stopPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Server-Stop")));
+		stopPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Server_Stop")));
 		stopButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {

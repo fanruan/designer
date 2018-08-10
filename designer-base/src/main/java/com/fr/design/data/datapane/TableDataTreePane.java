@@ -263,7 +263,7 @@ public class TableDataTreePane extends BasicTableDataTreePane {
                 return;
             }
 
-            int returnVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Utils-Are_you_sure_to_remove_the_selected_item") + ":" + selectedNO.getName() + "?",
+            int returnVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Are_You_Sure_To_Remove_The_Selected_Item") + ":" + selectedNO.getName() + "?",
                     com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Remove"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (returnVal == JOptionPane.OK_OPTION) {
                 // richer:这个地方为什么要在DataSourceTree里面去remove呢？多此一举吧

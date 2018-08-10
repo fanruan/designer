@@ -55,7 +55,7 @@ public class WidgetConstants {
 	public static final int MULTI_FILE = 19;
 	
 	// 默认控件
-	public static final String DEFAULT_WIDGETCONFIG = com.fr.design.i18n.Toolkit.i18nText("Widget-Form_Widget_Config");
+	public static final String DEFAULT_WIDGETCONFIG = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Form_Widget_Config");
 	
 	// 报表控件，与默认控件不同，比如label，table,SEARCH等，这里是不需要的
 	public static final String REPORT_WIDGETCONFIG = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Default_Widget_Config");
@@ -63,11 +63,11 @@ public class WidgetConstants {
 	public static final String FORM_CHARTWIDGET = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Chart_Widget_Config");
 	
 	// 表单容器控件
-	public static final String FORM_WIDGETCONTAINER = com.fr.design.i18n.Toolkit.i18nText("Widget-Form_Widget_Container");
+	public static final String FORM_WIDGETCONTAINER = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Form_Widget_Container");
 	
 	public  static final String POLY_REPORT_WIDGET = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Poly_Report_Component");
 	// 服务器预定义控件
-	public static final String USER_DEFINED_WIDGETCONFIG = com.fr.design.i18n.Toolkit.i18nText("Widget-User_Defined_Widget_Config");
+	public static final String USER_DEFINED_WIDGETCONFIG = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_User_Defined_Widget_Config");
 	
 	// 服务器组合控件
 	public static final String COMB_WIDGETCONFIG = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Comb_Widget_Config");

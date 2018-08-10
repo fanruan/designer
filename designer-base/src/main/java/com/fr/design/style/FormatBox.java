@@ -69,7 +69,7 @@ public class FormatBox extends BasicPane {
 		formatBox.setEnabled(false);
 		pane.add(formatBox);
 		
-		pane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("StyleFormat-Sample") + ":"));
+		pane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_StyleFormat_Sample") + ":"));
 		pane.add(previewLabel = new UILabel(""));
 		
 		typeBox.addItemListener(typeListener);

@@ -223,7 +223,7 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
             }
 
             int returnVal = JOptionPane.showConfirmDialog(SwingUtilities.getWindowAncestor(LiteConditionPane.this),
-                    com.fr.design.i18n.Toolkit.i18nText("Utils-Are_you_sure_to_remove_the_selected_item") + "?", com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Remove"),
+                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Are_You_Sure_To_Remove_The_Selected_Item") + "?", com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Remove"),
                     JOptionPane.OK_CANCEL_OPTION);
             if (returnVal == JOptionPane.OK_OPTION) {
                 DefaultTreeModel treeModel = (DefaultTreeModel) conditionsTree.getModel();
@@ -453,12 +453,12 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
         removeButton.setEnabled(false);
         removeButton.addActionListener(actionListener3);
 
-        moveUpButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Utils-Move_Up"));
+        moveUpButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Move_Up"));
         buttonPane.add(moveUpButton);
         moveUpButton.setIcon(BaseUtils.readIcon("com/fr/design/images/control/up.png"));
         moveUpButton.addActionListener(actionListener4);
 
-        moveDownButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Utils-Move_Down"));
+        moveDownButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Move_Down"));
         buttonPane.add(moveDownButton);
         moveDownButton.setIcon(BaseUtils.readIcon("com/fr/design/images/control/down.png"));
         moveDownButton.addActionListener(actionListener5);

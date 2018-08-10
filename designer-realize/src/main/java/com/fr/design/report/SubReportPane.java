@@ -45,14 +45,14 @@ public class SubReportPane extends BasicPane {
     	this.setLayout(FRGUIPaneFactory.createM_BorderLayout());
         JPanel northPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 //        northPane.setLayout(FRGUIPaneFactory.createM_BorderLayout());
-		northPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Sub_Report", "Path"}),null));
+		northPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Sub_Report_Path"),null));
         northPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Location") + ":"), BorderLayout.WEST);
         northPane.add(pathTextField = new UITextField(), BorderLayout.CENTER);
 		pathTextField.setEditable(false);
 		UIButton browseButton = new UIButton("...");
 		northPane.add(browseButton, BorderLayout.EAST);
 		browseButton.setPreferredSize(new java.awt.Dimension(20, 20));
-		browseButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Click_this_button"));
+		browseButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Click_this_button"));
 		
 		browseButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -79,10 +79,10 @@ public class SubReportPane extends BasicPane {
 		centerPane.setLayout(FRGUIPaneFactory.createM_BorderLayout());
 		centerPane.setBorder(BorderFactory.createEmptyBorder(0, 5, 10, 5));
         kvPane = new ReportletParameterViewPane();
-        centerPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Set", "Delivery", "Parameter"}),null));
-        JPanel kcPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+		centerPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Set_Delivery_Parameter"),null));
+		JPanel kcPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         kcPane.add(kvPane);
-        extend = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Hyperlink-Extends_Report_Parameters"));
+        extend = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Find-Design_Basic_Hyperlink_Extends_Report_Parameters"));
         kcPane.add(extend, BorderLayout.SOUTH);
         centerPane.add(kcPane, BorderLayout.CENTER);
 		UITextArea description = new UITextArea(2, 1);
@@ -94,8 +94,8 @@ public class SubReportPane extends BasicPane {
     
     @Override
     protected String title4PopupWindow() {
-    	return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Insert", "Sub_Report"});
-    }
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Insert_Sub_Report");
+	}
 
     public void populate(ElementCase report, CellElement cellElment) {
     	Object cellValue = cellElment.getValue();

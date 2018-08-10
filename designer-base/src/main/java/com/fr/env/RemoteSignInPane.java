@@ -22,7 +22,7 @@ public class RemoteSignInPane extends BasicPane {
 	public void initComponent(){
 		this.setLayout(FRGUIPaneFactory.create2ColumnGridLayout());
 		
-		userLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Username")+":");
+		userLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_UserName")+":");
 		userTextField = new UITextField();
 		passLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Password")+":");
 		passwordField = new UIPassWordField();
