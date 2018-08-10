@@ -21,7 +21,7 @@ public class ExcelExportPane extends BasicPane {
 	private UITextField passwordField;
 	private UICheckBox protectedWord;
 	private UITextField protectedField;
-	
+
 	private JPanel passwordWritePane;
 	private JPanel wordPane;
 
@@ -44,7 +44,7 @@ public class ExcelExportPane extends BasicPane {
 		isExportHidenColumn = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportD_Export_Hided_Column"));
 		isExportHidenColumn.setSelected(false);
 		rowAndColumnPane.add(isExportHidenColumn);
-		
+
 		JPanel passwordPane =FRGUIPaneFactory.createNormalFlowInnerContainer_M_Pane();
 		isNeedPassword = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_IS_Need_Password"), false);
 		passwordPane.add(isNeedPassword);
@@ -67,14 +67,14 @@ public class ExcelExportPane extends BasicPane {
 			}
 
 		});
-		
-		
+
+
 		JPanel protectedWordPane =FRGUIPaneFactory.createNormalFlowInnerContainer_M_Pane();
 //		protectedWord = new UICheckBox(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Protected", "Password"}));
 		protectedWord = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Protected_Password"));
 		wordPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
 //		wordPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Sheet", "Password"}) + ":"));
-		wordPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Sheet_Password")));
+		wordPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Sheet_Password") + ":"));
 		protectedField = new UITextField(11);
 		wordPane.add(protectedField);
 		protectedWordPane.add(protectedWord);
@@ -92,7 +92,7 @@ public class ExcelExportPane extends BasicPane {
 
 		});
 	}
-	
+
 	@Override
 	protected String title4PopupWindow() {
 		return "ExcelExport";
@@ -125,7 +125,7 @@ public class ExcelExportPane extends BasicPane {
 	public ExcelExportAttr update() {
 
 		ExcelExportAttr excelExportAttr = new ExcelExportAttr();
-		
+
 		excelExportAttr.setExportHidedColumn(isExportHidenColumn.isSelected());
 		excelExportAttr.setExportHidedRow(isExportHidedRow.isSelected());
 		if (!isNeedPassword.isSelected()) {
