@@ -194,7 +194,7 @@ public class UserManagerPane extends BasicPane {
 
 
     public UserManagerPane() {
-        this.setBorder(BorderFactory.createEmptyBorder(0,4,0,4));
+        this.setBorder(BorderFactory.createEmptyBorder(0, 4, 0, 4));
         this.setLayout(new BorderLayout());
         this.add(
                 TableLayoutHelper.createCommonTableLayoutPane(
@@ -221,8 +221,8 @@ public class UserManagerPane extends BasicPane {
                 BorderFactory.createCompoundBorder(
                         new EmptyBorder(6, 0, 0, 0),
                         UITitledBorder.createBorderWithTitle(
-                                Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Decision_Member")
-                        )
+                                Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Decision_Member"),
+                                4)
                 )
         );
 
@@ -279,7 +279,9 @@ public class UserManagerPane extends BasicPane {
         content.setBorder(
                 BorderFactory.createCompoundBorder(
                         new EmptyBorder(6, 0, 0, 0),
-                        UITitledBorder.createBorderWithTitle(Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Selected_Member")
+                        UITitledBorder.createBorderWithTitle(
+                                Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Selected_Member"),
+                                4
                         )
                 )
         );

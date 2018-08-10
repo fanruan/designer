@@ -34,7 +34,7 @@ public class DesignI18nImpl implements DesignI18nProvider {
 
     @Override
     public String i18nText(String key, Object... args) {
-        String format = InterProviderFactory.getProvider().getLocText(key);
+        String format = this.i18nText(key);
         MessageFormatter.FormattingTuple tuple = MessageFormatter.arrayFormat(format, args);
         return localeManager.getLocalBundle(GeneralContext.getLocale()).getText(localeManager, tuple.getMessage());
     }
