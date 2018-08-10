@@ -56,7 +56,7 @@ public class DSColumnConditionsPane extends BasicPane {
 
             JPanel reSelectPane = GUICoreUtils.createFlowPane(pane, FlowLayout.LEFT);
             this.add(reSelectPane, BorderLayout.NORTH);
-            reSelectPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("BindColumn-The_Conditions_of_FatherCell"), null));
+            reSelectPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Bind_Column_The_Conditions_Of_Father_Cell"), null));
         }
     }
 

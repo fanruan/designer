@@ -73,11 +73,11 @@ public class DSColumnBasicPane extends BasicPane {
         }
 
         resultSetGroupPane = new ResultSetGroupPopUpPane(setting > DSColumnPane.SETTING_DSRELATED);
-        resultSetGroupPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Data_Setting"), null));
+        resultSetGroupPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Setting"), null));
 
         if (setting > DSColumnPane.SETTING_DSRELATED) {
             expandDirectionPane = new ExpandDirectionPane();
-            expandDirectionPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("ExpandD-Expand_Direction"), null));
+            expandDirectionPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ExpandD_Expand_Direction"), null));
         }
 
         double[] rowSize = {TableLayout.PREFERRED, TableLayout.PREFERRED,

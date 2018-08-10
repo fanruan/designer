@@ -146,7 +146,7 @@ public class WidgetToolBarPane extends BasicPane implements DesignToolbarProvide
             if (wo != null && wo.length > 0) {
                 this.componentsList4Form.add(new TitleLabel(com.fr.design.i18n.Toolkit.i18nText("Chart")));
                 UIButton chartButton = new UIButton(BaseUtils.readIcon("com/fr/design/images/toolbarbtn/chart.png"));
-                chartButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Click-Me"));
+                chartButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Click_Me"));
                 chartButton.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {

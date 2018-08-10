@@ -51,7 +51,7 @@ public class WebJsPane extends BasicPane {
 		this.setLayout(new BorderLayout(0, 20));
 		this.setBorder(BorderFactory.createEmptyBorder(10, 5, 0, 0));
 
-		localFileRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Disk_File") + ":", true);
+		localFileRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Disk_File") + ":", true);
 		urlFileRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Url_location")+ ":", false);
 		ButtonGroup bg = new ButtonGroup();
 		bg.add(localFileRadioButton);
@@ -125,7 +125,7 @@ public class WebJsPane extends BasicPane {
 					if (url.matches("^[a-zA-z]+://.+js")) {
 						return url;
 					} else {
-						JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(WebJsPane.this), com.fr.design.i18n.Toolkit.i18nText("Add_JS_warning"));
+						JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(WebJsPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Add_JS_warning"));
 						return "";
 					}
 				}
@@ -186,7 +186,7 @@ public class WebJsPane extends BasicPane {
 		public void actionPerformed(ActionEvent arg0) {
 			String uri = urlText.getText();
 			if (!uri.matches("^[a-zA-z]+://.+js")) {
-				JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(WebJsPane.this), com.fr.design.i18n.Toolkit.i18nText("Add_JS_warning"));
+				JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(WebJsPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Add_JS_warning"));
 				return;
 			}
 			InputStream in = null;

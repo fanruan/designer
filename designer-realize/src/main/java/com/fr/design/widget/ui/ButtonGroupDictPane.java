@@ -47,7 +47,7 @@ public class ButtonGroupDictPane extends JPanel {
 				columnLabel.setVisible(!adaptiveCheckbox.isSelected());
 			}
 		});
-		this.columnLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Button-Group-Display-Columns") + ":");
+		this.columnLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Button_Group_Display_Columns") + ":");
 		columnSpinner = new UIBasicSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1));
 
 		double f = TableLayout.FILL;

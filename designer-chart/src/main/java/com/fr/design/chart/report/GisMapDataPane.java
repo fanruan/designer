@@ -130,7 +130,7 @@ public class GisMapDataPane extends DataContentsPane{
 
 					@Override
 					protected String title4PopupWindow() {
-						return com.fr.design.i18n.Toolkit.i18nText("Data_Setting");
+						return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Setting");
 					}
 				}, BorderLayout.CENTER);
 

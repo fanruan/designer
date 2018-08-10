@@ -292,10 +292,10 @@ public class UIToolbarBorderButton extends UICombinationButton implements PopupH
 			new CellBorderStyle(Color.black, Constants.LINE_THICK, Color.black, Constants.LINE_THICK, Color.black, Constants.LINE_THICK, Color.black,
 					Constants.LINE_THICK, Color.black, Constants.LINE_NONE, Color.black, Constants.LINE_NONE) };
 	private static final String[] BorderStyleTooltips = { com.fr.design.i18n.Toolkit.i18nText("NO_Border_Line"), com.fr.design.i18n.Toolkit.i18nText("Bottom_Border_Line"),
-			com.fr.design.i18n.Toolkit.i18nText("Left_Border_Line"), com.fr.design.i18n.Toolkit.i18nText("Right_Border_Line"), com.fr.design.i18n.Toolkit.i18nText("Double_Bottom_BorderLine"),
+			com.fr.design.i18n.Toolkit.i18nText("Left_Border_Line"), com.fr.design.i18n.Toolkit.i18nText("Right_Border_Line"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Double_Bottom_BorderLine"),
 			com.fr.design.i18n.Toolkit.i18nText("Thick_Bottom_Border_Line"), com.fr.design.i18n.Toolkit.i18nText("Top_Bottom_Border_Line"),
 			com.fr.design.i18n.Toolkit.i18nText("Top_And_Double_Bottom_Border_Line"), com.fr.design.i18n.Toolkit.i18nText("Top_And_Thick_Bottom_Border_Line"),
-			com.fr.design.i18n.Toolkit.i18nText("All_Border_Line"), com.fr.design.i18n.Toolkit.i18nText("Out_Border_Line"), com.fr.design.i18n.Toolkit.i18nText("Out_Thick_Border_Line") };
+			com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_All_Border_Line"), com.fr.design.i18n.Toolkit.i18nText("Out_Border_Line"), com.fr.design.i18n.Toolkit.i18nText("Out_Thick_Border_Line") };
 
 	@Override
 	public void hidePopupMenu() {

@@ -10,7 +10,7 @@ public class FRBorderConstraintsItems implements ItemProvider {
 
 	public FRBorderConstraintsItems(String[] directions) {
 		Item[] item = createItems(directions);
-		VALUE_ITEMS = (Item[]) ArrayUtils.add(item, new Item(com.fr.design.i18n.Toolkit.i18nText("BorderLayout-Center"),
+		VALUE_ITEMS = (Item[]) ArrayUtils.add(item, new Item(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_BorderLayout_Center"),
 				WBorderLayout.CENTER));
 	}
 	
@@ -23,13 +23,13 @@ public class FRBorderConstraintsItems implements ItemProvider {
 		Item[] items = new Item[directions.length];
 		for (int i = 0; i < directions.length; i++) {
 			if (WBorderLayout.NORTH == directions[i]) {
-				items[i] = new Item(com.fr.design.i18n.Toolkit.i18nText("BorderLayout-North"), WBorderLayout.NORTH);
+				items[i] = new Item(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_BorderLayout_North"), WBorderLayout.NORTH);
 			} else if (WBorderLayout.SOUTH == directions[i]) {
-				items[i] = new Item(com.fr.design.i18n.Toolkit.i18nText("BorderLayout-South"), WBorderLayout.SOUTH);
+				items[i] = new Item(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_BorderLayout_South"), WBorderLayout.SOUTH);
 			} else if (WBorderLayout.WEST == directions[i]) {
-				items[i] = new Item(com.fr.design.i18n.Toolkit.i18nText("BorderLayout-West"), WBorderLayout.WEST);
+				items[i] = new Item(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_BorderLayout_West"), WBorderLayout.WEST);
 			} else if (WBorderLayout.EAST == directions[i]) {
-				items[i] = new Item(com.fr.design.i18n.Toolkit.i18nText("BorderLayout-East"), WBorderLayout.EAST);
+				items[i] = new Item(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_BorderLayout_East"), WBorderLayout.EAST);
 			}
 		}
 		return items;

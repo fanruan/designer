@@ -100,7 +100,7 @@ public class CellElementPropertyPane extends DockingView {
         cellElementEditPane = new CellElementEditPane();
         cellElementEditPane.addTitleChangeListner(titleListener);
         titlePane = new JPanel(new BorderLayout());
-        title = new UILabel(this.getViewTitle() + '-' + com.fr.design.i18n.Toolkit.i18nText("ExpandD-Expand_Attribute")) {
+        title = new UILabel(this.getViewTitle() + '-' + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ExpandD_Expand_Attribute")) {
             private static final long serialVersionUID = 1L;
 
             @Override

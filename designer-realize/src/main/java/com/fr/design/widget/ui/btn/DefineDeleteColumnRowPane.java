@@ -35,7 +35,7 @@ public class DefineDeleteColumnRowPane extends BasicPane {
 		double rowSize[] = { p, p};
 		double columnSize[] = { p, f};
 		crEditor = new ColumnRowEditor();
-		UILabel messageLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Append_Delete_Row_Message"));
+		UILabel messageLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Append_Delete_Row_Message"));
 		messageLabel.setForeground(new Color(0x8F8F92));
 		Component[][] components = {
 				{ new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Specify", "Cell"})), crEditor },

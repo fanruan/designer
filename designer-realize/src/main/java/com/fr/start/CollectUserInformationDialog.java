@@ -157,7 +157,7 @@ public class CollectUserInformationDialog extends UIDialog {
         JPanel buttonsPane = FRGUIPaneFactory.createRightFlowInnerContainer_S_Pane();
         controlPane.add(buttonsPane, BorderLayout.EAST);
 
-        UIButton finishButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Collect-Use_Designer"));
+        UIButton finishButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Collect_Use_Designer"));
         finishButton.setMnemonic('F');
         buttonsPane.add(finishButton);
         finishButton.addActionListener(verifyActionListener);

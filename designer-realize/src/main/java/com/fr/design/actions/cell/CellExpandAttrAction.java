@@ -18,7 +18,7 @@ public class CellExpandAttrAction extends  CellAttributeTableAction{
 
 	@Override
 	public String getID() {
-		return com.fr.design.i18n.Toolkit.i18nText("ExpandD-Expand_Attribute");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ExpandD_Expand_Attribute");
 	}
 
 }
