@@ -253,7 +253,7 @@ class TipWindow extends JWindow implements ActionListener {
 		}
 		else {
 			panel.setOpaque(false);
-			JLabel label = new JLabel(FocusableTip.getString("Fine-Design_Basic_ Focus_Hotkey"));
+			JLabel label = new JLabel(FocusableTip.getString("Fine-Design_Basic_Focus_Hotkey"));
 			Color fg = UIManager.getColor("Label.disabledForeground");
 			Font font = textArea.getFont();
 			font = font.deriveFont(font.getSize2D() - 1.0f);

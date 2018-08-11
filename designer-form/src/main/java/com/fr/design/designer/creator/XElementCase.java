@@ -102,7 +102,7 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 						.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Layout_Padding"))
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 				new CRPropertyDescriptor("toolBars", this.data.getClass()).setEditorClass(ElementCaseToolBarEditor.class)
-						.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_ EC_Toolbar"))
+						.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_EC_Toolbar"))
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
 		};
 		CRPropertyDescriptor[] extraTableEditor = getExtraTableEditor();

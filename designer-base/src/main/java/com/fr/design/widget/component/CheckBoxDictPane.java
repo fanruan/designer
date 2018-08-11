@@ -35,7 +35,7 @@ public class CheckBoxDictPane extends JPanel {
 		endComboBox = new DictionaryComboBox(DictionaryConstants.symbols, DictionaryConstants.symbolDisplays);
 		endComboBox.setEditable(true);
 		Component[][] components = new Component[][]{
-				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_ Delimiter")), delimiterComboBox},
+				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Delimiter")), delimiterComboBox},
 				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Combo_CheckBox_Start_Symbol")),startComboBox},
 				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Combo_CheckBox_End_Symbol")),endComboBox}
 		};

@@ -36,7 +36,7 @@ public class ElementEditorDefinePane extends WTitleLayoutDefinePane<ElementCaseE
         elementCaseToolBarEditor = new AccessibleElementCaseToolBarEditor();
         Component[][] components = new Component[][]{
                 new Component[]{paddingBoundPane, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_ EC_Toolbar")), elementCaseToolBarEditor},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_EC_Toolbar")), elementCaseToolBarEditor},
         };
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W0, IntervalConstants.INTERVAL_L1);
         panel.setBorder(BorderFactory.createEmptyBorder(5, 0, 10, 0));
