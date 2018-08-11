@@ -102,7 +102,7 @@ public class VanChartHyperLinkPane extends VanChartUIListControlPane {
      * @return 返回标题字符串.
      */
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Hyperlink");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Hyperlink");
     }
 
     @Override

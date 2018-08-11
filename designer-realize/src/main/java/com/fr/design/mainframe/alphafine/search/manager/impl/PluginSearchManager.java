@@ -99,7 +99,7 @@ public class PluginSearchManager implements AlphaFineSearchProvider {
         this.lessModelList = new SearchResult();
         this.moreModelList = new SearchResult();
         if (StringUtils.isBlank(searchText)) {
-            lessModelList.add(new MoreModel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Addon")));
+            lessModelList.add(new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Plugin_Addon")));
             return lessModelList;
         }
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainPlugin()) {
@@ -128,10 +128,10 @@ public class PluginSearchManager implements AlphaFineSearchProvider {
                     if (searchResult.isEmpty()) {
                         return this.lessModelList;
                     } else if (searchResult.size() < AlphaFineConstants.SHOW_SIZE + 1) {
-                        lessModelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Addon")));
+                        lessModelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Plugin_Addon")));
                         lessModelList.addAll(searchResult);
                     } else {
-                        lessModelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Addon"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_ShowAll"), true, CellType.PLUGIN));
+                        lessModelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Plugin_Addon"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_ShowAll"), true, CellType.PLUGIN));
                         lessModelList.addAll(searchResult.subList(0, AlphaFineConstants.SHOW_SIZE));
                         moreModelList.addAll(searchResult.subList(AlphaFineConstants.SHOW_SIZE, searchResult.size()));
                     }
@@ -147,7 +147,7 @@ public class PluginSearchManager implements AlphaFineSearchProvider {
 
     private SearchResult getNoConnectList() {
         SearchResult result = new SearchResult();
-        result.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Addon")));
+        result.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Plugin_Addon")));
         result.add(AlphaFineHelper.NO_CONNECTION_MODEL);
         return result;
     }

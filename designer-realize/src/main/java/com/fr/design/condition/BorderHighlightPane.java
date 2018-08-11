@@ -47,14 +47,14 @@ public class BorderHighlightPane extends ConditionAttrSingleConditionPane<Highli
             }
         });
 
-        UILabel borderLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Border") + ":");
+        UILabel borderLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Border") + ":");
         this.add(borderLabel);
         this.add(borderButton);
     }
 
     @Override
     public String nameForPopupMenuItem() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Border");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Border");
     }
 
 

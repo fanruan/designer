@@ -42,7 +42,7 @@ public class PolyBlockProperPane extends DockingView {
 
 	@Override
 	public String getViewTitle() {
-		return com.fr.design.i18n.Toolkit.i18nText("Form-Widget_Property_Table");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Property_Table");
 	}
 
 	@Override

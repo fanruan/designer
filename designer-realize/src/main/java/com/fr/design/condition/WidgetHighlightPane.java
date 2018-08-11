@@ -74,9 +74,9 @@ public class WidgetHighlightPane extends ConditionAttrSingleConditionPane<Highli
                 com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Date"),
                 com.fr.design.i18n.Toolkit.i18nText("FR-Designer_File"),
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_List"),
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form-Iframe"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_Iframe"),
                 com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tree-ComboBox"),
-                com.fr.design.i18n.Toolkit.i18nText("Form-View_Tree")
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_View_Tree")
         };
         box = new UIComboBox(editorTypes);
         this.add(box);
@@ -120,7 +120,7 @@ public class WidgetHighlightPane extends ConditionAttrSingleConditionPane<Highli
         } else if (value instanceof NumberEditor) {
             box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Number"));
         } else if (value instanceof IframeEditor) {
-            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form-Iframe"));
+            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_Iframe"));
         } else if (value instanceof FreeButton) {
             box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_Button"));
         } else if (value instanceof DateEditor) {
@@ -138,7 +138,7 @@ public class WidgetHighlightPane extends ConditionAttrSingleConditionPane<Highli
         } else if (value instanceof TreeComboBoxEditor) {
             box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tree-ComboBox"));
         } else if (value instanceof TreeEditor) {
-            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Form-View_Tree"));
+            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_View_Tree"));
         } else if (value instanceof Password) {
             box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_Password"));
         } else if (value instanceof TextArea) {

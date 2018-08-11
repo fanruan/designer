@@ -88,9 +88,9 @@ public class AlphaFineConfigPane extends BasicPane {
         double[] columnSize = {COLUMN_GAP, COLUMN_GAP, COLUMN_GAP};
 
         JPanel northPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_AlphaFine_Search_Range"));
-        isContainRecommendCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_AlphaFine_Recommend"));
+        isContainRecommendCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_AlphaFine_Recommend"));
         isContainActionCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Set"));
-        isContainPluginCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Addon"));
+        isContainPluginCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Plugin_Addon"));
         isContainDocumentCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_COMMUNITY_HELP"));
         isContainTemplateCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Templates"));
         isContainFileContentCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Templates_Content"));
@@ -162,7 +162,7 @@ public class AlphaFineConfigPane extends BasicPane {
     }
 
     private void createOpenPane(JPanel contentPane) {
-        JPanel northPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_AlphaFine_Enable"));
+        JPanel northPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_AlphaFine_Enable"));
         isEnabledCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_AlphaFine_Enable_AlphaFine"));
         northPane.add(isEnabledCheckbox);
         contentPane.add(northPane);

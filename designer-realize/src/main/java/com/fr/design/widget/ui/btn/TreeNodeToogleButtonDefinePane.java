@@ -34,7 +34,7 @@ public class TreeNodeToogleButtonDefinePane<T extends TreeNodeToggleButton> exte
         double rowSize[] = {p};
         double columnSize[] = {p, f};
         Component[][] n_components = {
-                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Button-Type")), createButtonTypeComboBox()},
+                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Button_Type")), createButtonTypeComboBox()},
         };
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(n_components, rowSize, columnSize, IntervalConstants.INTERVAL_L2, 8);
         JPanel borderPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();

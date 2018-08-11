@@ -22,7 +22,7 @@ public class ForeGroundPane extends ConditionAttrSingleConditionPane<HighlightAc
 
     public ForeGroundPane(ConditionAttributesPane conditionAttributesPane) {
         super(conditionAttributesPane);
-        foregroundLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Foreground") + ":");
+        foregroundLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Foreground") + ":");
         this.foregroundColorPane = new ColorSelectBox(80);
         this.add(foregroundLabel);
         this.add(this.foregroundColorPane);
@@ -36,7 +36,7 @@ public class ForeGroundPane extends ConditionAttrSingleConditionPane<HighlightAc
 
     @Override
     public String nameForPopupMenuItem() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Foreground");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Foreground");
     }
 
     @Override

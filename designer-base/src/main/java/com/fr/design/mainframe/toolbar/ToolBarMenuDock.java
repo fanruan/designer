@@ -496,7 +496,7 @@ public abstract class ToolBarMenuDock {
     }
 
     public MenuDef createHelpMenuDef() {
-        MenuDef menuDef = new MenuDef(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Help"), 'H');
+        MenuDef menuDef = new MenuDef(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Help"), 'H');
         ShortCut[] otherHelpShortCuts = createHelpShortCuts();
         for (ShortCut shortCut : otherHelpShortCuts) {
             menuDef.addShortCut(shortCut);

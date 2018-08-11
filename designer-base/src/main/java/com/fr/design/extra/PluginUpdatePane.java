@@ -136,7 +136,7 @@ public class PluginUpdatePane extends PluginAbstractLoadingViewPane<List<PluginV
      */
     public void loadOnSuccess(List<PluginView> plugins) {
         controlPane.loadPlugins(plugins);
-        tabbedPane.setTitleAt(1, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Update") + "(" + plugins.size() + ")");
+        tabbedPane.setTitleAt(1, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Update") + "(" + plugins.size() + ")");
     }
 
     /**

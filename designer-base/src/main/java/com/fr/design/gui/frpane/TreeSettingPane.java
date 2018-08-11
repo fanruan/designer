@@ -99,7 +99,7 @@ public class TreeSettingPane extends BasicPane implements DataCreatorUI {
 
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Create_Tree");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Create_Tree");
 	}
 
 	@Override
@@ -108,7 +108,7 @@ public class TreeSettingPane extends BasicPane implements DataCreatorUI {
 	}
 
 	NameableCreator treeNode = new NameObjectCreator(
-		com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Gradation"),
+		com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Gradation"),
 		"/com/fr/design/images/data/source/jdbcTableData.png",
 		TreeNodeAttr.class);
 

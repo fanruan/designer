@@ -695,7 +695,7 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
                 if (DesignerMode.isAuthorityEditing() && !openedTemplate.get(selectedIndex).isJWorkBook()) {
                     DesignerContext.getDesignerFrame().addAndActivateJTemplate(openedTemplate.get(tempSelectedIndex));
                     JOptionPane.showMessageDialog(this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Form_Authority_Edited_Cannot_Be_Supported")
-                            + "!", com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Alert"), JOptionPane.WARNING_MESSAGE);
+                            + "!", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Alert"), JOptionPane.WARNING_MESSAGE);
                     this.repaint();
                     return;
                 }

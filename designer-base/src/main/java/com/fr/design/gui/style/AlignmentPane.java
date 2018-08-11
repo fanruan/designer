@@ -181,8 +181,8 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
     }
 
     private void initAllNames() {
-        hAlignmentPane.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Pane_Horizontal"));
-        vAlignmentPane.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Pane_Vertical"));
+        hAlignmentPane.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Pane_Horizontal"));
+        vAlignmentPane.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Pane_Vertical"));
         imageLayoutComboBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Image_Layout"));
         textComboBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Text_Style"));
         textRotationComboBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_StyleAlignment_Text_Rotation"));
@@ -199,7 +199,7 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
         basicPane = new JPanel();
         seniorPane = new JPanel();
         basicPane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Basic"), 290, 24, basicPane());
-        seniorPane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Advanced"), 290, 24, seniorPane());
+        seniorPane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Advanced"), 290, 24, seniorPane());
 
         jp1.add(basicPane, BorderLayout.NORTH);
         jp1.add(seniorPane, BorderLayout.CENTER);
@@ -212,9 +212,9 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Pane_Horizontal") + "   ", SwingConstants.LEFT), hPaneContainer},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Pane_Horizontal") + "   ", SwingConstants.LEFT), hPaneContainer},
                 new Component[]{null, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Pane_Vertical") + "   ", SwingConstants.RIGHT), vPaneContainer},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Pane_Vertical") + "   ", SwingConstants.RIGHT), vPaneContainer},
                 new Component[]{null, null}
         };
         double[] rowSize = {p, p, p, p, p, p};
@@ -269,7 +269,7 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
         Component[][] components = new Component[][]{
                 new Component[]{null, null, null},
                 new Component[]{indentationPane, creatSpinnerPane(leftIndentSpinner), creatSpinnerPane(rightIndentSpinner)},
-                new Component[]{null, new UILabel((com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Left")), SwingConstants.CENTER), new UILabel((com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Right")), SwingConstants.CENTER)},
+                new Component[]{null, new UILabel((com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Left")), SwingConstants.CENTER), new UILabel((com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Right")), SwingConstants.CENTER)},
                 new Component[]{null, null, null},
                 new Component[]{null, null, null},
                 new Component[]{partSpacingPane, creatSpinnerPane(spaceBeforeSpinner), creatSpinnerPane(spaceAfterSpinner)},
@@ -358,11 +358,11 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
             return style;
         }
 
-        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Pane_Horizontal"))) {
+        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Pane_Horizontal"))) {
             Integer h = this.hAlignmentPane.getSelectedItem();
             style = style.deriveHorizontalAlignment(h == null ? -1 : h);
         }
-        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Pane_Vertical"))) {
+        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Pane_Vertical"))) {
             Integer vAlign = this.vAlignmentPane.getSelectedItem();
             if (vAlign != null) {
                 style = style.deriveVerticalAlignment(vAlign);

@@ -238,7 +238,7 @@ public class DoubleDeckValueEditorPane extends BasicPane implements UIObserver, 
         Object columnIndex = currentEditor.getValue();
         Object columnName = StringUtils.EMPTY;
 
-        if (ComparatorUtils.equals(name, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Formula"))) {
+        if (ComparatorUtils.equals(name, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Formula"))) {
             columnIndex = BaseFormula.createFormulaBuilder().build(columnIndex == null ? "" : columnIndex.toString());
         }
 
@@ -254,7 +254,7 @@ public class DoubleDeckValueEditorPane extends BasicPane implements UIObserver, 
         Object columnIndex = currentEditor.getValue();
         Object columnName = StringUtils.EMPTY;
 
-        if (ComparatorUtils.equals(name, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Formula"))) {
+        if (ComparatorUtils.equals(name, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Formula"))) {
             columnIndex = BaseFormula.createFormulaBuilder().build(columnIndex == null ? "" : columnIndex.toString());
         }
 

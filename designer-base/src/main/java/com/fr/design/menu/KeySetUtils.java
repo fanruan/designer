@@ -64,7 +64,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Close");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Close");
         }
 
         @Override
@@ -149,7 +149,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Export");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Export");
         }
 
         @Override
@@ -708,7 +708,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Expand");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Expand");
         }
 
         @Override

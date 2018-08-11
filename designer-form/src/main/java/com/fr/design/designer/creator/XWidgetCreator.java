@@ -172,7 +172,7 @@ public abstract class XWidgetCreator extends XCreator {
      */
     public void ChangeCreatorName(FormDesigner designer, XCreator creator) {
         String oldName = creator.toData().getWidgetName();
-        String value = JOptionPane.showInputDialog(designer, com.fr.design.i18n.Toolkit.i18nText("Form-Change_Widget_Name_Discription"), oldName);
+        String value = JOptionPane.showInputDialog(designer, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Change_Widget_Name_Discription"), oldName);
         if (value != null) {
             designer.renameCreator(creator, value);
         }

@@ -40,7 +40,7 @@ public class PageToolBarPane extends AbstractEditToolBarPane {
 	private EventPane eventPane;
 	
 	private UILabel showLocationLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Show_Location") + ":");
-	private UILabel showListenersLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Form-Editing_Listeners") + ":");
+	private UILabel showListenersLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Editing_Listeners") + ":");
  	
 	private UIButton editToolBarButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit"));
 	

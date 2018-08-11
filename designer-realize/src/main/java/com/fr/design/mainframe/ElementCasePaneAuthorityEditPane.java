@@ -868,11 +868,11 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
         Component[][] components = new Component[hyperlinkCheckBoxes.length + 1][];
         if (linkGroup.size() == 1) {
             components[0] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cell"), SwingConstants.LEFT), cellElementVisibleCheckBoxes};
-            components[1] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Hyperlink"), SwingConstants.LEFT), hyperlinkCheckBoxes[0] = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Visible"))};
+            components[1] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Hyperlink"), SwingConstants.LEFT), hyperlinkCheckBoxes[0] = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Visible"))};
 
         } else {
             components[0] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cell"), SwingConstants.LEFT), cellElementVisibleCheckBoxes = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Visible"))};
-            components[1] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Hyperlink"), SwingConstants.LEFT), hyperlinkCheckBoxes[0] = new UICheckBox(linkGroup.getNameHyperlink(0).getName() + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Visible"))};
+            components[1] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Hyperlink"), SwingConstants.LEFT), hyperlinkCheckBoxes[0] = new UICheckBox(linkGroup.getNameHyperlink(0).getName() + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Visible"))};
             for (int i = 1; i < hyperlinkCheckBoxes.length; i++) {
                 components[i + 1] = new Component[]{null, hyperlinkCheckBoxes[i] = new UICheckBox(linkGroup.getNameHyperlink(i).getName() + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Visible"))};
             }
@@ -899,7 +899,7 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[2][];
         components[0] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cell"), SwingConstants.LEFT), cellElementVisibleCheckBoxes};
-        components[1] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Hyperlink"), SwingConstants.LEFT), hyperlinkCheckBoxes[0] = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Visible"))};
+        components[1] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Hyperlink"), SwingConstants.LEFT), hyperlinkCheckBoxes[0] = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Visible"))};
         hyperlinkCheckBoxes[0].setEnabled(cellElementVisibleCheckBoxes.isSelected());
         addHyperlinkListener();
         double[] rowSize = {p, p};

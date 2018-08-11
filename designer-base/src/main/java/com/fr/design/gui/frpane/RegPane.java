@@ -76,7 +76,7 @@ public class RegPane extends BasicPane {
         regComboBox.setRenderer(listCellRender);
 
         JPanel contentPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Input_Rule")), regComboBox}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Input_Rule")), regComboBox}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
         JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
 
         jPanel.add(contentPane, BorderLayout.NORTH);
@@ -119,7 +119,7 @@ public class RegPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Input_Rule");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Input_Rule");
     }
 
     private int getRegTypeIndex(RegExp regex) {
@@ -330,7 +330,7 @@ public class RegPane extends BasicPane {
         private static final String REG_PATTERN = "0123456789-*# ";
 
         private UIComboBox dataTypeComboBox;
-        private final String[] dataType = {EMB_REG1, EMB_REG2, EMB_REG3, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Custom")};
+        private final String[] dataType = {EMB_REG1, EMB_REG2, EMB_REG3, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom")};
         DefaultComboBoxModel DefaultComboBoxModel= new DefaultComboBoxModel(dataType);
         public RegPhonePane() {
             this.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L6, IntervalConstants.INTERVAL_L5, 0, 0));
@@ -504,7 +504,7 @@ public class RegPane extends BasicPane {
             } else if (value instanceof PostCardReg){
                 this.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Post_Code"));
             } else if (value instanceof CustomReg){
-                this.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Custom"));
+                this.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom"));
             }
             return this;
         }

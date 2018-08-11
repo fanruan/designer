@@ -301,7 +301,7 @@ public class EditToolBar extends BasicPane {
 
 	public class RemoveAction extends UpdateAction {
 		public RemoveAction() {
-			this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Delete"));
+			this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Delete"));
 			this.setSmallIcon(BaseUtils.readIcon("/com/fr/base/images/cell/control/remove.png"));
 		}
 
