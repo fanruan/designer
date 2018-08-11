@@ -75,7 +75,7 @@ public abstract class DirectWriteEditorDefinePane<T extends DirectWriteEditor> e
 	}
 
 	public  JPanel setValidatePane(){
-        directWriteCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Form-Allow_Edit"), false);
+        directWriteCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_ Allow_Edit"), false);
 		directWriteCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         JPanel otherContentPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_S_Pane();
         otherContentPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));

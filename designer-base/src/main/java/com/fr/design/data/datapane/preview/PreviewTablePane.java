@@ -265,7 +265,7 @@ public class PreviewTablePane extends BasicPane {
      */
     public static EmbeddedTableData previewTableData(TableData tableData, final int keyIndex, final int valueIndex) {
         PreviewTablePane previewTablePane = new PreviewTablePane();
-        previewTablePane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Data")));
+        previewTablePane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Data")));
         try {
             previewTablePane.populate(tableData);
             previewTablePane.resetPreviewTableColumnColor();
@@ -301,7 +301,7 @@ public class PreviewTablePane extends BasicPane {
             return;
         }
         FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
-        JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), columnErrMessage, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Error"), JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), columnErrMessage, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Error"), JOptionPane.ERROR_MESSAGE);
     }
 
     private void populate(TableData tableData) throws Exception {
@@ -420,7 +420,7 @@ public class PreviewTablePane extends BasicPane {
     public static void previewStoreData(final ProcedureDataModel storeProcedureDataModel, final int keyIndex, final int valueIndex) {
         final PreviewTablePane previewTablePane = new PreviewTablePane();
         previewTablePane.storeProcedureDataModel = storeProcedureDataModel;
-        previewTablePane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Data")));
+        previewTablePane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Data")));
 
         try {
             previewTablePane.populateStoreDataSQL();
@@ -451,7 +451,7 @@ public class PreviewTablePane extends BasicPane {
         for (int i = 0; i < tableSize; i++) {
             PreviewTablePane previewTablePane = new PreviewTablePane();
             previewTablePane.storeProcedureDataModel = storeProcedureDataModels[i];
-            previewTablePane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Data")));
+            previewTablePane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Data")));
             try {
                 previewTablePane.populateStoreDataSQL();
             } catch (Exception e) {

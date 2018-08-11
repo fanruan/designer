@@ -164,7 +164,7 @@ public class CellExpandAttrPane extends AbstractCellAttrPane {
     @Override
     public String getIconPath() {
 //		return "com/fr/design/images/expand/cellAttr.gif";
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Expand");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Expand");
     }
 
 

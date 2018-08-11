@@ -70,7 +70,7 @@ public class ImageBackgroundPane extends BackgroundDetailPane {
         selectFilePane.setBorder(BorderFactory.createEmptyBorder(8, 2, 4, 0));
 
         UIButton selectPictureButton = new UIButton(
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background_Image_Select"));
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Image_Select"));
         selectFilePane.add(selectPictureButton, BorderLayout.NORTH);
         selectPictureButton.setMnemonic('S');
         selectPictureButton.addActionListener(selectPictureActionListener);

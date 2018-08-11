@@ -65,7 +65,7 @@ public class HyperlinkPane extends ConditionAttrSingleConditionPane<HighlightAct
 
     @Override
     public String nameForPopupMenuItem() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Hyperlink");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Hyperlink");
     }
 
     @Override

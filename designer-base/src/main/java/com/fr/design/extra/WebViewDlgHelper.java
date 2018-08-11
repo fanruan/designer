@@ -249,7 +249,7 @@ public class WebViewDlgHelper {
         UITabbedPane tabbedPane = new UITabbedPane();
         PluginInstalledPane installedPane = new PluginInstalledPane();
         tabbedPane.addTab(installedPane.tabTitle(), installedPane);
-        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Update"), new PluginUpdatePane(tabbedPane));
+        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Update"), new PluginUpdatePane(tabbedPane));
         tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_All_Plugins"), new PluginFromStorePane(tabbedPane));
         return tabbedPane;
     }

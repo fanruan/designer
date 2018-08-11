@@ -139,7 +139,7 @@ public class EmailPane extends FurtherBasicBeanPane<EmailJavaScript> {
      * @return 标题字串
      */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Email_sentEmail");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Email_Sent_Email");
 	}
 
     /**

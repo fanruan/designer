@@ -109,7 +109,7 @@ public class TableDataDictPane extends FurtherBasicBeanPane<TableDataDictionary>
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DS_Table_Data") + "  ", UILabel.LEFT), firstLine},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Actual_Value") + "  ", UILabel.LEFT), keyColumnPane},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Display_Value") + "  ", UILabel.LEFT), valueDictPane},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Display_Value") + "  ", UILabel.LEFT), valueDictPane},
         };
 
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, VGAP, LayoutConstants.VGAP_MEDIUM);

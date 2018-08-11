@@ -120,7 +120,7 @@ public class ClassTableDataPane extends AbstractTableDataPane<ClassTableData> {
 
     public class AddParaAction extends UITableEditAction {
         public AddParaAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Add"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Add"));
             this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/buttonicon/add.png"));
         }
 

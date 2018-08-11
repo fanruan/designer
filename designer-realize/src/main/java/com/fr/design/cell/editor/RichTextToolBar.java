@@ -182,13 +182,13 @@ public class RichTextToolBar extends BasicPane{
     }
 
     private void setToolTips() {
-        colorSelectPane.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Foreground"));
+        colorSelectPane.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Foreground"));
         italic.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Italic"));
         bold.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Bold"));
         underline.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Underline"));
         superPane.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Super_Script"));
         subPane.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Sub_Script"));
-        formulaPane.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Formula"));
+        formulaPane.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Formula"));
     }
     
     /**

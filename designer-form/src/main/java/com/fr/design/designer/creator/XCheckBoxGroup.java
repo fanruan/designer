@@ -56,7 +56,7 @@ public class XCheckBoxGroup extends XFieldEditor {
 		if (((CheckBoxGroup) this.toData()).isReturnString()) {
 			crp = (CRPropertyDescriptor[]) ArrayUtils.addAll(crp, new CRPropertyDescriptor[] {
 					new CRPropertyDescriptor("delimiter", this.data.getClass()).setI18NName(
-							com.fr.design.i18n.Toolkit.i18nText("Form-Delimiter")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+							com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_ Delimiter")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 					new CRPropertyDescriptor("startSymbol", this.data.getClass()).setI18NName(
 							com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Combo_CheckBox_Start_Symbol")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 					new CRPropertyDescriptor("endSymbol", this.data.getClass()).setI18NName(

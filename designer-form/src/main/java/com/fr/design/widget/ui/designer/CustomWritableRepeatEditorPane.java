@@ -24,7 +24,7 @@ public abstract class CustomWritableRepeatEditorPane<T extends CustomWriteAbleRe
 
 
 	public  JPanel setValidatePane(){
-		this.customDataCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Form-Allow_CustomData"), false);
+		this.customDataCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_ Allow_Custom_Data"), false);
 		this.customDataCheckBox.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
 		JPanel otherContentPane = super.setValidatePane();
 		otherContentPane.add(GUICoreUtils.createFlowPane(new JComponent[]{customDataCheckBox}, FlowLayout.LEFT, 0));

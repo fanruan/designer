@@ -447,7 +447,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             hintsLabel.setForeground(Color.RED);
             hintsLabel.setVisible(false);
 
-            confirmButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Confirm"));
+            confirmButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Confirm"));
             confirmButton.setPreferredSize(new Dimension(80, 25));
             confirmButton.setMinimumSize(new Dimension(80, 25));
             confirmButton.setMaximumSize(new Dimension(80, 25));

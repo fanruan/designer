@@ -82,12 +82,12 @@ public abstract class HyperlinkGroupPane extends UIListControlPane {
      */
     @Override
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Hyperlink");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Hyperlink");
     }
 
     @Override
     protected String getAddItemText() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Add_Hyperlink");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Add_Hyperlink");
     }
 
     public void populate(NameJavaScriptGroup hyperlinkArray) {

@@ -34,7 +34,7 @@ public class MultiSelectionBoundsModel implements ConstraintsGroupModel {
 
 	@Override
 	public String getGroupName() {
-		return com.fr.design.i18n.Toolkit.i18nText("Form-Component_Bounds");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_ Component_Bounds");
 	}
 
 	@Override

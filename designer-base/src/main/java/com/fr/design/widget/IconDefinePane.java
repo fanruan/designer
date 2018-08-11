@@ -53,7 +53,7 @@ public class IconDefinePane extends BasicPane {
             }
         });
 
-        removeIconButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Delete"));
+        removeIconButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Delete"));
         iconButtonPane.add(removeIconButton);
         removeIconButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {

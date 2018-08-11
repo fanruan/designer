@@ -1157,7 +1157,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
 
             public CustomValuePane() {
                 this.setLayout(new BorderLayout());
-                UILabel customValueLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Display_Value"));
+                UILabel customValueLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Display_Value"));
                 customValueLabel.setPreferredSize(LABEL_DIMENSION);
                 formulaField = new JFormulaField(DEFAULT_VALUE);
                 this.add(TableLayoutHelper.createGapTableLayoutPane(new Component[][]{

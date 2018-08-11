@@ -46,9 +46,9 @@ public class ButtonSytleDefinedPane extends BasicPane {
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 1},{1, 1},{1, 1}};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background-Initial")), initBackgroundPane},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background-Over")), overBackgroundPane},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background-Click")), clickBackgroundPane},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Background_Initial")), initBackgroundPane},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Background_Over")), overBackgroundPane},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Background_Click")), clickBackgroundPane},
         };
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 7, 7);
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));

@@ -72,7 +72,7 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
 
     @Override
     public String getViewTitle() {
-        return com.fr.design.i18n.Toolkit.i18nText("Form-Widget_Property_Table");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Property_Table");
     }
 
     @Override
@@ -219,13 +219,13 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
     private void initTabPane() {
         final String[] tabTitles = new String[]{
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Properties"),
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Event"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Event"),
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Widget_Mobile_Terminal")
         };
         final CardLayout tabbedPane =  new CardLayout();
         final JPanel center = new JPanel(tabbedPane);
         center.add(formWidgetCardPane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Properties"));
-        center.add(eventTable, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Event"));
+        center.add(eventTable, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Event"));
         center.add(wsp, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Widget_Mobile_Terminal"));
         this.add(center, BorderLayout.CENTER);
 

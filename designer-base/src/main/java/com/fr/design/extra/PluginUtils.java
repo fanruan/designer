@@ -104,7 +104,7 @@ public class PluginUtils {
             writer.flush();
             writer.close();
         } else {
-            throw new com.fr.plugin.PluginVerifyException(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Connect_Server_Error"));
+            throw new com.fr.plugin.PluginVerifyException(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Connect_Server_Error"));
         }
     }
 

@@ -53,7 +53,7 @@ public class ColorSelectPane extends TransparentPane implements ColorSelectable 
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.setBorder(new UIRoundedBorder(UIConstants.LINE_COLOR, 1, 5));
         if (isSupportTransparent) {
-            UIButton transpanrentButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_ChartF-Transparency"));
+            UIButton transpanrentButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_ChartF_Transparency"));
             this.add(transpanrentButton, BorderLayout.NORTH);
             transpanrentButton.addActionListener(new ActionListener() {
 
