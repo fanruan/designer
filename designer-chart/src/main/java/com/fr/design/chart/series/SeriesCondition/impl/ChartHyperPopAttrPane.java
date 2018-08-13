@@ -72,7 +72,7 @@ public class ChartHyperPopAttrPane extends AbstractChartAttrPane {
 
         Component[][] components = new Component[][]{
                 new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Style_Title") + ":", SwingConstants.RIGHT), titleField},
-                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Width") + ":", SwingConstants.RIGHT), widthField},
+                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Designer_Width") + ":", SwingConstants.RIGHT), widthField},
                 new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Height") + ":", SwingConstants.RIGHT), heightField},
         };
 

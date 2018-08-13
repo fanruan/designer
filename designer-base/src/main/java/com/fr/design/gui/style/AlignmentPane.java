@@ -55,7 +55,7 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
     private static final int VERGAP = 3;
     private static final Dimension SPINNER_DIMENSION = new Dimension(75, 20);
     private static final String[] TEXT = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Wrap_Text"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Single_Line"),
-            com.fr.design.i18n.Toolkit.i18nText("FR-Designer_StyleAlignment_Single_Line(Adjust_Font)"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_StyleAlignment_Multi_Line(Adjust_Font)")};
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Single_Line(Adjust_Font)"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Multi_Line(Adjust_Font)")};
 
     private static final String[] LAYOUT = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Layout_Default"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Layout_Image_Titled"),
             com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Layout_Image_Extend"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Layout_Image_Adjust")};
@@ -185,8 +185,8 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
         vAlignmentPane.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Pane_Vertical"));
         imageLayoutComboBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Image_Layout"));
         textComboBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Text_Style"));
-        textRotationComboBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_StyleAlignment_Text_Rotation"));
-        rotationPane.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_StyleAlignment_Text_Rotation"));
+        textRotationComboBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Text_Rotation"));
+        rotationPane.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Text_Rotation"));
         leftIndentSpinner.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Left_Indent"));
         rightIndentSpinner.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Right_Indent"));
         spaceBeforeSpinner.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Spacing_Before"));
@@ -233,7 +233,7 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
                 new Component[]{null, null},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Text_Style") + "   ", SwingConstants.LEFT), textComboBox},
                 new Component[]{null, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_StyleAlignment_Text_Rotation") + "   ", SwingConstants.LEFT), textRotationComboBox},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Text_Rotation") + "   ", SwingConstants.LEFT), textRotationComboBox},
                 new Component[]{null, rotationBarCC},
                 new Component[]{null, null},
         };
@@ -405,7 +405,7 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
 
 
     private Style updateTextRotation(Style style) {
-        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_StyleAlignment_Text_Rotation"))) {
+        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Text_Rotation"))) {
             if (this.textRotationComboBox.getSelectedIndex() != 0) {
                 style = style.deriveVerticalText(Style.VERTICALTEXT);
                 style = style.deriveRotation(0);

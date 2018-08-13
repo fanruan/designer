@@ -492,7 +492,7 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
         this.add(conditonTypePane, BorderLayout.NORTH);
         conditonTypePane.setBorder(new ModLineBorder(ModLineBorder.BOTTOM));
 
-        UILabel conditionTypeLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Type") + ":");
+        UILabel conditionTypeLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Type") + ":");
         conditonTypePane.add(conditionTypeLabel, BorderLayout.WEST);
         conditionTypeLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, DOWN_PADDING, 0));
 

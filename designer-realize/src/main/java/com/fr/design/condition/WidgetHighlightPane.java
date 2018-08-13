@@ -57,11 +57,11 @@ public class WidgetHighlightPane extends ConditionAttrSingleConditionPane<Highli
             }
         });
 
-        UILabel widgetLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget") + ":");
+        UILabel widgetLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Widget") + ":");
         this.add(widgetLabel);
         String[] editorTypes = new String[] {
                 "",
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Text"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Text"),
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_TextArea"),
                 com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Number"),
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_Password"),
@@ -75,7 +75,7 @@ public class WidgetHighlightPane extends ConditionAttrSingleConditionPane<Highli
                 com.fr.design.i18n.Toolkit.i18nText("FR-Designer_File"),
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_List"),
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_Iframe"),
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tree-ComboBox"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Tree_ComboBox"),
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_View_Tree")
         };
         box = new UIComboBox(editorTypes);
@@ -101,7 +101,7 @@ public class WidgetHighlightPane extends ConditionAttrSingleConditionPane<Highli
 
     @Override
     public String nameForPopupMenuItem() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Widget");
     }
 
     @Override
@@ -136,7 +136,7 @@ public class WidgetHighlightPane extends ConditionAttrSingleConditionPane<Highli
         } else if (value instanceof ListEditor) {
             box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_List"));
         } else if (value instanceof TreeComboBoxEditor) {
-            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tree-ComboBox"));
+            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Tree_ComboBox"));
         } else if (value instanceof TreeEditor) {
             box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_View_Tree"));
         } else if (value instanceof Password) {
@@ -144,7 +144,7 @@ public class WidgetHighlightPane extends ConditionAttrSingleConditionPane<Highli
         } else if (value instanceof TextArea) {
             box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_TextArea"));
         } else if (value instanceof TextEditor) {
-            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Text"));
+            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Text"));
         }
     }
 

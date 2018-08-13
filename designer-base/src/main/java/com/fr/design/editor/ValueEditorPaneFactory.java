@@ -252,7 +252,7 @@ public class ValueEditorPaneFactory {
                 new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Date")),
                 new BooleanEditor(),
                 formulaEditor,
-                new WidgetNameEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget"))
+                new WidgetNameEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Widget"))
         };
     }
 

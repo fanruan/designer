@@ -47,7 +47,7 @@ public class LabelDefinePane extends AbstractDataModify<Label> {
         isPageSetupVertically = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Page_Setup_Vertically"));
         isPageSetupVertically.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
-        isStyleAlignmentWrapText = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_StyleAlignment-Wrap_Text"));
+        isStyleAlignmentWrapText = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_StyleAlignment_Wrap_Text"));
         isStyleAlignmentWrapText.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         Icon[] hAlignmentIconArray = {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_left_normal.png"),
                 BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_center_normal.png"),

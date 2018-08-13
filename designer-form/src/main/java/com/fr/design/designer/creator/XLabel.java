@@ -69,7 +69,7 @@ public class XLabel extends XWidgetCreator {
                             }
                         }),
                         new CRPropertyDescriptor("wrap", this.data.getClass()).setI18NName(
-                                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_StyleAlignment-Wrap_Text")).putKeyValue(
+                                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_StyleAlignment_Wrap_Text")).putKeyValue(
                                 XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                         new CRPropertyDescriptor("verticalCenter", this.data.getClass()).setI18NName(
                                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Page_Setup_Vertically")).putKeyValue(

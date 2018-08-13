@@ -684,7 +684,7 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cell"), SwingConstants.LEFT), cellElementVisibleCheckBoxes},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget"), SwingConstants.LEFT), widgetVisible},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Widget"), SwingConstants.LEFT), widgetVisible},
                 new Component[]{null, widgetAvailable}
         };
         double[] rowSize = {p, p, p};
