@@ -50,7 +50,7 @@ public class DSColumnConditionsPane extends BasicPane {
 //            pane.setLayout(new BoxLayout(pane, BoxLayout.X_AXIS));
             pane.add(new UILabel(INSET_TEXT));
 
-            reselectExpandCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("BindColumn-Extend_the_conditions_of_fatherCell(Applied_to_the_data_contains_other_data)"), false);
+            reselectExpandCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Bind_Column_Extend_The_Conditions_of_Father_Cell(Applied_To_The_Data_Contains_Other_Data)"), false);
             pane.add(reselectExpandCheckBox);
             reselectExpandCheckBox.setSelected(true);
 

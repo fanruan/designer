@@ -213,7 +213,7 @@ public class PatternBackgroundQuickPane extends BackgroundQuickPane {
 
     @Override
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background-Pattern");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Pattern");
     }
 
     @Override

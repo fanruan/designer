@@ -506,7 +506,7 @@ public abstract class ToolBarMenuDock {
     }
 
     public MenuDef createCommunityMenuDef() {
-        MenuDef menuDef = new MenuDef(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_COMMUNITY"), 'C');
+        MenuDef menuDef = new MenuDef(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Community"), 'C');
         ShortCut[] otherCommunityShortCuts = createCommunityShortCuts();
         for (ShortCut shortCut : otherCommunityShortCuts) {
             menuDef.addShortCut(shortCut);

@@ -19,7 +19,7 @@ import com.fr.log.FineLoggerFactory;
  */
 public class CalculateComboBox extends UIComboBox{
 
-	public static final String[] CALCULATE_ARRAY = {com.fr.design.i18n.Toolkit.i18nText("DataFunction-None"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Function_Sum"),
+	public static final String[] CALCULATE_ARRAY = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Function_None"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Function_Sum"),
 			com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Function_Average"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Function_Max"),
 			com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Function_Min"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Function_Count")};
 	public static final Class[] CLASS_ARRAY = {NoneFunction.class, SumFunction.class, AverageFunction.class, 
@@ -31,7 +31,7 @@ public class CalculateComboBox extends UIComboBox{
 	}
 	
 	public void reset() {
-		this.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("DataFunction-None"));
+		this.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Function_None"));
 	}
 	
 	/**

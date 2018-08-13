@@ -34,7 +34,7 @@ public class WordExportAction extends AbstractExportAction {
 
     @Override
     protected ChooseFileFilter getChooseFileFilter() {
-        return new ChooseFileFilter(FileExtension.DOC, com.fr.design.i18n.Toolkit.i18nText("Export-Word"));
+        return new ChooseFileFilter(FileExtension.DOC, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Export_Word"));
     }
 
     @Override

@@ -386,7 +386,7 @@ public class UICorrelationPane extends JPanel implements UIObserver {
      */
     public static void main(String... args) {
         JFrame jf = new JFrame("test");
-        final String[] columnNames = {com.fr.design.i18n.Toolkit.i18nText("Actual_Value"), com.fr.design.i18n.Toolkit.i18nText("Display_Value")};
+        final String[] columnNames = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Actual_Value"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Display_Value")};
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel content = (JPanel) jf.getContentPane();
         content.setLayout(new BorderLayout());
