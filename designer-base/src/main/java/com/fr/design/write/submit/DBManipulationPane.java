@@ -423,7 +423,7 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
 			};
 			bPane.setLayout(FRGUIPaneFactory.createBorderLayout());
 
-			final CheckBoxList list = new CheckBoxList(currentColumnNames(), CheckBoxList.SelectedState.ALL, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Chart_Field_Name")) {
+			final CheckBoxList list = new CheckBoxList(currentColumnNames(), CheckBoxList.SelectedState.ALL, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Chart_Field_Name")) {
 				public String value2Text(Object value) {
 					if (value instanceof ColumnName) {
 						return ((ColumnName)value).name;

@@ -73,7 +73,7 @@ public class RootDesignDefinePane extends AbstractDataModify<WParameterLayout> {
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 1}};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Form-Desin_Width")), designerWidth},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_ Desin_Width")), designerWidth},
         };
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
         JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();

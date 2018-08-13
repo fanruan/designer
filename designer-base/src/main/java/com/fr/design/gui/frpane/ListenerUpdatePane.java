@@ -29,7 +29,7 @@ public abstract class ListenerUpdatePane extends BasicBeanPane<Listener> {
 
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Event");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Event");
 	}
 
     @Override

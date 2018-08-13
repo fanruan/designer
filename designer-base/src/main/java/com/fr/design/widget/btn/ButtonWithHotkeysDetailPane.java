@@ -43,10 +43,10 @@ public abstract class ButtonWithHotkeysDetailPane<T extends Button> extends Butt
         iconPane = new AccessibleIconEditor();
         labelPane.add(iconPane);
         Component[][] n_components = {
-                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Button-Type")), createButtonTypeComboBox()},
+                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Button_Type")), createButtonTypeComboBox()},
                 {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Button-Name")), buttonNameTextField = new UITextField()},
                 {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Button_Icon")), iconPane},
-                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Button-Hotkeys")), hotkeysTextField = new UITextField()},
+                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Button_Hot_keys")), hotkeysTextField = new UITextField()},
         };
         hotkeysTextField.setToolTipText(StableUtils.join(ButtonConstants.HOTKEYS, ","));
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(n_components, rowSize, columnSize, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
@@ -56,7 +56,7 @@ public abstract class ButtonWithHotkeysDetailPane<T extends Button> extends Butt
         if(comp != null	) {
             advancePane.add(comp,BorderLayout.CENTER);
         }
-        UIExpandablePane uiExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Advanced"), 280, 20, advancePane);
+        UIExpandablePane uiExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Advanced"), 280, 20, advancePane);
         this.add(uiExpandablePane);
 
     }

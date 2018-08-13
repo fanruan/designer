@@ -56,7 +56,7 @@ public class ElementCasePropertyTable extends AbstractPropertyTable{
                         .setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Mobile_Vertical"))
                         .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Fit")),
                 new CRPropertyDescriptor("heightRestrict", this.xCreator.toData().getClass()).setEditorClass(InChangeBooleanEditor.class)
-                        .setI18NName(com.fr.design.i18n.Toolkit.i18nText("Form-EC_heightrestrict"))
+                        .setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_EC_Heightrestrict"))
                         .setRendererClass(BooleanRender.class)
                         .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Fit"))
         };
@@ -71,7 +71,7 @@ public class ElementCasePropertyTable extends AbstractPropertyTable{
     protected CRPropertyDescriptor[] revealHeightLimit() throws IntrospectionException {
         CRPropertyDescriptor heightLimitProperty = new CRPropertyDescriptor("heightPercent", this.xCreator.toData().getClass())
                                                                 .setEditorClass(RefinedDoubleEditor.class)
-                                                                .setI18NName(com.fr.design.i18n.Toolkit.i18nText("Form-EC_heightpercent"))
+                                                                .setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_EC_Heightpercent"))
                                                                 .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced");
         ArrayList<CRPropertyDescriptor> defaultList = (ArrayList<CRPropertyDescriptor>) createNonListenerProperties();
         defaultList.add(heightLimitProperty);

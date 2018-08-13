@@ -498,7 +498,7 @@ public class ValueEditorPaneFactory {
 
         JPanel paneRight = FRGUIPaneFactory.createBorderLayout_S_Pane();
         pane.add(paneRight);
-        paneRight.add(new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Display_Value") + ":"), BorderLayout.NORTH);
+        paneRight.add(new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Display_Value") + ":"), BorderLayout.NORTH);
 
         paneRight.add(valueDictPane, BorderLayout.CENTER);
 

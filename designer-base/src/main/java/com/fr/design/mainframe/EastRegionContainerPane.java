@@ -114,7 +114,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
                 "cellattr", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.POLY, PropertyMode.POLY_CHART},
                 new PropertyMode[]{PropertyMode.REPORT, PropertyMode.FORM_REPORT, PropertyMode.POLY_REPORT});
         // 悬浮元素
-        PropertyItem floatElement = new PropertyItem(KEY_FLOAT_ELEMENT, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Float_Element"),
+        PropertyItem floatElement = new PropertyItem(KEY_FLOAT_ELEMENT, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Float_Element"),
                 "floatelement", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.POLY, PropertyMode.POLY_CHART},
                 new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_FLOAT, PropertyMode.POLY_REPORT});
         // 控件设置
@@ -126,7 +126,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
                 "conditionattr", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.POLY, PropertyMode.POLY_CHART},
                 new PropertyMode[]{PropertyMode.REPORT, PropertyMode.FORM_REPORT, PropertyMode.POLY_REPORT});
         // 超级链接
-        PropertyItem hyperlink = new PropertyItem(KEY_HYPERLINK, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Hyperlink"),
+        PropertyItem hyperlink = new PropertyItem(KEY_HYPERLINK, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Hyperlink"),
                 "hyperlink", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.POLY, PropertyMode.POLY_CHART},
                 new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_FLOAT, PropertyMode.FORM_REPORT, PropertyMode.POLY_REPORT});
         // 组件库

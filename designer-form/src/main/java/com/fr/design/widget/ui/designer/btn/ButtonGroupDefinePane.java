@@ -44,7 +44,7 @@ public abstract class ButtonGroupDefinePane<T extends ButtonGroup> extends Field
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Label_Name")), labelNameTextField},
                 new Component[]{widgetValueLabel, formWidgetValuePane},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_DS-Dictionary")), dictionaryEditor},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont")), fontSizePane},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_FR_Font")), fontSizePane},
                 new Component[]{buttonGroupDictPane, null}
         };
         double[] rowSize = {p, p, p, p, p, p, p};

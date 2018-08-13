@@ -39,7 +39,7 @@ public class WLayoutSelectionPane extends BasicPane {
     private KindPane currentKindPane;
 
     public WLayoutSelectionPane() {
-        this.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Form-Please_Select_A_Kind_Of_Form_Container") + ":"));
+        this.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Please_Select_A_Kind_Of_Form_Container") + ":"));
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
 
         Component[][] coms = {
@@ -47,7 +47,7 @@ public class WLayoutSelectionPane extends BasicPane {
             	BorderLayoutPane()},
             {createTypeLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Grid_Layout")), new GridLayoutPane()},
             {createTypeLabel(com.fr.design.i18n.Toolkit.i18nText("CardLayout")), new CardLayoutPane()},
-            {createTypeLabel(com.fr.design.i18n.Toolkit.i18nText("Form-NullLayout")), new AbsoluteLayoutPane()}};
+            {createTypeLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Null_Layout")), new AbsoluteLayoutPane()}};
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] rowSize = {p, p, p, p, p};

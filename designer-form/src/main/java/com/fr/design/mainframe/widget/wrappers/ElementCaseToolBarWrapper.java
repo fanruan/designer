@@ -29,6 +29,6 @@ public class ElementCaseToolBarWrapper implements Encoder, Decoder {
         if (toolBarManager.length != 0) {
             return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Open");
         }
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Close");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Close");
     }
 }

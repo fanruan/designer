@@ -39,7 +39,7 @@ public class TinyFormulaPane extends BasicBeanPane<String> implements UIObserver
 
 		// 添加一公式编辑器按钮
 		formulaTextFieldButton = new UIButton(BaseUtils.readIcon("/com/fr/design/images/m_insert/formula.png"));
-		formulaTextFieldButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Formula") + "...");
+		formulaTextFieldButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Formula") + "...");
 		formulaTextFieldButton.setPreferredSize(new Dimension(24, 20));
 		formulaTextFieldButton.setOpaque(false);
 		formulaTextFieldButton.setCursor(new Cursor(Cursor.HAND_CURSOR));

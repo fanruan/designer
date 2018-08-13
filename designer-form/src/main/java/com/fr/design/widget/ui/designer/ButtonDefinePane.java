@@ -49,8 +49,8 @@ public abstract class ButtonDefinePane<T extends Button> extends AbstractDataMod
                 {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Label_Name")), labelNameTextField},
                 backgroundCompPane,
                 frFont,
-                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Icon")), iconPane},
-                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Button-Hotkeys")), hotkeysTextField}
+                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Icon")), iconPane},
+                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Button_Hot_keys")), hotkeysTextField}
         };
         hotkeysTextField.setToolTipText(StableUtils.join(ButtonConstants.HOTKEYS, ","));
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(n_components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);

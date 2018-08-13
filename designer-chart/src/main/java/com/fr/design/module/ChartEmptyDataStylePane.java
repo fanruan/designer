@@ -131,7 +131,7 @@ public class ChartEmptyDataStylePane extends AbstractAttrNoScrollPane {
         jp.add(customRadioButton);
 
         selectPictureButton = new UIButton(
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background_Image_Select"));
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Image_Select"));
         selectPictureButton.addActionListener(getSelectPictureActionListener());
         jp.add(selectPictureButton);
 

@@ -38,7 +38,7 @@ public class ComboCheckBoxDefinePane extends DictEditorDefinePane<ComboCheckBox>
 
 
 	public JPanel createOtherPane(){
-		supportTagCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Form-SupportTag"), true);
+		supportTagCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Support_Tag"), true);
 		supportTagCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		checkBoxDictPane = new CheckBoxDictPane();
 

@@ -64,7 +64,7 @@ public class FormulaDictPane extends FurtherBasicBeanPane<FormulaDictionary> {
 
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Actual_Value"), UILabel.LEFT), keyFormulaContainer},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Display_Value"), UILabel.LEFT), valueFormulaContainer},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Display_Value"), UILabel.LEFT), valueFormulaContainer},
                 new Component[]{tag, null}
         };
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_LARGE, LayoutConstants.VGAP_LARGE);
@@ -81,7 +81,7 @@ public class FormulaDictPane extends FurtherBasicBeanPane<FormulaDictionary> {
 
     @Override
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Formula");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Formula");
     }
 
     @Override

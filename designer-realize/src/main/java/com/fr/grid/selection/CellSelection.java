@@ -485,7 +485,7 @@ public class CellSelection extends Selection {
                 styleMenu.add(useMenuItem);
             }
             styleMenu.addSeparator();
-            styleMenu.add(new GlobalStyleMenuDef.CustomStyleAction(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Custom")));
+            styleMenu.add(new GlobalStyleMenuDef.CustomStyleAction(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom")));
             popup.add(styleMenu);
         } else {
             popup.add(new StyleAction().createMenuItem());
@@ -655,7 +655,7 @@ public class CellSelection extends Selection {
     public boolean triggerDeleteAction(ElementCasePane ePane) {
         final TemplateElementCase ec = ePane.getEditingElementCase();
         final RowColumnPane rcPane = new RowColumnPane();
-        rcPane.setTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Delete"));
+        rcPane.setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Delete"));
         rcPane.showWindow(SwingUtilities.getWindowAncestor(ePane), new DialogActionAdapter() {
 
             @Override

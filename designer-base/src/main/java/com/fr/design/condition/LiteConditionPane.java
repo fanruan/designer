@@ -564,7 +564,7 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
 
         addControlPane.add(Box.createHorizontalStrut(STRUT_ONE));
 
-        addButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Add"), BaseUtils.readIcon("com/fr/base/images/cell/control/add.png"));
+        addButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Add"), BaseUtils.readIcon("com/fr/base/images/cell/control/add.png"));
         addButton.setMnemonic('A');
         addControlPane.add(addButton);
         addButton.addActionListener(actionListener2);

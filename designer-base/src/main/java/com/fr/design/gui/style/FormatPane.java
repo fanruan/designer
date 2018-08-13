@@ -108,7 +108,7 @@ public class FormatPane extends AbstractBasicStylePane  implements GlobalNameObs
 
 
         frFontPane = new FRFontPane();
-        UILabel font = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_FRFont"), SwingConstants.LEFT);
+        UILabel font = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_FR_Font"), SwingConstants.LEFT);
         JPanel fontPane = new JPanel(new BorderLayout());
         fontPane.add(font, BorderLayout.NORTH);
 

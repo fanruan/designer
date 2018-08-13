@@ -60,7 +60,7 @@ public class DesignerLogHandler {
 
     public DesignerLogHandler() {
         logHandlerArea = new LogHandlerArea();
-        caption = new LogHandlerBar(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Log"));
+        caption = new LogHandlerBar(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Log"));
 
         caption.addClearListener(new ActionListener() {
 
@@ -153,7 +153,7 @@ public class DesignerLogHandler {
             selectAll.setIcon(BaseUtils.readIcon("/com/fr/design/images/log/selectedall.png"));
             popup.add(selectAll);
 
-            copy = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Copy"));
+            copy = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Copy"));
             copy.addActionListener(popupListener);
             copy.setIcon(BaseUtils.readIcon("/com/fr/design/images/m_edit/copy.png"));
             popup.add(copy);
@@ -263,7 +263,7 @@ public class DesignerLogHandler {
 
         private String appendLocaleMark(String str, int style) {
             if (style == ERROR_INT) {
-                str = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Alert") + ":" + str + "\n";
+                str = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Alert") + ":" + str + "\n";
             } else if (style == WARN_INT) {
                 str = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Seriously") + ":" + str + "\n";
             } else {

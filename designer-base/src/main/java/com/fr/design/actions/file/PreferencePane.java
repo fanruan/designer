@@ -130,7 +130,7 @@ public class PreferencePane extends BasicPane {
         JPanel generalPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
         jtabPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_General"), generalPane);
         JPanel advancePane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
-        jtabPane.addTab(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Advanced"), advancePane);
+        jtabPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Advanced"), advancePane);
         contentPane.add(jtabPane, BorderLayout.NORTH);
 
 
