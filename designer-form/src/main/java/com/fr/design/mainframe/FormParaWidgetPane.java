@@ -194,7 +194,7 @@ public class FormParaWidgetPane extends JPanel {
         JPanel paraPane = new JPanel(new FlowLayout());
         ToolBarButton paraButton = new paraButton(FormWidgetOption.PARAMETERCONTAINER);
         paraPane.add(paraButton);
-        add(createNormalCombinationPane(paraPane, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter")));
+        add(createNormalCombinationPane(paraPane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter")));
         jSeparatorPara = createJSeparator();
         add(jSeparatorPara);
 
@@ -277,7 +277,7 @@ public class FormParaWidgetPane extends JPanel {
         reportPane.add(jComponent, BorderLayout.CENTER);
         JPanel labelPane = new JPanel(new BorderLayout());
         UILabel label = new UILabel(typeName, UILabel.CENTER);
-        if (ComparatorUtils.equals(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter"), typeName)) {
+        if (ComparatorUtils.equals(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter"), typeName)) {
             paraLabel = label;
         }
         labelPane.add(label, BorderLayout.CENTER);

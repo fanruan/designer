@@ -36,7 +36,7 @@ public class ComboCheckBoxDefinePane extends CustomWritableRepeatEditorPane<Comb
 		double p = TableLayout.PREFERRED;
 		Component[][] components = new Component[][]{
 				new Component[]{supportTagCheckBox,  null },
-				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_DS-Dictionary")),  dictPane },
+				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_DS_Dictionary")),  dictPane },
 				new Component[]{checkBoxDictPane,  null },
 
 		};

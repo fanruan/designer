@@ -380,7 +380,7 @@ public class PluginWebBridge {
         int rv = JOptionPane.showOptionDialog(
                 null,
                 message,
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"),
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.INFORMATION_MESSAGE,
                 null,

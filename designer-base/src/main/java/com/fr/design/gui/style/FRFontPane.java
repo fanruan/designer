@@ -83,7 +83,7 @@ public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObse
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Sytle-FRFont");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Sytle_FRFont");
     }
 
     /**
@@ -133,7 +133,7 @@ public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObse
      */
     public FRFont update(FRFont frFont) {
 
-        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Name"))) {
+        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Name"))) {
             frFont = frFont.applyName((String) fontNameComboBox.getSelectedItem());
         }
         if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FR_Font_Style"))) {
@@ -265,7 +265,7 @@ public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObse
 
     private void initAllNames() {
         fontSizeStyleComboBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FR_Font_Style"));
-        fontNameComboBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Name"));
+        fontNameComboBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Name"));
         fontSizeComboBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_FRFont_Size"));
         colorSelectPane.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FR_Font_Foreground"));
         italic.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FR_Font_Italic"));

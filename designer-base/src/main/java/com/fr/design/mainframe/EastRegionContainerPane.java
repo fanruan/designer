@@ -97,7 +97,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
     private EastRegionContainerPane() {
         super();
         initPropertyItemList();
-        defaultPane = getDefaultPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_No_Settings_Available"));
+        defaultPane = getDefaultPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_No_Settings_Available"));
         defaultAuthorityPane = getDefaultPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Not_Support_Authority_Edit"));
         switchMode(PropertyMode.REPORT);
         setContainerWidth(CONTAINER_WIDTH);
@@ -134,7 +134,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
                 "widgetlib", new PropertyMode[]{PropertyMode.FORM},
                 new PropertyMode[]{PropertyMode.FORM});
         // 权限编辑
-        PropertyItem authorityEdition = new PropertyItem(KEY_AUTHORITY_EDITION, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Permissions_Edition"),
+        PropertyItem authorityEdition = new PropertyItem(KEY_AUTHORITY_EDITION, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Permissions_Edition"),
                 "authorityedit", new PropertyMode[]{PropertyMode.AUTHORITY_EDITION_DISABLED},
                 new PropertyMode[]{PropertyMode.AUTHORITY_EDITION});
         // 已配置角色
@@ -1028,7 +1028,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             initListener();
             this.setVisible(true);
 
-            defaultPane = getDefaultPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_No_Settings_Available"));
+            defaultPane = getDefaultPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_No_Settings_Available"));
         }
 
         public void showDefaultPane() {

@@ -51,7 +51,7 @@ public class JavaScriptImplPane extends AbstractHyperLinkPane<JavaScriptImpl> {
 
     protected void initComponents() {
         parameterPane = new ReportletParameterViewPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
-        parameterPane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter")));
+        parameterPane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter")));
         parameterPane.addTableEditorListener(new TableModelListener() {
             public void tableChanged(TableModelEvent e) {
                 List<ParameterProvider> list = parameterPane.update();

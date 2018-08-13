@@ -166,7 +166,7 @@ public class PreviewTableModel extends AbstractTableModel {
 
     private String checkType(int column) {
         if (dateIndexs.contain(column)) {
-            String s = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Date");
+            String s = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date");
             return ("(" + s + ")");
         }
 
@@ -192,9 +192,9 @@ public class PreviewTableModel extends AbstractTableModel {
                 Class clzz = ((EmbeddedTDDataModel) dataModel).getColumnClass(column);
                 if (clzz != null) {
                     if (Number.class.isAssignableFrom(clzz)) {
-                    s = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Number");//bigdecimal
+                    s = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Number");//bigdecimal
                     } else if (java.sql.Date.class.isAssignableFrom(clzz)) {
-                        s = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Date");
+                        s = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date");
                     }
                 }
             }
@@ -203,9 +203,9 @@ public class PreviewTableModel extends AbstractTableModel {
         } else if (o instanceof Double || o instanceof Float) {
             s = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Double");
         } else if (o instanceof java.sql.Date || o instanceof java.util.Date) {
-            s = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Date");
+            s = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date");
         } else if (o instanceof Number) {
-            s = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Number");//bigdecimal
+            s = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Number");//bigdecimal
         } else {
             s = "?";
         }

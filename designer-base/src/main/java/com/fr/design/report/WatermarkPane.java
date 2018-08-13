@@ -168,6 +168,6 @@ public class WatermarkPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WaterMark");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_WaterMark");
     }
 }

@@ -98,7 +98,7 @@ public class ButtonSytleDefinedPane extends BasicPane {
             ImagePreviewPane.setPreferredSize(new Dimension(100, 20));
             this.add(ImagePreviewPane);
 
-            editButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit"));
+            editButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Edit"));
             editButton.addActionListener(new ActionListener() {
 
                 public void actionPerformed(ActionEvent e) {

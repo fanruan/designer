@@ -29,11 +29,11 @@ public class FontPane extends ConditionAttrSingleConditionPane<HighlightAction> 
 
     public FontPane(final ConditionAttributesPane conditionAttributesPane) {
         super(conditionAttributesPane);
-        fontLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Sytle-FRFont") + ":");
+        fontLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Sytle_FRFont") + ":");
         frFontPreviewPane = new FRFontPreviewArea();
         frFontPreviewPane.setBorder(BorderFactory.createTitledBorder(""));
         frFontPreviewPane.setPreferredSize(new Dimension(80, 20));
-        UIButton editFRFontButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit"));
+        UIButton editFRFontButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Edit"));
         editFRFontButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 final FRFontPane frFontPane = new FRFontPane();
@@ -65,7 +65,7 @@ public class FontPane extends ConditionAttrSingleConditionPane<HighlightAction> 
 
     @Override
     public String nameForPopupMenuItem() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Sytle-FRFont");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Sytle_FRFont");
     }
 
 

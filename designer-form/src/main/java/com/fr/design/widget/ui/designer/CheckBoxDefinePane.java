@@ -41,7 +41,7 @@ public class CheckBoxDefinePane extends AbstractDataModify<CheckBox> {
 		double p = TableLayout.PREFERRED;
 		Component[][] components = new Component[][]{
 				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Label_Name")), labelNameTextField},
-				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Text")),  text },
+				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Text")),  text },
 				new Component[]{widgetValueLabel,  formWidgetValuePane },
 				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Font_Size")), fontSizePane},
 		};

@@ -210,7 +210,7 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
     // "无可用配置项"面板
     private JPanel getUnavailablePane() {
         JPanel panel = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_No_Settings_Available"));
+        UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_No_Settings_Available"));
         label.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(label);
         return panel;

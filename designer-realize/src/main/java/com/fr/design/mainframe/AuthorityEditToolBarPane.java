@@ -94,7 +94,7 @@ public class AuthorityEditToolBarPane extends AuthorityPropertyPane {
             public void itemStateChanged(ItemEvent e) {
                 String selectedRole = ReportAndFSManagePane.getInstance().getRoleTree().getSelectedRoleName();
                 initSelectedPathArray();
-                if (ComparatorUtils.equals(selectedRole, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Role")) || selectedRole ==
+                if (ComparatorUtils.equals(selectedRole, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Role")) || selectedRole ==
                         null || selectedPathArray == null) {
                     return;
                 }
@@ -169,8 +169,8 @@ public class AuthorityEditToolBarPane extends AuthorityPropertyPane {
             double[] columnSize = {p, f};
             int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}};
             Component[][] components = new Component[][]{
-                    new Component[]{new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Type") + "        ", SwingConstants.LEFT), typePane},
-                    new Component[]{new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WF_Name") + "        ", SwingConstants.LEFT), namePane},
+                    new Component[]{new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Type") + "        ", SwingConstants.LEFT), typePane},
+                    new Component[]{new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_WF_Name") + "        ", SwingConstants.LEFT), namePane},
                     new Component[]{checkPane, null},
             };
 

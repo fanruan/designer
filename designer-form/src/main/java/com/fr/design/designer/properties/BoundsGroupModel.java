@@ -34,7 +34,7 @@ public class BoundsGroupModel implements ConstraintsGroupModel {
 
     @Override
     public String getGroupName() {
-        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_ Component_Bounds");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Component_Bounds");
     }
 
     @Override
@@ -57,9 +57,9 @@ public class BoundsGroupModel implements ConstraintsGroupModel {
         if (column == 0) {
             switch (row) {
                 case 0:
-                    return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_X_Coordinate");
+                    return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_X_Coordinate");
                 case 1:
-                    return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Y_Coordinate");
+                    return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Y_Coordinate");
                 case 2:
                     return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Width");
                 default:

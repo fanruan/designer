@@ -78,9 +78,9 @@ public class JTreeAutoBuildPane extends BasicPane implements PreviewLabel.Previe
         formulaEditor.setEnabled(true);
         textPane = ValueEditorPaneFactory.createValueEditorPane(new Editor[]{new ColumnNameEditor(), new ColumnIndexEditor(), formulaEditor});
         Component[][] coms = {
-                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Actual_Value") + ":"),
+                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Actual_Value") + ":"),
                         valuePane},
-                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Display_Value") + ":"),
+                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Display_Value") + ":"),
                         textPane}};
 
         double p = TableLayout.PREFERRED;

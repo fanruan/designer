@@ -56,7 +56,7 @@ public class CellStylePane extends AbstractCellAttrPane {
     @Override
     public String getIconPath() {
 //		return "com/fr/design/images/m_format/cell.png";
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Style");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Style");
     }
 
 
@@ -121,7 +121,7 @@ public class CellStylePane extends AbstractCellAttrPane {
 
     @Override
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Style"));
+        return com.fr.design.i18n.Toolkit.i18nText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Style"));
     }
 
     public void setSelectedByIds(int level, String... id) {

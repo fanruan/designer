@@ -289,7 +289,7 @@ public class UIToolbarBorderButton extends UICombinationButton implements PopupH
 					Constants.LINE_THIN, Color.black, Constants.LINE_NONE, Color.black, Constants.LINE_NONE),
 			new CellBorderStyle(Color.black, Constants.LINE_THICK, Color.black, Constants.LINE_THICK, Color.black, Constants.LINE_THICK, Color.black,
 					Constants.LINE_THICK, Color.black, Constants.LINE_NONE, Color.black, Constants.LINE_NONE) };
-	private static final String[] BorderStyleTooltips = { com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_No_Border_Line"), com.fr.design.i18n.Toolkit.i18nText("Bottom_Border_Line"),
+	private static final String[] BorderStyleTooltips = { com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_No_Border_Line"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Bottom_Border_Line"),
 			com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Left_Border_Line"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Right_Border_Line"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Double_Bottom_BorderLine"),
 			com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Thick_Bottom_Border_Line"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Top_Bottom_Border_Line"),
 			com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Top_And_Double_Bottom_Border_Line"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Top_And_Thick_Bottom_Border_Line"),

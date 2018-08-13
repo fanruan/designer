@@ -107,7 +107,7 @@ public class TutorialAction extends UpdateAction {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_COMMUNITY_HELP");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Community_Help");
         }
 
         @Override
