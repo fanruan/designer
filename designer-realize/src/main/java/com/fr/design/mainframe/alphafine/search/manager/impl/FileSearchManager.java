@@ -68,7 +68,7 @@ public class FileSearchManager implements AlphaFineSearchProvider {
         this.moreModelList = new SearchResult();
         this.searchText = dealWithSearchText(searchText);
         if (StringUtils.isBlank(this.searchText) || ComparatorUtils.equals(this.searchText, DS_NAME)) {
-            lessModelList.add(new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_ReportTemplates")));
+            lessModelList.add(new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Templates")));
             return lessModelList;
         }
         AlphaFineHelper.checkCancel();
@@ -79,10 +79,10 @@ public class FileSearchManager implements AlphaFineSearchProvider {
         if (filterModelList.isEmpty()) {
             return new SearchResult();
         } else if (filterModelList.size() < AlphaFineConstants.SHOW_SIZE + 1) {
-            lessModelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_ReportTemplates")));
+            lessModelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Templates")));
             lessModelList.addAll(filterModelList);
         } else {
-            lessModelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_ReportTemplates"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_ShowAll"), true, CellType.FILE));
+            lessModelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Templates"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_ShowAll"), true, CellType.FILE));
             lessModelList.addAll(filterModelList.subList(0, AlphaFineConstants.SHOW_SIZE));
             moreModelList.addAll(filterModelList.subList(AlphaFineConstants.SHOW_SIZE, filterModelList.size()));
 
