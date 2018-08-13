@@ -91,7 +91,7 @@ public class AlphaFineConfigPane extends BasicPane {
         isContainRecommendCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_AlphaFine_Recommend"));
         isContainActionCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Set"));
         isContainPluginCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Plugin_Addon"));
-        isContainDocumentCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_COMMUNITY_HELP"));
+        isContainDocumentCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Community_Help"));
         isContainTemplateCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Templates"));
         isContainFileContentCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Templates_Content"));
         JPanel searchConfigPane = TableLayoutHelper.createTableLayoutPane(initSearchRangeComponents(), rowSize, columnSize);

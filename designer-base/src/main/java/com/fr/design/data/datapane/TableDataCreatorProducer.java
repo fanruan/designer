@@ -56,7 +56,7 @@ public class TableDataCreatorProducer {
                 return true;
             }
         };
-        TableDataNameObjectCreator storeProcedure = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Datasource-Stored_Procedure"),
+        TableDataNameObjectCreator storeProcedure = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Stored_Procedure"),
                 "Proc",
                 "/com/fr/design/images/data/store_procedure.png",
                 StoreProcedure.class, ProcedureDataPane.class) {

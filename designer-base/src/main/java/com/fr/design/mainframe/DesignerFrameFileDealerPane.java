@@ -459,7 +459,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
                 }
             });
 
-            UIButton cancelButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cancel"));
+            UIButton cancelButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cancel"));
             cancelButton.setPreferredSize(new Dimension(80, 25));
             cancelButton.setMinimumSize(new Dimension(80, 25));
             cancelButton.setMaximumSize(new Dimension(80, 25));
