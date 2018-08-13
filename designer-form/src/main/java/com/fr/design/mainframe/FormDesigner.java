@@ -291,7 +291,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
         }
         FormSubmitButton formSubmitButton = new FormSubmitButton();
         formSubmitButton.setWidgetName("Search");
-        formSubmitButton.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Query"));
+        formSubmitButton.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Query"));
         xCreator = XCreatorUtils.createXCreator(formSubmitButton);
         if (!(this.autoAddComponent(xCreator, SUBMIT_BUTTON_H_LOCATION, FIRST_V_LOCATION + V_COMPONENT_GAP
                 * (currentIndex / NUM_IN_A_LINE)))) {
@@ -340,7 +340,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
         if (!isWithQueryButton()) {
             FormSubmitButton formSubmitButton = new FormSubmitButton();
             formSubmitButton.setWidgetName("Search");
-            formSubmitButton.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Query"));
+            formSubmitButton.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Query"));
             XCreator xCreator = XCreatorUtils.createXCreator(formSubmitButton);
             if (!(this.autoAddComponent(xCreator, H_COMPONENT_GAP * 3 + H_GAP, FIRST_V_LOCATION
                     + V_COMPONENT_GAP * (currentIndex / NUM_IN_A_LINE)))) {

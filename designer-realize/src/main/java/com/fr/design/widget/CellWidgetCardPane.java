@@ -74,7 +74,7 @@ public class CellWidgetCardPane extends BasicPane {
             }
         };
         widgetPropertyPane = new BasicWidgetPropertySettingPane();
-        UIExpandablePane uiExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Basic"), 280, 24, widgetPropertyPane);
+        UIExpandablePane uiExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Basic"), 280, 24, widgetPropertyPane);
         attriTabPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
         attriTabPane.add(uiExpandablePane, BorderLayout.NORTH);
         attriCardPane = FRGUIPaneFactory.createCardLayout_S_Pane();

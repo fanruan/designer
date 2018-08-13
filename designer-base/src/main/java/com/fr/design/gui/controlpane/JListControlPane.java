@@ -384,7 +384,7 @@ public abstract class JListControlPane extends JControlPane {
                 if (filterNameableCreator(creator)) {
                     continue;
                 }
-                boolean isTrue = ComparatorUtils.equals(creator.menuName(), com.fr.design.i18n.Toolkit.i18nText("Datasource-Stored_Procedure")) ||
+                boolean isTrue = ComparatorUtils.equals(creator.menuName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Stored_Procedure")) ||
                         ComparatorUtils.equals(creator.menuName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DS_Relation_TableData")) || ComparatorUtils.equals(creator.menuName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DS_Multi_Dimensional_Database"));
                 if (isTrue) {
                     this.addShortCut(new LineSeparator());

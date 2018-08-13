@@ -87,7 +87,7 @@ public class ColorSelectDetailPane extends BasicPane {
         selectedPanel.setPreviewPanel(new JPanel());
 
         // 预览
-        previewPanel = FRGUIPaneFactory.createTitledBorderPaneCenter(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Preview"));
+        previewPanel = FRGUIPaneFactory.createTitledBorderPaneCenter(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preview"));
         final ColorChooserPreview colorChooserPreview = new ColorChooserPreview();
         ColorSelectionModel model = selectedPanel.getSelectionModel();
         model.addChangeListener(new ChangeListener() {

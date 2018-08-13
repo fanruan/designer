@@ -27,7 +27,7 @@ public class ComboBoxDefinePane extends DictEditorDefinePane<ComboBox> {
 
 	public Component[] createWaterMarkPane() {
 		waterMarkField = new UITextField();
-		return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WaterMark")), waterMarkField};
+		return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_WaterMark")), waterMarkField};
 	}
 
 	protected  void populateSubDictionaryEditorBean(ComboBox ob){

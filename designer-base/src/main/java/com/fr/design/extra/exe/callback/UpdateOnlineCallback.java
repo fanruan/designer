@@ -36,7 +36,7 @@ public class UpdateOnlineCallback extends AbstractDealPreTaskCallback {
         } else {
             jsCallback.execute("failed");
             FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Update_Failed"));
-            JOptionPane.showMessageDialog(null, pluginInfo, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, pluginInfo, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
         }
     }
 }

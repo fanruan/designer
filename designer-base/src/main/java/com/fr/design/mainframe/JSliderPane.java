@@ -230,7 +230,7 @@ public class JSliderPane extends JPanel {
         double f = TableLayout.FILL;
         double[] columnSize = {p, f};
         double[] rowSize = {p, p, p, p, p, p, p, p, p};
-        UILabel upLabel = new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Scale_EnlargeOrReduce"));
+        UILabel upLabel = new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Scale_EnlargeOrReduce"));
         upLabel.setOpaque(false);
         JPanel septPane = new JPanel(new BorderLayout());
         JSeparator sept = new JSeparator();

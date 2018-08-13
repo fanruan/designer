@@ -98,7 +98,7 @@ public class NumberEditorValidatePane extends JPanel {
     private void initErrorMsgPane() {
         errorMsgTextField = new UITextField();
         errorMsgTextFieldPane = TableLayoutHelper.createGapTableLayoutPane(
-                new Component[][]{new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget_Error_Tip")), errorMsgTextField}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_L2, IntervalConstants.INTERVAL_L1);
+                new Component[][]{new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Error_Tip")), errorMsgTextField}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_L2, IntervalConstants.INTERVAL_L1);
     }
 
 

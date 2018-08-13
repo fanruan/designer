@@ -48,7 +48,7 @@ public class XTextEditor extends XWrapperedFieldEditor {
         CRPropertyDescriptor regErrorMessage = new CRPropertyDescriptor("regErrorMessage", this.data.getClass()).setI18NName(
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Verify_Message")).putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate");
         CRPropertyDescriptor waterMark = new CRPropertyDescriptor("waterMark", this.data.getClass()).setI18NName(
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WaterMark")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_WaterMark")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
                 "Fine-Design_Report_Advanced");
         CRPropertyDescriptor[] sup = (CRPropertyDescriptor[]) ArrayUtils.addAll(new CRPropertyDescriptor[]{widgetValue}, super.supportedDescriptor());
         boolean displayRegField = true;

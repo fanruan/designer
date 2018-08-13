@@ -152,7 +152,7 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
 
         widgetPropertyPane = WidgetBasicPropertyPaneFactory.createBasicPropertyPane(innerCreator);
 
-        UIExpandablePane uiExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Basic"), 280, 20, widgetPropertyPane);
+        UIExpandablePane uiExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Basic"), 280, 20, widgetPropertyPane);
 
         jPanel.add(uiExpandablePane, BorderLayout.NORTH);
 
@@ -212,7 +212,7 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
     public void updateCreator() {
         currentEditorDefinePane.setGlobalName(getGlobalName());
         Widget widget = currentEditorDefinePane.updateBean();
-        if (ComparatorUtils.equals(getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Basic")) && widgetPropertyPane != null) {
+        if (ComparatorUtils.equals(getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Basic")) && widgetPropertyPane != null) {
             UITextField widgetNameField = widgetPropertyPane.getWidgetNameField();
             if (designer.getTarget().isNameExist(widgetNameField.getText()) && !ComparatorUtils.equals(widgetNameField.getText(), widget.getWidgetName())) {
                 widgetNameField.setText(widget.getWidgetName());
@@ -229,7 +229,7 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
     }
 
     public void updateWidgetBound() {
-        if (widgetBoundPane != null && ComparatorUtils.equals(getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Coords_And_Size"))) {
+        if (widgetBoundPane != null && ComparatorUtils.equals(getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Coords_And_Size"))) {
             widgetBoundPane.update();
             designer.getEditListenerTable().fireCreatorModified(DesignerEvent.CREATOR_RESIZED);
         }

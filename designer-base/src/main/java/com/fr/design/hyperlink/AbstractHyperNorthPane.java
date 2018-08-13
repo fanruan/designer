@@ -57,7 +57,7 @@ public abstract class AbstractHyperNorthPane<T extends Hyperlink> extends BasicB
         heightTextFiled.setText(String.valueOf(DEFAULT_H_VALUE));
         heightTextFiled.setPreferredSize(new Dimension(40, 20));
         newWindowConfPane.add(heightTextFiled);
-        newWindowConfPane.add(new UILabel("  " + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Width") + ": "));
+        newWindowConfPane.add(new UILabel("  " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Designer_Width") + ": "));
         widthTextFiled = new UINumberField();
         widthTextFiled.setText(String.valueOf(DEFAULT_V_VALUE));
         widthTextFiled.setPreferredSize(new Dimension(40, 20));

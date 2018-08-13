@@ -62,7 +62,7 @@ public class TabFitLayoutBackgroundPane extends BackgroundCompPane<WTabFitLayout
     }
 
     protected UILabel createUILable(){
-        return new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Style"));
+        return new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Style"));
     }
 
     protected  String title4PopupWindow() {

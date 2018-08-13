@@ -65,7 +65,7 @@ public class WebViewDlgHelper {
                 int rv = JOptionPane.showConfirmDialog(
                         null,
                         com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Shop_Need_Install"),
-                        com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"),
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"),
                         JOptionPane.OK_CANCEL_OPTION,
                         JOptionPane.INFORMATION_MESSAGE
                 );
@@ -82,7 +82,7 @@ public class WebViewDlgHelper {
                 int rv = JOptionPane.showConfirmDialog(
                         null,
                         com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Shop_Need_Install_Version"),
-                        com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"),
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"),
                         JOptionPane.OK_CANCEL_OPTION,
                         JOptionPane.INFORMATION_MESSAGE
                 );
@@ -202,7 +202,7 @@ public class WebViewDlgHelper {
         int rv = JOptionPane.showConfirmDialog(
                 null,
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Shop_Need_Install"),
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"),
                 JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.INFORMATION_MESSAGE
         );
@@ -266,7 +266,7 @@ public class WebViewDlgHelper {
                         }
                     });
                 } catch (PluginVerifyException e) {
-                    JOptionPane.showMessageDialog(null, e.getMessage(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, e.getMessage(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
                     return false;
                 } catch (Exception e) {
                     FineLoggerFactory.getLogger().error(e.getMessage(), e);
@@ -306,7 +306,7 @@ public class WebViewDlgHelper {
                         int rv = JOptionPane.showConfirmDialog(
                                 null,
                                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Shop_Need_Update"),
-                                com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"),
+                                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"),
                                 JOptionPane.OK_CANCEL_OPTION,
                                 JOptionPane.INFORMATION_MESSAGE
                         );

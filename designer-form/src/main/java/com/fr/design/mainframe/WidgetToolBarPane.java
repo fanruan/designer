@@ -134,7 +134,7 @@ public class WidgetToolBarPane extends BasicPane implements DesignToolbarProvide
     private void initFormButtons() {
         if (componentsList4Form.isEmpty()) {
             // 表单布局
-            this.componentsList4Form.add(new TitleLabel(com.fr.design.i18n.Toolkit.i18nText("Form-Layout")));
+            this.componentsList4Form.add(new TitleLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Form_Layout")));
             WidgetOption[] containerWidgetArray = FormWidgetOption.getFormContainerInstance();
             for (WidgetOption no : containerWidgetArray) {
                 this.componentsList4Form.add(new ToolBarButton(no));

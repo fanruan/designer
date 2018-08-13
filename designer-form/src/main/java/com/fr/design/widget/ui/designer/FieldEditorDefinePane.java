@@ -109,7 +109,7 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
     protected void addValidatePane() {
         initErrorMsgPane();
         validatePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        final UILabel uiLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget_Error_Tip"));
+        final UILabel uiLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Error_Tip"));
         JPanel borderPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         final JPanel errorTipPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{uiLabel, errorMsgTextField}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_L1, LayoutConstants.VGAP_MEDIUM);
         errorTipPane.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L6, IntervalConstants.INTERVAL_L5, 0, 0));

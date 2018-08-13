@@ -15,7 +15,6 @@ import com.fr.data.TableDataSource;
 import com.fr.design.data.datapane.TableDataComboBox;
 import com.fr.design.gui.icombobox.UIComboBoxRenderer;
 import com.fr.design.gui.icombobox.LazyComboBox;
-import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.editor.editor.Editor;
 import com.fr.form.data.DataBinding;
 
@@ -58,7 +57,7 @@ public class DataBindingEditor extends Editor<DataBinding> {
 
     public DataBindingEditor() {
         this.initCompontents();
-        this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget_Field"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Field"));
     }
 
 

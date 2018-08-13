@@ -223,7 +223,7 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
             }
 
             int returnVal = JOptionPane.showConfirmDialog(SwingUtilities.getWindowAncestor(LiteConditionPane.this),
-                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Are_You_Sure_To_Remove_The_Selected_Item") + "?", com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Remove"),
+                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Are_You_Sure_To_Remove_The_Selected_Item") + "?", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remove"),
                     JOptionPane.OK_CANCEL_OPTION);
             if (returnVal == JOptionPane.OK_OPTION) {
                 DefaultTreeModel treeModel = (DefaultTreeModel) conditionsTree.getModel();
@@ -447,7 +447,7 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
 
 
     private void initButtonPane(JPanel buttonPane) {
-        removeButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Remove"));
+        removeButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remove"));
         buttonPane.add(removeButton);
         removeButton.setIcon(BaseUtils.readIcon("com/fr/base/images/cell/control/remove.png"));
         removeButton.setEnabled(false);
@@ -492,7 +492,7 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
         this.add(conditonTypePane, BorderLayout.NORTH);
         conditonTypePane.setBorder(new ModLineBorder(ModLineBorder.BOTTOM));
 
-        UILabel conditionTypeLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Type") + ":");
+        UILabel conditionTypeLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Type") + ":");
         conditonTypePane.add(conditionTypeLabel, BorderLayout.WEST);
         conditionTypeLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, DOWN_PADDING, 0));
 
@@ -583,7 +583,7 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Submit_Condition");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Submit_Condition");
     }
 
     // samuel:移出来，方便调用

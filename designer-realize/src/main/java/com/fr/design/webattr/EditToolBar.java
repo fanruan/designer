@@ -176,7 +176,7 @@ public class EditToolBar extends BasicPane {
 
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Edit");
 	}
 
 	public void populate(FToolBar ftoolbar) {
@@ -413,7 +413,7 @@ public class EditToolBar extends BasicPane {
 
 			button = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_User_Defined_Event"));
 			customPane.add(button);
-			customPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit") + "JS", null));
+			customPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Edit") + "JS", null));
 			button.addActionListener(l);
 			return customPane;
 		}

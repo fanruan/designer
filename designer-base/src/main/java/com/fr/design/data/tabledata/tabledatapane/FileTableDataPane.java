@@ -151,7 +151,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
         JPanel setPanel = new JPanel();
         southPanel.add(setPanel, BorderLayout.CENTER);
         setPanel.setPreferredSize(new Dimension(setPanelWidth, 460));
-        setPanel.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Set")));
+        setPanel.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Set")));
         JPanel controlPane = textSetPanel(width,height);
         setPanel.add(controlPane, BorderLayout.NORTH);
         fileTypeComboBox.addActionListener(getFileTypeListener(setPanel,width,height));
@@ -176,7 +176,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
         urlText = new UITextField();
         urlText.setPreferredSize(new Dimension(195, 20));
         urlText.setEditable(false);
-        chooseFile = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Selection"));
+        chooseFile = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Selection"));
         chooseFile.addActionListener(chooseFileListener);
 
         testConnection = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Test_Connection"));
@@ -236,7 +236,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
 
     private void previewPanel(JPanel jPanel){
         JPanel previewPanel = new JPanel(new BorderLayout());
-        UIButton preview = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Preview"));
+        UIButton preview = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preview"));
         preview.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 preview();
@@ -355,8 +355,8 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
         spaceDismenberRadioButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Space"));
         commaDismenberRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Comma_Dismenber"), false);
         commaDismenberRadioButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Comma_Dismenber"));
-        otherDismenberRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Other") + ":", false);
-        otherDismenberRadioButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Other"));
+        otherDismenberRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Other") + ":", false);
+        otherDismenberRadioButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Other"));
         otherDismenberTextField = new UITextField(8);
         otherDismenberTextField.setEditable(false);
         otherDismenberRadioButton.addChangeListener(new ChangeListener() {
@@ -487,7 +487,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
 
     private class RefreshAction extends UITableEditAction {
         public RefreshAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Refresh"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Refresh"));
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/refresh.png"));
         }
 
@@ -800,7 +800,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
 
         private class RefreshParameterAction extends UpdateAction {
             public RefreshParameterAction() {
-                this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Refresh"));
+                this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Refresh"));
                 this.setMnemonic('r');
                 this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/refresh.png"));
             }

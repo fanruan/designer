@@ -131,7 +131,7 @@ public class VanChartTitlePane extends AbstractVanChartScrollPane<VanChart> {
         useHtml = new UIToggleButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Html"));
         Component[][] components = new Component[][]{
                 new Component[]{null ,null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Text"), SwingConstants.LEFT), titleContent},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Text"), SwingConstants.LEFT), titleContent},
                 new Component[]{null ,useHtml},
         };
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components,row,col);

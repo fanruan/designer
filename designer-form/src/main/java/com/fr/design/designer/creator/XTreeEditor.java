@@ -42,7 +42,7 @@ public class XTreeEditor extends XWidgetCreator {
                                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Value")).setEditorClass(WidgetValueEditor.class)
                                 .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                         new CRPropertyDescriptor("model", this.data.getClass(), "getNodeOrDict", "setNodeOrDict").setI18NName(
-                                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_DS-Dictionary")).setEditorClass(TreeModelEditor.class).setRendererClass(
+                                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_DS_Dictionary")).setEditorClass(TreeModelEditor.class).setRendererClass(
                                 TreeModelRenderer.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                         new CRPropertyDescriptor("allowBlank", this.data.getClass()).setI18NName(
                                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Allow_Blank")).setEditorClass(InChangeBooleanEditor.class)
@@ -56,7 +56,7 @@ public class XTreeEditor extends XWidgetCreator {
                         com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Value")).setEditorClass(WidgetValueEditor.class)
                         .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                 new CRPropertyDescriptor("model", this.data.getClass(), "getNodeOrDict", "setNodeOrDict").setI18NName(
-                        com.fr.design.i18n.Toolkit.i18nText("FR-Designer_DS-Dictionary")).setEditorClass(TreeModelEditor.class).setRendererClass(
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_DS_Dictionary")).setEditorClass(TreeModelEditor.class).setRendererClass(
                         TreeModelRenderer.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                 new CRPropertyDescriptor("allowBlank", this.data.getClass()).setI18NName(
                         com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Allow_Blank")).setEditorClass(InChangeBooleanEditor.class).putKeyValue(

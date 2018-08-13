@@ -127,7 +127,7 @@ public class TreeTableDataDictPane extends BasicPane implements Previewable {
         buildTreePanel.add(xxx, BorderLayout.CENTER);
         centerPane.add(buildTreePanel, BorderLayout.NORTH);
         JPanel previewPanel = FRGUIPaneFactory.createRightFlowInnerContainer_S_Pane();
-        UIButton treeDataPreviewButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Preview"));
+        UIButton treeDataPreviewButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preview"));
         previewPanel.add(treeDataPreviewButton);
         treeDataPreviewButton.addActionListener(new ActionListener() {
             @Override
