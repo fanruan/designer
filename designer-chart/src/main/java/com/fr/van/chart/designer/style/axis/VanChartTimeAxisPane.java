@@ -229,7 +229,7 @@ public class VanChartTimeAxisPane extends VanChartBaseAxisPane {
 
         private void initMain() {
             // 主要刻度单位
-            mainTickBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Custom", "Plugin-ChartF_MainType"}));
+            mainTickBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom_Main_Type"));
             mainUnitField = new UITextField();
             mainUnitField.setPreferredSize(new Dimension(20, 20));
             mainType = new UIComboBox(TYPES);
@@ -245,7 +245,7 @@ public class VanChartTimeAxisPane extends VanChartBaseAxisPane {
 
         private void initSecond() {
             // 次要刻度单位
-            secondTickBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Custom", "Plugin-ChartF_SecType"}));
+            secondTickBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom_Second_Type"));
             secondUnitField = new UITextField();
             secondUnitField.setPreferredSize(new Dimension(20, 20));
             secondType = new UIComboBox(TYPES);

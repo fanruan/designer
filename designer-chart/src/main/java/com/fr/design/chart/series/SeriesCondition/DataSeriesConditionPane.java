@@ -166,7 +166,7 @@ public class DataSeriesConditionPane extends ConditionAttributesPane<ConditionAt
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Condition", "Display"});
+        return com.fr.design.i18n.Toolkit.i18nText("Chart-Condition_Display");
     }
 
     /**

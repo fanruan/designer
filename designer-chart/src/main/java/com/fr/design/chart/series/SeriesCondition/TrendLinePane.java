@@ -34,7 +34,7 @@ public class TrendLinePane extends ConditionAttrSingleConditionPane<DataSeriesCo
         super(conditionAttributesPane, isRemove);
         nameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart_TrendLine"));
 
-        editTrendLineButton = new UIButton(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Edit", "Chart_TrendLine"}));
+        editTrendLineButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Edit_Trendline"));
         editTrendLineButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 final TrendLineControlPane controlPane = new TrendLineControlPane();

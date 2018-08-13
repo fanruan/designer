@@ -27,7 +27,7 @@ public class VanChartLinePlotPane extends AbstractVanChartTypePane {
     protected String[] getTypeTipName() {
         return new String[]{
                 com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Line"),
-                com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"FR-Chart-Type_Stacked","FR-Chart-Type_Line"}),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Stacked_Line"),
                 com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Mode_Custom")
         };
     }
