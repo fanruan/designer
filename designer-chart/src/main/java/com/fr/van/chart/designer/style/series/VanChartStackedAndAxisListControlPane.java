@@ -40,9 +40,9 @@ public class VanChartStackedAndAxisListControlPane extends VanChartUIListControl
 
     protected ShortCut4JControlPane[] createShortcuts() {
         return new ShortCut4JControlPane[]{
-                moveUpItemShortCut(),
-                moveDownItemShortCut(),
-                removeItemShortCut()
+                shortCutFactory.moveUpItemShortCut(),
+                shortCutFactory.moveDownItemShortCut(),
+                shortCutFactory.removeItemShortCut()
         };
     }
 

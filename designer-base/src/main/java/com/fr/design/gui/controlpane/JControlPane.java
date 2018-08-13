@@ -17,22 +17,28 @@ import java.awt.*;
  * Date: 2016/5/17
  * Time: 15:07
  */
-public abstract class JControlPane extends BasicPane implements UnrepeatedNameHelper {
-    protected static final int SHORT_WIDTH = 30; //每加一个short Divider位置加30
-    protected JPanel controlUpdatePane;
+abstract class JControlPane extends BasicPane implements UnrepeatedNameHelper, ShortCutListenerProvider {
+    private static final int SHORT_WIDTH = 30; //每加一个short Divider位置加30
+    JPanel controlUpdatePane;
 
-    private ShortCut4JControlPane[] shorts;
-    private NameableCreator[] creators;
+    ShortCut4JControlPane[] shorts;
+    NameableCreator[] creators;
     private ToolBarDef toolbarDef;
 
-    private UIToolbar toolBar;
+    UIToolbar toolBar;
     // peter:这是整体的一个cardLayout Pane
     protected CardLayout cardLayout;
 
     protected JPanel cardPane;
+    protected AbstractShortCutFactory shortCutFactory;
 
-    public JControlPane() {
+    JControlPane() {
+        this.initShortCutFactory();
         this.initComponentPane();
+    }
+
+    protected void initShortCutFactory() {
+        this.shortCutFactory = OldShortCutFactory.newInstance(this);
     }
 
     /**
@@ -42,12 +48,8 @@ public abstract class JControlPane extends BasicPane implements UnrepeatedNameHe
      */
     public abstract NameableCreator[] createNameableCreators();
 
-    public ShortCut4JControlPane[] getShorts() {
+    ShortCut4JControlPane[] getShorts() {
         return shorts;
-    }
-
-    public void setShorts(ShortCut4JControlPane[] shorts) {
-        this.shorts = shorts;
     }
 
     public void setCreators(NameableCreator[] creators) {
@@ -111,6 +113,15 @@ public abstract class JControlPane extends BasicPane implements UnrepeatedNameHe
 
     protected abstract JPanel createControlUpdatePane();
 
+    protected void initToolBar() {
+        toolbarDef = new ToolBarDef();
+        for (ShortCut4JControlPane sj : shorts) {
+            toolbarDef.addShortCut(sj.getShortCut());
+        }
+        toolBar = ToolBarDef.createJToolBar();
+        toolbarDef.updateToolBar(toolBar);
+    }
+
     protected JPanel getLeftPane() {
         // LeftPane
         JPanel leftPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
@@ -122,12 +133,8 @@ public abstract class JControlPane extends BasicPane implements UnrepeatedNameHe
             return leftPane;
         }
 
-        toolbarDef = new ToolBarDef();
-        for (ShortCut4JControlPane sj : shorts) {
-            toolbarDef.addShortCut(sj.getShortCut());
-        }
-        toolBar = ToolBarDef.createJToolBar();
-        toolbarDef.updateToolBar(toolBar);
+        initToolBar();
+
         leftPane.add(toolBar, BorderLayout.NORTH);
         return leftPane;
     }
@@ -143,29 +150,9 @@ public abstract class JControlPane extends BasicPane implements UnrepeatedNameHe
         return shorts.length * SHORT_WIDTH;
     }
 
-
     protected ShortCut4JControlPane[] createShortcuts() {
-        return new ShortCut4JControlPane[]{
-                addItemShortCut(),
-                removeItemShortCut(),
-                copyItemShortCut(),
-                moveUpItemShortCut(),
-                moveDownItemShortCut(),
-                sortItemShortCut()
-        };
+        return shortCutFactory.createShortCuts();
     }
-
-    protected abstract ShortCut4JControlPane addItemShortCut();
-
-    protected abstract ShortCut4JControlPane removeItemShortCut();
-
-    protected abstract ShortCut4JControlPane copyItemShortCut();
-
-    protected abstract ShortCut4JControlPane moveUpItemShortCut();
-
-    protected abstract ShortCut4JControlPane moveDownItemShortCut();
-
-    protected abstract ShortCut4JControlPane sortItemShortCut();
 
     public abstract Nameable[] update();
 
@@ -179,10 +166,10 @@ public abstract class JControlPane extends BasicPane implements UnrepeatedNameHe
     public void checkButtonEnabled() {
     }
 
-    protected void doBeforeRemove() {
+    void doBeforeRemove() {
     }
 
-    protected void doAfterRemove() {
+    void doAfterRemove() {
     }
 
     public NameableCreator[] creators() {
@@ -192,10 +179,10 @@ public abstract class JControlPane extends BasicPane implements UnrepeatedNameHe
     protected abstract boolean hasInvalid(boolean isAdd);
 
     /**
-     * 刷新 NameableCreator
-     *
-     * @param creators 生成器
-     */
+    * 刷新 NameableCreator
+    *
+    * @param creators 生成器
+    */
     public void refreshNameableCreator(NameableCreator[] creators) {
         this.creators = creators;
         shorts = this.createShortcuts();

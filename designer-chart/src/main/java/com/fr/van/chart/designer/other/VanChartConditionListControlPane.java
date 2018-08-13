@@ -41,7 +41,7 @@ public class VanChartConditionListControlPane extends VanChartUIListControlPane 
     }
 
 
-    protected BasicBeanPane createPaneByCreators(NameableCreator creator) {
+    public BasicBeanPane createPaneByCreators(NameableCreator creator) {
         Constructor<? extends BasicBeanPane> constructor = null;
         try {
             constructor = creator.getUpdatePane().getConstructor(Plot.class);

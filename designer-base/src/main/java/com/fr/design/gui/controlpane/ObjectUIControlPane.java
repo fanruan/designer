@@ -20,7 +20,7 @@ public abstract class ObjectUIControlPane extends UIListControlPane {
     }
 
     @Override
-    protected BasicBeanPane createPaneByCreators(NameableCreator creator) {
+    public BasicBeanPane createPaneByCreators(NameableCreator creator) {
         try {
             if (object == null) {
                 return super.createPaneByCreators(creator);

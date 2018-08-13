@@ -77,7 +77,11 @@ public class ConfusionManagerPane extends JListControlPane {
 
 	@Override
 	protected ShortCut4JControlPane[] createShortcuts() {
-		return new ShortCut4JControlPane[] { moveUpItemShortCut(), moveDownItemShortCut(), sortItemShortCut() };
+		return new ShortCut4JControlPane[] {
+				shortCutFactory.moveUpItemShortCut(),
+				shortCutFactory.moveDownItemShortCut(),
+				shortCutFactory.sortItemShortCut()
+		};
 	}
 
 }

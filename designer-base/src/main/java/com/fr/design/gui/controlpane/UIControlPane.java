@@ -2,7 +2,6 @@ package com.fr.design.gui.controlpane;
 
 import com.fr.base.chart.BasePlot;
 import com.fr.design.constants.UIConstants;
-import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itoolbar.UIToolBarUI;
 import com.fr.design.gui.itoolbar.UIToolbar;
@@ -11,10 +10,8 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.menu.ShortCut;
-import com.fr.design.menu.ToolBarDef;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.stable.ArrayUtils;
-import com.fr.stable.Nameable;
 import com.fr.stable.StringUtils;
 
 import javax.swing.BorderFactory;
@@ -49,84 +46,29 @@ import java.awt.event.WindowEvent;
 /**
  * Created by plough on 2017/7/21.
  */
-public abstract class UIControlPane extends BasicPane implements UnrepeatedNameHelper {
-    protected static final int SHORT_WIDTH = 30; //每加一个short Divider位置加30
-    protected JPanel controlUpdatePane;
-    private ShortCut4JControlPane[] shorts;
-    private NameableCreator[] creators;
-    private ToolBarDef toolbarDef;
-    private UIToolbar toolBar;
+abstract class UIControlPane extends JControlPane {
     private UIToolbar topToolBar;
     protected Window popupEditDialog;
-    // peter:这是整体的一个cardLayout Pane
-    protected CardLayout cardLayout;
-    protected JPanel cardPane;
     protected BasePlot plot;
     private static final int TOP_TOOLBAR_HEIGHT = 20;
     private static final int TOP_TOOLBAR_WIDTH = 156;  // 可能因为用了tablelayout，要比其他地方多一个像素，看起来才正常
     private static final int TOP_TOOLBAR_WIDTH_SHORT = 76;
 
-    public UIControlPane() {
-        this.initComponentPane();
+    UIControlPane() {
+        super();
     }
 
-    public UIControlPane(BasePlot plot) {
+    UIControlPane(BasePlot plot) {
+        super();
         this.plot = plot;
-        this.initComponentPane();
-    }
-
-    /**
-     * 生成添加按钮的NameableCreator
-     *
-     * @return 按钮的NameableCreator
-     */
-    public abstract NameableCreator[] createNameableCreators();
-
-    public ShortCut4JControlPane[] getShorts() {
-        return shorts;
-    }
-
-    public void setShorts(ShortCut4JControlPane[] shorts) {
-        this.shorts = shorts;
-    }
-
-    public void setCreators(NameableCreator[] creators) {
-        this.creators = creators;
-    }
-
-    public ToolBarDef getToolbarDef() {
-        return toolbarDef;
-    }
-
-    public void setToolbarDef(ToolBarDef toolbarDef) {
-        this.toolbarDef = toolbarDef;
-    }
-
-    public UIToolbar getToolBar() {
-        return toolBar;
-    }
-
-    public void setToolBar(UIToolbar toolBar) {
-        this.toolBar = toolBar;
-    }
-
-    public CardLayout getCardLayout() {
-        return cardLayout;
-    }
-
-    public void setCardLayout(CardLayout cardLayout) {
-        this.cardLayout = cardLayout;
-    }
-
-    public JPanel getCardPane() {
-        return cardPane;
-    }
-
-    public void setCardPane(JPanel cardPane) {
-        this.cardPane = cardPane;
     }
 
     public abstract void saveSettings();
+
+    @Override
+    protected void initShortCutFactory() {
+        this.shortCutFactory = NewShortCutFactory.newInstance(this);
+    }
 
     // 是否使用新样式
     protected boolean isNewStyle() {
@@ -169,11 +111,22 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
         this.checkButtonEnabled();
     }
 
-    protected void getPopupEditDialog(JPanel cardPane) {
+    private void getPopupEditDialog(JPanel cardPane) {
         popupEditDialog = new PopupEditDialog(cardPane);
     }
 
-    protected abstract JPanel createControlUpdatePane();
+    @Override
+    protected void initToolBar() {
+        super.initToolBar();
+        toolBar.setUI(new UIToolBarUI() {
+            @Override
+            public void paint(Graphics g, JComponent c) {
+                Graphics2D g2 = (Graphics2D) g;
+                g2.setColor(Color.WHITE);
+                g2.fillRect(0, 0, c.getWidth(), c.getHeight());
+            }
+        });
+    }
 
     protected JPanel getLeftPane() {
         // LeftPane
@@ -188,20 +141,8 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
             return leftPane;
         }
 
-        toolbarDef = new ToolBarDef();
-        for (ShortCut4JControlPane sj : shorts) {
-            toolbarDef.addShortCut(sj.getShortCut());
-        }
-        toolBar = ToolBarDef.createJToolBar();
-        toolBar.setUI(new UIToolBarUI() {
-            @Override
-            public void paint(Graphics g, JComponent c) {
-                Graphics2D g2 = (Graphics2D) g;
-                g2.setColor(Color.WHITE);
-                g2.fillRect(0, 0, c.getWidth(), c.getHeight());
-            }
-        });
-        toolbarDef.updateToolBar(toolBar);
+        initToolBar();
+
         // 封装一层，加边框
         JPanel toolBarPane = new JPanel(new BorderLayout());
         toolBarPane.add(toolBar, BorderLayout.CENTER);
@@ -220,7 +161,7 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
         });
         topToolBar.setBorder(null);
         topToolBar.setLayout(new BorderLayout());
-        ShortCut addItem = addItemShortCut().getShortCut();
+        ShortCut addItem = shortCutFactory.addItemShortCut().getShortCut();
         addItem.intoJToolBar(topToolBar);
 
         JPanel leftTopPane = getLeftTopPane(topToolBar);
@@ -249,63 +190,10 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
         return "add item ";
     }
 
-    /**
-     * 初始化左边面板
-     */
-    protected void initLeftPane(JPanel leftPane) {
-
-    }
-
-    protected int getLeftPreferredSize() {
-        return shorts.length * SHORT_WIDTH;
-    }
-
-
     protected ShortCut4JControlPane[] createShortcuts() {
-        return new ShortCut4JControlPane[]{
-                copyItemShortCut(),
-                moveUpItemShortCut(),
-                moveDownItemShortCut(),
-                sortItemShortCut(),
-                removeItemShortCut()
-        };
+//        return AbstractShortCutFactory.getInstance(this).createNewShortCuts();
+        return shortCutFactory.createShortCuts();
     }
-
-    protected abstract ShortCut4JControlPane addItemShortCut();
-
-    protected abstract ShortCut4JControlPane removeItemShortCut();
-
-    protected abstract ShortCut4JControlPane copyItemShortCut();
-
-    protected abstract ShortCut4JControlPane moveUpItemShortCut();
-
-    protected abstract ShortCut4JControlPane moveDownItemShortCut();
-
-    protected abstract ShortCut4JControlPane sortItemShortCut();
-
-    public abstract Nameable[] update();
-
-
-    public void populate(Nameable[] nameableArray) {
-    }
-
-    /**
-     * 检查按钮可用状态 Check button enabled.
-     */
-    public void checkButtonEnabled() {
-    }
-
-    protected void doBeforeRemove() {
-    }
-
-    protected void doAfterRemove() {
-    }
-
-    public NameableCreator[] creators() {
-        return creators == null ? new NameableCreator[0] : creators;
-    }
-
-    protected abstract boolean hasInvalid(boolean isAdd);
 
     /**
      * 刷新 NameableCreator
@@ -313,21 +201,11 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
      * @param creators 生成器
      */
     public void refreshNameableCreator(NameableCreator[] creators) {
-        this.creators = creators;
-        shorts = this.createShortcuts();
-        toolbarDef.clearShortCuts();
-        for (ShortCut4JControlPane sj : shorts) {
-            toolbarDef.addShortCut(sj.getShortCut());
-        }
-
-        toolbarDef.updateToolBar(toolBar);
-        toolBar.validate();
-        toolBar.repaint();
-
+        super.refreshNameableCreator(creators);
 
         // 顶部按钮
         topToolBar.removeAll();
-        ShortCut addItem = addItemShortCut().getShortCut();
+        ShortCut addItem = shortCutFactory.addItemShortCut().getShortCut();
         addItem.intoJToolBar(topToolBar);
         topToolBar.validate();
         this.controlUpdatePane = createControlUpdatePane();//REPORT-4841 刷新一下编辑面板
@@ -337,13 +215,13 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
     }
 
     // 点击"编辑"按钮，弹出面板
-    protected class PopupEditDialog extends JDialog {
+    class PopupEditDialog extends JDialog {
         private JComponent editPane;
         private PopupToolPane popupToolPane;
         private static final int WIDTH = 570;
         private static final int HEIGHT = 490;
 
-        public PopupEditDialog(JComponent pane) {
+        PopupEditDialog(JComponent pane) {
             super(DesignerContext.getDesignerFrame());
             setUndecorated(true);
             pane.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10));
@@ -475,11 +353,11 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
             }
         };
 
-        public PopupToolPane(JDialog parentDialog) {
+        PopupToolPane(JDialog parentDialog) {
             this(StringUtils.EMPTY, parentDialog);
         }
 
-        public PopupToolPane(String title, JDialog parentDialog) {
+        PopupToolPane(String title, JDialog parentDialog) {
             super();
             this.parentDialog = parentDialog;
             originColor = UIConstants.DIALOG_TITLEBAR_BACKGROUND;
