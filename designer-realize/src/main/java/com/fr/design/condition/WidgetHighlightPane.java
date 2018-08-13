@@ -35,7 +35,7 @@ public class WidgetHighlightPane extends ConditionAttrSingleConditionPane<Highli
 
     public WidgetHighlightPane(final ConditionAttributesPane conditionAttributesPane) {
         super(conditionAttributesPane);
-        widgetButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit"));
+        widgetButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Edit"));
         widgetButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 final WidgetPane widgetPane = new WidgetPane() {
@@ -63,7 +63,7 @@ public class WidgetHighlightPane extends ConditionAttrSingleConditionPane<Highli
                 "",
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Text"),
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_TextArea"),
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Number"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Number"),
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_Password"),
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_Button"),
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_CheckBox"),
@@ -71,8 +71,8 @@ public class WidgetHighlightPane extends ConditionAttrSingleConditionPane<Highli
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_CheckBox_Group"),
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ComboBox"),
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_ComboCheckBox"),
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Date"),
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_File"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_File"),
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_List"),
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_Iframe"),
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Tree_ComboBox"),
@@ -118,13 +118,13 @@ public class WidgetHighlightPane extends ConditionAttrSingleConditionPane<Highli
         } else if (value instanceof ComboBox) {
             box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ComboBox"));
         } else if (value instanceof NumberEditor) {
-            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Number"));
+            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Number"));
         } else if (value instanceof IframeEditor) {
             box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_Iframe"));
         } else if (value instanceof FreeButton) {
             box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_Button"));
         } else if (value instanceof DateEditor) {
-            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Date"));
+            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date"));
         } else if (value instanceof CheckBox) {
             box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_CheckBox"));
         } else if (value instanceof RadioGroup) {
@@ -132,7 +132,7 @@ public class WidgetHighlightPane extends ConditionAttrSingleConditionPane<Highli
         } else if (value instanceof CheckBoxGroup) {
             box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_CheckBox_Group"));
         } else if (value instanceof MultiFileEditor) {
-            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_File"));
+            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_File"));
         } else if (value instanceof ListEditor) {
             box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_List"));
         } else if (value instanceof TreeComboBoxEditor) {

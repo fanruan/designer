@@ -259,7 +259,7 @@ public class FormWidgetDetailPane extends FormDockView{
     private UIButton createRefreshButton() {
         return createToolButton(
                 BaseUtils.readIcon("/com/fr/design/form/images/refresh.png"),
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Refresh"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Refresh"),
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -332,7 +332,7 @@ public class FormWidgetDetailPane extends FormDockView{
                         JFileChooser fileChooser = new JFileChooser();
                         fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
                         fileChooser.setFileFilter(new FileNameExtensionFilter(".reu", "reu"));
-                        int returnValue = fileChooser.showDialog(new UILabel(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Select"));
+                        int returnValue = fileChooser.showDialog(new UILabel(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Select"));
                         if (returnValue == JFileChooser.APPROVE_OPTION) {
                             final File chosenFile = fileChooser.getSelectedFile();
                             installFromDiskZipFile(chosenFile);

@@ -43,7 +43,7 @@ public class DictionaryPane extends UIComboBoxPane<Dictionary> implements DataCr
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_DS-Dictionary");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_DS_Dictionary");
     }
 
     @Override

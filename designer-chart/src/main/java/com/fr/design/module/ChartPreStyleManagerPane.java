@@ -27,7 +27,7 @@ public class ChartPreStyleManagerPane extends JListControlPane {
      */
 	public NameableCreator[] createNameableCreators() {
 		return new NameableCreator[]{
-				new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_PreStyle"),
+				new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_PreStyle_Duplicate"),
 						ChartColorMatching.class, ChartPreStylePane.class)
 		};
 	}

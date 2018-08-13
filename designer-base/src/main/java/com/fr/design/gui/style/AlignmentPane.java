@@ -198,7 +198,7 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
         JPanel jp1 = new JPanel(new BorderLayout());
         basicPane = new JPanel();
         seniorPane = new JPanel();
-        basicPane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Basic"), 290, 24, basicPane());
+        basicPane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Basic"), 290, 24, basicPane());
         seniorPane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Advanced"), 290, 24, seniorPane());
 
         jp1.add(basicPane, BorderLayout.NORTH);
@@ -269,7 +269,7 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
         Component[][] components = new Component[][]{
                 new Component[]{null, null, null},
                 new Component[]{indentationPane, creatSpinnerPane(leftIndentSpinner), creatSpinnerPane(rightIndentSpinner)},
-                new Component[]{null, new UILabel((com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Left")), SwingConstants.CENTER), new UILabel((com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Right")), SwingConstants.CENTER)},
+                new Component[]{null, new UILabel((com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Left")), SwingConstants.CENTER), new UILabel((com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Right")), SwingConstants.CENTER)},
                 new Component[]{null, null, null},
                 new Component[]{null, null, null},
                 new Component[]{partSpacingPane, creatSpinnerPane(spaceBeforeSpinner), creatSpinnerPane(spaceAfterSpinner)},

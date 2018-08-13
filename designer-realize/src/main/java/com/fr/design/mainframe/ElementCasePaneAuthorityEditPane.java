@@ -193,7 +193,7 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
     private boolean setAuthorityColumn() {
         initSelectedPathArray();
         String selectedRoles = ReportAndFSManagePane.getInstance().getRoleTree().getSelectedRoleName();
-        if (ComparatorUtils.equals(selectedRoles, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Role"))) {
+        if (ComparatorUtils.equals(selectedRoles, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Role"))) {
             return false;
         }
         if (selectedRoles == null) {
@@ -222,7 +222,7 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
     private boolean setAuthorityRow() {
         initSelectedPathArray();
         String selectedRoles = ReportAndFSManagePane.getInstance().getRoleTree().getSelectedRoleName();
-        if (ComparatorUtils.equals(selectedRoles, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Role"))) {
+        if (ComparatorUtils.equals(selectedRoles, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Role"))) {
             return false;
         }
         if (selectedRoles == null) {
@@ -252,7 +252,7 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
     private boolean setLFloatAuthorityStyle() {
         initSelectedPathArray();
         String selectedRoles = ReportAndFSManagePane.getInstance().getRoleTree().getSelectedRoleName();
-        if (ComparatorUtils.equals(selectedRoles, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Role"))) {
+        if (ComparatorUtils.equals(selectedRoles, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Role"))) {
             return false;
         }
         if (selectedRoles == null) {
@@ -274,7 +274,7 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
     private boolean setAuthorityStyle(int type) {
         initSelectedPathArray();
         String selectedRoles = ReportAndFSManagePane.getInstance().getRoleTree().getSelectedRoleName();
-        if (ComparatorUtils.equals(selectedRoles, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Role")) ||
+        if (ComparatorUtils.equals(selectedRoles, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Role")) ||
                 selectedRoles == null || selectedPathArray == null) {
             return false;
         }
@@ -427,7 +427,7 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
      */
     public void populateType() {
         if (selectionType == CellSelection.NORMAL) {
-            type.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cell"));
+            type.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cell"));
         } else if (selectionType == CellSelection.CHOOSE_ROW) {
             type.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Row"));
         } else if (selectionType == CellSelection.CHOOSE_COLUMN) {
@@ -683,7 +683,7 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cell"), SwingConstants.LEFT), cellElementVisibleCheckBoxes},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cell"), SwingConstants.LEFT), cellElementVisibleCheckBoxes},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Widget"), SwingConstants.LEFT), widgetVisible},
                 new Component[]{null, widgetAvailable}
         };
@@ -867,11 +867,11 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[hyperlinkCheckBoxes.length + 1][];
         if (linkGroup.size() == 1) {
-            components[0] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cell"), SwingConstants.LEFT), cellElementVisibleCheckBoxes};
+            components[0] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cell"), SwingConstants.LEFT), cellElementVisibleCheckBoxes};
             components[1] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Hyperlink"), SwingConstants.LEFT), hyperlinkCheckBoxes[0] = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Visible"))};
 
         } else {
-            components[0] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cell"), SwingConstants.LEFT), cellElementVisibleCheckBoxes = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Visible"))};
+            components[0] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cell"), SwingConstants.LEFT), cellElementVisibleCheckBoxes = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Visible"))};
             components[1] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Hyperlink"), SwingConstants.LEFT), hyperlinkCheckBoxes[0] = new UICheckBox(linkGroup.getNameHyperlink(0).getName() + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Visible"))};
             for (int i = 1; i < hyperlinkCheckBoxes.length; i++) {
                 components[i + 1] = new Component[]{null, hyperlinkCheckBoxes[i] = new UICheckBox(linkGroup.getNameHyperlink(i).getName() + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Visible"))};
@@ -898,7 +898,7 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[2][];
-        components[0] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cell"), SwingConstants.LEFT), cellElementVisibleCheckBoxes};
+        components[0] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cell"), SwingConstants.LEFT), cellElementVisibleCheckBoxes};
         components[1] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Hyperlink"), SwingConstants.LEFT), hyperlinkCheckBoxes[0] = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Visible"))};
         hyperlinkCheckBoxes[0].setEnabled(cellElementVisibleCheckBoxes.isSelected());
         addHyperlinkListener();

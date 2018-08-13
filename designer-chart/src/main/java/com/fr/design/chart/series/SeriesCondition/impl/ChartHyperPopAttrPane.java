@@ -83,7 +83,7 @@ public class ChartHyperPopAttrPane extends AbstractChartAttrPane {
 		pane.add(northPane, BorderLayout.NORTH);
 		
 		parameterViewPane = new ReportletParameterViewPane(paraType, valueEditorPane, valueRenderPane);
-		parameterViewPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter")));
+		parameterViewPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter")));
 		parameterViewPane.setPreferredSize(new Dimension(200, 200));
 		pane.add(parameterViewPane, BorderLayout.CENTER);
 

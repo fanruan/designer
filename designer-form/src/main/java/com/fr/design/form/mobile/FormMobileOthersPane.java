@@ -60,6 +60,6 @@ public class FormMobileOthersPane extends BasicBeanPane<FormMobileAttr> {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Other");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Other");
     }
 }

@@ -239,7 +239,7 @@ public class RoleTree extends UserObjectRefreshJTree<RoleSourceOP> {
      */
     protected void doWithValueChanged(TreeSelectionEvent e) {
         if (e.getNewLeadSelectionPath() != null) {
-            if (!e.getNewLeadSelectionPath().getLastPathComponent().toString().equals(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Role"))) {
+            if (!e.getNewLeadSelectionPath().getLastPathComponent().toString().equals(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Role"))) {
                 roleName = e.getNewLeadSelectionPath().getLastPathComponent().toString();
                 setTabRoleName(roleName);
                 refreshRoleTree(roleName);
@@ -253,7 +253,7 @@ public class RoleTree extends UserObjectRefreshJTree<RoleSourceOP> {
      * @param treepath 所选的节点路径
      */
     protected void doWithValueChanged(TreePath treepath) {
-        if (treepath != null && !treepath.getLastPathComponent().toString().equals(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Role"))) {
+        if (treepath != null && !treepath.getLastPathComponent().toString().equals(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Role"))) {
             roleName = treepath.getLastPathComponent().toString();
             setTabRoleName(roleName);
             refreshRoleTree(roleName);

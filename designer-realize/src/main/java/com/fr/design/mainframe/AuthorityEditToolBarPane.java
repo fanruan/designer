@@ -94,7 +94,7 @@ public class AuthorityEditToolBarPane extends AuthorityPropertyPane {
             public void itemStateChanged(ItemEvent e) {
                 String selectedRole = ReportAndFSManagePane.getInstance().getRoleTree().getSelectedRoleName();
                 initSelectedPathArray();
-                if (ComparatorUtils.equals(selectedRole, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Role")) || selectedRole ==
+                if (ComparatorUtils.equals(selectedRole, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Role")) || selectedRole ==
                         null || selectedPathArray == null) {
                     return;
                 }

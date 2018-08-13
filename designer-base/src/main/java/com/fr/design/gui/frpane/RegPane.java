@@ -490,11 +490,11 @@ public class RegPane extends BasicPane {
                                                       int index, boolean isSelected, boolean cellHasFocus) {
             super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
             if (value instanceof NoneReg){
-                this.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_None"));
+                this.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_None"));
             } else if (value instanceof LengthReg){
                 this.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Length"));
             } else if (value instanceof MailReg){
-                this.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Email"));
+                this.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Email"));
             } else if (value instanceof PhoneReg){
                 this.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Phone"));
             } else if (value instanceof MobileReg) {

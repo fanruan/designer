@@ -152,7 +152,7 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
         panel.add(createMapSourcesPane(), BorderLayout.NORTH);
         panel.add(createGISLayerPane(), BorderLayout.CENTER);
 
-        JPanel BasePane = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Basic"), panel);
+        JPanel BasePane = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Basic"), panel);
 
         Component[][] comps = new Component[][]{
                 new Component[]{BasePane},
