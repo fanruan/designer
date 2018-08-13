@@ -51,7 +51,7 @@ class JControlUpdatePane extends JPanel {
     }
 
     public void populate() {
-        ListModelElement el = listControlPane.getSelectedElement();
+        ListModelElement el = listControlPane.getSelectedValue();
         if (el == null) {
             return;
         }

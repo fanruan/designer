@@ -2,7 +2,7 @@ package com.fr.van.chart.custom.component;
 
 import com.fr.design.gui.HyperlinkFilterHelper;
 import com.fr.design.gui.controlpane.NameableCreator;
-import com.fr.design.gui.controlpane.NewShortCutFactory;
+import com.fr.design.gui.controlpane.shortcutfactory.NewShortCutFactory;
 import com.fr.design.gui.controlpane.ShortCutListenerProvider;
 import com.fr.design.menu.ShortCut;
 

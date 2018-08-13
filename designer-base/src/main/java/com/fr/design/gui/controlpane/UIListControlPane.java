@@ -1,22 +1,19 @@
 package com.fr.design.gui.controlpane;
 
-import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.base.chart.BasePlot;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.icontainer.UIScrollPane;
+import com.fr.design.gui.ilist.JNameEdList;
 import com.fr.design.gui.ilist.ListModelElement;
 import com.fr.design.gui.ilist.UINameEdList;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.ComparatorUtils;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Nameable;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.ListSelectionModel;
@@ -36,30 +33,44 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
-import java.util.Comparator;
 
 /**
  * Created by plough on 2017/7/19.
  */
 
 public abstract class UIListControlPane extends UIControlPane implements ListControlPaneProvider {
-    public static final String LIST_NAME = "UIControl_List";
+    private static final String LIST_NAME = "UIControl_List";
     private static final int EDIT_RANGE = 25;  // 编辑按钮的x坐标范围
 
     protected UINameEdList nameableList;
-    protected int editingIndex;
+    private int editingIndex;
     protected String selectedName;
-    private boolean isNameRepeated = false;
     protected boolean isPopulating = false;
+    private CommonShortCutHandlers commonHandlers;
+    private ListControlPaneHelper helper;
 
 
     public UIListControlPane() {
-        this.initComponentPane();
+        super();
+
     }
 
     public UIListControlPane(BasePlot plot) {
         super(plot);
+    }
+
+    private ListControlPaneHelper getHelper() {
+        if (helper == null) {
+            helper = ListControlPaneHelper.newInstance(this);
+        }
+        return helper;
+    }
+
+    private CommonShortCutHandlers getCommonHandlers() {
+        if (commonHandlers == null) {
+            commonHandlers = CommonShortCutHandlers.newInstance(this);
+        }
+        return commonHandlers;
     }
 
     @Override
@@ -120,7 +131,7 @@ public abstract class UIListControlPane extends UIControlPane implements ListCon
         }
     }
 
-    public UINameEdList createJNameList() {
+    private UINameEdList createJNameList() {
         UINameEdList nameEdList = new UINameEdList(new DefaultListModel()) {
             @Override
             protected void doAfterLostFocus() {
@@ -135,24 +146,17 @@ public abstract class UIListControlPane extends UIControlPane implements ListCon
         return nameEdList;
     }
 
-    public void updateControlUpdatePane() {
+    private void updateControlUpdatePane() {
         ((JControlUpdatePane) controlUpdatePane).update();
     }
 
-    public void setNameListEditable(boolean editable) {
+    protected void setNameListEditable(boolean editable) {
         this.nameableList.setEditable(editable);
     }
 
     @Override
     public Nameable[] update() {
-        java.util.List<Nameable> res = new java.util.ArrayList<Nameable>();
-        ((JControlUpdatePane) this.controlUpdatePane).update();
-        DefaultListModel listModel = (DefaultListModel) this.nameableList.getModel();
-        for (int i = 0, len = listModel.getSize(); i < len; i++) {
-            res.add(((ListModelElement) listModel.getElementAt(i)).wrapper);
-        }
-
-        return res.toArray(new Nameable[res.size()]);
+        return getHelper().update();
     }
 
     @Override
@@ -184,9 +188,7 @@ public abstract class UIListControlPane extends UIControlPane implements ListCon
      * 获取选中的名字
      */
     public String getSelectedName() {
-        ListModelElement el = (ListModelElement) this.nameableList.getSelectedValue();
-
-        return el == null ? null : el.wrapper.getName();
+       return getHelper().getSelectedName();
     }
 
     /**
@@ -196,68 +198,12 @@ public abstract class UIListControlPane extends UIControlPane implements ListCon
      * @param index    序号
      */
     public void addNameable(Nameable nameable, int index) {
-        UINameEdList nameEdList = UIListControlPane.this.nameableList;
-        DefaultListModel model = (DefaultListModel) nameEdList.getModel();
-
-        ListModelElement el = new ListModelElement(nameable);
-        model.add(index, el);
-        nameableList.setSelectedIndex(index);
-        nameableList.ensureIndexIsVisible(index);
-
-        nameEdList.repaint();
+        getHelper().addNameable(nameable, index);
         popupEditDialog();
     }
 
-    protected DefaultListModel getModel() {
+    public DefaultListModel getModel() {
         return (DefaultListModel) UIListControlPane.this.nameableList.getModel();
-    }
-
-    private String createUnrepeatedCopyName(String suffix) {
-        DefaultListModel model = this.getModel();
-        String[] names = new String[model.getSize()];
-        for (int i = 0; i < model.size(); i++) {
-            names[i] = ((ListModelElement) model.get(i)).wrapper.getName();
-        }
-        String lastName = "CopyOf" + suffix;
-        while (ArrayUtils.contains(names, lastName)) {
-            lastName = "CopyOf" + lastName;
-        }
-        return lastName;
-    }
-
-
-    /**
-     * 生成不重复的名字
-     *
-     * @param prefix 名字前缀
-     * @return 名字
-     */
-    @Override
-    public String createUnrepeatedName(String prefix) {
-        DefaultListModel model = this.getModel();
-        Nameable[] all = new Nameable[model.getSize()];
-        for (int i = 0; i < model.size(); i++) {
-            all[i] = ((ListModelElement) model.get(i)).wrapper;
-        }
-        // richer:生成的名字从1开始. kunsnat: 添加属性从0开始.
-        int count = all.length + 1;
-        while (true) {
-            String name_test = prefix + count;
-            boolean repeated = false;
-            for (int i = 0, len = model.size(); i < len; i++) {
-                Nameable nameable = all[i];
-                if (ComparatorUtils.equals(nameable.getName(), name_test)) {
-                    repeated = true;
-                    break;
-                }
-            }
-
-            if (!repeated) {
-                return name_test;
-            }
-
-            count++;
-        }
     }
 
     private void popupEditDialog() {
@@ -310,143 +256,45 @@ public abstract class UIListControlPane extends UIControlPane implements ListCon
         return resultPos;
     }
 
+    /**
+     * 生成不重复的名字
+     *
+     * @param prefix 名字前缀
+     * @return 名字
+     */
+    @Override
+    public String createUnrepeatedName(String prefix) {
+        return getCommonHandlers().createUnrepeatedName(prefix);
+    }
+
     @Override
     public void onAddItem(NameableCreator creator) {
-        Nameable nameable = creator.createNameable(this);
-        this.addNameable(nameable, getModel().getSize());
+        getCommonHandlers().onAddItem(creator);
     }
 
     @Override
     public void onRemoveItem() {
-        try {
-            this.nameableList.getCellEditor().stopCellEditing();
-        } catch (Exception ignored) {
-            // do nothing
-        }
-        // bug:在选中一个NameObject并删除，会遗留下Name.
-        doBeforeRemove();
-        if (GUICoreUtils.removeJListSelectedNodes(SwingUtilities
-                .getWindowAncestor(this), nameableList)) {
-            checkButtonEnabled();
-            doAfterRemove();
-        }
+        getCommonHandlers().onRemoveItem();
     }
 
     @Override
     public void onCopyItem() {
-        // p:选中的值.
-        ListModelElement selectedValue = (ListModelElement) nameableList.getSelectedValue();
-        if (selectedValue == null) {
-            return;
-        }
-
-        ((JControlUpdatePane) controlUpdatePane).update();
-
-        Nameable selectedNameable = selectedValue.wrapper;
-
-        // p: 用反射机制实现
-        try {
-            Nameable newNameable = (Nameable) BaseUtils.cloneObject(selectedNameable);
-            newNameable.setName(createUnrepeatedCopyName(selectedNameable.getName()));
-
-            UIListControlPane.this.addNameable(newNameable, nameableList.getSelectedIndex() + 1);
-        } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
-        }
+        getCommonHandlers().onCopyItem();
     }
 
     @Override
     public void onMoveUpItem() {
-        int selectedIndex = nameableList.getSelectedIndex();
-        if (selectedIndex == -1) {
-            return;
-        }
-
-        // 上移
-        if (selectedIndex > 0) {
-            DefaultListModel listModel = (DefaultListModel) nameableList
-                    .getModel();
-
-            Object selecteObj1 = listModel.get(selectedIndex - 1);
-            listModel.set(selectedIndex - 1, listModel.get(selectedIndex));
-            listModel.set(selectedIndex, selecteObj1);
-
-            nameableList.setSelectedIndex(selectedIndex - 1);
-            nameableList.ensureIndexIsVisible(selectedIndex - 1);
-        }
+        getCommonHandlers().onMoveUpItem();
     }
 
     @Override
     public void onMoveDownItem() {
-        int selectedIndex = nameableList.getSelectedIndex();
-        if (selectedIndex == -1) {
-            return;
-        }
-
-        if (selectedIndex < nameableList.getModel().getSize() - 1) {
-            DefaultListModel listModel = (DefaultListModel) nameableList
-                    .getModel();
-
-            Object selecteObj1 = listModel.get(selectedIndex + 1);
-            listModel.set(selectedIndex + 1, listModel.get(selectedIndex));
-            listModel.set(selectedIndex, selecteObj1);
-
-            nameableList.setSelectedIndex(selectedIndex + 1);
-            nameableList.ensureIndexIsVisible(selectedIndex + 1);
-        }
+        getCommonHandlers().onMoveDownItem();
     }
 
     @Override
     public void onSortItem(boolean isAtoZ) {
-        // p:选中的值.
-        Object selectedValue = nameableList.getSelectedValue();
-
-        DefaultListModel listModel = (DefaultListModel) nameableList
-                .getModel();
-        Nameable[] nameableArray = new Nameable[listModel.getSize()];
-        if (nameableArray.length <= 0) {
-            return;
-        }
-
-        for (int i = 0; i < listModel.getSize(); i++) {
-            nameableArray[i] = ((ListModelElement) listModel.getElementAt(i)).wrapper;
-        }
-
-        // p:排序.
-        if (isAtoZ) {
-            Comparator<Nameable> nameableComparator = new Comparator<Nameable>() {
-                @Override
-                public int compare(Nameable o1, Nameable o2) {
-                    return -ComparatorUtils.compare(o1.getName(), o2
-                            .getName());
-                }
-            };
-            isAtoZ = !isAtoZ;
-            Arrays.sort(nameableArray, nameableComparator);
-        } else {
-            Comparator<Nameable> nameableComparator = new Comparator<Nameable>() {
-                @Override
-                public int compare(Nameable o1, Nameable o2) {
-                    return ComparatorUtils.compare(o1.getName(), o2
-                            .getName());
-                }
-            };
-            isAtoZ = !isAtoZ;
-            Arrays.sort(nameableArray, nameableComparator);
-        }
-
-        for (int i = 0; i < nameableArray.length; i++) {
-            listModel.set(i, new ListModelElement(nameableArray[i]));
-        }
-
-        // p:需要选中以前的那个值.
-        if (selectedValue != null) {
-            nameableList.setSelectedValue(selectedValue, true);
-        }
-
-        checkButtonEnabled();
-        // p:需要repaint.
-        nameableList.repaint();
+        getCommonHandlers().onSortItem(isAtoZ);
     }
 
     @Override
@@ -517,16 +365,7 @@ public abstract class UIListControlPane extends UIControlPane implements ListCon
      */
     @Override
     public void checkButtonEnabled() {
-
-        int selectedIndex = nameableList.getSelectedIndex();
-        if (selectedIndex == -1) {
-            this.cardLayout.show(cardPane, "SELECT");
-        } else {
-            this.cardLayout.show(cardPane, "EDIT");
-        }
-        for (ShortCut4JControlPane sj : getShorts()) {
-            sj.checkEnable();
-        }
+        getHelper().checkButtonEnabled();
     }
 
     public BasicBeanPane createPaneByCreators(NameableCreator creator) {
@@ -566,35 +405,9 @@ public abstract class UIListControlPane extends UIControlPane implements ListCon
         ((JControlUpdatePane) this.controlUpdatePane).checkValid();
     }
 
-    private int getInValidIndex() {
-        BasicBeanPane[] p = ((JControlUpdatePane) controlUpdatePane).getUpdatePanes();
-        if (p != null) {
-            for (int i = 0; i < p.length; i++) {
-                if (p[i] != null) {
-                    try {
-                        p[i].checkValid();
-                    } catch (Exception e) {
-                        return i;
-                    }
-                }
-            }
-        }
-        return -1;
-    }
-
     @Override
-    protected boolean hasInvalid(boolean isAdd) {
-        int idx = UIListControlPane.this.getInValidIndex();
-        if (isAdd || nameableList.getSelectedIndex() != idx) {
-            try {
-                checkValid();
-            } catch (Exception exp) {
-                JOptionPane.showMessageDialog(UIListControlPane.this, exp.getMessage());
-                nameableList.setSelectedIndex(idx);
-                return true;
-            }
-        }
-        return false;
+    public boolean hasInvalid(boolean isAdd) {
+        return getHelper().hasInvalid(isAdd);
     }
     /**
      * 设置选中项
@@ -606,7 +419,22 @@ public abstract class UIListControlPane extends UIControlPane implements ListCon
     }
 
     @Override
-    public ListModelElement getSelectedElement() {
+    public int getSelectedIndex() {
+        return nameableList.getSelectedIndex();
+    }
+
+    @Override
+    public ListModelElement getSelectedValue() {
         return (ListModelElement) this.nameableList.getSelectedValue();
+    }
+
+    @Override
+    public JControlUpdatePane getControlUpdatePane() {
+        return (JControlUpdatePane) controlUpdatePane;
+    }
+
+    @Override
+    public JNameEdList getNameableList() {
+        return nameableList;
     }
 }

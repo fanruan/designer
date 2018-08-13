@@ -10,10 +10,6 @@ import com.fr.design.beans.BasicBeanPane;
 public abstract class ObjectUIControlPane extends UIListControlPane {
     private Object object;
 
-    public ObjectUIControlPane() {
-        this(null);
-    }
-
     public ObjectUIControlPane(Object object) {
         super();
         this.object = object;

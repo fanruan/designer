@@ -2,6 +2,7 @@ package com.fr.design.gui.controlpane;
 
 import com.fr.base.chart.BasePlot;
 import com.fr.design.constants.UIConstants;
+import com.fr.design.gui.controlpane.shortcutfactory.NewShortCutFactory;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itoolbar.UIToolBarUI;
 import com.fr.design.gui.itoolbar.UIToolbar;
@@ -22,7 +23,6 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.border.EmptyBorder;
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -78,16 +78,9 @@ abstract class UIControlPane extends JControlPane {
     protected void initComponentPane() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.creators = this.createNameableCreators();
-        this.controlUpdatePane = createControlUpdatePane();
 
-        // p: edit card layout
-        this.cardLayout = new CardLayout();
-        cardPane = FRGUIPaneFactory.createCardLayout_S_Pane();
-        cardPane.setLayout(this.cardLayout);
-        // p:选择的Label
-        UILabel selectLabel = new UILabel();
-        cardPane.add(selectLabel, "SELECT");
-        cardPane.add(controlUpdatePane, "EDIT");
+        initCardPane();
+
         if (isNewStyle()) {
             getPopupEditDialog(cardPane);
             this.add(getLeftPane(), BorderLayout.CENTER);

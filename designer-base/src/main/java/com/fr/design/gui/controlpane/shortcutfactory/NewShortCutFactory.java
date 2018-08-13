@@ -4,7 +4,6 @@ import com.fr.base.BaseUtils;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.gui.HyperlinkFilterHelper;
-import com.fr.design.gui.controlpane.AbstractShortCutFactory;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.controlpane.ShortCut4JControlPane;
 import com.fr.design.gui.controlpane.ShortCutListenerProvider;

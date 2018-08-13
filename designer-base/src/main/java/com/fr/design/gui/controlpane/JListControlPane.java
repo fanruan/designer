@@ -1,7 +1,5 @@
 package com.fr.design.gui.controlpane;
 
-import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilist.JNameEdList;
@@ -18,7 +16,6 @@ import com.fr.stable.core.PropertyChangeAdapter;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.ListSelectionModel;
@@ -30,8 +27,6 @@ import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Arrays;
-import java.util.Comparator;
 
 public abstract class JListControlPane extends JControlPane implements ListControlPaneProvider {
     private static final String LIST_NAME = "JControl_List";
@@ -40,6 +35,8 @@ public abstract class JListControlPane extends JControlPane implements ListContr
     protected int editingIndex;
     protected String selectedName;
     private boolean isNameRepeated = false;
+    private CommonShortCutHandlers commonHandlers;
+    private ListControlPaneHelper helper;
 
     public JListControlPane() {
         this.initComponentPane();
@@ -48,6 +45,20 @@ public abstract class JListControlPane extends JControlPane implements ListContr
     @Override
     protected JPanel createControlUpdatePane() {
         return JControlUpdatePane.newInstance(this);
+    }
+    
+    private ListControlPaneHelper getHelper() {
+        if (helper == null) {
+            helper = ListControlPaneHelper.newInstance(this);
+        }
+        return helper;
+    }
+    
+    private CommonShortCutHandlers getCommonHandlers() {
+        if (commonHandlers == null) {
+            commonHandlers = CommonShortCutHandlers.newInstance(this);
+        }
+        return commonHandlers;
     }
 
     /**
@@ -64,7 +75,6 @@ public abstract class JListControlPane extends JControlPane implements ListContr
         nameableList = createJNameList();
         nameableList.setName(LIST_NAME);
         leftPane.add(new UIScrollPane(nameableList), BorderLayout.CENTER);
-
 
         nameableList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         nameableList.addMouseListener(listMouseListener);
@@ -101,14 +111,7 @@ public abstract class JListControlPane extends JControlPane implements ListContr
 
     @Override
     public Nameable[] update() {
-        java.util.List<Nameable> res = new java.util.ArrayList<Nameable>();
-        ((JControlUpdatePane) this.controlUpdatePane).update();
-        DefaultListModel listModel = (DefaultListModel) this.nameableList.getModel();
-        for (int i = 0, len = listModel.getSize(); i < len; i++) {
-            res.add(((ListModelElement) listModel.getElementAt(i)).wrapper);
-        }
-
-        return res.toArray(new Nameable[res.size()]);
+        return getHelper().update();
     }
 
     @Override
@@ -184,9 +187,7 @@ public abstract class JListControlPane extends JControlPane implements ListContr
      * 获取选中的名字
      */
     public String getSelectedName() {
-        ListModelElement el = (ListModelElement) this.nameableList.getSelectedValue();
-
-        return el == null ? null : el.wrapper.getName();
+        return getHelper().getSelectedName();
     }
 
     protected boolean isNameRepeated(java.util.List[] list, String name) {
@@ -215,16 +216,8 @@ public abstract class JListControlPane extends JControlPane implements ListContr
      * @param nameable 添加的Nameable
      * @param index    序号
      */
-    private void addNameable(Nameable nameable, int index) {
-        JNameEdList nameEdList = JListControlPane.this.nameableList;
-        DefaultListModel model = (DefaultListModel) nameEdList.getModel();
-
-        ListModelElement el = new ListModelElement(nameable);
-        model.add(index, el);
-        nameableList.setSelectedIndex(index);
-        nameableList.ensureIndexIsVisible(index);
-
-        nameEdList.repaint();
+    public void addNameable(Nameable nameable, int index) {
+        getHelper().addNameable(nameable, index);
     }
 
     /**
@@ -243,199 +236,49 @@ public abstract class JListControlPane extends JControlPane implements ListContr
         return false;
     }
 
-    protected DefaultListModel getModel() {
+    public DefaultListModel getModel() {
         return (DefaultListModel) JListControlPane.this.nameableList.getModel();
     }
 
-    private String createUnrepeatedCopyName(String suffix) {
-        DefaultListModel model = this.getModel();
-        String[] names = new String[model.getSize()];
-        for (int i = 0; i < model.size(); i++) {
-            names[i] = ((ListModelElement) model.get(i)).wrapper.getName();
-        }
-        String lastName = "CopyOf" + suffix;
-        while (ArrayUtils.contains(names, lastName)) {
-            lastName = "CopyOf" + lastName;
-        }
-        return lastName;
-    }
-
-
     /**
-     * 生成不重复的名字
-     *
-     * @param prefix 名字前缀
-     * @return 名字
-     */
+    * 生成不重复的名字
+    *
+    * @param prefix 名字前缀
+    * @return 名字
+    */
     @Override
     public String createUnrepeatedName(String prefix) {
-        DefaultListModel model = this.getModel();
-        Nameable[] all = new Nameable[model.getSize()];
-        for (int i = 0; i < model.size(); i++) {
-            all[i] = ((ListModelElement) model.get(i)).wrapper;
-        }
-        // richer:生成的名字从1开始. kunsnat: 添加属性从0开始.
-        int count = all.length + 1;
-        while (true) {
-            String name_test = prefix + count;
-            boolean repeated = false;
-            for (int i = 0, len = model.size(); i < len; i++) {
-                Nameable nameable = all[i];
-                if (ComparatorUtils.equals(nameable.getName(), name_test)) {
-                    repeated = true;
-                    break;
-                }
-            }
-
-            if (!repeated) {
-                return name_test;
-            }
-
-            count++;
-        }
+        return getCommonHandlers().createUnrepeatedName(prefix);
     }
 
     @Override
     public void onAddItem(NameableCreator creator) {
-        if (hasInvalid(true)) {
-            return;
-        }
-
-        Nameable nameable = creator.createNameable(JListControlPane.this);
-        JListControlPane.this.addNameable(nameable, getModel().getSize());
+        getCommonHandlers().onAddItem(creator);
     }
 
     @Override
     public void onRemoveItem() {
-        try {
-            JListControlPane.this.nameableList.getCellEditor()
-                    .stopCellEditing();
-        } catch (Exception ignored) {
-        }
-        // bug:在选中一个NameObject并删除，会遗留下Name.
-        doBeforeRemove();
-        if (GUICoreUtils.removeJListSelectedNodes(SwingUtilities
-                .getWindowAncestor(JListControlPane.this), nameableList)) {
-            checkButtonEnabled();
-            doAfterRemove();
-        }
+        getCommonHandlers().onRemoveItem();
     }
 
     @Override
     public void onCopyItem() {
-        // p:选中的值.
-        ListModelElement selectedValue = (ListModelElement) nameableList.getSelectedValue();
-        if (selectedValue == null) {
-            return;
-        }
-
-        ((JControlUpdatePane) controlUpdatePane).update();
-
-        Nameable selectedNameable = selectedValue.wrapper;
-
-        // p: 用反射机制实现
-        try {
-            Nameable newNameable = (Nameable) BaseUtils.cloneObject(selectedNameable);
-            newNameable.setName(createUnrepeatedCopyName(selectedNameable.getName()));
-
-            JListControlPane.this.addNameable(newNameable, nameableList.getSelectedIndex() + 1);
-        } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
-        }
+        getCommonHandlers().onCopyItem();
     }
 
     @Override
     public void onMoveUpItem() {
-        int selectedIndex = nameableList.getSelectedIndex();
-        if (selectedIndex == -1) {
-            return;
-        }
-
-        // 上移
-        if (selectedIndex > 0) {
-            DefaultListModel listModel = (DefaultListModel) nameableList
-                    .getModel();
-
-            Object selecteObj1 = listModel.get(selectedIndex - 1);
-            listModel.set(selectedIndex - 1, listModel.get(selectedIndex));
-            listModel.set(selectedIndex, selecteObj1);
-
-            nameableList.setSelectedIndex(selectedIndex - 1);
-            nameableList.ensureIndexIsVisible(selectedIndex - 1);
-        }
+        getCommonHandlers().onMoveUpItem();
     }
 
     @Override
     public void onMoveDownItem() {
-        int selectedIndex = nameableList.getSelectedIndex();
-        if (selectedIndex == -1) {
-            return;
-        }
-
-        if (selectedIndex < nameableList.getModel().getSize() - 1) {
-            DefaultListModel listModel = (DefaultListModel) nameableList
-                    .getModel();
-
-            Object selecteObj1 = listModel.get(selectedIndex + 1);
-            listModel.set(selectedIndex + 1, listModel.get(selectedIndex));
-            listModel.set(selectedIndex, selecteObj1);
-
-            nameableList.setSelectedIndex(selectedIndex + 1);
-            nameableList.ensureIndexIsVisible(selectedIndex + 1);
-        }
+        getCommonHandlers().onMoveDownItem();
     }
 
     @Override
     public void onSortItem(boolean isAtoZ) {
-        // p:选中的值.
-        Object selectedValue = nameableList.getSelectedValue();
-
-        DefaultListModel listModel = (DefaultListModel) nameableList
-                .getModel();
-        Nameable[] nameableArray = new Nameable[listModel.getSize()];
-        if (nameableArray.length <= 0) {
-            return;
-        }
-
-        for (int i = 0; i < listModel.getSize(); i++) {
-            nameableArray[i] = ((ListModelElement) listModel.getElementAt(i)).wrapper;
-        }
-
-        // p:排序.
-        if (isAtoZ) {
-            Comparator<Nameable> nameableComparator = new Comparator<Nameable>() {
-                @Override
-                public int compare(Nameable o1, Nameable o2) {
-                    return -ComparatorUtils.compare(o1.getName(), o2
-                            .getName());
-                }
-            };
-            isAtoZ = !isAtoZ;
-            Arrays.sort(nameableArray, nameableComparator);
-        } else {
-            Comparator<Nameable> nameableComparator = new Comparator<Nameable>() {
-                @Override
-                public int compare(Nameable o1, Nameable o2) {
-                    return ComparatorUtils.compare(o1.getName(), o2
-                            .getName());
-                }
-            };
-            isAtoZ = !isAtoZ;
-            Arrays.sort(nameableArray, nameableComparator);
-        }
-
-        for (int i = 0; i < nameableArray.length; i++) {
-            listModel.set(i, new ListModelElement(nameableArray[i]));
-        }
-
-        // p:需要选中以前的那个值.
-        if (selectedValue != null) {
-            nameableList.setSelectedValue(selectedValue, true);
-        }
-
-        checkButtonEnabled();
-        // p:需要repaint.
-        nameableList.repaint();
+        getCommonHandlers().onSortItem(isAtoZ);
     }
 
     @Override
@@ -487,16 +330,7 @@ public abstract class JListControlPane extends JControlPane implements ListContr
      */
     @Override
     public void checkButtonEnabled() {
-
-        int selectedIndex = nameableList.getSelectedIndex();
-        if (selectedIndex == -1) {
-            this.cardLayout.show(cardPane, "SELECT");
-        } else {
-            this.cardLayout.show(cardPane, "EDIT");
-        }
-        for (ShortCut4JControlPane sj : getShorts()) {
-            sj.checkEnable();
-        }
+        getHelper().checkButtonEnabled();
     }
 
     private class NameableListCellRenderer extends
@@ -548,35 +382,9 @@ public abstract class JListControlPane extends JControlPane implements ListContr
         ((JControlUpdatePane) this.controlUpdatePane).checkValid();
     }
 
-    private int getInValidIndex() {
-        BasicBeanPane[] p = ((JControlUpdatePane) controlUpdatePane).getUpdatePanes();
-        if (p != null) {
-            for (int i = 0; i < p.length; i++) {
-                if (p[i] != null) {
-                    try {
-                        p[i].checkValid();
-                    } catch (Exception e) {
-                        return i;
-                    }
-                }
-            }
-        }
-        return -1;
-    }
-
     @Override
-    protected boolean hasInvalid(boolean isAdd) {
-        int idx = JListControlPane.this.getInValidIndex();
-        if (isAdd || nameableList.getSelectedIndex() != idx) {
-            try {
-                checkValid();
-            } catch (Exception exp) {
-                JOptionPane.showMessageDialog(JListControlPane.this, exp.getMessage());
-                nameableList.setSelectedIndex(idx);
-                return true;
-            }
-        }
-        return false;
+    public boolean hasInvalid(boolean isAdd) {
+        return getHelper().hasInvalid(isAdd);
     }
 
     /**
@@ -584,12 +392,28 @@ public abstract class JListControlPane extends JControlPane implements ListContr
      *
      * @param index 选中项的序列号
      */
+    @Override
     public void setSelectedIndex(int index) {
         nameableList.setSelectedIndex(index);
     }
 
     @Override
-    public ListModelElement getSelectedElement() {
-        return (ListModelElement) JListControlPane.this.nameableList.getSelectedValue();
+    public int getSelectedIndex() {
+        return nameableList.getSelectedIndex();
+    }
+
+    @Override
+    public JNameEdList getNameableList() {
+        return nameableList;
+    }
+
+    @Override
+    public ListModelElement getSelectedValue() {
+        return (ListModelElement) this.nameableList.getSelectedValue();
+    }
+
+    @Override
+    public JControlUpdatePane getControlUpdatePane() {
+        return (JControlUpdatePane) controlUpdatePane;
     }
 }

@@ -1,6 +1,8 @@
 package com.fr.design.gui.controlpane;
 
 import com.fr.design.dialog.BasicPane;
+import com.fr.design.gui.controlpane.shortcutfactory.AbstractShortCutFactory;
+import com.fr.design.gui.controlpane.shortcutfactory.OldShortCutFactory;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itoolbar.UIToolbar;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -19,6 +21,8 @@ import java.awt.*;
  */
 abstract class JControlPane extends BasicPane implements UnrepeatedNameHelper, ShortCutListenerProvider {
     private static final int SHORT_WIDTH = 30; //每加一个short Divider位置加30
+    private static final String SELECT = "SELECT";
+    private static final String EDIT = "EDIT";
     JPanel controlUpdatePane;
 
     ShortCut4JControlPane[] shorts;
@@ -48,7 +52,7 @@ abstract class JControlPane extends BasicPane implements UnrepeatedNameHelper, S
      */
     public abstract NameableCreator[] createNameableCreators();
 
-    ShortCut4JControlPane[] getShorts() {
+    public ShortCut4JControlPane[] getShorts() {
         return shorts;
     }
 
@@ -91,16 +95,7 @@ abstract class JControlPane extends BasicPane implements UnrepeatedNameHelper, S
     protected void initComponentPane() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.creators = this.createNameableCreators();
-        this.controlUpdatePane = createControlUpdatePane();
-
-        // p: edit card layout
-        this.cardLayout = new CardLayout();
-        cardPane = FRGUIPaneFactory.createCardLayout_S_Pane();
-        cardPane.setLayout(this.cardLayout);
-        // p:选择的Label
-        UILabel selectLabel = new UILabel();
-        cardPane.add(selectLabel, "SELECT");
-        cardPane.add(controlUpdatePane, "EDIT");
+        initCardPane();
         // SplitPane
         JSplitPane mainSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, getLeftPane(), cardPane);
         mainSplitPane.setBorder(BorderFactory.createLineBorder(GUICoreUtils.getTitleLineBorderColor()));
@@ -109,6 +104,27 @@ abstract class JControlPane extends BasicPane implements UnrepeatedNameHelper, S
         this.add(mainSplitPane, BorderLayout.CENTER);
         mainSplitPane.setDividerLocation(getLeftPreferredSize());
         this.checkButtonEnabled();
+    }
+
+    protected void initCardPane() {
+        this.controlUpdatePane = createControlUpdatePane();
+
+        // p: edit card layout
+        this.cardLayout = new CardLayout();
+        cardPane = FRGUIPaneFactory.createCardLayout_S_Pane();
+        cardPane.setLayout(this.cardLayout);
+        // p:选择的Label
+        UILabel selectLabel = new UILabel();
+        cardPane.add(selectLabel, SELECT);
+        cardPane.add(controlUpdatePane, EDIT);
+    }
+
+    public void showEditPane() {
+        this.cardLayout.show(cardPane, EDIT);
+    }
+
+    public void showSelectPane() {
+        this.cardLayout.show(cardPane, SELECT);
     }
 
     protected abstract JPanel createControlUpdatePane();
@@ -166,17 +182,9 @@ abstract class JControlPane extends BasicPane implements UnrepeatedNameHelper, S
     public void checkButtonEnabled() {
     }
 
-    void doBeforeRemove() {
-    }
-
-    void doAfterRemove() {
-    }
-
     public NameableCreator[] creators() {
         return creators == null ? new NameableCreator[0] : creators;
     }
-
-    protected abstract boolean hasInvalid(boolean isAdd);
 
     /**
     * 刷新 NameableCreator
