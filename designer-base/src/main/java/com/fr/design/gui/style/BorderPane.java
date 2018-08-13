@@ -76,7 +76,7 @@ public class BorderPane extends AbstractBasicStylePane implements GlobalNameObse
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Style") + "    ", SwingConstants.LEFT), currentLineCombo},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Style") + "    ", SwingConstants.LEFT), currentLineCombo},
                 new Component[]{null, null},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Color") + "    ", SwingConstants.LEFT), currentLineColorPane},
                 new Component[]{null, null},

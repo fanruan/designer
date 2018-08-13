@@ -193,7 +193,7 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
     private boolean setAuthorityColumn() {
         initSelectedPathArray();
         String selectedRoles = ReportAndFSManagePane.getInstance().getRoleTree().getSelectedRoleName();
-        if (ComparatorUtils.equals(selectedRoles, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Role"))) {
+        if (ComparatorUtils.equals(selectedRoles, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Role"))) {
             return false;
         }
         if (selectedRoles == null) {
@@ -222,7 +222,7 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
     private boolean setAuthorityRow() {
         initSelectedPathArray();
         String selectedRoles = ReportAndFSManagePane.getInstance().getRoleTree().getSelectedRoleName();
-        if (ComparatorUtils.equals(selectedRoles, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Role"))) {
+        if (ComparatorUtils.equals(selectedRoles, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Role"))) {
             return false;
         }
         if (selectedRoles == null) {
@@ -252,7 +252,7 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
     private boolean setLFloatAuthorityStyle() {
         initSelectedPathArray();
         String selectedRoles = ReportAndFSManagePane.getInstance().getRoleTree().getSelectedRoleName();
-        if (ComparatorUtils.equals(selectedRoles, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Role"))) {
+        if (ComparatorUtils.equals(selectedRoles, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Role"))) {
             return false;
         }
         if (selectedRoles == null) {
@@ -274,7 +274,7 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
     private boolean setAuthorityStyle(int type) {
         initSelectedPathArray();
         String selectedRoles = ReportAndFSManagePane.getInstance().getRoleTree().getSelectedRoleName();
-        if (ComparatorUtils.equals(selectedRoles, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Role")) ||
+        if (ComparatorUtils.equals(selectedRoles, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Role")) ||
                 selectedRoles == null || selectedPathArray == null) {
             return false;
         }
@@ -684,7 +684,7 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cell"), SwingConstants.LEFT), cellElementVisibleCheckBoxes},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget"), SwingConstants.LEFT), widgetVisible},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Widget"), SwingConstants.LEFT), widgetVisible},
                 new Component[]{null, widgetAvailable}
         };
         double[] rowSize = {p, p, p};

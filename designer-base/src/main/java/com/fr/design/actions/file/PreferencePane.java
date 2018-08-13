@@ -375,7 +375,7 @@ public class PreferencePane extends BasicPane {
                 dlg.setVisible(true);
             }
         });
-        UILabel noticeLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Work_After_Restart_Designer"));//sail:提示重启后生效
+        UILabel noticeLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Work_After_Restart_Designer"));//sail:提示重启后生效
         double p = TableLayout.PREFERRED;
         double rowSize[] = {p};
         double columnSize[] = {p, p, p};
@@ -422,10 +422,10 @@ public class PreferencePane extends BasicPane {
         // 长度单位选择
         JPanel lengthPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Setting_Ruler_Units"));
         advancePane.add(lengthPane);
-        pageLengthComboBox = new UIComboBox(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Page_Setup_MM"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Unit_CM"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Unit_INCH")});
+        pageLengthComboBox = new UIComboBox(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Page_Setup_MM"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_CM"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_INCH")});
         pageLengthComboBox.setPreferredSize(new Dimension(80, 20));
         pageLengthComboBox.setMinimumSize(new Dimension(80, 20));
-        reportLengthComboBox = new UIComboBox(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Page_Setup_MM"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Unit_CM"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Unit_INCH"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Unit_PT")});
+        reportLengthComboBox = new UIComboBox(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Page_Setup_MM"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_CM"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_INCH"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_PT_Duplicate")});
         reportLengthComboBox.setPreferredSize(new Dimension(80, 20));
         reportLengthComboBox.setMinimumSize(new Dimension(80, 20));
         UILabel pagelengthLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Page_Setup_Scale_Units") + ":");
@@ -447,7 +447,7 @@ public class PreferencePane extends BasicPane {
         portEditor = new IntegerEditor();
         portEditor.setPreferredSize(new Dimension(80, 20));
         portEditor.setMinimumSize(new Dimension(80, 20));
-        UILabel notiJlabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Work_After_Restart_Designer"));
+        UILabel notiJlabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Work_After_Restart_Designer"));
         UILabel serverPortLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Web_Preview_Port") + ":");
         Component[][] portComponents = {
                 {serverPortLabel, portEditor, notiJlabel},
@@ -483,7 +483,7 @@ public class PreferencePane extends BasicPane {
             }
         });
         panel.setPreferredSize(new Dimension(300, 20));
-        UILabel notiJlabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Work_After_Restart_Designer"));
+        UILabel notiJlabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Work_After_Restart_Designer"));
         UILabel serverPortLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_JDK_Home") + ":");
         Component[][] portComponents = {
                 {serverPortLabel, panel, notiJlabel},

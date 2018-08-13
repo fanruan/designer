@@ -74,7 +74,7 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
                 new Component[]{formatLabel, formatHead},
                 new Component[]{startDateLabel, startDv},
                 new Component[]{endDateLabel, endDv},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WaterMark")), waterMarkDictPane},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_WaterMark")), waterMarkDictPane},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Font_Size")), fontSizePane},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Date_Selector_Return_Type")), returnTypeComboBox}
 

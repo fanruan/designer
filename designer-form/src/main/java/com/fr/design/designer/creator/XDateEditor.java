@@ -69,7 +69,7 @@ public class XDateEditor extends XDirectWriteEditor {
                                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_End_Date")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
                                 "Advanced").setEditorClass(DateRangeEditor.class),
                         new CRPropertyDescriptor("waterMark", this.data.getClass()).setI18NName(
-                                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WaterMark")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
+                                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_WaterMark")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
                                 "Advanced"),
                         new CRPropertyDescriptor("returnDate", this.data.getClass()).setI18NName(
                                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Return_Date")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,

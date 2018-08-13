@@ -62,7 +62,7 @@ public class PaddingBoundPane extends BasicPane{
         };
         Component[][] components2 = new Component[][]{
                 new Component[]{left, right},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Left"), SwingConstants.CENTER), new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Right"), SwingConstants.CENTER)}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Left"), SwingConstants.CENTER), new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Right"), SwingConstants.CENTER)}
         };
         JPanel northPanel = TableLayoutHelper.createGapTableLayoutPane(components1, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_L6, IntervalConstants.INTERVAL_L6);
         northPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, IntervalConstants.INTERVAL_L1, 0));

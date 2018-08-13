@@ -291,7 +291,7 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
         noAutoRadioButton.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_No_Auto_Adjust"));
         autoHeightRadioButton.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Auto_Adjust_Height"));
         autoWidthRadioButton.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Auto_Adjust_Width"));
-        previewCellContent.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Preview"));
+        previewCellContent.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preview"));
         printAndExportContent.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CellWrite_Print_Content"));
         printAndExportBackground.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CellWrite_Print_Background"));
         showContent.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Show_Content"));
@@ -311,7 +311,7 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
     @Override
     public String getIconPath() {
 //        return "com/fr/design/images/m_format/cellstyle/otherset.png";
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Other");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Other");
     }
 
     @Override

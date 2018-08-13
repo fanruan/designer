@@ -130,7 +130,7 @@ public class WidgetPane extends AbstractAttrNoScrollPane implements ItemListener
 
     @Override
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Widget");
     }
 
     public void populate(Widget widget) {

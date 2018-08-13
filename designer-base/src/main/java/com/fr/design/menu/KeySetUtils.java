@@ -81,7 +81,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Save");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Save");
         }
 
         @Override
@@ -551,7 +551,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WaterMark");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_WaterMark");
         }
 
         @Override
@@ -725,7 +725,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget-Settings");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Settings_Duplicate");
         }
 
         @Override
@@ -930,7 +930,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Other");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Other");
         }
 
         @Override

@@ -171,7 +171,7 @@ public class PreviewTablePane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Preview");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preview");
     }
 
     private void addLoadedListener(LoadedEventListener l) {
@@ -464,7 +464,7 @@ public class PreviewTablePane extends BasicPane {
 
             @Override
             protected String title4PopupWindow() {
-                return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Preview");
+                return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preview");
             }
 
         };

@@ -96,7 +96,7 @@ public class ChartEmptyDataStylePane extends AbstractAttrNoScrollPane {
         JPanel previewContainerPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
         centerPane.add(previewContainerPane, BorderLayout.CENTER);
 
-        JPanel previewOwnerPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Preview"));
+        JPanel previewOwnerPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preview"));
         previewOwnerPane.setLayout(new BorderLayout());
         previewContainerPane.add(previewOwnerPane, BorderLayout.CENTER);
         previewContainerPane.add(initSelectFilePane(), BorderLayout.EAST);

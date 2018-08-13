@@ -83,7 +83,7 @@ public class ValueEditorPaneFactory {
      * @return 返回公式编辑器面板
      */
     public static ValueEditorPane createFormulaValueEditorPane() {
-        return createValueEditorPane(new Editor[]{new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter-Formula"))},
+        return createValueEditorPane(new Editor[]{new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter_Formula"))},
                 StringUtils.EMPTY, StringUtils.EMPTY);
     }
 
@@ -227,7 +227,7 @@ public class ValueEditorPaneFactory {
      * @return 值编辑器
      */
     public static Editor<?>[] basicEditors() {
-        FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter-Formula"));
+        FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter_Formula"));
         return new Editor[]{
                 new TextEditor(),
                 new SpinnerIntegerEditor(),
@@ -244,7 +244,7 @@ public class ValueEditorPaneFactory {
      * @return 值编辑器
      */
     public static Editor<?>[] formEditors() {
-        FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter-Formula"));
+        FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter_Formula"));
         return new Editor[]{
                 new TextEditor(),
                 new IntegerEditor(),
@@ -252,7 +252,7 @@ public class ValueEditorPaneFactory {
                 new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date")),
                 new BooleanEditor(),
                 formulaEditor,
-                new WidgetNameEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget"))
+                new WidgetNameEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Widget"))
         };
     }
 
@@ -262,7 +262,7 @@ public class ValueEditorPaneFactory {
      * @return 值编辑器
      */
     public static Editor<?>[] extendedEditors() {
-        FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter-Formula"));
+        FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter_Formula"));
         return new Editor[]{
                 new TextEditor(),
                 new IntegerEditor(),
@@ -281,7 +281,7 @@ public class ValueEditorPaneFactory {
      * @return 值编辑器
      */
     public static Editor<?>[] extendedCellGroupEditors() {
-        FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter-Formula"));
+        FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter_Formula"));
         return new Editor[]{
                 new TextEditor(),
                 new IntegerEditor(),
@@ -316,7 +316,7 @@ public class ValueEditorPaneFactory {
      */
     public static Editor<?>[] URLEditors(String popupName, String textEditorValue) {
         return new Editor[]{
-                new NoneEditor(textEditorValue, StringUtils.isEmpty(popupName) ? com.fr.design.i18n.Toolkit.i18nText("FR-Designer_None") : popupName),
+                new NoneEditor(textEditorValue, StringUtils.isEmpty(popupName) ? com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_None") : popupName),
                 new TextEditor()
         };
     }
@@ -330,9 +330,9 @@ public class ValueEditorPaneFactory {
      */
     public static Editor<?>[] dateEditors(String popupName, String textEditorValue) {
         return new Editor[]{
-                new NoneEditor(textEditorValue, StringUtils.isEmpty(popupName) ? com.fr.design.i18n.Toolkit.i18nText("FR-Designer_None") : popupName),
+                new NoneEditor(textEditorValue, StringUtils.isEmpty(popupName) ? com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_None") : popupName),
                 new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date")),
-                new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter-Formula"))
+                new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter_Formula"))
         };
     }
 
@@ -342,7 +342,7 @@ public class ValueEditorPaneFactory {
      * @return 值编辑器
      */
     public static Editor<?>[] allEditors() {
-        FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter-Formula"));
+        FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter_Formula"));
 //        formulaEditor.setEnabled(true);
         return new Editor[]{
                 new TextEditor(),
@@ -380,7 +380,7 @@ public class ValueEditorPaneFactory {
      * @return 编辑器
      */
     public static Editor<?>[] noCRnoColumnEditors() {
-        FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter-Formula"));
+        FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter_Formula"));
         return new Editor[]{
                 new TextEditor(),
                 new IntegerEditor(),
@@ -398,7 +398,7 @@ public class ValueEditorPaneFactory {
      * @return 编辑器
      */
     public static Editor<?>[] numberEditors() {
-        FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter-Formula"));
+        FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter_Formula"));
         return new Editor[]{
                 new IntegerEditor(),
                 new DoubleEditor(),
@@ -413,7 +413,7 @@ public class ValueEditorPaneFactory {
      * @return 编辑器
      */
     public static Editor<?>[] dateEditors() {
-        FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter-Formula"));
+        FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter_Formula"));
         return new Editor[]{
                 new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date")),
                 formulaEditor,
@@ -427,7 +427,7 @@ public class ValueEditorPaneFactory {
      * @return 存储过程的编辑器
      */
     public static Editor<?>[] StoreProcedureEditors() {
-        FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter-Formula"));
+        FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter_Formula"));
         formulaEditor.setEnabled(true);
         return new Editor[]{
                 new CursorEditor(),
@@ -454,7 +454,7 @@ public class ValueEditorPaneFactory {
         list.add(new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date")));
         list.add(new BooleanEditor());
 
-        FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter-Formula"));
+        FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter_Formula"));
         formulaEditor.setEnabled(true);
         list.add(formulaEditor);
 

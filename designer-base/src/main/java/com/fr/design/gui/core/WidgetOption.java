@@ -133,7 +133,7 @@ public abstract class WidgetOption implements Serializable {
     public static final WidgetOption TREE = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_View_Tree"),
             BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/tree_16.png"), TreeEditor.class);
 
-    public static final WidgetOption TREECOMBOBOX = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tree-ComboBox"), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/comboboxtree.png"),
+    public static final WidgetOption TREECOMBOBOX = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Tree_ComboBox"), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/comboboxtree.png"),
             TreeComboBoxEditor.class);
 
     public static final WidgetOption CHECKBOXGROUP = WidgetOptionFactory.createByWidgetClass(

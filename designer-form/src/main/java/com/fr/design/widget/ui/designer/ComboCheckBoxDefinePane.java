@@ -33,7 +33,7 @@ public class ComboCheckBoxDefinePane extends DictEditorDefinePane<ComboCheckBox>
 
 	public Component[] createWaterMarkPane() {
 		waterMarkDictPane = new UITextField();
-		return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WaterMark")), waterMarkDictPane};
+		return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_WaterMark")), waterMarkDictPane};
 	}
 
 

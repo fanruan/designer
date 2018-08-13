@@ -33,7 +33,7 @@ public class DictionaryPane extends UIComboBoxPane<Dictionary> implements DataCr
         int[][] rowCount = {{1, 1}, {1, 1}};
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Type_Set"), UILabel.LEFT), jcb},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Type_Set"), UILabel.LEFT), jcb},
                 new Component[]{null, null}
         };
         JPanel northPane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_HUGER, LayoutConstants.VGAP_MEDIUM);

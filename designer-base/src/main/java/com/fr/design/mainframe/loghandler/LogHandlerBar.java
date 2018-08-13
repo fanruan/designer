@@ -47,7 +47,7 @@ public class LogHandlerBar extends JPanel implements ItemSelectable {
 		set.setMargin(null);
 		set.setOpaque(false);
 		set.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		set.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Set"));
+		set.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Set"));
 
 		this.add(clear);
 		this.add(selectedall);
