@@ -45,7 +45,7 @@ public class WebHyperlinkPane extends AbstractHyperLinkPane<WebHyperlink> {
         parameterViewPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameters"), null));
 
         useCJKCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Use_CJK_To_Encode_Parameter"));
-        extendParametersCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Find-Design_Basic_Hyperlink_Extends_Report_Parameters"));
+        extendParametersCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Extends_Report_Parameters"));
         this.add(GUICoreUtils.createFlowPane(new Component[]{useCJKCheckBox, extendParametersCheckBox}, FlowLayout.LEFT), BorderLayout.SOUTH);
     }
 
