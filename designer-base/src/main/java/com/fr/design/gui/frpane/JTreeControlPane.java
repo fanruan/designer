@@ -59,7 +59,7 @@ public class JTreeControlPane extends ControlPane {
         JPanel northPane = FRGUIPaneFactory.createBoxFlowInnerContainer_S_Pane();
         DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Root"));
         defaultTreeModel = new DefaultTreeModel(rootNode);
-        DefaultMutableTreeNode firstLayer = new DefaultMutableTreeNode(new NameObject(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Gradation") + 1, new TreeNodeAttr()));
+        DefaultMutableTreeNode firstLayer = new DefaultMutableTreeNode(new NameObject(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Gradation") + 1, new TreeNodeAttr()));
         tree = new JTree(defaultTreeModel);
         tree.setRootVisible(false);
         ((DefaultMutableTreeNode) defaultTreeModel.getRoot()).getLastLeaf().add(firstLayer);
@@ -134,7 +134,7 @@ public class JTreeControlPane extends ControlPane {
         for (int i = 0; i < count; i++) {
 
             DefaultMutableTreeNode node4add = new DefaultMutableTreeNode(
-                    new NameObject(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Gradation") + (i + 1), treeNodeAttr[i]));
+                    new NameObject(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Gradation") + (i + 1), treeNodeAttr[i]));
             node4root.add(node4add);
             node4root = node4add;
         }
@@ -193,7 +193,7 @@ public class JTreeControlPane extends ControlPane {
 
         public AddTreeNodeAction(NameableCreator[] creators) {
             this.creator = creators[0];
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Add"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Add"));
             this.setMnemonic('A');
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/base/images/cell/control/add.png"));
         }
@@ -224,15 +224,15 @@ public class JTreeControlPane extends ControlPane {
 
     private class RemoveTreeNodeAction extends UpdateAction {
         public RemoveTreeNodeAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Remove"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remove"));
             this.setMnemonic('R');
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/base/images/cell/control/remove.png"));
         }
 
         public void actionPerformed(ActionEvent e) {
             // TODO remove tree node
-            int val = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Utils-Are_you_sure_to_remove_the_selected_item") + "?",
-                    com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Remove"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+            int val = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Are_You_Sure_To_Remove_The_Selected_Item") + "?",
+                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remove"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (val != JOptionPane.OK_OPTION) {
                 return;
             }

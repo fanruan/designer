@@ -56,7 +56,7 @@ public class BasicPropertyPane extends BasicPane {
                 }
             }
         };
-        widgetName.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Basic"));
+        widgetName.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Basic"));
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         double[] rowSize = {p};

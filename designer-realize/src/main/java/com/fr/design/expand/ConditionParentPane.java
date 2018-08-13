@@ -42,7 +42,7 @@ public class ConditionParentPane extends JPanel {
 
 		eastPane.add(GUICoreUtils.createFlowPane(
 				new JComponent[] {
-						new UILabel(com.fr.design.i18n.Toolkit.i18nText("UpParent") + ": "),
+						new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Up_Parent") + ": "),
 						upParentPane = new ParentPane(ParentPane.UP, listener) }, FlowLayout.LEFT));
 	}
 	public void putElementcase(ElementCasePane t){

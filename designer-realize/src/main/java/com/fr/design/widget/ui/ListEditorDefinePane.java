@@ -1,7 +1,5 @@
 package com.fr.design.widget.ui;
 
-import javax.swing.*;
-
 import com.fr.data.Dictionary;
 import com.fr.design.data.DataCreatorUI;
 import com.fr.design.gui.icheckbox.UICheckBox;
@@ -10,8 +8,10 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.widget.accessibles.AccessibleDictionaryEditor;
 import com.fr.form.ui.ListEditor;
 
-
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Component;
 
 public class ListEditorDefinePane extends WriteUnableRepeatEditorPane<ListEditor> {
 	private UICheckBox needHeadCheckBox;
@@ -28,7 +28,7 @@ public class ListEditorDefinePane extends WriteUnableRepeatEditorPane<ListEditor
 
 	protected Component[] createDicPane(){
 		dictPane = new AccessibleDictionaryEditor();
-		return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_DS-Dictionary")), dictPane};
+		return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_DS_Dictionary")), dictPane};
 	}
 
 

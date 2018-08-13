@@ -74,7 +74,7 @@ public class CellWidgetCardPane extends BasicPane {
             }
         };
         widgetPropertyPane = new BasicWidgetPropertySettingPane();
-        UIExpandablePane uiExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Basic"), 280, 24, widgetPropertyPane);
+        UIExpandablePane uiExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Basic"), 280, 24, widgetPropertyPane);
         attriTabPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
         attriTabPane.add(uiExpandablePane, BorderLayout.NORTH);
         attriCardPane = FRGUIPaneFactory.createCardLayout_S_Pane();
@@ -94,12 +94,12 @@ public class CellWidgetCardPane extends BasicPane {
         mobileCardLayout = (CardLayout) mobileCardPane.getLayout();
 
         center.add(basicScrollPane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Attribute"));
-        center.add(eventTabPane, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Event"));
+        center.add(eventTabPane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Event"));
         center.add(mobileTabPane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Widget_Mobile_Terminal"));
         initPaneList();
 
 
-        final String[] tabTitles = new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Attribute"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Event"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Widget_Mobile_Terminal")};
+        final String[] tabTitles = new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Attribute"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Event"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Widget_Mobile_Terminal")};
         tabsHeaderIconPane = new UIHeadGroup(tabTitles) {
             @Override
             public void tabChanged(int index) {

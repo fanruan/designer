@@ -51,7 +51,7 @@ public class ProcedureDataPane extends AbstractTableDataPane<StoreProcedure> imp
             "com.mysql.jdbc.Driver",
             "org.gjt.mm.mysql.Driver"
     }; // 需要隐藏面板的数据库的驱动
-    private static final String PREVIEW_BUTTON = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Preview");
+    private static final String PREVIEW_BUTTON = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preview");
     private ConnectionTableProcedurePane connectionTableProcedurePane;
     private JPanel cardpane;
     private CardLayout cardLayout;
@@ -357,7 +357,7 @@ public class ProcedureDataPane extends AbstractTableDataPane<StoreProcedure> imp
 
     protected class RefreshAction extends UITableEditAction {
         public RefreshAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Refresh"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Refresh"));
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/refresh.png"));
         }
 

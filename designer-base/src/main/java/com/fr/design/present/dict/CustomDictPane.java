@@ -15,7 +15,7 @@ import com.fr.stable.StringUtils;
 
 public class CustomDictPane extends FurtherBasicBeanPane<CustomDictionary> {
 	private static final long serialVersionUID = 1L;
-	private String[] columnNames = {com.fr.design.i18n.Toolkit.i18nText("Actual_Value"), com.fr.design.i18n.Toolkit.i18nText("Display_Value")}; // 字典列名key,value
+	private String[] columnNames = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Actual_Value"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Display_Value")}; // 字典列名key,value
 
 	private CustomDictCorrelationPane correlationPane;
 

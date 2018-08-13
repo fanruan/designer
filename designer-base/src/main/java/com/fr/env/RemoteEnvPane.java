@@ -250,7 +250,7 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
         testPanel.setPreferredSize(new Dimension(437, 20));
         UIButton testConnectionButton = new UIButton(Toolkit.i18nText("Fine-Design_Basic_Remote_Env_Test_Connection"));
 
-        testConnectionButton.setToolTipText(Toolkit.i18nText("Datasource-Test_Connection"));
+        testConnectionButton.setToolTipText(Toolkit.i18nText("Fine-Design_Basic_Datasource_Test_Connection"));
         testConnectionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ev) {
@@ -587,7 +587,7 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
         message.setBorder(BorderFactory.createEmptyBorder(8, 5, 0, 0));
         okButton.setEnabled(false);
 
-        dialog = new JDialog((Dialog) SwingUtilities.getWindowAncestor(RemoteEnvPane.this), Toolkit.i18nText("Datasource-Test_Connection"), true);
+        dialog = new JDialog((Dialog) SwingUtilities.getWindowAncestor(RemoteEnvPane.this), Toolkit.i18nText("Fine-Design_Basic_Datasource_Test_Connection"), true);
 
         dialog.setSize(new Dimension(268, 118));
         okButton.setEnabled(false);

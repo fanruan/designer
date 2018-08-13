@@ -45,13 +45,13 @@ public class UIMenuTable extends JTable {
 	public void editingEvent(int rowIndex, int mouseY) {
 		selectedRowIndex = rowIndex;
 		repaint();
-		
+
 		final UIMenuNameableCreator nameObject = UIMenuTable.this.getLine(rowIndex);
-		
+
 		final BasicBeanPane<Object> baseShowPane = nameObject.getPane();
-		
+
 		final Object showValue = nameObject.getObj();
-		
+
 		baseShowPane.populateBean(showValue);
 
         UIDialog dialog = baseShowPane.showUnsizedWindow(SwingUtilities.getWindowAncestor(new JPanel()), new DialogActionAdapter() {
@@ -60,13 +60,13 @@ public class UIMenuTable extends JTable {
 				fireTargetChanged();
 			}
 		});
-		
+
 		dialog.setSize(500, 600);
 		GUICoreUtils.centerWindow(dialog);
-		
+
 		dialog.setVisible(true);
 	}
-	
+
 	protected Color getRenderBackground(int row) {
 		if(selectedRowIndex == row ) {
 			return UIConstants.SKY_BLUE;
@@ -76,7 +76,7 @@ public class UIMenuTable extends JTable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param value 该行列的值(字符串)
 	 * @param row
 	 * @param column
@@ -113,7 +113,7 @@ public class UIMenuTable extends JTable {
 	public void removeLine(int rowIndex) {
 		((UIMenuTableDataModel)dataModel).removeLine(rowIndex);
 	}
-	
+
 	/**
 	 * 清除所有的内容
 	 */
@@ -217,7 +217,7 @@ public class UIMenuTable extends JTable {
 		UIMenuNameableCreator email = new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Email"),
 				new EmailJavaScript(), EmailPane.class);
 
-		UIMenuNameableCreator web = new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Hyperlink-Web_link"),
+		UIMenuNameableCreator web = new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Web_Link"),
 				new WebHyperlink(), WebHyperlinkPane.class );
 		data.add(reportlet);
 		data.add(email);

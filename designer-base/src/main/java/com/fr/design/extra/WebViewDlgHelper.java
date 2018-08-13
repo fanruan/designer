@@ -65,7 +65,7 @@ public class WebViewDlgHelper {
                 int rv = JOptionPane.showConfirmDialog(
                         null,
                         com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Shop_Need_Install"),
-                        com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"),
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"),
                         JOptionPane.OK_CANCEL_OPTION,
                         JOptionPane.INFORMATION_MESSAGE
                 );
@@ -82,7 +82,7 @@ public class WebViewDlgHelper {
                 int rv = JOptionPane.showConfirmDialog(
                         null,
                         com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Shop_Need_Install_Version"),
-                        com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"),
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"),
                         JOptionPane.OK_CANCEL_OPTION,
                         JOptionPane.INFORMATION_MESSAGE
                 );
@@ -202,7 +202,7 @@ public class WebViewDlgHelper {
         int rv = JOptionPane.showConfirmDialog(
                 null,
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Shop_Need_Install"),
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"),
                 JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.INFORMATION_MESSAGE
         );
@@ -249,7 +249,7 @@ public class WebViewDlgHelper {
         UITabbedPane tabbedPane = new UITabbedPane();
         PluginInstalledPane installedPane = new PluginInstalledPane();
         tabbedPane.addTab(installedPane.tabTitle(), installedPane);
-        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Update"), new PluginUpdatePane(tabbedPane));
+        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Update"), new PluginUpdatePane(tabbedPane));
         tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_All_Plugins"), new PluginFromStorePane(tabbedPane));
         return tabbedPane;
     }
@@ -266,7 +266,7 @@ public class WebViewDlgHelper {
                         }
                     });
                 } catch (PluginVerifyException e) {
-                    JOptionPane.showMessageDialog(null, e.getMessage(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, e.getMessage(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
                     return false;
                 } catch (Exception e) {
                     FineLoggerFactory.getLogger().error(e.getMessage(), e);
@@ -306,7 +306,7 @@ public class WebViewDlgHelper {
                         int rv = JOptionPane.showConfirmDialog(
                                 null,
                                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Shop_Need_Update"),
-                                com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"),
+                                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"),
                                 JOptionPane.OK_CANCEL_OPTION,
                                 JOptionPane.INFORMATION_MESSAGE
                         );

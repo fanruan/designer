@@ -423,7 +423,7 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
 			};
 			bPane.setLayout(FRGUIPaneFactory.createBorderLayout());
 
-			final CheckBoxList list = new CheckBoxList(currentColumnNames(), CheckBoxList.SelectedState.ALL, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Chart_Field_Name")) {
+			final CheckBoxList list = new CheckBoxList(currentColumnNames(), CheckBoxList.SelectedState.ALL, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Chart_Field_Name")) {
 				public String value2Text(Object value) {
 					if (value instanceof ColumnName) {
 						return ((ColumnName)value).name;
@@ -568,7 +568,7 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
 
 	protected class RemoveFieldAction extends UpdateAction {
 		public RemoveFieldAction() {
-			this.setName(com.fr.design.i18n.Toolkit.i18nText("RWA-Remove_Field"));
+			this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_RWA_Remove_Field"));
 		}
 
 		public void actionPerformed(ActionEvent evt) {

@@ -28,10 +28,10 @@ import java.awt.event.ItemListener;
 public class BackgroundUIComboBoxPane extends BasicPane {
     private static final long serialVersionUID = -3751191424737067321L;
 
-    protected static final String none = com.fr.design.i18n.Toolkit.i18nText("DataFunction-None");
+    protected static final String none = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Function_None");
     protected static final String color = com.fr.design.i18n.Toolkit.i18nText("Colors");
-    protected static final String image = com.fr.design.i18n.Toolkit.i18nText("Image");
-    protected static final String gradient = com.fr.design.i18n.Toolkit.i18nText("Gradient-Color");
+    protected static final String image = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Image");
+    protected static final String gradient = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Gradient_Color");
 
     protected CardLayout cardLayout;
     protected JPanel layoutPane;

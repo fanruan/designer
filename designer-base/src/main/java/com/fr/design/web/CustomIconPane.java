@@ -68,7 +68,7 @@ public class CustomIconPane extends BasicPane {
 	private void initComponents() {
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
 		JPanel centerPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-		centerPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Icon")));
+		centerPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Icon")));
 		JPanel noNamePane = FRGUIPaneFactory.createCenterFlowInnerContainer_S_Pane();
 		centerPane.add(noNamePane, BorderLayout.CENTER);
 		
@@ -126,7 +126,7 @@ public class CustomIconPane extends BasicPane {
 	}
 
 	private void initAddButton(JPanel buttonPane) {
-		UIButton addButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Add"));
+		UIButton addButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Add"));
 		addButton.setPreferredSize(new Dimension(80, 25));
 		addButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -154,7 +154,7 @@ public class CustomIconPane extends BasicPane {
 	}
 
 	private void initRemoveButton(JPanel buttonPane) {
-		removeButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Remove"));
+		removeButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remove"));
 		removeButton.setPreferredSize(new Dimension(80, 25));
 		removeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -183,7 +183,7 @@ public class CustomIconPane extends BasicPane {
 	}
 
 	private void initEditButton(JPanel buttonPane) {
-		editButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit"));
+		editButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Edit"));
 		editButton.setPreferredSize(new Dimension(80, 25));
 		editButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -422,7 +422,7 @@ public class CustomIconPane extends BasicPane {
             showImageLabel.setPreferredSize(new Dimension(20,20));
             imagePane.add(showImageLabel);
             imagePane.add(browseButton);
-            Component[][] components = {{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Name") + ":"), nameTextField}, {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Icon") + ":"), imagePane}};
+            Component[][] components = {{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Name") + ":"), nameTextField}, {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Icon") + ":"), imagePane}};
 
             JPanel centerPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
             this.add(centerPane, BorderLayout.CENTER);

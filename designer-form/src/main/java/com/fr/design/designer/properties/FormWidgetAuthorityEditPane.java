@@ -91,7 +91,7 @@ public class FormWidgetAuthorityEditPane extends AuthorityEditPane {
      * @date 2014-12-21-下午6:19:43
      */
     public void populateType() {
-        type.setText(com.fr.design.i18n.Toolkit.i18nText("Widget-Form_Widget_Config"));
+        type.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Form_Widget_Config"));
     }
 
     /**

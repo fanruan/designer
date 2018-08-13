@@ -26,8 +26,8 @@ public abstract class XWriteAbleRepeatEditor extends XDirectWriteEditor {
         return (CRPropertyDescriptor[]) ArrayUtils.addAll(
             super.supportedDescriptor(),
             new CRPropertyDescriptor[]{
-                new CRPropertyDescriptor("removeRepeat", this.data.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Form-Remove_Repeat")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
-                new CRPropertyDescriptor("waterMark", this.data.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("WaterMark")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+                new CRPropertyDescriptor("removeRepeat", this.data.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Remove_Repeat")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+                new CRPropertyDescriptor("waterMark", this.data.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_WaterMark")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
             });
     }
 }

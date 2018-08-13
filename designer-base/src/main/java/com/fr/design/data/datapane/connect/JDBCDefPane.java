@@ -129,7 +129,7 @@ public class JDBCDefPane extends JPanel {
 		urlComPane = TableLayoutHelper.createCommonTableLayoutPane(urlComComponents, urlRowSize, urlColumnSize, 4);
 
 		JPanel userPane = FRGUIPaneFactory.createRightFlowInnerContainer_S_Pane();
-		userPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Username") + ":"));
+		userPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_UserName") + ":"));
 		JPanel userComPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
 		Component[][] userComComponents = {{userNameTextField, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Password") + ":"), passwordTextField}};
 		double[] userRowSize = {p};
@@ -336,7 +336,7 @@ public class JDBCDefPane extends JPanel {
 					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Dbcp_Max_Idle") + ":", SwingConstants.RIGHT), DBCP_MAX_IDLE},
 					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Dbcp_Min_Idle") + ":", SwingConstants.RIGHT), DBCP_MIN_IDLE},
 					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Connection_Pool_Max_Wait_Time") + ":" , SwingConstants.RIGHT), DBCP_MAX_WAIT},
-					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("DBCP_VALIDATION_QUERY") + ":", SwingConstants.RIGHT), DBCP_VALIDATION_QUERY},
+					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Dbcp_Validation_Query") + ":", SwingConstants.RIGHT), DBCP_VALIDATION_QUERY},
 					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Dbcp_Test_On_Borrow") + ":", SwingConstants.RIGHT), DBCP_TESTONBORROW},
 					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Dbcp_Test_On_Return") + ":", SwingConstants.RIGHT), DBCP_TESTONRETURN},
 					{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Dbcp_Test_While_Idle") + ":", SwingConstants.RIGHT), DBCP_TESTWHILEIDLE},

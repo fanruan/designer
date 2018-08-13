@@ -27,7 +27,7 @@ public class GanttPlotReportDataContentPane extends AbstractReportDataContentPan
 	
 	private static final String RESTART = com.fr.design.i18n.Toolkit.i18nText("ChartF-TheActualStart");
 	private static final String REEND = com.fr.design.i18n.Toolkit.i18nText("ChartF-TheActualEnd");
-	private static final String PERCENT = com.fr.design.i18n.Toolkit.i18nText("StyleFormat-Percent");
+	private static final String PERCENT = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_StyleFormat_Percent");
 	private static final String PRO = com.fr.design.i18n.Toolkit.i18nText("Chart_Project");
 	
 	public GanttPlotReportDataContentPane(ChartDataPane parent) {

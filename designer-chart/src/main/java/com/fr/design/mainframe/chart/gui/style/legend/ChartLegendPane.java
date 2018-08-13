@@ -56,8 +56,8 @@ public class ChartLegendPane extends BasicScrollPane<Chart>{
 			textAttrPane = new ChartTextAttrPane();
 			borderPane = new ChartBorderPane();
 			
-			String[] textArray = {com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Top"), com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Bottom"),
-					com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Left"), com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Right"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Right_Top")};
+			String[] textArray = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Top"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Bottom"),
+					com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Left"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Right"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Right_Top")};
 			Integer[] valueArray = {Constants.TOP, Constants.BOTTOM, Constants.LEFT, Constants.RIGHT, Constants.RIGHT_TOP};
             Icon[] iconArray = {BaseUtils.readIcon("/com/fr/design/images/chart/ChartLegend/layout_top.png"),
                                 BaseUtils.readIcon("/com/fr/design/images/chart/ChartLegend/layout_bottom.png"),

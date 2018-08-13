@@ -69,7 +69,7 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 				new Component[]{startDateLabel, startDv},
 				new Component[]{endDateLabel, endDv},
 				new Component[]{waterMarkDictPane, null},
-				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Widget-Date_Selector_Return_Type")), returnTypeComboBox }
+				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Date_Selector_Return_Type")), returnTypeComboBox }
 		};
 		double[] rowSize = {p, p, p, p, p, p, p};
 		double[] columnSize = {p, f};
@@ -132,10 +132,10 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 		final JPanel customPane = new JPanel(cardLayout);
 		JPanel dateFormatPane = createFormatPane(dateFormatComboBox, dateSampleLabel);
 		JPanel timeFormatPane = createFormatPane(timeFormatComboBox, timeSampleLabel);
-		customPane.add(dateFormatPane, com.fr.design.i18n.Toolkit.i18nText("StyleFormat-Date"));
-		customPane.add(timeFormatPane, com.fr.design.i18n.Toolkit.i18nText("StyleFormat-Time"));
-		final String[] tabTitles = new String[]{com.fr.design.i18n.Toolkit.i18nText("StyleFormat-Date"), com.fr.design.i18n.Toolkit.i18nText("StyleFormat-Time")};
-		fomatHeadGroup = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("StyleFormat-Date"), com.fr.design.i18n.Toolkit.i18nText("StyleFormat-Time")});
+		customPane.add(dateFormatPane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_StyleFormat_Date"));
+		customPane.add(timeFormatPane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_StyleFormat_Time"));
+		final String[] tabTitles = new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_StyleFormat_Date"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_StyleFormat_Time")};
+		fomatHeadGroup = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_StyleFormat_Date"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_StyleFormat_Time")});
 		fomatHeadGroup.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {

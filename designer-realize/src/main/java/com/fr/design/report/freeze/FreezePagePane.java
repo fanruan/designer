@@ -12,7 +12,7 @@ public class FreezePagePane extends FreezeAndRepeatPane {
 
 	public FreezePagePane(boolean isNumber) {
 		this.isNumber = isNumber;
-		start = new UILabel(isNumber ? com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Frozen", "N.O."})+" 1" : com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Frozen", "N.O."})+" A", SwingConstants.CENTER);
+		start = new UILabel(isNumber ? com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Frozen_N.O.")+" 1" : com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Frozen_N.O.")+" A", SwingConstants.CENTER);
 		end = new UILabel(isNumber ? " 1"+com.fr.design.i18n.Toolkit.i18nText("Row") : " A"+com.fr.design.i18n.Toolkit.i18nText("Column"), SwingConstants.CENTER);
 		super.initComponent();
 	}
@@ -42,6 +42,6 @@ public class FreezePagePane extends FreezeAndRepeatPane {
 
 	@Override
 	public String getLabeshow() {
-		return isNumber ? com.fr.design.i18n.Toolkit.i18nText("RowTo") : com.fr.design.i18n.Toolkit.i18nText("ColumnTo");
+		return isNumber ? com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Row_To") : com.fr.design.i18n.Toolkit.i18nText("ColumnTo");
 	}
 }

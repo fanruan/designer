@@ -149,7 +149,7 @@ public class FormEditToolBar extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Edit");
     }
 
     public void populate(FormToolBar ftoolbar) {
@@ -208,7 +208,7 @@ public class FormEditToolBar extends BasicPane {
 
     private class MoveUpItemAction extends UpdateAction {
         public MoveUpItemAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("Utils-Move_Up"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Move_Up"));
             this.setMnemonic('U');
             this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/control/up.png"));
         }
@@ -239,7 +239,7 @@ public class FormEditToolBar extends BasicPane {
 
     private class MoveDownItemAction extends UpdateAction {
         public MoveDownItemAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("Utils-Move_Down"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Move_Down"));
             this.setMnemonic('D');
             this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/control/down.png"));
         }
@@ -274,7 +274,7 @@ public class FormEditToolBar extends BasicPane {
 
     public class RemoveAction extends UpdateAction {
         public RemoveAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Delete"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Delete"));
             this.setSmallIcon(IOUtils.readIcon("/com/fr/base/images/cell/control/remove.png"));
         }
 
@@ -361,7 +361,7 @@ public class FormEditToolBar extends BasicPane {
 
             button = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_User_Defined_Event"));
             customPane.add(button);
-            customPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit") + "JS", null));
+            customPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Edit") + "JS", null));
             button.addActionListener(l);
             return customPane;
         }

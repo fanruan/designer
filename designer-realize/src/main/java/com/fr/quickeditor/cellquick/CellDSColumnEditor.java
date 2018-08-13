@@ -259,7 +259,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
             }
             //丢掉icon,修改按钮名称为编辑
             condition.setSmallIcon(null);
-            condition.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit"));
+            condition.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Edit"));
             conditionUIButton = new UIButton(condition);
             Component[][] components = new Component[][]{
                     new Component[]{uiLabel, conditionUIButton}
@@ -273,12 +273,12 @@ public class CellDSColumnEditor extends CellQuickEditor {
 
         @Override
         public String getIconPath() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Basic");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Basic");
         }
 
         @Override
         public String title4PopupWindow() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Basic");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Basic");
         }
 
 
@@ -570,8 +570,8 @@ public class CellDSColumnEditor extends CellQuickEditor {
 
             //可扩展性
             JPanel extendableDirectionPane = FRGUIPaneFactory.createYBoxEmptyBorderPane();
-            extendableDirectionPane.add(heCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("ExpandD-Horizontal_Extendable")));
-            extendableDirectionPane.add(veCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("ExpandD-Vertical_Extendable")));
+            extendableDirectionPane.add(heCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ExpandD_Horizontal_Extendable")));
+            extendableDirectionPane.add(veCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ExpandD_Vertical_Extendable")));
 
             //补充空白数据
             JPanel multiNumPane = FRGUIPaneFactory.createYBoxEmptyBorderPane();
@@ -582,7 +582,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
             multiNumSpinner = new UISpinner(1, 10000, 1, 1);
 
             //数据倍数
-            UILabel multipleLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Column_Multiple"));
+            UILabel multipleLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Column_Multiple"));
             multiPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
                             new Component[]{
                                     multipleLabel, multiNumSpinner
@@ -659,7 +659,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
                         IOUtils.readIcon("/com/fr/design/images/expand/asc.png"),
                         IOUtils.readIcon("/com/fr/design/images/expand/des.png")
                 };
-                String[] nameArray = {com.fr.design.i18n.Toolkit.i18nText("Sort-Original"), com.fr.design.i18n.Toolkit.i18nText("Sort-Ascending"), com.fr.design.i18n.Toolkit.i18nText("Sort-Descending")};
+                String[] nameArray = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Sort_Original"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Sort_Ascending"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Sort_Descending")};
                 sortTypePane = new UIButtonGroup(iconArray);
                 sortTypePane.setAllToolTips(nameArray);
                 sortTypePane.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_ExpandD_Sort_After_Expand"));
@@ -849,15 +849,15 @@ public class CellDSColumnEditor extends CellQuickEditor {
 
             public ResultSetFilterConfigPane() {
                 this.setLayout(FRGUIPaneFactory.createBorderLayout());
-                UILabel filterLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("BindColumn-Results_Filter"));
+                UILabel filterLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Bind_Column_Results_Filter"));
                 //结果集筛选下拉框
                 rsComboBox = new UIComboBox(new String[]{
-                        com.fr.design.i18n.Toolkit.i18nText("Undefined"),
-                        com.fr.design.i18n.Toolkit.i18nText("BindColumn-Top_N"),
-                        com.fr.design.i18n.Toolkit.i18nText("BindColumn-Bottom_N"),
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Undefined"),
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Bind_Column_Top_N"),
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Bind_Column_Bottom_N"),
                         com.fr.design.i18n.Toolkit.i18nText("Odd"),
                         com.fr.design.i18n.Toolkit.i18nText("Even"),
-                        com.fr.design.i18n.Toolkit.i18nText("Specify")
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Specify")
                 });
                 rsComboBox.addActionListener(actionListener);
                 //配置展示CardLayout
@@ -1157,7 +1157,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
 
             public CustomValuePane() {
                 this.setLayout(new BorderLayout());
-                UILabel customValueLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Display_Value"));
+                UILabel customValueLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Display_Value"));
                 customValueLabel.setPreferredSize(LABEL_DIMENSION);
                 formulaField = new JFormulaField(DEFAULT_VALUE);
                 this.add(TableLayoutHelper.createGapTableLayoutPane(new Component[][]{

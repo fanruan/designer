@@ -1,6 +1,5 @@
 package com.fr.design.widget.ui;
 
-import com.fr.design.constants.LayoutConstants;
 import com.fr.design.designer.IntervalConstants;
 import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.ilable.UILabel;
@@ -27,7 +26,7 @@ public class CheckBoxDefinePane extends AbstractDataModify<CheckBox> {
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Text")), text},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Text")), text},
         };
         double[] rowSize = {p};
         double[] columnSize = {p, f};

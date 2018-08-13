@@ -46,8 +46,8 @@ public class WriteToolBarPane extends AbstractEditToolBarPane {
     private UIRadioButton leftRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Left_Display"));
     private UILabel rptShowLocationLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Show_Location") + ":", UILabel.LEFT);
     private UICheckBox isUseToolBarCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Use_ToolBar"));
-    private UIButton editToolBarButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit"));
-    private UILabel showListenersLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Form-Editing_Listeners") + ":");
+    private UIButton editToolBarButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Edit"));
+    private UILabel showListenersLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Editing_Listeners") + ":");
     private UICheckBox unloadCheck;
     private UICheckBox showWidgets;
     private UICheckBox isAutoStash;//自动暂存
@@ -73,7 +73,7 @@ public class WriteToolBarPane extends AbstractEditToolBarPane {
         rptButtonGroup.add(centerRadioButton);
         northPane.add(GUICoreUtils.createFlowPane(new Component[]{rptShowLocationLabel, centerRadioButton, leftRadioButton}, FlowLayout.LEFT));
 
-        colorBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Face_Write", "Current", "Edit", "Row", "Background", "Set"}) + ":");
+        colorBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Set_Face_Write_Current_Edit_Row_Background") + ":");
         colorBox.setSelected(true);
         colorBox.addActionListener(colorListener);
         colorButton = new UIColorButton(BaseUtils.readIcon("/com/fr/design/images/gui/color/background.png"));

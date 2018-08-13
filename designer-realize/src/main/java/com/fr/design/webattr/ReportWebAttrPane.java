@@ -43,7 +43,7 @@ public class ReportWebAttrPane extends LoadingBasicPane {
         //Tabbed Pane
         tabbedPane = new UITabbedPane();
         defaultPane.add(tabbedPane, BorderLayout.CENTER);
-        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Basic"), commonPane = new CommonPane());
+        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Basic"), commonPane = new CommonPane());
         tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Printer(Server)"), serverPrintPane = new ReportServerPrinterPane());
         
         tabbedPane.add(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Pagination_Setting"), pageWeb = new PageWebSettingPane());

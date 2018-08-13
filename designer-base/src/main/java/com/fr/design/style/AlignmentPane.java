@@ -35,10 +35,10 @@ public class AlignmentPane extends BasicPane {
     private AlignmentComboBox verAlignmentComboBox;
     private UIComboBox textComboBox;
     private static final String[] TEXT = {
-            com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Wrap_Text"),
-            com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Single_Line"),
-            com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Single_Line(Adjust_Font)"),
-            com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Multi_Line(Adjust_Font)")};
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Wrap_Text"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Single_Line"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Single_Line(Adjust_Font)"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Multi_Line(Adjust_Font)")};
     private UIBasicSpinner rotationSpinner;
     private UICheckBox isVerticalTextCheckBox;
     private UIRadioButton leftToRightRB;
@@ -86,7 +86,7 @@ public class AlignmentPane extends BasicPane {
         //richer:文本控制和图片布局
         JPanel textDirectionPanel = FRGUIPaneFactory.createY_AXISBoxInnerContainer_S_Pane();
         contentPane.add(textDirectionPanel);
-        textDirectionPanel.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Text_Rotation"), null));
+        textDirectionPanel.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Text_Rotation"), null));
         JPanel isVerticalTextPanel = FRGUIPaneFactory.createMediumHGapFlowInnerContainer_M_Pane();
         textDirectionPanel.add(isVerticalTextPanel);
         initVerticalPane(isVerticalTextPanel);
@@ -94,7 +94,7 @@ public class AlignmentPane extends BasicPane {
         JPanel rotationPane = FRGUIPaneFactory.createMediumHGapFlowInnerContainer_M_Pane();
         textDirectionPanel.add(rotationPane);
 
-        rotationPane.add(new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Text_Rotation")));//james:加了一个空格，这样对齐了好看些
+        rotationPane.add(new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Text_Rotation")));//james:加了一个空格，这样对齐了好看些
 
         rotationSpinner = new UIBasicSpinner(new SpinnerNumberModel(0, -NUM_90, NUM_90, 1));
         rotationSpinner.addChangeListener(changeListener);
@@ -136,24 +136,24 @@ public class AlignmentPane extends BasicPane {
         spacingBeforeSpinner = new UIBasicSpinner(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
         spacingBeforeSpinner.addChangeListener(changeListener);
         GUICoreUtils.setColumnForSpinner(spacingBeforeSpinner, 3);
-        spacingPane.add(this.createCenterFlowPane(com.fr.design.i18n.Toolkit.i18nText("Style-Spacing_Before"), spacingBeforeSpinner));
+        spacingPane.add(this.createCenterFlowPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Spacing_Before_Duplicate"), spacingBeforeSpinner));
 
         spacingAfterSpinner = new UIBasicSpinner(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
         spacingAfterSpinner.addChangeListener(changeListener);
         GUICoreUtils.setColumnForSpinner(spacingAfterSpinner, 3);
-        spacingPane.add(this.createCenterFlowPane(com.fr.design.i18n.Toolkit.i18nText("Style-Spacing_After"), spacingAfterSpinner));
+        spacingPane.add(this.createCenterFlowPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Spacing_After_Duplicate"), spacingAfterSpinner));
 
         lineSpacingSpinner = new UIBasicSpinner(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
         lineSpacingSpinner.addChangeListener(changeListener);
         GUICoreUtils.setColumnForSpinner(lineSpacingSpinner, 3);
-        spacingPane.add(this.createCenterFlowPane(com.fr.design.i18n.Toolkit.i18nText("Style-Line_Spacing"), lineSpacingSpinner));
+        spacingPane.add(this.createCenterFlowPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Line_Spacing_Duplicate"), lineSpacingSpinner));
     }
 
 
     private JPanel getIndentPane() {
         JPanel indentPane = FRGUIPaneFactory.createMediumHGapFlowInnerContainer_M_Pane();
 
-        indentPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Sytle-Indentation"), null));
+        indentPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Sytle_Indentation"), null));
         Comparable maximum = null;
         leftIndentSpinner = new UIBasicSpinner(new SpinnerNumberModel(new Integer(0), new Integer(0), maximum, new Integer(1)));
         leftIndentSpinner.addChangeListener(changeListener);
@@ -168,7 +168,7 @@ public class AlignmentPane extends BasicPane {
     }
 
     private JPanel getTextImagePane() {
-        JPanel textImagePane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Text_Style"));
+        JPanel textImagePane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Text_Style"));
 
         //textStyle.
         JPanel textStylePane = FRGUIPaneFactory.createMediumHGapFlowInnerContainer_M_Pane();
@@ -176,7 +176,7 @@ public class AlignmentPane extends BasicPane {
 
         textComboBox = new UIComboBox(TEXT);
         textComboBox.addActionListener(actionListener);
-        textStylePane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Text_Style")));
+        textStylePane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Text_Style")));
         textStylePane.add(textComboBox);
         textImagePane.add(textStylePane);//将文本放后面更好看点
         return textImagePane;
@@ -184,7 +184,7 @@ public class AlignmentPane extends BasicPane {
 
     private JPanel getAlignment() {
         //algnment.
-        JPanel aligmentPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Alignment-Style"));
+        JPanel aligmentPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Alignment_Style"));
         JPanel horAlignmentPane = FRGUIPaneFactory.createMediumHGapFlowInnerContainer_M_Pane();
         //        aligmentPane.add(horAlignmentPane);
         horAlignmentComboBox = new AlignmentComboBox(CoreConstants.HORIZONTAL_ALIGNMENT_ARRAY);

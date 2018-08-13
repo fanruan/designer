@@ -29,7 +29,7 @@ public class IconDefinePane extends BasicPane {
         labelPane.setLayout(new /**/ FlowLayout(FlowLayout.LEFT, 20, 0));
         showIconImageLable = new UILabel();
         showIconImageLable.setPreferredSize(new Dimension(20, 20));
-        editIconButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit"));
+        editIconButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Edit"));
         JPanel iconButtonPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         labelPane.add(showIconImageLable);
         iconPane.add(labelPane, BorderLayout.WEST);
@@ -53,7 +53,7 @@ public class IconDefinePane extends BasicPane {
             }
         });
 
-        removeIconButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Delete"));
+        removeIconButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Delete"));
         iconButtonPane.add(removeIconButton);
         removeIconButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {

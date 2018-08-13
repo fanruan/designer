@@ -22,7 +22,6 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 
 import com.fr.design.gui.ibutton.SpecialUIButton;
-import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.islider.UISlider;
@@ -492,7 +491,7 @@ class CustomChooserPanel extends AbstractColorChooserPanel implements ColorSelec
      * @return The name displayed in the JColorChooser tab.
      */
     public String getDisplayName() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Custom");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom");
     }
 
     /**

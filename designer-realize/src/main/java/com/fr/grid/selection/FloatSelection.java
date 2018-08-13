@@ -78,7 +78,7 @@ public class FloatSelection extends Selection {
     @Override
     public boolean pasteCellElementsClip(CellElementsClip ceClip, ElementCasePane ePane) {
         Toolkit.getDefaultToolkit().beep();
-        DesignUtils.errorMessage(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Only_selected_cell_can_paste_only", "M_Insert-Cell"}));
+        DesignUtils.errorMessage(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Paste_Cell_Tips"));
 
         return false;
     }
@@ -86,7 +86,7 @@ public class FloatSelection extends Selection {
     @Override
     public boolean pasteString(String str, ElementCasePane ePane) {
         Toolkit.getDefaultToolkit().beep();
-        DesignUtils.errorMessage(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Only_selected_cell_can_paste_only", "Character"}));
+        DesignUtils.errorMessage(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Paste_Character_Tips"));
 //		return pasteOtherType(str, ePane);
         return false;
     }
@@ -238,7 +238,7 @@ public class FloatSelection extends Selection {
         FloatElement selectedFloat = ePane.getEditingElementCase().getFloatElement(selectedFloatName);
         Object value = null;
         //处理撤销时npe
-        if(selectedFloat != null) {
+        if (selectedFloat != null) {
             value = selectedFloat.getValue();
         }
         value = value == null ? "" : value;

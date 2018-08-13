@@ -49,7 +49,7 @@ public class ImageButtonBackgroundPane extends ImageBackgroundPane {
     }
 
     private void initButton() {
-        chooseButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background_Image_Select"));
+        chooseButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Image_Select"));
         chooseButton.addActionListener(selectPictureActionListener);
         clearButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Clear"));
         clearButton.addActionListener(new ActionListener() {

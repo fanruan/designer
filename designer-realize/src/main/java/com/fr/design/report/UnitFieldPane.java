@@ -3,25 +3,22 @@
  */
 package com.fr.design.report;
 
-import java.awt.Dimension;
-
-import javax.swing.JFormattedTextField;
-
 import com.fr.common.inputevent.InputEventBaseOnOS;
 import com.fr.design.gui.ilable.UILabel;
-import javax.swing.JPanel;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
-
 import com.fr.design.gui.ispinner.UIBasicSpinner;
 import com.fr.design.layout.FRGUIPaneFactory;
-
 import com.fr.stable.Constants;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.unit.CM;
 import com.fr.stable.unit.INCH;
 import com.fr.stable.unit.MM;
 import com.fr.stable.unit.UNIT;
+
+import javax.swing.JFormattedTextField;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
+import java.awt.Dimension;
 
 /**
  * UnitFieldPane
@@ -48,11 +45,11 @@ public class UnitFieldPane extends JPanel {
 
         public void setUnitType(int unitType) {
             if (unitType == Constants.UNIT_CM) {
-                this.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Unit_CM"));
+                this.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_CM"));
             } else if (unitType == Constants.UNIT_INCH) {
-                this.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Unit_INCH"));
+                this.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_INCH"));
             } else {
-                this.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Unit_MM"));
+                this.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_MM"));
             }
 
             //ajust the heigt of unitLabel.

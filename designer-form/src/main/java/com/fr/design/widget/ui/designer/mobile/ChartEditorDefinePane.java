@@ -101,8 +101,8 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane {
         allowFullCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Allow_Full_Screen"));
 
         Component[][] components = new Component[][]{
-                new Component[] {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Design_Form_Zoom_In_Logic"), SwingConstants.LEFT), new UILabel(ChartMobileFitAttrState.PROPORTION.description())},
-                new Component[] {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Design_Form_Zoom_Out_Logic"), SwingConstants.LEFT), zoomOutComboBox},
+                new Component[] {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Zoom_In_Logic"), SwingConstants.LEFT), new UILabel(ChartMobileFitAttrState.PROPORTION.description())},
+                new Component[] {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Zoom_Out_Logic"), SwingConstants.LEFT), zoomOutComboBox},
                 new Component[] {tipLabel, null},
                 new Component[] {allowFullCheckBox}
         };

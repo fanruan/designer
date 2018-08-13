@@ -135,13 +135,13 @@ public class ChartFillStylePane extends BasicBeanPane<AttrFillStyle>{
     private String[] getNameObj() {
 		ChartPreStyleConfig config = ChartPreStyleConfig.getInstance();
         ArrayList<String> nameArr = new ArrayList<String>();
-        nameArr.add(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_DEFAULT"));
+        nameArr.add(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_DEFAULT"));
         Iterator keys = config.names();
         while (keys.hasNext()) {
             Object key = keys.next();
             nameArr.add(Utils.objectToString(key));
         }
-        nameArr.add(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Custom"));
+        nameArr.add(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom"));
         return nameArr.toArray(new String[nameArr.size()]);
     }
 

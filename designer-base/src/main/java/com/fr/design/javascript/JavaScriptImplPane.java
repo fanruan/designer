@@ -51,7 +51,7 @@ public class JavaScriptImplPane extends AbstractHyperLinkPane<JavaScriptImpl> {
 
     protected void initComponents() {
         parameterPane = new ReportletParameterViewPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
-        parameterPane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter")));
+        parameterPane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter")));
         parameterPane.addTableEditorListener(new TableModelListener() {
             public void tableChanged(TableModelEvent e) {
                 List<ParameterProvider> list = parameterPane.update();
@@ -87,7 +87,7 @@ public class JavaScriptImplPane extends AbstractHyperLinkPane<JavaScriptImpl> {
         importedJsPane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), com.fr.design.i18n.Toolkit.i18nText("ReportServerP-Import_JavaScript")));
         importedJsPane.setPreferredSize(new Dimension(265, 150));
         jsPane = new JSContentPane(defaultArgs);
-        jsPane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_JavaScript")));
+        jsPane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_JavaScript")));
 
         parameterPane.setPreferredSize(new Dimension(265, 150));
         JPanel topPane = GUICoreUtils.createBorderLayoutPane(
@@ -125,7 +125,7 @@ public class JavaScriptImplPane extends AbstractHyperLinkPane<JavaScriptImpl> {
      * @return 标题.
      */
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_JavaScript");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_JavaScript");
     }
 
     /**

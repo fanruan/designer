@@ -29,7 +29,7 @@ public class WidgetCardTagBoundPane extends WidgetBoundPane {
     @Override
     public void initBoundPane() {
         cardTagWidth = new UIBoundSpinner(0, Integer.MAX_VALUE, 1);
-        cardTagWidth.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Coords_And_Size"));
+        cardTagWidth.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Coords_And_Size"));
         this.add(WidgetBoundsPaneFactory.createCardTagBoundPane(cardTagWidth));
     }
 

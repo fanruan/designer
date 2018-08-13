@@ -138,7 +138,7 @@ public abstract class BasicTableDataTreePane extends DockingView implements Resp
     }
 
     private boolean isProcedureName(String oldName) {
-        return oldName.length() >= PROCEDURE_NAME_INDEX && ComparatorUtils.equals(type, com.fr.design.i18n.Toolkit.i18nText("Datasource-Stored_Procedure"));
+        return oldName.length() >= PROCEDURE_NAME_INDEX && ComparatorUtils.equals(type, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Stored_Procedure"));
     }
 
 
@@ -383,7 +383,7 @@ public abstract class BasicTableDataTreePane extends DockingView implements Resp
         private TableDataTree dataTree;
 
         public PreviewTableDataAction(TableDataTree dataTree) {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Preview"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preview"));
             this.setMnemonic('p');
             this.setSmallIcon(BaseUtils.readIcon(IconPathConstants.PREVIEW_ICON_PATH));
             this.dataTree = dataTree;

@@ -43,7 +43,7 @@ public class CellExpandAttrPane extends AbstractCellAttrPane {
      * @return
      */
     public JPanel createContentPane() {
-        String[] nameArray = {com.fr.design.i18n.Toolkit.i18nText("ExpandD-Not_Expand"), com.fr.design.i18n.Toolkit.i18nText("Utils-Top_to_Bottom"), com.fr.design.i18n.Toolkit.i18nText("Utils-Left_to_Right")};
+        String[] nameArray = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ExpandD_Not_Expand"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Top_To_Bottom"), com.fr.design.i18n.Toolkit.i18nText("FIne-Design_Report_Utils_Left_To_Right")};
         Icon[][] iconArray = {
                 {BaseUtils.readIcon("/com/fr/design/images/expand/none16x16.png"), BaseUtils.readIcon("/com/fr/design/images/expand/none16x16_selected@1x.png")},
                 {BaseUtils.readIcon("/com/fr/design/images/expand/vertical.png"), BaseUtils.readIcon("/com/fr/design/images/expand/vertical_selected@1x.png")},
@@ -54,8 +54,8 @@ public class CellExpandAttrPane extends AbstractCellAttrPane {
         expandDirectionButton.setAllToolTips(nameArray);
         leftFatherPane = new ExpandLeftFatherPane();
         rightFatherPane = new ExpandUpFatherPane();
-        horizontalExpandableCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("ExpandD-Horizontal_Extendable"));
-        verticalExpandableCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("ExpandD-Vertical_Extendable"));
+        horizontalExpandableCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ExpandD_Horizontal_Extendable"));
+        verticalExpandableCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ExpandD_Vertical_Extendable"));
         sortAfterExpand = new SortExpandAttrPane();
         initAllNames();
         return layoutPane();
@@ -73,7 +73,7 @@ public class CellExpandAttrPane extends AbstractCellAttrPane {
         layoutPane = new JPanel(new BorderLayout());
         basicPane = new JPanel();
         seniorPane = new JPanel();
-        basicPane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Basic"), 223, 24, basicPane());
+        basicPane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Basic"), 223, 24, basicPane());
         seniorPane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced"), 223, 24, seniorPane());
         layoutPane.add(basicPane, BorderLayout.NORTH);
         layoutPane.add(seniorPane, BorderLayout.CENTER);
@@ -164,7 +164,7 @@ public class CellExpandAttrPane extends AbstractCellAttrPane {
     @Override
     public String getIconPath() {
 //		return "com/fr/design/images/expand/cellAttr.gif";
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Expand");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Expand");
     }
 
 
@@ -237,7 +237,7 @@ public class CellExpandAttrPane extends AbstractCellAttrPane {
      * @return
      */
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("ExpandD-Expand_Attribute");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ExpandD_Expand_Attribute");
     }
 
 

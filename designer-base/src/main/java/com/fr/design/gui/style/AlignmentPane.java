@@ -55,7 +55,7 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
     private static final int VERGAP = 3;
     private static final Dimension SPINNER_DIMENSION = new Dimension(75, 20);
     private static final String[] TEXT = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Wrap_Text"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Single_Line"),
-            com.fr.design.i18n.Toolkit.i18nText("FR-Designer_StyleAlignment_Single_Line(Adjust_Font)"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_StyleAlignment_Multi_Line(Adjust_Font)")};
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Single_Line(Adjust_Font)"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Multi_Line(Adjust_Font)")};
 
     private static final String[] LAYOUT = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Layout_Default"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Layout_Image_Titled"),
             com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Layout_Image_Extend"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Layout_Image_Adjust")};
@@ -181,12 +181,12 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
     }
 
     private void initAllNames() {
-        hAlignmentPane.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Pane_Horizontal"));
-        vAlignmentPane.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Pane_Vertical"));
+        hAlignmentPane.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Pane_Horizontal"));
+        vAlignmentPane.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Pane_Vertical"));
         imageLayoutComboBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Image_Layout"));
         textComboBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Text_Style"));
-        textRotationComboBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_StyleAlignment_Text_Rotation"));
-        rotationPane.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_StyleAlignment_Text_Rotation"));
+        textRotationComboBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Text_Rotation"));
+        rotationPane.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Text_Rotation"));
         leftIndentSpinner.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Left_Indent"));
         rightIndentSpinner.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Right_Indent"));
         spaceBeforeSpinner.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Spacing_Before"));
@@ -198,8 +198,8 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
         JPanel jp1 = new JPanel(new BorderLayout());
         basicPane = new JPanel();
         seniorPane = new JPanel();
-        basicPane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Basic"), 290, 24, basicPane());
-        seniorPane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Advanced"), 290, 24, seniorPane());
+        basicPane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Basic"), 290, 24, basicPane());
+        seniorPane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Advanced"), 290, 24, seniorPane());
 
         jp1.add(basicPane, BorderLayout.NORTH);
         jp1.add(seniorPane, BorderLayout.CENTER);
@@ -212,9 +212,9 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Pane_Horizontal") + "   ", SwingConstants.LEFT), hPaneContainer},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Pane_Horizontal") + "   ", SwingConstants.LEFT), hPaneContainer},
                 new Component[]{null, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Pane_Vertical") + "   ", SwingConstants.RIGHT), vPaneContainer},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Pane_Vertical") + "   ", SwingConstants.RIGHT), vPaneContainer},
                 new Component[]{null, null}
         };
         double[] rowSize = {p, p, p, p, p, p};
@@ -233,7 +233,7 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
                 new Component[]{null, null},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Text_Style") + "   ", SwingConstants.LEFT), textComboBox},
                 new Component[]{null, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_StyleAlignment_Text_Rotation") + "   ", SwingConstants.LEFT), textRotationComboBox},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Text_Rotation") + "   ", SwingConstants.LEFT), textRotationComboBox},
                 new Component[]{null, rotationBarCC},
                 new Component[]{null, null},
         };
@@ -269,7 +269,7 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
         Component[][] components = new Component[][]{
                 new Component[]{null, null, null},
                 new Component[]{indentationPane, creatSpinnerPane(leftIndentSpinner), creatSpinnerPane(rightIndentSpinner)},
-                new Component[]{null, new UILabel((com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Left")), SwingConstants.CENTER), new UILabel((com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Right")), SwingConstants.CENTER)},
+                new Component[]{null, new UILabel((com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Left")), SwingConstants.CENTER), new UILabel((com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Right")), SwingConstants.CENTER)},
                 new Component[]{null, null, null},
                 new Component[]{null, null, null},
                 new Component[]{partSpacingPane, creatSpinnerPane(spaceBeforeSpinner), creatSpinnerPane(spaceAfterSpinner)},
@@ -358,11 +358,11 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
             return style;
         }
 
-        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Pane_Horizontal"))) {
+        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Pane_Horizontal"))) {
             Integer h = this.hAlignmentPane.getSelectedItem();
             style = style.deriveHorizontalAlignment(h == null ? -1 : h);
         }
-        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Pane_Vertical"))) {
+        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Pane_Vertical"))) {
             Integer vAlign = this.vAlignmentPane.getSelectedItem();
             if (vAlign != null) {
                 style = style.deriveVerticalAlignment(vAlign);
@@ -405,7 +405,7 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
 
 
     private Style updateTextRotation(Style style) {
-        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_StyleAlignment_Text_Rotation"))) {
+        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Text_Rotation"))) {
             if (this.textRotationComboBox.getSelectedIndex() != 0) {
                 style = style.deriveVerticalText(Style.VERTICALTEXT);
                 style = style.deriveRotation(0);

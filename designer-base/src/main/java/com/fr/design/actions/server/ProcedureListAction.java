@@ -20,7 +20,7 @@ import java.awt.event.ActionEvent;
 
 public class ProcedureListAction extends UpdateAction {
     public ProcedureListAction() {
-        this.setName(com.fr.design.i18n.Toolkit.i18nText("Datasource-Stored_Procedure") + "(P)" + "...");
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Stored_Procedure") + "(P)" + "...");
         this.setMnemonic('P');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/data/store_procedure.png"));
     }

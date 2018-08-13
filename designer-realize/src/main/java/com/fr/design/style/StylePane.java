@@ -82,7 +82,7 @@ public class StylePane extends BasicBeanPane<Style> implements ChangeListener {
 
 		mainTabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Format"), this.getFormatPane());
 		mainTabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Alignment"), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
-		mainTabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Sytle-FRFont"), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
+		mainTabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Sytle_FRFont"), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
 		mainTabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Border"), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
 		mainTabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Background"), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
 

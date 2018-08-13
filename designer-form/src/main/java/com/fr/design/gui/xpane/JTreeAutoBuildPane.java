@@ -47,7 +47,7 @@ public class JTreeAutoBuildPane extends BasicPane implements Previewable, Editab
 
     public void initComponent() {
         this.setLayout(FRGUIPaneFactory.createM_BorderLayout());
-        UILabel selectTreeDataLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Select_A_Tree_DataSource_To_Build") + ": ");
+        UILabel selectTreeDataLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Select_A_Tree_DataSource_To_Build") + ": ");
         treeTableDataComboBox = new TreeTableDataComboBox(DesignTableDataManager.getEditingTableDataSource());
         treeTableDataComboBox.setPreferredSize(new Dimension(180, 20));
         selectTreeDataPanel = FRGUIPaneFactory.createBoxFlowInnerContainer_S_Pane();
@@ -73,9 +73,9 @@ public class JTreeAutoBuildPane extends BasicPane implements Previewable, Editab
         formulaEditor.setEnabled(true);
         textPane = ValueEditorPaneFactory.createValueEditorPane(new Editor[]{new OldColumnIndexEditor(com.fr.design.i18n.Toolkit.i18nText("Columns")), formulaEditor});
         Component[][] coms = {
-                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Actual_Value") + ":"),
+                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Actual_Value") + ":"),
                         valuePane},
-                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Display_Value") + ":"),
+                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Display_Value") + ":"),
                         textPane}};
 
         double p = TableLayout.PREFERRED;

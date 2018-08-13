@@ -31,7 +31,7 @@ public class PolyBoundsGroup implements GroupModel {
 
 	@Override
 	public String getGroupName() {
-		return com.fr.design.i18n.Toolkit.i18nText("Form-Component_Bounds");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Component_Bounds");
 	}
 
 	@Override

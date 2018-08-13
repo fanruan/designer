@@ -76,12 +76,12 @@ public class ServerPrinterPane extends BasicPane {
 
 		moveUpButton = new UIButton(BaseUtils.readIcon("/com/fr/design/images/control/up.png"));
 		moveUpButton.addActionListener(this.moveUpActionListener);
-		moveUpButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Utils-Move_Up"));//"moveUp"
+		moveUpButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Move_Up"));//"moveUp"
 		moveUpButton.setPreferredSize(preferDimension);
 
 		moveDownButton = new UIButton(BaseUtils.readIcon("/com/fr/design/images/control/down.png"));
 		moveDownButton.addActionListener(this.moveDownActionListener);
-		moveDownButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Utils-Move_Down"));//"moveDown"
+		moveDownButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Move_Down"));//"moveDown"
 		moveDownButton.setPreferredSize(preferDimension);
 
 		toolbar.add(addButton);

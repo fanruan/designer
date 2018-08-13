@@ -52,11 +52,11 @@ public class XRadioGroup extends XFieldEditor {
 
 	private CRPropertyDescriptor[] getCRPropertyDescriptor() throws IntrospectionException {
 		CRPropertyDescriptor[] crp = new CRPropertyDescriptor[] {
-				new CRPropertyDescriptor("adaptive", this.data.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Adaptive"))
+				new CRPropertyDescriptor("adaptive", this.data.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Adaptive"))
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced").setEditorClass(InChangeBooleanEditor.class)};
 		if (!toData().isAdaptive()) {
 			crp = (CRPropertyDescriptor[]) ArrayUtils.add(crp, new CRPropertyDescriptor("columnsInRow", this.data
-					.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Button-Group-Display-Columns")).putKeyValue(
+					.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Button_Group_Display_Columns")).putKeyValue(
 					XCreatorConstants.PROPERTY_CATEGORY, "Advanced"));
 		}
 		return crp;

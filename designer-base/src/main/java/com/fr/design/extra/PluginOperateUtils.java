@@ -95,7 +95,7 @@ public class PluginOperateUtils {
                 int rv = JOptionPane.showConfirmDialog(
                         null,
                         com.fr.design.i18n.Toolkit.i18nText("FR-Plugin_Delete_Confirmed"),
-                        com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"),
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"),
                         JOptionPane.OK_CANCEL_OPTION,
                         JOptionPane.INFORMATION_MESSAGE
                 );

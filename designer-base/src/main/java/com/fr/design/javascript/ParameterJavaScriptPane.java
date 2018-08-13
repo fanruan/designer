@@ -35,7 +35,7 @@ public class ParameterJavaScriptPane extends AbstractHyperLinkPane<ParameterJava
 
     @Override
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("JavaScript-Dynamic_Parameters");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_JavaScript_Dynamic_Parameters");
     }
 
     @Override

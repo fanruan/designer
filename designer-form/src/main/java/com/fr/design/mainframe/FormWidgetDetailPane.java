@@ -259,7 +259,7 @@ public class FormWidgetDetailPane extends FormDockView{
     private UIButton createRefreshButton() {
         return createToolButton(
                 BaseUtils.readIcon("/com/fr/design/form/images/refresh.png"),
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Refresh"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Refresh"),
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -306,7 +306,7 @@ public class FormWidgetDetailPane extends FormDockView{
                 try {
                     Desktop.getDesktop().browse(new URI(url));
                 } catch (IOException exp) {
-                    JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Set_default_browser"));
+                    JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Set_Default_Browser_Duplicate"));
                     FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
                 } catch (URISyntaxException exp) {
                     FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
@@ -332,7 +332,7 @@ public class FormWidgetDetailPane extends FormDockView{
                         JFileChooser fileChooser = new JFileChooser();
                         fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
                         fileChooser.setFileFilter(new FileNameExtensionFilter(".reu", "reu"));
-                        int returnValue = fileChooser.showDialog(new UILabel(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Select"));
+                        int returnValue = fileChooser.showDialog(new UILabel(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Select"));
                         if (returnValue == JFileChooser.APPROVE_OPTION) {
                             final File chosenFile = fileChooser.getSelectedFile();
                             installFromDiskZipFile(chosenFile);

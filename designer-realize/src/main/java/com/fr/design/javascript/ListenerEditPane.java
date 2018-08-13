@@ -42,11 +42,11 @@ public class ListenerEditPane extends BasicBeanPane<Listener> {
 	// 发送邮件
 	private EmailPane emailPane;
 	
-	private static final String JS = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_JavaScript");
-	private static final String FORMSUBMIT = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_JavaScript_Form_Submit");
-	private static final String DBCOMMIT = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_JavaScript_Commit_To_Database");
-	private static final String CUSTOMACTION= com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"FR-Designer_JavaScript_Custom", "FR-Designer_RWA_Submit"});
-	private static final String EMAIL = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Email_sentEmail");
+	private static final String JS = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_JavaScript");
+    private static final String FORMSUBMIT = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_JavaScript_Form_Submit");
+    private static final String DBCOMMIT = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_JavaScript_Commit_To_Database");
+	private static final String CUSTOMACTION= com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_JavaScript_Custom_Submit");
+	private static final String EMAIL = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Email_Sent_Email");
 	
 	private Listener listener;
 	

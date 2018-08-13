@@ -64,7 +64,7 @@ public class ImageBackgroundQuickPane extends BackgroundQuickPane {
         this.add(contentPane, BorderLayout.CENTER);
 
 
-        UIButton selectPictureButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Image-Select_Picture"));
+        UIButton selectPictureButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Image_Select_Picture"));
         selectPictureButton.addActionListener(selectPictureActionListener);
 
         if (hasImageLayout) {

@@ -39,9 +39,9 @@ public abstract class ExpandFatherPane extends JPanel implements GlobalNameObser
     public ExpandFatherPane() {
         this.setLayout(new BorderLayout(0, LayoutConstants.VGAP_SMALL));
         comboBox = new UIComboBox(new String[]{
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_None"),
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_DEFAULT"),
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Custom")});
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_None"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_DEFAULT"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom")});
         cardLayout = new CardLayout();
         customPane = new JPanel(cardLayout);
         customParentColumnRowPane = new ColumnRowPane() {

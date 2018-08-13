@@ -41,7 +41,7 @@ public class CSVExportAction extends AbstractExportAction {
 
     @Override
 	protected ChooseFileFilter getChooseFileFilter() {
-        return new ChooseFileFilter(FileExtension.CSV, com.fr.design.i18n.Toolkit.i18nText("Export-CSV"));
+        return new ChooseFileFilter(FileExtension.CSV, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Export_CSV"));
     }
 
     @Override

@@ -106,7 +106,7 @@ public class UITableEditorPane<T> extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("TableData_Dynamic_Parameter_Setting");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_TableData_Dynamic_Parameter_Setting");
     }
 
     public void populate(T[] objs) {

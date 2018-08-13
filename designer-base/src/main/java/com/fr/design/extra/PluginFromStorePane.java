@@ -59,7 +59,7 @@ public class PluginFromStorePane extends PluginAbstractLoadingViewPane<List<Plug
 
             @Override
             public String textForInstallButton() {
-                return com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Install");
+                return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Install");
             }
 
 
@@ -107,7 +107,7 @@ public class PluginFromStorePane extends PluginAbstractLoadingViewPane<List<Plug
 
             @Override
             public String textForInstallButton() {
-                return com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Install");
+                return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Install");
             }
 
 
@@ -179,12 +179,12 @@ public class PluginFromStorePane extends PluginAbstractLoadingViewPane<List<Plug
                         FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Install_Success"));
                         JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Install_Successful"));
                     } else {
-                        JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
                     }
                 }
             });
         } catch (Exception e1) {
-            JOptionPane.showMessageDialog(PluginFromStorePane.this, e1.getMessage(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(PluginFromStorePane.this, e1.getMessage(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
         }
     }
 

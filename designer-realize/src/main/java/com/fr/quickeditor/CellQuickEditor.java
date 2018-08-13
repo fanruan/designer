@@ -209,7 +209,7 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
         double f = TableLayout.FILL;
         double[] columnSize = {p, f};
         double[] rowSize = {p, p};
-        UILabel cellLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cell"));
+        UILabel cellLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cell"));
         cellLabel.setPreferredSize(LABEL_DIMENSION);
         UILabel insertContentLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Insert_Cell_Element"));
         insertContentLabel.setPreferredSize(LABEL_DIMENSION);
@@ -306,7 +306,7 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
                 // barry:检查输入是否正确
                 if (!ColumnRow.validate(columnRowEdit)) {
                     Object[] options = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_OK")};
-                    JOptionPane.showOptionDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Please_Input_Letters+Numbers(A1,AA1,A11....)"), com.fr.design.i18n.Toolkit.i18nText("Warning"),
+                    JOptionPane.showOptionDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Please_Input_Letters+Numbers(A1,AA1,A11....)"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Warning"),
                             JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
                     // 重新选中当前的selection,把columnRowTextField
                     tc.setSelection(tc.getSelection());

@@ -48,9 +48,9 @@ public class VerticalSplitProperties implements GroupModel {
 			case 0:
 				return com.fr.design.i18n.Toolkit.i18nText("Ratio");
 			case 1:
-				return com.fr.design.i18n.Toolkit.i18nText("Hgap");
+				return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Hgap");
 			case 2:
-				return com.fr.design.i18n.Toolkit.i18nText("Vgap");
+				return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Vgap");
 			}
 		} else {
 			switch (row) {

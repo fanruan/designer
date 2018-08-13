@@ -113,7 +113,7 @@ public class TableDataNameObjectCreator extends NameObjectCreator {
      * @return 提示
      */
     public String createTooltip() {
-        return b ? com.fr.design.i18n.Toolkit.i18nText("Connect_SQL_Cannot_Null") : null;
+        return b ? com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Connect_SQL_Cannot_Null") : null;
     }
 
     public String getPrefix() {

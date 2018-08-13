@@ -45,7 +45,7 @@ public class XCheckBoxGroup extends XFieldEditor {
 
 	private CRPropertyDescriptor[] getCRPropertyDescriptor() throws IntrospectionException {
 		CRPropertyDescriptor[] crp = new CRPropertyDescriptor[] {
-				new CRPropertyDescriptor("adaptive", this.data.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Adaptive"))
+				new CRPropertyDescriptor("adaptive", this.data.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Adaptive"))
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced").setEditorClass(InChangeBooleanEditor.class),
 				new CRPropertyDescriptor("chooseAll", this.data.getClass()).setI18NName(
 						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Choose_Type_All")).putKeyValue(
@@ -56,7 +56,7 @@ public class XCheckBoxGroup extends XFieldEditor {
 		if (((CheckBoxGroup) this.toData()).isReturnString()) {
 			crp = (CRPropertyDescriptor[]) ArrayUtils.addAll(crp, new CRPropertyDescriptor[] {
 					new CRPropertyDescriptor("delimiter", this.data.getClass()).setI18NName(
-							com.fr.design.i18n.Toolkit.i18nText("Form-Delimiter")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+							com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Delimiter")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 					new CRPropertyDescriptor("startSymbol", this.data.getClass()).setI18NName(
 							com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Combo_CheckBox_Start_Symbol")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 					new CRPropertyDescriptor("endSymbol", this.data.getClass()).setI18NName(
@@ -64,7 +64,7 @@ public class XCheckBoxGroup extends XFieldEditor {
 		}
 		if (!((CheckBoxGroup) this.toData()).isAdaptive()) {
 			crp = (CRPropertyDescriptor[]) ArrayUtils.add(crp, new CRPropertyDescriptor("columnsInRow", this.data
-					.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Button-Group-Display-Columns")).putKeyValue(
+					.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Button_Group_Display_Columns")).putKeyValue(
 					XCreatorConstants.PROPERTY_CATEGORY, "Advanced"));
 		}
 		return crp;

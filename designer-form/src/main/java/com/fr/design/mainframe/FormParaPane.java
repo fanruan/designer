@@ -91,7 +91,7 @@ public class FormParaPane extends JPanel {
             }
         };
         predefineButton.set4ToolbarButton();
-        predefineButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Widget-User_Defined_Widget_Config"));
+        predefineButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_User_Defined_Widget_Config"));
         predefineButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {

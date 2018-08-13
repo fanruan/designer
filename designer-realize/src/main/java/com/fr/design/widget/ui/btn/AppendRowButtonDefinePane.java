@@ -32,7 +32,7 @@ public class AppendRowButtonDefinePane<T extends AppendRowButton> extends Button
     @Override
     public AppendRowButton createButton() {
         AppendRowButton button = new AppendRowButton();
-        button.setText(com.fr.design.i18n.Toolkit.i18nText("Utils-Insert_Row"));
+        button.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Insert_Row"));
         button.setIconName(IconManager.ADD.getName());
         return button;
     }

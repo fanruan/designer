@@ -100,7 +100,7 @@ public class DeprecatedActionManager {
         formulaAction.setMnemonic('F');
         NewPresentAction barcodeAction = new NewPresentAction(ePane,  com.fr.design.i18n.Toolkit.i18nText("M_Insert-Barcode"), BarcodePresent.class.getName());
         barcodeAction.setMnemonic('B');
-        NewPresentAction currencyLineAction = new NewPresentAction(ePane, com.fr.design.i18n.Toolkit.i18nText("Currency_Line"), CurrencyLinePresent.class.getName());
+        NewPresentAction currencyLineAction = new NewPresentAction(ePane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Currency_Line"), CurrencyLinePresent.class.getName());
         currencyLineAction.setMnemonic('L');
         NewPresentAction nonePresentAction = new NewPresentAction(ePane, com.fr.design.i18n.Toolkit.i18nText("Present-No_Present"), "NOPRESENT");
         nonePresentAction.setMnemonic('N');
@@ -145,7 +145,7 @@ public class DeprecatedActionManager {
     }
 
     public static UIMenu getInsertMenu(ElementCasePane ePane) {
-        UIMenu deleteMenu = new UIMenu(com.fr.design.i18n.Toolkit.i18nText("Insert") + "(I)");
+        UIMenu deleteMenu = new UIMenu(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Insert") + "(I)");
         deleteMenu.setIcon(BaseUtils.readIcon("/com/fr/base/images/cell/control/add.png"));
         deleteMenu.setMnemonic('i');
         deleteMenu.add(new InsertRowAction(ePane).createMenuItem());

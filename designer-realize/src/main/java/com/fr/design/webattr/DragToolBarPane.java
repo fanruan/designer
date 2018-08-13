@@ -136,7 +136,7 @@ public class DragToolBarPane extends WidgetToolBarPane {
 
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"ReportServerP-Toolbar", "Set"});
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Set_Toolbar");
 	}
 
 	ListCellRenderer optionRenderer = new DefaultListCellRenderer() {

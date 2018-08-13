@@ -70,7 +70,7 @@ public class XNumberEditor extends XWrapperedFieldEditor {
 								.setEditorClass(SpinnerMaxNumberEditor.class)
 								.putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate"),
 						new CRPropertyDescriptor("waterMark", this.data.getClass())
-								.setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WaterMark"))
+								.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_WaterMark"))
 								.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 						new CRPropertyDescriptor("regErrorMessage", this.data.getClass())
 								.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Verify_Message"))

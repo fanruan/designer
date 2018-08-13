@@ -58,11 +58,11 @@ public class DSColumnAdvancedPane extends BasicPane {
 
         if (setting > DSColumnPane.SETTING_DSRELATED) {
             selectCountPane = new SelectCountPane();
-            selectCountPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("BindColumn-Results_Filter"), null));
+            selectCountPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Bind_Column_Results_Filter"), null));
         }
 
         valuePane = new ValuePane();
-        valuePane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("BindColumn-Custom_Data_Appearance"), null));
+        valuePane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Bind_Column_Custom_Data_Appearance"), null));
 
 
         JPanel extendablePane = null;
@@ -70,10 +70,10 @@ public class DSColumnAdvancedPane extends BasicPane {
             // extendableDirectionPane
             JPanel extendableDirectionPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
 
-            extendableDirectionPane.add(horizontalExtendableCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("ExpandD-Horizontal_Extendable")));
-            extendableDirectionPane.add(verticalExtendableCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("ExpandD-Vertical_Extendable")));
+            extendableDirectionPane.add(horizontalExtendableCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ExpandD_Horizontal_Extendable")));
+            extendableDirectionPane.add(verticalExtendableCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ExpandD_Vertical_Extendable")));
 
-            extendablePane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("ExpandD-Expandable"));
+            extendablePane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ExpandD_Expandable"));
             extendablePane.setLayout(new BorderLayout());
             extendablePane.add(extendableDirectionPane, BorderLayout.CENTER);
         }
@@ -81,7 +81,7 @@ public class DSColumnAdvancedPane extends BasicPane {
         JPanel multiNumPane = null;
         if (setting > DSColumnPane.SETTING_DSRELATED) {
             multiNumPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Fill_Blank_Data"));
-            useMultiplyNumCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Column_Multiple"));
+            useMultiplyNumCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Column_Multiple"));
             multiNumPane.add(useMultiplyNumCheckBox);
             multiNumPane.add(new UILabel(InsetText));
 
@@ -294,12 +294,12 @@ public class DSColumnAdvancedPane extends BasicPane {
             this.setLayout(FRGUIPaneFactory.createBorderLayout());
 
             selectCountComboBox = new UIComboBox(new String[]{
-                    com.fr.design.i18n.Toolkit.i18nText("Undefined"),
-                    com.fr.design.i18n.Toolkit.i18nText("BindColumn-Top_N"),
-                    com.fr.design.i18n.Toolkit.i18nText("BindColumn-Bottom_N"),
+                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Undefined"),
+                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Bind_Column_Top_N"),
+                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Bind_Column_Bottom_N"),
                     com.fr.design.i18n.Toolkit.i18nText("Odd"),
                     com.fr.design.i18n.Toolkit.i18nText("Even"),
-                    com.fr.design.i18n.Toolkit.i18nText("Specify"),});
+                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Specify"),});
             selectCountComboBox.addActionListener(new ActionListener() {
 
                 public void actionPerformed(ActionEvent evt) {
@@ -328,14 +328,14 @@ public class DSColumnAdvancedPane extends BasicPane {
 
             //not define pane
 
-            JPanel undefinedPane = GUICoreUtils.createFlowPane(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Undefined")), FlowLayout.LEFT);
+            JPanel undefinedPane = GUICoreUtils.createFlowPane(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Undefined")), FlowLayout.LEFT);
             topFormulaPane = new JFormulaField("-1");
             bottomFormulaPane = new JFormulaField("-1");
             serialTextField = new UITextField(18);
-            JPanel oddPane = GUICoreUtils.createFlowPane(new UILabel(com.fr.design.i18n.Toolkit.i18nText("BindColumn-Result_Serial_Number_Start_From_1")
-                    + "  " + com.fr.design.i18n.Toolkit.i18nText("BindColumn-Odd_Selected_(1,3,5...)")), FlowLayout.LEFT);
-            JPanel evenPane = GUICoreUtils.createFlowPane(new UILabel(com.fr.design.i18n.Toolkit.i18nText("BindColumn-Result_Serial_Number_Start_From_1")
-                    + "  " + com.fr.design.i18n.Toolkit.i18nText("BindColumn-Even_Selected_(2,4,6...)")), FlowLayout.LEFT);
+            JPanel oddPane = GUICoreUtils.createFlowPane(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Bind_Column_Result_Serial_Number_Start_From_1")
+                    + "  " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Bind_Column_Odd_Selected_(1,3,5...)")), FlowLayout.LEFT);
+            JPanel evenPane = GUICoreUtils.createFlowPane(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Bind_Column_Result_Serial_Number_Start_From_1")
+                    + "  " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Bind_Column_Even_Selected_(2,4,6...)")), FlowLayout.LEFT);
             JPanel specifyPane = GUICoreUtils.createFlowPane(new JComponent[]{
                     serialTextField, new UILabel(
                     com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_DSColumn_Result_Group_Format", "1,2-3,5,8", "$__count__")

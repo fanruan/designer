@@ -81,7 +81,7 @@ public class WidgetPane extends AbstractAttrNoScrollPane implements ItemListener
         double[] columnSize = {p, p, f};
         double[] rowSize = {p};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"FR-Designer_Selection", "FR-Designer_Widget"})), emptyLabel, editorTypeComboBox},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Select_Widget")), emptyLabel, editorTypeComboBox},
         };
         JPanel jPanel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
         return jPanel;
@@ -130,7 +130,7 @@ public class WidgetPane extends AbstractAttrNoScrollPane implements ItemListener
 
     @Override
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Widget");
     }
 
     public void populate(Widget widget) {
