@@ -38,7 +38,7 @@ public class ChartAxisTitlePane extends BasicPane{
 	}
 	
 	private void initComponents(){
-		isAxisTitleVisable = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Axis_Title"));
+		isAxisTitleVisable = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Title"));
 		axisTitleContentPane = new TinyFormulaPane();
 		axisTitleAttrPane = new ChartTextAttrPane();
 		axisTitleAttrPane.populate(FRFont.getInstance("Microsoft YaHei", Font.PLAIN, 9));

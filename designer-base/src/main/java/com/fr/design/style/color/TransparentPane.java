@@ -41,7 +41,7 @@ public abstract class TransparentPane extends BasicPane {
 
 		initCenterPaneChildren(centerPane);
 
-		UIButton customButton = new CustomButton(com.fr.design.i18n.Toolkit.i18nText("Custom")
+		UIButton customButton = new CustomButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom")
 				+ "...");
 		this.add(customButton, BorderLayout.SOUTH);
 		customButton.setCursor(new Cursor(Cursor.HAND_CURSOR));        

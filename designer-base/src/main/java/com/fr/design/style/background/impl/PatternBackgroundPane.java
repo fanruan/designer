@@ -63,7 +63,7 @@ public class PatternBackgroundPane extends BPane {
 
     protected void setChildrenOfContentPane(JPanel contentPane) {
         // colors
-        JPanel colorPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Colors"));
+        JPanel colorPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Colors"));
         contentPane.add(colorPane);
 
         foregroundColorPane = new ColorSelectBox(80);
@@ -72,12 +72,12 @@ public class PatternBackgroundPane extends BPane {
         backgroundColorPane.setSelectObject(Color.black);
 
         colorPane.add(Box.createHorizontalStrut(2));
-        colorPane.add(this.createLabelColorPane(com.fr.design.i18n.Toolkit.i18nText("Foreground")
+        colorPane.add(this.createLabelColorPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Foreground")
             + ":", foregroundColorPane));
 
         colorPane.add(Box.createHorizontalStrut(8));
 
-        colorPane.add(this.createLabelColorPane(com.fr.design.i18n.Toolkit.i18nText("Background")
+        colorPane.add(this.createLabelColorPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background")
             + ":", backgroundColorPane));
     }
 

@@ -9,7 +9,7 @@ import com.fr.stable.ColumnRow;
 
 public class ColumnRowTableModel extends AbstractTableModel {
 
-	private String[] columnNames = new String[] { com.fr.design.i18n.Toolkit.i18nText("Column"), com.fr.design.i18n.Toolkit.i18nText("Row") };
+	private String[] columnNames = new String[] { com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Column"), com.fr.design.i18n.Toolkit.i18nText("Row") };
 	private java.util.List<ColumnRow> columnRowList = new ArrayList<ColumnRow>();
 
 	public ColumnRowTableModel() {

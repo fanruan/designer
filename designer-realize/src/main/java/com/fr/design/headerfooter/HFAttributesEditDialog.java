@@ -124,7 +124,7 @@ public class HFAttributesEditDialog extends BasicPane {
 
         UIButton formulaButton = new UIButton("...");
         formulaPane.add(formulaButton);
-        formulaButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Formula") + "...");
+        formulaButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Formula") + "...");
         formulaButton.setPreferredSize(new Dimension(25, formulaContentField.getPreferredSize().height));
         formulaButton.addActionListener(new ActionListener() {
 
@@ -234,7 +234,7 @@ public class HFAttributesEditDialog extends BasicPane {
      * Add parameter pane.
      */
     private void addFormulaPaneToTab() {
-        this.tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Formula"), this.formulaPane);
+        this.tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Formula"), this.formulaPane);
     }
 
     private void addReportFontPaneToTab() {
@@ -242,7 +242,7 @@ public class HFAttributesEditDialog extends BasicPane {
     }
 
     private void addFormatPaneToTab() {
-        this.tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Format"), this.formatPane);
+        this.tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Format"), this.formatPane);
     }
 
     private void addImagePaneToTab() {

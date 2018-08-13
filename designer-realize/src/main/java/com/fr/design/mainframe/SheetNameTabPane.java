@@ -942,7 +942,7 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
 
     private class CopySheetAction extends UpdateAction {
         CopySheetAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("Copy"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Copy"));
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_edit/copy.png"));
         }
 
@@ -966,7 +966,7 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
                     times++;
                 }
             }
-            String suffix = "-" + com.fr.design.i18n.Toolkit.i18nText("Copy") + times;
+            String suffix = "-" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Copy") + times;
             reportComposite.getEditingWorkBook().setReportName(index + 1, prefix + suffix);
             setSelectedIndex(index + 1);
             reportComposite.validate();

@@ -84,7 +84,7 @@ public class GisMapReportDataContentPane extends FurtherBasicBeanPane<GisMapRepo
 
         this.add(northPane, BorderLayout.NORTH);
 
-        String[] columnNames = new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Title"), com.fr.design.i18n.Toolkit.i18nText("Area_Value")};
+        String[] columnNames = new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Title"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Value")};
         seriesPane = new UICorrelationPane(columnNames) {
             public UITableEditor createUITableEditor() {
                 return new InnerTableEditor();
@@ -115,7 +115,7 @@ public class GisMapReportDataContentPane extends FurtherBasicBeanPane<GisMapRepo
      * @return  标题
      */
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Cell");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cell");
     }
 
     @Override

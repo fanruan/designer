@@ -220,12 +220,12 @@ public abstract class UITableModelAdapter<T extends Object> extends AbstractTabl
 
 		private Component component = null;
 		public DeleteAction() {
-			this.setName(com.fr.design.i18n.Toolkit.i18nText("Delete"));
+			this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Delete"));
 			this.setSmallIcon(BaseUtils.readIcon("/com/fr/base/images/cell/control/remove.png"));
 		}
 		
 		public DeleteAction(Component component){
-			this.setName(com.fr.design.i18n.Toolkit.i18nText("Delete"));
+			this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Delete"));
 			this.setSmallIcon(BaseUtils.readIcon("/com/fr/base/images/cell/control/remove.png"));
 			this.component = component;
 		}

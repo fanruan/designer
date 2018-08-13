@@ -100,7 +100,7 @@ public abstract class UIDialog extends JDialog {
     }
 
     private void addCancelButton(JPanel buttonsPane) {
-        cancelButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Cancel"));
+        cancelButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cancel"));
         cancelButton.setName(CANCEL_BUTTON);
         cancelButton.setMnemonic('C');
         buttonsPane.add(cancelButton);

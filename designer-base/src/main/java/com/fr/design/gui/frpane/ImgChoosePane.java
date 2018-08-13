@@ -91,7 +91,7 @@ public class ImgChoosePane extends BasicPane {
 			}
 		});
 
-		clearButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Clear"));
+		clearButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Clear"));
 		clearButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				previewPane.setImage(null);

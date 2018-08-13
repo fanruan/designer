@@ -73,7 +73,7 @@ public class XWBorderLayout extends XLayoutContainer {
      */
     public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
         return  new CRPropertyDescriptor[] {
-                new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Toolkit.i18nText("Form-Widget_Name"))
+                new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Toolkit.i18nText("Fine-Design_Form_Form_Widget_Name"))
         };
     }
 

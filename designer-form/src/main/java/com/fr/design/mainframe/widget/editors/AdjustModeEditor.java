@@ -18,7 +18,7 @@ import com.fr.design.gui.icombobox.DictionaryComboBox;
  */
 public class AdjustModeEditor extends AbstractPropertyEditor {
 	public static final String[] AjustRowTypes = new String[] {
-		com.fr.design.i18n.Toolkit.i18nText("No"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Row_Height"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Column_Width"), com.fr.design.i18n.Toolkit.i18nText("Default")};
+		com.fr.design.i18n.Toolkit.i18nText("No"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Row_Height"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Column_Width"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Default")};
 
     private UIComboBox combobox;
 

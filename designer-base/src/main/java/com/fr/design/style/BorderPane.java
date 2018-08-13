@@ -157,7 +157,7 @@ public class BorderPane extends BasicPane {
 		rightTopPane.add(first, BorderLayout.NORTH);
 
 		JPanel second = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-		second.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Color") + ":"));
+		second.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Color") + ":"));
 
 		second.add(this.currentLineColorPane);
 		rightTopPane.add(second, BorderLayout.CENTER);
@@ -216,7 +216,7 @@ public class BorderPane extends BasicPane {
 
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Border");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Border");
 	}
 
 	// p:populate Style

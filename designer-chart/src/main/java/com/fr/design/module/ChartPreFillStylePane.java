@@ -74,7 +74,7 @@ public class ChartPreFillStylePane extends BasicBeanPane<ChartColorMatching> {
         double[] columnSize = {p, p};
         double[] rowSize = {p, p, p};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("ColorMatch")), null},
+                new Component[]{new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Color_Match")), null},
                 new Component[]{null, customPane},
         };
 

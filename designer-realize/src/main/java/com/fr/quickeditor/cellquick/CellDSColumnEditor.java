@@ -259,7 +259,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
             }
             //丢掉icon,修改按钮名称为编辑
             condition.setSmallIcon(null);
-            condition.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Edit"));
+            condition.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Edit"));
             conditionUIButton = new UIButton(condition);
             Component[][] components = new Component[][]{
                     new Component[]{uiLabel, conditionUIButton}
@@ -278,7 +278,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
 
         @Override
         public String title4PopupWindow() {
-            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Basic");
+            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Basic");
         }
 
 

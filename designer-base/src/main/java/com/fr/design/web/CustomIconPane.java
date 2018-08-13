@@ -183,7 +183,7 @@ public class CustomIconPane extends BasicPane {
 	}
 
 	private void initEditButton(JPanel buttonPane) {
-		editButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Edit"));
+		editButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Edit"));
 		editButton.setPreferredSize(new Dimension(80, 25));
 		editButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

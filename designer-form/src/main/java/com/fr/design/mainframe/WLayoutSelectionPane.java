@@ -43,10 +43,10 @@ public class WLayoutSelectionPane extends BasicPane {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
 
         Component[][] coms = {
-            {createTypeLabel(com.fr.design.i18n.Toolkit.i18nText("BorderLayout")), new
+            {createTypeLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Border_Layout")), new
             	BorderLayoutPane()},
             {createTypeLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Grid_Layout")), new GridLayoutPane()},
-            {createTypeLabel(com.fr.design.i18n.Toolkit.i18nText("CardLayout")), new CardLayoutPane()},
+            {createTypeLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Card_Layout")), new CardLayoutPane()},
             {createTypeLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Null_Layout")), new AbsoluteLayoutPane()}};
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;

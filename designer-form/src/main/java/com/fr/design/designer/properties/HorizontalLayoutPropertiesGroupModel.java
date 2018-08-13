@@ -78,7 +78,7 @@ public class HorizontalLayoutPropertiesGroupModel implements GroupModel {
                 case 1:
                     return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Vgap");
                 default:
-                    return com.fr.design.i18n.Toolkit.i18nText("Alignment");
+                    return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Alignment");
             }
         } else {
             switch (row) {

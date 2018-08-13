@@ -157,7 +157,7 @@ public class HeaderFooterEditPane extends JPanel {
 		toolbar.add(this.createHFInsertButton(new NewLineHFElement()));
 		toolbar.addSeparator(separatorDimension);        
 		UIButton customBackgroundButton = new UIButton();
-        customBackgroundButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Background"));
+        customBackgroundButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background"));
 		customBackgroundButton.set4ToolbarButton();
 		customBackgroundButton.setIcon(BaseUtils.readIcon("/com/fr/base/images/dialog/headerfooter/background.png"));
 		toolbar.add(customBackgroundButton);

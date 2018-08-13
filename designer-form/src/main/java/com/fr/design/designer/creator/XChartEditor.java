@@ -12,7 +12,6 @@ import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
 import com.fr.design.designer.beans.models.SelectionModel;
 import com.fr.design.designer.properties.mobile.ChartEditorPropertyUI;
-import com.fr.design.designer.properties.mobile.ElementCasePropertyUI;
 import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.design.gui.chart.BaseChartPropertyPane;
 import com.fr.design.gui.chart.MiddleChartComponent;
@@ -26,7 +25,6 @@ import com.fr.form.ui.Widget;
 import com.fr.design.form.util.XCreatorConstants;
 
 import com.fr.stable.Constants;
-import com.fr.stable.GraphDrawHelper;
 import com.fr.stable.core.PropertyChangeAdapter;
 
 /**
@@ -98,7 +96,7 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 	 */
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
 		return  new CRPropertyDescriptor[] {
-				new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Toolkit.i18nText("Form-Widget_Name")),
+				new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Toolkit.i18nText("Fine-Design_Form_Form_Widget_Name")),
 				new CRPropertyDescriptor("visible", this.data.getClass()).setI18NName(
 						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Visible")).setPropertyChangeListener(new PropertyChangeAdapter() {
 

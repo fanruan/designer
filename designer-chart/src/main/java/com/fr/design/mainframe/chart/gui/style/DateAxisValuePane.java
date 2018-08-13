@@ -96,7 +96,7 @@ public class DateAxisValuePane extends FurtherBasicBeanPane<CategoryAxis>{
     	// 最小值.
         minCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Min_Value"));
         Date tmp = null;
-        DateEditor dateEditor = new DateEditor(tmp, true, com.fr.design.i18n.Toolkit.i18nText("Date"), UIDatePicker.STYLE_CN_DATETIME1);
+        DateEditor dateEditor = new DateEditor(tmp, true, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date"), UIDatePicker.STYLE_CN_DATETIME1);
         Editor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Parameter_Formula"));
         Editor[] editor = new Editor[]{dateEditor, formulaEditor};
         minValueField = new ValueEditorPane(editor);
@@ -112,7 +112,7 @@ public class DateAxisValuePane extends FurtherBasicBeanPane<CategoryAxis>{
     	 // 最大值
         maxCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Max_Value"));
         Date tmp = null;
-        DateEditor dateEditor = new DateEditor(tmp, true, com.fr.design.i18n.Toolkit.i18nText("Date"), UIDatePicker.STYLE_CN_DATETIME1);
+        DateEditor dateEditor = new DateEditor(tmp, true, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date"), UIDatePicker.STYLE_CN_DATETIME1);
         Editor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Parameter_Formula"));
         Editor[] editor = new Editor[]{dateEditor, formulaEditor};
         maxValueField = new ValueEditorPane(editor);

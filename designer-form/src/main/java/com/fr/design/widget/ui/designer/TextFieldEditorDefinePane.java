@@ -43,7 +43,7 @@ public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor>
             public void phoneRegChangeAction(RegPane.PhoneRegEvent e) {
                 if (StringUtils.isNotEmpty(e.getPhoneRegString())
                         && StringUtils.isEmpty(waterMarkDictPane.getText())) {
-                    waterMarkDictPane.setText(com.fr.design.i18n.Toolkit.i18nText("Example") + ":" + e.getPhoneRegString());
+                    waterMarkDictPane.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Example") + ":" + e.getPhoneRegString());
                     regPane.addRegChangeListener(rl);
                 }
             }

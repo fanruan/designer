@@ -45,7 +45,7 @@ public class IframeEditorDefinePane extends AbstractDataModify<IframeEditor> {
 		Component[][] coms = {
 				{ horizontalCheck, null },
 				{ verticalCheck, null },
-				{ new UILabel(com.fr.design.i18n.Toolkit.i18nText("Form-Url") + ":"), srcTextField = new UITextField() },
+				{ new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Form_Url") + ":"), srcTextField = new UITextField() },
 				{ new UILabel(com.fr.design.i18n.Toolkit.i18nText("Parameter") + ":"), parameterViewPane = new ReportletParameterViewPane() } };
 		int[][] rowCount = {{1, 1},{1, 1},{1, 1}, {1, 1}};
 		JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(coms, rowSize, columnSize, rowCount, LayoutConstants.VGAP_SMALL, 5);

@@ -66,7 +66,7 @@ public class ForumAction extends UpdateAction {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("Forum");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Forum");
         }
 
         @Override

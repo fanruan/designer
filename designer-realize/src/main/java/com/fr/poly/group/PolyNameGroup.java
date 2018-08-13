@@ -23,7 +23,7 @@ public class PolyNameGroup implements GroupModel {
 
 	@Override
 	public String getGroupName() {
-		return com.fr.design.i18n.Toolkit.i18nText("Form-Basic_Properties");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Form_Basic_Properties");
 	}
 
 	@Override

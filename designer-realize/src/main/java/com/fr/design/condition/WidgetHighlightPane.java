@@ -35,7 +35,7 @@ public class WidgetHighlightPane extends ConditionAttrSingleConditionPane<Highli
 
     public WidgetHighlightPane(final ConditionAttributesPane conditionAttributesPane) {
         super(conditionAttributesPane);
-        widgetButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Edit"));
+        widgetButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Edit"));
         widgetButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 final WidgetPane widgetPane = new WidgetPane() {

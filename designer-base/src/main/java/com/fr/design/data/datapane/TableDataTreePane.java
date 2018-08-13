@@ -233,7 +233,7 @@ public class TableDataTreePane extends BasicTableDataTreePane {
 
     private class EditAction extends UpdateAction {
         public EditAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Edit"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Edit"));
             this.setMnemonic('E');
             this.setSmallIcon(BaseUtils.readIcon(IconPathConstants.TD_EDIT_ICON_PATH));
         }

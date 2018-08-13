@@ -61,7 +61,7 @@ public class ServerPrinterPane extends BasicPane {
 		Dimension preferDimension = new Dimension(24, 24);
 		addButton = new UIButton(BaseUtils.readIcon("/com/fr/base/images/cell/control/add.png"));
 		addButton.addActionListener(addActionListener);
-		addButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Add"));//"add"
+		addButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Add"));//"add"
 		addButton.setPreferredSize(preferDimension);
 
 		editButton = new UIButton(BaseUtils.readIcon("/com/fr/design/images/control/edit.png"));

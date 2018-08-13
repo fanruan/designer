@@ -116,13 +116,13 @@ public class JWizardDialog extends BasicDialog {
 				next();
 			}
 		});
-		buttonFinish = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Finish"));
+		buttonFinish = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Finish"));
 		buttonFinish.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				finish();
 			}
 		});
-		buttonCancel = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Cancel"));
+		buttonCancel = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cancel"));
 		buttonCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				cancel();

@@ -13,7 +13,7 @@ public class FreezeWriteColPane extends FreezeAndRepeatPane {
         start = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Frozen_N.O.") + " A", SwingConstants.CENTER);
 		end = new ColSpinner(1,Integer.MAX_VALUE,1,1);
 	    super.initComponent();
-		this.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Column")));
+		this.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Column")));
 	}
 
 
@@ -36,6 +36,6 @@ public class FreezeWriteColPane extends FreezeAndRepeatPane {
 
 	@Override
 	public String getLabeshow() {
-		return com.fr.design.i18n.Toolkit.i18nText("ColumnTo");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Column_To");
 	}
 }

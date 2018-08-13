@@ -78,7 +78,7 @@ public class LayerReportPane extends BasicBeanPane<LayerReportAttr> {
 			}
 		});
 
-		JPanel infoPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Attention"));
+		JPanel infoPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Attention"));
 		FRExplainLabel label = new FRExplainLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Layer_Report_Warnning_Info"));
         label.setPreferredSize(new Dimension(label.getPreferredSize().width, LABEL_HEIGHT));
 		infoPane.add(label);

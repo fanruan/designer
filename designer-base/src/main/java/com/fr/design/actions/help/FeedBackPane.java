@@ -69,7 +69,7 @@ public class FeedBackPane extends BasicPane {
     private SwingWorker worker;
     private JDialog dlg = new JDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Send"), true);
     private UIButton ok = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_OK"));
-    private UIButton cancle = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Cancel"));
+    private UIButton cancle = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cancel"));
     private int ifHasBeenWriten = 0;
     private UITextArea detailField;
     private boolean isSendSuccessful = false;
@@ -206,7 +206,7 @@ public class FeedBackPane extends BasicPane {
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel("QQ:", SwingConstants.RIGHT), qq},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("email") + ":", SwingConstants.RIGHT), email},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Email") + ":", SwingConstants.RIGHT), email},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Mobile_Number") + ":", SwingConstants.RIGHT), phone}
         };
         double[] rowSize = {p, p, p};

@@ -100,10 +100,10 @@ public class CurrencyLinePane extends FurtherBasicBeanPane<CurrencyLinePresent> 
         int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}};
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Data"), UILabel.LEFT), textField},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Data"), UILabel.LEFT), textField},
                 new Component[]{borderPane, null},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_IntPart"), UILabel.LEFT), groupPane(intPartSpinner)},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("DeciPart"), UILabel.LEFT), groupPane(deciPartSpinner)}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Deci_Part"), UILabel.LEFT), groupPane(deciPartSpinner)}
 
         };
 

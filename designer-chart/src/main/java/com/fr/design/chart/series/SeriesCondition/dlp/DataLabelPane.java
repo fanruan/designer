@@ -116,7 +116,7 @@ public class DataLabelPane extends TooltipContentsPane {
         leftButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Left"));
         rigtButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Right"));
         topButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Top"));
-        centerButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Center"));
+        centerButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Center"));
 
         ButtonGroup bg = new ButtonGroup();
         bg.add(bottomButton);

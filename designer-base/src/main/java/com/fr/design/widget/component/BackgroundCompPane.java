@@ -34,7 +34,7 @@ public abstract class BackgroundCompPane<T extends Widget> extends BasicPane {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         UILabel headLabel = createUILable();
         initBackgroundEditor();
-        String [] titles = new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_DEFAULT"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom")};
+        String [] titles = new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Default"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom")};
 
         double f = TableLayout.FILL;
         final double p = TableLayout.PREFERRED;

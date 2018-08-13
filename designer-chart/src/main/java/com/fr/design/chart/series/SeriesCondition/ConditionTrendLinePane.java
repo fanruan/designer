@@ -78,7 +78,7 @@ public class ConditionTrendLinePane extends BasicBeanPane<ConditionTrendLine> {
 		typePane.add(maPane);
 		
 		maPane.add(maButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Chart_Move_Average")));
-		maPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("cycle") + ":"));
+		maPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Cycle") + ":"));
 		maPane.add(maSpinner = new UIBasicSpinner(new SpinnerNumberModel(2, 1, 999, 1)));
 		maSpinner.setEnabled(false);
 		
@@ -101,10 +101,10 @@ public class ConditionTrendLinePane extends BasicBeanPane<ConditionTrendLine> {
 		
 		extendsPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart_TrendLine_Forward") + ":"));
 		extendsPane.add(forwardLabel = new UITextField("0", 5));
-		extendsPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("cycle")));
+		extendsPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Cycle")));
 		extendsPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart_TrendLine_Backward") + ":"));
 		extendsPane.add(backwardLabel = new UITextField("0", 5));
-		extendsPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("cycle")));
+		extendsPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Cycle")));
 		
 		return extendsPane;
 	}

@@ -138,7 +138,7 @@ public class FunctionManagerPane extends BasicPane {
 	                    }).setVisible(true);
                 }
             });
-            UIButton editorButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Edit"));
+            UIButton editorButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Edit"));
             editorButton.setPreferredSize(new Dimension(editorButton.getPreferredSize().width, classNameTextField.getPreferredSize().height));
             reportletNamePane.add(editorButton);
             editorButton.addActionListener(createEditorButtonActionListener());
