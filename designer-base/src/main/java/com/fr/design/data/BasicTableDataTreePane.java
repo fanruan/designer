@@ -138,7 +138,7 @@ public abstract class BasicTableDataTreePane extends DockingView implements Resp
     }
 
     private boolean isProcedureName(String oldName) {
-        return oldName.length() >= PROCEDURE_NAME_INDEX && ComparatorUtils.equals(type, com.fr.design.i18n.Toolkit.i18nText("Datasource-Stored_Procedure"));
+        return oldName.length() >= PROCEDURE_NAME_INDEX && ComparatorUtils.equals(type, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Stored_Procedure"));
     }
 
 

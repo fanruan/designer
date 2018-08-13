@@ -22,7 +22,7 @@ public class ProcedureManagerPane extends LoadingBasicPane {
 	
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Datasource-Stored_Procedure");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Stored_Procedure");
 	}
 
 	public void populate(ProcedureConfig procedureConfig) {

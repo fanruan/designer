@@ -44,7 +44,7 @@ public abstract class ButtonWithHotkeysDetailPane<T extends Button> extends Butt
         labelPane.add(iconPane);
         Component[][] n_components = {
                 {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Button_Type")), createButtonTypeComboBox()},
-                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Button-Name")), buttonNameTextField = new UITextField()},
+                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Button_Name")), buttonNameTextField = new UITextField()},
                 {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Button_Icon")), iconPane},
                 {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Button_Hot_keys")), hotkeysTextField = new UITextField()},
         };

@@ -333,9 +333,9 @@ public class DSColumnAdvancedPane extends BasicPane {
             bottomFormulaPane = new JFormulaField("-1");
             serialTextField = new UITextField(18);
             JPanel oddPane = GUICoreUtils.createFlowPane(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Bind_Column_Result_Serial_Number_Start_From_1")
-                    + "  " + com.fr.design.i18n.Toolkit.i18nText("BindColumn-Odd_Selected_(1,3,5...)")), FlowLayout.LEFT);
+                    + "  " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Bind_Column_Odd_Selected_(1,3,5...)")), FlowLayout.LEFT);
             JPanel evenPane = GUICoreUtils.createFlowPane(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Bind_Column_Result_Serial_Number_Start_From_1")
-                    + "  " + com.fr.design.i18n.Toolkit.i18nText("BindColumn-Even_Selected_(2,4,6...)")), FlowLayout.LEFT);
+                    + "  " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Bind_Column_Even_Selected_(2,4,6...)")), FlowLayout.LEFT);
             JPanel specifyPane = GUICoreUtils.createFlowPane(new JComponent[]{
                     serialTextField, new UILabel(
                     com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_DSColumn_Result_Group_Format", "1,2-3,5,8", "$__count__")

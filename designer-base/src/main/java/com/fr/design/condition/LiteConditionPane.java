@@ -583,7 +583,7 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Submit_Condition");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Submit_Condition");
     }
 
     // samuel:移出来，方便调用

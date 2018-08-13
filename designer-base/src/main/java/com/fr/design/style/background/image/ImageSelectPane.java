@@ -77,7 +77,7 @@ public class ImageSelectPane extends BackgroundPane4BoxChange {
         selectPictureButton.addActionListener(selectPictureActionListener);
 
         //布局
-        selectFilePane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Form-Layout") + ":"));
+        selectFilePane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Form_Layout") + ":"));
         layoutComboBox = new UIComboBox(layoutTypes);
         selectFilePane.add(layoutComboBox);
 
