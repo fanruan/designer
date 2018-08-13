@@ -306,7 +306,7 @@ public class FormWidgetDetailPane extends FormDockView{
                 try {
                     Desktop.getDesktop().browse(new URI(url));
                 } catch (IOException exp) {
-                    JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Set_default_browser"));
+                    JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Set_Default_Browser_Duplicate"));
                     FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
                 } catch (URISyntaxException exp) {
                     FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
