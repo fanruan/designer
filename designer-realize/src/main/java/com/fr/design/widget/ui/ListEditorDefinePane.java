@@ -28,7 +28,7 @@ public class ListEditorDefinePane extends WriteUnableRepeatEditorPane<ListEditor
 
 	protected Component[] createDicPane(){
 		dictPane = new AccessibleDictionaryEditor();
-		return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_DS-Dictionary")), dictPane};
+		return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_DS_Dictionary")), dictPane};
 	}
 
 

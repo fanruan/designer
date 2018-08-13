@@ -232,7 +232,7 @@ public class ValueEditorPaneFactory {
                 new TextEditor(),
                 new SpinnerIntegerEditor(),
                 new DoubleEditor(),
-                new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Date")),
+                new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date")),
                 new BooleanEditor(),
                 formulaEditor
         };
@@ -249,7 +249,7 @@ public class ValueEditorPaneFactory {
                 new TextEditor(),
                 new IntegerEditor(),
                 new DoubleEditor(),
-                new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Date")),
+                new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date")),
                 new BooleanEditor(),
                 formulaEditor,
                 new WidgetNameEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget"))
@@ -267,11 +267,11 @@ public class ValueEditorPaneFactory {
                 new TextEditor(),
                 new IntegerEditor(),
                 new DoubleEditor(),
-                new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Date")),
+                new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date")),
                 new BooleanEditor(),
                 formulaEditor,
                 new ParameterEditor(),
-                new ColumnRowEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cell"))
+                new ColumnRowEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cell"))
         };
     }
 
@@ -286,11 +286,11 @@ public class ValueEditorPaneFactory {
                 new TextEditor(),
                 new IntegerEditor(),
                 new DoubleEditor(),
-                new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Date")),
+                new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date")),
                 new BooleanEditor(),
                 formulaEditor,
                 new ParameterEditor(),
-                new ColumnRowEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cell")),
+                new ColumnRowEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cell")),
                 new ColumnRowGroupEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cell_Group"))
         };
     }
@@ -302,7 +302,7 @@ public class ValueEditorPaneFactory {
      */
     public static Editor<?>[] cellGroupEditor() {
         return new Editor[]{
-                new ColumnRowEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cell")),
+                new ColumnRowEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cell")),
                 new ColumnRowGroupEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cell_Group"))
         };
     }
@@ -331,7 +331,7 @@ public class ValueEditorPaneFactory {
     public static Editor<?>[] dateEditors(String popupName, String textEditorValue) {
         return new Editor[]{
                 new NoneEditor(textEditorValue, StringUtils.isEmpty(popupName) ? com.fr.design.i18n.Toolkit.i18nText("FR-Designer_None") : popupName),
-                new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Date")),
+                new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date")),
                 new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter-Formula"))
         };
     }
@@ -348,11 +348,11 @@ public class ValueEditorPaneFactory {
                 new TextEditor(),
                 new IntegerEditor(),
                 new DoubleEditor(),
-                new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Date")),
+                new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date")),
                 new BooleanEditor(),
                 formulaEditor,
                 new ParameterEditor(),
-                new ColumnRowEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cell")),
+                new ColumnRowEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cell")),
                 new ColumnSelectedEditor(),
                 //23328 allEditors中删除控件选项
 //                new WidgetNameEditor(com.fr.design.i18n.Toolkit.i18nText("Widget"))
@@ -369,7 +369,7 @@ public class ValueEditorPaneFactory {
                 new TextEditor(),
                 new IntegerEditor(),
                 new DoubleEditor(),
-                new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Date")),
+                new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date")),
                 new BooleanEditor(),
         };
     }
@@ -385,7 +385,7 @@ public class ValueEditorPaneFactory {
                 new TextEditor(),
                 new IntegerEditor(),
                 new DoubleEditor(),
-                new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Date")),
+                new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date")),
                 new BooleanEditor(),
                 formulaEditor,
                 new ParameterEditor(),
@@ -415,7 +415,7 @@ public class ValueEditorPaneFactory {
     public static Editor<?>[] dateEditors() {
         FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter-Formula"));
         return new Editor[]{
-                new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Date")),
+                new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date")),
                 formulaEditor,
                 new ParameterEditor(),
         };
@@ -434,7 +434,7 @@ public class ValueEditorPaneFactory {
                 new TextEditor(),
                 new IntegerEditor(),
                 new DoubleEditor(),
-                new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Date")),
+                new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date")),
                 new BooleanEditor(),
                 formulaEditor
         };
@@ -451,7 +451,7 @@ public class ValueEditorPaneFactory {
         list.add(new TextEditor());
         list.add(new IntegerEditor());
         list.add(new DoubleEditor());
-        list.add(new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Date")));
+        list.add(new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date")));
         list.add(new BooleanEditor());
 
         FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter-Formula"));

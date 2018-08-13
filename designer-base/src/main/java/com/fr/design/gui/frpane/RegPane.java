@@ -494,7 +494,7 @@ public class RegPane extends BasicPane {
             } else if (value instanceof LengthReg){
                 this.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Length"));
             } else if (value instanceof MailReg){
-                this.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Email"));
+                this.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Email"));
             } else if (value instanceof PhoneReg){
                 this.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Phone"));
             } else if (value instanceof MobileReg) {

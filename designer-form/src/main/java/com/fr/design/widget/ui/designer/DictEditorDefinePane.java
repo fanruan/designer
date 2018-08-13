@@ -23,7 +23,7 @@ public abstract class DictEditorDefinePane<T extends DictContainedCustomWriteAbl
 
     protected Component[] createDictPane(){
         dictionaryEditor = new AccessibleDictionaryEditor();
-        return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_DS-Dictionary")), dictionaryEditor};
+        return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_DS_Dictionary")), dictionaryEditor};
     }
 
     @Override

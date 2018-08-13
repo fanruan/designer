@@ -84,7 +84,7 @@ public class ColorBackgroundQuickPane extends BackgroundQuickPane {
 	 * @return 同上
 	 */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Color");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Color");
 	}
 
 	@Override

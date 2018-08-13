@@ -222,7 +222,7 @@ public class DoubleDeckValueEditorPane extends BasicPane implements UIObserver, 
         String name = currentEditor.getName();
         Object columnIndex = currentEditor.getValue();
         //bug86542,这边为啥要new一个公式出来，只保留content,其他属性全不要了?
-        if (columnIndex == null && ComparatorUtils.equals(name, com.fr.design.i18n.Toolkit.i18nText("Formula"))) {
+        if (columnIndex == null && ComparatorUtils.equals(name, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Formula"))) {
             columnIndex = ((FormulaEditor) currentEditor).getFormula();
         }
 

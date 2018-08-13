@@ -38,7 +38,7 @@ public abstract class SortFormulaPane extends JPanel {
         sortFormulaTextField = new UITextField(16);
         //Lance:添加一公式编辑器按钮
         sortFormulaTextFieldButton = new UIButton("...");
-        sortFormulaTextFieldButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Formula") + "...");
+        sortFormulaTextFieldButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Formula") + "...");
         sortFormulaTextFieldButton.setPreferredSize(new Dimension(25, sortFormulaTextFieldButton.getPreferredSize().height));
         sortFormulaTextFieldButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
@@ -48,7 +48,7 @@ public abstract class SortFormulaPane extends JPanel {
 
         this.add(GUICoreUtils.createFlowPane(new JComponent[]{new UILabel(InsetText), //new UILabel(com.fr.design.i18n.Toolkit.i18nText("Select_sort_order") + ":"),
                 sortOrderComboBox, new UILabel(InsetText),
-                new UILabel(com.fr.design.i18n.Toolkit.i18nText("Formula") + ":="), sortFormulaTextField, //selectButton,
+                new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Formula") + ":="), sortFormulaTextField, //selectButton,
                 sortFormulaTextFieldButton}, FlowLayout.LEFT));
     }
     

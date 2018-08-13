@@ -32,7 +32,7 @@ public class RepeatColPane extends FreezeAndRepeatPane {
 
 	@Override
 	public String getLabeshow() {
-		return StringUtils.BLANK + com.fr.design.i18n.Toolkit.i18nText("ColumnTo") + StringUtils.BLANK;
+		return StringUtils.BLANK + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Column_To") + StringUtils.BLANK;
 	}
 
 }

@@ -176,7 +176,7 @@ public class TemplateTreePane extends JPanel implements FileOperations {
 
             if (nodeFile.isLocked()) {
                 if (JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FileLocked_Undeleted"),
-                        com.fr.design.i18n.Toolkit.i18nText("Error"), JOptionPane.YES_OPTION, JOptionPane.ERROR_MESSAGE) == JOptionPane.YES_OPTION) {
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Error"), JOptionPane.YES_OPTION, JOptionPane.ERROR_MESSAGE) == JOptionPane.YES_OPTION) {
                     refreshDockingView();
                 }
                 break;

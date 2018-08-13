@@ -68,10 +68,10 @@ public class JTreeAutoBuildPane extends BasicPane implements Previewable, Editab
 
         this.add(selectTreeDataPanel, BorderLayout.NORTH);
 
-        valuePane = ValueEditorPaneFactory.createValueEditorPane(new Editor[]{new OldColumnIndexEditor(com.fr.design.i18n.Toolkit.i18nText("Columns"))});
+        valuePane = ValueEditorPaneFactory.createValueEditorPane(new Editor[]{new OldColumnIndexEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Columns"))});
         FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Parameter_Formula"));
         formulaEditor.setEnabled(true);
-        textPane = ValueEditorPaneFactory.createValueEditorPane(new Editor[]{new OldColumnIndexEditor(com.fr.design.i18n.Toolkit.i18nText("Columns")), formulaEditor});
+        textPane = ValueEditorPaneFactory.createValueEditorPane(new Editor[]{new OldColumnIndexEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Columns")), formulaEditor});
         Component[][] coms = {
                 {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Actual_Value") + ":"),
                         valuePane},
@@ -98,15 +98,15 @@ public class JTreeAutoBuildPane extends BasicPane implements Previewable, Editab
             List<String> namelist = tableDataWrappe.calculateColumnNameList();
             String[] columnNames = new String[namelist.size()];
             namelist.toArray(columnNames);
-            valuePane.setEditors(new Editor[]{new OldColumnIndexEditor(columnNames, com.fr.design.i18n.Toolkit.i18nText("ColumnName"))}, 1);
+            valuePane.setEditors(new Editor[]{new OldColumnIndexEditor(columnNames, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Column_Name"))}, 1);
             FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Parameter_Formula"));
             formulaEditor.setEnabled(true);
-            textPane.setEditors(new Editor[]{new OldColumnIndexEditor(columnNames, com.fr.design.i18n.Toolkit.i18nText("ColumnName")), formulaEditor}, 1);
+            textPane.setEditors(new Editor[]{new OldColumnIndexEditor(columnNames, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Column_Name")), formulaEditor}, 1);
         } catch (Exception e) {
-            valuePane.setEditors(new Editor[]{new OldColumnIndexEditor(100, com.fr.design.i18n.Toolkit.i18nText("ColumnName"))}, 1);
+            valuePane.setEditors(new Editor[]{new OldColumnIndexEditor(100, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Column_Name"))}, 1);
             FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Parameter_Formula"));
             formulaEditor.setEnabled(true);
-            textPane.setEditors(new Editor[]{new OldColumnIndexEditor(100, com.fr.design.i18n.Toolkit.i18nText("ColumnName")), formulaEditor}, 1);
+            textPane.setEditors(new Editor[]{new OldColumnIndexEditor(100, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Column_Name")), formulaEditor}, 1);
         }
     }
 

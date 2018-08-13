@@ -33,7 +33,7 @@ public class XIframeEditor extends XWidgetCreator {
     @Override
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
 		return (CRPropertyDescriptor[]) ArrayUtils.addAll(super.supportedDescriptor(), new CRPropertyDescriptor[] {
-				new CRPropertyDescriptor("src", this.data.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Form-Url"))
+				new CRPropertyDescriptor("src", this.data.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Form_Url"))
 						.setPropertyChangeListener(new PropertyChangeAdapter() {
 
 							@Override

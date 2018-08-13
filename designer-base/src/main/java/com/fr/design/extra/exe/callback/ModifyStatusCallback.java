@@ -25,7 +25,7 @@ public class ModifyStatusCallback implements PluginTaskCallback{
             String modifyMessage = isActive ? com.fr.design.i18n.Toolkit.i18nText("FR-Plugin_Has_Been_Disabled") : com.fr.design.i18n.Toolkit.i18nText("FR-Plugin_Has_Been_Actived");
             JOptionPane.showMessageDialog(null, modifyMessage);
         } else {
-            JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
         }
     }
 

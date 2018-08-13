@@ -250,7 +250,7 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
             }
             this.barCodePreviewPane.setObject(BarCodeUtils.getBarcodeImpl(this.updateBean().getBarcode(), getTestText()));
         } catch (Exception exp) {
-            this.barCodePreviewPane.setObject(com.fr.design.i18n.Toolkit.i18nText("Error") + ": " + exp.getMessage());
+            this.barCodePreviewPane.setObject(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Error") + ": " + exp.getMessage());
         }
     }
 

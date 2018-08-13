@@ -31,7 +31,7 @@ public class BackPane extends ConditionAttrSingleConditionPane<HighlightAction> 
         backgroundLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Base_Background") + ":");
         this.backgroundPreviewPane = new BackgroundPreviewLabel();
         this.backgroundPreviewPane.setPreferredSize(new Dimension(80, 20));
-        UIButton editBackgroundButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit"));
+        UIButton editBackgroundButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Edit"));
         editBackgroundButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 final BackgroundPane backgroundPane = new BackgroundPane();

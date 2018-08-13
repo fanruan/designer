@@ -53,7 +53,7 @@ public class FRBorderLayoutPropertiesGroupModel implements GroupModel {
 
     @Override
     public String getGroupName() {
-        return com.fr.design.i18n.Toolkit.i18nText("BorderLayout");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Border_Layout");
     }
 
     @Override

@@ -49,7 +49,7 @@ public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connecti
         message = new UILabel();
         uiLabel = new UILabel();
         okButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_OK"));
-        cancelButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Cancel"));
+        cancelButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cancel"));
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         JPanel northPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
         this.add(northPane, BorderLayout.NORTH);

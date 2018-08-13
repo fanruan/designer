@@ -95,7 +95,7 @@ public class BorderPane extends AbstractBasicStylePane implements GlobalNameObse
         this.add(borderPanel, BorderLayout.NORTH);
 
         backgroundPane = new BackgroundPane();
-        backgroundPanel = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background"), 280, 24, backgroundPane);
+        backgroundPanel = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background"), 280, 24, backgroundPane);
         this.add(backgroundPanel, BorderLayout.CENTER);
         initAllNames();
         outerToggleButton.addChangeListener(outerToggleButtonChangeListener);
@@ -148,7 +148,7 @@ public class BorderPane extends AbstractBasicStylePane implements GlobalNameObse
 
     @Override
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cell");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cell");
     }
 
     @Override

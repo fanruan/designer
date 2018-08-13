@@ -41,7 +41,7 @@ public class CommonPane extends JPanel {
 
         JComponent[][] comps = {
 				{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Title") + ":"), this.titleTextField, null},
-				{new UILabel(com.fr.design.i18n.Toolkit.i18nText("CacheValidateTime") + ":"), this.cacheValidateTimeEditor, new UILabel("milliseconds")}
+				{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Cache_Validate_Time") + ":"), this.cacheValidateTimeEditor, new UILabel("milliseconds")}
 		};
 
         this.add(

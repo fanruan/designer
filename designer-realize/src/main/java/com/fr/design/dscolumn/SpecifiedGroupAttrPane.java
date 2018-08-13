@@ -70,7 +70,7 @@ public class SpecifiedGroupAttrPane extends BasicPane {
 		@Override
 		public NameableCreator[] createNameableCreators() {
 			return new NameableCreator[] {
-					new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Condition"), ConditionGroup.class, ConditionGroupDetailsPane.class)
+					new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Condition"), ConditionGroup.class, ConditionGroupDetailsPane.class)
 			};
 		}
 		
@@ -301,7 +301,7 @@ public class SpecifiedGroupAttrPane extends BasicPane {
     private class FormulaGroupPane extends JPanel {
 
 	    private String[] displayModeNames = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_GROUPING_MODE"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_LIST_MODE"),
-	    		com.fr.design.i18n.Toolkit.i18nText("CONTINUUM_MODE")};
+	    		com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Continuum_Mode")};
 	    
 	    private String InsertText = "    ";
 	    
@@ -329,7 +329,7 @@ public class SpecifiedGroupAttrPane extends BasicPane {
             valueField.setText("$$$");
 
             UIButton formulaButton = new UIButton("...");
-            formulaButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Formula") + "...");
+            formulaButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Formula") + "...");
             formulaButton.setPreferredSize(new Dimension(25, valueField.getPreferredSize().height));
             formulaButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent evt) {

@@ -37,7 +37,7 @@ public class ChartDesignerOtherPane extends ChartOtherPane {
      * @return 返回标题.
      */
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Advanced");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Advanced");
     }
 
     private boolean isHaveCondition() {

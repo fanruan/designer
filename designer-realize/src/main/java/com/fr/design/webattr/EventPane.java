@@ -158,7 +158,7 @@ public class EventPane extends BasicPane {
 
 	public class RemoveAction extends UpdateAction {
 		public RemoveAction() {
-			this.setName(com.fr.design.i18n.Toolkit.i18nText("Delete"));
+			this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Delete"));
 			this.setSmallIcon(BaseUtils.readIcon("/com/fr/base/images/cell/control/remove.png"));
 		}
 
@@ -219,8 +219,8 @@ public class EventPane extends BasicPane {
 		private String[] menuName;
 
 		public AddMenuDef(String[] menuName) {
-			this.setName(com.fr.design.i18n.Toolkit.i18nText("Add"));
-			this.setTooltip(com.fr.design.i18n.Toolkit.i18nText("Add"));
+			this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Add"));
+			this.setTooltip(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Add"));
 			this.setMnemonic('A');
 			this.setIconPath("/com/fr/design/images/control/addPopup.png");
 			this.menuName = menuName;

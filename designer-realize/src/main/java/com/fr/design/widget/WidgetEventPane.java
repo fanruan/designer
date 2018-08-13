@@ -60,7 +60,7 @@ public class WidgetEventPane extends ObjectUIControlPane {
 
 	@Override
     protected String title4PopupWindow() {
-    	return com.fr.design.i18n.Toolkit.i18nText("Event");
+    	return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Event");
     }
     
     public static class WidgetEventListenerUpdatePane extends ListenerUpdatePane {

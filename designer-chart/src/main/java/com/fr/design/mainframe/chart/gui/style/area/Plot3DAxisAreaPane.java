@@ -28,7 +28,7 @@ public class Plot3DAxisAreaPane extends ChartAxisAreaPane {
 
         Component[][] components = new Component[][]{
                 new Component[]{gridLine,null},
-                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Color")),gridColorPane,}
+                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Color")),gridColorPane,}
         };
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
         this.setLayout(new BorderLayout());

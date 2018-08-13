@@ -54,7 +54,7 @@ public class ResultSetGroupPopUpPane extends ResultSetGroupPane {
 				checkButtonEnabled();
 			}
 		});
-		advancedButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Custom"));
+		advancedButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom"));
 		advancedButton.addActionListener(groupAdvancedListener);
 		this.add(GUICoreUtils.createFlowPane(
 				new JComponent[]{new UILabel(InsertText), groupRadioButton, groupComboBox, advancedButton}, FlowLayout.LEFT));

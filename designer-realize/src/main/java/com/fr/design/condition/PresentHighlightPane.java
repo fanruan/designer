@@ -39,7 +39,7 @@ public class PresentHighlightPane extends ConditionAttrSingleConditionPane<Highl
         presentComboBox = new UIComboBox(typeArray);
         this.add(presentComboBox);
 
-        editButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit"));
+        editButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Edit"));
 //			this.add(this.valueTextField);
 //			this.add(editButton);
 

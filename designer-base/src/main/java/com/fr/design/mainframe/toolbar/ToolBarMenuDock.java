@@ -334,7 +334,7 @@ public abstract class ToolBarMenuDock {
             insertMenu(menuDef, MenuHandler.FILE);
             return menuDef;
         }
-        MenuDef menuDef = new MenuDef(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_File"), 'F');
+        MenuDef menuDef = new MenuDef(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_File"), 'F');
 
         ShortCut[] scs = new ShortCut[0];
         if (!DesignerMode.isAuthorityEditing()) {

@@ -90,7 +90,7 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
         downPane.add(new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Auto_Adjust_Size"), HEAD_WDITH, HEAD_HEIGTH, seniorPane()), BorderLayout.NORTH);
         downPane.add(new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Pagination"), HEAD_WDITH, HEAD_HEIGTH, pagePane()), BorderLayout.CENTER);
         JPanel contentPane = new JPanel(new BorderLayout(0, 0));
-        contentPane.add(new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Basic"), HEAD_WDITH, HEAD_HEIGTH, basicPane()), BorderLayout.NORTH);
+        contentPane.add(new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Basic"), HEAD_WDITH, HEAD_HEIGTH, basicPane()), BorderLayout.NORTH);
         contentPane.add(downPane, BorderLayout.CENTER);
         initAllNames();
         return contentPane;
@@ -256,7 +256,7 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
         previewCellContent = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CellWrite_Preview_Cell_Content"));
         printAndExportContent = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CellWrite_Print_Content"));
         printAndExportBackground = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CellWrite_Print_Background"));
-        showContent = new UIComboBox(new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Designer_DEFAULT"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CellWrite_Show_As_Image"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CellWrite_Show_As_HTML"),
+        showContent = new UIComboBox(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Default"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CellWrite_Show_As_Image"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CellWrite_Show_As_HTML"),
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Show_As_Download")});
         final CardLayout fileNameLayout = new CardLayout();
         final JPanel fileNamePane = new JPanel(fileNameLayout);
@@ -357,7 +357,7 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
             showContent.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Show_As_Download"));
             fileNameTextField.setText(cellGUIAttr.getFileName());
         } else {
-            showContent.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_DEFAULT"));
+            showContent.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Default"));
         }
         tooltipTextField.setText(cellGUIAttr.getTooltipText());
         CellPageAttr cellPageAttr = cellElement.getCellPageAttr(); // 分页

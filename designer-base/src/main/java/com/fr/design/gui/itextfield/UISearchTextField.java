@@ -63,7 +63,7 @@ public class UISearchTextField extends UITextField {
 	private void initTextField() {
 		iconLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		iconLabel.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Search"));
-		clearLabel.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Clear"));
+		clearLabel.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Clear"));
 		clearLabel.setOpaque(false);
 		iconSize = iconLabel.getPreferredSize();
 		infoSize = infoLabel.getPreferredSize();

@@ -74,7 +74,7 @@ public class DefaultAxisAreaPane extends ChartAxisAreaPane {
 		gridColorPane = new ColorSelectBox(100);
 		
 		JPanel container = TableLayoutHelper.createTableLayoutPane(new Component[][]{
-				 new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Color")),gridColorPane},}
+				 new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Color")),gridColorPane},}
 																					, rowSize, columnSize);
 		
 		Component[][] components = new Component[][]{

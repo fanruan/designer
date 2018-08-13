@@ -34,7 +34,7 @@ public class WidgetBoundsPaneFactory {
         final JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L6);
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         boundsPane.add(panel);
-        return new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Coords_And_Size"), 280, 24, boundsPane);
+        return new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Coords_And_Size"), 280, 24, boundsPane);
     }
     public static JPanel createRightPane(Component com1, Component com2){
         double f = TableLayout.FILL;
@@ -70,7 +70,7 @@ public class WidgetBoundsPaneFactory {
         centerPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
         boundsPane.add(northPanel, BorderLayout.NORTH);
         boundsPane.add(centerPanel, BorderLayout.CENTER);
-        return new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Coords_And_Size"), 230, 24, boundsPane);
+        return new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Coords_And_Size"), 230, 24, boundsPane);
     }
 
 
@@ -87,6 +87,6 @@ public class WidgetBoundsPaneFactory {
         final JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L6);
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         boundsPane.add(panel);
-        return new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Coords_And_Size"), 280, 24, boundsPane);
+        return new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Coords_And_Size"), 280, 24, boundsPane);
     }
 }

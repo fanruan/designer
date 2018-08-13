@@ -98,7 +98,7 @@ public class DSColumnPane extends BasicPane {
         //_denny: 数据列面板
         basicPane = new DSColumnBasicPane(setting);
         basicPane.addPropertyChangeListener("cellElement", myPropertyChangeListener);
-        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Basic"), basicPane);
+        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Basic"), basicPane);
 
         conditionPane = new DSColumnConditionsPane(setting);
         tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Filter"), conditionPane);

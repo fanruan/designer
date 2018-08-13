@@ -50,7 +50,7 @@ public class XNameWidget extends XWidgetCreator {
 	@Override
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
 		return new CRPropertyDescriptor[] {
-				new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Toolkit.i18nText("Form-Widget_Name")),
+				new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Toolkit.i18nText("Fine-Design_Form_Form_Widget_Name")),
 				new CRPropertyDescriptor("name", this.data.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Engine_NameWidget-Name")).setEditorClass(
 						NameWidgetComboboxEditor.class).setPropertyChangeListener(new PropertyChangeAdapter() {
 

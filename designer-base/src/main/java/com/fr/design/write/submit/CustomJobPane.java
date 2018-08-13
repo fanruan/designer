@@ -42,9 +42,9 @@ public abstract class CustomJobPane  extends BasicBeanPane {
 				GraphHelper.getLocTextWidth("FR-Designer_Select") + 20,
 				classNameTextField.getPreferredSize().height));
 
-        UIButton editButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit"));
+        UIButton editButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Edit"));
         editButton.setPreferredSize(new Dimension(
-				GraphHelper.getLocTextWidth("FR-Designer_Edit") + 20,
+				GraphHelper.getLocTextWidth("Fine-Design_Basic_Edit") + 20,
                 classNameTextField.getPreferredSize().height));
 
 		reportletNamePane.add(browserButton);

@@ -181,7 +181,7 @@ public abstract class VanChartUIListControlPane extends UIListControlPane implem
         }
 
         private void addCancelButton(JPanel buttonsPane) {
-            cancelButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Cancel"));
+            cancelButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cancel"));
             buttonsPane.add(cancelButton);
             cancelButton.addActionListener(new ActionListener() {
 

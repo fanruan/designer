@@ -18,7 +18,7 @@ import com.fr.stable.ArrayUtils;
 public class VcsScene {
 
     public static MenuDef createFileMenuDef(ToolBarMenuDockPlus plus) {
-        MenuDef menuDef = new MenuDef(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_File"), 'F');
+        MenuDef menuDef = new MenuDef(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_File"), 'F');
 
         ShortCut[] scs = new ShortCut[0];
         if (!ArrayUtils.isEmpty(scs)) {

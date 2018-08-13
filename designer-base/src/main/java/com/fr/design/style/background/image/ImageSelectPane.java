@@ -32,7 +32,7 @@ import java.io.File;
  */
 public class ImageSelectPane extends BackgroundPane4BoxChange {
     private static final long serialVersionUID = -3938766570998917557L;
-    private static String layoutCenter = com.fr.design.i18n.Toolkit.i18nText("Default");
+    private static String layoutCenter = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Default");
     private static String layoutTitled = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Image_Titled");
 
     private String suffix = PictureCollection.DEFAULT_SUFFIX;

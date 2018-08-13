@@ -33,7 +33,7 @@ public class PolyBlockProperTable extends JPanel {
 		this.setLayout(new BorderLayout());
 
 		blockPropertyPane = new BasicPropertyPane();
-		UIExpandablePane basicPane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Basic"), 280, 24, blockPropertyPane);
+		UIExpandablePane basicPane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Basic"), 280, 24, blockPropertyPane);
 		this.add(basicPane, BorderLayout.NORTH);
 
 		x = new UISpinner(0, MAX_SPINNER_VALUE, 1);

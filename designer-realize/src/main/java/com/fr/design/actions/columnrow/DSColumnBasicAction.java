@@ -20,7 +20,7 @@ public class DSColumnBasicAction extends CellSelectionAction {
 	public DSColumnBasicAction(ElementCasePane t) {
 		super(t);
 		
-        this.setName(com.fr.design.i18n.Toolkit.i18nText("Basic"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Basic"));
         // this.setMnemonic('B');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/expand/cellAttr.gif"));
     }

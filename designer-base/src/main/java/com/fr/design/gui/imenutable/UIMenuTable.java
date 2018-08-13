@@ -214,7 +214,7 @@ public class UIMenuTable extends JTable {
 		UIMenuNameableCreator reportlet = new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Reportlet"),
 				new ReportletHyperlink(), ReportletHyperlinkPane.class);
 
-		UIMenuNameableCreator email = new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Email"),
+		UIMenuNameableCreator email = new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Email"),
 				new EmailJavaScript(), EmailPane.class);
 
 		UIMenuNameableCreator web = new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Web_Link"),

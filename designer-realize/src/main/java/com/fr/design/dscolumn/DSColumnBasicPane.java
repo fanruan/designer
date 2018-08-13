@@ -107,7 +107,7 @@ public class DSColumnBasicPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Basic");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Basic");
     }
 
     public void populate(TableDataSource source, TemplateCellElement cellElement) {

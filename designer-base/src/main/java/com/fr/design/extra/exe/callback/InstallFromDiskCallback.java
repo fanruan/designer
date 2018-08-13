@@ -43,7 +43,7 @@ public class InstallFromDiskCallback extends AbstractPluginTaskCallback {
             int rv = JOptionPane.showOptionDialog(
                     null,
                     com.fr.design.i18n.Toolkit.i18nText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Install_Dependence")),
-                    com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"),
+                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"),
                     JOptionPane.YES_NO_CANCEL_OPTION,
                     JOptionPane.INFORMATION_MESSAGE,
                     null,
@@ -63,7 +63,7 @@ public class InstallFromDiskCallback extends AbstractPluginTaskCallback {
             int rv = JOptionPane.showOptionDialog(
                     null,
                     com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Has_Install_Lower"),
-                    com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"),
+                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"),
                     JOptionPane.YES_NO_CANCEL_OPTION,
                     JOptionPane.INFORMATION_MESSAGE,
                     null,

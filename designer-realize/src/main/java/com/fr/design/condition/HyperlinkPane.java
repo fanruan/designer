@@ -33,7 +33,7 @@ public class HyperlinkPane extends ConditionAttrSingleConditionPane<HighlightAct
 
     public HyperlinkPane(final ConditionAttributesPane conditionAttributesPane) {
         super(conditionAttributesPane);
-        hyperlinkButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit"));
+        hyperlinkButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Edit"));
         hyperlinkButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 NameJavaScriptGroup nameHyperlinks = jsGroup;

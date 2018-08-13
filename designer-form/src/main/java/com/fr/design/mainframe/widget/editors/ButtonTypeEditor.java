@@ -7,7 +7,7 @@ import com.fr.stable.StringUtils;
 public class ButtonTypeEditor extends ComboEditor {
 
 	public ButtonTypeEditor() {
-		super(new Item[] { new Item(com.fr.design.i18n.Toolkit.i18nText("Default"), false), new Item(com.fr.design.i18n.Toolkit.i18nText("Custom"), true), });
+		super(new Item[] { new Item(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Default"), false), new Item(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom"), true), });
 	}
 
 	@Override

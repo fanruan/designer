@@ -27,7 +27,7 @@ public class StyleAction extends UpdateAction {
      * @param e 事件
      */
 	public void actionPerformed(ActionEvent e) {
-		CellElementPropertyPane.getInstance().GoToPane(new String[] { com.fr.design.i18n.Toolkit.i18nText("Style"), com.fr.design.i18n.Toolkit.i18nText("Custom") });
+		CellElementPropertyPane.getInstance().GoToPane(new String[] { com.fr.design.i18n.Toolkit.i18nText("Style"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom") });
 	}
 
 }

@@ -46,7 +46,7 @@ public class DecodeDialog {
 		hintsLabel.setForeground(Color.RED);
 		hintsLabel.setVisible(false);
 
-		confirmButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Confirm"));
+		confirmButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Confirm"));
 		confirmButton.setBounds(180, 90, 60, 25);
 		confirmButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -63,7 +63,7 @@ public class DecodeDialog {
 			}
 		});
 
-		UIButton cancelButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Cancel"));
+		UIButton cancelButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cancel"));
 		cancelButton.setBounds(250, 90, 60, 25);
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

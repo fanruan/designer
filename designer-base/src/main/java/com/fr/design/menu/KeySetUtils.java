@@ -691,7 +691,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cell");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cell");
         }
 
         @Override

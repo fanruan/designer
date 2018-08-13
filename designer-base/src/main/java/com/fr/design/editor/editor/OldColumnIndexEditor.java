@@ -52,7 +52,7 @@ public class OldColumnIndexEditor extends Editor {
 
 	protected void initComponents() {
 		indexCheckBox = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Column_Index"));
-		nameCheckBox = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("ColumnName"));
+		nameCheckBox = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Column_Name"));
 		indexCheckBox.addActionListener(actionListener);
 		nameCheckBox.addActionListener(actionListener);
 		javax.swing.ButtonGroup buttonGroup = new javax.swing.ButtonGroup();

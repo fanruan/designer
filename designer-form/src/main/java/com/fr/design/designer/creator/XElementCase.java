@@ -79,7 +79,7 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 
 		CRPropertyDescriptor[] propertyTableEditor = new CRPropertyDescriptor[]{
 				new CRPropertyDescriptor("widgetName", this.data.getClass())
-						.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Form-Widget_Name")),
+						.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Form_Widget_Name")),
 				new CRPropertyDescriptor("visible", this.data.getClass()).setI18NName(
 						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Visible")).setPropertyChangeListener(new PropertyChangeAdapter() {
 

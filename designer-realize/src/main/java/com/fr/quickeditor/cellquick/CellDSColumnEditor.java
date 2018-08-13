@@ -259,7 +259,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
             }
             //丢掉icon,修改按钮名称为编辑
             condition.setSmallIcon(null);
-            condition.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit"));
+            condition.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Edit"));
             conditionUIButton = new UIButton(condition);
             Component[][] components = new Component[][]{
                     new Component[]{uiLabel, conditionUIButton}
@@ -273,12 +273,12 @@ public class CellDSColumnEditor extends CellQuickEditor {
 
         @Override
         public String getIconPath() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Basic");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Basic");
         }
 
         @Override
         public String title4PopupWindow() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Basic");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Basic");
         }
 
 
@@ -856,7 +856,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
                         com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Bind_Column_Top_N"),
                         com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Bind_Column_Bottom_N"),
                         com.fr.design.i18n.Toolkit.i18nText("Odd"),
-                        com.fr.design.i18n.Toolkit.i18nText("Even"),
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Even"),
                         com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Specify")
                 });
                 rsComboBox.addActionListener(actionListener);
@@ -1072,7 +1072,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
                 textFieldPane.add(formulaTextField, BorderLayout.CENTER);
                 textFieldPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
                 UIButton formulaButton = new UIButton(IOUtils.readIcon("/com/fr/design/images/m_insert/formula.png"));
-                formulaButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Formula") + "...");
+                formulaButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Formula") + "...");
                 formulaButton.setPreferredSize(new Dimension(20, formulaTextField.getPreferredSize().height));
                 formulaButton.addActionListener(formulaButtonActionListener);
 

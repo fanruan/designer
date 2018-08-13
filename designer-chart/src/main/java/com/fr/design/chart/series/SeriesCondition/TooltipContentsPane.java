@@ -62,7 +62,7 @@ public class TooltipContentsPane extends BasicPane{
 
 		valuePane.add(showValueCB);
 
-		UIButton valueFormatButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Format"));
+		UIButton valueFormatButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Format"));
 		valuePane.add(valueFormatButton);
 
 		valueFormatButton.addActionListener(listener);
@@ -84,7 +84,7 @@ public class TooltipContentsPane extends BasicPane{
 
 		percentValuePane.add(showPercent);
 
-		UIButton valueFormatButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Format"));
+		UIButton valueFormatButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Format"));
 		percentValuePane.add(valueFormatButton);
 
 		valueFormatButton.addActionListener(percentListener);

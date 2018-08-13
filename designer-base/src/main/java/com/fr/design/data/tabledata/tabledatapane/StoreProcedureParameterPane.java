@@ -29,13 +29,13 @@ public class StoreProcedureParameterPane extends BasicPane {
 	};
 
 	private static NameObject[] nameAndValue = new NameObject[]{
-		new NameObject(com.fr.design.i18n.Toolkit.i18nText("Cursor"), StoreProcedureConstants.CURSOR),
+		new NameObject(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cursor"), StoreProcedureConstants.CURSOR),
 		new NameObject(com.fr.design.i18n.Toolkit.i18nText("Parameter-String"), StoreProcedureConstants.VARCHAR),
 		new NameObject(com.fr.design.i18n.Toolkit.i18nText("Integer"), StoreProcedureConstants.INTEGER),
-		new NameObject(com.fr.design.i18n.Toolkit.i18nText("Double"), StoreProcedureConstants.DECIMAL),
-		new NameObject(com.fr.design.i18n.Toolkit.i18nText("Date"), StoreProcedureConstants.DATE),
+		new NameObject(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Double"), StoreProcedureConstants.DECIMAL),
+		new NameObject(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date"), StoreProcedureConstants.DATE),
 		new NameObject(com.fr.design.i18n.Toolkit.i18nText("Parameter-Boolean"), StoreProcedureConstants.BOOLEAN),
-		new NameObject(com.fr.design.i18n.Toolkit.i18nText("Formula"), StoreProcedureConstants.FORMULA),
+		new NameObject(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Formula"), StoreProcedureConstants.FORMULA),
 		new NameObject("IN",StoreProcedureConstants.IN),
 		new NameObject("OUT",StoreProcedureConstants.OUT),
 		new NameObject("INOUT",StoreProcedureConstants.INOUT)
@@ -124,22 +124,22 @@ public class StoreProcedureParameterPane extends BasicPane {
 		Object value = valueEditPane.update();
 		String type = "";
 		if(value instanceof CursorEditor)
-			type=com.fr.design.i18n.Toolkit.i18nText("Cursor");
+			type=com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cursor");
 		else if(value instanceof String ){
 			if(((String) value).length() > 0 && ((String) value).charAt(0) == '=')
-				type = com.fr.design.i18n.Toolkit.i18nText("Formula");
+				type = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Formula");
 			else
 				type = com.fr.design.i18n.Toolkit.i18nText("Parameter-String");
 		}else if(value instanceof Integer)
 			type = com.fr.design.i18n.Toolkit.i18nText("Integer");
 		else if(value instanceof Double)
-			type = com.fr.design.i18n.Toolkit.i18nText("Double");
+			type = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Double");
 		else if(value instanceof Date)
-			type = com.fr.design.i18n.Toolkit.i18nText("Date");
+			type = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date");
 		else if(value instanceof Boolean)
 			type = com.fr.design.i18n.Toolkit.i18nText("Parameter-Boolean");
 		else if(value instanceof BaseFormula)
-			type = com.fr.design.i18n.Toolkit.i18nText("Formula");
+			type = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Formula");
 		else 
 			type = com.fr.design.i18n.Toolkit.i18nText("Parameter-String");
 		int typeVl = getInfo4Value(type);
