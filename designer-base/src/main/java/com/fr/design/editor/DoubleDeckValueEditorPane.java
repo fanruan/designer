@@ -67,7 +67,7 @@ public class DoubleDeckValueEditorPane extends BasicPane implements UIObserver, 
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel content = (JPanel) jf.getContentPane();
         content.setLayout(new BorderLayout());
-        content.add(new DoubleDeckValueEditorPane(new Editor[]{new ColumnNameEditor(), new ColumnIndexEditor(), new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter-Formula"))}), BorderLayout.NORTH);
+        content.add(new DoubleDeckValueEditorPane(new Editor[]{new ColumnNameEditor(), new ColumnIndexEditor(), new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter_Formula"))}), BorderLayout.NORTH);
         GUICoreUtils.centerWindow(jf);
         jf.setSize(290, 400);
         jf.setVisible(true);

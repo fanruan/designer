@@ -247,7 +247,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
 
         public RefreshTreeAction() {
 
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Refresh"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Refresh"));
             this.setSmallIcon(UIConstants.REFRESH_ICON);
         }
 
@@ -301,7 +301,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
 
         public DelFileAction() {
 
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Remove"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remove"));
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/data/source/delete.png"));
         }
 

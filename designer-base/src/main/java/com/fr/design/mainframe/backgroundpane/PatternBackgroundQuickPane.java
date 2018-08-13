@@ -58,7 +58,7 @@ public class PatternBackgroundQuickPane extends BackgroundQuickPane {
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Foreground"), UILabel.LEFT), foregroundColorPane},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background"), UILabel.LEFT), backgroundColorPane},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background"), UILabel.LEFT), backgroundColorPane},
         };
         double[] rowSize = {p, p, p};
         double[] columnSize = {p, f};

@@ -18,7 +18,7 @@ import java.awt.*;
 public abstract class CustomWritableRepeatEditorPane<T extends CustomWriteAbleRepeatEditor> extends WritableRepeatEditorPane<T> {
 
 	private UICheckBox customDataCheckBox;
-	private static final int CUSTOM_DATA_CHECK_BOX_WIDTH = GraphHelper.getLocTextWidth("Fine-Design_Form_Allow_Custom_Data") + 30;
+	private static final int CUSTOM_DATA_CHECK_BOX_WIDTH = GraphHelper.getWidth(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Allow_Custom_Data")) + 30;
 	private static final int CUSTOM_DATA_CHECK_BOX_HEIGHT = 30;
 
 	public CustomWritableRepeatEditorPane() {

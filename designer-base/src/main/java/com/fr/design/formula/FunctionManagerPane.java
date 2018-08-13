@@ -123,7 +123,7 @@ public class FunctionManagerPane extends BasicPane {
             JPanel reportletNamePane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
             classNameTextField = new UITextField(25);
             reportletNamePane.add(classNameTextField);
-            UIButton browserButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Select"));
+            UIButton browserButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Select"));
             browserButton.setPreferredSize(new Dimension(browserButton.getPreferredSize().width,  classNameTextField.getPreferredSize().height));
             reportletNamePane.add(browserButton);
             browserButton.addActionListener(new ActionListener() {
@@ -138,7 +138,7 @@ public class FunctionManagerPane extends BasicPane {
 	                    }).setVisible(true);
                 }
             });
-            UIButton editorButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit"));
+            UIButton editorButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Edit"));
             editorButton.setPreferredSize(new Dimension(editorButton.getPreferredSize().width, classNameTextField.getPreferredSize().height));
             reportletNamePane.add(editorButton);
             editorButton.addActionListener(createEditorButtonActionListener());

@@ -39,7 +39,7 @@ public class ChartPreStylePane extends BasicBeanPane<ChartColorMatching> {
 		JPanel pane = new JPanel();
 		pane.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-		pane.add(new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Preview")));
+		pane.add(new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preview")));
 
         JPanel boxPane = new JPanel();
         boxPane.setLayout(new BorderLayout());

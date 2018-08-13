@@ -78,7 +78,7 @@ public class PaddingPane extends ConditionAttrSingleConditionPane<HighlightActio
      */
     @Override
     public String nameForPopupMenuItem() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Sytle-Indentation");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Sytle_Indentation");
     }
 
     @Override

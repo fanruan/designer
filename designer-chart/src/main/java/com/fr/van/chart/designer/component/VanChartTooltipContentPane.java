@@ -98,7 +98,7 @@ public class VanChartTooltipContentPane extends BasicBeanPane<AttrTooltipContent
     }
 
     protected String getLabelContentTitle () {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Text");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Text");
     }
 
     protected JPanel getLabelContentPane(JPanel contentPane) {

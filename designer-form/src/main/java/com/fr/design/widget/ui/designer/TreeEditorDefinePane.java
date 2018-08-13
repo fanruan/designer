@@ -71,7 +71,7 @@ public class TreeEditorDefinePane extends CustomWritableRepeatEditorPane<TreeEdi
 
     protected Component[] createDictPane(){
         accessibleTreeModelEditor = new AccessibleTreeModelEditor();
-        return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_DS-Dictionary")), accessibleTreeModelEditor};
+        return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_DS_Dictionary")), accessibleTreeModelEditor};
     }
 
     @Override

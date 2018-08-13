@@ -224,7 +224,7 @@ public class JTreeControlPane extends ControlPane {
 
     private class RemoveTreeNodeAction extends UpdateAction {
         public RemoveTreeNodeAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Remove"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remove"));
             this.setMnemonic('R');
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/base/images/cell/control/remove.png"));
         }
@@ -232,7 +232,7 @@ public class JTreeControlPane extends ControlPane {
         public void actionPerformed(ActionEvent e) {
             // TODO remove tree node
             int val = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Are_You_Sure_To_Remove_The_Selected_Item") + "?",
-                    com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Remove"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remove"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (val != JOptionPane.OK_OPTION) {
                 return;
             }

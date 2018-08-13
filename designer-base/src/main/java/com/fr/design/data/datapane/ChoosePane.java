@@ -210,7 +210,7 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
     protected void initComponentsLayout(PreviewLabel previewLabel, int labelSize) {
         UILabel l1 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database") + ":");
         UILabel l2 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Model") + ":");
-        UILabel l3 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Table") + ":");
+        UILabel l3 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Table") + ":");
 
         if (labelSize > 0) {
             Dimension pSize = new Dimension(labelSize, 25);

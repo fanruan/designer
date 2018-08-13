@@ -202,7 +202,7 @@ public class DownloadOnlineSourcesHelper implements DownloadSourcesEvent {
         dialog.dispose();
 
         if (result) {
-            int choose = JOptionPane.showConfirmDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Work_After_Restart_Designer"), null, JOptionPane.YES_NO_OPTION);
+            int choose = JOptionPane.showConfirmDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Work_After_Restart_Designer"), null, JOptionPane.YES_NO_OPTION);
 
             if (choose == JOptionPane.OK_OPTION) {
                 RestartHelper.restart();

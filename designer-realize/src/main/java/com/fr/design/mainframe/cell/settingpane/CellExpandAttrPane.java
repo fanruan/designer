@@ -73,7 +73,7 @@ public class CellExpandAttrPane extends AbstractCellAttrPane {
         layoutPane = new JPanel(new BorderLayout());
         basicPane = new JPanel();
         seniorPane = new JPanel();
-        basicPane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Basic"), 223, 24, basicPane());
+        basicPane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Basic"), 223, 24, basicPane());
         seniorPane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced"), 223, 24, seniorPane());
         layoutPane.add(basicPane, BorderLayout.NORTH);
         layoutPane.add(seniorPane, BorderLayout.CENTER);
