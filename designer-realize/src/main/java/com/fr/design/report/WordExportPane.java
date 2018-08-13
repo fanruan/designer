@@ -35,7 +35,7 @@ public class WordExportPane extends BasicPane {
 		checkBoxPane.add(isExportAsTable);
 		
 		southPane = FRGUIPaneFactory.createNormalFlowInnerContainer_M_Pane();
-		JPanel innerAlertBorderPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Attention"));
+		JPanel innerAlertBorderPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Attention"));
 		JPanel alertPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_M_Pane();
 		
         MultilineLabel wordLineLabel = new MultilineLabel();

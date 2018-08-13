@@ -45,7 +45,7 @@ public class AlignmentPane extends BasicPane {
     private UIRadioButton rightToLeftRB;
     //    private UIComboBox imageComboBox;
     private static final String[] IMAGE = {
-            com.fr.design.i18n.Toolkit.i18nText("Default"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Default"),
             com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Image_Extend")
     };
     private UIBasicSpinner leftIndentSpinner;

@@ -12,10 +12,10 @@ public class CursorEditor extends Editor<CursorEditor> {
 	
 	public CursorEditor(){
 		this.setLayout(FRGUIPaneFactory.createCenterFlowLayout());
-		label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Cursor"));
+		label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cursor"));
 		this.add(label);
 		this.setPreferredSize(new Dimension(10,20));
-		this.setName(com.fr.design.i18n.Toolkit.i18nText("Cursor"));
+		this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cursor"));
 		this.setEnabled(false);
 	}
 
@@ -36,7 +36,7 @@ public class CursorEditor extends Editor<CursorEditor> {
 
 	@Override
 	public void setValue(CursorEditor value) {
-		label.setText(com.fr.design.i18n.Toolkit.i18nText("Cursor"));
+		label.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cursor"));
 	}
 
 }

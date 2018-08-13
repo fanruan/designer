@@ -47,7 +47,7 @@ public class AlignmentComboBox extends UIComboBox {
 
 	public static String getAlignDescription(int alignment) {
 		if (alignment == Constants.CENTER) {//0
-			return com.fr.design.i18n.Toolkit.i18nText("Center");
+			return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Center");
 		} else if (alignment == Constants.TOP) {//1
 			return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Top");
 		} else if (alignment == Constants.LEFT) {//2

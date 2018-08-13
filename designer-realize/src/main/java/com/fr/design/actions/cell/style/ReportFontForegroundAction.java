@@ -25,7 +25,7 @@ public class ReportFontForegroundAction extends AbstractStyleAction implements C
 	public ReportFontForegroundAction(ElementCasePane t) {
 		super(t);
 
-		this.setName(com.fr.design.i18n.Toolkit.i18nText("Foreground"));
+		this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Foreground"));
 	}
 
 	public void stateChanged(ChangeEvent evt) {

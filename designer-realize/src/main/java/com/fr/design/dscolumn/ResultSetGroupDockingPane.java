@@ -100,7 +100,7 @@ public class ResultSetGroupDockingPane extends ResultSetGroupPane {
                 checkButtonEnabled();
             }
         });
-        advancedButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Custom"));
+        advancedButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom"));
         advancedButton.addActionListener(groupAdvancedListener);
 
         JPanel pane = new JPanel(new BorderLayout(0, 10));

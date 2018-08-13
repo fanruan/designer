@@ -44,7 +44,7 @@ public class XRadioGroup extends XFieldEditor {
 						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Value")).setEditorClass(WidgetValueEditor.class)
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 				new CRPropertyDescriptor("dictionary", this.data.getClass()).setI18NName(
-						com.fr.design.i18n.Toolkit.i18nText("DS-Dictionary")).setEditorClass(DictionaryEditor.class).setRendererClass(
+						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DS_Dictionary")).setEditorClass(DictionaryEditor.class).setRendererClass(
 						DictionaryRenderer.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")},super.supportedDescriptor());
 		CRPropertyDescriptor [] properties = (CRPropertyDescriptor[]) ArrayUtils.addAll(sup,getCRPropertyDescriptor());
 		return properties;

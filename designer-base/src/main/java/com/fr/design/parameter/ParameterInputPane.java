@@ -120,7 +120,7 @@ public class ParameterInputPane extends BasicPane {
 		} else if (pv instanceof Float) {
 			editors[0] = new FloatEditor();
 		} else if (pv instanceof Date) {
-			editors[0] = new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("Date"));
+			editors[0] = new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date"));
 		} else if (pv instanceof Boolean) {
 			editors[0] = new BooleanEditor();
 		} else if (pv instanceof BaseFormula) {

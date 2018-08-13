@@ -22,7 +22,7 @@ public class RangeDataLabelPane extends DataLabelPane {
     protected JPanel createJPanel4Position() {
     	topButton = new JRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Top"));
     	bottomButton = new JRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Bottom"));
-    	centerButton = new JRadioButton(com.fr.design.i18n.Toolkit.i18nText("Center"));
+    	centerButton = new JRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Center"));
 		
 		ButtonGroup bg = new ButtonGroup();
 		bg.add(topButton);

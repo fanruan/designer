@@ -110,7 +110,7 @@ public class JDBCDefPane extends JPanel {
 		double p = TableLayout.PREFERRED;
 		double f = TableLayout.FILL;
 		JPanel dbtypePane = FRGUIPaneFactory.createRightFlowInnerContainer_S_Pane();
-		dbtypePane.add(new UILabel((com.fr.design.i18n.Toolkit.i18nText("Database") + ":")));
+		dbtypePane.add(new UILabel((com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database") + ":")));
 		JPanel dbtypeComPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
 		Component[][] dbtypeComComponents = {{dbtypeComboBox}};
 		double[] dbtypeRowSize = {p};
@@ -118,7 +118,7 @@ public class JDBCDefPane extends JPanel {
 		dbtypeComPane = TableLayoutHelper.createTableLayoutPane(dbtypeComComponents, dbtypeRowSize, dbtypeColumnSize);
 
 		JPanel driverPane = FRGUIPaneFactory.createRightFlowInnerContainer_S_Pane();
-		driverPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Driver") + ":"));
+		driverPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Driver") + ":"));
 
 		JPanel urlPane = FRGUIPaneFactory.createRightFlowInnerContainer_S_Pane();
 		urlPane.add(new UILabel("URL:"));

@@ -390,7 +390,7 @@ public class XWCardMainBorderLayout extends XWBorderLayout {
 			g2d.setColor(Color.WHITE);
 			//画编辑文字
 			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			g2d.drawString(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Edit"), x + w / 2 - 2, y + h / 2 + 5);
+			g2d.drawString(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Edit"), x + w / 2 - 2, y + h / 2 + 5);
 			g.setColor(XCreatorConstants.FORM_BORDER_COLOR);
 			GraphHelper.draw(g, new Rectangle(BORDER_WIDTH, BORDER_WIDTH, getWidth() - BORDER_WIDTH * 2, getHeight() - BORDER_WIDTH * 2), Constants.LINE_MEDIUM);
 			paintExtro(g);

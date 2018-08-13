@@ -31,7 +31,7 @@ public abstract class ResultSetGroupPane extends JPanel {
 	protected UIComboBox groupComboBox;
 	
 	protected ResultSetGroupPane(){
-		groupComboBox = new UIComboBox(new String[] {com.fr.design.i18n.Toolkit.i18nText("Common"), com.fr.design.i18n.Toolkit.i18nText("Continuum"), com.fr.design.i18n.Toolkit.i18nText("Advanced")});
+		groupComboBox = new UIComboBox(new String[] {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Common"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Continuum"), com.fr.design.i18n.Toolkit.i18nText("Advanced")});
 	}
 
 	abstract void populate(TemplateCellElement cellElement);

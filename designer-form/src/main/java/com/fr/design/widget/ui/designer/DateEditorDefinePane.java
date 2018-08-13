@@ -62,7 +62,7 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
         UILabel endDateLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_FS_End_Date"));
         endDateLabel.setVerticalAlignment(SwingConstants.TOP);
         formWidgetValuePane = new FormWidgetValuePane(creator.toData(), false);
-        returnTypeComboBox = new UIButtonGroup<>(new String[] {com.fr.design.i18n.Toolkit.i18nText("Date") ,  com.fr.design.i18n.Toolkit.i18nText("String")});
+        returnTypeComboBox = new UIButtonGroup<>(new String[] {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date") ,  com.fr.design.i18n.Toolkit.i18nText("String")});
         JPanel formatHead =  createFormatHead();
         startDv = new DateValuePane();
         endDv = new DateValuePane();

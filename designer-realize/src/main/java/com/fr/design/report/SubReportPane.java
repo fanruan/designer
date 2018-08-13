@@ -89,7 +89,7 @@ public class SubReportPane extends BasicPane {
 		centerPane.add(description, BorderLayout.SOUTH);
 		description.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Sub_Report_Description"));
 		description.setEditable(false);
-		description.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Attention"), null));
+		description.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Attention"), null));
     }
     
     @Override

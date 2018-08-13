@@ -24,7 +24,7 @@ public class PresentComboBox extends UIComboBox{
 	private Present present;
 	
 	private String[] ITEMS = {
-			com.fr.design.i18n.Toolkit.i18nText("DS-Dictionary"),
+			com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DS_Dictionary"),
 			com.fr.design.i18n.Toolkit.i18nText("Present-Formula_Present"),
 			com.fr.design.i18n.Toolkit.i18nText("Present-No_Present")
 	};

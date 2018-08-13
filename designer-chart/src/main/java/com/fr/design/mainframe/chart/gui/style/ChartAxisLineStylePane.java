@@ -55,7 +55,7 @@ public class ChartAxisLineStylePane extends BasicPane{
 
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Type")),axisLineStyle} ,
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Color")),axisLineColor},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Color")),axisLineColor},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Main_Graduation_Line")),null},
                 new Component[]{null, mainTickPosition},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Second_Graduation_Line")),null},

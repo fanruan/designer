@@ -60,7 +60,7 @@ public class XWParameterLayout extends XWAbsoluteLayout {
         CRPropertyDescriptor[] propertyTableEditor = new CRPropertyDescriptor[]{
                 new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Toolkit.i18nText("Fine-Design_Form-Widget_Name")),
                 new CRPropertyDescriptor("background", this.data.getClass()).setEditorClass(BackgroundEditor.class)
-                        .setRendererClass(BackgroundRenderer.class).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Background"))
+                        .setRendererClass(BackgroundRenderer.class).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background"))
                         .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                 new CRPropertyDescriptor("delayDisplayContent", this.data.getClass()).setEditorClass(BooleanEditor.class)
                         .setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Display_Nothing_Before_Query"))

@@ -27,7 +27,7 @@ public class RowColumnPane extends BasicPane {
 
         JPanel topPane =FRGUIPaneFactory.createBorderLayout_S_Pane();
         this.add(topPane, BorderLayout.NORTH);
-        titleLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Delete"));
+        titleLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Delete"));
         topPane.add(titleLabel, BorderLayout.WEST);
         JPanel separatorPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         separatorPane.add(new JSeparator());

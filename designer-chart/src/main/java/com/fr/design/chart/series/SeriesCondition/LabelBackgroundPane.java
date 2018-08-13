@@ -32,10 +32,10 @@ public class LabelBackgroundPane extends ConditionAttrSingleConditionPane<DataSe
 
     public LabelBackgroundPane(final ConditionAttributesPane conditionAttributesPane) {
         super(conditionAttributesPane, true);
-        backgroundLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Background"));
+        backgroundLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background"));
         this.backgroundPreviewPane = new BackgroundPreviewLabel();
         this.backgroundPreviewPane.setPreferredSize(new Dimension(80, 20));
-        UIButton editBackgroundButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Edit"));
+        UIButton editBackgroundButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Edit"));
         MouseAdapter mouseListener = new MouseAdapter() {
             public void mousePressed(MouseEvent evt) {
                 final BackgroundPane backgroundPane = new BackgroundPane();

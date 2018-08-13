@@ -108,10 +108,10 @@ public class JTreeAutoBuildPane extends BasicPane implements PreviewLabel.Previe
             formulaEditor.setEnabled(true);
             textPane.setEditors(new Editor[]{new ColumnNameEditor(columnNames), new ColumnIndexEditor(columnNames.length), formulaEditor}, columnNames[0]);
         } catch (Exception e) {
-            valuePane.setEditors(new Editor[]{new OldColumnIndexEditor(100, com.fr.design.i18n.Toolkit.i18nText("ColumnName"))}, 1);
+            valuePane.setEditors(new Editor[]{new OldColumnIndexEditor(100, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Column_Name"))}, 1);
             FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Parameter_Formula"));
             formulaEditor.setEnabled(true);
-            textPane.setEditors(new Editor[]{new OldColumnIndexEditor(100, com.fr.design.i18n.Toolkit.i18nText("ColumnName")), formulaEditor}, 1);
+            textPane.setEditors(new Editor[]{new OldColumnIndexEditor(100, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Column_Name")), formulaEditor}, 1);
         }
     }
 

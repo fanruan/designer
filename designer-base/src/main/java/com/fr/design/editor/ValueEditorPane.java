@@ -207,7 +207,7 @@ public class ValueEditorPane extends BasicPane implements UIObserver, GlobalName
         Object columnIndex = currentEditor.getValue();
         //bug86542,这边为啥要new一个公式出来，只保留content,其他属性全不要了?
         //MoMeak：我也想注释了，但是有bug啊。。。
-        if (columnIndex == null && ComparatorUtils.equals(name, com.fr.design.i18n.Toolkit.i18nText("Formula"))) {
+        if (columnIndex == null && ComparatorUtils.equals(name, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Formula"))) {
             columnIndex = ((FormulaEditor) currentEditor).getFormula();
         }
 

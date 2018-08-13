@@ -202,7 +202,7 @@ public class PageSetupPane extends BasicPane {
             predefinedRadioButton.addActionListener(previewListener);
 
 
-            customRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Custom") + ":");
+            customRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom") + ":");
             customRadioButton.setMnemonic('C');
             customRadioButton.addActionListener(previewListener);
 
@@ -282,7 +282,7 @@ public class PageSetupPane extends BasicPane {
             marginLeftTextPane.add(marginTopUnitFieldPane);
             JPanel marginLeftUnitPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
             marginLeftPane.add(marginLeftUnitPane);
-            marginLeftUnitPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Bottom") + ":"));
+            marginLeftUnitPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Bottom") + ":"));
             marginBottomUnitFieldPane = new UnitFieldPane(Constants.UNIT_MM);
             marginLeftUnitPane.add(marginBottomUnitFieldPane);
 

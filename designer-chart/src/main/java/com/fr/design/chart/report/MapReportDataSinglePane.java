@@ -84,7 +84,7 @@ public class MapReportDataSinglePane extends FurtherBasicBeanPane<MapSingleLayer
 	 * 界面弹出标题.
 	 */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Cell");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cell");
 	}
 
 	@Override

@@ -61,7 +61,7 @@ public class FormatBox extends BasicPane {
 		typeBox.addItem(FormatField.getInstance().getName(FormatContents.TIME));
 		typeBox.addItem(FormatField.getInstance().getName(FormatContents.TEXT));
 		
-		pane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Format") + ":"));
+		pane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Format") + ":"));
 		formatBox = new UIComboBox();
 		// kunsnat: 大小: 这个有的格式的大小需要很宽!
 		formatBox.setPreferredSize(new Dimension(150, 20));

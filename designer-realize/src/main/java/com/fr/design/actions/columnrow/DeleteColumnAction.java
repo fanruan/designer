@@ -51,7 +51,7 @@ public class DeleteColumnAction extends CellSelectionAction {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("Column");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Column");
         }
 
         @Override

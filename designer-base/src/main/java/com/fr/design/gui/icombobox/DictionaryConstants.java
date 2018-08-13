@@ -20,13 +20,13 @@ public class DictionaryConstants {
 		com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_None"),
 		com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Required"),
 		com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Length"),
-		com.fr.design.i18n.Toolkit.i18nText("Float"),
-		com.fr.design.i18n.Toolkit.i18nText("Email"),
+		com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Float"),
+		com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Email"),
 		com.fr.design.i18n.Toolkit.i18nText("Phone"),
 		com.fr.design.i18n.Toolkit.i18nText("MobilePhone"),
 		com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_IDCard"),
 		com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_PostCode"),
-		com.fr.design.i18n.Toolkit.i18nText("Custom")};
+		com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom")};
 	
 	public final static int REG_NONE = 0;
 	public final static int REG_REQUIRED = 1;

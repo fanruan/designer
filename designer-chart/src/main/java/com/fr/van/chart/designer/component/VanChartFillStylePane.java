@@ -24,7 +24,7 @@ public class VanChartFillStylePane extends ChartFillStylePane {
         double[] columnSize = {f, e};
         double[] rowSize = {p, p};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("ColorMatch")),styleSelectBox},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Color_Match")),styleSelectBox},
                 new Component[]{null,customPane},
 
         };

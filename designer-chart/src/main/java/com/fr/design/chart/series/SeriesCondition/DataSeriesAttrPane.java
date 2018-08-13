@@ -37,7 +37,7 @@ public class DataSeriesAttrPane extends JListControlPane {
     @Override
     public NameableCreator[] createNameableCreators() {
         return new NameableCreator[]{
-                new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Condition_Attributes"), ConditionAttr.class, DataSeriesConditionPaneFactory.findConfitionPane4DataSeries(plot))
+                new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Condition_Attributes"), ConditionAttr.class, DataSeriesConditionPaneFactory.findConfitionPane4DataSeries(plot))
         };
     }
 

@@ -30,14 +30,14 @@ public class VanChartConditionListControlPane extends VanChartUIListControlPane 
     public void populate(Nameable[] nameableArray, Class<? extends ConditionAttributesPane> showPane) {
         initComponentPane();
         this.setBorder(null);
-        NameObjectCreator[] creators = new NameObjectCreator[]{new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Condition_Attributes"), ConditionAttr.class, showPane)};
+        NameObjectCreator[] creators = new NameObjectCreator[]{new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Condition_Attributes"), ConditionAttr.class, showPane)};
         refreshNameableCreator(creators);
         super.populate(nameableArray);
     }
 
     @Override
     public NameableCreator[] createNameableCreators() {
-        return new NameObjectCreator[]{new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Condition_Attributes"), ConditionAttr.class, ChartTypeInterfaceManager.getInstance().getPlotConditionPane((Plot) plot).getClass())};
+        return new NameObjectCreator[]{new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Condition_Attributes"), ConditionAttr.class, ChartTypeInterfaceManager.getInstance().getPlotConditionPane((Plot) plot).getClass())};
     }
 
 
@@ -67,7 +67,7 @@ public class VanChartConditionListControlPane extends VanChartUIListControlPane 
 
     @Override
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Condition_Attributes");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Condition_Attributes");
     }
 
 

@@ -80,11 +80,11 @@ public class StylePane extends BasicBeanPane<Style> implements ChangeListener {
 		UITabbedPane mainTabbedPane = new UITabbedPane();
 		this.add(mainTabbedPane, BorderLayout.CENTER);
 
-		mainTabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Format"), this.getFormatPane());
-		mainTabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Alignment"), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
+		mainTabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Format"), this.getFormatPane());
+		mainTabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Alignment"), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
 		mainTabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Sytle_FRFont"), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
-		mainTabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Border"), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
-		mainTabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Background"), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
+		mainTabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Border"), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
+		mainTabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background"), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
 
 		mainTabbedPane.addChangeListener(tabChangeActionListener);
 		this.setPreferredSize(new Dimension(450, 480));

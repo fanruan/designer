@@ -83,7 +83,7 @@ public class SelectImagePane extends BasicPane {
         selectFilePane.add(layoutPane, BorderLayout.CENTER);
 
         //布局
-        defaultRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Default"));
+        defaultRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Default"));
         tiledRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Image_Titled"));
         extendRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Image_Extend"));
         adjustRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Image_Adjust"));

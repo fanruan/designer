@@ -25,7 +25,7 @@ public class ColumnRowVerticalPane extends ColumnRowPane {
 		this.add(pane, BorderLayout.NORTH);
 		
 		JPanel colPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-		colPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Column") + ":"));
+		colPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Column") + ":"));
 		pane.add(colPane);
 		
 		initColSpinner();

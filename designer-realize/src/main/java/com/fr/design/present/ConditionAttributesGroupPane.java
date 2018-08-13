@@ -44,7 +44,7 @@ public class ConditionAttributesGroupPane extends UIListControlPane {
 
 	@Override
 	public NameableCreator[] createNameableCreators() {
-		return new NameableCreator[] { new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Condition_Attributes"), DefaultHighlight.class, HighLightConditionAttributesPane.class) };
+		return new NameableCreator[] { new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Condition_Attributes"), DefaultHighlight.class, HighLightConditionAttributesPane.class) };
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class ConditionAttributesGroupPane extends UIListControlPane {
 
 	@Override
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Condition_Attributes");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Condition_Attributes");
 	}
 
 	@Override

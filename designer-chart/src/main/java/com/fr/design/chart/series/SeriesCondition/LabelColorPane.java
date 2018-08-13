@@ -41,7 +41,7 @@ public class LabelColorPane extends ConditionAttrSingleConditionPane<DataSeriesC
      */
     @Override
     public String nameForPopupMenuItem() {
-        return com.fr.design.i18n.Toolkit.i18nText("Color");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Color");
     }
 
     @Override

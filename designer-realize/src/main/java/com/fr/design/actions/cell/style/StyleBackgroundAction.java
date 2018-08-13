@@ -25,7 +25,7 @@ public class StyleBackgroundAction extends AbstractStyleAction implements Change
 	public StyleBackgroundAction(ElementCasePane t) {
 		super(t);
 		
-        this.setName(com.fr.design.i18n.Toolkit.i18nText("Background"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background"));
     }
 
     public void stateChanged(ChangeEvent evt) {

@@ -120,7 +120,7 @@ public class ParentPane extends BasicPane {
 		noneParentText = new UITextField(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_None"));
 		noneParentText.setRectDirection(Constants.RIGHT);
 		parentCardPane.add("Fine-Design_Report_None", noneParentText);
-		defaultParentText = new UITextField(com.fr.design.i18n.Toolkit.i18nText("Default"));
+		defaultParentText = new UITextField(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Default"));
 		defaultParentText.setRectDirection(Constants.RIGHT);
 		parentCardPane.add("Default", defaultParentText);
 		parentCardPane.add("Custom",
@@ -187,7 +187,7 @@ public class ParentPane extends BasicPane {
 			}
 		});
 
-		UIMenuItem defaultItem = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("Default"));
+		UIMenuItem defaultItem = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Default"));
 		if (cellAttrPaneListener != null) {
 			defaultItem.addActionListener(cellAttrPaneListener);
 		}
@@ -195,11 +195,11 @@ public class ParentPane extends BasicPane {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				cardLayout.show(parentCardPane, "Default");
+				cardLayout.show(parentCardPane, "Fine-Design_Report_Default");
 			}
 		});
 
-		UIMenuItem customItem = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("Custom"));
+		UIMenuItem customItem = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom"));
 		if (cellAttrPaneListener != null) {
 			customItem.addActionListener(cellAttrPaneListener);
 		}
@@ -233,9 +233,9 @@ public class ParentPane extends BasicPane {
 			this.cardLayout.show(parentCardPane, "Default");
 			this.customParentColumnRowPane.populate(ColumnRow.valueOf(0, 0));
 			if (ColumnRow.validate(columnRow)) {
-				this.defaultParentText.setText(com.fr.design.i18n.Toolkit.i18nText("Default") + ":" + BaseUtils.convertColumnRowToCellString(columnRow));
+				this.defaultParentText.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Default") + ":" + BaseUtils.convertColumnRowToCellString(columnRow));
 			} else {
-				this.defaultParentText.setText(com.fr.design.i18n.Toolkit.i18nText("Default"));
+				this.defaultParentText.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Default"));
 			}
 		} else if (ColumnRow.validate(columnRow)) {
 			this.cardLayout.show(parentCardPane, "Custom");
