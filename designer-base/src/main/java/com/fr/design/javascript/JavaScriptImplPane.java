@@ -196,7 +196,7 @@ public class JavaScriptImplPane extends AbstractHyperLinkPane<JavaScriptImpl> {
             itemNameTextField = new UITextField();
 
             JPanel topPane = GUICoreUtils.createBorderLayoutPane(
-                    GUICoreUtils.createNamedPane(itemNameTextField, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Name") + ":"), BorderLayout.NORTH,
+                    GUICoreUtils.createNamedPane(itemNameTextField, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Name") + ":"), BorderLayout.NORTH,
                     importedJsPane, BorderLayout.CENTER,
                     parameterPane, BorderLayout.EAST
             );

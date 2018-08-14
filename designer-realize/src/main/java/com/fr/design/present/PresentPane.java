@@ -33,7 +33,7 @@ public class PresentPane extends UIComboBoxPane<Present> {
 
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Present");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Present");
 	}
 
 	public void setSelectedByName(String radioName) {
