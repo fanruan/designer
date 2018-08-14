@@ -96,7 +96,7 @@ public abstract class UIListControlPane extends UIControlPane implements ListCon
 
 
         nameableList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        nameableList.addMouseListener(listMouseListener);
+        nameableList.addMouseListener(getListMouseListener());
         nameableList.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent evt) {
                 // richie:避免多次update和populate大大降低效率
@@ -305,60 +305,62 @@ public abstract class UIListControlPane extends UIControlPane implements ListCon
     /*
      * UINameEdList的鼠标事件
      */
-    private MouseListener listMouseListener = new MouseAdapter() {
-        @Override
-        public void mouseReleased(MouseEvent evt) {
-            nameableList.stopEditing();
-            if (evt.getClickCount() >= 2
-                    && SwingUtilities.isLeftMouseButton(evt) && evt.getX() > EDIT_RANGE) {
-                editingIndex = nameableList.getSelectedIndex();
-                selectedName = nameableList.getNameAt(editingIndex);
-                nameableList.editItemAt(nameableList.getSelectedIndex());
-            } else if (SwingUtilities.isLeftMouseButton(evt) && evt.getX() <= EDIT_RANGE) {
-                editingIndex = nameableList.getSelectedIndex();
-                selectedName = nameableList.getNameAt(editingIndex);
-                popupEditDialog(evt.getPoint());
+    private MouseListener getListMouseListener() {
+        return new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent evt) {
+                nameableList.stopEditing();
+                if (evt.getClickCount() >= 2
+                        && SwingUtilities.isLeftMouseButton(evt) && evt.getX() > EDIT_RANGE) {
+                    editingIndex = nameableList.getSelectedIndex();
+                    selectedName = nameableList.getNameAt(editingIndex);
+                    nameableList.editItemAt(nameableList.getSelectedIndex());
+                } else if (SwingUtilities.isLeftMouseButton(evt) && evt.getX() <= EDIT_RANGE) {
+                    editingIndex = nameableList.getSelectedIndex();
+                    selectedName = nameableList.getNameAt(editingIndex);
+                    popupEditDialog(evt.getPoint());
+                }
+
+                // peter:处理右键的弹出菜单
+                if (!SwingUtilities.isRightMouseButton(evt)) {
+                    return;
+                }
+
+                // peter: 注意,在checkButtonEnabled()方法里面,设置了所有的Action的Enabled.
+                checkButtonEnabled();
+
+                // p:右键菜单.
+                JPopupMenu popupMenu = new JPopupMenu();
+
+                for (ShortCut4JControlPane sj : getShorts()) {
+                    sj.getShortCut().intoJPopupMenu(popupMenu);
+                }
+
+                // peter: 只有弹出菜单有子菜单的时候,才需要弹出来.
+                GUICoreUtils.showPopupMenu(popupMenu, nameableList, evt.getX() - 1,
+                        evt.getY() - 1);
             }
 
-            // peter:处理右键的弹出菜单
-            if (!SwingUtilities.isRightMouseButton(evt)) {
-                return;
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                JList list = (JList) e.getSource();
+                if (list.locationToIndex(e.getPoint()) == -1 && !e.isShiftDown()
+                        && !isMenuShortcutKeyDown(e)) {
+                    list.clearSelection();
+                }
             }
 
-            // peter: 注意,在checkButtonEnabled()方法里面,设置了所有的Action的Enabled.
-            checkButtonEnabled();
-
-            // p:右键菜单.
-            JPopupMenu popupMenu = new JPopupMenu();
-
-            for (ShortCut4JControlPane sj : getShorts()) {
-                sj.getShortCut().intoJPopupMenu(popupMenu);
+            private boolean isMenuShortcutKeyDown(InputEvent event) {
+                return (event.getModifiers() & Toolkit.getDefaultToolkit()
+                        .getMenuShortcutKeyMask()) != 0;
             }
 
-            // peter: 只有弹出菜单有子菜单的时候,才需要弹出来.
-            GUICoreUtils.showPopupMenu(popupMenu, nameableList, evt.getX() - 1,
-                    evt.getY() - 1);
-        }
+            @Override
+            public void mouseMoved(MouseEvent e) {
 
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            JList list = (JList) e.getSource();
-            if (list.locationToIndex(e.getPoint()) == -1 && !e.isShiftDown()
-                    && !isMenuShortcutKeyDown(e)) {
-                list.clearSelection();
             }
-        }
-
-        private boolean isMenuShortcutKeyDown(InputEvent event) {
-            return (event.getModifiers() & Toolkit.getDefaultToolkit()
-                    .getMenuShortcutKeyMask()) != 0;
-        }
-
-        @Override
-        public void mouseMoved(MouseEvent e) {
-
-        }
-    };
+        };
+    }
 
     /**
      * 检查按钮可用状态 Check button enabled.

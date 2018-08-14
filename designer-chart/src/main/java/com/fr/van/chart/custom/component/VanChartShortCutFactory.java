@@ -2,14 +2,14 @@ package com.fr.van.chart.custom.component;
 
 import com.fr.design.gui.HyperlinkFilterHelper;
 import com.fr.design.gui.controlpane.NameableCreator;
-import com.fr.design.gui.controlpane.shortcutfactory.NewShortCutFactory;
+import com.fr.design.gui.controlpane.shortcutfactory.ShortCutFactory;
 import com.fr.design.gui.controlpane.ShortCutListenerProvider;
 import com.fr.design.menu.ShortCut;
 
 /**
  * Created by plough on 2018/8/13.
  */
-public class VanChartShortCutFactory extends NewShortCutFactory {
+public class VanChartShortCutFactory extends ShortCutFactory {
     private VanChartShortCutFactory(ShortCutListenerProvider listenerProvider) {
         super(listenerProvider);
     }

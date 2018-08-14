@@ -2,7 +2,7 @@ package com.fr.design.gui.controlpane;
 
 import com.fr.base.chart.BasePlot;
 import com.fr.design.constants.UIConstants;
-import com.fr.design.gui.controlpane.shortcutfactory.NewShortCutFactory;
+import com.fr.design.gui.controlpane.shortcutfactory.ShortCutFactory;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itoolbar.UIToolBarUI;
 import com.fr.design.gui.itoolbar.UIToolbar;
@@ -67,7 +67,7 @@ abstract class UIControlPane extends JControlPane {
 
     @Override
     protected void initShortCutFactory() {
-        this.shortCutFactory = NewShortCutFactory.newInstance(this);
+        this.shortCutFactory = ShortCutFactory.newInstance(this);
     }
 
     // 是否使用新样式

@@ -23,14 +23,14 @@ import java.awt.event.ActionEvent;
 /**
  * Created by plough on 2018/8/13.
  */
-public class NewShortCutFactory extends AbstractShortCutFactory {
+public class ShortCutFactory extends AbstractShortCutFactory {
 
-    protected NewShortCutFactory(ShortCutListenerProvider listenerProvider) {
+    protected ShortCutFactory(ShortCutListenerProvider listenerProvider) {
         super(listenerProvider);
     }
 
-    public static NewShortCutFactory newInstance(ShortCutListenerProvider listenerProvider) {
-        return new NewShortCutFactory(listenerProvider);
+    public static ShortCutFactory newInstance(ShortCutListenerProvider listenerProvider) {
+        return new ShortCutFactory(listenerProvider);
     }
 
     @Override
