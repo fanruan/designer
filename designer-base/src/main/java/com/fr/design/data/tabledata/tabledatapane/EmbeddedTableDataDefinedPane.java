@@ -34,7 +34,7 @@ public class EmbeddedTableDataDefinedPane extends BasicPane{
     
     private static String[] TYPE = {
     	 com.fr.design.i18n.Toolkit.i18nText("String"),
-    	 com.fr.design.i18n.Toolkit.i18nText("Integer"),
+    	 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Integer"),
     	 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Double"),
     	 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date")
     };

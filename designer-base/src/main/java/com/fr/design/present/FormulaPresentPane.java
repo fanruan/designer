@@ -23,7 +23,7 @@ public class FormulaPresentPane extends FurtherBasicBeanPane<FormulaPresent> {
 
 	@Override
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Present-Formula_Present");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Present_Formula_Present");
 	}
 
 	@Override

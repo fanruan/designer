@@ -25,7 +25,7 @@ public class SystemInfoPane extends JPanel {
                 return false;
             }
         };
-        tableModel.addColumn(com.fr.design.i18n.Toolkit.i18nText("Property"));
+        tableModel.addColumn(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Property"));
         tableModel.addColumn(com.fr.design.i18n.Toolkit.i18nText("Value"));
 
         Properties properties = System.getProperties();

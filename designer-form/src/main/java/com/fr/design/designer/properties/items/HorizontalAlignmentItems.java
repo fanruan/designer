@@ -7,7 +7,7 @@ import java.awt.FlowLayout;
 public class HorizontalAlignmentItems implements ItemProvider {
 
     private static Item[] VALUE_ITEMS = {
-        new Item(com.fr.design.i18n.Toolkit.i18nText("Left"), FlowLayout.LEFT),
+        new Item(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Left"), FlowLayout.LEFT),
         new Item(com.fr.design.i18n.Toolkit.i18nText("Right"), FlowLayout.RIGHT),
         new Item(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Center"), FlowLayout.CENTER)
         };

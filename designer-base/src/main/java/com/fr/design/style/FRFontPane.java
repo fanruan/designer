@@ -184,7 +184,7 @@ public class FRFontPane extends BasicPane {
 
         // preview pane.
         preview = new FRFontPreviewArea();
-        preview.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Preview")));
+        preview.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preview")));
         rightPane.add(preview, BorderLayout.CENTER);
 
         // Cannot select superscript and subscript in the same time.

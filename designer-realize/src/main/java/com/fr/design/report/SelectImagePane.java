@@ -63,7 +63,7 @@ public class SelectImagePane extends BasicPane {
         JPanel previewOwnerPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         previewContainerPane.add(previewOwnerPane, BorderLayout.CENTER);
 
-        previewOwnerPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Preview"), null));
+        previewOwnerPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preview"), null));
 
         previewPane = new ImagePreviewPane();
         previewOwnerPane.add(new JScrollPane(previewPane));

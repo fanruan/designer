@@ -97,7 +97,7 @@ public class HeaderFooterEditPane extends JPanel {
 
 		JPanel hfPreviewContentPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		centerPane.add(hfPreviewContentPane, BorderLayout.CENTER);
-		hfPreviewContentPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Preview"),null));
+		hfPreviewContentPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preview"),null));
 
 		hfPreviewPane = new HFPreviewPane();
 		scrollPreviewPane = new JScrollPane(hfPreviewPane);
