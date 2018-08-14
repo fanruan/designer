@@ -95,7 +95,7 @@ public class BorderPane extends BasicPane {
 
 		JPanel centerPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 
-		centerPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Preview"), null));
+		centerPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preview"), null));
 		JPanel borderAllControlPane = FRGUIPaneFactory.createCenterFlowInnerContainer_S_Pane();
 		centerPane.add(borderAllControlPane, BorderLayout.NORTH);
 		borderAllControlPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 4, 0));

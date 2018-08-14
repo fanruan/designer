@@ -47,7 +47,7 @@ public class PageMarginSettingPane extends JPanel {
         // peter:这个一个垂直的上下的字符panel.
         JPanel marginRightTextPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
         marginRightPane.add(marginRightTextPane);
-        marginRightTextPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Left") + ":"));
+        marginRightTextPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Left") + ":"));
         marginLeftUnitFieldPane = new UnitFieldPane(Constants.UNIT_MM);
         marginRightTextPane.add(marginLeftUnitFieldPane);
 

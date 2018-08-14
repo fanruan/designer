@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 public class JNameEdList extends UIList implements CellEditorListener {
-    private static final int TEST_LIST_LENTH = 20;
     private static final int ICON_WIDTH = 20;
     private boolean editable = true;
 
@@ -232,7 +231,7 @@ public class JNameEdList extends UIList implements CellEditorListener {
         }
         Rectangle rect = this.getCellBounds(index, index);
         // alex:所有的JNameEdList都有Icon,空出前面20 * 20的位置就是放的Icon
-        rect.setRect(createRect(rect, ICON_WIDTH));
+        rect.setRect(createRect(rect, getIconWidth()));
 
         editorComp.setBounds(rect);
         add(editorComp);
@@ -245,6 +244,10 @@ public class JNameEdList extends UIList implements CellEditorListener {
         setEditingIndex(index);
 
         return true;
+    }
+
+    public int getIconWidth() {
+        return ICON_WIDTH;
     }
 
     public Rectangle createRect(Rectangle rect, int iconWidth) {
@@ -301,7 +304,12 @@ public class JNameEdList extends UIList implements CellEditorListener {
             String name = StringUtils.isBlank(value.toString()) ? oldName : value.toString();
             setNameAt(name, editingIndex);
             removeComp();
+            doAfterStopEditing();
         }
+    }
+
+    protected void doAfterStopEditing() {
+        // default: do nothing
     }
 
     public String[] getAllNames() {
@@ -335,53 +343,4 @@ public class JNameEdList extends UIList implements CellEditorListener {
         editorComp = null;
         repaint(cellRect);
     }
-
-    /**
-     * 主函数
-     *
-     * @param args 参数
-     */
-    public static void main(String... args) {
-        JFrame f = new JFrame();
-        JPanel c = (JPanel) f.getContentPane();
-        c.setLayout(new BorderLayout());
-        ListModelElement[] data = new ListModelElement[TEST_LIST_LENTH];
-        for (int i = 0; i < TEST_LIST_LENTH; i++) {
-            data[i] = new ListModelElement(new NameObject(i + 1 + "", i));
-        }
-        final JNameEdList list = new JNameEdList(data);
-        list.setEditable(true);
-        list.addMouseListener(new MouseAdapter() {
-            public void mouseReleased(MouseEvent evt) {
-                list.stopEditing();
-                if (evt.getClickCount() >= 2
-                        && SwingUtilities.isLeftMouseButton(evt)) {
-                    list.editItemAt(list.getSelectedIndex());
-                }
-            }
-        })
-        ;
-
-        list.setCellEditor(new DefaultListCellEditor(new UITextField()));
-        list.setCellRenderer(new NameableListCellRenderer());
-        c.add(list, BorderLayout.CENTER);
-        f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        f.setSize(400, 600);
-        f.setVisible(true);
-    }
-
-    private static class NameableListCellRenderer extends DefaultListCellRenderer {
-        @Override
-        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
-                                                      boolean cellHasFocus) {
-            super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-
-            if (value instanceof Nameable) {
-                Nameable wrappee = (Nameable) value;
-                this.setText(wrappee.getName());
-            }
-            return this;
-        }
-    }
-
 }

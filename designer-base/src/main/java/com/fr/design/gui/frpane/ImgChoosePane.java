@@ -34,7 +34,7 @@ public class ImgChoosePane extends BasicPane {
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
 
 		JPanel previewContainner = new JPanel();
-		previewContainner.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Preview")));
+		previewContainner.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preview")));
 
 		previewPane = new ImagePreviewPane();
 		previewContainner.add(previewPane);

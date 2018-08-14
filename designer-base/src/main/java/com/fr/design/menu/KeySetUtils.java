@@ -450,7 +450,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("ReportD-Excel_Export");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportD_Excel_Export");
         }
 
         @Override
@@ -569,7 +569,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("Report-Write_Attributes");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Report_Write_Attributes");
         }
 
         @Override
@@ -810,7 +810,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("Present-Formula_Present");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Present_Formula_Present");
         }
 
         @Override
@@ -862,7 +862,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("Present-No_Present");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Present_No_Present");
         }
 
         @Override

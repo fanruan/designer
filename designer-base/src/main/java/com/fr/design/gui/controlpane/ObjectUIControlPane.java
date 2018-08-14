@@ -10,17 +10,13 @@ import com.fr.design.beans.BasicBeanPane;
 public abstract class ObjectUIControlPane extends UIListControlPane {
     private Object object;
 
-    public ObjectUIControlPane() {
-        this(null);
-    }
-
     public ObjectUIControlPane(Object object) {
         super();
         this.object = object;
     }
 
     @Override
-    protected BasicBeanPane createPaneByCreators(NameableCreator creator) {
+    public BasicBeanPane createPaneByCreators(NameableCreator creator) {
         try {
             if (object == null) {
                 return super.createPaneByCreators(creator);

@@ -107,7 +107,7 @@ public class TinyFormulaPane extends BasicBeanPane<String> implements UIObserver
 
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Present-Formula_Present");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Present_Formula_Present");
 	}
 
 	@Override

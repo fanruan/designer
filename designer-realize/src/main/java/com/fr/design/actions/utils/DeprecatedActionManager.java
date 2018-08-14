@@ -96,13 +96,13 @@ public class DeprecatedActionManager {
         presentMenu.setMnemonic(KeySetUtils.PRESENT.getMnemonic());
         NewPresentAction dataDictAction = new NewPresentAction(ePane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_M_Format_Data_Map"), DictPresent.class.getName());
         dataDictAction.setMnemonic('D');
-        NewPresentAction formulaAction = new NewPresentAction(ePane, com.fr.design.i18n.Toolkit.i18nText("Present-Formula_Present"), FormulaPresent.class.getName());
+        NewPresentAction formulaAction = new NewPresentAction(ePane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Present_Formula_Present"), FormulaPresent.class.getName());
         formulaAction.setMnemonic('F');
         NewPresentAction barcodeAction = new NewPresentAction(ePane,  com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_M_Insert_Barcode"), BarcodePresent.class.getName());
         barcodeAction.setMnemonic('B');
         NewPresentAction currencyLineAction = new NewPresentAction(ePane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Currency_Line"), CurrencyLinePresent.class.getName());
         currencyLineAction.setMnemonic('L');
-        NewPresentAction nonePresentAction = new NewPresentAction(ePane, com.fr.design.i18n.Toolkit.i18nText("Present-No_Present"), "NOPRESENT");
+        NewPresentAction nonePresentAction = new NewPresentAction(ePane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Present_No_Present"), "NOPRESENT");
         nonePresentAction.setMnemonic('N');
         presentMenu.addShortCut(dataDictAction);
         presentMenu.addShortCut(formulaAction);

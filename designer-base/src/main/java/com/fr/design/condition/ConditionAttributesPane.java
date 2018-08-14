@@ -35,7 +35,7 @@ public abstract class ConditionAttributesPane<T> extends BasicBeanPane<T> {
         JPanel propertyChangePane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_S_Pane();
         this.add(propertyChangePane);
 
-        propertyChangePane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Property") + ":", null));
+        propertyChangePane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Property") + ":", null));
 
         // 选择要改变的属性.
         JPanel addItemPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();

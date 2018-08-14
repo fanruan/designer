@@ -103,7 +103,7 @@ public class JWizardDialog extends BasicDialog {
 		workArea.setLayout(cardLayout);
 
 		// Buttons
-		buttonBack = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Previous"));
+		buttonBack = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Previous"));
 		buttonBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				back();

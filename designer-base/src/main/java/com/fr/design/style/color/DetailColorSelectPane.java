@@ -72,7 +72,7 @@ public class DetailColorSelectPane extends BasicPane {
                 this.getFont().getStyle(), this.getFont().getSize() + 4));
         colorPreviewLabel.setBorder(BorderFactory.createEmptyBorder(0, 2, 2, 2));
         colorPreviewPane.add(colorPreviewLabel, BorderLayout.CENTER);
-        UITitledBorder explainBorder = UITitledBorder.createBorderWithTitle(com.fr.design.i18n.Toolkit.i18nText("Preview"));
+        UITitledBorder explainBorder = UITitledBorder.createBorderWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preview"));
         colorPreviewPane.setBorder(explainBorder);
 
         this.addChangeListener(colorPreviewLabelChangeListener);

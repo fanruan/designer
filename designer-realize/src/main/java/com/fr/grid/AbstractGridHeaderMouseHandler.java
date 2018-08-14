@@ -325,7 +325,7 @@ public abstract class AbstractGridHeaderMouseHandler extends MouseInputAdapter {
                 .append(unit).append('(')
                 .append((int)(doubleValue)).append('/')
                 .append((int)(totalDoubleValue))
-                .append(com.fr.design.i18n.Toolkit.i18nText("px"))
+                .append(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Px"))
                 .append(')');
         return sb.toString();
     }
