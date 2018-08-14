@@ -167,14 +167,14 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
         double[] columnSize = {p, f};
         double[] rowSize = {p, p, p};
         int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}};
-        UILabel uiLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("RCodeVersion"), UILabel.LEFT);
+        UILabel uiLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_RCode_Version"), UILabel.LEFT);
         uiLabel.setPreferredSize(typeSetLabel.getPreferredSize());
         RCodeVersionComboBox.setPreferredSize(new Dimension(155,20));
         RCodeErrorCorrectComboBox.setPreferredSize(new Dimension(155,20));
         RCodesizespinner.setPreferredSize(new Dimension(155,20));
         Component[][] components_special = new Component[][]{
                 new Component[]{uiLabel, RCodeVersionComboBox},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("RCodeErrorCorrect"), UILabel.LEFT), RCodeErrorCorrectComboBox},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_RCode_Error_Correct"), UILabel.LEFT), RCodeErrorCorrectComboBox},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_RCodeDrawPix"), UILabel.LEFT), RCodesizespinner}
         };
 
@@ -230,7 +230,7 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
     }
 
     private void initErrorCorrectComboBox() {
-        String[] array = {"L" + com.fr.design.i18n.Toolkit.i18nText("Level") + "7%", "M" + com.fr.design.i18n.Toolkit.i18nText("Level") + "15%", "Q" + com.fr.design.i18n.Toolkit.i18nText("Level") + "25%", "H" + com.fr.design.i18n.Toolkit.i18nText("Level") + "30%"};
+        String[] array = {"L" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Level") + "7%", "M" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Level") + "15%", "Q" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Level") + "25%", "H" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Level") + "30%"};
         initcombobox(this.RCodeErrorCorrectComboBox, array, 1);
     }
 

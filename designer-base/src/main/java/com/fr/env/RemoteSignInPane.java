@@ -24,7 +24,7 @@ public class RemoteSignInPane extends BasicPane {
 		
 		userLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_UserName")+":");
 		userTextField = new UITextField();
-		passLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Password")+":");
+		passLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Password")+":");
 		passwordField = new UIPassWordField();
 		this.add(userLabel);
 		this.add(userTextField);

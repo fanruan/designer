@@ -184,7 +184,7 @@ public class PageSetupPane extends BasicPane {
 
             portraitRadioButton.setSelected(true);
 
-            JPanel spp = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Preview"));
+            JPanel spp = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preview"));
             showPagePane = new ShowPagePane();
             spp.add(showPagePane);
             defaultPane.add(spp);
@@ -293,7 +293,7 @@ public class PageSetupPane extends BasicPane {
             // peter:这个一个垂直的上下的字符panel.
             JPanel marginRightTextPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
             marginRightPane.add(marginRightTextPane);
-            marginRightTextPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Left") + ":"));
+            marginRightTextPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Left") + ":"));
             marginLeftUnitFieldPane = new UnitFieldPane(Constants.UNIT_MM);
             marginRightTextPane.add(marginLeftUnitFieldPane);
 

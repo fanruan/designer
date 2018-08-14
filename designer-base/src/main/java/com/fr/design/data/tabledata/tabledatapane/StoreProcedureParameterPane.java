@@ -31,7 +31,7 @@ public class StoreProcedureParameterPane extends BasicPane {
 	private static NameObject[] nameAndValue = new NameObject[]{
 		new NameObject(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cursor"), StoreProcedureConstants.CURSOR),
 		new NameObject(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter_String"), StoreProcedureConstants.VARCHAR),
-		new NameObject(com.fr.design.i18n.Toolkit.i18nText("Integer"), StoreProcedureConstants.INTEGER),
+		new NameObject(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Integer"), StoreProcedureConstants.INTEGER),
 		new NameObject(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Double"), StoreProcedureConstants.DECIMAL),
 		new NameObject(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date"), StoreProcedureConstants.DATE),
 		new NameObject(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter_Boolean"), StoreProcedureConstants.BOOLEAN),
@@ -131,7 +131,7 @@ public class StoreProcedureParameterPane extends BasicPane {
 			else
 				type = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter_String");
 		}else if(value instanceof Integer)
-			type = com.fr.design.i18n.Toolkit.i18nText("Integer");
+			type = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Integer");
 		else if(value instanceof Double)
 			type = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Double");
 		else if(value instanceof Date)

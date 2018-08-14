@@ -24,7 +24,7 @@ public class WordExportPane extends BasicPane {
 	protected void initComponents() {
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
 		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		JPanel outnorthPane =FRGUIPaneFactory.createTitledBorderPane("Word" + com.fr.design.i18n.Toolkit.i18nText("ReportD-Excel_Export"));
+		JPanel outnorthPane =FRGUIPaneFactory.createTitledBorderPane("Word" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportD_Excel_Export"));
 		this.add(outnorthPane);
 		
 		JPanel northPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_M_Pane();

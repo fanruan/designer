@@ -131,13 +131,13 @@ public class JDBCDefPane extends JPanel {
 		JPanel userPane = FRGUIPaneFactory.createRightFlowInnerContainer_S_Pane();
 		userPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_UserName") + ":"));
 		JPanel userComPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-		Component[][] userComComponents = {{userNameTextField, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Password") + ":"), passwordTextField}};
+		Component[][] userComComponents = {{userNameTextField, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Password") + ":"), passwordTextField}};
 		double[] userRowSize = {p};
 		double[] userColumnSize = {f, p, f};
 		userComPane = TableLayoutHelper.createCommonTableLayoutPane(userComComponents, userRowSize, userColumnSize, 4);
 
 		JPanel passwordPane = FRGUIPaneFactory.createRightFlowInnerContainer_S_Pane();
-		passwordPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Password") + ":"));
+		passwordPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Password") + ":"));
 
 		Component[][] components = {{dbtypePane, dbtypeComPane}, {driverPane, driverComboBox}, {urlPane, urlComPane}, {userPane, userComPane},};
 

@@ -124,7 +124,7 @@ public class AutoStoreProcedureTableModel extends StoreProcedureTableModel {
             else
                 type = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter_String");
         }else if(value instanceof Integer)
-            type = com.fr.design.i18n.Toolkit.i18nText("Integer");
+            type = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Integer");
         else if(value instanceof Double)
             type = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Double");
         else if(value instanceof Date)

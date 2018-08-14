@@ -84,7 +84,7 @@ public class ReportWebWidgetConstants {
 
     // 邮件发送
     public static final WidgetOption EMAIL = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Email"), BaseUtils.readIcon("/com/fr/web/images/email.png"), Email.class);
-    public static final WidgetOption PRINTPREVIEW = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("PrintP-Print_Preview"),
+    public static final WidgetOption PRINTPREVIEW = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_PrintP_Print_Preview"),
             BaseUtils.readIcon("/com/fr/web/images/preview.png"), PrintPreview.class);
 
 
