@@ -35,7 +35,7 @@ public class AlertLineListControlPane extends VanChartUIListControlPane {
     }
 
     protected String getAddItemText() {
-        return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Plugin-Chart_Add_Line","Plugin-ChartF_AlertLine"});
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Add_Alert_Line");
     }
 
     protected ShortCut4JControlPane[] createShortcuts() {

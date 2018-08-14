@@ -64,7 +64,7 @@ public class ChartHyperRelateFloatLinkPane extends AbstractHyperLinkPane<ChartHy
 
         Border boder = new LineBorder(UIConstants.TITLED_BORDER_COLOR);
         Font font = null;
-        TitledBorder border = new TitledBorder(boder, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_M_Insert_Float_Related"), 4, 2, font, new Color(1, 159, 222));
+        TitledBorder border = new TitledBorder(boder, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Hyper_Related_Float"), 4, 2, font, new Color(1, 159, 222));
         // 圆角不行
         centerPane.setBorder(border);
 
@@ -144,7 +144,7 @@ public class ChartHyperRelateFloatLinkPane extends AbstractHyperLinkPane<ChartHy
 
     @Override
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_M_Insert_Float_Related");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Hyper_Related_Float");
     }
 
     public static class ChartNoRename extends ChartHyperRelateFloatLinkPane {

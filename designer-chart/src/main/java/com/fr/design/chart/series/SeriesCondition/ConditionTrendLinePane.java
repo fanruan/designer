@@ -63,7 +63,7 @@ public class ConditionTrendLinePane extends BasicBeanPane<ConditionTrendLine> {
 		JPanel typePane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_S_Pane();
 		pane.add(typePane);
 		
-		typePane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Chart_Trend", "Type"}), null));
+		typePane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Trend_Type"), null));
 		
 		JPanel buttonPane = FRGUIPaneFactory.createBoxFlowInnerContainer_S_Pane();
 		typePane.add(buttonPane);
@@ -97,7 +97,7 @@ public class ConditionTrendLinePane extends BasicBeanPane<ConditionTrendLine> {
 	
 	private JPanel initExtendsPane() {
 		JPanel extendsPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();		// 前推倒推设置
-		extendsPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Chart_Trend", "Forecast"}), null));
+		extendsPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Trend_Forecast"), null));
 		
 		extendsPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart_TrendLine_Forward") + ":"));
 		extendsPane.add(forwardLabel = new UITextField("0", 5));

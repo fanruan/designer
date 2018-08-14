@@ -431,7 +431,7 @@ public class UIGroupExtensionPane extends BasicPane {
 					};
 					isPressOnDelete = true;
 					bp.setLayout(new BorderLayout());
-					bp.add(new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Delete", "Chart-Map"}) + "?", SwingConstants.CENTER));
+					bp.add(new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Delete_Map") + "?", SwingConstants.CENTER));
 
                     clearLastListSelection(list);
 

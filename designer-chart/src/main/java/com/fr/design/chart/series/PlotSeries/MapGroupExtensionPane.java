@@ -300,7 +300,7 @@ public class MapGroupExtensionPane extends BasicPane implements UIObserver {
 	}
 
 	private JMenuItem createLayerItem(final String oldName) {
-		JMenuItem corrItem = new JMenuItem(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Filed", "Corresponding_Fields"}));
+		JMenuItem corrItem = new JMenuItem(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Map_Corresponding_Fields"));
 		corrItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				final MapDefiAreaNamePane namedPane = new MapDefiAreaNamePane();

@@ -29,7 +29,7 @@ public class LabelAxisPositionPane extends ConditionAttrSingleConditionPane<Data
     public LabelAxisPositionPane(ConditionAttributesPane conditionAttributesPane, boolean isRemove) {
         super(conditionAttributesPane, isRemove);
 
-        nameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"ChartF-Axis", "Selection"}));
+        nameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Selection"));
         if (isRemove) {
             this.add(nameLabel);
         }
