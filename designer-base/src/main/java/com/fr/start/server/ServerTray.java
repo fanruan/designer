@@ -52,7 +52,7 @@ public class ServerTray {
         });
         startMenu = new MenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Server_Embedded_Server_Start"));
         stopMenu = new MenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Server_Embedded_Server_Stop"));
-        MenuItem exitMenu = new MenuItem(com.fr.design.i18n.Toolkit.i18nText("Exit"));
+        MenuItem exitMenu = new MenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_M_Exit"));
         //创建打开监听器
         ActionListener startListener = new ActionListener() {
         
