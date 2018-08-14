@@ -76,7 +76,7 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane{
                     // 弹窗提示
                     JOptionPane.showMessageDialog(null,
                             warningText,
-                            com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tooltips"),
+                            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tool_Tips"),
                             JOptionPane.PLAIN_MESSAGE);
                 }
                 super.setValue(value);

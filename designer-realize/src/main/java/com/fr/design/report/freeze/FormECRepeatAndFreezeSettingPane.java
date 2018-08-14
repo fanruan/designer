@@ -21,7 +21,7 @@ public class FormECRepeatAndFreezeSettingPane extends RepeatAndFreezeSettingPane
 	 * 
 	 */
 	protected String getPageFrozenTitle(){
-		return com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Frozen") + ":";
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Frozen") + ":";
 	}
 	
 	protected void initWriteListener(){

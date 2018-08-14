@@ -34,7 +34,7 @@ public class ViewWebSettingPane extends WebSettingPane<WebView> {
         sortCheckBox.setSelected(true);
         conditionFilterBox.setSelected(true);
         listFilterBox.setSelected(true);
-        return GUICoreUtils.createFlowPane(new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_ViewPreview") + ":"),
+        return GUICoreUtils.createFlowPane(new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_ViewPreview") + ":"),
                 sortCheckBox, conditionFilterBox, listFilterBox}, FlowLayout.LEFT, 6);
     }
 

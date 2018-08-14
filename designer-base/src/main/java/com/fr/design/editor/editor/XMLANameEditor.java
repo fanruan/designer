@@ -34,7 +34,7 @@ public class XMLANameEditor extends ColumnIndexEditor{
      * @param columnNames 度量值
      */
     public XMLANameEditor(String[] columnNames) {
-        this(columnNames, com.fr.design.i18n.Toolkit.i18nText("Measure"));
+        this(columnNames, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Measure"));
     }
 
     /**

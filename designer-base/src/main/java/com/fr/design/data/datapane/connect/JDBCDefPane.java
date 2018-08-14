@@ -74,9 +74,9 @@ public class JDBCDefPane extends JPanel {
 	private IntegerEditor DBCP_MAX_WAIT = new IntegerEditor();
 	private UITextField DBCP_VALIDATION_QUERY = new UITextField();
 
-	private UIComboBox DBCP_TESTONBORROW = new UIComboBox(new String[]{com.fr.design.i18n.Toolkit.i18nText("No"), com.fr.design.i18n.Toolkit.i18nText("Yes")});
-	private UIComboBox DBCP_TESTONRETURN = new UIComboBox(new String[]{com.fr.design.i18n.Toolkit.i18nText("No"), com.fr.design.i18n.Toolkit.i18nText("Yes")});
-	private UIComboBox DBCP_TESTWHILEIDLE = new UIComboBox(new String[]{com.fr.design.i18n.Toolkit.i18nText("No"), com.fr.design.i18n.Toolkit.i18nText("Yes")});
+	private UIComboBox DBCP_TESTONBORROW = new UIComboBox(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_No"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Yes")});
+	private UIComboBox DBCP_TESTONRETURN = new UIComboBox(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_No"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Yes")});
+	private UIComboBox DBCP_TESTWHILEIDLE = new UIComboBox(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_No"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Yes")});
 
 	private IntegerEditor DBCP_TIMEBETWEENEVICTIONRUNSMILLS = new IntegerEditor();
 	private IntegerEditor DBCP_NUMTESTSPEREVICTIONRUN = new IntegerEditor();
@@ -289,7 +289,7 @@ public class JDBCDefPane extends JPanel {
 					if (ComparatorUtils.equals(dbtypeComboBox.getSelectedItem(), ("Access"))) {
 						// ben:这个能不能换种处理方案- -
 						JFileChooser filechooser = new JFileChooser();
-						filechooser.setDialogTitle(com.fr.design.i18n.Toolkit.i18nText("Open"));
+						filechooser.setDialogTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Open"));
 						filechooser.setMultiSelectionEnabled(false);
 						filechooser.addChoosableFileFilter(new ChooseFileFilter(new String[]{"accdb", "mdb"}, "Microsoft Office Access"));
 						int result = filechooser.showOpenDialog(DesignerContext.getDesignerFrame());

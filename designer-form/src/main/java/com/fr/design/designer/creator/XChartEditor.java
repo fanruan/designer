@@ -1,31 +1,40 @@
 package com.fr.design.designer.creator;
 
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.beans.IntrospectionException;
-
-import javax.swing.*;
-
 import com.fr.base.GraphHelper;
 import com.fr.base.chart.BaseChartCollection;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
+import com.fr.design.designer.beans.events.DesignerEditor;
 import com.fr.design.designer.beans.models.SelectionModel;
 import com.fr.design.designer.properties.mobile.ChartEditorPropertyUI;
+import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.design.gui.chart.BaseChartPropertyPane;
 import com.fr.design.gui.chart.MiddleChartComponent;
 import com.fr.design.i18n.Toolkit;
-import com.fr.design.mainframe.*;
+import com.fr.design.mainframe.BaseJForm;
+import com.fr.design.mainframe.CoverReportPane;
+import com.fr.design.mainframe.EditingMouseListener;
+import com.fr.design.mainframe.FormDesigner;
+import com.fr.design.mainframe.HelpDialogManager;
 import com.fr.design.mainframe.widget.editors.WLayoutBorderStyleEditor;
 import com.fr.design.module.DesignModuleFactory;
-import com.fr.design.designer.beans.events.DesignerEditor;
 import com.fr.form.ui.BaseChartEditor;
 import com.fr.form.ui.Widget;
-import com.fr.design.form.util.XCreatorConstants;
-
 import com.fr.stable.Constants;
 import com.fr.stable.core.PropertyChangeAdapter;
+
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
+import java.beans.IntrospectionException;
 
 /**
  * form中的图表按钮弹出的控件, 创建初始化图表内容.

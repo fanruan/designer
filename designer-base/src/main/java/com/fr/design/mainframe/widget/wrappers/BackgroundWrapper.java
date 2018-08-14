@@ -35,7 +35,7 @@ public class BackgroundWrapper implements Encoder, Decoder {
         } else if (v instanceof GradientBackground) {
             return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Gradient_Color");
         } else {
-            return com.fr.design.i18n.Toolkit.i18nText("None");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_None");
         }
     }
 

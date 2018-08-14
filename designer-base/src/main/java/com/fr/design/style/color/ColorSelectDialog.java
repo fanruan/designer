@@ -1,5 +1,11 @@
 package com.fr.design.style.color;
 
+import com.fr.base.chart.BaseChartCollection;
+import com.fr.design.gui.chart.MiddleChartDialog;
+import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.utils.gui.GUICoreUtils;
+
+import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dialog;
@@ -8,13 +14,6 @@ import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
-
-import javax.swing.JPanel;
-
-import com.fr.base.chart.BaseChartCollection;
-import com.fr.design.gui.chart.MiddleChartDialog;
-import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.utils.gui.GUICoreUtils;
 
 
 /**
@@ -98,7 +97,7 @@ public class ColorSelectDialog extends MiddleChartDialog{
     	buttonPane.add(ok);
     	buttonPane.add(cancel);
     	
-    	ok.setActionCommand("Fine-Design_Report_OK");
+    	ok.setActionCommand("OK");
     	ok.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				seletePane.setColor(okListener.getColor());

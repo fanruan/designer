@@ -54,7 +54,7 @@ public class ParameterArrayPane extends JListControlPane {
 
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Schedule-Template_Parameter");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Engine_Schedule_Template_Parameter");
 	}
 
 	/**
@@ -64,7 +64,7 @@ public class ParameterArrayPane extends JListControlPane {
 	 */
 	public NameableCreator[] createNameableCreators() {
 		return new NameableCreator[]{
-				new NameableSelfCreator(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Parameter_Name"), Parameter.class, ParameterPane.class) {
+				new NameableSelfCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Engine_Parameter_Name"), Parameter.class, ParameterPane.class) {
 					public Parameter createNameable(UnrepeatedNameHelper helper) {
 						// 返回参数设置面板.
 						return new Parameter(helper.createUnrepeatedName("p"));

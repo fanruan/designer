@@ -100,7 +100,7 @@ public class LogHandlerBarUI extends ComponentUI implements MouseListener, Focus
 			g.drawString(button.getText(), textLeadingGap, y);
 		}
 
-		g.drawString(com.fr.design.i18n.Toolkit.i18nText("NNormal") + '(' + button.getInfo() + ')', button.getWidth() - 310, y);
+		g.drawString(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_NNormal") + '(' + button.getInfo() + ')', button.getWidth() - 310, y);
 		g.drawString(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Alert") + '(' + button.getError() + ')', button.getWidth() - 250, y);
 		g.drawString(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Seriously") + '(' + button.getServer() + ')', button.getWidth() - 190, y);
 	}

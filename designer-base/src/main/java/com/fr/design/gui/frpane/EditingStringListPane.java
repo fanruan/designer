@@ -56,7 +56,7 @@ public abstract class EditingStringListPane extends BasicBeanPane<List<String>> 
 		});
 
 		addButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Add"));
-		editButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Modify"));
+		editButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Modify"));
 		removeButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Remove"));
 		moveUpButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Move_Up"));
 		moveDownButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Move_Down"));

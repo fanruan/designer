@@ -3,11 +3,10 @@
  */
 package com.fr.design.form.util;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-
 import javax.swing.BorderFactory;
 import javax.swing.border.Border;
+import java.awt.BasicStroke;
+import java.awt.Color;
 
 /**
  * @author richer
@@ -21,7 +20,7 @@ public class XCreatorConstants {
     // 描述属性的分类
     public static final String PROPERTY_CATEGORY = "category";
     public static final String DEFAULT_GROUP_NAME = "Form-Basic_Properties";
-    public static final String PROPERTY_VALIDATE = "FR-Designer_Validate";
+    public static final String PROPERTY_VALIDATE = "Fine-Design_Basic_Validate";
     public static final Color FORM_BG = new Color(255, 255, 255);
     // 拖拽标识块的大小
     public static final int RESIZE_BOX_SIZ = 5;

@@ -48,14 +48,14 @@ import java.util.regex.Pattern;
 public class DateAxisValuePane extends FurtherBasicBeanPane<CategoryAxis>{
 
     private static String[] TYPES = new String[]{
-    	com.fr.design.i18n.Toolkit.i18nText("Year"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Month"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sun"),
+    	com.fr.design.i18n.Toolkit.i18nText("Fine_Design_Chart_Year"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Month"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sun"),
     	com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_ScheHour"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sche_Minute"),
     	com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sche_Second")
     };
     
     private static Map<String, Integer> VALUES = new HashMap<String, Integer>();
     static {
-    	VALUES.put(com.fr.design.i18n.Toolkit.i18nText("Year"), ChartConstants.YEAR_TYPE);
+    	VALUES.put(com.fr.design.i18n.Toolkit.i18nText("Fine_Design_Chart_Year"), ChartConstants.YEAR_TYPE);
     	VALUES.put(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Month"), ChartConstants.MONTH_TYPE);
     	VALUES.put(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sun"), ChartConstants.DAY_TYPE);
     	VALUES.put(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_ScheHour"), ChartConstants.HOUR_TYPE);
@@ -65,7 +65,7 @@ public class DateAxisValuePane extends FurtherBasicBeanPane<CategoryAxis>{
     
     private static Map<Integer, String> INTS = new HashMap<Integer, String>();
     static {
-    	INTS.put(ChartConstants.YEAR_TYPE, com.fr.design.i18n.Toolkit.i18nText("Year"));
+    	INTS.put(ChartConstants.YEAR_TYPE, com.fr.design.i18n.Toolkit.i18nText("Fine_Design_Chart_Year"));
     	INTS.put(ChartConstants.MONTH_TYPE, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Month"));
     	INTS.put(ChartConstants.DAY_TYPE, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sun"));
     	INTS.put(ChartConstants.HOUR_TYPE, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_ScheHour"));

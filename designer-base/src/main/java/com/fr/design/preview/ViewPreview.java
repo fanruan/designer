@@ -15,7 +15,7 @@ import java.util.Map;
 public class ViewPreview extends AbstractPreviewProvider {
     @Override
     public String nameForPopupItem() {
-        return com.fr.design.i18n.Toolkit.i18nText("M-Data_Analysis");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine_Design_Basic_M_Data_Analysis");
     }
 
     @Override

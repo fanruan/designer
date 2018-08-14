@@ -1,13 +1,12 @@
 package com.fr.design.layout;
 
-import java.awt.Container;
+import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.itextfield.UITextField;
 
 import javax.swing.JFrame;
-import com.fr.design.gui.ilable.UILabel;
 import javax.swing.JPanel;
-
-import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.gui.itextfield.UITextField;
+import java.awt.Container;
 
 public class TableLayoutTest extends JFrame
 {
@@ -57,7 +56,7 @@ public class TableLayoutTest extends JFrame
         UITextField textfieldState   = new UITextField(2);
         UITextField textfieldZip     = new UITextField(5);
 
-        UIButton buttonOk = new UIButton("Fine-Design_Report_OK");
+        UIButton buttonOk = new UIButton("OK");
         UIButton buttonCancel = new UIButton("Cancel");
         JPanel panelButton = new JPanel();
         panelButton.add(buttonOk);

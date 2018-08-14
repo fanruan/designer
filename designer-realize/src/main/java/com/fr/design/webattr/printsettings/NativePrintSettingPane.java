@@ -226,7 +226,7 @@ public class NativePrintSettingPane extends JPanel {
                                     'x' +
                                     Utils.convertNumberStringToString(paperSize.getHeight().toMMValue4Scale2()) +
                                     ' ' +
-                                    com.fr.design.i18n.Toolkit.i18nText("PageSetup-mm") +
+                                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_PageSetup_mm") +
                                     ']';
                             this.setText(sbuf);
                             break;
@@ -247,9 +247,9 @@ public class NativePrintSettingPane extends JPanel {
     private JPanel getLayoutSettingPane() {
         JPanel layoutSettingPane = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
         layoutSettingPane.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
-        portraitRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("PageSetup-Portrait"));
+        portraitRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_PageSetup_Portrait"));
         portraitRadioButton.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
-        landscapeRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("PageSetup-Landscape"));
+        landscapeRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_PageSetup_Landscape"));
         layoutSettingPane.add(portraitRadioButton);
         layoutSettingPane.add(landscapeRadioButton);
 

@@ -937,11 +937,11 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
                     BaseUtils.readIcon("/com/fr/design/images/dialog/parameter.gif"),
                     variableResolver.resolveTableDataParameterVariables()).createMutableTreeNode());
 
-            rootNode.add(new TextFolderUserObject(com.fr.design.i18n.Toolkit.i18nText("ParameterD-Report_Parameter"),
+            rootNode.add(new TextFolderUserObject(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_ParameterD_Report_Parameter"),
                     BaseUtils.readIcon("/com/fr/design/images/m_report/p.gif"),
                     variableResolver.resolveReportParameterVariables()).createMutableTreeNode());
 
-            rootNode.add(new TextFolderUserObject(com.fr.design.i18n.Toolkit.i18nText("M_Server-Global_Parameters"),
+            rootNode.add(new TextFolderUserObject(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_M_Server_Global_Parameters"),
                     BaseUtils.readIcon("/com/fr/design/images/dialog/parameter.gif"),
                     variableResolver.resolveGlobalParameterVariables()).createMutableTreeNode());
 

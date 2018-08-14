@@ -9,11 +9,6 @@ import com.fr.design.mainframe.ElementCasePane;
 import com.fr.report.cell.FloatElement;
 import com.fr.report.elementcase.ElementCase;
 
-import javax.swing.*;
-import java.awt.event.KeyEvent;
-
-import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
-
 /**
  * Send FloatElement backward.
  */
@@ -24,7 +19,7 @@ public class SendFloatElementBackwardAction extends AbstractFloatElementOrderAct
 	public SendFloatElementBackwardAction(ElementCasePane t) {
 		super(t);
 		
-        this.setName(com.fr.design.i18n.Toolkit.i18nText("M_Edit-Send_Backward"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_M_Edit_Send_Backward"));
         this.setMnemonic('B');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/down.png"));
 //		this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_OPEN_BRACKET, DEFAULT_MODIFIER));

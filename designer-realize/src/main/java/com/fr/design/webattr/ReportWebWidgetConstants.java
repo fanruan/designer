@@ -101,7 +101,7 @@ public class ReportWebWidgetConstants {
     // 导出成Word
     public static final WidgetOption WORD = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Export_Word"), BaseUtils.readIcon("/com/fr/web/images/word.png"), Word.class);
     // 页面设置
-    public static final WidgetOption PAGESETUP = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("PageSetup-Page_Setup"), BaseUtils.readIcon("/com/fr/web/images/pageSetup.png"), PageSetup.class);
+    public static final WidgetOption PAGESETUP = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_PageSetup_Page_Setup"), BaseUtils.readIcon("/com/fr/web/images/pageSetup.png"), PageSetup.class);
     // 导出
     public static final WidgetOption EXPORT = WidgetOptionFactory
             .createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Export"), BaseUtils.readIcon("/com/fr/web/images/export.png"), Export.class);
