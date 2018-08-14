@@ -28,7 +28,7 @@ public abstract class TransparentPane extends BasicPane {
 
 		// richer:能否拖动
 		if (isSupportTransparent) {
-			UIButton transparentButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("ChartF-Transparency"));
+			UIButton transparentButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Style_Transparent"));
 			transparentButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 			transparentButton.addActionListener(new TransparentActionListener());
 

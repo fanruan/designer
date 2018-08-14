@@ -66,7 +66,7 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
     }
 
     private JPanel createGaugeLayoutPane() {
-        gaugeLayout = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Direction_Horizontal"), com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Direction_Vertical")});
+        gaugeLayout = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Direction_Horizontal"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Direction_Vertical")});
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Page_Setup_Orientation"),gaugeLayout);
         gaugeLayout.addChangeListener(new ChangeListener() {
             @Override
@@ -74,7 +74,7 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
                 changeLabelPosition();
             }
         });
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Chart_Layout"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Layout"), panel);
     }
 
     private void changeLabelPosition() {

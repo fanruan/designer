@@ -52,7 +52,7 @@ public class ChartCategoryPane extends ChartAxisUsePane<Axis>{
 			axisLineStylePane = new ChartAxisLineStylePane();
 			formatPane = new FormatPaneWithOutFont();
 			axisLabelPane = new ChartAxisLabelPane();
-			axisReversed = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("AxisReversed"));
+			axisReversed = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Reversed"));
             this.setLayout(new BorderLayout());
             this.add(isSupportLineStyle() ? getPaneWithLineStyle() : getPaneWithOutLineStyle(),BorderLayout.CENTER);
 		}
@@ -123,7 +123,7 @@ public class ChartCategoryPane extends ChartAxisUsePane<Axis>{
 	 * @return 标题
 	 */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("ChartF-Category_Axis");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Category");
 	}
 
 	@Override

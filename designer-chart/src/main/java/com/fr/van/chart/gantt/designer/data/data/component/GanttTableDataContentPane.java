@@ -24,7 +24,7 @@ import java.util.List;
  * Created by hufan on 2017/1/10.
  */
 public class GanttTableDataContentPane extends AbstractTableDataContentPane{
-    private static final String NONE = com.fr.design.i18n.Toolkit.i18nText("Chart-Use_None");
+    private static final String NONE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_None");
 
     private UIComboBox seriesComboBox;
     private UIComboBox startTimeComboBox;
@@ -69,11 +69,11 @@ public class GanttTableDataContentPane extends AbstractTableDataContentPane{
 
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Name")), seriesComboBox},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Start_Time")), startTimeComboBox},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_End_Time")), endTimeComboBox},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Start_Time")), startTimeComboBox},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_End_Time")), endTimeComboBox},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Marker_Time")), markerTimeComboBox},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Process")), processComboBox},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Task_ID")), taskIDComboBox}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Process")), processComboBox},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Task_ID")), taskIDComboBox}
         };
 
         return TableLayoutHelper.createGapTableLayoutPane(components, row, col,24,6);

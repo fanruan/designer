@@ -5,7 +5,6 @@ import com.fr.chart.base.AttrAlpha;
 import com.fr.chart.base.AttrBackground;
 import com.fr.chart.base.AttrContents;
 import com.fr.chart.base.DataSeriesCondition;
-import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionAttr;
 import com.fr.data.condition.AbstractCondition;
@@ -166,7 +165,7 @@ public class DataSeriesConditionPane extends ConditionAttributesPane<ConditionAt
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Chart-Condition_Display");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Condition_Display");
     }
 
     /**

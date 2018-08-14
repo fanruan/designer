@@ -215,7 +215,7 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Property_Table");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Property_Table");
     }
 
     public void populate(ChartCollection collection) {

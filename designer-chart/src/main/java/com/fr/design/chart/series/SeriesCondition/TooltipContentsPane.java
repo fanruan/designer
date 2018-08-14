@@ -76,7 +76,7 @@ public class TooltipContentsPane extends BasicPane{
 
 	protected Component[] createComponents4PercentValue() {
 		if (showPercent == null) {
-			showPercent = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart_ValueIntPercent"));
+			showPercent = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Value_Percentage"));
 		}
 
 		JPanel percentValuePane = new JPanel();

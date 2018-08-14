@@ -82,7 +82,7 @@ public class VanChartStructureSeriesPane extends VanChartAbstractPlotSeriesPane 
 
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Color_Color")), linkColor},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Color")), linkColor},
                 new Component[]{jPanel, null},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Alpha")), linkOpacity}
         };

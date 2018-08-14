@@ -124,12 +124,12 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
             Component[][] comps = new Component[2][2];
 
             comps[0] = new Component[]{null,null};
-            comps[1] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Layout_Position"), SwingConstants.LEFT), position};
+            comps[1] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Layout_Position"), SwingConstants.LEFT), position};
 
             JPanel panel =new JPanel(new BorderLayout());
             panel.add(getLabelPositionPane(comps,row,col),BorderLayout.CENTER);
             if(plot.isSupportLeadLine()){
-                tractionLine = new UIToggleButton(com.fr.design.i18n.Toolkit.i18nText("ChartF-Show_GuidLine"));
+                tractionLine = new UIToggleButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Show_Guideline"));
                 tractionLinePane = TableLayout4VanChartHelper.createGapTableLayoutPane("",tractionLine);
                 panel.add(tractionLinePane, BorderLayout.SOUTH);
                 initPositionListener();
@@ -143,7 +143,7 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
 
     protected JPanel getLabelPositionPane (Component[][] comps, double[] row, double[] col){
         JPanel panel = TableLayoutHelper.createTableLayoutPane(comps,row,col);
-        return createTableLayoutPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Chart_Layout"), panel);
+        return createTableLayoutPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Layout"), panel);
     }
 
 

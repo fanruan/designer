@@ -28,7 +28,7 @@ public class MapDataLabelPane extends DataLabelPane {
 
     @Override
     protected String getValueString() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Area_Value");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Region_Value");
     }
 
     protected JPanel createJPanel4Position() {

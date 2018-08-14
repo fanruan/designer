@@ -38,12 +38,12 @@ import java.util.List;
  * @version 创建时间：2012-12-19 下午04:10:47
  */
 public class StockPlotReportDataContentPane extends AbstractReportDataContentPane {
-    private static final String AXIS = com.fr.design.i18n.Toolkit.i18nText("Chart_HorialTimeAxis");
-    private static final String VOLUME = com.fr.design.i18n.Toolkit.i18nText("ChartF_Stock_Volume");
-    private static final String OPEN = com.fr.design.i18n.Toolkit.i18nText("ChartF_Stock_Open");
-    private static final String HIGHT = com.fr.design.i18n.Toolkit.i18nText("ChartF_Stock_High");
-    private static final String LOW = com.fr.design.i18n.Toolkit.i18nText("ChartF_Stock_Low");
-    private static final String CLOSE = com.fr.design.i18n.Toolkit.i18nText("ChartF_Stock_Close");
+    private static final String AXIS = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Horial_Time_Axis");
+    private static final String VOLUME = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Stock_Volume");
+    private static final String OPEN = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Stock_Open");
+    private static final String HIGHT = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Stock_High");
+    private static final String LOW = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Stock_Low");
+    private static final String CLOSE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Stock_Close");
     private static final int PRE_WIDTH = 210;
     private static final int VOLUMN_INDEX = 0;
     private static final int OPEN_INDEX = 1;

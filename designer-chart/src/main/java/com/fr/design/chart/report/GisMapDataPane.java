@@ -58,7 +58,7 @@ public class GisMapDataPane extends DataContentsPane{
      * @return 界面标题
 	 */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("ChartF-Gis");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_GIS_Map");
 	}
 
 	public void setSupportCellData(boolean surpportCellData) {
@@ -109,7 +109,7 @@ public class GisMapDataPane extends DataContentsPane{
                         double[] columnSize = { p,f };
                         double[] rowSize = { p};
                         Component[][] components = new Component[][]{
-                                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("ChartF-Data-Resource") + ":"), jcb},
+                                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Source") + ":"), jcb},
                         } ;
 
                         JPanel northPane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 0, 0);

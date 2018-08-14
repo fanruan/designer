@@ -56,13 +56,13 @@ public class FormHyperlinkNorthPane extends BasicBeanPane<FormHyperlinkProvider>
         Component[][] components;
         if (!this.needRenamePane) {
             components = new Component[][]{
-                    {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form-Object")), targetFrameComboBox},
+                    {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Form_Object")), targetFrameComboBox},
             };
         } else {
             itemNameTextField = new UITextField();
             components = new Component[][]{
-                    {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Name_has_Colon")), itemNameTextField},
-                    {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form-Object")), targetFrameComboBox},
+                    {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Name_Has_Colon")), itemNameTextField},
+                    {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Form_Object")), targetFrameComboBox},
             };
         }
         JPanel northPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);

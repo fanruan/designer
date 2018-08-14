@@ -30,8 +30,8 @@ public class LabelAlphaPane extends ConditionAttrSingleConditionPane<DataSeriesC
     public LabelAlphaPane(ConditionAttributesPane conditionAttributesPane) {
         super(conditionAttributesPane, true);
 
-        nameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("ChartF-Alpha"));
-        UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("ChartF-Alpha") + ":");
+        nameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Alpha"));
+        UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Alpha") + ":");
         alphaPane = new UINumberDragPane(0, ALPHASIZE);
 
         JPanel panel = new JPanel(new BorderLayout());
@@ -46,7 +46,7 @@ public class LabelAlphaPane extends ConditionAttrSingleConditionPane<DataSeriesC
 
     @Override
     public String nameForPopupMenuItem() {
-        return com.fr.design.i18n.Toolkit.i18nText("ChartF-Alpha");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Alpha");
     }
 
     @Override

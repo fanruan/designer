@@ -19,7 +19,7 @@ public class GanttDataLabelPane extends DataLabelPane {
 
     protected Component[] createComponents4ShowCategoryName() {
         if (showCategoryNameCB == null) {
-            showCategoryNameCB = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart_Step_Name"));
+            showCategoryNameCB = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Step_Name"));
         }
         return new Component[]{null, showCategoryNameCB};
     }

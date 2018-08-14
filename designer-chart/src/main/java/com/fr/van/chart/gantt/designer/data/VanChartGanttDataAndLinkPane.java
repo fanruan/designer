@@ -34,7 +34,7 @@ public class VanChartGanttDataAndLinkPane extends MultiTabPane<ChartCollection> 
         dataPane = new NormalChartDataPane(listener, parent){
             @Override
             public String title4PopupWindow() {
-                return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_GanttChart");
+                return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Gantt_Chart");
             }
         };
         linkPane = new NormalChartDataPane(listener, parent){

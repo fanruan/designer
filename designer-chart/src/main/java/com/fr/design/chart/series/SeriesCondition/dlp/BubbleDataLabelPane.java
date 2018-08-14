@@ -22,8 +22,8 @@ public class BubbleDataLabelPane extends DataLabelPane {
     private UIButton outSideButton;
 
 	protected JPanel createJPanel4Position() {
-		insideButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Chart_Bubble_Inside"));
-		outSideButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Chart_Bubble_Outside"));
+		insideButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Bubble_Inside"));
+		outSideButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Bubble_Outside"));
 		
 		ButtonGroup bg = new ButtonGroup();
 		bg.add(insideButton);

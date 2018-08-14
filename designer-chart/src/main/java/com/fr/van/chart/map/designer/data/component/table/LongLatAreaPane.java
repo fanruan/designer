@@ -42,8 +42,8 @@ public class LongLatAreaPane extends AreaPane {
 
     protected Component[][] getComponent () {
         return new Component[][]{
-                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Longitude")), longitudeCom},
-                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Latitude")), latitudeCom},
+                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Longitude")), longitudeCom},
+                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Latitude")), latitudeCom},
                 new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Name")), areaNameCom}
         };
     }

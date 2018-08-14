@@ -37,7 +37,7 @@ public class VanChartConditionAttrPane extends AbstractVanChartScrollPane<Chart>
      */
     @Override
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Chart-Condition_Display");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Condition_Display");
     }
 
     @Override

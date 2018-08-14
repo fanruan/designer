@@ -42,10 +42,10 @@ public class RadarSeriesPane extends AbstractPlotSeriesPane{
 
 	@Override
 	protected JPanel getContentInPlotType() {
-		isCurve = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("ChartF-Fill"));
+		isCurve = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Fill"));
 		lineStyle = new LineComboBox(CoreConstants.STRIKE_LINE_STYLE_ARRAY_4_CHART);
 		markerPane = new MarkerComboBox(MarkerFactory.getMarkerArray());
-		String[] nameArray = {com.fr.design.i18n.Toolkit.i18nText("Chart_Null_Value_Break"), com.fr.design.i18n.Toolkit.i18nText("Chart_Null_Value_Continue")};
+		String[] nameArray = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Null_Value_Break"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Null_Value_Continue")};
 		Boolean[] valueArray = {true, false};
 		isNullValueBreak = new UIButtonGroup<Boolean>(nameArray, valueArray);
 		
@@ -54,7 +54,7 @@ public class RadarSeriesPane extends AbstractPlotSeriesPane{
 		double[] columnSize = { p, f };
 		double[] rowSize = { p,p,p,p,p};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart_Line_Style")),isCurve},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Line_Style")),isCurve},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Line_Style")),lineStyle },
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Marker_Type")), markerPane},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Null_Value_Show")),isNullValueBreak}

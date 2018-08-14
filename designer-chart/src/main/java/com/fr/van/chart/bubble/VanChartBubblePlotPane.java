@@ -20,7 +20,7 @@ import com.fr.van.chart.designer.type.AbstractVanChartTypePane;
  * Created by Mitisky on 16/3/31.
  */
 public class VanChartBubblePlotPane extends AbstractVanChartTypePane {
-    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewBubble");;
+    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Bubble");;
 
     private static final long serialVersionUID = -3481633368542654247L;
 
@@ -38,8 +38,8 @@ public class VanChartBubblePlotPane extends AbstractVanChartTypePane {
     @Override
     protected String[] getTypeTipName() {
         return new String[]{
-                com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Chart_BubbleChart"),
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewForceBubble")
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Bubble_Chart"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Force_Bubble")
         };
     }
 
@@ -48,7 +48,7 @@ public class VanChartBubblePlotPane extends AbstractVanChartTypePane {
      * @return 界面标题
      */
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewBubble");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Bubble");
     }
 
 

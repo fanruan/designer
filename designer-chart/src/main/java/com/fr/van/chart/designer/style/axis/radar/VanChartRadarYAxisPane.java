@@ -60,14 +60,14 @@ public class VanChartRadarYAxisPane extends VanChartValueAxisPane {
         double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
         double[] columnSize = {f, e};
 
-        valueStyle = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Unified_Computing"),
+        valueStyle = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Unified_Count"),
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Respectively_Specified")});
 
         JPanel commenPane = createCommenValuePane(new double[]{p, p, p}, columnSize);
         tableDataPane = new RadarTableDataPane();
 
         centerPane = new JPanel(new CardLayout());
-        centerPane.add(commenPane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Unified_Computing"));
+        centerPane.add(commenPane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Unified_Count"));
         centerPane.add(tableDataPane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Respectively_Specified"));
 
         JPanel contentPane = new JPanel(new BorderLayout());
@@ -80,7 +80,7 @@ public class VanChartRadarYAxisPane extends VanChartValueAxisPane {
             }
         });
 
-        JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_ValueDefinition"), contentPane);
+        JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Value_Definition"), contentPane);
         contentPane.setBorder(BorderFactory.createEmptyBorder(10,5,0,0));
         return panel;
     }
@@ -88,8 +88,8 @@ public class VanChartRadarYAxisPane extends VanChartValueAxisPane {
     protected Component[][] getLineStylePaneComponents() {
         return new Component[][]{
                 new Component[]{null,null} ,
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_type")), axisLineStyle},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Color_Color")), axisLineColor},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Type")), axisLineStyle},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Color")), axisLineColor},
         };
     }
 
@@ -101,7 +101,7 @@ public class VanChartRadarYAxisPane extends VanChartValueAxisPane {
         if (centerPane != null && valueStyle != null) {
             CardLayout cardLayout = (CardLayout) centerPane.getLayout();
             if (valueStyle.getSelectedIndex() == 0) {
-                cardLayout.show(centerPane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Unified_Computing"));
+                cardLayout.show(centerPane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Unified_Count"));
             } else {
                 cardLayout.show(centerPane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Respectively_Specified"));
             }

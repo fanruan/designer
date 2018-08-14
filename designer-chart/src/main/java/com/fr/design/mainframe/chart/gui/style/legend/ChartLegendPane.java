@@ -52,7 +52,7 @@ public class ChartLegendPane extends BasicScrollPane<Chart>{
 		}
 
 		private void initComponents(){
-			isLegendVisible = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart_Legend_Is_Visible"));
+			isLegendVisible = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Legend_Visible"));
 			textAttrPane = new ChartTextAttrPane();
 			borderPane = new ChartBorderPane();
 			

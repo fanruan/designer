@@ -226,7 +226,7 @@ public class ChartValuePane extends ChartAxisUsePane<Axis>{
      * @return  返回标题.
 	 */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Radar_Axis");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Radar_Value_Axis");
 	}
 	
 	@Override

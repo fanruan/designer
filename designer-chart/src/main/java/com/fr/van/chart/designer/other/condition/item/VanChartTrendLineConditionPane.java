@@ -16,7 +16,7 @@ public class VanChartTrendLineConditionPane extends AbstractNormalMultiLineCondi
 
     @Override
     protected String getItemLabelString() {
-        return com.fr.design.i18n.Toolkit.i18nText("Chart-Trend_Line");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_TrendLine");
     }
 
     @Override
@@ -34,7 +34,7 @@ public class VanChartTrendLineConditionPane extends AbstractNormalMultiLineCondi
      * @return item的名称
      */
     public String nameForPopupMenuItem() {
-        return com.fr.design.i18n.Toolkit.i18nText("Chart-Trend_Line");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_TrendLine");
     }
 
     @Override

@@ -58,8 +58,8 @@ public class VanAreaMapPlotReportDataContentPane extends AbstractReportDataConte
     @Override
     protected String[] columnNames() {
         return new String[]{
-                com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Series_Name"),
-                com.fr.design.i18n.Toolkit.i18nText("Chart-Series_Value")
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Name"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Value")
         };
     }
 

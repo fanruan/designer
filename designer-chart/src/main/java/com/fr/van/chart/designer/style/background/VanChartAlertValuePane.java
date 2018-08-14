@@ -103,10 +103,10 @@ public class VanChartAlertValuePane extends BasicBeanPane<VanChartAlertValue> {
 
     protected Component[][] getTopPaneComponents() {
         return new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Layout_Position")),alertAxis},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Layout_Position")),alertAxis},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Value")),alertValue},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Line_Style")),alertLineStyle},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Color_Color")),alertLineColor},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Color")),alertLineColor},
         };
     }
 
@@ -116,11 +116,11 @@ public class VanChartAlertValuePane extends BasicBeanPane<VanChartAlertValue> {
         double[] columnSize = {p,p};
         double[] rowSize = {p,p,p,p,p};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Layout_Position")),alertTextPosition},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Layout_Position")),alertTextPosition},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Content")),alertText},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Font")),fontName},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_FRFont_Size")),fontSize},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Color_Color")),fontColor},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Color")),fontColor},
         };
 
         return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);

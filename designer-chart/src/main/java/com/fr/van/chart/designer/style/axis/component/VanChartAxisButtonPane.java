@@ -105,7 +105,7 @@ public class VanChartAxisButtonPane extends BasicBeanPane<VanChartAxisPlot> {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Types_Switch");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Switch_Chart");
     }
 
     @Override

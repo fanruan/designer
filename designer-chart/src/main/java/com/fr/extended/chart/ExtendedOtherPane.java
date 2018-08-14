@@ -97,7 +97,7 @@ public class ExtendedOtherPane extends AbstractChartAttrPane {
         double[] rowSize = {p};
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Time_Interval")), autoRefreshTime, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Time_Seconds"))},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Time_Interval")), autoRefreshTime, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Time_Seconds"))},
         };
         contentPane = TableLayout4VanChartHelper.createGapTableLayoutPane(components, rowSize, columnSize);
 
@@ -105,9 +105,9 @@ public class ExtendedOtherPane extends AbstractChartAttrPane {
         panel.add(refreshEnabled, BorderLayout.NORTH);
         panel.add(contentPane, BorderLayout.CENTER);
 
-        JPanel gapPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("FR-Design-Chart_Auto_Refresh"), panel);
+        JPanel gapPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Auto_Refresh"), panel);
 
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Refresh"), gapPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Refresh"), gapPane);
     }
 
     private JPanel createHyperlinkPane() {

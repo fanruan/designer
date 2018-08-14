@@ -65,7 +65,7 @@ public abstract class MiddleChartPropertyPane extends BaseChartPropertyPane{
 		chartEditPane.setContainer(container);
 		chartEditPane.addTitleChangeListener(titleListener);
 		String tabname = chartEditPane.getSelectedTabName();
-		nameLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Chart-Property_Table") + (tabname != null ? ('-' + chartEditPane.getSelectedTabName()) : ""));
+		nameLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Property_Table") + (tabname != null ? ('-' + chartEditPane.getSelectedTabName()) : ""));
 		resetChartEditPane();
 	}
 	
@@ -81,7 +81,7 @@ public abstract class MiddleChartPropertyPane extends BaseChartPropertyPane{
 		
 		@Override
 		public void fireTitleChange(String addName) {
-			nameLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Chart-Property_Table") + '-' + addName);
+			nameLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Property_Table") + '-' + addName);
 		}
 	};
 

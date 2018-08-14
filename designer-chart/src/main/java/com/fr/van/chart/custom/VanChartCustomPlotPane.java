@@ -35,7 +35,7 @@ import java.util.Map;
  * Created by Mitisky on 16/2/16.
  */
 public class VanChartCustomPlotPane extends AbstractVanChartTypePane {
-    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewCustom");
+    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Combine");
 
     //是否选择自定义
     private boolean isCustom = false;
@@ -117,10 +117,10 @@ public class VanChartCustomPlotPane extends AbstractVanChartTypePane {
     @Override
     protected String[] getTypeTipName() {
         return new String[]{
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewCustom_ColumnLine"),
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewCustom_ColumnArea"),
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewCustom_StackColumnLine"),
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewCustom_Custom")
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Column_Line"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Column_Area"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_StackColumn_Line"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Custom_Combine")
         };
     }
 
@@ -130,7 +130,7 @@ public class VanChartCustomPlotPane extends AbstractVanChartTypePane {
      * @return 界面标题
      */
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewCustom");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Combine");
     }
 
 

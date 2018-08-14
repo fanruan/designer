@@ -40,27 +40,27 @@ public class VanChartGanttTooltipContentPane extends VanChartTooltipContentPane 
         processesFormatPane = new VanChartFormatPaneWithCheckBox(parent, showOnPane){
             @Override
             protected String getCheckBoxText() {
-                return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Project_Name");
+                return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Project_Name");
             }
         };
         seriesNameFormatPane = new SeriesNameFormatPaneWithCheckBox(parent, showOnPane);
         startTimeFormatPane = new VanChartDateFormatPaneWithCheckBox(parent, showOnPane){
             @Override
             protected String getCheckBoxText() {
-                return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Start_Time");
+                return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Start_Time");
             }
         };
         endTimeFormatPane = new VanChartDateFormatPaneWithCheckBox(parent, showOnPane){
             @Override
             protected String getCheckBoxText() {
-                return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_End_Time");
+                return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_End_Time");
             }
         };
         durationFormatPane = new VanChartFormatComBoxWithCheckBox();
         progressFormatPane = new VanChartFormatPaneWithCheckBox(parent, showOnPane){
             @Override
             protected String getCheckBoxText() {
-                return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Process");
+                return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Process");
             }
         };
     }

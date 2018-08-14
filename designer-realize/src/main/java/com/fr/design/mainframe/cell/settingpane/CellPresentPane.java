@@ -111,7 +111,7 @@ public class CellPresentPane extends AbstractCellAttrPane {
      * @return 标题
      */
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Style_Present");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Style_Present");
     }
 
     public void setSelectedByIds(int level, String... id) {

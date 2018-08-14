@@ -82,7 +82,7 @@ public class VanChartTimeAxisPane extends VanChartBaseAxisPane {
 
     private JPanel createValueDefinition(){
         timeMinMaxValuePane = new TimeMinMaxValuePane();
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_ValueDefinition"), timeMinMaxValuePane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Value_Definition"), timeMinMaxValuePane);
     }
 
     @Override
@@ -165,8 +165,8 @@ public class VanChartTimeAxisPane extends VanChartBaseAxisPane {
             secTickPane.add(secondUnitField);
             secTickPane.add(secondType);
 
-            minPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_Min"),minValueField, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
-            maxPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_Max"),maxValueField, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
+            minPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Min"),minValueField, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
+            maxPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Max"),maxValueField, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
             mainPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Main_Type"),mainTickPane, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
             secPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_SecType"),secTickPane, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
 

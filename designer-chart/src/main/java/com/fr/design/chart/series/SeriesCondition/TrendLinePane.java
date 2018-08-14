@@ -32,7 +32,7 @@ public class TrendLinePane extends ConditionAttrSingleConditionPane<DataSeriesCo
 
     public TrendLinePane(ConditionAttributesPane conditionAttributesPane, boolean isRemove) {
         super(conditionAttributesPane, isRemove);
-        nameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart_TrendLine"));
+        nameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_TrendLine"));
 
         editTrendLineButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Edit_Trendline"));
         editTrendLineButton.addActionListener(new ActionListener() {
@@ -58,7 +58,7 @@ public class TrendLinePane extends ConditionAttrSingleConditionPane<DataSeriesCo
 
     @Override
     public String nameForPopupMenuItem() {
-        return com.fr.design.i18n.Toolkit.i18nText("Chart_TrendLine");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_TrendLine");
     }
 
     public void populate(DataSeriesCondition condition) {

@@ -19,7 +19,7 @@ public class GanntChartStyleAxisPane extends BinaryChartStyleAxisPane {
     protected AxisStyleObject getXAxisPane(Plot plot) {
     	ChartCategoryPane categoryPane = new ChartCategoryPane();
     	categoryPane.getAxisValueTypePane().removeTextAxisPane();
-        return new AxisStyleObject(com.fr.design.i18n.Toolkit.i18nText("Chart_Date_Axis"), categoryPane);
+        return new AxisStyleObject(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Date_Time_Axis"), categoryPane);
     }
 
     protected AxisStyleObject getYAxisPane(Plot plot) {

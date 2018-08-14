@@ -35,7 +35,7 @@ public class Pie2DSeriesPane extends AbstractPlotSeriesPane {
 
     protected void initCom() {
         stylePane = new ChartBeautyPane();
-        isSecondPlot = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart_Second_Plot"));
+        isSecondPlot = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Second_Plot_Region"));
         String[] nameArray = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_PieStyle"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Bar_Style")};
         Integer[] valueArray = {0, 1};
         secondPlotType = new UIButtonGroup<Integer>(nameArray, valueArray);

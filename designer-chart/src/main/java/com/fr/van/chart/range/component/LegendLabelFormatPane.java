@@ -74,7 +74,7 @@ public class LegendLabelFormatPane extends JPanel{
         });
         labelFormatStyle.setSelectedIndex(0);
 
-        JPanel panel =  TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Format"), contentPane);
+        JPanel panel =  TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Format"), contentPane);
         this.setLayout(new BorderLayout());
         this.add(panel,BorderLayout.CENTER);
     }

@@ -39,7 +39,7 @@ public class ChartConditionAttrPane extends BasicScrollPane<Chart> {
      * @return 标题
      */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Chart-Condition_Display");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Condition_Display");
 	}
 	
 	@Override
@@ -49,9 +49,9 @@ public class ChartConditionAttrPane extends BasicScrollPane<Chart> {
 		List<UIMenuNameableCreator> list = new ArrayList<UIMenuNameableCreator>();
 		
 		if(plot instanceof CustomPlot) {
-			list.add(new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Chart-Condition_Attributes"), new CustomAttr(), showPane));
+			list.add(new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Condition_Attributes"), new CustomAttr(), showPane));
 		} else {
-			list.add(new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Chart-Condition_Attributes"), new ConditionAttr(), showPane));
+			list.add(new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Condition_Attributes"), new ConditionAttr(), showPane));
 		}
 		
 		conditionPane.refreshMenuAndAddMenuAction(list);

@@ -67,7 +67,7 @@ public class MapDefiAreaNamePane extends BasicBeanPane<String> implements Abstrc
 
 		northPane.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-		UILabel lable = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-DS_TableData") + ":", SwingConstants.RIGHT);
+		UILabel lable = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_TableData") + ":", SwingConstants.RIGHT);
 
 		// 数据集, 字段, 数据列表, 使用该数据进行自动命名
 		tableDataBox = new DatabaseTableDataPane(lable) {
@@ -83,10 +83,10 @@ public class MapDefiAreaNamePane extends BasicBeanPane<String> implements Abstrc
 		columnBox.setPreferredSize(new Dimension(40, 20));
 		columnBox.addItemListener(columnChange);
 
-		northPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Map_Field")+":"));
+		northPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Map_Field")+":"));
 		northPane.add(columnBox);
 
-		tableEditorModel = new UIArrayTableModel(new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Map_Use_Field"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Name")}, new int[]{}) {
+		tableEditorModel = new UIArrayTableModel(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Map_Use_Field"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Name")}, new int[]{}) {
 			public boolean isCellEditable(int row, int col) {
 				return col != 0;
 			}

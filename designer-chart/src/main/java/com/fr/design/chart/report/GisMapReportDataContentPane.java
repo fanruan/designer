@@ -51,8 +51,8 @@ public class GisMapReportDataContentPane extends FurtherBasicBeanPane<GisMapRepo
 
     private void initCom() {
         this.setLayout(new BorderLayout(0, 0));
-        addressType = new UIButtonGroup<String>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Chart-Address"), com.fr.design.i18n.Toolkit.i18nText("Chart-LngLat")});
-        lnglatOrder = new UIButtonGroup<String>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Chart-LngFirst"), com.fr.design.i18n.Toolkit.i18nText("Chart-LatFirst")});
+        addressType = new UIButtonGroup<String>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Address"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_LatLng")});
+        lnglatOrder = new UIButtonGroup<String>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Longitude_First"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Latitude_First")});
         addressPane = new TinyFormulaPane();
         addressNamePane = new TinyFormulaPane();
         double p = TableLayout.PREFERRED;
@@ -70,7 +70,7 @@ public class GisMapReportDataContentPane extends FurtherBasicBeanPane<GisMapRepo
                 }
             }
         };
-        orderPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-LatLngOrder")), BorderLayout.WEST);
+        orderPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_LatLng_Order")), BorderLayout.WEST);
         orderPane.add(lnglatOrder, BorderLayout.CENTER);
         orderPane.setVisible(false);
         lnglatOrder.setSelectedIndex(0);
@@ -78,13 +78,13 @@ public class GisMapReportDataContentPane extends FurtherBasicBeanPane<GisMapRepo
         Component[][] components = new Component[][]{
                 new Component[]{addressType, addressPane},
                 new Component[]{orderPane, null},
-                new Component[]{new UILabel(" " +com.fr.design.i18n.Toolkit.i18nText("Chart-Address-Name")+":", SwingConstants.RIGHT), addressNamePane},
+                new Component[]{new UILabel(" " +com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Address_Name")+":", SwingConstants.RIGHT), addressNamePane},
         };
         JPanel northPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
 
         this.add(northPane, BorderLayout.NORTH);
 
-        String[] columnNames = new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Title"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Value")};
+        String[] columnNames = new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Title"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Region_Value")};
         seriesPane = new UICorrelationPane(columnNames) {
             public UITableEditor createUITableEditor() {
                 return new InnerTableEditor();

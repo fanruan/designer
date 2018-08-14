@@ -51,7 +51,7 @@ public class ChartTitlePaneNoFormula extends BasicScrollPane<Chart> {
         }
 
         private void initComponents() {
-            isTitleVisable = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart_Title_Is_Visible"));
+            isTitleVisable = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Title_Visible"));
             titlePane = createTitlePane();
 
             double p = TableLayout.PREFERRED;
