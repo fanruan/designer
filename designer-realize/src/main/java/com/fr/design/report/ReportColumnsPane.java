@@ -95,11 +95,11 @@ public class ReportColumnsPane extends BasicPane{
         };
         onOffButtonGroup.addActionListener(onOffListener);
 
-        UILabel uiLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_ReportColumns-Columns"));
+        UILabel uiLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportColumns_Columns"));
         FRFont uiLableFont = FRFont.getInstance(FONT_NAME, Font.PLAIN, FONT_SIZE);
         uiLabel.setFont(uiLableFont);
         uiLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        int uiLabelWidth = GraphHelper.getLocTextWidth("FR-Designer_ReportColumns-Columns", uiLableFont);
+        int uiLabelWidth = GraphHelper.getWidth(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportColumns_Columns"), uiLableFont);
 
         uiLabel.setPreferredSize(new Dimension(uiLabelWidth, 20));
         north.add(uiLabel,BorderLayout.WEST);

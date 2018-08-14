@@ -868,7 +868,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         if (isLowerThanHBB(xmlDesignerVersion)) {
             String info = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Open-New_Form_Tip");
             String moreInfo = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Server_Version_Tip_More_Info");
-            new InformationWarnPane(info, moreInfo, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tooltips")).show();
+            new InformationWarnPane(info, moreInfo, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tool_Tips")).show();
             return true;
         }
         return false;
@@ -884,7 +884,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         if (isHigherThanCurrent(xmlDesignerVersion)) {
             String infor = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Template_Version_Not_Match", StringUtils.parseVersion(xmlDesignerVersion));
             String moreInfo = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Server_Version_Tip_More_Info");
-            new InformationWarnPane(infor, moreInfo, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tooltips")).show();
+            new InformationWarnPane(infor, moreInfo, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tool_Tips")).show();
             return true;
         }
         return false;

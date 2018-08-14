@@ -94,11 +94,11 @@ public class DeprecatedActionManager {
         final MenuDef presentMenu = new MenuDef(KeySetUtils.PRESENT.getMenuKeySetName());
         presentMenu.setIconPath("com/fr/design/images/data/source/dataDictionary.png");
         presentMenu.setMnemonic(KeySetUtils.PRESENT.getMnemonic());
-        NewPresentAction dataDictAction = new NewPresentAction(ePane, com.fr.design.i18n.Toolkit.i18nText("M_Format-Data_Map"), DictPresent.class.getName());
+        NewPresentAction dataDictAction = new NewPresentAction(ePane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_M_Format_Data_Map"), DictPresent.class.getName());
         dataDictAction.setMnemonic('D');
         NewPresentAction formulaAction = new NewPresentAction(ePane, com.fr.design.i18n.Toolkit.i18nText("Present-Formula_Present"), FormulaPresent.class.getName());
         formulaAction.setMnemonic('F');
-        NewPresentAction barcodeAction = new NewPresentAction(ePane,  com.fr.design.i18n.Toolkit.i18nText("M_Insert-Barcode"), BarcodePresent.class.getName());
+        NewPresentAction barcodeAction = new NewPresentAction(ePane,  com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_M_Insert_Barcode"), BarcodePresent.class.getName());
         barcodeAction.setMnemonic('B');
         NewPresentAction currencyLineAction = new NewPresentAction(ePane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Currency_Line"), CurrencyLinePresent.class.getName());
         currencyLineAction.setMnemonic('L');

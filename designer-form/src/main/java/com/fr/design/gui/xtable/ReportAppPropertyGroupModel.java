@@ -4,12 +4,11 @@ import com.fr.base.FRContext;
 import com.fr.design.designer.creator.CRPropertyDescriptor;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.mainframe.FormDesigner;
-
-import java.lang.reflect.Method;
 import com.fr.general.ComparatorUtils;
 import com.fr.report.stable.FormConstants;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
+import java.lang.reflect.Method;
 
 public class ReportAppPropertyGroupModel extends PropertyGroupModel {
 
@@ -36,7 +35,7 @@ public class ReportAppPropertyGroupModel extends PropertyGroupModel {
             	//弹窗提示
                 JOptionPane.showMessageDialog(null,
                         com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Mobile_Warning"),
-                        com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tooltips"),
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tool_Tips"),
                         JOptionPane.PLAIN_MESSAGE);
                 return false;
             }

@@ -28,7 +28,7 @@ public class ParameterEditor extends Editor<Parameter> {
 		this.add(parameterCombobox, BorderLayout.CENTER);
 
 		this.setValue(parameter);
-		this.setName(com.fr.design.i18n.Toolkit.i18nText("Parameter"));
+		this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter"));
 	}
 
 	@Override

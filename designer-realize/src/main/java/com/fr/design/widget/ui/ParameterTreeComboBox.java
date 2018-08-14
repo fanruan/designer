@@ -144,7 +144,7 @@ public class ParameterTreeComboBox extends FRTreeComboBox {
 			// 报表参数
 			parameters = model.getReportParameters();
 			if (!ArrayUtils.isEmpty(parameters)) {
-				groupList.add(new ParameterGroup(com.fr.design.i18n.Toolkit.i18nText("ParameterD-Report_Parameter"), parameters));
+				groupList.add(new ParameterGroup(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_ParameterD_Report_Parameter"), parameters));
 			}
 			// 数据源参数
 			parameters = model.getTableDataParameters();
@@ -156,7 +156,7 @@ public class ParameterTreeComboBox extends FRTreeComboBox {
 		// 全局参数
 		parameters = ParameterConfig.getInstance().getGlobalParameters();
 		if (!ArrayUtils.isEmpty(parameters)) {
-			groupList.add(new ParameterGroup(com.fr.design.i18n.Toolkit.i18nText("M_Server-Global_Parameters"), parameters));
+			groupList.add(new ParameterGroup(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_M_Server_Global_Parameters"), parameters));
 		}
 		// 全局数据源参数
 		parameters = new Parameter[0];

@@ -944,19 +944,6 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
      * @param tplFile 文件
      */
     public void openTemplate(FILE tplFile) {
-        // 测试连接，如果连接失败，则提示
-//        try {
-//            if (FRContext.getCommonOperator() != null
-//                    && !FRContext.getCommonOperator().testServerConnectionWithOutShowMessagePane()) {
-//                JOptionPane.showMessageDialog(
-//                        DesignerContext.getDesignerFrame(),
-//                        com.fr.design.i18n.Toolkit.i18nText(new String[]{"FR-Chart-Server_disconnected", "FR-Server-Design_template_unopened"}, new String[]{
-//                                ",", "!"}), com.fr.design.i18n.Toolkit.i18nText("FR-Server-All_Error"), JOptionPane.ERROR_MESSAGE);
-//                return;
-//            }
-//        } catch (Exception e) {
-//            FineLoggerFactory.getLogger().error(e.getMessage());
-//        }
 
         // p:判断一下，如何文件为空或者文件不存在，直接返回.
         if (tplFile == null || !tplFile.exists()) {

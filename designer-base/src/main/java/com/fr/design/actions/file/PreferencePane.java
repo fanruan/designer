@@ -177,8 +177,8 @@ public class PreferencePane extends BasicPane {
         functionPane.add(supportUndoCheckBox);
         //添加maxUndoLimit
         //String[] undoTimes = {"最大撤销次数","5次","10次","15次","20次","50次"};
-        String[] undoTimes = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Max_Undo_Limit"), MAX_UNDO_LIMIT_5 + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_time(s)"), MAX_UNDO_LIMIT_10 + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_time(s)")
-                , MAX_UNDO_LIMIT_15 + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_time(s)"), MAX_UNDO_LIMIT_20 + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_time(s)"), MAX_UNDO_LIMIT_50 + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_time(s)")};
+        String[] undoTimes = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Max_Undo_Limit"), MAX_UNDO_LIMIT_5 + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Time(s)"), MAX_UNDO_LIMIT_10 + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Time(s)")
+                , MAX_UNDO_LIMIT_15 + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Time(s)"), MAX_UNDO_LIMIT_20 + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Time(s)"), MAX_UNDO_LIMIT_50 + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Time(s)")};
         maxUndoLimit = new UIComboBox(undoTimes);
         functionPane.add(maxUndoLimit);
 

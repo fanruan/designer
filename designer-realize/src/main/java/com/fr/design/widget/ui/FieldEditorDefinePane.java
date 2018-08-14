@@ -127,7 +127,7 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
         }
 
 
-        UIExpandablePane uiExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Validate"), 280, 24, validatePane);
+        UIExpandablePane uiExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Validate"), 280, 24, validatePane);
         this.add(uiExpandablePane, BorderLayout.CENTER);
     }
 

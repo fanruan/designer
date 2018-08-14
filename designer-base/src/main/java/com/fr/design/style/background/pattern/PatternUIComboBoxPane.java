@@ -1,16 +1,14 @@
 package com.fr.design.style.background.pattern;
 
-import java.awt.BorderLayout;
-
-import com.fr.design.gui.ilable.UILabel;
-import javax.swing.JPanel;
-
 import com.fr.base.background.PatternBackground;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Background;
-
 import com.fr.design.style.background.BackgroundPane4BoxChange;
 import com.fr.design.style.color.ColorSelectBox;
+import com.fr.general.Background;
+
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
 
 /**
  * @author kunsnat E-mail:kunsnat@gmail.com

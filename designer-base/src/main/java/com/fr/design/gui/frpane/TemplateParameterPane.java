@@ -1,20 +1,19 @@
 package com.fr.design.gui.frpane;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-
-import javax.swing.BorderFactory;
-import com.fr.design.gui.ilable.UILabel;
-import javax.swing.JPanel;
-
 import com.fr.base.Parameter;
+import com.fr.design.dialog.BasicPane;
+import com.fr.design.editor.ValueEditorPane;
+import com.fr.design.editor.ValueEditorPaneFactory;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.dialog.BasicPane;
-import com.fr.design.editor.ValueEditorPane;
-import com.fr.design.editor.ValueEditorPaneFactory;
+
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Component;
 
 
 /**
@@ -30,7 +29,7 @@ public class TemplateParameterPane extends BasicPane {
     }
 
     public void initComponents() {
-        this.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Parameter")));
+        this.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter")));
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
 
         JPanel northPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
@@ -39,7 +38,7 @@ public class TemplateParameterPane extends BasicPane {
 
         JPanel defaultPane = FRGUIPaneFactory.createNormalFlowInnerContainer_M_Pane();
         northPane.add(defaultPane, BorderLayout.CENTER);
-        UILabel nameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Name") + ":");
+        UILabel nameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Name") + ":");
         UILabel valueLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Value") + ":");
 
         nameTextField = new UITextField(12);       
@@ -55,7 +54,7 @@ public class TemplateParameterPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-    	return com.fr.design.i18n.Toolkit.i18nText("Parameter");
+    	return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter");
     }
 
     public void populate(Parameter parameter) {

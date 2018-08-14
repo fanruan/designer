@@ -264,7 +264,7 @@ public class ValueEditorPane extends BasicPane implements UIObserver, GlobalName
         int i;
         boolean containFormulaType = false;
         for (i = 0; i < cards.length; i++) {
-            if (ComparatorUtils.equals(cards[i].getName(), com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Parameter-Formula"))) {
+            if (ComparatorUtils.equals(cards[i].getName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Engine_Parameter_Formula"))) {
                 containFormulaType = true;
                 break;
             }
@@ -284,7 +284,7 @@ public class ValueEditorPane extends BasicPane implements UIObserver, GlobalName
             if (designerEnvManager.isSupportStringToFormula()) {
                 if (!designerEnvManager.isDefaultStringToFormula()) {
                     int returnValue = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Edit_String_To_Formula")
-                            + "?", com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tooltips"), JOptionPane.YES_NO_OPTION);
+                            + "?", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tool_Tips"), JOptionPane.YES_NO_OPTION);
                     if (returnValue == JOptionPane.OK_OPTION) {
 
                         setCurrentEditor(j);

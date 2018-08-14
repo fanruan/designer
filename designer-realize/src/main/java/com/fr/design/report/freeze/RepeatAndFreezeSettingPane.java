@@ -204,7 +204,7 @@ public class RepeatAndFreezeSettingPane extends BasicPane {
         JPanel outrepeatPanel = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Repeat"));
         JPanel cenrepeatPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
         outrepeatPanel.add(cenrepeatPanel);
-        JPanel outfreezePanel = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Frozen"));
+        JPanel outfreezePanel = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Frozen"));
         this.add(outrepeatPanel, BorderLayout.NORTH);
         this.add(outfreezePanel, BorderLayout.CENTER);
         JPanel repeatPanel = FRGUIPaneFactory.createNColumnGridInnerContainer_S_Pane(1);

@@ -39,10 +39,10 @@ public abstract class XFieldEditor extends XWidgetCreator {
     private CRPropertyDescriptor[] getCRPropertyDescriptor() throws IntrospectionException {
         CRPropertyDescriptor allowBlank = new CRPropertyDescriptor("allowBlank", this.data.getClass()).setI18NName(
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Allow_Blank")).setEditorClass(InChangeBooleanEditor.class).putKeyValue(
-                XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate");
+                XCreatorConstants.PROPERTY_VALIDATE, "Fine-Design_Basic_Validate");
         CRPropertyDescriptor blankErrorMsg = new CRPropertyDescriptor("errorMessage", this.data.getClass()).setI18NName(
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Verify_Message"))
-                .putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate");
+                .putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "Fine-Design_Basic_Validate");
         CRPropertyDescriptor fontSize = new CRPropertyDescriptor("fontSize", this.data.getClass(), "getFontSize", "setFontSize")
                 .setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Font_Size"))
                 .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Report_Advanced");

@@ -20,7 +20,7 @@ public class CopyAction extends TemplateComponentAction {
     public CopyAction(TargetComponent t) {
         super(t);
 
-        this.setName(com.fr.design.i18n.Toolkit.i18nText("M_Edit-Copy"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_M_Edit_Copy"));
         this.setMnemonic('C');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_edit/copy.png"));
         this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, DEFAULT_MODIFIER));

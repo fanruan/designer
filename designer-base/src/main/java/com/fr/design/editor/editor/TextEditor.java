@@ -45,7 +45,7 @@ public class TextEditor extends Editor<String> {
         this.textField.addKeyListener(textKeyListener);
 
         this.setValue(value);
-        this.setName(com.fr.design.i18n.Toolkit.i18nText("Parameter-String"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter_String"));
     }
 
     public UITextField getTextField() {

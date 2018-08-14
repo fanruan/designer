@@ -184,7 +184,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Export-Excel-Page");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Engine_Export_Excel_Page");
         }
 
         @Override
@@ -202,7 +202,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Export-Excel-Simple");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Engine_Export_Excel_Simple");
         }
 
         @Override
@@ -220,7 +220,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Export-Excel-PageToSheet");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Engine_Export_Excel_PageToSheet");
         }
 
         @Override
@@ -327,7 +327,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("M_File-ExportT-Template(embedded_data)");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_M_File_ExportT_Template(embedded_data)");
         }
 
         @Override
@@ -603,7 +603,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_ReportColumns-Columns");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportColumns_Columns");
         }
 
         @Override
@@ -639,7 +639,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Frozen");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Frozen");
         }
 
         @Override
@@ -793,7 +793,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("M_Format-Data_Map");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_M_Format_Data_Map");
         }
 
         @Override
@@ -827,7 +827,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("M_Insert-Barcode");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_M_Insert_Barcode");
         }
 
         @Override
@@ -947,7 +947,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("M_Insert-Cell");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_M_Insert_Cell");
         }
 
         @Override

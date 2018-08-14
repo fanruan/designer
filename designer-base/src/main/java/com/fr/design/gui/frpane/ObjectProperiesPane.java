@@ -129,7 +129,7 @@ public class ObjectProperiesPane extends BasicBeanPane<ListMap> {
 			cancel.setMargin(new Insets(0, 0, 0, 0));
 			this.add(cancel);
 			
-			this.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Name")+":"));
+			this.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Name")+":"));
 			this.nameField = new UITextField(6);
 			this.add(this.nameField);
 			

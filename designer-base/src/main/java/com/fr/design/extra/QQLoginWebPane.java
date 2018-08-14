@@ -177,7 +177,7 @@ public class QQLoginWebPane extends JFXPanel {
                                         dialog.close();
                                     }
                                 }).build(),
-                                ButtonBuilder.create().text(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Cancel")).cancelButton(true).onAction(new EventHandler<ActionEvent>() {
+                                ButtonBuilder.create().text(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Engine_Cancel")).cancelButton(true).onAction(new EventHandler<ActionEvent>() {
                                     @Override
                                     public void handle(ActionEvent actionEvent) {
                                         // abort action and close the dialog.

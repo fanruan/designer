@@ -252,7 +252,7 @@ public class DesignerActivator extends Activator {
 
     private static NameableCreator[] hyperlinkTypes() {
         return new NameableCreator[]{
-                new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("FR-Hyperlink_Reportlet"), ReportletHyperlink.class, ReportletHyperlinkPane.ChartNoRename.class),
+                new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Reportlet"), ReportletHyperlink.class, ReportletHyperlinkPane.ChartNoRename.class),
                 new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Email"), EmailJavaScript.class, EmailPane.class),
                 new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Web_Link"), WebHyperlink.class, WebHyperlinkPane.ChartNoRename.class),
                 new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_JavaScript_Dynamic_Parameters"), ParameterJavaScript.class, ParameterJavaScriptPane.ChartNoRename.class),

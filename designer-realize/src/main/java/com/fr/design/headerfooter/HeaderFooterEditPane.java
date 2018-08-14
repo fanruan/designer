@@ -194,7 +194,7 @@ public class HeaderFooterEditPane extends JPanel {
 
 		JPanel headerFooterPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
 		headFootUnitFieldPane = new AdjustHeightPane();
-		headerFooterPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Height") + ":"));
+		headerFooterPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Height") + ":"));
 		headerFooterPane.add(headFootUnitFieldPane);  
 		
 		toolbar.add(headerFooterPane);
@@ -633,9 +633,9 @@ public class HeaderFooterEditPane extends JPanel {
 			if (unitType == Constants.UNIT_CM) {
 				unitLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_CM"));
 			} else if (unitType == Constants.UNIT_INCH) {
-				unitLabel.setText(com.fr.design.i18n.Toolkit.i18nText("PageSetup-inches"));
+				unitLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_PageSetup-inches"));
 			} else {
-				unitLabel.setText(com.fr.design.i18n.Toolkit.i18nText("PageSetup-mm"));
+				unitLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_PageSetup_mm"));
 			}
 
 			//ajust the heigt of unitLabel.

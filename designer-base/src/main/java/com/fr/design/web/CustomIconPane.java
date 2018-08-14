@@ -143,7 +143,7 @@ public class CustomIconPane extends BasicPane {
 
 						}else {
 							// add failed
-							JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom_Icon_Message2"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tooltips"), JOptionPane.WARNING_MESSAGE);
+							JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom_Icon_Message2"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tool_Tips"), JOptionPane.WARNING_MESSAGE);
 						}
 					}
                 }).setVisible(true);
@@ -174,7 +174,7 @@ public class CustomIconPane extends BasicPane {
 					// remove failed
 					JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
 							com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom_Icon_Message2"),
-		    				com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tooltips"),
+		    				com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tool_Tips"),
 							JOptionPane.WARNING_MESSAGE);
 				}
 			}
@@ -221,7 +221,7 @@ public class CustomIconPane extends BasicPane {
 							// 失败了再弄回去
 							iconManager.addIcon(oldIcon, true);
 							// edit failed
-							JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom_Icon_Message2"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tooltips"), JOptionPane.WARNING_MESSAGE);
+							JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom_Icon_Message2"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tool_Tips"), JOptionPane.WARNING_MESSAGE);
 						}
 					}
                 }).setVisible(true);
@@ -410,7 +410,7 @@ public class CustomIconPane extends BasicPane {
                     if (WidgetInfoConfig.getInstance().getIconManager().contains(nameTextField.getText())) {
                         JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
                                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom_Icon_Message3"),
-                                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tooltips"),
+                                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tool_Tips"),
                                 JOptionPane.WARNING_MESSAGE);
                     }
                 }
