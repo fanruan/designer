@@ -120,7 +120,7 @@ public class DSColumnAdvancedPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Advanced");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced");
     }
 
     public void populate(TemplateCellElement cellElement) {

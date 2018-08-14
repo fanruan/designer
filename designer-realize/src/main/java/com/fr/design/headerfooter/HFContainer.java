@@ -286,7 +286,7 @@ public class HFContainer extends JPanel implements Scrollable {
                 int returnVal = JOptionPane.showConfirmDialog(
                         SwingUtilities.getWindowAncestor(HFContainer.this),
                         com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_HF_Are_You_Sure_To_Delete_It") + "?",
-                        com.fr.design.i18n.Toolkit.i18nText("Delete"),
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Delete"),
                         JOptionPane.OK_CANCEL_OPTION,
                         JOptionPane.QUESTION_MESSAGE);
 
