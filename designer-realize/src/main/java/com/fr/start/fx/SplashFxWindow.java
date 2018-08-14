@@ -30,8 +30,6 @@ import java.util.concurrent.CountDownLatch;
  */
 public class SplashFxWindow extends Application {
 
-    private static float JBUI_INIT_SCALE = JBUI.scale(1f);
-
     private static final String ARIAL_FONT_NAME = "Arial";
     private static final String PF_FONT_NAME = "PingFang";
     private static final String YAHEI_FONT_NAME = "Microsoft YaHei";
@@ -52,10 +50,6 @@ public class SplashFxWindow extends Application {
     private Text thanks;
     private FastGifImage image;
     private List<SplashFxActionListener> listeners = new ArrayList<SplashFxActionListener>();
-
-    private static int uiScale(int i) {
-        return (int) (i * JBUI_INIT_SCALE);
-    }
 
     /**
      * 获取当前运行实例。黑科技
@@ -94,23 +88,23 @@ public class SplashFxWindow extends Application {
         AnchorPane.setRightAnchor(gif, 0d);
         Font font;
         if (OperatingSystem.isWindows()) {
-            font = new Font(YAHEI_FONT_NAME, uiScale(FONT));
+            font = new Font(YAHEI_FONT_NAME, FONT);
         } else if (OperatingSystem.isMacOS()) {
-            font = new Font(PF_FONT_NAME, uiScale(FONT));
+            font = new Font(PF_FONT_NAME, FONT);
         } else {
-            font = new Font(ARIAL_FONT_NAME, uiScale(FONT));
+            font = new Font(ARIAL_FONT_NAME, FONT);
         }
 
         moduleInfo = new Text();
         moduleInfo.setFont(font);
         moduleInfo.setFill(Color.WHITE);
-        AnchorPane.setLeftAnchor(moduleInfo, (double) uiScale(MODULE_INFO_LEFT_MARGIN));
-        AnchorPane.setBottomAnchor(moduleInfo, (double) uiScale(MODULE_INFO_BOTTOM_MARGIN));
+        AnchorPane.setLeftAnchor(moduleInfo,(double) MODULE_INFO_LEFT_MARGIN);
+        AnchorPane.setBottomAnchor(moduleInfo,(double) MODULE_INFO_BOTTOM_MARGIN);
         thanks = new Text();
         thanks.setFont(font);
         thanks.setFill(Color.valueOf(THINKS_COLOR));
-        AnchorPane.setRightAnchor(thanks, (double) uiScale(THINKS_BOTTOM_RIGHT));
-        AnchorPane.setBottomAnchor(thanks, (double) uiScale(THINKS_BOTTOM_MARGIN));
+        AnchorPane.setRightAnchor(thanks, (double) THINKS_BOTTOM_RIGHT);
+        AnchorPane.setBottomAnchor(thanks, (double) THINKS_BOTTOM_MARGIN);
 
         root.getChildren().add(gif);
         root.getChildren().add(moduleInfo);
