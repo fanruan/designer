@@ -104,7 +104,7 @@ public class DSColumnPane extends BasicPane {
         tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Filter"), conditionPane);
 
         advancedPane = new DSColumnAdvancedPane(setting);
-        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Advanced"), advancedPane);
+        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced"), advancedPane);
 
         this.setPreferredSize(new Dimension(610, 400));
     }

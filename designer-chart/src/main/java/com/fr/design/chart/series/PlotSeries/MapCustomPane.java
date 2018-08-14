@@ -91,7 +91,7 @@ refreshAreaNameBox();
             tableDataNameBox.setPreferredSize(new Dimension(200, 20));
             northPane.add(tableDataNameBox);
 
-            northPane.add(new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Filed", "Field"}) + ":"));
+            northPane.add(new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Region_Field") + ":"));
 
             areaString = new FilterComboBox<String>();
             areaString.setPreferredSize(new Dimension(120, 20));
@@ -229,7 +229,7 @@ refreshAreaNameBox();
 
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Datasource-User_Defined", "Chart-Map"});
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom_Map");
 	}
 
 	/**

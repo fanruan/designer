@@ -26,7 +26,7 @@ public class TrendLineControlPane extends JListControlPane {
 	
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Edit", "Chart_TrendLine"});
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Edit_Trendline");
 	}
 	
 	public void populate(AttrTrendLine trendLineList) {

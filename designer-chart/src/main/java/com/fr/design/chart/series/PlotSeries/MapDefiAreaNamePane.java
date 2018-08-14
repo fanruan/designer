@@ -158,7 +158,7 @@ public class MapDefiAreaNamePane extends BasicBeanPane<String> implements Abstrc
 
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Define", "Area_Name"});
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Define_Area_Name");
 	}
 
 	/**
