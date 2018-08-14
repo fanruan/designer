@@ -74,7 +74,7 @@ public class VanChartHyperLinkPane extends VanChartUIListControlPane {
     }
 
 
-    protected BasicBeanPane createPaneByCreators(NameableCreator creator) {
+    public BasicBeanPane createPaneByCreators(NameableCreator creator) {
         Constructor<? extends BasicBeanPane> constructor = null;
         try {
             constructor = creator.getUpdatePane().getConstructor(HashMap.class, boolean.class);
@@ -111,8 +111,8 @@ public class VanChartHyperLinkPane extends VanChartUIListControlPane {
     }
 
     @Override
-    protected AddItemMenuDef getAddItemMenuDef (NameableCreator[] creators) {
-        return new AddVanChartItemMenuDef(creators);
+    protected void initShortCutFactory() {
+        this.shortCutFactory = VanChartShortCutFactory.newInstance(this);
     }
 
     public void populate(NameJavaScriptGroup nameHyperlink_array) {
@@ -270,18 +270,6 @@ public class VanChartHyperLinkPane extends VanChartUIListControlPane {
             }
         }
         return null;
-    }
-
-    protected class AddVanChartItemMenuDef extends AddItemMenuDef {
-
-        public AddVanChartItemMenuDef(NameableCreator[] creators) {
-            super(creators);
-        }
-
-        @Override
-        protected boolean whetherAdd(String itemName) {
-            return HyperlinkFilterHelper.whetherAddHyperlink4Chart(itemName);
-        }
     }
 
     //邮箱

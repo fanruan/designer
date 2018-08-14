@@ -40,9 +40,9 @@ public class AlertLineListControlPane extends VanChartUIListControlPane {
 
     protected ShortCut4JControlPane[] createShortcuts() {
         return new ShortCut4JControlPane[]{
-                moveUpItemShortCut(),
-                moveDownItemShortCut(),
-                removeItemShortCut()
+                shortCutFactory.moveUpItemShortCut(),
+                shortCutFactory.moveDownItemShortCut(),
+                shortCutFactory.removeItemShortCut()
         };
     }
 
