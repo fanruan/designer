@@ -9,9 +9,13 @@ import com.fr.design.menu.ShortCut;
 /**
  * Created by plough on 2018/8/13.
  */
-public class VanChartShortCutFactory extends ShortCutFactory {
+class VanChartShortCutFactory extends ShortCutFactory {
     private VanChartShortCutFactory(ShortCutListenerProvider listenerProvider) {
         super(listenerProvider);
+    }
+
+    public static VanChartShortCutFactory newInstance(ShortCutListenerProvider listenerProvider) {
+        return new VanChartShortCutFactory(listenerProvider);
     }
 
     @Override
