@@ -44,7 +44,7 @@ public class ClassTableDataPane extends AbstractTableDataPane<ClassTableData> {
         classNameTextField = new UITextField(36);
         reportletNamePane.add(classNameTextField);
 
-        UIButton browserButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Select"));
+        UIButton browserButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Select"));
         browserButton.setPreferredSize(new Dimension(
                 browserButton.getPreferredSize().width,
                 classNameTextField.getPreferredSize().height));

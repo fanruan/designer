@@ -17,7 +17,7 @@ import java.util.List;
 public class StoreProcedureTableModel extends UITableModelAdapter<StoreProcedureParameter> {
 
 	public StoreProcedureTableModel() {
-		super(new String[] { com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Type"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Model"), com.fr.design.i18n.Toolkit.i18nText("Value") });
+		super(new String[] { com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Type"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Model"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Value") });
 		if (shouldResponseDoubleClickAction()) {
             table.addMouseListener(new MouseAdapter() {
 

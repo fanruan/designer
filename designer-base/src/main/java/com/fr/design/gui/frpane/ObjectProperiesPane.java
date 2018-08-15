@@ -133,7 +133,7 @@ public class ObjectProperiesPane extends BasicBeanPane<ListMap> {
 			this.nameField = new UITextField(6);
 			this.add(this.nameField);
 			
-			this.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Value")+ ":"));
+			this.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Value")+ ":"));
 			this.valueEditorPane = ValueEditorPaneFactory.createExtendedValueEditorPane();
 			this.add(this.valueEditorPane);
 		}

@@ -153,7 +153,7 @@ public class SelectedDataColumnPane extends BasicPane {
         };
         columnNameComboBox.setEditable(true);
         double p = TableLayout.PREFERRED;
-        UILabel dsLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("TableData") + ":");
+        UILabel dsLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_TableData") + ":");
         UILabel dcLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Data_Column") + ":");
         if (showParameterButton) {
             dsLabel.setPreferredSize(new Dimension(200, 25));
@@ -193,7 +193,7 @@ public class SelectedDataColumnPane extends BasicPane {
         columnNameComboBox.setEditable(true);
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
-        UILabel dsLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("TableData"));
+        UILabel dsLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_TableData"));
         UILabel dpLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Dynamic_Parameter"));
         UILabel dcLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Data_Column"));
         dsLabel.setPreferredSize(new Dimension(60, 20));

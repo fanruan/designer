@@ -114,7 +114,7 @@ public class HFAttributesEditDialog extends BasicPane {
         formulaPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
 
         formulaContentField = new UITextField();
-        formulaPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Value") + ":"));
+        formulaPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Value") + ":"));
         formulaPane.add(Box.createHorizontalStrut(2));
         UILabel label = new UILabel("=");
         label.setFont(new Font("Dialog", Font.BOLD, 12));
@@ -227,7 +227,7 @@ public class HFAttributesEditDialog extends BasicPane {
      * Add text pane.
      */
     private void addTextPaneToTab() {
-        this.tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Text"), this.textPane);
+        this.tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Text"), this.textPane);
     }
 
     /**

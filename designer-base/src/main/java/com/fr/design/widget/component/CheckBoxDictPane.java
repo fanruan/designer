@@ -41,7 +41,7 @@ public class CheckBoxDictPane extends JPanel {
 		};
 		returnStringPane = TableLayoutHelper.createGapTableLayoutPane(components, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W2, IntervalConstants.INTERVAL_L1);
 
-		returnTypeComboBox = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Array"), com.fr.design.i18n.Toolkit.i18nText("String")});
+		returnTypeComboBox = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Array"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_String")});
 		returnTypeComboBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

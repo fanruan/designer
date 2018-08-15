@@ -73,7 +73,7 @@ public class MaxMemRowCountPanel extends UIToolbar {
 		switchCache.setSelectedIndex(MAX_IN_MEMORY);
 		this.add(new UILabel(" "));
 		this.add(numberSpinner);
-		this.add(new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("Row")));
+		this.add(new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Row")));
 		this.validate();
 		this.repaint();
 	}

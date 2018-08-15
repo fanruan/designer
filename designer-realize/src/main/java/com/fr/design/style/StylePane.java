@@ -92,7 +92,7 @@ public class StylePane extends BasicBeanPane<Style> implements ChangeListener {
 
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Style");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style");
 	}
 
 	public void stateChanged(ChangeEvent e) {

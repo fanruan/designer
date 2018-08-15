@@ -49,7 +49,7 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 
 	@Override
 	protected JPanel setSecondContentPane() {
-		returnTypeComboBox = new UIButtonGroup<>(new String[] {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date") ,  com.fr.design.i18n.Toolkit.i18nText("String")});
+		returnTypeComboBox = new UIButtonGroup<>(new String[] {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date") ,  com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_String")});
 		JPanel formatHead =  createFormatHead();
 
 		startDv = new DateValuePane();

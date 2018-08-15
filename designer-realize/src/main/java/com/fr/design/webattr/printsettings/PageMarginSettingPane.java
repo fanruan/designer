@@ -53,7 +53,7 @@ public class PageMarginSettingPane extends JPanel {
 
         JPanel marginRightUnitPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
         marginRightPane.add(marginRightUnitPane);
-        marginRightUnitPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Right") + ":"));
+        marginRightUnitPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Right") + ":"));
         marginRightUnitFieldPane = new UnitFieldPane(Constants.UNIT_MM);
         marginRightUnitPane.add(marginRightUnitFieldPane);
 

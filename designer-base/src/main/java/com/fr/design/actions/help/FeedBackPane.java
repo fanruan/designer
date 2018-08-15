@@ -67,7 +67,7 @@ public class FeedBackPane extends BasicPane {
     private static final int TEL_MAX_LENGTH = 11;
     private static final String ALLOWED_INTEGER_TYPE = "0123456789";
     private SwingWorker worker;
-    private JDialog dlg = new JDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Send"), true);
+    private JDialog dlg = new JDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Send"), true);
     private UIButton ok = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_OK"));
     private UIButton cancle = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cancel"));
     private int ifHasBeenWriten = 0;
@@ -219,7 +219,7 @@ public class FeedBackPane extends BasicPane {
         JPanel controlPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         JPanel buttonsPane = new JPanel(new FlowLayout(FlowLayout.LEFT, GAP, 0));
         controlPane.add(buttonsPane, BorderLayout.EAST);
-        sendButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Send"));
+        sendButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Send"));
         buttonsPane.add(sendButton);
         buttonsPane.setBorder(SEND_BORDER);
         sendButton.addActionListener(new ActionListener() {
@@ -235,7 +235,7 @@ public class FeedBackPane extends BasicPane {
 
     private void doWithSendPane() {
         Object[] options = new Object[]{ok, cancle};
-        send = new JOptionPane(com.fr.design.i18n.Toolkit.i18nText("sending"),
+        send = new JOptionPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Sending"),
                 JOptionPane.INFORMATION_MESSAGE, JOptionPane.OK_CANCEL_OPTION, null, options, options[0]);
         ok.setEnabled(false);
         ok.addActionListener(new ActionListener() {
@@ -246,7 +246,7 @@ public class FeedBackPane extends BasicPane {
                     feedbackDialog.dispose();
                 } else {
                     ok.setEnabled(false);
-                    send.setMessage(com.fr.design.i18n.Toolkit.i18nText("sending"));
+                    send.setMessage(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Sending"));
                     setWorker(send);
                     worker.execute();
                 }

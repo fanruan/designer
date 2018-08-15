@@ -257,7 +257,7 @@ public class HFComponent extends UILabel implements MoveActionListener {
      */
     public static String getHFELementText(HFElement hfElement) {
         if (hfElement.getClass().equals(TextHFElement.class)) {
-            return com.fr.design.i18n.Toolkit.i18nText("Text");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Text");
         } else if (hfElement.getClass().equals(FormulaHFElement.class)) {
             return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Formula");
         } else if (hfElement.getClass().equals(PageNumberHFElement.class)) {
