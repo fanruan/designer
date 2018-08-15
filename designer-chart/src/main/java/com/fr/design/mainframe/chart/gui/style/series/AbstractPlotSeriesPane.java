@@ -91,7 +91,7 @@ public abstract class AbstractPlotSeriesPane extends BasicBeanPane<Plot>{
 	 * 界面标题.
 	 */
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_Series");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series");
 	}
 
 	/**

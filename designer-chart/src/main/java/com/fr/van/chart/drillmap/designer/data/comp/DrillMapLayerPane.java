@@ -198,6 +198,6 @@ public class DrillMapLayerPane extends BasicScrollPane<ChartCollection> {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Map_Drill");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Map_Drill_Level");
     }
 }

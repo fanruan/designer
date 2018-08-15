@@ -16,6 +16,6 @@ public class MultiPieLevelNameFormatPaneWithCheckBox extends CategoryNameFormatP
 
     @Override
     protected String getCheckBoxText() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Level_Name");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Level_Name");
     }
 }

@@ -238,7 +238,7 @@ public class DateAxisValuePane extends FurtherBasicBeanPane<CategoryAxis>{
 
 	@Override
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Chart_Date_Axis");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Date_Time_Axis");
 	}
 	
 	private void checkBoxUse() {

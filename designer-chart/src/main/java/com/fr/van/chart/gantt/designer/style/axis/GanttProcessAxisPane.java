@@ -93,7 +93,7 @@ public class GanttProcessAxisPane extends AbstractVanChartScrollPane<VanChart> {
 
         JPanel jPanel = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Horizontal_Proportion"), panel);
 
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Chart-DataFunction_Percent"), jPanel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Function_Percent"), jPanel);
     }
 
     private void checkoutPaneVisible() {

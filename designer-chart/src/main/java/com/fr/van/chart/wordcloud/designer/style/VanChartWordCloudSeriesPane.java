@@ -128,7 +128,7 @@ public class VanChartWordCloudSeriesPane extends VanChartAbstractPlotSeriesPane 
 
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, rowSize, columnSize);
 
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Chart-Style_Name"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Style_Name"), panel);
     }
 
     private JPanel createCloudShapePane() {

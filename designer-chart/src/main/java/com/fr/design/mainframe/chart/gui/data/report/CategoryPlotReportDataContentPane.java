@@ -34,12 +34,12 @@ public class CategoryPlotReportDataContentPane extends AbstractReportDataContent
 
     public CategoryPlotReportDataContentPane(ChartDataPane parent) {
         initEveryPane();
-        categoryName = initCategoryBox(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Category_Name"));
+        categoryName = initCategoryBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Category_Name"));
         categoryName.setPreferredSize(new Dimension(246,30));
         categoryName.setBorder(BorderFactory.createEmptyBorder(0,24,0,7));
         this.add(categoryName, "0,0,2,0");
         filterPane = new ChartDataFilterPane(new Bar2DPlot(), parent);
-        JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_Filter"),filterPane);
+        JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Filter"),filterPane);
         panel.setBorder(getSidesBorder());
         filterPane.setBorder(getFilterPaneBorder());
         this.add(panel, "0,6,2,4");    }
@@ -51,7 +51,7 @@ public class CategoryPlotReportDataContentPane extends AbstractReportDataContent
                 this.setLayout(new BorderLayout(4, 0));
                 
                 if(StringUtils.isNotEmpty(leftLabel)) {
-                	UILabel label1 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Category_Name"));
+                	UILabel label1 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Category_Name"));
                 	label1.setPreferredSize(new Dimension(75, 20));
                 	this.add(label1, BorderLayout.WEST);
                 }
@@ -91,8 +91,8 @@ public class CategoryPlotReportDataContentPane extends AbstractReportDataContent
     @Override
     protected String[] columnNames() {
         return new String[]{
-                com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Series_Name"),
-                com.fr.design.i18n.Toolkit.i18nText("Chart-Series_Value")
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Name"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Value")
         };
     }
 

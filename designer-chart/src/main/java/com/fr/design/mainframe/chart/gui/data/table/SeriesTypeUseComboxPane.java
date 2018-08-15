@@ -48,7 +48,7 @@ public class SeriesTypeUseComboxPane extends UIComboBoxPane<ChartCollection> {
     protected void initLayout() {
         this.setLayout(new BorderLayout(4, LayoutConstants.VGAP_MEDIUM));
         JPanel northPane = new JPanel(new BorderLayout(4, 0));
-        UILabel label1 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("ChartF-Series_Name_From"));
+        UILabel label1 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Name_From"));
         label1.setPreferredSize(new Dimension(ChartDataPane.LABEL_WIDTH, ChartDataPane.LABEL_HEIGHT));
         northPane.add(GUICoreUtils.createBorderLayoutPane(new Component[]{jcb, null, null, label1, null}));
         northPane.setBorder(BorderFactory.createEmptyBorder(10, 24, 0, 15));
@@ -56,7 +56,7 @@ public class SeriesTypeUseComboxPane extends UIComboBoxPane<ChartCollection> {
         this.add(northPane, BorderLayout.NORTH);
         this.add(cardPane, BorderLayout.CENTER);
         dataScreeningPane =  new ChartDataFilterPane(this.initplot, parent);
-        JPanel panel = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_Filter"), 290, 24, dataScreeningPane);
+        JPanel panel = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Filter"), 290, 24, dataScreeningPane);
         panel.setBorder(BorderFactory.createEmptyBorder(0,5,0,5));
         dataScreeningPane.setBorder(BorderFactory.createEmptyBorder(10,5,0,5));
         this.add(panel, BorderLayout.SOUTH);
@@ -94,7 +94,7 @@ public class SeriesTypeUseComboxPane extends UIComboBoxPane<ChartCollection> {
      * @return 界面标题
      */
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("ChartF-Series_Name_From");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Name_From");
     }
 
     @Override

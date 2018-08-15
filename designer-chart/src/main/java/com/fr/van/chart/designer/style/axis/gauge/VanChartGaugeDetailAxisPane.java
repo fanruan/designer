@@ -77,7 +77,7 @@ public class VanChartGaugeDetailAxisPane extends VanChartValueAxisPane {
     }
 
     protected JPanel createLabelPane(double[] row, double[] col){
-        showLabel = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Show"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Hidden")});
+        showLabel = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Show"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Hidden")});
         labelTextAttrPane = getChartTextAttrPane();
         labelPanel = new JPanel(new BorderLayout());
         labelPanel.add(labelTextAttrPane);
@@ -108,7 +108,7 @@ public class VanChartGaugeDetailAxisPane extends VanChartValueAxisPane {
                 minMaxValuePane = new VanChartMinMaxValuePane();
                 break;
         }
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_ValueDefinition"), minMaxValuePane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Value_Definition"), minMaxValuePane);
     }
 
     private JPanel createTickColorPane(double[] row, double[] col){

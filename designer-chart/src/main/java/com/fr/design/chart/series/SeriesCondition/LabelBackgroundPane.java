@@ -61,7 +61,7 @@ public class LabelBackgroundPane extends ConditionAttrSingleConditionPane<DataSe
 
     @Override
     public String nameForPopupMenuItem() {
-        return com.fr.design.i18n.Toolkit.i18nText("ChartF-Background_Color");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Background_Color");
     }
 
     @Override

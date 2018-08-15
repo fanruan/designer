@@ -144,7 +144,7 @@ public class WidgetToolBarPane extends BasicPane implements DesignToolbarProvide
 
             // 这个条件说明是否加载了图表模块
             if (wo != null && wo.length > 0) {
-                this.componentsList4Form.add(new TitleLabel(com.fr.design.i18n.Toolkit.i18nText("Chart")));
+                this.componentsList4Form.add(new TitleLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_ToolBar_Chart")));
                 UIButton chartButton = new UIButton(BaseUtils.readIcon("com/fr/design/images/toolbarbtn/chart.png"));
                 chartButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Click_Me"));
                 chartButton.addMouseListener(new MouseAdapter() {

@@ -60,9 +60,9 @@ public class MapEditPane extends BasicBeanPane<MapSvgAttr>{
         namedPane= new MapDefiAreaNamePane(false);
         areaPane.setImageSelectType(MapShapeValue.AREA);
 //        pointPane.setImageSelectType(MapShapeValue.POINT);
-        tabbedPane.add(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Map_ImageArea"),areaPane);
+        tabbedPane.add(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Map_Image_Area"),areaPane);
 //        tabbedPane.add(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Map_ImagePoint"),pointPane);
-        tabbedPane.add(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Map_Corresponding_Fields"),namedPane);
+        tabbedPane.add(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Map_Corresponding_Fields"),namedPane);
         editingPane = areaPane;
     }
 

@@ -12,7 +12,7 @@ import com.fr.van.chart.designer.type.AbstractVanChartTypePane;
  * Created by Mitisky on 15/11/5.
  */
 public class VanChartLinePlotPane extends AbstractVanChartTypePane {
-    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewLine");
+    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Line");
     private static final long serialVersionUID = -8161581682558781651L;
 
     @Override
@@ -26,9 +26,9 @@ public class VanChartLinePlotPane extends AbstractVanChartTypePane {
     @Override
     protected String[] getTypeTipName() {
         return new String[]{
-                com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Line"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Line_Chart"),
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Stacked_Line"),
-                com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Mode_Custom")
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Mode_Custom")
         };
     }
 
@@ -37,7 +37,7 @@ public class VanChartLinePlotPane extends AbstractVanChartTypePane {
      * @return 界面标题
      */
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewLine");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Line");
     }
 
     /**

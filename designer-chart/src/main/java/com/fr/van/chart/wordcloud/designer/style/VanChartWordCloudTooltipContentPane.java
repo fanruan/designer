@@ -25,19 +25,19 @@ public class VanChartWordCloudTooltipContentPane extends VanChartTooltipContentP
         categoryNameFormatPane = new CategoryNameFormatPaneWithCheckBox(parent, showOnPane){
             @Override
             protected String getCheckBoxText() {
-                return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_MultiPie_Series_Name");
+                return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_MultiPie_Series_Name");
             }
         };
         seriesNameFormatPane = new SeriesNameFormatPaneWithCheckBox(parent, showOnPane){
             @Override
             protected String getCheckBoxText() {
-                return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Word_Name");
+                return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Word_Name");
             }
         };
         valueFormatPane = new ValueFormatPaneWithCheckBox(parent, showOnPane){
             @Override
             protected String getCheckBoxText() {
-                return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Word_Value");
+                return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Word_Value");
             }
         };
         percentFormatPane = new PercentFormatPaneWithCheckBox(parent, showOnPane);

@@ -35,10 +35,10 @@ public class DonutPlotPane extends AbstractChartTypePane{
 
     @Override
     protected String[] getTypeTipName() {
-        String donut = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Donut");
+        String donut = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Donut_Chart");
         return new String[]{
                 donut,
-                com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Chart_3D") + donut
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_3D") + donut
         };
     }
 
@@ -103,7 +103,7 @@ public class DonutPlotPane extends AbstractChartTypePane{
      * @return 标题
      */
     public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Donut");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Donut_Chart");
 	}
 
     /**

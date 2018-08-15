@@ -17,7 +17,7 @@ public class ChartSecondValueNoFormulaPane extends ChartValueNoFormulaPane{
     protected JPanel aliagnZero4Second() {// 添加 0值对齐
         JPanel pane = new JPanel();
         pane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        pane.add(isAlignZeroValue = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart_AxisAlignZeroValueLine"), false));
+        pane.add(isAlignZeroValue = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Align_Origin"), false));
         return pane;
     }
 

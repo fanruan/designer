@@ -71,7 +71,7 @@ public class MultiPiePlotTableDataContentPane extends AbstractTableDataContentPa
         for (int i = 0; i < levelNum; i++){
             levelNameList.add(new UIComboBox());
             levelNameList.get(i).setPreferredSize(new Dimension(WD, HT));
-            levelNameList.get(i).addItem(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_None"));
+            levelNameList.get(i).addItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_None"));
         }
     }
 
@@ -112,8 +112,8 @@ public class MultiPiePlotTableDataContentPane extends AbstractTableDataContentPa
         calculateCombox.setPreferredSize(new Dimension(WD, HT));
 
         components_center[levelNum] = new Component[]{getJSeparator(), null};
-        components_center[levelNum+1] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart_Bubble_Size")), value};
-        components_center[levelNum+2] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Summary_Method")), calculateCombox};
+        components_center[levelNum+1] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Value")), value};
+        components_center[levelNum+2] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Summary_Method")), calculateCombox};
 
 
         initCenterItemListener();
@@ -180,9 +180,9 @@ public class MultiPiePlotTableDataContentPane extends AbstractTableDataContentPa
         nameField = new UITextField();
 
         Component[][] components_north = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_MultiPie_Series_Name")), nameField},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_MultiPie_Series_Name")), nameField},
                 new Component[]{getJSeparator(),null },
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Level_Number")), levelNumEdit},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Level_Number")), levelNumEdit},
         };
 
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components_north, rowSize_north, columnSize_north);
@@ -242,7 +242,7 @@ public class MultiPiePlotTableDataContentPane extends AbstractTableDataContentPa
         columnNameList = list;
         for (int i = 0; i < levelNum; i++) {
             refreshBoxItems(levelNameList.get(i), list);
-            levelNameList.get(i).addItem(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_None"));
+            levelNameList.get(i).addItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_None"));
         }
         refreshBoxItems(value, list);
     }
@@ -326,7 +326,7 @@ public class MultiPiePlotTableDataContentPane extends AbstractTableDataContentPa
 
         for (int i = 0; i < levelNameList.size(); i++){
             if(!definition.hasLevelIndex(i) || ComparatorUtils.equals(levelColumnNameList.get(i), StringUtils.EMPTY)) {
-                levelNameList.get(i).setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_None"));
+                levelNameList.get(i).setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_None"));
             } else if(definition.hasLevelIndex(i) && !this.boxItemsContainsObject(levelNameList.get(i),levelColumnNameList.get(i))){
                 levelNameList.get(i).setSelectedItem(null);
             }else {

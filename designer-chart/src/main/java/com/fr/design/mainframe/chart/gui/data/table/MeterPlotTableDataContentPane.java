@@ -25,8 +25,8 @@ import java.util.List;
  * @version 创建时间：2012-12-21 下午04:51:50
  */
 public class MeterPlotTableDataContentPane extends AbstractTableDataContentPane {
-	private static final String METER_NAME = com.fr.design.i18n.Toolkit.i18nText("Chart-Category_Use_Name");
-	private static final String METER_VALUE = com.fr.design.i18n.Toolkit.i18nText("Chart-Pointer_Value");
+	private static final String METER_NAME = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Category_Use_Name");
+	private static final String METER_VALUE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Pointer_Value");
 	
 	private UIComboBox nameBox;
 	private UIComboBox valueBox;
@@ -46,7 +46,7 @@ public class MeterPlotTableDataContentPane extends AbstractTableDataContentPane 
 
         Component[][] components = createComponents();
 
-		JPanel jPanel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_Filter"),filterPane);
+		JPanel jPanel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Filter"),filterPane);
 		JPanel panel = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
 
 		filterPane.setBorder(BorderFactory.createEmptyBorder(0,10,0,15));

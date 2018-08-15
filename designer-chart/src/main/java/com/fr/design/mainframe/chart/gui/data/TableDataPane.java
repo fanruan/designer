@@ -36,7 +36,7 @@ public class TableDataPane extends FurtherBasicBeanPane<ChartCollection>{
 	}
 
 	private void initDataPane() {
-		UILabel label = new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Chart-DS_TableData")) ;
+		UILabel label = new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_TableData")) ;
 		label.setPreferredSize(new Dimension(ChartDataPane.LABEL_WIDTH,ChartDataPane.LABEL_HEIGHT));
 		tableDataPane = new DatabaseTableDataPane(label) {
 			@Override

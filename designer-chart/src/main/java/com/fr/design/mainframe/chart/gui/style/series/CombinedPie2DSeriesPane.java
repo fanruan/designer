@@ -35,10 +35,10 @@ public class CombinedPie2DSeriesPane extends Pie2DSeriesPane{
         double[] columnSize = { p, f };
         double[] rowSize = { p, p, p, p};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Pie")),null},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Pie")),null},
                 new Component[]{fillColorPane, null},
                 new Component[]{stylePane,null},
-                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Change_Pie_Size")),zoomTime},
+                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Change_Pie_Size")),zoomTime},
         };
 
         return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);

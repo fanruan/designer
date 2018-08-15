@@ -85,10 +85,10 @@ public class ChartAxisLabelPane extends BasicPane implements UIObserver{
         isLabelShow = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Label"));
         auto = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Auto_Axis_Label_Interval"));
         custom = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom_Axis_Label_Interval"));
-        showWay = new UIComboBox(new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Axis_labelInterval"),com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Axis_labelWrap")});
+        showWay = new UIComboBox(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Label_Interval"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Label_Wrap")});
         customLabelSamleTime = new UITextField();
 
-        String[] nameObjects = {com.fr.design.i18n.Toolkit.i18nText("FR-Chart_All_Normal"), com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Text_Vertical"), com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Text_Rotation")};
+        String[] nameObjects = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_All_Normal"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Text_Vertical"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Text_Rotation")};
         labelOrientationChoose = new UIComboBox(nameObjects);
         orientationBar = new NumberDragBar(-NUM90, NUM90);
         orientationSpinner = new UIBasicSpinner(new SpinnerNumberModel(0, -NUM90, NUM90, 1));
@@ -161,7 +161,7 @@ public class ChartAxisLabelPane extends BasicPane implements UIObserver{
         double[] rowSize = {p, p, p, p};
 
         Component[][] components = new Component[][]{
-                new Component[]{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Axis_labelShowway")), showWay, null},
+                new Component[]{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Label_Show")), showWay, null},
                 new Component[]{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Text_Rotation")), labelOrientationChoose, null},
                 new Component[]{null, orientationSpinner, orientationBar, null},
                 new Component[]{null, textAttrPane, null, null},
@@ -215,7 +215,7 @@ public class ChartAxisLabelPane extends BasicPane implements UIObserver{
         double[] rowSize = {p};
 
         Component[][] components = new Component[][]{
-                new Component[]{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Axis_labelShowway")), showWay, null}
+                new Component[]{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Label_Show")), showWay, null}
         };
         return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
     }
@@ -289,7 +289,7 @@ public class ChartAxisLabelPane extends BasicPane implements UIObserver{
         double[] rowSize = {p, p, p, p};
 
         Component[][] components = new Component[][]{
-                new Component[]{null,new UILabel(com.fr.design.i18n.Toolkit.i18nText("ChartF-Label_Interval")), labelSampleChoose, customLabelSamleTime},
+                new Component[]{null,new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Label_Interval")), labelSampleChoose, customLabelSamleTime},
                 new Component[]{null,new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Text_Rotation")), labelOrientationChoose, null},
                 new Component[]{null,orientationSpinner, orientationBar, null},
                 new Component[]{null,textAttrPane, null, null},
@@ -316,7 +316,7 @@ public class ChartAxisLabelPane extends BasicPane implements UIObserver{
      * 界面标签
      */
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("ChartF-Tick_Label");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Tick_Label");
     }
 
     private int getLabelTextOrientationIndex(TextAttr textAttr) {

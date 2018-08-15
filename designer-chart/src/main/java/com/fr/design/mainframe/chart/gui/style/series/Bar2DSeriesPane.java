@@ -48,8 +48,8 @@ public class Bar2DSeriesPane extends AbstractPlotSeriesPane{
         Component[][] components = new Component[][]{
         		new Component[]{stylePane, null},
         		new Component[]{new JSeparator(), null},
-        		new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Gap_Series")), seriesGap},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Gap_Category")), categoryGap}
+        		new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Gap_Series")), seriesGap},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Gap_Category")), categoryGap}
         };
 		
 		return TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);

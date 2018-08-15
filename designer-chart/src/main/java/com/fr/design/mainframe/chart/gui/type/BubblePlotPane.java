@@ -25,7 +25,7 @@ public class BubblePlotPane extends AbstractChartTypePane {
 	@Override
 	protected String[] getTypeTipName() {
 		return new String[]{
-				com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Chart_BubbleChart")
+				com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Bubble_Chart")
 		};
 	}
 
@@ -44,7 +44,7 @@ public class BubblePlotPane extends AbstractChartTypePane {
      * @return 界面标题
 	 */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Chart_BubbleChart");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Bubble_Chart");
 	}
 
 	/**

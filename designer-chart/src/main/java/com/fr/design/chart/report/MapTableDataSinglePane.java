@@ -82,7 +82,7 @@ public class MapTableDataSinglePane extends FurtherBasicBeanPane<MapSingleLayerT
 		pane.add(areaNamePane, BorderLayout.NORTH);
 		
 		String[] titles = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Title"),
-				com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Value")};
+				com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Region_Value")};
 		titleValuePane = new UICorrelationPane(titles){
 			public UITableEditor createUITableEditor() {
 				return new InnerTableEditor();

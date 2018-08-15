@@ -55,10 +55,10 @@ import java.util.ArrayList;
  */
 public class MapGroupExtensionPane extends BasicPane implements UIObserver {
 	private static final String[] TYPE_NAMES = new String[]{
-			com.fr.design.i18n.Toolkit.i18nText("FR-Chart-World_Map"),
-			com.fr.design.i18n.Toolkit.i18nText("FR-Chart-State_Map"),
-			com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Province_Map"),
-			com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Custom_Map")};
+			com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_World_Map"),
+			com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_State_Map"),
+			com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Province_Map"),
+			com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom_Map")};
 	private static final int WORD = 0;
 	private static final int NATION = 1;
 	private static final int STATE = 2;
@@ -300,7 +300,7 @@ public class MapGroupExtensionPane extends BasicPane implements UIObserver {
 	}
 
 	private JMenuItem createLayerItem(final String oldName) {
-		JMenuItem corrItem = new JMenuItem(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Map_Corresponding_Fields"));
+		JMenuItem corrItem = new JMenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Map_Corresponding_Fields"));
 		corrItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				final MapDefiAreaNamePane namedPane = new MapDefiAreaNamePane();
@@ -332,11 +332,11 @@ public class MapGroupExtensionPane extends BasicPane implements UIObserver {
 	}
 
 	private JMenuItem createRenameItem() {
-		JMenuItem renameItem = new JMenuItem(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Map_Rename"));
+		JMenuItem renameItem = new JMenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Map_Rename"));
 		renameItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String newName = JOptionPane.showInputDialog(DesignerContext.getDesignerFrame().getContentPane(),
-						com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Map_Rename"), groupExtensionPane.getSelectedObject());
+						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Map_Rename"), groupExtensionPane.getSelectedObject());
 				if (StringUtils.isNotBlank(newName)) {
 					String oldName = Utils.objectToString(groupExtensionPane.getSelectedObject());
 					if(ComparatorUtils.equals(oldName, newName)){
@@ -407,7 +407,7 @@ public class MapGroupExtensionPane extends BasicPane implements UIObserver {
 
 			@Override
 			protected void done() {
-				FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Map_Saved")); // 地图已经保存.
+				FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Map_Saved")); // 地图已经保存.
 			}
 
 		};

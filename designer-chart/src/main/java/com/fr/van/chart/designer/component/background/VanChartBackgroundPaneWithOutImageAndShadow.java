@@ -37,7 +37,7 @@ public class VanChartBackgroundPaneWithOutImageAndShadow extends VanChartBackgro
              */
             @Override
             public String title4PopupWindow() {
-                return com.fr.design.i18n.Toolkit.i18nText("Chart-Default_Name");
+                return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Default_Name");
             }
         });
         paneList.add(new ColorBackgroundQuickPane());

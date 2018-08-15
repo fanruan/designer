@@ -66,14 +66,14 @@ public class VanChartAxisAreaPane extends BasicBeanPane<Plot> {
         verticalGridLine = new ColorSelectBox(100);
         Component[][] components = getGridLinePaneComponents();
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("ChartF-Grid_Line"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Grid_Line"), panel);
     }
 
     protected Component[][] getGridLinePaneComponents() {
         return new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Direction_Horizontal")), horizontalGridLine},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Direction_Vertical")), verticalGridLine},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Direction_Horizontal")), horizontalGridLine},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Direction_Vertical")), verticalGridLine},
         };
     }
 
@@ -108,7 +108,7 @@ public class VanChartAxisAreaPane extends BasicBeanPane<Plot> {
             }
         });
         JPanel intervalPane = new JPanel(new BorderLayout(0, 6));
-        JPanel panel1 = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Chart_Interval_Back"), isDefaultIntervalBackground);
+        JPanel panel1 = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Interval_Background"), isDefaultIntervalBackground);
         intervalPane.add(panel1, BorderLayout.NORTH);
         intervalPane.add(centerPane, BorderLayout.CENTER);
         JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Interval_Background"), intervalPane);
@@ -123,8 +123,8 @@ public class VanChartAxisAreaPane extends BasicBeanPane<Plot> {
     protected Component[][] getIntervalPaneComponents() {
         return new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Direction_Horizontal")), horizontalColorBackground},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Direction_Vertical")), verticalColorBackground},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Direction_Horizontal")), horizontalColorBackground},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Direction_Vertical")), verticalColorBackground},
         };
     }
 

@@ -776,7 +776,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Style_Present");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Present");
         }
 
         @Override

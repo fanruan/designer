@@ -41,7 +41,7 @@ public abstract class VanChartFormatPaneWithCheckBox extends JPanel{
 
         this.setLayout(new BorderLayout());
         isSelectedBox = new UICheckBox(getCheckBoxText());
-        formatButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Format"));
+        formatButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Format"));
         this.add(isSelectedBox, BorderLayout.CENTER);
         this.add(formatButton, BorderLayout.EAST);
 

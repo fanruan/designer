@@ -21,7 +21,7 @@ public class LinePlotPane extends AbstractChartTypePane{
 	@Override
 	protected String[] getTypeTipName() {
 		return new String[]{
-				com.fr.design.i18n.Toolkit.i18nText("I-LineStyle_Line")
+				com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Line_Chart")
 		};
 	}
 
@@ -83,7 +83,7 @@ public class LinePlotPane extends AbstractChartTypePane{
 	}
 
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("I-LineStyle_Line");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Line_Chart");
 	}
 
 	public Chart getDefaultChart() {

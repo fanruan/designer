@@ -54,7 +54,7 @@ public class CategoryPlotMoreCateReportDataContentPane extends CategoryPlotRepor
 
 	public CategoryPlotMoreCateReportDataContentPane(ChartDataPane parent) {
 		initEveryPane();
-		categoryName = initCategoryBox(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Category_Name"));
+		categoryName = initCategoryBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Category_Name"));
 
 		JPanel catePane = new JPanel();
 		catePane.setLayout(new BorderLayout(2, 2));
@@ -76,7 +76,7 @@ public class CategoryPlotMoreCateReportDataContentPane extends CategoryPlotRepor
 
 		this.add(catePane, "0,0,2,0");
 		filterPane = new ChartDataFilterPane(new Bar2DPlot(), parent);
-		JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_Filter"),filterPane);
+		JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Filter"),filterPane);
 		panel.setBorder(getSidesBorder());
 		filterPane.setBorder(getFilterPaneBorder());
 		this.add(panel, "0,6,2,4");

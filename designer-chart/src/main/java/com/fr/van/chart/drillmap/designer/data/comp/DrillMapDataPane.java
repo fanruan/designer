@@ -112,6 +112,6 @@ public class DrillMapDataPane extends BasicBeanPane<ChartCollection> {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Data");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Data");
     }
 }

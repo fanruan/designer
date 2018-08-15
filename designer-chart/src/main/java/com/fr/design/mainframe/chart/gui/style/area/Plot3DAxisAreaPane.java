@@ -18,7 +18,7 @@ public class Plot3DAxisAreaPane extends ChartAxisAreaPane {
 	private ColorSelectBox gridColorPane;
 
 	public Plot3DAxisAreaPane() {
-        gridLine = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("ChartF-Grid_Line"));
+        gridLine = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Grid_Line"));
 		gridColorPane = new ColorSelectBox(100);
 
 		double p = TableLayout.PREFERRED;

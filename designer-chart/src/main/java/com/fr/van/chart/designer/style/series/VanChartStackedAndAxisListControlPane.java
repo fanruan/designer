@@ -31,7 +31,7 @@ public class VanChartStackedAndAxisListControlPane extends VanChartUIListControl
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_StackAndSeries");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Stack_And_Series");
     }
 
     protected String getAddItemText() {
@@ -96,6 +96,6 @@ public class VanChartStackedAndAxisListControlPane extends VanChartUIListControl
     }
 
     public String getPaneTitle() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_StackAndSeries");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Stack_And_Series");
     }
 }

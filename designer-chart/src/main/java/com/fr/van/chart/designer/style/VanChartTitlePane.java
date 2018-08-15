@@ -81,7 +81,7 @@ public class VanChartTitlePane extends AbstractVanChartScrollPane<VanChart> {
         }
 
         private void initComponents() {
-            isTitleVisible = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Title_Is_Visible"));
+            isTitleVisible = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Title_Visible"));
             titlePane = createTitlePane();
 
             double p = TableLayout.PREFERRED;
@@ -159,7 +159,7 @@ public class VanChartTitlePane extends AbstractVanChartScrollPane<VanChart> {
         initPositionListener();
 
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components,row,col);
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Chart_Layout"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Layout"), panel);
     }
 
     private JPanel createTitleStylePane(){

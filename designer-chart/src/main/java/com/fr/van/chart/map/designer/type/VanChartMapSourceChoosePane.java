@@ -317,9 +317,9 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
     private void refreshZoomLevel(){
         //gis图层不同，对应的缩放等级不同。
         ZoomLevel[] levels;
-        if (ComparatorUtils.equals(gisLayer.getSelectedItem(), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Layer_Blue"))) {
+        if (ComparatorUtils.equals(gisLayer.getSelectedItem(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Layer_Blue"))) {
             levels = BLUE_ZOOM_LEVELS;
-        } else if (ComparatorUtils.equals(gisLayer.getSelectedItem(), com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Layer_GaoDe"))) {
+        } else if (ComparatorUtils.equals(gisLayer.getSelectedItem(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Layer_GaoDe"))) {
             levels = GAODE_ZOOM_LEVELS;
         } else {
             levels = ZOOM_LEVELS;
@@ -402,7 +402,7 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
                     if(list != null && list.size() > 0) {
                         resetWMSLayerPane(list);
                     } else {
-                        JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Invalid_WMS"));
+                        JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Invalid_WMS"));
                     }
                 }
             }.execute();
@@ -485,8 +485,8 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
         final JPanel northPane = TableLayout4VanChartHelper.createGapTableLayoutPane(comps,rowSize,columnSize);
 
         Component[][] longAndLatComps = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Longitude")), longitude},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Latitude")), latitude}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Longitude")), longitude},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Latitude")), latitude}
         };
         longAndLatPane =TableLayout4VanChartHelper.createGapTableLayoutPane(longAndLatComps,rowSize,column);
         longAndLatPane.setBorder(BorderFactory.createEmptyBorder(0,12,0,0));

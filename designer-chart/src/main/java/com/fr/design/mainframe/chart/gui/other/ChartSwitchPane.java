@@ -84,7 +84,7 @@ public class ChartSwitchPane extends AbstractAttrNoScrollPane{
 	 * @param 返回标题
 	 */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Chart-Switch");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Switch_Chart");
 	}
 
 	@Override

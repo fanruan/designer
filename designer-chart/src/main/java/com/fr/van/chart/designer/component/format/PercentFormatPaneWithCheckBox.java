@@ -18,7 +18,7 @@ public class PercentFormatPaneWithCheckBox extends VanChartFormatPaneWithCheckBo
 
     @Override
     protected String getCheckBoxText() {
-        return com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Percent");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Percent");
     }
 
     protected boolean isPercent() {
