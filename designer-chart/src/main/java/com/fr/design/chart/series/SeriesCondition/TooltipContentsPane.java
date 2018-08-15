@@ -71,7 +71,7 @@ public class TooltipContentsPane extends BasicPane{
 	}
 
 	protected String getValueString() {
-		return com.fr.design.i18n.Toolkit.i18nText("Value");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Value");
 	}
 
 	protected Component[] createComponents4PercentValue() {

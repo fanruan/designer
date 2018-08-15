@@ -150,7 +150,7 @@ public class BorderPane extends BasicPane {
 		JPanel rightTopPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		northPane.add(rightTopPane, BorderLayout.NORTH);
 		JPanel first = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-		first.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Style") + ":"));
+		first.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style") + ":"));
 		first.add(this.currentLineCombo);
 		rightTopPane.add(first, BorderLayout.NORTH);
 

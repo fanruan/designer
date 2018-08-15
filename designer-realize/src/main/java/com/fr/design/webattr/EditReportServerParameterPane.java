@@ -58,7 +58,7 @@ public class EditReportServerParameterPane extends LoadingBasicPane {
         tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_WEB_Write_Setting"), writePane = new WriteToolBarPane());
         tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_M_Data_Analysis_Settings"), viewPane = new ViewToolBarPane());
         tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportServerP_Import_Css"), cssPane = new WebCssPane());
-        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("ReportServerP-Import_JavaScript"), jsPane = new WebJsPane());
+        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportServerP_Import_JavaScript"), jsPane = new WebJsPane());
         tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Error_Handler_Template"), errorTemplatePane = new ErrorTemplatePane());
         tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Print_Setting"), printSettingPane = new PrintSettingPane());
     }

@@ -490,7 +490,7 @@ public class DSColumnAdvancedPane extends BasicPane {
         public ValuePane() {
             this.setLayout(FRGUIPaneFactory.createBoxFlowLayout());
 
-            this.add(new UILabel(InsetText + com.fr.design.i18n.Toolkit.i18nText("Value") + ":"));
+            this.add(new UILabel(InsetText + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Value") + ":"));
             this.add(Box.createHorizontalStrut(2));
             this.add((formulaField = new JFormulaField("$$$")));
         }

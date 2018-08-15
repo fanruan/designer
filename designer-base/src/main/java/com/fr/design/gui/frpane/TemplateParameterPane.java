@@ -39,7 +39,7 @@ public class TemplateParameterPane extends BasicPane {
         JPanel defaultPane = FRGUIPaneFactory.createNormalFlowInnerContainer_M_Pane();
         northPane.add(defaultPane, BorderLayout.CENTER);
         UILabel nameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Name") + ":");
-        UILabel valueLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Value") + ":");
+        UILabel valueLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Value") + ":");
 
         nameTextField = new UITextField(12);       
         valuePane = ValueEditorPaneFactory.createBasicValueEditorPane();
