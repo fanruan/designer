@@ -12,13 +12,11 @@ import com.fr.design.gui.autocomplete.DefaultCompletionProvider;
 import com.fr.design.gui.autocomplete.ShorthandCompletion;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.itextarea.UITextArea;
-import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.gui.syntax.ui.rsyntaxtextarea.RSyntaxTextArea;
 import com.fr.design.gui.syntax.ui.rsyntaxtextarea.SyntaxConstants;
 import com.fr.design.javascript.beautify.JavaScriptFormatHelper;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.utils.gui.GUICoreUtils;
+
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 
