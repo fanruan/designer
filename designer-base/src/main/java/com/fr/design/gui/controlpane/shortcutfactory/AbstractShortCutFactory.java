@@ -6,7 +6,6 @@ import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.controlpane.ShortCut4JControlPane;
 import com.fr.design.gui.controlpane.ShortCutListenerProvider;
 import com.fr.design.menu.ShortCut;
-import com.fr.general.Inter;
 
 import java.awt.event.ActionEvent;
 
@@ -98,7 +97,7 @@ public abstract class AbstractShortCutFactory {
      */
     private class RemoveItemAction extends UpdateAction {
         RemoveItemAction() {
-            this.setName(Inter.getLocText("FR-Action_Remove"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText(("Fine-Design_Basic_Action_Remove")));
             this.setMnemonic('R');
             this.setSmallIcon(BaseUtils
                     .readIcon("/com/fr/base/images/cell/control/remove.png"));
@@ -115,7 +114,7 @@ public abstract class AbstractShortCutFactory {
      */
     private class CopyItemAction extends UpdateAction {
         CopyItemAction() {
-            this.setName(Inter.getLocText("FR-Action_Copy"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Action_Copy"));
             this.setMnemonic('C');
             this.setSmallIcon(BaseUtils
                     .readIcon("/com/fr/design/images/m_edit/copy.png"));
@@ -132,7 +131,7 @@ public abstract class AbstractShortCutFactory {
      */
     private class MoveUpItemAction extends UpdateAction {
         MoveUpItemAction() {
-            this.setName(Inter.getLocText("Utils-Move_Up"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Move_Up"));
             this.setMnemonic('U');
             this.setSmallIcon(BaseUtils
                     .readIcon("/com/fr/design/images/control/up.png"));
@@ -149,7 +148,7 @@ public abstract class AbstractShortCutFactory {
      */
     private class MoveDownItemAction extends UpdateAction {
         MoveDownItemAction() {
-            this.setName(Inter.getLocText("Utils-Move_Down"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Move_Down"));
             this.setMnemonic('D');
             this.setSmallIcon(BaseUtils
                     .readIcon("/com/fr/design/images/control/down.png"));
@@ -165,7 +164,7 @@ public abstract class AbstractShortCutFactory {
         private boolean isAtoZ = false;
 
         SortItemAction() {
-            this.setName(Inter.getLocText("FR-Action_Sort"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Action_Sort"));
             this.setMnemonic('S');
             this.setSmallIcon(BaseUtils
                     .readIcon("/com/fr/design/images/control/sortAsc.png"));

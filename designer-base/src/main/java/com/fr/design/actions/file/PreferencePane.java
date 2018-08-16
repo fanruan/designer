@@ -24,6 +24,7 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
+import com.fr.general.Inter;
 import com.fr.general.log.Log4jConfig;
 import com.fr.locale.InterProviderFactory;
 import com.fr.third.apache.log4j.Level;
@@ -394,7 +395,8 @@ public class PreferencePane extends BasicPane {
         int i = 0;
         for (Map.Entry<Locale, String> entry : map.entrySet()) {
             keys[i] = entry.getKey();
-            values[i] = com.fr.design.i18n.Toolkit.i18nText(entry.getValue());
+            // 想要读取到，必需在这里 使用 Inter 才行。
+            values[i] = Inter.getLocText(entry.getValue());
             i++;
         }
         UIDictionaryComboBox<Locale> languageComboBox = new UIDictionaryComboBox<>(keys, values);

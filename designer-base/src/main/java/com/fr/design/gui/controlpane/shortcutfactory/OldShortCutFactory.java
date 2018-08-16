@@ -59,7 +59,7 @@ public class OldShortCutFactory extends AbstractShortCutFactory {
 
         public AddItemUpdateAction(NameableCreator[] creators) {
             this.creator = creators[0];
-            this.setName(Inter.getLocText("FR-Action_Add"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText(("Fine-Design_Basic_Action_Add")));
             this.setMnemonic('A');
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/buttonicon/add.png"));
         }
@@ -75,7 +75,7 @@ public class OldShortCutFactory extends AbstractShortCutFactory {
      */
     private class AddItemMenuDef extends MenuDef {
         AddItemMenuDef(NameableCreator[] creators) {
-            this.setName(Inter.getLocText("FR-Action_Add"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText(("Fine-Design_Basic_Action_Add")));
             this.setMnemonic('A');
             this.setIconPath("/com/fr/design/images/control/addPopup.png");
             wrapActionListener(creators);
