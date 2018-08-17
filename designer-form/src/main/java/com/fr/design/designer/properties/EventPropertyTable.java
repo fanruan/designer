@@ -15,6 +15,7 @@ import com.fr.design.form.javascript.FormEmailPane;
 import com.fr.form.ui.Widget;
 
 import com.fr.general.NameObject;
+import com.fr.report.web.util.ReportEngineEventMapping;
 import com.fr.stable.Nameable;
 
 import javax.swing.*;
@@ -72,7 +73,9 @@ public class EventPropertyTable extends UIListControlPane {
 	}
 
 	private String switchLang(String eventName)	{
-		return com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Event_" + eventName);
+	    // 在 properties 文件中找到相应的 key 值
+        String localeKey = ReportEngineEventMapping.getLocaleName(eventName);
+        return com.fr.design.i18n.Toolkit.i18nText(localeKey);
 	}
 
 	/**
