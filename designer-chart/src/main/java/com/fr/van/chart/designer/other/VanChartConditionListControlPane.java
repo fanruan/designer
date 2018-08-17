@@ -1,6 +1,5 @@
 package com.fr.van.chart.designer.other;
 
-import com.fr.base.chart.BasePlot;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionAttr;
 import com.fr.chart.chartglyph.ConditionCollection;
@@ -9,7 +8,6 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
-
 import com.fr.general.NameObject;
 import com.fr.stable.Nameable;
 import com.fr.van.chart.designer.component.VanChartUIListControlPane;
@@ -23,10 +21,6 @@ import java.lang.reflect.InvocationTargetException;
  */
 public class VanChartConditionListControlPane extends VanChartUIListControlPane {
 
-    public VanChartConditionListControlPane(BasePlot plot) {
-        super(plot);
-    }
-
     public void populate(Nameable[] nameableArray, Class<? extends ConditionAttributesPane> showPane) {
         initComponentPane();
         this.setBorder(null);
@@ -37,7 +31,7 @@ public class VanChartConditionListControlPane extends VanChartUIListControlPane 
 
     @Override
     public NameableCreator[] createNameableCreators() {
-        return new NameObjectCreator[]{new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Condition_Attributes"), ConditionAttr.class, ChartTypeInterfaceManager.getInstance().getPlotConditionPane((Plot) plot).getClass())};
+        return new NameObjectCreator[]{new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Condition_Attributes"), ConditionAttr.class, ChartTypeInterfaceManager.getInstance().getPlotConditionPane(getPlot()).getClass())};
     }
 
 
@@ -45,7 +39,7 @@ public class VanChartConditionListControlPane extends VanChartUIListControlPane 
         Constructor<? extends BasicBeanPane> constructor = null;
         try {
             constructor = creator.getUpdatePane().getConstructor(Plot.class);
-            return constructor.newInstance(plot);
+            return constructor.newInstance(getPlot());
 
         } catch (InstantiationException e) {
             throw new RuntimeException(e);

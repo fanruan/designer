@@ -5,7 +5,6 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.controlpane.ShortCut4JControlPane;
 import com.fr.general.ComparatorUtils;
-
 import com.fr.general.NameObject;
 import com.fr.plugin.chart.attr.DefaultAxisHelper;
 import com.fr.plugin.chart.attr.axis.VanChartAlertValue;
@@ -49,7 +48,7 @@ public class BackgroundListControlPane extends VanChartUIListControlPane {
     }
 
     public void populate(Plot plot) {
-        this.plot = plot;
+        setPlot(plot);
         VanChartRectanglePlot rectanglePlot = (VanChartRectanglePlot) plot;
         List<VanChartAxis> xAxisList = rectanglePlot.getXAxisList();
         List<VanChartAxis> yAxisList = rectanglePlot.getYAxisList();

@@ -1,6 +1,5 @@
 package com.fr.design.gui.controlpane;
 
-import com.fr.base.chart.BasePlot;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.controlpane.shortcutfactory.ShortCutFactory;
 import com.fr.design.gui.ilable.UILabel;
@@ -49,18 +48,12 @@ import java.awt.event.WindowEvent;
 abstract class UIControlPane extends JControlPane {
     private UIToolbar topToolBar;
     protected Window popupEditDialog;
-    protected BasePlot plot;
     private static final int TOP_TOOLBAR_HEIGHT = 20;
     private static final int TOP_TOOLBAR_WIDTH = 156;  // 可能因为用了tablelayout，要比其他地方多一个像素，看起来才正常
     private static final int TOP_TOOLBAR_WIDTH_SHORT = 76;
 
     UIControlPane() {
         super();
-    }
-
-    UIControlPane(BasePlot plot) {
-        super();
-        this.plot = plot;
     }
 
     public abstract void saveSettings();

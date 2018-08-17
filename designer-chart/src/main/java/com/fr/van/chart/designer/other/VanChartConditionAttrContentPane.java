@@ -27,10 +27,16 @@ public class VanChartConditionAttrContentPane extends AbstractConditionAttrConte
         populateBean(plot, collection, showPane);
     }
 
-    public void populateBean(Plot plot, ConditionCollection collection,  Class<? extends ConditionAttributesPane> showPane){
+    public void populateBean(final Plot plot, ConditionCollection collection, Class<? extends ConditionAttributesPane> showPane) {
 
         if (conditionPane == null) {
-            conditionPane = new VanChartConditionListControlPane(plot);
+            conditionPane = new VanChartConditionListControlPane() {
+                @Override
+                protected Plot getPlot() {
+                    return plot;
+                }
+            };
+
         }
 
         this.setLayout(new BorderLayout());
