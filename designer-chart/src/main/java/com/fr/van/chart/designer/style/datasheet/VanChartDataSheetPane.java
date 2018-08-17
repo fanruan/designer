@@ -95,7 +95,7 @@ public class VanChartDataSheetPane extends AbstractVanChartScrollPane<Chart> {
         double[] rowSize = {p,p,p};
         Component[][] components = new Component[][]{
                 new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Base_Format"),formatPane),null},
-                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget_Style"),textAttrPane),null},
+                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Widget_Style"),textAttrPane),null},
                 new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Border"),borderPane),null},
         };
 

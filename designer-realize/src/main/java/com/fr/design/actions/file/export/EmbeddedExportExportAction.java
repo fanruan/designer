@@ -34,7 +34,7 @@ public class EmbeddedExportExportAction extends AbstractExportAction {
     @Override
     protected ChooseFileFilter getChooseFileFilter() {
         return new ChooseFileFilter(EnumSet.of(FileExtension.CPTX, FileExtension.CPT),
-                com.fr.design.i18n.Toolkit.i18nText("Export-Template(embedded_data)"));
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Export_Template(Embedded_Data)"));
     }
 
     @Override

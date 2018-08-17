@@ -12,7 +12,7 @@ import com.fr.van.chart.designer.type.AbstractVanChartTypePane;
  * Created by Mitisky on 15/12/28.
  */
 public class VanChartRadarPlotPane  extends AbstractVanChartTypePane {
-    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewRadar");
+    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Radar");
 
     private static final long serialVersionUID = -4599483879031804911L;
 
@@ -26,8 +26,8 @@ public class VanChartRadarPlotPane  extends AbstractVanChartTypePane {
     @Override
     protected String[] getTypeTipName() {
         return new String[]{
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Radar"),
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_StackColumnTypeRadar")
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Radar_Chart"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_StackColumn_Radar")
         };
     }
 
@@ -36,7 +36,7 @@ public class VanChartRadarPlotPane  extends AbstractVanChartTypePane {
      * @return 界面标题
      */
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewRadar");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Radar");
     }
 
     /**

@@ -1,6 +1,5 @@
 package com.fr.design.designer.beans.actions;
 
-import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.KeyStroke;
@@ -15,7 +14,7 @@ public class PasteAction extends FormWidgetEditAction {
 
 	public PasteAction(FormDesigner t) {
 		super(t);
-		this.setName(com.fr.design.i18n.Toolkit.i18nText("M_Edit-Paste"));
+		this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_M_Edit_Paste"));
 		this.setMnemonic('P');
 		this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_edit/paste.png"));
 		this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, DEFAULT_MODIFIER));

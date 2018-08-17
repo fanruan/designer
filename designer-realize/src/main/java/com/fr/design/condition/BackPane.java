@@ -28,10 +28,10 @@ public class BackPane extends ConditionAttrSingleConditionPane<HighlightAction> 
 
     public BackPane(final ConditionAttributesPane conditionAttributesPane) {
         super(conditionAttributesPane);
-        backgroundLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background") + ":");
+        backgroundLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Base_Background") + ":");
         this.backgroundPreviewPane = new BackgroundPreviewLabel();
         this.backgroundPreviewPane.setPreferredSize(new Dimension(80, 20));
-        UIButton editBackgroundButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit"));
+        UIButton editBackgroundButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Edit"));
         editBackgroundButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 final BackgroundPane backgroundPane = new BackgroundPane();
@@ -47,9 +47,9 @@ public class BackPane extends ConditionAttrSingleConditionPane<HighlightAction> 
         });
 
         this.backScopeComboBox = new UIComboBox(new String[] {
-                com.fr.design.i18n.Toolkit.i18nText("Utils-Current_Cell"),
-                com.fr.design.i18n.Toolkit.i18nText("Utils-Current_Row"),
-                com.fr.design.i18n.Toolkit.i18nText("Utils-Current_Column") });
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Current_Cell"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Current_Row"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Current_Column") });
 
         this.add(backgroundLabel);
         this.add(backgroundPreviewPane);
@@ -60,7 +60,7 @@ public class BackPane extends ConditionAttrSingleConditionPane<HighlightAction> 
 
     @Override
     public String nameForPopupMenuItem() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Base_Background");
     }
 
 

@@ -54,7 +54,7 @@ public class TemplateStylePane extends BasicPane {
         JPanel centerPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
         westPane.setPreferredSize(new Dimension(100, 500));
         centerPane.setPreferredSize(new Dimension(300, 500));
-        centerPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Preview"), null));
+        centerPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preview"), null));
         centerPane.add(previewPane);
         styleList.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
@@ -79,7 +79,7 @@ public class TemplateStylePane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tab_Style_Template");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Tab_Style_Template");
     }
 
     public void populate(TemplateStyle templateStyle) {

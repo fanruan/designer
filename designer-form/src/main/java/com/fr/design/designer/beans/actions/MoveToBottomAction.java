@@ -10,7 +10,6 @@ import com.fr.design.mainframe.FormSelection;
 
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
@@ -25,7 +24,7 @@ public class MoveToBottomAction extends FormWidgetEditAction {
 
     public MoveToBottomAction(FormDesigner t) {
         super(t);
-        this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Move_To_Bottom"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Move_To_Bottom"));
         this.setMnemonic('K');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/to_bottom.png"));
         this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_OPEN_BRACKET, DEFAULT_MODIFIER + InputEvent.SHIFT_MASK));

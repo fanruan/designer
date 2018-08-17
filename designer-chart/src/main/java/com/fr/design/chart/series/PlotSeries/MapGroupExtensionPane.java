@@ -1,7 +1,6 @@
 package com.fr.design.chart.series.PlotSeries;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.base.MapHelper;
 import com.fr.base.MapXMLHelper;
 import com.fr.base.Utils;
@@ -22,7 +21,6 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrame;
 import com.fr.general.ComparatorUtils;
-
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.StableUtils;
@@ -30,9 +28,18 @@ import com.fr.stable.StringUtils;
 import com.fr.stable.SvgProvider;
 import com.fr.workspace.WorkContext;
 
-import javax.swing.*;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.event.ListSelectionEvent;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -48,10 +55,10 @@ import java.util.ArrayList;
  */
 public class MapGroupExtensionPane extends BasicPane implements UIObserver {
 	private static final String[] TYPE_NAMES = new String[]{
-			com.fr.design.i18n.Toolkit.i18nText("FR-Chart-World_Map"),
-			com.fr.design.i18n.Toolkit.i18nText("FR-Chart-State_Map"),
-			com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Province_Map"),
-			com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Custom_Map")};
+			com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_World_Map"),
+			com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_State_Map"),
+			com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Province_Map"),
+			com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom_Map")};
 	private static final int WORD = 0;
 	private static final int NATION = 1;
 	private static final int STATE = 2;
@@ -211,7 +218,7 @@ public class MapGroupExtensionPane extends BasicPane implements UIObserver {
 	}
 
 	private JMenuItem createAreaItem(final String oldName) {
-		JMenuItem editFileItem = new JMenuItem(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Edit", "Image", "Filed"}));
+		JMenuItem editFileItem = new JMenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Edit_Image_Region"));
 		editFileItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				final MapCustomPane image = new MapCustomPane();
@@ -259,7 +266,7 @@ public class MapGroupExtensionPane extends BasicPane implements UIObserver {
 	}
 
 	private JMenuItem createMarkerItem(final String oldName) {
-		JMenuItem editMarkerItem = new JMenuItem(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Edit", "Image", "Marker"}));
+		JMenuItem editMarkerItem = new JMenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Edit_Image_Marker"));
 		editMarkerItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				final MapCustomPane image = new MapCustomPane();
@@ -293,7 +300,7 @@ public class MapGroupExtensionPane extends BasicPane implements UIObserver {
 	}
 
 	private JMenuItem createLayerItem(final String oldName) {
-		JMenuItem corrItem = new JMenuItem(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Filed", "Corresponding_Fields"}));
+		JMenuItem corrItem = new JMenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Map_Corresponding_Fields"));
 		corrItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				final MapDefiAreaNamePane namedPane = new MapDefiAreaNamePane();
@@ -320,16 +327,16 @@ public class MapGroupExtensionPane extends BasicPane implements UIObserver {
 	}
 
 	private void showRenameWaring(String newName){
-		JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), "\"" + newName + "\"" + com.fr.design.i18n.Toolkit.i18nText("Utils-has_been_existed")
-				+ "!", com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Alert"), JOptionPane.WARNING_MESSAGE);
+		JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), "\"" + newName + "\"" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Has_Been_Existed")
+				+ "!", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Alert"), JOptionPane.WARNING_MESSAGE);
 	}
 
 	private JMenuItem createRenameItem() {
-		JMenuItem renameItem = new JMenuItem(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Map_Rename"));
+		JMenuItem renameItem = new JMenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Map_Rename"));
 		renameItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String newName = JOptionPane.showInputDialog(DesignerContext.getDesignerFrame().getContentPane(),
-						com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Map_Rename"), groupExtensionPane.getSelectedObject());
+						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Map_Rename"), groupExtensionPane.getSelectedObject());
 				if (StringUtils.isNotBlank(newName)) {
 					String oldName = Utils.objectToString(groupExtensionPane.getSelectedObject());
 					if(ComparatorUtils.equals(oldName, newName)){
@@ -400,7 +407,7 @@ public class MapGroupExtensionPane extends BasicPane implements UIObserver {
 
 			@Override
 			protected void done() {
-				FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Map_Saved")); // 地图已经保存.
+				FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Map_Saved")); // 地图已经保存.
 			}
 
 		};

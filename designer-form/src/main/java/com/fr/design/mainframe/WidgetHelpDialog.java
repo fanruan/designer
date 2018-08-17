@@ -52,7 +52,7 @@ public class WidgetHelpDialog extends UIDialog {
         contentPane.setLayout(new BorderLayout());
         add(helpArea, BorderLayout.CENTER);
         this.applyClosingAction();
-        this.setTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Help"));
+        this.setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Help"));
     }
 
     /**

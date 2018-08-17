@@ -32,7 +32,7 @@ public class VanChartGradientPane extends GradientBackgroundQuickPane {
     }
 
     protected void constructPane(){
-        String[] textArray = {com.fr.design.i18n.Toolkit.i18nText("Utils-Left_to_Right"), com.fr.design.i18n.Toolkit.i18nText("Utils-Top_to_Bottom")};
+        String[] textArray = {com.fr.design.i18n.Toolkit.i18nText("FIne-Design_Report_Utils_Left_To_Right"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Top_To_Bottom")};
         Integer[] valueArray = {GradientBackground.LEFT2RIGHT, GradientBackground.TOP2BOTTOM};
         directionPane = new UIButtonGroup<Integer>(textArray, valueArray);
         directionPane.setSelectedIndex(0);

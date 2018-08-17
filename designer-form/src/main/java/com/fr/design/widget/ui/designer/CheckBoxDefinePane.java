@@ -40,10 +40,10 @@ public class CheckBoxDefinePane extends AbstractDataModify<CheckBox> {
 		double f = TableLayout.FILL;
 		double p = TableLayout.PREFERRED;
 		Component[][] components = new Component[][]{
-				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Label_Name")), labelNameTextField},
-				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Text")),  text },
+				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Label_Name")), labelNameTextField},
+				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Text")),  text },
 				new Component[]{widgetValueLabel,  formWidgetValuePane },
-				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Font-Size")), fontSizePane},
+				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Font_Size")), fontSizePane},
 		};
 		double[] rowSize = {p, p, p, p, p, p};
 		double[] columnSize = {p, f};
@@ -52,7 +52,7 @@ public class CheckBoxDefinePane extends AbstractDataModify<CheckBox> {
 		JPanel boundsPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
 		boundsPane.add(panel);
-		UIExpandablePane uiExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Advanced"), 280, 20, boundsPane);
+		UIExpandablePane uiExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced"), 280, 20, boundsPane);
 
 		this.add(uiExpandablePane);
 	}

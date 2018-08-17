@@ -100,7 +100,7 @@ public class TableDataSourceOP implements UserObjectOP<TableDataWrapper> {
     }
 
     private ExpandMutableTreeNode initTemplateDataNode(Map<String, TableDataWrapper> templateDataMap) {
-        ExpandMutableTreeNode templateNode = new ExpandMutableTreeNode(new NameObject(com.fr.design.i18n.Toolkit.i18nText("DS-TableData"), TEMPLATE_TABLE_DATA), true);
+        ExpandMutableTreeNode templateNode = new ExpandMutableTreeNode(new NameObject(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_DS_TableData"), TEMPLATE_TABLE_DATA), true);
         templateNode.addChildTreeNodes(getNodeArrayFromMap(templateDataMap));
         return templateNode;
     }
@@ -112,7 +112,7 @@ public class TableDataSourceOP implements UserObjectOP<TableDataWrapper> {
     }
 
     private ExpandMutableTreeNode initStoreProcedureNode(Map<String, TableDataWrapper> storeProcedureMap) {
-        ExpandMutableTreeNode templateNode = new ExpandMutableTreeNode(new NameObject(com.fr.design.i18n.Toolkit.i18nText("Datasource-Stored_Procedure"), STORE_PRECEDURE_DATA), false);
+        ExpandMutableTreeNode templateNode = new ExpandMutableTreeNode(new NameObject(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Stored_Procedure"), STORE_PRECEDURE_DATA), false);
         templateNode.addChildTreeNodes(getNodeArrayFromMap(storeProcedureMap));
         return templateNode;
     }

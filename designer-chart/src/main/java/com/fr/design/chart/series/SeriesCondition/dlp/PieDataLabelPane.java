@@ -25,7 +25,7 @@ public class PieDataLabelPane extends DataLabelPane {
 
     protected Component[] createComponents4ShowGuidLine() {
         if (showGuidLine == null) {
-            showGuidLine = new JCheckBox(com.fr.design.i18n.Toolkit.i18nText("ChartF-Show_GuidLine"));
+            showGuidLine = new JCheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Show_Guideline"));
         }
         return new Component[]{null, showGuidLine};
     }
@@ -51,8 +51,8 @@ public class PieDataLabelPane extends DataLabelPane {
     }
 
     protected JPanel createJPanel4Position() {
-        insideButton = new JRadioButton(com.fr.design.i18n.Toolkit.i18nText("Chart_In_Pie"));
-        outSideButton = new JRadioButton(com.fr.design.i18n.Toolkit.i18nText("Chart_Out_Pie"));
+        insideButton = new JRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Pie_Inside"));
+        outSideButton = new JRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Pie_Outside"));
         outSideButton.addActionListener(getPositionListener());
         insideButton.addActionListener(getPositionListener());
         showPercent.addActionListener(getPieLeadActionListener());

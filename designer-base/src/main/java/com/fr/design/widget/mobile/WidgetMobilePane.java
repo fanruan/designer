@@ -23,7 +23,7 @@ public class WidgetMobilePane extends JPanel {
 
     protected void init() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_No_Settings_Available"));
+        UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_No_Settings_Available"));
         label.setHorizontalAlignment(SwingConstants.CENTER);
         this.add(label);
     }

@@ -60,7 +60,7 @@ public class RichTextCellAction extends AbstractCellAction implements WorkBookSu
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_RichText");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_RichText");
         }
 
         @Override

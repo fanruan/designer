@@ -16,7 +16,7 @@ import com.fr.van.chart.map.designer.type.VanChartMapSourceChoosePane;
  * Created by Mitisky on 16/10/20.
  */
 public class VanChartHeatMapTypePane extends VanChartMapPlotPane {
-    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewHeatMap");
+    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_HeatMap");
 
     @Override
     protected String[] getTypeIconPath() {
@@ -27,7 +27,7 @@ public class VanChartHeatMapTypePane extends VanChartMapPlotPane {
     @Override
     protected String[] getTypeTipName() {
         return new String[]{
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_HeatMap")
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_HeatMap")
         };
     }
 
@@ -48,7 +48,7 @@ public class VanChartHeatMapTypePane extends VanChartMapPlotPane {
      */
     @Override
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewHeatMap");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_HeatMap");
     }
 
     @Override

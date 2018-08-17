@@ -33,7 +33,7 @@ public class PlatformManagerAction extends UpdateAction {
 
 		@Override
 		public String getMenuName() {
-			return com.fr.design.i18n.Toolkit.i18nText("M_Server-Platform_Manager");
+			return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_M_Server_Platform_Manager");
 		}
 
 		@Override

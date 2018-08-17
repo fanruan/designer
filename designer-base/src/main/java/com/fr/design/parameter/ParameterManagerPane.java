@@ -3,12 +3,9 @@ package com.fr.design.parameter;
 import com.fr.base.Parameter;
 import com.fr.base.ParameterConfig;
 import com.fr.design.dialog.BasicPane;
-import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 
 
-import javax.swing.*;
 import java.awt.*;
 
 
@@ -24,7 +21,7 @@ public class ParameterManagerPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("M_Server-Global_Parameters");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_M_Server_Global_Parameters");
     }
     
     public void populate(Parameter[] parameters) {

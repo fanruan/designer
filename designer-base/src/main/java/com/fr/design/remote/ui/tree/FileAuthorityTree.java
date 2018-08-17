@@ -42,6 +42,16 @@ public class FileAuthorityTree extends TemplateFileTree {
         this.getCheckBoxTreeSelectionModel().setSelectionPaths(res.toArray(new TreePath[0]));
     }
 
+    /**
+     * 全选
+     */
+    public void selectAllCheckBoxPaths() {
+        DefaultTreeModel model = (DefaultTreeModel) this.getModel();
+        ExpandMutableTreeNode treeNode = (ExpandMutableTreeNode) model.getRoot();
+        TreePath path = new TreePath(model.getPathToRoot(treeNode));
+        getCheckBoxTreeSelectionModel().setSelectionPaths(new TreePath[]{path});
+    }
+
 
     private TreePath getSelectingPath(ExpandMutableTreeNode currentTreeNode, String prefix, String filePath, DefaultTreeModel model) {
         FileNode fileNode = (FileNode) currentTreeNode.getUserObject();

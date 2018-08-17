@@ -80,7 +80,7 @@ public class InformationWarnPane extends JPanel{
 		});
 
 		arrow.setBounds(90,100,30,30);
-		UILabel more = new UILabel("<html><font color='blue'FACE='MicroSoft YaHei'>"+com.fr.design.i18n.Toolkit.i18nText("More-information")+"</font></html>");
+		UILabel more = new UILabel("<html><font color='blue'FACE='MicroSoft YaHei'>"+com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_More_Information")+"</font></html>");
 		more.setBounds(125,102,55,25);
 		
 		moreText = new UITextArea(moreInfo);

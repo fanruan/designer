@@ -32,7 +32,7 @@ public class QuickEditorRegion extends JPanel {
     public static JPanel getEmptyEditor() {
         if (EMPTY == null) {
             EMPTY = new JPanel(new BorderLayout());
-            UILabel content = new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"DataFunction-None", "HJS-Message", "Form-Widget_Property_Table"}) + "!");
+            UILabel content = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_None_Message_Property_Table") + "!");
             content.setBorder(BorderFactory.createEmptyBorder(0, 70, 0, 0));
             EMPTY.add(content, BorderLayout.CENTER);
         }

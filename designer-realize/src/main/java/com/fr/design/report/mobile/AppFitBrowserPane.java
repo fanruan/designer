@@ -32,8 +32,8 @@ public class AppFitBrowserPane extends BasicBeanPane<ElementCaseMobileAttr> {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         JPanel borderPane = FRGUIPaneFactory.createTitledBorderPane(this.title4PopupWindow());
         JPanel fitOpsPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        horizionPane = new MobileRadioGroupPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Mobile-Horizontal"));
-        verticalPane = new MobileRadioGroupPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Mobile-Vertical"));
+        horizionPane = new MobileRadioGroupPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Mobile_Horizontal"));
+        verticalPane = new MobileRadioGroupPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Mobile_Vertical"));
         ActionListener actionListener = getAppPreviewActionListener();
         horizionPane.addActionListener(actionListener);
         verticalPane.addActionListener(actionListener);
@@ -75,7 +75,7 @@ public class AppFitBrowserPane extends BasicBeanPane<ElementCaseMobileAttr> {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Fit");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Fit");
     }
 
     private ActionListener getAppPreviewActionListener() {

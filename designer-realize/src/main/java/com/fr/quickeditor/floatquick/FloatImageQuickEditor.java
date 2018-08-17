@@ -25,7 +25,7 @@ public class FloatImageQuickEditor extends FloatQuickEditor {
 
     public FloatImageQuickEditor() {
         super();
-        UIButton editbutton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit"));
+        UIButton editbutton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Edit"));
         editbutton.addActionListener(new ActionListener() {
 
             @Override

@@ -66,7 +66,7 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 
 	@Override
 	public String getViewTitle() {
-		return com.fr.design.i18n.Toolkit.i18nText("Form-Hierarchy_Tree");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Hierarchy_Tree");
 	}
 
 	@Override

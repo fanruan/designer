@@ -38,7 +38,7 @@ public class StyleArrayPane extends JListControlPane {
 	 * @return 样式设置组件
 	 */
 	public NameableCreator[] createNameableCreators() {
-		return new NameableCreator[] { new AbstractNameableCreator(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Style_Name"), Style.class, StylePane.class) {
+		return new NameableCreator[] { new AbstractNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Style_Name"), Style.class, StylePane.class) {
 			public NameObject createNameable(UnrepeatedNameHelper helper) {
 				// 返回参数设置面板.
 				return new NameObject(helper.createUnrepeatedName("H"), Style.getInstance());
@@ -58,7 +58,7 @@ public class StyleArrayPane extends JListControlPane {
 
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("ServerM-Predefined_Styles");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ServerM_Predefined_Styles");
 	}
 
 	/**

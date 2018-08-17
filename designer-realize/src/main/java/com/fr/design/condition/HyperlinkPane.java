@@ -33,7 +33,7 @@ public class HyperlinkPane extends ConditionAttrSingleConditionPane<HighlightAct
 
     public HyperlinkPane(final ConditionAttributesPane conditionAttributesPane) {
         super(conditionAttributesPane);
-        hyperlinkButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit"));
+        hyperlinkButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Edit"));
         hyperlinkButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 NameJavaScriptGroup nameHyperlinks = jsGroup;
@@ -51,21 +51,21 @@ public class HyperlinkPane extends ConditionAttrSingleConditionPane<HighlightAct
             }
         });
         hyperlinkButton.setEnabled(false);
-        UILabel hyperlinkLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Hyperlink", "Type"}) + ":");
+        UILabel hyperlinkLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Hyperlink_Type") + ":");
         typeField = new UITextField(12);
         typeField.setEditable(false);
         this.add(hyperlinkLabel);
         this.add(typeField);
 
         this.add(hyperlinkButton);
-        useHyperlink = new UICheckBox(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Use", "Links"}));
+        useHyperlink = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Use_Links"));
         useHyperlink.addActionListener(l);
         this.add(useHyperlink);
     }
 
     @Override
     public String nameForPopupMenuItem() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Hyperlink");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Hyperlink");
     }
 
     @Override
@@ -92,17 +92,17 @@ public class HyperlinkPane extends ConditionAttrSingleConditionPane<HighlightAct
         if (jsGroup == null) {
             this.typeField.setText("");
         } else if (jsGroup.size() > 1) {
-            this.typeField.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_HyperLink_Must_Alone_Reset") + "!");
+            this.typeField.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_HyperLink_Must_Alone_Reset") + "!");
         } else if (jsGroup.size() == 1) {
             JavaScript js = jsGroup.getNameHyperlink(0).getJavaScript();
             if (js instanceof JavaScriptImpl) {
                 this.typeField.setText("JavaScript");
             } else if (js instanceof ReportletHyperlink) {
-                this.typeField.setText(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Report", "Links"}));
+                this.typeField.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Report_Links"));
             } else if (js instanceof WebHyperlink) {
-                this.typeField.setText(com.fr.design.i18n.Toolkit.i18nText("Hyperlink-Web_link"));
+                this.typeField.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Web_Link"));
             } else if (js instanceof EmailJavaScript) {
-                this.typeField.setText(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Email", "Links"}));
+                this.typeField.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Email_Links"));
             }
 
         }

@@ -37,7 +37,7 @@ public class CustomPlotLocationPane extends BasicBeanPane<Plot>{
         yDirection = new UISpinner(0, 100, 1, 20);
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Position") + "(%):  " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_X_Direction"), SwingConstants.LEFT),xDirection},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Layout_Position") + "(%):  " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_X_Direction"), SwingConstants.LEFT),xDirection},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Y_Direction"), SwingConstants.RIGHT),yDirection},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Radius") + "(px):   ",SwingConstants.LEFT),radius}
 

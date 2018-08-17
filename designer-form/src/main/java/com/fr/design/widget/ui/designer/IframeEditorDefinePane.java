@@ -34,8 +34,8 @@ public class IframeEditorDefinePane extends AbstractDataModify<IframeEditor> {
 		JPanel contentPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
 		contentPane.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 0));
 		JPanel attr = FRGUIPaneFactory.createNormalFlowInnerContainer_M_Pane();
-		attr.add(horizontalCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Preference-Horizontal_Scroll_Bar_Visible")));
-		attr.add(verticalCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Preference-Vertical_Scroll_Bar_Visible")));
+		attr.add(horizontalCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Preference_Horizontal_Scroll_Bar_Visible")));
+		attr.add(verticalCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Preference_Vertical_Scroll_Bar_Visible")));
 		contentPane.add(attr);
 		double p = TableLayout.PREFERRED;
 		double f = TableLayout.FILL;
@@ -45,14 +45,14 @@ public class IframeEditorDefinePane extends AbstractDataModify<IframeEditor> {
 		Component[][] coms = {
 				{ horizontalCheck, null },
 				{ verticalCheck, null },
-				{ new UILabel(com.fr.design.i18n.Toolkit.i18nText("Form-Url") + ":"), srcTextField = new UITextField() },
-				{ new UILabel(com.fr.design.i18n.Toolkit.i18nText("Parameter") + ":"), parameterViewPane = new ReportletParameterViewPane() } };
+				{ new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Form_Url") + ":"), srcTextField = new UITextField() },
+				{ new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter") + ":"), parameterViewPane = new ReportletParameterViewPane() } };
 		int[][] rowCount = {{1, 1},{1, 1},{1, 1}, {1, 1}};
 		JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(coms, rowSize, columnSize, rowCount, LayoutConstants.VGAP_SMALL, 5);
 
 		contentPane.add(panel);
 
-		UIExpandablePane uiExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Advanced"), 280, 20, contentPane);
+		UIExpandablePane uiExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced"), 280, 20, contentPane);
 		this.add(uiExpandablePane, BorderLayout.NORTH);
 
 	}

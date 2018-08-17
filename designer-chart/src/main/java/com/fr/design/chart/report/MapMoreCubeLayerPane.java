@@ -87,7 +87,7 @@ public class MapMoreCubeLayerPane extends MultiTabPane<ChartCollection>{
      * @return 返回标题
      */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Muiti_In");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Muiti_In");
 	}
 
     /**

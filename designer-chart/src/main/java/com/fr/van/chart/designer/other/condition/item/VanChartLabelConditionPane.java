@@ -39,7 +39,7 @@ public class VanChartLabelConditionPane extends AbstractNormalMultiLineCondition
      * @return item的名称
      */
     public String nameForPopupMenuItem() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Chart_Label");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Label");
     }
 
     public void setDefault() {

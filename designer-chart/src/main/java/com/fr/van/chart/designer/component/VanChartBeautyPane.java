@@ -36,7 +36,7 @@ public class VanChartBeautyPane extends BasicBeanPane<Integer> {
     }
 
     protected String[] getNameArray(){
-        return new String[]{com.fr.design.i18n.Toolkit.i18nText("Chart-Default_Name"),
+        return new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Default_Name"),
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Top_Down_Shade")
         };
     }

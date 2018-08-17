@@ -69,8 +69,8 @@ public class LayerDependenceSettingPane extends JPanel implements ItemListener {
         tableDataDictPane.tableDataNameComboBox.addItemListener(this);
 
         //初始化按钮对象
-        addButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("add"));
-        delButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Delete"));
+        addButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Add"));
+        delButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Delete"));
         //初始化Table对象,并添加renderer和editor
         model = new LayerDepenceTableModel();
         dependenceTable = new JTable();
@@ -392,9 +392,9 @@ public class LayerDependenceSettingPane extends JPanel implements ItemListener {
 
             String name;
             if (column == 0) {
-                name = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_layerIndex");
+                name = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Layer_Index");
             } else {
-                name = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_filedChosen");
+                name = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Filed_Chosen");
             }
             return name;
         }

@@ -53,14 +53,14 @@ public class ReportWriteAttrPane extends LoadingBasicPane {
 		}
 		writeShortCutsPane = new WriteShortCutsPane();
 
-		tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("FR-Utils_Submit"), submiterListPane);
-		tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Verify-Data_Verify"), verifierListPane);
-		tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Writer-ShortCuts_Setting"), writeShortCutsPane);
+		tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Submit"), submiterListPane);
+		tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Verify_Data_Verify"), verifierListPane);
+		tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Writer_ShortCuts_Setting"), writeShortCutsPane);
 	}
 
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("ReportD-Report_Write_Attributes");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportD_Report_Write_Attributes");
 	}
 
 	public void populate(WorkSheet report) {

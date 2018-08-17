@@ -110,7 +110,7 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
     }
 
     private void initConfigCreator() {
-        configCreator = new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Chart-Change_Config_Attributes"), new AttrChangeConfig(), ChangeConfigPane.class);
+        configCreator = new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Change_Config_Attributes"), new AttrChangeConfig(), ChangeConfigPane.class);
     }
 
     private void initAddButton() {
@@ -183,7 +183,7 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
     private String getNewChartName() {
         int count = indexList.size() + 1;
         while (true) {
-            String name_test = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Module_Name") + count;
+            String name_test = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Module_Name") + count;
             boolean repeated = false;
             for (int i = 0, len = indexList.size(); i < len; i++) {
                 ChartChangeButton nameable = indexList.get(i);
@@ -261,7 +261,7 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Types_Switch");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Switch_Chart");
     }
 
     private void changeCollectionSelected(String name) {

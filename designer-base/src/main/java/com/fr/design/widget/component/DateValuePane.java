@@ -22,7 +22,7 @@ public class DateValuePane extends JPanel {
     private UIButtonGroup widgetValueHead;
     private Editor[] editor;
     private static final String NONE_EDITOR_NAME = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_None");
-    private static final String DATE_EDITOR_NAME = com.fr.design.i18n.Toolkit.i18nText("Date");
+    private static final String DATE_EDITOR_NAME = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date");
     private static final String FORMULA_EDITOR_NAME = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Parameter_Formula");
 
 

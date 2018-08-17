@@ -79,7 +79,7 @@ public final class StoreProcedureDataWrapper implements TableDataWrapper {
                 getWorker().cancel(true);
             }
         });
-        loadingBar = new AutoProgressBar(dialog, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Loading_Data"), "", 0, 100) {
+        loadingBar = new AutoProgressBar(dialog, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Loading_Data"), "", 0, 100) {
             public void doMonitorCanceled() {
                 getDialog().setVisible(false);
                 getWorker().cancel(true);
@@ -101,7 +101,7 @@ public final class StoreProcedureDataWrapper implements TableDataWrapper {
             return columnNameList;
         }
         if (!createStore(false)) {
-            JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("FR-Engine_No-tableData"));
+            JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Engine_No_TableData"));
             return new ArrayList<String>();
         }
         columnNameList = Arrays.asList(procedureDataModel.getColumnName());
@@ -176,7 +176,7 @@ public final class StoreProcedureDataWrapper implements TableDataWrapper {
                 return null;
             }
         }.execute();
-        connectionBar = new AutoProgressBar(dialog, com.fr.design.i18n.Toolkit.i18nText("Utils-Now_create_connection"), "", 0, 100) {
+        connectionBar = new AutoProgressBar(dialog, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Now_Create_Connection"), "", 0, 100) {
             public void doMonitorCanceled() {
                 connectionBar.close();
                 worker.cancel(true);

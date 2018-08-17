@@ -5,7 +5,6 @@ import java.awt.*;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
-import com.fr.data.Dictionary;
 import com.fr.design.data.DataCreatorUI;
 import com.fr.design.designer.IntervalConstants;
 import com.fr.design.gui.ilable.UILabel;
@@ -40,7 +39,7 @@ public class TreeComboBoxEditorDefinePane extends CustomWritableRepeatEditorPane
 		treeSettingPane = new AccessibleTreeModelEditor();
 		JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		JPanel north = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
-				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Create_Tree")), treeSettingPane}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W2, IntervalConstants.INTERVAL_L1);
+				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Create_Tree")), treeSettingPane}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W2, IntervalConstants.INTERVAL_L1);
 		north.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
 		JPanel center = super.setFirstContentPane();
 		jPanel.add(north, BorderLayout.NORTH);

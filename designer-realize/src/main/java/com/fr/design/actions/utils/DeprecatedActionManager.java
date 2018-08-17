@@ -5,15 +5,10 @@ import com.fr.base.BaseUtils;
 import com.fr.base.present.DictPresent;
 import com.fr.base.present.FormulaPresent;
 import com.fr.design.ExtraDesignClassManager;
-import com.fr.design.constants.UIConstants;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.actions.cell.NewPresentAction;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.actions.edit.clear.*;
-import com.fr.design.actions.edit.order.BringFloatElementForwardAction;
-import com.fr.design.actions.edit.order.BringFloatElementToFrontAction;
-import com.fr.design.actions.edit.order.SendFloatElementBackwardAction;
-import com.fr.design.actions.edit.order.SendFloatElementToBackAction;
 import com.fr.design.actions.columnrow.DeleteColumnAction;
 import com.fr.design.actions.columnrow.DeleteRowAction;
 import com.fr.design.actions.columnrow.InsertColumnAction;
@@ -33,7 +28,6 @@ import com.fr.design.selection.SelectionListener;
 import com.fr.report.cell.cellattr.BarcodePresent;
 import com.fr.report.cell.cellattr.CurrencyLinePresent;
 
-import javax.swing.*;
 import java.util.Set;
 
 /**
@@ -48,7 +42,7 @@ public class DeprecatedActionManager {
      * @return the clearReportPage menu.
      */
     public static UIMenu getClearMenu(ElementCasePane ePane) {
-        UIMenu clearMenu = new UIMenu(com.fr.design.i18n.Toolkit.i18nText("M_Edit-Clear"));
+        UIMenu clearMenu = new UIMenu(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_M_Edit_Clear"));
         clearMenu.setIcon(BaseUtils.readIcon("/com/fr/design/images/control/clear.png"));
         clearMenu.setMnemonic('a');
 
@@ -100,15 +94,15 @@ public class DeprecatedActionManager {
         final MenuDef presentMenu = new MenuDef(KeySetUtils.PRESENT.getMenuKeySetName());
         presentMenu.setIconPath("com/fr/design/images/data/source/dataDictionary.png");
         presentMenu.setMnemonic(KeySetUtils.PRESENT.getMnemonic());
-        NewPresentAction dataDictAction = new NewPresentAction(ePane, com.fr.design.i18n.Toolkit.i18nText("M_Format-Data_Map"), DictPresent.class.getName());
+        NewPresentAction dataDictAction = new NewPresentAction(ePane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_M_Format_Data_Map"), DictPresent.class.getName());
         dataDictAction.setMnemonic('D');
-        NewPresentAction formulaAction = new NewPresentAction(ePane, com.fr.design.i18n.Toolkit.i18nText("Present-Formula_Present"), FormulaPresent.class.getName());
+        NewPresentAction formulaAction = new NewPresentAction(ePane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Present_Formula_Present"), FormulaPresent.class.getName());
         formulaAction.setMnemonic('F');
-        NewPresentAction barcodeAction = new NewPresentAction(ePane,  com.fr.design.i18n.Toolkit.i18nText("M_Insert-Barcode"), BarcodePresent.class.getName());
+        NewPresentAction barcodeAction = new NewPresentAction(ePane,  com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_M_Insert_Barcode"), BarcodePresent.class.getName());
         barcodeAction.setMnemonic('B');
-        NewPresentAction currencyLineAction = new NewPresentAction(ePane, com.fr.design.i18n.Toolkit.i18nText("Currency_Line"), CurrencyLinePresent.class.getName());
+        NewPresentAction currencyLineAction = new NewPresentAction(ePane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Currency_Line"), CurrencyLinePresent.class.getName());
         currencyLineAction.setMnemonic('L');
-        NewPresentAction nonePresentAction = new NewPresentAction(ePane, com.fr.design.i18n.Toolkit.i18nText("Present-No_Present"), "NOPRESENT");
+        NewPresentAction nonePresentAction = new NewPresentAction(ePane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Present_No_Present"), "NOPRESENT");
         nonePresentAction.setMnemonic('N');
         presentMenu.addShortCut(dataDictAction);
         presentMenu.addShortCut(formulaAction);
@@ -140,7 +134,7 @@ public class DeprecatedActionManager {
     }
 
     public static UIMenu getDeleteMenu(ElementCasePane ePane) {
-        UIMenu deleteMenu = new UIMenu(com.fr.design.i18n.Toolkit.i18nText("M_Edit-Delete"));
+        UIMenu deleteMenu = new UIMenu(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_M_Edit_Delete"));
         deleteMenu.setIcon(BaseUtils.readIcon("/com/fr/design/images/control/remove.png"));
         deleteMenu.setMnemonic('d');
         deleteMenu.add(new DeleteRowAction(ePane).createMenuItem());
@@ -151,7 +145,7 @@ public class DeprecatedActionManager {
     }
 
     public static UIMenu getInsertMenu(ElementCasePane ePane) {
-        UIMenu deleteMenu = new UIMenu(com.fr.design.i18n.Toolkit.i18nText("Insert") + "(I)");
+        UIMenu deleteMenu = new UIMenu(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Insert") + "(I)");
         deleteMenu.setIcon(BaseUtils.readIcon("/com/fr/base/images/cell/control/add.png"));
         deleteMenu.setMnemonic('i');
         deleteMenu.add(new InsertRowAction(ePane).createMenuItem());

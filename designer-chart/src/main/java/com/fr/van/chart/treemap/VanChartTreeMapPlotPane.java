@@ -12,7 +12,7 @@ import com.fr.van.chart.multilayer.VanChartMultiPiePlotPane;
  * Created by Fangjie on 2016/7/11.
  */
 public class VanChartTreeMapPlotPane extends VanChartMultiPiePlotPane {
-    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewTreeMap");
+    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_TreeMap");
     protected String[] getTypeIconPath() {
         return new String[]{"/com/fr/van/chart/treemap/images/treeMap.png"
         };
@@ -21,7 +21,7 @@ public class VanChartTreeMapPlotPane extends VanChartMultiPiePlotPane {
     @Override
     protected String[] getTypeTipName() {
         return new String[]{
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_TreeMapChart")
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_TreeMap_Chart")
         };
     }
 
@@ -32,7 +32,7 @@ public class VanChartTreeMapPlotPane extends VanChartMultiPiePlotPane {
 
     @Override
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewTreeMap");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_TreeMap");
     }
 
     protected Plot getSelectedClonedPlot(){

@@ -24,7 +24,7 @@ public class RadioDefinePane extends AbstractDataModify<Radio> {
         FRFont frFont = FRContext.getDefaultValues().getFRFont();
         infoLabel.setFont(new Font(frFont.getFamily(), Font.BOLD, 24));
 	    infoLabel.setText(com.fr.design.i18n.Toolkit.i18nText(
-				"No_Editor_Property_Definition") + ".");
+				"Fine-Design_Report_No_Editor_Property_Definition") + ".");
 	    infoLabel.setHorizontalAlignment(SwingConstants.CENTER);
 	    
 		this.add(infoLabel, BorderLayout.CENTER);

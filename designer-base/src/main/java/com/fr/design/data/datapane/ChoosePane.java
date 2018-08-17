@@ -208,9 +208,9 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
     }
 
     protected void initComponentsLayout(PreviewLabel previewLabel, int labelSize) {
-        UILabel l1 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Database") + ":");
-        UILabel l2 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Model") + ":");
-        UILabel l3 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Table") + ":");
+        UILabel l1 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database") + ":");
+        UILabel l2 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Model") + ":");
+        UILabel l3 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Table") + ":");
 
         if (labelSize > 0) {
             Dimension pSize = new Dimension(labelSize, 25);
@@ -248,7 +248,7 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
             @Override
             protected com.fr.data.impl.Connection doInBackground() {
                 schemaBox.setRefreshingModel(true);
-                schemaBox.addItem(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Loading") + "...");
+                schemaBox.addItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Loading") + "...");
                 schemaBox.setSelectedItem(null);
                 schemaBox.setRefreshingModel(false);
                 return getConnection();
@@ -327,7 +327,7 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
         DBUtils.refreshDatabase();
         String schema = StringUtils.isEmpty(schemaBox.getSelectedItem()) ? null : schemaBox.getSelectedItem();
         DataCoreUtils.refreshTables(getConnection(), TableProcedure.TABLE, schema);
-        JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Refresh_Successfully") + "!", com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Refresh_Database"),
+        JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Refresh_Successfully") + "!", com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Refresh_Database"),
                 JOptionPane.INFORMATION_MESSAGE);
     }
 
@@ -405,7 +405,7 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
             String schema = StringUtils.isEmpty(this.schemaBox.getSelectedItem()) ? null : this.schemaBox.getSelectedItem();
             TableProcedure[] sqlTableArray = DataCoreUtils.getTables(selectedDatabase, TableProcedure.TABLE, schema, DesignerEnvManager.getEnvManager().isOracleSystemSpace());
             if (sqlTableArray.length > 0) {
-                ExpandMutableTreeNode tableTreeNode = new ExpandMutableTreeNode(selectedDSName + "-" + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_SQL-Table"));
+                ExpandMutableTreeNode tableTreeNode = new ExpandMutableTreeNode(selectedDSName + "-" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_SQL_Table"));
                 rootTreeNode.add(tableTreeNode);
                 for (int i = 0; i < sqlTableArray.length; i++) {
                     ExpandMutableTreeNode tableChildTreeNode = new ExpandMutableTreeNode(sqlTableArray[i]);
@@ -414,7 +414,7 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
             }
             TableProcedure[] sqlViewArray = DataCoreUtils.getTables(selectedDatabase, TableProcedure.VIEW, schema, DesignerEnvManager.getEnvManager().isOracleSystemSpace());
             if (sqlViewArray.length > 0) {
-                ExpandMutableTreeNode viewTreeNode = new ExpandMutableTreeNode(selectedDSName + "-" + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_SQL-View"));
+                ExpandMutableTreeNode viewTreeNode = new ExpandMutableTreeNode(selectedDSName + "-" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_SQL_View"));
                 rootTreeNode.add(viewTreeNode);
                 for (int i = 0; i < sqlViewArray.length; i++) {
                     ExpandMutableTreeNode viewChildTreeNode = new ExpandMutableTreeNode(sqlViewArray[i]);
@@ -456,7 +456,7 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
         if (!connect) {
             DesignerFrame designerFrame = DesignerContext.getDesignerFrame();
             JOptionPane.showMessageDialog(designerFrame, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Connection_Failed"),
-                    com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Failed"), JOptionPane.INFORMATION_MESSAGE);
+                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Failed"), JOptionPane.INFORMATION_MESSAGE);
             failedToFindTable();
             return null;
         }

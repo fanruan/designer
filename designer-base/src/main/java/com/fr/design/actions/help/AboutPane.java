@@ -72,11 +72,11 @@ public class AboutPane extends JPanel {
         addPhoneAndQQPane(contentPane);
 
         // 官网
-        JPanel urlActionPane = getURLActionPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Official_Website"), CloudCenter.getInstance().acquireUrlByKind("website." + GeneralContext.getLocale(), ProductConstants.WEBSITE_URL));
+        JPanel urlActionPane = getURLActionPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Official_Website"), CloudCenter.getInstance().acquireUrlByKind("website." + GeneralContext.getLocale(), ProductConstants.WEBSITE_URL));
 
         // 支持邮箱
         String defaultEmail = CloudCenter.getInstance().acquireUrlByKind("support.email", ProductConstants.SUPPORT_EMAIL);
-        JPanel emailPane = getEmailActionPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Support_Email"), CloudCenter.getInstance().acquireUrlByKind("support.email." + GeneralContext.getLocale(), defaultEmail));
+        JPanel emailPane = getEmailActionPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Support_Email"), CloudCenter.getInstance().acquireUrlByKind("support.email." + GeneralContext.getLocale(), defaultEmail));
 
         contentPane.add(urlActionPane);
         contentPane.add(emailPane);
@@ -96,7 +96,7 @@ public class AboutPane extends JPanel {
         if (GeneralContext.getLocale().equals(Locale.US)) {
             return;
         }
-        boxCenterAlignmentPane = new BoxCenterAligmentPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Service_Phone") + CloudCenter.getInstance().acquireUrlByKind("service.phone." + FRContext.getLocale(), COMPANY_TELEPHONE));
+        boxCenterAlignmentPane = new BoxCenterAligmentPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Service_Phone") + CloudCenter.getInstance().acquireUrlByKind("service.phone." + FRContext.getLocale(), COMPANY_TELEPHONE));
         contentPane.add(boxCenterAlignmentPane);
         // 繁体版不显示QQ
         if (GeneralContext.getLocale().equals(Locale.TAIWAN)) {

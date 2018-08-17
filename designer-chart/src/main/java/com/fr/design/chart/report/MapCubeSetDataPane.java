@@ -36,7 +36,7 @@ public class MapCubeSetDataPane extends BasicBeanPane<List>{
 	private void initCom() {
 		this.setLayout(new BorderLayout(0, 0));
 		
-		UIArrayTableModel model = new UIArrayTableModel(new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Area_Name"), com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Drill_Map")}, new int[] {}) {
+		UIArrayTableModel model = new UIArrayTableModel(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Name"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Drill_Map")}, new int[] {}) {
 			public boolean isCellEditable(int row, int col) {
 				return col != 0;
 			}
@@ -77,7 +77,7 @@ public class MapCubeSetDataPane extends BasicBeanPane<List>{
 
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Drill_Setting");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Drill_Setting");
 	}
 	
 	/**

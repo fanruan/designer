@@ -3,14 +3,6 @@
  */
 package com.fr.design.designer.creator;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.beans.IntrospectionException;
-import java.util.Date;
-
-import javax.swing.JComponent;
-
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -21,10 +13,16 @@ import com.fr.design.mainframe.widget.renderer.DateCellRenderer;
 import com.fr.form.ui.DateEditor;
 import com.fr.form.ui.WidgetValue;
 import com.fr.general.DateUtils;
-
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.core.PropertyChangeAdapter;
+
+import javax.swing.JComponent;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.beans.IntrospectionException;
+import java.util.Date;
 
 /**
  * @author richer
@@ -62,19 +60,19 @@ public class XDateEditor extends XDirectWriteEditor {
         return (CRPropertyDescriptor[]) ArrayUtils.addAll(tempt,
                 new CRPropertyDescriptor[]{
                         new CRPropertyDescriptor("formatText", this.data.getClass()).setI18NName(
-                                com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Format")).setEditorClass(formatClass()).setRendererClass(
+                                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Format")).setEditorClass(formatClass()).setRendererClass(
                                 DateCellRenderer.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                         new CRPropertyDescriptor("startDate", this.data.getClass()).setI18NName(
-                                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Start-Date")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
+                                com.fr.design.i18n.Toolkit.i18nText("FR-Design_Form_Start_Date")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
                                 "Advanced").setEditorClass(DateRangeEditor.class),
                         new CRPropertyDescriptor("endDate", this.data.getClass()).setI18NName(
-                                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_End-Date")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
+                                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_End_Date")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
                                 "Advanced").setEditorClass(DateRangeEditor.class),
                         new CRPropertyDescriptor("waterMark", this.data.getClass()).setI18NName(
-                                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WaterMark")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
+                                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_WaterMark")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
                                 "Advanced"),
                         new CRPropertyDescriptor("returnDate", this.data.getClass()).setI18NName(
-                                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Return-Date")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
+                                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Return_Date")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
                                 "Advanced")
                 });
     }

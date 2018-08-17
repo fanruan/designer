@@ -13,7 +13,7 @@ import com.fr.van.chart.designer.type.AbstractVanChartTypePane;
  * Created by Mitisky on 16/10/10.
  */
 public class VanChartFunnelTypePane extends AbstractVanChartTypePane {
-    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewFunnel");
+    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Funnel");
 
     @Override
     protected String[] getTypeIconPath() {
@@ -25,7 +25,7 @@ public class VanChartFunnelTypePane extends AbstractVanChartTypePane {
     @Override
     protected String[] getTypeTipName() {
         return new String[]{
-                com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Funnel")
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Funnel")
         };
     }
 
@@ -46,7 +46,7 @@ public class VanChartFunnelTypePane extends AbstractVanChartTypePane {
      */
     @Override
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewFunnel");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Funnel");
     }
 
     protected Plot getSelectedClonedPlot(){

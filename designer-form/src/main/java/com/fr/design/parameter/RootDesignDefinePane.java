@@ -58,10 +58,10 @@ public class RootDesignDefinePane extends AbstractDataModify<WParameterLayout> {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         designerWidth = new UISpinner(1, Integer.MAX_VALUE, 1);
         JPanel advancePane = createAdvancePane();
-        UIExpandablePane advanceExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Advanced"), 280, 20, advancePane);
+        UIExpandablePane advanceExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced"), 280, 20, advancePane);
         this.add(advanceExpandablePane, BorderLayout.NORTH);
         JPanel layoutPane = createBoundsPane();
-        UIExpandablePane layoutExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Size"), 280, 20, layoutPane);
+        UIExpandablePane layoutExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Size"), 280, 20, layoutPane);
         this.add(layoutExpandablePane, BorderLayout.CENTER);
 
     }
@@ -73,7 +73,7 @@ public class RootDesignDefinePane extends AbstractDataModify<WParameterLayout> {
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 1}};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Form-Desin_Width")), designerWidth},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Desin_Width")), designerWidth},
         };
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
         JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
@@ -85,15 +85,15 @@ public class RootDesignDefinePane extends AbstractDataModify<WParameterLayout> {
     public JPanel createAdvancePane() {
         JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
         labelNameTextField = new UITextField();
-        displayReport = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_DisplayNothingBeforeQuery"));
-        useParamsTemplate = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Use_Params_Template"));
+        displayReport = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Display_Nothing_Before_Query"));
+        useParamsTemplate = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Use_Params_Template"));
         background = new AccessibleBackgroundEditor();
         Icon[] hAlignmentIconArray = {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_left_normal.png"),
                 BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_center_normal.png"),
                 BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_right_normal.png"),};
         Integer[] hAlignment = new Integer[]{FormConstants.LEFTPOSITION, FormConstants.CENTERPOSITION, FormConstants.RIGHTPOSITION};
         hAlignmentPane = new UIButtonGroup<Integer>(hAlignmentIconArray, hAlignment);
-        hAlignmentPane.setAllToolTips(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_FormStyleAlignment_Left")
+        hAlignmentPane.setAllToolTips(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_StyleAlignment_Left")
                 , com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_StyleAlignment_Center"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_StyleAlignment_Right")});
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
@@ -101,11 +101,11 @@ public class RootDesignDefinePane extends AbstractDataModify<WParameterLayout> {
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Label_Name")), labelNameTextField},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background")), background},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Label_Name")), labelNameTextField},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Base_Background")), background},
                 new Component[]{displayReport, null},
                 new Component[]{useParamsTemplate, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WidgetDisplyPosition")), hAlignmentPane}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Display_Position")), hAlignmentPane}
         };
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W0, IntervalConstants.INTERVAL_L1);
         panel.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L1, 0, IntervalConstants.INTERVAL_L1, 0));

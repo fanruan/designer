@@ -17,10 +17,10 @@ public class XYChartStyleAxisPane extends BinaryChartStyleAxisPane {
     }
 
     protected AxisStyleObject getXAxisPane(Plot plot) {
-        return new AxisStyleObject(com.fr.design.i18n.Toolkit.i18nText("ChartF-X_Axis"), new ChartValuePane());
+        return new AxisStyleObject(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_X_Axis"), new ChartValuePane());
     }
 
     protected AxisStyleObject getYAxisPane(Plot plot) {
-        return new AxisStyleObject(com.fr.design.i18n.Toolkit.i18nText("ChartF-Y_Axis"), new ChartValuePane());
+        return new AxisStyleObject(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Y_Axis"), new ChartValuePane());
     }
 }

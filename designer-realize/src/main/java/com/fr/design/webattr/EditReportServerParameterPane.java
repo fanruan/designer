@@ -9,10 +9,7 @@ import com.fr.config.PrintConfig;
 import com.fr.config.ServerPreferenceConfig;
 import com.fr.design.gui.frpane.LoadingBasicPane;
 import com.fr.design.gui.frpane.UITabbedPane;
-import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.design.webattr.printsettings.PrintSettingPane;
 
 import com.fr.report.core.ReportUtils;
@@ -57,18 +54,18 @@ public class EditReportServerParameterPane extends LoadingBasicPane {
         tabbedPane = new UITabbedPane();
         defaultPane.add(tabbedPane, BorderLayout.CENTER);
 
-        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("WEB-Pagination_Setting"), pagePane = new PageToolBarPane());
-        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("WEB-Write_Setting"), writePane = new WriteToolBarPane());
-        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("M-Data_Analysis_Settings"), viewPane = new ViewToolBarPane());
-        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("ReportServerP-Import_Css"), cssPane = new WebCssPane());
-        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("ReportServerP-Import_JavaScript"), jsPane = new WebJsPane());
-        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_ErrorHandlerTemplate"), errorTemplatePane = new ErrorTemplatePane());
-        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Print_Setting"), printSettingPane = new PrintSettingPane());
+        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_WEB_Pagination_Setting"), pagePane = new PageToolBarPane());
+        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_WEB_Write_Setting"), writePane = new WriteToolBarPane());
+        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_M_Data_Analysis_Settings"), viewPane = new ViewToolBarPane());
+        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportServerP_Import_Css"), cssPane = new WebCssPane());
+        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportServerP_Import_JavaScript"), jsPane = new WebJsPane());
+        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Error_Handler_Template"), errorTemplatePane = new ErrorTemplatePane());
+        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Print_Setting"), printSettingPane = new PrintSettingPane());
     }
     
     @Override
     protected String title4PopupWindow() {
-    	return com.fr.design.i18n.Toolkit.i18nText("ReportServerP-Report_server_parameter");
+    	return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportServerP_Report_Server_Parameter");
     }
 
     public void populate(ServerPreferenceConfig reportServerPreferenceConfig) {

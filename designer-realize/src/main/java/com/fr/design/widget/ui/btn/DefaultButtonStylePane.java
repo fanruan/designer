@@ -30,8 +30,8 @@ public class DefaultButtonStylePane extends BasicPane {
 		iconPane = new IconDefinePane();
 	    labelPane.add(iconPane);
 		Component[][] n_components = {
-				{ new UILabel(com.fr.design.i18n.Toolkit.i18nText("Text") + ":"), buttonNameTextField = new UITextField(20) },
-				{ new UILabel(com.fr.design.i18n.Toolkit.i18nText("Icon") + ":"), labelPane } };
+				{ new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Text") + ":"), buttonNameTextField = new UITextField(20) },
+				{ new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Icon") + ":"), labelPane } };
 		JPanel panel = TableLayoutHelper.createTableLayoutPane(n_components, new double[]{-2, -2}, new double[]{-2, -2});
 		
 		this.add(panel,BorderLayout.CENTER);

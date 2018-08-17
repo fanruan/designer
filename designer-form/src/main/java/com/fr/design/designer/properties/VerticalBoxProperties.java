@@ -1,17 +1,16 @@
 package com.fr.design.designer.properties;
 
 
+import com.fr.design.beans.GroupModel;
+import com.fr.design.designer.creator.XWVerticalBoxLayout;
+import com.fr.design.form.layout.FRVerticalLayout;
+import com.fr.design.mainframe.widget.editors.IntegerPropertyEditor;
+import com.fr.design.mainframe.widget.editors.PropertyCellEditor;
+import com.fr.form.ui.container.WVerticalBoxLayout;
+
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
-
-
-import com.fr.design.beans.GroupModel;
-import com.fr.design.mainframe.widget.editors.IntegerPropertyEditor;
-import com.fr.design.mainframe.widget.editors.PropertyCellEditor;
-import com.fr.design.designer.creator.XWVerticalBoxLayout;
-import com.fr.design.form.layout.FRVerticalLayout;
-import com.fr.form.ui.container.WVerticalBoxLayout;
 
 public class VerticalBoxProperties implements GroupModel {
 
@@ -29,7 +28,7 @@ public class VerticalBoxProperties implements GroupModel {
 
     @Override
     public String getGroupName() {
-        return com.fr.design.i18n.Toolkit.i18nText("VerticalBoxLayout");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Vertical_Box_Layout_Duplicate");
     }
 
     @Override
@@ -52,9 +51,9 @@ public class VerticalBoxProperties implements GroupModel {
         if (column == 0) {
             switch (row) {
                 case 0:
-                    return com.fr.design.i18n.Toolkit.i18nText("Hgap");
+                    return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Hgap");
                 case 1:
-                    return com.fr.design.i18n.Toolkit.i18nText("Vgap");
+                    return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Vgap");
             }
         } else {
             switch (row) {

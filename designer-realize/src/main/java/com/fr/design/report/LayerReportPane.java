@@ -49,12 +49,12 @@ public class LayerReportPane extends BasicBeanPane<LayerReportAttr> {
 
 	protected void initComponents() {
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
-		JPanel outlayerReportPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Report_Engine", "Attribute"}));
+		JPanel outlayerReportPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Report_Engine_Attribute"));
 		JPanel layerReportPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_M_Pane();
 		this.add(outlayerReportPane);
 		outlayerReportPane.add(layerReportPane);
 		JPanel isLayerReportBoxPanle = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-		isLayerReportBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Execute_Report_by_Layer_Engine"));
+		isLayerReportBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Execute_Report_by_Layer_Engine"));
 		isLayerReportBox.setSelected(false);
 		isLayerReportBoxPanle.add(isLayerReportBox);
 		layerReportPane.add(isLayerReportBoxPanle);
@@ -78,8 +78,8 @@ public class LayerReportPane extends BasicBeanPane<LayerReportAttr> {
 			}
 		});
 
-		JPanel infoPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Attention"));
-		FRExplainLabel label = new FRExplainLabel(com.fr.design.i18n.Toolkit.i18nText("Layer_Report_Warnning_info"));
+		JPanel infoPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Attention"));
+		FRExplainLabel label = new FRExplainLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Layer_Report_Warnning_Info"));
         label.setPreferredSize(new Dimension(label.getPreferredSize().width, LABEL_HEIGHT));
 		infoPane.add(label);
 		layerReportPane.add(infoPane);
@@ -104,8 +104,8 @@ public class LayerReportPane extends BasicBeanPane<LayerReportAttr> {
         countPerPageEditor = new IntegerEditor(new Integer(30));
         countPerPageEditor.setPreferredSize(new Dimension(120,20));
         countPerPageEditor.setEnabled(false);
-        Component[][] components = {{new UILabel(com.fr.design.i18n.Toolkit.i18nText("LayerPageReport_PageEngine") + ":"), isPageQueryBox},
-                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("LayerPageReport_CountPerPage") + ":"), countPerPageEditor}};
+        Component[][] components = {{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_LayerPageReport_PageEngine") + ":"), isPageQueryBox},
+                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_LayerPageReport_Count_PerPage") + ":"), countPerPageEditor}};
         JPanel pageQueryPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
         pageQueryPane.setBorder(BorderFactory.createEmptyBorder(5, 15, 0, 0));
         return pageQueryPane;
@@ -113,7 +113,7 @@ public class LayerReportPane extends BasicBeanPane<LayerReportAttr> {
 
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Report_Engine", "Attribute"});
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Report_Engine_Attribute");
 	}
 
 	@Override
@@ -150,7 +150,7 @@ public class LayerReportPane extends BasicBeanPane<LayerReportAttr> {
 	public void checkValid() throws Exception {
 		if (isLayerReportBox.isSelected()) {
 			if (!ReportUtils.isLayerReportUsable(worksheet)) {
-				int value = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("After_Changed_Some_Attributes_Are_Different") + "?",
+				int value = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_After_Changed_Some_Attributes_Are_Different") + "?",
 						ProductConstants.PRODUCT_NAME, JOptionPane.YES_NO_OPTION);
 				if (value != JOptionPane.YES_OPTION) {
 					isLayerReportBox.setSelected(false);

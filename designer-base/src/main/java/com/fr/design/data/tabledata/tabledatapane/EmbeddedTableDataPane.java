@@ -134,7 +134,7 @@ public class EmbeddedTableDataPane extends AbstractTableDataPane<EmbeddedTableDa
         });
 
         // DataSourceEditor-Insert_Row
-        insertRowButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Utils-Insert_Row"));
+        insertRowButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Insert_Row"));
         insertRowButton.setMnemonic('I');
         northPane.add(insertRowButton);
         insertRowButton.addActionListener(new ActionListener() {
@@ -144,7 +144,7 @@ public class EmbeddedTableDataPane extends AbstractTableDataPane<EmbeddedTableDa
         });
 
         // DataSourceEditor-Remove_Row
-        removeRowButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Utils-Delete_Row"));
+        removeRowButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Delete_Row"));
         removeRowButton.setMnemonic('R');
         northPane.add(removeRowButton);
         removeRowButton.addActionListener(new ActionListener() {

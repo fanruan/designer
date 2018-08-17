@@ -88,7 +88,7 @@ public class MultiTDTableDataPane extends AbstractTableDataPane<MultiTDTableData
     }
 
     private void initAllBarPane(String multiName) {
-        UILabel headLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Multi_nam_formula"));
+        UILabel headLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Multi_Nam_Formula"));
         setResMap();
         int len = resMap.size();
         // 10个正好不会出现滚动条
@@ -140,7 +140,7 @@ public class MultiTDTableDataPane extends AbstractTableDataPane<MultiTDTableData
 
     private class RefreshAction extends UITableEditAction {
         public RefreshAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("Refresh"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Refresh"));
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/refresh.png"));
         }
 

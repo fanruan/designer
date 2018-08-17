@@ -69,7 +69,7 @@ public class StylePane extends BasicBeanPane<Style> implements ChangeListener {
 
 		previewPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		this.add(previewPane, BorderLayout.NORTH);
-		previewPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Preview"), null));
+		previewPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preview"), null));
 
 		previewArea = new PreivewArea();
 		previewPane.add(previewArea, BorderLayout.CENTER);
@@ -80,11 +80,11 @@ public class StylePane extends BasicBeanPane<Style> implements ChangeListener {
 		UITabbedPane mainTabbedPane = new UITabbedPane();
 		this.add(mainTabbedPane, BorderLayout.CENTER);
 
-		mainTabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Format"), this.getFormatPane());
-		mainTabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Alignment"), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
-		mainTabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Sytle-FRFont"), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
-		mainTabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Border"), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
-		mainTabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Background"), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
+		mainTabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Format"), this.getFormatPane());
+		mainTabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Alignment"), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
+		mainTabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Sytle_FRFont"), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
+		mainTabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Border"), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
+		mainTabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background"), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
 
 		mainTabbedPane.addChangeListener(tabChangeActionListener);
 		this.setPreferredSize(new Dimension(450, 480));
@@ -92,7 +92,7 @@ public class StylePane extends BasicBeanPane<Style> implements ChangeListener {
 
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Style");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style");
 	}
 
 	public void stateChanged(ChangeEvent e) {

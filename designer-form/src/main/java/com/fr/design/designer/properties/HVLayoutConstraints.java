@@ -33,7 +33,7 @@ public abstract class HVLayoutConstraints implements ConstraintsGroupModel {
 
     @Override
     public String getGroupName() {
-        return com.fr.design.i18n.Toolkit.i18nText("Layout_Constraints");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Layout_Constraints_Duplicate");
     }
 
     @Override

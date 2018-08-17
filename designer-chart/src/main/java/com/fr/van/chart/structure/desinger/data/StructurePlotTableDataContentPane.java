@@ -45,12 +45,12 @@ public class StructurePlotTableDataContentPane extends AbstractTableDataContentP
         calculateCombox = new CalculateComboBox();
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Node_Name")), nodeName},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Node_Name")), nodeName},
                 new Component[]{new UILabel("id"), nodeId},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Parent_ID")), parenrId},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_MultiPie_Series_Name")), seriesName},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Series_Value")), nodeValue},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Summary_Method")), calculateCombox}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Parent_ID")), parenrId},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_MultiPie_Series_Name")), seriesName},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Value")), nodeValue},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Summary_Method")), calculateCombox}
         };
 
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components,rowSize,columnSize,24,6);

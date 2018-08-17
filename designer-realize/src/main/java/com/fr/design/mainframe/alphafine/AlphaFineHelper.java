@@ -19,7 +19,7 @@ import java.util.List;
  * Created by XiaXiang on 2017/5/8.
  */
 public class AlphaFineHelper {
-    public static final NoResultModel NO_CONNECTION_MODEL = new NoResultModel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_ConnectionFailed"));
+    public static final NoResultModel NO_CONNECTION_MODEL = new NoResultModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Connection_Failed"));
     private static AlphaFineDialog alphaFineDialog;
 
     /**

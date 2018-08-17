@@ -681,7 +681,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     @Override
     public ShortCut[] shortCuts4Authority() {
         return new ShortCut[]{
-                new NameSeparator(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Permissions_Edition")),
+                new NameSeparator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Permissions_Edition")),
                 DesignerMode.isAuthorityEditing() ? new ExitAuthorityEditAction(this) : new AllowAuthorityEditAction(this),
         };
 
@@ -701,7 +701,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
                 new ReportMobileAttrAction(this),
                 new ReportPrintSettingAction(this),
                 new ReportWatermarkAction(this),
-                new NameSeparator(com.fr.design.i18n.Toolkit.i18nText("Utils-Current_Sheet")),
+                new NameSeparator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Current_Sheet")),
         }, this.reportComposite.getEditingReportComponent().shortcut4TemplateMenu());
     }
 

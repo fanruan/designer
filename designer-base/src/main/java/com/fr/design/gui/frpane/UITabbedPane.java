@@ -113,7 +113,7 @@ public class UITabbedPane extends JTabbedPane{
      * @param i tab索引
      */
     public void doRemoveTab(int i){
-        int re = JOptionPane.showConfirmDialog(SwingUtilities.getWindowAncestor(UITabbedPane.this), com.fr.design.i18n.Toolkit.i18nText("sure_to_delete")+ "?", com.fr.design.i18n.Toolkit.i18nText("Remove")
+        int re = JOptionPane.showConfirmDialog(SwingUtilities.getWindowAncestor(UITabbedPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Sure_To_Delete")+ "?", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remove")
                 , JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (re == JOptionPane.OK_OPTION) {
             super.removeTabAt(i);

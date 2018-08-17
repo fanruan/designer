@@ -7,15 +7,15 @@ import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.form.ui.FieldEditor;
 
-
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -36,7 +36,7 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
         jPanel.add(contentPane, BorderLayout.CENTER);
         contentPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         if (contentPane != null) {
-            UIExpandablePane uiExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Advanced"), 280, 24, jPanel);
+            UIExpandablePane uiExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced"), 280, 24, jPanel);
             this.add(uiExpandablePane, BorderLayout.NORTH);
         }
         this.addValidatePane();
@@ -96,9 +96,9 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
 
     protected void addValidatePane() {
         validatePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        final UILabel uiLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget_Error_Tip"));
+        final UILabel uiLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Error_Tip"));
         initErrorMsgPane();
-        allowBlankCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Allow_Null"));
+        allowBlankCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Allow_Null"));
         allowBlankCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         JPanel borderPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         final JPanel errorTipPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{uiLabel, errorMsgTextField}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_L1, LayoutConstants.VGAP_MEDIUM);
@@ -127,7 +127,7 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
         }
 
 
-        UIExpandablePane uiExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Validate"), 280, 24, validatePane);
+        UIExpandablePane uiExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Validate"), 280, 24, validatePane);
         this.add(uiExpandablePane, BorderLayout.CENTER);
     }
 

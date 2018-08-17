@@ -2,7 +2,6 @@ package com.fr.design.form.mobile;
 
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.designer.IntervalConstants;
-import com.fr.design.dialog.mobile.MobileRadioCheckPane;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
@@ -13,10 +12,7 @@ import com.fr.form.main.mobile.FormMobileAttr;
 
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Created by plough on 2018/1/4.
@@ -45,7 +41,7 @@ public class FormMobileTemplateSettingsPane extends BasicBeanPane<FormMobileAttr
         mobileSettingsPane.add(getAdaptivePropertyAutoMatchCheckPane(), BorderLayout.CENTER);
 
 
-        mobileOnlyCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Set_Mobile_Only_Template"));
+        mobileOnlyCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Set_Mobile_Only_Template"));
         mobileOnlyCheck.registerChangeListener(new UIObserverListener() {
             @Override
             public void doChange() {
@@ -66,7 +62,7 @@ public class FormMobileTemplateSettingsPane extends BasicBeanPane<FormMobileAttr
 
     private JPanel getMobileCanvasSizeCheckPane() {
         JPanel panel = new JPanel(FRGUIPaneFactory.createBorderLayout());
-        mobileCanvasSizeCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Set_Mobile_Canvas_Size"));
+        mobileCanvasSizeCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Set_Mobile_Canvas_Size"));
         // 默认勾选，不可取消
         mobileCanvasSizeCheck.setSelected(true);
         mobileCanvasSizeCheck.setEnabled(false);
@@ -82,7 +78,7 @@ public class FormMobileTemplateSettingsPane extends BasicBeanPane<FormMobileAttr
         adaptivePropertyAutoMatchCheck.registerChangeListener(new UIObserverListener() {
             @Override
             public void doChange() {
-                adaptivePropertyAutoMatchCheck.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Adaptive_Property_Auto_Match"));
+                adaptivePropertyAutoMatchCheck.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Adaptive_Property_Auto_Match"));
             }
         });
         adaptivePropertyAutoMatchCheck.setSelected(true);
@@ -93,10 +89,10 @@ public class FormMobileTemplateSettingsPane extends BasicBeanPane<FormMobileAttr
 
     private JPanel getCanvasDescPane() {
 
-        UILabel desc1 = createDescLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Canvas_Size_Lock_Desc"));
-        UILabel desc2 = createDescLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Mobile_Screen_Match_Desc"));
-        UILabel desc3 = createDescLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Mobile_Screen_Zoom_In_Desc"));
-        UILabel desc4 = createDescLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Mobile_Screen_Zoom_Out_Desc"));
+        UILabel desc1 = createDescLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Canvas_Size_Lock_Desc"));
+        UILabel desc2 = createDescLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Mobile_Screen_Match_Desc"));
+        UILabel desc3 = createDescLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Mobile_Screen_Zoom_In_Desc"));
+        UILabel desc4 = createDescLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Mobile_Screen_Zoom_Out_Desc"));
 
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
@@ -116,7 +112,7 @@ public class FormMobileTemplateSettingsPane extends BasicBeanPane<FormMobileAttr
 
     private JPanel getAdaptivePropertyAutoMatchDescPane() {
 
-        UILabel desc1 = createDescLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Adaptive_Property_Auto_Match_Desc"));
+        UILabel desc1 = createDescLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Adaptive_Property_Auto_Match_Desc"));
 
         JPanel panel = new JPanel(FRGUIPaneFactory.createBorderLayout());
         panel.add(desc1, BorderLayout.CENTER);
@@ -155,7 +151,7 @@ public class FormMobileTemplateSettingsPane extends BasicBeanPane<FormMobileAttr
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Template_Settings");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Template_Settings");
     }
 
 }

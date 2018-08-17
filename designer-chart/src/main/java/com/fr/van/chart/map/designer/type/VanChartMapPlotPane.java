@@ -20,7 +20,7 @@ import java.awt.Component;
  * Created by Mitisky on 16/5/4.
  */
 public class VanChartMapPlotPane extends AbstractVanChartTypePane {
-    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewMap");
+    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Map");
 
     private VanChartMapSourceChoosePane sourceChoosePane;
 
@@ -36,10 +36,10 @@ public class VanChartMapPlotPane extends AbstractVanChartTypePane {
     @Override
     protected String[] getTypeTipName() {
         return new String[]{
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_AreaMap"),
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_PointMap"),
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_LineMap"),
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_CustomMap")
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Region_Map"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_PointMap"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_LineMap"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Combine_Map")
         };
     }
 
@@ -60,7 +60,7 @@ public class VanChartMapPlotPane extends AbstractVanChartTypePane {
      */
     @Override
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewMap");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Map");
     }
 
     protected Component[][] getPaneComponents(JPanel typePane){

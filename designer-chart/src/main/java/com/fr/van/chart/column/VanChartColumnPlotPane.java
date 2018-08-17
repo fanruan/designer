@@ -12,7 +12,7 @@ import com.fr.van.chart.designer.type.AbstractVanChartTypePane;
  * Created by Mitisky on 15/9/24.
  */
 public class VanChartColumnPlotPane extends AbstractVanChartTypePane {
-    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewColumn");
+    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Column");
 
     private static final long serialVersionUID = 5950923001789733745L;
 
@@ -28,14 +28,14 @@ public class VanChartColumnPlotPane extends AbstractVanChartTypePane {
 
     @Override
     protected String[] getTypeTipName() {
-        String column = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Column");
-        String stack = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Stacked");
-        String percent = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Use_Percent");
+        String column = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Column");
+        String stack = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Stacked");
+        String percent = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Percent");
         return new String[]{
                 column,
                 stack + column,
                 percent + stack + column,
-                com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Mode_Custom")
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Mode_Custom")
         };
     }
 
@@ -44,7 +44,7 @@ public class VanChartColumnPlotPane extends AbstractVanChartTypePane {
      * @return 界面标题
      */
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewColumn");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Column");
     }
 
 

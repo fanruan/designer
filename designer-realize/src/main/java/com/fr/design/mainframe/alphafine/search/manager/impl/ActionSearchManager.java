@@ -62,7 +62,7 @@ public class ActionSearchManager implements AlphaFineSearchProvider {
         lessModelList = new SearchResult();
         moreModelList = new SearchResult();
         if (StringUtils.isBlank(searchText)) {
-            lessModelList.add(new MoreModel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Set")));
+            lessModelList.add(new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Set")));
             return lessModelList;
         }
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainAction()) {
@@ -84,10 +84,10 @@ public class ActionSearchManager implements AlphaFineSearchProvider {
             if (result.isEmpty()) {
                 return lessModelList;
             } else if (result.size() < AlphaFineConstants.SHOW_SIZE + 1) {
-                lessModelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Set")));
+                lessModelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Set")));
                 lessModelList.addAll(result);
             } else {
-                lessModelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Set"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_AlphaFine_ShowAll"), true, CellType.ACTION));
+                lessModelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Set"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_ShowAll"), true, CellType.ACTION));
                 lessModelList.addAll(result.subList(0, AlphaFineConstants.SHOW_SIZE));
                 moreModelList.addAll(result.subList(AlphaFineConstants.SHOW_SIZE, result.size()));
             }

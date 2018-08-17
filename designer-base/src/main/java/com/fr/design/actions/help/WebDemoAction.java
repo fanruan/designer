@@ -36,7 +36,7 @@ public class WebDemoAction extends UpdateAction {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Product_Demo");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Product_Demo");
         }
 
         @Override

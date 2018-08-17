@@ -19,17 +19,17 @@ public class VanChartScatterPlotTableDataContentPane extends VanChartBubblePlotT
     protected void initBubbleSize() {
         bubbleSize = new UIComboBox();
         bubbleSize.setPreferredSize(new Dimension(100, 20));
-        bubbleSize.addItem(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_None"));
+        bubbleSize.addItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_None"));
     }
 
     @Override
     protected void refreshBoxListWithSelectTableData(java.util.List list) {
         refreshBoxItems(seriesName, list);
-        seriesName.addItem(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_None"));
+        seriesName.addItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_None"));
         refreshBoxItems(xCombox, list);
         refreshBoxItems(yCombox, list);
         refreshBoxItems(bubbleSize, list);
-        bubbleSize.addItem(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_None"));
+        bubbleSize.addItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_None"));
     }
 
     @Override
@@ -38,17 +38,17 @@ public class VanChartScatterPlotTableDataContentPane extends VanChartBubblePlotT
      */
     public void clearAllBoxList(){
         clearBoxItems(seriesName);
-        seriesName.addItem(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_None"));
+        seriesName.addItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_None"));
         clearBoxItems(xCombox);
         clearBoxItems(yCombox);
         clearBoxItems(bubbleSize);
-        bubbleSize.addItem(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_None"));
+        bubbleSize.addItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_None"));
     }
 
     @Override
     protected void populateBubbleSize(BubbleTableDefinition definition) {
-        if (ComparatorUtils.equals(definition.getBubbleSize(), com.fr.design.i18n.Toolkit.i18nText("Chart-Use_None"))){
-            bubbleSize.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_None"));
+        if (ComparatorUtils.equals(definition.getBubbleSize(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_None"))){
+            bubbleSize.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_None"));
         }else {
             combineCustomEditValue(bubbleSize, definition.getBubbleSize());
         }

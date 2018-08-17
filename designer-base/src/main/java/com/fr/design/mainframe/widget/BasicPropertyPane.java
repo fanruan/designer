@@ -56,14 +56,14 @@ public class BasicPropertyPane extends BasicPane {
                 }
             }
         };
-        widgetName.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Basic"));
+        widgetName.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Basic"));
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         double[] rowSize = {p};
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 1}};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget_Name")), widgetName},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Name")), widgetName},
         };
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));

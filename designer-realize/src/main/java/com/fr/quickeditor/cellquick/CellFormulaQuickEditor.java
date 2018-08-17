@@ -98,7 +98,7 @@ public class CellFormulaQuickEditor extends CellQuickEditor {
         textFieldPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
 
         UIButton formulaButton = new UIButton(IOUtils.readIcon("/com/fr/design/images/m_insert/formula.png"));
-        formulaButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Formula") + "...");
+        formulaButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Formula") + "...");
         formulaButton.setPreferredSize(new Dimension(20, formulaTextField.getPreferredSize().height));
         formulaButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {

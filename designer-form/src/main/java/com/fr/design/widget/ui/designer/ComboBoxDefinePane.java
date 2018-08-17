@@ -20,14 +20,14 @@ public class ComboBoxDefinePane extends DictEditorDefinePane<ComboBox> {
 	}
 
 	public UICheckBox createRepeatCheckBox(){
-		removeRepeatCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget_No_Repeat"));
+		removeRepeatCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_No_Repeat"));
 		removeRepeatCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		return removeRepeatCheckBox;
 	}
 
 	public Component[] createWaterMarkPane() {
 		waterMarkField = new UITextField();
-		return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WaterMark")), waterMarkField};
+		return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_WaterMark")), waterMarkField};
 	}
 
 	protected  void populateSubDictionaryEditorBean(ComboBox ob){

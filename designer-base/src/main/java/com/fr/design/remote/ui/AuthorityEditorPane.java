@@ -8,9 +8,9 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.remote.ui.tree.FileAuthorityTree;
 import com.fr.file.filetree.FileNode;
 import com.fr.file.filetree.IOFileNodeFilter;
-
 import com.fr.report.DesignAuthority;
 import com.fr.stable.CoreConstants;
+import com.fr.stable.StringUtils;
 
 import javax.swing.BorderFactory;
 import javax.swing.border.EmptyBorder;
@@ -38,7 +38,9 @@ public class AuthorityEditorPane extends BasicBeanPane<DesignAuthority> {
         IOFileNodeFilter filter = new IOFileNodeFilter(new String[]{".cpt", ".class", ".frm", ".form"});
         tree.setDigIn(true);
         tree.setFileNodeFilter(filter);
-        this.add(new UIScrollPane(tree), BorderLayout.CENTER);
+        UIScrollPane scrollPane = new UIScrollPane(tree);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
+        this.add(scrollPane, BorderLayout.CENTER);
         tree.refreshEnv();
 
     }
@@ -60,7 +62,12 @@ public class AuthorityEditorPane extends BasicBeanPane<DesignAuthority> {
         }
         String[] paths = new String[items.length];
         for (int i = 0; i < items.length; i++) {
-            paths[i] = items[i].getPath();
+            String iPath = items[i].getPath();
+            if (CoreConstants.SEPARATOR.equals(iPath)) {
+                tree.selectAllCheckBoxPaths();
+                return;
+            }
+            paths[i] = iPath;
         }
         tree.selectCheckBoxPaths(paths);
     }
@@ -83,7 +90,8 @@ public class AuthorityEditorPane extends BasicBeanPane<DesignAuthority> {
                 type = type && fileNode.isDirectory();
                 tempSpot.append(fileNode.getName());
             }
-            items.add(new DesignAuthority.Item(tempSpot.toString(), type));
+            String path = tempSpot.toString();
+            items.add(new DesignAuthority.Item(StringUtils.isEmpty(path) ? CoreConstants.SEPARATOR : path, type));
         }
         da.setItems(items.toArray(new DesignAuthority.Item[0]));
         return da;

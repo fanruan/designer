@@ -1,29 +1,14 @@
 package com.fr.grid;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
-import java.awt.event.MouseEvent;
-import java.lang.reflect.Method;
-
-import javax.swing.JScrollBar;
-import javax.swing.JToolTip;
-import javax.swing.JWindow;
-import javax.swing.SwingUtilities;
-import javax.swing.event.MouseInputAdapter;
-
 import com.fr.base.BaseUtils;
 import com.fr.base.DynamicUnitList;
 import com.fr.base.FRContext;
 import com.fr.base.ScreenResolution;
-import com.fr.base.Utils;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.mainframe.ElementCasePane;
-
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.FloatSelection;
 import com.fr.grid.selection.Selection;
@@ -32,7 +17,19 @@ import com.fr.stable.ColumnRow;
 import com.fr.stable.Constants;
 import com.fr.stable.unit.FU;
 import com.fr.stable.unit.UNIT;
-import com.fr.design.utils.gui.GUICoreUtils;
+
+import javax.swing.JScrollBar;
+import javax.swing.JToolTip;
+import javax.swing.JWindow;
+import javax.swing.SwingUtilities;
+import javax.swing.event.MouseInputAdapter;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.event.MouseEvent;
+import java.lang.reflect.Method;
 
 /**
  * @editor zhou
@@ -308,19 +305,19 @@ public abstract class AbstractGridHeaderMouseHandler extends MouseInputAdapter {
         if (unitType == Constants.UNIT_PT) {
             len = ulen.toPTValue4Scale2();
             tlen = tulen.toPTValue4Scale2();
-            unit = com.fr.design.i18n.Toolkit.i18nText("Unit_PT");
+            unit = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_PT");
         } else if (unitType == Constants.UNIT_CM) {
             len = ulen.toCMValue4Scale2();
             tlen = tulen.toCMValue4Scale2();
-            unit = com.fr.design.i18n.Toolkit.i18nText("Unit_CM");
+            unit = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_CM");
         } else if (unitType == Constants.UNIT_INCH) {
             len = ulen.toINCHValue4Scale3();
             tlen = tulen.toINCHValue4Scale3();
-            unit = com.fr.design.i18n.Toolkit.i18nText("Unit_INCH");
+            unit = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_INCH");
         } else {
             len = ulen.toMMValue4Scale2();
             tlen = tulen.toMMValue4Scale2();
-            unit = com.fr.design.i18n.Toolkit.i18nText("Unit_MM");
+            unit = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_MM");
         }
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("%.2f", new Double(len)))
@@ -328,7 +325,7 @@ public abstract class AbstractGridHeaderMouseHandler extends MouseInputAdapter {
                 .append(unit).append('(')
                 .append((int)(doubleValue)).append('/')
                 .append((int)(totalDoubleValue))
-                .append(com.fr.design.i18n.Toolkit.i18nText("px"))
+                .append(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Px"))
                 .append(')');
         return sb.toString();
     }

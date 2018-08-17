@@ -13,7 +13,7 @@ public class VanChartBubbleInteractivePane extends VanChartInteractivePaneWithOu
     protected String[] getNameArray() {
         Plot plot = chart.getPlot();
         if(plot instanceof VanChartBubblePlot && ((VanChartBubblePlot) plot).isForceBubble()) {
-            return new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_XYAxis"), com.fr.design.i18n.Toolkit.i18nText("Chart-Use_None")};
+            return new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_XY_Axis"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_None")};
         }
         return super.getNameArray();
     }

@@ -9,12 +9,6 @@ import com.fr.design.mainframe.ElementCasePane;
 import com.fr.report.cell.FloatElement;
 import com.fr.report.elementcase.ElementCase;
 
-import javax.swing.*;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-
-import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
-
 /**
  * Bring FloatElement to front.
  */
@@ -25,7 +19,7 @@ public class BringFloatElementToFrontAction extends AbstractFloatElementOrderAct
 	public BringFloatElementToFrontAction(ElementCasePane t) {
 		super(t);
 		
-        this.setName(com.fr.design.i18n.Toolkit.i18nText("M_Edit-Bring_to_Front"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_M_Edit_Bring_To_Front"));
         this.setMnemonic('T');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/to_top.png"));
 //		this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_CLOSE_BRACKET, DEFAULT_MODIFIER + InputEvent.ALT_MASK));

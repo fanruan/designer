@@ -67,9 +67,9 @@ public class FeedBackPane extends BasicPane {
     private static final int TEL_MAX_LENGTH = 11;
     private static final String ALLOWED_INTEGER_TYPE = "0123456789";
     private SwingWorker worker;
-    private JDialog dlg = new JDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Send"), true);
+    private JDialog dlg = new JDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Send"), true);
     private UIButton ok = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_OK"));
-    private UIButton cancle = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Cancel"));
+    private UIButton cancle = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cancel"));
     private int ifHasBeenWriten = 0;
     private UITextArea detailField;
     private boolean isSendSuccessful = false;
@@ -206,8 +206,8 @@ public class FeedBackPane extends BasicPane {
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel("QQ:", SwingConstants.RIGHT), qq},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("email") + ":", SwingConstants.RIGHT), email},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("mobile_number") + ":", SwingConstants.RIGHT), phone}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Email") + ":", SwingConstants.RIGHT), email},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Mobile_Number") + ":", SwingConstants.RIGHT), phone}
         };
         double[] rowSize = {p, p, p};
         double[] columnSize = {p, p};
@@ -219,7 +219,7 @@ public class FeedBackPane extends BasicPane {
         JPanel controlPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         JPanel buttonsPane = new JPanel(new FlowLayout(FlowLayout.LEFT, GAP, 0));
         controlPane.add(buttonsPane, BorderLayout.EAST);
-        sendButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Send"));
+        sendButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Send"));
         buttonsPane.add(sendButton);
         buttonsPane.setBorder(SEND_BORDER);
         sendButton.addActionListener(new ActionListener() {
@@ -235,7 +235,7 @@ public class FeedBackPane extends BasicPane {
 
     private void doWithSendPane() {
         Object[] options = new Object[]{ok, cancle};
-        send = new JOptionPane(com.fr.design.i18n.Toolkit.i18nText("sending"),
+        send = new JOptionPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Sending"),
                 JOptionPane.INFORMATION_MESSAGE, JOptionPane.OK_CANCEL_OPTION, null, options, options[0]);
         ok.setEnabled(false);
         ok.addActionListener(new ActionListener() {
@@ -246,7 +246,7 @@ public class FeedBackPane extends BasicPane {
                     feedbackDialog.dispose();
                 } else {
                     ok.setEnabled(false);
-                    send.setMessage(com.fr.design.i18n.Toolkit.i18nText("sending"));
+                    send.setMessage(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Sending"));
                     setWorker(send);
                     worker.execute();
                 }
@@ -292,7 +292,7 @@ public class FeedBackPane extends BasicPane {
                     if (model) {
                         //发送成功
                         isSendSuccessful = true;
-                        send.setMessage(com.fr.design.i18n.Toolkit.i18nText("HJS-Send_Successfully") + "!");
+                        send.setMessage(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_HJS_Send_Successfully") + "!");
                     } else {
                         isSendSuccessful = false;
                     }
@@ -309,7 +309,7 @@ public class FeedBackPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("product_feedback");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Product_Feedback");
     }
 
 

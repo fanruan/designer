@@ -28,7 +28,7 @@ public class ComboBoxDefinePane extends CustomWritableRepeatEditorPane<ComboBox>
 	protected JPanel setForthContentPane () {
 		dictPane = new AccessibleDictionaryEditor();
 		JPanel jPanel =  TableLayoutHelper.createGapTableLayoutPane(
-				new Component[][]{new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_DS-Dictionary")), dictPane}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
+				new Component[][]{new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_DS_Dictionary")), dictPane}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
 		jPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
 		return jPanel;
 	}

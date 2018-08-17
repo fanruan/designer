@@ -24,6 +24,7 @@ import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.WidgetHelpDialog;
 import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.form.event.Listener;
+import com.fr.form.ui.CardSwitchButton;
 import com.fr.form.ui.LayoutBorderStyle;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
@@ -168,8 +169,14 @@ public class XWCardMainBorderLayout extends XWBorderLayout {
 				//新tab默认都有标题
 				borderStyle.setType(LayoutBorderStyle.TITLE);
 			}
-			cardLayout.setWidgetName(XWCardLayout.DEFAULT_NAME + tabpaneName.replaceAll(XWCardTagLayout.DEFAULT_NAME, ""));
-			wCardTitleLayout.setCardName(cardLayout.getWidgetName());
+			String newCardLayoutName = XWCardLayout.DEFAULT_NAME + tabpaneName.replaceAll(XWCardTagLayout.DEFAULT_NAME, "");
+			cardLayout.setWidgetName(newCardLayoutName);
+			//修改cardswitchbutton所绑定的cardlayoutname
+			for (int i = 0, len = wCardTagLayout.getWidgetCount(); i < len; i++) {
+				CardSwitchButton button = wCardTagLayout.getSwitchButton(i);
+				button.setCardLayoutName(newCardLayoutName);
+			}
+			wCardTitleLayout.setCardName(newCardLayoutName);
 			wCardTagLayout.setNewTab(true);
 			//这边需要设置成默认值兼容之前的title高度(不知道为啥之前的title的高度会改变)
 			if(this.toData().getNorthSize() != 0){
@@ -383,7 +390,7 @@ public class XWCardMainBorderLayout extends XWBorderLayout {
 			g2d.setColor(Color.WHITE);
 			//画编辑文字
 			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			g2d.drawString(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit"), x + w / 2 - 2, y + h / 2 + 5);
+			g2d.drawString(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Edit"), x + w / 2 - 2, y + h / 2 + 5);
 			g.setColor(XCreatorConstants.FORM_BORDER_COLOR);
 			GraphHelper.draw(g, new Rectangle(BORDER_WIDTH, BORDER_WIDTH, getWidth() - BORDER_WIDTH * 2, getHeight() - BORDER_WIDTH * 2), Constants.LINE_MEDIUM);
 			paintExtro(g);

@@ -1,19 +1,17 @@
 package com.fr.design.designer.properties;
 
-import java.awt.Rectangle;
-
-import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableCellRenderer;
-
-
-import com.fr.design.mainframe.widget.editors.IntegerPropertyEditor;
-import com.fr.design.mainframe.widget.editors.PropertyCellEditor;
 import com.fr.design.designer.beans.ConstraintsGroupModel;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XWAbsoluteLayout;
+import com.fr.design.mainframe.widget.editors.IntegerPropertyEditor;
+import com.fr.design.mainframe.widget.editors.PropertyCellEditor;
 import com.fr.form.ui.container.WAbsoluteLayout;
+
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
+import java.awt.Rectangle;
 
 /**
  * 绝对布局时候的属性组
@@ -36,7 +34,7 @@ public class BoundsGroupModel implements ConstraintsGroupModel {
 
     @Override
     public String getGroupName() {
-        return com.fr.design.i18n.Toolkit.i18nText("Form-Component_Bounds");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Component_Bounds");
     }
 
     @Override
@@ -59,13 +57,13 @@ public class BoundsGroupModel implements ConstraintsGroupModel {
         if (column == 0) {
             switch (row) {
                 case 0:
-                    return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_X_Coordinate");
+                    return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_X_Coordinate");
                 case 1:
-                    return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Y_Coordinate");
+                    return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Y_Coordinate");
                 case 2:
-                    return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget_Width");
+                    return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Width");
                 default:
-                    return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget_Height");
+                    return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Height");
             }
         } else {
             switch (row) {
@@ -107,7 +105,7 @@ public class BoundsGroupModel implements ConstraintsGroupModel {
 				break;
 			case 3:
                 if(v < MINHEIGHT){
-                    JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Min_Height") + "21");
+                    JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Min_Height") + "21");
                     v = component.getHeight();
                 }
 				if (bounds.height == v){

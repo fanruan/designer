@@ -1,26 +1,11 @@
 package com.fr.design.i18n;
 
-import com.fr.general.GeneralContext;
-import com.fr.general.log.MessageFormatter;
 import com.fr.locale.InterProviderFactory;
-import com.fr.locale.LocaleManager;
-import com.fr.locale.impl.FineLocaleManager;
 
 /**
  * 设计器国际化类，后面会不再依赖InterProviderFactory
  */
 public class Toolkit {
-
-    private static LocaleManager localeManager = FineLocaleManager.create();
-
-    static {
-        addResource("com/fr/design/i18n/main");
-    }
-
-    public static void addResource(String path) {
-
-        localeManager.addResource(path);
-    }
 
     /**
      * 设计器国际化方法
@@ -29,7 +14,7 @@ public class Toolkit {
      * @return 国际化值
      */
     public static String i18nText(String key) {
-        return localeManager.getLocalBundle(GeneralContext.getLocale()).getText(localeManager, key);
+        return DesignI18nImpl.getInstance().i18nText(key);
     }
 
     /**
@@ -41,9 +26,7 @@ public class Toolkit {
      * @return 国际化值
      */
     public static String i18nText(String key, Object... args) {
-        String format = InterProviderFactory.getProvider().getLocText(key);
-        MessageFormatter.FormattingTuple tuple = MessageFormatter.arrayFormat(format, args);
-        return localeManager.getLocalBundle(GeneralContext.getLocale()).getText(localeManager, tuple.getMessage());
+        return DesignI18nImpl.getInstance().i18nText(key, args);
     }
 
     /**

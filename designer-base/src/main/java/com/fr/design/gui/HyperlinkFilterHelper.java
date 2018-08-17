@@ -18,7 +18,7 @@ public class HyperlinkFilterHelper {
             return false;
         }
         //先屏蔽掉这个，之后还有别的
-        String[] names = {com.fr.design.i18n.Toolkit.i18nText("FR-Hyperlink_Chart_Float")};
+        String[] names = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_ Hyperlink_Chart_Float")};
         for (String name : names) {
             if (!jTemplate.isJWorkBook() && ComparatorUtils.equals(itemName, name)) {
                 return false;
@@ -33,7 +33,7 @@ public class HyperlinkFilterHelper {
             return false;
         }
         //先屏蔽掉这个，之后还有别的
-        String[] names = {com.fr.design.i18n.Toolkit.i18nText("FR-Hyperlink_Chart_Float"), com.fr.design.i18n.Toolkit.i18nText("FR-Hyperlink_Chart_Cell")};
+        String[] names = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_ Hyperlink_Chart_Float"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Chart_Cell")};
         for (String name : names) {
             if (!jTemplate.isJWorkBook() && ComparatorUtils.equals(itemName, name)) {
                 if (jTemplate.getEditingReportIndex() == BaseJForm.ELEMENTCASE_TAB && ComparatorUtils.equals(itemName, names[0])) {
@@ -53,7 +53,7 @@ public class HyperlinkFilterHelper {
     }
 
     private static boolean whetherAddFormLink(JTemplate jTemplate, String itemName) {
-        String formName = com.fr.design.i18n.Toolkit.i18nText("Hyperlink-Form_link");
+        String formName = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Form_Link");
         return !(jTemplate.isJWorkBook() && ComparatorUtils.equals(itemName, formName));
     }
 }

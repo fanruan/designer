@@ -48,7 +48,7 @@ public class ForumAction extends UpdateAction {
         try {
             Desktop.getDesktop().browse(new URI(url));
         } catch (IOException exp) {
-            JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Set_default_browser"));
+            JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Set_Default_Browser"));
             FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
         } catch (URISyntaxException exp) {
             FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
@@ -66,7 +66,7 @@ public class ForumAction extends UpdateAction {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("Forum");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Forum");
         }
 
         @Override

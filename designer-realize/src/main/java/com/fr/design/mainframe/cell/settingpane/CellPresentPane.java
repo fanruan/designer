@@ -43,7 +43,7 @@ public class CellPresentPane extends AbstractCellAttrPane {
     @Override
     public String getIconPath() {
 //		return "com/fr/design/images/data/source/dataDictionary.png";
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Present");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Present");
     }
 
     @Override
@@ -111,7 +111,7 @@ public class CellPresentPane extends AbstractCellAttrPane {
      * @return 标题
      */
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Style_Present");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Present");
     }
 
     public void setSelectedByIds(int level, String... id) {

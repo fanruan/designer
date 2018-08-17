@@ -28,12 +28,12 @@ public class ButtonConstants {
     };
 
     public static final String[] TYPES4BUTTON = {
-            com.fr.design.i18n.Toolkit.i18nText("Common"),
-            com.fr.design.i18n.Toolkit.i18nText("Custom"),
-            com.fr.design.i18n.Toolkit.i18nText("Utils-Insert_Row"),
-            com.fr.design.i18n.Toolkit.i18nText("Utils-Delete_Row"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Common"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Insert_Row"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Delete_Row"),
             com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Button_Type_Parameter_Submit"),
-            com.fr.design.i18n.Toolkit.i18nText("Widget-TreeNode")
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_TreeNode")
     };
 
     public static final Class[] CLASSES4BUTTON = {

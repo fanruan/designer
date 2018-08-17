@@ -377,13 +377,13 @@ public class UICorrelationComboBoxPane extends JPanel implements UIObserver {
         JPanel content = (JPanel) jf.getContentPane();
         content.setLayout(new BorderLayout());
         List<UIMenuNameableCreator> data = new ArrayList<UIMenuNameableCreator>();
-        UIMenuNameableCreator reportlet = new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("FR-Hyperlink_Reportlet"),
+        UIMenuNameableCreator reportlet = new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Reportlet"),
                 new ReportletHyperlink(), ReportletHyperlinkPane.class);
 
-        UIMenuNameableCreator email = new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Email"),
+        UIMenuNameableCreator email = new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Email"),
                 new EmailJavaScript(), EmailPane.class);
 
-        UIMenuNameableCreator web = new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Hyperlink-Web_link"),
+        UIMenuNameableCreator web = new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Web_Link"),
                 new WebHyperlink(), WebHyperlinkPane.class);
         data.add(reportlet);
         data.add(email);

@@ -74,14 +74,14 @@ public class MapCustomPane extends BasicBeanPane<String> implements AbstrctMapAt
 
 		northPane.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-		UIButton loadMap = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Import_Map"));
+		UIButton loadMap = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Import_Map"));
 		loadMap.setPreferredSize(new Dimension(160, 20));
 		northPane.add(loadMap);
 
 		loadMap.addActionListener(selectPictureActionListener);
 
 		if(isNeedDataSource){
-			UILabel label =new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Table_Data") + ":", SwingConstants.RIGHT) ;
+			UILabel label =new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Table_Data") + ":", SwingConstants.RIGHT) ;
 
             tableDataNameBox = new DatabaseTableDataPane(label) {
                   protected void userEvent() {
@@ -91,7 +91,7 @@ refreshAreaNameBox();
             tableDataNameBox.setPreferredSize(new Dimension(200, 20));
             northPane.add(tableDataNameBox);
 
-            northPane.add(new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Filed", "Field"}) + ":"));
+            northPane.add(new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Region_Field") + ":"));
 
             areaString = new FilterComboBox<String>();
             areaString.setPreferredSize(new Dimension(120, 20));
@@ -229,7 +229,7 @@ refreshAreaNameBox();
 
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Datasource-User_Defined", "Chart-Map"});
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom_Map");
 	}
 
 	/**

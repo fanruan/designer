@@ -23,12 +23,12 @@ public class MapDataLabelPane extends DataLabelPane {
 
     @Override
     protected String getCategoryString() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Area_Name");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Name");
     }
 
     @Override
     protected String getValueString() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Area_Value");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Region_Value");
     }
 
     protected JPanel createJPanel4Position() {

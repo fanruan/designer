@@ -83,7 +83,7 @@ public class ChartEmptyDataStylePane extends AbstractAttrNoScrollPane {
             }
         });
 
-        UILabel promptContent = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tip_Content"));
+        UILabel promptContent = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Tip_Content"));
         JPanel northPane = GUICoreUtils.createFlowPane(new Component[]{promptContent, emptyData}, FlowLayout.LEFT, TEN, 0);
         northPane.setBorder(BorderFactory.createEmptyBorder(0, FIVE, 0, 0));
         return northPane;
@@ -96,7 +96,7 @@ public class ChartEmptyDataStylePane extends AbstractAttrNoScrollPane {
         JPanel previewContainerPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
         centerPane.add(previewContainerPane, BorderLayout.CENTER);
 
-        JPanel previewOwnerPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Preview"));
+        JPanel previewOwnerPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preview"));
         previewOwnerPane.setLayout(new BorderLayout());
         previewContainerPane.add(previewOwnerPane, BorderLayout.CENTER);
         previewContainerPane.add(initSelectFilePane(), BorderLayout.EAST);
@@ -116,7 +116,7 @@ public class ChartEmptyDataStylePane extends AbstractAttrNoScrollPane {
 
         selectFilePane.setBorder(BorderFactory.createEmptyBorder(TEN, FIVE, 0, THIRTY));
 
-        defaultRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_DEFAULT"));
+        defaultRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Default"));
         customRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Style_Custom"));
         ButtonGroup buttonGroup = new ButtonGroup();
         defaultRadioButton.setSelected(true);
@@ -131,7 +131,7 @@ public class ChartEmptyDataStylePane extends AbstractAttrNoScrollPane {
         jp.add(customRadioButton);
 
         selectPictureButton = new UIButton(
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background_Image_Select"));
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Image_Select"));
         selectPictureButton.addActionListener(getSelectPictureActionListener());
         jp.add(selectPictureButton);
 
@@ -210,7 +210,7 @@ public class ChartEmptyDataStylePane extends AbstractAttrNoScrollPane {
 
     @Override
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Chart_Empty_Data");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Empty_Data");
     }
 
     public void populateBean() {

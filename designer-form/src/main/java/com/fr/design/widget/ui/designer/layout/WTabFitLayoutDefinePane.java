@@ -51,7 +51,7 @@ public class WTabFitLayoutDefinePane extends AbstractDataModify<WTabFitLayout> {
         advancePane.add(jPanel, BorderLayout.NORTH);
         advancePane.add(paddingBoundPane, BorderLayout.CENTER);
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        UIExpandablePane advanceExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Advanced"), 280, 20, advancePane);
+        UIExpandablePane advanceExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced"), 280, 20, advancePane);
         this.add(advanceExpandablePane, BorderLayout.NORTH);
         initLayoutComponent();
     }
@@ -60,14 +60,14 @@ public class WTabFitLayoutDefinePane extends AbstractDataModify<WTabFitLayout> {
         componentInterval = new UISpinner(0, Integer.MAX_VALUE, 1, 0);
         titleField = new UITextField();
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Component_Interval")), componentInterval},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Title")), titleField}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Component_Interval")), componentInterval},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Title")), titleField}
         };
         JPanel borderPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         JPanel jPanel = TableLayoutHelper.createGapTableLayoutPane(components, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
         jPanel.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L1, 0, 0, 0));
         borderPane.add(jPanel, BorderLayout.CENTER);
-        UIExpandablePane currentEditTab = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Current_tab"), 280, 20, borderPane);
+        UIExpandablePane currentEditTab = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Current_Tab"), 280, 20, borderPane);
         this.add(currentEditTab, BorderLayout.CENTER);
     }
 
@@ -119,7 +119,7 @@ public class WTabFitLayoutDefinePane extends AbstractDataModify<WTabFitLayout> {
     public WTabFitLayout updateBean() {
         WTabFitLayout layout = (WTabFitLayout) creator.toData();
         borderStyle.update(layout);
-        if (ComparatorUtils.equals(getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Layout-Padding"))) {
+        if (ComparatorUtils.equals(getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Layout_Padding_Duplicate"))) {
             paddingBoundPane.update(layout);
         }
         int gap = (int)componentInterval.getValue();

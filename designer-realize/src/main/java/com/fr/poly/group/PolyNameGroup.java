@@ -23,7 +23,7 @@ public class PolyNameGroup implements GroupModel {
 
 	@Override
 	public String getGroupName() {
-		return com.fr.design.i18n.Toolkit.i18nText("Form-Basic_Properties");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Form_Basic_Properties");
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class PolyNameGroup implements GroupModel {
 	@Override
 	public Object getValue(int row, int column) {
 		if (column == 0) {
-			return com.fr.design.i18n.Toolkit.i18nText("Poly_Name");
+			return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Poly_Name");
 		} else {
 			return block.getBlockName();
 		}

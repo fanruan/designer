@@ -43,7 +43,7 @@ public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor>
             public void phoneRegChangeAction(RegPane.PhoneRegEvent e) {
                 if (StringUtils.isNotEmpty(e.getPhoneRegString())
                         && StringUtils.isEmpty(waterMarkDictPane.getText())) {
-                    waterMarkDictPane.setText(com.fr.design.i18n.Toolkit.i18nText("Example") + ":" + e.getPhoneRegString());
+                    waterMarkDictPane.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Example") + ":" + e.getPhoneRegString());
                     regPane.addRegChangeListener(rl);
                 }
             }
@@ -64,10 +64,10 @@ public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor>
         UILabel widgetValueLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Estate_Widget_Value"), SwingConstants.LEFT);
         widgetValueLabel.setVerticalAlignment(SwingConstants.TOP);
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Label_Name")), labelNameTextField},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Label_Name")), labelNameTextField},
                 new Component[]{widgetValueLabel,  formWidgetValuePane},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WaterMark"), SwingConstants.LEFT), waterMarkDictPane},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Font-Size"), SwingConstants.LEFT), fontSizePane}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_WaterMark"), SwingConstants.LEFT), waterMarkDictPane},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Font_Size"), SwingConstants.LEFT), fontSizePane}
         };
         double[] rowSize = {p, p, p, p, p, p};
         double[] columnSize = {p,f};

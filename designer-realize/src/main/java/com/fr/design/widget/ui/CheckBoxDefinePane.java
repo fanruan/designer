@@ -1,6 +1,5 @@
 package com.fr.design.widget.ui;
 
-import com.fr.design.constants.LayoutConstants;
 import com.fr.design.designer.IntervalConstants;
 import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.ilable.UILabel;
@@ -27,14 +26,14 @@ public class CheckBoxDefinePane extends AbstractDataModify<CheckBox> {
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Text")), text},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Text")), text},
         };
         double[] rowSize = {p};
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 1}};
         JPanel pane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount,  IntervalConstants.INTERVAL_W3, IntervalConstants.INTERVAL_L1);
 
-        UIExpandablePane uiExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Advanced"), 280, 24, pane);
+        UIExpandablePane uiExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced"), 280, 24, pane);
         pane.setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 0));
 
         this.add(uiExpandablePane);

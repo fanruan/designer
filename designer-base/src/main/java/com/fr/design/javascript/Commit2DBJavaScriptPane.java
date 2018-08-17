@@ -94,7 +94,7 @@ public class Commit2DBJavaScriptPane extends FurtherBasicBeanPane<Commit2DBJavaS
      * @return 返回窗口名称
      */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("JavaScript-Commit_to_Database");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_JavaScript_Commit_To_Database");
 	}
 
 	/**

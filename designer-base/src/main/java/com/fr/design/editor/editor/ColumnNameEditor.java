@@ -23,7 +23,7 @@ public class ColumnNameEditor extends ColumnIndexEditor {
     }
 
     public ColumnNameEditor(String[] columnNames) {
-        this(columnNames, com.fr.design.i18n.Toolkit.i18nText("ColumnName"));
+        this(columnNames, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Column_Name"));
     }
 
     public ColumnNameEditor(final String[] columnNames, String name) {

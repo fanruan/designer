@@ -34,7 +34,7 @@ public class ChartAxisLineStylePane extends BasicPane{
 		axisLineColor = new ColorSelectBox(100);
 		
 
-		String[] nameArray = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_External"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Inner"),com.fr.design.i18n.Toolkit.i18nText("ChartF-Cross"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_None")};
+		String[] nameArray = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_External"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Inner"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Cross"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_None")};
 		Integer[] valueArray = {Constants.TICK_MARK_OUTSIDE, Constants.TICK_MARK_INSIDE, Constants.TICK_MARK_CROSS, Constants.TICK_MARK_NONE};
         Icon[] iconArray = {BaseUtils.readIcon("/com/fr/design/images/chart/ChartAxisLineStyle/external.png"),
                 BaseUtils.readIcon("/com/fr/design/images/chart/ChartAxisLineStyle/inside.png"),
@@ -54,11 +54,11 @@ public class ChartAxisLineStylePane extends BasicPane{
 		double[] rowSize = { p,p,p,p,p,p};
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Type")),axisLineStyle} ,
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Color")),axisLineColor},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Type")),axisLineStyle} ,
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Color")),axisLineColor},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Main_Graduation_Line")),null},
                 new Component[]{null, mainTickPosition},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("SecondGraduationLine")),null},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Second_Graduation_Line")),null},
                 new Component[]{null,secondTickPosition}
         } ;
         JPanel panel = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Axis", "Style"},components,rowSize,columnSize);

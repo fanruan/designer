@@ -184,7 +184,7 @@ public class DataTableConfigPane extends JComponent implements PropertyChangeLis
                  * Constructor
                  */
                 public CutAction() {
-                    this.setName(com.fr.design.i18n.Toolkit.i18nText("M_Edit-Cut"));
+                    this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_M_Edit_Cut"));
                     this.setMnemonic('T');
                     this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_edit/cut.png"));
                     this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, DEFAULT_MODIFIER));

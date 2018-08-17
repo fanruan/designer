@@ -65,7 +65,7 @@ public class VanChartEffectPane extends BasicBeanPane<AttrEffect> {
         label1.setPreferredSize(new Dimension((int)TableLayout4VanChartHelper.DESCRIPTION_AREA_WIDTH, 20));
         periodPane.add(label1, BorderLayout.WEST);
         periodPane.add(period, BorderLayout.CENTER);
-        periodPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Base-Time_Second")), BorderLayout.EAST);
+        periodPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Time_Second")), BorderLayout.EAST);
         return periodPane;
     }
 

@@ -48,29 +48,29 @@ import java.util.regex.Pattern;
 public class DateAxisValuePane extends FurtherBasicBeanPane<CategoryAxis>{
 
     private static String[] TYPES = new String[]{
-    	com.fr.design.i18n.Toolkit.i18nText("Year"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Month"), com.fr.design.i18n.Toolkit.i18nText("Sun"),
-    	com.fr.design.i18n.Toolkit.i18nText("Sche-Hour"), com.fr.design.i18n.Toolkit.i18nText("Sche-Minute"),
-    	com.fr.design.i18n.Toolkit.i18nText("Sche-Second")
+    	com.fr.design.i18n.Toolkit.i18nText("Fine_Design_Chart_Year"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Month"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sun"),
+    	com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_ScheHour"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sche_Minute"),
+    	com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sche_Second")
     };
     
     private static Map<String, Integer> VALUES = new HashMap<String, Integer>();
     static {
-    	VALUES.put(com.fr.design.i18n.Toolkit.i18nText("Year"), ChartConstants.YEAR_TYPE);
+    	VALUES.put(com.fr.design.i18n.Toolkit.i18nText("Fine_Design_Chart_Year"), ChartConstants.YEAR_TYPE);
     	VALUES.put(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Month"), ChartConstants.MONTH_TYPE);
-    	VALUES.put(com.fr.design.i18n.Toolkit.i18nText("Sun"), ChartConstants.DAY_TYPE);
-    	VALUES.put(com.fr.design.i18n.Toolkit.i18nText("Sche-Hour"), ChartConstants.HOUR_TYPE);
-    	VALUES.put(com.fr.design.i18n.Toolkit.i18nText("Sche-Minute"), ChartConstants.MINUTE_TYPE);
-    	VALUES.put(com.fr.design.i18n.Toolkit.i18nText("Sche-Second"), ChartConstants.SECOND_TYPE);
+    	VALUES.put(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sun"), ChartConstants.DAY_TYPE);
+    	VALUES.put(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_ScheHour"), ChartConstants.HOUR_TYPE);
+    	VALUES.put(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sche_Minute"), ChartConstants.MINUTE_TYPE);
+    	VALUES.put(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sche_Second"), ChartConstants.SECOND_TYPE);
     }
     
     private static Map<Integer, String> INTS = new HashMap<Integer, String>();
     static {
-    	INTS.put(ChartConstants.YEAR_TYPE, com.fr.design.i18n.Toolkit.i18nText("Year"));
+    	INTS.put(ChartConstants.YEAR_TYPE, com.fr.design.i18n.Toolkit.i18nText("Fine_Design_Chart_Year"));
     	INTS.put(ChartConstants.MONTH_TYPE, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Month"));
-    	INTS.put(ChartConstants.DAY_TYPE, com.fr.design.i18n.Toolkit.i18nText("Sun"));
-    	INTS.put(ChartConstants.HOUR_TYPE, com.fr.design.i18n.Toolkit.i18nText("Sche-Hour"));
-    	INTS.put(ChartConstants.MINUTE_TYPE, com.fr.design.i18n.Toolkit.i18nText("Sche-Minute"));
-    	INTS.put(ChartConstants.SECOND_TYPE, com.fr.design.i18n.Toolkit.i18nText("Sche-Second"));
+    	INTS.put(ChartConstants.DAY_TYPE, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sun"));
+    	INTS.put(ChartConstants.HOUR_TYPE, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_ScheHour"));
+    	INTS.put(ChartConstants.MINUTE_TYPE, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sche_Minute"));
+    	INTS.put(ChartConstants.SECOND_TYPE, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sche_Second"));
     }
    
     // 最大最小值
@@ -94,9 +94,9 @@ public class DateAxisValuePane extends FurtherBasicBeanPane<CategoryAxis>{
     
     private void initMin() {
     	// 最小值.
-        minCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Min_Value"));
+        minCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Min_Value"));
         Date tmp = null;
-        DateEditor dateEditor = new DateEditor(tmp, true, com.fr.design.i18n.Toolkit.i18nText("Date"), UIDatePicker.STYLE_CN_DATETIME1);
+        DateEditor dateEditor = new DateEditor(tmp, true, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date"), UIDatePicker.STYLE_CN_DATETIME1);
         Editor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Parameter_Formula"));
         Editor[] editor = new Editor[]{dateEditor, formulaEditor};
         minValueField = new ValueEditorPane(editor);
@@ -110,9 +110,9 @@ public class DateAxisValuePane extends FurtherBasicBeanPane<CategoryAxis>{
     
     private void initMax() {
     	 // 最大值
-        maxCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Max_Value"));
+        maxCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Max_Value"));
         Date tmp = null;
-        DateEditor dateEditor = new DateEditor(tmp, true, com.fr.design.i18n.Toolkit.i18nText("Date"), UIDatePicker.STYLE_CN_DATETIME1);
+        DateEditor dateEditor = new DateEditor(tmp, true, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date"), UIDatePicker.STYLE_CN_DATETIME1);
         Editor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Parameter_Formula"));
         Editor[] editor = new Editor[]{dateEditor, formulaEditor};
         maxValueField = new ValueEditorPane(editor);
@@ -238,7 +238,7 @@ public class DateAxisValuePane extends FurtherBasicBeanPane<CategoryAxis>{
 
 	@Override
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Chart_Date_Axis");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Date_Time_Axis");
 	}
 	
 	private void checkBoxUse() {
@@ -358,7 +358,7 @@ public class DateAxisValuePane extends FurtherBasicBeanPane<CategoryAxis>{
 			String tmp = DateUtils.getDate2LStr(toDate);
 			toDate = DateUtils.DATETIMEFORMAT2.parse(tmp);
 		} catch (ParseException e) {
-			FineLoggerFactory.getLogger().error(com.fr.design.i18n.Toolkit.i18nText("Cannot_Get_Date"));
+			FineLoggerFactory.getLogger().error(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Cannot_Get_Date"));
 		}
 		return toDate;
 	}

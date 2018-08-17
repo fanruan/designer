@@ -46,13 +46,13 @@ public class ChartDatasheetPane extends BasicScrollPane<Chart>{
 			double f = TableLayout.FILL;
 			double[] columnSize = {LayoutConstants.CHART_ATTR_TOMARGIN,f};
 			double[] rowSize = { p, p, p, p};
-			isDatasheetVisable = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart_Show_Data_Sheet"));
+			isDatasheetVisable = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Show_Data_Sheet"));
 			textAttrPane = new ChartTextAttrPane();
 			formatPane = new FormatPaneWithNormalType();
             Component[][] components = new Component[][]{
                     new Component[]{null,textAttrPane},
                     new Component[]{new JSeparator(),null},
-                    new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Data_Type")), null},
+                    new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Type")), null},
                     new Component[]{null,formatPane},
             };
 

@@ -109,7 +109,7 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
      * @return 返回标题.
      */
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_Filter");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Filter");
     }
 
     /**
@@ -228,7 +228,7 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
             panel1.add(onlyPreData, BorderLayout.NORTH);
             preDataNum = new UITextField();
             UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Records_Num"));
-            combineOther = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_CombineOther"));
+            combineOther = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_CombineOther"));
             combineOther.setSelected(true);
             double p = TableLayout.PREFERRED;
             double f = TableLayout.FILL;
@@ -244,7 +244,7 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
             //默认不显示
             preDataNumPane.setVisible(false);
             panel1.add(preDataNumPane, BorderLayout.CENTER);
-            notShowNull = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_NotShowCate"));
+            notShowNull = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Not_Show_Cate"));
             panel2.add(notShowNull, BorderLayout.NORTH);
 
             onlyPreData.addChangeListener(new ChangeListener() {
@@ -258,7 +258,7 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
                     fire();
                 }
             };
-            presentPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Style_Present") ,present);
+            presentPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Style_Present") ,present);
             panel2.add(presentPane, BorderLayout.SOUTH);
 
             double[] column = {f};
@@ -281,7 +281,7 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
          * 界面标题 "分类"
          */
         public String title4PopupWindow() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Style_Category");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Style_Category");
         }
 
         /**
@@ -403,7 +403,7 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
             panel1.add(onlyPreData, BorderLayout.NORTH);
             preDataNum = new UITextField();
             UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Records_Num"));
-            combineOther = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_CombineOther"));
+            combineOther = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_CombineOther"));
             combineOther.setSelected(true);
             double p = TableLayout.PREFERRED;
             double f = TableLayout.FILL;
@@ -419,7 +419,7 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
             //默认不显示
             preDataNumPane.setVisible(false);
             panel1.add(preDataNumPane, BorderLayout.CENTER);
-            notShowNull = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_NotShowSeries"));
+            notShowNull = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Not_Show_Series"));
             panel2.add(notShowNull, BorderLayout.NORTH);
 
             onlyPreData.addChangeListener(new ChangeListener() {
@@ -433,7 +433,7 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
                     fire();
                 }
             };
-            presentPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Style_Present") ,present);
+            presentPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Style_Present") ,present);
             panel2.add(presentPane, BorderLayout.SOUTH);
 
             double[] column = {f};
@@ -457,7 +457,7 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
          * 界面标题
          */
         public String title4PopupWindow() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_Series");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series");
         }
 
         /**

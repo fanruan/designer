@@ -30,7 +30,7 @@ public class CalendarNumberField extends UINumberField {
                 setValue(getIntValue());
             }
         });
-        this.setFont(new Font(com.fr.design.i18n.Toolkit.i18nText("Song_TypeFace"),0,12));
+        this.setFont(new Font(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Song_TypeFace"),0,12));
     }
 
     public void setValue(int value) {

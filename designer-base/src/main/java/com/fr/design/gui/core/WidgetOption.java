@@ -130,10 +130,10 @@ public abstract class WidgetOption implements Serializable {
             BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/date_16.png"),
             DateEditor.class);
 
-    public static final WidgetOption TREE = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Form-View_Tree"),
+    public static final WidgetOption TREE = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_View_Tree"),
             BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/tree_16.png"), TreeEditor.class);
 
-    public static final WidgetOption TREECOMBOBOX = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tree-ComboBox"), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/comboboxtree.png"),
+    public static final WidgetOption TREECOMBOBOX = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Tree_ComboBox"), BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/comboboxtree.png"),
             TreeComboBoxEditor.class);
 
     public static final WidgetOption CHECKBOXGROUP = WidgetOptionFactory.createByWidgetClass(
@@ -192,7 +192,7 @@ public abstract class WidgetOption implements Serializable {
             com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Type_Password"),
             BaseUtils.readIcon("/com/fr/design/images/buttonicon/widget/password_field_16.png"), Password.class);
 
-    public static final WidgetOption IFRAMEDITOR = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form-Iframe"), BaseUtils.readIcon("/com/fr/web/images/form/resources/iframe_16.png"),
+    public static final WidgetOption IFRAMEDITOR = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_Iframe"), BaseUtils.readIcon("/com/fr/web/images/form/resources/iframe_16.png"),
             IframeEditor.class);
 
 }

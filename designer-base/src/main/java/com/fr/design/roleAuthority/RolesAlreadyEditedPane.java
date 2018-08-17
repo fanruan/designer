@@ -45,7 +45,7 @@ public class RolesAlreadyEditedPane extends JPanel {
     public RolesAlreadyEditedPane() {
         this.setLayout(new BorderLayout());
         this.setBorder(null);
-        UILabel authorityTitle = new UILabel(com.fr.design.i18n.Toolkit.i18nText("roles_already_authority_edited")) {
+        UILabel authorityTitle = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Roles_Already_Authority_Edited")) {
             @Override
             public Dimension getPreferredSize() {
                 return new Dimension(super.getPreferredSize().width, TITLE_HEIGHT);
@@ -92,7 +92,7 @@ public class RolesAlreadyEditedPane extends JPanel {
                 } else if (userObj instanceof NameObject) {
                     NameObject nameObject = (NameObject) userObj;
                     this.setText(nameObject.getName());
-                    if (nameObject.getName() == com.fr.design.i18n.Toolkit.i18nText("M_Server-Platform_Manager")) {
+                    if (nameObject.getName() == com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_M_Server_Platform_Manager")) {
                         this.setIcon(BaseUtils.readIcon("/com/fr/web/images/platform/platform_16_16.png"));
                     } else {
                         this.setIcon(BaseUtils.readIcon("/com/fr/web/images/platform/demo.png"));

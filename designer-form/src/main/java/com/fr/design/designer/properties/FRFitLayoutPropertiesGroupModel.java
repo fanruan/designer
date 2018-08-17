@@ -59,7 +59,7 @@ public class FRFitLayoutPropertiesGroupModel implements GroupModel {
 	 */
 	@Override
 	public String getGroupName() {
-		return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Layout");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Layout");
 	}
 
 	@Override
@@ -111,11 +111,11 @@ public class FRFitLayoutPropertiesGroupModel implements GroupModel {
 		if (column == 0) {
             switch (row) {
                 case 0:
-                    return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Attr_Layout_Type");
+                    return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Attr_Layout_Type");
 				case 1:
-					return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Component_Scale");
+					return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Component_Scale");
 				default:
-                    return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Component_Interval");
+                    return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Component_Interval");
             }
         } else {
             switch (row) {

@@ -61,7 +61,7 @@ public class GisMapTableDataContentPane extends FurtherBasicBeanPane<GisMapTable
 
 		northPane.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-		UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Select_Data_Set") + ":", SwingConstants.LEFT);
+		UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Select_Dataset") + ":", SwingConstants.LEFT);
 
 		northPane.add(fromTableData = new DatabaseTableDataPane(label) {
 			@Override
@@ -72,8 +72,8 @@ public class GisMapTableDataContentPane extends FurtherBasicBeanPane<GisMapTable
 		fromTableData.setPreferredSize(new Dimension(218, 20));
 		northPane.add(fromTableData);
 
-        addressType = new UIButtonGroup<String>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Chart-Gis_Address"), com.fr.design.i18n.Toolkit.i18nText("Chart-Gis_LatLng")});
-        lnglatOrder = new UIButtonGroup<String>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Chart-Lng_First"),com.fr.design.i18n.Toolkit.i18nText("Chart-Lat_First")});
+        addressType = new UIButtonGroup<String>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_GIS_Address"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_LatLng")});
+        lnglatOrder = new UIButtonGroup<String>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Longitude_First"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Latitude_First")});
 		addressType.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
@@ -96,19 +96,19 @@ public class GisMapTableDataContentPane extends FurtherBasicBeanPane<GisMapTable
                 }
             }
         };
-        orderPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-LatLng_Order")), BorderLayout.WEST);
+        orderPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_LatLng_Order")), BorderLayout.WEST);
         orderPane.add(lnglatOrder, BorderLayout.CENTER);
         orderPane.setVisible(false);
         lnglatOrder.setSelectedIndex(0);
         addressType.setSelectedIndex(0);
 
         addressNameBox.removeAllItems();
-        addressNameBox.addItem(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_None"));
+        addressNameBox.addItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_None"));
 
 		Component[][] components = new Component[][]{
 				new Component[]{addressType, addressBox},
                 new Component[]{orderPane,null},
-				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Address_Name") + ":", SwingConstants.RIGHT), addressNameBox},
+				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Address_Name") + ":", SwingConstants.RIGHT), addressNameBox},
 		};
 		JPanel centerPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
 		
@@ -118,7 +118,7 @@ public class GisMapTableDataContentPane extends FurtherBasicBeanPane<GisMapTable
 		
 		pane.add(centerPane, BorderLayout.NORTH);
 		
-		String[] titles = {com.fr.design.i18n.Toolkit.i18nText("Chart-Area_Title"), com.fr.design.i18n.Toolkit.i18nText("Chart-Area_Value")};
+		String[] titles = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Title"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Region_Value")};
 		titleValuePane = new UICorrelationPane(titles){
 			public UITableEditor createUITableEditor() {
 				return new InnerTableEditor();
@@ -138,7 +138,7 @@ public class GisMapTableDataContentPane extends FurtherBasicBeanPane<GisMapTable
 		
 		addressBox.removeAllItems();
 		addressNameBox.removeAllItems();
-        addressNameBox.addItem(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_None"));
+        addressNameBox.addItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_None"));
 
 		for(int i = 0, size = initNames.length; i < size; i++) {
 			addressBox.addItem(initNames[i]);
@@ -171,7 +171,7 @@ public class GisMapTableDataContentPane extends FurtherBasicBeanPane<GisMapTable
      * @return  标题
 	 */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Chart-DS_TableData");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_TableData");
 	}
 
 	private void stopEditing() {
@@ -201,7 +201,7 @@ public class GisMapTableDataContentPane extends FurtherBasicBeanPane<GisMapTable
 			addressBox.setSelectedItem(mapDefinition.getAddress());
 
             if(StringUtils.isEmpty(mapDefinition.getAddressName())) {
-			    addressNameBox.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_None"));
+			    addressNameBox.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_None"));
             } else {
 			    addressNameBox.setSelectedItem(mapDefinition.getAddressName());
             }
