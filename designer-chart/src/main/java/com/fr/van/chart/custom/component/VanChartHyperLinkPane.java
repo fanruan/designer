@@ -14,7 +14,6 @@ import com.fr.design.chart.series.SeriesCondition.impl.ChartHyperRelateFloatLink
 import com.fr.design.chart.series.SeriesCondition.impl.FormHyperlinkPane;
 import com.fr.design.designer.TargetComponent;
 import com.fr.design.fun.HyperlinkProvider;
-import com.fr.design.gui.HyperlinkFilterHelper;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.imenutable.UIMenuNameableCreator;
@@ -23,8 +22,6 @@ import com.fr.design.hyperlink.WebHyperlinkPane;
 import com.fr.design.javascript.JavaScriptImplPane;
 import com.fr.design.javascript.ParameterJavaScriptPane;
 import com.fr.design.module.DesignModuleFactory;
-import com.fr.log.FineLoggerFactory;
-
 import com.fr.general.NameObject;
 import com.fr.js.EmailJavaScript;
 import com.fr.js.FormHyperlinkProvider;
@@ -35,6 +32,7 @@ import com.fr.js.NameJavaScriptGroup;
 import com.fr.js.ParameterJavaScript;
 import com.fr.js.ReportletHyperlink;
 import com.fr.js.WebHyperlink;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ListMap;
 import com.fr.stable.Nameable;
 import com.fr.stable.bridge.StableFactory;
@@ -93,7 +91,7 @@ public class VanChartHyperLinkPane extends VanChartUIListControlPane {
     }
 
     protected Map<String, BaseFormula> getHyperLinkEditorMap() {
-        return plot.getHyperLinkEditorMap();
+        return getPlot().getHyperLinkEditorMap();
     }
 
     /**
@@ -147,7 +145,7 @@ public class VanChartHyperLinkPane extends VanChartUIListControlPane {
     }
 
     public void populate(Plot plot) {
-        this.plot = plot;
+        setPlot(plot);
         HashMap paneMap = getHyperlinkMap(plot);
 
         //安装平台内打开插件时,添加相应按钮

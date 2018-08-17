@@ -1,6 +1,5 @@
 package com.fr.design.gui.controlpane;
 
-import com.fr.base.chart.BasePlot;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.icontainer.UIScrollPane;
@@ -53,10 +52,6 @@ public abstract class UIListControlPane extends UIControlPane implements ListCon
     public UIListControlPane() {
         super();
 
-    }
-
-    public UIListControlPane(BasePlot plot) {
-        super(plot);
     }
 
     private ListControlPaneHelper getHelper() {
