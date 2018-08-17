@@ -53,7 +53,6 @@ public class PluginWebBridge {
     private static final String PLUGIN_INFO = "pluginInfo";
     private static final int COREPOOLSIZE = 3;
     private static final int MAXPOOLSIZE = 5;
-    private static final String I18N_PREFIX = "FR-";
 
     private static PluginWebBridge helper;
 
@@ -569,13 +568,6 @@ public class PluginWebBridge {
      */
     public void initExtraDiff(final JSObject callback) {
         //todo  初始化设计器其他部分
-    }
-
-    /**
-     * 国际化
-     */
-    public String parseI18(final String key) {
-        return com.fr.design.i18n.Toolkit.i18nText(I18N_PREFIX + key);
     }
 
     /**
