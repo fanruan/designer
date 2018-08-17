@@ -29,13 +29,13 @@ public class ChartDataPointLabel4MapPane extends ChartDatapointLabelPane {
 	public ChartDataPointLabel4MapPane(ChartStylePane parent) {
 		this.parent = parent;
 		
-		isLabelShow = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Chart_Label"));
+		isLabelShow = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Label"));
 		isCategory = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Name"));
-		isValue = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Area_Value"));
-        valueFormatButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Format"));
+		isValue = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Region_Value"));
+        valueFormatButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Format"));
 
-        isValuePercent = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Value_Percent"));
-        valuePercentFormatButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Format"));
+        isValuePercent = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Value_Percent"));
+        valuePercentFormatButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Format"));
 
         divideComoBox = new UIComboBox(ChartConstants.DELIMITERS);
         textFontPane = new ChartTextAttrPane();
@@ -58,7 +58,7 @@ public class ChartDataPointLabel4MapPane extends ChartDatapointLabelPane {
         components[4] = new Component[]{isValuePercent,valuePercentFormatButton} ;
 
         JPanel delimiterPane = new JPanel(new BorderLayout(LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM));
-        delimiterPane.add(new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Delimiter_Symbol")), BorderLayout.WEST);
+        delimiterPane.add(new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Delimiter_Symbol")), BorderLayout.WEST);
         delimiterPane.add(divideComoBox, BorderLayout.CENTER);
 
         components[5] = new Component[]{delimiterPane,null};

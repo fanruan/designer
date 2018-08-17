@@ -32,7 +32,7 @@ public class ExcelExportPane extends BasicPane {
 	protected void initComponents() {
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
 		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		JPanel outnorthPane =FRGUIPaneFactory.createTitledBorderPane("Excel" + com.fr.design.i18n.Toolkit.i18nText("ReportD-Excel_Export"));
+		JPanel outnorthPane =FRGUIPaneFactory.createTitledBorderPane("Excel" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportD_Excel_Export"));
 		JPanel northPane=FRGUIPaneFactory.createY_AXISBoxInnerContainer_M_Pane();
 		this.add(outnorthPane);
 		outnorthPane.add(northPane);

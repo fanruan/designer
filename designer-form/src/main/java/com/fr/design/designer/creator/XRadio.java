@@ -3,16 +3,14 @@
  */
 package com.fr.design.designer.creator;
 
-import java.awt.Dimension;
-import java.beans.IntrospectionException;
+import com.fr.design.mainframe.widget.editors.WidgetValueEditor;
+import com.fr.form.ui.Radio;
+import com.fr.stable.ArrayUtils;
 
 import javax.swing.JComponent;
 import javax.swing.JRadioButton;
-
-import com.fr.design.mainframe.widget.editors.WidgetValueEditor;
-import com.fr.form.ui.Radio;
-
-import com.fr.stable.ArrayUtils;
+import java.awt.Dimension;
+import java.beans.IntrospectionException;
 
 /**
  * @author richer
@@ -32,7 +30,7 @@ public class XRadio extends XWidgetCreator {
     @Override
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
 		return (CRPropertyDescriptor[]) ArrayUtils.addAll(super.supportedDescriptor(), new CRPropertyDescriptor[] {
-				new CRPropertyDescriptor("text", this.data.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Text")),
+				new CRPropertyDescriptor("text", this.data.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Text")),
 				new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(
 						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Value")).setEditorClass(WidgetValueEditor.class)});
 	}

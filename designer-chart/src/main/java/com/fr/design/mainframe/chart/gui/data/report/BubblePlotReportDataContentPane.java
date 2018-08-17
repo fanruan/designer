@@ -26,7 +26,7 @@ public class BubblePlotReportDataContentPane extends AbstractReportDataContentPa
 	public BubblePlotReportDataContentPane(ChartDataPane parent) {
 		initEveryPane();
 		filterPane = new ChartDataFilterPane(new BubblePlot(), parent);
-		JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_Filter"),filterPane);
+		JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Filter"),filterPane);
 		panel.setBorder(getSidesBorder());
 		filterPane.setBorder(getFilterPaneBorder());
 		this.add(panel, "0,6,2,4");
@@ -36,8 +36,8 @@ public class BubblePlotReportDataContentPane extends AbstractReportDataContentPa
 	protected String[] columnNames() {
 		return  new String[]{
 			com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Bubble_Series_Name"),
-			com.fr.design.i18n.Toolkit.i18nText("ChartF-X_Axis"),
-			com.fr.design.i18n.Toolkit.i18nText("ChartF-Y_Axis"),
+			com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_X_Axis"),
+			com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Y_Axis"),
 			com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Font_Size")
 		};
 	}

@@ -30,11 +30,11 @@ public class StoreProcedureParameterPane extends BasicPane {
 
 	private static NameObject[] nameAndValue = new NameObject[]{
 		new NameObject(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cursor"), StoreProcedureConstants.CURSOR),
-		new NameObject(com.fr.design.i18n.Toolkit.i18nText("Parameter-String"), StoreProcedureConstants.VARCHAR),
-		new NameObject(com.fr.design.i18n.Toolkit.i18nText("Integer"), StoreProcedureConstants.INTEGER),
+		new NameObject(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter_String"), StoreProcedureConstants.VARCHAR),
+		new NameObject(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Integer"), StoreProcedureConstants.INTEGER),
 		new NameObject(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Double"), StoreProcedureConstants.DECIMAL),
 		new NameObject(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date"), StoreProcedureConstants.DATE),
-		new NameObject(com.fr.design.i18n.Toolkit.i18nText("Parameter-Boolean"), StoreProcedureConstants.BOOLEAN),
+		new NameObject(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter_Boolean"), StoreProcedureConstants.BOOLEAN),
 		new NameObject(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Formula"), StoreProcedureConstants.FORMULA),
 		new NameObject("IN",StoreProcedureConstants.IN),
 		new NameObject("OUT",StoreProcedureConstants.OUT),
@@ -71,7 +71,7 @@ public class StoreProcedureParameterPane extends BasicPane {
 		schemaCombo = new UIComboBox();
 	    initUIComboBox(schemaCombo, schemaName);
 		JPanel namePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-		namePane.add(new UILabel("     " + com.fr.design.i18n.Toolkit.i18nText("Name") + ":"), BorderLayout.WEST);
+		namePane.add(new UILabel("     " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Name") + ":"), BorderLayout.WEST);
 		nameField = new UITextField(10);
 		namePane.add(nameField, BorderLayout.CENTER);
 		namePane.add(new UILabel("     "), BorderLayout.EAST);
@@ -80,7 +80,7 @@ public class StoreProcedureParameterPane extends BasicPane {
 		valuePane.add(new UILabel("     "), BorderLayout.EAST);
 		Component[][] components = {{null},
 				{namePane},
-				{addPane("Model", 1, schemaCombo)},
+				{addPane("Fine-Design_Basic_Model", 1, schemaCombo)},
 				{valuePane},
 				{null}
 		};
@@ -105,7 +105,7 @@ public class StoreProcedureParameterPane extends BasicPane {
 	
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Parameter");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter");
 	}
 	
 	public void populate(StoreProcedureParameter stpParameter) {
@@ -129,19 +129,19 @@ public class StoreProcedureParameterPane extends BasicPane {
 			if(((String) value).length() > 0 && ((String) value).charAt(0) == '=')
 				type = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Formula");
 			else
-				type = com.fr.design.i18n.Toolkit.i18nText("Parameter-String");
+				type = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter_String");
 		}else if(value instanceof Integer)
-			type = com.fr.design.i18n.Toolkit.i18nText("Integer");
+			type = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Integer");
 		else if(value instanceof Double)
 			type = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Double");
 		else if(value instanceof Date)
 			type = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date");
 		else if(value instanceof Boolean)
-			type = com.fr.design.i18n.Toolkit.i18nText("Parameter-Boolean");
+			type = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter_Boolean");
 		else if(value instanceof BaseFormula)
 			type = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Formula");
 		else 
-			type = com.fr.design.i18n.Toolkit.i18nText("Parameter-String");
+			type = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter_String");
 		int typeVl = getInfo4Value(type);
 		p.setType(typeVl);
 		String schema = (String)schemaCombo.getSelectedItem();

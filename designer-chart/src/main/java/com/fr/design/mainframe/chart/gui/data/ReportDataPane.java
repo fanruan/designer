@@ -36,7 +36,7 @@ public class ReportDataPane extends FurtherBasicBeanPane<ChartCollection>{
      * @return 界面的标题
      */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("FR-Chart_Cell_Data");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Cell_Data");
 	}
 
     /**

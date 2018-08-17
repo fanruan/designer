@@ -25,7 +25,7 @@ public class LabelColorPane extends ConditionAttrSingleConditionPane<DataSeriesC
 
     public LabelColorPane(ConditionAttributesPane conditionAttributesPane, boolean isRemove) {
         super(conditionAttributesPane, isRemove);
-        nameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("ChartF-Background_Color"));
+        nameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Background_Color"));
         colorSelectionPane = new ColorSelectBox(80);
 
         if (isRemove) {

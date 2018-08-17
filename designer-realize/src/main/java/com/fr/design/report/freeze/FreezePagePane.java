@@ -13,7 +13,7 @@ public class FreezePagePane extends FreezeAndRepeatPane {
 	public FreezePagePane(boolean isNumber) {
 		this.isNumber = isNumber;
 		start = new UILabel(isNumber ? com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Frozen_N.O.")+" 1" : com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Frozen_N.O.")+" A", SwingConstants.CENTER);
-		end = new UILabel(isNumber ? " 1"+com.fr.design.i18n.Toolkit.i18nText("Row") : " A"+com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Column"), SwingConstants.CENTER);
+		end = new UILabel(isNumber ? " 1"+com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Row") : " A"+com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Column"), SwingConstants.CENTER);
 		super.initComponent();
 	}
 
@@ -25,7 +25,7 @@ public class FreezePagePane extends FreezeAndRepeatPane {
 	@Override
 	public void populateBean(FT ob) {
 		if (isNumber) {
-			((UILabel) end).setText(String.valueOf(ob.getTo() + 1)+com.fr.design.i18n.Toolkit.i18nText("Row"));
+			((UILabel) end).setText(String.valueOf(ob.getTo() + 1)+com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Row"));
 		} else {
 			((UILabel) end).setText(StableUtils.convertIntToABC(ob.getTo() + 1)+com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Column"));
 		}

@@ -33,7 +33,7 @@ public class PresentHighlightPane extends ConditionAttrSingleConditionPane<Highl
 
     public PresentHighlightPane(final ConditionAttributesPane conditionAttributesPane) {
         super(conditionAttributesPane);
-        this.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Present") + ":"));
+        this.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Present") + ":"));
 
         String[] typeArray = {PresentConstants.NORMAL, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Other_Present")};
         presentComboBox = new UIComboBox(typeArray);
@@ -87,7 +87,7 @@ public class PresentHighlightPane extends ConditionAttrSingleConditionPane<Highl
 
     @Override
     public String nameForPopupMenuItem() {
-        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Present");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Present");
     }
 
     @Override

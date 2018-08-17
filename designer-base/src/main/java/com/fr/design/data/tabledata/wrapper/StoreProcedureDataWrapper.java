@@ -101,7 +101,7 @@ public final class StoreProcedureDataWrapper implements TableDataWrapper {
             return columnNameList;
         }
         if (!createStore(false)) {
-            JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("FR-Engine_No-tableData"));
+            JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Engine_No_TableData"));
             return new ArrayList<String>();
         }
         columnNameList = Arrays.asList(procedureDataModel.getColumnName());

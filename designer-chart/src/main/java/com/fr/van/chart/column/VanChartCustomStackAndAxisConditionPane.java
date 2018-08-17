@@ -74,9 +74,9 @@ public class VanChartCustomStackAndAxisConditionPane extends BasicBeanPane<Condi
 
     protected Component[][] getDeployComponents() {
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("ChartF-X_Axis")), XAxis},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("ChartF-Y_Axis")), YAxis},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Stacked")), isStacked},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_X_Axis")), XAxis},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Y_Axis")), YAxis},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Stacked")), isStacked},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Percent_Stacked")), isPercentStacked},
         };
 
@@ -91,7 +91,7 @@ public class VanChartCustomStackAndAxisConditionPane extends BasicBeanPane<Condi
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_StackAndSeries");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Stack_And_Series");
     }
 
     private void checkBox() {

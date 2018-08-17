@@ -115,7 +115,7 @@ public class ImageSelectPane extends BackgroundPane4BoxChange {
             imageSizeLabel.setText("");
         } else {
             imageSizeLabel.setText(selectImage.getWidth(null) + "x"
-                    + selectImage.getHeight(null) + com.fr.design.i18n.Toolkit.i18nText("px"));
+                    + selectImage.getHeight(null) + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Px"));
         }
     }
 

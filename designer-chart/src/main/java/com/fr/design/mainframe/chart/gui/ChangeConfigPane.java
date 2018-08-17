@@ -111,7 +111,7 @@ public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
 
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Arrow_Style")), switchStyleGroup, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Time_Interval")), timeInterval, new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Base-Time_Second"))},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Time_Interval")), timeInterval, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Time_Second"))},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background")),colorSelectBox4carousel, null}
         };
 
@@ -227,6 +227,6 @@ public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Chart-Change_Config_Attributes");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Change_Config_Attributes");
     }
 }

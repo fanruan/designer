@@ -855,7 +855,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
                         com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Undefined"),
                         com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Bind_Column_Top_N"),
                         com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Bind_Column_Bottom_N"),
-                        com.fr.design.i18n.Toolkit.i18nText("Odd"),
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Odd"),
                         com.fr.design.i18n.Toolkit.i18nText("Even"),
                         com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Specify")
                 });

@@ -1,15 +1,7 @@
 package com.fr.design.report;
 
-import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-
-import javax.swing.BorderFactory;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-
 import com.fr.base.core.KV;
+import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.frpane.ReportletParameterViewPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icheckbox.UICheckBox;
@@ -17,11 +9,10 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextarea.UITextArea;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.dialog.BasicPane;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.file.FILE;
 import com.fr.file.FILEChooserPane;
 import com.fr.file.FILEFactory;
-
 import com.fr.main.TemplateWorkBook;
 import com.fr.main.impl.LinkWorkBookTemplate;
 import com.fr.report.cell.CellElement;
@@ -29,7 +20,14 @@ import com.fr.report.cell.cellattr.core.SubReport;
 import com.fr.report.elementcase.ElementCase;
 import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
-import com.fr.design.utils.gui.GUICoreUtils;
+
+import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 
 public class SubReportPane extends BasicPane {
 	private UITextField pathTextField;
@@ -46,7 +44,7 @@ public class SubReportPane extends BasicPane {
         JPanel northPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 //        northPane.setLayout(FRGUIPaneFactory.createM_BorderLayout());
 		northPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Sub_Report_Path"),null));
-        northPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Location") + ":"), BorderLayout.WEST);
+        northPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Location") + ":"), BorderLayout.WEST);
         northPane.add(pathTextField = new UITextField(), BorderLayout.CENTER);
 		pathTextField.setEditable(false);
 		UIButton browseButton = new UIButton("...");

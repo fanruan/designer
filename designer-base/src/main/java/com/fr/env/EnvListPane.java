@@ -103,9 +103,4 @@ public class EnvListPane extends JListControlPane {
         }
         return this.getSelectedName();
     }
-
-    @Override
-    protected boolean filterNameableCreator(NameableCreator creator) {
-        return false;
-    }
 }

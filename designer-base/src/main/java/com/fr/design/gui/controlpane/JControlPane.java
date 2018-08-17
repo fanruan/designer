@@ -1,6 +1,8 @@
 package com.fr.design.gui.controlpane;
 
 import com.fr.design.dialog.BasicPane;
+import com.fr.design.gui.controlpane.shortcutfactory.AbstractShortCutFactory;
+import com.fr.design.gui.controlpane.shortcutfactory.OldShortCutFactory;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itoolbar.UIToolbar;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -17,22 +19,30 @@ import java.awt.*;
  * Date: 2016/5/17
  * Time: 15:07
  */
-public abstract class JControlPane extends BasicPane implements UnrepeatedNameHelper {
-    protected static final int SHORT_WIDTH = 30; //每加一个short Divider位置加30
-    protected JPanel controlUpdatePane;
+abstract class JControlPane extends BasicPane implements UnrepeatedNameHelper, ShortCutListenerProvider {
+    private static final int SHORT_WIDTH = 30; //每加一个short Divider位置加30
+    private static final String SELECT = "SELECT";
+    private static final String EDIT = "EDIT";
+    JPanel controlUpdatePane;
 
-    private ShortCut4JControlPane[] shorts;
-    private NameableCreator[] creators;
+    ShortCut4JControlPane[] shorts;
+    NameableCreator[] creators;
     private ToolBarDef toolbarDef;
 
-    private UIToolbar toolBar;
+    UIToolbar toolBar;
     // peter:这是整体的一个cardLayout Pane
     protected CardLayout cardLayout;
 
     protected JPanel cardPane;
+    protected AbstractShortCutFactory shortCutFactory;
 
-    public JControlPane() {
+    JControlPane() {
+        this.initShortCutFactory();
         this.initComponentPane();
+    }
+
+    protected void initShortCutFactory() {
+        this.shortCutFactory = OldShortCutFactory.newInstance(this);
     }
 
     /**
@@ -44,10 +54,6 @@ public abstract class JControlPane extends BasicPane implements UnrepeatedNameHe
 
     public ShortCut4JControlPane[] getShorts() {
         return shorts;
-    }
-
-    public void setShorts(ShortCut4JControlPane[] shorts) {
-        this.shorts = shorts;
     }
 
     public void setCreators(NameableCreator[] creators) {
@@ -89,16 +95,7 @@ public abstract class JControlPane extends BasicPane implements UnrepeatedNameHe
     protected void initComponentPane() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.creators = this.createNameableCreators();
-        this.controlUpdatePane = createControlUpdatePane();
-
-        // p: edit card layout
-        this.cardLayout = new CardLayout();
-        cardPane = FRGUIPaneFactory.createCardLayout_S_Pane();
-        cardPane.setLayout(this.cardLayout);
-        // p:选择的Label
-        UILabel selectLabel = new UILabel();
-        cardPane.add(selectLabel, "SELECT");
-        cardPane.add(controlUpdatePane, "EDIT");
+        initCardPane();
         // SplitPane
         JSplitPane mainSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, getLeftPane(), cardPane);
         mainSplitPane.setBorder(BorderFactory.createLineBorder(GUICoreUtils.getTitleLineBorderColor()));
@@ -109,7 +106,37 @@ public abstract class JControlPane extends BasicPane implements UnrepeatedNameHe
         this.checkButtonEnabled();
     }
 
+    protected void initCardPane() {
+        this.controlUpdatePane = createControlUpdatePane();
+
+        // p: edit card layout
+        this.cardLayout = new CardLayout();
+        cardPane = FRGUIPaneFactory.createCardLayout_S_Pane();
+        cardPane.setLayout(this.cardLayout);
+        // p:选择的Label
+        UILabel selectLabel = new UILabel();
+        cardPane.add(selectLabel, SELECT);
+        cardPane.add(controlUpdatePane, EDIT);
+    }
+
+    public void showEditPane() {
+        this.cardLayout.show(cardPane, EDIT);
+    }
+
+    public void showSelectPane() {
+        this.cardLayout.show(cardPane, SELECT);
+    }
+
     protected abstract JPanel createControlUpdatePane();
+
+    protected void initToolBar() {
+        toolbarDef = new ToolBarDef();
+        for (ShortCut4JControlPane sj : shorts) {
+            toolbarDef.addShortCut(sj.getShortCut());
+        }
+        toolBar = ToolBarDef.createJToolBar();
+        toolbarDef.updateToolBar(toolBar);
+    }
 
     protected JPanel getLeftPane() {
         // LeftPane
@@ -122,12 +149,8 @@ public abstract class JControlPane extends BasicPane implements UnrepeatedNameHe
             return leftPane;
         }
 
-        toolbarDef = new ToolBarDef();
-        for (ShortCut4JControlPane sj : shorts) {
-            toolbarDef.addShortCut(sj.getShortCut());
-        }
-        toolBar = ToolBarDef.createJToolBar();
-        toolbarDef.updateToolBar(toolBar);
+        initToolBar();
+
         leftPane.add(toolBar, BorderLayout.NORTH);
         return leftPane;
     }
@@ -143,29 +166,9 @@ public abstract class JControlPane extends BasicPane implements UnrepeatedNameHe
         return shorts.length * SHORT_WIDTH;
     }
 
-
     protected ShortCut4JControlPane[] createShortcuts() {
-        return new ShortCut4JControlPane[]{
-                addItemShortCut(),
-                removeItemShortCut(),
-                copyItemShortCut(),
-                moveUpItemShortCut(),
-                moveDownItemShortCut(),
-                sortItemShortCut()
-        };
+        return shortCutFactory.createShortCuts();
     }
-
-    protected abstract ShortCut4JControlPane addItemShortCut();
-
-    protected abstract ShortCut4JControlPane removeItemShortCut();
-
-    protected abstract ShortCut4JControlPane copyItemShortCut();
-
-    protected abstract ShortCut4JControlPane moveUpItemShortCut();
-
-    protected abstract ShortCut4JControlPane moveDownItemShortCut();
-
-    protected abstract ShortCut4JControlPane sortItemShortCut();
 
     public abstract Nameable[] update();
 
@@ -179,23 +182,15 @@ public abstract class JControlPane extends BasicPane implements UnrepeatedNameHe
     public void checkButtonEnabled() {
     }
 
-    protected void doBeforeRemove() {
-    }
-
-    protected void doAfterRemove() {
-    }
-
     public NameableCreator[] creators() {
         return creators == null ? new NameableCreator[0] : creators;
     }
 
-    protected abstract boolean hasInvalid(boolean isAdd);
-
     /**
-     * 刷新 NameableCreator
-     *
-     * @param creators 生成器
-     */
+    * 刷新 NameableCreator
+    *
+    * @param creators 生成器
+    */
     public void refreshNameableCreator(NameableCreator[] creators) {
         this.creators = creators;
         shorts = this.createShortcuts();

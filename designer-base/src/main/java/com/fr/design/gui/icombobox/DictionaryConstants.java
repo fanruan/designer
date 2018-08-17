@@ -22,8 +22,8 @@ public class DictionaryConstants {
 		com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Length"),
 		com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Float"),
 		com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Email"),
-		com.fr.design.i18n.Toolkit.i18nText("Phone"),
-		com.fr.design.i18n.Toolkit.i18nText("MobilePhone"),
+		com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Phone"),
+		com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_MobilePhone"),
 		com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_IDCard"),
 		com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_PostCode"),
 		com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom")};

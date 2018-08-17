@@ -39,7 +39,7 @@ public class ImagePane extends BasicPane {
 
 //        previewPane.setLayout(FRGUIPaneFactory.createBorderLayout());
         if (hasPreviewBorder) {
-            previewPane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Preview")));
+            previewPane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preview")));
         }
 
         imagePreviewPane = new ImagePreviewPane();

@@ -69,7 +69,7 @@ public class StylePane extends BasicBeanPane<Style> implements ChangeListener {
 
 		previewPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		this.add(previewPane, BorderLayout.NORTH);
-		previewPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Preview"), null));
+		previewPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preview"), null));
 
 		previewArea = new PreivewArea();
 		previewPane.add(previewArea, BorderLayout.CENTER);
@@ -92,7 +92,7 @@ public class StylePane extends BasicBeanPane<Style> implements ChangeListener {
 
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Style");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style");
 	}
 
 	public void stateChanged(ChangeEvent e) {

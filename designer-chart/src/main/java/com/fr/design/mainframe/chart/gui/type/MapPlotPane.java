@@ -50,10 +50,10 @@ public class MapPlotPane extends AbstractChartTypePane {
 	@Override
 	protected String[] getTypeTipName() {
 		return new String[]{
-				com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Map_Normal"),
-				com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Map_Bubble"),
-				com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Map_Pie"),
-				com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Map_Column")
+				com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Map_Normal"),
+				com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Map_Bubble"),
+				com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Map_Pie"),
+				com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Map_Column")
 		};
 	}
 
@@ -72,7 +72,7 @@ public class MapPlotPane extends AbstractChartTypePane {
      * @return 界面标题
 	 */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Map_Map");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Map_Map");
 	}
 
 	/**

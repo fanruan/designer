@@ -12,7 +12,7 @@ public class FreezeWriteRowPane extends FreezeAndRepeatPane {
 		start = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Frozen_N.O.") + " 1", SwingConstants.CENTER);
 		end =  new RowSpinner(1, Integer.MAX_VALUE, 1,1);
 		super.initComponent();
-		this.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Row")));
+		this.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Row")));
 	}
 
 	@Override

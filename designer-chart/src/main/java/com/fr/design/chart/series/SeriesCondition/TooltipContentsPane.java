@@ -71,12 +71,12 @@ public class TooltipContentsPane extends BasicPane{
 	}
 
 	protected String getValueString() {
-		return com.fr.design.i18n.Toolkit.i18nText("Value");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Value");
 	}
 
 	protected Component[] createComponents4PercentValue() {
 		if (showPercent == null) {
-			showPercent = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart_ValueIntPercent"));
+			showPercent = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Value_Percentage"));
 		}
 
 		JPanel percentValuePane = new JPanel();

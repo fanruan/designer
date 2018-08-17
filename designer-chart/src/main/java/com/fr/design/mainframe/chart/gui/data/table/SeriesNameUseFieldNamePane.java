@@ -40,8 +40,8 @@ import java.util.List;
  * @version 创建时间：2012-12-26 下午04:39:46
  */
 public class SeriesNameUseFieldNamePane extends FurtherBasicBeanPane<ChartCollection> {
-    private static final String[] HEADS = {com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Field_Name"), com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Series_Name"), com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_Summary")};
-    private static final String[] HEADS_NO_SUMMARY = {com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Field_Name"), com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Series_Name")};
+    private static final String[] HEADS = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Field_Name"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Name"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Summary_Method")};
+    private static final String[] HEADS_NO_SUMMARY = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Field_Name"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Name")};
     private UICorrelationPane seriesDataPane;
     private List<String> field = new ArrayList<String>();
     private JPanel centerPane;
@@ -62,7 +62,7 @@ public class SeriesNameUseFieldNamePane extends FurtherBasicBeanPane<ChartCollec
                 return new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        String[] blank =heads.length == 3?new String[]{StringUtils.EMPTY, StringUtils.EMPTY, com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_None")}:
+                        String[] blank =heads.length == 3?new String[]{StringUtils.EMPTY, StringUtils.EMPTY, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_None")}:
                                 new String[]{StringUtils.EMPTY, StringUtils.EMPTY};
                         tablePane.addLine(blank);
                         fireTargetChanged();

@@ -51,13 +51,13 @@ public class XTreeComboBoxEditor extends XTreeEditor {
 	protected CRPropertyDescriptor[] addAllowEdit(CRPropertyDescriptor[] crp) throws IntrospectionException{
 		return (CRPropertyDescriptor[])ArrayUtils.add(crp, new CRPropertyDescriptor("directEdit", this.data.getClass())
           .setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Allow_Edit")).putKeyValue(
-                  XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate"));
+                  XCreatorConstants.PROPERTY_VALIDATE, "Fine-Design_Basic_Validate"));
 	}
 
 	protected CRPropertyDescriptor[] addCustomData(CRPropertyDescriptor[] crp) throws IntrospectionException{
 		return (CRPropertyDescriptor[])ArrayUtils.add(crp, new CRPropertyDescriptor("customData", this.data.getClass())
           .setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Allow_Custom_Data")).putKeyValue(
-                  XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate"));
+                  XCreatorConstants.PROPERTY_VALIDATE, "Fine-Design_Basic_Validate"));
 	}
 
     @Override

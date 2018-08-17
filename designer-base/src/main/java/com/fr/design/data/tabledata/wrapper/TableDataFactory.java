@@ -3,17 +3,37 @@ package com.fr.design.data.tabledata.wrapper;
 import com.fr.base.FRContext;
 import com.fr.base.TableData;
 import com.fr.data.TableDataSource;
-import com.fr.data.impl.*;
+import com.fr.data.impl.ClassTableData;
+import com.fr.data.impl.DBTableData;
+import com.fr.data.impl.DecoratedTableData;
+import com.fr.data.impl.EmbeddedTableData;
+import com.fr.data.impl.FileTableData;
+import com.fr.data.impl.MultiFieldTableData;
+import com.fr.data.impl.MultiTDTableData;
+import com.fr.data.impl.RecursionTableData;
 import com.fr.data.impl.storeproc.StoreProcedure;
 import com.fr.design.data.datapane.TableDataNameObjectCreator;
-import com.fr.design.data.tabledata.tabledatapane.*;
+import com.fr.design.data.tabledata.tabledatapane.AbstractTableDataPane;
+import com.fr.design.data.tabledata.tabledatapane.ClassTableDataPane;
+import com.fr.design.data.tabledata.tabledatapane.DBTableDataPane;
+import com.fr.design.data.tabledata.tabledatapane.DecoratedTableDataPane;
+import com.fr.design.data.tabledata.tabledatapane.EmbeddedTableDataPane;
+import com.fr.design.data.tabledata.tabledatapane.FileTableDataPane;
+import com.fr.design.data.tabledata.tabledatapane.MultiTDTableDataPane;
+import com.fr.design.data.tabledata.tabledatapane.ProcedureDataPane;
+import com.fr.design.data.tabledata.tabledatapane.TreeTableDataPane;
 import com.fr.file.TableDataConfig;
 import com.fr.general.ComparatorUtils;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
 
 import java.lang.reflect.Constructor;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 /**
@@ -155,12 +175,17 @@ public abstract class TableDataFactory {
     @SuppressWarnings("unchecked")
     public static String[] getSortOfChineseNameOfServerData(TableDataConfig tableDataConfig) {
         clearAll();
-        java.util.Iterator<String> nameIt = tableDataConfig.getTableDatas().keySet().iterator();
-        while (nameIt.hasNext()) {
-            String name = nameIt.next();
-            TableData td = TableDataConfig.getInstance().getTableData(name);
-            addName(name, td);
+        try {
+            java.util.Iterator<String> nameIt = tableDataConfig.getTableDatas().keySet().iterator();
+            while (nameIt.hasNext()) {
+                String name = nameIt.next();
+                addName(name, tableDataConfig.getTableData(name));
+            }
+        } catch (Exception e) {
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+            return ArrayUtils.EMPTY_STRING_ARRAY;
         }
+
         return getSortedNameArray();
     }
 

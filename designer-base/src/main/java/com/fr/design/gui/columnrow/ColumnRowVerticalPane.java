@@ -34,7 +34,7 @@ public class ColumnRowVerticalPane extends ColumnRowPane {
 		JPanel rowPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
 		pane.add(rowPane);
 		
-		rowPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Row") + ":"));
+		rowPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Row") + ":"));
 		initRowSpinner();
 		rowPane.add(rowSpinner);
 		

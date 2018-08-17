@@ -59,7 +59,7 @@ public class MapMoreReportIndexPane extends BasicBeanPane<MapSingleLayerReportDe
 		northPane.add(areaNamePane);
 		
 		tabPane = new UICorrelationPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Title"),
-				com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Value")){
+				com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Region_Value")){
 			public UITableEditor createUITableEditor() {
 				return new InnerTableEditor();
 			}

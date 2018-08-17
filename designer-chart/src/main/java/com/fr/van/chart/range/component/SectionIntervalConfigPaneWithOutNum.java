@@ -48,7 +48,7 @@ public class SectionIntervalConfigPaneWithOutNum extends MapColorPickerPaneWithF
 
     @Override
     protected Component[][] createComponents() {
-        numLabel = new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Value_Divided_stage"));
+        numLabel = new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Value_Divided_Stage"));
 
         setRegionVisible(false);
 

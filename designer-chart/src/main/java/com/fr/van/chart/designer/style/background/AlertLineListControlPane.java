@@ -25,7 +25,7 @@ public class AlertLineListControlPane extends VanChartUIListControlPane {
 
     @Override
     public NameableCreator[] createNameableCreators() {
-        return new ChartNameObjectCreator[]{new ChartNameObjectCreator(new String[]{com.fr.design.i18n.Toolkit.i18nText("ChartF-X_Axis"), com.fr.design.i18n.Toolkit.i18nText("ChartF-Y_Axis")},
+        return new ChartNameObjectCreator[]{new ChartNameObjectCreator(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_X_Axis"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Y_Axis")},
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Alert_Line"), VanChartAlertValue.class, VanChartAlertValuePane.class)};
     }
 
@@ -40,9 +40,9 @@ public class AlertLineListControlPane extends VanChartUIListControlPane {
 
     protected ShortCut4JControlPane[] createShortcuts() {
         return new ShortCut4JControlPane[]{
-                moveUpItemShortCut(),
-                moveDownItemShortCut(),
-                removeItemShortCut()
+                shortCutFactory.moveUpItemShortCut(),
+                shortCutFactory.moveDownItemShortCut(),
+                shortCutFactory.removeItemShortCut()
         };
     }
 

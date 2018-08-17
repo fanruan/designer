@@ -70,7 +70,7 @@ public class BubbleSeriesPane extends AbstractPlotSeriesPane{
         Component[][] components = new Component[][]{
                 new Component[]{bubbleMean,null},
                 new Component[]{new JSeparator(),null},
-                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Chart_Change_Bubble_Size")),zoomTime},
+                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Change_Bubble_Size")),zoomTime},
                 new Component[]{isMinus,null}
         } ;
         JPanel pane = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);

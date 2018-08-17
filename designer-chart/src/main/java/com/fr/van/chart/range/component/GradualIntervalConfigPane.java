@@ -74,7 +74,7 @@ public class GradualIntervalConfigPane extends JPanel{
         return new Component[][]{
                 new Component[]{minMaxValuePane, null},
                 new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Subject_Color")), colorSelectBox},
-                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Value_Divided_stage")), numberDragPane},
+                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Value_Divided_Stage")), numberDragPane},
                 new Component[]{null, legendGradientBar},
         };
     }
@@ -82,7 +82,7 @@ public class GradualIntervalConfigPane extends JPanel{
     protected Component[][] getPaneComponentsWithOutTheme(){
         return new Component[][]{
                 new Component[]{minMaxValuePane, null},
-                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Value_Divided_stage")), numberDragPane},
+                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Value_Divided_Stage")), numberDragPane},
                 new Component[]{null, legendGradientBar},
         };
     }

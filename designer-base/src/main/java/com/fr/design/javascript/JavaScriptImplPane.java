@@ -72,7 +72,7 @@ public class JavaScriptImplPane extends AbstractHyperLinkPane<JavaScriptImpl> {
             }
         });
 
-        OneListTableModel<String> model = new OneListTableModel<String>(com.fr.design.i18n.Toolkit.i18nText("ReportServerP-Import_JavaScript"), this) {
+        OneListTableModel<String> model = new OneListTableModel<String>(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportServerP_Import_JavaScript"), this) {
 
             public UITableEditAction[] createAction() {
                 return new UITableEditAction[]{getAddAction(), new DeleteAction(this.component), new MoveUpAction(), new MoveDownAction()};
@@ -84,7 +84,7 @@ public class JavaScriptImplPane extends AbstractHyperLinkPane<JavaScriptImpl> {
             }
         };
         importedJsPane = new UITableEditorPane<String>(model);
-        importedJsPane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), com.fr.design.i18n.Toolkit.i18nText("ReportServerP-Import_JavaScript")));
+        importedJsPane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportServerP_Import_JavaScript")));
         importedJsPane.setPreferredSize(new Dimension(265, 150));
         jsPane = new JSContentPane(defaultArgs);
         jsPane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_JavaScript")));
@@ -196,7 +196,7 @@ public class JavaScriptImplPane extends AbstractHyperLinkPane<JavaScriptImpl> {
             itemNameTextField = new UITextField();
 
             JPanel topPane = GUICoreUtils.createBorderLayoutPane(
-                    GUICoreUtils.createNamedPane(itemNameTextField, com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Use_Name") + ":"), BorderLayout.NORTH,
+                    GUICoreUtils.createNamedPane(itemNameTextField, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Name") + ":"), BorderLayout.NORTH,
                     importedJsPane, BorderLayout.CENTER,
                     parameterPane, BorderLayout.EAST
             );

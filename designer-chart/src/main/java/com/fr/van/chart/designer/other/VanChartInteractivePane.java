@@ -74,7 +74,7 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
 
 
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Chart-Interactive_Tab");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Interactive_Tab");
     }
 
     @Override
@@ -121,11 +121,11 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
         zoomType = new UIButtonGroup(getNameArray(), getValueArray());
         zoomGesture = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Open"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Close")});
 
-        JPanel zoomWidgetPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_ZoomWidget"), zoomWidget);
+        JPanel zoomWidgetPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Zoom_Widget"), zoomWidget);
         JPanel zoomGesturePane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_ZoomGesture"), zoomGesture);
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_WidgetBoundary")), zoomResize},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Widget_Boundary")), zoomResize},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_From")), from},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_To")), to},
         };
@@ -143,12 +143,12 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
                 checkZoomPane();
             }
         });
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Zoom"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Zoom"), panel);
     }
 
 
     protected JPanel getzoomTypePane(UIButtonGroup zoomType) {
-        return TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_ZoomType"), zoomType);
+        return TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Zoom_Direction"), zoomType);
     }
 
     protected JPanel createZoomPaneContent(JPanel zoomWidgetPane, JPanel zoomGesturePane, JPanel changeEnablePane, JPanel zoomTypePane, VanChartPlot plot) {
@@ -194,8 +194,8 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
 
 
     protected String[] getNameArray() {
-        return new String[]{com.fr.design.i18n.Toolkit.i18nText("ChartF-X_Axis"), com.fr.design.i18n.Toolkit.i18nText("ChartF-Y_Axis")
-                ,com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_XYAxis"),com.fr.design.i18n.Toolkit.i18nText("Chart-Use_None")};
+        return new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_X_Axis"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Y_Axis")
+                ,com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_XY_Axis"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_None")};
     }
 
     protected String[] getValueArray() {
@@ -213,7 +213,7 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
         Component[][] components = createToolBarComponents();
 
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_ToolBar"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_ToolBar"), panel);
     }
 
     protected double[] getToolBarRowSize () {

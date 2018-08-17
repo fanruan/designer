@@ -34,7 +34,7 @@ public class LabelAxisPositionPane extends ConditionAttrSingleConditionPane<Data
             this.add(nameLabel);
         }
 
-        String[] names = new String[]{com.fr.design.i18n.Toolkit.i18nText("ChartF-MainAxis"), com.fr.design.i18n.Toolkit.i18nText("ChartF-SecondAxis")};
+        String[] names = new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Main_Axis"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Second_Axis")};
         String[] values = new String[]{ChartAxisPosition.AXIS_LEFT.getAxisPosition(), ChartAxisPosition.AXIS_RIGHT.getAxisPosition()};
 
         positionGroup = new UIButtonGroup<String>(names, values);

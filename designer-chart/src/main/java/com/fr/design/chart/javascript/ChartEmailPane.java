@@ -55,7 +55,7 @@ public class ChartEmailPane extends EmailPane{
 		}
 		centerPane = new JPanel(new BorderLayout());
 		if (needRenamePane()) {
-			JPanel namePane = TableLayoutHelper.createCommonTableLayoutPane(new JComponent[][]{{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Name") + ":", SwingConstants.RIGHT), itemNameTextField},},
+			JPanel namePane = TableLayoutHelper.createCommonTableLayoutPane(new JComponent[][]{{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Name") + ":", SwingConstants.RIGHT), itemNameTextField},},
 					new double[] {preferred}, columnSize, 6);
 			centerPane.add(namePane, BorderLayout.NORTH);
 		}

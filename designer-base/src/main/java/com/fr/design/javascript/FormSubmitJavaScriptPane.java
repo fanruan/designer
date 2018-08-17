@@ -54,7 +54,7 @@ public class FormSubmitJavaScriptPane extends FurtherBasicBeanPane<FormSubmitJav
 			}			
 		});
 		pViewPane = new ReportletParameterViewPane();
-		pViewPane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), com.fr.design.i18n.Toolkit.i18nText("Parameter")));
+		pViewPane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter")));
 		northPane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), com.fr.design.i18n.Toolkit.i18nText("FIne-Design_Basic_Submit")));
 		
 		addCallbackButton = javaScriptActionPane.createCallButton();

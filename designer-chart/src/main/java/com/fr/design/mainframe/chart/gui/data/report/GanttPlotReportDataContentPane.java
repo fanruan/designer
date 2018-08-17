@@ -21,14 +21,14 @@ import java.util.List;
  */
 public class GanttPlotReportDataContentPane extends AbstractReportDataContentPane {
 
-	private static final String STEP = com.fr.design.i18n.Toolkit.i18nText("ChartF-Step");
-	private static final String START = com.fr.design.i18n.Toolkit.i18nText("ChartF-PlansToBegin");
-	private static final String END = com.fr.design.i18n.Toolkit.i18nText("ChartF-EndOfTheProject");
+	private static final String STEP = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Step");
+	private static final String START = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Plan_Start");
+	private static final String END = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Plan_End");
 	
-	private static final String RESTART = com.fr.design.i18n.Toolkit.i18nText("ChartF-TheActualStart");
-	private static final String REEND = com.fr.design.i18n.Toolkit.i18nText("ChartF-TheActualEnd");
+	private static final String RESTART = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Actual_Start");
+	private static final String REEND = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Actual_End");
 	private static final String PERCENT = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_StyleFormat_Percent");
-	private static final String PRO = com.fr.design.i18n.Toolkit.i18nText("Chart_Project");
+	private static final String PRO = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Project");
 	
 	public GanttPlotReportDataContentPane(ChartDataPane parent) {
 		initEveryPane();

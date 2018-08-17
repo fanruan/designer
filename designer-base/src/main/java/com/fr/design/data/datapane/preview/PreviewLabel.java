@@ -17,7 +17,7 @@ public class PreviewLabel extends UIButton {
 	
 	public PreviewLabel(Previewable previewable) {
 		super(BaseUtils.readIcon("/com/fr/design/images/m_file/preview.png"));
-		this.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Preview"));
+		this.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preview"));
 		this.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		this.previewable = previewable;
 		this.addActionListener(new ActionListener() {

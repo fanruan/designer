@@ -297,7 +297,7 @@ public class DSColumnAdvancedPane extends BasicPane {
                     com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Undefined"),
                     com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Bind_Column_Top_N"),
                     com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Bind_Column_Bottom_N"),
-                    com.fr.design.i18n.Toolkit.i18nText("Odd"),
+                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Odd"),
                     com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Even"),
                     com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Specify"),});
             selectCountComboBox.addActionListener(new ActionListener() {
@@ -490,7 +490,7 @@ public class DSColumnAdvancedPane extends BasicPane {
         public ValuePane() {
             this.setLayout(FRGUIPaneFactory.createBoxFlowLayout());
 
-            this.add(new UILabel(InsetText + com.fr.design.i18n.Toolkit.i18nText("Value") + ":"));
+            this.add(new UILabel(InsetText + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Value") + ":"));
             this.add(Box.createHorizontalStrut(2));
             this.add((formulaField = new JFormulaField("$$$")));
         }

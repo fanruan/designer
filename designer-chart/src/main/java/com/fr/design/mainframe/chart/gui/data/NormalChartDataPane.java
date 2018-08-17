@@ -64,7 +64,7 @@ public class NormalChartDataPane extends DataContentsPane {
 						this.setLayout(new BorderLayout(LayoutConstants.HGAP_LARGE,6));
 						JPanel northPane = new JPanel(new BorderLayout(LayoutConstants.HGAP_LARGE,0));
 						northPane.add(jcb, BorderLayout.CENTER);
-                        UILabel label1 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Data_Resource"));
+                        UILabel label1 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Source"));
                         label1.setPreferredSize(new Dimension(ChartDataPane.LABEL_WIDTH,ChartDataPane.LABEL_HEIGHT));
                         northPane.add(GUICoreUtils.createBorderLayoutPane(new Component[]{jcb, null, null, label1, null}));
 						northPane.setBorder(BorderFactory.createEmptyBorder(0,5,0,8));

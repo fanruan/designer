@@ -66,7 +66,7 @@ public class VanChartRadarSeriesPane extends VanChartAbstractPlotSeriesPane {
         radarType = new UIButtonGroup<String>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Circle"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Polygonal")},
                 new String[]{RadarType.CIRCLE.getType(), RadarType.POLYGON.getType()});
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Shape"), radarType);
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Style_Present"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Style_Present"), panel);
     }
 
     protected VanChartLineTypePane getLineTypePane() {

@@ -67,7 +67,7 @@ public class WebJsPane extends BasicPane {
 		urlText.setPreferredSize(new Dimension(450, 20));
 		urlText.addKeyListener(urlTextListener);
         urlText.setEnabled(false);
-		chooseFile = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Selection"));
+		chooseFile = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Selection"));
 		chooseFile.addActionListener(chooseFileListener);
 
 		testConnection = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Test_URL"));
@@ -153,7 +153,7 @@ public class WebJsPane extends BasicPane {
 
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("ReportServerP-Import_JavaScript");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportServerP_Import_JavaScript");
 	}
 
 	private ActionListener chooseFileListener = new ActionListener() {

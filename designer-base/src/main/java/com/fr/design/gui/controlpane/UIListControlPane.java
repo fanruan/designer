@@ -1,72 +1,81 @@
 package com.fr.design.gui.controlpane;
 
-import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.base.chart.BasePlot;
-import com.fr.design.actions.UpdateAction;
-import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.constants.UIConstants;
-import com.fr.design.data.tabledata.tabledatapane.GlobalMultiTDTableDataPane;
-import com.fr.design.data.tabledata.tabledatapane.GlobalTreeTableDataPane;
-import com.fr.design.data.tabledata.tabledatapane.MultiTDTableDataPane;
-import com.fr.design.data.tabledata.tabledatapane.TreeTableDataPane;
-import com.fr.design.gui.HyperlinkFilterHelper;
-import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icontainer.UIScrollPane;
+import com.fr.design.gui.ilist.JNameEdList;
 import com.fr.design.gui.ilist.ListModelElement;
 import com.fr.design.gui.ilist.UINameEdList;
-import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.menu.LineSeparator;
-import com.fr.design.menu.MenuDef;
-import com.fr.design.menu.ShortCut;
-import com.fr.design.menu.ToolBarDef;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.ComparatorUtils;
-
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Nameable;
-import com.fr.stable.StringUtils;
 
-import javax.swing.*;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.Window;
+import java.awt.event.InputEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
-import java.util.Comparator;
 
 /**
  * Created by plough on 2017/7/19.
  */
 
-public abstract class UIListControlPane extends UIControlPane {
-    public static final String LIST_NAME = "UIControl_List";
+public abstract class UIListControlPane extends UIControlPane implements ListControlPaneProvider {
+    private static final String LIST_NAME = "UIControl_List";
     private static final int EDIT_RANGE = 25;  // 编辑按钮的x坐标范围
 
     protected UINameEdList nameableList;
-    protected int editingIndex;
+    private int editingIndex;
     protected String selectedName;
-    private boolean isNameRepeated = false;
     protected boolean isPopulating = false;
+    private CommonShortCutHandlers commonHandlers;
+    private ListControlPaneHelper helper;
 
 
     public UIListControlPane() {
-        this.initComponentPane();
+        super();
+
     }
 
     public UIListControlPane(BasePlot plot) {
         super(plot);
     }
 
+    private ListControlPaneHelper getHelper() {
+        if (helper == null) {
+            helper = ListControlPaneHelper.newInstance(this);
+        }
+        return helper;
+    }
+
+    private CommonShortCutHandlers getCommonHandlers() {
+        if (commonHandlers == null) {
+            commonHandlers = CommonShortCutHandlers.newInstance(this);
+        }
+        return commonHandlers;
+    }
+
     @Override
     protected JPanel createControlUpdatePane() {
-        return new JControlUpdatePane();
+        return JControlUpdatePane.newInstance(this);
     }
 
     /**
@@ -87,7 +96,7 @@ public abstract class UIListControlPane extends UIControlPane {
 
 
         nameableList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        nameableList.addMouseListener(listMouseListener);
+        nameableList.addMouseListener(getListMouseListener());
         nameableList.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent evt) {
                 // richie:避免多次update和populate大大降低效率
@@ -122,7 +131,7 @@ public abstract class UIListControlPane extends UIControlPane {
         }
     }
 
-    public UINameEdList createJNameList() {
+    private UINameEdList createJNameList() {
         UINameEdList nameEdList = new UINameEdList(new DefaultListModel()) {
             @Override
             protected void doAfterLostFocus() {
@@ -137,73 +146,17 @@ public abstract class UIListControlPane extends UIControlPane {
         return nameEdList;
     }
 
-    public void updateControlUpdatePane() {
+    private void updateControlUpdatePane() {
         ((JControlUpdatePane) controlUpdatePane).update();
     }
 
-    protected void doWhenPopulate(BasicBeanPane beanPane) {
-
-    }
-
-    protected void doBeforePopulate(ListModelElement el, Object obj) {
-
-    }
-
-    @Override
-    protected ShortCut4JControlPane addItemShortCut() {
-        ShortCut addItemShortCut;
-        NameableCreator[] creators = creators();
-        if (creators.length == 1) {
-            addItemShortCut = new AddItemUpdateAction(creators);
-        } else {
-            addItemShortCut = getAddItemMenuDef(creators);
-        }
-        return new AbsoluteEnableShortCut(addItemShortCut);
-    }
-
-    protected AddItemMenuDef getAddItemMenuDef (NameableCreator[] creators) {
-        return new AddItemMenuDef(creators);
-    }
-
-    @Override
-    protected ShortCut4JControlPane removeItemShortCut() {
-        return new NormalEnableShortCut(new RemoveItemAction());
-    }
-
-    @Override
-    protected ShortCut4JControlPane copyItemShortCut() {
-        return new NormalEnableShortCut(new CopyItemAction());
-    }
-
-    @Override
-    protected ShortCut4JControlPane moveUpItemShortCut() {
-        return new NormalEnableShortCut(new MoveUpItemAction());
-    }
-
-    @Override
-    protected ShortCut4JControlPane moveDownItemShortCut() {
-        return new NormalEnableShortCut(new MoveDownItemAction());
-    }
-
-    @Override
-    protected ShortCut4JControlPane sortItemShortCut() {
-        return new NormalEnableShortCut(new SortItemAction());
-    }
-
-    public void setNameListEditable(boolean editable) {
+    protected void setNameListEditable(boolean editable) {
         this.nameableList.setEditable(editable);
     }
 
     @Override
     public Nameable[] update() {
-        java.util.List<Nameable> res = new java.util.ArrayList<Nameable>();
-        ((JControlUpdatePane) this.controlUpdatePane).update();
-        DefaultListModel listModel = (DefaultListModel) this.nameableList.getModel();
-        for (int i = 0, len = listModel.getSize(); i < len; i++) {
-            res.add(((ListModelElement) listModel.getElementAt(i)).wrapper);
-        }
-
-        return res.toArray(new Nameable[res.size()]);
+        return getHelper().update();
     }
 
     @Override
@@ -235,9 +188,7 @@ public abstract class UIListControlPane extends UIControlPane {
      * 获取选中的名字
      */
     public String getSelectedName() {
-        ListModelElement el = (ListModelElement) this.nameableList.getSelectedValue();
-
-        return el == null ? null : el.wrapper.getName();
+       return getHelper().getSelectedName();
     }
 
     /**
@@ -247,84 +198,12 @@ public abstract class UIListControlPane extends UIControlPane {
      * @param index    序号
      */
     public void addNameable(Nameable nameable, int index) {
-        UINameEdList nameEdList = UIListControlPane.this.nameableList;
-        DefaultListModel model = (DefaultListModel) nameEdList.getModel();
-
-        ListModelElement el = new ListModelElement(nameable);
-        model.add(index, el);
-        nameableList.setSelectedIndex(index);
-        nameableList.ensureIndexIsVisible(index);
-
-        nameEdList.repaint();
+        getHelper().addNameable(nameable, index);
         popupEditDialog();
     }
 
-    /**
-     * 是否重命名
-     *
-     * @return 是则true
-     */
-    public boolean isContainsRename() {
-        String rename = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Please_Rename") + "!";
-        String[] names = this.nameableList.getAllNames();
-        for (int i = names.length - 1; i >= 0; i--) {
-            if (ComparatorUtils.equals(names[i], rename)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    protected DefaultListModel getModel() {
+    public DefaultListModel getModel() {
         return (DefaultListModel) UIListControlPane.this.nameableList.getModel();
-    }
-
-    private String createUnrepeatedCopyName(String suffix) {
-        DefaultListModel model = this.getModel();
-        String[] names = new String[model.getSize()];
-        for (int i = 0; i < model.size(); i++) {
-            names[i] = ((ListModelElement) model.get(i)).wrapper.getName();
-        }
-        String lastName = "CopyOf" + suffix;
-        while (ArrayUtils.contains(names, lastName)) {
-            lastName = "CopyOf" + lastName;
-        }
-        return lastName;
-    }
-
-
-    /**
-     * 生成不重复的名字
-     *
-     * @param prefix 名字前缀
-     * @return 名字
-     */
-    @Override
-    public String createUnrepeatedName(String prefix) {
-        DefaultListModel model = this.getModel();
-        Nameable[] all = new Nameable[model.getSize()];
-        for (int i = 0; i < model.size(); i++) {
-            all[i] = ((ListModelElement) model.get(i)).wrapper;
-        }
-        // richer:生成的名字从1开始. kunsnat: 添加属性从0开始.
-        int count = all.length + 1;
-        while (true) {
-            String name_test = prefix + count;
-            boolean repeated = false;
-            for (int i = 0, len = model.size(); i < len; i++) {
-                Nameable nameable = all[i];
-                if (ComparatorUtils.equals(nameable.getName(), name_test)) {
-                    repeated = true;
-                    break;
-                }
-            }
-
-            if (!repeated) {
-                return name_test;
-            }
-
-            count++;
-        }
     }
 
     private void popupEditDialog() {
@@ -378,569 +257,120 @@ public abstract class UIListControlPane extends UIControlPane {
     }
 
     /**
-     * 增加项的UpdateAction
+     * 生成不重复的名字
+     *
+     * @param prefix 名字前缀
+     * @return 名字
      */
-    protected class AddItemUpdateAction extends UpdateAction {
-        final NameableCreator creator;
-
-        public AddItemUpdateAction(NameableCreator[] creators) {
-            this.creator = creators[0];
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Action_Add"));
-            this.setMnemonic('A');
-            this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/buttonicon/add.png"));
-        }
-
-        /**
-         * Gets component on toolbar.
-         *
-         * @return the created components on toolbar.
-         */
-        @Override
-        public JComponent createToolBarComponent() {
-            Object object = this.getValue(UIButton.class.getName());
-            if (!(object instanceof AbstractButton)) {
-                // 直接使用默认UI
-                UIButton button =  new UIButton();
-                // 添加一个名字作为自动化测试用
-                button.setName(getName());
-
-                //设置属性.
-                Integer mnemonicInteger = (Integer) this.getValue(Action.MNEMONIC_KEY);
-                if (mnemonicInteger != null) {
-                    button.setMnemonic((char) mnemonicInteger.intValue());
-                }
-
-                button.setIcon((Icon) this.getValue(Action.SMALL_ICON));
-                button.addActionListener(this);
-
-                button.registerKeyboardAction(this, this.getAccelerator(), JComponent.WHEN_IN_FOCUSED_WINDOW);
-
-                this.putValue(UIButton.class.getName(), button);
-                button.setText(StringUtils.EMPTY);
-                button.setEnabled(this.isEnabled());
-
-                //peter:产生tooltip
-                button.setToolTipText(ActionFactory.createButtonToolTipText(this));
-                object = button;
-            }
-
-            return (JComponent) object;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            Nameable nameable = creator.createNameable(UIListControlPane.this);
-
-            UIListControlPane.this.addNameable(nameable, getModel().getSize());
-        }
+    @Override
+    public String createUnrepeatedName(String prefix) {
+        return getCommonHandlers().createUnrepeatedName(prefix);
     }
 
-    /*
-     * 增加项的MenuDef
-     */
-    protected class AddItemMenuDef extends MenuDef {
-        public AddItemMenuDef(NameableCreator[] creators) {
-            super(true);
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Action_Add"));
-            this.setMnemonic('A');
-            this.setIconPath("/com/fr/design/images/control/addPopup.png");
-            wrapActionListener(creators);
-        }
-
-        /**
-         * 生成UIButton
-         * @return  菜单按钮
-         */
-        public UIButton createUIButton() {
-            createdButton = super.createUIButton();
-            // 此按钮单独抽出，不应使用工具栏外观
-            if (!createdButton.isOpaque()) {
-                createdButton.setOpaque(true);
-                createdButton.setNormalPainted(true);
-                createdButton.setBorderPaintedOnlyWhenPressed(false);
-            }
-            return createdButton;
-        }
-
-        private void wrapActionListener(NameableCreator[] creators) {
-            for (final NameableCreator creator : creators) {
-                if (!whetherAdd(creator.menuName())) {
-                    continue;
-                }
-                boolean isTrue = ComparatorUtils.equals(creator.menuName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Stored_Procedure")) ||
-                        ComparatorUtils.equals(creator.menuName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DS_Relation_TableData")) || ComparatorUtils.equals(creator.menuName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DS_Multi_Dimensional_Database"));
-                if (isTrue) {
-                    this.addShortCut(new LineSeparator());
-                }
-                this.addShortCut(new UpdateAction() {
-                    {
-                        this.setName(creator.menuName());
-                        Icon icon = creator.menuIcon();
-                        if (icon != null) {
-                            this.setSmallIcon(icon);
-                        }
-                    }
-
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if (hasInvalid(true)) {
-                            return;
-                        }
-
-                        Nameable nameable = creator.createNameable(UIListControlPane.this);
-
-                        UIListControlPane.this.addNameable(nameable, getModel().getSize());
-                    }
-                });
-            }
-        }
-
-        protected boolean whetherAdd(String itemName){
-            return HyperlinkFilterHelper.whetherAddHyperlink4cell(itemName);
-        }
+    @Override
+    public void onAddItem(NameableCreator creator) {
+        getCommonHandlers().onAddItem(creator);
     }
 
-    /*
-     * 移除item
-     */
-    private class RemoveItemAction extends UpdateAction {
-        public RemoveItemAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Action_Remove"));
-            this.setMnemonic('R');
-            this.setSmallIcon(BaseUtils
-                    .readIcon("/com/fr/base/images/cell/control/remove.png"));
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent evt) {
-            try {
-                UIListControlPane.this.nameableList.getCellEditor()
-                        .stopCellEditing();
-            } catch (Exception ignored) {
-                // do nothing
-            }
-            // bug:在选中一个NameObject并删除，会遗留下Name.
-            doBeforeRemove();
-            if (GUICoreUtils.removeJListSelectedNodes(SwingUtilities
-                    .getWindowAncestor(UIListControlPane.this), nameableList)) {
-                checkButtonEnabled();
-                doAfterRemove();
-            }
-        }
+    @Override
+    public void onRemoveItem() {
+        getCommonHandlers().onRemoveItem();
     }
 
-    /*
-     * CopyItem
-     */
-    private class CopyItemAction extends UpdateAction {
-        public CopyItemAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Action_Copy"));
-            this.setMnemonic('C');
-            this.setSmallIcon(BaseUtils
-                    .readIcon("/com/fr/design/images/m_edit/copy.png"));
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent evt) {
-            // p:选中的值.
-            ListModelElement selectedValue = (ListModelElement) nameableList.getSelectedValue();
-            if (selectedValue == null) {
-                return;
-            }
-
-            ((JControlUpdatePane) controlUpdatePane).update();
-
-            Nameable selectedNameable = selectedValue.wrapper;
-
-            // p: 用反射机制实现
-            try {
-                Nameable newNameable = (Nameable) BaseUtils.cloneObject(selectedNameable);
-                newNameable.setName(createUnrepeatedCopyName(selectedNameable.getName()));
-
-                UIListControlPane.this.addNameable(newNameable, nameableList.getSelectedIndex() + 1);
-            } catch (Exception e) {
-                FRContext.getLogger().error(e.getMessage(), e);
-            }
-        }
+    @Override
+    public void onCopyItem() {
+        getCommonHandlers().onCopyItem();
     }
 
-    /*
-     * 上移Item
-     */
-    private class MoveUpItemAction extends UpdateAction {
-        public MoveUpItemAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Move_Up"));
-            this.setMnemonic('U');
-            this.setSmallIcon(BaseUtils
-                    .readIcon("/com/fr/design/images/control/up.png"));
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent evt) {
-            int selectedIndex = nameableList.getSelectedIndex();
-            if (selectedIndex == -1) {
-                return;
-            }
-
-            // 上移
-            if (selectedIndex > 0) {
-                DefaultListModel listModel = (DefaultListModel) nameableList
-                        .getModel();
-
-                Object selecteObj1 = listModel.get(selectedIndex - 1);
-                listModel.set(selectedIndex - 1, listModel.get(selectedIndex));
-                listModel.set(selectedIndex, selecteObj1);
-
-                nameableList.setSelectedIndex(selectedIndex - 1);
-                nameableList.ensureIndexIsVisible(selectedIndex - 1);
-            }
-        }
+    @Override
+    public void onMoveUpItem() {
+        getCommonHandlers().onMoveUpItem();
     }
 
-    /*
-     * 下移Item
-     */
-    private class MoveDownItemAction extends UpdateAction {
-        public MoveDownItemAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Move_Down"));
-            this.setMnemonic('D');
-            this.setSmallIcon(BaseUtils
-                    .readIcon("/com/fr/design/images/control/down.png"));
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent evt) {
-            int selectedIndex = nameableList.getSelectedIndex();
-            if (selectedIndex == -1) {
-                return;
-            }
-
-            if (selectedIndex < nameableList.getModel().getSize() - 1) {
-                DefaultListModel listModel = (DefaultListModel) nameableList
-                        .getModel();
-
-                Object selecteObj1 = listModel.get(selectedIndex + 1);
-                listModel.set(selectedIndex + 1, listModel.get(selectedIndex));
-                listModel.set(selectedIndex, selecteObj1);
-
-                nameableList.setSelectedIndex(selectedIndex + 1);
-                nameableList.ensureIndexIsVisible(selectedIndex + 1);
-            }
-        }
+    @Override
+    public void onMoveDownItem() {
+        getCommonHandlers().onMoveDownItem();
     }
 
-    private class SortItemAction extends UpdateAction {
-        private boolean isAtoZ = false;
+    @Override
+    public void onSortItem(boolean isAtoZ) {
+        getCommonHandlers().onSortItem(isAtoZ);
+    }
 
-        public SortItemAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Action_Sort"));
-            this.setMnemonic('S');
-            this.setSmallIcon(BaseUtils
-                    .readIcon("/com/fr/design/images/control/sortAsc.png"));
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent evt) {
-            // p:选中的值.
-            Object selectedValue = nameableList.getSelectedValue();
-
-            DefaultListModel listModel = (DefaultListModel) nameableList
-                    .getModel();
-            Nameable[] nameableArray = new Nameable[listModel.getSize()];
-            if (nameableArray.length <= 0) {
-                return;
-            }
-
-            for (int i = 0; i < listModel.getSize(); i++) {
-                nameableArray[i] = ((ListModelElement) listModel.getElementAt(i)).wrapper;
-            }
-
-            // p:排序.
-            if (isAtoZ) {
-                Comparator<Nameable> nameableComparator = new Comparator<Nameable>() {
-                    @Override
-                    public int compare(Nameable o1, Nameable o2) {
-                        return -ComparatorUtils.compare(o1.getName(), o2
-                                .getName());
-                    }
-                };
-                isAtoZ = !isAtoZ;
-                Arrays.sort(nameableArray, nameableComparator);
-            } else {
-                Comparator<Nameable> nameableComparator = new Comparator<Nameable>() {
-                    @Override
-                    public int compare(Nameable o1, Nameable o2) {
-                        return ComparatorUtils.compare(o1.getName(), o2
-                                .getName());
-                    }
-                };
-                isAtoZ = !isAtoZ;
-                Arrays.sort(nameableArray, nameableComparator);
-            }
-
-            for (int i = 0; i < nameableArray.length; i++) {
-                listModel.set(i, new ListModelElement(nameableArray[i]));
-            }
-
-            // p:需要选中以前的那个值.
-            if (selectedValue != null) {
-                nameableList.setSelectedValue(selectedValue, true);
-            }
-
-            checkButtonEnabled();
-            // p:需要repaint.
-            nameableList.repaint();
-        }
+    @Override
+    public boolean isItemSelected() {
+        return getModel().getSize() > 0 && nameableList.getSelectedIndex() != -1;
     }
 
     /*
      * UINameEdList的鼠标事件
      */
-    private MouseListener listMouseListener = new MouseAdapter() {
-        @Override
-        public void mouseReleased(MouseEvent evt) {
-            nameableList.stopEditing();
-            if (evt.getClickCount() >= 2
-                    && SwingUtilities.isLeftMouseButton(evt) && evt.getX() > EDIT_RANGE) {
-                editingIndex = nameableList.getSelectedIndex();
-                selectedName = nameableList.getNameAt(editingIndex);
-                nameableList.editItemAt(nameableList.getSelectedIndex());
-            } else if (SwingUtilities.isLeftMouseButton(evt) && evt.getX() <= EDIT_RANGE) {
-                editingIndex = nameableList.getSelectedIndex();
-                selectedName = nameableList.getNameAt(editingIndex);
-                popupEditDialog(evt.getPoint());
+    private MouseListener getListMouseListener() {
+        return new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent evt) {
+                nameableList.stopEditing();
+                if (evt.getClickCount() >= 2
+                        && SwingUtilities.isLeftMouseButton(evt) && evt.getX() > EDIT_RANGE) {
+                    editingIndex = nameableList.getSelectedIndex();
+                    selectedName = nameableList.getNameAt(editingIndex);
+                    nameableList.editItemAt(nameableList.getSelectedIndex());
+                } else if (SwingUtilities.isLeftMouseButton(evt) && evt.getX() <= EDIT_RANGE) {
+                    editingIndex = nameableList.getSelectedIndex();
+                    selectedName = nameableList.getNameAt(editingIndex);
+                    popupEditDialog(evt.getPoint());
+                }
+
+                // peter:处理右键的弹出菜单
+                if (!SwingUtilities.isRightMouseButton(evt)) {
+                    return;
+                }
+
+                // peter: 注意,在checkButtonEnabled()方法里面,设置了所有的Action的Enabled.
+                checkButtonEnabled();
+
+                // p:右键菜单.
+                JPopupMenu popupMenu = new JPopupMenu();
+
+                for (ShortCut4JControlPane sj : getShorts()) {
+                    sj.getShortCut().intoJPopupMenu(popupMenu);
+                }
+
+                // peter: 只有弹出菜单有子菜单的时候,才需要弹出来.
+                GUICoreUtils.showPopupMenu(popupMenu, nameableList, evt.getX() - 1,
+                        evt.getY() - 1);
             }
 
-            // peter:处理右键的弹出菜单
-            if (!SwingUtilities.isRightMouseButton(evt)) {
-                return;
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                JList list = (JList) e.getSource();
+                if (list.locationToIndex(e.getPoint()) == -1 && !e.isShiftDown()
+                        && !isMenuShortcutKeyDown(e)) {
+                    list.clearSelection();
+                }
             }
 
-            // peter: 注意,在checkButtonEnabled()方法里面,设置了所有的Action的Enabled.
-            checkButtonEnabled();
-
-            // p:右键菜单.
-            JPopupMenu popupMenu = new JPopupMenu();
-
-            for (ShortCut4JControlPane sj : getShorts()) {
-                sj.getShortCut().intoJPopupMenu(popupMenu);
+            private boolean isMenuShortcutKeyDown(InputEvent event) {
+                return (event.getModifiers() & Toolkit.getDefaultToolkit()
+                        .getMenuShortcutKeyMask()) != 0;
             }
 
-            // peter: 只有弹出菜单有子菜单的时候,才需要弹出来.
-            GUICoreUtils.showPopupMenu(popupMenu, nameableList, evt.getX() - 1,
-                    evt.getY() - 1);
-        }
+            @Override
+            public void mouseMoved(MouseEvent e) {
 
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            JList list = (JList) e.getSource();
-            if (list.locationToIndex(e.getPoint()) == -1 && !e.isShiftDown()
-                    && !isMenuShortcutKeyDown(e)) {
-                list.clearSelection();
             }
-        }
-
-        private boolean isMenuShortcutKeyDown(InputEvent event) {
-            return (event.getModifiers() & Toolkit.getDefaultToolkit()
-                    .getMenuShortcutKeyMask()) != 0;
-        }
-
-        @Override
-        public void mouseMoved(MouseEvent e) {
-
-        }
-    };
+        };
+    }
 
     /**
      * 检查按钮可用状态 Check button enabled.
      */
     @Override
     public void checkButtonEnabled() {
-
-        int selectedIndex = nameableList.getSelectedIndex();
-        if (selectedIndex == -1) {
-            this.cardLayout.show(cardPane, "SELECT");
-        } else {
-            this.cardLayout.show(cardPane, "EDIT");
-        }
-        for (ShortCut4JControlPane sj : getShorts()) {
-            sj.checkEnable();
-        }
+        getHelper().checkButtonEnabled();
     }
 
-
-    public class AbsoluteEnableShortCut extends ShortCut4JControlPane {
-        public AbsoluteEnableShortCut(ShortCut shortCut) {
-            this.shortCut = shortCut;
-        }
-
-        /**
-         * 检查是否可用
-         */
-        @Override
-        public void checkEnable() {
-            this.shortCut.setEnabled(true);
-        }
-    }
-
-    public class NormalEnableShortCut extends ShortCut4JControlPane {
-        public NormalEnableShortCut(ShortCut shortCut) {
-            this.shortCut = shortCut;
-        }
-
-        /**
-         * 检查是否可用
-         */
-        @Override
-        public void checkEnable() {
-            this.shortCut.setEnabled(getModel()
-                    .getSize() > 0
-                    && UIListControlPane.this.nameableList.getSelectedIndex() != -1);
-        }
-    }
-
-    public class SortEnableShortCut extends ShortCut4JControlPane {
-        public SortEnableShortCut(ShortCut shortCut) {
-            this.shortCut = shortCut;
-        }
-
-        /**
-         * 检查是否可用
-         */
-        @Override
-        public void checkEnable() {
-            this.shortCut.setEnabled(getModel().getSize() > 1);
-        }
-
-    }
-
-    public class MoveUpEnableShortCut extends ShortCut4JControlPane {
-        public MoveUpEnableShortCut(ShortCut shortCut) {
-            this.shortCut = shortCut;
-        }
-
-        /**
-         * 检查是否可用
-         */
-        @Override
-        public void checkEnable() {
-            this.shortCut.setEnabled(getModel().getSize() > 1
-                    && UIListControlPane.this.nameableList.getSelectedIndex() > 0);
-        }
-
-    }
-
-    public class MoveDownEnableShortCut extends ShortCut4JControlPane {
-        public MoveDownEnableShortCut(ShortCut shortCut) {
-            this.shortCut = shortCut;
-        }
-
-        /**
-         * 检查是否可用
-         */
-        @Override
-        public void checkEnable() {
-            this.shortCut.setEnabled(getModel().getSize() > 1
-                    && UIListControlPane.this.nameableList.getSelectedIndex() < UIListControlPane.this.nameableList.getModel().getSize() - 1);
-        }
-
-    }
-
-
-    protected Object getob2Populate (Object ob2Populate) {
-        return  ob2Populate;
-    }
-
-    private class JControlUpdatePane extends JPanel {
-        private CardLayout card;
-        private JPanel cardPane;
-        private BasicBeanPane[] updatePanes;
-
-        private ListModelElement elEditing;
-
-        public JControlUpdatePane() {
-            initUpdatePane();
-        }
-
-        private void initUpdatePane() {
-            NameableCreator[] creators = creators();
-            if (creators == null) {
-                return;
-            }
-            card = new CardLayout();
-            cardPane = FRGUIPaneFactory.createCardLayout_S_Pane();
-            cardPane.setLayout(card);
-            this.setLayout(FRGUIPaneFactory.createBorderLayout());
-            this.add(cardPane);
-            int len = creators.length;
-            updatePanes = new BasicBeanPane[len];
-        }
-
-        public void populate() {
-            ListModelElement el = (ListModelElement) UIListControlPane.this.nameableList.getSelectedValue();
-            if (el == null) {
-                return;
-            }
-
-            elEditing = el;
-            NameableCreator[] creators = creators();
-
-            for (int i = 0, len = updatePanes.length; i < len; i++) {
-                Object ob2Populate = creators[i].acceptObject2Populate(el.wrapper);
-                ob2Populate = getob2Populate(ob2Populate);
-                if (ob2Populate != null) {
-                    if (updatePanes[i] == null) {
-                        if (isMulti(creators[i].getUpdatePane()) || isTree(creators[i].getUpdatePane())) {
-                            updatePanes[i] = createPaneByCreators(creators[i], el.wrapper.getName());
-                        } else {
-                            updatePanes[i] = createPaneByCreators(creators[i]);
-                        }
-                        cardPane.add(updatePanes[i], String.valueOf(i));
-                    }
-                    card.show(cardPane, String.valueOf(i));
-                    doBeforePopulate(el, ob2Populate);
-                    updatePanes[i].populateBean(ob2Populate);
-                    doWhenPopulate(updatePanes[i]);
-                    break;
-                }
-            }
-        }
-
-
-        public boolean isMulti(Class _class) {
-            return ComparatorUtils.equals(_class, GlobalMultiTDTableDataPane.class) || ComparatorUtils.equals(_class, MultiTDTableDataPane.class);
-        }
-
-        public boolean isTree(Class _class) {
-            return ComparatorUtils.equals(_class, GlobalTreeTableDataPane.class) || ComparatorUtils.equals(_class, TreeTableDataPane.class);
-        }
-
-        public void update() {
-            NameableCreator[] creators = creators();
-            for (int i = 0; i < updatePanes.length; i++) {
-                BasicBeanPane pane = updatePanes[i];
-
-                if (pane != null && pane.isVisible()) {
-                    Object bean = pane.updateBean();
-                    if (i < creators.length) {
-                        creators[i].saveUpdatedBean(elEditing, bean);
-                    }
-                }
-            }
-        }
-
-        public void checkValid() throws Exception {
-            if (updatePanes != null) {
-                for (int i = 0; i < updatePanes.length; i++) {
-                    if (updatePanes[i] != null) {
-                        updatePanes[i].checkValid();
-                    }
-                }
-            }
-        }
-    }
-
-    protected BasicBeanPane createPaneByCreators(NameableCreator creator) {
+    public BasicBeanPane createPaneByCreators(NameableCreator creator) {
         try {
             return creator.getUpdatePane().newInstance();
         } catch (InstantiationException e) {
@@ -950,7 +380,7 @@ public abstract class UIListControlPane extends UIControlPane {
         }
     }
 
-    protected BasicBeanPane createPaneByCreators(NameableCreator creator, String string) {
+    public BasicBeanPane createPaneByCreators(NameableCreator creator, String string) {
         Constructor constructor = null;
         try {
             constructor = creator.getUpdatePane().getDeclaredConstructor(new Class[]{String.class});
@@ -965,21 +395,6 @@ public abstract class UIListControlPane extends UIControlPane {
         } catch (InvocationTargetException e) {
             throw new RuntimeException(e);
         }
-
-    }
-
-    // 选项添加个数有限制等情况下 要求能控制快捷按钮的状态
-    protected void setToolbarDefEnable(int shortCutIndex, int itemIndex, boolean enabled) {
-        ToolBarDef toolbarDef = getToolbarDef();
-        if (toolbarDef.getShortCutCount() > shortCutIndex) {
-            ShortCut sc = toolbarDef.getShortCut(shortCutIndex);
-            if (sc instanceof AddItemMenuDef) {
-                AddItemMenuDef am = (AddItemMenuDef) sc;
-                if (am.getShortCutCount() > itemIndex) {
-                    am.getShortCut(itemIndex).setEnabled(enabled);
-                }
-            }
-        }
     }
 
     /**
@@ -992,35 +407,9 @@ public abstract class UIListControlPane extends UIControlPane {
         ((JControlUpdatePane) this.controlUpdatePane).checkValid();
     }
 
-    private int getInValidIndex() {
-        BasicBeanPane[] p = ((JControlUpdatePane) controlUpdatePane).updatePanes;
-        if (p != null) {
-            for (int i = 0; i < p.length; i++) {
-                if (p[i] != null) {
-                    try {
-                        p[i].checkValid();
-                    } catch (Exception e) {
-                        return i;
-                    }
-                }
-            }
-        }
-        return -1;
-    }
-
     @Override
-    protected boolean hasInvalid(boolean isAdd) {
-        int idx = UIListControlPane.this.getInValidIndex();
-        if (isAdd || nameableList.getSelectedIndex() != idx) {
-            try {
-                checkValid();
-            } catch (Exception exp) {
-                JOptionPane.showMessageDialog(UIListControlPane.this, exp.getMessage());
-                nameableList.setSelectedIndex(idx);
-                return true;
-            }
-        }
-        return false;
+    public boolean hasInvalid(boolean isAdd) {
+        return getHelper().hasInvalid(isAdd);
     }
     /**
      * 设置选中项
@@ -1031,4 +420,23 @@ public abstract class UIListControlPane extends UIControlPane {
         nameableList.setSelectedIndex(index);
     }
 
+    @Override
+    public int getSelectedIndex() {
+        return nameableList.getSelectedIndex();
+    }
+
+    @Override
+    public ListModelElement getSelectedValue() {
+        return (ListModelElement) this.nameableList.getSelectedValue();
+    }
+
+    @Override
+    public JControlUpdatePane getControlUpdatePane() {
+        return (JControlUpdatePane) controlUpdatePane;
+    }
+
+    @Override
+    public JNameEdList getNameableList() {
+        return nameableList;
+    }
 }

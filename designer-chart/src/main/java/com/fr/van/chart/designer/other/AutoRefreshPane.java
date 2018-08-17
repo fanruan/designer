@@ -108,7 +108,7 @@ public class AutoRefreshPane extends BasicBeanPane<RefreshMoreLabel> {
     protected Component[][] initComponent(JPanel autoTooltipPane){
 
         return new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Time_Interval")), autoRefreshTime, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Time_Seconds"))},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Time_Interval")), autoRefreshTime, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Time_Seconds"))},
                 new Component[]{autoTooltip,null, tooltipSet},
         };
 

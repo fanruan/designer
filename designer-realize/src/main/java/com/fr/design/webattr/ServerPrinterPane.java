@@ -71,7 +71,7 @@ public class ServerPrinterPane extends BasicPane {
 
 		removeButton = new UIButton(BaseUtils.readIcon("/com/fr/base/images/cell/control/remove.png"));
 		removeButton.addActionListener(this.removeActionListener);
-		removeButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Remove"));//"remove"
+		removeButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remove"));//"remove"
 		removeButton.setPreferredSize(preferDimension);
 
 		moveUpButton = new UIButton(BaseUtils.readIcon("/com/fr/design/images/control/up.png"));
@@ -162,7 +162,7 @@ public class ServerPrinterPane extends BasicPane {
 			}
 
 			int returnVal = JOptionPane.showConfirmDialog(ServerPrinterPane.this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportServerP_Are_You_Sure_To_Delete_The_Selected_Printer")
-					+ "?", com.fr.design.i18n.Toolkit.i18nText("Remove"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+					+ "?", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remove"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if (returnVal == JOptionPane.OK_OPTION) {
 				((DefaultListModel) printerList.getModel()).remove(selectedIndex);
 
@@ -319,7 +319,7 @@ public class ServerPrinterPane extends BasicPane {
 			this.setLayout(FRGUIPaneFactory.createBorderLayout());
 			this.setBorder(BorderFactory.createEmptyBorder(20, 5, 0, 0));
 			JPanel centerPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-			centerPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Printer") + ":"), BorderLayout.WEST);
+			centerPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Printer") + ":"), BorderLayout.WEST);
 
 			DefaultComboBoxModel printerComboModel = new DefaultComboBoxModel();
 
@@ -356,7 +356,7 @@ public class ServerPrinterPane extends BasicPane {
 		
 		@Override
 		protected String title4PopupWindow() {
-			return com.fr.design.i18n.Toolkit.i18nText("Printer");
+			return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Printer");
 		}
 
 		public void populate(String printerName) {

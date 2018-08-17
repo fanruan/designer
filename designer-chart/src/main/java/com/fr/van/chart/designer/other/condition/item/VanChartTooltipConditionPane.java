@@ -39,7 +39,7 @@ public class VanChartTooltipConditionPane extends AbstractNormalMultiLineConditi
      * @return item的名称
      */
     public String nameForPopupMenuItem() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Tooltip");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Point_Tooltip");
     }
 
     public void setDefault() {

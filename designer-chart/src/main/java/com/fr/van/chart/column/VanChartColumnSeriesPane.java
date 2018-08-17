@@ -86,8 +86,8 @@ public class VanChartColumnSeriesPane extends VanChartAbstractPlotSeriesPane {
         panel1.add(columnWidth, BorderLayout.CENTER);
 
         Component[][] components2 = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Gap_Series")),seriesGap},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Gap_Category")),categoryGap},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Gap_Series")),seriesGap},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Gap_Category")),categoryGap},
         };
         JPanel panel2 = TableLayout4VanChartHelper.createGapTableLayoutPane(components2, row, col);
 

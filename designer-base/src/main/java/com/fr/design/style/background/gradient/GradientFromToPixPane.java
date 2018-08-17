@@ -1,19 +1,18 @@
 package com.fr.design.style.background.gradient;
 
-import java.awt.BorderLayout;
+import com.fr.base.Utils;
+import com.fr.base.background.GradientBackground;
+import com.fr.design.dialog.BasicPane;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.ispinner.UIBasicSpinner;
+import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.layout.FRGUIPaneFactory;
 
 import javax.swing.JFormattedTextField;
-import com.fr.design.gui.ilable.UILabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
-
-import com.fr.base.Utils;
-import com.fr.base.background.GradientBackground;
-import com.fr.design.gui.itextfield.UITextField;
-import com.fr.design.gui.ispinner.UIBasicSpinner;
-import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.dialog.BasicPane;
+import java.awt.BorderLayout;
 
 
 /**
@@ -38,7 +37,7 @@ public class GradientFromToPixPane extends BasicPane {
 		startField.setHorizontalAlignment(UITextField.LEFT);
 		startField.setColumns(3);
 		
-		secondFloorPane.add(new UILabel("  " + com.fr.design.i18n.Toolkit.i18nText("To") + "  "));
+		secondFloorPane.add(new UILabel("  " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_To") + "  "));
 		
 		endPixSpinner = new UIBasicSpinner(new SpinnerNumberModel(1, 1, 9999, 1));
 		secondFloorPane.add(endPixSpinner);

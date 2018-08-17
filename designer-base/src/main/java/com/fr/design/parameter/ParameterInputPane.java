@@ -66,7 +66,7 @@ public class ParameterInputPane extends BasicPane {
         //Content Pane.
         JPanel contentPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_S_Pane();
         this.add(new JScrollPane(contentPane), BorderLayout.CENTER);
-        contentPane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Parameters") + ":"));
+        contentPane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameters") + ":"));
 
         FlowTableLayoutHelper flowTableLayoutHelper = new FlowTableLayoutHelper();
 
@@ -133,7 +133,7 @@ public class ParameterInputPane extends BasicPane {
     
     @Override
     protected String title4PopupWindow() {
-    	return com.fr.design.i18n.Toolkit.i18nText("Parameters");
+    	return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameters");
     }
 
     /**

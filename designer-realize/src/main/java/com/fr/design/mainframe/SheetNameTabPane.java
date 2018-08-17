@@ -834,7 +834,7 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
 
         @Override
         protected String getTemplateReportType() {
-            return com.fr.design.i18n.Toolkit.i18nText("Report");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Report");
         }
     }
 
@@ -846,13 +846,13 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
 
         @Override
         protected String getTemplateReportType() {
-            return com.fr.design.i18n.Toolkit.i18nText("Poly");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Poly");
         }
     }
 
     private class RemoveSheetAction extends UpdateAction {
         RemoveSheetAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("Remove"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remove"));
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/base/images/cell/control/remove.png"));
         }
 
@@ -908,7 +908,7 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
 
     private class RenameSheetAction extends UpdateAction {
         RenameSheetAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("Rename"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Rename"));
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/base/images/cell/control/rename.png"));
         }
 
@@ -918,7 +918,7 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
                 return;
             }
 
-            String newName = JOptionPane.showInputDialog(reportComposite, com.fr.design.i18n.Toolkit.i18nText("Rename") + ":", reportComposite.getEditingWorkBook().getReportName(selectedIndex));
+            String newName = JOptionPane.showInputDialog(reportComposite, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Rename") + ":", reportComposite.getEditingWorkBook().getReportName(selectedIndex));
             if (newName != null) {
                 // marks：判断是否重名
                 boolean isExisted = false;

@@ -211,7 +211,7 @@ public class UIMenuTable extends JTable {
 		JPanel content = (JPanel)jf.getContentPane();
 		content.setLayout(new BorderLayout());
 		List<UIMenuNameableCreator> data = new ArrayList<UIMenuNameableCreator>();
-		UIMenuNameableCreator reportlet = new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Reportlet"),
+		UIMenuNameableCreator reportlet = new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Reportlet"),
 				new ReportletHyperlink(), ReportletHyperlinkPane.class);
 
 		UIMenuNameableCreator email = new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Email"),

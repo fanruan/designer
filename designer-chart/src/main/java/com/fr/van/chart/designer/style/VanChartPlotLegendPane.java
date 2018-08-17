@@ -78,7 +78,7 @@ public class VanChartPlotLegendPane extends BasicPane {
     }
 
     protected void initComponents(){
-        isLegendVisible = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Legend_Is_Visible"));
+        isLegendVisible = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Legend_Visible"));
         legendPane = createLegendPane();
 
         double p = TableLayout.PREFERRED;
@@ -151,8 +151,8 @@ public class VanChartPlotLegendPane extends BasicPane {
     }
 
     protected JPanel createTitlePositionPane(double[] row, double[] col){
-        String[] textArray = {com.fr.design.i18n.Toolkit.i18nText("Chart-StyleAlignment_Top"), com.fr.design.i18n.Toolkit.i18nText("Chart-StyleAlignment_Bottom"),
-                com.fr.design.i18n.Toolkit.i18nText("Chart-StyleAlignment_Left"), com.fr.design.i18n.Toolkit.i18nText("Chart-StyleAlignment_Right"), com.fr.design.i18n.Toolkit.i18nText("Chart-Right_Top")};
+        String[] textArray = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Style_Alignment_Top"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Style_Alignment_Bottom"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Style_Alignment_Left"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Style_Alignment_Right"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Right_Top")};
         Integer[] valueArray = {Constants.TOP, Constants.BOTTOM, Constants.LEFT, Constants.RIGHT, Constants.RIGHT_TOP};
         Icon[] iconArray = {BaseUtils.readIcon("/com/fr/design/images/chart/ChartLegend/layout_top.png"),
                 BaseUtils.readIcon("/com/fr/design/images/chart/ChartLegend/layout_bottom.png"),
@@ -169,7 +169,7 @@ public class VanChartPlotLegendPane extends BasicPane {
 
         Component[][] components = new Component[][]{
                 new Component[]{null,null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Layout_Position")),location},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Layout_Position")),location},
                 new Component[]{null,customFloatPositionButton}
         };
 
@@ -178,7 +178,7 @@ public class VanChartPlotLegendPane extends BasicPane {
         initPositionListener();
 
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components,row,col);
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Chart_Layout"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Layout"), panel);
     }
 
     private void initPositionListener(){

@@ -30,7 +30,7 @@ public class ProcessParameterTableModel extends UITableModelAdapter<ParameterPro
 	private static final long serialVersionUID = 1L;
 
 	public ProcessParameterTableModel() {
-		super(new String[] { com.fr.design.i18n.Toolkit.i18nText("Parameter"), com.fr.design.i18n.Toolkit.i18nText("Value") });
+		super(new String[] { com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Value") });
 		this.setColumnClass(new Class[] { JLabel.class, ParameterValueEditor.class });
 		this.setDefaultEditor(ParameterValueEditor.class, new ParameterValueEditor());
 		this.setDefaultRenderer(ParameterValueEditor.class, new ParameterValueRenderer());
@@ -102,7 +102,7 @@ public class ProcessParameterTableModel extends UITableModelAdapter<ParameterPro
 		
 		@Override
 		protected String title4PopupWindow() {
-			return com.fr.design.i18n.Toolkit.i18nText("Parameter");
+			return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter");
 		}
 		
 		private String getEditFilePath() {

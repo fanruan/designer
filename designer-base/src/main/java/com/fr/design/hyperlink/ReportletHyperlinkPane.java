@@ -53,7 +53,7 @@ public class ReportletHyperlinkPane extends AbstractHyperLinkPane<ReportletHyper
 
     @Override
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Hyperlink_Reportlet");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Reportlet");
     }
 
     @Override

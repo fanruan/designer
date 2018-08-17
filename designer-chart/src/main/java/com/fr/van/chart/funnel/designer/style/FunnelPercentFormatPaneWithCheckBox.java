@@ -15,6 +15,6 @@ public class FunnelPercentFormatPaneWithCheckBox extends PercentFormatPaneWithCh
     }
 
     protected String getCheckBoxText() {
-        return com.fr.design.i18n.Toolkit.i18nText("Chart-Value_Conversion");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Value_Conversion");
     }
 }

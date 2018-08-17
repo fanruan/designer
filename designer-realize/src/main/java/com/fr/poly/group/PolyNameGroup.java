@@ -44,7 +44,7 @@ public class PolyNameGroup implements GroupModel {
 	@Override
 	public Object getValue(int row, int column) {
 		if (column == 0) {
-			return com.fr.design.i18n.Toolkit.i18nText("Poly_Name");
+			return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Poly_Name");
 		} else {
 			return block.getBlockName();
 		}

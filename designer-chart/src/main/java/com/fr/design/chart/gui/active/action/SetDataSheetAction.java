@@ -20,7 +20,7 @@ public class SetDataSheetAction extends ChartComponentAction {
 
     public SetDataSheetAction(ChartComponent chartComponent) {
         super(chartComponent);
-        this.setName(com.fr.design.i18n.Toolkit.i18nText("Chart_Set_Data_Sheet"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Set_Data_Sheet"));
     }
 
     public void actionPerformed(ActionEvent e) {

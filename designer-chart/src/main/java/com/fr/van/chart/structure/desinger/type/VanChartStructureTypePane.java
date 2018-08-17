@@ -26,9 +26,9 @@ public class VanChartStructureTypePane extends AbstractVanChartTypePane {
     @Override
     protected String[] getTypeTipName() {
         return new String[]{
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Vertical_Structure"),
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Horizontal_Structure"),
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Radial_Structure")
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Vertical_Structure"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Horizontal_Structure"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Radial_Structure")
         };
     }
 
@@ -44,7 +44,7 @@ public class VanChartStructureTypePane extends AbstractVanChartTypePane {
      */
     @Override
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewStructure");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Structure");
     }
     
     protected Plot getSelectedClonedPlot(){

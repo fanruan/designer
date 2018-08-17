@@ -45,7 +45,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class UICalendarPanel extends JPanel {
-    private static final Font FONT_SONG = new Font(com.fr.design.i18n.Toolkit.i18nText("Song_TypeFace"),0,12);
+    private static final Font FONT_SONG = new Font(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Song_TypeFace"),0,12);
     private static final Font FONT_BLACK = new Font(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Black_Font"),0,12);
     private static final int WEEKDAY_COUNT = 7;
     private static final int TOTAL_DAYS_COUNT = 42;
@@ -161,9 +161,9 @@ public class UICalendarPanel extends JPanel {
         pWeeks.setPreferredSize(new Dimension(216, 22));
         pWeeks.setBackground(new Color(0xFFFFFF));
         pWeeks.setOpaque(true);
-        String[] strWeeks = new String[] {StringUtils.EMPTY, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sun"), com.fr.design.i18n.Toolkit.i18nText("Mon"),
+        String[] strWeeks = new String[] {StringUtils.EMPTY, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sun"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Mon"),
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tue"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Wed"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Thu"),
-                com.fr.design.i18n.Toolkit.i18nText("Fri"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Sat")
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Fri"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Sat")
         };
         for (int i = 1; i <= WEEKDAY_COUNT; i++) {
             UILabel label = new UILabel();

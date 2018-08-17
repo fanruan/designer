@@ -252,7 +252,7 @@ public abstract class UITableModelAdapter<T extends Object> extends AbstractTabl
 				component = DesignerContext.getDesignerFrame();
 			}
 			int val = JOptionPane.showConfirmDialog(component,
-					com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Are_You_Sure_To_Remove_The_Selected_Item") + "?", com.fr.design.i18n.Toolkit.i18nText("Remove"),
+					com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Are_You_Sure_To_Remove_The_Selected_Item") + "?", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remove"),
 					JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if (val != JOptionPane.OK_OPTION) {
 				return;

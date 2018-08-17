@@ -73,7 +73,7 @@ public class WriteShortCutsPane extends JPanel{
 		JPanel panel2 =FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
 		panel2.setBounds(20, 170, 600, 150);
 		panel2.setLayout(null);
-		panel2.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tooltips")));
+		panel2.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tool_Tips")));
 		UILabel systemDefault = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_System_Default"), SwingConstants.CENTER);
 		systemDefault.setBounds(38, 30, 84, 50);
 		UILabel preColText = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Cursor_To_Previous_Column"), SwingConstants.CENTER);

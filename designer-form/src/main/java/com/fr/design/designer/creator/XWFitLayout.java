@@ -986,7 +986,7 @@ public class XWFitLayout extends XLayoutContainer {
 			Rectangle bound = dealBound(rec, d, val, 0);
 			if (bound.width < minWidth || bound.height< minHeight) {
 				String widgetName = comp.toData().getWidgetName();
-				JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Invalid_Setting_Cause_Reach_Min_Widget_Size", widgetName));
+				JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Engine_Invalid_Setting_Cause_Reach_Min_Widget_Size", widgetName));
 				return false;
 			}
 		}
