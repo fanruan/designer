@@ -30,7 +30,7 @@ public class VanChartPiePlotPane extends AbstractVanChartTypePane {
         return new String[]{
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Pie"),
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_SameArc_Pie"),
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_DifferentArcPie")
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_DifferArc_Pie")
         };
     }
 
