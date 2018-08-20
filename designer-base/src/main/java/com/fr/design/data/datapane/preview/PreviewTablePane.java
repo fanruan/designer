@@ -26,14 +26,25 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.function.TIME;
 import com.fr.general.FRFont;
-
 import com.fr.log.FineLoggerFactory;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.JComponent;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.SwingWorker;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -285,7 +296,7 @@ public class PreviewTablePane extends BasicPane {
             previewTablePane.dialog.setVisible(true);
         }
 
-		return previewTablePane.previewTableData;
+        return previewTablePane.previewTableData;
     }
 
     private void showErrorMessage(Exception exp) {
@@ -358,14 +369,16 @@ public class PreviewTablePane extends BasicPane {
         worker = new SwingWorker<PreviewTableModel, Void>() {
             protected PreviewTableModel doInBackground() throws Exception {
                 connectionBar.start();
-                if (tableData instanceof DBTableData) {
-                    boolean status = DataOperator.getInstance().testConnection(((DBTableData) tableData).getDatabase());
-                    if (!status) {
-                        connectionBar.close();
-                        throw new Exception(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Connection_Failed"));
+                try {
+                    if (tableData instanceof DBTableData) {
+                        boolean status = DataOperator.getInstance().testConnection(((DBTableData) tableData).getDatabase());
+                        if (!status) {
+                            throw new Exception(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Connection_Failed"));
+                        }
                     }
+                } finally {
+                    connectionBar.close();
                 }
-                connectionBar.close();
                 TableDataSource dataSource = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getTarget();
                 previewTableData = DesignTableDataManager.previewTableDataNeedInputParameters(dataSource, tableData, (int) maxPreviewNumberField.getValue(), true);
                 // parameterInputDialog
