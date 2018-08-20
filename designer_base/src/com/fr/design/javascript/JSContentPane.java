@@ -1,7 +1,9 @@
 package com.fr.design.javascript;
 
+import com.fr.design.border.UIRoundedBorder;
 import com.fr.design.constants.KeyWords;
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.autocomplete.*;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
@@ -24,7 +26,14 @@ public class JSContentPane extends BasicPane {
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
 		funNameLabel = new UILabel();
 		this.setFunctionTitle(args);
-		this.add(funNameLabel, BorderLayout.NORTH);
+		//REPORT-10533 用户参数多达25个,导致JS没地方写,增加滚动条显示
+		JPanel jsParaPane = new JPanel(new BorderLayout(4, 4));
+		jsParaPane.setPreferredSize(new Dimension(300, 80));
+		UIScrollPane scrollPane = new UIScrollPane(funNameLabel);
+		scrollPane.setPreferredSize(new Dimension(400, 80));
+		scrollPane.setBorder(new UIRoundedBorder(UIConstants.TEXT_FILED_BORDER_SELECTED, 1, UIConstants.ARC));
+		jsParaPane.add(scrollPane);
+		this.add(jsParaPane, BorderLayout.NORTH);
 
 		contentTextArea = new RSyntaxTextArea();
 		contentTextArea.setCloseCurlyBraces(true);
