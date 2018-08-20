@@ -38,9 +38,7 @@ import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.utils.DesignUtils;
 import com.fr.design.utils.concurrent.ThreadFactoryBuilder;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.CloudCenter;
 import com.fr.general.ComparatorUtils;
-
 import com.fr.module.Module;
 import com.fr.module.ModuleContext;
 import com.fr.stable.BuildContext;
@@ -57,9 +55,13 @@ import com.fr.start.preload.ImagePreLoader;
 import com.fr.start.server.ServerTray;
 import com.fr.workspace.WorkContext;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.border.MatteBorder;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -124,14 +126,6 @@ public class Designer extends BaseDesigner {
 
     private static void preloadResource() {
         ExecutorService service = Executors.newCachedThreadPool();
-
-        service.submit(new Runnable() {
-            @Override
-            public void run() {
-                CloudCenter.getInstance();
-                Cursor cursor = UIConstants.CELL_DEFAULT_CURSOR;
-            }
-        });
 
         service.submit(new Runnable() {
             @Override
