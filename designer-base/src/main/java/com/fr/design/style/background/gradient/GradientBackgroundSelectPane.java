@@ -22,8 +22,8 @@ import java.awt.Dimension;
 public class GradientBackgroundSelectPane extends BackgroundPane4BoxChange {
 	private static final long serialVersionUID = -2762854865690293473L;
 	
-	private static final String LEFT_2_RIGHT = com.fr.design.i18n.Toolkit.i18nText("PageSetup-Landscape");
-	private static final String TOP_2_BOTTOM = com.fr.design.i18n.Toolkit.i18nText("PageSetup-Portrait");
+	private static final String LEFT_2_RIGHT = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_PageSetup_Landscape");
+	private static final String TOP_2_BOTTOM = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_PageSetup_Portrait");
 	
 	private static final String[] COLOR_DIRECTIONS = {
 		LEFT_2_RIGHT, TOP_2_BOTTOM

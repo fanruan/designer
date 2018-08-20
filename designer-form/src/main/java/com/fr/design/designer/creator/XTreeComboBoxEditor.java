@@ -3,19 +3,17 @@
  */
 package com.fr.design.designer.creator;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.beans.IntrospectionException;
-
-import javax.swing.JComponent;
-
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.form.ui.TreeComboBoxEditor;
-
 import com.fr.stable.ArrayUtils;
+
+import javax.swing.JComponent;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.beans.IntrospectionException;
 
 /**
  * @author richer
@@ -46,20 +44,20 @@ public class XTreeComboBoxEditor extends XTreeEditor {
 
 	protected CRPropertyDescriptor[] addWaterMark(CRPropertyDescriptor[] crp) throws IntrospectionException {
 		return (CRPropertyDescriptor[]) ArrayUtils.add(crp, new CRPropertyDescriptor("waterMark", this.data.getClass()).setI18NName(
-				com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WaterMark")).putKeyValue(
+				com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_WaterMark")).putKeyValue(
 				XCreatorConstants.PROPERTY_CATEGORY, "Advanced"));
 	}
 
 	protected CRPropertyDescriptor[] addAllowEdit(CRPropertyDescriptor[] crp) throws IntrospectionException{
 		return (CRPropertyDescriptor[])ArrayUtils.add(crp, new CRPropertyDescriptor("directEdit", this.data.getClass())
-          .setI18NName(com.fr.design.i18n.Toolkit.i18nText("Form-Allow_Edit")).putKeyValue(
-                  XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate"));
+          .setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Allow_Edit")).putKeyValue(
+                  XCreatorConstants.PROPERTY_VALIDATE, "Fine-Design_Basic_Validate"));
 	}
 
 	protected CRPropertyDescriptor[] addCustomData(CRPropertyDescriptor[] crp) throws IntrospectionException{
 		return (CRPropertyDescriptor[])ArrayUtils.add(crp, new CRPropertyDescriptor("customData", this.data.getClass())
-          .setI18NName(com.fr.design.i18n.Toolkit.i18nText("Form-Allow_CustomData")).putKeyValue(
-                  XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate"));
+          .setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Allow_Custom_Data")).putKeyValue(
+                  XCreatorConstants.PROPERTY_VALIDATE, "Fine-Design_Basic_Validate"));
 	}
 
     @Override

@@ -14,7 +14,7 @@ public class DSColumnAdvancedAction extends AbstractCellElementAction {
 	public DSColumnAdvancedAction(ElementCasePane t) {
 		super(t);
 		
-		this.setName(com.fr.design.i18n.Toolkit.i18nText("Advanced"));
+		this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced"));
 		this.setMnemonic('A');
 		this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/expand/cellAttr.gif"));
     }

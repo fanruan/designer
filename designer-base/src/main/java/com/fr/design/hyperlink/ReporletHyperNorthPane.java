@@ -65,7 +65,7 @@ public class ReporletHyperNorthPane extends AbstractHyperNorthPane<ReportletHype
         reportPathTextField = new UITextField(20);
         reportletNamePane.add(reportPathTextField, BorderLayout.CENTER);
 
-        browserButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Select"));
+        browserButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Select"));
         browserButton.setPreferredSize(new Dimension(browserButton.getPreferredSize().width, 20));
         reportletNamePane.add(browserButton, BorderLayout.EAST);
         browserButton.addActionListener(new ActionListener() {
@@ -86,13 +86,13 @@ public class ReporletHyperNorthPane extends AbstractHyperNorthPane<ReportletHype
         Component[][] components;
         if (!this.needRenamePane) {
             components = new Component[][]{
-                    {new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("FR-Hyperlink_Reportlet") + ":"), reportletNamePane},
+                    {new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Reportlet") + ":"), reportletNamePane},
             };
         } else {
             itemNameTextField = new UITextField();
             components = new Component[][]{
                     {new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Name") + ":"), itemNameTextField},
-                    {new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("FR-Hyperlink_Reportlet") + ":"), reportletNamePane},
+                    {new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Reportlet") + ":"), reportletNamePane},
             };
         }
         JPanel northPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
@@ -171,7 +171,7 @@ public class ReporletHyperNorthPane extends AbstractHyperNorthPane<ReportletHype
 
         postComboBox = new UIComboBox(new String[]{"GET", "POST"});
         JPanel postPanel = new JPanel();
-        postPanel.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Reportlet-Parameter_Type")));
+        postPanel.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Reportlet_Parameter_Type")));
         postPanel.add(postComboBox);
         Component[][] components = {{postPanel},
                 {showParameterPanel},

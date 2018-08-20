@@ -45,15 +45,15 @@ public class ReportletHyperlinkPane extends AbstractHyperLinkPane<ReportletHyper
 
         this.add(parameterViewPane, BorderLayout.CENTER);
 
-        parameterViewPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter"), null));
+        parameterViewPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter"), null));
 
-        extendParametersCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Hyperlink-Extends_Report_Parameters"));
+        extendParametersCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Extends_Report_Parameters"));
         this.add(GUICoreUtils.createFlowPane(extendParametersCheckBox, FlowLayout.LEFT), BorderLayout.SOUTH);
     }
 
     @Override
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Hyperlink_Reportlet");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Reportlet");
     }
 
     @Override
@@ -103,7 +103,7 @@ public class ReportletHyperlinkPane extends AbstractHyperLinkPane<ReportletHyper
         public void actionPerformed(ActionEvent e) {
             String tpl = northPane.getReportletName();
             if (StringUtils.isBlank(tpl)) {
-                JOptionPane.showMessageDialog(ReportletHyperlinkPane.this, com.fr.design.i18n.Toolkit.i18nText("FR-Hyperlink_Please_Select_Reportlet") + ".", com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Message"), JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(ReportletHyperlinkPane.this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Please_Select_Reportlet") + ".", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Message"), JOptionPane.WARNING_MESSAGE);
                 northPane.requestButtonFocus();
                 return;
             }

@@ -45,7 +45,7 @@ public class MapReportCubeDataPane extends FurtherBasicBeanPane<MapMoreLayerRepo
      * @return  返回标题.
 	 */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Cell");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cell");
 	}
 
 	@Override

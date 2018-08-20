@@ -24,7 +24,7 @@ public class PasteAction extends TemplateComponentAction {
 	public PasteAction(TargetComponent t) {
     	super(t);
     	
-        this.setName(com.fr.design.i18n.Toolkit.i18nText("M_Edit-Paste"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_M_Edit_Paste"));
         this.setMnemonic('P');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_edit/paste.png"));
         this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, DEFAULT_MODIFIER));

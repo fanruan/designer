@@ -31,9 +31,9 @@ public class MeterPlotPane extends AbstractChartTypePane {
 
     @Override
     protected String[] getTypeTipName() {
-        String meter = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Meter");
+        String meter = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Gauge");
         return new String[]{
-                com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Mode_Custom") + meter,
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Mode_Custom") + meter,
                 meter + "1",
                 meter + "2"
         };
@@ -77,7 +77,7 @@ public class MeterPlotPane extends AbstractChartTypePane {
      * @return 界面标题
 	 */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Meter");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Gauge");
 	}
 	
 	/**

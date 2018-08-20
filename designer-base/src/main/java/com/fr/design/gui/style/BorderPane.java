@@ -18,8 +18,6 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.backgroundpane.ColorBackgroundQuickPane;
 import com.fr.design.style.color.NewColorSelectBox;
-import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.ComparatorUtils;
 
 import com.fr.stable.Constants;
 import com.fr.stable.CoreConstants;
@@ -78,14 +76,14 @@ public class BorderPane extends AbstractBasicStylePane implements GlobalNameObse
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Style") + "    ", SwingConstants.LEFT), currentLineCombo},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Style") + "    ", SwingConstants.LEFT), currentLineCombo},
                 new Component[]{null, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Color") + "    ", SwingConstants.LEFT), currentLineColorPane},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Color") + "    ", SwingConstants.LEFT), currentLineColorPane},
                 new Component[]{null, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_outBorder") + "    ", SwingConstants.LEFT), outerToggleButton = new UIToggleButton(new Icon[]{BaseUtils.readIcon("com/fr/design/images/m_format/out.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/out_white.png")}, false)},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Out_Border") + "    ", SwingConstants.LEFT), outerToggleButton = new UIToggleButton(new Icon[]{BaseUtils.readIcon("com/fr/design/images/m_format/out.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/out_white.png")}, false)},
                 new Component[]{null, externalPane},
                 new Component[]{null, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_inBorder") + "    ", SwingConstants.LEFT), innerToggleButton = new UIToggleButton(new Icon[]{BaseUtils.readIcon("com/fr/design/images/m_format/in.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/in_white.png")}, false)},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_In_Border") + "    ", SwingConstants.LEFT), innerToggleButton = new UIToggleButton(new Icon[]{BaseUtils.readIcon("com/fr/design/images/m_format/in.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/in_white.png")}, false)},
                 new Component[]{null, insidePane},
                 new Component[]{null, null}
         };
@@ -93,11 +91,11 @@ public class BorderPane extends AbstractBasicStylePane implements GlobalNameObse
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
         panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_SMALL, LayoutConstants.VGAP_MEDIUM);
-        borderPanel = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Border"), 280, 24, panel);
+        borderPanel = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Border"), 280, 24, panel);
         this.add(borderPanel, BorderLayout.NORTH);
 
         backgroundPane = new BackgroundPane();
-        backgroundPanel = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background"), 280, 24, backgroundPane);
+        backgroundPanel = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background"), 280, 24, backgroundPane);
         this.add(backgroundPanel, BorderLayout.CENTER);
         initAllNames();
         outerToggleButton.addChangeListener(outerToggleButtonChangeListener);
@@ -150,7 +148,7 @@ public class BorderPane extends AbstractBasicStylePane implements GlobalNameObse
 
     @Override
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cell");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cell");
     }
 
     @Override

@@ -86,7 +86,7 @@ public class ToolBarPane extends BasicBeanPane<ToolBar> {
 	public Component add(Component comp) {
 		if (comp instanceof ToolBarButton) {
 			if (isPopulateFinished() && ((ToolBarButton) comp).getWidget().getClass().isAnnotationPresent(OldPrintMethod.class)) {
-				JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Use_New_Print_Tip"));
+				JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Use_New_Print_Tip"));
 				return comp;
 			}
 			this.ftoolbar.addButton((ToolBarButton) comp);

@@ -28,7 +28,7 @@ public class VanChartGanttCommonMarkerPane extends VanChartCommonMarkerPane {
 
         return new Component[][]{
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Shape")), getMarkerPane()},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Color_Color")), colorSelect}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Color")), colorSelect}
         };
     }
 

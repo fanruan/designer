@@ -1,6 +1,7 @@
 package com.fr.design.extra;
 
 import com.fr.base.TemplateUtils;
+import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StableUtils;
@@ -30,6 +31,7 @@ import java.util.Map;
  */
 public class PluginWebPane extends JFXPanel {
     private static final String RESOURCE_URL = "resourceURL";
+    private static final String LANGUAGE = "language";
     private WebEngine webEngine;
 
     public PluginWebPane(final String installHome, final String mainJs) {
@@ -75,6 +77,7 @@ public class PluginWebPane extends JFXPanel {
         Map<String, Object> map4Tpl = new HashMap<String, Object>();
 
         map4Tpl.put(RESOURCE_URL, "file:///" + URLEncoder.encode(installHome, "UTF-8"));
+        map4Tpl.put(LANGUAGE, GeneralContext.getLocale().toString());
         while ((line = read.readLine()) != null) {
             if (sb.length() > 0) {
                 sb.append('\n');

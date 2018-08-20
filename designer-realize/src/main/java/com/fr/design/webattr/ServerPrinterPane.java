@@ -61,7 +61,7 @@ public class ServerPrinterPane extends BasicPane {
 		Dimension preferDimension = new Dimension(24, 24);
 		addButton = new UIButton(BaseUtils.readIcon("/com/fr/base/images/cell/control/add.png"));
 		addButton.addActionListener(addActionListener);
-		addButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Add"));//"add"
+		addButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Add"));//"add"
 		addButton.setPreferredSize(preferDimension);
 
 		editButton = new UIButton(BaseUtils.readIcon("/com/fr/design/images/control/edit.png"));
@@ -71,17 +71,17 @@ public class ServerPrinterPane extends BasicPane {
 
 		removeButton = new UIButton(BaseUtils.readIcon("/com/fr/base/images/cell/control/remove.png"));
 		removeButton.addActionListener(this.removeActionListener);
-		removeButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Remove"));//"remove"
+		removeButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remove"));//"remove"
 		removeButton.setPreferredSize(preferDimension);
 
 		moveUpButton = new UIButton(BaseUtils.readIcon("/com/fr/design/images/control/up.png"));
 		moveUpButton.addActionListener(this.moveUpActionListener);
-		moveUpButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Utils-Move_Up"));//"moveUp"
+		moveUpButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Move_Up"));//"moveUp"
 		moveUpButton.setPreferredSize(preferDimension);
 
 		moveDownButton = new UIButton(BaseUtils.readIcon("/com/fr/design/images/control/down.png"));
 		moveDownButton.addActionListener(this.moveDownActionListener);
-		moveDownButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Utils-Move_Down"));//"moveDown"
+		moveDownButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Move_Down"));//"moveDown"
 		moveDownButton.setPreferredSize(preferDimension);
 
 		toolbar.add(addButton);
@@ -140,7 +140,7 @@ public class ServerPrinterPane extends BasicPane {
 					}
 				}                
             });
-			printerDialog.setTitle(com.fr.design.i18n.Toolkit.i18nText("ReportServerP-Add_Printer") + "...");
+			printerDialog.setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportServerP_Add_Printer") + "...");
 			printerDialog.setVisible(true);
 		}
 	};
@@ -161,8 +161,8 @@ public class ServerPrinterPane extends BasicPane {
 				return;
 			}
 
-			int returnVal = JOptionPane.showConfirmDialog(ServerPrinterPane.this, com.fr.design.i18n.Toolkit.i18nText("ReportServerP-Are_you_sure_to_delete_the_selected_printer")
-					+ "?", com.fr.design.i18n.Toolkit.i18nText("Remove"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+			int returnVal = JOptionPane.showConfirmDialog(ServerPrinterPane.this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportServerP_Are_You_Sure_To_Delete_The_Selected_Printer")
+					+ "?", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remove"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if (returnVal == JOptionPane.OK_OPTION) {
 				((DefaultListModel) printerList.getModel()).remove(selectedIndex);
 
@@ -261,7 +261,7 @@ public class ServerPrinterPane extends BasicPane {
 			}                
         });
 		printersPane.populate(printerList.getSelectedValue().toString());
-		printerDialog.setTitle(com.fr.design.i18n.Toolkit.i18nText("ReportServerP-Edit_Printer") + "...");
+		printerDialog.setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportServerP_Edit_Printer") + "...");
 		printerDialog.setVisible(true);
 	}
 	public void populate(Printer printer) {
@@ -319,7 +319,7 @@ public class ServerPrinterPane extends BasicPane {
 			this.setLayout(FRGUIPaneFactory.createBorderLayout());
 			this.setBorder(BorderFactory.createEmptyBorder(20, 5, 0, 0));
 			JPanel centerPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-			centerPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Printer") + ":"), BorderLayout.WEST);
+			centerPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Printer") + ":"), BorderLayout.WEST);
 
 			DefaultComboBoxModel printerComboModel = new DefaultComboBoxModel();
 
@@ -343,7 +343,7 @@ public class ServerPrinterPane extends BasicPane {
 		public void checkValid() throws Exception {
 			String printerName = printerCombo.getSelectedItem().toString();
 			if (StringUtils.isBlank(printerName)) {
-				throw new Exception(com.fr.design.i18n.Toolkit.i18nText("ReportServerP-The_name_of_printer_cannot_be_null") + ".");
+				throw new Exception(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportServerP_The_Name_Of_Printer_Cannot_Be_Null") + ".");
 			}
 		}
 
@@ -356,7 +356,7 @@ public class ServerPrinterPane extends BasicPane {
 		
 		@Override
 		protected String title4PopupWindow() {
-			return com.fr.design.i18n.Toolkit.i18nText("Printer");
+			return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Printer");
 		}
 
 		public void populate(String printerName) {

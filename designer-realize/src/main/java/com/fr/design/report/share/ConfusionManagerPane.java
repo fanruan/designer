@@ -32,7 +32,7 @@ public class ConfusionManagerPane extends JListControlPane {
 	 * 
 	 */
 	public NameableCreator[] createNameableCreators() {
-		NameableCreator local = new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_DS-TableData"),
+		NameableCreator local = new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_DS-TableData"),
 				"/com/fr/design/images/data/dock/serverdatatable.png", ConfusionInfo.class,
 				ConfusionTableDataPane.class);
 
@@ -41,7 +41,7 @@ public class ConfusionManagerPane extends JListControlPane {
 
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Data-confusion");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Data-Confusion");
 	}
 
 	/**
@@ -77,7 +77,11 @@ public class ConfusionManagerPane extends JListControlPane {
 
 	@Override
 	protected ShortCut4JControlPane[] createShortcuts() {
-		return new ShortCut4JControlPane[] { moveUpItemShortCut(), moveDownItemShortCut(), sortItemShortCut() };
+		return new ShortCut4JControlPane[] {
+				shortCutFactory.moveUpItemShortCut(),
+				shortCutFactory.moveDownItemShortCut(),
+				shortCutFactory.sortItemShortCut()
+		};
 	}
 
 }

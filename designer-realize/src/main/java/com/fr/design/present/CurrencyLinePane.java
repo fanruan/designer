@@ -85,7 +85,7 @@ public class CurrencyLinePane extends FurtherBasicBeanPane<CurrencyLinePresent> 
         CurrencyLinePreviewPane = new CurrencyLinePreviewPane();
         CurrencyLinePreviewPane.setPreferredSize(new Dimension(0, 145));
         JPanel borderPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        TitledBorder titledBorder = new TitledBorder(new UIRoundedBorder(UIConstants.LINE_COLOR, 1, 5), com.fr.design.i18n.Toolkit.i18nText("StyleFormat-Sample"), 4, 2, this.getFont(), UIConstants.LINE_COLOR);
+        TitledBorder titledBorder = new TitledBorder(new UIRoundedBorder(UIConstants.LINE_COLOR, 1, 5), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_StyleFormat_Sample"), 4, 2, this.getFont(), UIConstants.LINE_COLOR);
         borderPane.setBorder(titledBorder);
         borderPane.add(CurrencyLinePreviewPane, BorderLayout.CENTER);
 
@@ -100,10 +100,10 @@ public class CurrencyLinePane extends FurtherBasicBeanPane<CurrencyLinePresent> 
         int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}};
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Data"), UILabel.LEFT), textField},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Data"), UILabel.LEFT), textField},
                 new Component[]{borderPane, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("IntPart"), UILabel.LEFT), groupPane(intPartSpinner)},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("DeciPart"), UILabel.LEFT), groupPane(deciPartSpinner)}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_IntPart"), UILabel.LEFT), groupPane(intPartSpinner)},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Deci_Part"), UILabel.LEFT), groupPane(deciPartSpinner)}
 
         };
 
@@ -124,7 +124,7 @@ public class CurrencyLinePane extends FurtherBasicBeanPane<CurrencyLinePresent> 
      *    @return 同上
      */
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Currency_Line");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Currency_Line");
     }
 
     /**

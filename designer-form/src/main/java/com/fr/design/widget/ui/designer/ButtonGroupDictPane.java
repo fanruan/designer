@@ -30,9 +30,9 @@ public class ButtonGroupDictPane extends JPanel {
 
 
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
-		adaptiveCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Adaptive"), true);
+		adaptiveCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Adaptive"), true);
 		adaptiveCheckbox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		this.columnLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Button-Group-Display-Columns") + ":");
+		this.columnLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Button_Group_Display_Columns") + ":");
 		columnSpinner = new UIBasicSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1));
 
 		JPanel jPanel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{adaptiveCheckbox, columnLabel, columnSpinner}}, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);

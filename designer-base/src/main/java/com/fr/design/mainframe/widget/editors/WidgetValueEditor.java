@@ -47,7 +47,7 @@ public class WidgetValueEditor extends AbstractPropertyEditor {
 		case DataControl.TYPE_BOOLEAN:
 			return  new BooleanEditor(false);
 		case DataControl.TYPE_DATE:
-			return new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("Date"));
+			return new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date"));
 		case DataControl.TYPE_TABLEDATA:
 			return onlyServer ? new ServerDataTableEditor() : new DataTableEditor();
 		default:

@@ -52,7 +52,7 @@ public class DeleteRowAction extends CellSelectionAction {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("Row");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Row");
         }
 
         @Override

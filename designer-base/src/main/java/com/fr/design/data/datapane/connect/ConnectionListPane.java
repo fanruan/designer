@@ -29,7 +29,7 @@ import java.util.Set;
  * Connection List Pane.
  */
 public class ConnectionListPane extends JListControlPane implements ConnectionShowPane {
-    public static final String TITLE_NAME = Toolkit.i18nText("Server-Define_Data_Connection");
+    public static final String TITLE_NAME = Toolkit.i18nText("Fine-Design_Basic_Server_Define_Data_Connection");
     private boolean isNamePermitted = true;
     private HashMap<String, String> renameMap = new HashMap<String, String>();
 

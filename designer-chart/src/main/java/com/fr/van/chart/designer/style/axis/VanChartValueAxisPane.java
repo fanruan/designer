@@ -63,7 +63,7 @@ public class VanChartValueAxisPane extends VanChartBaseAxisPane {
 
     protected JPanel createMinMaxValuePane(double[] row, double[] col){
         JPanel panel = createCommenValuePane(row,col);
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_ValueDefinition"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Value_Definition"), panel);
     }
     protected JPanel createCommenValuePane(double[] row, double[] col){
         initMinMaxValuePane();
@@ -120,7 +120,7 @@ public class VanChartValueAxisPane extends VanChartBaseAxisPane {
      */
     @Override
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_ValueAxis");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Value_Axis");
     }
 
     public void populateBean(VanChartAxis axis){

@@ -134,7 +134,7 @@ public class JFormSliderPane extends JPanel {
         slider.setPreferredSize(new Dimension(220, 20));
         //去掉虚线框
         slider.setFocusable(false);
-        slider.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Scale_Slider"));
+        slider.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Scale_Slider"));
     }
 
     private void initShowValSpinner() {
@@ -156,7 +156,7 @@ public class JFormSliderPane extends JPanel {
         };
         downButton.setOpaque(false);
         downButton.setBorderPainted(false);
-        downButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Scale_Down"));
+        downButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Scale_Down"));
         upButton = new UIButton(BaseUtils.readIcon("com/fr/design/images/data/source/normalUp20.png"), BaseUtils.readIcon("com/fr/design/images/data/source/hoverUp20.png"), BaseUtils.readIcon("com/fr/design/images/data/source/hoverUp20.png")) {
             public Point getToolTipLocation(MouseEvent event) {
                 return new Point(event.getX(), event.getY() - TOOLTIP_Y);
@@ -164,7 +164,7 @@ public class JFormSliderPane extends JPanel {
         };
         upButton.setOpaque(false);
         upButton.setBorderPainted(false);
-        upButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Scale_Up"));
+        upButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Scale_Up"));
         downButton.setActionCommand("less");
         upButton.setActionCommand("more");
         downButton.addActionListener(buttonActionListener);
@@ -177,7 +177,7 @@ public class JFormSliderPane extends JPanel {
         showValButton.setBorderPainted(false);
         showValButton.setPreferredSize(new Dimension(SHOWVALBUTTON_WIDTH, SHOWVALBUTTON_HEIGHTH));
         showValButton.addActionListener(showValButtonActionListener);
-        showValButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Scale_Grade"));
+        showValButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Scale_Grade"));
     }
 
     private void initUIRadioButton() {
@@ -186,9 +186,9 @@ public class JFormSliderPane extends JPanel {
         sevenFiveButton = new UIRadioButton("75%");
         fiveTenButton = new UIRadioButton("50%");
         twoFiveButton = new UIRadioButton("25%");
-        selfAdaptButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Scale_selfAdaptButton"));
+        selfAdaptButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Scale_Self_Adapt_Button"));
         selfAdaptButton.setFont(new Font("SimSun", Font.PLAIN, FONT_SIZE));
-        customButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Scale_customButton"));
+        customButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Scale_Custom_Button"));
         customButton.setFont(new Font("SimSun", Font.PLAIN, FONT_SIZE));
         twoHundredButton.addItemListener(radioButtonItemListener);
         oneHundredButton.addItemListener(radioButtonItemListener);
@@ -223,7 +223,7 @@ public class JFormSliderPane extends JPanel {
         double f = TableLayout.FILL;
         double[] columnSize = {p, f};
         double[] rowSize = {p, p, p, p, p, p, p, p};
-        UILabel upLabel = new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Scale_EnlargeOrReduce"));
+        UILabel upLabel = new UILabel(" " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Scale_EnlargeOrReduce"));
         upLabel.setOpaque(false);
         JPanel septPane = new JPanel(new BorderLayout());
         JSeparator sept = new JSeparator();

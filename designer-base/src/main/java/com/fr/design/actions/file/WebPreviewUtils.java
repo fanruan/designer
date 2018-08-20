@@ -59,8 +59,8 @@ public final class WebPreviewUtils {
             browseUrl(currentTemplate, baseRoute, map, actionType, jt);
         } else {
             // 说明模板没有保存在报表运行环境下面,提示用户
-            int selVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Web_Preview_Message"),
-                    com.fr.design.i18n.Toolkit.i18nText("Preview_ToolTips"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+            int selVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Web_Preview_Message"),
+                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preview_Tool_Tips"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
 
             if (JOptionPane.OK_OPTION == selVal) {
                 if (!jt.saveAsTemplate2Env()) {
@@ -103,8 +103,8 @@ public final class WebPreviewUtils {
             }
             DesignUtils.visitEnvServerByParameters(baseRoute, parameterNameList.toArray(new String[parameterNameList.size()]), parameterValueList.toArray(new String[parameterValueList.size()]));
         } else {
-            int selVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Web_Preview_Message"),
-                    com.fr.design.i18n.Toolkit.i18nText("Preview_ToolTips"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+            int selVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Web_Preview_Message"),
+                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preview_Tool_Tips"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
             if (JOptionPane.OK_OPTION == selVal) {
                 if (!jt.saveAsTemplate()) {
                     return;

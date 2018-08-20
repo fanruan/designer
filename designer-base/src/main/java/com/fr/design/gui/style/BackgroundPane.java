@@ -1,11 +1,9 @@
 package com.fr.design.gui.style;
 
-import com.fr.base.BaseUtils;
 import com.fr.base.Style;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.fun.BackgroundQuickUIProvider;
-import com.fr.design.gui.ibutton.UIToggleButton;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
@@ -74,7 +72,7 @@ public class BackgroundPane extends AbstractBasicStylePane {
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Shape_Fill") + "     ", SwingConstants.LEFT),typeComboBox},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Fill") + "     ", SwingConstants.LEFT),typeComboBox},
                 new Component[]{null, centerPane}
         };
         double[] rowSize = {p, p, p};
@@ -133,7 +131,7 @@ public class BackgroundPane extends AbstractBasicStylePane {
      * @return 名称
      */
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Utils_Background");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Background");
     }
 
     /**

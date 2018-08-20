@@ -49,7 +49,7 @@ public class ChartAxisValueTypePane extends BasicPane {
 	 * 界面标题.
 	 */
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("AxisValue");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Value");
 	}
 	
 	/**
@@ -110,7 +110,7 @@ public class ChartAxisValueTypePane extends BasicPane {
 		 * 界面标题
 		 */
 		public String title4PopupWindow() {
-			return com.fr.design.i18n.Toolkit.i18nText("Chart_Text_Axis");
+			return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Text_Axis");
 		}
 
 		/**

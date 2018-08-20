@@ -3,7 +3,6 @@
  */
 package com.fr.design.actions.file.export;
 
-import com.fr.Message.ErrorMessage_;
 import com.fr.base.FRContext;
 import com.fr.base.Parameter;
 import com.fr.design.actions.JWorkBookAction;
@@ -25,7 +24,6 @@ import com.fr.io.exporter.ExcelExporter;
 import com.fr.io.exporter.Exporter;
 import com.fr.io.exporter.PDFExporterProcessor;
 import com.fr.io.exporter.WordExporter;
-import com.fr.log.FineLoggerFactory;
 import com.fr.main.TemplateWorkBook;
 import com.fr.main.impl.WorkBook;
 import com.fr.page.PageSetProvider;
@@ -102,10 +100,10 @@ public abstract class AbstractExportAction extends JWorkBookAction {
                 FineLoggerFactory.getLogger().error("Error In Make New File");
             }
             fileChooserPane = null;
-            FRContext.getLogger().info("\"" + file.getName() + "\"" + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Prepare_Export") + "!");
+            FRContext.getLogger().info("\"" + file.getName() + "\"" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Prepare_Export") + "!");
 
             (progressbar = new FRProgressBar(createExportWork(file, tpl, parameterMap), designerFrame,
-                    com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Exporting"), "", 0, 100)).start();
+                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Exporting"), "", 0, 100)).start();
         }
     }
 
@@ -128,13 +126,13 @@ public abstract class AbstractExportAction extends JWorkBookAction {
                     outputStream.close();
                     this.setProgress(100);
 
-                    FRContext.getLogger().info("\"" + fileGetName + "\"" + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Finish_Export") + "!");
+                    FRContext.getLogger().info("\"" + fileGetName + "\"" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Finish_Export") + "!");
                     JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
-                            com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Exported_successfully") + "\n" + fileGetName);
+                            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Exported_Successfully") + "\n" + fileGetName);
                 } catch (Exception exp) {
                     this.setProgress(100);
                     FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
-                    JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Export_failed") + "\n" + filePath,
+                    JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Export_Failed") + "\n" + filePath,
                             null, 0, UIManager.getIcon("OptionPane.errorIcon"));
                 }
                 return null;

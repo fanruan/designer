@@ -65,19 +65,19 @@ public class DSColumnBasicPane extends BasicPane {
             selectDataColumnPane = new SelectedConfirmedDataColumnPane();
         }
 
-        selectDataColumnPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Select_DataColumn"), null));
+        selectDataColumnPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Select_Data_Column"), null));
 
         if (setting > DSColumnPane.SETTING_DSRELATED) {
             conditionParentPane = new ConditionParentPane();
-            conditionParentPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("ParentCell_Setting"), null));
+            conditionParentPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ParentCell_Setting"), null));
         }
 
         resultSetGroupPane = new ResultSetGroupPopUpPane(setting > DSColumnPane.SETTING_DSRELATED);
-        resultSetGroupPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Data_Setting"), null));
+        resultSetGroupPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Setting"), null));
 
         if (setting > DSColumnPane.SETTING_DSRELATED) {
             expandDirectionPane = new ExpandDirectionPane();
-            expandDirectionPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("ExpandD-Expand_Direction"), null));
+            expandDirectionPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ExpandD_Expand_Direction"), null));
         }
 
         double[] rowSize = {TableLayout.PREFERRED, TableLayout.PREFERRED,
@@ -107,7 +107,7 @@ public class DSColumnBasicPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Basic");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Basic");
     }
 
     public void populate(TableDataSource source, TemplateCellElement cellElement) {

@@ -3,13 +3,6 @@
  */
 package com.fr.design.designer.creator;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.beans.IntrospectionException;
-
-import javax.swing.JComponent;
-
 import com.fr.base.BaseUtils;
 import com.fr.base.ScreenResolution;
 import com.fr.base.Style;
@@ -20,9 +13,14 @@ import com.fr.design.mainframe.widget.editors.SpinnerMinNumberEditor;
 import com.fr.design.mainframe.widget.editors.WidgetValueEditor;
 import com.fr.form.ui.NumberEditor;
 import com.fr.general.FRFont;
-
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Constants;
+
+import javax.swing.JComponent;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.beans.IntrospectionException;
 
 /**
  * @author richer
@@ -50,33 +48,33 @@ public class XNumberEditor extends XWrapperedFieldEditor {
 				,super.supportedDescriptor());
 		CRPropertyDescriptor allowDecimal = new CRPropertyDescriptor("allowDecimals", this.data.getClass())
 				.setEditorClass(InChangeBooleanEditor.class)
-				.setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Allow_Decimals"))
-				.putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate");
+				.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Allow_Decimals"))
+				.putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "Fine-Design_Basic_Validate");
 		CRPropertyDescriptor decimalLength = new CRPropertyDescriptor("maxDecimalLength", this.data.getClass())
 				.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Decimal_Digits"))
-				.putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate");
+				.putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "Fine-Design_Basic_Validate");
 		sup = (CRPropertyDescriptor[]) ArrayUtils.addAll(sup, ((NumberEditor)this.data).isAllowDecimals() ?
 				new CRPropertyDescriptor[] {allowDecimal, decimalLength} : new CRPropertyDescriptor[] {allowDecimal});
 		return (CRPropertyDescriptor[]) ArrayUtils.addAll(sup,
 				new CRPropertyDescriptor[] {
 						new CRPropertyDescriptor("allowNegative", this.data.getClass())
-								.setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Allow_Negative"))
+								.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Allow_Negative"))
 								.setEditorClass(InChangeBooleanEditor.class)
-								.putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate"),
+								.putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "Fine-Design_Basic_Validate"),
 						new CRPropertyDescriptor("minValue", this.data.getClass())
-								.setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Min_Value"))
+								.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Min_Value"))
 								.setEditorClass(SpinnerMinNumberEditor.class)
-								.putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate"),
+								.putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "Fine-Design_Basic_Validate"),
 						new CRPropertyDescriptor("maxValue", this.data.getClass())
-								.setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Max_Value"))
+								.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Max_Value"))
 								.setEditorClass(SpinnerMaxNumberEditor.class)
-								.putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate"),
+								.putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "Fine-Design_Basic_Validate"),
 						new CRPropertyDescriptor("waterMark", this.data.getClass())
-								.setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WaterMark"))
+								.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_WaterMark"))
 								.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 						new CRPropertyDescriptor("regErrorMessage", this.data.getClass())
-								.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Verify-Message"))
-								.putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate")
+								.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Verify_Message"))
+								.putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "Fine-Design_Basic_Validate")
 				});
 	}
 

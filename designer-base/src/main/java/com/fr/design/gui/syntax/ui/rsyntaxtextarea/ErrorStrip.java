@@ -9,6 +9,17 @@
  */
 package com.fr.design.gui.syntax.ui.rsyntaxtextarea;
 
+import com.fr.design.gui.syntax.ui.rsyntaxtextarea.parser.Parser;
+import com.fr.design.gui.syntax.ui.rsyntaxtextarea.parser.ParserNotice;
+import com.fr.design.gui.syntax.ui.rsyntaxtextarea.parser.TaskTagParser.TaskNotice;
+import com.fr.design.gui.syntax.ui.rtextarea.RTextArea;
+
+import javax.swing.JComponent;
+import javax.swing.ToolTipManager;
+import javax.swing.UIManager;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
+import javax.swing.text.BadLocationException;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -24,18 +35,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
-import javax.swing.JComponent;
-import javax.swing.ToolTipManager;
-import javax.swing.UIManager;
-import javax.swing.event.CaretEvent;
-import javax.swing.event.CaretListener;
-import javax.swing.text.BadLocationException;
-
-import com.fr.design.gui.syntax.ui.rsyntaxtextarea.parser.Parser;
-import com.fr.design.gui.syntax.ui.rsyntaxtextarea.parser.ParserNotice;
-import com.fr.design.gui.syntax.ui.rsyntaxtextarea.parser.TaskTagParser.TaskNotice;
-import com.fr.design.gui.syntax.ui.rtextarea.RTextArea;
 
 
 
@@ -288,7 +287,7 @@ public class ErrorStrip extends JComponent {
 		String text = null;
 		int line = yToLine(e.getY());
 		if (line>-1) {
-			text = com.fr.design.i18n.Toolkit.i18nText("Line");
+			text = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Line");
 			text = MessageFormat.format(text, Integer.valueOf(line+1));
 		}
 		return text;
@@ -674,7 +673,7 @@ public class ErrorStrip extends JComponent {
 			try {
 				String word = textArea.getText(range.getStartOffset(),
 												getLength());
-				text = com.fr.design.i18n.Toolkit.i18nText("OccurrenceOf");
+				text = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_OccurrenceOf");
 				text = MessageFormat.format(text, word);
 			} catch (BadLocationException ble) {
 				UIManager.getLookAndFeel().provideErrorFeedback(textArea);
@@ -765,7 +764,7 @@ public class ErrorStrip extends JComponent {
 			}
 			else { // > 1
 				StringBuilder sb = new StringBuilder("<html>");
-				sb.append(com.fr.design.i18n.Toolkit.i18nText("MultipleMarkers"));
+				sb.append(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Multiple_Markers"));
 				sb.append("<br>");
 				for (int i=0; i<notices.size(); i++) {
 					ParserNotice pn = notices.get(i);

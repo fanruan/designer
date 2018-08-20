@@ -25,7 +25,7 @@ public abstract class XDirectWriteEditor extends XFieldEditor {
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
 		return (CRPropertyDescriptor[]) ArrayUtils.addAll(super.supportedDescriptor(),
 				new CRPropertyDescriptor[] { new CRPropertyDescriptor("directEdit", this.data.getClass())
-								.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Form-Allow_Edit")).putKeyValue(
-								 XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate") });
+								.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Allow_Edit")).putKeyValue(
+								 XCreatorConstants.PROPERTY_VALIDATE, "Fine-Design_Basic_Validate") });
 	}
 }

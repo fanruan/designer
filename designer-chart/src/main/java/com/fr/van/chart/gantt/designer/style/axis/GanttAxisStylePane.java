@@ -36,7 +36,7 @@ public class GanttAxisStylePane extends BasicBeanPane<GanttAxisStyleAttr> {
 
         Component[][] components = new Component[][]{
                 new Component[]{textAttrPane, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Color_Color")), colorSelectBox4button},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Color")), colorSelectBox4button},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Alpha")), transparent}
         };
 

@@ -38,7 +38,7 @@ public class FRAbsoluteLayoutPropertiesGroupModel implements GroupModel {
      */
     @Override
     public String getGroupName() {
-        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_FormWidget_Area_Scaling");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Area_Scaling");
     }
 
     @Override

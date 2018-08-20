@@ -1,13 +1,4 @@
 package com.fr.design.report.share;
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.InputStream;
-
-import javax.swing.JPanel;
-
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.base.Utils;
@@ -27,9 +18,16 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.GeneralUtils;
 import com.fr.general.IOUtils;
-
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
+
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.InputStream;
 
 /**
  * 数据集混淆的面板
@@ -66,7 +64,7 @@ public class ConfusionTableDataPane extends BasicBeanPane<ConfusionInfo>{
 	
 	private JPanel initNorthPane(){
 		JPanel northPane = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
-		UILabel tipLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Choose-Data-Confusion-Tip"));
+		UILabel tipLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Choose_Data_Confusion_Tip"));
 		northPane.add(tipLabel, BorderLayout.CENTER);
 		UIButton previewBtn = initPreviewButton();
 		northPane.add(previewBtn, BorderLayout.EAST);
@@ -79,7 +77,7 @@ public class ConfusionTableDataPane extends BasicBeanPane<ConfusionInfo>{
 		UIButton previewBtn = new UIButton();
 		previewBtn.setIcon(BaseUtils.readIcon("/com/fr/web/images/preview.png"));
 		previewBtn.set4ToolbarButton();
-		previewBtn.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Preview-Data-Confusion"));
+		previewBtn.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Preview_Data_Confusion"));
 		previewBtn.addActionListener(previewListener);
 		
 		return previewBtn;
@@ -171,13 +169,13 @@ public class ConfusionTableDataPane extends BasicBeanPane<ConfusionInfo>{
 	
 	private Component[] initTableHeaderPanel(){
 		JPanel headPanel = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
-		UILabel keyLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Confusion-key"));
+		UILabel keyLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Confusion_Key"));
 		UIButton helpBtn = initHelpButton();
 		headPanel.add(keyLabel);
 		headPanel.add(helpBtn);
 		headPanel.setPreferredSize(new Dimension(TABLE_WIDTH, TABLE_HEIGHT));
 		
-		UILabel colNameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Confusion-key"));
+		UILabel colNameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Confusion_Key"));
 		return new Component[]{new UILabel(), colNameLabel, headPanel};
 	}
 	
@@ -214,7 +212,7 @@ public class ConfusionTableDataPane extends BasicBeanPane<ConfusionInfo>{
 
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Data-confusion");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Data-Confusion");
 	}
 	
 	private ActionListener previewListener = new ActionListener() {

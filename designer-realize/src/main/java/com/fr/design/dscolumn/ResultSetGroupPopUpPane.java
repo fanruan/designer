@@ -46,7 +46,7 @@ public class ResultSetGroupPopUpPane extends ResultSetGroupPane {
 		this.setLayout(FRGUIPaneFactory.create1ColumnGridLayout());
 
 		// 分组
-		groupRadioButton = new UIRadioButton(Toolkit.i18nText("BindColumn-Group(Merger_the_Items_Which_Have_The_Same_Value_in_Column)"));
+		groupRadioButton = new UIRadioButton(Toolkit.i18nText("Fine-Design_Report_Bind_Column_Group(Merger_The_Items_Which_Have_The_Same_Value_in_Column)"));
 		groupRadioButton.addActionListener(checkEnabledActionListener);
 
 		groupComboBox.addItemListener(new ItemListener() {
@@ -54,19 +54,19 @@ public class ResultSetGroupPopUpPane extends ResultSetGroupPane {
 				checkButtonEnabled();
 			}
 		});
-		advancedButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Custom"));
+		advancedButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom"));
 		advancedButton.addActionListener(groupAdvancedListener);
 		this.add(GUICoreUtils.createFlowPane(
 				new JComponent[]{new UILabel(InsertText), groupRadioButton, groupComboBox, advancedButton}, FlowLayout.LEFT));
 
 		// 列表
-		listRadioButton = new UIRadioButton(Toolkit.i18nText("BindColumn-Select(Regardless_of_Having_the_Same_Value,Display_all_Item_in_Column)"));
+		listRadioButton = new UIRadioButton(Toolkit.i18nText("Fine-Design_Report_Bind_Column_Select(Regardless_of_Having_the_Same_Value,Display_All_Item_in_Column)"));
 		listRadioButton.addActionListener(checkEnabledActionListener);
 		this.add(GUICoreUtils.createFlowPane(
 				new JComponent[]{new UILabel(InsertText), listRadioButton}, FlowLayout.LEFT));
 
 		// 汇总		
-		summaryRadioButton = new UIRadioButton(Toolkit.i18nText("BindColumn-Summary(Including_SUM_,_AVERAGE_,_MAX_,_MIN_And_So_On)"), true);
+		summaryRadioButton = new UIRadioButton(Toolkit.i18nText("Fine-Design_Report_Bind_Column_Summary(Including_SUM_,_AVERAGE_,_MAX_,_MIN_And_So_On)"), true);
 		summaryRadioButton.addActionListener(checkEnabledActionListener);
 		functionComboBox = new FunctionComboBox(GUICoreUtils.getFunctionArray());
 		this.add(GUICoreUtils.createFlowPane(

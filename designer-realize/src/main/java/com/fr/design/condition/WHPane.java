@@ -48,16 +48,16 @@ public abstract class WHPane extends ConditionAttrSingleConditionPane<HighlightA
         double va;
         if (unitType == Constants.UNIT_CM) {
             va = width.toCMValue4Scale2();
-            unitLabel.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Unit_CM"));
+            unitLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_CM"));
         } else if (unitType == Constants.UNIT_INCH) {
             va = width.toINCHValue4Scale3();
-            unitLabel.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Unit_INCH"));
+            unitLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_INCH"));
         } else if (unitType == Constants.UNIT_PT) {
             va = width.toPTValue4Scale2();
-            unitLabel.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Unit_PT"));
+            unitLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_PT_Duplicate"));
         } else {
             va = width.toMMValue4Scale2();
-            unitLabel.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Unit_MM"));
+            unitLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_MM"));
         }
         // 只保留两位
         Float d = new Float(new BigDecimal(va + "").setScale(2, BigDecimal.ROUND_DOWN).floatValue());
@@ -69,13 +69,13 @@ public abstract class WHPane extends ConditionAttrSingleConditionPane<HighlightA
     protected String getUnitString() {
         int unitType = DesignerEnvManager.getEnvManager().getReportLengthUnit();
         if (unitType == Constants.UNIT_CM) {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Unit_CM");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_CM");
         } else if (unitType == Constants.UNIT_INCH) {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Unit_INCH");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_INCH");
         } else if (unitType == Constants.UNIT_PT) {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Unit_PT");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_PT_Duplicate");
         } else {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Unit_MM");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_MM");
         }
     }
 

@@ -28,14 +28,14 @@ public class ChartBorderPane extends BasicPane{
 	private void initComponents() {
 		currentLineCombo = new LineComboBox(CoreConstants.STRIKE_LINE_STYLE_ARRAY_4_CHART);
 		currentLineColorPane = new ColorSelectBox(100);
-		isRoundBorder = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Border-Style-Radius"));
+		isRoundBorder = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Border_Style_Radius"));
 		double p = TableLayout.PREFERRED;
 		double f = TableLayout.FILL;
 		double[] columnSize = { p,f };
 		double[] rowSize = {p, p, p, p};
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Line_Style")+":"),currentLineCombo},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Color")+":"),currentLineColorPane},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Color")+":"),currentLineColorPane},
                 new Component[]{null,isRoundBorder}
         } ;
         JPanel panel = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Border"},components,rowSize,columnSize);

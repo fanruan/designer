@@ -11,10 +11,10 @@ package com.fr.design.chart.axis;
 public class ChartAlertValueInTopBottomPane extends ChartAlertValuePane {
 	
 	protected String getLeftName() {
-		return com.fr.design.i18n.Toolkit.i18nText("Chart_Alert_Bottom");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Alert_Bottom");
 	}
 	
 	protected String getRightName() {
-		return com.fr.design.i18n.Toolkit.i18nText("Chart_Alert_Top");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Alert_Top");
 	}
 }

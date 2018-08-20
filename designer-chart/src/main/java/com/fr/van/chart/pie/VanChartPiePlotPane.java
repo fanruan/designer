@@ -13,7 +13,7 @@ import com.fr.van.chart.designer.type.AbstractVanChartTypePane;
  * 饼图(新特性) 属性表 选择类型 布局界面.
  */
 public class VanChartPiePlotPane extends AbstractVanChartTypePane {
-    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewPie");
+    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Pie");
 
     private static final long serialVersionUID = 6163246902689597259L;
 
@@ -28,9 +28,9 @@ public class VanChartPiePlotPane extends AbstractVanChartTypePane {
     @Override
     protected String[] getTypeTipName() {
         return new String[]{
-                com.fr.design.i18n.Toolkit.i18nText("I-PieStyle_Normal"),
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_SameArcPie"),
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_DifferentArcPie")
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Pie"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_SameArc_Pie"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_DifferArc_Pie")
         };
     }
 
@@ -39,7 +39,7 @@ public class VanChartPiePlotPane extends AbstractVanChartTypePane {
      * @return 界面标题
      */
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewPie");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Pie");
     }
 
     /**

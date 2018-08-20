@@ -92,32 +92,32 @@ public class BackgroundFactory {
     
     private static void registerUniversal(Map<Class<? extends Background>, BackgroundUIWrapper> map) {
         map.put(null, BackgroundUIWrapper.create()
-                .setType(NullBackgroundPane.class).setTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background_Null")));
+                .setType(NullBackgroundPane.class).setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Null")));
         map.put(ColorBackground.class, BackgroundUIWrapper.create()
-                .setType(ColorBackgroundPane.class).setTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background_Color")));
+                .setType(ColorBackgroundPane.class).setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Color")));
         map.put(TextureBackground.class, BackgroundUIWrapper.create()
-                .setType(TextureBackgroundPane.class).setTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background_Texture")));
+                .setType(TextureBackgroundPane.class).setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Texture")));
         map.put(PatternBackground.class, BackgroundUIWrapper.create()
-                .setType(PatternBackgroundPane.class).setTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background_Pattern")));
+                .setType(PatternBackgroundPane.class).setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Pattern")));
         map.put(GradientBackground.class, BackgroundUIWrapper.create()
-                .setType(GradientBackgroundPane.class).setTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background_Gradient_Color")));
+                .setType(GradientBackgroundPane.class).setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Gradient_Color")));
     }
 
     private static void registerImageBackground(Map<Class<? extends Background>, BackgroundUIWrapper> map) {
         map.put(ImageFileBackground.class, BackgroundUIWrapper.create()
-                .setType(ImageBackgroundPane.class).setTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background_Image")));
+                .setType(ImageBackgroundPane.class).setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Image")));
     }
 
     private static void registerBrowserImageBackground(Map<Class<? extends Background>, BackgroundUIWrapper> map) {
         map.put(ImageFileBackground.class, BackgroundUIWrapper.create()
-                .setType(ImageBackgroundPane4Browser.class).setTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background_Image")));
+                .setType(ImageBackgroundPane4Browser.class).setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Image")));
     }
 
     private static void registerButtonBackground(Map<Class<? extends Background>, BackgroundUIWrapper> map){
         map.put(ColorBackground.class, BackgroundUIWrapper.create()
-                .setType(ColorBackgroundPane.class).setTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background_Color")));
+                .setType(ColorBackgroundPane.class).setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Color")));
         map.put(ImageFileBackground.class, BackgroundUIWrapper.create()
-                .setType(ImageButtonBackgroundPane.class).setTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background_Image")));
+                .setType(ImageButtonBackgroundPane.class).setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Image")));
 
     }
 

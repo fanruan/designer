@@ -47,7 +47,7 @@ class CptApp extends AbstractWorkBookApp {
         if (XMLEncryptUtils.isCptEncoded() &&
             !XMLEncryptUtils.checkVaild(DesignerEnvManager.getEnvManager().getEncryptionKey())) {
             if (!new DecodeDialog(file).isPwdRight()) {
-                FRContext.getLogger().error(com.fr.design.i18n.Toolkit.i18nText("ECP-error_pwd"));
+                FRContext.getLogger().error(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ECP_Error_Pwd"));
                 return new WorkBook();
             }
         }
@@ -63,7 +63,7 @@ class CptApp extends AbstractWorkBookApp {
             tpl.readStream(file.asInputStream());
         } catch (Exception exp) {
             String errorMessage = ComparatorUtils.equals(RemoteDeziConstants.INVALID_USER, checkStr) ? Toolkit.i18nText("Fine-Design_Basic_Template_Permission_Denied")
-                : com.fr.design.i18n.Toolkit.i18nText("NS-exception_readError");
+                : com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_NS_Exception_ReadError");
             FineLoggerFactory.getLogger().error(errorMessage + file, exp);
         }
         checkNameStyle(namestyle);

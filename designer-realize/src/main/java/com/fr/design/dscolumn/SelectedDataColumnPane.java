@@ -153,8 +153,8 @@ public class SelectedDataColumnPane extends BasicPane {
         };
         columnNameComboBox.setEditable(true);
         double p = TableLayout.PREFERRED;
-        UILabel dsLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("TableData") + ":");
-        UILabel dcLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("DataColumn") + ":");
+        UILabel dsLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_TableData") + ":");
+        UILabel dcLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Data_Column") + ":");
         if (showParameterButton) {
             dsLabel.setPreferredSize(new Dimension(200, 25));
             dcLabel.setPreferredSize(new Dimension(200, 25));
@@ -193,9 +193,9 @@ public class SelectedDataColumnPane extends BasicPane {
         columnNameComboBox.setEditable(true);
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
-        UILabel dsLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("TableData"));
-        UILabel dpLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Dynamic_Parameter"));
-        UILabel dcLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("DataColumn"));
+        UILabel dsLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_TableData"));
+        UILabel dpLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Dynamic_Parameter"));
+        UILabel dcLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Data_Column"));
         dsLabel.setPreferredSize(new Dimension(60, 20));
         dpLabel.setPreferredSize(new Dimension(60, 20));
         dcLabel.setPreferredSize(new Dimension(60, 20));
@@ -342,7 +342,7 @@ public class SelectedDataColumnPane extends BasicPane {
 
     private void initParameterButton() {
         editorPane = new UITableEditorPane<>(new ParameterTableModel());
-        paramButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("TableData_Dynamic_Parameter_Setting"));
+        paramButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_TableData_Dynamic_Parameter_Setting"));
         paramButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 BasicDialog paramDialog = editorPane.showSmallWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {

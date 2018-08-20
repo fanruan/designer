@@ -83,7 +83,7 @@ public class GlobalParameterAction extends UpdateAction {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("M_Server-Global_Parameters");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_M_Server_Global_Parameters");
         }
 
         @Override

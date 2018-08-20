@@ -23,7 +23,7 @@ public class DeleteBlockAction extends UpdateAction implements TemplateComponent
 
 	public DeleteBlockAction(PolyDesigner pd) {
 		this.pd = pd;
-		this.setName(com.fr.design.i18n.Toolkit.i18nText("M_Edit-Delete"));
+		this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_M_Edit_Delete"));
 		this.setMnemonic('D');
 		this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0));
 		this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_report/delete.png"));

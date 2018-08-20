@@ -27,7 +27,7 @@ public class ChartRadarPane extends ChartValuePane{
 		JPanel buttonPane = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
 		valuePane.add(buttonPane);
 		
-		String[] names = new String[]{com.fr.design.i18n.Toolkit.i18nText("Chart_Axis_AutoCount"), com.fr.design.i18n.Toolkit.i18nText("Chart_Axis_UnitCount")};
+		String[] names = new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Auto_Count"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Unified_Count")};
         Boolean[] values = new Boolean[]{Boolean.FALSE, Boolean.TRUE};
 		allMaxMin = new UIButtonGroup<Boolean>(names, values);
 		buttonPane.add(allMaxMin);

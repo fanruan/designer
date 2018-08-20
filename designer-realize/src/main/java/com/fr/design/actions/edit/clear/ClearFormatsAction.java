@@ -16,7 +16,7 @@ public class ClearFormatsAction extends ClearAction {
     public ClearFormatsAction(ElementCasePane t) {
 		super(t);
 		
-        this.setName(com.fr.design.i18n.Toolkit.i18nText("M_Edit-Clear_Formats"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_M_Edit_Clear_Formats"));
         this.setMnemonic('F');
     }
 

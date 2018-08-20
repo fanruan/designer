@@ -57,6 +57,6 @@ public class SubmitJobListPane extends ObjectJControlPane {
 	
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Set_Submit_Event");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Set_Submit_Event");
 	}
 }

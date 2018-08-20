@@ -56,13 +56,13 @@ public class PluginUpdatePane extends PluginAbstractLoadingViewPane<List<PluginV
 
             @Override
             public String textForInstallButton() {
-                return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Plugin_Normal_Update");
+                return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Normal_Update");
             }
 
 
             @Override
             public String textForInstallFromDiskButton() {
-                return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Plugin_Normal_Update_From_Local");
+                return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Normal_Update_From_Local");
             }
 
             @Override
@@ -104,13 +104,13 @@ public class PluginUpdatePane extends PluginAbstractLoadingViewPane<List<PluginV
 
             @Override
             public String textForInstallButton() {
-                return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Plugin_Normal_Update");
+                return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Normal_Update");
             }
 
 
             @Override
             public String textForInstallFromDiskButton() {
-                return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Plugin_Normal_Update_From_Local");
+                return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Normal_Update_From_Local");
             }
 
             @Override
@@ -136,7 +136,7 @@ public class PluginUpdatePane extends PluginAbstractLoadingViewPane<List<PluginV
      */
     public void loadOnSuccess(List<PluginView> plugins) {
         controlPane.loadPlugins(plugins);
-        tabbedPane.setTitleAt(1, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Update") + "(" + plugins.size() + ")");
+        tabbedPane.setTitleAt(1, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Update") + "(" + plugins.size() + ")");
     }
 
     /**
@@ -201,7 +201,7 @@ public class PluginUpdatePane extends PluginAbstractLoadingViewPane<List<PluginV
                     FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Update_Success"));
                     JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Install_Successful"));
                 } else {
-                    JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -214,7 +214,7 @@ public class PluginUpdatePane extends PluginAbstractLoadingViewPane<List<PluginV
      */
     @Override
     public String textForInstallFromDiskFileButton() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Plugin_Normal_Update_From_Local");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Normal_Update_From_Local");
     }
 
     @Override

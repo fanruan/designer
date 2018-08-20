@@ -3,19 +3,22 @@
  */
 package com.fr.design.style;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import com.fr.base.FRContext;
+import com.fr.design.dialog.BasicPane;
+import com.fr.design.gui.icheckbox.UICheckBox;
+import com.fr.design.gui.icombobox.LineComboBox;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.style.color.ColorSelectBox;
+import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.general.DefaultValues;
+import com.fr.general.FRFont;
+import com.fr.stable.CoreConstants;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JComponent;
-import com.fr.design.gui.ilable.UILabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -26,19 +29,14 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.EventListenerList;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
-import com.fr.base.FRContext;
-import com.fr.design.gui.icheckbox.UICheckBox;
-import com.fr.design.gui.itextfield.UITextField;
-import com.fr.design.gui.icombobox.LineComboBox;
-import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.dialog.BasicPane;
-import com.fr.general.DefaultValues;
-import com.fr.general.FRFont;
-
-import com.fr.stable.CoreConstants;
-import com.fr.design.style.color.ColorSelectBox;
-import com.fr.design.utils.gui.GUICoreUtils;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 /**
  * Pane to edit Font.
@@ -122,7 +120,7 @@ public class FRFontPane extends BasicPane {
         // underline pane
         JPanel underlinePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         listVBottomPane.add(underlinePane);
-        underlinePane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FRFont-Underline"), null));
+        underlinePane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FRFont_Underline"), null));
 
         this.underlineCombo = new LineComboBox(CoreConstants.UNDERLINE_STYLE_ARRAY);
         this.underlineCombo.addActionListener(actionListener);
@@ -132,7 +130,7 @@ public class FRFontPane extends BasicPane {
         JPanel foregroundPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         listVBottomPane.add(foregroundPane);
 
-        foregroundPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FRFont-Foreground"),null));
+        foregroundPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Font_Foreground"),null));
         foregroundColorPane = new ColorSelectBox(140);
         foregroundColorPane.addSelectChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
@@ -155,21 +153,21 @@ public class FRFontPane extends BasicPane {
         JPanel effectsPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         otherFontPane.add(effectsPane, BorderLayout.CENTER);
 //        effectsPane.setLayout(FRGUIPaneFactory.createBorderLayout());
-        effectsPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FRFont-Effects"),null));
+        effectsPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Font_Effects"),null));
 
         JPanel effectsPane2 = FRGUIPaneFactory.createNColumnGridInnerContainer_S_Pane(1);
         effectsPane.add(effectsPane2, BorderLayout.NORTH);
 
-        isStrikethroughCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FRFont-Strikethrough") + "  ");
+        isStrikethroughCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Font_Strikethrough") + "  ");
         isStrikethroughCheckBox.addChangeListener(changeListener);
         isStrikethroughCheckBox.setMnemonic('K');
-        isShadowCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FRFont-Shadow"));
+        isShadowCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Font_Shadow"));
         isShadowCheckBox.addChangeListener(changeListener);
         isShadowCheckBox.setMnemonic('S');
-        isSuperscriptCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FRFont-Superscript"));
+        isSuperscriptCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Font_Superscript"));
         isSuperscriptCheckBox.addChangeListener(changeListener);
         isSuperscriptCheckBox.setMnemonic('E');
-        isSubscriptCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FRFont-Subscript"));
+        isSubscriptCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Font_Subscript"));
         isSubscriptCheckBox.addChangeListener(changeListener);
         isSubscriptCheckBox.setMnemonic('B');
 
@@ -186,7 +184,7 @@ public class FRFontPane extends BasicPane {
 
         // preview pane.
         preview = new FRFontPreviewArea();
-        preview.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Preview")));
+        preview.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preview")));
         rightPane.add(preview, BorderLayout.CENTER);
 
         // Cannot select superscript and subscript in the same time.
@@ -277,7 +275,7 @@ public class FRFontPane extends BasicPane {
     
     @Override
     protected String title4PopupWindow() {
-    	return com.fr.design.i18n.Toolkit.i18nText("Sytle-FRFont");
+    	return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Sytle_FRFont");
     }
 
     /**

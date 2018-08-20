@@ -13,7 +13,7 @@ import com.fr.stable.unit.UNIT;
 public class ColumnWidthPane extends WHPane {
 
     public ColumnWidthPane(ConditionAttributesPane conditionAttributesPane) {
-        super(conditionAttributesPane, com.fr.design.i18n.Toolkit.i18nText("Utils-Column_Width"));
+        super(conditionAttributesPane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Column_Width"));
     }
 
     @Override

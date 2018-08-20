@@ -49,7 +49,7 @@ public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connecti
         message = new UILabel();
         uiLabel = new UILabel();
         okButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_OK"));
-        cancelButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Cancel"));
+        cancelButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cancel"));
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         JPanel northPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
         this.add(northPane, BorderLayout.NORTH);
@@ -57,7 +57,7 @@ public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connecti
         // 按钮.
         JPanel testPane = FRGUIPaneFactory.createNormalFlowInnerContainer_M_Pane();
         northPane.add(testPane, BorderLayout.NORTH);
-        UIButton testButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Datasource-Test_Connection"));
+        UIButton testButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Test_Connection"));
         testPane.add(testButton);
         testButton.addActionListener(testConnectionActionListener);
         testPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 3, 4));
@@ -163,11 +163,11 @@ public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connecti
 
     private void initDialogPane() {
 
-        message.setText(com.fr.design.i18n.Toolkit.i18nText("Datasource-Test_Connection") + "...");
+        message.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Test_Connection") + "...");
         message.setBorder(BorderFactory.createEmptyBorder(8, 5, 0, 0));
         okButton.setEnabled(false);
 
-        dialog = new JDialog((Dialog) SwingUtilities.getWindowAncestor(DatabaseConnectionPane.this), com.fr.design.i18n.Toolkit.i18nText("Datasource-Test_Connection"), true);
+        dialog = new JDialog((Dialog) SwingUtilities.getWindowAncestor(DatabaseConnectionPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Test_Connection"), true);
         dialog.setSize(new Dimension(268, 118));
         okButton.setEnabled(false);
         JPanel jp = new JPanel();

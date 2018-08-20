@@ -80,7 +80,7 @@ public class WidgetManagerAction extends UpdateAction {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("ServerM-Widget_Manager");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ServerM_Widget_Manager");
         }
 
         @Override

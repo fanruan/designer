@@ -70,7 +70,7 @@ public class ServerManageFrame extends JFrame {
 		UIButton startButton = new UIButton();
 		startPane.add(startButton);
 		startButton.setIcon(BaseUtils.readIcon("/com/fr/design/images/server/start.png"));
-		startPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Server-Start")));
+		startPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Server_Start")));
 		startButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -87,7 +87,7 @@ public class ServerManageFrame extends JFrame {
 		UIButton stopButton = new UIButton();
 		stopPane.add(stopButton);
 		stopButton.setIcon(BaseUtils.readIcon("/com/fr/design/images/server/stop.png"));
-		stopPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Server-Stop")));
+		stopPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Server_Stop")));
 		stopButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -104,7 +104,7 @@ public class ServerManageFrame extends JFrame {
 		contentPane.add(infoPane, BorderLayout.SOUTH);
 		infoPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 4, 0));
 
-		infoPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Log") + ":"), BorderLayout.WEST);
+		infoPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Log") + ":"), BorderLayout.WEST);
 		UITextField logPathTextField = new UITextField();
 		infoPane.add(logPathTextField, BorderLayout.CENTER);
 		logPathTextField.setEditable(false);
@@ -112,7 +112,7 @@ public class ServerManageFrame extends JFrame {
 		UIButton openButton = new UIButton();
 		infoPane.add(openButton, BorderLayout.EAST);
 		openButton.setIcon(BaseUtils.readIcon("/com/fr/design/images/server/view.png"));
-		openButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Open"));
+		openButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Open"));
 //		openButton.addActionListener(new ActionListener() {
 //			public void actionPerformed(ActionEvent evt) {
 //
@@ -126,7 +126,7 @@ public class ServerManageFrame extends JFrame {
 //		});
 		
 		this.setSize(420, 160);
-		this.setTitle(com.fr.design.i18n.Toolkit.i18nText("Server-Embedded_Server"));
+		this.setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Server_Embedded_Server"));
 		GUICoreUtils.centerWindow(this);
 	}
 

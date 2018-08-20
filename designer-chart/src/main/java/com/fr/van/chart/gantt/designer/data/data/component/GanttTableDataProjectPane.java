@@ -40,7 +40,7 @@ public class GanttTableDataProjectPane extends AbstractTableDataContentPane impl
         projectName = new ComboBoxWithButtonPane(){
             @Override
             protected String getTitleText() {
-                return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Project_Name");
+                return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Project_Name");
             }
 
             @Override

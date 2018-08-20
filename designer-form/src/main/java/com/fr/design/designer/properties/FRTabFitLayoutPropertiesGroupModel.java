@@ -3,10 +3,6 @@
  */
 package com.fr.design.designer.properties;
 
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableCellRenderer;
-
 import com.fr.design.designer.creator.cardlayout.XWCardLayout;
 import com.fr.design.designer.creator.cardlayout.XWCardMainBorderLayout;
 import com.fr.design.designer.creator.cardlayout.XWTabFitLayout;
@@ -18,6 +14,10 @@ import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
 import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.form.ui.container.cardlayout.WCardTitleLayout;
 import com.fr.form.ui.container.cardlayout.WTabFitLayout;
+
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
 
 
 /**
@@ -51,7 +51,7 @@ public class FRTabFitLayoutPropertiesGroupModel extends FRFitLayoutPropertiesGro
 	 */
 	@Override
 	public String getGroupName() {
-		return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Current_tab");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Current_Tab");
 	}
 
 	@Override
@@ -79,9 +79,9 @@ public class FRTabFitLayoutPropertiesGroupModel extends FRFitLayoutPropertiesGro
 		if (column == PROPERTY_NAME_COLUMN) {
             switch (row) {
                 case 0:
-                    return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Component_Interval");
+                    return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Component_Interval");
                 default :
-                    return com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Tab_Layout_Title");
+                    return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Tab_Layout_Title");
             }
         } else {
             switch (row) {

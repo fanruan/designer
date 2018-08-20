@@ -149,7 +149,7 @@ public class FormEditToolBar extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Edit");
     }
 
     public void populate(FormToolBar ftoolbar) {
@@ -208,7 +208,7 @@ public class FormEditToolBar extends BasicPane {
 
     private class MoveUpItemAction extends UpdateAction {
         public MoveUpItemAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("Utils-Move_Up"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Move_Up"));
             this.setMnemonic('U');
             this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/control/up.png"));
         }
@@ -239,7 +239,7 @@ public class FormEditToolBar extends BasicPane {
 
     private class MoveDownItemAction extends UpdateAction {
         public MoveDownItemAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("Utils-Move_Down"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Move_Down"));
             this.setMnemonic('D');
             this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/control/down.png"));
         }
@@ -274,7 +274,7 @@ public class FormEditToolBar extends BasicPane {
 
     public class RemoveAction extends UpdateAction {
         public RemoveAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Delete"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Delete"));
             this.setSmallIcon(IOUtils.readIcon("/com/fr/base/images/cell/control/remove.png"));
         }
 
@@ -287,7 +287,7 @@ public class FormEditToolBar extends BasicPane {
             if (i < 0 || !(listModel.getElementAt(i) instanceof FormToolBarButton)) {
                 return;
             }
-            int val = JOptionPane.showConfirmDialog(FormEditToolBar.this, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Are_You_Sure_To_Delete_The_Data") + "?", "Message", JOptionPane.YES_NO_OPTION);
+            int val = JOptionPane.showConfirmDialog(FormEditToolBar.this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Are_You_Sure_To_Delete_The_Data") + "?", "Message", JOptionPane.YES_NO_OPTION);
             if (val != JOptionPane.YES_OPTION) {
                 return;
             }
@@ -321,8 +321,8 @@ public class FormEditToolBar extends BasicPane {
         public void initComponents() {
             this.setLayout(FRGUIPaneFactory.createBorderLayout());
             JPanel north = FRGUIPaneFactory.createBorderLayout_S_Pane();
-            icon = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Show_Icon"));
-            text = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Show_Text"));
+            icon = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Show_Icon"));
+            text = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Show_Text"));
 
             north.add(icon, BorderLayout.NORTH);
             north.add(text, BorderLayout.CENTER);
@@ -359,9 +359,9 @@ public class FormEditToolBar extends BasicPane {
         private JPanel getCustomPane() {
             JPanel customPane = FRGUIPaneFactory.createCenterFlowInnerContainer_S_Pane();
 
-            button = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_User_Defined_Event"));
+            button = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_User_Defined_Event"));
             customPane.add(button);
-            customPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit") + "JS", null));
+            customPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Edit") + "JS", null));
             button.addActionListener(l);
             return customPane;
         }

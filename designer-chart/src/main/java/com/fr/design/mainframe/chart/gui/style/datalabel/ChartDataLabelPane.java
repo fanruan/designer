@@ -93,13 +93,13 @@ public class ChartDataLabelPane extends BasicScrollPane<Chart>{
 	protected String[] getLabelLocationNameArray() {
 		Plot plot = chart.getPlot();
 		if(plot instanceof BarPlot){
-			return new String[] {com.fr.design.i18n.Toolkit.i18nText("BarInside"), com.fr.design.i18n.Toolkit.i18nText("BarOutSide"), com.fr.design.i18n.Toolkit.i18nText("Center")};
+			return new String[] {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Bar_Inside"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Bar_Outside"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Center")};
 		}else if(plot instanceof PiePlot){
-            return new String[] {com.fr.design.i18n.Toolkit.i18nText("Chart_In_Pie"), com.fr.design.i18n.Toolkit.i18nText("Chart_Out_Pie")};
+            return new String[] {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Pie_Inside"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Pie_Outside")};
 		}else if(plot instanceof RangePlot){
-			return new String[]{com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Top"), com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Bottom"), com.fr.design.i18n.Toolkit.i18nText("Center")};
+			return new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Top"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Bottom"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Center")};
 		}else if(plot instanceof BubblePlot){
-			return new String[] {com.fr.design.i18n.Toolkit.i18nText("Chart_Bubble_Inside"), com.fr.design.i18n.Toolkit.i18nText("Chart_Bubble_Outside")};
+			return new String[] {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Bubble_Inside"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Bubble_Outside")};
 		}else{
 			return new String[0];
 		}

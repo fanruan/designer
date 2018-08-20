@@ -29,11 +29,11 @@ public class BackgroundCardSwitchButtonPane extends BackgroundButtonPane {
 
     private static void registerCardSwitchBtnBackground(Map<Class<? extends Background>, BackgroundUIWrapper> map) {
         map.put(ColorBackground.class, BackgroundUIWrapper.create()
-                .setType(ColorBackgroundPane.class).setTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background_Color")));
+                .setType(ColorBackgroundPane.class).setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Color")));
         map.put(ImageFileBackground.class, BackgroundUIWrapper.create()
-                .setType(ImageBackgroundPane.class).setTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background_Image")));
+                .setType(ImageBackgroundPane.class).setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Image")));
         map.put(GradientBackground.class, BackgroundUIWrapper.create()
-                .setType(GradientBackgroundPane.class).setTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background_Gradient_Color")));
+                .setType(GradientBackgroundPane.class).setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Gradient_Color")));
 
     }
 

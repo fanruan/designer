@@ -42,19 +42,19 @@ public class ChartHyperRelateCellLinkPane extends AbstractHyperLinkPane<ChartHyp
         this.setLayout(FRGUIPaneFactory.createM_BorderLayout());
         if (needRenamePane()) {
             itemNameTextField = new UITextField();
-            this.add(GUICoreUtils.createNamedPane(itemNameTextField, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Name") + ":"), BorderLayout.NORTH);
+            this.add(GUICoreUtils.createNamedPane(itemNameTextField, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Name") + ":"), BorderLayout.NORTH);
         }
 
         JPanel centerPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
         this.add(centerPane, BorderLayout.CENTER);
 
-        centerPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Related", "FR-Designer_Cell"})));
+        centerPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Hyper_Related_Cell")));
 
         colRowPane = new ColumnRowVerticalPane();
         centerPane.add(colRowPane, BorderLayout.NORTH);
 
         parameterViewPane = new ReportletParameterViewPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
-        parameterViewPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter")));
+        parameterViewPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter")));
         parameterViewPane.setPreferredSize(new Dimension(500, 200));
         this.add(parameterViewPane, BorderLayout.SOUTH);
     }
@@ -113,7 +113,7 @@ public class ChartHyperRelateCellLinkPane extends AbstractHyperLinkPane<ChartHyp
 
     @Override
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Related", "Cell"});
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Hyper_Related_Cell");
     }
 
     public static class ChartNoRename extends ChartHyperRelateCellLinkPane {

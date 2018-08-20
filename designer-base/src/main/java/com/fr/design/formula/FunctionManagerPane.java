@@ -44,7 +44,7 @@ public class FunctionManagerPane extends BasicPane {
     
     @Override
     protected String title4PopupWindow() {
-    	return com.fr.design.i18n.Toolkit.i18nText("Function-Function_Manager");
+    	return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Function_Function_Manager");
     }
 
     /**
@@ -94,7 +94,7 @@ public class FunctionManagerPane extends BasicPane {
 
         @Override
         public NameableCreator[] createNameableCreators() {
-            NameableCreator funcDef = new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Function"), FunctionDef.class,
+            NameableCreator funcDef = new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Function"), FunctionDef.class,
             		FunctionContentPane.class);
             return new NameableCreator[]{funcDef};
         }
@@ -123,7 +123,7 @@ public class FunctionManagerPane extends BasicPane {
             JPanel reportletNamePane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
             classNameTextField = new UITextField(25);
             reportletNamePane.add(classNameTextField);
-            UIButton browserButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Select"));
+            UIButton browserButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Select"));
             browserButton.setPreferredSize(new Dimension(browserButton.getPreferredSize().width,  classNameTextField.getPreferredSize().height));
             reportletNamePane.add(browserButton);
             browserButton.addActionListener(new ActionListener() {
@@ -138,7 +138,7 @@ public class FunctionManagerPane extends BasicPane {
 	                    }).setVisible(true);
                 }
             });
-            UIButton editorButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit"));
+            UIButton editorButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Edit"));
             editorButton.setPreferredSize(new Dimension(editorButton.getPreferredSize().width, classNameTextField.getPreferredSize().height));
             reportletNamePane.add(editorButton);
             editorButton.addActionListener(createEditorButtonActionListener());
@@ -151,12 +151,12 @@ public class FunctionManagerPane extends BasicPane {
 
             String path1 = getEscapePath(File.separator + ProjectConstants.WEBINF_NAME + File.separator + ProjectConstants.CLASSES_NAME);
             String path2 = getEscapePath(WorkContext.getCurrent().getPath() + File.separator + ProjectConstants.CLASSES_NAME);
-            descriptionArea.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Function_Description_Area_Text", path1, path2));
+            descriptionArea.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Function_Description_Area_Text", path1, path2));
 
             JPanel descriptionPane = FRGUIPaneFactory.createBorderLayout_S_Pane();  //Description Pane
             this.add(descriptionPane, BorderLayout.SOUTH);
             descriptionPane.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
-            descriptionPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Description") + ":"), BorderLayout.NORTH);
+            descriptionPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Description") + ":"), BorderLayout.NORTH);
             this.descriptionTextArea = new UITextArea(6, 24);
             descriptionPane.add(new JScrollPane(this.descriptionTextArea), BorderLayout.CENTER);
         }

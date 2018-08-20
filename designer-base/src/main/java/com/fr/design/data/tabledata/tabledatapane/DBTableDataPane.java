@@ -54,8 +54,8 @@ import java.util.List;
 
 public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 	private static final int BOTTOM = 6;
-	private static final String PREVIEW_BUTTON = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Preview");
-    private static final String REFRESH_BUTTON = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Refresh");
+	private static final String PREVIEW_BUTTON = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preview");
+    private static final String REFRESH_BUTTON = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Refresh");
 	private ConnectionTableProcedurePane connectionTableProcedurePane;
 	private UITableEditorPane<ParameterProvider> editorPane;
 
@@ -195,7 +195,7 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 			toolBarDef.addShortCut(SeparatorDef.DEFAULT);
 			toolBarDef.addShortCut(dbTableDataMenuHandler.createQueryAction());
 		}
-		isShareCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Is_Share_DBTableData"));
+		isShareCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Is_Share_DBTableData"));
 		isShareCheckBox.setBackground(Color.WHITE);
 		maxPanel = new MaxMemRowCountPanel();
 		maxPanel.setBorder(null);
@@ -271,10 +271,10 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 		String dbName = this.connectionTableProcedurePane.getSelectedDatabaseConnnectonName();
 		if (StringUtils.isBlank(dbName) || StringUtils.isBlank(this.sqlTextPane.getText())) {
 			try {
-				throw new Exception(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Connect_SQL_Cannot_Null") + ".");
+				throw new Exception(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Connect_SQL_Cannot_Null") + ".");
 			} catch (Exception e) {
 				// JOptionPane.showMessageDialog(DBTableDataPane.this,
-				// com.fr.design.i18n.Toolkit.i18nText("Connect_SQL_Cannot_Null") + ".");
+				// com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Connect_SQL_Cannot_Null") + ".");
 			}
 		}
 

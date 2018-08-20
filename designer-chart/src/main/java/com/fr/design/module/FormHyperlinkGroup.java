@@ -28,9 +28,9 @@ public class FormHyperlinkGroup extends BaseHyperlinkGroup {
     public NameableCreator[] getHyperlinkCreators() {
     	FormHyperlinkProvider formHyperlink = StableFactory.getMarkedInstanceObjectFromClass(FormHyperlinkProvider.XML_TAG, FormHyperlinkProvider.class);
         NameableCreator[] realted4CharthyperUse = {
-                new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Chart_Float_chart"), ChartHyperPoplink.class, ChartHyperPoplinkPane.ChartNoRename.class),
-                new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Chart_Cell"), ChartHyperRelateCellLink.class, ChartHyperRelateCellLinkPane.ChartNoRename.class),
-                new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Hyperlink-Form_link"), formHyperlink.getClass(), FormHyperlinkPane.class)};
+                new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Float_Chart"), ChartHyperPoplink.class, ChartHyperPoplinkPane.ChartNoRename.class),
+                new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Cell"), ChartHyperRelateCellLink.class, ChartHyperRelateCellLinkPane.ChartNoRename.class),
+                new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Hyperlink_Form_Link"), formHyperlink.getClass(), FormHyperlinkPane.class)};
         return (NameableCreator[]) ArrayUtils.addAll(super.getHyperlinkCreators(), realted4CharthyperUse);
 
     }

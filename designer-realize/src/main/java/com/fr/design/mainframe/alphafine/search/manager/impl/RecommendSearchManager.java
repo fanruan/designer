@@ -81,7 +81,7 @@ public class RecommendSearchManager implements AlphaFineSearchProvider {
                 }
             }
             if (recommendModelList.size() > 0) {
-                modelList.add(new MoreModel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_AlphaFine_Recommend"), false));
+                modelList.add(new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Recommend"), false));
                 modelList.addAll(recommendModelList);
             }
         }
@@ -100,7 +100,7 @@ public class RecommendSearchManager implements AlphaFineSearchProvider {
 
     private SearchResult getNoConnectList() {
         SearchResult result = new SearchResult();
-        result.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_AlphaFine_Recommend")));
+        result.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Recommend")));
         result.add(AlphaFineHelper.NO_CONNECTION_MODEL);
         return result;
     }

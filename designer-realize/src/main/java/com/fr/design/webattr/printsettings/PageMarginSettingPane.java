@@ -31,12 +31,12 @@ public class PageMarginSettingPane extends JPanel {
 
         JPanel marginLeftTextPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
         marginLeftPane.add(marginLeftTextPane);
-        marginLeftTextPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Top") + ":"));
+        marginLeftTextPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Top_Duplicate") + ":"));
         marginTopUnitFieldPane = new UnitFieldPane(Constants.UNIT_MM);
         marginLeftTextPane.add(marginTopUnitFieldPane);
         JPanel marginLeftUnitPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
         marginLeftPane.add(marginLeftUnitPane);
-        marginLeftUnitPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Bottom") + ":"));
+        marginLeftUnitPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Bottom") + ":"));
         marginBottomUnitFieldPane = new UnitFieldPane(Constants.UNIT_MM);
         marginLeftUnitPane.add(marginBottomUnitFieldPane);
 
@@ -47,13 +47,13 @@ public class PageMarginSettingPane extends JPanel {
         // peter:这个一个垂直的上下的字符panel.
         JPanel marginRightTextPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
         marginRightPane.add(marginRightTextPane);
-        marginRightTextPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Left") + ":"));
+        marginRightTextPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Left") + ":"));
         marginLeftUnitFieldPane = new UnitFieldPane(Constants.UNIT_MM);
         marginRightTextPane.add(marginLeftUnitFieldPane);
 
         JPanel marginRightUnitPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
         marginRightPane.add(marginRightUnitPane);
-        marginRightUnitPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Right") + ":"));
+        marginRightUnitPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Right") + ":"));
         marginRightUnitFieldPane = new UnitFieldPane(Constants.UNIT_MM);
         marginRightUnitPane.add(marginRightUnitFieldPane);
 

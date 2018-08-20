@@ -15,6 +15,7 @@ import com.fr.design.form.javascript.FormEmailPane;
 import com.fr.form.ui.Widget;
 
 import com.fr.general.NameObject;
+import com.fr.report.web.util.ReportEngineEventMapping;
 import com.fr.stable.Nameable;
 
 import javax.swing.*;
@@ -32,7 +33,7 @@ public class EventPropertyTable extends UIListControlPane {
 
 	@Override
 	public String getAddItemText() {
-		return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Add_Event");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Add_Event");
 	}
 
 	public static class WidgetEventListenerUpdatePane extends ListenerUpdatePane {
@@ -47,7 +48,7 @@ public class EventPropertyTable extends UIListControlPane {
 
 				@Override
 				protected String title4PopupWindow() {
-					return com.fr.design.i18n.Toolkit.i18nText("Set_Callback_Function");
+					return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Set_Callback_Function");
 				}
 				@Override
 				protected EmailPane initEmaiPane() {
@@ -72,7 +73,9 @@ public class EventPropertyTable extends UIListControlPane {
 	}
 
 	private String switchLang(String eventName)	{
-		return com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Event_" + eventName);
+	    // 在 properties 文件中找到相应的 key 值
+        String localeKey = ReportEngineEventMapping.getLocaleName(eventName);
+        return com.fr.design.i18n.Toolkit.i18nText(localeKey);
 	}
 
 	/**

@@ -18,6 +18,6 @@ public class MultiPieSeriesNameFormatPaneWithCheckBox extends SeriesNameFormatPa
 
     @Override
     protected String getCheckBoxText() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_MultiPie_Series_Name");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_MultiPie_Series_Name");
     }
 }

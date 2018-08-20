@@ -6,10 +6,8 @@ import com.fr.design.gui.controlpane.NameableSelfCreator;
 import com.fr.design.gui.controlpane.UnrepeatedNameHelper;
 import com.fr.design.gui.ilist.ListModelElement;
 import com.fr.form.event.Listener;
-import com.fr.form.ui.FileEditor;
-import com.fr.form.ui.Widget;
-
 import com.fr.general.NameObject;
+import com.fr.report.web.util.ReportEngineEventMapping;
 import com.fr.stable.Nameable;
 
 public class EventCreator extends NameableSelfCreator {
@@ -36,11 +34,14 @@ public class EventCreator extends NameableSelfCreator {
 	}
 
 	/*
-	 * richer:国际化事件名称，所有需要国际化的事件都应按格式FR-Engine_Event_eventName来进行国际化
+	 * richer:国际化事件名称，所有需要国际化的事件都应根据使用的位置
+	 * 按格式 Fine-模块_xx 来进行国际化
 	 */
 	public static final String switchLang(String eventName) {
 		try {
-			return com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Event_" + eventName);
+		    // 通过映射 ， 找到相对应的 properties 文件中的 key 值
+            String localeKey = ReportEngineEventMapping.getLocaleName(eventName);
+            return com.fr.design.i18n.Toolkit.i18nText(localeKey);
 		} catch (Exception e) {
 			FRContext.getLogger().error(e.getMessage(), e);
 			return eventName;

@@ -26,19 +26,19 @@ public class ComboCheckBoxDefinePane extends DictEditorDefinePane<ComboCheckBox>
 	}
 
 	public UICheckBox createRepeatCheckBox(){
-		removeRepeatCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget_No_Repeat"));
+		removeRepeatCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_No_Repeat"));
 		removeRepeatCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		return removeRepeatCheckBox;
 	}
 
 	public Component[] createWaterMarkPane() {
 		waterMarkDictPane = new UITextField();
-		return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WaterMark")), waterMarkDictPane};
+		return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_WaterMark")), waterMarkDictPane};
 	}
 
 
 	public JPanel createOtherPane(){
-		supportTagCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Form-SupportTag"), true);
+		supportTagCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Support_Tag"), true);
 		supportTagCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		checkBoxDictPane = new CheckBoxDictPane();
 

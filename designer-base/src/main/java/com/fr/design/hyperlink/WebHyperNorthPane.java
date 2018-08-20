@@ -3,7 +3,6 @@ package com.fr.design.hyperlink;
 import com.fr.config.ServerPreferenceConfig;
 import com.fr.design.constants.LayoutConstants;
 
-import com.fr.design.gui.itextarea.UITextArea;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
@@ -56,7 +55,7 @@ public class WebHyperNorthPane extends AbstractHyperNorthPane<WebHyperlink> {
         if (this.needRenamePane) {
             headerPane.setLayout(new BorderLayout(LayoutConstants.VGAP_LARGE, LayoutConstants.VGAP_SMALL));
             itemNameTextField = new UITextField();
-            headerPane.add(GUICoreUtils.createNamedPane(itemNameTextField, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Name") + ":"), BorderLayout.NORTH);
+            headerPane.add(GUICoreUtils.createNamedPane(itemNameTextField, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Name") + ":"), BorderLayout.NORTH);
             headerPane.add(urlWithHelp, BorderLayout.CENTER);
         } else {
             headerPane.add(urlWithHelp, BorderLayout.NORTH);

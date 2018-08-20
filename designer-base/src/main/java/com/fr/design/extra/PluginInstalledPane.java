@@ -69,7 +69,7 @@ public class PluginInstalledPane extends PluginAbstractViewPane {
                                 if (result.isSuccess()) {
                                     JOptionPane.showMessageDialog(null, modifyMessage);
                                 } else {
-                                    JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+                                    JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
                                 }
                             }
                         });
@@ -80,7 +80,7 @@ public class PluginInstalledPane extends PluginAbstractViewPane {
                                 if (result.isSuccess()) {
                                     JOptionPane.showMessageDialog(null, modifyMessage);
                                 } else {
-                                    JOptionPane.showMessageDialog(null,PluginUtils.getMessageByErrorCode(result.errorCode()), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+                                    JOptionPane.showMessageDialog(null,PluginUtils.getMessageByErrorCode(result.errorCode()), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
                                 }
                             }
                         });
@@ -118,7 +118,7 @@ public class PluginInstalledPane extends PluginAbstractViewPane {
         int rv = JOptionPane.showOptionDialog(
                 PluginInstalledPane.this,
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Will_Be_Delete"),
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"),
                 JOptionPane.YES_NO_CANCEL_OPTION,
                 JOptionPane.INFORMATION_MESSAGE,
                 null,
@@ -135,7 +135,7 @@ public class PluginInstalledPane extends PluginAbstractViewPane {
         try {
             controlPane.deletePlugin(plugin);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(PluginInstalledPane.this, e.getMessage(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(PluginInstalledPane.this, e.getMessage(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
         }
 
         if (rv == JOptionPane.OK_OPTION) {

@@ -39,7 +39,7 @@ public class XYScatterPlotTableDataContentPane extends AbstractTableDataContentP
 		yCombox = new UIComboBox();
 		dataScreeningPane = new ChartDataFilterPane(new XYScatterPlot(), parent);
 
-        seriesName.addItem(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_None"));
+        seriesName.addItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_None"));
 		
 		seriesName.setPreferredSize(new Dimension(100, 20));
 		xCombox.setPreferredSize(new Dimension(100, 20));
@@ -51,11 +51,11 @@ public class XYScatterPlotTableDataContentPane extends AbstractTableDataContentP
 		double[] rowSize = { p,p,p,p,p,p};
 
         Component[][] components = new Component[][]{
-                new Component[]{new BoldFontTextLabel(" " + com.fr.design.i18n.Toolkit.i18nText("Chart-Series_Name") + ":"),seriesName},
-                new Component[]{new BoldFontTextLabel("  " + com.fr.design.i18n.Toolkit.i18nText("Chart-Scatter_Name") + "x" + ":"), xCombox},
-                new Component[]{new BoldFontTextLabel("  " + com.fr.design.i18n.Toolkit.i18nText("Chart-Scatter_Name") + "y" + ":"), yCombox},
+                new Component[]{new BoldFontTextLabel(" " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Name") + ":"),seriesName},
+                new Component[]{new BoldFontTextLabel("  " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Scatter_Name") + "x" + ":"), xCombox},
+                new Component[]{new BoldFontTextLabel("  " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Scatter_Name") + "y" + ":"), yCombox},
                 new Component[]{new JSeparator(),null},
-                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Data_Filter"))},
+                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Filter"))},
                 new Component[]{dataScreeningPane,null}
         };
 
@@ -80,7 +80,7 @@ public class XYScatterPlotTableDataContentPane extends AbstractTableDataContentP
 	
 	protected void refreshBoxListWithSelectTableData(List columnNameList) {
 		refreshBoxItems(seriesName, columnNameList);
-        seriesName.addItem(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_None"));
+        seriesName.addItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_None"));
 		refreshBoxItems(xCombox, columnNameList);
 		refreshBoxItems(yCombox, columnNameList);
 	}
@@ -90,7 +90,7 @@ public class XYScatterPlotTableDataContentPane extends AbstractTableDataContentP
      */
     public void clearAllBoxList(){
         clearBoxItems(seriesName);
-        seriesName.addItem(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_None"));
+        seriesName.addItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_None"));
         clearBoxItems(xCombox);
         clearBoxItems(yCombox);
     }
@@ -133,7 +133,7 @@ public class XYScatterPlotTableDataContentPane extends AbstractTableDataContentP
 			ScatterTableDefinition definition = (ScatterTableDefinition)top;
 
             if(definition.getSeriesName() == null || ComparatorUtils.equals(StringUtils.EMPTY, definition.getSeriesName())) {
-                seriesName.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_None"));
+                seriesName.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_None"));
             } else {
 			    combineCustomEditValue(seriesName, definition.getSeriesName());
             }

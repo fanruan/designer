@@ -157,7 +157,7 @@ public class ChartTypePane extends ChartCommonWizardPane {
         Chart chart = ChartTypeManager.getInstance().getChartTypes(plotID)[iconViewList.getSelectedIndex()];
         if(chart.getPlot() != null){
             if(chart.getPlot() instanceof MapPlot && !supportMap()){
-                JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Map_Not_Supported"));
+                JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Map_Not_Supported"));
                 throw new RegistEditionException(VT4FR.ChartMap);
             }
 

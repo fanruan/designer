@@ -1,15 +1,7 @@
 package com.fr.design.report;
 
-import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-
-import javax.swing.BorderFactory;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-
 import com.fr.base.core.KV;
+import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.frpane.ReportletParameterViewPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icheckbox.UICheckBox;
@@ -17,11 +9,10 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextarea.UITextArea;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.dialog.BasicPane;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.file.FILE;
 import com.fr.file.FILEChooserPane;
 import com.fr.file.FILEFactory;
-
 import com.fr.main.TemplateWorkBook;
 import com.fr.main.impl.LinkWorkBookTemplate;
 import com.fr.report.cell.CellElement;
@@ -29,7 +20,14 @@ import com.fr.report.cell.cellattr.core.SubReport;
 import com.fr.report.elementcase.ElementCase;
 import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
-import com.fr.design.utils.gui.GUICoreUtils;
+
+import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 
 public class SubReportPane extends BasicPane {
 	private UITextField pathTextField;
@@ -45,14 +43,14 @@ public class SubReportPane extends BasicPane {
     	this.setLayout(FRGUIPaneFactory.createM_BorderLayout());
         JPanel northPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 //        northPane.setLayout(FRGUIPaneFactory.createM_BorderLayout());
-		northPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Sub_Report", "Path"}),null));
-        northPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Location") + ":"), BorderLayout.WEST);
+		northPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Sub_Report_Path"),null));
+        northPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Location") + ":"), BorderLayout.WEST);
         northPane.add(pathTextField = new UITextField(), BorderLayout.CENTER);
 		pathTextField.setEditable(false);
 		UIButton browseButton = new UIButton("...");
 		northPane.add(browseButton, BorderLayout.EAST);
 		browseButton.setPreferredSize(new java.awt.Dimension(20, 20));
-		browseButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Click_this_button"));
+		browseButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Click_this_button"));
 		
 		browseButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -64,8 +62,8 @@ public class SubReportPane extends BasicPane {
 					if (chooseFILE != null && chooseFILE.exists()) {
 						pathTextField.setText(chooseFILE.prefix() + chooseFILE.getPath());
 					} else {
-						JOptionPane.showConfirmDialog(SubReportPane.this, com.fr.design.i18n.Toolkit.i18nText("Sub_Report_Message1"),
-								com.fr.design.i18n.Toolkit.i18nText("Sub_Report_ToolTips"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showConfirmDialog(SubReportPane.this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Sub_Report_Message1"),
+								com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Sub_Report_ToolTips"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
 			    		chooseFILE = null;
 						pathTextField.setText("");
 					}
@@ -79,23 +77,23 @@ public class SubReportPane extends BasicPane {
 		centerPane.setLayout(FRGUIPaneFactory.createM_BorderLayout());
 		centerPane.setBorder(BorderFactory.createEmptyBorder(0, 5, 10, 5));
         kvPane = new ReportletParameterViewPane();
-        centerPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Set", "Delivery", "Parameter"}),null));
-        JPanel kcPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+		centerPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Set_Delivery_Parameter"),null));
+		JPanel kcPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         kcPane.add(kvPane);
-        extend = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Hyperlink-Extends_Report_Parameters"));
+        extend = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Extends_Report_Parameters"));
         kcPane.add(extend, BorderLayout.SOUTH);
         centerPane.add(kcPane, BorderLayout.CENTER);
 		UITextArea description = new UITextArea(2, 1);
 		centerPane.add(description, BorderLayout.SOUTH);
-		description.setText(com.fr.design.i18n.Toolkit.i18nText("Sub_Report_Description"));
+		description.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Sub_Report_Description"));
 		description.setEditable(false);
-		description.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Attention"), null));
+		description.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Attention"), null));
     }
     
     @Override
     protected String title4PopupWindow() {
-    	return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Insert", "Sub_Report"});
-    }
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Insert_Sub_Report");
+	}
 
     public void populate(ElementCase report, CellElement cellElment) {
     	Object cellValue = cellElment.getValue();

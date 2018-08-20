@@ -170,7 +170,7 @@ public class TemplatePane extends JPanel implements MouseListener {
                     null, 0, UIManager.getIcon("OptionPane.errorIcon"));
             return false;
         } catch (RegistEditionException e) {
-            JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("FR-Lic_does_not_Support_Remote"),
+            JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Lic_Does_Not_Support_Remote"),
                     null, 0, UIManager.getIcon("OptionPane.errorIcon"));
         } catch (Exception exception) {
             FineLoggerFactory.getLogger().error(exception.getMessage(), exception);

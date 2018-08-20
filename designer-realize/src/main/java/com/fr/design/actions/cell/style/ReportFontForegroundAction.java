@@ -3,20 +3,18 @@
  */
 package com.fr.design.actions.cell.style;
 
-import java.awt.Color;
-
-import javax.swing.JComponent;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
 import com.fr.base.BaseUtils;
 import com.fr.base.Style;
 import com.fr.base.core.StyleUtils;
 import com.fr.design.actions.core.ActionFactory;
-import com.fr.general.ComparatorUtils;
-
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.style.color.UIToolbarColorButton;
+import com.fr.general.ComparatorUtils;
+
+import javax.swing.JComponent;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.Color;
 
 /**
  * Foreground.
@@ -25,7 +23,7 @@ public class ReportFontForegroundAction extends AbstractStyleAction implements C
 	public ReportFontForegroundAction(ElementCasePane t) {
 		super(t);
 
-		this.setName(com.fr.design.i18n.Toolkit.i18nText("Foreground"));
+		this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Foreground"));
 	}
 
 	public void stateChanged(ChangeEvent evt) {

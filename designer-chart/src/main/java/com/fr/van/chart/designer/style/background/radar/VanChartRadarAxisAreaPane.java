@@ -20,13 +20,13 @@ public class VanChartRadarAxisAreaPane extends VanChartAxisAreaPane {
     protected Component[][] getGridLinePaneComponents() {
         return new Component[][]{
                 new Component[]{null,null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Color_Color")),horizontalGridLine},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Color")),horizontalGridLine},
         };
     }
 
     protected Component[][] getIntervalPaneComponents() {
         return new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Color_Color")),horizontalColorBackground},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Color")),horizontalColorBackground},
         };
     }
 

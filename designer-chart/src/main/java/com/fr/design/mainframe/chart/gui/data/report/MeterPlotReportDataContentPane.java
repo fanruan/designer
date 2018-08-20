@@ -26,7 +26,7 @@ import java.awt.Component;
 public class MeterPlotReportDataContentPane extends AbstractReportDataContentPane {
 	
 	private static final String CATENAME = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Category_Name");
-	private static final String NVALUE = com.fr.design.i18n.Toolkit.i18nText("Chart-Pointer_Value");
+	private static final String NVALUE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Pointer_Value");
 	
 	private TinyFormulaPane singCatePane;
 	private TinyFormulaPane singValuePane;
@@ -59,7 +59,7 @@ public class MeterPlotReportDataContentPane extends AbstractReportDataContentPan
 		this.setLayout(new BorderLayout());
 		this.add(panel, BorderLayout.NORTH);
 		filterPane = new ChartDataFilterPane(new MeterPlot(), parent);
-		JPanel pane = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_Filter"),filterPane);
+		JPanel pane = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Filter"),filterPane);
 		pane.setBorder(getSidesBorder());
 		filterPane.setBorder(getFilterPaneBorder());
 

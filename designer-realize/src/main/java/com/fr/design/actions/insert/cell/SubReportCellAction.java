@@ -36,7 +36,7 @@ public class SubReportCellAction extends AbstractCellAction {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("M_Insert-Sub_Report");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_M_Insert_Sub_Report");
         }
 
         @Override

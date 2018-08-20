@@ -66,7 +66,7 @@ public class RepeatAndFreezeSettingPane extends BasicPane {
         JPanel soverlapRowStartPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
         useRepeatTitleRCheckBox = new UICheckBox();
         soverlapRowStartPane.add(useRepeatTitleRCheckBox);
-        soverlapRowStartPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"PageSetup-Title_Start_Row", "From"})));
+        soverlapRowStartPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Title_Start_Row_Form")));
         repeatTitleRowPane = new RepeatRowPane();
         soverlapRowStartPane.add(repeatTitleRowPane);
 
@@ -81,7 +81,7 @@ public class RepeatAndFreezeSettingPane extends BasicPane {
         JPanel soverlapColStartPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
         useRepeatTitleCCheckBox = new UICheckBox();
         soverlapColStartPane.add(useRepeatTitleCCheckBox);
-        soverlapColStartPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"PageSetup-Title_Start_Column", "From"})));
+        soverlapColStartPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Title_Start_Column_Form")));
         // 重复打印标题的结束列
         repeatTitleColPane = new RepeatColPane();
         soverlapColStartPane.add(repeatTitleColPane);
@@ -97,7 +97,7 @@ public class RepeatAndFreezeSettingPane extends BasicPane {
         JPanel foverlapRowStartPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
         useRepeatFinisRCheckBox = new UICheckBox();
         foverlapRowStartPane.add(useRepeatFinisRCheckBox);
-        foverlapRowStartPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"PageSetup-Finis_Start_Row", "From"})));
+        foverlapRowStartPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Finis_Start_Row_Form")));
         repeatFinisRowPane = new RepeatRowPane();
         foverlapRowStartPane.add(repeatFinisRowPane);
 
@@ -112,7 +112,7 @@ public class RepeatAndFreezeSettingPane extends BasicPane {
         JPanel foverlapColStartPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
         useRepeatFinisCCheckBox = new UICheckBox();
         foverlapColStartPane.add(useRepeatFinisCCheckBox);
-        foverlapColStartPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"PageSetup-Finis_Start_Column", "From"})));
+        foverlapColStartPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Finis_Start_Column_Form")));
         repeatFinisColPane = new RepeatColPane();
         foverlapColStartPane.add(repeatFinisColPane);
 
@@ -126,7 +126,7 @@ public class RepeatAndFreezeSettingPane extends BasicPane {
      * @date 2014-11-14-下午1:32:08
      */
     protected String getPageFrozenTitle() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Page-Frozen");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Page-Frozen");
     }
 
     /**
@@ -142,7 +142,7 @@ public class RepeatAndFreezeSettingPane extends BasicPane {
         JPanel pagecon = FRGUIPaneFactory.createNColumnGridInnerContainer_S_Pane(1);
         pagecon.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
         pagePanel.add(pagecon, BorderLayout.CENTER);
-        UILabel warningx = new UILabel("(" + com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Please_Set_Repeat_First") + ")");
+        UILabel warningx = new UILabel("(" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Please_Set_Repeat_First") + ")");
         warningx.setForeground(Color.red);
         pageLabelPanel.add(warningx);
 
@@ -175,7 +175,7 @@ public class RepeatAndFreezeSettingPane extends BasicPane {
     private JPanel initWriteFrozenPane() {
         JPanel writePanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
         // 填报冻结
-        UILabel writeLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Face_Write", "Frozen"}) + ":");
+        UILabel writeLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Face_Write_Frozen") + ":");
         JPanel writeLabelPanel = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
         writeLabelPanel.add(writeLabel);
         writePanel.add(writeLabelPanel, BorderLayout.NORTH);
@@ -201,10 +201,10 @@ public class RepeatAndFreezeSettingPane extends BasicPane {
 
     public RepeatAndFreezeSettingPane() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        JPanel outrepeatPanel = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Repeat"));
+        JPanel outrepeatPanel = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Repeat"));
         JPanel cenrepeatPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
         outrepeatPanel.add(cenrepeatPanel);
-        JPanel outfreezePanel = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Frozen"));
+        JPanel outfreezePanel = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Frozen"));
         this.add(outrepeatPanel, BorderLayout.NORTH);
         this.add(outfreezePanel, BorderLayout.CENTER);
         JPanel repeatPanel = FRGUIPaneFactory.createNColumnGridInnerContainer_S_Pane(1);
@@ -213,8 +213,8 @@ public class RepeatAndFreezeSettingPane extends BasicPane {
 
         //自适应插件
         if (shouldShowTip()) {
-            JPanel infoPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Attention"));
-            BoxCenterAligmentPane actionLabel = getURLActionLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form-Fit-Tip"));
+            JPanel infoPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Attention"));
+            BoxCenterAligmentPane actionLabel = getURLActionLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_Fit_Tip"));
             infoPane.add(actionLabel, BorderLayout.SOUTH);
             this.add(infoPane, BorderLayout.SOUTH);
         }
@@ -222,8 +222,8 @@ public class RepeatAndFreezeSettingPane extends BasicPane {
         // 重复打印部分
         // 重复打印标题的起始行
         JPanel labelPanel = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-        labelPanel.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Select_the_repeated_row_and_column") + ":"));
-        UILabel warning = new UILabel("(" + com.fr.design.i18n.Toolkit.i18nText("FR-Engine_FreezeWarning1") + ")");
+        labelPanel.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Select_the_repeated_row_and_column") + ":"));
+        UILabel warning = new UILabel("(" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_FreezeWarning") + ")");
         warning.setForeground(Color.red);
         labelPanel.add(warning);
         cenrepeatPanel.add(labelPanel, BorderLayout.NORTH);
@@ -392,7 +392,7 @@ public class RepeatAndFreezeSettingPane extends BasicPane {
      * @date 2014-11-14-下午2:30:58
      */
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Repeat-Freeze");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Repeat-Freeze");
     }
 
     public void populate(ReportPageAttrProvider attribute) {
@@ -577,9 +577,9 @@ public class RepeatAndFreezeSettingPane extends BasicPane {
 
             JPanel centerPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
             this.add(centerPane, BorderLayout.CENTER);
-            UILabel label1 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form-Frozen-Tip"));
+            UILabel label1 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_Frozen_Tip"));
             label1.setForeground(new Color(255, 0, 0));
-            UILabel label2 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form-Forzen-Speed"));
+            UILabel label2 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_Forzen_Speed"));
             label2.setForeground(new Color(255, 0, 0));
             this.textLabel = label;
             centerPane.add(label1);

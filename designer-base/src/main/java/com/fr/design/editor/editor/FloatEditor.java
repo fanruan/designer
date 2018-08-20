@@ -16,7 +16,7 @@ public class FloatEditor extends NumberEditor<Float> {
 	}
 
 	public FloatEditor(Float value) {
-		super(value, com.fr.design.i18n.Toolkit.i18nText("Parameter-Float"));
+		super(value, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter_Float"));
 	}
 
 	@Override

@@ -33,10 +33,10 @@ public class AreaPlotPane extends AbstractChartTypePane{
 
 	@Override
 	protected String[] getTypeTipName() {
-		String area = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Area");
-		String stack = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Stacked");
-		String percent = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Use_Percent");
-		String td = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Chart_3D");
+		String area = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Area");
+		String stack = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Stacked");
+		String percent = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Percent");
+		String td = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_3D");
 		return new String[]{
 				stack + area,
 				percent + stack + area,
@@ -139,7 +139,7 @@ public class AreaPlotPane extends AbstractChartTypePane{
      * @return  界面标题
 	 */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Area");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Area");
 	}
 
     public Chart getDefaultChart() {

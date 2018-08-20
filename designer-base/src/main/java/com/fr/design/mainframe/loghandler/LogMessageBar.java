@@ -56,7 +56,7 @@ public class LogMessageBar extends JPanel {
 		if (message == null) {
 			return;
 		}
-		messageLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Log") + " | " + message);
+		messageLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Log") + " | " + message);
 		repaint();
 	}
 

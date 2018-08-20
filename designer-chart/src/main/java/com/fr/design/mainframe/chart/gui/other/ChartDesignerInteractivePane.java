@@ -33,10 +33,10 @@ public class ChartDesignerInteractivePane extends ChartInteractivePane {
         List<ChartUIMenuNameableCreator> list = new ArrayList<ChartUIMenuNameableCreator>();
         java.util.HashMap<String, BaseFormula> hyperLinkEditorMap = plot.getHyperLinkEditorMap();
 
-        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, com.fr.design.i18n.Toolkit.i18nText("Hyperlink-Web_link"),
+        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Web_Link"),
                 new WebHyperlink(), getUseMap(map, WebHyperlink.class)));
-        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, "FR-Designer_JavaScript", new JavaScriptImpl(), getUseMap(map, JavaScriptImpl.class)));
-        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Interactive-chart"), null, null));
+        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, "Fine-Design_Report_JavaScript", new JavaScriptImpl(), getUseMap(map, JavaScriptImpl.class)));
+        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Interactive-Chart"), null, null));
 
         return list;
     }

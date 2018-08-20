@@ -146,29 +146,29 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
      * @return 返回标题.
      */
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Chart-Interactive_Tab");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Interactive_Tab");
     }
 
     @Override
     protected JPanel createContentPane() {
-        isChartAnimation = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Animation_JSShow"));
-        isSeriesDragEnable = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Series_Drag"));
+        isChartAnimation = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Animation_Show"));
+        isSeriesDragEnable = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Drag"));
 
-        isDatapointValue = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Value"));
-        dataPointValueFormat = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Format"));
-        isDatapointPercent = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Value_Percent"));
-        dataPointPercentFormat = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Format"));
-        tooltipStyle = new UIComboBox(new String[]{com.fr.design.i18n.Toolkit.i18nText("Chart-White_Black"), com.fr.design.i18n.Toolkit.i18nText("Chart-Black_White")});
-        tooltipStyleLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Style_Name"));
-        tooltipShowType = new UIComboBox(new String[]{com.fr.design.i18n.Toolkit.i18nText("Chart-Series_SingleData"), com.fr.design.i18n.Toolkit.i18nText("Chart-Series_AllData")});
-        tooltipShowTypeLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Show"));
+        isDatapointValue = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Value"));
+        dataPointValueFormat = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Format"));
+        isDatapointPercent = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Value_Percent"));
+        dataPointPercentFormat = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Format"));
+        tooltipStyle = new UIComboBox(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Black_Font"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_White_Font")});
+        tooltipStyleLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Style_Name"));
+        tooltipShowType = new UIComboBox(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Single_Data"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_All_Data")});
+        tooltipShowTypeLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Show"));
 
-        isAddressTittle = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Area_Title"));
-        isAddress = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Gis_Address"));
-        isAddressName = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Address_Name"));
+        isAddressTittle = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Title"));
+        isAddress = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_GIS_Address"));
+        isAddressName = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Address_Name"));
 
-        isAxisShowToolTip = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Interactive_AxisTooltip"));
-        isAxisZoom = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Zoom"));
+        isAxisShowToolTip = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Interactive_Axis_Tooltip"));
+        isAxisZoom = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Zoom"));
         isAutoRefresh = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Enable_Auto_Refresh"));
         autoRefreshTime = new UISpinner(1, Integer.MAX_VALUE, 1);
         superLink = new UICorrelationComboBoxPane();
@@ -179,7 +179,7 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
                 checkAutoRefresh();
             }
         });
-        timeSwitch = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Interactive_timeSwitch"));
+        timeSwitch = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Interactive_Time_Switch"));
         timeSwitchPane = new TimeSwitchPane();
         initFormatListener();
         return initPaneWithListener();
@@ -326,7 +326,7 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
         double[] rowSize = new double[]{p, p};
 
         if (plot.isShowAllDataPointLabel()) {
-            isDatapointPercent.setText(com.fr.design.i18n.Toolkit.i18nText("Chart-Value_Conversion"));
+            isDatapointPercent.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Value_Conversion"));
         }
         if (plot.isSupportAddress4Gis()) {
             UIButton tmpButton = new UIButton(); //用来调整对齐
@@ -408,11 +408,11 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
         Component[][] components = new Component[][]{
                 new Component[]{isAutoRefresh, null},
                 new Component[]{GUICoreUtils.createFlowPane(new Component[]{
-                        new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Time_Interval")),
+                        new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Time_Interval")),
                         autoRefreshTime,
-                        new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Time_Seconds"))
+                        new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Time_Seconds"))
                 }, 1)},
-                new Component[]{new UILabel("<html><font size='2' face='Microsoft Yahei' color='red'>" + com.fr.design.i18n.Toolkit.i18nText("FR-Chart-AutoRefresh_NotSupportIMGAndReportData") + "</font></html>"), null},
+                new Component[]{new UILabel("<html><font size='2' face='Microsoft Yahei' color='red'>" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Not_Support_Img_And_Cell") + "</font></html>"), null},
         };
         autoRefreshPane = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Data-Check"}, components, rowSize, columnSize);
     }
@@ -568,9 +568,9 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
                 addressType = ((GisMapReportDefinition) definition).isAddress();
             }
             if (addressType) {
-                this.isAddress.setText(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Address"));
+                this.isAddress.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Address"));
             } else {
-                this.isAddress.setText(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_LatLng"));
+                this.isAddress.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_LatLng"));
             }
         }
     }
@@ -859,24 +859,24 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
         List<ChartUIMenuNameableCreator> list = new ArrayList<ChartUIMenuNameableCreator>();
         java.util.HashMap<String, BaseFormula> hyperLinkEditorMap = plot.getHyperLinkEditorMap();
 
-        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, com.fr.design.i18n.Toolkit.i18nText("Chart-Link_Reportlet"),
+        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Link_Reportlet"),
                 new ReportletHyperlink(), getUseMap(map, ReportletHyperlink.class)));
-        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, com.fr.design.i18n.Toolkit.i18nText("Chart-Link_Mail"), new EmailJavaScript(), ChartEmailPane.class));
-        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, com.fr.design.i18n.Toolkit.i18nText("Chart-Link_Web"),
+        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Link_Mail"), new EmailJavaScript(), ChartEmailPane.class));
+        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Link_Web"),
                 new WebHyperlink(), getUseMap(map, WebHyperlink.class)));
-        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, com.fr.design.i18n.Toolkit.i18nText("Chart-Link_Dynamic_Parameters"),
+        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Link_Dynamic_Parameters"),
                 new ParameterJavaScript(), getUseMap(map, ParameterJavaScript.class)));
         list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, "JavaScript", new JavaScriptImpl(), getUseMap(map, JavaScriptImpl.class)));
 
-        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, com.fr.design.i18n.Toolkit.i18nText("Chart-Float_Chart"),
+        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Float_Chart"),
                 new ChartHyperPoplink(), getUseMap(map, ChartHyperPoplink.class)));
-        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, com.fr.design.i18n.Toolkit.i18nText("Chart-Link_Cell"),
+        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Link_Cell"),
                 new ChartHyperRelateCellLink(), getUseMap(map, ChartHyperRelateCellLink.class)));
-        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, com.fr.design.i18n.Toolkit.i18nText("Chart-Link_Float"),
+        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Link_Float"),
                 new ChartHyperRelateFloatLink(), getUseMap(map, ChartHyperRelateFloatLink.class)));
 
         FormHyperlinkProvider hyperlink = StableFactory.getMarkedInstanceObjectFromClass(FormHyperlinkProvider.XML_TAG, FormHyperlinkProvider.class);
-        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, com.fr.design.i18n.Toolkit.i18nText("Chart-Link_Form"),
+        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Link_Form"),
                 hyperlink, getUseMap(map, FormHyperlinkProvider.class)));
 
         return list;

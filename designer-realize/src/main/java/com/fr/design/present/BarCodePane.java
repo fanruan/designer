@@ -68,7 +68,7 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
         this.barWidthSpinner.setPreferredSize(new Dimension(60, 20));
         this.barHeightSpinner.setPreferredSize(new Dimension(60, 20));
         JPanel borderPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        TitledBorder titledBorder = new TitledBorder(new UIRoundedBorder(UIConstants.LINE_COLOR, 1, 5), com.fr.design.i18n.Toolkit.i18nText("StyleFormat-Sample"), 4, 2, this.getFont(), UIConstants.LINE_COLOR);
+        TitledBorder titledBorder = new TitledBorder(new UIRoundedBorder(UIConstants.LINE_COLOR, 1, 5), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_StyleFormat_Sample"), 4, 2, this.getFont(), UIConstants.LINE_COLOR);
         borderPane.setBorder(titledBorder);
         borderPane.add(barCodePreviewPane, BorderLayout.CENTER);
         setTypeComboBox();
@@ -76,11 +76,11 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
         RCodesizespinner = new UISpinner(1,6,1,2);
         RCodeVersionComboBox = new UIComboBox();
         RCodeErrorCorrectComboBox = new UIComboBox();
-        typeSetLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Type_Set"), UILabel.LEFT);
+        typeSetLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Type_Set"), UILabel.LEFT);
         initVersionComboBox();
         initErrorCorrectComboBox();
 
-        drawingTextCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("BarCodeD-Drawing_Text"));
+        drawingTextCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Bar_CodeD_Drawing_Text"));
         drawingTextCheckBox.setSelected(true);
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
@@ -150,7 +150,7 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
         drawingTextCheckBox.setBorder(UIConstants.CELL_ATTR_ZEROBORDER);
         drawingTextCheckBoxPane.add(drawingTextCheckBox);
         Component[][] components_normal = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Barcode_Size"), UILabel.LEFT), barWidthContainer, barHeightContainer},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Barcode_Size"), UILabel.LEFT), barWidthContainer, barHeightContainer},
                 new Component[]{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Tree_Width"), UILabel.CENTER), new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Tree_Height"), UILabel.CENTER)},
                 new Component[]{drawingTextCheckBoxPane, null, null}
         };
@@ -167,15 +167,15 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
         double[] columnSize = {p, f};
         double[] rowSize = {p, p, p};
         int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}};
-        UILabel uiLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("RCodeVersion"), UILabel.LEFT);
+        UILabel uiLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_RCode_Version"), UILabel.LEFT);
         uiLabel.setPreferredSize(typeSetLabel.getPreferredSize());
         RCodeVersionComboBox.setPreferredSize(new Dimension(155,20));
         RCodeErrorCorrectComboBox.setPreferredSize(new Dimension(155,20));
         RCodesizespinner.setPreferredSize(new Dimension(155,20));
         Component[][] components_special = new Component[][]{
                 new Component[]{uiLabel, RCodeVersionComboBox},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("RCodeErrorCorrect"), UILabel.LEFT), RCodeErrorCorrectComboBox},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("RCodeDrawPix"), UILabel.LEFT), RCodesizespinner}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_RCode_Error_Correct"), UILabel.LEFT), RCodeErrorCorrectComboBox},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_RCodeDrawPix"), UILabel.LEFT), RCodesizespinner}
         };
 
         JPanel specialPane = TableLayoutHelper.createGapTableLayoutPane(components_special, rowSize, columnSize, rowCount, LayoutConstants.VGAP_HUGER, LayoutConstants.VGAP_LARGE);
@@ -221,16 +221,16 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
      *
      */
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Highlight-Barcode");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Highlight_Barcode");
     }
 
     private void initVersionComboBox() {
-        String[] array = {com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Auto", "Choose"}), "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16"};
+        String[] array = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Auto_Choose"), "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16"};
         initcombobox(this.RCodeVersionComboBox, array, 0);
     }
 
     private void initErrorCorrectComboBox() {
-        String[] array = {"L" + com.fr.design.i18n.Toolkit.i18nText("Level") + "7%", "M" + com.fr.design.i18n.Toolkit.i18nText("Level") + "15%", "Q" + com.fr.design.i18n.Toolkit.i18nText("Level") + "25%", "H" + com.fr.design.i18n.Toolkit.i18nText("Level") + "30%"};
+        String[] array = {"L" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Level") + "7%", "M" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Level") + "15%", "Q" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Level") + "25%", "H" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Level") + "30%"};
         initcombobox(this.RCodeErrorCorrectComboBox, array, 1);
     }
 
@@ -250,7 +250,7 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
             }
             this.barCodePreviewPane.setObject(BarCodeUtils.getBarcodeImpl(this.updateBean().getBarcode(), getTestText()));
         } catch (Exception exp) {
-            this.barCodePreviewPane.setObject(com.fr.design.i18n.Toolkit.i18nText("Error") + ": " + exp.getMessage());
+            this.barCodePreviewPane.setObject(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Error") + ": " + exp.getMessage());
         }
     }
 

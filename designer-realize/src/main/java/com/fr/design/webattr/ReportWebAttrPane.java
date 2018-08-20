@@ -43,21 +43,21 @@ public class ReportWebAttrPane extends LoadingBasicPane {
         //Tabbed Pane
         tabbedPane = new UITabbedPane();
         defaultPane.add(tabbedPane, BorderLayout.CENTER);
-        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Basic"), commonPane = new CommonPane());
-        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Printers(Server)"), serverPrintPane = new ReportServerPrinterPane());
+        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Basic"), commonPane = new CommonPane());
+        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Printer(Server)"), serverPrintPane = new ReportServerPrinterPane());
         
-        tabbedPane.add(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Pagination_Setting"), pageWeb = new PageWebSettingPane());
-        tabbedPane.add(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Write_Setting"), writeWeb = new WriteWebSettingPane());
-        tabbedPane.add(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Data_Analysis_Settings"), viewWeb = new ViewWebSettingPane());
+        tabbedPane.add(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Pagination_Setting"), pageWeb = new PageWebSettingPane());
+        tabbedPane.add(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Write_Setting"), writeWeb = new WriteWebSettingPane());
+        tabbedPane.add(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Data_Analysis_Settings"), viewWeb = new ViewWebSettingPane());
         
-        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Browser_Background"), backgroundPane = new BackgroundPane4Browser());
-        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Import_Css"), cssPane = new WebCssPane());
-        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Import_JavaScript"), jsPane = new WebJsPane());
+        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Browser_Background"), backgroundPane = new BackgroundPane4Browser());
+        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Import_Css"), cssPane = new WebCssPane());
+        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Import_JavaScript"), jsPane = new WebJsPane());
     }
     
     @Override
     protected String title4PopupWindow() {
-    	return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Template_Web_Attributes");
+    	return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Template_Web_Attributes");
     }
         
     public void populate(ReportWebAttr reportWebAttr) {

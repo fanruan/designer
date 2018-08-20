@@ -107,12 +107,12 @@ public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
         double[] rowSize = {p, p, p};
         timeInterval = new UISpinner(MIN_TIME, MAX_TIME, 1, 0);
         colorSelectBox4carousel = new ColorSelectBoxWithOutTransparent(WIDTH);
-        switchStyleGroup = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Show"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Hide")});
+        switchStyleGroup = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Show"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Hide")});
 
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Arrow_Style")), switchStyleGroup, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Time_Interval")), timeInterval, new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Base-Time_Second"))},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Background")),colorSelectBox4carousel, null}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Time_Interval")), timeInterval, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Time_Second"))},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background")),colorSelectBox4carousel, null}
         };
 
         return TableLayout4VanChartHelper.createGapTableLayoutPane(components, rowSize, columnSize);
@@ -143,7 +143,7 @@ public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
 
     private JPanel createButtonBackgroundColorPane(){
         colorSelectBox4button = new ColorSelectBoxWithOutTransparent(WIDTH);
-        return TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Background"), colorSelectBox4button, EDIT_AREA_WIDTH);
+        return TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background"), colorSelectBox4button, EDIT_AREA_WIDTH);
     }
 
     private JPanel createButtonConfigPane() {
@@ -227,6 +227,6 @@ public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Chart-Change_Config_Attributes");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Change_Config_Attributes");
     }
 }

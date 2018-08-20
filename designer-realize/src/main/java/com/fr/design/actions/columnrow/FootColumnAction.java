@@ -8,7 +8,7 @@ public class FootColumnAction extends ColumnRowRepeatAction {
 	public FootColumnAction(ElementCasePane t) {
 		super(t);
 		
-        this.setName(com.fr.design.i18n.Toolkit.i18nText("Set_Column_Title_End"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Set_Column_Title_End"));
 //		this.setMnemonic('F');
     }
 	

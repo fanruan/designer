@@ -8,10 +8,8 @@ import com.fr.design.actions.utils.ReportActionUtils;
 import com.fr.design.gui.controlpane.UIListControlPane;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.ElementCasePane;
-import com.fr.design.mainframe.JTemplate;
 import com.fr.general.NameObject;
 import com.fr.design.condition.HighLightConditionAttributesPane;
-import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 
@@ -46,7 +44,7 @@ public class ConditionAttributesGroupPane extends UIListControlPane {
 
 	@Override
 	public NameableCreator[] createNameableCreators() {
-		return new NameableCreator[] { new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Condition_Attributes"), DefaultHighlight.class, HighLightConditionAttributesPane.class) };
+		return new NameableCreator[] { new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Condition_Attributes"), DefaultHighlight.class, HighLightConditionAttributesPane.class) };
 	}
 
 	@Override
@@ -70,12 +68,12 @@ public class ConditionAttributesGroupPane extends UIListControlPane {
 
 	@Override
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Condition_Attributes");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Condition_Attributes");
 	}
 
 	@Override
 	public String getAddItemText() {
-		return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Add_Condition");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Add_Condition");
 	}
 
 	public void populate(ElementCasePane ePane) {

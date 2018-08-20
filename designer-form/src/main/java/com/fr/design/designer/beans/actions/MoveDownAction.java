@@ -10,8 +10,6 @@ import com.fr.design.mainframe.FormSelection;
 
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
 import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
@@ -25,7 +23,7 @@ public class MoveDownAction extends FormWidgetEditAction {
 
     public MoveDownAction(FormDesigner t) {
         super(t);
-        this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Move_Down"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Move_Down"));
         this.setMnemonic('B');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/down.png"));
         this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_OPEN_BRACKET, DEFAULT_MODIFIER));

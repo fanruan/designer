@@ -104,7 +104,7 @@ public class PluginUtils {
             writer.flush();
             writer.close();
         } else {
-            throw new com.fr.plugin.PluginVerifyException(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Connect_Server_Error"));
+            throw new com.fr.plugin.PluginVerifyException(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Connect_Server_Error"));
         }
     }
 
@@ -134,12 +134,12 @@ public class PluginUtils {
     }
 
     public static String pluginToHtml(PluginView pluginView) {
-        String pluginName = com.fr.design.i18n.Toolkit.i18nText("FR-Plugin-Plugin_Name");
-        String pluginVersion = com.fr.design.i18n.Toolkit.i18nText("FR-Plugin-Plugin_Version");
-        String startVersion = com.fr.design.i18n.Toolkit.i18nText("FR-Plugin-Start_Version");
-        String developer = com.fr.design.i18n.Toolkit.i18nText("FR-Plugin_Developer");
-        String desc = com.fr.design.i18n.Toolkit.i18nText("FR-Plugin-Function_Description");
-        String updateLog = com.fr.design.i18n.Toolkit.i18nText("FR-Plugin-Update_Log");
+        String pluginName = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Plugin_Name");
+        String pluginVersion = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Version");
+        String startVersion = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Start_Version");
+        String developer = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Developer");
+        String desc = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Function_Description");
+        String updateLog = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Plugin_Update_Log");
         Map<String, String> map = new HashMap<String, String>();
 
         map.put("name", pluginName);
@@ -246,7 +246,7 @@ public class PluginUtils {
 
         int leftDays = plugin.getLeftDays();
         if (leftDays == Integer.MAX_VALUE) {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Plugin-Store_Permanent");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Store_Permanent");
         }
         Calendar deadline = Calendar.getInstance();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");

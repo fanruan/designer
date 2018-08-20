@@ -36,10 +36,10 @@ public class PiePlotPane extends AbstractChartTypePane{
 
 	@Override
 	protected String[] getTypeTipName() {
-		String pie = com.fr.design.i18n.Toolkit.i18nText("I-PieStyle_Normal");
+		String pie = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Pie");
 		return new String[]{
 				pie,
-				com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Chart_3D") + pie
+				com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_3D") + pie
 		};
 	}
 
@@ -63,7 +63,7 @@ public class PiePlotPane extends AbstractChartTypePane{
      * @return 界面标题
 	 */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("I-PieStyle_Normal");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Pie");
 	}
 
     private void createPieCondition(Plot plot) {

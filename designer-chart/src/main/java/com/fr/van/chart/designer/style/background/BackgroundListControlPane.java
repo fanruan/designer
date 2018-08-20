@@ -5,7 +5,6 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.controlpane.ShortCut4JControlPane;
 import com.fr.general.ComparatorUtils;
-
 import com.fr.general.NameObject;
 import com.fr.plugin.chart.attr.DefaultAxisHelper;
 import com.fr.plugin.chart.attr.axis.VanChartAlertValue;
@@ -26,7 +25,7 @@ public class BackgroundListControlPane extends VanChartUIListControlPane {
 
     @Override
     public NameableCreator[] createNameableCreators() {
-        return new BackgroundNameObjectCreator[]{new BackgroundNameObjectCreator(new String[]{com.fr.design.i18n.Toolkit.i18nText("ChartF-X_Axis"), com.fr.design.i18n.Toolkit.i18nText("ChartF-Y_Axis")},
+        return new BackgroundNameObjectCreator[]{new BackgroundNameObjectCreator(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_X_Axis"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Y_Axis")},
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom_Interval_Background"), VanChartAlertValue.class, VanChartAlertValuePane.class)};
     }
 
@@ -42,14 +41,14 @@ public class BackgroundListControlPane extends VanChartUIListControlPane {
 
     protected ShortCut4JControlPane[] createShortcuts() {
         return new ShortCut4JControlPane[]{
-                moveUpItemShortCut(),
-                moveDownItemShortCut(),
-                removeItemShortCut()
+                shortCutFactory.moveUpItemShortCut(),
+                shortCutFactory.moveDownItemShortCut(),
+                shortCutFactory.removeItemShortCut()
         };
     }
 
     public void populate(Plot plot) {
-        this.plot = plot;
+        setPlot(plot);
         VanChartRectanglePlot rectanglePlot = (VanChartRectanglePlot) plot;
         List<VanChartAxis> xAxisList = rectanglePlot.getXAxisList();
         List<VanChartAxis> yAxisList = rectanglePlot.getYAxisList();

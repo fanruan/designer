@@ -21,7 +21,7 @@ public class SpinnerIntegerEditor extends Editor<Integer> {
         spinner = new UISpinner(-Integer.MAX_VALUE, Integer.MAX_VALUE, 1, 0);
         this.add(spinner, BorderLayout.CENTER);
         this.spinner.addKeyListener(textKeyListener);
-        this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter_Integer"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter_Integer"));
     }
 
     @Override

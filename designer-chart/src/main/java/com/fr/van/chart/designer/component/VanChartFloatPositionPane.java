@@ -25,7 +25,7 @@ public class VanChartFloatPositionPane extends BasicBeanPane<Chart> {
 
         this.setLayout(new BorderLayout());
 
-        this.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("plugin-ChartF_XYFromTheUpLeft")), BorderLayout.CENTER);
+        this.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_XY_From_UpLeft")), BorderLayout.CENTER);
 
         this.add(createCustomFloatPositionPane(), BorderLayout.SOUTH);
     }

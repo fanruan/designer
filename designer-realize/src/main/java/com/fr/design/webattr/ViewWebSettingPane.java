@@ -27,14 +27,14 @@ public class ViewWebSettingPane extends WebSettingPane<WebView> {
 
     @Override
     protected JPanel createOtherSetPane() {
-        sortCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Engine-Sort_Sort"));
-        conditionFilterBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Engine-Selection_Filter"));
-        listFilterBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Engine-List_Filter"));
+        sortCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Sort_Sort"));
+        conditionFilterBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Selection_Filter"));
+        listFilterBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_List_Filter"));
 
         sortCheckBox.setSelected(true);
         conditionFilterBox.setSelected(true);
         listFilterBox.setSelected(true);
-        return GUICoreUtils.createFlowPane(new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_ViewPreview") + ":"),
+        return GUICoreUtils.createFlowPane(new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_ViewPreview") + ":"),
                 sortCheckBox, conditionFilterBox, listFilterBox}, FlowLayout.LEFT, 6);
     }
 

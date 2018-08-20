@@ -16,8 +16,8 @@ public class FormBasicWidgetPropertyPane extends BasicSetVisiblePropertyPane {
     }
 
     public UICheckBox createOtherConfig() {
-        enableCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Enabled"), true);
-        enableCheckBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Basic"));
+        enableCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Enabled"), true);
+        enableCheckBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Basic"));
 
         enableCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
         return enableCheckBox;

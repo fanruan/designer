@@ -39,7 +39,7 @@ public class PolyComponetsBar extends JToolBar {
 		setLayout(FRGUIPaneFactory.create1ColumnGridLayout());
         int typeLen = typeName.length < MAX_BAR_NUM ? typeName.length : MAX_BAR_NUM;
 		serIcons = new SerIcon[typeLen + 1];
-		serIcons[0] = new SerIcon(PolyECBlock.class, com.fr.design.i18n.Toolkit.i18nText("Poly-Report_Block"), "Poly-Report_Block");
+		serIcons[0] = new SerIcon(PolyECBlock.class, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Poly_Report_Block"), "Fine-Design_Report_Poly_Report_Block");
 		this.add(serIcons[0]);
 		for (int i = 0; i < typeLen; i++) {
 			BaseChart[] rowChart = BaseChartGetter.getStaticChartTypes(typeName[i].getPlotID());

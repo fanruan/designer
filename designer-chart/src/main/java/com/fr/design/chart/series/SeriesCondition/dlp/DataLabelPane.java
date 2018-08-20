@@ -71,7 +71,7 @@ public class DataLabelPane extends TooltipContentsPane {
         if (showSeriesNameCB == null) {
             showSeriesNameCB = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Name"));
         }
-        return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Label", "Include"}) + ":"), showSeriesNameCB};
+        return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Label_Include") + ":"), showSeriesNameCB};
     }
 
     protected Component[] createComponents4ShowCategoryName() {
@@ -96,7 +96,7 @@ public class DataLabelPane extends TooltipContentsPane {
         }
         delimiterBox.setPreferredSize(new Dimension(70, 20));
         JPanel boxPane = FRGUIPaneFactory.createBoxFlowInnerContainer_S_Pane();
-        boxPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Form-Delimiter") + ":"));
+        boxPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Delimiter") + ":"));
         boxPane.add(delimiterBox);
         return boxPane;
     }
@@ -112,11 +112,11 @@ public class DataLabelPane extends TooltipContentsPane {
 
     protected JPanel createJPanel4Position() {
         // 标签位置:上下左右中.
-        bottomButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Bottom"));
-        leftButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Left"));
-        rigtButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Right"));
-        topButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("StyleAlignment-Top"));
-        centerButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Center"));
+        bottomButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Bottom"));
+        leftButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Left"));
+        rigtButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Right"));
+        topButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Top"));
+        centerButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Center"));
 
         ButtonGroup bg = new ButtonGroup();
         bg.add(bottomButton);

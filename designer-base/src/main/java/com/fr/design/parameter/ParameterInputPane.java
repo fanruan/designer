@@ -66,7 +66,7 @@ public class ParameterInputPane extends BasicPane {
         //Content Pane.
         JPanel contentPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_S_Pane();
         this.add(new JScrollPane(contentPane), BorderLayout.CENTER);
-        contentPane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Parameters") + ":"));
+        contentPane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameters") + ":"));
 
         FlowTableLayoutHelper flowTableLayoutHelper = new FlowTableLayoutHelper();
 
@@ -120,7 +120,7 @@ public class ParameterInputPane extends BasicPane {
 		} else if (pv instanceof Float) {
 			editors[0] = new FloatEditor();
 		} else if (pv instanceof Date) {
-			editors[0] = new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("Date"));
+			editors[0] = new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date"));
 		} else if (pv instanceof Boolean) {
 			editors[0] = new BooleanEditor();
 		} else if (pv instanceof BaseFormula) {
@@ -133,7 +133,7 @@ public class ParameterInputPane extends BasicPane {
     
     @Override
     protected String title4PopupWindow() {
-    	return com.fr.design.i18n.Toolkit.i18nText("Parameters");
+    	return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameters");
     }
 
     /**
@@ -168,7 +168,7 @@ public class ParameterInputPane extends BasicPane {
 				Object editorStringValue = editor.update();
 				if (editorStringValue == null || StringUtils.isEmpty(Utils.objectToString(editorStringValue))) {
 					valid = false;
-					error += parameterName + com.fr.design.i18n.Toolkit.i18nText("NOT_NULL_Des") + "\n";
+					error += parameterName + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Not_Null_Des") + "\n";
 				}
 			}
 			if (!valid) {

@@ -56,7 +56,7 @@ public class MapReportDataSinglePane extends FurtherBasicBeanPane<MapSingleLayer
 		northPane.add(areaNamePane);
 
 		String[] columnNames = new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Title"),
-				com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Value")};
+				com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Region_Value")};
 		seriesPane = new UICorrelationPane(columnNames) {
 			public UITableEditor createUITableEditor() {
 				return new InnerTableEditor();
@@ -84,7 +84,7 @@ public class MapReportDataSinglePane extends FurtherBasicBeanPane<MapSingleLayer
 	 * 界面弹出标题.
 	 */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Cell");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cell");
 	}
 
 	@Override

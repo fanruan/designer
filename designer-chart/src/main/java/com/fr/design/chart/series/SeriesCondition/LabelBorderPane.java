@@ -15,7 +15,7 @@ public class LabelBorderPane extends LabelBorderAttrPane {
     protected AttrBorder attrBorder = new AttrBorder();
 
     public LabelBorderPane(ConditionAttributesPane conditionAttributesPane) {
-        super(conditionAttributesPane, true, com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Border", "Format"}));
+        super(conditionAttributesPane, true, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Border_Format"));
     }
 
     public void populate(DataSeriesCondition condition) {

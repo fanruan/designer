@@ -54,8 +54,8 @@ public class RadarTableContentPane extends AbstractTableDataContentPane {
 
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Category") + ":", SwingConstants.RIGHT), categoryNameComboBox},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Min_Value") + ":", SwingConstants.RIGHT), minValueComboBox},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Max_Value") + ":", SwingConstants.RIGHT), maxValueComboBox}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Min_Value") + ":", SwingConstants.RIGHT), minValueComboBox},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Max_Value") + ":", SwingConstants.RIGHT), maxValueComboBox}
         };
 
         return TableLayoutHelper.createTableLayoutPane(components, row, col);

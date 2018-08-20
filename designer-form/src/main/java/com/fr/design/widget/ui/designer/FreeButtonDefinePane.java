@@ -31,7 +31,7 @@ public class FreeButtonDefinePane extends ButtonDefinePane<FreeButton> {
 
     public Component[] createFontPane() {
         JPanel fontLabelPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        fontLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Font"));
+        fontLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Font"));
         fontLabelPanel.add(fontLabel, BorderLayout.CENTER);
         fontLabel.setVerticalAlignment(SwingConstants.TOP);
         frFontPane = new FRFontPane();

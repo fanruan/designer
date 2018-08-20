@@ -28,7 +28,7 @@ public class LineMarkerTypePane extends ConditionAttrSingleConditionPane<DataSer
     public LineMarkerTypePane(ConditionAttributesPane conditionAttributesPane, boolean isRemove) {
         super(conditionAttributesPane, isRemove);
 
-        nameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"ChartF-Marker", "FS_Report_Type"}));
+        nameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Marker_Type"));
         markerBox = new MarkerComboBox(MarkerFactory.getMarkerArray());
 
         if (isRemove) {
@@ -39,7 +39,7 @@ public class LineMarkerTypePane extends ConditionAttrSingleConditionPane<DataSer
 
     @Override
     public String nameForPopupMenuItem() {
-        return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"ChartF-Marker", "FS_Report_Type"});
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Marker_Type");
     }
 
     @Override

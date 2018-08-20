@@ -182,7 +182,7 @@ public abstract class UITableModelAdapter<T extends Object> extends AbstractTabl
 
 	protected abstract class AddTableRowAction extends UITableEditAction {
 		public AddTableRowAction() {
-			this.setName(com.fr.design.i18n.Toolkit.i18nText("Insert"));
+			this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Insert"));
 			this.setSmallIcon(BaseUtils.readIcon("/com/fr/base/images/cell/control/add.png"));
 		}
 
@@ -207,7 +207,7 @@ public abstract class UITableModelAdapter<T extends Object> extends AbstractTabl
 		public void actionPerformed(ActionEvent e) {
 			final int selectedRow = table.getSelectedRow();
 			if (selectedRow > table.getRowCount() - 1 || selectedRow < 0) {
-				JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("no-alternatives"));
+				JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_No-Alternatives"));
 				return;
 			}
 			stopCellEditing();
@@ -220,12 +220,12 @@ public abstract class UITableModelAdapter<T extends Object> extends AbstractTabl
 
 		private Component component = null;
 		public DeleteAction() {
-			this.setName(com.fr.design.i18n.Toolkit.i18nText("Delete"));
+			this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Delete"));
 			this.setSmallIcon(BaseUtils.readIcon("/com/fr/base/images/cell/control/remove.png"));
 		}
 		
 		public DeleteAction(Component component){
-			this.setName(com.fr.design.i18n.Toolkit.i18nText("Delete"));
+			this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Delete"));
 			this.setSmallIcon(BaseUtils.readIcon("/com/fr/base/images/cell/control/remove.png"));
 			this.component = component;
 		}
@@ -252,7 +252,7 @@ public abstract class UITableModelAdapter<T extends Object> extends AbstractTabl
 				component = DesignerContext.getDesignerFrame();
 			}
 			int val = JOptionPane.showConfirmDialog(component,
-					com.fr.design.i18n.Toolkit.i18nText("Utils-Are_you_sure_to_remove_the_selected_item") + "?", com.fr.design.i18n.Toolkit.i18nText("Remove"),
+					com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Are_You_Sure_To_Remove_The_Selected_Item") + "?", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remove"),
 					JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if (val != JOptionPane.OK_OPTION) {
 				return;
@@ -281,7 +281,7 @@ public abstract class UITableModelAdapter<T extends Object> extends AbstractTabl
 
 	protected class MoveUpAction extends UITableEditAction {
 		public MoveUpAction() {
-			this.setName(com.fr.design.i18n.Toolkit.i18nText("Utils-Move_Up"));
+			this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Move_Up"));
 			this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/up.png"));
 		}
 
@@ -305,7 +305,7 @@ public abstract class UITableModelAdapter<T extends Object> extends AbstractTabl
 	protected class MoveDownAction extends UITableEditAction {
 
 		public MoveDownAction() {
-			this.setName(com.fr.design.i18n.Toolkit.i18nText("Utils-Move_Down"));
+			this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Move_Down"));
 			this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/down.png"));
 		}
 

@@ -48,7 +48,7 @@ public class FormWidgetValuePane extends JPanel {
             index = 0;
             widgetValueHead.setSelectedIndex(index);
         }
-        if (ComparatorUtils.equals(editor[index].getName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget_Field"))) {
+        if (ComparatorUtils.equals(editor[index].getName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Field"))) {
             customPane.setPreferredSize(new Dimension(100, 47));
         } else {
             customPane.setPreferredSize(new Dimension(100, 20));
@@ -77,7 +77,7 @@ public class FormWidgetValuePane extends JPanel {
             case DataControl.TYPE_BOOLEAN:
                 return new BooleanEditor(false);
             case DataControl.TYPE_DATE:
-                return new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("Date"));
+                return new DateEditor(true, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date"));
             case DataControl.TYPE_TABLEDATA:
                 return onlyServer ? new ServerDataTableEditor() : new DataTableEditor();
             default:

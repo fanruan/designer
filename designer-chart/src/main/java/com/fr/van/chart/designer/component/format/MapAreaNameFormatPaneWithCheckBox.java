@@ -16,6 +16,6 @@ public class MapAreaNameFormatPaneWithCheckBox extends CategoryNameFormatPaneWit
 
     @Override
     protected String getCheckBoxText() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Area_Name");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Name");
     }
 }

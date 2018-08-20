@@ -1,7 +1,9 @@
 package com.fr.design.javascript;
 
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.border.UIRoundedBorder;
 import com.fr.design.constants.KeyWords;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.autocomplete.AutoCompletion;
 import com.fr.design.gui.autocomplete.BasicCompletion;
@@ -14,7 +16,6 @@ import com.fr.design.gui.syntax.ui.rsyntaxtextarea.RSyntaxTextArea;
 import com.fr.design.gui.syntax.ui.rsyntaxtextarea.SyntaxConstants;
 import com.fr.design.javascript.beautify.JavaScriptFormatHelper;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.IOUtils;
 
 
@@ -35,9 +36,9 @@ public class JSContentPane extends BasicPane {
         funNameLabel = new UILabel();
         this.setFunctionTitle(args);
 
-        UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Format_JavaScript"), IOUtils.readIcon("com/fr/design/images/edit/format.png"), SwingConstants.LEFT);
+        UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Format_JavaScript"), IOUtils.readIcon("com/fr/design/images/edit/format.png"), SwingConstants.LEFT);
         label.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        label.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Format_JavaScript"));
+        label.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Format_JavaScript"));
         label.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -60,10 +61,15 @@ public class JSContentPane extends BasicPane {
             }
         });
 
-        this.add(GUICoreUtils.createBorderLayoutPane(
-                funNameLabel, BorderLayout.WEST,
-                label, BorderLayout.EAST
-        ), BorderLayout.NORTH);
+        //REPORT-10533 用户参数多达25个,导致JS没地方写,增加滚动条显示
+        JPanel jsParaPane = new JPanel(new BorderLayout(4, 4));
+        jsParaPane.setPreferredSize(new Dimension(300, 80));
+        UIScrollPane scrollPane = new UIScrollPane(funNameLabel);
+        scrollPane.setPreferredSize(new Dimension(400, 80));
+        scrollPane.setBorder(new UIRoundedBorder(UIConstants.TITLED_BORDER_COLOR, 1, UIConstants.ARC));
+        jsParaPane.add(scrollPane, BorderLayout.WEST);
+        jsParaPane.add(label, BorderLayout.EAST);
+        this.add(jsParaPane, BorderLayout.NORTH);
 
         contentTextArea = new RSyntaxTextArea();
         contentTextArea.setCloseCurlyBraces(true);

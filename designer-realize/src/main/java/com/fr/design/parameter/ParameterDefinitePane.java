@@ -86,8 +86,8 @@ public class ParameterDefinitePane extends JPanel implements ToolBarMenuDockPlus
 
         setButton = new UIButton(BaseUtils.readIcon("com/fr/design/images/toolbarbtn/parametersetting.png"));
         setButton.set4ToolbarButton();
-        isshowWindowItem = new JCheckBoxMenuItem(com.fr.design.i18n.Toolkit.i18nText("ParameterD-Show_Parameter_Window"));
-        isdelayItem = new JCheckBoxMenuItem(com.fr.design.i18n.Toolkit.i18nText("ParameterD-Delay_Playing"));
+        isshowWindowItem = new JCheckBoxMenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ParameterD_Show_Parameter_Window"));
+        isdelayItem = new JCheckBoxMenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ParameterD_Delay_Playing"));
 
         initListeners();
     }
@@ -479,9 +479,9 @@ public class ParameterDefinitePane extends JPanel implements ToolBarMenuDockPlus
     public MenuDef[] menus4Target() {
         MenuDef tplMenu = new MenuDef(KeySetUtils.TEMPLATE.getMenuKeySetName(),KeySetUtils.TEMPLATE.getMnemonic());
         if (!DesignerMode.isAuthorityEditing()) {
-            tplMenu.addShortCut(new NameSeparator(com.fr.design.i18n.Toolkit.i18nText("FR-Utils_WorkBook")));
+            tplMenu.addShortCut(new NameSeparator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_WorkBook")));
             tplMenu.addShortCut(new ReportParameterAction(workBook));
-            tplMenu.addShortCut(new NameSeparator(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"DashBoard-Potence", "Edit"})));
+            tplMenu.addShortCut(new NameSeparator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Edit_DashBoard_Potence")));
             tplMenu.addShortCut(new AllowAuthorityEditAction(workBook));
         } else {
             tplMenu.addShortCut(new ExitAuthorityEditAction(workBook));

@@ -100,7 +100,7 @@ public class FileNodeFILE implements FILE {
         }
     
         if (ComparatorUtils.equals(node.getEnvPath(), ProjectConstants.REPORTLETS_NAME)) {
-            return com.fr.design.i18n.Toolkit.i18nText("Utils-Report_Runtime_Env");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Report_Runtime_Env");
         } else {
             return node.getName();
         }

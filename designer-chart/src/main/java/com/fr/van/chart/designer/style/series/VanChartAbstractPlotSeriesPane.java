@@ -129,7 +129,7 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
     //趋势线
     protected JPanel createTrendLinePane() {
         trendLinePane = new VanChartTrendLinePane();
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Chart-Trend_Line"), trendLinePane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_TrendLine"), trendLinePane);
     }
 
     //线
@@ -151,7 +151,7 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
     //填充颜色
     protected JPanel createAreaFillColorPane() {
         areaSeriesFillColorPane = new VanChartAreaSeriesFillColorPane();
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Chart_Area"), areaSeriesFillColorPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area"), areaSeriesFillColorPane);
     }
 
     //边框（默认没有圆角）

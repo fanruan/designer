@@ -3,12 +3,11 @@
  */
 package com.fr.design.gui.icombobox;
 
-import java.awt.Component;
+import com.fr.data.util.SortOrder;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JList;
-
-import com.fr.data.util.SortOrder;
+import java.awt.Component;
 
 
 /**
@@ -53,11 +52,11 @@ public class SortOrderComboBox extends UIComboBox {
                 SortOrder sortOrder = (SortOrder) value;
 
                 if (sortOrder.getOrder() == SortOrder.ASC) {
-                    this.setText(com.fr.design.i18n.Toolkit.i18nText("Sort-Ascending"));
+                    this.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Sort_Ascending"));
                 } else if (sortOrder.getOrder() == SortOrder.DESC) {
-                    this.setText(com.fr.design.i18n.Toolkit.i18nText("Sort-Descending"));
+                    this.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Sort_Descending"));
                 } else if (sortOrder.getOrder() == SortOrder.ORIGINAL) {
-                    this.setText(com.fr.design.i18n.Toolkit.i18nText("Sort-Original"));
+                    this.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Sort_Original"));
                 }
             }
 

@@ -35,7 +35,7 @@ public class WidgetHighlightPane extends ConditionAttrSingleConditionPane<Highli
 
     public WidgetHighlightPane(final ConditionAttributesPane conditionAttributesPane) {
         super(conditionAttributesPane);
-        widgetButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit"));
+        widgetButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Edit"));
         widgetButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 final WidgetPane widgetPane = new WidgetPane() {
@@ -57,33 +57,33 @@ public class WidgetHighlightPane extends ConditionAttrSingleConditionPane<Highli
             }
         });
 
-        UILabel widgetLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget") + ":");
+        UILabel widgetLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Widget") + ":");
         this.add(widgetLabel);
         String[] editorTypes = new String[] {
                 "",
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Text"),
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form-TextArea"),
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Number"),
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form-Password"),
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form-Button"),
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form-CheckBox"),
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form-RadioGroup"),
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form-CheckBoxGroup"),
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_ComboBox"),
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form-ComboCheckBox"),
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Date"),
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_File"),
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form-List"),
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form-Iframe"),
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tree-ComboBox"),
-                com.fr.design.i18n.Toolkit.i18nText("Form-View_Tree")
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Text"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_TextArea"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Number"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_Password"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_Button"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_CheckBox"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Radio_Group"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_CheckBox_Group"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ComboBox"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_ComboCheckBox"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_File"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_List"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_Iframe"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Tree_ComboBox"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_View_Tree")
         };
         box = new UIComboBox(editorTypes);
         this.add(box);
         box.setEnabled(false);
         this.add(widgetButton);
         widgetButton.setEnabled(false);
-        useWidget = new UICheckBox(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Use", "Widget"}));
+        useWidget = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Use_Widget"));
         this.add(useWidget);
         useWidget.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -101,7 +101,7 @@ public class WidgetHighlightPane extends ConditionAttrSingleConditionPane<Highli
 
     @Override
     public String nameForPopupMenuItem() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Widget");
     }
 
     @Override
@@ -114,37 +114,37 @@ public class WidgetHighlightPane extends ConditionAttrSingleConditionPane<Highli
         Widget value = this.widget;
 
         if (value instanceof ComboCheckBox) {
-            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form-ComboCheckBox"));
+            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_ComboCheckBox"));
         } else if (value instanceof ComboBox) {
-            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_ComboBox"));
+            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ComboBox"));
         } else if (value instanceof NumberEditor) {
-            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Number"));
+            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Number"));
         } else if (value instanceof IframeEditor) {
-            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form-Iframe"));
+            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_Iframe"));
         } else if (value instanceof FreeButton) {
-            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form-Button"));
+            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_Button"));
         } else if (value instanceof DateEditor) {
-            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Date"));
+            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date"));
         } else if (value instanceof CheckBox) {
-            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form-CheckBox"));
+            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_CheckBox"));
         } else if (value instanceof RadioGroup) {
-            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form-RadioGroup"));
+            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Radio_Group"));
         } else if (value instanceof CheckBoxGroup) {
-            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form-CheckBoxGroup"));
+            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_CheckBox_Group"));
         } else if (value instanceof MultiFileEditor) {
-            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_File"));
+            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_File"));
         } else if (value instanceof ListEditor) {
-            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form-List"));
+            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_List"));
         } else if (value instanceof TreeComboBoxEditor) {
-            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tree-ComboBox"));
+            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Tree_ComboBox"));
         } else if (value instanceof TreeEditor) {
-            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Form-View_Tree"));
+            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_View_Tree"));
         } else if (value instanceof Password) {
-            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form-Password"));
+            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_Password"));
         } else if (value instanceof TextArea) {
-            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Form-TextArea"));
+            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_TextArea"));
         } else if (value instanceof TextEditor) {
-            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Text"));
+            box.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Text"));
         }
     }
 

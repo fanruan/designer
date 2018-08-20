@@ -31,16 +31,16 @@ public class BarPlotPane extends AbstractBarPane{
 
     @Override
     protected String[] getTypeTipName() {
-        String bar = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Bar");
-        String stack = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Stacked");
-        String percent = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Use_Percent");
-        String td = com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Chart_3D");
+        String bar = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Bar");
+        String stack = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Stacked");
+        String percent = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Percent");
+        String td = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_3D");
         return new String[]{
                 bar,
                 stack + bar,
                 percent + stack + bar,
                 td + bar,
-                td + bar + "(" + com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Direction_Horizontal") + ")",
+                td + bar + "(" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Direction_Horizontal") + ")",
                 td + stack + bar,
                 td + percent + stack + bar
         };
@@ -65,7 +65,7 @@ public class BarPlotPane extends AbstractBarPane{
      * @return 界面标题
 	 */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Type_Bar");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Bar");
 	}
 
     protected Plot getSelectedClonedPlot(){
