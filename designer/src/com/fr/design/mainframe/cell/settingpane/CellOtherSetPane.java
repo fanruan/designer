@@ -87,7 +87,7 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
      */
     public JPanel createContentPane() {
         JPanel downPane = new JPanel(new BorderLayout());
-        downPane.add(new UIExpandablePane(Inter.getLocText("FR-Designer_Auto_Adjust_Size"), HEAD_WDITH, HEAD_HEIGTH, seniorPane()), BorderLayout.NORTH);
+        downPane.add(new UIExpandablePane(Inter.getLocText("FR-Designer_Advanced"), HEAD_WDITH, HEAD_HEIGTH, seniorPane()), BorderLayout.NORTH);
         downPane.add(new UIExpandablePane(Inter.getLocText("FR-Designer_Pagination"), HEAD_WDITH, HEAD_HEIGTH, pagePane()), BorderLayout.CENTER);
         JPanel contentPane = new JPanel(new BorderLayout(0, 0));
         contentPane.add(new UIExpandablePane(Inter.getLocText("FR-Designer_Basic"), HEAD_WDITH, HEAD_HEIGTH, basicPane()), BorderLayout.NORTH);
