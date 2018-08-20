@@ -10,12 +10,12 @@
     </parent>
     <groupId>com.fr.report</groupId>
     <artifactId>designer-form</artifactId>
-    <version>${branch}-SNAPSHOT</version>
+    <version>10.0</version>
      <dependencies>
         <dependency>
             <groupId>com.fr.report</groupId>
             <artifactId>designer-base</artifactId>
-            <version>${branch}-SNAPSHOT</version>
+            <version>10.0</version>
         </dependency>
     </dependencies>
 </project>
