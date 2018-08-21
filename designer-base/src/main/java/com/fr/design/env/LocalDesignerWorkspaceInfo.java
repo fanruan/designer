@@ -77,7 +77,8 @@ public class LocalDesignerWorkspaceInfo implements DesignerWorkspaceInfo {
     @Override
     public boolean checkValid(){
         File file = new File(this.path);
-        if(!file.isDirectory() || !ComparatorUtils.equals(file.getName(), "WEB-INF")) {
+        //判断不是文件夹/路径不在WEB-INF下/代码启动三种情况
+        if(!file.isDirectory() || !ComparatorUtils.equals(file.getName(), "WEB-INF") || this.path.startsWith(".")) {
             return false;
         }
 

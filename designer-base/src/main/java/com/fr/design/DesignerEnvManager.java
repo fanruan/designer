@@ -207,7 +207,8 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
             return;
         }
         String installHome = StableUtils.getInstallHome();
-        if (installHome != null && !".".equals(installHome)) {
+        //这里不判断路径是.的情况，放在checkValid方法里面，重新选
+        if (installHome != null) {
             String name = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Engine_DEFAULT");
             String envPath = designerEnvManager.getDefaultenvPath(installHome);
             designerEnvManager.putEnv(name, LocalDesignerWorkspaceInfo.create(name, envPath));
