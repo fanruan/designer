@@ -9,15 +9,17 @@ import com.fr.design.mainframe.alphafine.cell.model.PluginModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.search.manager.fun.AlphaFineSearchProvider;
 import com.fr.general.ComparatorUtils;
-
-import com.fr.general.http.HttpClient;
+import com.fr.general.http.HttpToolbox;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.basic.version.Version;
 import com.fr.plugin.basic.version.VersionIntervalFactory;
+import com.fr.stable.EncodeConstants;
+import com.fr.third.org.apache.commons.lang3.ArrayUtils;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -95,25 +97,22 @@ public class PluginSearchManager implements AlphaFineSearchProvider {
 
     @Override
     public synchronized SearchResult getLessSearchResult(String[] searchText) {
+        if (ArrayUtils.isEmpty(searchText)) {
+            return new SearchResult();
+        }
         this.lessModelList = new SearchResult();
         this.moreModelList = new SearchResult();
-        if (searchText.length == 0) {
+        if (ArrayUtils.isEmpty(searchText)) {
             lessModelList.add(new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Plugin_Addon")));
             return lessModelList;
         }
         SearchResult searchResult = new SearchResult();
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainPlugin()) {
             for (int j = 0; j < searchText.length; j++) {
-                String result;
                 try {
-                    String encodedKey = URLEncoder.encode(searchText[j], "UTF-8");
+                    String encodedKey = URLEncoder.encode(searchText[j], EncodeConstants.ENCODING_UTF_8);
                     String url = AlphaFineConstants.PLUGIN_SEARCH_URL + "?keyword=" + encodedKey;
-                    HttpClient httpClient = new HttpClient(url);
-                    httpClient.asGet();
-                    if (!httpClient.isServerAlive()) {
-                        return getNoConnectList();
-                    }
-                    result = httpClient.getResponseText();
+                    String result = HttpToolbox.get(url);
                     AlphaFineHelper.checkCancel();
                     JSONObject jsonObject = new JSONObject(result);
                     JSONArray jsonArray = jsonObject.optJSONArray("result");
@@ -130,6 +129,8 @@ public class PluginSearchManager implements AlphaFineSearchProvider {
                     FineLoggerFactory.getLogger().error("plugin search json error :" + e.getMessage());
                 } catch (UnsupportedEncodingException e) {
                     FineLoggerFactory.getLogger().error("plugin search encode error :" + e.getMessage());
+                } catch (IOException e) {
+                    FineLoggerFactory.getLogger().error("plugin search get result error :" + e.getMessage());
                 }
             }
             if (searchResult.isEmpty()) {

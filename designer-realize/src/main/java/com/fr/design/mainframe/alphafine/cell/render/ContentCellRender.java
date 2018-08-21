@@ -57,18 +57,18 @@ public class ContentCellRender implements ListCellRenderer<Object> {
                 String iconUrl = SELECTED_PATH + model.getType().getTypeValue() + SUFFIX;
                 panel.setBackground(AlphaFineConstants.BLUE);
                 titleLabel.setForeground(Color.WHITE);
-                if(value instanceof RobotModel && ((RobotModel) value).isHotItemModel()){
+                if (value instanceof RobotModel && ((RobotModel) value).isHotItemModel()) {
                     titleLabel.setIcon(null);
-                }else{
+                } else {
                     titleLabel.setIcon(IconLoader.getIcon(iconUrl));
                 }
             } else {
 
                 titleLabel.setText(dealWithModelName(model.getName(), segmentationResult));
                 String iconUrl = CELL_PATH + model.getType().getTypeValue() + SUFFIX;
-                if(value instanceof RobotModel && ((RobotModel) value).isHotItemModel()){
+                if (value instanceof RobotModel && ((RobotModel) value).isHotItemModel()) {
                     titleLabel.setIcon(null);
-                }else{
+                } else {
                     titleLabel.setIcon(IconLoader.getIcon(iconUrl));
                 }
             }
@@ -104,14 +104,14 @@ public class ContentCellRender implements ListCellRenderer<Object> {
      * @param strings
      * @return
      */
-    public String dealWithModelName(String modelName, String strings[]) {
+    public String dealWithModelName(String modelName, String[] strings) {
         if (strings == null) {
             return modelName;
         }
         for (int i = 0; i < strings.length; i++) {
             String primaryStr = getReplacedString(modelName, strings[i]);
-            modelName = modelName.replaceAll("(?i)" + strings[i], "|<font color=rgb(51,148,240)>" + strings[i] + "</font>|");
-            if(!StringUtils.isEmpty(primaryStr)){
+            modelName = modelName.replaceAll("(?i)" + strings[i], "|<font color=" + AlphaFineConstants.HIGH_LIGHT_COLOR + ">" + strings[i] + "</font>|");
+            if (StringUtils.isNotEmpty(primaryStr)) {
                 modelName = modelName.replaceAll(strings[i], primaryStr);
             }
         }
@@ -121,10 +121,10 @@ public class ContentCellRender implements ListCellRenderer<Object> {
 
     private String getReplacedString(String modelName, String string) {
         int index = modelName.toLowerCase().indexOf(string.toLowerCase());
-        if(index == -1){
-            return null;
+        if (index == -1) {
+            return "";
         }
-        return modelName.substring(index, index+string.length());
+        return modelName.substring(index, index + string.length());
 
     }
 }

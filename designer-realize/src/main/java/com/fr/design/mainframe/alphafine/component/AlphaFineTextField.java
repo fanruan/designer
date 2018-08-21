@@ -26,12 +26,6 @@ public class AlphaFineTextField extends UITextField {
         this.placeHolder = null;
     }
 
-
-    @Override
-    public String getText() {
-        return super.getText();
-    }
-
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

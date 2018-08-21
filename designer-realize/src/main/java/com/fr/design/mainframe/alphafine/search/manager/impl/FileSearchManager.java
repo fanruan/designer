@@ -69,7 +69,7 @@ public class FileSearchManager implements AlphaFineSearchProvider {
         for (int j = 0; j < searchText.length; j++) {
             this.searchText = dealWithSearchText(searchText[j]);
             if (StringUtils.isBlank(this.searchText) || ComparatorUtils.equals(this.searchText, DS_NAME)) {
-                lessModelList.add(new MoreModel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Templates")));
+                lessModelList.add(new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Templates")));
                 return lessModelList;
             }
             AlphaFineHelper.checkCancel();

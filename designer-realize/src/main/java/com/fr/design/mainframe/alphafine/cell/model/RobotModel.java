@@ -24,14 +24,14 @@ public class RobotModel extends AlphaCellModel {
     private String content;
 
     //热门问题列表的list不需要渲染图标，所以这里需要区分一下
-    private boolean isHotItemModel = false;
+    private boolean hotItemModel = false;
 
     public boolean isHotItemModel() {
-        return isHotItemModel;
+        return hotItemModel;
     }
 
     public void setHotItemModel(boolean hotItemModel) {
-        isHotItemModel = hotItemModel;
+        this.hotItemModel = hotItemModel;
     }
 
     public String getTitle() {
@@ -45,7 +45,7 @@ public class RobotModel extends AlphaCellModel {
     public static String getContent(String titleStr) {
         String result;
         String token = DigestUtils.md5Hex(AlphaFineConstants.ALPHA_ROBOT_SEARCH_TOKEN + titleStr);
-        String url = "http://robot.finereport.com/openapi/reply.php?action=search&msg=" + titleStr + "&token=" + token;
+        String url = AlphaFineConstants.ALPHA_GO_TO_WEB + titleStr + "&token=" + token;
         HttpClient httpClient = new HttpClient(url);
         httpClient.asGet();
         result = httpClient.getResponseText();

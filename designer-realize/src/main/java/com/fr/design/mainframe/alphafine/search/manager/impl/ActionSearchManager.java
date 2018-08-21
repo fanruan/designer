@@ -15,6 +15,7 @@ import com.fr.general.ComparatorUtils;
 
 import com.fr.json.JSONObject;
 import com.fr.stable.StringUtils;
+import com.fr.third.org.apache.commons.lang3.ArrayUtils;
 
 import java.util.List;
 
@@ -61,7 +62,7 @@ public class ActionSearchManager implements AlphaFineSearchProvider {
         filterModelList = new SearchResult();
         lessModelList = new SearchResult();
         moreModelList = new SearchResult();
-        if (searchText.length == 0) {
+        if (ArrayUtils.isEmpty(searchText)) {
             lessModelList.add(new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Set")));
             return lessModelList;
         }

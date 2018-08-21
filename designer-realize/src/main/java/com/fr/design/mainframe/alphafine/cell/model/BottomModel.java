@@ -1,5 +1,6 @@
 package com.fr.design.mainframe.alphafine.cell.model;
 
+import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.CellType;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
@@ -31,12 +32,12 @@ public class BottomModel extends AlphaCellModel {
 
     @Override
     public JSONObject ModelToJson() throws JSONException {
-        return null;
+        return JSONObject.EMPTY;
     }
 
     @Override
     public String getStoreInformation() {
-        return null;
+        return "";
     }
 
     @Override
@@ -47,7 +48,7 @@ public class BottomModel extends AlphaCellModel {
     @Override
     public void doAction() {
         try {
-            Desktop.getDesktop().browse(new URI("http://bbs.fanruan.com/post_newthread_ajax.php?action=newthread&fid=39"));
+            Desktop.getDesktop().browse(new URI(AlphaFineConstants.ALPHA_GO_TO_FORUM));
         } catch (IOException e) {
             FineLoggerFactory.getLogger().error(e.getMessage());
         } catch (URISyntaxException e) {

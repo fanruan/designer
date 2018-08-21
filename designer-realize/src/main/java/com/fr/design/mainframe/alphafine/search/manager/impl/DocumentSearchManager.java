@@ -8,12 +8,14 @@ import com.fr.design.mainframe.alphafine.cell.model.DocumentModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.search.manager.fun.AlphaFineSearchProvider;
-
-import com.fr.general.http.HttpClient;
+import com.fr.general.http.HttpToolbox;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
+import com.fr.third.org.apache.commons.lang3.ArrayUtils;
+
+import java.io.IOException;
 
 /**
  * Created by XiaXiang on 2017/3/27.
@@ -52,23 +54,17 @@ public class DocumentSearchManager implements AlphaFineSearchProvider {
     public synchronized SearchResult getLessSearchResult(String[] searchText) {
         lessModelList = new SearchResult();
         moreModelList = new SearchResult();
-        if (searchText.length == 0) {
+        if (ArrayUtils.isEmpty(searchText)) {
             lessModelList.add(new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Community_Help")));
             return lessModelList;
         }
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainDocument()) {
             SearchResult searchResult = new SearchResult();
             for (int j = 0; j < searchText.length; j++) {
-                String result;
                 String url = AlphaFineConstants.DOCUMENT_SEARCH_URL + searchText[j] + "-1";
-                HttpClient httpClient = new HttpClient(url);
-                httpClient.asGet();
-                if (!httpClient.isServerAlive()) {
-                    return getNoConnectList();
-                }
-                result = httpClient.getResponseText();
-                AlphaFineHelper.checkCancel();
                 try {
+                    String result = HttpToolbox.get(url);
+                    AlphaFineHelper.checkCancel();
                     JSONObject jsonObject = new JSONObject(result);
                     JSONArray jsonArray = jsonObject.optJSONArray("docdata");
                     if (jsonArray != null) {
@@ -83,6 +79,8 @@ public class DocumentSearchManager implements AlphaFineSearchProvider {
                     }
                 } catch (JSONException e) {
                     FineLoggerFactory.getLogger().error("document search error: " + e.getMessage());
+                } catch (IOException e) {
+                    FineLoggerFactory.getLogger().error("document search get result error: " + e.getMessage());
                 }
             }
             lessModelList.clear();

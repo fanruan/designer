@@ -5,14 +5,14 @@ import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.cell.model.RobotModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
-import com.fr.general.Inter;
-import com.fr.general.http.HttpClient;
+import com.fr.general.http.HttpToolbox;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
+import com.fr.json.JSONUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
-
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -27,14 +27,15 @@ public class HotIssuesManager {
     private static HotIssuesManager instance;
     private static final int HOT_ITEM_NUM = 6;
     private static final int HOT_SUB_ITEM_NUM = 4;
+    private static final String HOT_ITEM = "item";
+    private static final String HOT_ITEM_DATA = "itemData";
+    private static final String HOT_ITEM_TEXT = "text";
+    private static final String HOT_TYPE = "type";
+    private static final String HOT_DATA = "data";
 
-    public static HotIssuesManager getInstance() {
+    public static synchronized HotIssuesManager getInstance() {
         if (instance == null) {
-            synchronized (HotIssuesManager.class) {
-                if (instance == null) {
-                    instance = new HotIssuesManager();
-                }
-            }
+            instance = new HotIssuesManager();
         }
         return instance;
     }
@@ -44,14 +45,14 @@ public class HotIssuesManager {
 
     /**
      * 将子标题下的数据塞入modeList
-     * @param getStr
+     * @param subTitle
      * @return
      */
-    public SearchResult getTitleSearchResult(String getStr) {
+    public SearchResult getTitleSearchResult(String subTitle) {
         SearchResult modeList = new SearchResult();
-        modeList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText((getStr))));
+        modeList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText((subTitle))));
 
-        List<String> issueList = map.get(getStr);
+        List<String> issueList = map.get(subTitle);
         for (int i = 0; i < issueList.size(); i++) {
             RobotModel robotModel = new RobotModel(issueList.get(i), null);
             robotModel.setHotItemModel(true);
@@ -65,24 +66,22 @@ public class HotIssuesManager {
      * @return
      */
     public String[][] getHotIssues() {
-        String result;
-        HttpClient httpClient = new HttpClient(AlphaFineConstants.ALPHA_HOT_SEARCH);
-        httpClient.asGet();
-        if (!httpClient.isServerAlive()) {
-            return null;
-        }
-        result = httpClient.getResponseText();
-        AlphaFineHelper.checkCancel();
-        try {
-            JSONArray jsonArray = new JSONArray(result);
-            for (int i = 0; i < HOT_ITEM_NUM; i++) {
-                AlphaFineHelper.checkCancel();
-                JSONObject jsonObject = jsonArray.optJSONObject(i);
-                data[i] = getTitleStrings(jsonObject);
-            }
 
+        try {
+            String result = HttpToolbox.get(AlphaFineConstants.ALPHA_HOT_SEARCH);
+            AlphaFineHelper.checkCancel();
+            JSONArray jsonArray = (JSONArray)JSONUtils.jsonDecode(result);
+            if(jsonArray != null){
+                for (int i = 0; i < HOT_ITEM_NUM; i++) {
+                    AlphaFineHelper.checkCancel();
+                    JSONObject jsonObject = jsonArray.optJSONObject(i);
+                    data[i] = getTitleStrings(jsonObject);
+                }
+            }
         } catch (JSONException e) {
             FineLoggerFactory.getLogger().error("hotissues search error: " + e.getMessage());
+        } catch (IOException e) {
+            FineLoggerFactory.getLogger().error("hotissues search get result error: " + e.getMessage());
         }
         return data;
     }
@@ -93,16 +92,16 @@ public class HotIssuesManager {
      * @return
      */
     private String[] getTitleStrings(JSONObject jsonObject) {
-        String[] temp = getSubTitleFromCloud(jsonObject.optJSONObject("data"));
+        String[] temp = getSubTitleFromCloud(jsonObject.optJSONObject(HOT_DATA));
         String[] temp1 = new String[1];
-        temp1[0] = jsonObject.optString("type");
+        temp1[0] = jsonObject.optString(HOT_TYPE);
         int strLen1 = temp.length;
         int strLen2 = temp1.length;
 
         temp1 = Arrays.copyOf(temp1, strLen2 + strLen1);
         System.arraycopy(temp, 0, temp1, strLen2, strLen1);
 
-        getIssueStrings(jsonObject.optJSONObject("data"));
+        getIssueStrings(jsonObject.optJSONObject(HOT_DATA));
 
         return temp1;
     }
@@ -112,21 +111,20 @@ public class HotIssuesManager {
      * @param data
      * @return
      */
-    private String[] getIssueStrings(JSONObject data) {
+    private void getIssueStrings(JSONObject data) {
         try {
             for (int j = 0; j < HOT_SUB_ITEM_NUM; j++) {
-                String temp = data.getString("item" + (j + 1));
-                JSONArray jsonArray = data.getJSONArray("itemData" + (j + 1));
+                String temp = data.getString(HOT_ITEM + (j + 1));
+                JSONArray jsonArray = data.getJSONArray(HOT_ITEM_DATA + (j + 1));
                 List<String> tempList = new ArrayList<>();
                 for (int i = 0; i < jsonArray.length(); i++) {
-                    tempList.add(jsonArray.optJSONObject(i).optString("text"));
+                    tempList.add(jsonArray.optJSONObject(i).optString(HOT_ITEM_TEXT));
                 }
                 map.put(temp, tempList);
             }
 
         } catch (JSONException e) {
         }
-        return null;
     }
 
     /**
@@ -139,7 +137,7 @@ public class HotIssuesManager {
         for (int i = 0; i < HOT_SUB_ITEM_NUM; i++) {
             String temp = null;
             try {
-                temp = data.getString("item" + (i + 1));
+                temp = data.getString(HOT_ITEM + (i + 1));
             } catch (JSONException e) {
             }
             if (!StringUtils.isEmpty(temp)) {

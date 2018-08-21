@@ -10,8 +10,7 @@ import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.search.manager.fun.AlphaFineSearchProvider;
-
-import com.fr.general.http.HttpClient;
+import com.fr.general.http.HttpToolbox;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
@@ -19,7 +18,9 @@ import com.fr.json.JSONTokener;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CodeUtils;
 import com.fr.stable.StringUtils;
+import com.fr.third.org.apache.commons.lang3.ArrayUtils;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -48,21 +49,18 @@ public class RecommendSearchManager implements AlphaFineSearchProvider {
     @Override
     public synchronized SearchResult getLessSearchResult(String[] searchText) {
 
+        if (ArrayUtils.isEmpty(searchText)) {
+            return new SearchResult();
+        }
+
         this.modelList = new SearchResult();
         this.recommendModelList = new SearchResult();
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainRecommend()) {
             for (int j = 0; j < searchText.length; j++) {
-                String result;
                 searchText[j] = searchText[j].replaceAll(StringUtils.BLANK, StringUtils.EMPTY);
-                HttpClient httpClient = new HttpClient(AlphaFineConstants.SEARCH_API + CodeUtils.cjkEncode(searchText[j]));
-                httpClient.asGet();
-                if (!httpClient.isServerAlive()) {
-                    return getNoConnectList();
-                }
-                httpClient.setTimeout(3000);
-                result = httpClient.getResponseText();
-                AlphaFineHelper.checkCancel();
                 try {
+                    String result = HttpToolbox.get(AlphaFineConstants.SEARCH_API + CodeUtils.cjkEncode(searchText[j]));
+                    AlphaFineHelper.checkCancel();
                     Object json = new JSONTokener(result).nextValue();
                     if (json instanceof JSONObject) {
                         JSONObject jsonObject = new JSONObject(result);
@@ -82,6 +80,8 @@ public class RecommendSearchManager implements AlphaFineSearchProvider {
                     }
                 } catch (JSONException e) {
                     FineLoggerFactory.getLogger().error("recommend search error! :" + e.getMessage());
+                } catch (IOException e) {
+                    FineLoggerFactory.getLogger().error("recommend search get result error! :" + e.getMessage());
                 }
             }
 
@@ -136,17 +136,17 @@ public class RecommendSearchManager implements AlphaFineSearchProvider {
                         modelList.addAll(complementAdviceModelList);
                     }
                 }
-            }else{
-                if(complementAdviceModelList.size() > 0) {
+            } else {
+                if (complementAdviceModelList.size() > 0) {
                     if (complementAdviceModelList.size() > AlphaFineConstants.SHOW_SIZE) {
                         modelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Recommend"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_ShowAll"), true, CellType.RECOMMEND));
                         modelList.addAll(complementAdviceModelList.subList(0, AlphaFineConstants.SHOW_SIZE));
                         moreModelList.addAll(complementAdviceModelList.subList(AlphaFineConstants.SHOW_SIZE, complementAdviceModelList.size()));
-                    }else{
+                    } else {
                         modelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Recommend"), false));
                         modelList.addAll(complementAdviceModelList);
                     }
-                }else{
+                } else {
                     return modelList;
                 }
             }

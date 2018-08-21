@@ -58,11 +58,11 @@ public class AlphaFineConfigManager implements XMLable {
     /**
     * 分词搜索
     */
-    private boolean isNeedSegmentationCheckbox = true;
+    private boolean needSegmentationCheckbox = true;
     /**
     * 智能客服
     */
-    private boolean isNeedIntelligentCustomerService = true;
+    private boolean needIntelligentCustomerService = true;
     /**
      * 快捷键
      */
@@ -102,8 +102,8 @@ public class AlphaFineConfigManager implements XMLable {
             this.setContainAction(reader.getAttrAsBoolean("isContainAction", true));
             this.setContainTemplate(reader.getAttrAsBoolean("isContainTemplate", true));
             this.setContainFileContent(reader.getAttrAsBoolean("isContainFileContent", false));
-            this.setNeedSegmentationCheckbox(reader.getAttrAsBoolean("isNeedSegmentationCheckbox", true));
-            this.setNeedIntelligentCustomerService(reader.getAttrAsBoolean("isNeedIntelligentCustomerService", true));
+            this.setNeedSegmentationCheckbox(reader.getAttrAsBoolean("needSegmentationCheckbox", true));
+            this.setNeedIntelligentCustomerService(reader.getAttrAsBoolean("needIntelligentCustomerService", true));
             this.setShortcuts(reader.getAttrAsString("shortcuts", getDefaultShortCuts()));
             this.setNeedRemind(reader.getAttrAsBoolean("isNeedRemind", true));
             this.setOperateCount(reader.getAttrAsInt("operateCount", 0));
@@ -126,8 +126,8 @@ public class AlphaFineConfigManager implements XMLable {
                 .attr("isContainFileContent", this.isContainFileContent())
                 .attr("isNeedRemind", this.isNeedRemind())
                 .attr("operateCount", this.getOperateCount())
-                .attr("isNeedSegmentationCheckbox", this.isNeedSegmentationCheckbox())
-                .attr("isNeedIntelligentCustomerService", this.isNeedIntelligentCustomerService());
+                .attr("needSegmentationCheckbox", this.isNeedSegmentationCheckbox())
+                .attr("needIntelligentCustomerService", this.isNeedIntelligentCustomerService());
         writer.end();
     }
 
@@ -240,20 +240,21 @@ public class AlphaFineConfigManager implements XMLable {
     }
 
     public boolean isNeedSegmentationCheckbox() {
-    return isNeedSegmentationCheckbox;
+        return needSegmentationCheckbox;
     }
 
     public void setNeedSegmentationCheckbox(boolean needSegmentationCheckbox) {
-    isNeedSegmentationCheckbox = needSegmentationCheckbox;
+        this.needSegmentationCheckbox = needSegmentationCheckbox;
     }
 
     public boolean isNeedIntelligentCustomerService() {
-    return isNeedIntelligentCustomerService;
+        return needIntelligentCustomerService;
     }
 
     public void setNeedIntelligentCustomerService(boolean needIntelligentCustomerService) {
-    isNeedIntelligentCustomerService = needIntelligentCustomerService;
+        this.needIntelligentCustomerService = needIntelligentCustomerService;
     }
+
     public int getOperateCount() {
         return operateCount;
     }

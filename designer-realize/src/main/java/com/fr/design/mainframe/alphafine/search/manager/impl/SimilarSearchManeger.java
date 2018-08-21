@@ -8,7 +8,7 @@ import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.cell.model.RobotModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.search.manager.fun.AlphaFineSearchProvider;
-import com.fr.general.http.HttpClient;
+import com.fr.general.http.HttpToolbox;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
@@ -16,39 +16,35 @@ import com.fr.json.JSONTokener;
 import com.fr.log.FineLoggerFactory;
 import org.apache.commons.codec.digest.DigestUtils;
 
+import java.io.IOException;
+//import com.fr.third.org.apache.commons.codec.digest.DigestUtils;
+
 /**
  * Created by alex.sung on 2018/8/3.
  */
 public class SimilarSearchManeger implements AlphaFineSearchProvider {
     private static SimilarSearchManeger instance;
-    private SearchResult lessModelList;
-    private SearchResult moreModelList = new SearchResult();
+    private volatile SearchResult lessModelList;
+    private volatile SearchResult moreModelList = new SearchResult();
 
-    public static SimilarSearchManeger getInstance() {
+    public static synchronized SimilarSearchManeger getInstance() {
         if (instance == null) {
-            synchronized (SimilarSearchManeger.class) {
-                if (instance == null) {
-                    instance = new SimilarSearchManeger();
-                }
-            }
+            instance = new SimilarSearchManeger();
         }
         return instance;
     }
 
     @Override
-    public synchronized SearchResult getLessSearchResult(String[] searchText) {
+    public SearchResult getLessSearchResult(String[] searchText) {
         lessModelList = new SearchResult();
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isNeedIntelligentCustomerService()) {
             SearchResult allModelList = new SearchResult();
             for (int j = 0; j < searchText.length; j++) {
-                String result;
                 String token = DigestUtils.md5Hex(AlphaFineConstants.ALPHA_ROBOT_SEARCH_TOKEN + searchText[j]);
                 String url = AlphaFineConstants.SIMILAR_SEARCH_URL_PREFIX + "msg=" + searchText[j] + "&token=" + token;
-                HttpClient httpClient = new HttpClient(url);
-                httpClient.asGet();
-                result = httpClient.getResponseText();
-                AlphaFineHelper.checkCancel();
                 try {
+                    String result = HttpToolbox.get(url);
+                    AlphaFineHelper.checkCancel();
                     Object json = new JSONTokener(result).nextValue();
                     if (json instanceof JSONArray) {
                         JSONArray jsonArray = new JSONArray(result);
@@ -65,6 +61,8 @@ public class SimilarSearchManeger implements AlphaFineSearchProvider {
                     }
                 } catch (JSONException e) {
                     FineLoggerFactory.getLogger().error("similar search error: " + e.getMessage());
+                } catch (IOException e) {
+                    FineLoggerFactory.getLogger().error("similar search get result error: " + e.getMessage());
                 }
             }
             moreModelList.clear();

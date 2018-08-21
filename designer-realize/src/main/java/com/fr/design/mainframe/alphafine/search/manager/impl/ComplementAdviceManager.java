@@ -5,7 +5,7 @@ import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.alphafine.cell.model.RobotModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
-import com.fr.general.http.HttpClient;
+import com.fr.general.http.HttpToolbox;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
@@ -14,15 +14,17 @@ import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
 import org.apache.commons.codec.digest.DigestUtils;
 
+import java.io.IOException;
+//import com.fr.third.org.apache.commons.codec.digest.DigestUtils;
+
+
 /**
  * @author alex.sung created on 2018/7/23.
  */
 public class ComplementAdviceManager {
 
-    public static int count = 0;
-
     private static ComplementAdviceManager instance;
-    private SearchResult allModelList;
+    private volatile SearchResult allModelList;
 
     public static ComplementAdviceManager getInstance() {
         if (instance == null) {
@@ -40,19 +42,16 @@ public class ComplementAdviceManager {
      * @param searchText
      * @return
      */
-    public synchronized SearchResult getAllSearchResult(String[] searchText) {
+    public SearchResult getAllSearchResult(String[] searchText) {
         allModelList = new SearchResult();
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isNeedIntelligentCustomerService()) {
             SearchResult searchResult = new SearchResult();
             for (int j = 0; j < searchText.length; j++) {
-                String result;
                 String token = DigestUtils.md5Hex(AlphaFineConstants.ALPHA_ROBOT_SEARCH_TOKEN + searchText[j]);
                 String url = AlphaFineConstants.COMPLEMENT_ADVICE_SEARCH_URL_PREFIX + "msg=" + searchText[j] + "&token=" + token;
-                HttpClient httpClient = new HttpClient(url);
-                httpClient.asGet();
-                result = httpClient.getResponseText();
-                AlphaFineHelper.checkCancel();
                 try {
+                    String result = HttpToolbox.get(url);
+                    AlphaFineHelper.checkCancel();
                     Object json = new JSONTokener(result).nextValue();
                     if (json instanceof JSONArray) {
                         JSONArray jsonArray = new JSONArray(result);
@@ -61,7 +60,7 @@ public class ComplementAdviceManager {
                             JSONObject jsonObject = jsonArray.optJSONObject(i);
 
                             String temp = jsonObject.optString("keywords");
-                            if (!StringUtils.isEmpty(temp)) {
+                            if (StringUtils.isNotEmpty(temp)) {
                                 RobotModel robotModel = new RobotModel(temp, null);
                                 if (!AlphaFineHelper.getFilterResult().contains(robotModel) && !allModelList.contains(robotModel)) {
                                     allModelList.add(robotModel);
@@ -71,6 +70,8 @@ public class ComplementAdviceManager {
                     }
                 } catch (JSONException e) {
                     FineLoggerFactory.getLogger().error("complement advice search error: " + e.getMessage());
+                }catch (IOException e1) {
+                    FineLoggerFactory.getLogger().error("complement advice get result error: " + e1.getMessage());
                 }
             }
             if (searchResult.isEmpty()) {

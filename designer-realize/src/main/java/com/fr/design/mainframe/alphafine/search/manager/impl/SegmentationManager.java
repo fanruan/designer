@@ -1,5 +1,6 @@
 package com.fr.design.mainframe.alphafine.search.manager.impl;
 
+import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.stable.StringUtils;
 
 import com.fr.third.ibm.icu.text.BreakIterator;
@@ -15,13 +16,12 @@ public class SegmentationManager {
     private static SegmentationManager segmentationManager = null;
     private static final int MAX_CHINESE_CHARACTERS_NUM = 4;
 
-    public static SegmentationManager getInstance() {
+    public static synchronized SegmentationManager getInstance() {
         if (segmentationManager == null) {
             segmentationManager = new SegmentationManager();
             return segmentationManager;
-        } else {
-            return segmentationManager;
         }
+        return segmentationManager;
     }
 
     /**
@@ -52,14 +52,13 @@ public class SegmentationManager {
      * @return
      */
     public String[] startSegmentation(String searchText) {
-        String regEx = "[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——+|{}【】'；：”“’。，、？]";
-        Pattern p = Pattern.compile(regEx);
+        Pattern p = Pattern.compile(AlphaFineConstants.SPECIAL_CHARACTER_REGEX);
         Matcher m = p.matcher(searchText);
         searchText = m.replaceAll("").trim().replaceAll(" ", "");
-        if (searchText.length() == 0) {
+        if (StringUtils.isEmpty(searchText)) {
             return null;
         }
-        if(!isNeedSegmentation(searchText)){
+        if (!isNeedSegmentation(searchText)) {
             return new String[]{searchText};
         }
         List<String> result = new ArrayList<>();

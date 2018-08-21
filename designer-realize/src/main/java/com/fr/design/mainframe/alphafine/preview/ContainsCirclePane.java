@@ -15,7 +15,7 @@ import java.awt.Graphics;
 public class ContainsCirclePane extends JPanel {
 
     public ContainsCirclePane(int pngIndex) {
-        UILabel iconLabel = new UILabel(IconLoader.getIcon(AlphaFineConstants.IMAGE_URL + "alphafine_hot" + pngIndex + ".png"));
+        UILabel iconLabel = new UILabel(IconLoader.getIcon(AlphaFineConstants.IMAGE_URL + AlphaFineConstants.ALPHA_HOT_IMAGE_NAME + pngIndex + ".png"));
         iconLabel.setPreferredSize(AlphaFineConstants.HOT_ICON_LABEL_SIZE);
         iconLabel.setOpaque(true);
         iconLabel.setBackground(Color.WHITE);

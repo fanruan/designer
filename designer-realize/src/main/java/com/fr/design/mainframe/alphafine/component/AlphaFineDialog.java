@@ -11,11 +11,29 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.alphafine.cell.CellModelHelper;
-import com.fr.design.mainframe.alphafine.cell.model.*;
+import com.fr.design.mainframe.alphafine.cell.model.RobotModel;
+import com.fr.design.mainframe.alphafine.cell.model.BottomModel;
+import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
+import com.fr.design.mainframe.alphafine.cell.model.FileModel;
+import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
+import com.fr.design.mainframe.alphafine.cell.model.PluginModel;
 import com.fr.design.mainframe.alphafine.cell.render.ContentCellRender;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
-import com.fr.design.mainframe.alphafine.preview.*;
-import com.fr.design.mainframe.alphafine.search.manager.impl.*;
+import com.fr.design.mainframe.alphafine.preview.DocumentPreviewPane;
+import com.fr.design.mainframe.alphafine.preview.FilePreviewPane;
+import com.fr.design.mainframe.alphafine.preview.NoResultPane;
+import com.fr.design.mainframe.alphafine.preview.PluginPreviewPane;
+import com.fr.design.mainframe.alphafine.preview.RobotPreviewPane;
+import com.fr.design.mainframe.alphafine.preview.ContainsCirclePane;
+import com.fr.design.mainframe.alphafine.search.manager.impl.ActionSearchManager;
+import com.fr.design.mainframe.alphafine.search.manager.impl.DocumentSearchManager;
+import com.fr.design.mainframe.alphafine.search.manager.impl.FileSearchManager;
+import com.fr.design.mainframe.alphafine.search.manager.impl.HotIssuesManager;
+import com.fr.design.mainframe.alphafine.search.manager.impl.PluginSearchManager;
+import com.fr.design.mainframe.alphafine.search.manager.impl.RecentSearchManager;
+import com.fr.design.mainframe.alphafine.search.manager.impl.RecommendSearchManager;
+import com.fr.design.mainframe.alphafine.search.manager.impl.SegmentationManager;
+import com.fr.design.mainframe.alphafine.search.manager.impl.SimilarSearchManeger;
 import com.fr.design.mainframe.errorinfo.ErrorInfoUploader;
 import com.fr.design.mainframe.templateinfo.TemplateInfoCollector;
 import com.fr.form.main.Form;
@@ -33,11 +51,38 @@ import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
+import javax.swing.Timer;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.AWTEvent;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.Graphics;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.Window;
+import java.awt.event.AWTEventListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
@@ -68,6 +113,7 @@ public class AlphaFineDialog extends UIDialog {
     private static final String SIMILAR_MARK = "k:robot ";
     private static final String PLACE_HOLDER = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine");
     private static final int MAX_SHOW_SIZE = 12;
+    private static final int TIMER_DELAY = 300;
 
     private AlphaFineTextField searchTextField;
     private UIButton closeButton;
@@ -91,8 +137,8 @@ public class AlphaFineDialog extends UIDialog {
     private JPanel backPane;
     SearchResult modeList = null;
     private static String beforeSearchStr = "";
-    private static boolean isAlreadySearch = false;
-    private static boolean isAlreadyInitHot = false;
+    private static boolean alreadySearch = false;
+    private static boolean alreadyInitHot = false;
 
     public AlphaFineDialog(Frame parent, boolean forceOpen) {
         super(parent);
@@ -247,17 +293,6 @@ public class AlphaFineDialog extends UIDialog {
 //这里设置位置：水平居中，竖直偏上
         win.setLocation((screenSize.width - winSize.width) / 2, (screenSize.height - winSize.height) / AlphaFineConstants.SHOW_SIZE);
     }
-
-// TODO: 2017/5/8 xiaxiang: 窗体圆角setShape()有毛边，重写paint方法可以解决毛边问题，但带来了别的问题,处理比较麻烦，暂用setShape();
-// public void paint(Graphics g){
-// Graphics2D g2 = (Graphics2D) g.create();
-// RenderingHints qualityHints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-// qualityHints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-// g2.setRenderingHints(qualityHints);
-// g2.setPaint(Color.WHITE);
-// g2.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
-// g2.dispose();
-// }
 
     /**
      * 执行搜索
@@ -669,12 +704,14 @@ public class AlphaFineDialog extends UIDialog {
                     @Override
                     protected String doInBackground() {
                         String content = RobotModel.getContent((selectedValue).getName());
-                        //去掉小帆底部的信息
-                        String regex1 = "<div class=\"bang\">([\\s\\S]*?)class=\"jiaoyes\">YES</a><br/>";
-                        String regex2 = "<div class=\"yes_([\\s\\S]*?)帮助</a></div></div>";
-                        content = content.replaceAll(regex1, "")
-                                .replaceAll(regex2, "");
-                        return content;
+                        if(StringUtils.isNotEmpty(content)){
+                            //去掉小帆底部的信息
+                            content = content.replaceAll(AlphaFineConstants.BOTTOM_REGEX_FIRST, "")
+                                    .replaceAll(AlphaFineConstants.BOTTOM_REGEX_SECOND, "");
+                            return content;
+                        }else{
+                            return "";
+                        }
                     }
 
                     @Override
@@ -684,9 +721,9 @@ public class AlphaFineDialog extends UIDialog {
                             try {
                                 rightSearchResultPane.add(new RobotPreviewPane((selectedValue).getName(), get()));
                             } catch (InterruptedException e) {
-                                e.printStackTrace();
+                                FineLoggerFactory.getLogger().error("get hot item content error: " + e.getMessage());
                             } catch (ExecutionException e) {
-                                e.printStackTrace();
+                                FineLoggerFactory.getLogger().error("get hot item content execution error: " + e.getMessage());
                             }
                             validate();
                             repaint();
@@ -762,11 +799,11 @@ public class AlphaFineDialog extends UIDialog {
             }
         });
 
-        Timer timer = new Timer(300, new ActionListener() {
+        Timer timer = new Timer(TIMER_DELAY, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!isAlreadyInitHot && searchTextField.getText().length() == 0) {
-                    isAlreadyInitHot = true;
+                if (!alreadyInitHot && StringUtils.isEmpty(searchTextField.getText())) {
+                    alreadyInitHot = true;
                     removeSearchResult();
                     refreshContainer();
                     if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isNeedIntelligentCustomerService()) {
@@ -779,8 +816,8 @@ public class AlphaFineDialog extends UIDialog {
                     }
                     refreshContainer();
                     return;
-                } else if (beforeSearchStr.equals(searchTextField.getText()) && beforeSearchStr.length() != 0) {
-                    if (isAlreadySearch) {
+                } else if (beforeSearchStr.equals(searchTextField.getText()) && StringUtils.isNotEmpty(beforeSearchStr)) {
+                    if (alreadySearch) {
                         return;
                     } else {
                         removeHotPane();
@@ -796,21 +833,21 @@ public class AlphaFineDialog extends UIDialog {
                                 segmentationResult = SegmentationManager.getInstance().startSegmentation(searchTextField.getText().toLowerCase());
                             }
                         } else {
-                            if(StringUtils.isEmpty(getRealSearchText(searchTextField.getText().toLowerCase()))){
+                            if(StringUtils.isEmpty(getRealSearchText(searchTextField.getText()))){
                                 segmentationResult = null;
                             }else{
-                                segmentationResult = new String[]{getRealSearchText(searchTextField.getText().toLowerCase())};
+                                segmentationResult = new String[]{getRealSearchText(searchTextField.getText())};
                             }
                         }
                         doSearch(searchTextField.getText().toLowerCase());
-                        isAlreadySearch = true;
+                        alreadySearch = true;
                     }
                 } else {
                     beforeSearchStr = searchTextField.getText();
-                    isAlreadySearch = false;
+                    alreadySearch = false;
                 }
                 if (beforeSearchStr.equals(searchTextField.getText()) && beforeSearchStr.length() != 0) {
-                    isAlreadyInitHot = false;
+                    alreadyInitHot = false;
                 }
             }
 
@@ -822,8 +859,8 @@ public class AlphaFineDialog extends UIDialog {
      * 去除特殊字符，空格等
      */
     private String getRealSearchText(String searchText){
-        String regEx = "[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——+|{}【】'；：”“’。，、？]";
-        Pattern p = Pattern.compile(regEx);
+        searchText = searchText.toLowerCase();
+        Pattern p = Pattern.compile(AlphaFineConstants.SPECIAL_CHARACTER_REGEX);
         Matcher m = p.matcher(searchText);
         searchText = m.replaceAll("").trim().replaceAll(" ", "");
         if (searchText.length() == 0) {
@@ -1301,7 +1338,8 @@ public class AlphaFineDialog extends UIDialog {
         jLabel.setFont(AlphaFineConstants.SMALL_FONT);
         jLabel.setForeground(AlphaFineConstants.DARK_GRAY);
         backPane.add(jLabel, BorderLayout.CENTER);
-        jLabel.addMouseListener(new MouseListener() {
+
+        jLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (searchResultPane != null) {
@@ -1317,26 +1355,6 @@ public class AlphaFineDialog extends UIDialog {
                     setSize(AlphaFineConstants.FIELD_SIZE);
                 }
                 refreshContainer();
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
             }
         });
     }
@@ -1379,7 +1397,7 @@ public class AlphaFineDialog extends UIDialog {
                 final UILabel subTitle = new UILabel(str[i]);
                 subTitle.setForeground(AlphaFineConstants.DARK_GRAY);
                 subTitle.setFont(AlphaFineConstants.MEDIUM_FONT_ANOTHER);
-                subTitle.addMouseListener(new MouseListener() {
+                subTitle.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         segmentationResult = null;
@@ -1392,26 +1410,6 @@ public class AlphaFineDialog extends UIDialog {
                         refreshContainer();
                         modeList = HotIssuesManager.getInstance().getTitleSearchResult(subTitle.getText());
                         showIssuesList();
-                    }
-
-                    @Override
-                    public void mousePressed(MouseEvent e) {
-
-                    }
-
-                    @Override
-                    public void mouseReleased(MouseEvent e) {
-
-                    }
-
-                    @Override
-                    public void mouseEntered(MouseEvent e) {
-
-                    }
-
-                    @Override
-                    public void mouseExited(MouseEvent e) {
-
                     }
                 });
                 bottomPanel.add(subTitle);
