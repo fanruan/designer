@@ -72,9 +72,11 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
     }
 
     @Override
-    public SearchResult getLessSearchResult(String searchText) {
+    public SearchResult getLessSearchResult(String[] searchText) {
         this.modelList = new SearchResult();
-        recentModelList = getRecentModelList(searchText);
+        for (int j = 0; j < searchText.length; j++) {
+            recentModelList = getRecentModelList(searchText[j]);
+        }
         if (recentModelList != null && recentModelList.size() > 0) {
             modelList.add(new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Latest")));
             if (recentModelList.size() > AlphaFineConstants.LATEST_SHOW_SIZE) {
@@ -136,6 +138,9 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
             initWriter();
             Document doc = new Document();
             doc.add(new StringField("searchKey", searchKey, Field.Store.YES));
+            if(cellModel == null){
+                System.out.println("null");
+            }
             doc.add(new StringField("cellModel", cellModel.ModelToJson().toString(), Field.Store.YES));
             doc.add(new LongField("time", System.currentTimeMillis(), Field.Store.YES));
             writeDoc(doc);
@@ -171,7 +176,7 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
 
             initReader();
             IndexSearcher searcher = new IndexSearcher(indexReader);
-            //构建排序字段
+			//构建排序字段
             SortField[] sortField = new SortField[1];
             sortField[0] = new SortField("time", SortField.Type.LONG, true);
             Sort sortKey = new Sort(sortField);
@@ -181,7 +186,7 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
             TopFieldDocs docs = searcher.search(query, MAX_SIZE, sortKey);
             ScoreDoc[] scores = docs.scoreDocs;
             this.recentModelList = new SearchResult();
-            //遍历结果
+			//遍历结果
             for (ScoreDoc scoreDoc : scores) {
                 Document document = searcher.doc(scoreDoc.doc);
                 AlphaCellModel model = CellModelHelper.getModelFromJson(new JSONObject(document.get("cellModel")));

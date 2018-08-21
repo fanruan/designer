@@ -56,6 +56,14 @@ public class AlphaFineConfigManager implements XMLable {
      */
     private boolean isContainPlugin = true;
     /**
+    * 分词搜索
+    */
+    private boolean isNeedSegmentationCheckbox = true;
+    /**
+    * 智能客服
+    */
+    private boolean isNeedIntelligentCustomerService = true;
+    /**
      * 快捷键
      */
     private KeyStroke shortCutKeyStore;
@@ -94,6 +102,8 @@ public class AlphaFineConfigManager implements XMLable {
             this.setContainAction(reader.getAttrAsBoolean("isContainAction", true));
             this.setContainTemplate(reader.getAttrAsBoolean("isContainTemplate", true));
             this.setContainFileContent(reader.getAttrAsBoolean("isContainFileContent", false));
+            this.setNeedSegmentationCheckbox(reader.getAttrAsBoolean("isNeedSegmentationCheckbox", true));
+            this.setNeedIntelligentCustomerService(reader.getAttrAsBoolean("isNeedIntelligentCustomerService", true));
             this.setShortcuts(reader.getAttrAsString("shortcuts", getDefaultShortCuts()));
             this.setNeedRemind(reader.getAttrAsBoolean("isNeedRemind", true));
             this.setOperateCount(reader.getAttrAsInt("operateCount", 0));
@@ -115,7 +125,9 @@ public class AlphaFineConfigManager implements XMLable {
                 .attr("isContainPlugin", this.isContainPlugin())
                 .attr("isContainFileContent", this.isContainFileContent())
                 .attr("isNeedRemind", this.isNeedRemind())
-                .attr("operateCount", this.getOperateCount());
+                .attr("operateCount", this.getOperateCount())
+                .attr("isNeedSegmentationCheckbox", this.isNeedSegmentationCheckbox())
+                .attr("isNeedIntelligentCustomerService", this.isNeedIntelligentCustomerService());
         writer.end();
     }
 
@@ -227,6 +239,21 @@ public class AlphaFineConfigManager implements XMLable {
         isNeedRemind = needRemind;
     }
 
+    public boolean isNeedSegmentationCheckbox() {
+    return isNeedSegmentationCheckbox;
+    }
+
+    public void setNeedSegmentationCheckbox(boolean needSegmentationCheckbox) {
+    isNeedSegmentationCheckbox = needSegmentationCheckbox;
+    }
+
+    public boolean isNeedIntelligentCustomerService() {
+    return isNeedIntelligentCustomerService;
+    }
+
+    public void setNeedIntelligentCustomerService(boolean needIntelligentCustomerService) {
+    isNeedIntelligentCustomerService = needIntelligentCustomerService;
+    }
     public int getOperateCount() {
         return operateCount;
     }

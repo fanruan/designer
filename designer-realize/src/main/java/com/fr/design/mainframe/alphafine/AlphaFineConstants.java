@@ -2,7 +2,10 @@ package com.fr.design.mainframe.alphafine;
 
 import com.fr.general.CloudCenter;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+
 
 /**
  * Created by XiaXiang on 2017/5/10.
@@ -31,6 +34,10 @@ public class AlphaFineConstants {
 
     public static final int CELL_TITLE_HEIGHT = 24;
 
+    public static final int HOT_ICON_LABEL_HEIGHT = 36;
+
+    public static final int HOT_ITEMS = 6;
+
 
     public static final Dimension FULL_SIZE = new Dimension(680, 460);
 
@@ -39,6 +46,10 @@ public class AlphaFineConstants {
     public static final Dimension FIELD_SIZE = new Dimension(680, 55);
 
     public static final Dimension ICON_LABEL_SIZE = new Dimension(64, 64);
+
+    public static final Dimension HOT_ICON_LABEL_SIZE = new Dimension(36, 36);
+
+    public static final Dimension HOT_ISSUES_JAPNEL_SIZE = new Dimension(213,182);
 
     public static final Dimension CLOSE_BUTTON_SIZE = new Dimension(40, 40);
 
@@ -61,6 +72,8 @@ public class AlphaFineConstants {
     public static final Font SMALL_FONT = new Font("Song_TypeFace", 0, 10);
 
     public static final Font MEDIUM_FONT = new Font("Song_TypeFace", 0, 12);
+
+    public static final Font MEDIUM_FONT_ANOTHER = new Font("HiraginoSansGB-W3", 0, 12);
 
     public static final Font LARGE_FONT = new Font("Song_TypeFace", 0, 18);
 
@@ -87,7 +100,13 @@ public class AlphaFineConstants {
 
     public static final String SEARCH_API = CloudCenter.getInstance().acquireUrlByKind("af.cloud_search");
 
+    public static final String ALPHA_ROBOT_SEARCH_TOKEN = "K8dl0Np6l0gs";
 
+    public static final String SIMILAR_SEARCH_URL_PREFIX = "http://robot.finereport.com/openapi/like.php?action=search&";
+
+    public static final String COMPLEMENT_ADVICE_SEARCH_URL_PREFIX = "http://robot.finereport.com/openapi/getkw.php?";
+
+    public static final String ALPHA_HOT_SEARCH = "http://robot.finereport.com/openapi/hot.php";
 
 
 }

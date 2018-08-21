@@ -14,7 +14,6 @@ import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
-import com.fr.stable.StringUtils;
 
 /**
  * Created by XiaXiang on 2017/3/27.
@@ -50,48 +49,53 @@ public class DocumentSearchManager implements AlphaFineSearchProvider {
     }
 
     @Override
-    public synchronized SearchResult getLessSearchResult(String searchText) {
+    public synchronized SearchResult getLessSearchResult(String[] searchText) {
         lessModelList = new SearchResult();
         moreModelList = new SearchResult();
-        if (StringUtils.isBlank(searchText)) {
+        if (searchText.length == 0) {
             lessModelList.add(new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Community_Help")));
             return lessModelList;
         }
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainDocument()) {
-            String result;
-            String url = AlphaFineConstants.DOCUMENT_SEARCH_URL + searchText + "-1";
-            HttpClient httpClient = new HttpClient(url);
-            httpClient.asGet();
-            if (!httpClient.isServerAlive()) {
-                return getNoConnectList();
-            }
-            result = httpClient.getResponseText();
-            AlphaFineHelper.checkCancel();
-            try {
-                JSONObject jsonObject = new JSONObject(result);
-                JSONArray jsonArray = jsonObject.optJSONArray("docdata");
-                if (jsonArray != null) {
-                    SearchResult searchResult = new SearchResult();
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        AlphaFineHelper.checkCancel();
-                        DocumentModel cellModel = getModelFromCloud(jsonArray.optJSONObject(i));
-                        if (!AlphaFineHelper.getFilterResult().contains(cellModel)) {
-                            searchResult.add(cellModel);
+            SearchResult searchResult = new SearchResult();
+            for (int j = 0; j < searchText.length; j++) {
+                String result;
+                String url = AlphaFineConstants.DOCUMENT_SEARCH_URL + searchText[j] + "-1";
+                HttpClient httpClient = new HttpClient(url);
+                httpClient.asGet();
+                if (!httpClient.isServerAlive()) {
+                    return getNoConnectList();
+                }
+                result = httpClient.getResponseText();
+                AlphaFineHelper.checkCancel();
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    JSONArray jsonArray = jsonObject.optJSONArray("docdata");
+                    if (jsonArray != null) {
+
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            AlphaFineHelper.checkCancel();
+                            DocumentModel cellModel = getModelFromCloud(jsonArray.optJSONObject(i));
+                            if (!AlphaFineHelper.getFilterResult().contains(cellModel)) {
+                                searchResult.add(cellModel);
+                            }
                         }
                     }
-                    if (searchResult.isEmpty()) {
-                        return lessModelList;
-                    } else if (searchResult.size() < AlphaFineConstants.SHOW_SIZE + 1) {
-                        lessModelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Community_Help")));
-                        lessModelList.addAll(searchResult);
-                    } else {
-                        lessModelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Community_Help"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_ShowAll"), true, CellType.DOCUMENT));
-                        lessModelList.addAll(searchResult.subList(0, AlphaFineConstants.SHOW_SIZE));
-                        moreModelList.addAll(searchResult.subList(AlphaFineConstants.SHOW_SIZE, searchResult.size()));
-                    }
+                } catch (JSONException e) {
+                    FineLoggerFactory.getLogger().error("document search error: " + e.getMessage());
                 }
-            } catch (JSONException e) {
-                FineLoggerFactory.getLogger().error("document search error: " + e.getMessage());
+            }
+            lessModelList.clear();
+            moreModelList.clear();
+            if (searchResult.isEmpty()) {
+                return lessModelList;
+            } else if (searchResult.size() < AlphaFineConstants.SHOW_SIZE + 1) {
+                lessModelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Community_Help")));
+                lessModelList.addAll(searchResult);
+            } else {
+                lessModelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Community_Help"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_ShowAll"), true, CellType.DOCUMENT));
+                lessModelList.addAll(searchResult.subList(0, AlphaFineConstants.SHOW_SIZE));
+                moreModelList.addAll(searchResult.subList(AlphaFineConstants.SHOW_SIZE, searchResult.size()));
             }
         }
         return lessModelList;

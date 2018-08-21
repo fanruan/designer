@@ -15,6 +15,7 @@ import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
+import com.fr.json.JSONTokener;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CodeUtils;
 import com.fr.stable.StringUtils;
@@ -30,6 +31,9 @@ public class RecommendSearchManager implements AlphaFineSearchProvider {
     private SearchResult modelList;
     private SearchResult recommendModelList;
 
+    private SearchResult complementAdviceModelList;
+    private SearchResult moreModelList = new SearchResult();
+
     public static RecommendSearchManager getInstance() {
         if (instance == null) {
             synchronized (RecentSearchManager.class) {
@@ -42,37 +46,45 @@ public class RecommendSearchManager implements AlphaFineSearchProvider {
     }
 
     @Override
-    public synchronized SearchResult getLessSearchResult(String searchText) {
-        searchText = searchText.replaceAll(StringUtils.BLANK, StringUtils.EMPTY);
+    public synchronized SearchResult getLessSearchResult(String[] searchText) {
+
         this.modelList = new SearchResult();
         this.recommendModelList = new SearchResult();
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainRecommend()) {
-            String result;
-            HttpClient httpClient = new HttpClient(AlphaFineConstants.SEARCH_API + CodeUtils.cjkEncode(searchText));
-            httpClient.asGet();
-            if (!httpClient.isServerAlive()) {
-                return getNoConnectList();
-            }
-            httpClient.setTimeout(3000);
-            result = httpClient.getResponseText();
-            AlphaFineHelper.checkCancel();
-            try {
-                JSONObject jsonObject = new JSONObject(result);
-                if (jsonObject.optString("status").equals("success")) {
-                    JSONArray jsonArray = jsonObject.optJSONArray("result");
-                    if (jsonArray != null && jsonArray.length() > 0) {
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            AlphaFineHelper.checkCancel();
-                            AlphaCellModel alphaCellModel = CellModelHelper.getModelFromJson((JSONObject) jsonArray.get(i));
-                            if (alphaCellModel != null && !alreadyContain(alphaCellModel)) {
-                                this.recommendModelList.add(alphaCellModel);
+            for (int j = 0; j < searchText.length; j++) {
+                String result;
+                searchText[j] = searchText[j].replaceAll(StringUtils.BLANK, StringUtils.EMPTY);
+                HttpClient httpClient = new HttpClient(AlphaFineConstants.SEARCH_API + CodeUtils.cjkEncode(searchText[j]));
+                httpClient.asGet();
+                if (!httpClient.isServerAlive()) {
+                    return getNoConnectList();
+                }
+                httpClient.setTimeout(3000);
+                result = httpClient.getResponseText();
+                AlphaFineHelper.checkCancel();
+                try {
+                    Object json = new JSONTokener(result).nextValue();
+                    if (json instanceof JSONObject) {
+                        JSONObject jsonObject = new JSONObject(result);
+                        if (jsonObject.optString("status").equals("success")) {
+                            JSONArray jsonArray = jsonObject.optJSONArray("result");
+                            if (jsonArray != null && jsonArray.length() > 0) {
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    AlphaFineHelper.checkCancel();
+                                    AlphaCellModel alphaCellModel = CellModelHelper.getModelFromJson((JSONObject) jsonArray.get(i));
+                                    if (alphaCellModel != null && !alreadyContain(alphaCellModel)) {
+
+                                        this.recommendModelList.add(alphaCellModel);
+                                    }
+                                }
                             }
                         }
                     }
+                } catch (JSONException e) {
+                    FineLoggerFactory.getLogger().error("recommend search error! :" + e.getMessage());
                 }
-            } catch (JSONException e) {
-                FineLoggerFactory.getLogger().error("recommend search error! :" + e.getMessage());
             }
+
             Iterator<AlphaCellModel> modelIterator = recommendModelList.iterator();
             while (modelIterator.hasNext()) {
                 AlphaCellModel model = modelIterator.next();
@@ -80,9 +92,63 @@ public class RecommendSearchManager implements AlphaFineSearchProvider {
                     modelIterator.remove();
                 }
             }
+            complementAdviceModelList = ComplementAdviceManager.getInstance().getAllSearchResult(searchText);
+            moreModelList.clear();
             if (recommendModelList.size() > 0) {
-                modelList.add(new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Recommend"), false));
-                modelList.addAll(recommendModelList);
+                if (complementAdviceModelList.size() == 0) {
+                    if (recommendModelList.size() > AlphaFineConstants.SHOW_SIZE - 2) {
+                        if (recommendModelList.size() > AlphaFineConstants.SHOW_SIZE) {
+                            modelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Recommend"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_ShowAll"), true, CellType.RECOMMEND));
+                        } else {
+                            modelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Recommend"), false));
+                        }
+                        modelList.addAll(recommendModelList.subList(0, AlphaFineConstants.SHOW_SIZE - 2));
+                        moreModelList.addAll(recommendModelList.subList(AlphaFineConstants.SHOW_SIZE - 2, recommendModelList.size()));
+                    } else {
+                        modelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Recommend"), false));
+                        modelList.addAll(recommendModelList);
+                    }
+                } else {
+                    if (recommendModelList.size() + complementAdviceModelList.size() > AlphaFineConstants.SHOW_SIZE) {
+                        modelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Recommend"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_ShowAll"), true, CellType.RECOMMEND));
+                        if (recommendModelList.size() > AlphaFineConstants.SHOW_SIZE - 2) {
+                            modelList.addAll(recommendModelList.subList(0, AlphaFineConstants.SHOW_SIZE - 2));
+                            moreModelList.addAll(recommendModelList.subList(AlphaFineConstants.SHOW_SIZE - 2, recommendModelList.size()));
+
+                            if (complementAdviceModelList.size() >= 2) {
+                                modelList.addAll(complementAdviceModelList.subList(0, 2));
+                                moreModelList.addAll(complementAdviceModelList.subList(2, complementAdviceModelList.size()));
+                            } else {
+                                modelList.addAll(complementAdviceModelList);
+                            }
+                        } else {
+                            modelList.addAll(recommendModelList);
+                            if (complementAdviceModelList.size() >= (AlphaFineConstants.SHOW_SIZE - recommendModelList.size())) {
+                                modelList.addAll(complementAdviceModelList.subList(0, AlphaFineConstants.SHOW_SIZE - recommendModelList.size()));
+                                moreModelList.addAll(complementAdviceModelList.subList(2, complementAdviceModelList.size()));
+                            } else {
+                                modelList.addAll(complementAdviceModelList);
+                            }
+                        }
+                    } else {
+                        modelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Recommend"), false));
+                        modelList.addAll(recommendModelList);
+                        modelList.addAll(complementAdviceModelList);
+                    }
+                }
+            }else{
+                if(complementAdviceModelList.size() > 0) {
+                    if (complementAdviceModelList.size() > AlphaFineConstants.SHOW_SIZE) {
+                        modelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Recommend"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_ShowAll"), true, CellType.RECOMMEND));
+                        modelList.addAll(complementAdviceModelList.subList(0, AlphaFineConstants.SHOW_SIZE));
+                        moreModelList.addAll(complementAdviceModelList.subList(AlphaFineConstants.SHOW_SIZE, complementAdviceModelList.size()));
+                    }else{
+                        modelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Recommend"), false));
+                        modelList.addAll(complementAdviceModelList);
+                    }
+                }else{
+                    return modelList;
+                }
             }
         }
         return modelList;
@@ -105,9 +171,10 @@ public class RecommendSearchManager implements AlphaFineSearchProvider {
         return result;
     }
 
+
     @Override
     public SearchResult getMoreSearchResult(String searchText) {
-        return new SearchResult();
+        return moreModelList;
     }
 
     public List<AlphaCellModel> getRecommendModelList() {

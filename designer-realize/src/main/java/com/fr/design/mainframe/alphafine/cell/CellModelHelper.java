@@ -6,6 +6,7 @@ import com.fr.design.mainframe.alphafine.search.manager.impl.ActionSearchManager
 import com.fr.design.mainframe.alphafine.search.manager.impl.DocumentSearchManager;
 import com.fr.design.mainframe.alphafine.search.manager.impl.FileSearchManager;
 import com.fr.design.mainframe.alphafine.search.manager.impl.PluginSearchManager;
+import com.fr.design.mainframe.alphafine.search.manager.impl.SimilarSearchManeger;
 import com.fr.json.JSONObject;
 
 /**
@@ -31,6 +32,9 @@ public class CellModelHelper {
             case REUSE:
                 cellModel = PluginSearchManager.getModelFromCloud(object.optJSONObject(RESULT));
                 break;
+            case ROBOT:
+            case RECOMMEND_ROBOT:
+                cellModel = SimilarSearchManeger.getModelFromCloud(object.optJSONObject(RESULT));
 
         }
         return cellModel;

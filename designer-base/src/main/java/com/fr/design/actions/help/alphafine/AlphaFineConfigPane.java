@@ -8,7 +8,6 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayoutHelper;
-
 import com.fr.log.FineLoggerFactory;
 
 import javax.swing.*;
@@ -56,7 +55,7 @@ public class AlphaFineConfigPane extends BasicPane {
     private static final double COLUMN_GAP = 180;
     private static final double ROW_GAP = 25;
     private KeyStroke shortCutKeyStore = null;
-    private UICheckBox isEnabledCheckbox, isSearchOnlineCheckbox, isContainRecommendCheckbox, isContainActionCheckbox, isContainDocumentCheckbox, isContainTemplateCheckbox, isContainPluginCheckbox, isContainFileContentCheckbox;
+    private UICheckBox isEnabledCheckbox, isSearchOnlineCheckbox, isNeedSegmentationCheckbox, isNeedIntelligentCustomerService, isContainRecommendCheckbox, isContainActionCheckbox, isContainDocumentCheckbox, isContainTemplateCheckbox, isContainPluginCheckbox, isContainFileContentCheckbox;
     private UITextField shortcutsField;
 
     public AlphaFineConfigPane() {
@@ -77,13 +76,21 @@ public class AlphaFineConfigPane extends BasicPane {
     private Component[][] initSearchRangeComponents() {
         Component[][] components = new Component[][]{
                 new Component[]{isContainRecommendCheckbox, isContainActionCheckbox, isContainDocumentCheckbox},
-                new Component[]{isContainTemplateCheckbox, isContainPluginCheckbox, isContainFileContentCheckbox}
+                new Component[]{isContainTemplateCheckbox, isContainPluginCheckbox, isContainFileContentCheckbox},
+                new Component[]{isNeedIntelligentCustomerService, null, null}
+        };
+        return components;
+    }
+
+    private Component[][] initOnlineComponents() {
+        Component[][] components = new Component[][]{
+                new Component[]{isSearchOnlineCheckbox, isNeedSegmentationCheckbox, null}
         };
         return components;
     }
 
     private void createSearchConfigPane(JPanel contentPane) {
-        double[] rowSize = {ROW_GAP, ROW_GAP};
+        double[] rowSize = {ROW_GAP, ROW_GAP, ROW_GAP};
 
         double[] columnSize = {COLUMN_GAP, COLUMN_GAP, COLUMN_GAP};
 
@@ -94,6 +101,7 @@ public class AlphaFineConfigPane extends BasicPane {
         isContainDocumentCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Community_Help"));
         isContainTemplateCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Templates"));
         isContainFileContentCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Templates_Content"));
+        isNeedIntelligentCustomerService = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_AlphaFine_Intelligent_Customer_Service"));
         JPanel searchConfigPane = TableLayoutHelper.createTableLayoutPane(initSearchRangeComponents(), rowSize, columnSize);
         northPane.add(searchConfigPane);
         contentPane.add(northPane);
@@ -138,8 +146,9 @@ public class AlphaFineConfigPane extends BasicPane {
     }
 
     private void createOnlinePane(JPanel contentPane) {
-        JPanel northPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_AlphaFine_Enable_Internet"));
+        JPanel northPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_AlphaFine_Search_Type"));
         isSearchOnlineCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_AlphaFine_Enable_Internet_Search"));
+        isNeedSegmentationCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_AlphaFine_Enable_Segmentation"));
         isSearchOnlineCheckbox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -147,17 +156,23 @@ public class AlphaFineConfigPane extends BasicPane {
                     isContainRecommendCheckbox.setEnabled(false);
                     isContainPluginCheckbox.setEnabled(false);
                     isContainDocumentCheckbox.setEnabled(false);
+                    isNeedIntelligentCustomerService.setEnabled(false);
                     isContainRecommendCheckbox.setSelected(false);
                     isContainPluginCheckbox.setSelected(false);
                     isContainDocumentCheckbox.setSelected(false);
+                    isNeedIntelligentCustomerService.setSelected(false);
                 } else {
                     isContainRecommendCheckbox.setEnabled(true);
                     isContainPluginCheckbox.setEnabled(true);
                     isContainDocumentCheckbox.setEnabled(true);
+                    isNeedIntelligentCustomerService.setEnabled(true);
                 }
             }
         });
-        northPane.add(isSearchOnlineCheckbox);
+        double[] rowSize = {ROW_GAP};
+        double[] columnSize = {COLUMN_GAP, COLUMN_GAP, COLUMN_GAP};
+        JPanel onlinePane = TableLayoutHelper.createTableLayoutPane(initOnlineComponents(), rowSize, columnSize);
+        northPane.add(onlinePane);
         contentPane.add(northPane);
     }
 
@@ -187,6 +202,10 @@ public class AlphaFineConfigPane extends BasicPane {
         this.isContainRecommendCheckbox.setSelected(alphaFineConfigManager.isContainRecommend() && alphaFineConfigManager.isSearchOnLine());
         this.isContainRecommendCheckbox.setEnabled(alphaFineConfigManager.isSearchOnLine());
         this.shortcutsField.setText(getDisplayShortCut(alphaFineConfigManager.getShortcuts()));
+
+        this.isNeedSegmentationCheckbox.setSelected(alphaFineConfigManager.isNeedSegmentationCheckbox());
+        this.isNeedIntelligentCustomerService.setSelected(alphaFineConfigManager.isNeedIntelligentCustomerService() && alphaFineConfigManager.isSearchOnLine());
+        this.isNeedIntelligentCustomerService.setEnabled(alphaFineConfigManager.isSearchOnLine());
         shortCutKeyStore = convert2KeyStroke(alphaFineConfigManager.getShortcuts());
     }
 
@@ -201,6 +220,8 @@ public class AlphaFineConfigPane extends BasicPane {
         alphaFineConfigManager.setSearchOnLine(this.isSearchOnlineCheckbox.isSelected());
         alphaFineConfigManager.setContainTemplate(this.isContainTemplateCheckbox.isSelected());
         alphaFineConfigManager.setContainFileContent(this.isContainFileContentCheckbox.isSelected());
+        alphaFineConfigManager.setNeedSegmentationCheckbox(this.isNeedSegmentationCheckbox.isSelected());
+        alphaFineConfigManager.setNeedIntelligentCustomerService(this.isNeedIntelligentCustomerService.isSelected());
         alphaFineConfigManager.setShortcuts(shortCutKeyStore != null ? shortCutKeyStore.toString().replace(TYPE, DISPLAY_TYPE) : this.shortcutsField.getText());
         designerEnvManager.setAlphaFineConfigManager(alphaFineConfigManager);
         try {
