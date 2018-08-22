@@ -120,11 +120,11 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 			}
 			xmlInputStream.close();
 		} catch (FileNotFoundException e) {
-			FRContext.getLogger().error(e.getMessage());
+			FRContext.getLogger().error(e.getMessage(), e);
 		} catch (IOException e) {
-			FRContext.getLogger().error(e.getMessage());
+			FRContext.getLogger().error(e.getMessage(), e);
 		} catch (XMLStreamException e) {
-			FRContext.getLogger().error(e.getMessage());
+			FRContext.getLogger().error(e.getMessage(), e);
 		}
 
 	}
@@ -174,7 +174,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 		try {
 			return content.toString().getBytes(EncodeConstants.ENCODING_UTF_8);
 		} catch (UnsupportedEncodingException e) {
-			FRContext.getLogger().error(e.getMessage());
+			FRContext.getLogger().error(e.getMessage(), e);
 			return ArrayUtils.EMPTY_BYTE_ARRAY;
 		}
 	}
@@ -225,7 +225,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
             }
             content = getFunctionsContentAsByte(rs);
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage());
+            FRContext.getLogger().error(e.getMessage(), e);
         } finally {
             DBUtils.closeConnection(conn);
         }
@@ -258,7 +258,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
             Delete delete = new Delete(table);
             delete.execute(conn);
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage());
+            FRContext.getLogger().error(e.getMessage(), e);
         } finally {
             DBUtils.closeConnection(conn);
         }
@@ -304,7 +304,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
         try {
             return content.toString().getBytes(EncodeConstants.ENCODING_UTF_8);
         } catch (UnsupportedEncodingException e) {
-            FRContext.getLogger().error(e.getMessage());
+            FRContext.getLogger().error(e.getMessage(), e);
             return ArrayUtils.EMPTY_BYTE_ARRAY;
         }
     }
@@ -356,7 +356,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 					//读取XML的5分钟后开始发请求连接服务器.
 					Thread.sleep(SEND_DELAY);
 				} catch (InterruptedException e) {
-					FRContext.getLogger().error(e.getMessage());
+					FRContext.getLogger().error(e.getMessage(), e);
 				}
                 sendFunctionsInfo();
                 sendUserInfo();
@@ -402,7 +402,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 			String encodeCotent = DesUtils.getEncString(fileContent);
 			writeEncodeContentToFile(encodeCotent, xmlFile);
     	}catch (Exception e) {
-    		FRContext.getLogger().error(e.getMessage());
+    		FRContext.getLogger().error(e.getMessage(), e);
 		}		
     }
     
@@ -418,7 +418,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 			bw = new BufferedWriter(osw);
 			bw.write(fileContent);
 		} catch (Exception e) {
-			FRContext.getLogger().error(e.getMessage());
+			FRContext.getLogger().error(e.getMessage(), e);
 		} finally {
 			if(bw != null){
 				try {

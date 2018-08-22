@@ -58,7 +58,7 @@ public class ActionModel extends AlphaCellModel {
             modelObject.put("className", getAction().getClass().getName()).put("searchCount", getSearchCount());
             object.put("result", modelObject).put("cellType", getType().getTypeValue());
         } catch (JSONException e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         return object;
     }

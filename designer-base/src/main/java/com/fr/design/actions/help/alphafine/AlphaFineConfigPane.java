@@ -207,7 +207,7 @@ public class AlphaFineConfigPane extends BasicPane {
             DesignerEnvManager.loadLogSetting();
             DesignerEnvManager.getEnvManager().saveXMLFile();
         } catch (Exception e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
 
 

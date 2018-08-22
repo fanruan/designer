@@ -340,7 +340,7 @@ public class RichTextToolBar extends BasicPane{
 					try {
 						doc.insertString(start, content, attrs);
 					} catch (BadLocationException e) {
-						FRContext.getLogger().error(e.getMessage());
+						FRContext.getLogger().error(e.getMessage(), e);
 					}
 				}
 			}).setVisible(true);

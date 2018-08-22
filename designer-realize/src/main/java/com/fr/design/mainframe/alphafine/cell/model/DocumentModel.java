@@ -62,9 +62,9 @@ public class DocumentModel extends AlphaCellModel {
         try {
             Desktop.getDesktop().browse(new URI(getDocumentUrl()));
         } catch (IOException e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         } catch (URISyntaxException e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
 

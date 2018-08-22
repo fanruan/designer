@@ -116,7 +116,7 @@ public class PluginOperateUtils {
             JSONArray jsonArray = new JSONArray(result);
             resultArray = PluginUtils.filterPluginsFromVersion(jsonArray);
         } catch (Exception e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         return resultArray.toString();
     }

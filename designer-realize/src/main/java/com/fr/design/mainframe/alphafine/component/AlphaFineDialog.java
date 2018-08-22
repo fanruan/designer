@@ -526,7 +526,7 @@ public class AlphaFineDialog extends UIDialog {
                             try {
                                 form = FormIO.readForm(fileName);
                             } catch (Exception e) {
-                                FineLoggerFactory.getLogger().error(e.getMessage());
+                                FineLoggerFactory.getLogger().error(e.getMessage(), e);
                             }
                             return FormIO.exportFormAsImage(form);
                         }
@@ -538,9 +538,9 @@ public class AlphaFineDialog extends UIDialog {
                                 try {
                                     rightSearchResultPane.add(new FilePreviewPane(get()));
                                 } catch (InterruptedException e) {
-                                    FineLoggerFactory.getLogger().error(e.getMessage());
+                                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
                                 } catch (ExecutionException e) {
-                                    FineLoggerFactory.getLogger().error(e.getMessage());
+                                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
                                 }
                                 validate();
                                 repaint();
@@ -558,7 +558,7 @@ public class AlphaFineDialog extends UIDialog {
                             try {
                                 workBook = (WorkBook) TemplateWorkBookIO.readTemplateWorkBook(fileName);
                             } catch (Exception e) {
-                                FineLoggerFactory.getLogger().error(e.getMessage());
+                                FineLoggerFactory.getLogger().error(e.getMessage(), e);
                             }
                             BufferedImage bufferedImage = new ImageExporter().exportToImage(workBook);
                             return bufferedImage;
@@ -573,9 +573,9 @@ public class AlphaFineDialog extends UIDialog {
                                     validate();
                                     repaint();
                                 } catch (InterruptedException e) {
-                                    FineLoggerFactory.getLogger().error(e.getMessage());
+                                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
                                 } catch (ExecutionException e) {
-                                    FineLoggerFactory.getLogger().error(e.getMessage());
+                                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
                                 }
                             }
 
@@ -610,7 +610,7 @@ public class AlphaFineDialog extends UIDialog {
                             try {
                                 bufferedImage = ImageIO.read(getClass().getResource("/com/fr/design/mainframe/alphafine/images/default_product.png"));
                             } catch (IOException e1) {
-                                FineLoggerFactory.getLogger().error(e.getMessage());
+                                FineLoggerFactory.getLogger().error(e.getMessage(), e);
                             }
                         }
                         return bufferedImage;
@@ -626,9 +626,9 @@ public class AlphaFineDialog extends UIDialog {
                                 repaint();
                             }
                         } catch (InterruptedException e) {
-                            FineLoggerFactory.getLogger().error(e.getMessage());
+                            FineLoggerFactory.getLogger().error(e.getMessage(), e);
                         } catch (ExecutionException e) {
-                            FineLoggerFactory.getLogger().error(e.getMessage());
+                            FineLoggerFactory.getLogger().error(e.getMessage(), e);
                         }
 
                     }
@@ -812,7 +812,7 @@ public class AlphaFineDialog extends UIDialog {
             try {
                 object.put("uuid", uuid).put("activityKey", activityKey).put("username", username).put("createTime", createTime).put("key", key).put("resultKind", resultKind).put("resultValue", resultValue);
             } catch (JSONException e) {
-                FineLoggerFactory.getLogger().error(e.getMessage());
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
             final HashMap<String, String> para = new HashMap<>();
             String date = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());

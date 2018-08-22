@@ -123,7 +123,7 @@ public class WebViewDlgHelper {
         try {
             CommonIOUtils.copy(new File(mainJsPath), new File(installHome));
         } catch (IOException e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
 
