@@ -134,6 +134,9 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
      * @param cellModel
      */
     public void addModel(String searchKey, AlphaCellModel cellModel) {
+        if(cellModel == null){
+            return;
+        }
         try {
             initWriter();
             Document doc = new Document();

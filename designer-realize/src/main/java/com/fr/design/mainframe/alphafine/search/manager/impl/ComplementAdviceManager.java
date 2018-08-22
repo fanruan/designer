@@ -22,7 +22,7 @@ import com.fr.third.org.apache.commons.codec.digest.DigestUtils;
 public class ComplementAdviceManager {
 
     private static volatile ComplementAdviceManager instance;
-    private volatile SearchResult allModelList;
+    private SearchResult allModelList;
 
     public static ComplementAdviceManager getInstance() {
         if (instance == null) {

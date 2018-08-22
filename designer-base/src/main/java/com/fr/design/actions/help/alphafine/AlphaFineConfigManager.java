@@ -94,18 +94,18 @@ public class AlphaFineConfigManager implements XMLable {
     @Override
     public void readXML(XMLableReader reader) {
         if (reader.isAttr()) {
-            this.setEnabled(reader.getAttrAsBoolean("enabled", true));
-            this.setSearchOnLine(reader.getAttrAsBoolean("searchOnline", true));
-            this.setContainPlugin(reader.getAttrAsBoolean("containDocument", true));
-            this.setContainDocument(reader.getAttrAsBoolean("containDocument", true));
-            this.setContainRecommend(reader.getAttrAsBoolean("containRecommend", true));
-            this.setContainAction(reader.getAttrAsBoolean("containAction", true));
-            this.setContainTemplate(reader.getAttrAsBoolean("containTemplate", true));
-            this.setContainFileContent(reader.getAttrAsBoolean("containFileContent", false));
+            this.setEnabled(reader.getAttrAsBoolean("isEnabled", true));
+            this.setSearchOnLine(reader.getAttrAsBoolean("isSearchOnline", true));
+            this.setContainPlugin(reader.getAttrAsBoolean("isContainDocument", true));
+            this.setContainDocument(reader.getAttrAsBoolean("isContainDocument", true));
+            this.setContainRecommend(reader.getAttrAsBoolean("isContainRecommend", true));
+            this.setContainAction(reader.getAttrAsBoolean("isContainAction", true));
+            this.setContainTemplate(reader.getAttrAsBoolean("isContainTemplate", true));
+            this.setContainFileContent(reader.getAttrAsBoolean("isContainFileContent", false));
             this.setNeedSegmentationCheckbox(reader.getAttrAsBoolean("needSegmentationCheckbox", true));
             this.setNeedIntelligentCustomerService(reader.getAttrAsBoolean("needIntelligentCustomerService", true));
             this.setShortcuts(reader.getAttrAsString("shortcuts", getDefaultShortCuts()));
-            this.setNeedRemind(reader.getAttrAsBoolean("needRemind", true));
+            this.setNeedRemind(reader.getAttrAsBoolean("isNeedRemind", true));
             this.setOperateCount(reader.getAttrAsInt("operateCount", 0));
 
         }
@@ -115,16 +115,16 @@ public class AlphaFineConfigManager implements XMLable {
     @Override
     public void writeXML(XMLPrintWriter writer) {
         writer.startTAG("AlphaFineConfigManager");
-        writer.attr("enabled", this.isEnabled())
-                .attr("searchOnline", this.isSearchOnLine())
+        writer.attr("isEnabled", this.isEnabled())
+                .attr("isSearchOnline", this.isSearchOnLine())
                 .attr("shortcuts", this.getShortcuts())
-                .attr("containRecommend", this.isContainRecommend())
-                .attr("containAction", this.isContainAction())
-                .attr("containDocument", this.isContainDocument())
-                .attr("containTemplate", this.isContainTemplate())
-                .attr("containPlugin", this.isContainPlugin())
-                .attr("containFileContent", this.isContainFileContent())
-                .attr("needRemind", this.isNeedRemind())
+                .attr("isContainRecommend", this.isContainRecommend())
+                .attr("isContainAction", this.isContainAction())
+                .attr("isContainDocument", this.isContainDocument())
+                .attr("isContainTemplate", this.isContainTemplate())
+                .attr("isContainPlugin", this.isContainPlugin())
+                .attr("isContainFileContent", this.isContainFileContent())
+                .attr("isNeedRemind", this.isNeedRemind())
                 .attr("operateCount", this.getOperateCount())
                 .attr("needSegmentationCheckbox", this.isNeedSegmentationCheckbox())
                 .attr("needIntelligentCustomerService", this.isNeedIntelligentCustomerService());

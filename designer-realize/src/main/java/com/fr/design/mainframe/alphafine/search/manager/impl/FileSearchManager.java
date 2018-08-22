@@ -62,7 +62,7 @@ public class FileSearchManager implements AlphaFineSearchProvider {
         return new FileModel(name, filePath, searchCount);
     }
 
-    public synchronized SearchResult getLessSearchResult(String[] searchText) {
+    public SearchResult getLessSearchResult(String[] searchText) {
         this.filterModelList = new SearchResult();
         this.lessModelList = new SearchResult();
         this.moreModelList = new SearchResult();

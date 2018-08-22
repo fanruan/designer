@@ -51,7 +51,7 @@ public class DocumentSearchManager implements AlphaFineSearchProvider {
     }
 
     @Override
-    public synchronized SearchResult getLessSearchResult(String[] searchText) {
+    public SearchResult getLessSearchResult(String[] searchText) {
         lessModelList = new SearchResult();
         moreModelList = new SearchResult();
         if (ArrayUtils.isEmpty(searchText)) {

@@ -122,7 +122,7 @@ public class ContentCellRender implements ListCellRenderer<Object> {
     private String getReplacedString(String modelName, String string) {
         int index = modelName.toLowerCase().indexOf(string.toLowerCase());
         if (index == -1) {
-            return "";
+            return StringUtils.EMPTY;
         }
         return modelName.substring(index, index + string.length());
 

@@ -139,11 +139,7 @@ public class HotIssuesManager {
     private String[] getSubTitleFromCloud(JSONObject data) {
         ArrayList<String> list = new ArrayList<>();
         for (int i = 0; i < HOT_SUB_ITEM_NUM; i++) {
-            String temp = null;
-            try {
-                temp = data.getString(HOT_ITEM + (i + 1));
-            } catch (JSONException e) {
-            }
+            String temp = data.optString(HOT_ITEM + (i + 1));
             if (!StringUtils.isEmpty(temp)) {
                 list.add(temp);
             }

@@ -96,7 +96,7 @@ public class PluginSearchManager implements AlphaFineSearchProvider {
     }
 
     @Override
-    public synchronized SearchResult getLessSearchResult(String[] searchText) {
+    public SearchResult getLessSearchResult(String[] searchText) {
         if (ArrayUtils.isEmpty(searchText)) {
             return new SearchResult();
         }

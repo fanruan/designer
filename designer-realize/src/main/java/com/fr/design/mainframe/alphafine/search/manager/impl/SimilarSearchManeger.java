@@ -22,8 +22,8 @@ import com.fr.third.org.apache.commons.codec.digest.DigestUtils;
  */
 public class SimilarSearchManeger implements AlphaFineSearchProvider {
     private static volatile SimilarSearchManeger instance;
-    private volatile SearchResult lessModelList;
-    private volatile SearchResult moreModelList = new SearchResult();
+    private SearchResult lessModelList;
+    private SearchResult moreModelList = new SearchResult();
 
     public static SimilarSearchManeger getInstance() {
         if (instance == null) {
