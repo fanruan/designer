@@ -488,7 +488,7 @@ public abstract class DesignTableDataManager {
                 }
                 rs.release();
             } catch (Exception e) {
-                FRContext.getLogger().error(e.getMessage());
+                FRContext.getLogger().error(e.getMessage(), e);
             }
 
         }

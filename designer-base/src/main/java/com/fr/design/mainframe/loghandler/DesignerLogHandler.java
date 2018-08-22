@@ -257,7 +257,7 @@ public class DesignerLogHandler {
             try {
                 doc.insertString(doc.getLength(), str, attrSet);
             } catch (BadLocationException e) {
-                FineLoggerFactory.getLogger().error(e.getMessage());
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
 

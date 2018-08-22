@@ -521,7 +521,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
 //                return false;
 //            }
 //        } catch (Exception e) {
-//            FineLoggerFactory.getLogger().error(e.getMessage());
+//            FineLoggerFactory.getLogger().error(e.getMessage(), e);
 //        }
 
 

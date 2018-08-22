@@ -164,7 +164,7 @@ public class RichTextPane extends BasicPane {
 	    		lastChar = new RichChar(charStr, style);
 	    		richText.addContent(lastChar);
 	    	}catch (Exception e) {
-	    		FRContext.getLogger().error(e.getMessage());
+	    		FRContext.getLogger().error(e.getMessage(), e);
 			}
 		}
     }
@@ -214,7 +214,7 @@ public class RichTextPane extends BasicPane {
 				doc.insertString(doc.getLength(), charStr, attrs);
 				toolBar.addInputListener();
 			} catch (BadLocationException e) {
-				FRContext.getLogger().error(e.getMessage());
+				FRContext.getLogger().error(e.getMessage(), e);
 			}
 		}
     }

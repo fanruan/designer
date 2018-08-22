@@ -180,7 +180,7 @@ public class Designer extends BaseDesigner {
                 shortCuts.add((ShortCut) DesignModuleFactory.getNewFormAction().newInstance());
             }
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage());
+            FRContext.getLogger().error(e.getMessage(), e);
         }
         return shortCuts.toArray(new ShortCut[shortCuts.size()]);
     }

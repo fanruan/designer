@@ -149,7 +149,7 @@ public class QQLoginWebPane extends JFXPanel {
                 }
             });
         } catch (Exception e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
 

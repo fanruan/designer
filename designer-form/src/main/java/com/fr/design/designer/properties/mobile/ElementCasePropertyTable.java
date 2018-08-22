@@ -92,7 +92,7 @@ public class ElementCasePropertyTable extends AbstractPropertyTable{
         try {
             propertyTableEditor = supportedDescriptor();
         } catch (IntrospectionException e) {
-            FRContext.getLogger().error(e.getMessage());
+            FRContext.getLogger().error(e.getMessage(), e);
         }
 
 

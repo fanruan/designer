@@ -477,7 +477,7 @@ public class UIGroupExtensionPane extends BasicPane {
                 try {
                     list.setSelectedIndices(null);
                 } catch (Exception e) {
-                    FineLoggerFactory.getLogger().error(e.getMessage());
+                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
                 }
             }
         }

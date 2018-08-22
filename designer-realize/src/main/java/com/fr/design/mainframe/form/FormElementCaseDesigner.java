@@ -134,7 +134,7 @@ public class FormElementCaseDesigner<T extends FormElementCaseProvider, E extend
             this.elementCasePane.paintComponents(g);
 
         }catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage());
+            FRContext.getLogger().error(e.getMessage(), e);
         }
 
         return image;

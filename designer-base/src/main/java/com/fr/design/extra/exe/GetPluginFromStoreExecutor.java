@@ -72,7 +72,7 @@ public class GetPluginFromStoreExecutor implements Executor {
                                 JSONArray resultJSONArray = PluginUtils.filterPluginsFromVersion(resultArr);
                                 result = resultJSONArray.toString();
                             } catch (Exception e) {
-                                FineLoggerFactory.getLogger().error(e.getMessage());
+                                FineLoggerFactory.getLogger().error(e.getMessage(), e);
                             }
                         } else {
                             result = PluginConstants.CONNECTION_404;

@@ -175,7 +175,7 @@ public class FRFitLayoutPropertiesGroupModel implements GroupModel {
 								FormSelectionUtils.rebuildSelection(xfl, new Widget[]{xfl.toData()}));
 					}
 				}catch (Exception e){
-					FineLoggerFactory.getLogger().error(e.getMessage());
+					FineLoggerFactory.getLogger().error(e.getMessage(), e);
 					return false;
 				}
 				layout.setLayoutType(WBodyLayoutType.parse(state));
