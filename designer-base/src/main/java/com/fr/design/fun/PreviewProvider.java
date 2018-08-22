@@ -55,7 +55,8 @@ public interface PreviewProvider extends Mutable{
     Map<String, Object> parametersForPreview();
 
     /**
-     * 该种预览方式所处理方式
+     * 该种预览方式下对模板的处理方式
+     * 分页填报等需要计算输出模板，移动端预览直接输出url
      * @return 处理方式
      */
     String getActionType();
