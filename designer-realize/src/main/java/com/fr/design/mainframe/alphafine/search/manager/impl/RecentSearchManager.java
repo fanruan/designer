@@ -138,7 +138,7 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
             initWriter();
             Document doc = new Document();
             doc.add(new StringField("searchKey", searchKey, Field.Store.YES));
-            doc.add(new StringField("cellModel", cellModel.ModelToJson().toString(), Field.Store.YES));
+            doc.add(new StringField("cellModel", cellModel.modelToJson().toString(), Field.Store.YES));
             doc.add(new LongField("time", System.currentTimeMillis(), Field.Store.YES));
             writeDoc(doc);
         } catch (JSONException e) {

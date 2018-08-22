@@ -31,7 +31,7 @@ public class BottomModel extends AlphaCellModel {
     }
 
     @Override
-    public JSONObject ModelToJson() throws JSONException {
+    public JSONObject modelToJson() throws JSONException {
         return JSONObject.EMPTY;
     }
 

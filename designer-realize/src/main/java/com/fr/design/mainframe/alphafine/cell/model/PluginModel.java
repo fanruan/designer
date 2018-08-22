@@ -85,7 +85,7 @@ public class PluginModel extends AlphaCellModel {
     }
 
     @Override
-    public JSONObject ModelToJson() {
+    public JSONObject modelToJson() {
         JSONObject object = JSONObject.create();
         try {
             JSONObject modelObject = JSONObject.create();
@@ -109,7 +109,7 @@ public class PluginModel extends AlphaCellModel {
         if (StringUtils.isBlank(this.pluginId) || !WorkContext.getCurrent().isLocal()) {
             return;
         }
-        WebViewDlgHelper.showPluginInStore(getName(), "[" + ModelToJson().optString("result") + "]");
+        WebViewDlgHelper.showPluginInStore(getName(), "[" + modelToJson().optString("result") + "]");
     }
 
     @Override

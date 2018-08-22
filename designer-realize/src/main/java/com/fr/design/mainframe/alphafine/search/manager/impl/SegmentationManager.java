@@ -35,8 +35,7 @@ public class SegmentationManager {
      */
     public boolean isNeedSegmentation(String searchText) {
         int count = 0;
-        String reg = "[\\u4e00-\\u9fa5]";
-        Pattern p = Pattern.compile(reg);
+        Pattern p = Pattern.compile(AlphaFineConstants.CHINESE_CHARACTERS);
         Matcher m = p.matcher(searchText);
         while (m.find()) {
             for (int i = 0; i <= m.groupCount(); i++) {

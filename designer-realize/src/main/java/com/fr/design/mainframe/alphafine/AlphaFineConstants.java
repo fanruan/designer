@@ -121,5 +121,7 @@ public class AlphaFineConstants {
 
     public static final String ALPHA_GO_TO_WEB = CloudCenter.getInstance().acquireUrlByKind("af.go_web");
 
+    public static final String CHINESE_CHARACTERS = "[\\u4e00-\\u9fa5]";
+
 
 }

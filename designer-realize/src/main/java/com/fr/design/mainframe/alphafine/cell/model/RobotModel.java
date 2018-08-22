@@ -65,7 +65,7 @@ public class RobotModel extends AlphaCellModel {
     }
 
     @Override
-    public JSONObject ModelToJson() throws JSONException {
+    public JSONObject modelToJson() throws JSONException {
         JSONObject object = JSONObject.create();
         try {
             JSONObject modelObject = JSONObject.create();
