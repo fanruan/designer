@@ -1153,4 +1153,34 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
         return progressDialog;
     }
+    public void showProgressDialog() {
+
+        progressDialog.setVisible(true);
+
+    }
+
+    /**
+     * 隐藏进度框
+     */
+    public void hideProgressDialog() {
+
+        progressDialog.setVisible(false);
+    }
+
+    /**
+     * 更新进度框进度
+     * @param progress
+     */
+    public void updateProgress(int progress) {
+
+        progressDialog.setProgressValue(progress);
+    }
+
+    /**
+     * 释放进度框
+     */
+    public void disposeProgressDialog() {
+
+        progressDialog.dispose();
+    }
 }

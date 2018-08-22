@@ -30,11 +30,15 @@ public class FineEmbedServerActivator extends Activator {
     public synchronized void start() {
 
         try {
+            FineEmbedServerMonitor.getInstance().reset();
             //初始化tomcat
             initTomcat();
             tomcat.start();
+
         } catch (LifecycleException e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
+        }finally {
+            FineEmbedServerMonitor.getInstance().setComplete();
         }
     }
 

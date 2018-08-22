@@ -31,6 +31,10 @@ import java.lang.reflect.Method;
  * The main class of Report Designer.
  */
 public abstract class BaseDesigner extends ToolBarMenuDock {
+    private static final int PERCENT_TEN = 10;
+    private static final int PERCENT_SIXTY = 60;
+    private static final int PERCENT_NINTY= 90;
+    private static final int PERCENT_COMPLETE= 100;
 
     private static final int LOAD_TREE_MAXNUM = 10;
 
@@ -51,15 +55,15 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
 
     public void show(final String[] args) {
         collectUserInformation();
-        DesignerContext.getDesignerFrame().getProgressDialog().setProgressValue(10);
+        DesignerContext.getDesignerFrame().updateProgress(PERCENT_TEN);
         showDesignerFrame(args, DesignerContext.getDesignerFrame(), false);
-        DesignerContext.getDesignerFrame().getProgressDialog().setProgressValue(60);
+        DesignerContext.getDesignerFrame().updateProgress(PERCENT_SIXTY);
         DesignerContext.getDesignerFrame().refreshEnv();
-        DesignerContext.getDesignerFrame().getProgressDialog().setProgressValue(90);
+        DesignerContext.getDesignerFrame().updateProgress(PERCENT_NINTY);
         for (int i = 0; !TemplateTreePane.getInstance().getTemplateFileTree().isTemplateShowing() && i < LOAD_TREE_MAXNUM; i++) {
             TemplateTreePane.getInstance().getTemplateFileTree().refresh();
         }
-        DesignerContext.getDesignerFrame().getProgressDialog().setProgressValue(100);
+        DesignerContext.getDesignerFrame().updateProgress(PERCENT_COMPLETE);
     }
 
 
