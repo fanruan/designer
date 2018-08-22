@@ -128,4 +128,6 @@ public class AlphaFineConstants {
 
     public static final FileExtension[] FILE_EXTENSIONS= new FileExtension[]{FileExtension.CPT, FileExtension.FRM};
 
+    public static final int RECOMMEND_MAX_ITEM_NUM = 3;
+
 }
