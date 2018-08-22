@@ -67,7 +67,7 @@
 //                    .build();
 //            inputStream = httpClient.execute(request, responseHandler);
 //        } catch (IOException e) {
-//            FRContext.getLogger().error(e.getMessage());
+//            FRContext.getLogger().error(e.getMessage(), e);
 //        }
 //        return inputStream;
 //    }
@@ -90,7 +90,7 @@
 //                    .build();
 //            inputStream = httpClient.execute(request, responseHandler);
 //        } catch (IOException e) {
-//            FRContext.getLogger().error(e.getMessage());
+//            FRContext.getLogger().error(e.getMessage(), e);
 //        }
 //        return inputStream;
 //    }
@@ -112,7 +112,7 @@
 //            inputStream = httpClient.execute(request, responseHandler);
 //
 //        } catch (IOException e) {
-//            FRContext.getLogger().error(e.getMessage());
+//            FRContext.getLogger().error(e.getMessage(), e);
 //        }
 //        return inputStream;
 //    }
@@ -137,7 +137,7 @@
 //                    .build();
 //            inputStream = httpClient.execute(request, responseHandler);
 //        } catch (IOException e) {
-//            FRContext.getLogger().error(e.getMessage());
+//            FRContext.getLogger().error(e.getMessage(), e);
 //        }
 //
 //        return inputStream;
@@ -158,7 +158,7 @@
 //                    .build();
 //            inputStream = httpClient.execute(request, responseHandler);
 //        } catch (IOException e) {
-//            FRContext.getLogger().error(e.getMessage());
+//            FRContext.getLogger().error(e.getMessage(), e);
 //        }
 //        return inputStream;
 //    }

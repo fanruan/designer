@@ -170,7 +170,7 @@ public class FRAbsoluteBodyLayoutPropertiesGroupModel extends FRAbsoluteLayoutPr
             return true;
         }
         catch (Exception e){
-            FineLoggerFactory.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
             return false;
         }
     }

@@ -50,7 +50,7 @@ public class SearchOnlineExecutor implements Executor {
                             JSONArray resultJSONArray = PluginUtils.filterPluginsFromVersion(jsonArray);
                             result = resultJSONArray.toString();
                         } catch (Exception e) {
-                            FineLoggerFactory.getLogger().error(e.getMessage());
+                            FineLoggerFactory.getLogger().error(e.getMessage(), e);
                         }
                     }
                 }

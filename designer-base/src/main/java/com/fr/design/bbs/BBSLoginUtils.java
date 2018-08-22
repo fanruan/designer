@@ -32,7 +32,7 @@ public class BBSLoginUtils {
             });
 
         } catch (Exception e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
 
@@ -58,7 +58,7 @@ public class BBSLoginUtils {
             });
 
         } catch (Exception e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
 
@@ -71,7 +71,7 @@ public class BBSLoginUtils {
         try {
             MarketConfig.getInstance().setBBsAttr(bbsAttr);
         } catch (Exception e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
 }

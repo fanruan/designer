@@ -621,7 +621,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
             fout.flush();
             fout.close();
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage());
+            FRContext.getLogger().error(e.getMessage(), e);
         }
     }
 

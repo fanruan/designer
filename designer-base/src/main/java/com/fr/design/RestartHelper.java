@@ -166,7 +166,7 @@ public class RestartHelper {
                     FineLoggerFactory.getLogger().error("restart lock null!");
                 }
             }catch (Exception e){
-                FineLoggerFactory.getLogger().error(e.getMessage());
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
             if (OperatingSystem.isMacOS()) {
                 restartInMacOS(installHome, filesToBeDelete);
@@ -174,7 +174,7 @@ public class RestartHelper {
                 restartInWindows(installHome, filesToBeDelete);
             }
         } catch (Exception e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         } finally {
             DesignerContext.getDesignerFrame().exit();
         }

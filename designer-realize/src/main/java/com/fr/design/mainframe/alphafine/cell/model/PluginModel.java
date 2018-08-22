@@ -92,7 +92,7 @@ public class PluginModel extends AlphaCellModel {
             modelObject.put("name", getName()).put("description", getContent()).put("pic", getImageUrl()).put("version", getVersion()).put("jartime", getJartime()).put("id", getId()).put("pluginid", getPluginId()).put("type", getType().getTypeValue()).put("price", getPrice()).put("link", getLink()).put("searchCount", getSearchCount());
             object.put("result", modelObject).put("cellType", getType().getTypeValue());
         } catch (JSONException e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
 
         return object;

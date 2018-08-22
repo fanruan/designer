@@ -40,7 +40,7 @@ public class TabMoveAction extends FormUndoableAction {
             FormHierarchyTreePane.getInstance().refreshDockingView();
         }catch (Exception e){
             xwCardTagLayout.setSwitchingTab(false);
-            FRLogger.getLogger().error(e.getMessage());
+            FRLogger.getLogger().error(e.getMessage(), e);
             return false;
         }
         return true;

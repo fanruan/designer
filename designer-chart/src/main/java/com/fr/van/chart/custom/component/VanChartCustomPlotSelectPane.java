@@ -250,7 +250,7 @@ public class VanChartCustomPlotSelectPane extends BasicBeanPane<Chart> {
                 }
             }
         } catch (CloneNotSupportedException e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
 
 

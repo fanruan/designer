@@ -42,7 +42,7 @@ public class FileModel extends AlphaCellModel {
             modelObject.put("filePath", getFilePath()).put("searchCount", getSearchCount());
             object.put("result", modelObject).put("cellType", getType().getTypeValue());
         } catch (JSONException e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         return object;
     }

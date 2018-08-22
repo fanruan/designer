@@ -59,7 +59,7 @@ public class PluginUtils {
                 httpClient.asGet();
                 result = httpClient.getResponseText();
             } catch (Exception e) {
-                FineLoggerFactory.getLogger().error(e.getMessage());
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         } else {
             result = PluginConstants.CONNECTION_404;

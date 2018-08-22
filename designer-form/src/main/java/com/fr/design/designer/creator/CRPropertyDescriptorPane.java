@@ -103,7 +103,7 @@ public class CRPropertyDescriptorPane {
                 }
             });
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage());
+            FRContext.getLogger().error(e.getMessage(), e);
         }
         return component;
     }

@@ -63,7 +63,7 @@ public class BBSDialog extends UIDialog {
                 }
             });
         } catch (Exception e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
 
