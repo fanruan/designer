@@ -29,9 +29,6 @@ import java.awt.event.WindowEvent;
  */
 public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connection> extends BasicBeanPane<com.fr.data.impl.Connection> {
 
-    // 编码转换.
-    private UIComboBox originalCharSetComboBox;
-    private UIComboBox newCharSetComboBox;
     private UILabel message;
     private UIButton okButton;
     private UIButton cancelButton;
@@ -44,8 +41,6 @@ public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connecti
     }
 
     protected void initComponents() {
-        originalCharSetComboBox = new UIComboBox(EncodeConstants.ALL_ENCODING_ARRAY);
-        newCharSetComboBox = new UIComboBox(EncodeConstants.ALL_ENCODING_ARRAY);
         message = new UILabel();
         uiLabel = new UILabel();
         okButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_OK"));
@@ -64,18 +59,6 @@ public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connecti
 
         // Center
         northPane.add(mainPanel(), BorderLayout.CENTER);
-        if (!isFineBI()) {
-            // ChartSet
-            JPanel chartSetPane = FRGUIPaneFactory.createNColumnGridInnerContainer_S_Pane(2);
-            northPane.add(chartSetPane);
-            chartSetPane.setBorder(BorderFactory.createTitledBorder(
-                    new ModLineBorder(ModLineBorder.TOP),
-                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Convert_Charset")
-            ));
-
-            chartSetPane.add(GUICoreUtils.createNamedPane(originalCharSetComboBox, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Original_Charset") + ":"));
-            chartSetPane.add(GUICoreUtils.createNamedPane(newCharSetComboBox, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_New_Charset") + ":"));
-        }
     }
 
     protected abstract JPanel mainPanel();
@@ -84,8 +67,6 @@ public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connecti
 
     @Override
     public void populateBean(com.fr.data.impl.Connection ob) {
-        this.originalCharSetComboBox.setSelectedItem(ob.getOriginalCharsetName());
-        this.newCharSetComboBox.setSelectedItem(ob.getNewCharsetName());
 
         populateSubDatabaseConnectionBean((E) ob);
     }
@@ -95,18 +76,6 @@ public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connecti
     @Override
     public com.fr.data.impl.Connection updateBean() {
         E ob = updateSubDatabaseConnectionBean();
-
-        if (this.originalCharSetComboBox.getSelectedIndex() == 0) {
-            ob.setOriginalCharsetName(null);
-        } else {
-            ob.setOriginalCharsetName((String) this.originalCharSetComboBox.getSelectedItem());
-        }
-
-        if (this.newCharSetComboBox.getSelectedIndex() == 0) {
-            ob.setNewCharsetName(null);
-        } else {
-            ob.setNewCharsetName((String) this.newCharSetComboBox.getSelectedItem());
-        }
 
         return ob;
     }
