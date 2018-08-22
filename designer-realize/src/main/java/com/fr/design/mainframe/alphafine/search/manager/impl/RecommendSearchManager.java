@@ -28,7 +28,7 @@ import java.util.List;
  * Created by XiaXiang on 2017/3/31.
  */
 public class RecommendSearchManager implements AlphaFineSearchProvider {
-    private static RecommendSearchManager instance;
+    private static volatile RecommendSearchManager instance;
     private SearchResult modelList;
     private SearchResult recommendModelList;
 

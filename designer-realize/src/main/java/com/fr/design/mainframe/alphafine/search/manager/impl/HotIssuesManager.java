@@ -24,7 +24,7 @@ import java.util.Map;
  * Created by alex.sung on 2018/8/3.
  */
 public class HotIssuesManager {
-    private static HotIssuesManager instance;
+    private static volatile HotIssuesManager instance;
     private static final int HOT_ITEM_NUM = 6;
     private static final int HOT_SUB_ITEM_NUM = 4;
     private static final String HOT_ITEM = "item";
@@ -33,9 +33,13 @@ public class HotIssuesManager {
     private static final String HOT_TYPE = "type";
     private static final String HOT_DATA = "data";
 
-    public static synchronized HotIssuesManager getInstance() {
+    public static HotIssuesManager getInstance() {
         if (instance == null) {
-            instance = new HotIssuesManager();
+            synchronized (HotIssuesManager.class) {
+                if (instance == null) {
+                    instance = new HotIssuesManager();
+                }
+            }
         }
         return instance;
     }

@@ -12,10 +12,8 @@ import com.fr.json.JSONObject;
 import com.fr.json.JSONTokener;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
-import org.apache.commons.codec.digest.DigestUtils;
-
 import java.io.IOException;
-//import com.fr.third.org.apache.commons.codec.digest.DigestUtils;
+import com.fr.third.org.apache.commons.codec.digest.DigestUtils;
 
 
 /**
@@ -23,7 +21,7 @@ import java.io.IOException;
  */
 public class ComplementAdviceManager {
 
-    private static ComplementAdviceManager instance;
+    private static volatile ComplementAdviceManager instance;
     private volatile SearchResult allModelList;
 
     public static ComplementAdviceManager getInstance() {

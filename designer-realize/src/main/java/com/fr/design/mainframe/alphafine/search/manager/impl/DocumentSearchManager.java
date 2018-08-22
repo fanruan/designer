@@ -21,7 +21,7 @@ import java.io.IOException;
  * Created by XiaXiang on 2017/3/27.
  */
 public class DocumentSearchManager implements AlphaFineSearchProvider {
-    private static DocumentSearchManager instance;
+    private static volatile DocumentSearchManager instance;
     private SearchResult lessModelList;
     private SearchResult moreModelList;
 

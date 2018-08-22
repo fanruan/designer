@@ -25,7 +25,7 @@ public class FileSearchManager implements AlphaFineSearchProvider {
     private static final String DS_NAME = "dsname=\"";
     private static final String FRM_PREFIX = "k:frm ";
     private static final String CPT_PREFIX = "k:cpt ";
-    private static FileSearchManager instance;
+    private static volatile FileSearchManager instance;
     private SearchResult filterModelList;
     private SearchResult lessModelList;
     private SearchResult moreModelList;

@@ -18,11 +18,11 @@ public class AlphaFineConfigManager implements XMLable {
     /**
      * 是否开启alphafine
      */
-    private boolean isEnabled = true;
+    private boolean enabled = true;
     /**
      * 是否联网搜索
      */
-    private boolean isSearchOnLine = true;
+    private boolean searchOnLine = true;
 
     /**
      * 搜索范围
@@ -34,27 +34,27 @@ public class AlphaFineConfigManager implements XMLable {
     /**
      * 猜您需要
      */
-    private boolean isContainRecommend = true;
+    private boolean containRecommend = true;
     /**
      * 设置
      */
-    private boolean isContainAction = true;
+    private boolean containAction = true;
     /**
      * 帮助文档
      */
-    private boolean isContainDocument = true;
+    private boolean containDocument = true;
     /**
      * 模板
      */
-    private boolean isContainTemplate = true;
+    private boolean containTemplate = true;
     /**
      * 模板内容
      */
-    private boolean isContainFileContent;
+    private boolean containFileContent;
     /**
      * 应用中心
      */
-    private boolean isContainPlugin = true;
+    private boolean containPlugin = true;
     /**
     * 分词搜索
     */
@@ -70,7 +70,7 @@ public class AlphaFineConfigManager implements XMLable {
     /**
      * 是否提醒
      */
-    private boolean isNeedRemind = true;
+    private boolean needRemind = true;
     /**
      * 直接操作菜单次数
      */
@@ -94,18 +94,18 @@ public class AlphaFineConfigManager implements XMLable {
     @Override
     public void readXML(XMLableReader reader) {
         if (reader.isAttr()) {
-            this.setEnabled(reader.getAttrAsBoolean("isEnabled", true));
-            this.setSearchOnLine(reader.getAttrAsBoolean("isSearchOnline", true));
-            this.setContainPlugin(reader.getAttrAsBoolean("isContainDocument", true));
-            this.setContainDocument(reader.getAttrAsBoolean("isContainDocument", true));
-            this.setContainRecommend(reader.getAttrAsBoolean("isContainRecommend", true));
-            this.setContainAction(reader.getAttrAsBoolean("isContainAction", true));
-            this.setContainTemplate(reader.getAttrAsBoolean("isContainTemplate", true));
-            this.setContainFileContent(reader.getAttrAsBoolean("isContainFileContent", false));
+            this.setEnabled(reader.getAttrAsBoolean("enabled", true));
+            this.setSearchOnLine(reader.getAttrAsBoolean("searchOnline", true));
+            this.setContainPlugin(reader.getAttrAsBoolean("containDocument", true));
+            this.setContainDocument(reader.getAttrAsBoolean("containDocument", true));
+            this.setContainRecommend(reader.getAttrAsBoolean("containRecommend", true));
+            this.setContainAction(reader.getAttrAsBoolean("containAction", true));
+            this.setContainTemplate(reader.getAttrAsBoolean("containTemplate", true));
+            this.setContainFileContent(reader.getAttrAsBoolean("containFileContent", false));
             this.setNeedSegmentationCheckbox(reader.getAttrAsBoolean("needSegmentationCheckbox", true));
             this.setNeedIntelligentCustomerService(reader.getAttrAsBoolean("needIntelligentCustomerService", true));
             this.setShortcuts(reader.getAttrAsString("shortcuts", getDefaultShortCuts()));
-            this.setNeedRemind(reader.getAttrAsBoolean("isNeedRemind", true));
+            this.setNeedRemind(reader.getAttrAsBoolean("needRemind", true));
             this.setOperateCount(reader.getAttrAsInt("operateCount", 0));
 
         }
@@ -115,16 +115,16 @@ public class AlphaFineConfigManager implements XMLable {
     @Override
     public void writeXML(XMLPrintWriter writer) {
         writer.startTAG("AlphaFineConfigManager");
-        writer.attr("isEnabled", this.isEnabled())
-                .attr("isSearchOnline", this.isSearchOnLine())
+        writer.attr("enabled", this.isEnabled())
+                .attr("searchOnline", this.isSearchOnLine())
                 .attr("shortcuts", this.getShortcuts())
-                .attr("isContainRecommend", this.isContainRecommend())
-                .attr("isContainAction", this.isContainAction())
-                .attr("isContainDocument", this.isContainDocument())
-                .attr("isContainTemplate", this.isContainTemplate())
-                .attr("isContainPlugin", this.isContainPlugin())
-                .attr("isContainFileContent", this.isContainFileContent())
-                .attr("isNeedRemind", this.isNeedRemind())
+                .attr("containRecommend", this.isContainRecommend())
+                .attr("containAction", this.isContainAction())
+                .attr("containDocument", this.isContainDocument())
+                .attr("containTemplate", this.isContainTemplate())
+                .attr("containPlugin", this.isContainPlugin())
+                .attr("containFileContent", this.isContainFileContent())
+                .attr("needRemind", this.isNeedRemind())
                 .attr("operateCount", this.getOperateCount())
                 .attr("needSegmentationCheckbox", this.isNeedSegmentationCheckbox())
                 .attr("needIntelligentCustomerService", this.isNeedIntelligentCustomerService());
@@ -132,11 +132,11 @@ public class AlphaFineConfigManager implements XMLable {
     }
 
     public boolean isSearchOnLine() {
-        return isSearchOnLine;
+        return searchOnLine;
     }
 
     public void setSearchOnLine(boolean searchOnLine) {
-        isSearchOnLine = searchOnLine;
+        this.searchOnLine = searchOnLine;
     }
 
     public String getShortcuts() {
@@ -161,51 +161,51 @@ public class AlphaFineConfigManager implements XMLable {
     }
 
     public boolean isContainAction() {
-        return isContainAction;
+        return containAction;
     }
 
     public void setContainAction(boolean containAction) {
-        this.isContainAction = containAction;
+        this.containAction = containAction;
     }
 
     public boolean isContainDocument() {
-        return isContainDocument;
+        return containDocument;
     }
 
     public void setContainDocument(boolean containDocument) {
-        this.isContainDocument = containDocument;
+        this.containDocument = containDocument;
     }
 
     public boolean isContainTemplate() {
-        return isContainTemplate;
+        return containTemplate;
     }
 
     public void setContainTemplate(boolean containTemplate) {
-        this.isContainTemplate = containTemplate;
+        this.containTemplate = containTemplate;
     }
 
     public boolean isContainPlugin() {
-        return isContainPlugin;
+        return containPlugin;
     }
 
     public void setContainPlugin(boolean containPlugin) {
-        this.isContainPlugin = containPlugin;
+        this.containPlugin = containPlugin;
     }
 
     public boolean isContainRecommend() {
-        return isContainRecommend;
+        return containRecommend;
     }
 
     public void setContainRecommend(boolean containConclude) {
-        isContainRecommend = containConclude;
+        this.containRecommend = containConclude;
     }
 
     public boolean isEnabled() {
-        return isEnabled;
+        return enabled;
     }
 
-    public void setEnabled(boolean isEnabled) {
-        this.isEnabled = isEnabled;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     public KeyStroke getShortCutKeyStore() {
@@ -224,19 +224,19 @@ public class AlphaFineConfigManager implements XMLable {
     }
 
     public boolean isContainFileContent() {
-        return isContainFileContent;
+        return containFileContent;
     }
 
     public void setContainFileContent(boolean containFileContent) {
-        isContainFileContent = containFileContent;
+        this.containFileContent = containFileContent;
     }
 
     public boolean isNeedRemind() {
-        return isNeedRemind;
+        return needRemind;
     }
 
     public void setNeedRemind(boolean needRemind) {
-        isNeedRemind = needRemind;
+        this.needRemind = needRemind;
     }
 
     public boolean isNeedSegmentationCheckbox() {

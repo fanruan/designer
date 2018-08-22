@@ -13,13 +13,16 @@ import java.util.regex.Pattern;
  * Created by alex.sung on 2018/8/3.
  */
 public class SegmentationManager {
-    private static SegmentationManager segmentationManager = null;
+    private static volatile SegmentationManager segmentationManager = null;
     private static final int MAX_CHINESE_CHARACTERS_NUM = 4;
 
-    public static synchronized SegmentationManager getInstance() {
+    public static SegmentationManager getInstance() {
         if (segmentationManager == null) {
-            segmentationManager = new SegmentationManager();
-            return segmentationManager;
+            synchronized (SegmentationManager.class){
+                if (segmentationManager == null) {
+                    segmentationManager = new SegmentationManager();
+                }
+            }
         }
         return segmentationManager;
     }

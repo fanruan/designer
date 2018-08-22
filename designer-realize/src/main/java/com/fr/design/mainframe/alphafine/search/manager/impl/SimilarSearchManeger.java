@@ -14,22 +14,24 @@ import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.json.JSONTokener;
 import com.fr.log.FineLoggerFactory;
-import org.apache.commons.codec.digest.DigestUtils;
-
 import java.io.IOException;
-//import com.fr.third.org.apache.commons.codec.digest.DigestUtils;
+import com.fr.third.org.apache.commons.codec.digest.DigestUtils;
 
 /**
  * Created by alex.sung on 2018/8/3.
  */
 public class SimilarSearchManeger implements AlphaFineSearchProvider {
-    private static SimilarSearchManeger instance;
+    private static volatile SimilarSearchManeger instance;
     private volatile SearchResult lessModelList;
     private volatile SearchResult moreModelList = new SearchResult();
 
-    public static synchronized SimilarSearchManeger getInstance() {
+    public static SimilarSearchManeger getInstance() {
         if (instance == null) {
-            instance = new SimilarSearchManeger();
+            synchronized (SimilarSearchManeger.class){
+                if (instance == null) {
+                    instance = new SimilarSearchManeger();
+                }
+            }
         }
         return instance;
     }

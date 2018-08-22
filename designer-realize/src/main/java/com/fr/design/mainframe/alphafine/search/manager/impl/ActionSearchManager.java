@@ -23,7 +23,7 @@ import java.util.List;
  * Created by XiaXiang on 2017/3/27.
  */
 public class ActionSearchManager implements AlphaFineSearchProvider {
-    private static ActionSearchManager instance;
+    private static volatile ActionSearchManager instance;
     private SearchResult filterModelList;
     private SearchResult lessModelList;
     private SearchResult moreModelList;
