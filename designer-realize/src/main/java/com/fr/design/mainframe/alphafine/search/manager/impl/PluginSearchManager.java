@@ -17,7 +17,7 @@ import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.basic.version.Version;
 import com.fr.plugin.basic.version.VersionIntervalFactory;
 import com.fr.stable.EncodeConstants;
-import com.fr.third.org.apache.commons.lang3.ArrayUtils;
+import com.fr.stable.ArrayUtils;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;

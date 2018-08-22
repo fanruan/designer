@@ -17,7 +17,7 @@ import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CodeUtils;
 import com.fr.stable.StringUtils;
-import com.fr.third.org.apache.commons.lang3.ArrayUtils;
+import com.fr.stable.ArrayUtils;
 
 import java.io.IOException;
 import java.util.Iterator;

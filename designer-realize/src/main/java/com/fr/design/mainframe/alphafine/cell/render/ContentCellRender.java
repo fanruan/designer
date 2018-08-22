@@ -53,7 +53,7 @@ public class ContentCellRender implements ListCellRenderer<Object> {
 
         if (model.hasAction()) {
             if (isSelected) {
-                titleLabel.setText(" " + model.getName());
+                titleLabel.setText(StringUtils.BLANK + model.getName());
                 String iconUrl = SELECTED_PATH + model.getType().getTypeValue() + SUFFIX;
                 panel.setBackground(AlphaFineConstants.BLUE);
                 titleLabel.setForeground(Color.WHITE);
