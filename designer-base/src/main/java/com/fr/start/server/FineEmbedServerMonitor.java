@@ -27,7 +27,8 @@ public class FineEmbedServerMonitor {
         EventDispatcher.listen(EmbedServerEvent.AfterStop, new Listener<Null>() {
             @Override
             public void on(Event event, Null aNull) {
-                DesignerContext.getDesignerFrame().disposeProgressDialog();
+                getInstance().reset();
+                DesignerContext.getDesignerFrame().hideProgressDialog();
             }
         });
     }
@@ -81,7 +82,7 @@ public class FineEmbedServerMonitor {
                     } catch (InterruptedException ignore) {
                     }
                 }
-                DesignerContext.getDesignerFrame().disposeProgressDialog();
+                DesignerContext.getDesignerFrame().hideProgressDialog();
             }
         });
         service.shutdown();
