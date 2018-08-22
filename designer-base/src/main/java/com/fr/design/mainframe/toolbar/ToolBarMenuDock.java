@@ -47,6 +47,7 @@ import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
+import com.fr.design.onlineupdate.actions.SoftwareUpdateAction;
 import com.fr.design.remote.action.RemoteDesignAuthorityManagerAction;
 import com.fr.design.utils.ThemeUtils;
 import com.fr.general.ComparatorUtils;
@@ -468,6 +469,10 @@ public abstract class ToolBarMenuDock {
         if (GeneralContext.getLocale().equals(Locale.US)) {
             shortCuts.add(new VideoAction());
             shortCuts.add(new TutorialAction());
+        }
+        //远程不使用更新升级
+        if(WorkContext.getCurrent().isLocal()) {
+            shortCuts.add(new SoftwareUpdateAction());
         }
         if (AlphaFineConfigManager.isALPHALicAvailable()) {
             shortCuts.add(new AlphaFineAction());
