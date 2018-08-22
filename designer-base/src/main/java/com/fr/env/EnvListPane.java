@@ -53,7 +53,7 @@ public class EnvListPane extends JListControlPane {
      */
     @Override
     public NameableCreator[] createNameableCreators() {
-        NameableCreator local = new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("FR-Engine-Local_Workspace"), "com/fr/design/images/data/bind/localconnect.png",
+        NameableCreator local = new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Engine_Local_Workspace"), "com/fr/design/images/data/bind/localconnect.png",
                 LocalDesignerWorkspaceInfo.class, LocalEnvPane.class);
         NameableCreator remote = new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Env_Remote_Server"), "com/fr/design/images/data/bind/distanceconnect.png",
                 RemoteDesignerWorkspaceInfo.class, RemoteEnvPane.class);
