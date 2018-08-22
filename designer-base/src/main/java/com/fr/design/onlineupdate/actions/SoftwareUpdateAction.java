@@ -15,7 +15,7 @@ public class SoftwareUpdateAction extends UpdateAction {
 
 
     public SoftwareUpdateAction() {
-        setName(com.fr.design.i18n.Toolkit.i18nText("FR-Desinger-Updater_UpdateAndUpgrade"));
+        setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_UpdateAndUpgrade"));
         setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/update/update_new.png"));
 
     }

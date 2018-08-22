@@ -46,8 +46,8 @@ public abstract class FileDownloader extends SwingWorker<Boolean, DownloadItem> 
                 }
                 if (item.getTotalLength() != item.getDownloadLength()) {
                     JOptionPane.showMessageDialog(null,
-                            com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Updater_Download_Failed"),
-                            com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Updater_Alert"), JOptionPane.ERROR_MESSAGE);
+                            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_Download_Failed"),
+                            InterProviderFactory.getProvider().getLocText("Fine-Design_Updater_Alert"), JOptionPane.ERROR_MESSAGE);
                     return false;
                 } else {
                     item.setDownloadLength(0);

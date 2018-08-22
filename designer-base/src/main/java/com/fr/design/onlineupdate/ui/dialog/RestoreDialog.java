@@ -53,8 +53,8 @@ public class RestoreDialog extends JDialog {
     }
 
     private void initButton() {
-        okButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Updater_Ok"));
-        cancelButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Updater_Cancel"));
+        okButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_Ok"));
+        cancelButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_Cancel"));
 
         okButton.setEnabled(false);
         okButton.addActionListener(new ActionListener() {
@@ -114,7 +114,7 @@ public class RestoreDialog extends JDialog {
      */
     public void showDialog() {
         this.setSize(RESTOREJAR);
-        this.setTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Desinger-Updater_Jar_Restore"));
+        this.setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_Jar_Restore"));
         GUICoreUtils.centerWindow(this);
         this.setVisible(true);
     }

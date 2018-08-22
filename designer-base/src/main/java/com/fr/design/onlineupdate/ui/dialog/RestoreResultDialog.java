@@ -47,7 +47,7 @@ public class RestoreResultDialog extends JDialog {
     public RestoreResultDialog(Frame parent, boolean modal, String jarDir) {
         super(parent, modal);
         this.jarRestoreDir = jarDir;
-        if (ComparatorUtils.equals(jarDir, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Updater_Restore_Old_Version"))) {
+        if (ComparatorUtils.equals(jarDir, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_Restore_Old_Version"))) {
             initOldVersionRestoreComps();
         } else {
             initCommonComponents();
@@ -61,8 +61,8 @@ public class RestoreResultDialog extends JDialog {
         pane.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.setContentPane(pane);
 
-        UIButton restartButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Desinger-Updater_Restart_Designer"));
-        UIButton restartLaterButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Updater_Restart_Later"));
+        UIButton restartButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_Restart_Designer"));
+        UIButton restartLaterButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_Restart_Later"));
 
         restartButton.setFont(new Font("Default", Font.PLAIN, 12));
         restartButton.setEnabled(false);
@@ -86,7 +86,7 @@ public class RestoreResultDialog extends JDialog {
         pane.add(buttonPane, BorderLayout.SOUTH);
 
         JPanel progressLabelPane = new JPanel(new BorderLayout());
-        UILabel jarProgressLabel = new UILabel((com.fr.design.i18n.Toolkit.i18nText("FR-Desinger-Updater_Restore_To")) + " " + jarRestoreDir + " " + (com.fr.design.i18n.Toolkit.i18nText("FR-Desinger-Updater_WorksAfterRestart")));
+        UILabel jarProgressLabel = new UILabel((com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_Restore_To")) + " " + jarRestoreDir + " " + (com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_WorksAfterRestart")));
         jarProgressLabel.setFont(new Font("Default", Font.PLAIN, 12));
         jarProgressLabel.setVisible(true);
         progressLabelPane.add(jarProgressLabel);
@@ -98,7 +98,7 @@ public class RestoreResultDialog extends JDialog {
         restartButton.setEnabled(true);
         restartLaterButton.setEnabled(true);
         this.setSize(RESTORE);
-        this.setTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Desinger-Updater_Jar_Restore"));
+        this.setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_Jar_Restore"));
     }
 
     private void initOldVersionRestoreComps() {
@@ -108,7 +108,7 @@ public class RestoreResultDialog extends JDialog {
         pane.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.setContentPane(pane);
 
-        UIButton okButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Updater_Ok"));
+        UIButton okButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_Ok"));
         okButton.setFont(new Font("Default", Font.PLAIN, 12));
         okButton.addActionListener(new AbstractAction() {
             @Override
@@ -123,10 +123,10 @@ public class RestoreResultDialog extends JDialog {
 
         JPanel infoPane = new JPanel(new BorderLayout());
         JTextArea jTextArea = new JTextArea(
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Updater_Already_Backup_Old_Project")
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_Already_Backup_Old_Project")
                         + StringUtils.BLANK
                         + StableUtils.pathJoin(StableUtils.getInstallHome(), UpdateConstants.DESIGNER_BACKUP_DIR)
-                        + com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Updater_Unzip_Replace_Restore")
+                        + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_Unzip_Replace_Restore")
         );
         jTextArea.setLineWrap(true);
         jTextArea.setEditable(false);

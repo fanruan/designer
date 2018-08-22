@@ -166,7 +166,7 @@ public class UpdateMainDialog extends UIDialog {
         progressBar.setStringPainted(true);
         progressBar.setPreferredSize(PROGRESSBAR);
 
-        updateLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Desinger-Updater_New_Version_Available"));
+        updateLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_New_Version_Available"));
         updateLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         updateLabel.setVisible(false);
 
@@ -204,15 +204,15 @@ public class UpdateMainDialog extends UIDialog {
         JPanel jarUpdateContentPane2 = TableLayoutHelper.createCommonTableLayoutPane(new Component[][]{
                 new Component[]{new UILabel(), new UILabel(), new UILabel()},
                 new Component[]{new UILabel(), updateVersionReminderPane, new UILabel()},
-                new Component[]{new UILabel(), initPaneContent(Color.WHITE, rowUpdateContentPaneSize, columnUpdateSubContentPaneLabelSize, new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Updater_JAR_Version")), jarCurrentLabel), new UILabel()},
-                new Component[]{new UILabel(), initPaneContent(Color.WHITE, rowUpdateContentPaneSize, columnUpdateSubContentPaneLabelSize, new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Updater_Latest_JAR")), loadingLabel), new UILabel()},
+                new Component[]{new UILabel(), initPaneContent(Color.WHITE, rowUpdateContentPaneSize, columnUpdateSubContentPaneLabelSize, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_JAR_Version")), jarCurrentLabel), new UILabel()},
+                new Component[]{new UILabel(), initPaneContent(Color.WHITE, rowUpdateContentPaneSize, columnUpdateSubContentPaneLabelSize, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_Latest_JAR")), loadingLabel), new UILabel()},
                 new Component[]{new UILabel(), new UILabel(), new UILabel()}
         }, rowUpdateSubContentPaneSize, columnUpdateSubContentPaneSize, LayoutConstants.VGAP_LARGE);
         jarUpdateContentPane2.setBackground(Color.WHITE);
         jarUpdateContentPane.add(jarUpdateContentPane2);
         jarVersionInfoPane = TableLayoutHelper.createCommonTableLayoutPane(new Component[][]{
                 new Component[]{new UILabel(), new UILabel(), new UILabel()},
-                new Component[]{new UILabel(), initPaneContent(getBackground(), rowUpdateContentPaneSize, columnUpdateContentPaneSize, new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Desinger-Updater_JarUpdate")), new UILabel(), jarRestoreLabel), new UILabel()},
+                new Component[]{new UILabel(), initPaneContent(getBackground(), rowUpdateContentPaneSize, columnUpdateContentPaneSize, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_JarUpdate")), new UILabel(), jarRestoreLabel), new UILabel()},
                 new Component[]{new UILabel(), jarUpdateContentPane, new UILabel()}
         }, rowUpdatePaneSize, columnUpdatePaneSize, LayoutConstants.VGAP_LARGE);
     }
@@ -230,7 +230,7 @@ public class UpdateMainDialog extends UIDialog {
                 new Component[]{new UILabel(), new UILabel(), new UILabel()}
         }, searchRow, searchColumn, LayoutConstants.VGAP_LARGE);
 
-        String[] columnNames = {com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Updater_Date"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Updater_Content"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Updater_SignHeader")};
+        String[] columnNames = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_Date"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_Content"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_SignHeader")};
         initUpdateInfoTable(columnNames);
 
         UIScrollPane uiScrollPane = new UIScrollPane(updateInfoTable);
@@ -265,8 +265,8 @@ public class UpdateMainDialog extends UIDialog {
         updateInfoTable.getColumnModel().getColumn(updateSignColIndex).setMinWidth(0);
         updateInfoTable.getTableHeader().getColumnModel().getColumn(updateSignColIndex).setMaxWidth(0);
         updateInfoTable.getTableHeader().getColumnModel().getColumn(updateSignColIndex).setMinWidth(0);
-        updateInfoTable.getColumn(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Updater_Date")).setCellRenderer(new UpdateInfoTableCellRender());
-        updateInfoTable.getColumn(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Updater_Content")).setCellRenderer(new UpdateInfoTextAreaCellRender());
+        updateInfoTable.getColumn(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_Date")).setCellRenderer(new UpdateInfoTableCellRender());
+        updateInfoTable.getColumn(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_Content")).setCellRenderer(new UpdateInfoTextAreaCellRender());
     }
 
     private void initUpdateInfoSearchPane() {
@@ -289,7 +289,7 @@ public class UpdateMainDialog extends UIDialog {
             public void changedUpdate(DocumentEvent e) {
             }
         });
-        searchUpdateInfoBtn = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Updater_Search"));
+        searchUpdateInfoBtn = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_Search"));
         searchUpdateInfoBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -303,8 +303,8 @@ public class UpdateMainDialog extends UIDialog {
 
     private void initButtonAndLabel() {
         loadingLabel = new LoadingLabel();
-        loadingLabel.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Desinger-Updater_Checking_Jar_Update"));
-        updateButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Desinger-Updater_Update"));
+        loadingLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_Checking_Jar_Update"));
+        updateButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_Update"));
         updateButton.setPreferredSize(UPDATE_BUTTON);
         updateButton.setEnabled(false);
 
@@ -313,14 +313,14 @@ public class UpdateMainDialog extends UIDialog {
         double[] colSize = {UPDATE_CONTENT_PANE_LABEL_COLUMN_SIZE, TableLayout.PREFERRED};
         updateVersionReminderPane = initPaneContent(
                 Color.WHITE, rowSize, colSize,
-                new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Updater_Designer_Version")),
+                new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_Designer_Version")),
                 new UILabel(UpdateConstants.DEFAULT_APP_NAME + StringUtils.BLANK + ProductConstants.VERSION)
         );
 
 
-        jarCurrentLabel = new UILabel(StringUtils.isEmpty(GeneralUtils.readBuildNO()) ? com.fr.design.i18n.Toolkit.i18nText("FR-Desinger-Updater_Not_Install_Version") : GeneralUtils.readBuildNO(), SwingConstants.CENTER);
-        UILabel noJarPreviousRevision = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Desinger-Updater_No_Previous_Version"));
-        UpdateActionLabel jarRestorePreviousRevision = new UpdateActionLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Desinger-Updater_Restore"), false);
+        jarCurrentLabel = new UILabel(StringUtils.isEmpty(GeneralUtils.readBuildNO()) ? com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_Not_Install_Version") : GeneralUtils.readBuildNO(), SwingConstants.CENTER);
+        UILabel noJarPreviousRevision = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_No_Previous_Version"));
+        UpdateActionLabel jarRestorePreviousRevision = new UpdateActionLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_Restore"), false);
         jarRestorePreviousRevision.setForeground(new Color(RESTORE_LABEL_COLOR));
         jarRestorePreviousRevision.addActionListener(new ActionListener() {
             @Override
@@ -532,7 +532,7 @@ public class UpdateMainDialog extends UIDialog {
     }
 
     private void stopLoading() {
-        loadingLabel.stopLoading(com.fr.design.i18n.Toolkit.i18nText("FR-Desinger-Updater_Connect_VersionUpdateServer_Failed"));
+        loadingLabel.stopLoading(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_Connect_VersionUpdateServer_Failed"));
     }
 
 
@@ -557,7 +557,7 @@ public class UpdateMainDialog extends UIDialog {
                 updateLabel.setVisible(true);
                 loadingLabel.stopLoading(buildNO.contains("-") ? buildNO.substring(buildNO.lastIndexOf("-") + 1) : buildNO);
             } else {
-                loadingLabel.stopLoading(com.fr.design.i18n.Toolkit.i18nText("FR-Desinger-Updater_Already_Latest_Version"));
+                loadingLabel.stopLoading(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_Already_Latest_Version"));
             }
         } else {
             updateButton.setEnabled(true);
@@ -638,7 +638,7 @@ public class UpdateMainDialog extends UIDialog {
                             backup();
                             putNewFiles();
                             updateSuccessful = true;
-                            updateButton.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Desinger-Updater_Restart_Designer"));
+                            updateButton.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_Restart_Designer"));
                         }
 
                         @Override
@@ -804,7 +804,7 @@ public class UpdateMainDialog extends UIDialog {
      */
     public void showDialog() {
         setSize(DEFAULT);
-        setTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Desinger-Updater_UpdateAndUpgrade"));
+        setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_UpdateAndUpgrade"));
         GUICoreUtils.centerWindow(this);
         setVisible(true);
     }
