@@ -27,7 +27,7 @@ public final class WebPreviewUtils {
     @SuppressWarnings("unchecked")
     public static void preview(JTemplate<?, ?> jt, PreviewProvider provider) {
         String baseRoute = jt.route();
-        actionPerformed(jt, baseRoute, provider == null ? Collections.EMPTY_MAP : provider.parametersForPreview(), ParameterConstants.VIEWLET);
+        actionPerformed(jt, baseRoute, provider == null ? Collections.EMPTY_MAP : provider.parametersForPreview(), provider.getActionType());
     }
 
     private static void actionPerformed(JTemplate<?, ?> jt, String baseRoute, Map<String, Object> map, String actionType) {

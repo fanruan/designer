@@ -5,20 +5,21 @@ import com.fr.base.ServerConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
-
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.start.server.FineEmbedServer;
+import com.fr.start.server.FineEmbedServerMonitor;
 import com.fr.workspace.WorkContext;
 
-
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JOptionPane;
+import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ServerStarter {
   
@@ -57,10 +58,24 @@ public class ServerStarter {
      *
      * @param url 指定路径
      */
-    public static void browserURLWithLocalEnv(String url) {
-    
-        FineEmbedServer.start();
-        browser(url);
+    public static void browserURLWithLocalEnv(final String url) {
+
+        if(!FineEmbedServerMonitor.getInstance().isComplete()){
+            FineEmbedServerMonitor.getInstance().monitor();
+            ExecutorService service = Executors.newSingleThreadExecutor();
+            service.submit(new Runnable() {
+
+                @Override
+                public void run() {
+                    FineEmbedServer.start();
+                    browser(url);
+                }
+            });
+            service.shutdown();
+        }else{
+            FineEmbedServer.start();
+            browser(url);
+        }
     }
     
     private static void browser(String uri) {

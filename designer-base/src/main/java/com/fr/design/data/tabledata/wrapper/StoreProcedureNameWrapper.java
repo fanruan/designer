@@ -77,7 +77,7 @@ public final class StoreProcedureNameWrapper implements TableDataWrapper {
         try {
             procedureDataModel = DesignTableDataManager.createLazyDataModel(storeProcedure, needLoadingBar)[0];
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage());
+            FRContext.getLogger().error(e.getMessage(), e);
         }
     }
 

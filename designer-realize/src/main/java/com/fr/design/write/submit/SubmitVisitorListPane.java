@@ -137,7 +137,7 @@ public class SubmitVisitorListPane extends ObjectJControlPane {
             try {
                 editing = (BuiltInSQLSubmiterProvider) editing.clone();
             } catch (Exception e) {
-                FineLoggerFactory.getLogger().error(e.getMessage());
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
             editing.setDBManipulation(dbManipulation);
 

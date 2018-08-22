@@ -966,7 +966,7 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
             try{
                 newCondition = (Condition)joinCondition.getCondition().clone();
             }catch (CloneNotSupportedException e){
-                FineLoggerFactory.getLogger().error(e.getMessage());
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
             return newCondition;
         }

@@ -109,7 +109,7 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
             directory = FSDirectory.open(new File(path));
             indexWriter = new IndexWriter(directory, config);
         } catch (IOException e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
 
     }
@@ -123,7 +123,7 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
             indexReader = DirectoryReader.open(directory);
             indexSearcher = new IndexSearcher(indexReader);
         } catch (IOException e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
 
