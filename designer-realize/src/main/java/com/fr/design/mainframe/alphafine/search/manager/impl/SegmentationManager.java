@@ -56,7 +56,7 @@ public class SegmentationManager {
     public String[] startSegmentation(String searchText) {
         Pattern p = Pattern.compile(AlphaFineConstants.SPECIAL_CHARACTER_REGEX);
         Matcher m = p.matcher(searchText);
-        searchText = m.replaceAll("").trim().replaceAll(" ", "");
+        searchText = m.replaceAll(StringUtils.EMPTY).trim().replaceAll(StringUtils.BLANK, StringUtils.EMPTY);
         if (StringUtils.isEmpty(searchText)) {
             return null;
         }

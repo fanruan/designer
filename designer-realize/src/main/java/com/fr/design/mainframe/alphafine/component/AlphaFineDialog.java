@@ -1333,7 +1333,7 @@ public class AlphaFineDialog extends UIDialog {
      */
     private void initBackPane() {
         backPane = new JPanel(new BorderLayout());
-        JLabel jLabel = new JLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Back"));
+        JLabel jLabel = new JLabel(com.fr.design.i18n.Toolkit.i18nText("  <  " + "Fine-Design_Report_AlphaFine_Back"));
         jLabel.setPreferredSize(new Dimension(680, 20));
         jLabel.setFont(AlphaFineConstants.SMALL_FONT);
         jLabel.setForeground(AlphaFineConstants.DARK_GRAY);
