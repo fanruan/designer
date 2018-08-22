@@ -64,7 +64,7 @@ public class ContentCellRender implements ListCellRenderer<Object> {
                 }
             } else {
 
-                titleLabel.setText(dealWithModelName(model.getName(), segmentationResult));
+                titleLabel.setText(highLightModelName(model.getName(), segmentationResult));
                 String iconUrl = CELL_PATH + model.getType().getTypeValue() + SUFFIX;
                 if (value instanceof RobotModel && ((RobotModel) value).isHotItemModel()) {
                     titleLabel.setIcon(null);
@@ -104,7 +104,7 @@ public class ContentCellRender implements ListCellRenderer<Object> {
      * @param strings
      * @return
      */
-    public String dealWithModelName(String modelName, String[] strings) {
+    public String highLightModelName(String modelName, String[] strings) {
         if (strings == null) {
             return modelName;
         }
@@ -127,4 +127,6 @@ public class ContentCellRender implements ListCellRenderer<Object> {
         return modelName.substring(index, index + string.length());
 
     }
+
+
 }

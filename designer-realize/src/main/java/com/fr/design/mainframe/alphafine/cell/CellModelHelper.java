@@ -35,7 +35,7 @@ public class CellModelHelper {
             case ROBOT:
             case RECOMMEND_ROBOT:
                 cellModel = SimilarSearchManeger.getModelFromCloud(object.optJSONObject(RESULT));
-
+                break;
         }
         return cellModel;
     }

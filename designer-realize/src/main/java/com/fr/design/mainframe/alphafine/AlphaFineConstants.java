@@ -1,5 +1,6 @@
 package com.fr.design.mainframe.alphafine;
 
+import com.fr.base.extension.FileExtension;
 import com.fr.general.CloudCenter;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -123,5 +124,8 @@ public class AlphaFineConstants {
 
     public static final String CHINESE_CHARACTERS = "[\\u4e00-\\u9fa5]";
 
+    public static final String FIRST_PAGE = "-1";
+
+    public static final FileExtension[] FILE_EXTENSIONS= new FileExtension[]{FileExtension.CPT, FileExtension.FRM};
 
 }

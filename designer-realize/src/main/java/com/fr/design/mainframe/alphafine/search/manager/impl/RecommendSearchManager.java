@@ -14,7 +14,6 @@ import com.fr.general.http.HttpToolbox;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
-import com.fr.json.JSONTokener;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CodeUtils;
 import com.fr.stable.StringUtils;
@@ -61,19 +60,16 @@ public class RecommendSearchManager implements AlphaFineSearchProvider {
                 try {
                     String result = HttpToolbox.get(AlphaFineConstants.SEARCH_API + CodeUtils.cjkEncode(searchText[j]));
                     AlphaFineHelper.checkCancel();
-                    Object json = new JSONTokener(result).nextValue();
-                    if (json instanceof JSONObject) {
-                        JSONObject jsonObject = new JSONObject(result);
-                        if (jsonObject.optString("status").equals("success")) {
-                            JSONArray jsonArray = jsonObject.optJSONArray("result");
-                            if (jsonArray != null && jsonArray.length() > 0) {
-                                for (int i = 0; i < jsonArray.length(); i++) {
-                                    AlphaFineHelper.checkCancel();
-                                    AlphaCellModel alphaCellModel = CellModelHelper.getModelFromJson((JSONObject) jsonArray.get(i));
-                                    if (alphaCellModel != null && !alreadyContain(alphaCellModel)) {
+                    JSONObject jsonObject = new JSONObject(result);
+                    if (jsonObject.optString("status").equals("success")) {
+                        JSONArray jsonArray = jsonObject.optJSONArray("result");
+                        if (jsonArray != null && jsonArray.length() > 0) {
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                AlphaFineHelper.checkCancel();
+                                AlphaCellModel alphaCellModel = CellModelHelper.getModelFromJson((JSONObject) jsonArray.get(i));
+                                if (alphaCellModel != null && !alreadyContain(alphaCellModel)) {
 
-                                        this.recommendModelList.add(alphaCellModel);
-                                    }
+                                    this.recommendModelList.add(alphaCellModel);
                                 }
                             }
                         }
@@ -94,6 +90,7 @@ public class RecommendSearchManager implements AlphaFineSearchProvider {
             }
             complementAdviceModelList = ComplementAdviceManager.getInstance().getAllSearchResult(searchText);
             moreModelList.clear();
+
             if (recommendModelList.size() > 0) {
                 if (complementAdviceModelList.size() == 0) {
                     if (recommendModelList.size() > AlphaFineConstants.SHOW_SIZE - 2) {

@@ -13,7 +13,7 @@ import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
-import com.fr.third.org.apache.commons.lang3.ArrayUtils;
+import com.fr.stable.ArrayUtils;
 
 import java.io.IOException;
 
@@ -61,7 +61,7 @@ public class DocumentSearchManager implements AlphaFineSearchProvider {
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainDocument()) {
             SearchResult searchResult = new SearchResult();
             for (int j = 0; j < searchText.length; j++) {
-                String url = AlphaFineConstants.DOCUMENT_SEARCH_URL + searchText[j] + "-1";
+                String url = AlphaFineConstants.DOCUMENT_SEARCH_URL + searchText[j] + AlphaFineConstants.FIRST_PAGE;
                 try {
                     String result = HttpToolbox.get(url);
                     AlphaFineHelper.checkCancel();

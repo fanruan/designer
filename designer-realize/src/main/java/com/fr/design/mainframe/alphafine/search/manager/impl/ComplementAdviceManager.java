@@ -9,7 +9,7 @@ import com.fr.general.http.HttpToolbox;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
-import com.fr.json.JSONTokener;
+import com.fr.json.JSONUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
 import java.io.IOException;
@@ -50,9 +50,8 @@ public class ComplementAdviceManager {
                 try {
                     String result = HttpToolbox.get(url);
                     AlphaFineHelper.checkCancel();
-                    Object json = new JSONTokener(result).nextValue();
-                    if (json instanceof JSONArray) {
-                        JSONArray jsonArray = new JSONArray(result);
+                    JSONArray jsonArray = (JSONArray)JSONUtils.jsonDecode(result);
+                    if(jsonArray != null){
                         for (int i = 0; i < jsonArray.length(); i++) {
                             AlphaFineHelper.checkCancel();
                             JSONObject jsonObject = jsonArray.optJSONObject(i);
@@ -64,6 +63,7 @@ public class ComplementAdviceManager {
                                     allModelList.add(robotModel);
                                 }
                             }
+
                         }
                     }
                 } catch (JSONException e) {

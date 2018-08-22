@@ -12,7 +12,7 @@ import com.fr.general.http.HttpToolbox;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
-import com.fr.json.JSONTokener;
+import com.fr.json.JSONUtils;
 import com.fr.log.FineLoggerFactory;
 import java.io.IOException;
 import com.fr.third.org.apache.commons.codec.digest.DigestUtils;
@@ -47,9 +47,8 @@ public class SimilarSearchManeger implements AlphaFineSearchProvider {
                 try {
                     String result = HttpToolbox.get(url);
                     AlphaFineHelper.checkCancel();
-                    Object json = new JSONTokener(result).nextValue();
-                    if (json instanceof JSONArray) {
-                        JSONArray jsonArray = new JSONArray(result);
+                    JSONArray jsonArray = (JSONArray)JSONUtils.jsonDecode(result);
+                    if(jsonArray != null){
                         if (jsonArray.length() != 0) {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jsonObject = jsonArray.optJSONObject(i);

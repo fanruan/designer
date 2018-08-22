@@ -73,7 +73,7 @@ public class FileSearchManager implements AlphaFineSearchProvider {
                 return lessModelList;
             }
             AlphaFineHelper.checkCancel();
-            fileNodes = FRContext.getFileNodes().list(ProjectConstants.REPORTLETS_NAME, new FileExtension[]{FileExtension.CPT, FileExtension.FRM}, true);
+            fileNodes = FRContext.getFileNodes().list(ProjectConstants.REPORTLETS_NAME, AlphaFineConstants.FILE_EXTENSIONS, true);
             isContainCpt = true;
             isContainFrm = true;
             doSearch(this.searchText);

@@ -4,6 +4,7 @@ import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.stable.StringUtils;
 
 import com.fr.third.ibm.icu.text.BreakIterator;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -18,7 +19,7 @@ public class SegmentationManager {
 
     public static SegmentationManager getInstance() {
         if (segmentationManager == null) {
-            synchronized (SegmentationManager.class){
+            synchronized (SegmentationManager.class) {
                 if (segmentationManager == null) {
                     segmentationManager = new SegmentationManager();
                 }
@@ -50,6 +51,7 @@ public class SegmentationManager {
 
     /**
      * 对字符串进行分词
+     *
      * @param searchText
      * @return
      */
@@ -67,9 +69,7 @@ public class SegmentationManager {
         BreakIterator itor = BreakIterator.getWordInstance();
         itor.setText(searchText);
         int start = itor.first();
-        for (int end = itor.next();
-             end != BreakIterator.DONE;
-             start = end, end = itor.next()) {
+        for (int end = itor.next(); end != BreakIterator.DONE; start = end, end = itor.next()) {
             String temp = searchText.substring(start, end);
             if (!StringUtils.isEmpty(temp)) {
                 result.add(temp);
