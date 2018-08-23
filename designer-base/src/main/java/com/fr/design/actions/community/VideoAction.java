@@ -25,7 +25,7 @@ public class VideoAction extends UpdateAction
 		 this.setMenuKeySet(VIDEO);
 	     this.setName(getMenuKeySet().getMenuName());
 	     this.setMnemonic(getMenuKeySet().getMnemonic());
-	     this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/video.png"));
+	     this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/bbs/video.png"));
 		
 	}
 

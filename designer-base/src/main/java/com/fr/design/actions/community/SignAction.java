@@ -24,7 +24,7 @@ public class SignAction extends UpdateAction
 		 this.setMenuKeySet(SIGN);
 	     this.setName(getMenuKeySet().getMenuName());
 	     this.setMnemonic(getMenuKeySet().getMnemonic());
-	     this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/signature.png"));
+	     this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/bbs/sign.png"));
 		
 	}
 

@@ -25,13 +25,13 @@ public class BBSAction extends UpdateAction
 		 this.setMenuKeySet(BBS);
 	     this.setName(getMenuKeySet().getMenuName());
 	     this.setMnemonic(getMenuKeySet().getMnemonic());
-	     this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/bbs.png"));
+	     this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/bbs/bbs.png"));
 		
 	}
 
 	 /**
      * 动作
-     * @param e 事件
+     * @param arg0 事件
      */
 	@Override
 	public void actionPerformed(ActionEvent arg0)

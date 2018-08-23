@@ -23,7 +23,7 @@ public class BugAction extends UpdateAction
 	{ this.setMenuKeySet(BUG);
     this.setName(getMenuKeySet().getMenuName());
     this.setMnemonic(getMenuKeySet().getMnemonic());
-    this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/bug.png"));
+    this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/bbs/bug.png"));
 	
 }
 

@@ -24,8 +24,8 @@ public class NeedAction extends UpdateAction
 		 this.setMenuKeySet(NEED);
 	     this.setName(getMenuKeySet().getMenuName());
 	     this.setMnemonic(getMenuKeySet().getMnemonic());
-	     this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/need.png"));
-		
+	     this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/bbs/need.png"));
+
 	}
 
 	@Override

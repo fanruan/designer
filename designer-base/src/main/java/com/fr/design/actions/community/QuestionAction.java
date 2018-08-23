@@ -23,7 +23,7 @@ public class QuestionAction extends UpdateAction
 	{ this.setMenuKeySet(QUESTIONS);
     this.setName(getMenuKeySet().getMenuName());
     this.setMnemonic(getMenuKeySet().getMnemonic());
-    this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/questions.png"));
+    this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/bbs/question.png"));
 	
 }
 
