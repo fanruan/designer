@@ -21,7 +21,7 @@ public class BrowseUtils {
      * @param uri 网址
      * @param e
      */
-    public static void startBrowserFromCommand(String uri, IOException e) {
+    private static void startBrowserFromCommand(String uri, IOException e) {
 
         if (OperatingSystem.isWindows()) {
             try {
