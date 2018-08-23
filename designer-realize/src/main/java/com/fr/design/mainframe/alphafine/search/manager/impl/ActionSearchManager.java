@@ -15,6 +15,7 @@ import com.fr.general.ComparatorUtils;
 
 import com.fr.json.JSONObject;
 import com.fr.stable.StringUtils;
+import com.fr.stable.ArrayUtils;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ import java.util.List;
  * Created by XiaXiang on 2017/3/27.
  */
 public class ActionSearchManager implements AlphaFineSearchProvider {
-    private static ActionSearchManager instance;
+    private static volatile ActionSearchManager instance;
     private SearchResult filterModelList;
     private SearchResult lessModelList;
     private SearchResult moreModelList;
@@ -57,21 +58,23 @@ public class ActionSearchManager implements AlphaFineSearchProvider {
     }
 
     @Override
-    public synchronized SearchResult getLessSearchResult(String searchText) {
+    public SearchResult getLessSearchResult(String[] searchText) {
         filterModelList = new SearchResult();
         lessModelList = new SearchResult();
         moreModelList = new SearchResult();
-        if (StringUtils.isBlank(searchText)) {
+        if (ArrayUtils.isEmpty(searchText)) {
             lessModelList.add(new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Set")));
             return lessModelList;
         }
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainAction()) {
             List<UpdateActionModel> updateActions = UpdateActionManager.getUpdateActionManager().getUpdateActions();
             for (UpdateActionModel updateActionModel : updateActions) {
-                AlphaFineHelper.checkCancel();
-                if (StringUtils.isNotBlank(updateActionModel.getSearchKey())) {
-                    if (updateActionModel.getSearchKey().contains(searchText) && updateActionModel.getAction().isEnabled()) {
-                        filterModelList.add(new ActionModel(updateActionModel.getActionName(), updateActionModel.getParentName(), updateActionModel.getAction()));
+                for (int j = 0; j < searchText.length; j++) {
+                    AlphaFineHelper.checkCancel();
+                    if (StringUtils.isNotBlank(updateActionModel.getSearchKey())) {
+                        if (updateActionModel.getSearchKey().contains(searchText[j]) && updateActionModel.getAction().isEnabled()) {
+                            filterModelList.add(new ActionModel(updateActionModel.getActionName(), updateActionModel.getParentName(), updateActionModel.getAction()));
+                        }
                     }
                 }
             }
@@ -91,7 +94,6 @@ public class ActionSearchManager implements AlphaFineSearchProvider {
                 lessModelList.addAll(result.subList(0, AlphaFineConstants.SHOW_SIZE));
                 moreModelList.addAll(result.subList(AlphaFineConstants.SHOW_SIZE, result.size()));
             }
-
         }
         return lessModelList;
     }

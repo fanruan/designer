@@ -35,7 +35,7 @@ public class FileModel extends AlphaCellModel {
     }
 
     @Override
-    public JSONObject ModelToJson() {
+    public JSONObject modelToJson() {
         JSONObject object = JSONObject.create();
         try {
             JSONObject modelObject = JSONObject.create();

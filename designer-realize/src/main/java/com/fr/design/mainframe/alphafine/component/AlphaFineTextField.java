@@ -3,7 +3,10 @@ package com.fr.design.mainframe.alphafine.component;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.report.web.button.Image;
 
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+
 
 /**
  * Created by XiaXiang on 2017/3/21.
@@ -21,18 +24,6 @@ public class AlphaFineTextField extends UITextField {
 
     public AlphaFineTextField() {
         this.placeHolder = null;
-    }
-
-
-    @Override
-    public String getText() {
-        String text = super.getText();
-
-        if (text.trim().length() == 0 && placeHolder != null) {
-            text = placeHolder;
-        }
-
-        return text;
     }
 
     @Override
