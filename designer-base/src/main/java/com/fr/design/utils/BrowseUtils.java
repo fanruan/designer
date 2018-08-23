@@ -15,6 +15,12 @@ import java.net.URISyntaxException;
  * Created by XINZAI on 2018/8/23.
  */
 public class BrowseUtils {
+
+    /**
+     * 处理内存异常，win10下用rundll32打开
+     * @param uri 网址
+     * @param e
+     */
     public static void startBrowserFromCommand(String uri, IOException e) {
 
         if (OperatingSystem.isWindows()) {
@@ -30,6 +36,10 @@ public class BrowseUtils {
         }
     }
 
+    /**
+     * 打开网页,用默认浏览器
+     * @param url 网址
+     */
     public static void browser(String url) {
 
         if (StringUtils.isEmpty(url)) {
