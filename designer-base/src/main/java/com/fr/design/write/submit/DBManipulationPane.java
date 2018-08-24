@@ -108,7 +108,7 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
 	private static final String[] DML_CONFIG_TYPES = new String[] {
             com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Write_Smart_Submit"),
             com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Write_Delete_Submit"),
-			com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Write_Smart_Submit"),
+			com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Write_Insert_Submit"),
             com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Write_Update_Submit")};
 
 	/**
