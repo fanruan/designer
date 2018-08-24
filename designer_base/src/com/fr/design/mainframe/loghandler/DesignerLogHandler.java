@@ -51,6 +51,7 @@ public class DesignerLogHandler {
     protected static final int INFO_INT = FRLogLevel.INFO.intValue();
     protected static final int ERRO_INT = FRLogLevel.ERROR.intValue();
     protected static final int SERVER_INT = FRLogLevel.SEVERE.intValue();
+    protected static final int DEBUG_INT = FRLogLevel.DEBUG.intValue();
     private static final int BUFFER_SIZE = 10 * 1024 * 1024;
     private static final int GAP_X = -150;
     private static final int INFO_GAP_Y = -60;
@@ -253,6 +254,8 @@ public class DesignerLogHandler {
             } else if (logLevelvalue == ERRO_INT && showError.isSelected()) {
                 printMessage(message, logLevelvalue, date);
             } else if (logLevelvalue == SERVER_INT && showServer.isSelected()) {
+                printMessage(message, logLevelvalue, date);
+            } else if (logLevelvalue == DEBUG_INT){
                 printMessage(message, logLevelvalue, date);
             }
 
