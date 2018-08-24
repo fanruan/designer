@@ -38,6 +38,7 @@ public class DesignerLogHandler {
     protected static final int INFO_INT = Level.INFO.toInt();
     protected static final int ERROR_INT = Level.ERROR.toInt();
     protected static final int WARN_INT = Level.WARN.toInt();
+    protected static final int DEBUG_INT = Level.DEBUG.toInt();
     private static final int GAP_X = -150;
     private static final int INFO_GAP_Y = -60;
     private static final int ERRO_GAP_Y = -40;
@@ -209,11 +210,14 @@ public class DesignerLogHandler {
 
         public void printStackTrace(String message, Level level, Date date) {
             int intLevel = level.toInt();
+            int logLevel = Log4jConfig.getInstance().getRootLevel().toInt();
             if (intLevel == INFO_INT && showInfo.isSelected()) {
                 printMessage(message, intLevel, date);
             } else if (intLevel == ERROR_INT && showError.isSelected()) {
                 printMessage(message, intLevel, date);
             } else if (intLevel == WARN_INT && showServer.isSelected()) {
+                printMessage(message, intLevel, date);
+            } else if (intLevel == DEBUG_INT && logLevel == DEBUG_INT){
                 printMessage(message, intLevel, date);
             }
 
