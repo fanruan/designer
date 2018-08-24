@@ -177,7 +177,7 @@ public class PluginUtils {
     
     private static String getInterKeyByErrorCode(PluginErrorCode errorCode) {
         
-        return ERROR_CODE_I18N_PREFIX + errorCode.getDescription();
+        return  errorCode.getDescription();
     }
     
     public static PluginMarker getInstalledPluginMarkerByID(String pluginID) {
