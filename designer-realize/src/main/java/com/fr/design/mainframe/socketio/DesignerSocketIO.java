@@ -6,7 +6,6 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.TemplatePane;
 import com.fr.design.mainframe.loghandler.DesignerLogHandler;
 import com.fr.event.EventDispatcher;
-
 import com.fr.log.FineLoggerFactory;
 import com.fr.serialization.SerializerHelper;
 import com.fr.stable.ArrayUtils;
@@ -21,9 +20,10 @@ import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.net.URL;
 
