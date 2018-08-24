@@ -7,6 +7,7 @@ import com.fr.general.http.HttpClient;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
+import com.fr.stable.AssistUtils;
 import org.apache.commons.codec.digest.DigestUtils;
 
 
@@ -91,5 +92,17 @@ public class RobotModel extends AlphaCellModel {
         } catch (URISyntaxException e) {
             FineLoggerFactory.getLogger().error(e.getMessage());
         }
+    }
+
+    @Override
+    public final boolean equals(Object obj) {
+        return obj instanceof RobotModel
+                && AssistUtils.equals(this.title, ((RobotModel)obj).title)
+                && AssistUtils.equals(this.content, ((RobotModel) obj).content);
+    }
+
+    @Override
+    public int hashCode() {
+        return AssistUtils.hashCode(title, content);
     }
 }
