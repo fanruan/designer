@@ -570,6 +570,15 @@ public class PluginWebBridge {
         //todo  初始化设计器其他部分
     }
 
+
+    /**
+     * 国际化(用来做兼容，暂时不删)
+     */
+    public String parseI18(final String key) {
+        return com.fr.design.i18n.Toolkit.i18nText(key);
+    }
+
+
     /**
      * 是否是在设计器中操作
      */

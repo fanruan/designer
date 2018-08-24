@@ -6,7 +6,6 @@ import com.fr.chart.chartglyph.ConditionCollection;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.controlpane.ShortCut4JControlPane;
-
 import com.fr.general.NameObject;
 import com.fr.plugin.chart.attr.DefaultAxisHelper;
 import com.fr.plugin.chart.attr.plot.VanChartRectanglePlot;
@@ -47,7 +46,7 @@ public class VanChartStackedAndAxisListControlPane extends VanChartUIListControl
     }
 
     public void populate(VanChartRectanglePlot plot) {
-        this.plot = plot;
+        setPlot(plot);
         String[] axisXNames = DefaultAxisHelper.getXAxisNames(plot);
         String[] axisYNames = DefaultAxisHelper.getYAxisNames(plot);
 

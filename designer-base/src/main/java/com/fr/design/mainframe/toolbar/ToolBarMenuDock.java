@@ -10,9 +10,12 @@ import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.actions.community.BBSAction;
 import com.fr.design.actions.community.BugAction;
+import com.fr.design.actions.community.CenterAction;
+import com.fr.design.actions.community.CusDemandAction;
 import com.fr.design.actions.community.NeedAction;
 import com.fr.design.actions.community.QuestionAction;
 import com.fr.design.actions.community.SignAction;
+import com.fr.design.actions.community.TechSolutionAction;
 import com.fr.design.actions.community.UpAction;
 import com.fr.design.actions.community.VideoAction;
 import com.fr.design.actions.file.CloseCurrentTemplateAction;
@@ -494,9 +497,11 @@ public abstract class ToolBarMenuDock {
         shortCuts.add(new VideoAction());
         shortCuts.add(new TutorialAction());
         shortCuts.add(new QuestionAction());
-        shortCuts.add(new UpAction());
-        shortCuts.add(new NeedAction());
+        shortCuts.add(new TechSolutionAction());
         shortCuts.add(new BugAction());
+        shortCuts.add(new NeedAction());
+        shortCuts.add(new CusDemandAction());
+        shortCuts.add(new CenterAction());
         shortCuts.add(new SignAction());
         return shortCuts.toArray(new ShortCut[shortCuts.size()]);
     }

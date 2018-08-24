@@ -61,6 +61,8 @@ import com.fr.form.ui.container.WLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.page.PaperSettingProvider;
+import com.fr.report.cell.Elem;
+import com.fr.report.cell.cellattr.CellImage;
 import com.fr.report.worksheet.FormElementCase;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Constants;
@@ -465,7 +467,10 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     // ////////////////for toolbarMenuAdapter//////////////////////////////
     // ////////////////////////////////////////////////////////////////////
 
-
+    @Override
+    public void setPictureElem(Elem elem, CellImage cellImage) {
+        elem.setValue(cellImage.getImage());
+    }
     /**
      * 目标菜单
      *
