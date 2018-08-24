@@ -5,12 +5,17 @@ import com.fr.design.actions.help.alphafine.AlphaFineConfigManager;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
 import com.fr.design.mainframe.alphafine.cell.model.NoResultModel;
+import com.fr.design.mainframe.alphafine.cell.model.RobotModel;
 import com.fr.design.mainframe.alphafine.component.AlphaFineDialog;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.search.manager.impl.RecentSearchManager;
 import com.fr.design.mainframe.alphafine.search.manager.impl.RecommendSearchManager;
 
 import com.fr.general.ProcessCanceledException;
+import com.fr.json.JSONArray;
+import com.fr.json.JSONException;
+import com.fr.json.JSONObject;
+import com.fr.json.JSONUtils;
 import com.fr.stable.StringUtils;
 
 import java.util.List;
@@ -95,6 +100,24 @@ public class AlphaFineHelper {
         filterResult.addAll(recentList);
         filterResult.addAll(recommendList);
         return filterResult;
+    }
+
+    public static SearchResult getModelListFromJSONArray(String result, String keyword) throws ClassCastException, JSONException {
+        SearchResult allModelList = new SearchResult();
+        JSONArray jsonArray = (JSONArray)JSONUtils.jsonDecode(result);
+        for (int i = 0; i < jsonArray.length(); i++) {
+            AlphaFineHelper.checkCancel();
+            JSONObject jsonObject = jsonArray.optJSONObject(i);
+
+            String temp = jsonObject.optString(keyword);
+            if (StringUtils.isNotEmpty(temp)) {
+                RobotModel robotModel = new RobotModel(temp, null);
+                if (!allModelList.contains(robotModel)) {
+                    allModelList.add(robotModel);
+                }
+            }
+        }
+        return allModelList;
     }
 
 

@@ -15,6 +15,8 @@ import com.fr.json.JSONObject;
 import com.fr.json.JSONUtils;
 import com.fr.log.FineLoggerFactory;
 import java.io.IOException;
+
+import com.fr.stable.StringUtils;
 import com.fr.third.org.apache.commons.codec.digest.DigestUtils;
 
 /**
@@ -47,20 +49,8 @@ public class SimilarSearchManeger implements AlphaFineSearchProvider {
                 try {
                     String result = HttpToolbox.get(url);
                     AlphaFineHelper.checkCancel();
-                    JSONArray jsonArray = (JSONArray)JSONUtils.jsonDecode(result);
-                    if(jsonArray != null){
-                        if (jsonArray.length() != 0) {
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject jsonObject = jsonArray.optJSONObject(i);
-                                String title = jsonObject.optString("title");
-                                RobotModel robotModel = new RobotModel(title, null);
-                                if (!AlphaFineHelper.getFilterResult().contains(robotModel) && !allModelList.contains(robotModel)) {
-                                    allModelList.add(robotModel);
-                                }
-                            }
-                        }
-                    }
-                } catch (JSONException e) {
+                    allModelList = AlphaFineHelper.getModelListFromJSONArray(result,"title");
+                } catch (ClassCastException | JSONException e) {
                     FineLoggerFactory.getLogger().error("similar search error: " + e.getMessage());
                 } catch (IOException e) {
                     FineLoggerFactory.getLogger().error("similar search get result error: " + e.getMessage());

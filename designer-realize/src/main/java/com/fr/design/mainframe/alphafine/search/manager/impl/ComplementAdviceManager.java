@@ -50,25 +50,10 @@ public class ComplementAdviceManager {
                 try {
                     String result = HttpToolbox.get(url);
                     AlphaFineHelper.checkCancel();
-                    JSONArray jsonArray = (JSONArray)JSONUtils.jsonDecode(result);
-                    if(jsonArray != null){
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            AlphaFineHelper.checkCancel();
-                            JSONObject jsonObject = jsonArray.optJSONObject(i);
-
-                            String temp = jsonObject.optString("keywords");
-                            if (StringUtils.isNotEmpty(temp)) {
-                                RobotModel robotModel = new RobotModel(temp, null);
-                                if (!AlphaFineHelper.getFilterResult().contains(robotModel) && !allModelList.contains(robotModel)) {
-                                    allModelList.add(robotModel);
-                                }
-                            }
-
-                        }
-                    }
-                } catch (JSONException e) {
+                    allModelList = AlphaFineHelper.getModelListFromJSONArray(result,"keywords");
+                } catch(ClassCastException | JSONException e){
                     FineLoggerFactory.getLogger().error("complement advice search error: " + e.getMessage());
-                }catch (IOException e1) {
+                } catch (IOException e1) {
                     FineLoggerFactory.getLogger().error("complement advice get result error: " + e1.getMessage());
                 }
             }
