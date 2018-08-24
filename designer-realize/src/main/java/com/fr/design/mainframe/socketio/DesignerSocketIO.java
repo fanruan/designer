@@ -23,6 +23,7 @@ import io.socket.emitter.Emitter;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.net.URL;
 
@@ -80,9 +81,17 @@ public class DesignerSocketIO {
                 @Override
                 public void call(Object... objects) {
                     if (status != Status.Disconnecting) {
-                        JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remote_Disconnected"),
-                                null, 0, UIManager.getIcon("OptionPane.errorIcon"));
-                        TemplatePane.getInstance().editItems();
+                        try {
+                            SwingUtilities.invokeAndWait(new Runnable() {
+                                public void run() {
+                                    JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remote_Disconnected"),
+                                            null, 0, UIManager.getIcon("OptionPane.errorIcon"));
+                                    TemplatePane.getInstance().editItems();
+                                }
+                            });
+                        } catch (Exception e) {
+                            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+                        }
                     }
                     status = Status.Disconnected;
                 }
