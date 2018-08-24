@@ -474,9 +474,9 @@ public abstract class ToolBarMenuDock {
             shortCuts.add(new TutorialAction());
         }
         //远程不使用更新升级
-        if(WorkContext.getCurrent().isLocal()) {
-            shortCuts.add(new SoftwareUpdateAction());
-        }
+//        if(WorkContext.getCurrent().isLocal()) {
+//            shortCuts.add(new SoftwareUpdateAction());
+//        }
         if (AlphaFineConfigManager.isALPHALicAvailable()) {
             shortCuts.add(new AlphaFineAction());
         }
