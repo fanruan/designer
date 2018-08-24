@@ -34,6 +34,8 @@ public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connecti
     private UIButton cancelButton;
     private JDialog dialog;
     private UILabel uiLabel;
+    private String oirginalCharSet = null;
+    private String newCharSet = null;
 
     // Database pane
     public DatabaseConnectionPane() {
@@ -67,6 +69,8 @@ public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connecti
 
     @Override
     public void populateBean(com.fr.data.impl.Connection ob) {
+        this.oirginalCharSet = ob.getOriginalCharsetName();
+        this.newCharSet = ob.getNewCharsetName();
 
         populateSubDatabaseConnectionBean((E) ob);
     }
@@ -76,6 +80,9 @@ public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connecti
     @Override
     public com.fr.data.impl.Connection updateBean() {
         E ob = updateSubDatabaseConnectionBean();
+
+        ob.setOriginalCharsetName(this.oirginalCharSet);
+        ob.setNewCharsetName(this.newCharSet);
 
         return ob;
     }

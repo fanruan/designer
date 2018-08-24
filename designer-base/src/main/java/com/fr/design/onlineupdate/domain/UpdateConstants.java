@@ -39,7 +39,8 @@ public interface UpdateConstants {
             "fine-swift-log-adaptor-10.0.jar",
             "fine-webui-10.0.jar",
             "fine-datasource-10.0.jar",
-            "fine-third-10.0.jar"
+            "fine-third-10.0.jar",
+            "fine-accumulator-10.0.jar"
     };
 
     String[] JARS_FOR_DESIGNER_X = new String[]{
