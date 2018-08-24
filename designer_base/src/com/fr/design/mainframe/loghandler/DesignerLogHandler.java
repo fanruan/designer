@@ -248,6 +248,7 @@ public class DesignerLogHandler {
         }
 
         public void printStackTrace(String message, Level level, Date date) {
+            int serverLogLevel = ConfigManager.getProviderInstance().getServerLogLevel().intValue();
             int logLevelvalue = level.intValue();
             if (logLevelvalue == INFO_INT && showInfo.isSelected()) {
                 printMessage(message, logLevelvalue, date);
@@ -255,7 +256,7 @@ public class DesignerLogHandler {
                 printMessage(message, logLevelvalue, date);
             } else if (logLevelvalue == SERVER_INT && showServer.isSelected()) {
                 printMessage(message, logLevelvalue, date);
-            } else if (logLevelvalue == DEBUG_INT){
+            } else if (logLevelvalue == DEBUG_INT && serverLogLevel == DEBUG_INT){
                 printMessage(message, logLevelvalue, date);
             }
 
