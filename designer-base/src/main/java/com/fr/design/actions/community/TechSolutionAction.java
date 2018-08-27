@@ -21,7 +21,7 @@ public class TechSolutionAction extends UpdateAction{
         this.setMenuKeySet(TSO);
         this.setName(getMenuKeySet().getMenuName());
         this.setMnemonic(getMenuKeySet().getMnemonic());
-        this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images//bbs/solotion.png"));
+        this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/bbs/solution.png"));
 
     }
 
