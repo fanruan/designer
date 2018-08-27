@@ -67,13 +67,13 @@ public class ServerStarter {
                 @Override
                 public void run() {
                     FineEmbedServer.start();
-                    browser(url);
+                    BrowseUtils.browser(url);
                 }
             });
             service.shutdown();
         }else{
             FineEmbedServer.start();
-            browser(url);
+            BrowseUtils.browser(url);
         }
     }
 }
