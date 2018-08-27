@@ -1,16 +1,28 @@
 package com.fr.design.gui.icontainer;
 
-import com.fr.base.BaseUtils;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.DesignerContext;
-
 import com.fr.design.utils.gui.GUICoreUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
+import java.awt.AlphaComposite;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Composite;
+import java.awt.Container;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.LayoutManager;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
@@ -263,7 +275,7 @@ public class UIModeControlContainer extends JLayeredPane {
         public HidePane() {
             setLayout(new FlowLayout(FlowLayout.CENTER, 10, -3));
             setBackground(UIConstants.NORMAL_BACKGROUND);
-            add(new UILabel("<html><font size='5' face='Microsoft YaHei' color='#999999999'><B>" + com.fr.design.i18n.Toolkit.i18nText("Parameter Panel") + "</B></font></html>"));
+            add(new UILabel("<html><font size='5' face='Microsoft YaHei' color='#999999999'><B>" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Parameter_Panel") + "</B></font></html>"));
             UIButton viewButton = new UIButton(UIConstants.VIEW_NORMAL_ICON, UIConstants.VIEW_PRESSED_ICON, UIConstants.VIEW_PRESSED_ICON) {
                 @Override
                 public Dimension getPreferredSize() {
