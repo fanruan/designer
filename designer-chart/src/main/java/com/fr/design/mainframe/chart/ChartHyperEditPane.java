@@ -42,7 +42,9 @@ public class ChartHyperEditPane  extends ChartEditPane {
 	@Override
 	protected ChartDataPane createChartDataPane(String plotID) {
 		ChartDataPane dataPane = ChartTypeInterfaceManager.getInstance().getChartDataPane(plotID, listener);
-		dataPane.setSupportCellData(false);
+		if (dataPane != null) {
+			dataPane.setSupportCellData(false);
+		}
 		return dataPane;
 	}
 
