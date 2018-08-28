@@ -61,7 +61,7 @@ public class ChartAxisLineStylePane extends BasicPane{
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Second_Graduation_Line")),null},
                 new Component[]{null,secondTickPosition}
         } ;
-        JPanel panel = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Axis", "Style"},components,rowSize,columnSize);
+        JPanel panel = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_Axis_Style"},components,rowSize,columnSize);
         this.setLayout(new BorderLayout());
         this.add(panel,BorderLayout.CENTER);
 	}
