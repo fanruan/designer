@@ -1,8 +1,8 @@
 package com.fr.design.mainframe.chart.gui.data;
 
 import com.fr.base.TableData;
+import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
-import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartdata.TableDataDefinition;
 import com.fr.chart.chartdata.TopDefinition;
 import com.fr.data.impl.NameTableData;
@@ -14,9 +14,9 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 
-
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 
 public class TableDataPane extends FurtherBasicBeanPane<ChartCollection>{
 	private static final long serialVersionUID = 4740461028440155147L;
@@ -72,8 +72,8 @@ public class TableDataPane extends FurtherBasicBeanPane<ChartCollection>{
 		}
 	}
 
-	protected AbstractTableDataContentPane getContentPane(Plot plot) {
-		return ChartTypeInterfaceManager.getInstance().getTableDataSourcePane(plot, parent);
+	protected AbstractTableDataContentPane getContentPane(Chart chart) {
+		return ChartTypeInterfaceManager.getInstance().getTableDataSourcePane(chart.getPlot(), parent);
 	}
 
 	/**
@@ -106,7 +106,7 @@ public class TableDataPane extends FurtherBasicBeanPane<ChartCollection>{
 	 * @param collection 图表属性的集合
 	 */
 	public void refreshContentPane(ChartCollection collection) {
-		refreshContentPane(getContentPane(collection.getSelectedChart().getPlot()));
+		refreshContentPane(getContentPane(collection.getSelectedChart()));
 	}
 
 	protected void refreshContentPane(AbstractTableDataContentPane contentPane) {

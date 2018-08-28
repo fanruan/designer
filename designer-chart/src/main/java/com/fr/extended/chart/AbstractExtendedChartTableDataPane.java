@@ -84,20 +84,26 @@ public abstract class AbstractExtendedChartTableDataPane<T extends AbstractDataC
 
     @Override
     public void populateBean(ChartCollection collection) {
-
-        if (collection != null) {
-            Chart chart = collection.getSelectedChart();
-            if (chart != null && chart instanceof AbstractChart) {
-                AbstractDataConfig dataConfig = ((AbstractChart) chart).getDataConfig();
-                if (dataConfig != null) {
-                    populate((T) dataConfig);
-                }
-                if (hasFunction() && chart.getFilterDefinition() instanceof ExtendedTableDataSet) {
-                    ExtendedTableDataSet dataSet = (ExtendedTableDataSet) chart.getFilterDefinition();
-                    function.populateBean((AbstractDataFunction) dataSet.getDataFunction());
-                }
-            }
+        if (collection == null || collection.getSelectedChart() == null) {
+            return;
         }
+
+        Chart chart = collection.getSelectedChart();
+
+        if (chart.getFilterDefinition() instanceof ExtendedTableDataSet) {
+            ExtendedTableDataSet dataSet = (ExtendedTableDataSet) chart.getFilterDefinition();
+
+            AbstractDataConfig dataConfig = dataSet.getDataConfig();
+            if (dataConfig != null) {
+                populate((T) dataConfig);
+            }
+
+            if (hasFunction()) {
+                function.populateBean((AbstractDataFunction) dataSet.getDataFunction());
+            }
+
+        }
+
     }
 
 
