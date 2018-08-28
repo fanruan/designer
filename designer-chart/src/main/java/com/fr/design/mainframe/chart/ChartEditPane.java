@@ -21,7 +21,6 @@ import com.fr.design.mainframe.chart.gui.ChartTypePane;
 import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
 
-
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -154,7 +153,9 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
                 this.isDefaultPane = true;
             }else{
                 ChartDataPane chartDataPane = createChartDataPane(plotID);
-                paneList.add(chartDataPane);
+                if (chartDataPane != null) {
+                    paneList.add(chartDataPane);
+                }
                 AbstractChartAttrPane[] otherPaneList = ChartTypeInterfaceManager.getInstance().getAttrPaneArray(plotID, listener);
                 for(int i = 0; i < otherPaneList.length; i++){
                     otherPaneList[i].addAttributeChangeListener(listener);
@@ -169,7 +170,9 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
 
     protected ChartDataPane createChartDataPane(String plotID) {
         ChartDataPane chartDataPane = ChartTypeInterfaceManager.getInstance().getChartDataPane(plotID, listener);
-        chartDataPane.setSupportCellData(dataPane4SupportCell.isSupportCellData());
+        if (chartDataPane != null) {
+            chartDataPane.setSupportCellData(dataPane4SupportCell.isSupportCellData());
+        }
         return chartDataPane;
     }
 
